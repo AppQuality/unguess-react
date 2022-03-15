@@ -1,31 +1,22 @@
 import React from "react";
 import logo from "./logo.svg";
-import { Button, GlobalStyle, theme } from "@appquality/unguess-design-system";
+import {
+  Button,
+  GlobalStyle,
+  theme,
+  Avatar,
+} from "@appquality/unguess-design-system";
 import { ThemeProvider } from "@zendeskgarden/react-theming";
-import "./App.css";
+import { ReactComponent as UserIcon } from "@zendeskgarden/svg-icons/src/16/user-solo-stroke.svg";
+import Page from "./Page";
+// import Provider from "./redux/provider";
 
 function App() {
   console.log("theme ", theme);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        <Button>Hello from angress</Button>
-        </header>
-      </div>
+      <Page />
     </ThemeProvider>
   );
 }
