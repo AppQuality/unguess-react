@@ -1,4 +1,6 @@
+const webpack = require('webpack')
 const path = require(`path`);
+
 const alias = (prefix = `src`) => ({
   react: `./node_modules/react`,
   "styled-components": `./node_modules/styled-components`,
@@ -16,10 +18,8 @@ const resolvedAliases = Object.fromEntries(
   ])
 );
 
-console.log(resolvedAliases);
-
 module.exports = {
   webpack: {
     alias: resolvedAliases,
-    }
+  }
 };
