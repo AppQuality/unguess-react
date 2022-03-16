@@ -1,24 +1,22 @@
-import "./i18n";
-import {
-  LoginPage
-} from "./pages";
+// import "./i18n";
+import { LoginPage } from "./pages";
 import { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { Redirect, Route, Switch } from "react-router-dom";
-import { refreshUser } from "./redux/user/actions/refreshUser";
+// import { useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
+import App from "./App";
+// import { refreshUser } from "./redux/user/actions/refreshUser";
 
-const base = "/:locale(en|it)?";
+const base = ":locale";
 
 function Page() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(refreshUser());
-  });
   return (
     <div>
-      <Switch>
-        <Route path={`${base}/login`} element={() => <LoginPage />} />
-      </Switch>
+      <Routes>
+        
+        <Route path={`${base}/login`} element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+       
+      </Routes>
     </div>
   );
 }
