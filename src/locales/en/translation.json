@@ -1,0 +1,6 @@
+{
+  "__FORM_EMAIL_FIELD_INVALID_MESSAGE": "Please enter a valid email address",
+  "__FORM_FIELD_REQUIRED_MESSAGE": "This field is required",
+  "__FORM_PASSWORD_FIELD_LENGTH_INVALID_MESSAGE": "Password must be at least 8 characters",
+  "__LOGIN_PAGE_ON_SUBMIT_MESSAGE MAX:160": "Submitted with a 2 seconds fake delay!"
+}

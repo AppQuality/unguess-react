@@ -36,6 +36,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "translate": "i18next-scanner",
     "generate-schema": ". ./.env.development; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/utils/schema.ts "
   },
   "eslintConfig": {
@@ -70,7 +71,8 @@
     "@babel/core": "^7.13.0",
     "@craco/craco": "6.4.2",
     "cz-conventional-changelog": "3.3.0",
-    "i18next-scanner": "^3.1.0"
+    "i18next-scanner": "^3.1.0",
+    "i18next-scanner-typescript": "^1.0.6"
   },
   "config": {
     "commitizen": {
