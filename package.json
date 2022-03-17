@@ -37,7 +37,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "translate": "i18next-scanner",
-    "generate-schema": ". ./.env.development; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/utils/schema.ts "
+    "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/utils/schema.ts "
   },
   "eslintConfig": {
     "extends": [

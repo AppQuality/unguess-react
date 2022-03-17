@@ -1,14 +1,6 @@
 import { theme } from "@appquality/unguess-design-system";
 import { operations, components } from "src/utils/schema";
 
-export type CrowdRoutes =
-  | "getting-started"
-  | "my-dashboard"
-  | "personal-equipment"
-  | "my-bugs"
-  | "experience-points"
-  | "";
-
 export type User = undefined | UserData;
 
 export interface UserStatus {
