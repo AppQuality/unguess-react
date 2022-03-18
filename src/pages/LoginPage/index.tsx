@@ -1,13 +1,11 @@
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
-import { RootState } from "src/redux/store";
+import { useAppSelector } from "src/app/hooks";
 
 export default function LoginPage({ redirectTo }: { redirectTo: string }) {
-  const isLoggedIn = useSelector(
-    (state: RootState) => state.user.status === "logged"
-  );
+  const isLoggedIn = useAppSelector(state => state.user.status === "logged");
+  
   const { t } = useTranslation();
   const defaultArgs: any = {
     onSubmit: (values: any, actions: any) => {

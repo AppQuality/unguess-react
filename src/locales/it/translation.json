@@ -2,5 +2,6 @@
   "__FORM_EMAIL_FIELD_INVALID_MESSAGE": "Inserire un indirizzo email valido",
   "__FORM_FIELD_REQUIRED_MESSAGE": "Campo obbligatorio",
   "__FORM_PASSWORD_FIELD_LENGTH_INVALID_MESSAGE": "La password deve essere lunga almeno 8 caratteri",
+  "__LOGIN_PAGE_ON_SUBMIT_CONSOLE_TEST_MESSAGE MAX:160": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostru",
   "__LOGIN_PAGE_ON_SUBMIT_MESSAGE MAX:160": "Form sottomesso con una finta attesa di 2 secondi!"
 }

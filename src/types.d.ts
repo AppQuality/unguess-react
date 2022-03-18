@@ -1,5 +1,5 @@
 import { theme } from "@appquality/unguess-design-system";
-import { operations, components } from "src/utils/schema";
+import { operations, components } from "src/common/schema";
 
 export type User = undefined | UserData;
 

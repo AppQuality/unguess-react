@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Route, Routes, useParams } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchUser } from "./features/user/actions/fetchUser";
-import { LoginPage } from "./pages";
-import { RequireAuth } from "./RequireAuth";
-import Dashboard from "./pages/Dashboard";
+import { fetchUser } from "src/features/user/actions/fetchUser";
+import LoginPage from "src/pages/LoginPage";
+import { RequireAuth } from "src/common/RequireAuth";
+import Dashboard from "src/pages/Dashboard";
 
 const base = ":locale";
 
