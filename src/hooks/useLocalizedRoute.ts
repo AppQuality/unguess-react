@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { CrowdRoutes } from "../types";
+import { UnguessRoutes } from "../types";
 
-export function useLocalizeRoute(route: CrowdRoutes): string {
+export function useLocalizeRoute(route: UnguessRoutes): string {
   const { i18n } = useTranslation();
   let localizedRoute =
     i18n.language === "en" ? `/${route}` : `/${i18n.language}/${route}`;

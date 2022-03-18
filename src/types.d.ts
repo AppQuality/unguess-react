@@ -16,12 +16,11 @@ interface UserLoginData {
   password: string;
 }
 
-export type CrowdRoutes =
-  | "getting-started"
-  | "my-dashboard"
-  | "personal-equipment"
-  | "my-bugs"
-  | "experience-points"
+export type UnguessRoutes =
+  | "login"
+  | "functional-customer-dashboard"
+  | "ux-customer-dashboard"
+  | "integration-center"
   | "";
 
 

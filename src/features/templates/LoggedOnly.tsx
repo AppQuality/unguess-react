@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import LoadingImg from 'src/assets/unguess_loader_single.gif';
 
 const LoggedOnly = ({ children }: { children: React.ReactNode }) => {
-  const homeRoute = useLocalizeRoute("");
+  const loginRoute = useLocalizeRoute("login");
   const navigate = useNavigate();
   const userLoading = useAppSelector(state => state.user.status);
 
@@ -29,7 +29,7 @@ const LoggedOnly = ({ children }: { children: React.ReactNode }) => {
   }
   
   if (userLoading === "failed") {
-    navigate(homeRoute);
+    navigate(loginRoute);
   }
 
   return <>{children}</>;
