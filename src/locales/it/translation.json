@@ -1,6 +1,11 @@
 {
-  "__FORM_EMAIL_FIELD_INVALID_MESSAGE": "Inserire un indirizzo email valido",
   "__FORM_FIELD_REQUIRED_MESSAGE": "Campo obbligatorio",
-  "__FORM_PASSWORD_FIELD_LENGTH_INVALID_MESSAGE": "La password deve essere lunga almeno 8 caratteri",
-  "__LOGIN_PAGE_ON_SUBMIT_MESSAGE MAX:160": "Form sottomesso con una finta attesa di 2 secondi!"
+  "__LOGIN_FORM_CTA": "Entra",
+  "__LOGIN_FORM_CTA_REDIRECT_STATE": "Reindirizzamento...",
+  "__LOGIN_FORM_EMAIL_FIELD_INVALID_MESSAGE": "Inserisci un indirizzo email valido",
+  "__LOGIN_FORM_FAILED_INVALID": "L'indirizzo email o la password non sono corretti.",
+  "__LOGIN_FORM_PASSWORD_FIELD_LENGTH_INVALID": "La password deve essere lunga almeno 5 caratteri",
+  "__LOGIN_FORM_TITLE": "Entra in UNGUESS",
+  "__PAGE_TITLE_LOGIN_PAGE": "Entra in UNGUESS",
+  "__PAGE_TITLE_PRIMARY_DASHBOARD": "Cruscotto"
 }

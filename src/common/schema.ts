@@ -13,10 +13,6 @@ export interface paths {
     /** A request to login with your username and password */
     post: operations["post-authenticate"];
   };
-  "/projects": {
-    /** Get all projects that you can view. A project is a collection of campaigns linked with your account. */
-    get: operations["get-projects"];
-  };
   "/users/me": {
     get: operations["get-users-me"];
   };
@@ -26,17 +22,14 @@ export interface components {
   schemas: {
     /** User */
     User: {
-      username?: string;
-      name?: string;
-      surname?: string;
+      id: number;
       /** Format: email */
-      email?: string;
-      /** Format: uri */
-      image?: string;
-      id?: number;
-      wp_user_id?: number;
-      role?: string;
-      is_verified?: boolean;
+      email: string;
+      role: string;
+      name: string;
+      workspaces: unknown[];
+      profile_id?: number;
+      tryber_wp_user_id?: number;
     };
     /** Project */
     Project: {
@@ -150,43 +143,11 @@ export interface operations {
       };
     };
   };
-  /** Get all projects that you can view. A project is a collection of campaigns linked with your account. */
-  "get-projects": {
-    parameters: {
-      query: {
-        /** A generic query parameter */
-        "my-parameter"?: number;
-      };
-    };
-    responses: {
-      /** A list of projects */
-      200: {
-        content: {
-          "application/json": {
-            items?: {
-              id?: number;
-              name?: string;
-              description?: string;
-            }[];
-          };
-        };
-      };
-      403: components["responses"]["NotAuthorized"];
-      404: components["responses"]["NotFound"];
-    };
-  };
   "get-users-me": {
     responses: {
       200: {
         content: {
-          "application/json": {
-            id: number;
-            email: string;
-            role: string;
-            tryber_wp_user_id?: number;
-            profile_id?: number;
-            name?: string;
-          };
+          "application/json": components["schemas"]["User"];
         };
       };
       403: components["responses"]["NotAuthorized"];

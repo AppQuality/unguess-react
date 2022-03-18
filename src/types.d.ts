@@ -1,13 +1,5 @@
 import { theme } from "@appquality/unguess-design-system";
-import { operations, components } from "src/utils/schema";
-
-export type CrowdRoutes =
-  | "getting-started"
-  | "my-dashboard"
-  | "personal-equipment"
-  | "my-bugs"
-  | "experience-points"
-  | "";
+import { operations, components } from "src/common/schema";
 
 export type User = undefined | UserData;
 
@@ -18,6 +10,19 @@ export interface UserStatus {
   isLoading: boolean;
   error: HttpError;
 }
+
+export interface UserLoginData {
+  username: string;
+  password: string;
+}
+
+export type UnguessRoutes =
+  | "login"
+  | "functional-customer-dashboard"
+  | "ux-customer-dashboard"
+  | "integration-center"
+  | "";
+
 
 declare global {
   type Theme = typeof theme;
