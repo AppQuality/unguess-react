@@ -5,7 +5,7 @@ import { fetchUser } from "src/features/user/actions/fetchUser";
 import LoginPage from "src/pages/LoginPage";
 import Dashboard from "src/pages/Dashboard";
 
-const base = ":locale?";
+const base = ":locale";
 
 function Pages() {
   const dispatch = useDispatch();
@@ -17,8 +17,8 @@ function Pages() {
   return (
     <div>
       <Routes>
-        <Route path={`${base}/login`} element={<LoginPage redirectTo="/" />} />
-        <Route path="/login" element={<LoginPage redirectTo="/" />} />
+        <Route path={`${base}/login`} element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Dashboard />} />
         <Route path="/it" element={<Dashboard />} />
       </Routes>

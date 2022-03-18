@@ -11,7 +11,7 @@ export interface UserStatus {
   error: HttpError;
 }
 
-interface UserLoginData {
+export interface UserLoginData {
   username: string;
   password: string;
 }

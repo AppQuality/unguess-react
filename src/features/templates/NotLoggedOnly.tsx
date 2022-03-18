@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useAppSelector } from 'src/app/hooks';
-import LoadingImg from 'src/assets/unguess_loader_single.gif';
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
+import { useAppSelector } from "src/app/hooks";
+import LoadingImg from "src/assets/unguess_loader.gif";
 
 const NotLoggedOnly = ({
   children,
@@ -13,7 +12,7 @@ const NotLoggedOnly = ({
   redirect?: { url: string; message?: string };
 }) => {
   const navigate = useNavigate();
-  const userLoading = useAppSelector(state => state.user.status);
+  const userLoading = useAppSelector((state) => state.user.status);
 
   let redirectUrl = useLocalizeRoute("");
   if (redirect) {
@@ -37,6 +36,7 @@ const NotLoggedOnly = ({
           }}
         >
           <img
+            style={{ width: "100px" }}
             src={LoadingImg}
             alt="unguess loading"
           />

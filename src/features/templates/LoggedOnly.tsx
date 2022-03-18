@@ -1,7 +1,7 @@
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useAppSelector } from "src/app/hooks";
 import { useNavigate } from 'react-router-dom';
-import LoadingImg from 'src/assets/unguess_loader_single.gif';
+import LoadingImg from 'src/assets/unguess_loader.gif';
 
 const LoggedOnly = ({ children }: { children: React.ReactNode }) => {
   const loginRoute = useLocalizeRoute("login");
@@ -19,7 +19,7 @@ const LoggedOnly = ({ children }: { children: React.ReactNode }) => {
           }}
         >
           <img
-            style={{ width: "280px" }}
+            style={{ width: "100px" }}
             src={LoadingImg}
             alt="unguess loading"
           />
