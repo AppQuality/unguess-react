@@ -15,7 +15,6 @@ export const me = async (
     requestHeaders.set("Authorization", "Bearer " + token);
   }
   let url = `${process.env.REACT_APP_API_URL}/users/me`;
-  console.log("url", url);
   if (query) {
     let urlps = new URLSearchParams();
     urlps.set("fields", query);

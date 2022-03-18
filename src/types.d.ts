@@ -11,6 +11,20 @@ export interface UserStatus {
   error: HttpError;
 }
 
+interface UserLoginData {
+  username: string;
+  password: string;
+}
+
+export type CrowdRoutes =
+  | "getting-started"
+  | "my-dashboard"
+  | "personal-equipment"
+  | "my-bugs"
+  | "experience-points"
+  | "";
+
+
 declare global {
   type Theme = typeof theme;
   type UserData = any;

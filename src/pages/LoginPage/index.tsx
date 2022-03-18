@@ -1,11 +1,10 @@
 import { Navigate } from "react-router-dom";
+import { PageTemplate } from "src/features/templates/PageTemplate";
 import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 
 export default function LoginPage({ redirectTo }: { redirectTo: string }) {
-  const isLoggedIn = useAppSelector(state => state.user.status === "logged");
-  
   const { t } = useTranslation();
   const defaultArgs: any = {
     onSubmit: (values: any, actions: any) => {
@@ -42,11 +41,20 @@ export default function LoginPage({ redirectTo }: { redirectTo: string }) {
     },
   };
 
-  return !isLoggedIn ? (
-    // <div>
-    <LoginForm {...defaultArgs} />
-  ) : (
-    // </div>
-    <Navigate to={redirectTo} />
+  // return !isLoggedIn ? (
+  //   // <div>
+  //   <LoginForm {...defaultArgs} />
+  // ) : (
+  //   // </div>
+  //   <Navigate to={redirectTo} />
+  // );
+
+  return (
+    <PageTemplate
+      title={t("Log in to UNGUESS")}
+      route={"login"}
+    >
+      <LoginForm {...defaultArgs} />
+    </PageTemplate>
   );
 }
