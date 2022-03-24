@@ -1,15 +1,15 @@
 FROM alpine:3.14 as base
 
-RUN apk add nodejs npm
-ARG NPM_TOKEN  
-RUN echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-COPY package*.json ./
-RUN npm install
+RUN apk add nodejs yarn
+
+COPY package.json ./
+COPY yarn.lock ./
+RUN ["yarn", "install"]
 RUN rm -f .npmrc
 
 COPY . .
 
-RUN npm run build
+RUN ["yarn", "build"]
 
 FROM alpine:3.14 as web
 

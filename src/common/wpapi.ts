@@ -1,5 +1,4 @@
 import queryString from "query-string";
-import Cookies from "universal-cookie";
 
 const WPAPI = {
   login: ({
