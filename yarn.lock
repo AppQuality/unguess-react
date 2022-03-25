@@ -9,10 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@appquality/unguess-design-system@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.5.0.tgz#a97bdfeb4355589dd915d854a0b83135dcdfd356"
-  integrity sha512-jxi0NmU9ecHXIIx6i0Bj3IRMwq/Gdh4yLM666ddxd3YxbL00TAjrYwyJLPIYYEG47L0oYDmCRLPwIEDbQt2Mkw==
+"@appquality/unguess-design-system@^2.5.1":
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.5.1.tgz#0782f4dc22325b8ac061dad4782ddceddc32f375"
+  integrity sha512-0Ld17BSZML77PhGl00uMbl7eA0HS830AxcpCESvY2MW1FLQn1vOnG5fJbpFa5tbYhIulnUY0cyG5v0sIR+KRPg==
   dependencies:
     "@zendeskgarden/react-accordions" "^8.49.0"
     "@zendeskgarden/react-avatars" "^8.49.0"

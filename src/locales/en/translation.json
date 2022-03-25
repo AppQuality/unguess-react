@@ -1,4 +1,6 @@
 {
+  "APP_SIDEBAR_PROJECTS_DIVIDER_LABEL": "Projects",
+  "__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5": "menu",
   "__FORM_FIELD_REQUIRED_MESSAGE": "This field is required",
   "__LOGIN_FORM_CTA": "Log in",
   "__LOGIN_FORM_CTA_REDIRECT_STATE": "Redirecting...",

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { PageTemplate } from "src/features/templates/PageTemplate";
 import { LoginForm, Grid, Row, Col } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import WPAPI from "src/common/wpapi";
@@ -81,7 +80,6 @@ export default function LoginPage() {
   };
 
   return (
-    <PageTemplate title={t("__PAGE_TITLE_LOGIN_PAGE")} route={"login"}>
       <Grid>
         <Row justifyContentMd="center" alignItems="center">
           <Col xs md={5} lg={4}>
@@ -91,6 +89,5 @@ export default function LoginPage() {
           </Col>
         </Row>
       </Grid>
-    </PageTemplate>
   );
 }
