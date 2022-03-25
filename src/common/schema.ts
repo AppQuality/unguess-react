@@ -20,7 +20,7 @@ export interface paths {
     get: operations["get-workspaces"];
   };
   "/workspaces/{wid}": {
-    get: operations["get-workspaces-wid"];
+    get: operations["get-workspace"];
     parameters: {
       path: {
         wid: string;
@@ -42,6 +42,28 @@ export interface paths {
       path: {
         /** Workspace (company) id */
         wid: string;
+      };
+    };
+  };
+  "/workspaces/{wid}/projects/{pid}": {
+    get: operations["get-workspace-project"];
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
+      };
+    };
+  };
+  "/workspaces/{wid}/projects/{pid}/campaigns": {
+    get: operations["get-workspace-project-campaigns"];
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
       };
     };
   };
@@ -85,7 +107,7 @@ export interface components {
     Project: {
       id?: number;
       name?: string;
-      customer_id?: number;
+      campaigns_count?: number;
     };
   };
   responses: {
@@ -211,7 +233,7 @@ export interface operations {
       };
     };
   };
-  "get-workspaces-wid": {
+  "get-workspace": {
     parameters: {
       path: {
         wid: string;
@@ -254,6 +276,42 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["Project"][];
+        };
+      };
+    };
+  };
+  "get-workspace-project": {
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Project"];
+        };
+      };
+    };
+  };
+  "get-workspace-project-campaigns": {
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Campaign"][];
         };
       };
     };

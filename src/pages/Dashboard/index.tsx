@@ -10,22 +10,17 @@ export default function Dashboard() {
   const { status, userData } = useAppSelector((state) => state.user);
 
   return (
-    <Page
-      title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")}
-      route={""}
-    >
-      <div>
-        <Grid>
-          <Row>
-            <Col xs={12}>
-              <h1>{t("__PAGE_TITLE_PRIMARY_DASHBOARD")}</h1>
-              {JSON.stringify(userData)}
-              --- Status
-              {JSON.stringify(status)}
-            </Col>
-          </Row>
-        </Grid>
-        </div>
+    <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} route={"/"}>
+      <Grid>
+        <Row>
+          <Col xs={12}>
+            <h1>{t("__PAGE_TITLE_PRIMARY_DASHBOARD")}</h1>
+            <pre>{JSON.stringify(userData, null, 4)}</pre>
+            --- Status
+            {JSON.stringify(status)}
+          </Col>
+        </Row>
+      </Grid>
     </Page>
   );
 }
