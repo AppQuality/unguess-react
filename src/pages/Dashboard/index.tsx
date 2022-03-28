@@ -1,23 +1,12 @@
 // import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { Page } from "src/features/templates/Page";
-import {
-  Grid,
-  Row,
-  Col,
-  XXXL,
-  theme,
-} from "@appquality/unguess-design-system";
+import { Grid, Row, Col, XXXL, theme } from "@appquality/unguess-design-system";
 import { useAppSelector } from "src/app/hooks";
 import { Counters } from "./Counters";
-import styled from "styled-components";
+import { Separator } from "./Separator";
 import { SuggestedCampaigns } from "./SuggestedCampaigns";
-
-const Separator = styled.hr`
-  margin: ${theme.space.base * 6}px 0 ${theme.space.base * 8}px 0;
-  border: none;
-  border-top: 1px solid ${theme.palette.grey[300]};
-`;
+import { CampaignsList } from "./campaigns";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -47,9 +36,10 @@ export default function Dashboard() {
       </Grid>
       <Separator />
       <Grid>
-        <Row style={{}}>
-          <SuggestedCampaigns />
-        </Row>
+        
+        <SuggestedCampaigns />
+        <CampaignsList />
+        
         <Row>
           <Col xs={12}>
             <div style={{ height: "500px" }}></div>

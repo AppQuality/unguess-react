@@ -14,7 +14,7 @@ import {
   toggleSidebar,
   setWorkspace,
 } from "src/features/navigation/navigationSlice";
-import { selectWorkspaceById, selectWorkspaces } from "../workspaces/workspaceSlice";
+import { selectWorkspaces } from "../workspaces/workspaceSlice";
 
 export const Navigation = ({
   children,
