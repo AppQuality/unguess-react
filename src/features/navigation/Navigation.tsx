@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { getProjects, getWorkspaces } from "src/features/navigation/actions";
+import { getCampaigns } from "src/features/campaigns/actions";
 import { toggleSidebar } from "src/features/navigation/navigationSlice";
 
 export const Navigation = ({
@@ -32,7 +33,10 @@ export const Navigation = ({
 
   useEffect(() => {
     if (!activeWorkspace) dispatch(getWorkspaces());
-    else dispatch(getProjects(activeWorkspace.id));
+    else {
+      dispatch(getProjects(activeWorkspace.id));
+      dispatch(getCampaigns(activeWorkspace.id));
+    }
   }, [activeWorkspace, dispatch]);
 
   if (status === "idle" || status === "loading") {
@@ -73,6 +77,7 @@ export const Navigation = ({
           projects={projectsList}
           isExpanded={isSidebarOpen}
           onToggleMenu={toggleSidebarState}
+          dividerLabel={t("__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL")}
         />
         <Main>{children}</Main>
       </Content>

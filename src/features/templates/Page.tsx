@@ -5,6 +5,7 @@ import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "src/app/hooks";
 import { Navigation } from "../navigation/Navigation";
+import styled from "styled-components";
 
 export const Page = ({
   children,
@@ -17,6 +18,18 @@ export const Page = ({
 }) => {
   const loginRoute = useLocalizeRoute("login");
   const navigate = useNavigate();
+
+  const Container = styled.div`
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  `;
 
   const { status, userData } = useAppSelector((state) => state.user);
 
@@ -34,10 +47,7 @@ export const Page = ({
     <Chrome isFluid hue={theme.palette.white}>
       <Body>
         <Navigation route={route} user={userData}>
-          {/* Add space to content when sidebar exists */}
-          <div style={{ margin: `0 ${theme.space.xxl}` }}>
-            {children}
-            </div>
+          <Container>{children}</Container>
         </Navigation>
       </Body>
     </Chrome>
