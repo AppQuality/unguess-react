@@ -7,7 +7,6 @@ import {
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
-import styled from "styled-components";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();

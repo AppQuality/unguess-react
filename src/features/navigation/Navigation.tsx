@@ -7,9 +7,14 @@ import {
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { getProjects, getWorkspaces } from "src/features/navigation/actions";
+import { getProjects } from "src/features/projects/actions";
+import { getWorkspaces } from "src/features/workspaces/actions";
 import { getCampaigns } from "src/features/campaigns/actions";
-import { toggleSidebar } from "src/features/navigation/navigationSlice";
+import {
+  toggleSidebar,
+  setWorkspace,
+} from "src/features/navigation/navigationSlice";
+import { selectWorkspaceById, selectWorkspaces } from "../workspaces/workspaceSlice";
 
 export const Navigation = ({
   children,
@@ -23,25 +28,34 @@ export const Navigation = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { status, projects, isSidebarOpen, activeWorkspace } = useAppSelector(
+  const { isSidebarOpen, activeWorkspace } = useAppSelector(
     (state) => state.navigation
   );
+
+  const { status, projects } = useAppSelector(
+    (state) => state.projects
+  );
+
+  const workspaces = useAppSelector(selectWorkspaces);
 
   const toggleSidebarState = () => {
     dispatch(toggleSidebar());
   };
 
   useEffect(() => {
-    if (!activeWorkspace) dispatch(getWorkspaces());
-    else {
+    if (!activeWorkspace) {
+      dispatch(getWorkspaces());
+      if(workspaces.length) dispatch(setWorkspace(workspaces[0]));
+    } else {
       dispatch(getProjects(activeWorkspace.id));
       dispatch(getCampaigns(activeWorkspace.id));
     }
-  }, [activeWorkspace, dispatch]);
-
+  }, [activeWorkspace, dispatch, workspaces]);
+  
   if (status === "idle" || status === "loading") {
     return <>Loading...</>;
   }
+
 
   const projectsList = projects.map((project) => ({
     id: project.id + "",
