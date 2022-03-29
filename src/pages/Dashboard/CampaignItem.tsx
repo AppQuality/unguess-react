@@ -19,8 +19,8 @@ export const CampaignItem = ({
         key={campaign.id}
         isNew={Math.random() > 0.6}
         date={new Date().toLocaleString().substring(0, 10)}
-        title={campaign.title ?? "Untitled"}
-        subTitle={`Progetto ${campaign.project_id}`}
+        title={`Progetto ${campaign.project_id}`}
+        subTitle={campaign.title ?? "Untitled"}
         type={"FUNCTIONAL"}
         status={
           campaign.status_id === 1

@@ -6,7 +6,7 @@ import { useAppSelector } from "src/app/hooks";
 import { Counters } from "./Counters";
 import { Separator } from "./Separator";
 import { SuggestedCampaigns } from "./SuggestedCampaigns";
-import { CampaignsList } from "./campaigns";
+import { CampaignsList } from "./campaigns-list";
 
 export default function Dashboard() {
   const { t } = useTranslation();

@@ -18,6 +18,7 @@ import { ReactComponent as ListIcon } from "src/assets/icons/list.svg";
 import { useState } from "react";
 import { CardList } from "./list";
 import { TableList } from "./table";
+import { Separator } from "../Separator";
 
 const FloatRight = styled.div`
   float: right;
@@ -29,7 +30,7 @@ export const CampaignsList = () => {
     selectGroupedCampaigns
   );
 
-  console.log("CampaignsList", campaigns);
+  const campaignsCount = campaigns.reduce((acc, curr) => acc + curr.length, 0);
   // const campaigns = useAppSelector((state) => selectCampaigns(state));
 
   const [viewType, setViewType] = useState("grid");
@@ -40,14 +41,14 @@ export const CampaignsList = () => {
         alignItems={"center"}
         style={{
           marginTop: theme.space.base * 8 + "px",
-          marginBottom: theme.space.base * 4 + "px",
+          marginBottom: theme.space.xxs,
         }}
       >
         <Col>
           <Span>
             <MD style={{ color: theme.palette.grey[700] }}>
               {t("__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5").toUpperCase() +
-                ` (${campaigns.length})`}
+                ` (${campaignsCount})`}
             </MD>
           </Span>
         </Col>
@@ -69,7 +70,8 @@ export const CampaignsList = () => {
             </IconButton>
           </FloatRight>
         </Col>
-      </Row>
+      </Row>      
+      <Separator style={{marginTop: "0"}}/>
 
       {viewType === "list" ? (
         <TableList campaigns={campaigns} />

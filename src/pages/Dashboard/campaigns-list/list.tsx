@@ -35,7 +35,7 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
         }}
       >
         <Span isBold key={campaigns[0].project_id}>
-          Progetto #{campaigns[0].project_id} ({campaigns.length})
+          Progetto #{campaigns[0].project_id} ({items.length})
         </Span>
       </Col>
 
@@ -55,7 +55,9 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
         <Col size={12}>
           <FloatRight>
             <Button isBasic onClick={() => toggleLimit(!limit)}>
-              {limit ? t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10") : t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_LESS MAX:10")}
+              {limit
+                ? t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10")
+                : t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_LESS MAX:10")}
             </Button>
           </FloatRight>
         </Col>

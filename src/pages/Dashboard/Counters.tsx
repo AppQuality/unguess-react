@@ -26,17 +26,17 @@ export const Counters = () => {
 
   return (
     <CounterContainer>
-      <Counter counter={16} status={"completed"}>
+      <Counter counter={9} status={"completed"}>
         {t("__DASHABOARD_COUNTER_LABEL_COMPLETED")}
       </Counter>
-      <Counter counter={0} status={"progress"}>
+      <Counter counter={90} status={"progress"}>
         {t("__DASHABOARD_COUNTER_LABEL_PROGRESS")}
       </Counter>
       <Counter counter={1} status={"incoming"}>
         {t("__DASHABOARD_COUNTER_LABEL_INCOMING")}
       </Counter>
       <Pipe />
-      <Counter counter={1} status={"functional"}>
+      <Counter counter={99} status={"functional"}>
         {t("__DASHABOARD_COUNTER_LABEL_FUNCTIONAL")}
       </Counter>
       <Counter counter={1} status={"experiential"}>
