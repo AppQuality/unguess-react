@@ -5,7 +5,7 @@ pull: ecr-login
 	docker-compose pull 
 
 push: ecr-login
-	docker push 163482350712.dkr.ecr.eu-west-1.amazonaws.com/unguess-react:latest
+	docker push 163482350712.dkr.ecr.eu-west-1.amazonaws.com/unguess-react:primary-dashboard
 
 deploy: pull
 	docker-compose down && docker-compose up -d
