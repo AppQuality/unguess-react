@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoginForm, Grid, Row, Col } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import WPAPI from "src/common/wpapi";
 import { FormikHelpers } from "formik";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "src/app/hooks";
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -16,6 +18,14 @@ export default function LoginPage() {
   const { t } = useTranslation();
   const [error, setError] = useState<string | boolean>(false);
   const [cta, setCta] = useState<string>(t("__LOGIN_FORM_CTA"));
+  const { status } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (status === "logged") {
+      navigate("/");
+    }
+  }, [navigate, status]);
 
   const loginUser = async (
     values: LoginFormFields,
@@ -30,10 +40,8 @@ export default function LoginPage() {
         security: nonce,
       });
 
-      console.log(response);
-
       setCta(`${t("__LOGIN_FORM_CTA_REDIRECT_STATE")}`);
-      window.location.reload();
+      navigate("/");
     } catch (e: unknown) {
       console.log("Login forms errors:", e);
       const { message } = e as Error;
@@ -42,7 +50,7 @@ export default function LoginPage() {
       if (error.type === "invalid") {
         setError(`${t("__LOGIN_FORM_FAILED_INVALID")}`);
       } else {
-        window.location.reload();
+        navigate("/");
       }
     }
     actions.setSubmitting(false);
