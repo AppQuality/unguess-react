@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { LoginForm, Grid, Row, Col } from "@appquality/unguess-design-system";
+import { LoginForm, Logo, theme } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import WPAPI from "src/common/wpapi";
 import { FormikHelpers } from "formik";
@@ -9,9 +9,17 @@ import { useAppSelector } from "src/app/hooks";
 
 const CenteredXYContainer = styled.div`
   display: flex;
+
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+
+  flex-direction: column;
+  height: 100vh;
+  & button {
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    justify-content: center;
+  }
 `;
 
 export default function LoginPage() {
@@ -23,7 +31,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (status === "logged") {
-      navigate("/");
+      document.location.href = "/";
     }
   }, [navigate, status]);
 
@@ -85,17 +93,30 @@ export default function LoginPage() {
 
       return errors;
     },
+
+    card: {
+      isFloating: true,
+      style: {
+        width: "100%",
+        maxWidth: "400px",
+      },
+    },
+    passwordForgotLabel: "Forgot Password?",
+    passwordForgotLink: "/wp-login.php?action=lostpassword",
+    backToLabel: "Back to Unguess",
+    onBackClick: () => {
+      document.location.href = "https://unguess.io";
+    },
   };
 
   return (
-      <Grid>
-        <Row justifyContentMd="center" alignItems="center">
-          <Col xs md={5} lg={4}>
-            <CenteredXYContainer>
-              <LoginForm {...defaultArgs} style={{width: "100%"}}/>
-            </CenteredXYContainer>
-          </Col>
-        </Row>
-      </Grid>
+    <CenteredXYContainer>
+      <Logo
+        type={"horizontal"}
+        size={300}
+        style={{ marginTop: theme.space.xs, marginBottom: theme.space.md }}
+      />
+      <LoginForm {...defaultArgs} />
+    </CenteredXYContainer>
   );
 }
