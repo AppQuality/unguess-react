@@ -31,15 +31,15 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (status === "logged") {
-      document.location.href = "/";
+      navigate("/");
     }
   }, [navigate, status]);
 
   const loginUser = async (
     values: LoginFormFields,
-    actions: FormikHelpers<LoginFormFields>
+    {setSubmitting, setStatus}: FormikHelpers<LoginFormFields>
   ) => {
-    setError(false);
+    let status = null
     try {
       const nonce = await WPAPI.getNonce();
       const response = await WPAPI.login({
@@ -48,20 +48,27 @@ export default function LoginPage() {
         security: nonce,
       });
 
+
+
       setCta(`${t("__LOGIN_FORM_CTA_REDIRECT_STATE")}`);
-      navigate("/");
+      document.location.href = "/";
     } catch (e: unknown) {
       console.log("Login forms errors:", e);
       const { message } = e as Error;
       const error = JSON.parse(message);
 
+      
+
       if (error.type === "invalid") {
-        setError(`${t("__LOGIN_FORM_FAILED_INVALID")}`);
+        console.log("Invalid credentials");
+        setStatus({message: `${t("__LOGIN_FORM_FAILED_INVALID")}`});
       } else {
-        navigate("/");
+        console.log("Unknown error");
+        document.location.href = "/";
       }
     }
-    actions.setSubmitting(false);
+    setSubmitting(false);
+    
   };
 
   const defaultArgs: any = {
