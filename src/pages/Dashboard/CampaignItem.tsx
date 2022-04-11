@@ -12,16 +12,20 @@ export const CampaignItem = ({
   onCampaignClicked?: () => void;
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {
+
+
+  const isFunctional = campaign.campaign_type_name.toLowerCase() === "functional";
+
   return (
     <Col size={size}>
       <CampaignCard
         className="suggested-campaign-card"
         key={campaign.id}
-        isNew={Math.random() > 0.6}
-        date={new Date().toLocaleString().substring(0, 10)}
-        title={`Progetto ${campaign.project_id}`}
+        // isNew={campaign?.isNew} TODO: need an API update
+        date={new Date(campaign.start_date).toLocaleString().substring(0, 10)}
+        title={`${campaign.project_name}`}
         subTitle={campaign.title ?? "Untitled"}
-        type={"FUNCTIONAL"}
+        type={isFunctional ? "FUNCTIONAL": "EXPERIENTIAL"}
         status={
           campaign.status_id === 1
             ? "PROGRESS"
@@ -29,7 +33,7 @@ export const CampaignItem = ({
             ? "INCOMING"
             : "COMPLETED"
         }
-        pillText="Functional Bug test"
+        pillText={campaign.campaign_type_name}
         onClick={onCampaignClicked}
         {...props}
       />

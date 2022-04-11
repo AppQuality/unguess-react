@@ -2,7 +2,8 @@ import HttpError from "../HttpError";
 
 export const campaigns = async (
   workspace_id: number,
-  token?: string,
+  query?: string,
+  token?: string
 ): Promise<
   ApiOperations["get-workspace-campaigns"]["responses"]["200"]["content"]["application/json"]
 > => {
@@ -14,8 +15,10 @@ export const campaigns = async (
   if (token) {
     requestHeaders.set("Authorization", "Bearer " + token);
   }
-  let url = `${process.env.REACT_APP_API_URL}/workspaces/${workspace_id}/campaigns`;
-  
+  let url = `${
+    process.env.REACT_APP_API_URL
+  }/workspaces/${workspace_id}/campaigns${query ?? ""}`;
+
   const res = await fetch(url, {
     method: "GET",
     headers: requestHeaders,

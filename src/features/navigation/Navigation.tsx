@@ -48,7 +48,12 @@ export const Navigation = ({
       if(workspaces.length) dispatch(setWorkspace(workspaces[0]));
     } else {
       dispatch(getProjects(activeWorkspace.id));
-      dispatch(getCampaigns(activeWorkspace.id));
+      dispatch(getCampaigns({
+        wid: activeWorkspace.id,
+        query: {
+          limit: 10000, //TODO: remove this limit
+        }
+      }));
     }
   }, [activeWorkspace, dispatch, workspaces]);
   

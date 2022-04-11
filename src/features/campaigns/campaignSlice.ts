@@ -48,6 +48,20 @@ export const selectGroupedCampaigns = createSelector(
       }
       return acc;
     }, []);
+  }
+);
 
+export const selectSuggestedCampaigns = createSelector(
+  // First input selector: all campaigns
+  selectCampaigns,
+  // Output selector: receives both values
+  (campaigns) => {
+
+    //Order by date
+    campaigns.sort((a, b) => {
+      return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
+    });
+
+    return campaigns.slice(0, 4);
   }
 );
