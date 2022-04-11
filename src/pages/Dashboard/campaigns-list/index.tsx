@@ -1,6 +1,5 @@
 import {
   Col,
-  Paragraph,
   theme,
   MD,
   Row,

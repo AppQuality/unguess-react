@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "src/app/hooks";
 import { Navigation } from "../navigation/Navigation";
 import styled from "styled-components";
+import { GoogleTagManager } from "src/common/GoogleTagManager";
 
 export const Page = ({
   children,
@@ -45,11 +46,13 @@ export const Page = ({
 
   return (
     <Chrome isFluid hue={theme.palette.white}>
-      <Body>
-        <Navigation route={route} user={userData}>
-          <Container>{children}</Container>
-        </Navigation>
-      </Body>
+      <GoogleTagManager title={title || "UNGUESS - BE SMART FROM THE START"} user={userData}>
+        <Body>
+          <Navigation route={route} user={userData}>
+            <Container>{children}</Container>
+          </Navigation>
+        </Body>
+      </GoogleTagManager>
     </Chrome>
   );
 };
