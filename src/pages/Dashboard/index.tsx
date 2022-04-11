@@ -39,17 +39,6 @@ export default function Dashboard() {
         
         <SuggestedCampaigns />
         <CampaignsList />
-        
-        <Row>
-          <Col xs={12}>
-            <div style={{ height: "500px" }}></div>
-            DEBUG
-            <hr />
-            <pre>{JSON.stringify(userData, null, 4)}</pre>
-            --- Status
-            {JSON.stringify(status)}
-          </Col>
-        </Row>
       </Grid>
     </Page>
   );

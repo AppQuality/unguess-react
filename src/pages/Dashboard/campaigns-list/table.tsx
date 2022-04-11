@@ -1,4 +1,4 @@
-import { Table } from "@appquality/unguess-design-system";
+import { GroupedTable } from "@appquality/unguess-design-system";
 
 export const TableList = ({
   campaigns,
@@ -7,5 +7,7 @@ export const TableList = ({
 }) => {
   console.log("Tablelist", campaigns);
 
-  return <>Tabella</>;
+  
+
+  return <GroupedTable />;
 };

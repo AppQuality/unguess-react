@@ -15,6 +15,7 @@ import {
   setWorkspace,
 } from "src/features/navigation/navigationSlice";
 import { selectWorkspaces } from "../workspaces/workspaceSlice";
+import { selectProjects } from "../projects/projectSlice";
 
 export const Navigation = ({
   children,
@@ -32,9 +33,11 @@ export const Navigation = ({
     (state) => state.navigation
   );
 
-  const { status, projects } = useAppSelector(
+  const { status } = useAppSelector(
     (state) => state.projects
   );
+
+  const projects = useAppSelector(selectProjects);
 
   const workspaces = useAppSelector(selectWorkspaces);
 
@@ -60,7 +63,6 @@ export const Navigation = ({
   if (status === "idle" || status === "loading") {
     return <>Loading...</>;
   }
-
 
   const projectsList = projects.map((project) => ({
     id: project.id + "",
