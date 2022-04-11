@@ -6,6 +6,7 @@ const cachedWorkspace = getWorkspaceFromLS() || undefined;
 const initialState: NavigationState = {
   activeWorkspace: cachedWorkspace,
   isSidebarOpen: true,
+  isProfileModalOpen: false,
 };
 
 const navigationSlice = createSlice({
@@ -17,10 +18,16 @@ const navigationSlice = createSlice({
     },
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
-    }
+    },
+    toggleProfileModal: (state) => {
+      state.isProfileModalOpen = !state.isProfileModalOpen;
+    },
+    setProfileModalOpen: (state, action) => {
+      state.isProfileModalOpen = action.payload;
+    },
   },
 });
 
-export const { setWorkspace, toggleSidebar } = navigationSlice.actions;
+export const { setWorkspace, toggleSidebar, toggleProfileModal, setProfileModalOpen } = navigationSlice.actions;
 
 export default navigationSlice.reducer;

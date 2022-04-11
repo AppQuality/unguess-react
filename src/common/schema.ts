@@ -86,8 +86,9 @@ export interface components {
     Workspace: {
       id: number;
       company: string;
-      logo: string;
       tokens: number;
+      logo?: string;
+      csm: components["schemas"]["User"];
     };
     /** Campaign */
     Campaign: {
