@@ -7,8 +7,7 @@ import {
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
-import { selectCampaigns, selectSuggestedCampaigns } from "src/features/campaigns/campaignSlice";
-import styled from "styled-components";
+import { selectSuggestedCampaigns } from "src/features/campaigns/campaignSlice";
 import { CampaignItem } from "./CampaignItem";
 import { CardsContainer } from "./CardContainer";
 

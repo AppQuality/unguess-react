@@ -1,6 +1,5 @@
 import { Col, CampaignCard } from "@appquality/unguess-design-system";
-import { CampaignCardsProps } from "@appquality/unguess-design-system/build/stories/campaignCards/_types";
-import { HTMLAttributes, HtmlHTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
 
 export const CampaignItem = ({
   campaign,
