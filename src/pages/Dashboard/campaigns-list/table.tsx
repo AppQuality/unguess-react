@@ -1,4 +1,4 @@
-import { GroupedTable } from "@appquality/unguess-design-system";
+import { Anchor, GroupedTable, Span, theme } from "@appquality/unguess-design-system";
 
 export const TableList = ({
   campaigns,
@@ -24,10 +24,10 @@ export const TableList = ({
     let campaigns: any = [];
     campaignGroup.forEach((campaign) => {
       campaigns.push({
-        name: campaign.title,
+        name: <Anchor href={`#test/${campaign.id}`}><Span isBold style={{color: theme.palette.grey[800]}}>{campaign.title}</Span></Anchor>,
         type: campaign.campaign_type_name,
         testType: campaign.campaign_type_name,
-        startDate: campaign.start_date,
+        startDate: new Date(campaign.start_date).toLocaleDateString(),
         status: campaign.status_id === 1 ? "Running" : "Completed",
       });
     });
@@ -38,5 +38,5 @@ export const TableList = ({
     });
   });
 
-  return <GroupedTable groups={groups} columns={columns} />;
+  return <GroupedTable groups={groups} columns={columns}/>;
 };
