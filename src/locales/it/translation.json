@@ -1,11 +1,21 @@
 {
+  "__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5": "menu",
+  "__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL": "Progetti",
+  "__DASHABOARD_COUNTER_LABEL_COMPLETED": "Completate",
+  "__DASHABOARD_COUNTER_LABEL_EXPERIENTIAL": "Test Esperienziali",
+  "__DASHABOARD_COUNTER_LABEL_FUNCTIONAL": "Test Funzionali",
+  "__DASHABOARD_COUNTER_LABEL_INCOMING": "In arrivo",
+  "__DASHABOARD_COUNTER_LABEL_PROGRESS": "In corso",
+  "__DASHABOARD_SUGGESTED_CAMPAIGN_TITLE MAX:12": "Suggerite",
+  "__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5": "Tutte",
+  "__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10": "Mostra tutto",
+  "__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_LESS MAX:10": "Mostra meno",
   "__FORM_FIELD_REQUIRED_MESSAGE": "Campo obbligatorio",
   "__LOGIN_FORM_CTA": "Entra",
   "__LOGIN_FORM_CTA_REDIRECT_STATE": "Reindirizzamento...",
   "__LOGIN_FORM_EMAIL_FIELD_INVALID_MESSAGE": "Inserisci un indirizzo email valido",
   "__LOGIN_FORM_FAILED_INVALID": "L'indirizzo email o la password non sono corretti.",
   "__LOGIN_FORM_PASSWORD_FIELD_LENGTH_INVALID": "La password deve essere lunga almeno 5 caratteri",
-  "__LOGIN_FORM_TITLE": "Entra in UNGUESS",
-  "__PAGE_TITLE_LOGIN_PAGE": "Entra in UNGUESS",
-  "__PAGE_TITLE_PRIMARY_DASHBOARD": "Cruscotto"
+  "__LOGIN_FORM_TITLE": "Accedi",
+  "__PAGE_TITLE_PRIMARY_DASHBOARD": "Le mie campagne"
 }

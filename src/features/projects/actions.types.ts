@@ -1,0 +1,2 @@
+export const GET_PROJECTS = "PROJECT/GET_PROJECTS";
+export const GET_PROJECT = "PROJECT/GET_PROJECT";

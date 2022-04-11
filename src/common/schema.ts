@@ -16,6 +16,57 @@ export interface paths {
   "/users/me": {
     get: operations["get-users-me"];
   };
+  "/workspaces": {
+    get: operations["get-workspaces"];
+  };
+  "/workspaces/{wid}": {
+    get: operations["get-workspace"];
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+  };
+  "/workspaces/{wid}/campaigns": {
+    get: operations["get-workspace-campaigns"];
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+      };
+    };
+  };
+  "/workspaces/{wid}/projects": {
+    get: operations["get-workspace-projects"];
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+      };
+    };
+  };
+  "/workspaces/{wid}/projects/{pid}": {
+    get: operations["get-workspace-project"];
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
+      };
+    };
+  };
+  "/workspaces/{wid}/projects/{pid}/campaigns": {
+    get: operations["get-workspace-project-campaigns"];
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
+      };
+    };
+  };
 }
 
 export interface components {
@@ -27,22 +78,39 @@ export interface components {
       email: string;
       role: string;
       name: string;
-      workspaces: unknown[];
+      workspaces: components["schemas"]["Workspace"][];
       profile_id?: number;
       tryber_wp_user_id?: number;
     };
+    /** Workspace */
+    Workspace: {
+      id: number;
+      company: string;
+      logo: string;
+      tokens: number;
+    };
+    /** Campaign */
+    Campaign: {
+      id?: number;
+      start_date?: string;
+      end_date?: string;
+      close_date?: string;
+      title?: string;
+      description?: string;
+      status_id?: number;
+      is_public?: number;
+      campaign_type_id?: number;
+      project_id?: number;
+      customer_title?: string;
+    };
     /** Project */
     Project: {
+      id?: number;
       name?: string;
+      campaigns_count?: number;
     };
   };
   responses: {
-    /** A user */
-    UserData: {
-      content: {
-        "application/json": components["schemas"]["User"];
-      };
-    };
     /** Authentication data. The token can be used to authenticate the protected requests */
     Authentication: {
       content: {
@@ -152,6 +220,100 @@ export interface operations {
       };
       403: components["responses"]["NotAuthorized"];
       404: components["responses"]["NotFound"];
+    };
+  };
+  "get-workspaces": {
+    parameters: {};
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Workspace"][];
+        };
+      };
+    };
+  };
+  "get-workspace": {
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Workspace"];
+        };
+      };
+    };
+  };
+  "get-workspace-campaigns": {
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Campaign"][];
+        };
+      };
+    };
+  };
+  "get-workspace-projects": {
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Project"][];
+        };
+      };
+    };
+  };
+  "get-workspace-project": {
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Project"];
+        };
+      };
+    };
+  };
+  "get-workspace-project-campaigns": {
+    parameters: {
+      path: {
+        /** Workspace (company) id */
+        wid: string;
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Campaign"][];
+        };
+      };
     };
   };
 }
