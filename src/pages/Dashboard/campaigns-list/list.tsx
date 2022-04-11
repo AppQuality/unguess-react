@@ -35,7 +35,7 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
         }}
       >
         <Span isBold key={campaigns[0].project_id}>
-          {campaigns[0].project_id} ({items.length})
+          {campaigns[0].project_name} ({items.length})
         </Span>
       </Col>
 
