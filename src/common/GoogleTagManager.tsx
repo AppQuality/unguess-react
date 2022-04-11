@@ -1,8 +1,5 @@
 import TagManager from "react-gtm-module";
 import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
-import { RootState } from "src/app/store";
-import { User } from "src/types";
 
 const tagManagerArgs = {
   dataLayer: {
