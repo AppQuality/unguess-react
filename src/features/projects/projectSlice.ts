@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "src/app/store";
 import { getProjects } from "./actions";
 
+const projectsAdapter = createEntityAdapter<Component["project"]>();
 
-const initialState: ProjectState = {
+const initialState = projectsAdapter.getInitialState({
   status: "idle",
-  projects: [],
-};
+});
 
 const projectSlice = createSlice({
   name: "projects",
@@ -16,7 +17,7 @@ const projectSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(getProjects.fulfilled, (state, action) => {
-      state.projects = action.payload;
+      projectsAdapter.setAll(state, action.payload);
       state.status = "complete";
     });
     builder.addCase(getProjects.rejected, (state) => {
@@ -26,3 +27,6 @@ const projectSlice = createSlice({
 });
 
 export default projectSlice.reducer;
+
+export const { selectAll: selectProjects, selectById: selectProjectById } =
+projectsAdapter.getSelectors((state: RootState) => state.projects);

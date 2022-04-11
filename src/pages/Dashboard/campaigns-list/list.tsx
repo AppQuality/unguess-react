@@ -1,16 +1,14 @@
 import {
   Button,
   Col,
-  Paragraph,
   Row,
   Span,
   theme,
 } from "@appquality/unguess-design-system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { CampaignItem } from "../CampaignItem";
-import { CardsContainer } from "../CardContainer";
 
 const FloatRight = styled.div`
   float: right;
@@ -35,7 +33,7 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
         }}
       >
         <Span isBold key={campaigns[0].project_id}>
-          Progetto #{campaigns[0].project_id} ({items.length})
+          {campaigns[0].project_name} ({items.length})
         </Span>
       </Col>
 
