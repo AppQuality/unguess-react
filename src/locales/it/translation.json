@@ -1,4 +1,6 @@
 {
+  "Be smart from the start": "",
+  "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.": "",
   "__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5": "menu",
   "__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL": "Progetti",
   "__DASHABOARD_COUNTER_LABEL_COMPLETED": "Completate",
@@ -17,5 +19,6 @@
   "__LOGIN_FORM_FAILED_INVALID": "L'indirizzo email o la password non sono corretti.",
   "__LOGIN_FORM_PASSWORD_FIELD_LENGTH_INVALID": "La password deve essere lunga almeno 5 caratteri",
   "__LOGIN_FORM_TITLE": "Accedi",
+  "__PAGE_TITLE_LOGIN": "Accedi",
   "__PAGE_TITLE_PRIMARY_DASHBOARD": "Le mie campagne"
 }

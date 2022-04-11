@@ -6,6 +6,7 @@ import { FormikHelpers } from "formik";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "src/app/hooks";
+import { GoogleTagManager } from "src/common/GoogleTagManager";
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -37,9 +38,8 @@ export default function LoginPage() {
 
   const loginUser = async (
     values: LoginFormFields,
-    {setSubmitting, setStatus}: FormikHelpers<LoginFormFields>
+    { setSubmitting, setStatus }: FormikHelpers<LoginFormFields>
   ) => {
-    let status = null
     try {
       const nonce = await WPAPI.getNonce();
       const response = await WPAPI.login({
@@ -48,8 +48,6 @@ export default function LoginPage() {
         security: nonce,
       });
 
-
-
       setCta(`${t("__LOGIN_FORM_CTA_REDIRECT_STATE")}`);
       document.location.href = "/";
     } catch (e: unknown) {
@@ -57,18 +55,16 @@ export default function LoginPage() {
       const { message } = e as Error;
       const error = JSON.parse(message);
 
-      
-
       if (error.type === "invalid") {
         console.log("Invalid credentials");
-        setStatus({message: `${t("__LOGIN_FORM_FAILED_INVALID")}`});
+        setStatus({ message: `${t("__LOGIN_FORM_FAILED_INVALID")}` });
       } else {
         console.log("Unknown error");
         document.location.href = "/";
       }
     }
+
     setSubmitting(false);
-    
   };
 
   const defaultArgs: any = {
@@ -117,13 +113,15 @@ export default function LoginPage() {
   };
 
   return (
-    <CenteredXYContainer>
-      <Logo
-        type={"horizontal"}
-        size={300}
-        style={{ marginTop: theme.space.xs, marginBottom: theme.space.md }}
-      />
-      <LoginForm {...defaultArgs} />
-    </CenteredXYContainer>
+    <GoogleTagManager title={t("__PAGE_TITLE_LOGIN")}>
+      <CenteredXYContainer>
+        <Logo
+          type={"horizontal"}
+          size={300}
+          style={{ marginTop: theme.space.xs, marginBottom: theme.space.md }}
+        />
+        <LoginForm {...defaultArgs} />
+      </CenteredXYContainer>
+    </GoogleTagManager>
   );
 }
