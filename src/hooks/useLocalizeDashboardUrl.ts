@@ -5,11 +5,11 @@ export function getLocalizeRoute(campaignId: number, campaignType: string, lang?
   if(campaignType === 'functional')
   {
     localizedRoute =
-  currentLang === "en" ? `/functional-customer-dashboard/?cp=${campaignId}` : `it/dashboard-campagne-funzionali/?cp=${campaignId}`;
+  currentLang === "en" ? `/functional-customer-dashboard/?cid=${campaignId}` : `it/dashboard-campagne-funzionali/?cid=${campaignId}`;
   }else
   {
     localizedRoute =
-    currentLang === "en" ? `/ux-customer-dashboard/?cp=${campaignId}` : `it/dashboard-campagne-esperienziali/?cp=${campaignId}`;
+    currentLang === "en" ? `/ux-customer-dashboard/?cid=${campaignId}` : `it/dashboard-campagne-esperienziali/?cid=${campaignId}`;
   }
 
   
