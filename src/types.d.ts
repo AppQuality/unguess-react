@@ -18,6 +18,7 @@ export interface UserLoginData {
 
 export type UnguessRoutes =
   | "login"
+  | "projects"
   | "functional-customer-dashboard"
   | "ux-customer-dashboard"
   | "integration-center"

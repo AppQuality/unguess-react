@@ -4,6 +4,7 @@ import navigationReducer from "../features/navigation/navigationSlice";
 import campaignReducer from "../features/campaigns/campaignSlice";
 import projectReducer from "../features/projects/projectSlice";
 import workspaceReducer from "../features/workspaces/workspaceSlice";
+import filterReducer from "../features/campaignsFilter/campaignsFilterSlice";
 // import { api } from "../services/apiSlice";
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
     campaigns: campaignReducer,
     projects: projectReducer,
     workspaces: workspaceReducer,
+    filters: filterReducer
   },
 });
 

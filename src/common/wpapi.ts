@@ -63,7 +63,21 @@ const WPAPI = {
         }
         throw new Error("Nonce not found.");
       });
-  }
+  },
+  logout: () => {
+    return fetch(
+      `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
+      {
+        method: "GET",
+      }
+    )
+    .then(() => {
+      window.location.reload();
+    })
+    .catch((e) => {
+      alert(e.message);
+    });
+  },
 };
 
 export default WPAPI;

@@ -23,7 +23,8 @@ export interface paths {
     get: operations["get-workspace"];
     parameters: {
       path: {
-        wid: string;
+        /** Workspace (company) id */
+        wid: number;
       };
     };
   };
@@ -32,7 +33,7 @@ export interface paths {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
       };
     };
   };
@@ -41,7 +42,7 @@ export interface paths {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
       };
     };
   };
@@ -50,9 +51,9 @@ export interface paths {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
         /** Project id */
-        pid: string;
+        pid: number;
       };
     };
   };
@@ -61,9 +62,9 @@ export interface paths {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
         /** Project id */
-        pid: string;
+        pid: number;
       };
     };
   };
@@ -81,33 +82,38 @@ export interface components {
       workspaces: components["schemas"]["Workspace"][];
       profile_id?: number;
       tryber_wp_user_id?: number;
+      picture?: string;
     };
     /** Workspace */
     Workspace: {
       id: number;
       company: string;
-      logo: string;
       tokens: number;
+      logo?: string;
+      csm: components["schemas"]["User"];
     };
     /** Campaign */
     Campaign: {
-      id?: number;
-      start_date?: string;
-      end_date?: string;
-      close_date?: string;
-      title?: string;
-      description?: string;
-      status_id?: number;
-      is_public?: number;
-      campaign_type_id?: number;
-      project_id?: number;
-      customer_title?: string;
+      id: number;
+      start_date: string;
+      end_date: string;
+      close_date: string;
+      title: string;
+      customer_title: string;
+      description: string;
+      status_id: number;
+      is_public: number;
+      campaign_type_id: number;
+      campaign_type_name: string;
+      test_type_name: string;
+      project_id: number;
+      project_name: string;
     };
     /** Project */
     Project: {
-      id?: number;
-      name?: string;
-      campaigns_count?: number;
+      id: number;
+      name: string;
+      campaigns_count: number;
     };
   };
   responses: {
@@ -173,6 +179,8 @@ export interface components {
     searchBy: string;
     /** @description The value to search for */
     search: string;
+    /** @description The field used as reference to order the result */
+    orderBy: string;
   };
 }
 
@@ -236,7 +244,8 @@ export interface operations {
   "get-workspace": {
     parameters: {
       path: {
-        wid: string;
+        /** Workspace (company) id */
+        wid: number;
       };
     };
     responses: {
@@ -252,14 +261,33 @@ export interface operations {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
+      };
+      query: {
+        /** Max items to retrieve */
+        limit?: components["parameters"]["limit"];
+        /** Items to skip for pagination */
+        start?: components["parameters"]["start"];
+        /** How to order values (ASC, DESC) */
+        order?: components["parameters"]["order"];
+        /** The field used as reference to order the result */
+        orderBy?: components["parameters"]["orderBy"];
+        /** Key-value Array for item filtering */
+        filterBy?: components["parameters"]["filterBy"];
       };
     };
     responses: {
       /** OK */
       200: {
         content: {
-          "application/json": components["schemas"]["Campaign"][];
+          "application/json": {
+            items: components["schemas"]["Campaign"][];
+            total: number;
+            start: number;
+            size: number;
+            limit: number;
+          };
+          "application/xml": { [key: string]: unknown };
         };
       };
     };
@@ -268,7 +296,7 @@ export interface operations {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
       };
     };
     responses: {
@@ -284,9 +312,9 @@ export interface operations {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
         /** Project id */
-        pid: string;
+        pid: number;
       };
     };
     responses: {
@@ -302,9 +330,9 @@ export interface operations {
     parameters: {
       path: {
         /** Workspace (company) id */
-        wid: string;
+        wid: number;
         /** Project id */
-        pid: string;
+        pid: number;
       };
     };
     responses: {

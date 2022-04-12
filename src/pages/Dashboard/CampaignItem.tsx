@@ -1,6 +1,12 @@
 import { Col, CampaignCard } from "@appquality/unguess-design-system";
-import { CampaignCardsProps } from "@appquality/unguess-design-system/build/stories/campaignCards/_types";
-import { HTMLAttributes, HtmlHTMLAttributes } from "react";
+import { HTMLAttributes } from "react";
+import { useTranslation } from "react-i18next";
+import { getCampaignStatus } from "src/hooks/getCampaignStatus";
+import styled from "styled-components";
+
+const ColCard = styled(Col)`
+  margin-bottom: ${(props) => props.theme.space.base * 4}px;
+`;
 
 export const CampaignItem = ({
   campaign,
@@ -9,30 +15,29 @@ export const CampaignItem = ({
   ...props
 }: {
   campaign: Component["campaign"];
-  onCampaignClicked?: () => void;
+  onCampaignClicked: (campaignId: number, cpType: string) => void;
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {
+  const { t } = useTranslation();
+
+  const isFunctional = campaign.test_type_name.toLowerCase() === "functional";
+
   return (
-    <Col size={size}>
+    <ColCard size={size}>
       <CampaignCard
         className="suggested-campaign-card"
         key={campaign.id}
-        isNew={Math.random() > 0.6}
-        date={new Date().toLocaleString().substring(0, 10)}
-        title={`Progetto ${campaign.project_id}`}
-        subTitle={campaign.title ?? "Untitled"}
-        type={"FUNCTIONAL"}
-        status={
-          campaign.status_id === 1
-            ? "PROGRESS"
-            : campaign.status_id === 0
-            ? "INCOMING"
-            : "COMPLETED"
-        }
-        pillText="Functional Bug test"
-        onClick={onCampaignClicked}
+        // isNew={campaign?.isNew} TODO: need an API update
+        date={new Date(campaign.start_date).toLocaleString().substring(0, 10)}
+        projectTitle={`${campaign.project_name}`}
+        campaignTitle={campaign.title ?? t("__CAMPAIGN_CARD_EMPTY_TITLE_LABEL")}
+        title={campaign.title ?? t("__CAMPAIGN_CARD_EMPTY_TITLE_LABEL")}
+        type={isFunctional ? "FUNCTIONAL": "EXPERIENTIAL"}
+        status={getCampaignStatus(campaign)}
+        pillText={campaign.campaign_type_name}
+        onClick={() => onCampaignClicked(campaign.id, campaign.test_type_name)}
         {...props}
       />
-    </Col>
+    </ColCard>
   );
 };
