@@ -22,8 +22,9 @@ export const CampaignItem = ({
         key={campaign.id}
         // isNew={campaign?.isNew} TODO: need an API update
         date={new Date(campaign.start_date).toLocaleString().substring(0, 10)}
-        title={`${campaign.project_name}`}
-        subTitle={campaign.title ?? "Untitled"}
+        projectTitle={`${campaign.project_name}`}
+        campaignTitle={campaign.title ?? "Untitled"}
+        title={campaign.title ?? "Untitled"}
         type={isFunctional ? "FUNCTIONAL": "EXPERIENTIAL"}
         status={
           campaign.status_id === 1
