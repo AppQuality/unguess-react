@@ -1,8 +1,8 @@
 export function getLocalizeRoute(campaignId: number, campaignType: string, lang?: string): string {
   let currentLang = lang || 'en';
   let localizedRoute = "";
-
-  if(campaignType === 'functional')
+ 
+  if(campaignType.toLocaleLowerCase() === 'functional')
   {
     localizedRoute =
   currentLang === "en" ? `/functional-customer-dashboard/?cid=${campaignId}` : `it/dashboard-campagne-funzionali/?cid=${campaignId}`;
