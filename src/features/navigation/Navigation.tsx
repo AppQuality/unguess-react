@@ -155,9 +155,6 @@ export const Navigation = ({
 
       document.location.href = translatedRoute;
     },
-    onFeedbackClick: () => {
-      /** TODO: Pendo */
-    },
     onToggleChat: () => {
       if(typeof customerly !== undefined) {
         customerly.open();
