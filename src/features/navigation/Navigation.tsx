@@ -103,7 +103,7 @@ export const Navigation = ({
   //Get initials from name
   const getInitials = (name: string) => {
     const names = name.split(" ");
-    const initials = names.map((name) => name[0]).join("");
+    const initials = names[0][0] + names[names.length - 1][0];
     return initials;
   };
 
@@ -170,7 +170,7 @@ export const Navigation = ({
     {
       localizedRoute = i18n.language === "en" ? `/projects/${route}` : `/${i18n.language}/projects/${route}`;
     }
-    
+
     navigate(localizedRoute);
   }
 
