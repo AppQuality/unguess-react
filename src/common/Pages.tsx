@@ -26,8 +26,8 @@ function Pages() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<Dashboard />} />
       <Route path="/it" element={<Dashboard />} />
-      <Route path="/project/:projectId" element={<Project />} />
-      <Route path="/it/project/:projectId" element={<Project />} />
+      <Route path="/projects/:projectId" element={<Project />} />
+      <Route path="/it/projects/:projectId" element={<Project />} />
     </Routes>
   );
 }

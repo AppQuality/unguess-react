@@ -28,7 +28,7 @@ export default function Project() {
   return (
     <Page
       title={t("__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT")}
-      route={"/"}
+      route={"projects"}
     >
       <Grid>
         <Row>

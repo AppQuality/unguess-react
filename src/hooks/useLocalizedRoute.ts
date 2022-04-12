@@ -1,10 +1,24 @@
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { UnguessRoutes } from "../types";
 
-export function useLocalizeRoute(route: UnguessRoutes): string {
+export function useLocalizeRoute(route: string, lang?: string): string {
   const { i18n } = useTranslation();
+  const params = useParams();
+
+  let currentLang = lang || i18n.language;
+
+  let parameter = "";
+
+  if(params)
+  {
+    Object.keys(params).forEach(key => {
+      parameter = params[key] ?? "";
+    });
+  }
+
   let localizedRoute =
-    i18n.language === "en" ? `/${route}` : `/${i18n.language}/${route}`;
+  currentLang === "en" ? `/${route}/${parameter}` : `/${currentLang}/${route}/${parameter}`;
   // in case of base route ("") we already have a forward slash
   let re = /\/$/;
   return re.test(localizedRoute) ? localizedRoute : `${localizedRoute}/`;

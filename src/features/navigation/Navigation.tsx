@@ -3,7 +3,7 @@ import {
   Content,
   Main,
   Sidebar,
-  ProfileModal
+  ProfileModal,
 } from "@appquality/unguess-design-system";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,9 @@ import {
 import { selectWorkspaces } from "../workspaces/workspaceSlice";
 import { selectProjects } from "../projects/projectSlice";
 import WPAPI from "src/common/wpapi";
+import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
+import i18n from "src/i18n";
+import { useParams } from "react-router-dom";
 
 export const Navigation = ({
   children,
@@ -33,18 +36,28 @@ export const Navigation = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
+  //Set current params
+  const params = useParams();
+
+  let parameter = "";
+
+  if(params)
+  {
+    Object.keys(params).forEach(key => {
+      parameter = params[key] ?? "";
+    });
+  }
+
+  console.log("Current route: ", route);
+
   const { isSidebarOpen, activeWorkspace } = useAppSelector(
     (state) => state.navigation
   );
 
-  const { status } = useAppSelector(
-    (state) => state.projects
-  );
+  const { status } = useAppSelector((state) => state.projects);
 
   const projects = useAppSelector(selectProjects);
-  const { isProfileModalOpen } = useAppSelector(
-    (state) => state.navigation
-  );
+  const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
 
   const workspaces = useAppSelector(selectWorkspaces);
 
@@ -66,12 +79,14 @@ export const Navigation = ({
       if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
     } else {
       dispatch(getProjects(activeWorkspace.id));
-      dispatch(getCampaigns({
-        wid: activeWorkspace.id,
-        query: {
-          limit: 10000, //TODO: remove this limit
-        }
-      }));
+      dispatch(
+        getCampaigns({
+          wid: activeWorkspace.id,
+          query: {
+            limit: 10000, //TODO: remove this limit
+          },
+        })
+      );
     }
   }, [activeWorkspace, dispatch, workspaces]);
 
@@ -102,29 +117,31 @@ export const Navigation = ({
     csm: {
       name: activeWorkspace?.csm.name || "",
       email: activeWorkspace?.csm.email || "",
-      ...(activeWorkspace?.csm.picture && { picture: activeWorkspace?.csm.picture }),
+      ...(activeWorkspace?.csm.picture && {
+        picture: activeWorkspace?.csm.picture,
+      }),
     },
     languages: {
       en: {
         key: "en",
         label: "English", // TODO: i18n strings for languages
       },
-      fr: {
-        key: "fr",
-        label: "French",
-      },
       it: {
         key: "it",
         label: "Italian",
-      }
+      },
     },
-    currentLanguage: "en",
+    currentLanguage: i18n.language,
     onSelectLanguage: (lang: string) => {
-      if (lang !== "en") {
-        document.location.href = "/" + lang;
-      }
+      let localizedRoute =
+      lang === "en"
+          ? `/${route}/${parameter}`
+          : `/${lang}/${route}/${parameter}`;
+      // in case of base route ("") we already have a forward slash
+      let re = /\/$/;
+      let translatedRoute =  re.test(localizedRoute) ? localizedRoute : `${localizedRoute}/`;
 
-      document.location.href = "/";
+      document.location.href = translatedRoute;
     },
     onFeedbackClick: () => {
       /** TODO: Pendo */
@@ -154,7 +171,9 @@ export const Navigation = ({
         isProfileModalOpen={isProfileModalOpen}
         onProfileModalToggle={toggleProfileModalState}
       />
-      {isProfileModalOpen && <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />}
+      {isProfileModalOpen && (
+        <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
+      )}
       <Content>
         <Sidebar
           projects={projectsList}
