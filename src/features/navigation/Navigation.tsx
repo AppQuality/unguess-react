@@ -22,7 +22,7 @@ import { selectProjects } from "../projects/projectSlice";
 import WPAPI from "src/common/wpapi";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import i18n from "src/i18n";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const Navigation = ({
   children,
@@ -35,6 +35,7 @@ export const Navigation = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   //Set current params
   const params = useParams();
@@ -161,6 +162,18 @@ export const Navigation = ({
     },
   };
 
+  const navigateTo =  (route: string) => {
+    let localizedRoute = "";
+    if(route === "home") {
+      localizedRoute = i18n.language === "en" ? "/" : `/${i18n.language}`;
+    }else
+    {
+      localizedRoute = i18n.language === "en" ? `/projects/${route}` : `/${i18n.language}/projects/${route}`;
+    }
+    
+    navigate(localizedRoute);
+  }
+
   return (
     <>
       <AppHeader
@@ -187,6 +200,8 @@ export const Navigation = ({
           isExpanded={isSidebarOpen}
           onToggleMenu={toggleSidebarState}
           dividerLabel={t("__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL")}
+          onNavToggle={navigateTo}
+          currentRoute={parameter !== "" ? parameter : route}
         />
         <Main>{children}</Main>
       </Content>

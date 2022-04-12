@@ -30,8 +30,6 @@ export const CampaignsList = () => {
   );
 
   const campaignsCount = campaigns.reduce((acc, curr) => acc + curr.length, 0);
-  // const campaigns = useAppSelector((state) => selectCampaigns(state));
-
   const [viewType, setViewType] = useState("grid");
 
   return (

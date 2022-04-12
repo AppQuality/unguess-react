@@ -38,10 +38,13 @@ export const { selectAll: selectCampaigns, selectById: selectCampaignById } =
 export const selectGroupedCampaigns = createSelector(
   // First input selector: all campaigns
   selectCampaigns,
+
+  (state: RootState) => state.filters,
+
   // Output selector: receives both values
-  (campaigns) => {
+  (campaigns, filters) => {
     return campaigns.reduce((acc: any, campaign) => {
-      if (campaign.project_id) {
+      if (campaign.project_id && (!filters.projectId || filters.projectId === campaign.project_id)) {
         acc[campaign.project_id] = acc[campaign.project_id] || [];
         acc[campaign.project_id].push(campaign);
       }
@@ -69,8 +72,11 @@ export const selectSuggestedCampaigns = createSelector(
 export const selectCampaignsCounter = createSelector(
   // First input selector: all campaigns
   selectCampaigns,
+
+  (state: RootState) => state.filters,
+
   // Output selector: receives both values
-  (campaigns) => {
+  (campaigns, filters) => {
     let counters = {
       running: 0,
       completed: 0,
@@ -82,6 +88,7 @@ export const selectCampaignsCounter = createSelector(
     const now = new Date().getTime();
 
     campaigns.forEach((cp) => {
+      if(filters.projectId && filters.projectId !== cp.project_id) return;
       //Update status counters
       if (cp.status_id === 2) {
         counters.completed++;

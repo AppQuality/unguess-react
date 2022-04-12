@@ -2,25 +2,27 @@
 import { useTranslation } from "react-i18next";
 import { Page } from "src/features/templates/Page";
 import { Grid, Row, Col, XXXL, theme, Skeleton } from "@appquality/unguess-design-system";
-import { useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { Counters } from "./Counters";
 import { Separator } from "./Separator";
-import { SuggestedCampaigns } from "./SuggestedCampaigns";
 import { CampaignsList } from "./campaigns-list";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { selectProjectById } from "src/features/projects/projectSlice";import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
-import PageLoader from "src/features/templates/PageLoader";
-;
+import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 
 export default function Project() {
   const { t } = useTranslation();
   const homeRoute = useLocalizeRoute("");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { projectId } = useParams();
 
   if(!projectId) {
     navigate(homeRoute);
+  }else
+  {
+    dispatch(projectFilterChanged(parseInt(projectId)));
   }
 
   const project = useAppSelector((state) => selectProjectById(state, projectId || 0));
