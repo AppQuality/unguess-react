@@ -23,6 +23,7 @@ import WPAPI from "src/common/wpapi";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import i18n from "src/i18n";
 import { useNavigate, useParams } from "react-router-dom";
+import { Changelog } from "./Changelog";
 
 export const Navigation = ({
   children,
@@ -179,6 +180,7 @@ export const Navigation = ({
       <AppHeader
         isStandalone
         hasChangelog
+        changelogItem={<Changelog />}
         brand={{
           brandName: `${activeWorkspace?.company}'s Workspace`,
           menuLabel: t("__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5"),

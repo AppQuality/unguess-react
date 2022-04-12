@@ -9,10 +9,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
-"@appquality/unguess-design-system@^2.8.2":
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.8.2.tgz#f1edb854998a56f658cd0cdf5b65167e9dfba0fe"
-  integrity sha512-BbmAU8cUKEMV4MGaWx3sfPisN0dsCGrPIjesI07OJ4iuqYwnYutQF1O8uOxCQsn+jUuqqbuazdPOY/P+ew1/nw==
+"@appquality/unguess-design-system@^2.8.3":
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.8.3.tgz#f487f738e41c60d404dae38ff76bc16789c2f0fe"
+  integrity sha512-u/3tLicWSH1UxYhlyS7sc0HvtVgsuKEmVf1W4jVXYxtQN0UWzX2x64HbAcwyOK812ViFw2Ptw3ej0uJEoA8ftA==
   dependencies:
     "@zendeskgarden/react-accordions" "^8.49.0"
     "@zendeskgarden/react-avatars" "^8.49.0"
@@ -1266,6 +1266,13 @@
   integrity sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ==
   dependencies:
     "@hapi/hoek" "^8.3.0"
+
+"@headwayapp/react-widget@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@headwayapp/react-widget/-/react-widget-0.0.4.tgz#34c97be8a1e42aed2ba2860988c93dc24f9ccec4"
+  integrity sha512-Gw7R85tE0LSYFBu7DcnGZUO1AnF2J0+HoCKxlQVCE0GgsQzZjfpoCkq+q6zAy9374zSOl4GmivDhh/wCjhH3Pw==
+  dependencies:
+    prop-types "^15.7.2"
 
 "@humanwhocodes/config-array@^0.5.0":
   version "0.5.0"
