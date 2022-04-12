@@ -1,5 +1,7 @@
 import { Col, CampaignCard } from "@appquality/unguess-design-system";
 import { HTMLAttributes } from "react";
+import { useTranslation } from "react-i18next";
+import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import styled from "styled-components";
 
 const ColCard = styled(Col)`
@@ -16,7 +18,7 @@ export const CampaignItem = ({
   onCampaignClicked: (campaignId: number, cpType: string) => void;
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {
-
+  const { t } = useTranslation();
 
   const isFunctional = campaign.test_type_name.toLowerCase() === "functional";
 
@@ -28,16 +30,10 @@ export const CampaignItem = ({
         // isNew={campaign?.isNew} TODO: need an API update
         date={new Date(campaign.start_date).toLocaleString().substring(0, 10)}
         projectTitle={`${campaign.project_name}`}
-        campaignTitle={campaign.title ?? "Untitled"}
-        title={campaign.title ?? "Untitled"}
+        campaignTitle={campaign.title ?? t("__CAMPAIGN_CARD_EMPTY_TITLE_LABEL")}
+        title={campaign.title ?? t("__CAMPAIGN_CARD_EMPTY_TITLE_LABEL")}
         type={isFunctional ? "FUNCTIONAL": "EXPERIENTIAL"}
-        status={
-          campaign.status_id === 1
-            ? "PROGRESS"
-            : campaign.status_id === 0
-            ? "INCOMING"
-            : "COMPLETED"
-        }
+        status={getCampaignStatus(campaign)}
         pillText={campaign.campaign_type_name}
         onClick={() => onCampaignClicked(campaign.id, campaign.test_type_name)}
         {...props}

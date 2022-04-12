@@ -89,7 +89,7 @@ export const Navigation = ({
   }, [activeWorkspace, dispatch, workspaces]);
 
   if (status === "idle" || status === "loading") {
-    return <>Loading...</>;
+    return <>{t("__APP_LOADING_TEXT")}</>;
   }
 
   const projectsList = projects.reduce((filtered: Array<any>, project) => {
@@ -97,7 +97,7 @@ export const Navigation = ({
       filtered.push({
         id: project.id + "",
         title: project.name || "-",
-        campaigns: `${project.campaigns_count} campaigns`,
+        campaigns: `${project.campaigns_count} ` + t("__SIDEBAR_CAMPAIGNS_LABEL"),
       });
     }
     return filtered;
@@ -128,14 +128,23 @@ export const Navigation = ({
     languages: {
       en: {
         key: "en",
-        label: "English", // TODO: i18n strings for languages
+        label: t("English"), // TODO: i18n strings for languages
       },
       it: {
         key: "it",
-        label: "Italian",
+        label: t("Italian"),
       },
     },
     currentLanguage: i18n.language,
+    feedbackTitle: t("__PROFILE_MODAL_FEEDBACK_TITLE"),
+    feedbackSubTitle: t("__PROFILE_MODAL_FEEDBACK_SUBTITLE"),
+    csmTitle: t("__PROFILE_MODAL_CSM_TITLE"),
+    csmContactLabel: t("__PROFILE_MODAL_CSM_CONTACT_LABEL"),
+    languageTitle: t("__PROFILE_MODAL_LANGUAGES_TITLE"),
+    logoutTitle: t("__PROFILE_MODAL_LOGOUT_TITLE"),
+    currentLanguageLabel: t("__PROFILE_MODAL_CURRENT_LANGUAGE_LABEL"),
+    copyLabel: t("__PROFILE_MODAL_COPY_LABEL"),
+    chatSupportLabel: t("__PROFILE_MODAL_CHAT_SUPPORT_LABEL"),
     onSelectLanguage: (lang: string) => {
       let translatedRoute = route;
 
@@ -211,6 +220,7 @@ export const Navigation = ({
           dividerLabel={t("__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL")}
           onNavToggle={navigateTo}
           currentRoute={parameter !== "" ? parameter : route}
+          homeItemLabel={t("__APP_SIDEBAR_HOME_ITEM_LABEL")}
         />
         <Main>{children}</Main>
       </Content>
