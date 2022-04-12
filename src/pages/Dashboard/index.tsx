@@ -11,7 +11,7 @@ export default function Dashboard() {
   const { t } = useTranslation();
 
   return (
-    <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} route={"/"}>
+    <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} route={""}>
       <Grid>
         <Row>
           <Col xs={12}>
