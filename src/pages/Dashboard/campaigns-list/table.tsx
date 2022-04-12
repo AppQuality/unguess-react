@@ -1,4 +1,5 @@
 import { Anchor, GroupedTable, Span, theme } from "@appquality/unguess-design-system";
+import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 
 export const TableList = ({
   campaigns,
@@ -24,7 +25,7 @@ export const TableList = ({
     let campaigns: any = [];
     campaignGroup.forEach((campaign) => {
       campaigns.push({
-        name: <Anchor href={`#test/${campaign.id}`}><Span isBold style={{color: theme.palette.grey[800]}}>{campaign.title}</Span></Anchor>,
+        name: <Anchor href={getLocalizeRoute(campaign.id, campaign.test_type_name)}><Span isBold style={{color: theme.palette.grey[800]}}>{campaign.title}</Span></Anchor>,
         type: campaign.campaign_type_name,
         testType: campaign.campaign_type_name,
         startDate: new Date(campaign.start_date).toLocaleDateString(),
