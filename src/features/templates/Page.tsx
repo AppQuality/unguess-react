@@ -48,7 +48,7 @@ export const Page = ({
   //App ready
   TagManager.dataLayer({
     dataLayer: {
-      event: "ApiLoaded",
+      event: "UnguessLoaded",
     },
   });
 
