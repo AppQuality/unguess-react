@@ -6,9 +6,14 @@ import { Counters } from "./Counters";
 import { Separator } from "./Separator";
 import { SuggestedCampaigns } from "./SuggestedCampaigns";
 import { CampaignsList } from "./campaigns-list";
+import { useAppDispatch } from "src/app/hooks";
+import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 
 export default function Dashboard() {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  dispatch(dispatch(projectFilterChanged(0))); //Reset filters
 
   return (
     <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} route={""}>

@@ -7,6 +7,7 @@ import { useAppSelector } from "src/app/hooks";
 import { Navigation } from "../navigation/Navigation";
 import styled from "styled-components";
 import { GoogleTagManager } from "src/common/GoogleTagManager";
+import TagManager from "react-gtm-module";
 
 export const Page = ({
   children,
@@ -43,6 +44,13 @@ export const Page = ({
   if (status === "idle" || status === "loading") {
     return <PageLoader />;
   }
+
+  //App ready
+  TagManager.dataLayer({
+    dataLayer: {
+      event: "ApiLoaded",
+    },
+  });
 
   return (
     <Chrome isFluid hue={theme.palette.white}>

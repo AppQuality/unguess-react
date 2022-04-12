@@ -5,7 +5,7 @@ import LoginPage from "src/pages/LoginPage";
 import Dashboard from "src/pages/Dashboard";
 import PageLoader from "src/features/templates/PageLoader";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import Project from "src/pages/Dashboard/projectView";
+import Project from "src/pages/Dashboard/Project";
 
 const base = ":locale";
 

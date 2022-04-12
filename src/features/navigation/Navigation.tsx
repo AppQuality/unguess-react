@@ -20,7 +20,6 @@ import {
 import { selectWorkspaces } from "../workspaces/workspaceSlice";
 import { selectProjects } from "../projects/projectSlice";
 import WPAPI from "src/common/wpapi";
-import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import i18n from "src/i18n";
 import { useNavigate, useParams } from "react-router-dom";
 import { Changelog } from "./Changelog";
@@ -48,8 +47,6 @@ export const Navigation = ({
       parameter = params[key] ?? "";
     });
   }
-
-  console.log("Current route: ", route);
 
   const { isSidebarOpen, activeWorkspace } = useAppSelector(
     (state) => state.navigation
@@ -95,11 +92,17 @@ export const Navigation = ({
     return <>Loading...</>;
   }
 
-  const projectsList = projects.map((project) => ({
-    id: project.id + "",
-    title: project.name || "-",
-    campaigns: `${project.campaigns_count} campaigns`,
-  }));
+  const projectsList = projects.reduce((filtered: Array<any>, project) => {
+    if (project.campaigns_count) {
+      filtered.push({
+        id: project.id + "",
+        title: project.name || "-",
+        campaigns: `${project.campaigns_count} campaigns`,
+      });
+    }
+    return filtered;
+  }, []);
+  
 
   //Get initials from name
   const getInitials = (name: string) => {
@@ -156,24 +159,28 @@ export const Navigation = ({
       /** TODO: Pendo */
     },
     onToggleChat: () => {
-      /** TODO: https://docs.customerly.io/api/is-it-possible-to-open-the-live-chat-directly-from-a-link-or-a-custom-button */
+      if(typeof customerly !== undefined) {
+        customerly.open();
+      }
     },
     onLogout: async () => {
       await WPAPI.logout();
     },
   };
 
-  const navigateTo =  (route: string) => {
+  const navigateTo = (route: string) => {
     let localizedRoute = "";
-    if(route === "home") {
+    if (route === "home") {
       localizedRoute = i18n.language === "en" ? "/" : `/${i18n.language}`;
-    }else
-    {
-      localizedRoute = i18n.language === "en" ? `/projects/${route}` : `/${i18n.language}/projects/${route}`;
+    } else {
+      localizedRoute =
+        i18n.language === "en"
+          ? `/projects/${route}`
+          : `/${i18n.language}/projects/${route}`;
     }
 
     navigate(localizedRoute);
-  }
+  };
 
   return (
     <>
