@@ -8,6 +8,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import { selectSuggestedCampaigns } from "src/features/campaigns/campaignSlice";
+import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 import { CampaignItem } from "./CampaignItem";
 import { CardsContainer } from "./CardContainer";
 
@@ -16,6 +17,10 @@ import { CardsContainer } from "./CardContainer";
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
   const { status: cpLoading } = useAppSelector((state) => state.campaigns);
+
+  const goToCampaignDashboard = (campaignId: number, cpType: string) => {
+    window.location.href = getLocalizeRoute(campaignId, cpType);
+  };
 
   const campaigns = useAppSelector(selectSuggestedCampaigns);
 
@@ -32,7 +37,7 @@ export const SuggestedCampaigns = () => {
       </Col>
       <CardsContainer>
         {cpLoading === "complete"
-          ? campaigns.map((campaign) => <CampaignItem campaign={campaign} />)
+          ? campaigns.map((campaign) => <CampaignItem campaign={campaign} onCampaignClicked={goToCampaignDashboard} />)
           : "skeleton here"}
       </CardsContainer>
     </Row>

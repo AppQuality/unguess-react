@@ -51,7 +51,6 @@ export default function Project() {
       </Grid>
       <Separator />
       <Grid>
-        <SuggestedCampaigns />
         <CampaignsList />
       </Grid>
     </Page>

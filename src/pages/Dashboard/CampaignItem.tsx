@@ -8,12 +8,12 @@ export const CampaignItem = ({
   ...props
 }: {
   campaign: Component["campaign"];
-  onCampaignClicked?: () => void;
+  onCampaignClicked: (campaignId: number, cpType: string) => void;
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {
 
 
-  const isFunctional = campaign.campaign_type_name.toLowerCase() === "functional";
+  const isFunctional = campaign.test_type_name.toLowerCase() === "functional";
 
   return (
     <Col size={size}>
@@ -33,7 +33,7 @@ export const CampaignItem = ({
             : "COMPLETED"
         }
         pillText={campaign.campaign_type_name}
-        onClick={onCampaignClicked}
+        onClick={() => onCampaignClicked(campaign.id, campaign.test_type_name)}
         {...props}
       />
     </Col>

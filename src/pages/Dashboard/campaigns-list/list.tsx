@@ -7,6 +7,7 @@ import {
 } from "@appquality/unguess-design-system";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 import styled from "styled-components";
 import { CampaignItem } from "../CampaignItem";
 
@@ -19,8 +20,8 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
   const [limit, toggleLimit] = useState(true);
   const campaigns = limit ? items.slice(0, 4) : items;
 
-  const clickToggle = () => {
-    console.log("clicked");
+  const clickToggle = (campaignId: number, cpType: string) => {
+    window.location.href = getLocalizeRoute(campaignId, cpType);
   };
 
   return (
