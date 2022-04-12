@@ -1,4 +1,6 @@
 import { Anchor, GroupedTable, Span, theme } from "@appquality/unguess-design-system";
+import { useTranslation } from "react-i18next";
+import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 
 export const TableList = ({
@@ -6,12 +8,14 @@ export const TableList = ({
 }: {
   campaigns: Array<Array<Component["campaign"]>>;
 }) => {
+  const { t } = useTranslation();
+
   let columns = [
-      { name: "Title", field: "name" },
-      { name: "Campaign Type", field: "type" },
-      { name: "Test Type", field: "testType" },
-      { name: "Start Date", field: "startDate" },
-      { name: "Status", field: "status" },
+    { name: t("__CAMPAIGNS_TABLE_COLUMN_NAME"), field: "name" },
+    { name: t("__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE"), field: "type" },
+    { name: t("__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE"), field: "testType" },
+    { name: t("__CAMPAIGNS_TABLE_COLUMN_START_DATE"), field: "startDate" },
+    { name: t("__CAMPAIGNS_TABLE_COLUMN_STATUS"), field: "status" },
   ];
 
   //Colonne Nome Campagna, Tipologia, Tipo Test, StartDate, Status
@@ -22,12 +26,27 @@ export const TableList = ({
     let projectName = campaignGroup[0].project_name;
     let campaigns: any = [];
     campaignGroup.forEach((campaign) => {
+      
+      // Get translated status label
+      let translatedStatus = "";
+      switch (getCampaignStatus(campaign)) {
+        case "INCOMING":
+          translatedStatus = t("__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING");
+          break;
+        case "COMPLETED":
+          translatedStatus = t("__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED");
+          break;
+        case "PROGRESS":
+          translatedStatus = t("__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS");
+          break;
+      }
+
       campaigns.push({
-        name: <Anchor href={getLocalizeRoute(campaign.id, campaign.test_type_name)}><Span isBold style={{color: theme.palette.grey[800]}}>{campaign.title}</Span></Anchor>,
+        name: <Anchor href={getLocalizeRoute(campaign.id, campaign.test_type_name)}><Span isBold style={{ color: theme.palette.grey[800] }}>{campaign.title}</Span></Anchor>,
         type: campaign.campaign_type_name,
         testType: campaign.campaign_type_name,
         startDate: new Date(campaign.start_date).toLocaleDateString(),
-        status: campaign.status_id === 1 ? "Running" : "Completed",
+        status: translatedStatus,
       });
     });
 
@@ -37,5 +56,5 @@ export const TableList = ({
     });
   });
 
-  return <GroupedTable groups={groups} columns={columns}/>;
+  return <GroupedTable groups={groups} columns={columns} />;
 };
