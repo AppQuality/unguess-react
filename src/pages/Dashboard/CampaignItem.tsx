@@ -1,5 +1,10 @@
 import { Col, CampaignCard } from "@appquality/unguess-design-system";
 import { HTMLAttributes } from "react";
+import styled from "styled-components";
+
+const ColCard = styled(Col)`
+  margin-bottom: ${(props) => props.theme.space.base * 4}px;
+`;
 
 export const CampaignItem = ({
   campaign,
@@ -16,7 +21,7 @@ export const CampaignItem = ({
   const isFunctional = campaign.test_type_name.toLowerCase() === "functional";
 
   return (
-    <Col size={size}>
+    <ColCard size={size}>
       <CampaignCard
         className="suggested-campaign-card"
         key={campaign.id}
@@ -37,6 +42,6 @@ export const CampaignItem = ({
         onClick={() => onCampaignClicked(campaign.id, campaign.test_type_name)}
         {...props}
       />
-    </Col>
+    </ColCard>
   );
 };

@@ -6,8 +6,6 @@ export const TableList = ({
 }: {
   campaigns: Array<Array<Component["campaign"]>>;
 }) => {
-  console.log("Tablelist", campaigns);
-
   let columns = [
       { name: "Title", field: "name" },
       { name: "Campaign Type", field: "type" },
