@@ -41,9 +41,8 @@ export const Navigation = ({
 
   let parameter = "";
 
-  if(params)
-  {
-    Object.keys(params).forEach(key => {
+  if (params) {
+    Object.keys(params).forEach((key) => {
       parameter = params[key] ?? "";
     });
   }
@@ -133,13 +132,21 @@ export const Navigation = ({
     },
     currentLanguage: i18n.language,
     onSelectLanguage: (lang: string) => {
-      let localizedRoute =
-      lang === "en"
-          ? `/${route}/${parameter}`
-          : `/${lang}/${route}/${parameter}`;
-      // in case of base route ("") we already have a forward slash
-      let re = /\/$/;
-      let translatedRoute =  re.test(localizedRoute) ? localizedRoute : `${localizedRoute}/`;
+      let translatedRoute = route;
+
+      if (route === "") {
+        translatedRoute = lang === "en" ? "/" : `/${lang}`;
+      } else {
+        let localizedRoute =
+          lang === "en"
+            ? `/${route}/${parameter}`
+            : `/${lang}/${route}/${parameter}`;
+        // in case of base route ("") we already have a forward slash
+        let re = /\/$/;
+        translatedRoute = re.test(localizedRoute)
+          ? localizedRoute
+          : `${localizedRoute}/`;
+      }
 
       document.location.href = translatedRoute;
     },
