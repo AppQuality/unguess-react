@@ -44,7 +44,9 @@ export const Navigation = ({
 
   if (params) {
     Object.keys(params).forEach((key) => {
-      parameter = params[key] ?? "";
+      if (key !== "language") {
+        parameter = params[key] ?? "";
+      }
     });
   }
 
