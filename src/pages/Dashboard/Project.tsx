@@ -7,25 +7,32 @@ import { Counters } from "./Counters";
 import { Separator } from "./Separator";
 import { CampaignsList } from "./campaigns-list";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectProjectById } from "src/features/projects/projectSlice";import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
+import { selectProjectById } from "src/features/projects/projectSlice";
+import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
+import { useEffect } from "react";
 
 export default function Project() {
   const { t } = useTranslation();
-  const homeRoute = useLocalizeRoute("");
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { projectId } = useParams();
+  const notFoundRoute = useLocalizeRoute("oops");
 
-  if(!projectId) {
-    navigate(homeRoute);
-  }else
-  {
-    dispatch(projectFilterChanged(parseInt(projectId)));
-  }
+  var { projectId } = useParams();
+  
+  useEffect(() => {
+    if(!projectId || isNaN(Number(projectId))) {
+      navigate(notFoundRoute, { replace: true });
+    }else
+    {
+      dispatch(projectFilterChanged(Number(projectId)));
+    }
+  }, [dispatch, navigate, notFoundRoute, projectId]);
 
   const project = useAppSelector((state) => selectProjectById(state, projectId || 0));
+
+  if(!project) projectId = undefined;
 
   return (
     <Page
