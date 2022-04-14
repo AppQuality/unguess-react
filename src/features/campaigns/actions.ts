@@ -1,11 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { GET_CAMPAIGN } from "./actions.types";
 import API from "src/common/api";
+import { CampaignItem, CampaignStatus } from "./campaignSlice";
 
 interface actionParameters {
   wid: number;
   query?: ApiOperations["get-workspace-campaigns"]["parameters"]["query"];
 }
+
+//Temporary function used to check cp status, will be replaced by API
+export const getCampaignStatus = (campaign: Component["campaign"]) => {
+
+  const now = new Date().getTime();
+
+  if (campaign.status_id === 2) {
+    return CampaignStatus.Completed;
+  } else if (campaign.status_id === 1) {
+    if (new Date(campaign.start_date).getTime() > now) {
+      return CampaignStatus.Incoming;
+    } else {
+      return CampaignStatus.Running;
+    }
+  }
+};
 
 export const getCampaigns = createAsyncThunk(
   GET_CAMPAIGN,
@@ -31,6 +48,21 @@ export const getCampaigns = createAsyncThunk(
     }
 
     const campaigns = await API.campaigns(wid, queryParams);
-    return campaigns.items;
+
+    if(campaigns.items.length) {
+
+      let mappedCampaigns: CampaignItem[] = [];
+      //Update campaign status 
+      campaigns.items.forEach(campaign => {
+        mappedCampaigns.push({
+          ...campaign,
+          status_name: getCampaignStatus(campaign)
+        });
+      });
+      
+      return mappedCampaigns;
+    }
+
+    return [];
   }
 );
