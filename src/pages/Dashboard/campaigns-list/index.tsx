@@ -18,7 +18,7 @@ import { useState } from "react";
 import { CardList } from "./list";
 import { TableList } from "./table";
 import { Separator } from "../Separator";
-import { Filters } from "../filters";
+// import { Filters } from "../filters";
 
 const FloatRight = styled.div`
   float: right;
@@ -70,7 +70,7 @@ export const CampaignsList = () => {
         </Col>
       </Row>      
       <Separator style={{marginTop: "0", marginBottom: theme.space.sm}}/>
-      <Filters />
+      {/* <Filters /> */}
 
       {viewType === "list" ? (
         <TableList campaigns={campaigns} />
