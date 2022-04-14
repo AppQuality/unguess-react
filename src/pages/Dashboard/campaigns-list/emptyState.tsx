@@ -3,14 +3,11 @@ import {
   Col,
   LG,
   MD,
-  MediaInput,
   Paragraph,
   Row,
   theme,
 } from "@appquality/unguess-design-system";
 
-import { ReactComponent as SearchIcon } from "src/assets/icons/search-stroke.svg";
-import { Field } from "@zendeskgarden/react-forms";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { searchFilterChanged, statusFilterChanged, testTypeFilterChanged, typeFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
