@@ -9,16 +9,15 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import styled from "styled-components";
-import {
-  selectGroupedCampaigns,
-} from "src/features/campaigns/campaignSlice";
+import { selectGroupedCampaigns } from "src/features/campaigns/campaignSlice";
 import { ReactComponent as GridIcon } from "src/assets/icons/grid.svg";
 import { ReactComponent as ListIcon } from "src/assets/icons/list.svg";
 import { useState } from "react";
 import { CardList } from "./list";
 import { TableList } from "./table";
 import { Separator } from "../Separator";
-// import { Filters } from "../filters";
+import { Filters } from "../filters";
+import { EmptyResults } from "./emptyState";
 
 const FloatRight = styled.div`
   float: right;
@@ -31,7 +30,7 @@ export const CampaignsList = () => {
   );
 
   const campaignsCount = campaigns.reduce((acc, curr) => acc + curr.length, 0);
-  const [viewType, setViewType] = useState("grid");
+  const [viewType, setViewType] = useState("list");
 
   return (
     <>
@@ -68,14 +67,18 @@ export const CampaignsList = () => {
             </IconButton>
           </FloatRight>
         </Col>
-      </Row>      
-      <Separator style={{marginTop: "0", marginBottom: theme.space.sm}}/>
-      {/* <Filters /> */}
+      </Row>
+      <Separator style={{ marginTop: "0", marginBottom: theme.space.sm }} />
+      <Filters />
 
-      {viewType === "list" ? (
-        <TableList campaigns={campaigns} />
+      {campaigns.length ? (
+        viewType === "list" ? (
+          <TableList campaigns={campaigns} />
+        ) : (
+          <CardList campaigns={campaigns} />
+        )
       ) : (
-        <CardList campaigns={campaigns} />
+        <EmptyResults />
       )}
     </>
   );

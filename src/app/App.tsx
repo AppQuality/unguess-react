@@ -14,10 +14,7 @@ if (process.env.REACT_APP_GTM_ID) {
     gtmId: process.env.REACT_APP_GTM_ID,
   };
 
-  console.log(tagManagerArgs);
   TagManager.initialize(tagManagerArgs);
-}else{
-  console.log("No GTM ID");
 }
 
 function App() {

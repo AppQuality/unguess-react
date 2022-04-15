@@ -4,6 +4,7 @@ import {
   Main,
   Sidebar,
   ProfileModal,
+  PageLoader
 } from "@appquality/unguess-design-system";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -27,15 +28,15 @@ import { Changelog } from "./Changelog";
 export const Navigation = ({
   children,
   route,
-  user,
 }: {
   children: React.ReactNode;
   route: string;
-  user: Users["getUserMe"];
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { userData: user } = useAppSelector((state) => state.user);
+
 
   //Set current params
   const params = useParams();
@@ -91,7 +92,7 @@ export const Navigation = ({
   }, [activeWorkspace, dispatch, workspaces]);
 
   if (status === "idle" || status === "loading") {
-    return <>{t("__APP_LOADING_TEXT")}</>;
+    return <PageLoader />;
   }
 
   const projectsList = projects.reduce((filtered: Array<any>, project) => {
@@ -207,6 +208,7 @@ export const Navigation = ({
         onSidebarMenuToggle={toggleSidebarState}
         isProfileModalOpen={isProfileModalOpen}
         onProfileModalToggle={toggleProfileModalState}
+        onLogoItemClick={() => navigateTo("home")}
       />
       {isProfileModalOpen && (
         <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />

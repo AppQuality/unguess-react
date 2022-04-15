@@ -38,7 +38,6 @@ export default function Dashboard() {
       </Grid>
       <Separator />
       <Grid>
-        
         <SuggestedCampaigns />
         <CampaignsList />
       </Grid>
