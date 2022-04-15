@@ -113,8 +113,8 @@ export default function LoginPage() {
     <GoogleTagManager title={t("__PAGE_TITLE_LOGIN")}>
       <CenteredXYContainer>
         <Logo
-          type={"horizontal"}
-          size={300}
+          type={"vertical"}
+          size={200}
           style={{ marginTop: theme.space.xs, marginBottom: theme.space.md }}
         />
         <LoginForm {...defaultArgs} />
