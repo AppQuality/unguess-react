@@ -30,7 +30,7 @@ export const CampaignsList = () => {
   );
 
   const campaignsCount = campaigns.reduce((acc, curr) => acc + curr.length, 0);
-  const [viewType, setViewType] = useState("grid");
+  const [viewType, setViewType] = useState("list");
 
   return (
     <>

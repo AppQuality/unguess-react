@@ -10,13 +10,9 @@ import { GoogleTagManager } from "src/common/GoogleTagManager";
 
 const CenteredXYContainer = styled.div`
   display: flex;
-
   align-items: center;
-
   flex-direction: column;
   height: 100vh;
-  & button {
-  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     justify-content: center;
@@ -96,7 +92,6 @@ export default function LoginPage() {
 
       return errors;
     },
-
     card: {
       isFloating: true,
       style: {
@@ -104,9 +99,11 @@ export default function LoginPage() {
         maxWidth: "400px",
       },
     },
-    passwordForgotLabel: "Forgot Password?",
+    passwordForgotLabel: t("__LOGIN_FORM_PASSWORD_FORGOT_LABEL"),
     passwordForgotLink: "/wp-login.php?action=lostpassword",
-    backToLabel: "Back to Unguess",
+    backToLabel: t("__LOGIN_FORM_BACK_TO_LABEL"),
+    placeholderEmail: t("__LOGIN_FORM_EMAIL_PLACEHOLDER"),
+    placeholderPassword: t("__LOGIN_FORM_PASSWORD_PLACEHOLDER"),
     onBackClick: () => {
       document.location.href = "https://unguess.io";
     },
@@ -116,8 +113,8 @@ export default function LoginPage() {
     <GoogleTagManager title={t("__PAGE_TITLE_LOGIN")}>
       <CenteredXYContainer>
         <Logo
-          type={"horizontal"}
-          size={300}
+          type={"vertical"}
+          size={200}
           style={{ marginTop: theme.space.xs, marginBottom: theme.space.md }}
         />
         <LoginForm {...defaultArgs} />
