@@ -33,7 +33,7 @@ export const Page = ({
     scrollbar-width: none; /* Firefox */
   `;
 
-  const { status, userData } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (status === "failed") {
@@ -53,14 +53,14 @@ export const Page = ({
   });
 
   return (
-    <Chrome isFluid hue={theme.palette.white}>
-      <GoogleTagManager title={title || "UNGUESS - BE SMART FROM THE START"} user={userData}>
+    <GoogleTagManager title={title || "UNGUESS - BE SMART FROM THE START"}>
+      <Chrome isFluid hue={theme.palette.white}>
         <Body>
-          <Navigation route={route} user={userData}>
+          <Navigation route={route}>
             <Container>{children}</Container>
           </Navigation>
         </Body>
-      </GoogleTagManager>
-    </Chrome>
+      </Chrome>
+    </GoogleTagManager>
   );
 };
