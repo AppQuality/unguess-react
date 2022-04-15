@@ -1,5 +1,6 @@
 import TagManager from "react-gtm-module";
 import { Helmet } from "react-helmet";
+import { useAppSelector } from "src/app/hooks";
 
 const tagManagerArgs = {
   dataLayer: {
@@ -12,13 +13,13 @@ const tagManagerArgs = {
 export const GoogleTagManager = ({
   title,
   children,
-  user,
 }: {
   title: string;
   children: React.ReactNode;
-  user?: UserState["userData"];
 }) => {
   
+  const { userData } = useAppSelector((state) => state.user);
+
   const helmet = () => {
     return (
       <Helmet>
@@ -28,11 +29,12 @@ export const GoogleTagManager = ({
       </Helmet>
     );
   };
-  if (user?.role && user?.tryber_wp_user_id) {
+
+  if (userData?.role && userData?.tryber_wp_user_id) {
     tagManagerArgs.dataLayer = {
-      role: user.role,
-      wp_user_id: user.tryber_wp_user_id,
-      tester_id: user.id,
+      role: userData.role,
+      wp_user_id: userData.tryber_wp_user_id,
+      tester_id: userData.id,
     };
   }
 

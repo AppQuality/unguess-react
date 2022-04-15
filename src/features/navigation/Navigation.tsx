@@ -27,15 +27,15 @@ import { Changelog } from "./Changelog";
 export const Navigation = ({
   children,
   route,
-  user,
 }: {
   children: React.ReactNode;
   route: string;
-  user: Users["getUserMe"];
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { userData: user } = useAppSelector((state) => state.user);
+
 
   //Set current params
   const params = useParams();
