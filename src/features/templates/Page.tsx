@@ -22,7 +22,6 @@ export const Page = ({
 }) => {
   const loginRoute = useLocalizeRoute("login");
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const Container = styled.div`
     /* Hide scrollbar for Chrome, Safari and Opera */
@@ -34,20 +33,13 @@ export const Page = ({
 
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: ${theme.palette.grey[100]};
   `;
 
   const { status } = useAppSelector((state) => state.user);
-  const workspaces = useAppSelector(selectWorkspaces);
-  const { activeWorkspace } = useAppSelector(
-    (state) => state.navigation
-  );
-
-  useEffect(() => {
-    if (!activeWorkspace) {
-      dispatch(getWorkspaces());
-      if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
-    }
-  }, [activeWorkspace, dispatch, workspaces]);
 
   if (status === "failed") {
     navigate(loginRoute);
@@ -63,7 +55,7 @@ export const Page = ({
   return (
     <GoogleTagManager title={title || "UNGUESS - BE SMART FROM THE START"}>
       <Chrome isFluid hue={theme.palette.white}>
-        <Body>
+        <Body style={{ backgroundColor: theme.palette.grey[100] }}>
           <Navigation route={route}>
             <Container>{children}</Container>
           </Navigation>

@@ -36,7 +36,21 @@ export const Navigation = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { userData: user } = useAppSelector((state) => state.user);
+  const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
+  const { isSidebarOpen, activeWorkspace } = useAppSelector(
+    (state) => state.navigation
+  );
 
+  const { status } = useAppSelector((state) => state.projects);
+
+  const projects = useAppSelector(selectProjects);
+
+  const workspaces = useAppSelector(selectWorkspaces);
+  
+  if (!activeWorkspace) {
+    dispatch(getWorkspaces());
+    if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
+  }
   //Set current params
   const params = useParams();
 
@@ -49,17 +63,6 @@ export const Navigation = ({
       }
     });
   }
-
-  const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
-  const { isSidebarOpen, activeWorkspace } = useAppSelector(
-    (state) => state.navigation
-  );
-
-  const { status } = useAppSelector((state) => state.projects);
-
-  const projects = useAppSelector(selectProjects);
-
-  const workspaces = useAppSelector(selectWorkspaces);
 
   const toggleSidebarState = () => {
     dispatch(toggleSidebar());
