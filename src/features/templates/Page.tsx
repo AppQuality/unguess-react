@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Chrome, Body, theme } from "@appquality/unguess-design-system";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
+import { useAppSelector } from "src/app/hooks";
 import { Navigation } from "../navigation/Navigation";
 import styled from "styled-components";
 import { GoogleTagManager } from "src/common/GoogleTagManager";
 import TagManager from "react-gtm-module";
-import { getWorkspaces } from "../workspaces/actions";
-import { selectWorkspaces } from "../workspaces/workspaceSlice";
-import { setWorkspace } from "../navigation/navigationSlice";
 
 export const Page = ({
   children,
