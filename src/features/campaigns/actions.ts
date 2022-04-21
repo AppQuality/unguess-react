@@ -31,32 +31,33 @@ export const getCampaigns = createAsyncThunk(
 
 
     let queryParams = "";
-    if (query && Object.keys(query).length) {
-      let urlps = new URLSearchParams();
-      Object.entries(query).forEach(([key, value]) => {
-        if (key && value) {
-          if (key === "filterBy") {
-            Object.entries(value).forEach(([filterKey, filterValue]) => {
-              urlps.set(`filterBy[${filterKey}]`, filterValue);
-            });
-          } else {
-            urlps.set(key, value as string);
-          }
-        }
-      });
-      queryParams = "?" + urlps.toString();
-    }
+    //TODO: check params types
+    // if (query && Object.keys(query).length) {
+    //   let urlps = new URLSearchParams();
+    //   Object.entries(query).forEach(([key, value]) => {
+    //     if (key && value) {
+    //       if (key === "filterBy") {
+    //         Object.entries(value).forEach(([filterKey, filterValue]) => {
+    //           urlps.set(`filterBy[${filterKey}]`, filterValue);
+    //         });
+    //       } else {
+    //         urlps.set(key, value as string);
+    //       }
+    //     }
+    //   });
+    //   queryParams = "?" + urlps.toString();
+    // }
 
     const campaigns = await API.campaigns(wid, queryParams);
 
-    if(campaigns.items.length) {
+    if(campaigns.items?.length) {
 
       let mappedCampaigns: CampaignItem[] = [];
       //Update campaign status 
       campaigns.items.forEach(campaign => {
-        mappedCampaigns.push({
-          ...campaign,
-          status_name: getCampaignStatus(campaign)
+        return mappedCampaigns.push({
+          ...campaign as ApiComponents['schemas']['Campaign'],
+          status_name: getCampaignStatus(campaign as ApiComponents['schemas']['Campaign'])
         });
       });
       

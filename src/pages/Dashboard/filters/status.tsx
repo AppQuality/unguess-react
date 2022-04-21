@@ -8,10 +8,9 @@ import {
 
 import { ReactComponent as CircleFill } from "src/assets/icons/circle-full-fill.svg";
 import { Field } from "@zendeskgarden/react-dropdowns";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { DropdownItem, getItemText } from "./utils";
+import { DropdownItem, DropdownItems, getItemText } from "./utils";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { statusFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import {
@@ -30,32 +29,31 @@ export const StatusDropdown = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const items: DropdownItem[] = [
-    {
+  const { status } = useAppSelector((state) => state.filters);
+
+  const items: DropdownItems = {
+    all: {
       label: t("__DASHABOARD_CAMPAIGN_STATUS_FILTER_ALL"),
       value: "all",
     },
-    {
+    incoming: {
       icon: <Circle color={theme.palette.azure[600]} />,
       label: t("__DASHABOARD_CAMPAIGN_STATUS_FILTER_INCOMING"),
       value: CampaignStatus.Incoming,
     },
-    {
+    running: {
       icon: <Circle color={theme.palette.yellow[600]} />,
       label: t("__DASHABOARD_CAMPAIGN_STATUS_FILTER_PROGRESS"),
       value: CampaignStatus.Running,
     },
-    {
+    completed: {
       icon: <Circle color={theme.palette.green[600]} />,
       label: t("__DASHABOARD_CAMPAIGN_STATUS_FILTER_COMPLETED"),
       value: CampaignStatus.Completed,
     },
-  ];
-
-  const [selectedItem, setSelectedItem] = useState(items[0]);
+  };
 
   const onSelectItem = (item: DropdownItem) => {
-    setSelectedItem(item);
     dispatch(statusFilterChanged(item.value));
   };
 
@@ -63,31 +61,31 @@ export const StatusDropdown = () => {
 
   return (
     <Dropdown
-      selectedItem={selectedItem}
+      selectedItem={items[status]}
       onSelect={onSelectItem}
       downshiftProps={{
         itemToString: (item: DropdownItem) => item && item.value,
       }}
     >
       <Field>
-        <Select {...(selectedItem.value !== "all" && { isPrimary: true })}>
+        <Select {...(items[status].value !== "all" && { isPrimary: true })}>
           {getItemText(
-            selectedItem,
+            items[status],
             t("__DASHABOARD_CAMPAIGN_STATUS_FILTER_LABEL Max:10")
           )}
         </Select>
       </Field>
       <Menu hasArrow>
-        {items.map((item) => (
+        {Object.keys(items).map((key) => (
           <Item
-            key={item.value}
-            value={item}
-            {...(availableStatuses.indexOf(item.value) === -1 && {
+            key={items[key].value}
+            value={items[key]}
+            {...(availableStatuses.indexOf(items[key].value) === -1 && {
               disabled: true,
             })}
           >
-            {item.icon ?? ""}
-            {" " + item.label}
+            {items[key].icon ?? ""}
+            {" " + items[key].label}
           </Item>
         ))}
       </Menu>

@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { Chrome, Body, theme } from "@appquality/unguess-design-system";
-import PageLoader from "./PageLoader";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { Navigation } from "../navigation/Navigation";
 import styled from "styled-components";
 import { GoogleTagManager } from "src/common/GoogleTagManager";
 import TagManager from "react-gtm-module";
+import { getWorkspaces } from "../workspaces/actions";
+import { selectWorkspaces } from "../workspaces/workspaceSlice";
+import { setWorkspace } from "../navigation/navigationSlice";
 
 export const Page = ({
   children,
@@ -20,6 +22,7 @@ export const Page = ({
 }) => {
   const loginRoute = useLocalizeRoute("login");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const Container = styled.div`
     /* Hide scrollbar for Chrome, Safari and Opera */
@@ -34,15 +37,20 @@ export const Page = ({
   `;
 
   const { status } = useAppSelector((state) => state.user);
+  const workspaces = useAppSelector(selectWorkspaces);
+  const { activeWorkspace } = useAppSelector(
+    (state) => state.navigation
+  );
 
   useEffect(() => {
-    if (status === "failed") {
-      navigate(loginRoute);
+    if (!activeWorkspace) {
+      dispatch(getWorkspaces());
+      if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
     }
-  }, [loginRoute, navigate, status]);
+  }, [activeWorkspace, dispatch, workspaces]);
 
-  if (status === "idle" || status === "loading") {
-    return <PageLoader />;
+  if (status === "failed") {
+    navigate(loginRoute);
   }
 
   //App ready

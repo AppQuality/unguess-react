@@ -1,16 +1,17 @@
 // import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { Page } from "src/features/templates/Page";
-import { Grid, Row, Col, XXXL, theme, Skeleton } from "@appquality/unguess-design-system";
+import { Grid, Row, Col, XXXL, theme, Skeleton, PageLoader } from "@appquality/unguess-design-system";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { Counters } from "./Counters";
 import { Separator } from "./Separator";
 import { CampaignsList } from "./campaigns-list";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectProjectById } from "src/features/projects/projectSlice";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
-import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { useEffect } from "react";
+import { getSingleProject } from "src/features/projects/actions";
+import { projectFilterChanged, resetFilters } from "src/features/campaignsFilter/campaignsFilterSlice";
+
 
 export default function Project() {
   const { t } = useTranslation();
@@ -19,26 +20,31 @@ export default function Project() {
 
   const notFoundRoute = useLocalizeRoute("oops");
 
+  const { status } = useAppSelector((state) => state.projects);
+
   var { projectId } = useParams();
   
   useEffect(() => {
-    if(!projectId || isNaN(Number(projectId))) {
-      navigate(notFoundRoute, { replace: true });
-    }else
-    {
-      dispatch(projectFilterChanged(Number(projectId)));
+    if(projectId && !isNaN(Number(projectId))) {
+      dispatch(getSingleProject(parseInt(projectId)));
     }
-  }, [dispatch, navigate, notFoundRoute, projectId]);
+  }, [dispatch, projectId]);
 
-  const project = useAppSelector((state) => selectProjectById(state, projectId || 0));
+  const { currentProject: project } = useAppSelector((state) => state.projects);
 
-  if(!project) projectId = undefined;
+  if(!project && status !== 'loading') navigate(notFoundRoute, { replace: true }); 
 
-  return (
+  if(project) {
+    dispatch(projectFilterChanged(project.id))
+    dispatch(resetFilters());
+  }
+
+  return status === 'loading' ? <PageLoader /> : (
     <Page
       title={t("__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT")}
       route={"projects"}
     >
+    
       <Grid>
         <Row>
           <Col xs={12}>
@@ -62,6 +68,7 @@ export default function Project() {
       <Grid>
         <CampaignsList />
       </Grid>
-    </Page>
+      
+   </Page>
   );
 }

@@ -9,6 +9,8 @@ const initialState: UserState = {
     role: "none",
     name: "",
     workspaces: [],
+    profile_id: 0,
+    tryber_wp_user_id: 0,
   },
 };
 

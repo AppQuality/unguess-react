@@ -13,7 +13,7 @@ export default function Dashboard() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  dispatch(dispatch(projectFilterChanged(0))); //Reset filters
+  dispatch(projectFilterChanged(0)); //Reset filters
 
   return (
     <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} route={""}>
