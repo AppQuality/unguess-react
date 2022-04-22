@@ -187,7 +187,7 @@ export const Navigation = ({
           : `/${i18n.language}/projects/${route}`;
     }
 
-    navigate(localizedRoute);
+    navigate(localizedRoute, { replace: true });
   };
 
   return (
@@ -222,7 +222,7 @@ export const Navigation = ({
           currentRoute={parameter !== "" ? parameter : route}
           homeItemLabel={t("__APP_SIDEBAR_HOME_ITEM_LABEL")}
         />
-        <Main>{children}</Main>
+        <Main style={{backgroundColor: "transparent"}}>{children}</Main>
       </Content>
     </>
   );

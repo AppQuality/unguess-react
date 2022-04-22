@@ -35,8 +35,8 @@ export default function Project() {
   if(!project && status !== 'loading') navigate(notFoundRoute, { replace: true }); 
 
   if(project) {
-    dispatch(projectFilterChanged(project.id))
     dispatch(resetFilters());
+    dispatch(projectFilterChanged(project.id))
   }
 
   return status === 'loading' ? <PageLoader /> : (
