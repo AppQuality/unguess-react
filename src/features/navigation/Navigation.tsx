@@ -187,7 +187,7 @@ export const Navigation = ({
           : `/${i18n.language}/projects/${route}`;
     }
 
-    navigate(localizedRoute);
+    navigate(localizedRoute, { replace: true });
   };
 
   return (
