@@ -11,6 +11,7 @@ import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useEffect } from "react";
 import { getSingleProject } from "src/features/projects/actions";
 import { projectFilterChanged, resetFilters } from "src/features/campaignsFilter/campaignsFilterSlice";
+import { ActionCards } from "./ActionCards";
 
 
 export default function Project() {
@@ -66,6 +67,7 @@ export default function Project() {
       </Grid>
       <Separator />
       <Grid>
+        <ActionCards />
         <CampaignsList />
       </Grid>
       

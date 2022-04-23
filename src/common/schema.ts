@@ -102,6 +102,10 @@ export interface components {
       profile_id: number;
       tryber_wp_user_id: number;
       picture?: string;
+      features?: {
+        slug?: string;
+        name?: string;
+      }[];
     };
     /** Authentication */
     Authentication: {
@@ -158,22 +162,6 @@ export interface components {
     Error: {
       content: {
         "application/json": components["schemas"]["Error"];
-      };
-    };
-    /** Paginated response */
-    PaginatedResponse: {
-      content: {
-        "application/json": {
-          items?: (
-            | components["schemas"]["Campaign"]
-            | components["schemas"]["Workspace"]
-            | components["schemas"]["Project"]
-          )[];
-          start?: number;
-          limit?: number;
-          size?: number;
-          total?: number;
-        };
       };
     };
   };
@@ -254,7 +242,18 @@ export interface operations {
       };
     };
     responses: {
-      200: components["responses"]["PaginatedResponse"];
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items?: components["schemas"]["Workspace"][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
@@ -301,7 +300,18 @@ export interface operations {
       };
     };
     responses: {
-      200: components["responses"]["PaginatedResponse"];
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items?: components["schemas"]["Campaign"][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
@@ -322,7 +332,18 @@ export interface operations {
       };
     };
     responses: {
-      200: components["responses"]["PaginatedResponse"];
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items?: components["schemas"]["Project"][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
@@ -367,7 +388,18 @@ export interface operations {
       };
     };
     responses: {
-      200: components["responses"]["PaginatedResponse"];
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items?: components["schemas"]["Campaign"][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
@@ -388,8 +420,31 @@ export interface operations {
       };
     };
     responses: {
-      200: components["responses"]["PaginatedResponse"];
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items?: components["schemas"]["Campaign"][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
       400: components["responses"]["Error"];
+      /** Unauthorized */
+      401: {
+        content: {
+          "application/json": {
+            items?: components["schemas"]["Campaign"][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
       500: components["responses"]["Error"];

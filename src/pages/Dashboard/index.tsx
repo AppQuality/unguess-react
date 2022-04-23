@@ -1,23 +1,21 @@
 // import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { Page } from "src/features/templates/Page";
-import { Grid, Row, Col, XXXL, theme, PageLoader } from "@appquality/unguess-design-system";
+import { Grid, Row, Col, XXXL, theme } from "@appquality/unguess-design-system";
 import { Counters } from "./Counters";
 import { Separator } from "./Separator";
 import { SuggestedCampaigns } from "./SuggestedCampaigns";
 import { CampaignsList } from "./campaigns-list";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
-import { useEffect } from "react";
-import { fetchUser } from "src/features/user/actions/fetchUser";
 
 export default function Dashboard() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  // const { status } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
 
-  // if(status === "logged") dispatch(projectFilterChanged(0)); //Reset filters
+  if(status === "logged") dispatch(projectFilterChanged(0)); //Reset filters
 
   return (
     <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} route={""}>

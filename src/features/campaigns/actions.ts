@@ -30,8 +30,8 @@ export const getCampaigns = createAsyncThunk(
     const { wid, query } = params;
 
 
-    let queryParams = "";
     //TODO: check params types
+    let queryParams = "?limit=10000";
     // if (query && Object.keys(query).length) {
     //   let urlps = new URLSearchParams();
     //   Object.entries(query).forEach(([key, value]) => {
