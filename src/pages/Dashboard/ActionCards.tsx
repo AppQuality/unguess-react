@@ -9,7 +9,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { CardsContainer } from "./CardContainer";
 import { CardRowLoading } from "./CardRowLoading";
 
 const REQUIRED_FEATURE_FLAG = "exploratory-express";
@@ -17,13 +16,17 @@ const REQUIRED_FEATURE_FLAG = "exploratory-express";
 export const ActionCards = () => {
   const { t } = useTranslation();
   const { status, userData } = useAppSelector((state) => state.user);
+  const { projectId } = useAppSelector((state) => state.filters);
 
   if (
+    !projectId ||
     !userData.features ||
     !userData.features.find((feature) => feature.slug === REQUIRED_FEATURE_FLAG)
   ) {
     return <></>;
   }
+
+  const JOTFORM_URL = `https://secure.jotform.com/221093463483052?projectId=${projectId}&userFull=${userData.name}&userEmail=${userData.email}`;
 
   return status === "idle" || status === "loading" ? (
     <CardRowLoading />
@@ -39,7 +42,7 @@ export const ActionCards = () => {
       <Col xs={12} md={4} lg={3}>
         <ProductCard
           onCtaClick={() => {
-            alert("");
+            window.open(JOTFORM_URL, "_blank")?.focus();
           }}
           icon={<ExpressIcon />}
           ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
