@@ -10,7 +10,7 @@ import {
 
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { searchFilterChanged, statusFilterChanged, testTypeFilterChanged, typeFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
+import { resetFilters } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { ReactComponent as EmptyImage } from "src/assets/emptySearchResults.svg";
 import styled from "styled-components";
 
@@ -41,13 +41,6 @@ export const EmptyResults = () => {
     (search && search !== "");
 
 
-  const resetFilters = () => {
-    dispatch(searchFilterChanged(""));
-    dispatch(statusFilterChanged("all"));
-    dispatch(typeFilterChanged("all"));
-    dispatch(testTypeFilterChanged(0));
-  }
-
   return (
     <Row>
       <Col>
@@ -60,7 +53,7 @@ export const EmptyResults = () => {
 
           {hasFilters && (
             <Paragraph style={{ marginTop: theme.space.base * 6 + "px" }}>
-              <Button onClick={resetFilters}>
+              <Button onClick={() => dispatch(resetFilters())}>
                 {t("__DASHBOARD_EMPTY_SEARCH_RESULTS_RESET_FILTERS")}
               </Button>
             </Paragraph>

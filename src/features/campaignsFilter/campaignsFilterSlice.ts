@@ -41,6 +41,13 @@ const filtersSlice = createSlice({
     projectFilterChanged(state, action) {
       state.projectId = action.payload;
     },
+    resetFilters(state) {
+      state.status = initialState.status;
+      state.type = initialState.type;
+      state.testNameId = initialState.testNameId;
+      state.search = initialState.search;
+      state.projectId = initialState.projectId;
+    }
   },
 });
 
@@ -50,6 +57,7 @@ export const {
   testTypeFilterChanged,
   searchFilterChanged,
   projectFilterChanged,
+  resetFilters,
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

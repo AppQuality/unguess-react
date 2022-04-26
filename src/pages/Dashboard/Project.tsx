@@ -1,16 +1,17 @@
 // import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { Page } from "src/features/templates/Page";
-import { Grid, Row, Col, XXXL, theme, Skeleton } from "@appquality/unguess-design-system";
+import { Grid, PageLoader } from "@appquality/unguess-design-system";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { Counters } from "./Counters";
-import { Separator } from "./Separator";
 import { CampaignsList } from "./campaigns-list";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectProjectById } from "src/features/projects/projectSlice";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
-import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { useEffect } from "react";
+import { getSingleProject } from "src/features/projects/actions";
+import { projectFilterChanged, resetFilters } from "src/features/campaignsFilter/campaignsFilterSlice";
+import { ActionCards } from "./ActionCards";
+import { DashboardHeaderContent } from "./headerContent";
+
 
 export default function Project() {
   const { t } = useTranslation();
@@ -19,49 +20,38 @@ export default function Project() {
 
   const notFoundRoute = useLocalizeRoute("oops");
 
+  const { status } = useAppSelector((state) => state.projects);
+
   var { projectId } = useParams();
   
   useEffect(() => {
-    if(!projectId || isNaN(Number(projectId))) {
-      navigate(notFoundRoute, { replace: true });
-    }else
-    {
-      dispatch(projectFilterChanged(Number(projectId)));
+    if(projectId && !isNaN(Number(projectId))) {
+      dispatch(getSingleProject(parseInt(projectId)));
     }
-  }, [dispatch, navigate, notFoundRoute, projectId]);
+  }, [dispatch, projectId]);
 
-  const project = useAppSelector((state) => selectProjectById(state, projectId || 0));
+  const { currentProject: project } = useAppSelector((state) => state.projects);
 
-  if(!project) projectId = undefined;
+  if(!project && status !== 'loading') navigate(notFoundRoute, { replace: true }); 
 
-  return (
+  if(project) {
+    dispatch(resetFilters());
+    dispatch(projectFilterChanged(project.id))
+  }
+
+  return status === 'loading' ? <PageLoader /> : (
     <Page
       title={t("__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT")}
       route={"projects"}
+      pageHeader={<DashboardHeaderContent title={project?.name || "undefined"}/>}
     >
+  
+
       <Grid>
-        <Row>
-          <Col xs={12}>
-            <XXXL style={{ color: theme.palette.blue[600] }}>
-              {project ? project.name : <Skeleton width={"200px"} />}
-            </XXXL>
-          </Col>
-        </Row>
-        <Row
-          style={{
-            marginTop: theme.space.base * 6 + "px",
-            marginBottom: theme.space.base * 6 + "px",
-          }}
-        >
-          <Col xs={12}>
-            <Counters />
-          </Col>
-        </Row>
-      </Grid>
-      <Separator />
-      <Grid>
+        <ActionCards />
         <CampaignsList />
       </Grid>
-    </Page>
+      
+   </Page>
   );
 }

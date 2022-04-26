@@ -1,10 +1,9 @@
 import {
   AppHeader,
   Content,
-  Main,
   Sidebar,
   ProfileModal,
-  PageLoader
+  PageLoader,
 } from "@appquality/unguess-design-system";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -36,8 +35,21 @@ export const Navigation = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { userData: user } = useAppSelector((state) => state.user);
+  const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
+  const { isSidebarOpen, activeWorkspace } = useAppSelector(
+    (state) => state.navigation
+  );
 
+  const { status } = useAppSelector((state) => state.projects);
 
+  const projects = useAppSelector(selectProjects);
+
+  const workspaces = useAppSelector(selectWorkspaces);
+  
+  if (!activeWorkspace) {
+    dispatch(getWorkspaces());
+    if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
+  }
   //Set current params
   const params = useParams();
 
@@ -50,17 +62,6 @@ export const Navigation = ({
       }
     });
   }
-
-  const { isSidebarOpen, activeWorkspace } = useAppSelector(
-    (state) => state.navigation
-  );
-
-  const { status } = useAppSelector((state) => state.projects);
-
-  const projects = useAppSelector(selectProjects);
-  const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
-
-  const workspaces = useAppSelector(selectWorkspaces);
 
   const toggleSidebarState = () => {
     dispatch(toggleSidebar());
@@ -75,10 +76,7 @@ export const Navigation = ({
   };
 
   useEffect(() => {
-    if (!activeWorkspace) {
-      dispatch(getWorkspaces());
-      if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
-    } else {
+    if (activeWorkspace && !projects.length) {
       dispatch(getProjects(activeWorkspace.id));
       dispatch(
         getCampaigns({
@@ -89,7 +87,7 @@ export const Navigation = ({
         })
       );
     }
-  }, [activeWorkspace, dispatch, workspaces]);
+  }, [activeWorkspace, dispatch, projects.length, workspaces]);
 
   if (status === "idle" || status === "loading") {
     return <PageLoader />;
@@ -100,12 +98,12 @@ export const Navigation = ({
       filtered.push({
         id: project.id + "",
         title: project.name || "-",
-        campaigns: `${project.campaigns_count} ` + t("__SIDEBAR_CAMPAIGNS_LABEL"),
+        campaigns:
+          `${project.campaigns_count} ` + t("__SIDEBAR_CAMPAIGNS_LABEL"),
       });
     }
     return filtered;
   }, []);
-  
 
   //Get initials from name
   const getInitials = (name: string) => {
@@ -168,7 +166,7 @@ export const Navigation = ({
       document.location.href = translatedRoute;
     },
     onToggleChat: () => {
-      if(typeof customerly !== undefined) {
+      if (typeof customerly !== undefined) {
         customerly.open();
       }
     },
@@ -188,7 +186,7 @@ export const Navigation = ({
           : `/${i18n.language}/projects/${route}`;
     }
 
-    navigate(localizedRoute);
+    navigate(localizedRoute, { replace: true });
   };
 
   return (
@@ -223,7 +221,7 @@ export const Navigation = ({
           currentRoute={parameter !== "" ? parameter : route}
           homeItemLabel={t("__APP_SIDEBAR_HOME_ITEM_LABEL")}
         />
-        <Main>{children}</Main>
+       {children}
       </Content>
     </>
   );
