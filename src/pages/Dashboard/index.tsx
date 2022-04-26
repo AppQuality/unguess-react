@@ -8,6 +8,8 @@ import { SuggestedCampaigns } from "./SuggestedCampaigns";
 import { CampaignsList } from "./campaigns-list";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
+import { DashboardHeaderContent } from "./headerContent";
+import styled from "styled-components";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -18,27 +20,8 @@ export default function Dashboard() {
   if(status === "logged") dispatch(projectFilterChanged(0)); //Reset filters
 
   return (
-    <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} route={""}>
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <XXXL style={{ color: theme.palette.blue[600] }}>
-              {t("__PAGE_TITLE_PRIMARY_DASHBOARD")}
-            </XXXL>
-          </Col>
-        </Row>
-        <Row
-          style={{
-            marginTop: theme.space.base * 6 + "px",
-            marginBottom: theme.space.base * 6 + "px",
-          }}
-        >
-          <Col xs={12}>
-            <Counters />
-          </Col>
-        </Row>
-      </Grid>
-      <Separator />
+    <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} pageHeader={<DashboardHeaderContent />} route={""}>
+      
       <Grid>
         <SuggestedCampaigns />
         <CampaignsList />

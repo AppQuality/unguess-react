@@ -4,6 +4,7 @@ import {
   Body,
   theme,
   PageLoader,
+  Main,
 } from "@appquality/unguess-design-system";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +16,11 @@ import { fetchUser } from "../user/actions/fetchUser";
 
 export const Logged = ({
   children,
+  pageHeader,
   route,
 }: {
   children: React.ReactNode;
+  pageHeader?: React.ReactNode;
   route: string;
 }) => {
   const dispatch = useAppDispatch();
@@ -38,13 +41,18 @@ export const Logged = ({
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: ${theme.palette.grey[100]};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      margin: ${({ theme }) => theme.space.xxl }
+    }
+
   `;
 
   useEffect(() => {
     dispatch(fetchUser());
   }, [dispatch]);
 
-  const { status } = useAppSelector((state) => state.user);
+  const { status, userData } = useAppSelector((state) => state.user);
 
   if (status === "failed") {
     navigate(loginRoute);
@@ -54,6 +62,9 @@ export const Logged = ({
     //App ready
     TagManager.dataLayer({
       dataLayer: {
+        role: userData.role,
+        wp_user_id: userData.tryber_wp_user_id,
+        tester_id: userData.id,
         event: "UnguessLoaded",
       },
     });
@@ -65,7 +76,10 @@ export const Logged = ({
     <Chrome isFluid hue={theme.palette.white}>
       <Body style={{ backgroundColor: theme.palette.grey[100] }}>
         <Navigation route={route}>
-          <Container>{children}</Container>
+          <Main style={{ backgroundColor: "transparent", margin: 0 }}>
+            {pageHeader && pageHeader}
+            <Container>{children}</Container>
+          </Main>
         </Navigation>
       </Body>
     </Chrome>
