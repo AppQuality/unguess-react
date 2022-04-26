@@ -17,7 +17,7 @@ export default function Dashboard() {
   if(status === "logged") dispatch(projectFilterChanged(0)); //Reset filters
 
   return (
-    <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} pageHeader={<DashboardHeaderContent />} route={""}> 
+    <Page title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")} pageHeader={<DashboardHeaderContent title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")}/>} route={""}> 
       <Grid>
         <SuggestedCampaigns />
         <CampaignsList />

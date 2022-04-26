@@ -3,9 +3,7 @@ import {
   Row,
   Paragraph,
   theme,
-  MD,
-  Skeleton,
-  CampaignCard,
+  MD
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";

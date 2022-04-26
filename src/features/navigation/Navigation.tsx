@@ -1,7 +1,6 @@
 import {
   AppHeader,
   Content,
-  Main,
   Sidebar,
   ProfileModal,
   PageLoader,

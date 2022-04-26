@@ -1,12 +1,9 @@
 import { Grid, Row, Col, XXXL, theme } from "@appquality/unguess-design-system";
-import { useTranslation } from "react-i18next";
 import { Separator } from "./Separator";
 import { Counters } from "./Counters";
 import styled from "styled-components";
 
-export const DashboardHeaderContent = () => {
-  const { t } = useTranslation();
-
+export const DashboardHeaderContent = ({ title }: { title: string }) => {
   const StyledContainer = styled.div`
     background-color: white;
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -22,7 +19,7 @@ export const DashboardHeaderContent = () => {
           <Row>
             <Col xs={12}>
               <XXXL style={{ color: theme.palette.blue[600] }}>
-                {t("__PAGE_TITLE_PRIMARY_DASHBOARD")}
+                {title}
               </XXXL>
             </Col>
           </Row>
@@ -38,7 +35,7 @@ export const DashboardHeaderContent = () => {
           </Row>
         </Grid>
       </StyledContainer>
-      <Separator style={{marginTop: 0}}/>
+      <Separator style={{ marginTop: 0 }} />
     </>
   );
 };
