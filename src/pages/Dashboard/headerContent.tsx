@@ -1,10 +1,18 @@
-import { Grid, Row, Col, XXXL, theme } from "@appquality/unguess-design-system";
+import {
+  Grid,
+  Row,
+  Col,
+  XXXL,
+  theme,
+  Button,
+} from "@appquality/unguess-design-system";
 import { Separator } from "./Separator";
 import { Counters } from "./Counters";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
+import { useAppSelector } from "src/app/hooks";
 
-export const DashboardHeaderContent = ({ title }: { title: string }) => {
-  const StyledContainer = styled.div`
+const StyledContainer = styled.div`
     background-color: white;
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       padding: ${({ theme }) => theme.space.xxl};
@@ -12,16 +20,37 @@ export const DashboardHeaderContent = ({ title }: { title: string }) => {
     }
   `;
 
-  return (
+export const DashboardHeaderContent = ({ title }: { title: string }) => {
+
+  const { t } = useTranslation();
+  const { status, userData } = useAppSelector((state) => state.user);
+
+  const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
+
+  const hasButton =
+    userData.features &&
+    userData.features.find((feature) => feature.slug === "sky-custom-jotform");
+
+  const StyledButton = styled(Button)`
+    display: flex;
+    margin-left: auto;
+  `;
+
+  return status === "idle" || status === "loading" ? (
+    <></>
+  ) : (
     <>
       <StyledContainer>
         <Grid>
           <Row>
-            <Col xs={12}>
-              <XXXL style={{ color: theme.palette.blue[600] }}>
-                {title}
-              </XXXL>
+            <Col>
+              <XXXL style={{ color: theme.palette.blue[600] }}>{title}</XXXL>
             </Col>
+            {hasButton && (
+              <Col>
+                <StyledButton isPrimary onClick={() => {window.open(JOTFORM_URL, "_blank")?.focus();}}>{t("__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON")}</StyledButton>
+              </Col>
+            )}
           </Row>
           <Row
             style={{
