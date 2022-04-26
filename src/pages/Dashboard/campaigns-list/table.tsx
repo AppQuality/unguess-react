@@ -1,4 +1,10 @@
-import { Anchor, GroupedTable, Span, theme } from "@appquality/unguess-design-system";
+import {
+  Anchor,
+  Counter,
+  GroupedTable,
+  Span,
+  theme,
+} from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
@@ -26,24 +32,41 @@ export const TableList = ({
     let projectName = campaignGroup[0].project_name;
     let campaigns: any = [];
     campaignGroup.forEach((campaign) => {
-      
       // Get translated status label
-      let translatedStatus = "";
+      let translatedStatus = <></>;
       switch (getCampaignStatus(campaign)) {
         case "INCOMING":
-          translatedStatus = t("__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING");
+          translatedStatus = (
+            <Counter status={"incoming"}>
+              {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING")}
+            </Counter>
+          );
           break;
         case "COMPLETED":
-          translatedStatus = t("__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED");
+          translatedStatus = (
+            <Counter status={"completed"}>
+              {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED")}
+            </Counter>
+          );
           break;
         case "PROGRESS":
-          translatedStatus = t("__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS");
+          translatedStatus = (
+            <Counter status={"progress"}>
+              {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS")}
+            </Counter>
+          );
           break;
       }
 
       campaigns.push({
-        name: <Anchor href={getLocalizeRoute(campaign.id, campaign.test_type_name)}><Span isBold style={{ color: theme.palette.grey[800] }}>{campaign.title}</Span></Anchor>,
-        type: campaign.campaign_type_name,
+        name: (
+          <Anchor href={getLocalizeRoute(campaign.id, campaign.test_type_name)}>
+            <Span isBold style={{ color: theme.palette.grey[800] }}>
+              {campaign.title}
+            </Span>
+          </Anchor>
+        ),
+        type: campaign.test_type_name,
         testType: campaign.campaign_type_name,
         startDate: new Date(campaign.start_date).toLocaleDateString(),
         status: translatedStatus,
@@ -56,5 +79,11 @@ export const TableList = ({
     });
   });
 
-  return <GroupedTable groups={groups} columns={columns} />;
+  return (
+    <GroupedTable
+      groups={groups}
+      columns={columns}
+      style={{ backgroundColor: "white" }}
+    />
+  );
 };
