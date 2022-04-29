@@ -22,6 +22,8 @@ export const getCampaignStatus = (campaign: Component["campaign"]) => {
       return CampaignStatus.Running;
     }
   }
+
+  return CampaignStatus.Running;
 };
 
 export const getCampaigns = createAsyncThunk(
