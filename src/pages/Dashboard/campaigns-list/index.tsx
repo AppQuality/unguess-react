@@ -12,7 +12,7 @@ import styled from "styled-components";
 import { selectGroupedCampaigns } from "src/features/campaigns/campaignSlice";
 import { ReactComponent as GridIcon } from "src/assets/icons/grid.svg";
 import { ReactComponent as ListIcon } from "src/assets/icons/list.svg";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CardList } from "./list";
 import { TableList } from "./table";
 import { Separator } from "../Separator";
@@ -20,6 +20,7 @@ import { Filters } from "../filters";
 import { EmptyResults } from "./emptyState";
 import { useGetCampaignsQuery } from "src/features/apiCampaigns/campaignSlice";
 import { API } from "src/features/api";
+import { selectAllCampaigns, selectFilteredCampaigns } from "src/features/campaigns";
 
 const FloatRight = styled.div`
   float: right;
@@ -30,6 +31,15 @@ export const CampaignsList = () => {
   const campaigns: Array<Array<Component["campaign"]>> = useAppSelector(
     selectGroupedCampaigns
   );
+
+  console.log("ocio");
+  const asd = useMemo(() => selectAllCampaigns, []);
+ 
+  console.log(asd);
+
+  const allCampaigns = useAppSelector(() => selectAllCampaigns);
+
+  console.log("allCampaigns", allCampaigns.lastResult);
 
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 

@@ -45,7 +45,7 @@ const injectedRtkApi = api.injectEndpoints({
       }),
     }),
   }),
-  overrideExisting: false,
+  overrideExisting: true,
 });
 export { injectedRtkApi as unguessApi };
 export type GetWorkspacesByWidCampaignsApiResponse = /** status 200 OK */ {
@@ -133,6 +133,7 @@ export type Campaign = {
   customer_title: string;
   description: string;
   status_id: number;
+  status_name: string;
   is_public: number;
   campaign_type_id: number;
   campaign_type_name: string;

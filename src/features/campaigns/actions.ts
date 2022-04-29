@@ -23,6 +23,7 @@ export const getCampaignStatus = (campaign: Component["campaign"]) => {
     }
   }
 
+  //Default
   return CampaignStatus.Running;
 };
 

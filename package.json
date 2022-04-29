@@ -36,7 +36,7 @@
     "eject": "react-scripts eject",
     "translate": "i18next-scanner",
     "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/common/schema.ts ",
-    "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.js"
+    "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -81,7 +81,8 @@
     "@types/styled-components": "^5.1.24",
     "cz-conventional-changelog": "3.3.0",
     "i18next-scanner": "^3.1.0",
-    "i18next-scanner-typescript": "^1.0.6"
+    "i18next-scanner-typescript": "^1.0.6",
+    "ts-node": "^10.7.0"
   },
   "config": {
     "commitizen": {
