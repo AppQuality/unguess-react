@@ -19,7 +19,7 @@ import { Separator } from "../Separator";
 import { Filters } from "../filters";
 import { EmptyResults } from "./emptyState";
 import { useGetCampaignsQuery } from "src/features/apiCampaigns/campaignSlice";
-import { useGetProjectsByPidQuery } from "src/features/api";
+import { API } from "src/features/api";
 
 const FloatRight = styled.div`
   float: right;
@@ -41,7 +41,7 @@ export const CampaignsList = () => {
   // console.log("Campaigns Query RTK error", error);
   // console.log("Campaigns Query RTK data", data);
   
-  const { data, isLoading, isSuccess, isError, error } = useGetProjectsByPidQuery({pid: 238});
+  const { data, isLoading, isSuccess, isError, error } = API.useGetProjectsByPidQuery({pid: 238});
 
   console.log("Campaigns Query RTK isLoading", isLoading);
   console.log("Campaigns Query RTK isSuccess", isSuccess);
