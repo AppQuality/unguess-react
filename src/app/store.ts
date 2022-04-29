@@ -5,7 +5,8 @@ import campaignReducer from "../features/campaigns/campaignSlice";
 import projectReducer from "../features/projects/projectSlice";
 import workspaceReducer from "../features/workspaces/workspaceSlice";
 import filterReducer from "../features/campaignsFilter/campaignsFilterSlice";
-// import { api } from "../services/apiSlice";
+import { apiSlice } from "../features/api/api";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const store = configureStore({
   reducer: {
@@ -14,9 +15,15 @@ export const store = configureStore({
     campaigns: campaignReducer,
     projects: projectReducer,
     workspaces: workspaceReducer,
-    filters: filterReducer
+    filters: filterReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
+
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

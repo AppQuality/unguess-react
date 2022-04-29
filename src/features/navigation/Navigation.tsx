@@ -47,7 +47,7 @@ export const Navigation = ({
   const workspaces = useAppSelector(selectWorkspaces);
   
   if (!activeWorkspace) {
-    dispatch(getWorkspaces());
+    // dispatch(getWorkspaces());
     if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
   }
   //Set current params
