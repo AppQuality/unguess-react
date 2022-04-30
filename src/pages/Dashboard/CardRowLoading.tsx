@@ -7,22 +7,27 @@ import {
   CampaignCard,
 } from "@appquality/unguess-design-system";
 
-import { CardsContainer } from "./CardContainer";
-
 export const CardRowLoading = () => {
   return (
     <Row>
-      <Col xs={12} style={{ marginBottom: theme.space.base * 4 + "px" }}>
+      <Col size={12} style={{ marginBottom: theme.space.base * 4 + "px" }}>
         <Paragraph>
-          <Skeleton width={"200px"} />
+          <Skeleton width={"200px"} height={"12px"} />
         </Paragraph>
       </Col>
-      <CardsContainer>
+      <Col size={3}>
         <CampaignCard isLoading projectTitle={""} campaignTitle={""} date="" />
+      </Col>
+      <Col size={3}>
         <CampaignCard isLoading projectTitle={""} campaignTitle={""} date="" />
+      </Col>
+      <Col size={3}>
         <CampaignCard isLoading projectTitle={""} campaignTitle={""} date="" />
+      </Col>
+      <Col size={3}>
         <CampaignCard isLoading projectTitle={""} campaignTitle={""} date="" />
-      </CardsContainer>
+      </Col>
     </Row>
+
   );
 };
