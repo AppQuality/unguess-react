@@ -8,7 +8,7 @@ export const StatusFilters = {
   Incoming: "incoming",
 };
 
-interface FilterState {
+export interface FilterState {
   status: string;
   type: string;
   testNameId: number;
