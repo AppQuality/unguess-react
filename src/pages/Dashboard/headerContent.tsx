@@ -2,7 +2,6 @@ import {
   Grid,
   Row,
   Col,
-  XXXL,
   theme,
   Button,
 } from "@appquality/unguess-design-system";
@@ -11,17 +10,21 @@ import { Counters } from "./Counters";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
+import React from "react";
 
 const StyledContainer = styled.div`
-    background-color: white;
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      padding: ${({ theme }) => theme.space.xxl};
-      padding-bottom: 1px;
-    }
-  `;
+  background-color: white;
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.space.xxl};
+    padding-bottom: 1px;
+  }
+`;
 
-export const DashboardHeaderContent = ({ title }: { title: string }) => {
-
+export const DashboardHeaderContent = ({
+  children,
+}: {
+  children?: React.ReactNode;
+}) => {
   const { t } = useTranslation();
   const { status, userData } = useAppSelector((state) => state.user);
 
@@ -43,12 +46,17 @@ export const DashboardHeaderContent = ({ title }: { title: string }) => {
       <StyledContainer>
         <Grid>
           <Row>
-            <Col>
-              <XXXL style={{ color: theme.palette.blue[600] }}>{title}</XXXL>
-            </Col>
+            <Col>{children}</Col>
             {hasButton && (
               <Col>
-                <StyledButton isPrimary onClick={() => {window.open(JOTFORM_URL, "_blank")?.focus();}}>{t("__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON")}</StyledButton>
+                <StyledButton
+                  isPrimary
+                  onClick={() => {
+                    window.open(JOTFORM_URL, "_blank")?.focus();
+                  }}
+                >
+                  {t("__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON")}
+                </StyledButton>
               </Col>
             )}
           </Row>

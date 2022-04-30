@@ -1,5 +1,4 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { selectFilteredCampaigns } from "../campaigns/campaignSlice";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const StatusFilters = {
   All: "all",
@@ -8,7 +7,7 @@ export const StatusFilters = {
   Incoming: "incoming",
 };
 
-interface FilterState {
+export interface FilterState {
   status: string;
   type: string;
   testNameId: number;
@@ -61,55 +60,3 @@ export const {
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;
-
-export const selectFilteredStatuses = createSelector(
-  selectFilteredCampaigns,
-  (campaigns) => {
-    let statuses = ["all"];
-
-    campaigns.forEach((cp) => {
-      if (!cp.status_name) return;
-      if (statuses.indexOf(cp.status_name) === -1) {
-        statuses.push(cp.status_name);
-      }
-    });
-
-    return statuses;
-  }
-);
-
-export const selectFilteredTestNames = createSelector(
-  selectFilteredCampaigns,
-  (campaigns) => {
-    let types: Array<{label: string, value: string}> = [];
-
-    campaigns.forEach((cp) => {
-      if (
-        types.find((type) => Number(type.value) === cp.campaign_type_id) === undefined
-      ) {
-        types.push({
-          label: cp.campaign_type_name,
-          value: cp.campaign_type_id + "",
-        });
-      }
-    });
-
-    return types;
-  }
-);
-
-export const selectFilteredTypes = createSelector(
-  selectFilteredCampaigns,
-  (campaigns) => {
-    let types = ["all"];
-
-    campaigns.forEach((cp) => {
-      let testType = cp.test_type_name.toLowerCase();
-      if (types.indexOf(testType) === -1) {
-        types.push(testType);
-      }
-    });
-
-    return types;
-  }
-);

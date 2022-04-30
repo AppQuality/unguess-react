@@ -1,11 +1,12 @@
 {
   "name": "unguess-react",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
   "dependencies": {
     "@appquality/unguess-design-system": "2.8.35",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
+    "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
     "@zendeskgarden/react-datepickers": "^8.49.4",
     "@zendeskgarden/react-theming": "^8.48.2",
     "@zendeskgarden/svg-icons": "^6.31.1",
@@ -34,7 +35,8 @@
     "recover": "yarn install --check-files",
     "eject": "react-scripts eject",
     "translate": "i18next-scanner",
-    "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/common/schema.ts "
+    "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/common/schema.ts ",
+    "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -79,7 +81,8 @@
     "@types/styled-components": "^5.1.24",
     "cz-conventional-changelog": "3.3.0",
     "i18next-scanner": "^3.1.0",
-    "i18next-scanner-typescript": "^1.0.6"
+    "i18next-scanner-typescript": "^1.0.6",
+    "ts-node": "^10.7.0"
   },
   "config": {
     "commitizen": {

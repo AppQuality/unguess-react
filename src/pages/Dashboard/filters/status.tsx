@@ -5,7 +5,6 @@ import {
   Item,
   theme,
 } from "@appquality/unguess-design-system";
-
 import { ReactComponent as CircleFill } from "src/assets/icons/circle-full-fill.svg";
 import { Field } from "@zendeskgarden/react-dropdowns";
 import { useTranslation } from "react-i18next";
@@ -13,10 +12,9 @@ import styled from "styled-components";
 import { DropdownItem, DropdownItems, getItemText } from "./utils";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { statusFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
-import {
-  CampaignStatus,
-  selectStatuses,
-} from "src/features/campaigns/campaignSlice";
+import { CampaignStatus } from "src/features/campaigns";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
+import { selectStatuses } from "src/features/campaigns";
 
 const Circle = styled(CircleFill)`
   width: auto;
@@ -28,6 +26,17 @@ const Circle = styled(CircleFill)`
 export const StatusDropdown = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
+  const activeWorkspace = useAppSelector(
+    (state) => state.navigation.activeWorkspace
+  );
+
+  const { data } = useGetWorkspacesByWidCampaignsQuery({
+    wid: activeWorkspace?.id || 0
+  });
+
+  const campaigns = data?.items || [];
+  const availableStatuses = selectStatuses(campaigns);
 
   const { status } = useAppSelector((state) => state.filters);
 
@@ -56,8 +65,6 @@ export const StatusDropdown = () => {
   const onSelectItem = (item: DropdownItem) => {
     dispatch(statusFilterChanged(item.value));
   };
-
-  const availableStatuses = useAppSelector((state) => selectStatuses(state));
 
   return (
     <Dropdown

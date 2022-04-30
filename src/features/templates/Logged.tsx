@@ -48,10 +48,6 @@ export const Logged = ({
 
   `;
 
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
-
   const { status, userData } = useAppSelector((state) => state.user);
 
   if (status === "failed") {
