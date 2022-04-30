@@ -1,6 +1,12 @@
 import { Campaign } from "../api/endpoints/campaigns";
 import { FilterState } from "../campaignsFilter/campaignsFilterSlice";
 
+export const CampaignStatus = {
+    Running: "running",
+    Completed: "completed",
+    Incoming: "incoming",
+  };
+
 export const selectFilteredCampaigns = (
   campaigns: Campaign[],
   filters: FilterState

@@ -1,5 +1,6 @@
 import { Counter, Skeleton, theme } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { useAppSelector } from "src/app/hooks";
 import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/campaigns";
 import styled from "styled-components";
@@ -22,7 +23,10 @@ const CounterContainer = styled.div`
   }
 `;
 
-const getCounterValues = (campaigns: Component["campaign"][]) => {
+const getCounterValues = (campaigns: Component["campaign"][], projectId?: string) => {
+
+  const project = projectId && !isNaN(Number(projectId)) ? parseInt(projectId) : false;
+
   let counters = {
     running: 0,
     completed: 0,
@@ -32,6 +36,8 @@ const getCounterValues = (campaigns: Component["campaign"][]) => {
   };
 
   campaigns.forEach((cp) => {
+    if(project && cp.project_id !== project) return;
+
     if (cp.status_name === "running") counters.running++;
     if (cp.status_name === "completed") counters.completed++;
     if (cp.status_name === "incoming") counters.inComing++;
@@ -52,6 +58,8 @@ export const Counters = () => {
     (state) => state.navigation.activeWorkspace
   );
 
+  var { projectId } = useParams();
+
   const { data, isLoading, isFetching, isError } = useGetWorkspacesByWidCampaignsQuery({
     wid: activeWorkspace?.id ?? 0,
     limit: 10000
@@ -60,7 +68,7 @@ export const Counters = () => {
   if(isError) return <></>; //TODO: Improve error handling
 
   const { running, completed, inComing, functional, experiential } =
-    getCounterValues(data?.items ?? []) || 0;
+    getCounterValues(data?.items ?? [], projectId) || 0;
 
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
