@@ -30,26 +30,7 @@ export const CampaignsList = () => {
   const { t } = useTranslation();
   const campaigns: Array<Array<Component["campaign"]>> = useAppSelector(
     selectGroupedCampaigns
-  );
-
-  console.log("ocio");
-  const asd = useMemo(() => selectAllCampaigns, []);
- 
-  console.log(asd);
-
-  const allCampaigns = useAppSelector(() => selectAllCampaigns);
-
-  console.log("allCampaigns", allCampaigns.lastResult);
-
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
-
-  // const { data, isLoading, isSuccess, isError, error } = useGetCampaignsQuery({id: activeWorkspace?.id ?? 0, limit: 100});
-  // console.log("Active Workspace", activeWorkspace);
-  // console.log("Campaigns Query RTK isLoading", isLoading);
-  // console.log("Campaigns Query RTK isSuccess", isSuccess);
-  // console.log("Campaigns Query RTK isError", isError);
-  // console.log("Campaigns Query RTK error", error);
-  // console.log("Campaigns Query RTK data", data);
+  );;
   
   const { data, isLoading, isSuccess, isError, error } = API.useGetProjectsByPidQuery({pid: 238});
 

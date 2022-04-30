@@ -59,7 +59,7 @@ export const Counters = () => {
     (state) => state.navigation.activeWorkspace
   );
 
-  const { data, isLoading, isError } = useGetWorkspacesByWidCampaignsQuery({
+  const { data, isLoading, isFetching, isError } = useGetWorkspacesByWidCampaignsQuery({
     wid: activeWorkspace?.id ?? 0,
     limit: 10000
   });
@@ -69,7 +69,7 @@ export const Counters = () => {
   const { running, completed, inComing, functional, experiential } =
     getCounterValues(data?.items ?? []) || 0;
 
-  return isLoading ? (
+  return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
     <CounterContainer>
