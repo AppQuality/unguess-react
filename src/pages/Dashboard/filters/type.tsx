@@ -10,12 +10,24 @@ import { useTranslation } from "react-i18next";
 import { DropdownItem, DropdownItems, getItemText } from "./utils";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { typeFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
-import { selectTypes } from "src/features/campaigns/campaignSlice";
+import { selectTypes } from "src/features/campaigns";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
 
 export const CampaignTypeDropdown = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { type } = useAppSelector((state) => state.filters);
+
+  const activeWorkspace = useAppSelector(
+    (state) => state.navigation.activeWorkspace
+  );
+
+  const { data } = useGetWorkspacesByWidCampaignsQuery({
+    wid: activeWorkspace?.id || 0
+  });
+
+  const campaigns = data?.items || [];
+  const availableTypes = selectTypes(campaigns);
 
   const items: DropdownItems = {
     all: {
@@ -35,8 +47,6 @@ export const CampaignTypeDropdown = () => {
   const onSelectItem = (item: DropdownItem) => {
     dispatch(typeFilterChanged(item.value));
   };
-
-  const availableTypes = useAppSelector((state) => selectTypes(state));
 
   return (
     <Dropdown

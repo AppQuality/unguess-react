@@ -31,8 +31,6 @@ const getCounterValues = (campaigns: Component["campaign"][]) => {
     experiential: 0,
   };
 
-  let projects: Array<number> = [];
-
   campaigns.forEach((cp) => {
     if (cp.status_name === "running") counters.running++;
     if (cp.status_name === "completed") counters.completed++;
@@ -43,12 +41,7 @@ const getCounterValues = (campaigns: Component["campaign"][]) => {
 
     if (cp.test_type_name.toLowerCase() === "experiential")
       counters.experiential++;
-
-    console.log("Viewing Campaign", cp.title, cp.project_id);
-    if(!projects.includes(cp.project_id)) projects.push(cp.project_id);
   });
-
-  console.log("Final Projects", projects);
 
   return counters;
 };

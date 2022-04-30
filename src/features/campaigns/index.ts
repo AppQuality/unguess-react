@@ -48,3 +48,54 @@ export const selectGroupedCampaigns = (campaigns: Campaign[]) => {
     return acc;
   }, []);
 };
+
+export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
+  let statuses = ["all"];
+
+  campaigns.forEach((cp) => {
+    if (!cp.status_name) return;
+    if (statuses.indexOf(cp.status_name) === -1) {
+      statuses.push(cp.status_name);
+    }
+  });
+
+  return statuses;
+};
+
+interface TestName {
+    label: string;
+    value: string;
+}
+
+export const selectTestNames = (
+  campaigns: Campaign[]
+): TestName[] => {
+  let types: TestName[] = [];
+
+  campaigns.forEach((cp) => {
+    if (
+      types.find((type) => Number(type.value) === cp.campaign_type_id) ===
+      undefined
+    ) {
+      types.push({
+        label: cp.campaign_type_name,
+        value: cp.campaign_type_id + "",
+      });
+    }
+  });
+
+  return types;
+};
+
+export const selectTypes = (campaigns: Campaign[]): Array<string> => {
+  let types = ["all"];
+
+  campaigns.forEach((cp) => {
+    let testType = cp.test_type_name.toLowerCase();
+    if (types.indexOf(testType) === -1) {
+      types.push(testType);
+    }
+  });
+
+  return types;
+};
