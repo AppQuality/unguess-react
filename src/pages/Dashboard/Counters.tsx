@@ -1,7 +1,7 @@
-import { Counter, theme } from "@appquality/unguess-design-system";
+import { Counter, Skeleton, theme } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
-import { selectCampaignsCounter } from "src/features/campaigns/campaignSlice";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/campaigns";
 import styled from "styled-components";
 
 const Pipe = styled.div`
@@ -22,12 +22,56 @@ const CounterContainer = styled.div`
   }
 `;
 
+const getCounterValues = (campaigns: Component["campaign"][]) => {
+  let counters = {
+    running: 0,
+    completed: 0,
+    inComing: 0,
+    functional: 0,
+    experiential: 0,
+  };
+
+  let projects: Array<number> = [];
+
+  campaigns.forEach((cp) => {
+    if (cp.status_name === "running") counters.running++;
+    if (cp.status_name === "completed") counters.completed++;
+    if (cp.status_name === "incoming") counters.inComing++;
+
+    //Update type counters
+    if (cp.test_type_name.toLowerCase() === "functional") counters.functional++;
+
+    if (cp.test_type_name.toLowerCase() === "experiential")
+      counters.experiential++;
+
+    console.log("Viewing Campaign", cp.title, cp.project_id);
+    if(!projects.includes(cp.project_id)) projects.push(cp.project_id);
+  });
+
+  console.log("Final Projects", projects);
+
+  return counters;
+};
+
 export const Counters = () => {
   const { t } = useTranslation();
+  const activeWorkspace = useAppSelector(
+    (state) => state.navigation.activeWorkspace
+  );
 
-  const {running, completed, inComing, functional, experiential} = useAppSelector(selectCampaignsCounter);
+  const { data, isLoading, isError } = useGetWorkspacesByWidCampaignsQuery({
+    wid: activeWorkspace?.id ?? 0,
+    limit: 10000
+  });
 
-  return (
+  if(isError) return <></>; //TODO: Improve error handling
+
+  const { running, completed, inComing, functional, experiential } =
+    getCounterValues(data?.items ?? []) || 0;
+
+  return isLoading ? (
+    <Skeleton width="30%" height="32px" />
+  ) : (
     <CounterContainer>
       <Counter counter={completed} status={"completed"}>
         {t("__DASHABOARD_COUNTER_LABEL_COMPLETED")}

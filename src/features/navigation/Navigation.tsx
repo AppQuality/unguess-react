@@ -54,7 +54,7 @@ export const Navigation = ({
     });
   }
 
-  const projects = useGetWorkspacesByWidProjectsQuery({ wid: activeWorkspace?.id || workspaces[0].id});
+  const projects = useGetWorkspacesByWidProjectsQuery({ wid: activeWorkspace?.id || workspaces[0].id, limit: 1000});
 
   if (projects.isFetching || projects.isLoading) {
     return <PageLoader />;
