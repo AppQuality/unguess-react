@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "src/app/store";
+
 import { getWorkspaceFromLS } from "./cachedStorage";
 
 const cachedWorkspace = getWorkspaceFromLS() || undefined;
