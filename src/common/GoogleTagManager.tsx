@@ -7,6 +7,8 @@ const tagManagerArgs = {
     role: "unknown",
     wp_user_id: 0,
     tester_id: 0,
+    name: "unknown",
+    email: "unknown"
   },
 };
 
@@ -35,6 +37,8 @@ export const GoogleTagManager = ({
       role: userData.role,
       wp_user_id: userData.tryber_wp_user_id,
       tester_id: userData.id,
+      name: userData.name,
+      email: userData.email,
     };
   }
 
