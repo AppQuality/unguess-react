@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import React from "react";
+import { FEATURE_FLAG_SKY_JOTFORM } from "src/constants";
 
 const StyledContainer = styled.div`
   background-color: white;
@@ -32,7 +33,7 @@ export const DashboardHeaderContent = ({
 
   const hasButton =
     userData.features &&
-    userData.features.find((feature) => feature.slug === "sky-custom-jotform");
+    userData.features.find((feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM);
 
   const StyledButton = styled(Button)`
     display: flex;

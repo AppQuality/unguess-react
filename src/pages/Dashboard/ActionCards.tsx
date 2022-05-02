@@ -9,9 +9,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
+import { FEATURE_FLAG_EXPRESS } from "src/constants";
 import { CardRowLoading } from "./CardRowLoading";
-
-const REQUIRED_FEATURE_FLAG = "exploratory-express";
 
 export const ActionCards = () => {
   const { t } = useTranslation();
@@ -21,7 +20,7 @@ export const ActionCards = () => {
   if (
     !projectId ||
     !userData.features ||
-    !userData.features.find((feature) => feature.slug === REQUIRED_FEATURE_FLAG)
+    !userData.features.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS)
   ) {
     return <></>;
   }
