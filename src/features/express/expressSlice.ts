@@ -1,19 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface ExpressWizardState {
-    steps: { [key: string]: Step };
-    isOpen?: boolean;
-    isDirty?: boolean;
-    currentStep?: number;
+  steps: { [key: string]: Step };
+  isOpen?: boolean;
+  isDirty?: boolean;
+  currentStep?: number;
 }
 
 export interface Step {
-    data: { [key: string]: string };
-    isValid?: boolean;
+  data: { [key: string]: string };
+  isValid?: boolean;
 }
 
 const initialState: ExpressWizardState = {
-  steps: {}
+  isOpen: false,
+  steps: {},
 };
 
 const expressSlice = createSlice({
@@ -21,33 +22,33 @@ const expressSlice = createSlice({
   initialState,
   reducers: {
     openWizard: (state) => {
-        state.isOpen = true;
+      state.isOpen = true;
     },
     closeWizard: (state) => {
-        state.isOpen = false;
+      state.isOpen = false;
     },
     setCurrentStep: (state, action) => {
-        state.currentStep = action.payload;
+      state.currentStep = action.payload;
     },
     addStep: (state, action) => {
-        state.steps[action.payload.id] = action.payload;
+      state.steps[action.payload.id] = action.payload;
     },
     removeStep: (state, action) => {
-        delete state.steps[action.payload];
+      delete state.steps[action.payload];
     },
     resetWizard: (state) => {
-        state.steps = {};
-    }
+      state.steps = {};
+    },
   },
 });
 
 export const {
-    openWizard,
-    closeWizard,
-    setCurrentStep,
-    addStep,
-    removeStep,
-    resetWizard
+  openWizard,
+  closeWizard,
+  setCurrentStep,
+  addStep,
+  removeStep,
+  resetWizard,
 } = expressSlice.actions;
 
 export default expressSlice.reducer;

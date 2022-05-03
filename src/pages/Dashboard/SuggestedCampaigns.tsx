@@ -7,7 +7,7 @@ import {
   ProductCard,
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { FEATURE_FLAG_EXPRESS } from "src/constants";
 import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
@@ -15,9 +15,12 @@ import { CampaignItem, ColCard } from "./CampaignItem";
 import { CardsContainer } from "./CardContainer";
 import { CardRowLoading } from "./CardRowLoading";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
+import { openWizard } from "src/features/express/expressSlice";
+import { ExpressWizardContainer } from "../ExpressWizard";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const { userData } = useAppSelector((state) => state.user);
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
@@ -26,9 +29,6 @@ export const SuggestedCampaigns = () => {
   const hasExpress =
     userData.features &&
     userData.features.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
-
-  //Temporary until we have the embeded form
-  const JOTFORM_URL = `https://secure.jotform.com/221093463483052?projectId=-1&userFull=${userData.name}&userEmail=${userData.email}`;
 
   const campaigns = useGetWorkspacesByWidCampaignsQuery({
     wid: activeWorkspace?.id ?? 0,
@@ -67,12 +67,7 @@ export const SuggestedCampaigns = () => {
         {hasExpress && (
           <ColCard size={3}>
             <ProductCard
-              onClick={() => {
-                window.open(JOTFORM_URL, "_blank")?.focus();
-              }}
-              onCtaClick={() => {
-                window.open(JOTFORM_URL, "_blank")?.focus();
-              }}
+              onCtaClick={() => dispatch(openWizard())}
               icon={<ExpressIcon />}
               ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
               preTitle={t("__DASHABOARD_EXPRESS_CARD_PRE_TITLE MAX:12")}
@@ -82,6 +77,7 @@ export const SuggestedCampaigns = () => {
           </ColCard>
         )}
       </CardsContainer>
+      <ExpressWizardContainer />
     </Row>
   );
 };
