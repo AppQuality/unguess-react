@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { DashboardHeaderContent } from "./headerContent";
 
-
 export default function Dashboard() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();

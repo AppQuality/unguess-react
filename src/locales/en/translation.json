@@ -71,5 +71,19 @@
   "__PROFILE_MODAL_FEEDBACK_TITLE": "Give us your feedback",
   "__PROFILE_MODAL_LANGUAGES_TITLE": "Change Language",
   "__PROFILE_MODAL_LOGOUT_TITLE": "Log Out",
-  "__SIDEBAR_CAMPAIGNS_LABEL": "campaigns"
+  "__SIDEBAR_CAMPAIGNS_LABEL": "campaigns",
+  "__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_1": "è facilmente raggiungibile dai tester da un link",
+  "__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_2": "consente di creare le proprie credenziali di accesso ai tester",
+  "__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_3": "non è protetto da VPN",
+  "__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_4": "non prevede pagamenti da effettuare",
+  "__WIZARD_EXPRESS_BODY_NOTES_PARAGRAPH": "Puoi scegliere un exploratory test se il tuo prodotto:",
+  "__WIZARD_EXPRESS_BODY_NOTES_TITLE": "Prima di iniziare",
+  "__WIZARD_EXPRESS_BODY_PARAGRAPH": "È un test di tipo funzionale per cercare più bug possibili. I tester esplorano il prodotto in totale libertà: non fornirai obiettivi di attività o il manuale di test. ",
+  "__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE": "Seleziona il progetto in cui salvare la campagna",
+  "__WIZARD_EXPRESS_BODY_TITLE": "Test esplorativo express",
+  "__WIZARD_EXPRESS_DEFAULT_ITEM": "Cerca o aggiungi progetto",
+  "__WIZARD_EXPRESS_HEADER_TITLE": "Lancia campagna",
+  "__WIZARD_EXPRESS_TAG_1_TEXT": "Risultati in 48h",
+  "__WIZARD_EXPRESS_TAG_2_TEXT": "Test funzionale",
+  "__WIZARD_EXPRESS_TAG_3_TEXT": "30 Bug Unici"
 }
