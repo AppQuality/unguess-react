@@ -17,7 +17,7 @@ import {
 } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { ActionCards } from "./ActionCards";
 import { DashboardHeaderContent } from "./headerContent";
-import { useGetProjectsByPidQuery } from "src/features/api/endpoints/projects";
+import { useGetProjectsByPidQuery } from "src/features/api";
 import { CardRowLoading } from "./CardRowLoading";
 
 export default function Project() {

@@ -9,7 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { FEATURE_FLAG_EXPRESS } from "src/constants";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 import { CampaignItem, ColCard } from "./CampaignItem";
 import { CardsContainer } from "./CardContainer";
@@ -17,7 +17,6 @@ import { CardRowLoading } from "./CardRowLoading";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
 import { ExpressDrawer } from "../ExpressWizard/drawer";
 import {
-  closeDrawer,
   openDrawer,
   openWizard,
 } from "src/features/express/expressSlice";
@@ -84,7 +83,6 @@ export const SuggestedCampaigns = () => {
               />
             </ColCard>
             <ExpressDrawer
-              onClose={() => dispatch(closeDrawer())}
               onCtaClick={() => dispatch(openWizard())}
             />
             <ExpressWizardContainer />

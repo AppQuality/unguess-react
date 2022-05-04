@@ -15,8 +15,9 @@ import styled from "styled-components";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
 import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
 import { ReactComponent as BugIcon } from "src/assets/icons/bug-icon.svg";
-import { useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { ProjectDropdown } from "./projectDropdown";
+import { closeDrawer, resetWizard } from "src/features/express/expressSlice";
 
 const Notes = styled(Card)`
   margin-top: ${theme.space.base * 9}px;
@@ -59,21 +60,20 @@ const StyledTag = styled(Tag)`
 `;
 
 export const ExpressDrawer = ({
-  onClose,
   onCtaClick,
   ...props
 }: {
-  onClose: () => void;
   onCtaClick: () => void;
 }) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
+  const onClose = () => {
+    dispatch(resetWizard());
+    dispatch(closeDrawer());
+  }
 
-  const { isDrawerOpen, projectId } = useAppSelector((state) => state.express);
-
+  const { isDrawerOpen, project } = useAppSelector((state) => state.express);
 
   return (
     <Drawer isOpen={isDrawerOpen} onClose={onClose}>
@@ -127,7 +127,7 @@ export const ExpressDrawer = ({
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
-          <Button isPrimary isPill onClick={onCtaClick} { ...!projectId && {disabled: true}}>
+          <Button isPrimary isPill onClick={onCtaClick} { ...!project && {disabled: true}}>
             {t("__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON")}
           </Button>
         </Drawer.FooterItem>

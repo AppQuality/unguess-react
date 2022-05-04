@@ -1,4 +1,4 @@
-import { Campaign } from "../api/endpoints/campaigns";
+import { Campaign } from "../api";
 import { FilterState } from "../campaignsFilter/campaignsFilterSlice";
 
 export const CampaignStatus = {

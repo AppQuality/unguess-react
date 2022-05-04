@@ -17,7 +17,7 @@ import WPAPI from "src/common/wpapi";
 import i18n from "src/i18n";
 import { useNavigate, useParams } from "react-router-dom";
 import { Changelog } from "./Changelog";
-import { useGetWorkspacesByWidProjectsQuery } from "../api/endpoints/projects";
+import { useGetWorkspacesByWidProjectsQuery } from "../api";
 
 export const Navigation = ({
   children,

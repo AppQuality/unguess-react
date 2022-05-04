@@ -6,7 +6,7 @@ import {
   theme,
 } from "@appquality/unguess-design-system";
 import { useAppDispatch } from "src/app/hooks";
-import { Workspace } from "src/features/api/endpoints/workspaces";
+import { Workspace } from "src/features/api";
 import { closeWizard } from "src/features/express/expressSlice";
 import useWindowSize from "src/hooks/useWindowSize";
 import i18n from "src/i18n";

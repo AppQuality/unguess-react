@@ -11,7 +11,7 @@ import { DropdownItem, DropdownItems, getItemText } from "./utils";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { testTypeFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { selectTestNames } from "src/features/campaigns";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { UgMenu } from "./styledMenu";
 
 export const TestTypeDropdown = () => {
