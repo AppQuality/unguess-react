@@ -7,7 +7,7 @@ import {
   ProductCard,
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { FEATURE_FLAG_EXPRESS } from "src/constants";
 import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
@@ -20,6 +20,7 @@ import { useState } from "react";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const { userData } = useAppSelector((state) => state.user);
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
@@ -30,9 +31,6 @@ export const SuggestedCampaigns = () => {
   const hasExpress =
     userData.features &&
     userData.features.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
-
-  //Temporary until we have the embeded form
-  const JOTFORM_URL = `https://secure.jotform.com/221093463483052?projectId=-1&userFull=${userData.name}&userEmail=${userData.email}`;
 
   const campaigns = useGetWorkspacesByWidCampaignsQuery({
     wid: activeWorkspace?.id ?? 0,
@@ -93,6 +91,7 @@ export const SuggestedCampaigns = () => {
           </>
         )}
       </CardsContainer>
+      {/*<ExpressWizardContainer />*/}
     </Row>
   );
 };
