@@ -79,9 +79,6 @@ export const ProjectDropdown = () => {
       selectedItem={selectedItem}
       onSelect={(item: Project) => {
         if (item && item.id) {
-          if (item.id === -1 && activeWorkspace && activeWorkspace.id) {
-          }
-
           setInputValue("");
           setSelectedItem(item);
           dispatch(setExpressProject(item));
