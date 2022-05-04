@@ -17,7 +17,7 @@ import WPAPI from "src/common/wpapi";
 import i18n from "src/i18n";
 import { useNavigate, useParams } from "react-router-dom";
 import { Changelog } from "./Changelog";
-import { useGetWorkspacesByWidProjectsQuery } from "../api/endpoints/projects";
+import { useGetWorkspacesByWidProjectsQuery } from "../api";
 
 export const Navigation = ({
   children,
@@ -54,7 +54,7 @@ export const Navigation = ({
     });
   }
 
-  const projects = useGetWorkspacesByWidProjectsQuery({ wid: activeWorkspace?.id || workspaces[0].id, limit: 1000});
+  const projects = useGetWorkspacesByWidProjectsQuery({ wid: activeWorkspace?.id || 0, limit: 1000});
 
   if (projects.isFetching || projects.isLoading) {
     return <PageLoader />;

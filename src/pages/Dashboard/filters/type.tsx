@@ -11,7 +11,8 @@ import { DropdownItem, DropdownItems, getItemText } from "./utils";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { typeFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { selectTypes } from "src/features/campaigns";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
+import { UgMenu } from "./styledMenu";
 
 export const CampaignTypeDropdown = () => {
   const { t } = useTranslation();
@@ -64,7 +65,7 @@ export const CampaignTypeDropdown = () => {
           )}
         </Select>
       </Field>
-      <Menu hasArrow>
+      <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
           <Item
             key={items[key].value}
@@ -76,7 +77,7 @@ export const CampaignTypeDropdown = () => {
             {items[key].label}
           </Item>
         ))}
-      </Menu>
+      </UgMenu>
     </Dropdown>
   );
 };

@@ -18,7 +18,7 @@ import { Separator } from "../Separator";
 import { Filters } from "../filters";
 import { EmptyResults } from "./emptyState";
 import { selectGroupedCampaigns, selectFilteredCampaigns } from "src/features/campaigns";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { createSelector } from "@reduxjs/toolkit";
 
 const FloatRight = styled.div`

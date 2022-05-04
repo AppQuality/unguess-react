@@ -2,7 +2,7 @@ import { Counter, Skeleton, theme } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "src/app/hooks";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/campaigns";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import styled from "styled-components";
 
 const Pipe = styled.div`

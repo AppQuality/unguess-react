@@ -13,8 +13,9 @@ import { DropdownItem, DropdownItems, getItemText } from "./utils";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { statusFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { CampaignStatus } from "src/features/campaigns";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { selectStatuses } from "src/features/campaigns";
+import { UgMenu } from "./styledMenu";
 
 const Circle = styled(CircleFill)`
   width: auto;
@@ -82,7 +83,7 @@ export const StatusDropdown = () => {
           )}
         </Select>
       </Field>
-      <Menu hasArrow>
+      <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
           <Item
             key={items[key].value}
@@ -95,7 +96,7 @@ export const StatusDropdown = () => {
             {" " + items[key].label}
           </Item>
         ))}
-      </Menu>
+      </UgMenu>
     </Dropdown>
   );
 };

@@ -3,6 +3,7 @@ import userReducer from "../features/user/userSlice";
 import navigationReducer from "../features/navigation/navigationSlice";
 import workspaceReducer from "../features/workspaces/workspaceSlice";
 import filterReducer from "../features/campaignsFilter/campaignsFilterSlice";
+import expressReducer from "../features/express/expressSlice";
 import { apiSlice } from "../features/api/api";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
@@ -12,6 +13,7 @@ export const store = configureStore({
     navigation: navigationReducer,
     workspaces: workspaceReducer,
     filters: filterReducer,
+    express: expressReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
 
