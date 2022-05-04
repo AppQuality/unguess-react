@@ -15,8 +15,8 @@ import { CampaignItem, ColCard } from "./CampaignItem";
 import { CardsContainer } from "./CardContainer";
 import { CardRowLoading } from "./CardRowLoading";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { openWizard } from "src/features/express/expressSlice";
-import { ExpressWizardContainer } from "../ExpressWizard";
+import { Wizard } from "../Wizard";
+import { useState } from "react";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
@@ -25,6 +25,8 @@ export const SuggestedCampaigns = () => {
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
+
+  const [wizardOpen, setWizardOpen] = useState(false);
 
   const hasExpress =
     userData.features &&
@@ -65,19 +67,31 @@ export const SuggestedCampaigns = () => {
           />
         ))}
         {hasExpress && (
-          <ColCard size={3}>
-            <ProductCard
-              onCtaClick={() => dispatch(openWizard())}
-              icon={<ExpressIcon />}
-              ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
-              preTitle={t("__DASHABOARD_EXPRESS_CARD_PRE_TITLE MAX:12")}
-              productTitle={t("__DASHABOARD_EXPRESS_CARD_TITLE MAX:12")}
-              style={{ height: "100%" }}
+          <>
+            <ColCard size={3}>
+              <ProductCard
+                onClick={() => {
+                  setWizardOpen(true);
+                }}
+                onCtaClick={() => {
+                  setWizardOpen(true);
+                }}
+                icon={<ExpressIcon />}
+                ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
+                preTitle={t("__DASHABOARD_EXPRESS_CARD_PRE_TITLE MAX:12")}
+                productTitle={t("__DASHABOARD_EXPRESS_CARD_TITLE MAX:12")}
+                style={{ height: "100%" }}
+              />
+            </ColCard>
+            <Wizard 
+              open={wizardOpen} 
+              onClose={() => setWizardOpen(false)}
+              onClick={() => {} }
             />
-          </ColCard>
+          </>
         )}
       </CardsContainer>
-      <ExpressWizardContainer />
+      {/*<ExpressWizardContainer />*/}
     </Row>
   );
 };
