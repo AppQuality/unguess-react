@@ -7,13 +7,7 @@ import {
   Stepper,
   theme,
 } from "@appquality/unguess-design-system";
-import {
-  Form,
-  Formik,
-  FormikProps,
-  FormikValues,
-  useFormikContext,
-} from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
@@ -26,16 +20,11 @@ import {
   WhereStepValidationSchema,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
+import customTheme from "src/common/theme-variant";
+import { WizardModel } from "./wizardModel";
+import defaultValues from "./wizardInitialValues";
 
 const StyledButton = styled(Button)``;
-
-const customTheme = {
-  ...theme,
-  colors: {
-    ...theme.colors,
-    primaryHue: theme.palette.teal[600],
-  },
-};
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -43,15 +32,28 @@ export const ExpressWizardContainer = () => {
 
   const dispatch = useAppDispatch();
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { isOpen } = useAppSelector((state) => state.express);
+  const { isOpen, steps: draftSteps } = useAppSelector((state) => state.express);
 
   const [activeStep, setStep] = useState(0);
+
+  //Reduce draftSteps to array of data
+  const draft: WizardModel = Object.values(draftSteps).reduce((filtered: {}, step) => {
+    return {
+      ...filtered,
+      ...step.data
+    };
+  }, {});
+
+  const initialValues = {
+    ...defaultValues,
+    ...draft,
+  }
+
 
   const onNext = () => {
     formRef.current &&
       formRef.current?.validateForm().then(() => {
         if (formRef.current?.isValid) {
-          alert("validated");
           setStep(activeStep + 1);
         }
       });
@@ -61,8 +63,10 @@ export const ExpressWizardContainer = () => {
   };
 
   //Form actions
-  const handleSubmit = (values: any) => {
+  const handleSubmit = (values: any, actions: any) => {
+    alert("Submitted");
     console.log("Triggered submit", values);
+    actions.setSubmitting(false);
   };
 
   const steps = [
@@ -141,7 +145,7 @@ export const ExpressWizardContainer = () => {
   return isOpen ? (
     <Formik
       innerRef={formRef}
-      initialValues={{ url: "", email: "", name: "" }}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validationSchema={steps[activeStep].validationSchema}
     >
@@ -157,38 +161,39 @@ export const ExpressWizardContainer = () => {
             />
             <ModalFullScreen.Close aria-label="Close modal" />
           </ModalFullScreen.Header>
+
           <ModalFullScreen.Body>
-            <Row>
-              {/**--- Stepper ---*/}
-              <Col xs={12} sm={12} md={12} lg={3}>
-                <Card
-                  style={{
-                    padding: theme.space.xxl,
-                    paddingBottom: theme.space.xl,
-                  }}
-                >
-                  <Stepper activeIndex={activeStep}>
-                    {steps.map((item, index) => (
-                      <Stepper.Step key={index}>
-                        <Stepper.Label>{item.label}</Stepper.Label>
-                        <Stepper.Content>{item.content}</Stepper.Content>
-                      </Stepper.Step>
-                    ))}
-                  </Stepper>
-                </Card>
-              </Col>
-              <Col xs={12} sm={12} md={12} lg={6}>
-                <Card>
-                  <Form onSubmit={formProps.handleSubmit}>
+            <Form onSubmit={formProps.handleSubmit}>
+              <Row>
+                {/**--- Stepper ---*/}
+                <Col xs={12} sm={12} md={12} lg={3}>
+                  <Card
+                    style={{
+                      padding: theme.space.xxl,
+                      paddingBottom: theme.space.xl,
+                    }}
+                  >
+                    <Stepper activeIndex={activeStep}>
+                      {steps.map((item, index) => (
+                        <Stepper.Step key={index}>
+                          <Stepper.Label>{item.label}</Stepper.Label>
+                          <Stepper.Content>{item.content}</Stepper.Content>
+                        </Stepper.Step>
+                      ))}
+                    </Stepper>
+                  </Card>
+                </Col>
+                <Col xs={12} sm={12} md={12} lg={6}>
+                  <Card>
                     {activeStep === steps.length ? (
                       <>Inserire qui pagina di completamento</>
                     ) : (
                       steps[activeStep].form(formProps)
                     )}
-                  </Form>
-                </Card>
-              </Col>
-            </Row>
+                  </Card>
+                </Col>
+              </Row>
+            </Form>
           </ModalFullScreen.Body>
           <ModalFullScreen.Footer>
             {steps.map(
@@ -199,6 +204,18 @@ export const ExpressWizardContainer = () => {
                   </ModalFullScreen.FooterItem>
                 )
             )}
+            <ModalFullScreen.FooterItem>
+              <Button
+                type="submit"
+                disabled={
+                  Object.keys(formProps.errors).length > 0 ||
+                  formProps.isSubmitting
+                }
+                onClick={() => formRef.current?.handleSubmit()}
+              >
+                Test submit
+              </Button>
+            </ModalFullScreen.FooterItem>
           </ModalFullScreen.Footer>
         </ModalFullScreen>
       )}

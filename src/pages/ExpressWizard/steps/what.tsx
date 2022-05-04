@@ -2,11 +2,12 @@ import { Input, Label, Message } from "@appquality/unguess-design-system";
 import { Field } from "@zendeskgarden/react-forms";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
+import { WizardModel } from "../wizardModel";
 
-export const WhatStep = ({ errors, touched, validateField, validateForm, handleChange, values, ...props }: FormikProps<{name: string, url: string, email: string}>) => {
-    console.log("WhatStep props", props);
-    console.log("WhatStep errors", errors);
-    return (
+export const WhatStep = ({ errors, touched, validateField, validateForm, handleChange, values, ...props }: FormikProps<WizardModel>) => {
+  console.log("Errors: ", errors);  
+  
+  return (
     <>
       <Field>
         <Label>Url</Label>
@@ -20,8 +21,8 @@ export const WhatStep = ({ errors, touched, validateField, validateForm, handleC
       </Field>
       <Field>
         <Label>Name</Label>
-        <Input type={"text"} placeholder="write text..." {...props.getFieldProps('name')} {...errors.name && {validation: "error"}}/>
-        {errors.name && <Message validation="error">{errors.name}</Message>}
+        <Input type={"text"} placeholder="write text..." {...props.getFieldProps('firstName')} {...errors.firstName && {validation: "error"}}/>
+        {errors.firstName && <Message validation="error">{errors.firstName}</Message>}
       </Field>
     </>
   );
@@ -32,5 +33,5 @@ const urlRe = /^((ftp|http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-
 export const WhatStepValidationSchema = Yup.object().shape({
     url: Yup.string().matches(urlRe,'URL is not valid').required('URL is required'),
     email: Yup.string().email('email sad').required('Required'),
-    name: Yup.string().required('Required'),
+    firstName: Yup.string().required('Required'),
 });
