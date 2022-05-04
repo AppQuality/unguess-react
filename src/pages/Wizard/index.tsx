@@ -20,12 +20,15 @@ import {
 } from "@appquality/unguess-design-system";
 import styled from "styled-components";
 import { Field } from "@zendeskgarden/react-dropdowns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
 import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
 import { ReactComponent as BugIcon } from "src/assets/icons/bug-icon.svg";
 import { ReactComponent as AddIcon } from "src/assets/icons/grid-add.svg";
 import { ReactComponent as FolderIcon } from "src/assets/icons/folder-icon.svg";
+import useDebounce from "src/hooks/useDebounce";
+import { useGetWorkspacesByWidProjectsQuery } from "src/features/api/endpoints/workspaces";
+import { useAppSelector } from "src/app/hooks";
 
 interface IItem {
     label: string;
@@ -33,7 +36,7 @@ interface IItem {
 }
 
 const Notes = styled(Card)`
-    margin-top: ${theme.space.base * 8}px;
+    margin-top: ${theme.space.base * 9}px;
     background-color: ${theme.palette.grey[200]};
     padding: ${theme.space.base * 4}px;
 `;
@@ -45,10 +48,12 @@ const NotesTitle = styled(MD)`
 
 const StyledDivider = styled(Divider)`
     background-color: ${theme.palette.grey[200]};
+    margin: ${theme.space.base * 4}px 0;
 `;
 
 const SelectTitle = styled(MD)`
-    margin: ${theme.space.base * 2}px 0;
+    padding-top: ${theme.space.base * 3}px;
+    margin-bottom: ${theme.space.base * 2}px;
 `;
 
 const TagsContainer = styled.div`
@@ -56,8 +61,18 @@ const TagsContainer = styled.div`
 `;
 
 const BodyTitle = styled(XXL)`
-    margin-top: ${theme.space.base * 5}px;
+    margin-top: ${theme.space.base * 6}px;
     margin-bottom: ${theme.space.base * 2}px;
+`;
+
+const StyledTag = styled(Tag)`
+    margin-right: ${theme.space.base * 2}px;
+    margin-bottom: ${theme.space.base * 2}px;
+
+    &:last-child {
+        margin-right: 0;
+        margin-bottom: 0;
+    }
 `;
 
 export const Wizard = ({
@@ -74,16 +89,42 @@ export const Wizard = ({
 }) => {
     const { t } = useTranslation();
 
+    const activeWorkspace = useAppSelector(
+        (state) => state.navigation.activeWorkspace
+    );
+
+    // TODO: API GET projects
+    const apiProjects = useGetWorkspacesByWidProjectsQuery({
+        wid: activeWorkspace?.id || 0
+    });
+
+    // TODO: API POST new project
+
+    // Get projects
     const projects = [
         { label: t("__WIZARD_EXPRESS_DEFAULT_ITEM"), value: "" },
-        { label: "Project 1", value: "item-1" },
-        { label: "Project 2", value: "item-2" },
-        { label: "Project 3", value: "item-3" },
+        { label: "Project 1", value: "1" },
+        { label: "Project 2", value: "2" },
+        { label: "Project 3", value: "3" },
     ];
 
     const [selectedItem, setSelectedItem] = useState(projects[0]);
     const [inputValue, setInputValue] = useState("");
     const [matchingOptions, setMatchingOptions] = useState(projects);
+
+    const debouncedInputValue = useDebounce<string>(inputValue, 300);
+
+    const filterMatchingOptions = (value: string) => {
+        const matchedOptions = projects.filter(
+            (project) => project.label.trim().toLowerCase().indexOf(value.trim().toLowerCase()) !== -1
+        );
+
+        setMatchingOptions(matchedOptions);
+    };
+
+    useEffect(() => {
+        filterMatchingOptions(debouncedInputValue);
+    }, [debouncedInputValue]);
 
     if (!type || type === "express") {
         return (
@@ -93,36 +134,36 @@ export const Wizard = ({
                     <BodyTitle>{t("__WIZARD_EXPRESS_BODY_TITLE")}</BodyTitle>
                     <Paragraph>{t("__WIZARD_EXPRESS_BODY_PARAGRAPH")}</Paragraph>
                     <TagsContainer>
-                        <Tag
+                        <StyledTag
                             hue={theme.palette.grey[100]}
                             isPill
                             size={"large"}
                         >
-                            <Tag.Avatar>
+                            <StyledTag.Avatar>
                                 <ExpressIcon />
-                            </Tag.Avatar>
+                            </StyledTag.Avatar>
                             <span>{t("__WIZARD_EXPRESS_TAG_1_TEXT")}</span>
-                        </Tag>
-                        <Tag
+                        </StyledTag>
+                        <StyledTag
                             hue={theme.palette.grey[100]}
                             isPill
                             size={"large"}
                         >
-                            <Tag.Avatar>
+                            <StyledTag.Avatar>
                                 <FunctionalIcon />
-                            </Tag.Avatar>
+                            </StyledTag.Avatar>
                             <span>{t("__WIZARD_EXPRESS_TAG_2_TEXT")}</span>
-                        </Tag>
-                        <Tag
+                        </StyledTag>
+                        <StyledTag
                             hue={theme.palette.grey[100]}
                             isPill
                             size={"large"}
                         >
-                            <Tag.Avatar>
+                            <StyledTag.Avatar>
                                 <BugIcon />
-                            </Tag.Avatar>
+                            </StyledTag.Avatar>
                             <span>{t("__WIZARD_EXPRESS_TAG_3_TEXT")}</span>
-                        </Tag>
+                        </StyledTag>
                     </TagsContainer>
                     <StyledDivider />
                     <SelectTitle>{t("__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE")}</SelectTitle>
@@ -130,6 +171,7 @@ export const Wizard = ({
                         inputValue={inputValue}
                         selectedItem={selectedItem}
                         onSelect={(item: IItem) => {
+                            if (item.value === "new") alert("Create new project");
                             setInputValue("");
                             setSelectedItem(item);
                         }}
@@ -147,35 +189,34 @@ export const Wizard = ({
                         </Field>
                         <Menu>
                             {matchingOptions.length ? (
-                                matchingOptions.map((item) => (
-                                    <Item key={item.value} value={item}>
-                                        <span>{item.label}</span>
-                                    </Item>
-                                ))
+                                matchingOptions.map((item, index) => {
+                                    return index === 0 ? (
+                                        <Item disabled>
+                                            <span>{item.label}</span>
+                                        </Item>
+                                    ) : (
+                                        <Item key={item.value} value={item}>
+                                            <span>{item.label}</span>
+                                        </Item>
+                                    )
+                                })
                             ) : (
-                                <Item disabled><span>No matches found</span></Item>
+                                <Item disabled>
+                                    <span>
+                                        {t("__WIZARD_EXPRESS_BODY_SELECT_PROJECT_NO_MATCHING_ITEMS")}
+                                    </span>
+                                </Item>
                             )}
                             {inputValue && (
                                 <>
                                     <Separator />
-                                    <Item key="new" value={inputValue}>
+                                    <Item key="new" value={{label: inputValue, value: "new"}}>
                                         <MediaFigure>
                                             <AddIcon />
                                         </MediaFigure>
-                                        <MediaBody>Add {inputValue}</MediaBody>
+                                        <MediaBody>{t("__WIZARD_EXPRESS_BODY_SELECT_PROJECT_ADD_ITEM_LABEL")} "{inputValue}"</MediaBody>
                                     </Item>
                                 </>
-                            )}
-                        </Menu>
-                        <Menu>
-                            {matchingOptions.length ? (
-                                matchingOptions.map((item) => (
-                                    <Item key={item.value} value={item}>
-                                        <span>{item.label}</span>
-                                    </Item>
-                                ))
-                            ) : (
-                                <Item disabled>No matches found</Item>
                             )}
                         </Menu>
                     </Dropdown>
@@ -193,7 +234,7 @@ export const Wizard = ({
                 <Drawer.Footer>
                     <Drawer.FooterItem>
                         <Button isPrimary isPill onClick={() => { alert("Confirm clicked!") }}>
-                            Confirm
+                            {t("__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON")}
                         </Button>
                     </Drawer.FooterItem>
                 </Drawer.Footer>
@@ -203,4 +244,4 @@ export const Wizard = ({
     } else {
         return <></>
     }
-}
+};

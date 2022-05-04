@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { testTypeFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { selectTestNames } from "src/features/campaigns";
 import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api/endpoints/workspaces";
+import { UgMenu } from "./styledMenu";
 
 export const TestTypeDropdown = () => {
   const { t } = useTranslation();
@@ -65,14 +66,14 @@ export const TestTypeDropdown = () => {
           )}
         </Select>
       </Field>
-      <Menu hasArrow>
+      <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
           <Item key={items[key].value} value={items[key]}>
             {items[key].icon ?? ""}
             {" " + items[key].label}
           </Item>
         ))}
-      </Menu>
+      </UgMenu>
     </Dropdown>
   );
 };
