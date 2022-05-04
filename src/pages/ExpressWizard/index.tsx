@@ -7,7 +7,7 @@ import {
   Stepper,
   theme,
 } from "@appquality/unguess-design-system";
-import { Form, Formik, FormikProps } from "formik";
+import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
@@ -32,23 +32,27 @@ export const ExpressWizardContainer = () => {
 
   const dispatch = useAppDispatch();
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { isOpen, steps: draftSteps } = useAppSelector((state) => state.express);
+  const { isOpen, steps: draftSteps } = useAppSelector(
+    (state) => state.express
+  );
 
   const [activeStep, setStep] = useState(0);
 
   //Reduce draftSteps to array of data
-  const draft: WizardModel = Object.values(draftSteps).reduce((filtered: {}, step) => {
-    return {
-      ...filtered,
-      ...step.data
-    };
-  }, {});
+  const draft: WizardModel = Object.values(draftSteps).reduce(
+    (filtered: {}, step) => {
+      return {
+        ...filtered,
+        ...step.data,
+      };
+    },
+    {}
+  );
 
   const initialValues = {
     ...defaultValues,
     ...draft,
-  }
-
+  };
 
   const onNext = () => {
     formRef.current &&
@@ -63,10 +67,13 @@ export const ExpressWizardContainer = () => {
   };
 
   //Form actions
-  const handleSubmit = (values: any, actions: any) => {
+  const handleSubmit = (
+    values: WizardModel,
+    { setSubmitting }: FormikHelpers<WizardModel>
+  ) => {
     alert("Submitted");
     console.log("Triggered submit", values);
-    actions.setSubmitting(false);
+    setSubmitting(false);
   };
 
   const steps = [

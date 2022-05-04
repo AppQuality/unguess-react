@@ -15,20 +15,20 @@ export interface Step {
 const initialState: ExpressWizardState = {
   isOpen: false,
   steps: {
-    what: {
-      data: {
-        url: "https://example.com",
-        firstName: "Peter",
-        email: "peter@example.com",
-       }
-    },
-    where: {
-      data: {
-        city: "New York",
-        state: "NY",
-        country: "USA",
-      }
-    }
+    // what: {
+    //   data: {
+    //     url: "https://example.com",
+    //     firstName: "Peter",
+    //     email: "peter@example.com",
+    //    }
+    // },
+    // where: {
+    //   data: {
+    //     city: "New York",
+    //     state: "NY",
+    //     country: "USA",
+    //   }
+    // }
   },
 };
 
