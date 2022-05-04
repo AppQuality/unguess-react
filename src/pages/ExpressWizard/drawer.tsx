@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import {
   theme,
   Drawer,
-  Button,
   XXL,
   Paragraph,
   Tag,
@@ -18,6 +17,7 @@ import { ReactComponent as BugIcon } from "src/assets/icons/bug-icon.svg";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { ProjectDropdown } from "./projectDropdown";
 import { closeDrawer, resetWizard } from "src/features/express/expressSlice";
+import { WaterButton } from "./waterButton";
 
 const Notes = styled(Card)`
   margin-top: ${theme.space.base * 9}px;
@@ -127,9 +127,9 @@ export const ExpressDrawer = ({
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
-          <Button isPrimary isPill onClick={onCtaClick} { ...!project && {disabled: true}}>
+          <WaterButton isPrimary isPill onClick={onCtaClick} { ...!project && {disabled: true}}>
             {t("__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON")}
-          </Button>
+          </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
       <Drawer.Close onClick={onClose} />

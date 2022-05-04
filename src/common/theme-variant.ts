@@ -4,7 +4,7 @@ const customTheme =  {
     ...theme,
     colors: {
       ...theme.colors,
-      primaryHue: theme.palette.teal[600],
+      primaryHue: theme.palette.water[600],
     },
   };
 

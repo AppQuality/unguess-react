@@ -68,6 +68,7 @@ export const ProjectDropdown = () => {
 
   useEffect(() => {
     filterMatchingOptions(debouncedInputValue);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedInputValue, projects]);
 
 

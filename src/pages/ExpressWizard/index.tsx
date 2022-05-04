@@ -1,7 +1,7 @@
 import {
   Button,
-  Card,
   Col,
+  ContainerCard,
   ModalFullScreen,
   Row,
   Stepper,
@@ -12,7 +12,6 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { closeWizard } from "src/features/express/expressSlice";
-import styled from "styled-components";
 import {
   WhatStep,
   WhatStepValidationSchema,
@@ -20,11 +19,10 @@ import {
   WhereStepValidationSchema,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
-import customTheme from "src/common/theme-variant";
 import { WizardModel } from "./wizardModel";
 import defaultValues from "./wizardInitialValues";
+import { WaterButton } from "./waterButton";
 
-const StyledButton = styled(Button)``;
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -83,9 +81,9 @@ export const ExpressWizardContainer = () => {
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
-        <StyledButton theme={customTheme} isPill isPrimary onClick={onNext}>
+        <WaterButton isPill isPrimary onClick={onNext}>
           Next
-        </StyledButton>
+        </WaterButton>
       ),
     },
     {
@@ -95,12 +93,12 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhereStepValidationSchema,
       buttons: (
         <>
-          <StyledButton theme={customTheme} isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isPrimary onClick={onBack}>
             Back
-          </StyledButton>
-          <StyledButton theme={customTheme} isPill isPrimary onClick={onNext}>
+          </WaterButton>
+          <WaterButton isPill isPrimary onClick={onNext}>
             Next
-          </StyledButton>
+          </WaterButton>
         </>
       ),
     },
@@ -111,12 +109,12 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
-          <StyledButton theme={customTheme} isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isPrimary onClick={onBack}>
             Back
-          </StyledButton>
-          <StyledButton theme={customTheme} isPill isPrimary onClick={onNext}>
+          </WaterButton>
+          <WaterButton isPill isPrimary onClick={onNext}>
             Next
-          </StyledButton>
+          </WaterButton>
         </>
       ),
     },
@@ -127,12 +125,12 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
-          <StyledButton theme={customTheme} isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isPrimary onClick={onBack}>
             Back
-          </StyledButton>
-          <StyledButton theme={customTheme} isPill isPrimary onClick={onNext}>
+          </WaterButton>
+          <WaterButton isPill isPrimary onClick={onNext}>
             Next
-          </StyledButton>
+          </WaterButton>
         </>
       ),
     },
@@ -142,9 +140,9 @@ export const ExpressWizardContainer = () => {
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
-        <StyledButton theme={customTheme} isPill isPrimary onClick={onBack}>
+        <WaterButton isPill isPrimary onClick={onBack}>
           Back
-        </StyledButton>
+        </WaterButton>
       ),
     },
   ];
@@ -174,7 +172,7 @@ export const ExpressWizardContainer = () => {
               <Row>
                 {/**--- Stepper ---*/}
                 <Col xs={12} sm={12} md={12} lg={3}>
-                  <Card
+                  <ContainerCard
                     style={{
                       padding: theme.space.xxl,
                       paddingBottom: theme.space.xl,
@@ -188,16 +186,16 @@ export const ExpressWizardContainer = () => {
                         </Stepper.Step>
                       ))}
                     </Stepper>
-                  </Card>
+                  </ContainerCard>
                 </Col>
                 <Col xs={12} sm={12} md={12} lg={6}>
-                  <Card>
+                  <ContainerCard>
                     {activeStep === steps.length ? (
                       <>Inserire qui pagina di completamento</>
                     ) : (
                       steps[activeStep].form(formProps)
                     )}
-                  </Card>
+                  </ContainerCard>
                 </Col>
               </Row>
             </Form>
