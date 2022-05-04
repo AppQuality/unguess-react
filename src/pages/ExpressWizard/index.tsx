@@ -32,7 +32,7 @@ export const ExpressWizardContainer = () => {
 
   const dispatch = useAppDispatch();
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { isOpen, steps: draftSteps } = useAppSelector(
+  const { isWizardOpen, steps: draftSteps } = useAppSelector(
     (state) => state.express
   );
 
@@ -149,7 +149,7 @@ export const ExpressWizardContainer = () => {
     },
   ];
 
-  return isOpen ? (
+  return isWizardOpen ? (
     <Formik
       innerRef={formRef}
       initialValues={initialValues}

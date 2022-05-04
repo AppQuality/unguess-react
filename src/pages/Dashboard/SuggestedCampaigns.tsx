@@ -15,8 +15,13 @@ import { CampaignItem, ColCard } from "./CampaignItem";
 import { CardsContainer } from "./CardContainer";
 import { CardRowLoading } from "./CardRowLoading";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { Wizard } from "../Wizard";
-import { useState } from "react";
+import { ExpressDrawer } from "../ExpressWizard/drawer";
+import {
+  closeDrawer,
+  openDrawer,
+  openWizard,
+} from "src/features/express/expressSlice";
+import { ExpressWizardContainer } from "../ExpressWizard";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
@@ -25,8 +30,6 @@ export const SuggestedCampaigns = () => {
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
-
-  const [wizardOpen, setWizardOpen] = useState(false);
 
   const hasExpress =
     userData.features &&
@@ -70,11 +73,8 @@ export const SuggestedCampaigns = () => {
           <>
             <ColCard size={3}>
               <ProductCard
-                onClick={() => {
-                  setWizardOpen(true);
-                }}
                 onCtaClick={() => {
-                  setWizardOpen(true);
+                  dispatch(openDrawer());
                 }}
                 icon={<ExpressIcon />}
                 ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
@@ -83,15 +83,14 @@ export const SuggestedCampaigns = () => {
                 style={{ height: "100%" }}
               />
             </ColCard>
-            <Wizard 
-              open={wizardOpen} 
-              onClose={() => setWizardOpen(false)}
-              onClick={() => {} }
+            <ExpressDrawer
+              onClose={() => dispatch(closeDrawer())}
+              onCtaClick={() => dispatch(openWizard())}
             />
+            <ExpressWizardContainer />
           </>
         )}
       </CardsContainer>
-      {/*<ExpressWizardContainer />*/}
     </Row>
   );
 };

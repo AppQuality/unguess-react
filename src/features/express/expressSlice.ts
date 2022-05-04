@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface ExpressWizardState {
   steps: { [key: string]: Step };
-  isOpen?: boolean;
+  projectId?: number;
+  isWizardOpen?: boolean;
+  isDrawerOpen?: boolean;
   isDirty?: boolean;
   currentStep?: number;
 }
@@ -13,7 +15,8 @@ export interface Step {
 }
 
 const initialState: ExpressWizardState = {
-  isOpen: false,
+  isWizardOpen: false,
+  isDrawerOpen: false,
   steps: {
     // what: {
     //   data: {
@@ -37,10 +40,16 @@ const expressSlice = createSlice({
   initialState,
   reducers: {
     openWizard: (state) => {
-      state.isOpen = true;
+      state.isWizardOpen = true;
     },
     closeWizard: (state) => {
-      state.isOpen = false;
+      state.isWizardOpen = false;
+    },
+    openDrawer: (state) => {
+      state.isDrawerOpen = true;
+    },
+    closeDrawer: (state) => {
+      state.isDrawerOpen = false;
     },
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload;
@@ -53,17 +62,24 @@ const expressSlice = createSlice({
     },
     resetWizard: (state) => {
       state.steps = {};
+      state.projectId = undefined;
     },
+    setProjectId: (state, action) => {
+      state.projectId = action.payload;
+    }
   },
 });
 
 export const {
   openWizard,
   closeWizard,
+  openDrawer,
+  closeDrawer,
   setCurrentStep,
   addStep,
   removeStep,
   resetWizard,
+  setProjectId,
 } = expressSlice.actions;
 
 export default expressSlice.reducer;
