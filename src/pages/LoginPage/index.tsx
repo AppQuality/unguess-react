@@ -21,7 +21,7 @@ const CenteredXYContainer = styled.div`
 
 export default function LoginPage() {
   const { t } = useTranslation();
-  const [error, setError] = useState<string | boolean>(false);
+  // const [error, setError] = useState<string | boolean>(false);
   const [cta, setCta] = useState<string>(t("__LOGIN_FORM_CTA"));
   const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function LoginPage() {
   ) => {
     try {
       const nonce = await WPAPI.getNonce();
-      const response = await WPAPI.login({
+      await WPAPI.login({
         username: values.email,
         password: values.password,
         security: nonce,
@@ -72,7 +72,7 @@ export default function LoginPage() {
       password: "",
     },
     validateOnChange: true,
-    errors: error,
+    errors: false,
     touched: {},
     validate: (values: any) => {
       let errors: any = {};
