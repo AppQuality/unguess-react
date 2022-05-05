@@ -76,72 +76,72 @@ export const ExpressWizardContainer = () => {
 
   const steps = [
     {
-      label: "Cosa",
-      content: "Il prodotto del test",
+      label: t("__EXPRESS_WIZARD_STEP_WHAT_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
-        <WaterButton isPill isPrimary onClick={onNext}>
-          Next
+        <WaterButton isPill isPrimary onClick={onBack}>
+          {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
         </WaterButton>
       ),
     },
     {
-      label: "Dove",
-      content: "I dispositivi di test",
+      label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
       form: (props: any) => <WhereStep />,
       validationSchema: WhereStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
-            Back
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            Next
+            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
           </WaterButton>
         </>
       ),
     },
     {
-      label: "Chi",
-      content: "Gli utenti del test",
+      label: t("__EXPRESS_WIZARD_STEP_WHO_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
-            Back
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            Next
+            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
           </WaterButton>
         </>
       ),
     },
     {
-      label: "Quando",
-      content: "Le tempistiche del test",
+      label: t("__EXPRESS_WIZARD_STEP_WHEN_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
-            Back
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            Next
+            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
           </WaterButton>
         </>
       ),
     },
     {
-      label: "Recap e Lancio",
-      content: "Tutto pronto!",
+      label: t("__EXPRESS_WIZARD_STEP_CONFIRM_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <WaterButton isPill isPrimary onClick={onBack}>
-          Back
+          {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
         </WaterButton>
       ),
     },
