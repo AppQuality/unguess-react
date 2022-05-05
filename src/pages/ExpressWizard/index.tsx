@@ -82,7 +82,7 @@ export const ExpressWizardContainer = () => {
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
-        <WaterButton isPill isPrimary onClick={onBack}>
+        <WaterButton isPill isPrimary onClick={onNext}>
           {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
         </WaterButton>
       ),
@@ -141,9 +141,14 @@ export const ExpressWizardContainer = () => {
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
-        <WaterButton isPill isPrimary onClick={onBack}>
-          {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
-        </WaterButton>
+        <>
+          <WaterButton isPill isPrimary onClick={onBack}>
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
+          </WaterButton>
+          <WaterButton isPill isPrimary onClick={onBack}>
+            {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
+          </WaterButton>
+        </>
       ),
     },
   ];

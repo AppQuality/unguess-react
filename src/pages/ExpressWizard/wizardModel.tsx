@@ -1,5 +1,5 @@
 export interface WizardModel {
-    firstName?: string;
-    url?: string;
-    email?: string;
+    campaign_name?: string;
+    campaign_reason?: string;
+    product_type?: string;
 }
