@@ -1,7 +1,6 @@
 import {
   Dropdown,
   Select,
-  Menu,
   Item,
 } from "@appquality/unguess-design-system";
 
