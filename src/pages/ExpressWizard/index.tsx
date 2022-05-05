@@ -200,28 +200,32 @@ export const ExpressWizardContainer = () => {
               </Row>
             </Form>
           </ModalFullScreen.Body>
-          <ModalFullScreen.Footer>
-            {steps.map(
-              (item, index) =>
-                index === activeStep && (
-                  <ModalFullScreen.FooterItem>
-                    {item.buttons}
-                  </ModalFullScreen.FooterItem>
-                )
-            )}
-            <ModalFullScreen.FooterItem>
-              <Button
-                type="submit"
-                disabled={
-                  Object.keys(formProps.errors).length > 0 ||
-                  formProps.isSubmitting
-                }
-                onClick={() => formRef.current?.handleSubmit()}
-              >
-                Test submit
-              </Button>
-            </ModalFullScreen.FooterItem>
-          </ModalFullScreen.Footer>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={6} offset={3}>
+              <ModalFullScreen.Footer>
+                {steps.map(
+                  (item, index) =>
+                    index === activeStep && (
+                      <ModalFullScreen.FooterItem>
+                        {item.buttons}
+                      </ModalFullScreen.FooterItem>
+                    )
+                )}
+                <ModalFullScreen.FooterItem>
+                  <Button
+                    type="submit"
+                    disabled={
+                      Object.keys(formProps.errors).length > 0 ||
+                      formProps.isSubmitting
+                    }
+                    onClick={() => formRef.current?.handleSubmit()}
+                  >
+                    Test submit
+                  </Button>
+                </ModalFullScreen.FooterItem>
+              </ModalFullScreen.Footer>
+            </Col>
+          </Row>
         </ModalFullScreen>
       )}
     </Formik>
