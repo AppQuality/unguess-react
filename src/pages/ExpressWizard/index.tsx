@@ -15,15 +15,19 @@ import { closeWizard } from "src/features/express/expressSlice";
 import {
   WhatStep,
   WhatStepValidationSchema,
-  WhereStep,
-  WhereStepValidationSchema,
+  WhereWebStep,
+  WhereWebStepValidationSchema,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
 import defaultValues from "./wizardInitialValues";
 import { WaterButton } from "./waterButton";
-import { WhereWebStep } from "./steps/whereWeb";
+import styled, { css } from "styled-components";
 
+
+const StyledContainer = styled(ContainerCard)`
+  max-height: 70vh;
+`;
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -62,7 +66,11 @@ export const ExpressWizardContainer = () => {
       });
   };
   const onBack = () => {
-    setStep(activeStep - 1);
+    if (activeStep > 0) {
+      setStep(activeStep - 1);
+    } else {
+      alert("You are on the first step, you can't go back more.");
+    }
   };
 
   //Form actions
@@ -82,7 +90,7 @@ export const ExpressWizardContainer = () => {
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
-        <WaterButton isPill isPrimary onClick={onBack}>
+        <WaterButton isPill isPrimary onClick={onNext}>
           {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
         </WaterButton>
       ),
@@ -91,7 +99,7 @@ export const ExpressWizardContainer = () => {
       label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
       form: (props: any) => <WhereWebStep {...props} />,
-      validationSchema: WhereStepValidationSchema,
+      validationSchema: WhereWebStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
@@ -148,6 +156,9 @@ export const ExpressWizardContainer = () => {
     },
   ];
 
+  console.log("Step", steps);
+  console.log("Active step", activeStep);
+  console.log("Current ValidationSchema", steps[activeStep]);
   return isWizardOpen ? (
     <Formik
       innerRef={formRef}
@@ -173,7 +184,7 @@ export const ExpressWizardContainer = () => {
               <Row>
                 {/**--- Stepper ---*/}
                 <Col xs={12} sm={12} md={12} lg={3}>
-                  <ContainerCard
+                  <StyledContainer
                     style={{
                       padding: theme.space.xxl,
                       paddingBottom: theme.space.xl,
@@ -187,16 +198,16 @@ export const ExpressWizardContainer = () => {
                         </Stepper.Step>
                       ))}
                     </Stepper>
-                  </ContainerCard>
+                  </StyledContainer>
                 </Col>
                 <Col xs={12} sm={12} md={12} lg={6}>
-                  <ContainerCard>
+                  <StyledContainer>
                     {activeStep === steps.length ? (
                       <>Inserire qui pagina di completamento</>
                     ) : (
                       steps[activeStep].form(formProps)
                     )}
-                  </ContainerCard>
+                  </StyledContainer>
                 </Col>
               </Row>
             </Form>
