@@ -29,4 +29,4 @@ export const WhereWebStep = ({
   );
 };
 
-export const WhereStepValidationSchema = Yup.object().shape({});
+export const WhereWebStepValidationSchema = Yup.object().shape({});

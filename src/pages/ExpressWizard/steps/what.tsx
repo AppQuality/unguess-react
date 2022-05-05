@@ -1,4 +1,4 @@
-import { Col, Dropdown, Grid, Input, Item, Label, Menu, Message, Paragraph, RadioCard, Row, Select, Span, XL, XXL } from "@appquality/unguess-design-system";
+import { Col, Dropdown, Grid, Item, Label, MediaInput, Menu, Message, Paragraph, RadioCard, Row, Select, Span, XL, XXL } from "@appquality/unguess-design-system";
 import { Field as FormField } from "@zendeskgarden/react-forms";
 import { Field as DropdownField } from "@zendeskgarden/react-dropdowns";
 import { FormikProps } from "formik";
@@ -10,6 +10,7 @@ import { ReactComponent as WebappIcon } from "src/assets/icons/webapp.svg";
 import { ReactComponent as WebappIconActive } from "src/assets/icons/webapp-active.svg";
 import { ReactComponent as MobileappIcon } from "src/assets/icons/mobileapp.svg";
 import { ReactComponent as MobileappIconActive } from "src/assets/icons/mobileapp-active.svg";
+import { ReactComponent as DocumentIcon } from "src/assets/icons/document-icon.svg";
 import { ReactComponent as FlagIcon } from "src/assets/icons/flag-icon.svg";
 import { useState } from "react";
 import initialValues from "../wizardInitialValues";
@@ -67,8 +68,9 @@ export const WhatStep = ({ errors, touched, validateField, validateForm, handleC
       <CardDivider />
       <StyledFormField>
         <Label>{t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_LABEL")}</Label>
-        <Input
+        <MediaInput
           type={"text"}
+          start={<DocumentIcon />}
           placeholder={t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER")}
           {...props.getFieldProps('campaign_name')}
           {...errors.campaign_name && { validation: "error" }}

@@ -1,5 +1,4 @@
-export interface WizardModel {
-    campaign_name?: string;
-    campaign_reason?: string;
-    product_type?: string;
-}
+import { WhatStep } from './fields/what';
+import { WhereWebStep } from './fields/whereWeb';
+
+export interface WizardModel extends WhatStep, WhereWebStep{}

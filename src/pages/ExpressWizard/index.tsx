@@ -15,15 +15,13 @@ import { closeWizard } from "src/features/express/expressSlice";
 import {
   WhatStep,
   WhatStepValidationSchema,
-  WhereStep,
-  WhereStepValidationSchema,
+  WhereWebStep,
+  WhereWebStepValidationSchema,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
 import defaultValues from "./wizardInitialValues";
 import { WaterButton } from "./waterButton";
-import { WhereWebStep } from "./steps/whereWeb";
-
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -91,7 +89,7 @@ export const ExpressWizardContainer = () => {
       label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
       form: (props: any) => <WhereWebStep {...props} />,
-      validationSchema: WhereStepValidationSchema,
+      validationSchema: WhereWebStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
