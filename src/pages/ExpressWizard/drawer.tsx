@@ -5,7 +5,6 @@ import {
   XXL,
   Paragraph,
   Tag,
-  Divider,
   MD,
   Card,
   UnorderedList,
@@ -18,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { ProjectDropdown } from "./projectDropdown";
 import { closeDrawer, resetWizard } from "src/features/express/expressSlice";
 import { WaterButton } from "./waterButton";
+import { CardDivider } from "./cardDivider";
 
 const Notes = styled(Card)`
   margin-top: ${theme.space.base * 9}px;
@@ -28,11 +28,6 @@ const Notes = styled(Card)`
 const NotesTitle = styled(MD)`
   color: ${theme.palette.teal["M600"]};
   font-weight: ${theme.fontWeights.medium};
-`;
-
-const StyledDivider = styled(Divider)`
-  background-color: ${theme.palette.grey[200]};
-  margin: ${theme.space.base * 4}px 0;
 `;
 
 const SelectTitle = styled(MD)`
@@ -61,7 +56,6 @@ const StyledTag = styled(Tag)`
 
 export const ExpressDrawer = ({
   onCtaClick,
-  ...props
 }: {
   onCtaClick: () => void;
 }) => {
@@ -101,7 +95,7 @@ export const ExpressDrawer = ({
             <span>{t("__WIZARD_EXPRESS_TAG_3_TEXT")}</span>
           </StyledTag>
         </TagsContainer>
-        <StyledDivider />
+        <CardDivider />
         <SelectTitle>
           {t("__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE")}
         </SelectTitle>
