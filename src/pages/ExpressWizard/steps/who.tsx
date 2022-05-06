@@ -1,5 +1,5 @@
-import { Col, Label, Message, Paragraph, Radio, Row, Span, XL, XXL } from "@appquality/unguess-design-system";
-import { Field, Hint } from "@zendeskgarden/react-forms";
+import { Hint, Col, Label, Message, Paragraph, Radio, Row, Span, XL, XXL } from "@appquality/unguess-design-system";
+import { Field } from "@zendeskgarden/react-forms";
 import { FormikProps } from "formik";
 import styled from "styled-components";
 import * as Yup from "yup";
@@ -45,12 +45,10 @@ export const WhoStep = ({ errors, touched, validateField, validateForm, handleCh
 
     return (
         <>
-            <StyledFormField>
-                <StepTitle>
-                    <Span isBold>{t("__EXPRESS_WIZARD_STEP_WHO_LABEL")}</Span> {t("__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA")}
-                </StepTitle>
-                <Paragraph>{t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION")}</Paragraph>
-            </StyledFormField>
+            <StepTitle>
+                <Span isBold>{t("__EXPRESS_WIZARD_STEP_WHO_LABEL")}</Span> {t("__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA")}
+            </StepTitle>
+            <Paragraph>{t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION")}</Paragraph>
             <CardDivider />
             <StyledFormField>
                 <StyledLanguageTitle>
