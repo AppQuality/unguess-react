@@ -19,20 +19,20 @@ const initialState: ExpressWizardState = {
   isWizardOpen: false,
   isDrawerOpen: false,
   steps: {
-    // what: {
-    //   data: {
-    //     url: "https://example.com",
-    //     firstName: "Peter",
-    //     email: "peter@example.com",
-    //    }
-    // },
-    // where: {
-    //   data: {
-    //     city: "New York",
-    //     state: "NY",
-    //     country: "USA",
-    //   }
-    // }
+    what: {
+      data: {
+        url: "https://example.com",
+        firstName: "Peter",
+        email: "peter@example.com",
+       }
+    },
+    where: {
+      data: {
+        city: "New York",
+        state: "NY",
+        country: "USA",
+      }
+    }
   },
 };
 

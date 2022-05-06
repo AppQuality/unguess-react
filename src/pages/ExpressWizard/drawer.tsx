@@ -18,17 +18,7 @@ import { ProjectDropdown } from "./projectDropdown";
 import { closeDrawer, resetWizard } from "src/features/express/expressSlice";
 import { WaterButton } from "./waterButton";
 import { CardDivider } from "./cardDivider";
-
-const Notes = styled(Card)`
-  margin-top: ${theme.space.base * 9}px;
-  background-color: ${theme.palette.grey[200]};
-  padding: ${theme.space.base * 4}px;
-`;
-
-const NotesTitle = styled(MD)`
-  color: ${theme.palette.teal["M600"]};
-  font-weight: ${theme.fontWeights.medium};
-`;
+import { Notes, NotesTitle } from "./notesCard";
 
 const SelectTitle = styled(MD)`
   padding-top: ${theme.space.base * 3}px;
@@ -100,7 +90,7 @@ export const ExpressDrawer = ({
           {t("__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE")}
         </SelectTitle>
         <ProjectDropdown />
-        <Notes>
+        <Notes style={{ marginTop: theme.space.base * 9 + "px"}}>
           <NotesTitle>{t("__WIZARD_EXPRESS_BODY_NOTES_TITLE")}</NotesTitle>
           <Paragraph>{t("__WIZARD_EXPRESS_BODY_NOTES_PARAGRAPH")}</Paragraph>
           <UnorderedList>

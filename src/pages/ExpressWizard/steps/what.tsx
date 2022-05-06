@@ -51,6 +51,7 @@ const StyledProductTypeTitle = styled(XL)`
 `;
 
 export const WhatStep = ({ errors, touched, validateField, validateForm, handleChange, values, ...props }: FormikProps<WizardModel>) => {
+
   const [radioValue, setRadioValue] = useState(initialValues.product_type);
   const [selectedItem, setSelectedItem] = useState(initialValues.campaign_reason);
 
