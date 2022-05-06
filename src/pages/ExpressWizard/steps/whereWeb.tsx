@@ -1,5 +1,4 @@
 import {
-  XL,
   XXL,
   MD,
   Span,
@@ -15,7 +14,6 @@ import {
   MediaInput,
   Paragraph,
   Input,
-  Textarea,
 } from "@appquality/unguess-design-system";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
@@ -30,32 +28,14 @@ import { ReactComponent as TabletIconActive } from "src/assets/icons/device-tabl
 import { ReactComponent as LaptopIcon } from "src/assets/icons/device-laptop.svg";
 import { ReactComponent as LaptopIconActive } from "src/assets/icons/device-laptop-active.svg";
 import { ReactComponent as LinkIcon } from "src/assets/icons/link-stroke.svg";
-import styled from "styled-components";
+import { PrimarySpan, StyledRow, SpacedField } from "./where/styled";
 import { Notes, NotesTitle } from "../notesCard";
 import { useEffect } from "react";
+import { OutOfScopeSection } from "./where/outOfScope";
 
-const StyledRow = styled(Row)`
-  margin-top: ${({ theme }) => theme.space.md};
-`;
+export const WhereWebStep = (props: FormikProps<WizardModel>) => {
+  const { errors, values, setFieldValue } = props;
 
-const PrimarySpan = styled(Span)`
-  color: ${({ theme }) => theme.colors.primaryHue};
-`;
-
-const SpacedField = styled(Field)`
-  margin-top: ${({ theme }) => theme.space.sm};
-`;
-
-export const WhereWebStep = ({
-  errors,
-  touched,
-  validateField,
-  validateForm,
-  handleChange,
-  values,
-  setFieldValue,
-  ...props
-}: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -222,28 +202,40 @@ export const WhereWebStep = ({
                   />
                 </Field>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withChrome")}>
+                  <Checkbox
+                    {...props.getFieldProps("withChrome")}
+                    checked={values.withChrome}
+                  >
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withEdge")}>
+                  <Checkbox
+                    {...props.getFieldProps("withEdge")}
+                    checked={values.withEdge}
+                  >
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withSafari")}>
+                  <Checkbox
+                    {...props.getFieldProps("withSafari")}
+                    checked={values.withSafari}
+                  >
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withFirefox")}>
+                  <Checkbox
+                    {...props.getFieldProps("withFirefox")}
+                    checked={values.withFirefox}
+                  >
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX")}
                     </Label>
@@ -253,68 +245,40 @@ export const WhereWebStep = ({
             )}
           </Notes>
         </Col>
+        {values.customBrowser && errors.customBrowserFilled && (
+          <Col size={12}>
+            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+              {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_ERROR")}
+            </Message>
+          </Col>
+        )}
       </StyledRow>
 
       {/** --- Out of scope --- */}
-      <StyledRow style={{ marginTop: theme.space.lg }}>
-        <Col>
-          <XL isBold style={{ color: theme.palette.grey[800] }}>
-            {t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE")}
-          </XL>
-          <MD>{t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_DESCRIPTION")}</MD>
-        </Col>
-      </StyledRow>
-      <StyledRow style={{ marginTop: theme.space.sm }}>
-        <Col>
-          <MD style={{ color: theme.palette.grey[800] }}>
-            {t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TOGGLE_LABEL")}
-          </MD>
-        </Col>
-        <Col size={2} textAlign={"end"}>
-          <Field>
-            <Toggle
-              {...props.getFieldProps("hasOutOfScope")}
-              checked={values.hasOutOfScope}
-            >
-              <Label hidden>
-                {t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE")}
-              </Label>
-            </Toggle>
-          </Field>
-        </Col>
-        <Col size={12}>
-          <CardDivider style={{ marginTop: theme.space.xs }} />
-        </Col>
-        {values.hasOutOfScope && (
-          <>
-            <Col size={12}>
-              <Notes>
-                <Field>
-                  <Label>
-                    {t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_LABEL")}
-                    <Span style={{ color: theme.colors.dangerHue }}>*</Span>
-                  </Label>
-                  <Textarea
-                    rows={5}
-                    placeholder={t(
-                      "__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_PLACEHOLDER"
-                    )}
-                    isResizable
-                    {...props.getFieldProps("outOfScope")}
-                  />
-                </Field>
-              </Notes>
-            </Col>
-          </>
-        )}
-      </StyledRow>
+      <OutOfScopeSection {...props} />
     </>
   );
 };
 
-export const WhereWebStepValidationSchema = Yup.object().shape(
+export const WhereStepValidationSchema = Yup.object().shape(
   {
-    link: Yup.string().url().required(),
+     //Where APP STEP
+    isIOS: Yup.bool(),
+    isAndroid: Yup.bool(),
+    iOSLink: Yup.string().url().when("isIOS", {
+      is: true,
+      then: Yup.string().url().required(),
+    }),
+    androidLink: Yup.string().url().when("product_type", {
+      is: 'webapp',
+      then: Yup.string().url().required(),
+    }),
+
+    //Where WEB STEP
+    link: Yup.string().url().when("isIOS", {
+      is: true,
+      then: Yup.string().url().required(),
+    }),
     withSmartphone: Yup.bool().when(["withTablet", "withDesktop"], {
       is: (withTablet: boolean, withDesktop: boolean) =>
         !withTablet && !withDesktop,
@@ -335,6 +299,11 @@ export const WhereWebStepValidationSchema = Yup.object().shape(
     customBrowserFilled: Yup.bool().when("customBrowser", {
       is: true,
       then: Yup.bool().oneOf([true], "Custom Browser is required"),
+    }),
+    hasOutOfScope: Yup.bool(),
+    outOfScope: Yup.string().when("hasOutOfScope", {
+      is: true,
+      then: Yup.string().required(),
     }),
   },
   [

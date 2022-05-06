@@ -16,7 +16,11 @@ const values: WizardModel = {
     withFirefox: false,
     withEdge: false,
     hasOutOfScope: false,
-    outOfScope: ""
+    outOfScope: "",
+    iOSLink: "",
+    androidLink: "",
+    isIOS: true,
+    isAndroid: false,
 }
 
 export default values;

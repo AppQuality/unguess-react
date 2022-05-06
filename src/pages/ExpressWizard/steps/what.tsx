@@ -13,7 +13,6 @@ import { ReactComponent as MobileappIconActive } from "src/assets/icons/mobileap
 import { ReactComponent as DocumentIcon } from "src/assets/icons/document-icon.svg";
 import { ReactComponent as FlagIcon } from "src/assets/icons/flag-icon.svg";
 import { useState } from "react";
-import initialValues from "../wizardInitialValues";
 import { CardDivider } from "../cardDivider";
 
 interface Reasons {
@@ -52,8 +51,8 @@ const StyledProductTypeTitle = styled(XL)`
 
 export const WhatStep = ({ errors, touched, validateField, validateForm, handleChange, values, ...props }: FormikProps<WizardModel>) => {
 
-  const [radioValue, setRadioValue] = useState(initialValues.product_type);
-  const [selectedItem, setSelectedItem] = useState(initialValues.campaign_reason);
+  const [radioValue, setRadioValue] = useState(values.product_type);
+  const [selectedItem, setSelectedItem] = useState(values.campaign_reason);
 
   const handleRadioClick = (value: string) => {
     setRadioValue(value);

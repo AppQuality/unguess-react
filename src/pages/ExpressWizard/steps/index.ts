@@ -1,11 +1,11 @@
 import { WhatStep, WhatStepValidationSchema } from "./what";
-import { WhereStep, WhereStepValidationSchema } from "./where";
-import { WhereWebStep, WhereWebStepValidationSchema } from "./whereWeb";
+import { WhereAppStep } from "./whereApp";
+import { WhereWebStep, WhereStepValidationSchema } from "./whereWeb";
 import { WhoStep, WhoStepValidationSchema } from "./who";
 
 export {
   WhatStep,
-  WhereStep,
+  WhereAppStep,
   WhereWebStep,
   WhoStep
 };
@@ -13,6 +13,5 @@ export {
 export {
   WhatStepValidationSchema,
   WhereStepValidationSchema,
-  WhereWebStepValidationSchema,
   WhoStepValidationSchema
 };
