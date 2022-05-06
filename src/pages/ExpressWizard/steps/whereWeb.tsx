@@ -222,28 +222,28 @@ export const WhereWebStep = ({
                   />
                 </Field>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withChrome")}>
+                  <Checkbox {...props.getFieldProps("withChrome")} checked={values.withChrome}>
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withEdge")}>
+                  <Checkbox {...props.getFieldProps("withEdge")} checked={values.withEdge}>
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withSafari")}>
+                  <Checkbox {...props.getFieldProps("withSafari")} checked={values.withSafari}>
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
-                  <Checkbox {...props.getFieldProps("withFirefox")}>
+                  <Checkbox {...props.getFieldProps("withFirefox")} checked={values.withFirefox}>
                     <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX")}
                     </Label>
@@ -253,6 +253,13 @@ export const WhereWebStep = ({
             )}
           </Notes>
         </Col>
+        {values.customBrowser && errors.customBrowserFilled && (
+          <Col size={12}>
+            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+              {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_ERROR")}
+            </Message>
+          </Col>
+        )}
       </StyledRow>
 
       {/** --- Out of scope --- */}
@@ -307,6 +314,13 @@ export const WhereWebStep = ({
             </Col>
           </>
         )}
+        {values.hasOutOfScope && errors.outOfScope && (
+          <Col size={12}>
+            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+              {t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_ERROR")}
+            </Message>
+          </Col>
+        )}
       </StyledRow>
     </>
   );
@@ -335,6 +349,11 @@ export const WhereWebStepValidationSchema = Yup.object().shape(
     customBrowserFilled: Yup.bool().when("customBrowser", {
       is: true,
       then: Yup.bool().oneOf([true], "Custom Browser is required"),
+    }),
+    hasOutOfScope: Yup.bool(),
+    outOfScope: Yup.string().when("hasOutOfScope", {
+      is: true,
+      then: Yup.string().required(),
     }),
   },
   [
