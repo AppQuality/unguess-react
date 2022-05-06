@@ -22,6 +22,15 @@ import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
 import defaultValues from "./wizardInitialValues";
 import { WaterButton } from "./waterButton";
+import styled from "styled-components";
+
+const StyledContainer = styled(ContainerCard)`
+  position: sticky;
+  top: 0;
+  padding-right: ${({ theme }) => theme.space.sm};
+  max-height: calc(100vh - ${({ theme }) => theme.components.chrome.header.height});
+  overflow-y: auto;
+`;
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -60,7 +69,11 @@ export const ExpressWizardContainer = () => {
       });
   };
   const onBack = () => {
-    setStep(activeStep - 1);
+    if (activeStep > 0) {
+      setStep(activeStep - 1);
+    } else {
+      alert("You are on the first step, you can't go back more.");
+    }
   };
 
   //Form actions
@@ -92,7 +105,7 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhereWebStepValidationSchema,
       buttons: (
         <>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
@@ -108,7 +121,7 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
@@ -124,7 +137,7 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
@@ -156,6 +169,8 @@ export const ExpressWizardContainer = () => {
       innerRef={formRef}
       initialValues={initialValues}
       onSubmit={handleSubmit}
+      validateOnChange={false}
+      validateOnBlur={false}
       validationSchema={steps[activeStep].validationSchema}
     >
       {(formProps) => (
@@ -175,8 +190,8 @@ export const ExpressWizardContainer = () => {
             <Form onSubmit={formProps.handleSubmit}>
               <Row>
                 {/**--- Stepper ---*/}
-                <Col xs={12} sm={12} md={12} lg={3}>
-                  <ContainerCard
+                <Col xs={12} sm={12} md={12} lg={3} xl={3}>
+                  <StyledContainer
                     style={{
                       padding: theme.space.xxl,
                       paddingBottom: theme.space.xl,
@@ -190,9 +205,9 @@ export const ExpressWizardContainer = () => {
                         </Stepper.Step>
                       ))}
                     </Stepper>
-                  </ContainerCard>
+                  </StyledContainer>
                 </Col>
-                <Col xs={12} sm={12} md={12} lg={6}>
+                <Col xs={12} sm={12} md={12} lg={9} xl={6}>
                   <ContainerCard>
                     {activeStep === steps.length ? (
                       <>Inserire qui pagina di completamento</>
@@ -204,7 +219,7 @@ export const ExpressWizardContainer = () => {
               </Row>
             </Form>
           </ModalFullScreen.Body>
-          <Row>
+          <Row style={{marginLeft: 0, marginRight: 0}}>
             <Col xs={12} sm={12} md={12} lg={6} offset={3}>
               <ModalFullScreen.Footer>
                 {steps.map(
