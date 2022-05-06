@@ -45,7 +45,7 @@ const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-const StyledProjectTitle = styled(XL)`
+const StyledProductTypeTitle = styled(XL)`
   margin-bottom: ${({ theme }) => theme.space.sm};
   color: ${({ theme }) => theme.palette.grey[800]}; 
 `;
@@ -102,7 +102,7 @@ export const WhatStep = ({ errors, touched, validateField, validateForm, handleC
         </Dropdown>
       </StyledFormField>
       <StyledFormField>
-        <StyledProjectTitle>{t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL")}</StyledProjectTitle>
+        <StyledProductTypeTitle>{t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL")}</StyledProductTypeTitle>
         <Grid>
           <Row>
             <Col xs={5} sm={5} md={5} lg={5}>
