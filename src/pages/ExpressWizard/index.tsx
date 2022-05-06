@@ -16,9 +16,8 @@ import {
   WhatStep,
   WhatStepValidationSchema,
   WhereWebStep,
-  WhereWebStepValidationSchema,
+  WhereStepValidationSchema,
   WhereAppStep,
-  WhereAppStepValidationSchema,
   WhoStep,
   WhoStepValidationSchema,
 } from "./steps";
@@ -106,7 +105,7 @@ export const ExpressWizardContainer = () => {
       label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
       form: (props: FormikProps<WizardModel>) => props.values.product_type === 'webapp' ? <WhereWebStep {...props} /> : <WhereAppStep {...props} />,
-      validationSchema: WhereWebStepValidationSchema,
+      validationSchema: WhereStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
@@ -167,6 +166,8 @@ export const ExpressWizardContainer = () => {
       ),
     },
   ];
+
+  console.log("Active validationSchema", steps[activeStep].validationSchema);
 
   return isWizardOpen ? (
     <Formik
