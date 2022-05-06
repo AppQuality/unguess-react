@@ -7,16 +7,17 @@ import {
   Row,
   Col,
   CheckboxCard,
-  Input,
+  Checkbox,
   Label,
   Hint,
   Toggle,
-  ContainerCard,
+  MediaInput,
+  Paragraph,
 } from "@appquality/unguess-design-system";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
 import { Field } from "@zendeskgarden/react-forms";
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 import { CardDivider } from "../cardDivider";
 import { WizardModel } from "../wizardModel";
 import { ReactComponent as SmartphoneIcon } from "src/assets/icons/device-smartphone.svg";
@@ -25,16 +26,20 @@ import { ReactComponent as TabletIcon } from "src/assets/icons/device-tablet.svg
 import { ReactComponent as TabletIconActive } from "src/assets/icons/device-tablet-active.svg";
 import { ReactComponent as LaptopIcon } from "src/assets/icons/device-laptop.svg";
 import { ReactComponent as LaptopIconActive } from "src/assets/icons/device-laptop-active.svg";
+import { ReactComponent as LinkIcon } from "src/assets/icons/link-stroke.svg";
 import styled from "styled-components";
+import { Notes, NotesTitle } from "../notesCard";
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-const ScrollableContainer = styled.div`
-  overflow-y: auto;
-  height: calc(70vh - 150px);
-  overflow-x: hidden;
+const PrimarySpan = styled(Span)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+`;
+
+const SpacedField = styled(Field)`
+  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 export const WhereWebStep = ({
@@ -65,16 +70,22 @@ export const WhereWebStep = ({
       <Row>
         <Col>
           <XXL>
-            <Span isBold style={{ color: theme.colors.primaryHue }}>
-              {t("__EXPRESS_WIZARD_STEP_WHERE_LABEL")}{" "}
-            </Span>
-            {t("__EXPRESS_WIZARD_STEP_WHERE_TITLE")}
+            <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
+              <PrimarySpan isBold>Where</PrimarySpan>
+              do we test?
+            </Trans>
           </XXL>
-          <MD>{t("__EXPRESS_WIZARD_STEP_WHERE_SUBTITLE")}</MD>
+          <MD>
+            <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_SUBTITLE">
+              Choose what kind of <Span isBold>devices</Span> do you want to
+              test on
+            </Trans>
+          </MD>
         </Col>
       </Row>
 
       <CardDivider />
+      {/** Device Type Checkboxes */}
       <StyledRow>
         <Col>
           <Field>
@@ -136,12 +147,14 @@ export const WhereWebStep = ({
               <Span style={{ color: theme.colors.dangerHue }}>*</Span>
             </Label>
             <Hint>{t("__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION")}</Hint>
-            <Input
+            <MediaInput
+              start={<LinkIcon />}
               type={"url"}
               placeholder="https://www.example.com"
               {...props.getFieldProps("link")}
               {...(errors.link && { validation: "error" })}
             />
+
             <Message {...(errors.link && { validation: "error" })}>
               {errors.link
                 ? t("__EXPRESS_WIZARD_STEP_WHERE_LINK_ERROR")
@@ -150,11 +163,13 @@ export const WhereWebStep = ({
           </Field>
         </Col>
       </StyledRow>
-      <StyledRow>
+      <StyledRow style={{ marginTop: theme.space.lg }}>
+        {" "}
+        {/** LG: 32px */}
         <Col>
           <MD>{t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE")}</MD>
         </Col>
-        <Col size={2} alignSelf={"end"}>
+        <Col size={2} textAlign={"end"}>
           <Field>
             <Toggle {...props.getFieldProps("customBrowser")}>
               <Label hidden>
@@ -162,6 +177,60 @@ export const WhereWebStep = ({
               </Label>
             </Toggle>
           </Field>
+        </Col>
+        <Col size={12}>
+          <CardDivider />
+        </Col>
+        <Col size={12}>
+          <Notes>
+            {!values.customBrowser ? (
+              <>
+                <NotesTitle>
+                  {t("__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_TITLE")}
+                </NotesTitle>
+                <Paragraph>
+                  {t("__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_DESCRIPTION")}
+                </Paragraph>
+              </>
+            ) : (
+              <>
+                <Field>
+                  <Label>
+                    {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_LABEL")}
+                    <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                  </Label>
+                </Field>
+                <SpacedField>
+                  <Checkbox {...props.getFieldProps("withChrome")}>
+                    <Label style={{ color: theme.colors.primaryHue}}>
+                      {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME")}
+                    </Label>
+                  </Checkbox>
+                </SpacedField>
+                <SpacedField>
+                  <Checkbox {...props.getFieldProps("withEdge")}>
+                    <Label style={{ color: theme.colors.primaryHue}}>
+                      {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE")}
+                    </Label>
+                  </Checkbox>
+                </SpacedField>
+                <SpacedField>
+                  <Checkbox {...props.getFieldProps("withSafari")}>
+                    <Label style={{ color: theme.colors.primaryHue}}>
+                      {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI")}
+                    </Label>
+                  </Checkbox>
+                </SpacedField>
+                <SpacedField>
+                  <Checkbox {...props.getFieldProps("withFirefox")}>
+                    <Label style={{ color: theme.colors.primaryHue}}>
+                      {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX")}
+                    </Label>
+                  </Checkbox>
+                </SpacedField>
+              </>
+            )}
+          </Notes>
         </Col>
       </StyledRow>
       <CardDivider />

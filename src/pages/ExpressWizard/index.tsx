@@ -105,7 +105,7 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhereWebStepValidationSchema,
       buttons: (
         <>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
@@ -121,7 +121,7 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
@@ -137,7 +137,7 @@ export const ExpressWizardContainer = () => {
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
@@ -167,6 +167,8 @@ export const ExpressWizardContainer = () => {
       innerRef={formRef}
       initialValues={initialValues}
       onSubmit={handleSubmit}
+      validateOnChange={false}
+      validateOnBlur={false}
       validationSchema={steps[activeStep].validationSchema}
     >
       {(formProps) => (
@@ -215,7 +217,7 @@ export const ExpressWizardContainer = () => {
               </Row>
             </Form>
           </ModalFullScreen.Body>
-          <Row>
+          <Row style={{marginLeft: 0, marginRight: 0}}>
             <Col xs={12} sm={12} md={12} lg={6} offset={3}>
               <ModalFullScreen.Footer>
                 {steps.map(
