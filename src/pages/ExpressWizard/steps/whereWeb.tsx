@@ -11,6 +11,7 @@ import {
   Label,
   Hint,
   Toggle,
+  ContainerCard,
 } from "@appquality/unguess-design-system";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
@@ -74,96 +75,96 @@ export const WhereWebStep = ({
       </Row>
 
       <CardDivider />
-      <ScrollableContainer>
-        <StyledRow>
-          <Col>
-            <Field>
-              <CheckboxCard
-                label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE")}
-                icon={<SmartphoneIcon />}
-                iconActive={<SmartphoneIconActive />}
-                name="withSmartphone"
-                defaultChecked={values.withSmartphone}
-                onToggle={(isChecked) => {
-                  props.setFieldValue("withSmartphone", isChecked);
-                }}
-              />
-            </Field>
-          </Col>
-          <Col>
-            <Field>
-              <CheckboxCard
-                label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET")}
-                icon={<TabletIcon />}
-                iconActive={<TabletIconActive />}
-                name="withTablet"
-                defaultChecked={values.withTablet}
-                onToggle={(isChecked) => {
-                  props.setFieldValue("withTablet", isChecked);
-                }}
-              />
-            </Field>
-          </Col>
-          <Col>
-            <Field>
-              <CheckboxCard
-                label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP")}
-                icon={<LaptopIcon />}
-                iconActive={<LaptopIconActive />}
-                name="withDesktop"
-                defaultChecked={values.withDesktop}
-                onToggle={(isChecked) => {
-                  props.setFieldValue("withDesktop", isChecked);
-                }}
-              />
-            </Field>
-          </Col>
-          <Col size={12}>
-            {(errors.withSmartphone ||
-              errors.withTablet ||
-              errors.withDesktop) && (
-              <Message validation="error" style={{ marginTop: theme.space.xs }}>
-                {t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR")}
-              </Message>
-            )}
-          </Col>
-        </StyledRow>
-        <StyledRow>
-          <Col>
-            <Field>
-              <Label>
-                {t("__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL")}
-                <Span style={{ color: theme.colors.dangerHue }}>*</Span>
-              </Label>
-              <Hint>{t("__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION")}</Hint>
-              <Input
-                type={"url"}
-                placeholder="https://www.example.com"
-                {...props.getFieldProps("link")}
-                {...(errors.link && { validation: "error" })}
-              />
-              <Message {...(errors.link && { validation: "error" })}>
-                {errors.link
-                  ? t("__EXPRESS_WIZARD_STEP_WHERE_LINK_ERROR")
-                  : t("__EXPRESS_WIZARD_STEP_WHERE_LINK_INFO")}
-              </Message>
-            </Field>
-          </Col>
-        </StyledRow>
-        <StyledRow>
-          <Col>
+      <StyledRow>
+        <Col>
+          <Field>
+            <CheckboxCard
+              label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE")}
+              icon={<SmartphoneIcon />}
+              iconActive={<SmartphoneIconActive />}
+              name="withSmartphone"
+              defaultChecked={values.withSmartphone}
+              onToggle={(isChecked) => {
+                props.setFieldValue("withSmartphone", isChecked);
+              }}
+            />
+          </Field>
+        </Col>
+        <Col>
+          <Field>
+            <CheckboxCard
+              label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET")}
+              icon={<TabletIcon />}
+              iconActive={<TabletIconActive />}
+              name="withTablet"
+              defaultChecked={values.withTablet}
+              onToggle={(isChecked) => {
+                props.setFieldValue("withTablet", isChecked);
+              }}
+            />
+          </Field>
+        </Col>
+        <Col>
+          <Field>
+            <CheckboxCard
+              label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP")}
+              icon={<LaptopIcon />}
+              iconActive={<LaptopIconActive />}
+              name="withDesktop"
+              defaultChecked={values.withDesktop}
+              onToggle={(isChecked) => {
+                props.setFieldValue("withDesktop", isChecked);
+              }}
+            />
+          </Field>
+        </Col>
+        <Col size={12}>
+          {(errors.withSmartphone ||
+            errors.withTablet ||
+            errors.withDesktop) && (
+            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+              {t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR")}
+            </Message>
+          )}
+        </Col>
+      </StyledRow>
+      <StyledRow>
+        <Col>
+          <Field>
+            <Label>
+              {t("__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL")}
+              <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+            </Label>
+            <Hint>{t("__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION")}</Hint>
+            <Input
+              type={"url"}
+              placeholder="https://www.example.com"
+              {...props.getFieldProps("link")}
+              {...(errors.link && { validation: "error" })}
+            />
+            <Message {...(errors.link && { validation: "error" })}>
+              {errors.link
+                ? t("__EXPRESS_WIZARD_STEP_WHERE_LINK_ERROR")
+                : t("__EXPRESS_WIZARD_STEP_WHERE_LINK_INFO")}
+            </Message>
+          </Field>
+        </Col>
+      </StyledRow>
+      <StyledRow>
+        <Col>
           <MD>{t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE")}</MD>
-          </Col>
-          <Col size={2} alignSelf={"end"}>
-            <Field>
-              <Toggle {...props.getFieldProps("customBrowser")}>
-                <Label hidden>{t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE")}</Label>
-              </Toggle>
-            </Field>
-          </Col>
-        </StyledRow>
-        <CardDivider />
-      </ScrollableContainer>
+        </Col>
+        <Col size={2} alignSelf={"end"}>
+          <Field>
+            <Toggle {...props.getFieldProps("customBrowser")}>
+              <Label hidden>
+                {t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE")}
+              </Label>
+            </Toggle>
+          </Field>
+        </Col>
+      </StyledRow>
+      <CardDivider />
     </>
   );
 };

@@ -22,11 +22,14 @@ import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
 import defaultValues from "./wizardInitialValues";
 import { WaterButton } from "./waterButton";
-import styled, { css } from "styled-components";
-
+import styled from "styled-components";
 
 const StyledContainer = styled(ContainerCard)`
-  max-height: 70vh;
+  position: sticky;
+  top: 0;
+  padding-right: ${({ theme }) => theme.space.sm};
+  max-height: calc(100vh - ${({ theme }) => theme.components.chrome.header.height});
+  overflow-y: auto;
 `;
 
 export const ExpressWizardContainer = () => {
@@ -201,13 +204,13 @@ export const ExpressWizardContainer = () => {
                   </StyledContainer>
                 </Col>
                 <Col xs={12} sm={12} md={12} lg={6}>
-                  <StyledContainer>
+                  <ContainerCard>
                     {activeStep === steps.length ? (
                       <>Inserire qui pagina di completamento</>
                     ) : (
                       steps[activeStep].form(formProps)
                     )}
-                  </StyledContainer>
+                  </ContainerCard>
                 </Col>
               </Row>
             </Form>
