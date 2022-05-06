@@ -19,6 +19,8 @@ import {
   WhereWebStepValidationSchema,
   WhoStep,
   WhoStepValidationSchema,
+  WhenStep,
+  WhenStepValidationSchema,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
@@ -135,8 +137,8 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_WHEN_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION"),
-      form: (props: any) => <WhatStep {...props} />,
-      validationSchema: WhatStepValidationSchema,
+      form: (props: any) => <WhenStep {...props} />,
+      validationSchema: WhenStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
