@@ -22,6 +22,8 @@ import {
   WhoStepValidationSchema,
   WhenStep,
   WhenStepValidationSchema,
+  ConfirmationStep,
+  ConfirmationValidationSchema
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
@@ -154,11 +156,11 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_CONFIRM_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION"),
-      form: (props: FormikProps<WizardModel>) => <WhatStep {...props} />,
-      validationSchema: WhatStepValidationSchema,
+      form: (props: FormikProps<WizardModel>) => <ConfirmationStep {...props} />,
+      validationSchema: ConfirmationValidationSchema,
       buttons: (
         <>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onBack}>
@@ -168,8 +170,6 @@ export const ExpressWizardContainer = () => {
       ),
     },
   ];
-
-  console.log("Active validationSchema", steps[activeStep].validationSchema);
 
   return isWizardOpen ? (
     <Formik
@@ -227,7 +227,7 @@ export const ExpressWizardContainer = () => {
             </Form>
           </ModalFullScreen.Body>
           <Row style={{marginLeft: 0, marginRight: 0}}>
-            <Col xs={12} sm={12} md={12} lg={6} offset={3}>
+            <Col xs={12} sm={12} md={12} lg={9} xl={6} offset={3}>
               <ModalFullScreen.Footer>
                 {steps.map(
                   (item, index) =>

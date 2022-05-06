@@ -269,14 +269,14 @@ export const WhereStepValidationSchema = Yup.object().shape(
       is: true,
       then: Yup.string().url().required(),
     }),
-    androidLink: Yup.string().url().when("product_type", {
-      is: 'webapp',
+    androidLink: Yup.string().url().when("isAndroid", {
+      is: true,
       then: Yup.string().url().required(),
     }),
 
     //Where WEB STEP
-    link: Yup.string().url().when("isIOS", {
-      is: true,
+    link: Yup.string().url().when("product_type", {
+      is: 'webapp',
       then: Yup.string().url().required(),
     }),
     withSmartphone: Yup.bool().when(["withTablet", "withDesktop"], {
