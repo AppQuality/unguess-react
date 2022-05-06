@@ -5,8 +5,7 @@ import * as Yup from "yup";
 import { WizardModel } from "../wizardModel";
 
 export const WhatStep = ({ errors, touched, validateField, validateForm, handleChange, values, ...props }: FormikProps<WizardModel>) => {
-  console.log("Errors: ", errors);  
-  
+
   return (
     <>
       <Field>

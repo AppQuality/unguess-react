@@ -1,4 +1,5 @@
 import {
+  XL,
   XXL,
   MD,
   Span,
@@ -13,6 +14,8 @@ import {
   Toggle,
   MediaInput,
   Paragraph,
+  Input,
+  Textarea,
 } from "@appquality/unguess-design-system";
 import { FormikProps } from "formik";
 import * as Yup from "yup";
@@ -29,6 +32,7 @@ import { ReactComponent as LaptopIconActive } from "src/assets/icons/device-lapt
 import { ReactComponent as LinkIcon } from "src/assets/icons/link-stroke.svg";
 import styled from "styled-components";
 import { Notes, NotesTitle } from "../notesCard";
+import { useEffect } from "react";
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
@@ -49,22 +53,26 @@ export const WhereWebStep = ({
   validateForm,
   handleChange,
   values,
+  setFieldValue,
   ...props
 }: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
 
-  console.log("Errors: ", errors);
-  console.log("Values: ", values);
-  //  "space": {
-  //   "base": 4,
-  //   "xxs": "4px",
-  //   "xs": "8px",
-  //   "sm": "12px",
-  //   "md": "20px",
-  //   "lg": "32px",
-  //   "xl": "40px",
-  //   "xxl": "48px"
-  // }
+  useEffect(() => {
+    const atLeastOneChecked =
+      values.withChrome ||
+      values.withFirefox ||
+      values.withSafari ||
+      values.withEdge;
+    setFieldValue("customBrowserFilled", atLeastOneChecked);
+  }, [
+    setFieldValue,
+    values.withChrome,
+    values.withEdge,
+    values.withFirefox,
+    values.withSafari,
+  ]);
+
   return (
     <>
       <Row>
@@ -85,7 +93,8 @@ export const WhereWebStep = ({
       </Row>
 
       <CardDivider />
-      {/** Device Type Checkboxes */}
+
+      {/** --- Device Type Checkboxes --- */}
       <StyledRow>
         <Col>
           <Field>
@@ -96,7 +105,7 @@ export const WhereWebStep = ({
               name="withSmartphone"
               defaultChecked={values.withSmartphone}
               onToggle={(isChecked) => {
-                props.setFieldValue("withSmartphone", isChecked);
+                setFieldValue("withSmartphone", isChecked);
               }}
             />
           </Field>
@@ -110,7 +119,7 @@ export const WhereWebStep = ({
               name="withTablet"
               defaultChecked={values.withTablet}
               onToggle={(isChecked) => {
-                props.setFieldValue("withTablet", isChecked);
+                setFieldValue("withTablet", isChecked);
               }}
             />
           </Field>
@@ -124,7 +133,7 @@ export const WhereWebStep = ({
               name="withDesktop"
               defaultChecked={values.withDesktop}
               onToggle={(isChecked) => {
-                props.setFieldValue("withDesktop", isChecked);
+                setFieldValue("withDesktop", isChecked);
               }}
             />
           </Field>
@@ -139,6 +148,8 @@ export const WhereWebStep = ({
           )}
         </Col>
       </StyledRow>
+
+      {/** --- Website Url --- */}
       <StyledRow>
         <Col>
           <Field>
@@ -163,15 +174,21 @@ export const WhereWebStep = ({
           </Field>
         </Col>
       </StyledRow>
+
+      {/** --- Browsers --- */}
       <StyledRow style={{ marginTop: theme.space.lg }}>
-        {" "}
         {/** LG: 32px */}
         <Col>
-          <MD>{t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE")}</MD>
+          <MD style={{ color: theme.palette.grey[800] }}>
+            {t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE")}
+          </MD>
         </Col>
         <Col size={2} textAlign={"end"}>
           <Field>
-            <Toggle {...props.getFieldProps("customBrowser")}>
+            <Toggle
+              {...props.getFieldProps("customBrowser")}
+              checked={values.customBrowser}
+            >
               <Label hidden>
                 {t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE")}
               </Label>
@@ -179,7 +196,7 @@ export const WhereWebStep = ({
           </Field>
         </Col>
         <Col size={12}>
-          <CardDivider />
+          <CardDivider style={{ marginTop: theme.space.xs }} />
         </Col>
         <Col size={12}>
           <Notes>
@@ -199,31 +216,35 @@ export const WhereWebStep = ({
                     {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_LABEL")}
                     <Span style={{ color: theme.colors.dangerHue }}>*</Span>
                   </Label>
+                  <Input
+                    type="hidden"
+                    {...props.getFieldProps("customBrowserFilled")}
+                  />
                 </Field>
                 <SpacedField>
                   <Checkbox {...props.getFieldProps("withChrome")}>
-                    <Label style={{ color: theme.colors.primaryHue}}>
+                    <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
                   <Checkbox {...props.getFieldProps("withEdge")}>
-                    <Label style={{ color: theme.colors.primaryHue}}>
+                    <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
                   <Checkbox {...props.getFieldProps("withSafari")}>
-                    <Label style={{ color: theme.colors.primaryHue}}>
+                    <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI")}
                     </Label>
                   </Checkbox>
                 </SpacedField>
                 <SpacedField>
                   <Checkbox {...props.getFieldProps("withFirefox")}>
-                    <Label style={{ color: theme.colors.primaryHue}}>
+                    <Label style={{ color: theme.colors.primaryHue }}>
                       {t("__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX")}
                     </Label>
                   </Checkbox>
@@ -233,7 +254,60 @@ export const WhereWebStep = ({
           </Notes>
         </Col>
       </StyledRow>
-      <CardDivider />
+
+      {/** --- Out of scope --- */}
+      <StyledRow style={{ marginTop: theme.space.lg }}>
+        <Col>
+          <XL isBold style={{ color: theme.palette.grey[800] }}>
+            {t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE")}
+          </XL>
+          <MD>{t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_DESCRIPTION")}</MD>
+        </Col>
+      </StyledRow>
+      <StyledRow style={{ marginTop: theme.space.sm }}>
+        <Col>
+          <MD style={{ color: theme.palette.grey[800] }}>
+            {t("__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TOGGLE_LABEL")}
+          </MD>
+        </Col>
+        <Col size={2} textAlign={"end"}>
+          <Field>
+            <Toggle
+              {...props.getFieldProps("hasOutOfScope")}
+              checked={values.hasOutOfScope}
+            >
+              <Label hidden>
+                {t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE")}
+              </Label>
+            </Toggle>
+          </Field>
+        </Col>
+        <Col size={12}>
+          <CardDivider style={{ marginTop: theme.space.xs }} />
+        </Col>
+        {values.hasOutOfScope && (
+          <>
+            <Col size={12}>
+              <Notes>
+                <Field>
+                  <Label>
+                    {t("__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_LABEL")}
+                    <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                  </Label>
+                  <Textarea
+                    rows={5}
+                    placeholder={t(
+                      "__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_PLACEHOLDER"
+                    )}
+                    isResizable
+                    {...props.getFieldProps("outOfScope")}
+                  />
+                </Field>
+              </Notes>
+            </Col>
+          </>
+        )}
+      </StyledRow>
     </>
   );
 };
@@ -253,11 +327,14 @@ export const WhereWebStepValidationSchema = Yup.object().shape(
     }),
     withDesktop: Yup.bool().when(["withSmartphone", "withTablet"], {
       is: (withSmartphone: boolean, withTablet: boolean) => {
-        console.log("withSmartphone: ", withSmartphone);
-        console.log("withTablet: ", withTablet);
         return !withSmartphone && !withTablet;
       },
       then: Yup.bool().oneOf([true], "Device type is required"),
+    }),
+    customBrowser: Yup.bool(),
+    customBrowserFilled: Yup.bool().when("customBrowser", {
+      is: true,
+      then: Yup.bool().oneOf([true], "Custom Browser is required"),
     }),
   },
   [

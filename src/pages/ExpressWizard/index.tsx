@@ -159,9 +159,6 @@ export const ExpressWizardContainer = () => {
     },
   ];
 
-  console.log("Step", steps);
-  console.log("Active step", activeStep);
-  console.log("Current ValidationSchema", steps[activeStep]);
   return isWizardOpen ? (
     <Formik
       innerRef={formRef}
@@ -188,7 +185,7 @@ export const ExpressWizardContainer = () => {
             <Form onSubmit={formProps.handleSubmit}>
               <Row>
                 {/**--- Stepper ---*/}
-                <Col xs={12} sm={12} md={12} lg={3}>
+                <Col xs={12} sm={12} md={12} lg={3} xl={3}>
                   <StyledContainer
                     style={{
                       padding: theme.space.xxl,
@@ -205,7 +202,7 @@ export const ExpressWizardContainer = () => {
                     </Stepper>
                   </StyledContainer>
                 </Col>
-                <Col xs={12} sm={12} md={12} lg={6}>
+                <Col xs={12} sm={12} md={12} lg={9} xl={6}>
                   <ContainerCard>
                     {activeStep === steps.length ? (
                       <>Inserire qui pagina di completamento</>
