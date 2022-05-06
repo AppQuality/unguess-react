@@ -1,5 +1,5 @@
 export interface WhatStep {
-    url?: string;
-    firstName?: string;
-    email?: string;
+  campaign_name?: string,
+  campaign_reason?: string,
+  product_type?: string,
 }
