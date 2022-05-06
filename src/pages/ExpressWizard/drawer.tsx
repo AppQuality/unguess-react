@@ -6,7 +6,6 @@ import {
   Paragraph,
   Tag,
   MD,
-  Card,
   UnorderedList,
 } from "@appquality/unguess-design-system";
 import styled from "styled-components";

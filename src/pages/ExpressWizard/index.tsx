@@ -16,7 +16,8 @@ import {
   WhatStep,
   WhatStepValidationSchema,
   WhereWebStep,
-  WhereWebStepValidationSchema,
+  WhereStepValidationSchema,
+  WhereAppStep,
   WhoStep,
   WhoStepValidationSchema,
   WhenStep,
@@ -94,7 +95,7 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_WHAT_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION"),
-      form: (props: any) => <WhatStep {...props} />,
+      form: (props: FormikProps<WizardModel>) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <WaterButton isPill isPrimary onClick={onNext}>
@@ -105,8 +106,8 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
-      form: (props: any) => <WhereWebStep {...props} />,
-      validationSchema: WhereWebStepValidationSchema,
+      form: (props: FormikProps<WizardModel>) => props.values.product_type === 'webapp' ? <WhereWebStep {...props} /> : <WhereAppStep {...props} />,
+      validationSchema: WhereStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
@@ -121,7 +122,7 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_WHO_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION"),
-      form: (props: any) => <WhoStep {...props} />,
+      form: (props: FormikProps<WizardModel>) => <WhoStep {...props} />,
       validationSchema: WhoStepValidationSchema,
       buttons: (
         <>
@@ -137,7 +138,7 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_WHEN_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION"),
-      form: (props: any) => <WhenStep {...props} />,
+      form: (props: FormikProps<WizardModel>) => <WhenStep {...props} />,
       validationSchema: WhenStepValidationSchema,
       buttons: (
         <>
@@ -153,7 +154,7 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_CONFIRM_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION"),
-      form: (props: any) => <WhatStep {...props} />,
+      form: (props: FormikProps<WizardModel>) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
@@ -167,6 +168,8 @@ export const ExpressWizardContainer = () => {
       ),
     },
   ];
+
+  console.log("Active validationSchema", steps[activeStep].validationSchema);
 
   return isWizardOpen ? (
     <Formik
