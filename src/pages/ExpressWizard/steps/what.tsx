@@ -81,7 +81,7 @@ export const WhatStep = ({ errors, touched, validateField, validateForm, handleC
         <Dropdown
           {...props.getFieldProps('campaign_reason')}
           {...errors.campaign_reason && { validation: "error" }}
-          onSelect={(item) => { props.setFieldValue('campaign_reason', item); setSelectedItem(item) }}
+          onSelect={(item) => { props.setFieldValue('campaign_reason', reasonItems[item]); setSelectedItem(item) }}
           selectedItem={selectedItem}
         >
           <DropdownField>
