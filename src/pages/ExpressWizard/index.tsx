@@ -15,14 +15,13 @@ import { closeWizard } from "src/features/express/expressSlice";
 import {
   WhatStep,
   WhatStepValidationSchema,
-  WhereStep,
-  WhereStepValidationSchema,
+  WhereWebStep,
+  WhereWebStepValidationSchema,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
 import defaultValues from "./wizardInitialValues";
 import { WaterButton } from "./waterButton";
-
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -76,73 +75,78 @@ export const ExpressWizardContainer = () => {
 
   const steps = [
     {
-      label: "Cosa",
-      content: "Il prodotto del test",
+      label: t("__EXPRESS_WIZARD_STEP_WHAT_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <WaterButton isPill isPrimary onClick={onNext}>
-          Next
+          {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
         </WaterButton>
       ),
     },
     {
-      label: "Dove",
-      content: "I dispositivi di test",
-      form: (props: any) => <WhereStep />,
-      validationSchema: WhereStepValidationSchema,
+      label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
+      form: (props: any) => <WhereWebStep {...props} />,
+      validationSchema: WhereWebStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
-            Back
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            Next
+            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
           </WaterButton>
         </>
       ),
     },
     {
-      label: "Chi",
-      content: "Gli utenti del test",
+      label: t("__EXPRESS_WIZARD_STEP_WHO_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
-            Back
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            Next
+            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
           </WaterButton>
         </>
       ),
     },
     {
-      label: "Quando",
-      content: "Le tempistiche del test",
+      label: t("__EXPRESS_WIZARD_STEP_WHEN_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
         <>
           <WaterButton isPill isPrimary onClick={onBack}>
-            Back
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            Next
+            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
           </WaterButton>
         </>
       ),
     },
     {
-      label: "Recap e Lancio",
-      content: "Tutto pronto!",
+      label: t("__EXPRESS_WIZARD_STEP_CONFIRM_LABEL"),
+      content: t("__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION"),
       form: (props: any) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (
-        <WaterButton isPill isPrimary onClick={onBack}>
-          Back
-        </WaterButton>
+        <>
+          <WaterButton isPill isPrimary onClick={onBack}>
+            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
+          </WaterButton>
+          <WaterButton isPill isPrimary onClick={onBack}>
+            {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
+          </WaterButton>
+        </>
       ),
     },
   ];
@@ -200,28 +204,32 @@ export const ExpressWizardContainer = () => {
               </Row>
             </Form>
           </ModalFullScreen.Body>
-          <ModalFullScreen.Footer>
-            {steps.map(
-              (item, index) =>
-                index === activeStep && (
-                  <ModalFullScreen.FooterItem>
-                    {item.buttons}
-                  </ModalFullScreen.FooterItem>
-                )
-            )}
-            <ModalFullScreen.FooterItem>
-              <Button
-                type="submit"
-                disabled={
-                  Object.keys(formProps.errors).length > 0 ||
-                  formProps.isSubmitting
-                }
-                onClick={() => formRef.current?.handleSubmit()}
-              >
-                Test submit
-              </Button>
-            </ModalFullScreen.FooterItem>
-          </ModalFullScreen.Footer>
+          <Row>
+            <Col xs={12} sm={12} md={12} lg={6} offset={3}>
+              <ModalFullScreen.Footer>
+                {steps.map(
+                  (item, index) =>
+                    index === activeStep && (
+                      <ModalFullScreen.FooterItem>
+                        {item.buttons}
+                      </ModalFullScreen.FooterItem>
+                    )
+                )}
+                <ModalFullScreen.FooterItem>
+                  <Button
+                    type="submit"
+                    disabled={
+                      Object.keys(formProps.errors).length > 0 ||
+                      formProps.isSubmitting
+                    }
+                    onClick={() => formRef.current?.handleSubmit()}
+                  >
+                    Test submit
+                  </Button>
+                </ModalFullScreen.FooterItem>
+              </ModalFullScreen.Footer>
+            </Col>
+          </Row>
         </ModalFullScreen>
       )}
     </Formik>

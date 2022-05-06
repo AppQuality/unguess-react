@@ -1,5 +1,4 @@
-export interface WizardModel {
-    firstName?: string;
-    url?: string;
-    email?: string;
-}
+import { WhatStep } from './fields/what';
+import { WhereWebStep } from './fields/whereWeb';
+
+export interface WizardModel extends WhatStep, WhereWebStep{}
