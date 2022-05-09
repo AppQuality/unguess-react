@@ -217,7 +217,7 @@ export const ExpressWizardContainer = () => {
     >
       {(formProps) => (
         <ModalFullScreen
-          onClose={() => { dispatch(closeWizard()); dispatch(resetWizard()); }}
+          onClose={() => { dispatch(closeWizard()); dispatch(resetWizard()); setStep(0); }}
         >
           <ModalFullScreen.Header>
             <WizardHeader
