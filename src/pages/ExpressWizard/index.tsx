@@ -34,6 +34,7 @@ import styled from "styled-components";
 import { WizardSubmit } from "./wizardSubmit";
 import {
   Project,
+  Campaign,
   usePostCampaignsMutation,
   usePostProjectsMutation,
 } from "src/features/api";
@@ -43,6 +44,7 @@ import {
   ZAPIER_WEBHOOK_TRIGGER,
 } from "src/constants";
 import format from "date-fns/format";
+import async from "async";
 
 const axios = require("axios").default;
 
@@ -124,62 +126,95 @@ export const ExpressWizardContainer = () => {
     values: WizardModel,
     { setSubmitting }: FormikHelpers<WizardModel>
   ) => {
-    //Create project if it doesn't exist
-    let customProject: Project;
-    if (project && project.id === -1 && activeWorkspace && activeWorkspace.id) {
-      await createProject({
+    const projectHandle = (next: any) => {
+      //Create project if it doesn't exist
+      if (
+        project &&
+        project.id === -1 &&
+        activeWorkspace &&
+        activeWorkspace.id
+      ) {
+        createProject({
+          body: {
+            name: project.name,
+            customer_id: activeWorkspace.id,
+          },
+        })
+          .unwrap()
+          .then((payload) => {
+            console.log("Project created", payload);
+            next(null, payload);
+          })
+          .catch((error) => {
+            console.error("rejected", error);
+            return next(error);
+          });
+      } else {
+        next(null, project);
+      }
+    };
+
+    const campaignHandle = (prj: Project, next: any) => {
+      const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
+      //Create the campaign
+      createCampaign({
         body: {
-          name: project.name,
-          customer_id: activeWorkspace.id,
+          title: values.campaign_name || "Express campaign",
+          description: "Express campaign created by the user",
+          start_date: values.campaign_date
+            ? format(values.campaign_date, BASE_DATE_FORMAT)
+            : fallBackDate,
+          end_date: values.campaign_date_end
+            ? format(values.campaign_date_end, BASE_DATE_FORMAT)
+            : fallBackDate,
+          close_date: values.campaign_date_end
+            ? format(values.campaign_date_end, BASE_DATE_FORMAT)
+            : fallBackDate,
+          customer_title: values.campaign_name,
+          campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
+          test_type_id: 1, //TODO: check if this field is needed
+          project_id: prj?.id || -1,
+          pm_id: activeWorkspace?.csm.id || -1,
         },
       })
         .unwrap()
-        .then((payload) => {
-          console.log("Project created", payload);
-          customProject = payload;
+        .then(async (payload) => {
+          console.log("Campaign created", payload);
+          next(null, payload);
         })
-        .catch((error) => console.error("rejected", error));
-    }
+        .catch((error) => {
+          console.error("rejected", error);
+          return next(error);
+        });
+    };
 
-    const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
-    //Create the campaign
-    await createCampaign({
-      body: {
-        title: values.campaign_name || "Express campaign",
-        description: "Express campaign created by the user",
-        start_date: values.campaign_date
-          ? format(values.campaign_date, BASE_DATE_FORMAT)
-          : fallBackDate,
-        end_date: values.campaign_date_end
-          ? format(values.campaign_date_end, BASE_DATE_FORMAT)
-          : fallBackDate,
-        close_date: values.campaign_date_end
-          ? format(values.campaign_date_end, BASE_DATE_FORMAT)
-          : fallBackDate,
-        customer_title: values.campaign_name,
-        campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
-        test_type_id: 1, //TODO: check if this field is needed
-        project_id: customProject ? customProject.id : (project?.id || -1),
-        pm_id: activeWorkspace?.csm.id || -1,
-      },
-    })
-      .unwrap()
-      .then(async (payload) => {
-        console.log("Campaign created", payload);
+    const zapierHandle = (cp: Campaign, next: any) => {
+      //Post on webhook Zapier axios call
+      axios
+        .post(ZAPIER_WEBHOOK_TRIGGER, cp)
+        .then(function (response: any) {
+          console.log(response);
+          return next(null, response);
+        })
+        .catch(function (error: any) {
+          console.log(error);
+          return next(null, error);
+        });
+    };
 
-        //Post on webhook Zapier axios call
-        await axios
-          .post(ZAPIER_WEBHOOK_TRIGGER, values)
-          .then(function (response: any) {
-            console.log(response);
-            onNext();
-            setSubmitting(false);
-          })
-          .catch(function (error: any) {
-            console.log(error);
-          });
-      })
-      .catch((error) => console.error("rejected", error));
+    async.waterfall(
+      [projectHandle, campaignHandle, zapierHandle],
+      (err: any, result: any) => {
+        if (err) {
+          console.error("Unable to launch campaign " + JSON.stringify(err));
+          console.error(err);
+          setSubmitting(false);
+        } else {
+          onNext();
+          setSubmitting(false);
+        }
+      }
+    );
   };
 
   const steps: Array<StepItem> = [
