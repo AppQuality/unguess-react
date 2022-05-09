@@ -43,9 +43,9 @@ export const WhenStep = ({ errors, touched, validateField, validateForm, handleC
         } else if (endDate.getDay() === 0) {
             endDate = new Date(new Date().setDate(new Date(date).getDate() + 2));
         }
-    
+
         setState(date);
-        props.setFieldValue('campaign_date', date);
+        props.setFieldValue('campaign_date', date.toLocaleDateString());
         props.setFieldValue('campaign_date_end', endDate.toLocaleDateString());
     }
 
@@ -73,7 +73,7 @@ export const WhenStep = ({ errors, touched, validateField, validateForm, handleC
                             <Field>
                                 <Label>{t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_LABEL")}</Label>
                                 <Datepicker
-                                    value={state} 
+                                    value={state}
                                     formatDate={(date: Date) => date.toLocaleDateString()}
                                     onChange={handleDateChange}
                                     minValue={new Date()}
@@ -90,14 +90,17 @@ export const WhenStep = ({ errors, touched, validateField, validateForm, handleC
                             </Field>
                         </Col>
                         <Col xs={6}>
-                            <Label>{t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_LABEL")}</Label>
-                            <Input
-                                type={"text"}
-                                placeholder={t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER")}
-                                readOnly
-                                disabled
-                                {...props.getFieldProps('campaign_date_end')}
-                            />
+                            <Field>
+                                <Label>{t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_LABEL")}</Label>
+                                <Input
+                                    type={"text"}
+                                    placeholder={t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER")}
+                                    readOnly
+                                    disabled
+                                    {...props.getFieldProps('campaign_date_end')}
+                                />
+                            </Field>
+                            {errors.campaign_date_end && <StyledMessage validation="error">{errors.campaign_date_end}</StyledMessage>}
                         </Col>
                     </Row>
                 </Grid>
@@ -113,4 +116,5 @@ export const WhenStep = ({ errors, touched, validateField, validateForm, handleC
 
 export const WhenStepValidationSchema = Yup.object().shape({
     campaign_date: Yup.string().required(t("__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_REQUIRED")),
+    campaign_date_end: Yup.string().required(t("__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_END_REQUIRED")),
 });

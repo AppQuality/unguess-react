@@ -163,7 +163,7 @@ export const ExpressWizardContainer = () => {
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
-          <WaterButton isPill isPrimary onClick={onBack}>
+          <WaterButton isPill isPrimary onClick={onNext}>
             {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
           </WaterButton>
         </>
