@@ -41,6 +41,16 @@ export const ThankYouStep = () => {
               dispatch(closeDrawer());
               dispatch(closeWizard());
               dispatch(resetWizard());
+
+              //Refetch the data
+              window.location.reload();
+
+              // dispatch(
+              //   api.endpoints.getPosts.initiate(
+              //     { count: 5 },
+              //     { subscribe: false, forceRefetch: true }
+              //   )
+              // )
             }}
           >
             {t("__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON")}
