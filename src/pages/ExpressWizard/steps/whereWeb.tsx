@@ -36,6 +36,10 @@ import { OutOfScopeSection } from "./where/outOfScope";
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   const { errors, values, setFieldValue } = props;
 
+  //Reset App step
+  if (values.isIOS) setFieldValue("isIOS", false);
+  if (values.isAndroid) setFieldValue("isAndroid", false);
+
   const { t } = useTranslation();
 
   useEffect(() => {
