@@ -1,5 +1,4 @@
 import {
-  Button,
   Col,
   ContainerCard,
   ModalFullScreen,
@@ -8,7 +7,7 @@ import {
   theme,
 } from "@appquality/unguess-design-system";
 import { Form, Formik, FormikHelpers, FormikProps } from "formik";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { closeWizard } from "src/features/express/expressSlice";
@@ -32,15 +31,6 @@ import { WaterButton } from "./waterButton";
 import * as Yup from "yup";
 import styled from "styled-components";
 
-// label: t("__EXPRESS_WIZARD_STEP_WHAT_LABEL"),
-//       content: t("__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION"),
-//       form: (props: FormikProps<WizardModel>) => <WhatStep {...props} />,
-//       validationSchema: WhatStepValidationSchema,
-//       buttons: (
-//         <WaterButton isPill isPrimary onClick={onNext}>
-//           {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
-//         </WaterButton>
-//       ),
 interface StepItem {
   label: string;
   content: string;
