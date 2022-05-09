@@ -131,7 +131,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHO_LABEL")}</StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT">
-                    Testers speak <Span isBold>{{ campaign_language: lang }}</Span>.
+                    Testers speak <Span isBold>{{ campaign_language: lang.label }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>
