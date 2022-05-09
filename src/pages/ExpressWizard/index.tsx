@@ -78,6 +78,7 @@ export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const formRef = useRef<FormikProps<{}>>(null);
+  const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { isWizardOpen, steps: draftSteps } = useAppSelector(
@@ -189,17 +190,29 @@ export const ExpressWizardContainer = () => {
     };
 
     const zapierHandle = (cp: Campaign, next: any) => {
-      //Post on webhook Zapier axios call
-      axios
-        .post(ZAPIER_WEBHOOK_TRIGGER, cp)
-        .then(function (response: any) {
-          console.log(response);
-          return next(null, response);
+      try {
+        //Post on webhook Zapier axios call
+        fetch(ZAPIER_WEBHOOK_TRIGGER, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ cp: {...values, id: cp.id}, user: userData, workspace: activeWorkspace }),
         })
-        .catch(function (error: any) {
-          console.log(error);
-          return next(null, error);
-        });
+          .then((data) => {
+            console.log(`Data sent, response: ${JSON.stringify(data)}`);
+            return next(null, data);
+          })
+          .catch((error) => {
+            console.error("rejected 1", error);
+            return next(error);
+          });
+      } catch (error) {
+        console.error("rejected", error);
+        return next(error);
+      }
     };
 
     async.waterfall(
