@@ -46,8 +46,6 @@ import {
 import format from "date-fns/format";
 import async from "async";
 
-const axios = require("axios").default;
-
 interface StepItem {
   label: string;
   content: string;
