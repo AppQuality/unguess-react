@@ -66,6 +66,10 @@ const StyledProductTypeTitle = styled(XL)`
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
+const StyledMessage = styled(Message)`
+  margin-top: ${({ theme }) => theme.space.sm};
+`;
+
 export const WhatStep = ({
   errors,
   touched,
@@ -104,7 +108,7 @@ export const WhatStep = ({
           {...(errors.campaign_name && { validation: "error" })}
         />
         {errors.campaign_name && (
-          <Message validation="error">{errors.campaign_name}</Message>
+          <StyledMessage validation="error">{errors.campaign_name}</StyledMessage>
         )}
       </StyledFormField>
       <StyledFormField>
@@ -125,7 +129,7 @@ export const WhatStep = ({
               {selectedItem && reasonItems[selectedItem]}
             </Select>
             {errors.campaign_reason && (
-              <Message validation="error">{errors.campaign_reason}</Message>
+              <StyledMessage validation="error">{errors.campaign_reason}</StyledMessage>
             )}
           </DropdownField>
           <Menu>
@@ -181,6 +185,9 @@ export const WhatStep = ({
               </FormField>
             </Col>
           </Row>
+          {errors.product_type && (
+            <StyledMessage validation="error">{errors.product_type}</StyledMessage>
+          )}
         </Grid>
       </StyledFormField>
     </>
