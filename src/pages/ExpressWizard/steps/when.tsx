@@ -122,6 +122,7 @@ export const WhenStep = ({
               </Field>
             </Col>
             <Col xs={6}>
+              <Field>
               <Label>
                 {t(
                   "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_LABEL"
@@ -137,6 +138,8 @@ export const WhenStep = ({
                 {...props.getFieldProps("campaign_date_end")}
                 value={values?.campaign_date_end?.toLocaleDateString()}
               />
+              {errors.campaign_date_end && <StyledMessage validation="error">{errors.campaign_date_end}</StyledMessage>}
+              </Field>
             </Col>
           </Row>
         </Grid>
@@ -154,4 +157,5 @@ export const WhenStepValidationSchema = Yup.object().shape({
   campaign_date: Yup.string().required(
     t("__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_REQUIRED")
   ),
+  campaign_date_end: Yup.string().required(t("__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_END_REQUIRED")),
 });

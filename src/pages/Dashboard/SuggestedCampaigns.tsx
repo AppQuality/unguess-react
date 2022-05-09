@@ -72,6 +72,7 @@ export const SuggestedCampaigns = () => {
           <>
             <ColCard size={3}>
               <ProductCard
+                title={t("__EXPRESS_WIZARD_TITLE")}
                 onCtaClick={() => {
                   dispatch(openDrawer());
                 }}
