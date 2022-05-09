@@ -63,7 +63,7 @@
   "__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE": "Non utilizzare questo spazio per comunicare dati sensibili come credenziali di accesso",
   "__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_PLACEHOLDER": "Segnala bug noti o altri elementi che possono servire ai nostri tester",
   "__EXPRESS_WIZARD_STEP_RECAP_TITLE": "Recap e  lancio",
-  "__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT": "Stai lanciando la campagna <1><0>{{campaign_name}}</0></1> all'interno del progetto <3><0>{{campaign_name}}</0></3> per <5><0>{{product_type}}</0></5>",
+  "__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT": "Stai lanciando la campagna <1><0>{{campaign_name}}</0></1> all'interno del progetto <3><0>{{project_name}}</0></3> per <5><0>{{product_type}}</0></5>.",
   "__EXPRESS_WIZARD_STEP_RECAP_WHEN_CONTENT_TEXT": "La campagna parte il <1><0>{{campaign_date}}</0></1> e finisce il <3><0>{{campaign_date_end}}</0></3>.",
   "__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_BROWSERS": "Sui browser:",
   "__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_BROWSERS_EMPTY": "Non hai selezionato alcun browser.",

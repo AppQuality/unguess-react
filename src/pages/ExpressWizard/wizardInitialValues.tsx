@@ -1,11 +1,10 @@
 import { WizardModel } from "./wizardModel";
 
 const values: WizardModel = {
-    campaign_name: "campaign name",
     campaign_reason: "reason-a",
     product_type: "mobileapp",
-    withSmartphone: true,
-    withDesktop: true,
+    withSmartphone: false,
+    withDesktop: false,
     withTablet: false,
     customBrowser: false,
     customBrowserFilled: false,
@@ -15,12 +14,10 @@ const values: WizardModel = {
     withEdge: false,
     hasOutOfScope: false,
     outOfScope: "",
-    iOSLink: "https://www.figma.com/",
+    iOSLink: "",
     androidLink: "",
     isIOS: true,
     isAndroid: false,
-    campaign_language: "en",
-    campaign_date: new Date(),
 }
 
 export default values;

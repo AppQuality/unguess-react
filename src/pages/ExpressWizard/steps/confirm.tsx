@@ -17,6 +17,7 @@ import { Browsers } from "./confirm/browsers";
 import { OperativeSystems } from "./confirm/operativeSystems";
 import { ConfirmOutOfScope } from "./confirm/confirmOutOfScope";
 import { Textarea } from "@zendeskgarden/react-forms";
+import { useAppSelector } from "src/app/hooks";
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -64,7 +65,9 @@ const TextareaNote = styled(Paragraph)`
 `;
 
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
-  const { errors, values, setFieldValue, handleChange } = props;
+  const { values } = props;
+
+  const { project } = useAppSelector((state) => state.express);
 
   let lang;
   switch (values.campaign_language) {
@@ -78,6 +81,8 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       lang = t("English");
       break;
   }
+
+  let productType = (values.product_type === "webapp" ? t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_WEBAPP_LABEL") : t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL"));
 
   return (
     <>
@@ -97,7 +102,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHAT_LABEL")}</StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT">
-                    Stai lanciando la campagna <Span isBold>{{ campaign_name: values.campaign_name }}</Span> all'interno del progetto <Span isBold>{{ campaign_name: values.campaign_name }}</Span> per <Span isBold>{{ product_type: values.product_type }}</Span>
+                    Stai lanciando la campagna <Span isBold>{{ campaign_name: values.campaign_name }}</Span> all'interno del progetto <Span isBold>{{ project_name: project?.name }}</Span> per <Span isBold>{{ product_type: productType }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>
