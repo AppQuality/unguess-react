@@ -1,5 +1,4 @@
 import {
-  Button,
   Col,
   ContainerCard,
   ModalFullScreen,
@@ -11,7 +10,7 @@ import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { closeWizard } from "src/features/express/expressSlice";
+import { closeWizard, resetWizard } from "src/features/express/expressSlice";
 import {
   WhatStep,
   WhatStepValidationSchema,
@@ -23,21 +22,41 @@ import {
   WhenStep,
   WhenStepValidationSchema,
   ConfirmationStep,
-  ConfirmationValidationSchema
+  ConfirmationValidationSchema,
+  ThankYouStep,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
 import defaultValues from "./wizardInitialValues";
 import { WaterButton } from "./waterButton";
+import * as Yup from "yup";
 import styled from "styled-components";
+
+interface StepItem {
+  label: string;
+  content: string;
+  form: (props: FormikProps<WizardModel>) => JSX.Element;
+  validationSchema: Yup.ObjectSchema<any>;
+  buttons: (props: FormikProps<WizardModel>) => JSX.Element;
+}
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
   top: 0;
   padding-right: ${({ theme }) => theme.space.sm};
-  max-height: calc(100vh - ${({ theme }) => theme.components.chrome.header.height});
+  max-height: calc(
+    100vh - ${({ theme }) => theme.components.chrome.header.height}
+  );
   overflow-y: auto;
 `;
+
+const getValidationSchema = (step: number, steps: StepItem[]) => {
+  if (step in steps) {
+    return steps[step].validationSchema;
+  } else {
+    return Yup.object();
+  }
+};
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -90,16 +109,17 @@ export const ExpressWizardContainer = () => {
   ) => {
     alert("Submitted");
     console.log("Triggered submit", values);
+    onNext(); //If submit is successful, go to thank you step.
     setSubmitting(false);
   };
 
-  const steps = [
+  const steps: Array<StepItem> = [
     {
       label: t("__EXPRESS_WIZARD_STEP_WHAT_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION"),
       form: (props: FormikProps<WizardModel>) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <WaterButton isPill isPrimary onClick={onNext}>
           {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
         </WaterButton>
@@ -108,9 +128,14 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
-      form: (props: FormikProps<WizardModel>) => props.values.product_type === 'webapp' ? <WhereWebStep {...props} /> : <WhereAppStep {...props} />,
+      form: (props: FormikProps<WizardModel>) =>
+        props.values.product_type === "webapp" ? (
+          <WhereWebStep {...props} />
+        ) : (
+          <WhereAppStep {...props} />
+        ),
       validationSchema: WhereStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
@@ -126,7 +151,7 @@ export const ExpressWizardContainer = () => {
       content: t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION"),
       form: (props: FormikProps<WizardModel>) => <WhoStep {...props} />,
       validationSchema: WhoStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
@@ -142,7 +167,7 @@ export const ExpressWizardContainer = () => {
       content: t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION"),
       form: (props: FormikProps<WizardModel>) => <WhenStep {...props} />,
       validationSchema: WhenStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
@@ -156,14 +181,24 @@ export const ExpressWizardContainer = () => {
     {
       label: t("__EXPRESS_WIZARD_STEP_CONFIRM_LABEL"),
       content: t("__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION"),
-      form: (props: FormikProps<WizardModel>) => <ConfirmationStep {...props} />,
+      form: (props: FormikProps<WizardModel>) => (
+        <ConfirmationStep {...props} />
+      ),
       validationSchema: ConfirmationValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
-          <WaterButton isPill isPrimary onClick={onNext}>
+          <WaterButton
+            isPill
+            isPrimary
+            type="submit"
+            disabled={
+              Object.keys(props.errors).length > 0 || props.isSubmitting
+            }
+            onClick={() => formRef.current?.handleSubmit()}
+          >
             {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
           </WaterButton>
         </>
@@ -178,11 +213,11 @@ export const ExpressWizardContainer = () => {
       onSubmit={handleSubmit}
       validateOnChange={false}
       validateOnBlur={false}
-      validationSchema={steps[activeStep].validationSchema}
+      validationSchema={getValidationSchema(activeStep, steps)}
     >
       {(formProps) => (
         <ModalFullScreen
-          onClose={() => dispatch(closeWizard())}
+          onClose={() => { dispatch(closeWizard()); dispatch(resetWizard()); }}
         >
           <ModalFullScreen.Header>
             <WizardHeader
@@ -194,60 +229,51 @@ export const ExpressWizardContainer = () => {
 
           <ModalFullScreen.Body>
             <Form onSubmit={formProps.handleSubmit}>
-              <Row>
-                {/**--- Stepper ---*/}
-                <Col xs={12} sm={12} md={12} lg={3} xl={3}>
-                  <StyledContainer
-                    style={{
-                      padding: theme.space.xxl,
-                      paddingBottom: theme.space.xl,
-                    }}
-                  >
-                    <Stepper activeIndex={activeStep}>
-                      {steps.map((item, index) => (
-                        <Stepper.Step key={index}>
-                          <Stepper.Label>{item.label}</Stepper.Label>
-                          <Stepper.Content>{item.content}</Stepper.Content>
-                        </Stepper.Step>
-                      ))}
-                    </Stepper>
-                  </StyledContainer>
-                </Col>
-                <Col xs={12} sm={12} md={12} lg={9} xl={6}>
-                  <ContainerCard>
-                    {activeStep === steps.length ? (
-                      <>Inserire qui pagina di completamento</>
-                    ) : (
-                      steps[activeStep].form(formProps)
-                    )}
-                  </ContainerCard>
-                </Col>
-              </Row>
+              {activeStep === steps.length ? (
+                <Row>
+                  <Col xs={12} sm={12} md={12} lg={12} xl={6} offsetXl={3}>
+                    <ThankYouStep />
+                  </Col>
+                  </Row>
+              ) : (
+                <Row>
+                  <Col xs={12} sm={12} md={12} lg={3} xl={3}>
+                    <StyledContainer
+                      style={{
+                        padding: theme.space.xxl,
+                        paddingBottom: theme.space.xl,
+                      }}
+                    >
+                      <Stepper activeIndex={activeStep}>
+                        {steps.map((item, index) => (
+                          <Stepper.Step key={index}>
+                            <Stepper.Label>{item.label}</Stepper.Label>
+                            <Stepper.Content>{item.content}</Stepper.Content>
+                          </Stepper.Step>
+                        ))}
+                      </Stepper>
+                    </StyledContainer>
+                  </Col>
+                  <Col xs={12} sm={12} md={12} lg={9} xl={6}>
+                    <ContainerCard>
+                      {steps[activeStep].form(formProps)}
+                    </ContainerCard>
+                  </Col>
+                </Row>
+              )}
             </Form>
           </ModalFullScreen.Body>
-          <Row style={{marginLeft: 0, marginRight: 0}}>
-            <Col xs={12} sm={12} md={12} lg={9} xl={6} offset={3}>
+          <Row style={{ marginLeft: 0, marginRight: 0 }}>
+            <Col xs={12} sm={12} md={12} lg={9} xl={6} offsetLg={3}>
               <ModalFullScreen.Footer>
                 {steps.map(
                   (item, index) =>
                     index === activeStep && (
                       <ModalFullScreen.FooterItem>
-                        {item.buttons}
+                        {item.buttons(formProps)}
                       </ModalFullScreen.FooterItem>
                     )
                 )}
-                <ModalFullScreen.FooterItem>
-                  <Button
-                    type="submit"
-                    disabled={
-                      Object.keys(formProps.errors).length > 0 ||
-                      formProps.isSubmitting
-                    }
-                    onClick={() => formRef.current?.handleSubmit()}
-                  >
-                    Test submit
-                  </Button>
-                </ModalFullScreen.FooterItem>
               </ModalFullScreen.Footer>
             </Col>
           </Row>

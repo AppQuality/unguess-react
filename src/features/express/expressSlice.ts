@@ -4,6 +4,7 @@ import { Project } from "../api";
 export interface ExpressWizardState {
   steps: { [key: string]: Step };
   project?: Project
+  projectLocked?: boolean
   isWizardOpen?: boolean;
   isDrawerOpen?: boolean;
   isDirty?: boolean;
@@ -18,22 +19,8 @@ export interface Step {
 const initialState: ExpressWizardState = {
   isWizardOpen: false,
   isDrawerOpen: false,
-  steps: {
-    what: {
-      data: {
-        url: "https://example.com",
-        firstName: "Peter",
-        email: "peter@example.com",
-       }
-    },
-    where: {
-      data: {
-        city: "New York",
-        state: "NY",
-        country: "USA",
-      }
-    }
-  },
+  steps: {},
+  projectLocked: false,
 };
 
 const expressSlice = createSlice({
@@ -64,6 +51,10 @@ const expressSlice = createSlice({
     resetWizard: (state) => {
       state.steps = {};
       state.project = undefined;
+      state.projectLocked = false;
+    },
+    lockProject: (state) => {
+      state.projectLocked = true;
     },
     setExpressProject: (state, action) => {
       state.project = action.payload;
@@ -81,6 +72,7 @@ export const {
   removeStep,
   resetWizard,
   setExpressProject,
+  lockProject
 } = expressSlice.actions;
 
 export default expressSlice.reducer;
