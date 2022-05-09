@@ -14,6 +14,7 @@ import { ExpressWizardContainer } from "../ExpressWizard";
 import { ExpressDrawer } from "../ExpressWizard/drawer";
 import { CardRowLoading } from "./CardRowLoading";
 import {
+  lockProject,
   openDrawer,
   openWizard,
   setExpressProject,
@@ -50,6 +51,7 @@ export const ActionCards = () => {
         <ProductCard
           onCtaClick={() => {
             dispatch(setExpressProject(selectedProject));
+            dispatch(lockProject())
             dispatch(openDrawer());
           }}
           icon={<ExpressIcon />}
@@ -60,7 +62,6 @@ export const ActionCards = () => {
       </Col>
       <ExpressDrawer
         onCtaClick={() => {
-          dispatch(setExpressProject(selectedProject));
           dispatch(openWizard());
         }}
       />

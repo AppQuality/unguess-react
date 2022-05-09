@@ -8,7 +8,7 @@ import {
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "src/app/hooks";
-import { closeDrawer, closeWizard } from "src/features/express/expressSlice";
+import { closeDrawer, closeWizard, resetWizard } from "src/features/express/expressSlice";
 import { WaterButton } from "../waterButton";
 import { ReactComponent as SuccessIcon } from "src/assets/wizard-success.svg";
 
@@ -40,6 +40,7 @@ export const ThankYouStep = () => {
             onClick={() => {
               dispatch(closeDrawer());
               dispatch(closeWizard());
+              dispatch(resetWizard());
             }}
           >
             {t("__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON")}
