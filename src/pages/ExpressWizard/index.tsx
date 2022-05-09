@@ -46,7 +46,7 @@ interface StepItem {
   content: string;
   form: (props: FormikProps<WizardModel>) => JSX.Element;
   validationSchema: Yup.ObjectSchema<any>;
-  buttons: React.ReactNode;
+  buttons: (props: FormikProps<WizardModel>) => JSX.Element;
 }
 
 const StyledContainer = styled(ContainerCard)`
@@ -62,10 +62,10 @@ const StyledContainer = styled(ContainerCard)`
 const getValidationSchema = (step: number, steps: StepItem[]) => {
   if (step in steps) {
     return steps[step].validationSchema;
-  }else{
+  } else {
     return Yup.object();
   }
-}
+};
 
 export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
@@ -118,6 +118,7 @@ export const ExpressWizardContainer = () => {
   ) => {
     alert("Submitted");
     console.log("Triggered submit", values);
+    onNext(); //If submit is successful, go to thank you step.
     setSubmitting(false);
   };
 
@@ -127,7 +128,7 @@ export const ExpressWizardContainer = () => {
       content: t("__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION"),
       form: (props: FormikProps<WizardModel>) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <WaterButton isPill isPrimary onClick={onNext}>
           {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
         </WaterButton>
@@ -143,7 +144,7 @@ export const ExpressWizardContainer = () => {
           <WhereAppStep {...props} />
         ),
       validationSchema: WhereStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
@@ -159,7 +160,7 @@ export const ExpressWizardContainer = () => {
       content: t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION"),
       form: (props: FormikProps<WizardModel>) => <WhoStep {...props} />,
       validationSchema: WhoStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
@@ -175,7 +176,7 @@ export const ExpressWizardContainer = () => {
       content: t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION"),
       form: (props: FormikProps<WizardModel>) => <WhenStep {...props} />,
       validationSchema: WhenStepValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
@@ -193,12 +194,20 @@ export const ExpressWizardContainer = () => {
         <ConfirmationStep {...props} />
       ),
       validationSchema: ConfirmationValidationSchema,
-      buttons: (
+      buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
             {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
           </WaterButton>
-          <WaterButton isPill isPrimary onClick={onNext}>
+          <WaterButton
+            isPill
+            isPrimary
+            type="submit"
+            disabled={
+              Object.keys(props.errors).length > 0 || props.isSubmitting
+            }
+            onClick={() => formRef.current?.handleSubmit()}
+          >
             {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
           </WaterButton>
         </>
@@ -267,22 +276,10 @@ export const ExpressWizardContainer = () => {
                   (item, index) =>
                     index === activeStep && (
                       <ModalFullScreen.FooterItem>
-                        {item.buttons}
+                        {item.buttons(formProps)}
                       </ModalFullScreen.FooterItem>
                     )
                 )}
-                <ModalFullScreen.FooterItem>
-                  <Button
-                    type="submit"
-                    disabled={
-                      Object.keys(formProps.errors).length > 0 ||
-                      formProps.isSubmitting
-                    }
-                    onClick={() => formRef.current?.handleSubmit()}
-                  >
-                    Test submit
-                  </Button>
-                </ModalFullScreen.FooterItem>
               </ModalFullScreen.Footer>
             </Col>
           </Row>
