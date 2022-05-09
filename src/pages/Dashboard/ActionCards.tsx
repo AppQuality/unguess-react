@@ -7,15 +7,25 @@ import {
   ProductCard,
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
 import { FEATURE_FLAG_EXPRESS } from "src/constants";
+import { ExpressWizardContainer } from "../ExpressWizard";
+import { ExpressDrawer } from "../ExpressWizard/drawer";
 import { CardRowLoading } from "./CardRowLoading";
+import {
+  openDrawer,
+  openWizard,
+  setExpressProject,
+} from "src/features/express/expressSlice";
 
 export const ActionCards = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const { status, userData } = useAppSelector((state) => state.user);
   const { projectId } = useAppSelector((state) => state.filters);
+
+  const selectedProject = {id: projectId, name: ""};
 
   if (
     !projectId ||
@@ -24,8 +34,6 @@ export const ActionCards = () => {
   ) {
     return <></>;
   }
-
-  const JOTFORM_URL = `https://secure.jotform.com/221093463483052?projectId=${projectId}&userFull=${userData.name}&userEmail=${userData.email}`;
 
   return status === "idle" || status === "loading" ? (
     <CardRowLoading />
@@ -41,7 +49,8 @@ export const ActionCards = () => {
       <Col xs={12} md={4} lg={3}>
         <ProductCard
           onCtaClick={() => {
-            window.open(JOTFORM_URL, "_blank")?.focus();
+            dispatch(setExpressProject(selectedProject));
+            dispatch(openDrawer());
           }}
           icon={<ExpressIcon />}
           ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
@@ -49,6 +58,13 @@ export const ActionCards = () => {
           productTitle={t("__DASHABOARD_EXPRESS_CARD_TITLE MAX:12")}
         />
       </Col>
+      <ExpressDrawer
+        onCtaClick={() => {
+          dispatch(setExpressProject(selectedProject));
+          dispatch(openWizard());
+        }}
+      />
+      <ExpressWizardContainer />
     </Row>
   );
 };
