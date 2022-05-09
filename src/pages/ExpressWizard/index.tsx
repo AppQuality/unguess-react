@@ -182,7 +182,6 @@ export const ExpressWizardContainer = () => {
     >
       {(formProps) => (
         <ModalFullScreen
-          title={t("__EXPRESS_WIZARD_TITLE")}
           onClose={() => dispatch(closeWizard())}
         >
           <ModalFullScreen.Header>
