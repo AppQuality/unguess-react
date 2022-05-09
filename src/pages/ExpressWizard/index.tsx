@@ -10,7 +10,7 @@ import { Form, Formik, FormikHelpers, FormikProps } from "formik";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { closeWizard } from "src/features/express/expressSlice";
+import { closeWizard, resetWizard } from "src/features/express/expressSlice";
 import {
   WhatStep,
   WhatStepValidationSchema,
@@ -218,7 +218,7 @@ export const ExpressWizardContainer = () => {
       {(formProps) => (
         <ModalFullScreen
           title={t("__EXPRESS_WIZARD_TITLE")}
-          onClose={() => dispatch(closeWizard())}
+          onClose={() => { dispatch(closeWizard()); dispatch(resetWizard()); }}
         >
           <ModalFullScreen.Header>
             <WizardHeader

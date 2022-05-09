@@ -28,7 +28,7 @@ export const ProjectDropdown = () => {
     (state) => state.navigation.activeWorkspace
   );
 
-  const { project } = useAppSelector((state) => state.express);
+  const { project, projectLocked } = useAppSelector((state) => state.express);
 
   //Get workspaces projects from rtk query
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
@@ -95,7 +95,7 @@ export const ProjectDropdown = () => {
       <Field>
         <Autocomplete
           start={<FolderIcon />}
-          {...(project && selectedItem && { disabled: true })}
+          {...(projectLocked && project && selectedItem && { disabled: true })}
         >
           {selectedItem ? selectedItem.name : placeholder.name}
         </Autocomplete>
