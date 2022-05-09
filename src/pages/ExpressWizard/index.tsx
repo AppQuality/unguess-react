@@ -325,6 +325,7 @@ export const ExpressWizardContainer = () => {
           onClose={() => {
             dispatch(closeWizard());
             dispatch(resetWizard());
+            setStep(0);
           }}
         >
           <ModalFullScreen.Header>

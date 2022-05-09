@@ -18,6 +18,8 @@ import { OperativeSystems } from "./confirm/operativeSystems";
 import { ConfirmOutOfScope } from "./confirm/confirmOutOfScope";
 import { Textarea } from "@zendeskgarden/react-forms";
 import { useAppSelector } from "src/app/hooks";
+import { getLanguage } from "../getLanguage";
+import { format } from "date-fns";
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -66,24 +68,13 @@ const TextareaNote = styled(Paragraph)`
 
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const { values } = props;
-
   const { project } = useAppSelector((state) => state.express);
+  const lang = getLanguage(values.campaign_language || "en");
 
-  let lang;
-  switch (values.campaign_language) {
-    case "en":
-      lang = t("English");
-      break;
-    case "it":
-      lang = t("Italian");
-      break;
-    default:
-      lang = t("English");
-      break;
-  }
-
+  let date_start_text = format(values.campaign_date || new Date(), "EEEE d MMMM Y", {locale: lang.locale});
+  let date_end_text = format(values.campaign_date_end || new Date(), "EEEE d MMMM Y", {locale: lang.locale});
   let productType = (values.product_type === "webapp" ? t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_WEBAPP_LABEL") : t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL"));
-
+  
   return (
     <>
       <StepTitle>
@@ -140,7 +131,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHO_LABEL")}</StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT">
-                    Testers speak <Span isBold>{{ campaign_language: lang }}</Span>.
+                    Testers speak <Span isBold>{{ campaign_language: lang.label }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>
@@ -159,7 +150,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHEN_LABEL")}</StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHEN_CONTENT_TEXT">
-                    Campaign starts on <Span isBold>{{ campaign_date: values.campaign_date }}</Span> and ends on <Span isBold>{{ campaign_date_end: values.campaign_date_end }}</Span>.
+                    Campaign starts on <Span isBold>{{ campaign_date: date_start_text }}</Span> and ends on <Span isBold>{{ campaign_date_end: date_end_text }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>

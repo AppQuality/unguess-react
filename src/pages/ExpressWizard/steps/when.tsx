@@ -18,8 +18,9 @@ import { WizardModel } from "../wizardModel";
 import { CardDivider } from "../cardDivider";
 import { t } from "i18next";
 import { useState } from "react";
-import initialValues from "../wizardInitialValues";
 import addBusinessDays from "date-fns/addBusinessDays";
+import { getLanguage } from "../getLanguage";
+import { format, isToday } from "date-fns";
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -50,9 +51,11 @@ export const WhenStep = ({
   values,
   ...props
 }: FormikProps<WizardModel>) => {
-  const [startDate, setDate] = useState(initialValues.campaign_date);
+  const [startDate, setDate] = useState(values.campaign_date);
   const START_DATE_MAX_VALUE = 30;
   const BUSINESS_DAYS_TO_ADD = 2;
+
+  const lang = getLanguage(values.campaign_language || "en");
 
   const handleDateChange = (date: Date) => {
     //We have to add 2 business days to determine the end date
@@ -64,6 +67,7 @@ export const WhenStep = ({
 
     props.setFieldValue("campaign_date", date);
     props.setFieldValue("campaign_date_end", endDate);
+    props.setFieldValue("campaign_date_end_text", format(endDate, "EEEE d MMMM Y", {locale: lang.locale}));
   };
 
   return (
@@ -94,7 +98,11 @@ export const WhenStep = ({
                 </Label>
                 <Datepicker
                   value={startDate}
-                  formatDate={(date: Date) => date.toLocaleDateString()}
+                  formatDate={(date: Date) => { 
+                    return isToday(date) ? (
+                      t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TODAY_LABEL") + " (" + format(date, "EEEE d MMMM Y", {locale: lang.locale}) + ")"
+                    ) : format(date, "EEEE d MMMM Y", {locale: lang.locale}); }
+                  }
                   onChange={handleDateChange}
                   minValue={new Date()}
                   maxValue={
@@ -128,15 +136,23 @@ export const WhenStep = ({
                   "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_LABEL"
                 )}
               </Label>
-              <Input
+              <Input 
                 type={"text"}
                 placeholder={t(
                   "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER"
                 )}
                 readOnly
                 disabled
+                {...props.getFieldProps("campaign_date_end_text")}
+              />
+              <Input
+                type={"hidden"}
+                placeholder={t(
+                  "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER"
+                )}
+                readOnly
+                disabled
                 {...props.getFieldProps("campaign_date_end")}
-                value={values?.campaign_date_end?.toLocaleDateString()}
               />
               {errors.campaign_date_end && <StyledMessage validation="error">{errors.campaign_date_end}</StyledMessage>}
               </Field>
