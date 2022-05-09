@@ -42,9 +42,12 @@ const InnerField = styled(Field)`
 
 export const WhereAppStep = (props: FormikProps<WizardModel>) => {
   const { errors, values, setFieldValue, handleChange } = props;
-  const [radioValue, setRadioValue] = useState(values.isIOS ? "ios" : "android");
+  const initialRadioValue = values.isIOS ? "ios" : (values.isAndroid ? "android" : "none");
+  const [radioValue, setRadioValue] = useState(initialRadioValue);
 
-  console.log("Errors: ", errors);
+  //Reset web step
+  if(values.customBrowser) setFieldValue("customBrowser", false);
+  if(values.withDesktop) setFieldValue("withDesktop", false);
 
   useEffect(() => {
     if (radioValue === "ios") {

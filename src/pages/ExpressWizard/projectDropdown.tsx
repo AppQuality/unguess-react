@@ -45,13 +45,10 @@ export const ProjectDropdown = () => {
     campaigns_count: 0,
   };
 
-  const selectedProject =
-    project && project.id && projects.find((p) => p.id === project.id);
-
-  const [selectedItem, setSelectedItem] = useState(selectedProject);
+  const [selectedItem, setSelectedItem] = useState<Project>();
   const [inputValue, setInputValue] = useState("");
   const [matchingOptions, setMatchingOptions] = useState(projects);
- 
+
   const debouncedInputValue = useDebounce<string>(inputValue, 300);
 
   const filterMatchingOptions = (value: string) => {
@@ -68,12 +65,17 @@ export const ProjectDropdown = () => {
 
   useEffect(() => {
     filterMatchingOptions(debouncedInputValue);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedInputValue, projects]);
-
+    if (project && project.id) {
+      let selectedProject = projects.find((p) => p.id === project.id);
+      if (selectedProject) {
+        setSelectedItem(selectedProject);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedInputValue, project, projects]);
 
   return isLoading || isFetching ? (
-    <Skeleton height="32px" width="100%"/>
+    <Skeleton height="32px" width="100%" />
   ) : (
     <Dropdown
       inputValue={inputValue}
@@ -91,7 +93,10 @@ export const ProjectDropdown = () => {
       downshiftProps={{ itemToString: (item: Project) => item && item.name }}
     >
       <Field>
-        <Autocomplete start={<FolderIcon />}>
+        <Autocomplete
+          start={<FolderIcon />}
+          {...(project && selectedItem && { disabled: true })}
+        >
           {selectedItem ? selectedItem.name : placeholder.name}
         </Autocomplete>
       </Field>

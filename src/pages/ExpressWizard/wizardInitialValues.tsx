@@ -16,7 +16,7 @@ const values: WizardModel = {
     outOfScope: "",
     iOSLink: "",
     androidLink: "",
-    isIOS: true,
+    isIOS: false,
     isAndroid: false,
 }
 
