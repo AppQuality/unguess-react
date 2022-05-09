@@ -18,8 +18,8 @@ import { OperativeSystems } from "./confirm/operativeSystems";
 import { ConfirmOutOfScope } from "./confirm/confirmOutOfScope";
 import { Textarea } from "@zendeskgarden/react-forms";
 import { useAppSelector } from "src/app/hooks";
+import { getLanguage } from "../getLanguage";
 import { format } from "date-fns";
-import { enGB, it } from 'date-fns/locale';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -68,31 +68,13 @@ const TextareaNote = styled(Paragraph)`
 
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const { values } = props;
-
   const { project } = useAppSelector((state) => state.express);
+  const lang = getLanguage(values.campaign_language || "en");
 
-  let lang
-  let date_locale;
-  switch (values.campaign_language) {
-    case "en":
-      lang = t("English");
-      date_locale = enGB;
-      break;
-    case "it":
-      lang = t("Italian");
-      date_locale = it;
-      break;
-    default:
-      lang = t("English");
-      date_locale = enGB;
-      break;
-  }
-
+  let date_start_text = format(values.campaign_date || new Date(), "EEEE d MMMM Y", {locale: lang.locale});
+  let date_end_text = format(values.campaign_date_end || new Date(), "EEEE d MMMM Y", {locale: lang.locale});
   let productType = (values.product_type === "webapp" ? t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_WEBAPP_LABEL") : t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL"));
-
-  let date_start_text = format(values.campaign_date || new Date(), "EEEE d MMMM Y", {locale: date_locale});
-  let date_end_text = format(values.campaign_date_end || new Date(), "EEEE d MMMM Y", {locale: date_locale});
-
+  
   return (
     <>
       <StepTitle>
