@@ -23,6 +23,7 @@ import {
   WhenStepValidationSchema,
   ConfirmationStep,
   ConfirmationValidationSchema,
+  ThankYouStep,
 } from "./steps";
 import { WizardHeader } from "./wizardHeader";
 import { WizardModel } from "./wizardModel";
@@ -230,7 +231,11 @@ export const ExpressWizardContainer = () => {
           <ModalFullScreen.Body>
             <Form onSubmit={formProps.handleSubmit}>
               {activeStep === steps.length ? (
-                <Row>Inserire qui pagina di completamento</Row>
+                <Row>
+                  <Col xs={12} sm={12} md={12} lg={12} xl={6} offsetXl={3}>
+                    <ThankYouStep />
+                  </Col>
+                  </Row>
               ) : (
                 <Row>
                   <Col xs={12} sm={12} md={12} lg={3} xl={3}>
@@ -260,7 +265,7 @@ export const ExpressWizardContainer = () => {
             </Form>
           </ModalFullScreen.Body>
           <Row style={{ marginLeft: 0, marginRight: 0 }}>
-            <Col xs={12} sm={12} md={12} lg={9} xl={6} offset={3}>
+            <Col xs={12} sm={12} md={12} lg={9} xl={6} offsetLg={3}>
               <ModalFullScreen.Footer>
                 {steps.map(
                   (item, index) =>

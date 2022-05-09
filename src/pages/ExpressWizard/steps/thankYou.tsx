@@ -1,41 +1,51 @@
 import {
-  Col,
-  Dropdown,
-  Grid,
-  Item,
-  Label,
-  MediaInput,
-  Menu,
-  Message,
-  Paragraph,
-  RadioCard,
+  ContainerCard,
   Row,
-  Select,
-  Span,
-  XL,
+  Col,
   XXL,
   MD,
   theme,
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch } from "src/app/hooks";
+import { closeDrawer, closeWizard } from "src/features/express/expressSlice";
+import { WaterButton } from "../waterButton";
+import { ReactComponent as SuccessIcon } from "src/assets/wizard-success.svg";
 
-export const ThankYou = () => {
+export const ThankYouStep = () => {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   return (
-    <Grid>
-      <Row>
-        <Col xs={12}>
-          <XXL>{t("__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE")}</XXL>
-          <MD>{t("__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE")}</MD>
+    <ContainerCard>
+      <Row style={{ marginBottom: theme.space.xs }}> 
+        <Col size={12} textAlign={"center"}>
+          <SuccessIcon />
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
-          <Paragraph>
-            {t("__EXPRESS_WIZARD_STEP_THANK_YOU_DESCRIPTION")}
-          </Paragraph>
+      <Row style={{ marginTop: theme.space.md }}>
+        <Col size={12} textAlign={"center"}>
+          <XXL isBold style={{ color: theme.colors.primaryHue }}>
+            {t("__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE")}
+          </XXL>
+          <MD style={{ color: theme.palette.grey[600] }}>
+            {t("__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE")}
+          </MD>
         </Col>
       </Row>
-    </Grid>
+      <Row style={{ marginTop: theme.space.xl }}>
+        <Col size={12} textAlign={"center"}>
+          <WaterButton
+            isPill
+            isPrimary
+            onClick={() => {
+              dispatch(closeDrawer());
+              dispatch(closeWizard());
+            }}
+          >
+            {t("__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON")}
+          </WaterButton>
+        </Col>
+      </Row>
+    </ContainerCard>
   );
 };
