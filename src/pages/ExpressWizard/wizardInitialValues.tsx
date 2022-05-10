@@ -1,6 +1,8 @@
 import { WizardModel } from "./wizardModel";
 
 const values: WizardModel = {
+    campaign_name: "",
+    product_type: "webapp",
     campaign_reason: "reason-a",
     withSmartphone: false,
     withDesktop: false,

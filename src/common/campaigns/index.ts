@@ -30,3 +30,70 @@ export const campaigns = async (
     throw new HttpError(res.status, res.statusText, json.err);
   }
 };
+
+
+export const create_pages = async (
+  campaign_id: number,
+) => {
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.set("Content-Type", "application/json");
+ 
+  let url = `${
+    process.env.REACT_APP_TRYBER_WP_API_URL
+  }/regenerate-campaign-pages/${campaign_id}`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: requestHeaders,
+  });
+  if (res.ok) {
+    return await res.json();
+  } else {
+    const json = await res.json();
+    throw new HttpError(res.status, res.statusText, json.err);
+  }
+};
+
+export const create_tasks = async (
+  campaign_id: number,
+) => {
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.set("Content-Type", "application/json");
+ 
+  let url = `${
+    process.env.REACT_APP_TRYBER_WP_API_URL
+  }/regenerate-campaign-tasks/${campaign_id}`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: requestHeaders,
+  });
+  if (res.ok) {
+    return await res.json();
+  } else {
+    const json = await res.json();
+    throw new HttpError(res.status, res.statusText, json.err);
+  }
+};
+
+export const create_crons = async (
+  campaign_id: number,
+) => {
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.set("Content-Type", "application/json");
+ 
+  let url = `${
+    process.env.REACT_APP_TRYBER_WP_API_URL
+  }/regenerate-campaign-crons/${campaign_id}`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    headers: requestHeaders,
+  });
+  if (res.ok) {
+    return await res.json();
+  } else {
+    const json = await res.json();
+    throw new HttpError(res.status, res.statusText, json.err);
+  }
+};
