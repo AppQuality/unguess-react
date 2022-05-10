@@ -45,6 +45,8 @@ import {
 } from "src/constants";
 import format from "date-fns/format";
 import async from "async";
+import { reasonItems } from "./steps/what";
+import { create_crons, create_pages, create_tasks } from "src/common/campaigns";
 
 interface StepItem {
   label: string;
@@ -115,8 +117,6 @@ export const ExpressWizardContainer = () => {
   const onBack = () => {
     if (activeStep > 0) {
       setStep(activeStep - 1);
-    } else {
-      alert("You are on the first step, you can't go back more.");
     }
   };
 
@@ -141,7 +141,6 @@ export const ExpressWizardContainer = () => {
         })
           .unwrap()
           .then((payload) => {
-            console.log("Project created", payload);
             next(null, payload);
           })
           .catch((error) => {
@@ -197,7 +196,7 @@ export const ExpressWizardContainer = () => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          body: JSON.stringify({ cp: {...values, id: cp.id}, user: userData, workspace: activeWorkspace }),
+          body: JSON.stringify({ cp: {...values, id: cp.id, product_type: reasonItems[values?.product_type || 'reason-a']}, user: userData, workspace: activeWorkspace }),
         })
           .then((data) => {
             console.log(`Data sent, response: ${JSON.stringify(data)}`);
@@ -213,8 +212,21 @@ export const ExpressWizardContainer = () => {
       }
     };
 
+    const wordpressHandle = (cp: Campaign, next: any) => {
+      try {
+        //Post on webhook WordPress axios call
+        create_pages(cp.id);
+        create_crons(cp.id);
+        create_tasks(cp.id);
+        next(null, cp);
+      } catch (error) {
+        console.error("rejected", error);
+        return next(error);
+      }
+    }
+
     async.waterfall(
-      [projectHandle, campaignHandle, zapierHandle],
+      [projectHandle, campaignHandle, wordpressHandle, zapierHandle],
       (err: any, result: any) => {
         if (err) {
           console.error("Unable to launch campaign " + JSON.stringify(err));

@@ -14,7 +14,7 @@ import {
   Span,
   XL,
   XXL,
-  theme
+  theme,
 } from "@appquality/unguess-design-system";
 import { Field as FormField } from "@zendeskgarden/react-forms";
 import { Field as DropdownField } from "@zendeskgarden/react-dropdowns";
@@ -36,7 +36,7 @@ interface Reasons {
   [key: string]: string;
 }
 
-const reasonItems: Reasons = {
+export const reasonItems: Reasons = {
   "reason-a": t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_OPTION_1"),
   "reason-b": t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_OPTION_2"),
   "reason-c": t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_OPTION_3"),
@@ -44,7 +44,7 @@ const reasonItems: Reasons = {
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
-
+  color: ${({ theme }) => theme.palette.grey[800]};
   span {
     color: ${({ theme }) => theme.colors.primaryHue};
   }
@@ -82,6 +82,8 @@ export const WhatStep = ({
   const [radioValue, setRadioValue] = useState(values.product_type);
   const [selectedItem, setSelectedItem] = useState(values.campaign_reason);
 
+  console.log("values", values);
+
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
     props.setFieldValue("product_type", value);
@@ -105,10 +107,13 @@ export const WhatStep = ({
           start={<DocumentIcon />}
           placeholder={t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER")}
           {...props.getFieldProps("campaign_name")}
+          focusInset
           {...(errors.campaign_name && { validation: "error" })}
         />
         {errors.campaign_name && (
-          <StyledMessage validation="error">{errors.campaign_name}</StyledMessage>
+          <StyledMessage validation="error">
+            {errors.campaign_name}
+          </StyledMessage>
         )}
       </StyledFormField>
       <StyledFormField>
@@ -116,8 +121,9 @@ export const WhatStep = ({
           {...props.getFieldProps("campaign_reason")}
           {...(errors.campaign_reason && { validation: "error" })}
           onSelect={(item) => {
-            props.setFieldValue("campaign_reason", reasonItems[item]);
+            props.setFieldValue("campaign_reason", item);
             setSelectedItem(item);
+            console.log("Item: ", item);
           }}
           selectedItem={selectedItem}
         >
@@ -129,7 +135,9 @@ export const WhatStep = ({
               {selectedItem && reasonItems[selectedItem]}
             </Select>
             {errors.campaign_reason && (
-              <StyledMessage validation="error">{errors.campaign_reason}</StyledMessage>
+              <StyledMessage validation="error">
+                {errors.campaign_reason}
+              </StyledMessage>
             )}
           </DropdownField>
           <Menu>
@@ -186,7 +194,9 @@ export const WhatStep = ({
             </Col>
           </Row>
           {errors.product_type && (
-            <StyledMessage validation="error">{errors.product_type}</StyledMessage>
+            <StyledMessage validation="error">
+              {errors.product_type}
+            </StyledMessage>
           )}
         </Grid>
       </StyledFormField>
