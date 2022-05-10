@@ -9,15 +9,17 @@ import {
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import styled from "styled-components";
-import { selectGroupedCampaigns } from "src/features/campaigns/campaignSlice";
 import { ReactComponent as GridIcon } from "src/assets/icons/grid.svg";
 import { ReactComponent as ListIcon } from "src/assets/icons/list.svg";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CardList } from "./list";
 import { TableList } from "./table";
 import { Separator } from "../Separator";
 import { Filters } from "../filters";
 import { EmptyResults } from "./emptyState";
+import { selectGroupedCampaigns, selectFilteredCampaigns } from "src/features/campaigns";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
+import { createSelector } from "@reduxjs/toolkit";
 
 const FloatRight = styled.div`
   float: right;
@@ -25,11 +27,35 @@ const FloatRight = styled.div`
 
 export const CampaignsList = () => {
   const { t } = useTranslation();
-  const campaigns: Array<Array<Component["campaign"]>> = useAppSelector(
-    selectGroupedCampaigns
+  const activeWorkspace = useAppSelector(
+    (state) => state.navigation.activeWorkspace
   );
 
-  const campaignsCount = campaigns.reduce((acc, curr) => acc + curr.length, 0);
+  //Get workspaces campaigns from rtk query and filter them
+  const filters = useAppSelector((state) => state.filters);
+
+  const getFilteredCampaigns = useMemo(() => {
+    return createSelector(
+      selectFilteredCampaigns,
+      (campaigns) => campaigns
+    );
+
+  }, [])
+  
+  const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery({wid: activeWorkspace?.id || 0, limit: 10000}, {
+    selectFromResult: (result) => {
+      return {
+        ...result,
+        filteredCampaigns: getFilteredCampaigns(result?.data?.items || [], filters),
+      }
+    }
+  });
+
+  const campaigns = useMemo(() => {
+    return selectGroupedCampaigns(filteredCampaigns);
+  }, [filteredCampaigns])
+
+  const campaignsCount = filteredCampaigns.length; 
   const [viewType, setViewType] = useState("list");
 
   return (
@@ -71,7 +97,7 @@ export const CampaignsList = () => {
       <Separator style={{ marginTop: "0", marginBottom: theme.space.sm }} />
       <Filters />
 
-      {campaigns.length ? (
+      {campaignsCount ? (
         viewType === "list" ? (
           <TableList campaigns={campaigns} />
         ) : (

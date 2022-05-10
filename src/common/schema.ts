@@ -87,6 +87,12 @@ export interface paths {
       };
     };
   };
+  "/campaigns": {
+    post: operations["post-campaigns"];
+  };
+  "/projects": {
+    post: operations["post-projects"];
+  };
 }
 
 export interface components {
@@ -101,6 +107,7 @@ export interface components {
       workspaces: components["schemas"]["Workspace"][];
       profile_id: number;
       tryber_wp_user_id: number;
+      unguess_wp_user_id: number;
       picture?: string;
       features?: {
         slug?: string;
@@ -125,7 +132,14 @@ export interface components {
       company: string;
       tokens: number;
       logo?: string;
-      csm: components["schemas"]["User"];
+      csm: {
+        id: number;
+        email: string;
+        name: string;
+        profile_id: number;
+        tryber_wp_user_id: number;
+        picture?: string;
+      };
     };
     /** Campaign */
     Campaign: {
@@ -137,6 +151,7 @@ export interface components {
       customer_title: string;
       description: string;
       status_id: number;
+      status_name: string;
       is_public: number;
       campaign_type_id: number;
       campaign_type_name: string;
@@ -155,6 +170,27 @@ export interface components {
       message: string;
       code: number;
       error: boolean;
+    };
+    /** Platform Object */
+    Platform: {
+      id: number;
+      name: string;
+      /**
+       * @description 0 => smartphone,
+       * 1 => tablet
+       * 2 => pc
+       * 3 => smartwatch
+       * 4 => console
+       * 5 => tv
+       * @enum {string}
+       */
+      deviceType?:
+        | "smartphone"
+        | "tablet"
+        | "computer"
+        | "smartwatch"
+        | "console"
+        | "tv";
     };
   };
   responses: {
@@ -187,6 +223,45 @@ export interface components {
         "application/json": {
           username: string;
           password: string;
+        };
+      };
+    };
+    Campaign: {
+      content: {
+        "application/json": {
+          title: string;
+          description?: string;
+          start_date: string;
+          end_date: string;
+          close_date: string;
+          customer_title?: string;
+          status_id?: number;
+          is_public?: number;
+          /**
+           * @description -1: no bug form
+           * 0: only bug form
+           * 1: bug form with bug parade
+           */
+          bug_form?: number;
+          campaign_type_id: number;
+          test_type_id: number;
+          project_id: number;
+          pm_id: number;
+          platforms?: components["schemas"]["Platform"][];
+          /** @description Da togliere */
+          page_preview_id?: number;
+          /** @description Da togliere */
+          page_manual_id?: number;
+          /** @description Da togliere */
+          customer_id?: number;
+        };
+      };
+    };
+    Project: {
+      content: {
+        "application/json": {
+          name: string;
+          customer_id: number;
         };
       };
     };
@@ -469,6 +544,37 @@ export interface operations {
       403: components["responses"]["Error"];
       500: components["responses"]["Error"];
     };
+  };
+  "post-campaigns": {
+    parameters: {};
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Campaign"];
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: components["requestBodies"]["Campaign"];
+  };
+  "post-projects": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Project"];
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: components["requestBodies"]["Project"];
   };
 }
 

@@ -3,27 +3,56 @@ import {
   Row,
   Paragraph,
   theme,
-  MD
+  MD,
+  ProductCard,
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "src/app/hooks";
-import { selectSuggestedCampaigns } from "src/features/campaigns/campaignSlice";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
+import { FEATURE_FLAG_EXPRESS } from "src/constants";
+import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
-import { CampaignItem } from "./CampaignItem";
+import { CampaignItem, ColCard } from "./CampaignItem";
 import { CardsContainer } from "./CardContainer";
 import { CardRowLoading } from "./CardRowLoading";
+import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
+import { ExpressDrawer } from "../ExpressWizard/drawer";
+import {
+  openDrawer,
+  openWizard,
+} from "src/features/express/expressSlice";
+import { ExpressWizardContainer } from "../ExpressWizard";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
-  const { status: cpLoading } = useAppSelector((state) => state.campaigns);
+  const dispatch = useAppDispatch();
+  const { userData } = useAppSelector((state) => state.user);
+  const activeWorkspace = useAppSelector(
+    (state) => state.navigation.activeWorkspace
+  );
+
+  const hasExpress =
+    userData.features &&
+    userData.features.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
+
+  const campaigns = useGetWorkspacesByWidCampaignsQuery({
+    wid: activeWorkspace?.id ?? 0,
+    orderBy: "start_date",
+    order: "DESC",
+    limit: hasExpress ? 3 : 4,
+  });
+
+  if (campaigns.isError) return <></>; //TODO: Improve error handling
 
   const goToCampaignDashboard = (campaignId: number, cpType: string) => {
     window.location.href = getLocalizeRoute(campaignId, cpType);
   };
 
-  const campaigns = useAppSelector(selectSuggestedCampaigns);
-
-  return cpLoading === "idle" || cpLoading === "loading" ? <CardRowLoading /> : (
+  return campaigns.isLoading ||
+    campaigns.isFetching ||
+    !campaigns.data ||
+    !campaigns.data.items ? (
+    <CardRowLoading />
+  ) : (
     <Row>
       <Col xs={12} style={{ marginBottom: theme.space.base * 4 + "px" }}>
         <Paragraph>
@@ -33,14 +62,33 @@ export const SuggestedCampaigns = () => {
         </Paragraph>
       </Col>
       <CardsContainer>
-        {cpLoading === "complete"
-          ? campaigns.map((campaign) => (
-              <CampaignItem
-                campaign={campaign}
-                onCampaignClicked={goToCampaignDashboard}
+        {campaigns.data.items.map((campaign) => (
+          <CampaignItem
+            campaign={campaign}
+            onCampaignClicked={goToCampaignDashboard}
+          />
+        ))}
+        {hasExpress && (
+          <>
+            <ColCard size={3}>
+              <ProductCard
+                title={t("__EXPRESS_WIZARD_TITLE")}
+                onCtaClick={() => {
+                  dispatch(openDrawer());
+                }}
+                icon={<ExpressIcon />}
+                ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
+                preTitle={t("__DASHABOARD_EXPRESS_CARD_PRE_TITLE MAX:12")}
+                productTitle={t("__DASHABOARD_EXPRESS_CARD_TITLE MAX:12")}
+                style={{ height: "100%" }}
               />
-            ))
-          : "skeleton here"}
+            </ColCard>
+            <ExpressDrawer
+              onCtaClick={() => dispatch(openWizard())}
+            />
+            <ExpressWizardContainer />
+          </>
+        )}
       </CardsContainer>
     </Row>
   );

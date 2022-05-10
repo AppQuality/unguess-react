@@ -11,6 +11,7 @@ const initialState: UserState = {
     workspaces: [],
     profile_id: 0,
     tryber_wp_user_id: 0,
+    unguess_wp_user_id: 0,
   },
 };
 

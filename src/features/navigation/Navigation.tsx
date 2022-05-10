@@ -5,24 +5,19 @@ import {
   ProfileModal,
   PageLoader,
 } from "@appquality/unguess-design-system";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { getProjects } from "src/features/projects/actions";
-import { getWorkspaces } from "src/features/workspaces/actions";
-import { getCampaigns } from "src/features/campaigns/actions";
 import {
   toggleSidebar,
   setWorkspace,
   toggleProfileModal,
   setProfileModalOpen,
 } from "src/features/navigation/navigationSlice";
-import { selectWorkspaces } from "../workspaces/workspaceSlice";
-import { selectProjects } from "../projects/projectSlice";
 import WPAPI from "src/common/wpapi";
 import i18n from "src/i18n";
 import { useNavigate, useParams } from "react-router-dom";
 import { Changelog } from "./Changelog";
+import { useGetWorkspacesByWidProjectsQuery } from "../api";
 
 export const Navigation = ({
   children,
@@ -40,14 +35,10 @@ export const Navigation = ({
     (state) => state.navigation
   );
 
-  const { status } = useAppSelector((state) => state.projects);
-
-  const projects = useAppSelector(selectProjects);
-
-  const workspaces = useAppSelector(selectWorkspaces);
+  const workspaces = user.workspaces;
   
   if (!activeWorkspace) {
-    dispatch(getWorkspaces());
+    // dispatch(getWorkspaces());
     if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
   }
   //Set current params
@@ -63,37 +54,13 @@ export const Navigation = ({
     });
   }
 
-  const toggleSidebarState = () => {
-    dispatch(toggleSidebar());
-  };
+  const projects = useGetWorkspacesByWidProjectsQuery({ wid: activeWorkspace?.id || 0, limit: 1000});
 
-  const toggleProfileModalState = () => {
-    dispatch(toggleProfileModal());
-  };
-
-  const onProfileModalClose = () => {
-    dispatch(setProfileModalOpen(false));
-  };
-
-  useEffect(() => {
-    if (activeWorkspace && !projects.length) {
-      dispatch(getProjects(activeWorkspace.id));
-      dispatch(
-        getCampaigns({
-          wid: activeWorkspace.id,
-          query: {
-            limit: 10000, //TODO: remove this limit
-          },
-        })
-      );
-    }
-  }, [activeWorkspace, dispatch, projects.length, workspaces]);
-
-  if (status === "idle" || status === "loading") {
+  if (projects.isFetching || projects.isLoading) {
     return <PageLoader />;
   }
 
-  const projectsList = projects.reduce((filtered: Array<any>, project) => {
+  const projectsList = !projects.data || !projects.data.items ? [] : projects.data.items.reduce((filtered: Array<any>, project) => {
     if (project.campaigns_count) {
       filtered.push({
         id: project.id + "",
@@ -187,6 +154,18 @@ export const Navigation = ({
     }
 
     navigate(localizedRoute, { replace: true });
+  };
+
+  const toggleSidebarState = () => {
+    dispatch(toggleSidebar());
+  };
+
+  const toggleProfileModalState = () => {
+    dispatch(toggleProfileModal());
+  };
+
+  const onProfileModalClose = () => {
+    dispatch(setProfileModalOpen(false));
   };
 
   return (

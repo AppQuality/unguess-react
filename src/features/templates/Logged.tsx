@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Chrome,
   Body,
@@ -8,11 +8,10 @@ import {
 } from "@appquality/unguess-design-system";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
+import { useAppSelector } from "src/app/hooks";
 import { Navigation } from "../navigation/Navigation";
 import styled from "styled-components";
 import TagManager from "react-gtm-module";
-import { fetchUser } from "../user/actions/fetchUser";
 
 export const Logged = ({
   children,
@@ -23,7 +22,6 @@ export const Logged = ({
   pageHeader?: React.ReactNode;
   route: string;
 }) => {
-  const dispatch = useAppDispatch();
   const loginRoute = useLocalizeRoute("login");
   const navigate = useNavigate();
 
@@ -48,10 +46,6 @@ export const Logged = ({
 
   `;
 
-  useEffect(() => {
-    dispatch(fetchUser());
-  }, [dispatch]);
-
   const { status, userData } = useAppSelector((state) => state.user);
 
   if (status === "failed") {
@@ -65,6 +59,8 @@ export const Logged = ({
         role: userData.role,
         wp_user_id: userData.tryber_wp_user_id,
         tester_id: userData.id,
+        name: userData.name,
+        email: userData.email,
         event: "UnguessLoaded",
       },
     });

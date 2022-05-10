@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import styled from "styled-components";
 
-const ColCard = styled(Col)`
+export const ColCard = styled(Col)`
   margin-bottom: ${(props) => props.theme.space.base * 4}px;
 `;
 
