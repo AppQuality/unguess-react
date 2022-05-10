@@ -61,7 +61,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
     <>
       <Row>
         <Col>
-          <XXL>
+          <XXL style={{color: theme.palette.grey[800]}}>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
