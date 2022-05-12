@@ -8,9 +8,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
-import styled from "styled-components";
-
-const StyledTable = styled(GroupedTable)``;
 
 export const TableList = ({
   campaigns,
@@ -83,7 +80,7 @@ export const TableList = ({
   });
 
   return (
-    <StyledTable
+    <GroupedTable
       groups={groups}
       columns={columns}
       style={{ backgroundColor: "white" }}
