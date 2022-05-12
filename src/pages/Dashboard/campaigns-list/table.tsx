@@ -10,14 +10,7 @@ import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 import styled from "styled-components";
 
-const StyledTable = styled(GroupedTable)`
-  border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  border-collapse: separate !important;
-  border-radius: ${({ theme }) => theme.borderRadii.lg};
-  td {
-    vertical-align: middle;
-  }
-`;
+const StyledTable = styled(GroupedTable)``;
 
 export const TableList = ({
   campaigns,
