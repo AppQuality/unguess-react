@@ -17,7 +17,7 @@ import { TableList } from "./table";
 import { Separator } from "../Separator";
 import { Filters } from "../filters";
 import { EmptyResults } from "../emptyState";
-import { selectGroupedCampaigns, selectFilteredCampaigns } from "src/features/campaigns";
+import { selectFilteredCampaigns } from "src/features/campaigns";
 import { Campaign, useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { createSelector } from "@reduxjs/toolkit";
 

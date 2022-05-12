@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 import styled from "styled-components";
-import { CampaignItem } from "../CampaignItem";
+import { CampaignItem, ColCard } from "../CampaignItem";
 
 const FloatRight = styled.div`
   float: right;
@@ -40,13 +40,14 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
 
       {/* <CardsContainer> */}
       {campaigns.map((campaign) => (
-        <CampaignItem
-          key={campaign.id}
-          campaign={campaign}
-          size={3}
-          onCampaignClicked={clickToggle}
-          style={{ marginBottom: theme.space.base * 4 + "px" }}
-        />
+        <ColCard xs={12} md={6} lg={3}>
+          <CampaignItem
+            key={campaign.id}
+            campaign={campaign}
+            onCampaignClicked={clickToggle}
+            style={{ marginBottom: theme.space.base * 4 + "px" }}
+          />
+        </ColCard>
       ))}
       {/* </CardsContainer> */}
 

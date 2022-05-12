@@ -1,7 +1,6 @@
 import {
   Anchor,
   Counter,
-  GroupedTable,
   Span,
   Table,
   TableHead,
