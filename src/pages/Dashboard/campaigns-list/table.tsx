@@ -84,7 +84,6 @@ export const TableList = ({
       groups={groups}
       columns={columns}
       style={{ backgroundColor: "white" }}
-      isReadOnly
     />
   );
 };
