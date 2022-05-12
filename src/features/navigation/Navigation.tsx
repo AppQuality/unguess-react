@@ -18,6 +18,7 @@ import i18n from "src/i18n";
 import { useNavigate, useParams } from "react-router-dom";
 import { Changelog } from "./Changelog";
 import { useGetWorkspacesByWidProjectsQuery } from "../api";
+import { saveWorkspaceToLs } from "./cachedStorage";
 
 export const Navigation = ({
   children,
@@ -177,6 +178,12 @@ export const Navigation = ({
         brand={{
           brandName: `${activeWorkspace?.company}'s Workspace`,
           menuLabel: t("__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5"),
+          activeWorkspace: activeWorkspace,
+          workspaces: workspaces,
+          onWorkspaceChange: (workspace: any) => {
+            saveWorkspaceToLs(workspace);
+            dispatch(setWorkspace(workspace));
+          }
         }}
         avatar={{
           avatarType: user.picture ? "image" : "text",
