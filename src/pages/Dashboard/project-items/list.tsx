@@ -26,21 +26,9 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
 
   return (
     <>
-      <Col
-        size={12}
-        style={{
-          marginBottom: theme.space.base * 4 + "px",
-          marginTop: theme.space.base * 4 + "px",
-        }}
-      >
-        <Span isBold key={campaigns[0].project_id}>
-          {campaigns[0].project_name} ({items.length})
-        </Span>
-      </Col>
-
       {/* <CardsContainer> */}
       {campaigns.map((campaign) => (
-        <ColCard xs={12} md={6} lg={3}>
+        <ColCard size={3} xs={12} md={6} lg={3}>
           <CampaignItem
             key={campaign.id}
             campaign={campaign}
@@ -69,17 +57,11 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
 export const CardList = ({
   campaigns,
 }: {
-  campaigns: Array<Array<Component["campaign"]>>;
+  campaigns: Array<Component["campaign"]>;
 }) => {
   return (
-    <>
-      {campaigns.map((group) => {
-        return (
-          <Row>
-            <CardGroup items={group} />
-          </Row>
-        );
-      })}
-    </>
+    <Row>
+      <CardGroup items={campaigns} />
+    </Row>
   );
 };

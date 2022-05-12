@@ -17,15 +17,15 @@ import { TableList } from "./table";
 import { Separator } from "../Separator";
 import { Filters } from "../filters";
 import { EmptyResults } from "../emptyState";
-import { selectGroupedCampaigns, selectFilteredCampaigns } from "src/features/campaigns";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
+import { selectFilteredCampaigns } from "src/features/campaigns";
+import { Campaign, useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { createSelector } from "@reduxjs/toolkit";
 
 const FloatRight = styled.div`
   float: right;
 `;
 
-export const CampaignsList = () => {
+export const ProjectItems = () => {
   const { t } = useTranslation();
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
@@ -50,10 +50,6 @@ export const CampaignsList = () => {
       }
     }
   });
-
-  const campaigns = useMemo(() => {
-    return selectGroupedCampaigns(filteredCampaigns);
-  }, [filteredCampaigns])
 
   const campaignsCount = filteredCampaigns.length; 
   const [viewType, setViewType] = useState("list");
@@ -99,9 +95,9 @@ export const CampaignsList = () => {
 
       {campaignsCount ? (
         viewType === "list" ? (
-          <TableList campaigns={campaigns} />
+          <TableList campaigns={filteredCampaigns as Campaign[]} />
         ) : (
-          <CardList campaigns={campaigns} />
+          <CardList campaigns={filteredCampaigns as Campaign[]} />
         )
       ) : (
         <EmptyResults />

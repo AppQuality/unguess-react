@@ -1,10 +1,12 @@
+import { Row } from "@appquality/unguess-design-system";
 import styled from "styled-components";
 
-export const CardsContainer = styled.div`
-  display: flex;
-  width: 100%;
+export const StyledRow = styled(Row)``;
 
-  div.suggested-campaign-card {
-    height: 100%;
+export const CardsContainer = styled.div`
+  ${StyledRow} {
+    overflow-x: auto;
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
 `;
