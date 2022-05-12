@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Page } from "src/features/templates/Page";
 import { Grid, Skeleton, theme, XXXL } from "@appquality/unguess-design-system";
 import { useAppDispatch } from "src/app/hooks";
-import { CampaignsList } from "./campaigns-list";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import {

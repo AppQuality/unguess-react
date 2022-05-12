@@ -40,6 +40,12 @@ export const DashboardHeaderContent = ({
     margin-left: auto;
   `;
 
+  const StyledCol = styled(Col)`
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+      margin-top: ${({ theme }) => theme.space.lg};
+    }
+  `; 
+
   return status === "idle" || status === "loading" ? (
     <></>
   ) : (
@@ -47,9 +53,9 @@ export const DashboardHeaderContent = ({
       <StyledContainer>
         <Grid>
           <Row>
-            <Col>{children}</Col>
+            <StyledCol xs={12} md={6}>{children}</StyledCol>
             {hasButton && (
-              <Col>
+              <Col xs={12} md={6}>
                 <StyledButton
                   isPrimary
                   onClick={() => {
@@ -64,7 +70,7 @@ export const DashboardHeaderContent = ({
           <Row
             style={{
               marginTop: theme.space.base * 6 + "px",
-              marginBottom: theme.space.base * 6 + "px",
+              paddingBottom: theme.space.base * 6 + "px",
             }}
           >
             <Col xs={12}>
