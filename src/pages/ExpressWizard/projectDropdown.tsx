@@ -70,6 +70,8 @@ export const ProjectDropdown = () => {
       if (selectedProject) {
         setSelectedItem(selectedProject);
       }
+    }else {
+      setSelectedItem(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedInputValue, project, projects]);
