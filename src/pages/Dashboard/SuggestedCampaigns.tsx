@@ -63,7 +63,7 @@ export const SuggestedCampaigns = () => {
       <CardsContainer>
         <StyledRow>
           {campaigns.data.items.map((campaign) => (
-            <ColCard xs={12} md={6} lg={3}>
+            <ColCard xs={10} md={6} lg={3}>
               <CampaignItem
                 campaign={campaign}
                 onCampaignClicked={goToCampaignDashboard}
@@ -72,7 +72,7 @@ export const SuggestedCampaigns = () => {
           ))}
           {hasExpress && (
             <>
-              <ColCard xs={12} md={6} lg={3}>
+              <ColCard xs={10} md={6} lg={3}>
                 <ProductCard
                   title={t("__EXPRESS_WIZARD_TITLE")}
                   onCtaClick={() => {
