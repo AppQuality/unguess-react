@@ -37,7 +37,7 @@ export const Navigation = ({
   );
 
   const workspaces = user.workspaces;
-  
+
   if (!activeWorkspace) {
     // dispatch(getWorkspaces());
     if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
@@ -55,23 +55,29 @@ export const Navigation = ({
     });
   }
 
-  const projects = useGetWorkspacesByWidProjectsQuery({ wid: activeWorkspace?.id || 0, limit: 1000});
+  const projects = useGetWorkspacesByWidProjectsQuery({
+    wid: activeWorkspace?.id || 0,
+    limit: 1000,
+  });
 
   if (projects.isFetching || projects.isLoading) {
     return <PageLoader />;
   }
 
-  const projectsList = !projects.data || !projects.data.items ? [] : projects.data.items.reduce((filtered: Array<any>, project) => {
-    if (project.campaigns_count) {
-      filtered.push({
-        id: project.id + "",
-        title: project.name || "-",
-        campaigns:
-          `${project.campaigns_count} ` + t("__SIDEBAR_CAMPAIGNS_LABEL"),
-      });
-    }
-    return filtered;
-  }, []);
+  const projectsList =
+    !projects.data || !projects.data.items
+      ? []
+      : projects.data.items.reduce((filtered: Array<any>, project) => {
+          if (project.campaigns_count) {
+            filtered.push({
+              id: project.id + "",
+              title: project.name || "-",
+              campaigns:
+                `${project.campaigns_count} ` + t("__SIDEBAR_CAMPAIGNS_LABEL"),
+            });
+          }
+          return filtered;
+        }, []);
 
   //Get initials from name
   const getInitials = (name: string) => {
@@ -183,7 +189,7 @@ export const Navigation = ({
           onWorkspaceChange: (workspace: any) => {
             saveWorkspaceToLs(workspace);
             dispatch(setWorkspace(workspace));
-          }
+          },
         }}
         avatar={{
           avatarType: user.picture ? "image" : "text",
@@ -206,8 +212,14 @@ export const Navigation = ({
           onNavToggle={navigateTo}
           currentRoute={parameter !== "" ? parameter : route}
           homeItemLabel={t("__APP_SIDEBAR_HOME_ITEM_LABEL")}
+          activeWorkspace={activeWorkspace}
+          workspaces={workspaces}
+          onWorkspaceChange={(workspace: any) => {
+            saveWorkspaceToLs(workspace);
+            dispatch(setWorkspace(workspace));
+          }}
         />
-       {children}
+        {children}
       </Content>
     </>
   );
