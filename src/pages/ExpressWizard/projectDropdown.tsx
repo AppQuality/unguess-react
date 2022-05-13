@@ -32,8 +32,7 @@ export const ProjectDropdown = () => {
 
   //Get workspaces projects from rtk query
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id || 0,
-    limit: 10000,
+    wid: activeWorkspace?.id || 0
   });
 
   const projects = data?.items || [];

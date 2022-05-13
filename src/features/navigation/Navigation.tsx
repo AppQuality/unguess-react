@@ -56,8 +56,7 @@ export const Navigation = ({
   }
 
   const projects = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id || 0,
-    limit: 1000,
+    wid: activeWorkspace?.id || 0
   });
 
   if (projects.isFetching || projects.isLoading) {

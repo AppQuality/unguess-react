@@ -12,13 +12,14 @@ import {
   theme,
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
+import { Campaign } from "src/features/api";
 import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 
 export const TableList = ({
   campaigns,
 }: {
-  campaigns: Array<Component["campaign"]>;
+  campaigns: Array<Campaign>;
 }) => {
   const { t } = useTranslation();
 

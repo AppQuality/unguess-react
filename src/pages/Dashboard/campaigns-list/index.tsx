@@ -42,7 +42,7 @@ export const CampaignsList = () => {
 
   }, [])
   
-  const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery({wid: activeWorkspace?.id || 0, limit: 10000}, {
+  const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery({wid: activeWorkspace?.id || 0}, {
     selectFromResult: (result) => {
       return {
         ...result,

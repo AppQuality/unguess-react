@@ -2,7 +2,7 @@ import { Counter, Skeleton, theme } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "src/app/hooks";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
+import { Campaign, useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import styled from "styled-components";
 
 const Pipe = styled.div`
@@ -23,7 +23,7 @@ const CounterContainer = styled.div`
   }
 `;
 
-const getCounterValues = (campaigns: Component["campaign"][], projectId?: string) => {
+const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 
   const project = projectId && !isNaN(Number(projectId)) ? parseInt(projectId) : false;
 
@@ -61,8 +61,7 @@ export const Counters = () => {
   var { projectId } = useParams();
 
   const { data, isLoading, isFetching, isError } = useGetWorkspacesByWidCampaignsQuery({
-    wid: activeWorkspace?.id ?? 0,
-    limit: 10000
+    wid: activeWorkspace?.id ?? 0
   });
 
   if(isError) return <></>; //TODO: Improve error handling

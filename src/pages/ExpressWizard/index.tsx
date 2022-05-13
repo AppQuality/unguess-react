@@ -158,7 +158,6 @@ export const ExpressWizardContainer = () => {
       createCampaign({
         body: {
           title: values.campaign_name || "Express campaign",
-          description: "Express campaign created by the user",
           start_date: values.campaign_date
             ? format(values.campaign_date, BASE_DATE_FORMAT)
             : fallBackDate,

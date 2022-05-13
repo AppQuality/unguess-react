@@ -1,6 +1,7 @@
 import { Col, CampaignCard } from "@appquality/unguess-design-system";
 import { HTMLAttributes } from "react";
 import { useTranslation } from "react-i18next";
+import { Campaign } from "src/features/api";
 import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import styled from "styled-components";
 
@@ -13,7 +14,7 @@ export const CampaignItem = ({
   onCampaignClicked,
   ...props
 }: {
-  campaign: Component["campaign"];
+  campaign: Campaign;
   onCampaignClicked: (campaignId: number, cpType: string) => void;
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {

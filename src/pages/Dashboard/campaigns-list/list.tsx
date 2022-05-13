@@ -7,6 +7,7 @@ import {
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { Campaign } from "src/features/api";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
 import i18n from "src/i18n";
 import styled from "styled-components";
@@ -16,7 +17,7 @@ const FloatRight = styled.div`
   float: right;
 `;
 
-const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
+const CardGroup = ({ items }: { items: Array<Campaign> }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const campaigns = items.slice(0, 4)
@@ -77,7 +78,7 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
 export const CardList = ({
   campaigns,
 }: {
-  campaigns: Array<Array<Component["campaign"]>>;
+  campaigns: Array<Array<Campaign>>;
 }) => {
   return (
     <>

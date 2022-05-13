@@ -221,7 +221,6 @@ export type PostCampaignsApiResponse = /** status 200 OK */ Campaign;
 export type PostCampaignsApiArg = {
   body: {
     title: string;
-    description?: string;
     start_date: string;
     end_date: string;
     close_date: string;
@@ -297,7 +296,6 @@ export type Campaign = {
   close_date: string;
   title: string;
   customer_title: string;
-  description: string;
   status_id: number;
   status_name: string;
   is_public: number;
@@ -314,14 +312,7 @@ export type Project = {
 };
 export type PlatformObject = {
   id: number;
-  name: string;
-  deviceType?:
-    | "smartphone"
-    | "tablet"
-    | "computer"
-    | "smartwatch"
-    | "console"
-    | "tv";
+  deviceType: number;
 };
 export const {
   useGetQuery,
