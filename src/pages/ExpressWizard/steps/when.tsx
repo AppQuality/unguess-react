@@ -9,6 +9,7 @@ import {
   Span,
   XXL,
 } from "@appquality/unguess-design-system";
+import i18n from "src/i18n";
 import { Datepicker } from "@zendeskgarden/react-datepickers";
 import { Field, Input } from "@zendeskgarden/react-forms";
 import { FormikProps } from "formik";
@@ -55,7 +56,7 @@ export const WhenStep = ({
   const START_DATE_MAX_VALUE = 30;
   const BUSINESS_DAYS_TO_ADD = 2;
 
-  const lang = getLanguage(values.campaign_language || "en");
+  const lang = getLanguage(i18n.language || "en");
 
   const handleDateChange = (date: Date) => {
     //We have to add 2 business days to determine the end date
