@@ -23,6 +23,9 @@ export const Logged = ({
   route: string;
 }) => {
   const loginRoute = useLocalizeRoute("login");
+  const { activeWorkspace } = useAppSelector(
+    (state) => state.navigation
+  );
   const navigate = useNavigate();
 
   const Container = styled.div`
@@ -61,6 +64,7 @@ export const Logged = ({
         tester_id: userData.id,
         name: userData.name,
         email: userData.email,
+        company: activeWorkspace?.company || "unknown",
         event: "UnguessLoaded",
       },
     });

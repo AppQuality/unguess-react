@@ -8,7 +8,8 @@ const tagManagerArgs = {
     wp_user_id: 0,
     tester_id: 0,
     name: "unknown",
-    email: "unknown"
+    email: "unknown",
+    company: "unknown",
   },
 };
 
@@ -21,6 +22,9 @@ export const GoogleTagManager = ({
 }) => {
   
   const { userData } = useAppSelector((state) => state.user);
+  const { activeWorkspace } = useAppSelector(
+    (state) => state.navigation
+  );
 
   const helmet = () => {
     return (
@@ -39,6 +43,7 @@ export const GoogleTagManager = ({
       tester_id: userData.id,
       name: userData.name,
       email: userData.email,
+      company: activeWorkspace?.company || "unknown"
     };
   }
 
