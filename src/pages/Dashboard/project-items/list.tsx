@@ -2,7 +2,6 @@ import {
   Button,
   Col,
   Row,
-  Span,
   theme,
 } from "@appquality/unguess-design-system";
 import { useState } from "react";

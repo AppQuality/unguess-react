@@ -3,7 +3,7 @@ import { FormikProps } from "formik";
 import { WizardModel } from "../wizardModel";
 import { t } from "i18next";
 import { Trans } from "react-i18next";
-import { Label, Paragraph, Span, XXL, Card, Col, Grid, Row, theme, Message } from "@appquality/unguess-design-system";
+import { Label, Paragraph, Span, XXL, Card, Col, Grid, Row, theme } from "@appquality/unguess-design-system";
 import styled from "styled-components";
 import { CardDivider } from "../cardDivider";
 import { ReactComponent as WhatIcon } from "src/assets/icons/step-what-icon.svg";
