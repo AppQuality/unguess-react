@@ -227,15 +227,15 @@ export type PostCampaignsApiArg = {
     customer_title?: string;
     status_id?: number;
     is_public?: number;
-    bug_form?: number;
     campaign_type_id: number;
-    test_type_id: number;
     project_id: number;
     pm_id: number;
     platforms?: PlatformObject[];
     page_preview_id?: number;
     page_manual_id?: number;
     customer_id?: number;
+    has_bug_form?: number;
+    has_bug_parade?: number;
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
@@ -301,9 +301,11 @@ export type Campaign = {
   is_public: number;
   campaign_type_id: number;
   campaign_type_name: string;
-  test_type_name: string;
+  campaign_family_id?: number;
+  campaign_family_name: string;
   project_id: number;
   project_name: string;
+  bug_form?: number;
 };
 export type Project = {
   id: number;

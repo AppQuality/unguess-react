@@ -61,13 +61,13 @@ export const TableList = ({
 
       campaigns.push({
         name: (
-          <Anchor href={getLocalizeRoute(campaign.id, campaign.test_type_name)}>
+          <Anchor href={getLocalizeRoute(campaign.id, campaign.campaign_family_name)}>
             <Span isBold style={{ color: theme.palette.grey[800] }}>
               {campaign.title}
             </Span>
           </Anchor>
         ),
-        type: campaign.test_type_name,
+        type: campaign.campaign_family_name,
         testType: campaign.campaign_type_name,
         startDate: new Date(campaign.start_date).toLocaleDateString(),
         status: translatedStatus,

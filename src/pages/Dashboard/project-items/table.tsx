@@ -70,13 +70,13 @@ export const TableList = ({
         {campaigns.map((cp) => (
           <TableRow key={cp.id}>
             <TableCell>
-              <Anchor href={getLocalizeRoute(cp.id, cp.test_type_name)}>
+              <Anchor href={getLocalizeRoute(cp.id, cp.campaign_family_name)}>
                 <Span isBold style={{ color: theme.palette.grey[800] }}>
                   {cp.title}
                 </Span>
               </Anchor>
             </TableCell>
-            <TableCell>{cp.test_type_name}</TableCell>
+            <TableCell>{cp.campaign_family_name}</TableCell>
             <TableCell>{cp.campaign_type_name}</TableCell>
             <TableCell>
               {new Date(cp.start_date).toLocaleDateString()}

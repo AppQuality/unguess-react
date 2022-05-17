@@ -19,7 +19,7 @@ export const CampaignItem = ({
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation();
-  const isFunctional = campaign.test_type_name.toLowerCase() === "functional";
+  const isFunctional = campaign.campaign_family_name.toLowerCase() === "functional";
 
   return (
     <CampaignCard
@@ -33,7 +33,7 @@ export const CampaignItem = ({
       type={isFunctional ? "FUNCTIONAL" : "EXPERIENTIAL"}
       status={getCampaignStatus(campaign)}
       pillText={campaign.campaign_type_name}
-      onClick={() => onCampaignClicked(campaign.id, campaign.test_type_name)}
+      onClick={() => onCampaignClicked(campaign.id, campaign.campaign_family_name)}
       {...props}
     />
   );

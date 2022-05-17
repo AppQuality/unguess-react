@@ -43,9 +43,9 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
     if (cp.status_name === "incoming") counters.inComing++;
 
     //Update type counters
-    if (cp.test_type_name.toLowerCase() === "functional") counters.functional++;
+    if (cp.campaign_family_name.toLowerCase() === "functional") counters.functional++;
 
-    if (cp.test_type_name.toLowerCase() === "experiential")
+    if (cp.campaign_family_name.toLowerCase() === "experiential")
       counters.experiential++;
   });
 

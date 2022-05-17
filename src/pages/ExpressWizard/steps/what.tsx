@@ -82,8 +82,6 @@ export const WhatStep = ({
   const [radioValue, setRadioValue] = useState(values.product_type);
   const [selectedItem, setSelectedItem] = useState(values.campaign_reason);
 
-  console.log("values", values);
-
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
     props.setFieldValue("product_type", value);
@@ -123,7 +121,6 @@ export const WhatStep = ({
           onSelect={(item) => {
             props.setFieldValue("campaign_reason", item);
             setSelectedItem(item);
-            console.log("Item: ", item);
           }}
           selectedItem={selectedItem}
         >
