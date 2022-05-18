@@ -152,11 +152,16 @@ export const Navigation = ({
     let localizedRoute = "";
     if (route === "home") {
       localizedRoute = i18n.language === "en" ? "/" : `/${i18n.language}`;
-    } else {
+    } else if (route === "projects") {
       localizedRoute =
         i18n.language === "en"
           ? `/projects/${route}`
           : `/${i18n.language}/projects/${route}`;
+    }else {
+      localizedRoute =
+        i18n.language === "en"
+          ? `/${route}/${parameter}`
+          : `/${i18n.language}/${route}/${parameter}`;
     }
 
     navigate(localizedRoute, { replace: true });

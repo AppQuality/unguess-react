@@ -193,7 +193,7 @@ export const ExpressWizardContainer = () => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          body: JSON.stringify({ cp: {...values, id: cp.id, product_type: reasonItems[values?.product_type || 'reason-a']}, user: userData, workspace: activeWorkspace }),
+          body: JSON.stringify({ cp: {...values, id: cp.id, reason: reasonItems[values?.product_type || 'reason-a']}, user: userData, workspace: activeWorkspace }),
         })
           .then((data) => {
             console.log(`Data sent, response: ${JSON.stringify(data)}`);
