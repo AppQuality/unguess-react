@@ -3,6 +3,7 @@ import LoginPage from "src/pages/LoginPage";
 import Dashboard from "src/pages/Dashboard";
 import Project from "src/pages/Dashboard/Project";
 import NotFound from "src/pages/NotFound";
+import Catalog from "src/pages/Catalog";
 
 const base = ":locale";
 
@@ -16,6 +17,8 @@ function Pages() {
       <Route path="/it" element={<Dashboard />} />
       <Route path="/projects/:projectId" element={<Project />} />
       <Route path="/it/projects/:projectId" element={<Project />} />
+      <Route path="/templates" element={<Catalog />} />
+      <Route path="/it/templates" element={<Catalog />} />
 
       {/* No route found */}
       <Route path="/oops" element={<NotFound />} />
