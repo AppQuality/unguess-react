@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { getServicesApiResponse } from "./_types";
 
 export const strapiSlice = createApi({
     reducerPath: "strapi",
@@ -14,11 +13,5 @@ export const strapiSlice = createApi({
             return headers;
         },
     }),
-    endpoints: (builder) => ({
-        getServices: builder.query<getServicesApiResponse, void>({
-            query: () => `services`,
-        }),
-    }),
+    endpoints: (builder) => ({}),
 });
-
-export const { useGetServicesQuery } = strapiSlice

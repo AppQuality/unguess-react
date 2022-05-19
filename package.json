@@ -39,7 +39,8 @@
     "eject": "react-scripts eject",
     "translate": "i18next-scanner",
     "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/common/schema.ts ",
-    "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts"
+    "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts",
+    "generate-strapi": "npx @rtk-query/codegen-openapi src/features/backoffice/config.ts"
   },
   "eslintConfig": {
     "extends": [
