@@ -1,0 +1,1 @@
+export type getServicesApiResponse = any; /* TODO: define type from Strapi collection type */
