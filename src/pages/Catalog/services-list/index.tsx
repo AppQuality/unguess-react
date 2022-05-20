@@ -1,9 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { ServiceListResponse } from "src/features/backoffice";
 import { useNavigate } from "react-router-dom";
 import i18n from "src/i18n";
-import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
-import { Button, Col, InfoCard, Paragraph, Row, ServiceCard, Span, theme } from "@appquality/unguess-design-system";
+import { Button, Col, InfoCard, Row, ServiceCard, theme } from "@appquality/unguess-design-system";
 import styled from "styled-components";
 import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
@@ -26,14 +24,10 @@ const CardGroup = ({ items }: { items: any }) => {
     const navigateToService = (serviceId: number) => {
         const localizedRoute =
             i18n.language === "en"
-                ? `/services/${serviceId}`
-                : `/${i18n.language}/services/${serviceId}`;
+                ? `/templates/${serviceId}`
+                : `/${i18n.language}/templates/${serviceId}`;
 
         navigate(localizedRoute);
-    };
-
-    const clickToggle = (serviceId: number, cpType: string) => {
-        window.location.href = getLocalizeRoute(serviceId, cpType);
     };
 
     return (
@@ -44,7 +38,7 @@ const CardGroup = ({ items }: { items: any }) => {
                 let buttons = [];
 
                 buttons.push(
-                    <Button isPill isStretched size="small">{t("__CATALOG_PAGE_BUTTON_HOW_LABEL")}</Button>
+                    <Button isPill isStretched size="small" onClick={() => navigateToService(service.id)}>{t("__CATALOG_PAGE_BUTTON_HOW_LABEL")}</Button>
                 )
 
                 if (service?.attributes?.is_express) {
@@ -54,7 +48,7 @@ const CardGroup = ({ items }: { items: any }) => {
                     })
 
                     buttons.push(
-                        <Button isPill isStretched size="small" isPrimary>{t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}</Button>
+                        <Button isPill isStretched size="small" isPrimary onClick={() => alert("open drawer")}>{t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}</Button>
                     )
                 } else {
                     tags.push({
@@ -63,18 +57,18 @@ const CardGroup = ({ items }: { items: any }) => {
                     })
 
                     buttons.push(
-                        <Button isPill isStretched size="small" isPrimary>{t("__CATALOG_PAGE_BUTTON_CONTACT_LABEL")}</Button>
+                        <Button isPill isStretched size="small" isPrimary onClick={() => alert("mailto csm")}>{t("__CATALOG_PAGE_BUTTON_CONTACT_LABEL")}</Button>
                     )
                 }
 
                 if (service?.attributes?.is_functional) {
                     tags.push({
-                        label: t("__DASHABOARD_CAMPAIGN_TYPE_FILTER_FUNCTIONAL"),
+                        label: t("__FUNCTIONAL_LABEL"),
                         icon: <FunctionalIcon />,
                     })
                 } else {
                     tags.push({
-                        label: t("__DASHABOARD_CAMPAIGN_TYPE_FILTER_EXPERIENTIAL"),
+                        label: t("__EXPERIENTIAL_LABEL"),
                         icon: <ExperientialIcon />,
                     })
                 }
@@ -105,14 +99,6 @@ const CardGroup = ({ items }: { items: any }) => {
                     )
                 )
             })}
-
-            {items.length > 4 && (
-                <Col size={12}>
-                    <Button isBasic onClick={() => navigateToService(services[0].project_id)}>
-                        {t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10")}
-                    </Button>
-                </Col>
-            )}
         </>
     );
 };
@@ -122,8 +108,6 @@ export const Services = ({
 }: {
     services: any;
 }) => {
-    const { t } = useTranslation();
-
     return (
         <ServicesContainer>
             <Row>

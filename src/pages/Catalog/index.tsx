@@ -1,6 +1,6 @@
 import { Page } from "src/features/templates/Page";
 import { useTranslation } from "react-i18next";
-import { ServiceListResponse, useGetServicesQuery } from "src/features/backoffice";
+import { useGetServicesQuery } from "src/features/backoffice";
 import styled from "styled-components";
 import { theme, Col, Grid, Row, MD, Card, Paragraph, Timeline, XXL, Divider, ServiceCard, Button } from "@appquality/unguess-design-system";
 import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
@@ -41,10 +41,6 @@ const StyledDivider = styled(Divider)`
   margin-bottom: ${theme.space.base * 6}px;
 `;
 
-interface InfoService {
-
-}
-
 export default function Catalog() {
   const { t } = useTranslation();
   const { data, error, isLoading } = useGetServicesQuery({
@@ -68,11 +64,9 @@ export default function Catalog() {
     info_subtitle: t("__CATALOG_PAGE_INFO_SERVICE_SUBTITLE"),
     info_title: t("__CATALOG_PAGE_INFO_SERVICE_TITLE"),
     info_buttons: [
-      <Button isPill isPrimary size="small">{t("__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL")}</Button>,
+      <Button isPill isPrimary size="small" onClick={() => alert("mailto csm info")}>{t("__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL")}</Button>,
     ]
   });
-
-  console.log(services);
 
   return (
     <Page title={t("__PAGE_TITLE_CATALOG")} route={"templates"}>
