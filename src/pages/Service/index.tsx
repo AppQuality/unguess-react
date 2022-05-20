@@ -155,17 +155,27 @@ export default function Service() {
                                     </Tag>
                                 </TagsContainer>
                                 {isExpress ? (
-                                    <CTAButton size="medium" isPrimary isPill>
+                                    <CTAButton
+                                        size="medium"
+                                        isPrimary
+                                        isPill
+                                        onClick={() => alert("open drawer")}
+                                    >
                                         {t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}
                                     </CTAButton>
                                 ) : (
-                                    <CTAButton size="medium" isPrimary isPill>
+                                    <CTAButton
+                                        size="medium"
+                                        isPrimary
+                                        isPill
+                                        onClick={() => alert("mailto csm")}
+                                    >
                                         {t("__CATALOG_PAGE_BUTTON_CONTACT_LABEL")}
                                     </CTAButton>
                                 )}
                             </Col>
                             <Col xs={12} lg={6}>
-                                
+                                {/* banner */}
                             </Col>
                         </Row>
                     </Grid>
