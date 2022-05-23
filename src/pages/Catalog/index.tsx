@@ -52,7 +52,7 @@ export default function Catalog() {
   if (data) {
     if (data.data) {
       data.data.map((service) => {
-        services.push(service);
+        return services.push(service);
       });
     }
   }
