@@ -24,9 +24,10 @@ import { ReactComponent as ExperientialIcon } from "src/assets/icons/megaphone-s
 import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
 import { ReactComponent as BugIcon } from "src/assets/icons/bug-icon.svg";
 import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
-import { useAppSelector } from "src/app/hooks";
+import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { FEATURE_FLAG_CATALOG } from "src/constants";
 import { Feature } from "src/features/api";
+import { openDrawer } from "src/features/express/expressSlice";
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -61,6 +62,7 @@ export default function Service() {
   const { t } = useTranslation();
   const { templateId } = useParams();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute("oops");
   const homeRoute = useLocalizeRoute("");
   const servicesRoute = useLocalizeRoute("templates");
@@ -203,7 +205,7 @@ export default function Service() {
                     size="medium"
                     isPrimary
                     isPill
-                    onClick={() => alert("open drawer")}
+                    onClick={() => dispatch(openDrawer())}
                   >
                     {t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}
                   </CTAButton>
