@@ -19,6 +19,7 @@ import {
   openWizard,
   setExpressProject,
 } from "src/features/express/expressSlice";
+import { Feature } from "src/features/api";
 
 export const ActionCards = () => {
   const { t } = useTranslation();
@@ -31,7 +32,7 @@ export const ActionCards = () => {
   if (
     !projectId ||
     !userData.features ||
-    !userData.features.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS)
+    !userData.features.find((feature: Feature) => feature.slug === FEATURE_FLAG_EXPRESS)
   ) {
     return <></>;
   }

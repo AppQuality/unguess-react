@@ -18,6 +18,7 @@ import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg
 import { ExpressDrawer } from "../ExpressWizard/drawer";
 import { openDrawer, openWizard } from "src/features/express/expressSlice";
 import { ExpressWizardContainer } from "../ExpressWizard";
+import { Feature } from "src/features/api";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
@@ -29,7 +30,7 @@ export const SuggestedCampaigns = () => {
 
   const hasExpress =
     userData.features &&
-    userData.features.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
+    userData.features.find((feature: Feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
   const campaigns = useGetWorkspacesByWidCampaignsQuery({
     wid: activeWorkspace?.id ?? 0,
