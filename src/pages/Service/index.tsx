@@ -1,7 +1,6 @@
 import { Page } from "src/features/templates/Page";
 import { Trans, useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { useGetServicesByIdQuery } from "src/features/backoffice";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import {
@@ -24,10 +23,13 @@ import { ReactComponent as ExperientialIcon } from "src/assets/icons/megaphone-s
 import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
 import { ReactComponent as BugIcon } from "src/assets/icons/bug-icon.svg";
 import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
+import { ExpressWizardContainer } from "src/pages/ExpressWizard";
+import { ExpressDrawer } from "src/pages/ExpressWizard/drawer";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { FEATURE_FLAG_CATALOG } from "src/constants";
 import { Feature } from "src/features/api";
-import { openDrawer } from "src/features/express/expressSlice";
+import { openDrawer, openWizard } from "src/features/express/expressSlice";
+import { useGetFullServicesByIdQuery } from "src/features/backoffice/strapi";
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -68,7 +70,7 @@ export default function Service() {
   const servicesRoute = useLocalizeRoute("templates");
 
   const { userData, status } = useAppSelector((state) => state.user);
-
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   if (
     status === "logged" &&
@@ -83,8 +85,15 @@ export default function Service() {
   if (!templateId || isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });
   }
-  const { data, error, isLoading } = useGetServicesByIdQuery({
+  const { data, error, isLoading } = useGetFullServicesByIdQuery({
     id: templateId ? templateId : "",
+    populate: {
+      output_image: "*",
+      requirements: "*",
+      why: { populate: "*" },
+      what: { populate: "*" },
+      how: { populate: "*" },
+    },
   }); // TODO: populate
 
   const serviceName = data ? data.data?.attributes?.title : "";
@@ -214,7 +223,11 @@ export default function Service() {
                     size="medium"
                     isPrimary
                     isPill
-                    onClick={() => alert("mailto csm")}
+                    onClick={() =>
+                      (window.location.href = `mailto:${
+                        activeWorkspace?.csm.email || "info@unguess.io"
+                      }`)
+                    }
                   >
                     {t("__CATALOG_PAGE_BUTTON_CONTACT_LABEL")}
                   </CTAButton>
@@ -237,6 +250,12 @@ export default function Service() {
       ) : (
         <>
           <pre>{">>> data: " + JSON.stringify(data, null, 2)}</pre>
+          <ExpressDrawer
+            onCtaClick={() => {
+              dispatch(openWizard());
+            }}
+          />
+          <ExpressWizardContainer />
         </>
       )}
     </Page>

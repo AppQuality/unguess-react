@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { GetServicesByIdApiResponse } from ".";
-
+import { stringify } from "qs";
 interface GetFullServicesByIdArgs {
-    id: string;
-    populate?: string[];
+  id: string;
+  populate?: string[] | object;
 }
 
 export const strapiSlice = createApi({
@@ -24,10 +24,21 @@ export const strapiSlice = createApi({
       GetServicesByIdApiResponse,
       GetFullServicesByIdArgs
     >({
-      query: (queryArg) => ({ url: `/services/${queryArg.id}` }),
+      query: (queryArg) => {
+        let url = `/services/${queryArg.id}`;
+        if (queryArg.populate) {
+          const params = stringify(
+            { populate: queryArg.populate },
+            {
+              encodeValuesOnly: true,
+            }
+          );
+          url += `?${params}`;
+        }
+        return { url: url };
+      },
     }),
   }),
 });
-
 
 export const { useGetFullServicesByIdQuery } = strapiSlice;
