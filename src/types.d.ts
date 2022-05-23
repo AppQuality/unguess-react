@@ -1,5 +1,6 @@
 import { theme } from "@appquality/unguess-design-system";
 import { operations, components } from "src/common/schema";
+import { GetUsersMeApiResponse } from "./features/api";
 
 export type User = undefined | UserData;
 
@@ -26,9 +27,10 @@ export type UnguessRoutes =
   | "";
 
 
+
 declare global {
   type Theme = typeof theme;
-  type UserData = any;
+  type UserData = GetUsersMeApiResponse;
   type HttpError = HttpError;
   type ApiOperations = operations;
   type ApiComponents = components;

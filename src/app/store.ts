@@ -5,6 +5,7 @@ import workspaceReducer from "../features/workspaces/workspaceSlice";
 import filterReducer from "../features/campaignsFilter/campaignsFilterSlice";
 import expressReducer from "../features/express/expressSlice";
 import { apiSlice } from "../features/api/api";
+import { strapiSlice } from "../features/backoffice/strapi";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const store = configureStore({
@@ -15,10 +16,11 @@ export const store = configureStore({
     filters: filterReducer,
     express: expressReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
+    [strapiSlice.reducerPath]: strapiSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware).concat(strapiSlice.middleware),
 });
 
 setupListeners(store.dispatch);
