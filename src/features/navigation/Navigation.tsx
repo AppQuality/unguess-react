@@ -213,10 +213,11 @@ export const Navigation = ({
           onToggleMenu={toggleSidebarState}
           dividerLabel={t("__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL")}
           onNavToggle={navigateTo}
-          currentRoute={parameter !== "" ? parameter : route}
+          currentRoute={route === "projects" && parameter !== "" ? parameter : route}
           homeItemLabel={t("__APP_SIDEBAR_HOME_ITEM_LABEL")}
           activeWorkspace={activeWorkspace}
           workspaces={workspaces}
+          features={user.features}
           onWorkspaceChange={(workspace: any) => {
             saveWorkspaceToLs(workspace);
             dispatch(setWorkspace(workspace));

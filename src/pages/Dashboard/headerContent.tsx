@@ -13,6 +13,7 @@ import { useAppSelector } from "src/app/hooks";
 import React from "react";
 import { FEATURE_FLAG_SKY_JOTFORM } from "src/constants";
 import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
+import { Feature } from "src/features/api";
 
 
 export const DashboardHeaderContent = ({
@@ -27,7 +28,7 @@ export const DashboardHeaderContent = ({
 
   const hasButton =
     userData.features &&
-    userData.features.find((feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM);
+    userData.features.find((feature: Feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM);
 
   const StyledButton = styled(Button)`
     display: flex;

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchUser } from "./actions/fetchUser";
+import { UserState } from "./types";
 
 const initialState: UserState = {
   status: "idle",

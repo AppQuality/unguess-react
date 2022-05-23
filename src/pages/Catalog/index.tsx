@@ -2,12 +2,29 @@ import { Page } from "src/features/templates/Page";
 import { useTranslation } from "react-i18next";
 import { useGetServicesQuery } from "src/features/backoffice";
 import styled from "styled-components";
-import { theme, Col, Grid, Row, MD, Card, Paragraph, Timeline, XXL, Divider, Button } from "@appquality/unguess-design-system";
+import {
+  theme,
+  Col,
+  Grid,
+  Row,
+  MD,
+  Card,
+  Paragraph,
+  Timeline,
+  XXL,
+  Divider,
+  Button,
+} from "@appquality/unguess-design-system";
 import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
 import { ReactComponent as InfoImg } from "../../assets/icons/info-image.svg";
 import { Services } from "./services-list";
 import { WaterButton } from "../ExpressWizard/waterButton";
+import { useAppSelector } from "src/app/hooks";
+import { FEATURE_FLAG_CATALOG } from "src/constants";
+import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
+import { useNavigate } from "react-router-dom";
+import { Feature } from "src/features/api";
 
 const StickyContainer = styled(Card)`
   position: sticky;
@@ -44,6 +61,21 @@ const StyledDivider = styled(Divider)`
 
 export default function Catalog() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { userData, status } = useAppSelector((state) => state.user);
+
+  const notFoundRoute = useLocalizeRoute("oops");
+
+  if (
+    status === "logged" &&
+    (!userData.features ||
+      !userData.features.find(
+        (feature: Feature) => feature.slug === FEATURE_FLAG_CATALOG
+      ))
+  ) {
+    navigate(notFoundRoute, { replace: true });
+  }
+
   const { data, error, isLoading } = useGetServicesQuery({
     populate: "*",
   });
@@ -54,7 +86,7 @@ export default function Catalog() {
     if (data.data) {
       data.data.map((service) => {
         // TODO: check if express feature flag is enabled, if yes show the service
-        services.push(service);
+        return services.push(service);
       });
     }
   }
@@ -70,30 +102,40 @@ export default function Catalog() {
     ]
   });
 
-  return (
+  return isLoading || status === 'loading' ? <div>Loading...</div> :(
     <Page title={t("__PAGE_TITLE_CATALOG")} route={"templates"}>
       {error ? (
         <pre>{">>> error: " + JSON.stringify(error)}</pre>
-      ) : isLoading ? (
-        <div>Loading...</div>
       ) : (
         <Grid gutters={"lg"}>
           <Row>
             <Col xs={12} lg={3}>
               <StickyContainer>
-                <StickyContainerTitle>{t("__CATALOG_STICKY_CONTAINER_TITLE")}</StickyContainerTitle>
-                <StickyContainerParagraph>{t("__CATALOG_STICKY_CONTAINER_PARAGRAPH")}</StickyContainerParagraph>
+                <StickyContainerTitle>
+                  {t("__CATALOG_STICKY_CONTAINER_TITLE")}
+                </StickyContainerTitle>
+                <StickyContainerParagraph>
+                  {t("__CATALOG_STICKY_CONTAINER_PARAGRAPH")}
+                </StickyContainerParagraph>
                 <Timeline>
                   <Timeline.Item hiddenLine icon={<ExpressIcon />}>
                     <Timeline.Content>
-                      <Paragraph style={{ fontWeight: 500 }}>{t("__EXPRESS_LABEL")}</Paragraph>
-                      {t("__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_1_DESCRIPTION")}
+                      <Paragraph style={{ fontWeight: 500 }}>
+                        {t("__EXPRESS_LABEL")}
+                      </Paragraph>
+                      {t(
+                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_1_DESCRIPTION"
+                      )}
                     </Timeline.Content>
                   </Timeline.Item>
                   <Timeline.Item hiddenLine icon={<TailoredIcon />}>
                     <Timeline.Content>
-                      <Paragraph style={{ fontWeight: 500 }}>{t("__TAILORED_LABEL")}</Paragraph>
-                      {t("__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_2_DESCRIPTION")}
+                      <Paragraph style={{ fontWeight: 500 }}>
+                        {t("__TAILORED_LABEL")}
+                      </Paragraph>
+                      {t(
+                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_2_DESCRIPTION"
+                      )}
                     </Timeline.Content>
                   </Timeline.Item>
                 </Timeline>
@@ -107,7 +149,9 @@ export default function Catalog() {
                 {services.length > 0 ? (
                   <Services services={services} />
                 ) : (
-                  <Paragraph>{t("__CATALOG_PAGE_CONTENT_NO_SERVICES")}</Paragraph>
+                  <Paragraph>
+                    {t("__CATALOG_PAGE_CONTENT_NO_SERVICES")}
+                  </Paragraph>
                 )}
               </PageContent>
             </Col>
