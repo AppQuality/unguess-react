@@ -11,7 +11,7 @@ import {
   Paragraph,
   Timeline,
   XXL,
-  Divider
+  Divider,
 } from "@appquality/unguess-design-system";
 import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
@@ -26,42 +26,42 @@ import { Feature } from "src/features/api";
 
 const StickyContainer = styled(Card)`
   position: sticky;
-  top: ${({theme}) => theme.space.md};
+  top: ${({ theme }) => theme.space.md};
   z-index: 1;
-  padding: ${({theme}) => theme.space.base * 6}px;
-  padding-top: ${({theme}) => theme.space.xl};
-  background-color: ${({theme}) => theme.palette.white};
+  padding: ${({ theme }) => theme.space.base * 6}px;
+  padding-top: ${({ theme }) => theme.space.xl};
+  background-color: ${({ theme }) => theme.palette.white};
 `;
 
 const StickyContainerTitle = styled(MD)`
-  color: ${({theme}) => theme.palette.grey[600]};
-  margin-bottom: ${({theme}) => theme.space.xs};
+  color: ${({ theme }) => theme.palette.grey[600]};
+  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 const StickyContainerParagraph = styled(Paragraph)`
-  color: ${({theme}) => theme.palette.grey[800]};
-  margin-bottom: ${({theme}) => theme.space.xs};
+  color: ${({ theme }) => theme.palette.grey[800]};
+  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 const PageContent = styled.div`
   width: 100%;
-  padding-top: ${({theme}) => theme.space.xl};
+  padding-top: ${({ theme }) => theme.space.xl};
 `;
 
 const PageTitle = styled(XXL)`
-  margin-bottom: ${({theme}) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 const StyledDivider = styled(Divider)`
-  margin-top: ${({theme}) => theme.space.base * 3}px;
-  margin-bottom: ${({theme}) => theme.space.base * 6}px;
+  margin-top: ${({ theme }) => theme.space.base * 3}px;
+  margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
 export default function Catalog() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { userData, status } = useAppSelector((state) => state.user);
-
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute("oops");
 
   if (
@@ -96,11 +96,24 @@ export default function Catalog() {
     info_subtitle: t("__CATALOG_PAGE_INFO_SERVICE_SUBTITLE"),
     info_title: t("__CATALOG_PAGE_INFO_SERVICE_TITLE"),
     info_buttons: [
-      <WaterButton isPill isPrimary size="small" onClick={() => alert("mailto csm info")}>{t("__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL")}</WaterButton>,
-    ]
+      <WaterButton
+        isPill
+        isPrimary
+        size="small"
+        onClick={() =>
+          (window.location.href = `mailto:${
+            activeWorkspace?.csm.email || "info@unguess.io"
+          }`)
+        }
+      >
+        {t("__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL")}
+      </WaterButton>,
+    ],
   });
 
-  return isLoading || status === 'loading' ? <div>Loading...</div> :(
+  return isLoading || status === "loading" ? (
+    <div>Loading...</div>
+  ) : (
     <Page title={t("__PAGE_TITLE_CATALOG")} route={"templates"}>
       {error ? (
         <pre>{">>> error: " + JSON.stringify(error)}</pre>
