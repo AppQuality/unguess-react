@@ -12,14 +12,8 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import React from "react";
 import { FEATURE_FLAG_SKY_JOTFORM } from "src/constants";
+import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
 
-const StyledContainer = styled.div`
-  background-color: white;
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding: ${({ theme }) => theme.space.xxl};
-    padding-bottom: 1px;
-  }
-`;
 
 export const DashboardHeaderContent = ({
   children,
@@ -50,7 +44,7 @@ export const DashboardHeaderContent = ({
     <></>
   ) : (
     <>
-      <StyledContainer>
+      <PageHeaderContainer>
         <Grid>
           <Row>
             <StyledCol xs={12} md={6}>{children}</StyledCol>
@@ -78,7 +72,7 @@ export const DashboardHeaderContent = ({
             </Col>
           </Row>
         </Grid>
-      </StyledContainer>
+      </PageHeaderContainer>
       <Separator style={{ marginTop: 0 }} />
     </>
   );

@@ -2,7 +2,7 @@ import { Page } from "src/features/templates/Page";
 import { useTranslation } from "react-i18next";
 import { useGetServicesQuery } from "src/features/backoffice";
 import styled from "styled-components";
-import { theme, Col, Grid, Row, MD, Card, Paragraph, Timeline, XXL, Divider, ServiceCard, Button } from "@appquality/unguess-design-system";
+import { theme, Col, Grid, Row, MD, Card, Paragraph, Timeline, XXL, Divider, Button } from "@appquality/unguess-design-system";
 import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
 import { ReactComponent as InfoImg } from "../../assets/icons/info-image.svg";
