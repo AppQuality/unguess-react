@@ -24,6 +24,9 @@ import { ReactComponent as ExperientialIcon } from "src/assets/icons/megaphone-s
 import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
 import { ReactComponent as BugIcon } from "src/assets/icons/bug-icon.svg";
 import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
+import { useAppSelector } from "src/app/hooks";
+import { FEATURE_FLAG_CATALOG } from "src/constants";
+import { Feature } from "src/features/api";
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -61,6 +64,19 @@ export default function Service() {
   const notFoundRoute = useLocalizeRoute("oops");
   const homeRoute = useLocalizeRoute("");
   const servicesRoute = useLocalizeRoute("templates");
+
+  const { userData, status } = useAppSelector((state) => state.user);
+
+
+  if (
+    status === "logged" &&
+    (!userData.features ||
+      !userData.features.find(
+        (feature: Feature) => feature.slug === FEATURE_FLAG_CATALOG
+      ))
+  ) {
+    navigate(notFoundRoute, { replace: true });
+  }
 
   if (!templateId || isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });

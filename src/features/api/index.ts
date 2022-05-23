@@ -274,6 +274,10 @@ export type Workspace = {
     picture?: string;
   };
 };
+export type Feature = {
+  slug?: string;
+  name?: string;
+};
 export type User = {
   id: number;
   email: string;
@@ -284,10 +288,7 @@ export type User = {
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
   picture?: string;
-  features?: {
-    slug?: string;
-    name?: string;
-  }[];
+  features?: Feature[];
 };
 export type Campaign = {
   id: number;
