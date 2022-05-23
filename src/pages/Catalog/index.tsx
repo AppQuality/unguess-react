@@ -19,6 +19,7 @@ import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.s
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
 import { ReactComponent as InfoImg } from "../../assets/icons/info-image.svg";
 import { Services } from "./services-list";
+import { WaterButton } from "../ExpressWizard/waterButton";
 import { useAppSelector } from "src/app/hooks";
 import { FEATURE_FLAG_CATALOG } from "src/constants";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
@@ -84,6 +85,7 @@ export default function Catalog() {
   if (data) {
     if (data.data) {
       data.data.map((service) => {
+        // TODO: check if express feature flag is enabled, if yes show the service
         return services.push(service);
       });
     }
@@ -96,15 +98,8 @@ export default function Catalog() {
     info_subtitle: t("__CATALOG_PAGE_INFO_SERVICE_SUBTITLE"),
     info_title: t("__CATALOG_PAGE_INFO_SERVICE_TITLE"),
     info_buttons: [
-      <Button
-        isPill
-        isPrimary
-        size="small"
-        onClick={() => alert("mailto csm info")}
-      >
-        {t("__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL")}
-      </Button>,
-    ],
+      <WaterButton isPill isPrimary size="small" onClick={() => alert("mailto csm info")}>{t("__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL")}</WaterButton>,
+    ]
   });
 
   return isLoading || status === 'loading' ? <div>Loading...</div> :(
