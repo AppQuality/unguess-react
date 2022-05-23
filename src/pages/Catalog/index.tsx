@@ -12,8 +12,7 @@ import {
   Paragraph,
   Timeline,
   XXL,
-  Divider,
-  Button,
+  Divider
 } from "@appquality/unguess-design-system";
 import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
@@ -124,7 +123,7 @@ export default function Catalog() {
                         {t("__EXPRESS_LABEL")}
                       </Paragraph>
                       {t(
-                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_1_DESCRIPTION"
+                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_EXPRESS_DESCRIPTION"
                       )}
                     </Timeline.Content>
                   </Timeline.Item>
@@ -134,7 +133,7 @@ export default function Catalog() {
                         {t("__TAILORED_LABEL")}
                       </Paragraph>
                       {t(
-                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_2_DESCRIPTION"
+                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_TAILORED_DESCRIPTION"
                       )}
                     </Timeline.Content>
                   </Timeline.Item>
