@@ -23,6 +23,7 @@ import { FEATURE_FLAG_CATALOG } from "src/constants";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useNavigate } from "react-router-dom";
 import { Feature } from "src/features/api";
+import PageLoader from "src/features/templates/PageLoader";
 
 const StickyContainer = styled(Card)`
   position: sticky;
@@ -117,7 +118,7 @@ export default function Catalog() {
   });
 
   return isLoading || status === "loading" ? (
-    <div>Loading...</div>
+    <PageLoader />
   ) : (
     <Page title={t("__PAGE_TITLE_CATALOG")} route={"templates"}>
       <Grid gutters={"lg"}>
