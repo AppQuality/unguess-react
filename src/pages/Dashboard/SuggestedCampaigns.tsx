@@ -19,6 +19,7 @@ import { ExpressDrawer } from "../ExpressWizard/drawer";
 import { openDrawer, openWizard } from "src/features/express/expressSlice";
 import { ExpressWizardContainer } from "../ExpressWizard";
 import { Feature } from "src/features/api";
+import { toggleChat } from "src/common/utils";
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
@@ -78,6 +79,7 @@ export const SuggestedCampaigns = () => {
                   title={t("__EXPRESS_WIZARD_TITLE")}
                   onCtaClick={() => {
                     dispatch(openDrawer());
+                    toggleChat(false);
                   }}
                   icon={<ExpressIcon />}
                   ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
