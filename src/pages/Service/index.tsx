@@ -31,6 +31,7 @@ import { Feature } from "src/features/api";
 import { openDrawer, openWizard } from "src/features/express/expressSlice";
 import { useGetFullServicesByIdQuery } from "src/features/backoffice/strapi";
 import { WaterButton } from "../ExpressWizard/waterButton";
+import { ServiceTimeline } from "./ServiceTimeline";
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -75,28 +76,28 @@ const BannerContainer = styled.div`
     width: 100%;
     max-width: 60%;
 
-    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-      max-width: 100%;
+    @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+      max-width: 70%;
       width: 100%;
-      margin: ${({theme}) => theme.space.md} auto;
+      margin: ${({ theme }) => theme.space.md} auto;
     }
   }
 `;
 
 const ColBanner = styled(Col)`
-  @media (max-width: ${theme.breakpoints.md}) {
+  @media (max-width: ${theme.breakpoints.lg}) {
     order: 0;
   }
 `;
 
 const ColMeta = styled(Col)`
-  @media (max-width: ${theme.breakpoints.md}) {
+  @media (max-width: ${theme.breakpoints.lg}) {
     order: 1;
   }
 `;
 
 const StyledBreadcrumb = styled(Breadcrumb)`
-  @media (max-width: ${theme.breakpoints.md}) {
+  @media (max-width: ${theme.breakpoints.lg}) {
     margin-top: ${theme.space.lg};
   }
 `;
@@ -131,11 +132,32 @@ export default function Service() {
     id: templateId ? templateId : "",
     populate: {
       output_image: "*",
-      requirements: "*",
-      why: { populate: "*" },
+      requirements: {
+        populate: {
+          description: {
+            populate: "*",
+          },
+          list: {
+            populate: "*",
+          }
+        }
+      },
+      why: {
+        populate: {
+          reasons: {
+            populate: "*"
+          }
+        }
+      },
       what: { populate: "*" },
-      how: { populate: "*" },
-    },
+      how: { 
+        populate: {
+          timeline: {
+            populate: "*"
+          }
+        }
+      },
+    }
   });
 
   const serviceName = data ? data.data?.attributes?.title : "";
@@ -297,7 +319,7 @@ export default function Service() {
         <div>Loading...</div>
       ) : (
         <>
-          <pre>{">>> data: " + JSON.stringify(data, null, 2)}</pre>
+          <ServiceTimeline {...data} />
           <ExpressDrawer
             onCtaClick={() => {
               dispatch(openWizard());
