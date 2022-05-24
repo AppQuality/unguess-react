@@ -114,6 +114,8 @@ export default function Service() {
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
+  console.log("Services: ", servicesRoute);
+
   if (
     status === "logged" &&
     (!userData.features ||
