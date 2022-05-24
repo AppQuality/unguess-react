@@ -48,6 +48,7 @@ import async from "async";
 import { reasonItems } from "./steps/what";
 import { create_crons, create_pages, create_tasks } from "src/common/campaigns";
 import { getPlatform } from "./getPlatform";
+import { toggleChat } from "src/common/utils";
 
 interface StepItem {
   label: string;
@@ -331,6 +332,7 @@ export const ExpressWizardContainer = () => {
             dispatch(closeWizard());
             dispatch(resetWizard());
             setStep(0);
+            toggleChat(true);
           }}
         >
           <ModalFullScreen.Header>

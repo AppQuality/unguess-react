@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { openDrawer, openWizard } from "src/features/express/expressSlice";
 import { ExpressWizardContainer } from "src/pages/ExpressWizard";
 import { ExpressDrawer } from "src/pages/ExpressWizard/drawer";
+import { toggleChat } from "src/common/utils";
 
 const ServicesContainer = styled.div``;
 
@@ -74,7 +75,7 @@ const CardGroup = ({ items }: { items: any }) => {
               isStretched
               size="small"
               isPrimary
-              onClick={() => dispatch(openDrawer())}
+              onClick={() => { dispatch(openDrawer()); toggleChat(false); }}
             >
               {t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}
             </WaterButton>

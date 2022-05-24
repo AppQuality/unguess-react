@@ -7,6 +7,7 @@ import { CampaignsList } from "./campaigns-list";
 import { useAppDispatch, useAppSelector } from "src/app/hooks";
 import { projectFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
 import { DashboardHeaderContent } from "./headerContent";
+import { isMinMedia } from "src/common/utils";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -21,9 +22,7 @@ export default function Dashboard() {
       title={t("__PAGE_TITLE_PRIMARY_DASHBOARD")}
       pageHeader={
         <DashboardHeaderContent>
-          {window.matchMedia(
-            `only screen and (min-width: ${theme.breakpoints.sm})`
-          ).matches ? (
+          {isMinMedia(theme.breakpoints.sm) ? (
             <XXXL style={{ color: theme.palette.blue[600] }}>
               {t("__PAGE_TITLE_PRIMARY_DASHBOARD")}
             </XXXL>
