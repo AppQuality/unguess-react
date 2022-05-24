@@ -6,7 +6,6 @@ import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import {
   Anchor,
   Breadcrumb,
-  Button,
   Col,
   Grid,
   LG,
@@ -19,9 +18,10 @@ import {
 } from "@appquality/unguess-design-system";
 import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
 import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { ReactComponent as ExperientialIcon } from "src/assets/icons/megaphone-stroke.svg";
+import { ReactComponent as ExperientialIcon } from "src/assets/icons/experiential-icon.svg";
 import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
-import { ReactComponent as BugIcon } from "src/assets/icons/bug-icon.svg";
+import { ReactComponent as EnvironmentIcon } from "src/assets/icons/environment-icon.svg";
+import { ReactComponent as TimeIcon } from "src/assets/icons/time-icon.svg";
 import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
 import { ExpressWizardContainer } from "src/pages/ExpressWizard";
 import { ExpressDrawer } from "src/pages/ExpressWizard/drawer";
@@ -30,6 +30,7 @@ import { FEATURE_FLAG_CATALOG } from "src/constants";
 import { Feature } from "src/features/api";
 import { openDrawer, openWizard } from "src/features/express/expressSlice";
 import { useGetFullServicesByIdQuery } from "src/features/backoffice/strapi";
+import { WaterButton } from "../ExpressWizard/waterButton";
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -56,8 +57,48 @@ const TagsContainer = styled.div`
   margin-top: ${({ theme }) => theme.space.base * 4}px;
 `;
 
-const CTAButton = styled(Button)`
+const StyledTag = styled(Tag)`
+  margin-right: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
+const CTAButton = styled(WaterButton)`
   margin: ${({ theme }) => theme.space.md} 0;
+`;
+
+const BannerContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    max-width: 60%;
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      max-width: 100%;
+      width: 100%;
+      margin: ${({theme}) => theme.space.md} auto;
+    }
+  }
+`;
+
+const ColBanner = styled(Col)`
+  @media (max-width: ${theme.breakpoints.md}) {
+    order: 0;
+  }
+`;
+
+const ColMeta = styled(Col)`
+  @media (max-width: ${theme.breakpoints.md}) {
+    order: 1;
+  }
+`;
+
+const StyledBreadcrumb = styled(Breadcrumb)`
+  @media (max-width: ${theme.breakpoints.md}) {
+    margin-top: ${theme.space.lg};
+  }
 `;
 
 export default function Service() {
@@ -68,6 +109,7 @@ export default function Service() {
   const notFoundRoute = useLocalizeRoute("oops");
   const homeRoute = useLocalizeRoute("");
   const servicesRoute = useLocalizeRoute("templates");
+  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || "";
 
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
@@ -94,7 +136,7 @@ export default function Service() {
       what: { populate: "*" },
       how: { populate: "*" },
     },
-  }); // TODO: populate
+  });
 
   const serviceName = data ? data.data?.attributes?.title : "";
   const campaignType = data ? data.data?.attributes?.campaign_type : "";
@@ -104,9 +146,8 @@ export default function Service() {
   const days = data ? data.data?.attributes?.duration_in_days : 3;
   const hours = (days ? days : 3) * 24;
   const environment = data ? data.data?.attributes?.environment : "";
-  const bannerImg = data ? data.data?.attributes?.output_image : "";
-
-  console.log(">>>> bannerImg", bannerImg);
+  const bannerImg = data ? data.data?.attributes?.output_image?.data?.attributes?.url : "";
+  const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
 
   return (
     <Page
@@ -114,8 +155,8 @@ export default function Service() {
         <PageHeaderContainer>
           <Grid>
             <Row>
-              <Col xs={12} lg={6}>
-                <Breadcrumb>
+              <Col>
+                <StyledBreadcrumb>
                   <Anchor
                     onClick={() => navigate(homeRoute, { replace: true })}
                   >
@@ -127,87 +168,93 @@ export default function Service() {
                     {t("__BREADCRUMB_ITEM_SERVICES")}
                   </Anchor>
                   <Span>{campaignType}</Span>
-                </Breadcrumb>
+                </StyledBreadcrumb>
+              </Col>
+            </Row>
+          </Grid>
+          <Grid>
+            <Row>
+              <ColMeta xs={12} lg={6}>
                 <CampaignType>{campaignType}</CampaignType>
                 <ServiceTitle>{serviceName}</ServiceTitle>
                 <ServiceDescription>{serviceDescription}</ServiceDescription>
                 <TagsContainer>
                   {isExpress ? (
-                    <Tag
+                    <StyledTag
                       size="large"
                       isPill
                       isRegular
                       hue={theme.palette.grey[100]}
                     >
-                      <Tag.Avatar>
+                      <StyledTag.Avatar>
                         <ExpressIcon />
-                      </Tag.Avatar>
+                      </StyledTag.Avatar>
                       <Span>{t("__EXPRESS_LABEL")}</Span>
-                    </Tag>
+                    </StyledTag>
                   ) : (
-                    <Tag
+                    <StyledTag
                       size="large"
                       isPill
                       isRegular
                       hue={theme.palette.grey[100]}
                     >
-                      <Tag.Avatar>
+                      <StyledTag.Avatar>
                         <TailoredIcon />
-                      </Tag.Avatar>
+                      </StyledTag.Avatar>
                       <Span>{t("__TAILORED_LABEL")}</Span>
-                    </Tag>
+                    </StyledTag>
                   )}
                   {isFunctional ? (
-                    <Tag
+                    <StyledTag
                       size="large"
                       isPill
                       isRegular
                       hue={theme.palette.grey[100]}
                     >
-                      <Tag.Avatar>
+                      <StyledTag.Avatar>
                         <FunctionalIcon />
-                      </Tag.Avatar>
+                      </StyledTag.Avatar>
                       <Span>{t("__FUNCTIONAL_LABEL")}</Span>
-                    </Tag>
+                    </StyledTag>
                   ) : (
-                    <Tag
+                    <StyledTag
                       size="large"
                       isPill
                       isRegular
                       hue={theme.palette.grey[100]}
                     >
-                      <Tag.Avatar>
+                      <StyledTag.Avatar>
                         <ExperientialIcon />
-                      </Tag.Avatar>
+                      </StyledTag.Avatar>
                       <Paragraph>{t("__EXPERIENTIAL_LABEL")}</Paragraph>
-                    </Tag>
+                    </StyledTag>
                   )}
-                  <Tag
+                  <StyledTag
                     size="large"
                     isPill
                     isRegular
                     hue={theme.palette.grey[100]}
                   >
-                    <Tag.Avatar>
-                      <ExpressIcon />
-                    </Tag.Avatar>
+                    <StyledTag.Avatar>
+                      <TimeIcon />
+                    </StyledTag.Avatar>
                     <Paragraph>
                       <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
                         First results in <Span isBold>{{ hours: hours }}</Span>h
                       </Trans>
                     </Paragraph>
-                  </Tag>
-                  <Tag
+                  </StyledTag>
+                  <StyledTag
                     size="large"
                     isPill
                     isRegular
                     hue={theme.palette.grey[100]}
                   >
-                    <Tag.Avatar>
-                      <BugIcon />
-                    </Tag.Avatar>
+                    <StyledTag.Avatar>
+                      <EnvironmentIcon />
+                    </StyledTag.Avatar>
                     <Paragraph>{environment}</Paragraph>
-                  </Tag>
+                  </StyledTag>
                 </TagsContainer>
                 {isExpress ? (
                   <CTAButton
@@ -224,18 +271,19 @@ export default function Service() {
                     isPrimary
                     isPill
                     onClick={() =>
-                      (window.location.href = `mailto:${
-                        activeWorkspace?.csm.email || "info@unguess.io"
+                    (window.location.href = `mailto:${activeWorkspace?.csm.email || "info@unguess.io"
                       }`)
                     }
                   >
                     {t("__CATALOG_PAGE_BUTTON_CONTACT_LABEL")}
                   </CTAButton>
                 )}
-              </Col>
-              <Col xs={12} lg={6}>
-                {/* banner */}
-              </Col>
+              </ColMeta>
+              <ColBanner xs={12} lg={6}>
+                <BannerContainer>
+                  <img src={bannerImgUrl} alt={serviceName} />
+                </BannerContainer>
+              </ColBanner>
             </Row>
           </Grid>
         </PageHeaderContainer>
