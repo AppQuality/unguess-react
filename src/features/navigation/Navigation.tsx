@@ -55,6 +55,8 @@ export const Navigation = ({
     });
   }
 
+  console.log("parameter", parameter);
+
   const projects = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id || 0
   });
@@ -213,7 +215,7 @@ export const Navigation = ({
           onToggleMenu={toggleSidebarState}
           dividerLabel={t("__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL")}
           onNavToggle={navigateTo}
-          currentRoute={route === "projects" && parameter !== "" ? parameter : route}
+          currentRoute={route === "projects" && parameter !== "" ? `${route}/${parameter}` : route}
           homeItemLabel={t("__APP_SIDEBAR_HOME_ITEM_LABEL")}
           activeWorkspace={activeWorkspace}
           workspaces={workspaces}
