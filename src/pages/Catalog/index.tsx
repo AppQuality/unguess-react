@@ -23,6 +23,7 @@ import { FEATURE_FLAG_CATALOG } from "src/constants";
 import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
 import { useNavigate } from "react-router-dom";
 import { Feature } from "src/features/api";
+import PageLoader from "src/features/templates/PageLoader";
 
 const StickyContainer = styled(Card)`
   position: sticky;
@@ -89,6 +90,11 @@ export default function Catalog() {
     }
   }
 
+  if (error) {
+    console.error(error);
+    navigate(notFoundRoute, { replace: true });
+  }
+
   // Add info card service
   services.push({
     is_info: true,
@@ -112,63 +118,57 @@ export default function Catalog() {
   });
 
   return isLoading || status === "loading" ? (
-    <div>Loading...</div>
+    <PageLoader />
   ) : (
     <Page title={t("__PAGE_TITLE_CATALOG")} route={"templates"}>
-      {error ? (
-        <pre>{">>> error: " + JSON.stringify(error)}</pre>
-      ) : (
-        <Grid gutters={"lg"}>
-          <Row>
-            <Col xs={12} lg={3}>
-              <StickyContainer>
-                <StickyContainerTitle>
-                  {t("__CATALOG_STICKY_CONTAINER_TITLE")}
-                </StickyContainerTitle>
-                <StickyContainerParagraph>
-                  {t("__CATALOG_STICKY_CONTAINER_PARAGRAPH")}
-                </StickyContainerParagraph>
-                <Timeline>
-                  <Timeline.Item hiddenLine icon={<ExpressIcon />}>
-                    <Timeline.Content>
-                      <Paragraph style={{ fontWeight: 500 }}>
-                        {t("__EXPRESS_LABEL")}
-                      </Paragraph>
-                      {t(
-                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_EXPRESS_DESCRIPTION"
-                      )}
-                    </Timeline.Content>
-                  </Timeline.Item>
-                  <Timeline.Item hiddenLine icon={<TailoredIcon />}>
-                    <Timeline.Content>
-                      <Paragraph style={{ fontWeight: 500 }}>
-                        {t("__TAILORED_LABEL")}
-                      </Paragraph>
-                      {t(
-                        "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_TAILORED_DESCRIPTION"
-                      )}
-                    </Timeline.Content>
-                  </Timeline.Item>
-                </Timeline>
-              </StickyContainer>
-            </Col>
-            <Col xs={12} lg={9}>
-              <PageContent>
-                <PageTitle>{t("__CATALOG_PAGE_CONTENT_TITLE")}</PageTitle>
-                <Paragraph>{t("__CATALOG_PAGE_CONTENT_PARAGRAPH")}</Paragraph>
-                <StyledDivider />
-                {services.length > 0 ? (
-                  <Services services={services} />
-                ) : (
-                  <Paragraph>
-                    {t("__CATALOG_PAGE_CONTENT_NO_SERVICES")}
-                  </Paragraph>
-                )}
-              </PageContent>
-            </Col>
-          </Row>
-        </Grid>
-      )}
+      <Grid gutters={"lg"}>
+        <Row>
+          <Col xs={12} lg={3}>
+            <StickyContainer>
+              <StickyContainerTitle>
+                {t("__CATALOG_STICKY_CONTAINER_TITLE")}
+              </StickyContainerTitle>
+              <StickyContainerParagraph>
+                {t("__CATALOG_STICKY_CONTAINER_PARAGRAPH")}
+              </StickyContainerParagraph>
+              <Timeline>
+                <Timeline.Item hiddenLine icon={<ExpressIcon />}>
+                  <Timeline.Content>
+                    <Paragraph style={{ fontWeight: 500 }}>
+                      {t("__EXPRESS_LABEL")}
+                    </Paragraph>
+                    {t(
+                      "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_EXPRESS_DESCRIPTION"
+                    )}
+                  </Timeline.Content>
+                </Timeline.Item>
+                <Timeline.Item hiddenLine icon={<TailoredIcon />}>
+                  <Timeline.Content>
+                    <Paragraph style={{ fontWeight: 500 }}>
+                      {t("__TAILORED_LABEL")}
+                    </Paragraph>
+                    {t(
+                      "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_TAILORED_DESCRIPTION"
+                    )}
+                  </Timeline.Content>
+                </Timeline.Item>
+              </Timeline>
+            </StickyContainer>
+          </Col>
+          <Col xs={12} lg={9}>
+            <PageContent>
+              <PageTitle>{t("__CATALOG_PAGE_CONTENT_TITLE")}</PageTitle>
+              <Paragraph>{t("__CATALOG_PAGE_CONTENT_PARAGRAPH")}</Paragraph>
+              <StyledDivider />
+              {services.length > 0 ? (
+                <Services services={services} />
+              ) : (
+                <Paragraph>{t("__CATALOG_PAGE_CONTENT_NO_SERVICES")}</Paragraph>
+              )}
+            </PageContent>
+          </Col>
+        </Row>
+      </Grid>
     </Page>
   );
 }
