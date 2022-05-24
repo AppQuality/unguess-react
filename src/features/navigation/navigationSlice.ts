@@ -1,5 +1,6 @@
 import { theme } from "@appquality/unguess-design-system";
 import { createSlice } from "@reduxjs/toolkit";
+import { isMinMedia } from "src/common/utils";
 
 import { getWorkspaceFromLS } from "./cachedStorage";
 
@@ -7,7 +8,7 @@ const cachedWorkspace = getWorkspaceFromLS() || undefined;
 
 const initialState: NavigationState = {
   activeWorkspace: cachedWorkspace,
-  isSidebarOpen: window.matchMedia(`only screen and (min-width: ${theme.breakpoints.sm})`).matches,
+  isSidebarOpen: isMinMedia(theme.breakpoints.sm),
   isProfileModalOpen: false,
 };
 

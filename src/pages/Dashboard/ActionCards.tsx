@@ -20,6 +20,7 @@ import {
   setExpressProject,
 } from "src/features/express/expressSlice";
 import { Feature } from "src/features/api";
+import { isMinMedia, toggleChat } from "src/common/utils";
 
 export const ActionCards = () => {
   const { t } = useTranslation();
@@ -54,6 +55,7 @@ export const ActionCards = () => {
             dispatch(setExpressProject(selectedProject));
             dispatch(lockProject())
             dispatch(openDrawer());
+            toggleChat(false);
           }}
           icon={<ExpressIcon />}
           ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
@@ -64,6 +66,7 @@ export const ActionCards = () => {
       <ExpressDrawer
         onCtaClick={() => {
           dispatch(openWizard());
+          isMinMedia(theme.breakpoints.sm) && toggleChat(false);
         }}
       />
       <ExpressWizardContainer />

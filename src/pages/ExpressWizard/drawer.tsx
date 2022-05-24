@@ -18,6 +18,7 @@ import { closeDrawer, resetWizard } from "src/features/express/expressSlice";
 import { WaterButton } from "./waterButton";
 import { CardDivider } from "./cardDivider";
 import { Notes, NotesTitle } from "./notesCard";
+import { toggleChat } from "src/common/utils";
 
 const SelectTitle = styled(MD)`
   padding-top: ${theme.space.base * 3}px;
@@ -54,6 +55,7 @@ export const ExpressDrawer = ({
   const onClose = () => {
     dispatch(resetWizard());
     dispatch(closeDrawer());
+    toggleChat(true);
   }
 
   const { isDrawerOpen, project } = useAppSelector((state) => state.express);
