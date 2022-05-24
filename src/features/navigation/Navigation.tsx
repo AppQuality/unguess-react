@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Changelog } from "./Changelog";
 import { useGetWorkspacesByWidProjectsQuery } from "../api";
 import { saveWorkspaceToLs } from "./cachedStorage";
+import { prepareGravatar } from "src/common/utils";
 
 export const Navigation = ({
   children,
@@ -90,13 +91,13 @@ export const Navigation = ({
       name: user.name,
       email: user.email,
       company: activeWorkspace?.company || "",
-      ...(user.picture && { picture: user.picture }),
+      ...(user.picture && { picture: prepareGravatar(user.picture) }),
     },
     csm: {
       name: activeWorkspace?.csm.name || "",
       email: activeWorkspace?.csm.email || "",
       ...(activeWorkspace?.csm.picture && {
-        picture: activeWorkspace?.csm.picture,
+        picture: prepareGravatar(activeWorkspace?.csm.picture),
       }),
     },
     languages: {
@@ -196,7 +197,7 @@ export const Navigation = ({
         }}
         avatar={{
           avatarType: user.picture ? "image" : "text",
-          children: user.picture ?? getInitials(user.name),
+          children: user.picture ? prepareGravatar(user.picture, 32) : getInitials(user.name),
         }}
         onSidebarMenuToggle={toggleSidebarState}
         isProfileModalOpen={isProfileModalOpen}
