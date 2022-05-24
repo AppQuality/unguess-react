@@ -30,6 +30,7 @@ import { FEATURE_FLAG_CATALOG } from "src/constants";
 import { Feature } from "src/features/api";
 import { openDrawer, openWizard } from "src/features/express/expressSlice";
 import { useGetFullServicesByIdQuery } from "src/features/backoffice/strapi";
+import { toggleChat } from "src/common/utils";
 import { WaterButton } from "../ExpressWizard/waterButton";
 
 const CampaignType = styled(Paragraph)`
@@ -263,7 +264,10 @@ export default function Service() {
                     size="medium"
                     isPrimary
                     isPill
-                    onClick={() => dispatch(openDrawer())}
+                    onClick={() => {
+                      dispatch(openDrawer())
+                      toggleChat(false);
+                    }}
                   >
                     {t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}
                   </CTAButton>
