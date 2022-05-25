@@ -5,7 +5,6 @@ on:
     branches:
       - master
       - develop
-      - setup-husky
   workflow_dispatch:
 
 jobs:  
