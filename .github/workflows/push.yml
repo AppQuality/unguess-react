@@ -6,57 +6,54 @@ on:
       - master
       - develop
   workflow_dispatch:
-    
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Get branch
-      shell: bash
-      run: |
+      - name: Get branch
+        shell: bash
+        run: |
           BRANCH=$(echo ${GITHUB_REF##*/})
           if [ -z "$BRANCH" ]; then
               BRANCH=$(echo ${{ github.event.inputs.tag }})
           fi
           echo "##[set-output name=branch;]$BRANCH"
-          
-      id: extract_repo_branch
 
-    - name: Extract tag name
-      shell: bash
-      run: |
+        id: extract_repo_branch
+
+      - name: Extract tag name
+        shell: bash
+        run: |
           TAG=$(echo ${{ steps.extract_repo_branch.outputs.branch }})
           if [ "$TAG" = "master" ]; then
               TAG="latest"
           fi
           echo "##[set-output name=img_tag;]$TAG"
-      id: extract_image_tag
+        id: extract_image_tag
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
 
-    - name: Build, tag, and push image to Amazon ECR
-      id: build-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: unguess-react
-        IMAGE_TAG: ${{ steps.extract_image_tag.outputs.img_tag }}
-      run: |
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: unguess-react
+          IMAGE_TAG: ${{ steps.extract_image_tag.outputs.img_tag }}
+        run: |
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.

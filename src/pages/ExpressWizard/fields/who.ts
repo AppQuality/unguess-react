@@ -1,3 +1,3 @@
 export interface WhoStep {
-  campaign_language?: string,
+  campaign_language?: string;
 }

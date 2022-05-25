@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Project } from "../api";
+import { createSlice } from '@reduxjs/toolkit';
+import { Project } from '../api';
 
 export interface ExpressWizardState {
   steps: { [key: string]: Step };
-  project?: Project
-  projectLocked?: boolean
+  project?: Project;
+  projectLocked?: boolean;
   isWizardOpen?: boolean;
   isDrawerOpen?: boolean;
   isDirty?: boolean;
@@ -24,7 +24,7 @@ const initialState: ExpressWizardState = {
 };
 
 const expressSlice = createSlice({
-  name: "express",
+  name: 'express',
   initialState,
   reducers: {
     openWizard: (state) => {
@@ -58,7 +58,7 @@ const expressSlice = createSlice({
     },
     setExpressProject: (state, action) => {
       state.project = action.payload;
-    }
+    },
   },
 });
 
@@ -72,7 +72,7 @@ export const {
   removeStep,
   resetWizard,
   setExpressProject,
-  lockProject
+  lockProject,
 } = expressSlice.actions;
 
 export default expressSlice.reducer;

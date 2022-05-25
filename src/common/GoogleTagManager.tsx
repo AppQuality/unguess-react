@@ -1,15 +1,15 @@
-import TagManager from "react-gtm-module";
-import { Helmet } from "react-helmet";
-import { useAppSelector } from "src/app/hooks";
+import TagManager from 'react-gtm-module';
+import { Helmet } from 'react-helmet';
+import { useAppSelector } from 'src/app/hooks';
 
 const tagManagerArgs = {
   dataLayer: {
-    role: "unknown",
+    role: 'unknown',
     wp_user_id: 0,
     tester_id: 0,
-    name: "unknown",
-    email: "unknown",
-    company: "unknown",
+    name: 'unknown',
+    email: 'unknown',
+    company: 'unknown',
   },
 };
 
@@ -20,11 +20,8 @@ export const GoogleTagManager = ({
   title: string;
   children: React.ReactNode;
 }) => {
-  
   const { userData } = useAppSelector((state) => state.user);
-  const { activeWorkspace } = useAppSelector(
-    (state) => state.navigation
-  );
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   const helmet = () => {
     return (
@@ -43,7 +40,7 @@ export const GoogleTagManager = ({
       tester_id: userData.id,
       name: userData.name,
       email: userData.email,
-      company: activeWorkspace?.company || "unknown"
+      company: activeWorkspace?.company || 'unknown',
     };
   }
 

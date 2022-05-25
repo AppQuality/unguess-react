@@ -1,5 +1,5 @@
-import { Row } from "@appquality/unguess-design-system";
-import styled from "styled-components";
+import { Row } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
 
 export const StyledRow = styled(Row)``;
 

@@ -1,11 +1,11 @@
-import { Campaign } from "../api";
-import { FilterState } from "../campaignsFilter/campaignsFilterSlice";
+import { Campaign } from '../api';
+import { FilterState } from '../campaignsFilter/campaignsFilterSlice';
 
 export const CampaignStatus = {
-    Running: "running",
-    Completed: "completed",
-    Incoming: "incoming",
-  };
+  Running: 'running',
+  Completed: 'completed',
+  Incoming: 'incoming',
+};
 
 export const selectFilteredCampaigns = (
   campaigns: Campaign[],
@@ -18,7 +18,7 @@ export const selectFilteredCampaigns = (
 
     //Check status
     if (
-      filters.status !== "all" &&
+      filters.status !== 'all' &&
       campaign.status_name &&
       campaign.status_name !== filters.status
     )
@@ -26,7 +26,7 @@ export const selectFilteredCampaigns = (
 
     //Check Type
     if (
-      filters.type !== "all" &&
+      filters.type !== 'all' &&
       campaign.campaign_family_name.toLowerCase() !== filters.type
     )
       return false;
@@ -56,7 +56,7 @@ export const selectGroupedCampaigns = (campaigns: Campaign[]) => {
 };
 
 export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
-  let statuses = ["all"];
+  let statuses = ['all'];
 
   campaigns.forEach((cp) => {
     if (!cp.status_name) return;
@@ -69,13 +69,11 @@ export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
 };
 
 interface TestName {
-    label: string;
-    value: string;
+  label: string;
+  value: string;
 }
 
-export const selectTestNames = (
-  campaigns: Campaign[]
-): TestName[] => {
+export const selectTestNames = (campaigns: Campaign[]): TestName[] => {
   let types: TestName[] = [];
 
   campaigns.forEach((cp) => {
@@ -85,7 +83,7 @@ export const selectTestNames = (
     ) {
       types.push({
         label: cp.campaign_type_name,
-        value: cp.campaign_type_id + "",
+        value: cp.campaign_type_id + '',
       });
     }
   });
@@ -94,7 +92,7 @@ export const selectTestNames = (
 };
 
 export const selectTypes = (campaigns: Campaign[]): Array<string> => {
-  let types = ["all"];
+  let types = ['all'];
 
   campaigns.forEach((cp) => {
     let testType = cp.campaign_family_name.toLowerCase();

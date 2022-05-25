@@ -5,12 +5,12 @@ import {
   Row,
   Stepper,
   theme,
-} from "@appquality/unguess-design-system";
-import { Form, Formik, FormikHelpers, FormikProps } from "formik";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { closeWizard, resetWizard } from "src/features/express/expressSlice";
+} from '@appquality/unguess-design-system';
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { closeWizard, resetWizard } from 'src/features/express/expressSlice';
 import {
   WhatStep,
   WhatStepValidationSchema,
@@ -24,31 +24,31 @@ import {
   ConfirmationStep,
   ConfirmationValidationSchema,
   ThankYouStep,
-} from "./steps";
-import { WizardHeader } from "./wizardHeader";
-import { WizardModel } from "./wizardModel";
-import defaultValues from "./wizardInitialValues";
-import { WaterButton } from "./waterButton";
-import * as Yup from "yup";
-import styled from "styled-components";
-import { WizardSubmit } from "./wizardSubmit";
+} from './steps';
+import { WizardHeader } from './wizardHeader';
+import { WizardModel } from './wizardModel';
+import defaultValues from './wizardInitialValues';
+import { WaterButton } from './waterButton';
+import * as Yup from 'yup';
+import styled from 'styled-components';
+import { WizardSubmit } from './wizardSubmit';
 import {
   Project,
   Campaign,
   usePostCampaignsMutation,
   usePostProjectsMutation,
-} from "src/features/api";
+} from 'src/features/api';
 import {
   EXPRESS_CAMPAIGN_TYPE_ID,
   BASE_DATE_FORMAT,
   ZAPIER_WEBHOOK_TRIGGER,
-} from "src/constants";
-import format from "date-fns/format";
-import async from "async";
-import { reasonItems } from "./steps/what";
-import { create_crons, create_pages, create_tasks } from "src/common/campaigns";
-import { getPlatform } from "./getPlatform";
-import { toggleChat } from "src/common/utils";
+} from 'src/constants';
+import format from 'date-fns/format';
+import async from 'async';
+import { reasonItems } from './steps/what';
+import { create_crons, create_pages, create_tasks } from 'src/common/campaigns';
+import { getPlatform } from './getPlatform';
+import { toggleChat } from 'src/common/utils';
 
 interface StepItem {
   label: string;
@@ -158,7 +158,7 @@ export const ExpressWizardContainer = () => {
       //Create the campaign
       createCampaign({
         body: {
-          title: values.campaign_name || "Express campaign",
+          title: values.campaign_name || 'Express campaign',
           start_date: values.campaign_date
             ? format(values.campaign_date, BASE_DATE_FORMAT)
             : fallBackDate,
@@ -188,13 +188,21 @@ export const ExpressWizardContainer = () => {
       try {
         //Post on webhook Zapier axios call
         fetch(ZAPIER_WEBHOOK_TRIGGER, {
-          method: "POST",
-          mode: "no-cors",
+          method: 'POST',
+          mode: 'no-cors',
           headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
           },
-          body: JSON.stringify({ cp: {...values, id: cp.id, reason: reasonItems[values?.product_type || 'reason-a']}, user: userData, workspace: activeWorkspace }),
+          body: JSON.stringify({
+            cp: {
+              ...values,
+              id: cp.id,
+              reason: reasonItems[values?.product_type || 'reason-a'],
+            },
+            user: userData,
+            workspace: activeWorkspace,
+          }),
         })
           .then((data) => {
             console.log(`Data sent, response: ${JSON.stringify(data)}`);
@@ -218,13 +226,13 @@ export const ExpressWizardContainer = () => {
       } catch (error) {
         return next(error);
       }
-    }
+    };
 
     async.waterfall(
       [projectHandle, campaignHandle, wordpressHandle, zapierHandle],
       (err: any, result: any) => {
         if (err) {
-          console.error("Unable to launch campaign " + JSON.stringify(err));
+          console.error('Unable to launch campaign ' + JSON.stringify(err));
           setSubmitting(false);
         } else {
           onNext();
@@ -236,21 +244,21 @@ export const ExpressWizardContainer = () => {
 
   const steps: Array<StepItem> = [
     {
-      label: t("__EXPRESS_WIZARD_STEP_WHAT_LABEL"),
-      content: t("__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION"),
+      label: t('__EXPRESS_WIZARD_STEP_WHAT_LABEL'),
+      content: t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION'),
       form: (props: FormikProps<WizardModel>) => <WhatStep {...props} />,
       validationSchema: WhatStepValidationSchema,
       buttons: (props: FormikProps<WizardModel>) => (
         <WaterButton isPill isPrimary onClick={onNext}>
-          {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
+          {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
         </WaterButton>
       ),
     },
     {
-      label: t("__EXPRESS_WIZARD_STEP_WHERE_LABEL"),
-      content: t("__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION"),
+      label: t('__EXPRESS_WIZARD_STEP_WHERE_LABEL'),
+      content: t('__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION'),
       form: (props: FormikProps<WizardModel>) =>
-        props.values.product_type === "webapp" ? (
+        props.values.product_type === 'webapp' ? (
           <WhereWebStep {...props} />
         ) : (
           <WhereAppStep {...props} />
@@ -259,49 +267,49 @@ export const ExpressWizardContainer = () => {
       buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
-            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
+            {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
+            {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
           </WaterButton>
         </>
       ),
     },
     {
-      label: t("__EXPRESS_WIZARD_STEP_WHO_LABEL"),
-      content: t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION"),
+      label: t('__EXPRESS_WIZARD_STEP_WHO_LABEL'),
+      content: t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION'),
       form: (props: FormikProps<WizardModel>) => <WhoStep {...props} />,
       validationSchema: WhoStepValidationSchema,
       buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
-            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
+            {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
+            {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
           </WaterButton>
         </>
       ),
     },
     {
-      label: t("__EXPRESS_WIZARD_STEP_WHEN_LABEL"),
-      content: t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION"),
+      label: t('__EXPRESS_WIZARD_STEP_WHEN_LABEL'),
+      content: t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION'),
       form: (props: FormikProps<WizardModel>) => <WhenStep {...props} />,
       validationSchema: WhenStepValidationSchema,
       buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
-            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
+            {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
           </WaterButton>
           <WaterButton isPill isPrimary onClick={onNext}>
-            {t("__EXPRESS_WIZARD_NEXT_BUTTON_LABEL")}
+            {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
           </WaterButton>
         </>
       ),
     },
     {
-      label: t("__EXPRESS_WIZARD_STEP_CONFIRM_LABEL"),
-      content: t("__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION"),
+      label: t('__EXPRESS_WIZARD_STEP_CONFIRM_LABEL'),
+      content: t('__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION'),
       form: (props: FormikProps<WizardModel>) => (
         <ConfirmationStep {...props} />
       ),
@@ -309,7 +317,7 @@ export const ExpressWizardContainer = () => {
       buttons: (props: FormikProps<WizardModel>) => (
         <>
           <WaterButton isPill isBasic onClick={onBack}>
-            {t("__EXPRESS_WIZARD_BACK_BUTTON_LABEL")}
+            {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
           </WaterButton>
           <WizardSubmit {...props} />
         </>
@@ -338,7 +346,7 @@ export const ExpressWizardContainer = () => {
           <ModalFullScreen.Header>
             <WizardHeader
               workspace={activeWorkspace}
-              title={t("__EXPRESS_WIZARD_TITLE")}
+              title={t('__EXPRESS_WIZARD_TITLE')}
             />
             <ModalFullScreen.Close aria-label="Close modal" />
           </ModalFullScreen.Header>

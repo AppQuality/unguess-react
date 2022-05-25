@@ -1,1 +1,1 @@
-declare module '@headwayapp/react-widget'
+declare module '@headwayapp/react-widget';

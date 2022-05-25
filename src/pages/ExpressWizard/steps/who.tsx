@@ -9,15 +9,15 @@ import {
   Span,
   XL,
   XXL,
-} from "@appquality/unguess-design-system";
-import { Field } from "@zendeskgarden/react-forms";
-import { FormikProps } from "formik";
-import styled from "styled-components";
-import * as Yup from "yup";
-import { WizardModel } from "../wizardModel";
-import { CardDivider } from "../cardDivider";
-import { t } from "i18next";
-import { useState } from "react";
+} from '@appquality/unguess-design-system';
+import { Field } from '@zendeskgarden/react-forms';
+import { FormikProps } from 'formik';
+import styled from 'styled-components';
+import * as Yup from 'yup';
+import { WizardModel } from '../wizardModel';
+import { CardDivider } from '../cardDivider';
+import { t } from 'i18next';
+import { useState } from 'react';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -58,39 +58,39 @@ export const WhoStep = ({
 
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
-    props.setFieldValue("campaign_language", value);
+    props.setFieldValue('campaign_language', value);
   };
 
   return (
     <>
       <StepTitle>
-        <Span isBold>{t("__EXPRESS_WIZARD_STEP_WHO_LABEL")}</Span>{" "}
-        {t("__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA")}
+        <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</Span>{' '}
+        {t('__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA')}
       </StepTitle>
-      <Paragraph>{t("__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION")}</Paragraph>
+      <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION')}</Paragraph>
       <CardDivider />
       <StyledFormField>
         <StyledLanguageTitle>
-          {t("__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_TITLE")}
+          {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_TITLE')}
         </StyledLanguageTitle>
         <Paragraph>
-          {t("__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_DESCRIPTION")}
+          {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_DESCRIPTION')}
         </Paragraph>
       </StyledFormField>
       <StyledFormField>
-        <Label>{t("__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL")}</Label>
+        <Label>{t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}</Label>
         <Row>
           <Col>
             <StyledRadioField>
               <Radio
-                {...props.getFieldProps("campaign_language")}
-                {...(errors.campaign_language && { validation: "error" })}
+                {...props.getFieldProps('campaign_language')}
+                {...(errors.campaign_language && { validation: 'error' })}
                 value="it"
-                checked={radioValue === "it"}
+                checked={radioValue === 'it'}
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
                 <Label isRegular={true}>
-                  {t("__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_1")}
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_1')}
                 </Label>
               </Radio>
             </StyledRadioField>
@@ -100,17 +100,17 @@ export const WhoStep = ({
           <Col>
             <StyledRadioField>
               <Radio
-                {...props.getFieldProps("campaign_language")}
-                {...(errors.campaign_language && { validation: "error" })}
+                {...props.getFieldProps('campaign_language')}
+                {...(errors.campaign_language && { validation: 'error' })}
                 value="en"
-                checked={radioValue === "en"}
+                checked={radioValue === 'en'}
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
                 <Label isRegular={true}>
-                  {t("__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2")}
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2')}
                 </Label>
                 <StyledHint>
-                  {t("__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2_HINT")}
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2_HINT')}
                 </StyledHint>
               </Radio>
             </StyledRadioField>
@@ -126,6 +126,6 @@ export const WhoStep = ({
 
 export const WhoStepValidationSchema = Yup.object().shape({
   campaign_language: Yup.string().required(
-    t("__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_LANGUAGE_REQUIRED")
+    t('__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_LANGUAGE_REQUIRED')
   ),
 });

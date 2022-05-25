@@ -1,4 +1,4 @@
-import { strapiSlice as api } from "./strapi";
+import { strapiSlice as api } from './strapi';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     getServices: build.query<GetServicesApiResponse, GetServicesApiArg>({
@@ -15,7 +15,7 @@ const injectedRtkApi = api.injectEndpoints({
     postServices: build.mutation<PostServicesApiResponse, PostServicesApiArg>({
       query: (queryArg) => ({
         url: `/services`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.serviceRequest,
       }),
     }),
@@ -31,7 +31,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/services/${queryArg.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: queryArg.serviceRequest,
       }),
     }),
@@ -41,7 +41,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/services/${queryArg.id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
     }),
     postServicesByIdLocalizations: build.mutation<
@@ -50,7 +50,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/services/${queryArg.id}/localizations`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.serviceLocalizationRequest,
       }),
     }),

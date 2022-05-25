@@ -1,12 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../features/user/userSlice";
-import navigationReducer from "../features/navigation/navigationSlice";
-import workspaceReducer from "../features/workspaces/workspaceSlice";
-import filterReducer from "../features/campaignsFilter/campaignsFilterSlice";
-import expressReducer from "../features/express/expressSlice";
-import { apiSlice } from "../features/api/api";
-import { strapiSlice } from "../features/backoffice/strapi";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
+import { configureStore } from '@reduxjs/toolkit';
+import userReducer from '../features/user/userSlice';
+import navigationReducer from '../features/navigation/navigationSlice';
+import workspaceReducer from '../features/workspaces/workspaceSlice';
+import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
+import expressReducer from '../features/express/expressSlice';
+import { apiSlice } from '../features/api/api';
+import { strapiSlice } from '../features/backoffice/strapi';
+import { setupListeners } from '@reduxjs/toolkit/dist/query';
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +20,9 @@ export const store = configureStore({
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware).concat(strapiSlice.middleware),
+    getDefaultMiddleware()
+      .concat(apiSlice.middleware)
+      .concat(strapiSlice.middleware),
 });
 
 setupListeners(store.dispatch);

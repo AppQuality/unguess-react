@@ -1,8 +1,8 @@
-import HttpError from "./HttpError";
+import HttpError from './HttpError';
 
 const apifetch = async ({
   endpoint,
-  method = "GET",
+  method = 'GET',
   body,
   params,
   token,
@@ -18,21 +18,21 @@ const apifetch = async ({
   if (process.env.REACT_APP_DEFAULT_TOKEN)
     token = process.env.REACT_APP_DEFAULT_TOKEN;
   const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
+  requestHeaders.set('Content-Type', 'application/json');
   if (token) {
-    requestHeaders.set("Authorization", "Bearer " + token);
+    requestHeaders.set('Authorization', 'Bearer ' + token);
   }
-  let query = "";
+  let query = '';
   if (params && Object.keys(params).length) {
     let urlps = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
-      if (paramType === "filterBy") {
+      if (paramType === 'filterBy') {
         urlps.set(`filterBy[${key}]`, value);
       } else {
         urlps.set(key, value);
       }
     });
-    query = "?" + urlps.toString();
+    query = '?' + urlps.toString();
   }
   const fetchData: { method: string; headers: Headers; body?: string } = {
     method: method,

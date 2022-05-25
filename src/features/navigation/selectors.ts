@@ -1,3 +1,4 @@
-import { RootState } from "src/app/store";
+import { RootState } from 'src/app/store';
 
-export const selectActiveWorkspace = (state: RootState) => state.navigation.activeWorkspace;
+export const selectActiveWorkspace = (state: RootState) =>
+  state.navigation.activeWorkspace;

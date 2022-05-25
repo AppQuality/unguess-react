@@ -1,6 +1,6 @@
-import { theme } from "@appquality/unguess-design-system";
-import { operations, components } from "src/common/schema";
-import { GetUsersMeApiResponse } from "./features/api";
+import { theme } from '@appquality/unguess-design-system';
+import { operations, components } from 'src/common/schema';
+import { GetUsersMeApiResponse } from './features/api';
 
 export type User = undefined | UserData;
 
@@ -18,15 +18,13 @@ export interface UserLoginData {
 }
 
 export type UnguessRoutes =
-  | "login"
-  | "projects"
-  | "oops"
-  | "functional-customer-dashboard"
-  | "ux-customer-dashboard"
-  | "integration-center"
-  | "";
-
-
+  | 'login'
+  | 'projects'
+  | 'oops'
+  | 'functional-customer-dashboard'
+  | 'ux-customer-dashboard'
+  | 'integration-center'
+  | '';
 
 declare global {
   type Theme = typeof theme;
@@ -34,6 +32,6 @@ declare global {
   type HttpError = HttpError;
   type ApiOperations = operations;
   type ApiComponents = components;
-  type SupportedLanguages = "it" | "en";
-  type OrderType = "DESC" | "ASC";
+  type SupportedLanguages = 'it' | 'en';
+  type OrderType = 'DESC' | 'ASC';
 }

@@ -1,11 +1,11 @@
-const webpack = require('webpack')
+const webpack = require('webpack');
 const path = require(`path`);
 
 const alias = (prefix = `src`) => ({
   react: `./node_modules/react`,
-  "styled-components": `./node_modules/styled-components`,
-  "@zendeskgarden/react-theming": `./node_modules/@zendeskgarden/react-theming`,
-//   formik: `./node_modules/formik`,
+  'styled-components': `./node_modules/styled-components`,
+  '@zendeskgarden/react-theming': `./node_modules/@zendeskgarden/react-theming`,
+  //   formik: `./node_modules/formik`,
 });
 
 const SRC = `./src`;
@@ -21,5 +21,5 @@ const resolvedAliases = Object.fromEntries(
 module.exports = {
   webpack: {
     alias: resolvedAliases,
-  }
+  },
 };

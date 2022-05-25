@@ -1,7 +1,7 @@
-import { Row, theme } from "@appquality/unguess-design-system";
-import { Campaign } from "src/features/api";
-import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
-import { CampaignItem, ColCard } from "../CampaignItem";
+import { Row, theme } from '@appquality/unguess-design-system';
+import { Campaign } from 'src/features/api';
+import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { CampaignItem, ColCard } from '../CampaignItem';
 
 const CardGroup = ({ items }: { items: Array<Campaign> }) => {
   const clickToggle = (campaignId: number, cpType: string) => {
@@ -16,7 +16,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
             key={campaign.id}
             campaign={campaign}
             onCampaignClicked={clickToggle}
-            style={{ marginBottom: theme.space.base * 4 + "px" }}
+            style={{ marginBottom: theme.space.base * 4 + 'px' }}
           />
         </ColCard>
       ))}

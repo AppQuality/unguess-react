@@ -12,9 +12,11 @@ export const toggleChat = (open: boolean) => {
 };
 
 export const isMinMedia = (breakpoint: string) => {
-    return window.matchMedia(`only screen and (min-width: ${breakpoint})`).matches;
-}
+  return window.matchMedia(`only screen and (min-width: ${breakpoint})`)
+    .matches;
+};
 
 export const isMaxMedia = (breakpoint: string) => {
-    return window.matchMedia(`only screen and (max-width: ${breakpoint})`).matches;
-}
+  return window.matchMedia(`only screen and (max-width: ${breakpoint})`)
+    .matches;
+};

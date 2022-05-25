@@ -1,25 +1,35 @@
-import * as Yup from "yup";
-import { FormikProps } from "formik";
-import { WizardModel } from "../wizardModel";
-import { t } from "i18next";
-import { Trans } from "react-i18next";
-import { Label, Paragraph, Span, XXL, Card, Col, Grid, Row, theme } from "@appquality/unguess-design-system";
-import styled from "styled-components";
-import { CardDivider } from "../cardDivider";
-import { ReactComponent as WhatIcon } from "src/assets/icons/step-what-icon.svg";
-import { ReactComponent as WhereIcon } from "src/assets/icons/step-where-icon.svg";
-import { ReactComponent as WhoIcon } from "src/assets/icons/step-who-icon.svg";
-import { ReactComponent as WhenIcon } from "src/assets/icons/step-when-icon.svg";
-import { ReactComponent as MoreIcon } from "src/assets/icons/step-more-icon.svg";
-import { ReactComponent as InfoIcon } from "src/assets/icons/info-icon.svg";
-import { Devices } from "./confirm/devices";
-import { Browsers } from "./confirm/browsers";
-import { OperativeSystems } from "./confirm/operativeSystems";
-import { ConfirmOutOfScope } from "./confirm/confirmOutOfScope";
-import { Textarea } from "@zendeskgarden/react-forms";
-import { useAppSelector } from "src/app/hooks";
-import { getLanguage } from "../getLanguage";
-import { format } from "date-fns";
+import * as Yup from 'yup';
+import { FormikProps } from 'formik';
+import { WizardModel } from '../wizardModel';
+import { t } from 'i18next';
+import { Trans } from 'react-i18next';
+import {
+  Label,
+  Paragraph,
+  Span,
+  XXL,
+  Card,
+  Col,
+  Grid,
+  Row,
+  theme,
+} from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+import { CardDivider } from '../cardDivider';
+import { ReactComponent as WhatIcon } from 'src/assets/icons/step-what-icon.svg';
+import { ReactComponent as WhereIcon } from 'src/assets/icons/step-where-icon.svg';
+import { ReactComponent as WhoIcon } from 'src/assets/icons/step-who-icon.svg';
+import { ReactComponent as WhenIcon } from 'src/assets/icons/step-when-icon.svg';
+import { ReactComponent as MoreIcon } from 'src/assets/icons/step-more-icon.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { Devices } from './confirm/devices';
+import { Browsers } from './confirm/browsers';
+import { OperativeSystems } from './confirm/operativeSystems';
+import { ConfirmOutOfScope } from './confirm/confirmOutOfScope';
+import { Textarea } from '@zendeskgarden/react-forms';
+import { useAppSelector } from 'src/app/hooks';
+import { getLanguage } from '../getLanguage';
+import { format } from 'date-fns';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -69,20 +79,31 @@ const TextareaNote = styled(Paragraph)`
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const { values } = props;
   const { project } = useAppSelector((state) => state.express);
-  const lang = getLanguage(values.campaign_language || "en");
+  const lang = getLanguage(values.campaign_language || 'en');
 
-  let date_start_text = format(values.campaign_date || new Date(), "EEEE d MMMM Y", {locale: lang.locale});
-  let date_end_text = format(values.campaign_date_end || new Date(), "EEEE d MMMM Y", {locale: lang.locale});
-  let productType = (values.product_type === "webapp" ? t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_WEBAPP_LABEL") : t("__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL"));
-  
+  let date_start_text = format(
+    values.campaign_date || new Date(),
+    'EEEE d MMMM Y',
+    { locale: lang.locale }
+  );
+  let date_end_text = format(
+    values.campaign_date_end || new Date(),
+    'EEEE d MMMM Y',
+    { locale: lang.locale }
+  );
+  let productType =
+    values.product_type === 'webapp'
+      ? t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_WEBAPP_LABEL')
+      : t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL');
+
   return (
     <>
       <StepTitle>
-        <Span isBold>{t("__EXPRESS_WIZARD_STEP_RECAP_TITLE")}</Span>
+        <Span isBold>{t('__EXPRESS_WIZARD_STEP_RECAP_TITLE')}</Span>
       </StepTitle>
-      <Paragraph>{t("__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION")}</Paragraph>
+      <Paragraph>{t('__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginTop: theme.space.base * 10 + "px" }}>
+      <StyledFormField style={{ marginTop: theme.space.base * 10 + 'px' }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -90,10 +111,18 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <WhatIcon />
               </Col>
               <Col>
-                <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHAT_LABEL")}</StyledLabel>
+                <StyledLabel>
+                  {t('__EXPRESS_WIZARD_STEP_WHAT_LABEL')}
+                </StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT">
-                    Stai lanciando la campagna <Span isBold>{{ campaign_name: values.campaign_name }}</Span> all'interno del progetto <Span isBold>{{ project_name: project?.name }}</Span> per <Span isBold>{{ product_type: productType }}</Span>.
+                    Stai lanciando la campagna{' '}
+                    <Span isBold>
+                      {{ campaign_name: values.campaign_name }}
+                    </Span>{' '}
+                    all'interno del progetto{' '}
+                    <Span isBold>{{ project_name: project?.name }}</Span> per{' '}
+                    <Span isBold>{{ product_type: productType }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>
@@ -101,7 +130,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + "px" }}>
+      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -109,10 +138,18 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <WhereIcon />
               </Col>
               <Col>
-                <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHERE_LABEL")}</StyledLabel>
+                <StyledLabel>
+                  {t('__EXPRESS_WIZARD_STEP_WHERE_LABEL')}
+                </StyledLabel>
                 <StyledParagraph>
-                  <Devices {...props} /><br />
-                  {values.product_type === "webapp" ? <Browsers {...props} /> : <OperativeSystems {...props} />}<br />
+                  <Devices {...props} />
+                  <br />
+                  {values.product_type === 'webapp' ? (
+                    <Browsers {...props} />
+                  ) : (
+                    <OperativeSystems {...props} />
+                  )}
+                  <br />
                   <ConfirmOutOfScope {...props} />
                 </StyledParagraph>
               </Col>
@@ -120,7 +157,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + "px" }}>
+      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -128,10 +165,13 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <WhoIcon />
               </Col>
               <Col>
-                <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHO_LABEL")}</StyledLabel>
+                <StyledLabel>
+                  {t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}
+                </StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT">
-                    Testers speak <Span isBold>{{ campaign_language: lang.label }}</Span>.
+                    Testers speak{' '}
+                    <Span isBold>{{ campaign_language: lang.label }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>
@@ -139,7 +179,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + "px" }}>
+      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -147,10 +187,15 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <WhenIcon />
               </Col>
               <Col>
-                <StyledLabel>{t("__EXPRESS_WIZARD_STEP_WHEN_LABEL")}</StyledLabel>
+                <StyledLabel>
+                  {t('__EXPRESS_WIZARD_STEP_WHEN_LABEL')}
+                </StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHEN_CONTENT_TEXT">
-                    Campaign starts on <Span isBold>{{ campaign_date: date_start_text }}</Span> and ends on <Span isBold>{{ campaign_date_end: date_end_text }}</Span>.
+                    Campaign starts on{' '}
+                    <Span isBold>{{ campaign_date: date_start_text }}</Span> and
+                    ends on{' '}
+                    <Span isBold>{{ campaign_date_end: date_end_text }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>
@@ -158,7 +203,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + "px" }}>
+      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -166,16 +211,25 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <MoreIcon />
               </Col>
               <Col>
-                <StyledLabel>{t("__EXPRESS_WIZARD_STEP_RECAP_MORE_LABEL")}</StyledLabel>
+                <StyledLabel>
+                  {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_LABEL')}
+                </StyledLabel>
                 <StyledParagraph>
-                  <Paragraph>{t("__EXPRESS_WIZARD_STEP_RECAP_MORE_CONTENT_TEXT")}</Paragraph>
+                  <Paragraph>
+                    {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_CONTENT_TEXT')}
+                  </Paragraph>
                 </StyledParagraph>
                 <StyledTextarea
                   {...props.getFieldProps('campaign_more_info')}
-                  placeholder={t("__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_PLACEHOLDER")}
+                  placeholder={t(
+                    '__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_PLACEHOLDER'
+                  )}
                   minRows={6}
                 />
-                <TextareaNote><InfoIcon width={"15"} height={"15"} /> {t("__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE")}</TextareaNote>
+                <TextareaNote>
+                  <InfoIcon width={'15'} height={'15'} />{' '}
+                  {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE')}
+                </TextareaNote>
               </Col>
             </Row>
           </Grid>

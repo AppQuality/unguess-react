@@ -1,6 +1,6 @@
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import i18n from "src/i18n";
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import i18n from 'src/i18n';
 import {
   Button,
   Col,
@@ -8,18 +8,18 @@ import {
   Row,
   ServiceCard,
   theme,
-} from "@appquality/unguess-design-system";
-import styled from "styled-components";
-import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
-import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { ReactComponent as ExperientialIcon } from "src/assets/icons/experiential-icon.svg";
-import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
-import { WaterButton } from "src/pages/ExpressWizard/waterButton";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { openDrawer, openWizard } from "src/features/express/expressSlice";
-import { ExpressWizardContainer } from "src/pages/ExpressWizard";
-import { ExpressDrawer } from "src/pages/ExpressWizard/drawer";
-import { toggleChat } from "src/common/utils";
+} from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
+import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
+import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
+import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
+import { WaterButton } from 'src/pages/ExpressWizard/waterButton';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { openDrawer, openWizard } from 'src/features/express/expressSlice';
+import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
+import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
+import { toggleChat } from 'src/common/utils';
 
 const ServicesContainer = styled.div``;
 
@@ -27,7 +27,7 @@ const ServiceCol = styled(Col)`
   margin-bottom: ${theme.space.lg};
 `;
 
-const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || "";
+const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
 
 const CardGroup = ({ items }: { items: any }) => {
   const { t } = useTranslation();
@@ -37,7 +37,7 @@ const CardGroup = ({ items }: { items: any }) => {
 
   const navigateToService = (serviceId: number) => {
     const localizedRoute =
-      i18n.language === "en"
+      i18n.language === 'en'
         ? `/templates/${serviceId}`
         : `/${i18n.language}/templates/${serviceId}`;
 
@@ -59,13 +59,13 @@ const CardGroup = ({ items }: { items: any }) => {
             size="small"
             onClick={() => navigateToService(service.id)}
           >
-            {t("__CATALOG_PAGE_BUTTON_HOW_LABEL")}
+            {t('__CATALOG_PAGE_BUTTON_HOW_LABEL')}
           </Button>
         );
 
         if (service?.attributes?.is_express) {
           tags.push({
-            label: t("__EXPRESS_LABEL"),
+            label: t('__EXPRESS_LABEL'),
             icon: <ExpressIcon />,
           });
 
@@ -75,14 +75,17 @@ const CardGroup = ({ items }: { items: any }) => {
               isStretched
               size="small"
               isPrimary
-              onClick={() => { dispatch(openDrawer()); toggleChat(false); }}
+              onClick={() => {
+                dispatch(openDrawer());
+                toggleChat(false);
+              }}
             >
-              {t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}
+              {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
             </WaterButton>
           );
         } else {
           tags.push({
-            label: t("__TAILORED_LABEL"),
+            label: t('__TAILORED_LABEL'),
             icon: <TailoredIcon />,
           });
 
@@ -94,23 +97,23 @@ const CardGroup = ({ items }: { items: any }) => {
               isPrimary
               onClick={() =>
                 (window.location.href = `mailto:${
-                  activeWorkspace?.csm.email || "info@unguess.io"
+                  activeWorkspace?.csm.email || 'info@unguess.io'
                 }`)
               }
             >
-              {t("__CATALOG_PAGE_BUTTON_CONTACT_LABEL")}
+              {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
             </WaterButton>
           );
         }
 
         if (service?.attributes?.is_functional) {
           tags.push({
-            label: t("__FUNCTIONAL_LABEL"),
+            label: t('__FUNCTIONAL_LABEL'),
             icon: <FunctionalIcon />,
           });
         } else {
           tags.push({
-            label: t("__EXPERIENTIAL_LABEL"),
+            label: t('__EXPERIENTIAL_LABEL'),
             icon: <ExperientialIcon />,
           });
         }
@@ -150,7 +153,7 @@ const CardGroup = ({ items }: { items: any }) => {
 
 export const Services = ({ services }: { services: any }) => {
   const dispatch = useAppDispatch();
-  
+
   return (
     <ServicesContainer>
       <Row>

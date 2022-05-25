@@ -10,55 +10,51 @@ import {
   TableRow,
   TableCell,
   theme,
-} from "@appquality/unguess-design-system";
-import { useTranslation } from "react-i18next";
-import { Campaign } from "src/features/api";
-import { getCampaignStatus } from "src/hooks/getCampaignStatus";
-import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { Campaign } from 'src/features/api';
+import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
+import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 
-export const TableList = ({
-  campaigns,
-}: {
-  campaigns: Array<Campaign>;
-}) => {
+export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
   const { t } = useTranslation();
 
   let columns = [
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_NAME"), field: "name" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE"), field: "type" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE"), field: "testType" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_START_DATE"), field: "startDate" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_STATUS"), field: "status" },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_NAME'), field: 'name' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE'), field: 'type' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE'), field: 'testType' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_START_DATE'), field: 'startDate' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_STATUS'), field: 'status' },
   ];
 
   const campaignStatus = (status?: string) => {
     if (!status) return <></>;
     switch (status) {
-      case "INCOMING":
+      case 'INCOMING':
         return (
-          <Counter status={"incoming"}>
-            {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING")}
+          <Counter status={'incoming'}>
+            {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING')}
           </Counter>
         );
 
-      case "COMPLETED":
+      case 'COMPLETED':
         return (
-          <Counter status={"completed"}>
-            {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED")}
+          <Counter status={'completed'}>
+            {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED')}
           </Counter>
         );
 
-      case "PROGRESS":
+      case 'PROGRESS':
         return (
-          <Counter status={"progress"}>
-            {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS")}
+          <Counter status={'progress'}>
+            {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS')}
           </Counter>
         );
     }
   };
 
   return (
-    <Table style={{backgroundColor: "white"}}>
+    <Table style={{ backgroundColor: 'white' }}>
       <TableHead>
         <HeaderRow>
           {columns.map((column) => (

@@ -1,9 +1,9 @@
-import { theme } from "@appquality/unguess-design-system";
-import styled from "styled-components";
-import { SearchInput } from "./search";
-import { StatusDropdown } from "./status";
-import { TestTypeDropdown } from "./test";
-import { CampaignTypeDropdown } from "./type";
+import { theme } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+import { SearchInput } from './search';
+import { StatusDropdown } from './status';
+import { TestTypeDropdown } from './test';
+import { CampaignTypeDropdown } from './type';
 
 const FiltersRow = styled.div`
   display: flex;

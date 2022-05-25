@@ -1,26 +1,26 @@
-import HttpError from "../HttpError";
+import HttpError from '../HttpError';
 
 export const campaigns = async (
   workspace_id: number,
   query?: string,
   token?: string
 ): Promise<
-  ApiOperations["get-workspace-campaigns"]["responses"]["200"]["content"]["application/json"]
+  ApiOperations['get-workspace-campaigns']['responses']['200']['content']['application/json']
 > => {
   if (process.env.REACT_APP_DEFAULT_TOKEN)
     token = process.env.REACT_APP_DEFAULT_TOKEN;
 
   const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
+  requestHeaders.set('Content-Type', 'application/json');
   if (token) {
-    requestHeaders.set("Authorization", "Bearer " + token);
+    requestHeaders.set('Authorization', 'Bearer ' + token);
   }
   let url = `${
     process.env.REACT_APP_API_URL
-  }/workspaces/${workspace_id}/campaigns${query ?? ""}`;
+  }/workspaces/${workspace_id}/campaigns${query ?? ''}`;
 
   const res = await fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: requestHeaders,
   });
   if (res.ok) {
@@ -31,19 +31,14 @@ export const campaigns = async (
   }
 };
 
-
-export const create_pages = async (
-  campaign_id: number,
-) => {
+export const create_pages = async (campaign_id: number) => {
   const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
- 
-  let url = `${
-    process.env.REACT_APP_TRYBER_WP_API_URL
-  }/regenerate-campaign-pages/${campaign_id}`;
+  requestHeaders.set('Content-Type', 'application/json');
+
+  let url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-pages/${campaign_id}`;
 
   const res = await fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: requestHeaders,
   });
   if (res.ok) {
@@ -54,18 +49,14 @@ export const create_pages = async (
   }
 };
 
-export const create_tasks = async (
-  campaign_id: number,
-) => {
+export const create_tasks = async (campaign_id: number) => {
   const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
- 
-  let url = `${
-    process.env.REACT_APP_TRYBER_WP_API_URL
-  }/regenerate-campaign-tasks/${campaign_id}`;
+  requestHeaders.set('Content-Type', 'application/json');
+
+  let url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-tasks/${campaign_id}`;
 
   const res = await fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: requestHeaders,
   });
   if (res.ok) {
@@ -76,18 +67,14 @@ export const create_tasks = async (
   }
 };
 
-export const create_crons = async (
-  campaign_id: number,
-) => {
+export const create_crons = async (campaign_id: number) => {
   const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set("Content-Type", "application/json");
- 
-  let url = `${
-    process.env.REACT_APP_TRYBER_WP_API_URL
-  }/regenerate-campaign-crons/${campaign_id}`;
+  requestHeaders.set('Content-Type', 'application/json');
+
+  let url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-crons/${campaign_id}`;
 
   const res = await fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: requestHeaders,
   });
   if (res.ok) {

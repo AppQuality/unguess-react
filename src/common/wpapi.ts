@@ -1,4 +1,4 @@
-import queryString from "query-string";
+import queryString from 'query-string';
 
 const WPAPI = {
   login: ({
@@ -13,15 +13,15 @@ const WPAPI = {
     return fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: queryString.stringify({
           username,
           password,
           security,
-          action: "ajaxlogin",
+          action: 'ajaxlogin',
         }),
       }
     )
@@ -30,15 +30,15 @@ const WPAPI = {
         if (res.loggedin) {
           return true;
         }
-        if (res.hasOwnProperty("loggedin")) {
+        if (res.hasOwnProperty('loggedin')) {
           throw new Error(
-            JSON.stringify({ type: "invalid", message: res.message })
+            JSON.stringify({ type: 'invalid', message: res.message })
           );
         }
         throw new Error(
           JSON.stringify({
-            type: "ajax_failed",
-            message: "There was an error, please reload",
+            type: 'ajax_failed',
+            message: 'There was an error, please reload',
           })
         );
       });
@@ -47,12 +47,12 @@ const WPAPI = {
     return fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: queryString.stringify({
-          action: "ug_get_nonce",
+          action: 'ug_get_nonce',
         }),
       }
     )
@@ -61,22 +61,22 @@ const WPAPI = {
         if (res.success) {
           return res.data;
         }
-        throw new Error("Nonce not found.");
+        throw new Error('Nonce not found.');
       });
   },
   logout: () => {
     return fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
       {
-        method: "GET",
+        method: 'GET',
       }
     )
-    .then(() => {
-      window.location.reload();
-    })
-    .catch((e) => {
-      alert(e.message);
-    });
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((e) => {
+        alert(e.message);
+      });
   },
 };
 

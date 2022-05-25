@@ -1,15 +1,14 @@
-import { Navigate, Route, Routes } from "react-router-dom";
-import LoginPage from "src/pages/LoginPage";
-import Dashboard from "src/pages/Dashboard";
-import Project from "src/pages/Dashboard/Project";
-import NotFound from "src/pages/NotFound";
-import Catalog from "src/pages/Catalog";
-import Service from "src/pages/Service";
+import { Navigate, Route, Routes } from 'react-router-dom';
+import LoginPage from 'src/pages/LoginPage';
+import Dashboard from 'src/pages/Dashboard';
+import Project from 'src/pages/Dashboard/Project';
+import NotFound from 'src/pages/NotFound';
+import Catalog from 'src/pages/Catalog';
+import Service from 'src/pages/Service';
 
-const base = ":locale";
+const base = ':locale';
 
 function Pages() {
-  
   return (
     <Routes>
       <Route path={`${base}/login`} element={<LoginPage />} />
