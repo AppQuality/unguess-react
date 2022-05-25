@@ -11,6 +11,23 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { closeWizard, resetWizard } from 'src/features/express/expressSlice';
+import * as Yup from 'yup';
+import styled from 'styled-components';
+import {
+  Project,
+  Campaign,
+  usePostCampaignsMutation,
+  usePostProjectsMutation,
+} from 'src/features/api';
+import {
+  EXPRESS_CAMPAIGN_TYPE_ID,
+  BASE_DATE_FORMAT,
+  ZAPIER_WEBHOOK_TRIGGER,
+} from 'src/constants';
+import format from 'date-fns/format';
+import async from 'async';
+import { create_crons, create_pages, create_tasks } from 'src/common/campaigns';
+import { toggleChat } from 'src/common/utils';
 import {
   WhatStep,
   WhatStepValidationSchema,
@@ -29,26 +46,9 @@ import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
 import defaultValues from './wizardInitialValues';
 import { WaterButton } from './waterButton';
-import * as Yup from 'yup';
-import styled from 'styled-components';
 import { WizardSubmit } from './wizardSubmit';
-import {
-  Project,
-  Campaign,
-  usePostCampaignsMutation,
-  usePostProjectsMutation,
-} from 'src/features/api';
-import {
-  EXPRESS_CAMPAIGN_TYPE_ID,
-  BASE_DATE_FORMAT,
-  ZAPIER_WEBHOOK_TRIGGER,
-} from 'src/constants';
-import format from 'date-fns/format';
-import async from 'async';
 import { reasonItems } from './steps/what';
-import { create_crons, create_pages, create_tasks } from 'src/common/campaigns';
 import { getPlatform } from './getPlatform';
-import { toggleChat } from 'src/common/utils';
 
 interface StepItem {
   label: string;
@@ -71,9 +71,9 @@ const StyledContainer = styled(ContainerCard)`
 const getValidationSchema = (step: number, steps: StepItem[]) => {
   if (step in steps) {
     return steps[step].validationSchema;
-  } else {
+  } 
     return Yup.object();
-  }
+  
 };
 
 export const ExpressWizardContainer = () => {
@@ -92,14 +92,12 @@ export const ExpressWizardContainer = () => {
 
   const [activeStep, setStep] = useState(0);
 
-  //Reduce draftSteps to array of data
+  // Reduce draftSteps to array of data
   const draft: WizardModel = Object.values(draftSteps).reduce(
-    (filtered: {}, step) => {
-      return {
+    (filtered: {}, step) => ({
         ...filtered,
         ...step.data,
-      };
-    },
+      }),
     {}
   );
 
@@ -122,13 +120,13 @@ export const ExpressWizardContainer = () => {
     }
   };
 
-  //Form actions
+  // Form actions
   const handleSubmit = async (
     values: WizardModel,
     { setSubmitting }: FormikHelpers<WizardModel>
   ) => {
     const projectHandle = (next: any) => {
-      //Create project if it doesn't exist
+      // Create project if it doesn't exist
       if (
         project &&
         project.id === -1 &&
@@ -145,9 +143,7 @@ export const ExpressWizardContainer = () => {
           .then((payload) => {
             next(null, payload);
           })
-          .catch((error) => {
-            return next(error);
-          });
+          .catch((error) => next(error));
       } else {
         next(null, project);
       }
@@ -155,7 +151,7 @@ export const ExpressWizardContainer = () => {
 
     const campaignHandle = (prj: Project, next: any) => {
       const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
-      //Create the campaign
+      // Create the campaign
       createCampaign({
         body: {
           title: values.campaign_name || 'Express campaign',
@@ -179,14 +175,12 @@ export const ExpressWizardContainer = () => {
         .then(async (payload) => {
           next(null, payload);
         })
-        .catch((error) => {
-          return next(error);
-        });
+        .catch((error) => next(error));
     };
 
     const zapierHandle = (cp: Campaign, next: any) => {
       try {
-        //Post on webhook Zapier axios call
+        // Post on webhook Zapier axios call
         fetch(ZAPIER_WEBHOOK_TRIGGER, {
           method: 'POST',
           mode: 'no-cors',
@@ -208,9 +202,7 @@ export const ExpressWizardContainer = () => {
             console.log(`Data sent, response: ${JSON.stringify(data)}`);
             return next(null, data);
           })
-          .catch((error) => {
-            return next(error);
-          });
+          .catch((error) => next(error));
       } catch (error) {
         return next(error);
       }
@@ -218,7 +210,7 @@ export const ExpressWizardContainer = () => {
 
     const wordpressHandle = (cp: Campaign, next: any) => {
       try {
-        //Post on webhook WordPress axios call
+        // Post on webhook WordPress axios call
         create_pages(cp.id);
         create_crons(cp.id);
         create_tasks(cp.id);
@@ -232,7 +224,7 @@ export const ExpressWizardContainer = () => {
       [projectHandle, campaignHandle, wordpressHandle, zapierHandle],
       (err: any, result: any) => {
         if (err) {
-          console.error('Unable to launch campaign ' + JSON.stringify(err));
+          console.error(`Unable to launch campaign ${  JSON.stringify(err)}`);
           setSubmitting(false);
         } else {
           onNext();

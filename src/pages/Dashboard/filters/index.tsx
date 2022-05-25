@@ -35,8 +35,7 @@ const FilterInputContainer = styled.div`
   }
 `;
 
-export const Filters = () => {
-  return (
+export const Filters = () => (
     <FiltersRow>
       <FiltersContainer>
         <FilterInputContainer>
@@ -52,4 +51,3 @@ export const Filters = () => {
       <SearchInput />
     </FiltersRow>
   );
-};

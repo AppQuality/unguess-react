@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { LoginForm, Logo, theme } from '@appquality/unguess-design-system';
+import { LoginForm, Logo, theme as globalTheme } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import WPAPI from 'src/common/wpapi';
 import { FormikHelpers } from 'formik';
@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { LoginFormFields } from './type';
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -19,7 +20,7 @@ const CenteredXYContainer = styled.div`
   }
 `;
 
-export default function LoginPage() {
+const LoginPage = () => {
   const { t } = useTranslation();
   // const [error, setError] = useState<string | boolean>(false);
   const [cta, setCta] = useState<string>(t('__LOGIN_FORM_CTA'));
@@ -72,7 +73,7 @@ export default function LoginPage() {
     errors: false,
     touched: {},
     validate: (values: any) => {
-      let errors: any = {};
+      const errors: any = {};
       if (!values.email) {
         errors.email = t('__FORM_FIELD_REQUIRED_MESSAGE');
       } else if (
@@ -110,12 +111,14 @@ export default function LoginPage() {
     <GoogleTagManager title={t('__PAGE_TITLE_LOGIN')}>
       <CenteredXYContainer>
         <Logo
-          type={'vertical'}
+          type="vertical"
           size={200}
-          style={{ marginTop: theme.space.xs, marginBottom: theme.space.md }}
+          style={{ marginTop: globalTheme.space.xs, marginBottom: globalTheme.space.md }}
         />
         <LoginForm {...defaultArgs} />
       </CenteredXYContainer>
     </GoogleTagManager>
   );
 }
+
+export default LoginPage;

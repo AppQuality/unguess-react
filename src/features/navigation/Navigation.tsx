@@ -16,10 +16,10 @@ import {
 import WPAPI from 'src/common/wpapi';
 import i18n from 'src/i18n';
 import { useNavigate, useParams } from 'react-router-dom';
+import { prepareGravatar } from 'src/common/utils';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { saveWorkspaceToLs } from './cachedStorage';
-import { prepareGravatar } from 'src/common/utils';
 
 export const Navigation = ({
   children,
@@ -37,13 +37,13 @@ export const Navigation = ({
     (state) => state.navigation
   );
 
-  const workspaces = user.workspaces;
+  const {workspaces} = user;
 
   if (!activeWorkspace) {
     // dispatch(getWorkspaces());
     if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
   }
-  //Set current params
+  // Set current params
   const params = useParams();
 
   let parameter = '';
@@ -72,16 +72,16 @@ export const Navigation = ({
       : projects.data.items.reduce((filtered: Array<any>, project) => {
           if (project.campaigns_count) {
             filtered.push({
-              id: project.id + '',
+              id: `${project.id  }`,
               title: project.name || '-',
               campaigns:
-                `${project.campaigns_count} ` + t('__SIDEBAR_CAMPAIGNS_LABEL'),
+                `${project.campaigns_count} ${  t('__SIDEBAR_CAMPAIGNS_LABEL')}`,
             });
           }
           return filtered;
         }, []);
 
-  //Get initials from name
+  // Get initials from name
   const getInitials = (name: string) => {
     const names = name.split(' ');
     const initials = names[0][0] + names[names.length - 1][0];
@@ -128,12 +128,12 @@ export const Navigation = ({
       if (route === '') {
         translatedRoute = lang === 'en' ? '/' : `/${lang}`;
       } else {
-        let localizedRoute =
+        const localizedRoute =
           lang === 'en'
             ? `/${route}/${parameter}`
             : `/${lang}/${route}/${parameter}`;
         // in case of base route ("") we already have a forward slash
-        let re = /\/$/;
+        const re = /\/$/;
         translatedRoute = re.test(localizedRoute)
           ? localizedRoute
           : `${localizedRoute}/`;
@@ -188,8 +188,8 @@ export const Navigation = ({
         brand={{
           brandName: `${activeWorkspace?.company}'s Workspace`,
           menuLabel: t('__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5'),
-          activeWorkspace: activeWorkspace,
-          workspaces: workspaces,
+          activeWorkspace,
+          workspaces,
           onWorkspaceChange: (workspace: any) => {
             saveWorkspaceToLs(workspace);
             dispatch(setWorkspace(workspace));

@@ -10,9 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { FEATURE_FLAG_EXPRESS } from 'src/constants';
-import { ExpressWizardContainer } from '../ExpressWizard';
-import { ExpressDrawer } from '../ExpressWizard/drawer';
-import { CardRowLoading } from './CardRowLoading';
 import {
   lockProject,
   openDrawer,
@@ -21,6 +18,9 @@ import {
 } from 'src/features/express/expressSlice';
 import { Feature } from 'src/features/api';
 import { isMinMedia, toggleChat } from 'src/common/utils';
+import { ExpressWizardContainer } from '../ExpressWizard';
+import { ExpressDrawer } from '../ExpressWizard/drawer';
+import { CardRowLoading } from './CardRowLoading';
 
 export const ActionCards = () => {
   const { t } = useTranslation();
@@ -44,7 +44,7 @@ export const ActionCards = () => {
     <CardRowLoading />
   ) : (
     <Row>
-      <Col xs={12} style={{ marginBottom: theme.space.base * 4 + 'px' }}>
+      <Col xs={12} style={{ marginBottom: `${theme.space.base * 4  }px` }}>
         <Paragraph>
           <MD style={{ color: theme.palette.grey[700] }}>
             {t('__DASHABOARD_NEWS_ACTION_CARDS_TITLE MAX:12').toUpperCase()}

@@ -19,8 +19,6 @@ import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { Field } from '@zendeskgarden/react-forms';
 import { useTranslation, Trans } from 'react-i18next';
-import { CardDivider } from '../cardDivider';
-import { WizardModel } from '../wizardModel';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
 import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg';
@@ -28,15 +26,17 @@ import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tabl
 import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg';
 import { ReactComponent as LaptopIconActive } from 'src/assets/icons/device-laptop-active.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { useEffect } from 'react';
 import { PrimarySpan, StyledRow, SpacedField } from './where/styled';
 import { Notes, NotesTitle } from '../notesCard';
-import { useEffect } from 'react';
+import { WizardModel } from '../wizardModel';
+import { CardDivider } from '../cardDivider';
 import { OutOfScopeSection } from './where/outOfScope';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   const { errors, values, setFieldValue } = props;
 
-  //Reset App step
+  // Reset App step
   if (values.isIOS) setFieldValue('isIOS', false);
   if (values.isAndroid) setFieldValue('isAndroid', false);
 
@@ -144,7 +144,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
             <Hint>{t('__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION')}</Hint>
             <MediaInput
               start={<LinkIcon />}
-              type={'url'}
+              type="url"
               placeholder="https://www.example.com"
               {...props.getFieldProps('link')}
               {...(errors.link && { validation: 'error' })}
@@ -167,7 +167,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
           </MD>
         </Col>
-        <Col size={2} textAlign={'end'}>
+        <Col size={2} textAlign="end">
           <Field>
             <Toggle
               {...props.getFieldProps('customBrowser')}
@@ -266,7 +266,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 
 export const WhereStepValidationSchema = Yup.object().shape(
   {
-    //Where APP STEP
+    // Where APP STEP
     isIOS: Yup.bool(),
     isAndroid: Yup.bool(),
     iOSLink: Yup.string().url().when('isIOS', {
@@ -278,7 +278,7 @@ export const WhereStepValidationSchema = Yup.object().shape(
       then: Yup.string().url().required(),
     }),
 
-    //Where WEB STEP
+    // Where WEB STEP
     link: Yup.string().url().when('product_type', {
       is: 'webapp',
       then: Yup.string().url().required(),
@@ -294,9 +294,7 @@ export const WhereStepValidationSchema = Yup.object().shape(
       then: Yup.bool().oneOf([true], 'Device type is required'),
     }),
     withDesktop: Yup.bool().when(['withSmartphone', 'withTablet'], {
-      is: (withSmartphone: boolean, withTablet: boolean) => {
-        return !withSmartphone && !withTablet;
-      },
+      is: (withSmartphone: boolean, withTablet: boolean) => !withSmartphone && !withTablet,
       then: Yup.bool().oneOf([true], 'Device type is required'),
     }),
     customBrowser: Yup.bool(),

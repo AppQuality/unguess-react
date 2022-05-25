@@ -13,7 +13,7 @@ import {
   Row,
   Span,
   Tag,
-  theme,
+  theme as globalTheme,
   XXL,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
@@ -85,24 +85,24 @@ const BannerContainer = styled.div`
 `;
 
 const ColBanner = styled(Col)`
-  @media (max-width: ${theme.breakpoints.md}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: 0;
   }
 `;
 
 const ColMeta = styled(Col)`
-  @media (max-width: ${theme.breakpoints.md}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: 1;
   }
 `;
 
 const StyledBreadcrumb = styled(Breadcrumb)`
-  @media (max-width: ${theme.breakpoints.md}) {
-    margin-top: ${theme.space.lg};
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: ${({ theme }) => theme.space.lg};
   }
 `;
 
-export default function Service() {
+const Service = () => {
   const { t } = useTranslation();
   const { templateId } = useParams();
   const navigate = useNavigate();
@@ -115,8 +115,6 @@ export default function Service() {
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
-  console.log('Services: ', servicesRoute);
-
   if (
     status === 'logged' &&
     (!userData.features ||
@@ -127,11 +125,11 @@ export default function Service() {
     navigate(notFoundRoute, { replace: true });
   }
 
-  if (!templateId || isNaN(Number(templateId))) {
+  if (!templateId || Number.isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });
   }
   const { data, error, isLoading } = useGetFullServicesByIdQuery({
-    id: templateId ? templateId : '',
+    id: templateId || '',
     populate: {
       output_image: '*',
       requirements: '*',
@@ -147,7 +145,7 @@ export default function Service() {
   const isExpress = data ? data.data?.attributes?.is_express : false;
   const isFunctional = data ? data.data?.attributes?.is_functional : false;
   const days = data ? data.data?.attributes?.duration_in_days : 3;
-  const hours = (days ? days : 3) * 24;
+  const hours = (days || 3) * 24;
   const environment = data ? data.data?.attributes?.environment : '';
   const bannerImg = data
     ? data.data?.attributes?.output_image?.data?.attributes?.url
@@ -189,7 +187,7 @@ export default function Service() {
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <ExpressIcon />
@@ -201,7 +199,7 @@ export default function Service() {
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <TailoredIcon />
@@ -214,7 +212,7 @@ export default function Service() {
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <FunctionalIcon />
@@ -226,7 +224,7 @@ export default function Service() {
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <ExperientialIcon />
@@ -238,14 +236,14 @@ export default function Service() {
                     size="large"
                     isPill
                     isRegular
-                    hue={theme.palette.grey[100]}
+                    hue={globalTheme.palette.grey[100]}
                   >
                     <StyledTag.Avatar>
                       <TimeIcon />
                     </StyledTag.Avatar>
                     <Paragraph>
                       <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
-                        First results in <Span isBold>{{ hours: hours }}</Span>h
+                        First results in <Span isBold>{{ hours }}</Span>h
                       </Trans>
                     </Paragraph>
                   </StyledTag>
@@ -253,7 +251,7 @@ export default function Service() {
                     size="large"
                     isPill
                     isRegular
-                    hue={theme.palette.grey[100]}
+                    hue={globalTheme.palette.grey[100]}
                   >
                     <StyledTag.Avatar>
                       <EnvironmentIcon />
@@ -278,11 +276,11 @@ export default function Service() {
                     size="medium"
                     isPrimary
                     isPill
-                    onClick={() =>
-                      (window.location.href = `mailto:${
+                    onClick={() => {
+                      window.location.href = `mailto:${
                         activeWorkspace?.csm.email || 'info@unguess.io'
-                      }`)
-                    }
+                      }`;
+                    }}
                   >
                     {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
                   </CTAButton>
@@ -298,15 +296,19 @@ export default function Service() {
         </PageHeaderContainer>
       }
       title={serviceName}
-      route={'templates'}
+      route="templates"
     >
-      {error ? (
-        <pre>{'>>> error: ' + JSON.stringify(error)}</pre>
-      ) : isLoading ? (
+      {error && (
+        <pre>{`>>> error: ${  JSON.stringify(error)}`}</pre>
+      )} 
+      {isLoading && (
         <div>Loading...</div>
-      ) : (
+      )}
+      
+      {data &&
+      (
         <>
-          <pre>{'>>> data: ' + JSON.stringify(data, null, 2)}</pre>
+          <pre>{`>>> data: ${  JSON.stringify(data, null, 2)}`}</pre>
           <ExpressDrawer
             onCtaClick={() => {
               dispatch(openWizard());
@@ -317,4 +319,6 @@ export default function Service() {
       )}
     </Page>
   );
-}
+};
+
+export default Service;

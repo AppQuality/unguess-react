@@ -15,13 +15,12 @@ import { Field, Input } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { WizardModel } from '../wizardModel';
-import { CardDivider } from '../cardDivider';
 import { t } from 'i18next';
 import { useState } from 'react';
-import addBusinessDays from 'date-fns/addBusinessDays';
+import addBusinessDays, { format, isToday } from 'date-fns/addBusinessDays';
 import { getLanguage } from '../getLanguage';
-import { format, isToday } from 'date-fns';
+import { CardDivider } from '../cardDivider';
+import { WizardModel } from '../wizardModel';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -59,7 +58,7 @@ export const WhenStep = ({
   const lang = getLanguage(i18n.language || 'en');
 
   const handleDateChange = (date: Date) => {
-    //We have to add 2 business days to determine the end date
+    // We have to add 2 business days to determine the end date
     let endDate = addBusinessDays(date, BUSINESS_DAYS_TO_ADD);
     setDate(date);
     if (values.campaign_language === 'en') {
@@ -102,18 +101,16 @@ export const WhenStep = ({
                 </Label>
                 <Datepicker
                   value={startDate}
-                  formatDate={(date: Date) => {
-                    return isToday(date)
-                      ? t(
+                  formatDate={(date: Date) => isToday(date)
+                      ? `${t(
                           '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TODAY_LABEL'
-                        ) +
-                          ' (' +
+                        ) 
+                          } (${ 
                           format(date, 'EEEE d MMMM Y', {
                             locale: lang.locale,
-                          }) +
-                          ')'
-                      : format(date, 'EEEE d MMMM Y', { locale: lang.locale });
-                  }}
+                          }) 
+                          })`
+                      : format(date, 'EEEE d MMMM Y', { locale: lang.locale })}
                   onChange={handleDateChange}
                   minValue={new Date()}
                   maxValue={
@@ -125,7 +122,7 @@ export const WhenStep = ({
                   }
                 >
                   <Input
-                    type={'text'}
+                    type="text"
                     placeholder={t(
                       '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_PLACEHOLDER'
                     )}
@@ -148,7 +145,7 @@ export const WhenStep = ({
                   )}
                 </Label>
                 <Input
-                  type={'text'}
+                  type="text"
                   placeholder={t(
                     '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER'
                   )}
@@ -157,7 +154,7 @@ export const WhenStep = ({
                   {...props.getFieldProps('campaign_date_end_text')}
                 />
                 <Input
-                  type={'hidden'}
+                  type="hidden"
                   placeholder={t(
                     '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER'
                   )}

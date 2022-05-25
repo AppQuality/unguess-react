@@ -1,3 +1,4 @@
+import React from 'react';
 import TagManager from 'react-gtm-module';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from 'src/app/hooks';
@@ -23,15 +24,13 @@ export const GoogleTagManager = ({
   const { userData } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
-  const helmet = () => {
-    return (
+  const helmet = () => (
       <Helmet>
         <title>{title} - UNGUESS</title>
         <meta property="og:title" content={title} />
         <meta name="description" content={title} />
       </Helmet>
     );
-  };
 
   if (userData?.role && userData?.tryber_wp_user_id) {
     tagManagerArgs.dataLayer = {

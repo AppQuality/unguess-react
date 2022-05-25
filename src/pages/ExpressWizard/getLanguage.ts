@@ -1,5 +1,4 @@
-import { Locale } from 'date-fns';
-import { enGB, it } from 'date-fns/locale';
+import { Locale , enGB, it } from 'date-fns';
 import { t } from 'i18next';
 
 interface Language {

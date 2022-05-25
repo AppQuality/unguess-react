@@ -13,8 +13,8 @@ import {
   closeWizard,
   resetWizard,
 } from 'src/features/express/expressSlice';
-import { WaterButton } from '../waterButton';
 import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
+import { WaterButton } from '../waterButton';
 
 export const ThankYouStep = () => {
   const dispatch = useAppDispatch();
@@ -22,12 +22,12 @@ export const ThankYouStep = () => {
   return (
     <ContainerCard>
       <Row style={{ marginBottom: theme.space.xs }}>
-        <Col size={12} textAlign={'center'}>
+        <Col size={12} textAlign="center">
           <SuccessIcon />
         </Col>
       </Row>
       <Row style={{ marginTop: theme.space.md }}>
-        <Col size={12} textAlign={'center'}>
+        <Col size={12} textAlign="center">
           <XXL isBold style={{ color: theme.colors.primaryHue }}>
             {t('__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE')}
           </XXL>
@@ -37,7 +37,7 @@ export const ThankYouStep = () => {
         </Col>
       </Row>
       <Row style={{ marginTop: theme.space.xl }}>
-        <Col size={12} textAlign={'center'}>
+        <Col size={12} textAlign="center">
           <WaterButton
             isPill
             isPrimary
@@ -46,7 +46,7 @@ export const ThankYouStep = () => {
               dispatch(closeWizard());
               dispatch(resetWizard());
 
-              //Refetch the data
+              // Refetch the data
               window.location.reload();
 
               // dispatch(

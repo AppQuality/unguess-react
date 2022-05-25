@@ -1,4 +1,5 @@
 import { strapiSlice as api } from './strapi';
+
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     getServices: build.query<GetServicesApiResponse, GetServicesApiArg>({

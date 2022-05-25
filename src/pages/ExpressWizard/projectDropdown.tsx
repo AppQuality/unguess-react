@@ -16,8 +16,7 @@ import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useEffect, useState } from 'react';
 import useDebounce from 'src/hooks/useDebounce';
-import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
-import { Project } from 'src/features/api';
+import { useGetWorkspacesByWidProjectsQuery , Project } from 'src/features/api';
 import { setExpressProject } from 'src/features/express/expressSlice';
 
 export const ProjectDropdown = () => {
@@ -30,7 +29,7 @@ export const ProjectDropdown = () => {
 
   const { project, projectLocked } = useAppSelector((state) => state.express);
 
-  //Get workspaces projects from rtk query
+  // Get workspaces projects from rtk query
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id || 0,
   });
@@ -65,7 +64,7 @@ export const ProjectDropdown = () => {
   useEffect(() => {
     filterMatchingOptions(debouncedInputValue);
     if (project && project.id) {
-      let selectedProject = projects.find((p) => p.id === project.id);
+      const selectedProject = projects.find((p) => p.id === project.id);
       if (selectedProject) {
         setSelectedItem(selectedProject);
       }
@@ -103,13 +102,11 @@ export const ProjectDropdown = () => {
       </Field>
       <Menu>
         {matchingOptions.length ? (
-          matchingOptions.map((item) => {
-            return (
+          matchingOptions.map((item) => (
               <Item key={item.id} value={item}>
                 <span>{item.name}</span>
               </Item>
-            );
-          })
+            ))
         ) : (
           <Item disabled>
             <span>

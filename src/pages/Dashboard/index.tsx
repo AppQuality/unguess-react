@@ -2,12 +2,12 @@
 import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import { Grid, theme, XXL, XXXL } from '@appquality/unguess-design-system';
-import { SuggestedCampaigns } from './SuggestedCampaigns';
-import { CampaignsList } from './campaigns-list';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { projectFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { DashboardHeaderContent } from './headerContent';
 import { isMinMedia } from 'src/common/utils';
+import { SuggestedCampaigns } from './SuggestedCampaigns';
+import { CampaignsList } from './campaigns-list';
+import { DashboardHeaderContent } from './headerContent';
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -15,7 +15,7 @@ export default function Dashboard() {
 
   const { status } = useAppSelector((state) => state.user);
 
-  if (status === 'logged') dispatch(projectFilterChanged(0)); //Reset filters
+  if (status === 'logged') dispatch(projectFilterChanged(0)); // Reset filters
 
   return (
     <Page
@@ -33,7 +33,7 @@ export default function Dashboard() {
           )}
         </DashboardHeaderContent>
       }
-      route={''}
+      route=""
     >
       <Grid>
         <SuggestedCampaigns />

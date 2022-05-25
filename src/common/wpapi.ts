@@ -9,8 +9,7 @@ const WPAPI = {
     username: string;
     password: string;
     security: string;
-  }) => {
-    return fetch(
+  }) => fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`,
       {
         method: 'POST',
@@ -41,10 +40,8 @@ const WPAPI = {
             message: 'There was an error, please reload',
           })
         );
-      });
-  },
-  getNonce: () => {
-    return fetch(
+      }),
+  getNonce: () => fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`,
       {
         method: 'POST',
@@ -62,10 +59,8 @@ const WPAPI = {
           return res.data;
         }
         throw new Error('Nonce not found.');
-      });
-  },
-  logout: () => {
-    return fetch(
+      }),
+  logout: () => fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
       {
         method: 'GET',
@@ -76,8 +71,7 @@ const WPAPI = {
       })
       .catch((e) => {
         alert(e.message);
-      });
-  },
+      }),
 };
 
 export default WPAPI;

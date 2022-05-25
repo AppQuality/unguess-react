@@ -15,13 +15,13 @@ import { ReactComponent as Illustration } from 'src/assets/notFoundPage.svg';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 
-export default function NotFound() {
+const NotFound = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const homeRoute = useLocalizeRoute('');
 
   return (
-    <Page title={t('__404_PAGE_TITLE MAX:10')} route={'oops'}>
+    <Page title={t('__404_PAGE_TITLE MAX:10')} route="oops">
       <Grid>
         <Row>
           <Col>
@@ -55,3 +55,5 @@ export default function NotFound() {
     </Page>
   );
 }
+
+export default NotFound;

@@ -13,12 +13,12 @@ import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg
 import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
 import { ReactComponent as BugIcon } from 'src/assets/icons/bug-icon.svg';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { ProjectDropdown } from './projectDropdown';
 import { closeDrawer, resetWizard } from 'src/features/express/expressSlice';
+import { toggleChat } from 'src/common/utils';
+import { ProjectDropdown } from './projectDropdown';
 import { WaterButton } from './waterButton';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
-import { toggleChat } from 'src/common/utils';
 
 const SelectTitle = styled(MD)`
   padding-top: ${theme.space.base * 3}px;
@@ -63,19 +63,19 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
         <BodyTitle>{t('__WIZARD_EXPRESS_BODY_TITLE')}</BodyTitle>
         <Paragraph>{t('__WIZARD_EXPRESS_BODY_PARAGRAPH')}</Paragraph>
         <TagsContainer>
-          <StyledTag hue={theme.palette.grey[100]} isPill size={'large'}>
+          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
             <StyledTag.Avatar>
               <ExpressIcon />
             </StyledTag.Avatar>
             <span>{t('__WIZARD_EXPRESS_TAG_1_TEXT')}</span>
           </StyledTag>
-          <StyledTag hue={theme.palette.grey[100]} isPill size={'large'}>
+          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
             <StyledTag.Avatar>
               <FunctionalIcon />
             </StyledTag.Avatar>
             <span>{t('__WIZARD_EXPRESS_TAG_2_TEXT')}</span>
           </StyledTag>
-          <StyledTag hue={theme.palette.grey[100]} isPill size={'large'}>
+          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
             <StyledTag.Avatar>
               <BugIcon />
             </StyledTag.Avatar>
@@ -87,7 +87,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE')}
         </SelectTitle>
         <ProjectDropdown />
-        <Notes style={{ marginTop: theme.space.base * 9 + 'px' }}>
+        <Notes style={{ marginTop: `${theme.space.base * 9  }px` }}>
           <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
           <Paragraph>{t('__WIZARD_EXPRESS_BODY_NOTES_PARAGRAPH')}</Paragraph>
           <UnorderedList>

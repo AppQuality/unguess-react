@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { GetServicesByIdApiResponse } from '.';
 import { stringify } from 'qs';
+import { GetServicesByIdApiResponse } from '.';
+
 interface GetFullServicesByIdArgs {
   id: string;
   populate?: string[] | object;
@@ -35,7 +36,7 @@ export const strapiSlice = createApi({
           );
           url += `?${params}`;
         }
-        return { url: url };
+        return { url };
       },
     }),
   }),

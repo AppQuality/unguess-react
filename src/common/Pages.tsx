@@ -8,8 +8,7 @@ import Service from 'src/pages/Service';
 
 const base = ':locale';
 
-function Pages() {
-  return (
+const Pages = () => (
     <Routes>
       <Route path={`${base}/login`} element={<LoginPage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -27,7 +26,6 @@ function Pages() {
       <Route path=":language/oops" element={<NotFound />} />
       <Route path="*" element={<Navigate replace to="/oops" />} />
     </Routes>
-  );
-}
+  )
 
 export default Pages;

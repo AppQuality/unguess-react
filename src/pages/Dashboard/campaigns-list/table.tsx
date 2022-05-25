@@ -17,7 +17,7 @@ export const TableList = ({
 }) => {
   const { t } = useTranslation();
 
-  let columns = [
+  const columns = [
     { name: t('__CAMPAIGNS_TABLE_COLUMN_NAME'), field: 'name' },
     { name: t('__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE'), field: 'type' },
     { name: t('__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE'), field: 'testType' },
@@ -25,34 +25,34 @@ export const TableList = ({
     { name: t('__CAMPAIGNS_TABLE_COLUMN_STATUS'), field: 'status' },
   ];
 
-  //Colonne Nome Campagna, Tipologia, Tipo Test, StartDate, Status
+  // Colonne Nome Campagna, Tipologia, Tipo Test, StartDate, Status
 
-  let groups: any = [];
+  const groups: any = [];
 
   campaigns.forEach((campaignGroup) => {
-    let projectName = campaignGroup[0].project_name;
-    let campaigns: any = [];
+    const projectName = campaignGroup[0].project_name;
+    const campaigns: any = [];
     campaignGroup.forEach((campaign) => {
       // Get translated status label
       let translatedStatus = <></>;
       switch (getCampaignStatus(campaign)) {
         case 'INCOMING':
           translatedStatus = (
-            <Counter status={'incoming'}>
+            <Counter status="incoming">
               {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING')}
             </Counter>
           );
           break;
         case 'COMPLETED':
           translatedStatus = (
-            <Counter status={'completed'}>
+            <Counter status="completed">
               {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED')}
             </Counter>
           );
           break;
         case 'PROGRESS':
           translatedStatus = (
-            <Counter status={'progress'}>
+            <Counter status="progress">
               {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS')}
             </Counter>
           );

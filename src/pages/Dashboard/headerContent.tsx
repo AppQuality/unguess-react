@@ -5,8 +5,6 @@ import {
   theme,
   Button,
 } from '@appquality/unguess-design-system';
-import { Separator } from './Separator';
-import { Counters } from './Counters';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
@@ -14,6 +12,8 @@ import React from 'react';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import { Feature } from 'src/features/api';
+import { Counters } from './Counters';
+import { Separator } from './Separator';
 
 export const DashboardHeaderContent = ({
   children,
@@ -67,8 +67,8 @@ export const DashboardHeaderContent = ({
           </Row>
           <Row
             style={{
-              marginTop: theme.space.base * 6 + 'px',
-              paddingBottom: theme.space.base * 6 + 'px',
+              marginTop: `${theme.space.base * 6  }px`,
+              paddingBottom: `${theme.space.base * 6  }px`,
             }}
           >
             <Col xs={12}>

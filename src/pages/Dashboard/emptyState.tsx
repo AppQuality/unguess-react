@@ -55,7 +55,7 @@ export const EmptyResults = () => {
           </Paragraph>
 
           {hasFilters && (
-            <Paragraph style={{ marginTop: theme.space.base * 6 + 'px' }}>
+            <Paragraph style={{ marginTop: `${theme.space.base * 6  }px` }}>
               <Button onClick={() => dispatch(resetFilters())}>
                 {t('__DASHBOARD_EMPTY_SEARCH_RESULTS_RESET_FILTERS')}
               </Button>

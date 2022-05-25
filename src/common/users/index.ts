@@ -12,13 +12,13 @@ export const me = async (
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
   if (token) {
-    requestHeaders.set('Authorization', 'Bearer ' + token);
+    requestHeaders.set('Authorization', `Bearer ${  token}`);
   }
   let url = `${process.env.REACT_APP_API_URL}/users/me`;
   if (query) {
-    let urlps = new URLSearchParams();
+    const urlps = new URLSearchParams();
     urlps.set('fields', query);
-    url += '?' + urlps.toString();
+    url += `?${  urlps.toString()}`;
   }
   const res = await fetch(url, {
     method: 'GET',
@@ -26,8 +26,8 @@ export const me = async (
   });
   if (res.ok) {
     return await res.json();
-  } else {
+  } 
     const json = await res.json();
     throw new HttpError(res.status, res.statusText, json.err);
-  }
+  
 };

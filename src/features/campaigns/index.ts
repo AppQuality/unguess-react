@@ -10,13 +10,12 @@ export const CampaignStatus = {
 export const selectFilteredCampaigns = (
   campaigns: Campaign[],
   filters: FilterState
-) => {
-  return campaigns.filter((campaign) => {
-    //Check Project ID
+) => campaigns.filter((campaign) => {
+    // Check Project ID
     if (filters.projectId && filters.projectId !== campaign.project_id)
       return false;
 
-    //Check status
+    // Check status
     if (
       filters.status !== 'all' &&
       campaign.status_name &&
@@ -24,39 +23,36 @@ export const selectFilteredCampaigns = (
     )
       return false;
 
-    //Check Type
+    // Check Type
     if (
       filters.type !== 'all' &&
       campaign.campaign_family_name.toLowerCase() !== filters.type
     )
       return false;
 
-    //Check Test Type
+    // Check Test Type
     if (filters.testNameId && campaign.campaign_type_id !== filters.testNameId)
       return false;
 
-    //Check Search
+    // Check Search
     if (
       filters.search &&
       campaign.title.toLowerCase().indexOf(filters.search.toLowerCase()) === -1
     )
       return false;
 
-    //All conditions met
+    // All conditions met
     return true;
   });
-};
 
-export const selectGroupedCampaigns = (campaigns: Campaign[]) => {
-  return campaigns.reduce((acc: Array<Campaign[]>, campaign) => {
+export const selectGroupedCampaigns = (campaigns: Campaign[]) => campaigns.reduce((acc: Array<Campaign[]>, campaign) => {
     acc[campaign.project_id] = acc[campaign.project_id] || [];
     acc[campaign.project_id].push(campaign);
     return acc;
   }, []);
-};
 
 export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
-  let statuses = ['all'];
+  const statuses = ['all'];
 
   campaigns.forEach((cp) => {
     if (!cp.status_name) return;
@@ -74,7 +70,7 @@ interface TestName {
 }
 
 export const selectTestNames = (campaigns: Campaign[]): TestName[] => {
-  let types: TestName[] = [];
+  const types: TestName[] = [];
 
   campaigns.forEach((cp) => {
     if (
@@ -83,7 +79,7 @@ export const selectTestNames = (campaigns: Campaign[]): TestName[] => {
     ) {
       types.push({
         label: cp.campaign_type_name,
-        value: cp.campaign_type_id + '',
+        value: `${cp.campaign_type_id  }`,
       });
     }
   });
@@ -92,10 +88,10 @@ export const selectTestNames = (campaigns: Campaign[]): TestName[] => {
 };
 
 export const selectTypes = (campaigns: Campaign[]): Array<string> => {
-  let types = ['all'];
+  const types = ['all'];
 
   campaigns.forEach((cp) => {
-    let testType = cp.campaign_family_name.toLowerCase();
+    const testType = cp.campaign_family_name.toLowerCase();
     if (types.indexOf(testType) === -1) {
       types.push(testType);
     }

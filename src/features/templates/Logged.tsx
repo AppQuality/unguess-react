@@ -9,9 +9,9 @@ import {
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
-import { Navigation } from '../navigation/Navigation';
 import styled from 'styled-components';
 import TagManager from 'react-gtm-module';
+import { Navigation } from '../navigation/Navigation';
 
 export const Logged = ({
   children,
@@ -53,7 +53,7 @@ export const Logged = ({
   }
 
   if (status === 'logged') {
-    //App ready
+    // App ready
     TagManager.dataLayer({
       dataLayer: {
         role: userData.role,

@@ -1,7 +1,6 @@
 import LoadingImg from 'src/assets/unguess_loader.gif';
 
-const PageLoader = () => {
-  return (
+const PageLoader = () => (
     <div id="appq-loading-content">
       <div
         style={{
@@ -18,6 +17,5 @@ const PageLoader = () => {
       </div>
     </div>
   );
-};
 
 export default PageLoader;

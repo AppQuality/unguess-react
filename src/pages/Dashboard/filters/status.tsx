@@ -8,12 +8,11 @@ import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { DropdownItem, DropdownItems, getItemText } from './utils';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { statusFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { CampaignStatus } from 'src/features/campaigns';
+import { CampaignStatus , selectStatuses } from 'src/features/campaigns';
 import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
-import { selectStatuses } from 'src/features/campaigns';
+import { DropdownItem, DropdownItems, getItemText } from './utils';
 import { UgMenu } from './styledMenu';
 
 const Circle = styled(CircleFill)`
@@ -92,7 +91,7 @@ export const StatusDropdown = () => {
             })}
           >
             {items[key].icon ?? ''}
-            {' ' + items[key].label}
+            {` ${  items[key].label}`}
           </Item>
         ))}
       </UgMenu>

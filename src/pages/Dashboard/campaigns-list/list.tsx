@@ -40,8 +40,8 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
       <Col
         size={12}
         style={{
-          marginBottom: theme.space.base * 4 + 'px',
-          marginTop: theme.space.base * 4 + 'px',
+          marginBottom: `${theme.space.base * 4  }px`,
+          marginTop: `${theme.space.base * 4  }px`,
         }}
       >
         <Span isBold key={campaigns[0].project_id}>
@@ -56,7 +56,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
             key={campaign.id}
             campaign={campaign}
             onCampaignClicked={clickToggle}
-            style={{ marginBottom: theme.space.base * 4 + 'px' }}
+            style={{ marginBottom: `${theme.space.base * 4  }px` }}
           />
         </ColCard>
       ))}
@@ -82,16 +82,12 @@ export const CardList = ({
   campaigns,
 }: {
   campaigns: Array<Array<Campaign>>;
-}) => {
-  return (
+}) => (
     <>
-      {campaigns.map((group) => {
-        return (
+      {campaigns.map((group) => (
           <Row>
             <CardGroup items={group} />
           </Row>
-        );
-      })}
+        ))}
     </>
   );
-};

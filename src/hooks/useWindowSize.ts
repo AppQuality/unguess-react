@@ -18,7 +18,7 @@ export default function useWindowSize() {
   });
 
   useLayoutEffect(() => {
-    const debounceUpdateSize = debounce(function () {
+    const debounceUpdateSize = debounce(() => {
       setSize({ width: window.innerWidth, height: window.innerHeight });
     }, 300);
 

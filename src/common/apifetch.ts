@@ -20,11 +20,11 @@ const apifetch = async ({
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
   if (token) {
-    requestHeaders.set('Authorization', 'Bearer ' + token);
+    requestHeaders.set('Authorization', `Bearer ${  token}`);
   }
   let query = '';
   if (params && Object.keys(params).length) {
-    let urlps = new URLSearchParams();
+    const urlps = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
       if (paramType === 'filterBy') {
         urlps.set(`filterBy[${key}]`, value);
@@ -32,10 +32,10 @@ const apifetch = async ({
         urlps.set(key, value);
       }
     });
-    query = '?' + urlps.toString();
+    query = `?${  urlps.toString()}`;
   }
   const fetchData: { method: string; headers: Headers; body?: string } = {
-    method: method,
+    method,
     headers: requestHeaders,
   };
   if (body) {
@@ -47,10 +47,10 @@ const apifetch = async ({
   );
   if (res.ok) {
     return await res.json();
-  } else {
+  } 
     const json = await res.json();
     throw new HttpError(res.status, res.statusText, json.message || json.err);
-  }
+  
 };
 
 export default apifetch;

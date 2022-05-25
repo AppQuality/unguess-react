@@ -4,7 +4,7 @@ import { Logged } from './Logged';
 
 export const Page = ({
   children,
-  title,
+  title = 'UNGUESS - BE SMART FROM THE START',
   pageHeader,
   route,
 }: {
@@ -12,12 +12,10 @@ export const Page = ({
   title?: string;
   pageHeader?: React.ReactNode;
   route: string;
-}) => {
-  return (
-    <GoogleTagManager title={title || 'UNGUESS - BE SMART FROM THE START'}>
+}) => (
+    <GoogleTagManager title={title}>
       <Logged route={route} pageHeader={pageHeader}>
         {children}
       </Logged>
     </GoogleTagManager>
   );
-};

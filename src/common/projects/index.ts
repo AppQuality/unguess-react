@@ -12,9 +12,9 @@ export const projects = async (
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
   if (token) {
-    requestHeaders.set('Authorization', 'Bearer ' + token);
+    requestHeaders.set('Authorization', `Bearer ${  token}`);
   }
-  let url = `${process.env.REACT_APP_API_URL}/workspaces/${workspace_id}/projects`;
+  const url = `${process.env.REACT_APP_API_URL}/workspaces/${workspace_id}/projects`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -22,10 +22,10 @@ export const projects = async (
   });
   if (res.ok) {
     return await res.json();
-  } else {
+  } 
     const json = await res.json();
     throw new HttpError(res.status, res.statusText, json.err);
-  }
+  
 };
 
 export const project = async (
@@ -40,9 +40,9 @@ export const project = async (
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
   if (token) {
-    requestHeaders.set('Authorization', 'Bearer ' + token);
+    requestHeaders.set('Authorization', `Bearer ${  token}`);
   }
-  let url = `${process.env.REACT_APP_API_URL}/projects/${project_id}`;
+  const url = `${process.env.REACT_APP_API_URL}/projects/${project_id}`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -50,10 +50,10 @@ export const project = async (
   });
   if (res.ok) {
     return await res.json();
-  } else {
+  } 
     const json = await res.json();
     throw new HttpError(res.status, res.statusText, json.err);
-  }
+  
 };
 
 export const workspaces = async (
@@ -67,9 +67,9 @@ export const workspaces = async (
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
   if (token) {
-    requestHeaders.set('Authorization', 'Bearer ' + token);
+    requestHeaders.set('Authorization', `Bearer ${  token}`);
   }
-  let url = `${process.env.REACT_APP_API_URL}/workspaces`;
+  const url = `${process.env.REACT_APP_API_URL}/workspaces`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -77,8 +77,8 @@ export const workspaces = async (
   });
   if (res.ok) {
     return await res.json();
-  } else {
+  } 
     const json = await res.json();
     throw new HttpError(res.status, res.statusText, json.err);
-  }
+  
 };

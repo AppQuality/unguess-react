@@ -12,12 +12,10 @@ const StyledWidget = styled.div`
   }
 `;
 
-export const Changelog = () => {
-  return (
+export const Changelog = () => (
     <StyledWidget>
       <HeadwayWidget account="Jn0mVx">
         <ChangelogIcon />
       </HeadwayWidget>
     </StyledWidget>
   );
-};

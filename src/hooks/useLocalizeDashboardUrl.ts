@@ -3,7 +3,7 @@ export function getLocalizeRoute(
   campaignType: string,
   lang?: string
 ): string {
-  let currentLang = lang || 'en';
+  const currentLang = lang || 'en';
   let localizedRoute = '';
 
   if (campaignType.toLocaleLowerCase() === 'functional') {
@@ -19,6 +19,6 @@ export function getLocalizeRoute(
   }
 
   // in case of base route ("") we already have a forward slash
-  let re = /\/$/;
+  const re = /\/$/;
   return re.test(localizedRoute) ? localizedRoute : `${localizedRoute}/`;
 }

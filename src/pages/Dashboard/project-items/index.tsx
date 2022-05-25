@@ -12,17 +12,17 @@ import styled from 'styled-components';
 import { ReactComponent as GridIcon } from 'src/assets/icons/grid.svg';
 import { ReactComponent as ListIcon } from 'src/assets/icons/list.svg';
 import { useMemo, useState } from 'react';
-import { CardList } from './list';
-import { TableList } from './table';
-import { Separator } from '../Separator';
-import { Filters } from '../filters';
-import { EmptyResults } from '../emptyState';
 import { selectFilteredCampaigns } from 'src/features/campaigns';
 import {
   Campaign,
   useGetWorkspacesByWidCampaignsQuery,
 } from 'src/features/api';
 import { createSelector } from '@reduxjs/toolkit';
+import { CardList } from './list';
+import { TableList } from './table';
+import { Separator } from '../Separator';
+import { Filters } from '../filters';
+import { EmptyResults } from '../emptyState';
 
 const FloatRight = styled.div`
   float: right;
@@ -34,25 +34,21 @@ export const ProjectItems = () => {
     (state) => state.navigation.activeWorkspace
   );
 
-  //Get workspaces campaigns from rtk query and filter them
+  // Get workspaces campaigns from rtk query and filter them
   const filters = useAppSelector((state) => state.filters);
 
-  const getFilteredCampaigns = useMemo(() => {
-    return createSelector(selectFilteredCampaigns, (campaigns) => campaigns);
-  }, []);
+  const getFilteredCampaigns = useMemo(() => createSelector(selectFilteredCampaigns, (campaigns) => campaigns), []);
 
   const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery(
     { wid: activeWorkspace?.id || 0, limit: 10000 },
     {
-      selectFromResult: (result) => {
-        return {
+      selectFromResult: (result) => ({
           ...result,
           filteredCampaigns: getFilteredCampaigns(
             result?.data?.items || [],
             filters
           ),
-        };
-      },
+        }),
     }
   );
 
@@ -62,17 +58,17 @@ export const ProjectItems = () => {
   return (
     <>
       <Row
-        alignItems={'center'}
+        alignItems="center"
         style={{
-          marginTop: theme.space.base * 8 + 'px',
+          marginTop: `${theme.space.base * 8  }px`,
           marginBottom: theme.space.xxs,
         }}
       >
         <Col>
           <Span>
             <MD style={{ color: theme.palette.grey[700] }}>
-              {t('__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5').toUpperCase() +
-                ` (${campaignsCount})`}
+              {`${t('__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5').toUpperCase() 
+                } (${campaignsCount})`}
             </MD>
           </Span>
         </Col>

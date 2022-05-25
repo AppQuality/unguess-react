@@ -41,7 +41,12 @@
     "translate": "i18next-scanner",
     "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/common/schema.ts ",
     "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts",
-    "generate-strapi": "npx @rtk-query/codegen-openapi src/features/backoffice/config.ts"
+    "generate-strapi": "npx @rtk-query/codegen-openapi src/features/backoffice/config.ts",
+    "type:check": "tsc",
+    "prettier": "prettier 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "format:check": "yarn run prettier -- -- check",
+    "format:fix": "yarn run prettier -- -- write",
+    "lint": "eslint --ext .tsx,.ts ."
   },
   "eslintConfig": {
     "extends": [
@@ -86,7 +91,18 @@
     "@types/react-gtm-module": "^2.0.1",
     "@types/react-helmet": "^6.1.5",
     "@types/styled-components": "^5.1.24",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
     "cz-conventional-changelog": "3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-security": "^1.5.0",
     "i18next-scanner": "^3.1.0",
     "i18next-scanner-typescript": "^1.0.6",
     "prettier": "^2.6.2",

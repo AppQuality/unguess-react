@@ -1,4 +1,5 @@
 import { apiSlice as api } from './api';
+
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     get: build.query<GetApiResponse, GetApiArg>({

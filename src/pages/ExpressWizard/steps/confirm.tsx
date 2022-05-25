@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { FormikProps } from 'formik';
-import { WizardModel } from '../wizardModel';
 import { t } from 'i18next';
 import { Trans } from 'react-i18next';
 import {
@@ -15,21 +14,22 @@ import {
   theme,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { CardDivider } from '../cardDivider';
 import { ReactComponent as WhatIcon } from 'src/assets/icons/step-what-icon.svg';
 import { ReactComponent as WhereIcon } from 'src/assets/icons/step-where-icon.svg';
 import { ReactComponent as WhoIcon } from 'src/assets/icons/step-who-icon.svg';
 import { ReactComponent as WhenIcon } from 'src/assets/icons/step-when-icon.svg';
 import { ReactComponent as MoreIcon } from 'src/assets/icons/step-more-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { Textarea } from '@zendeskgarden/react-forms';
+import { useAppSelector } from 'src/app/hooks';
+import { format } from 'date-fns';
 import { Devices } from './confirm/devices';
 import { Browsers } from './confirm/browsers';
 import { OperativeSystems } from './confirm/operativeSystems';
 import { ConfirmOutOfScope } from './confirm/confirmOutOfScope';
-import { Textarea } from '@zendeskgarden/react-forms';
-import { useAppSelector } from 'src/app/hooks';
 import { getLanguage } from '../getLanguage';
-import { format } from 'date-fns';
+import { CardDivider } from '../cardDivider';
+import { WizardModel } from '../wizardModel';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -81,17 +81,17 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const { project } = useAppSelector((state) => state.express);
   const lang = getLanguage(values.campaign_language || 'en');
 
-  let date_start_text = format(
+  const date_start_text = format(
     values.campaign_date || new Date(),
     'EEEE d MMMM Y',
     { locale: lang.locale }
   );
-  let date_end_text = format(
+  const date_end_text = format(
     values.campaign_date_end || new Date(),
     'EEEE d MMMM Y',
     { locale: lang.locale }
   );
-  let productType =
+  const productType =
     values.product_type === 'webapp'
       ? t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_WEBAPP_LABEL')
       : t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL');
@@ -103,7 +103,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginTop: theme.space.base * 10 + 'px' }}>
+      <StyledFormField style={{ marginTop: `${theme.space.base * 10  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -130,7 +130,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
+      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -157,7 +157,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
+      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -179,7 +179,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
+      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -203,7 +203,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: theme.space.base * 7 + 'px' }}>
+      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -227,7 +227,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                   minRows={6}
                 />
                 <TextareaNote>
-                  <InfoIcon width={'15'} height={'15'} />{' '}
+                  <InfoIcon width="15" height="15" />{' '}
                   {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE')}
                 </TextareaNote>
               </Col>

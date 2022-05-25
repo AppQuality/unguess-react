@@ -49,8 +49,8 @@ const CardGroup = ({ items }: { items: any }) => {
       {items.map((service: any) => {
         const iconUrl =
           STRAPI_URL + service?.attributes?.icon?.data?.attributes?.url;
-        let tags = [];
-        let buttons = [];
+        const tags = [];
+        const buttons = [];
 
         buttons.push(
           <Button

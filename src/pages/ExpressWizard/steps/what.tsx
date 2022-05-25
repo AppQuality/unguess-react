@@ -20,7 +20,6 @@ import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { WizardModel } from '../wizardModel';
 import styled from 'styled-components';
 import { t } from 'i18next';
 import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
@@ -30,6 +29,7 @@ import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileap
 import { ReactComponent as DocumentIcon } from 'src/assets/icons/document-icon.svg';
 import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
 import { useState } from 'react';
+import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 
 interface Reasons {
@@ -101,7 +101,7 @@ export const WhatStep = ({
           <Span style={{ color: theme.colors.dangerHue }}>*</Span>
         </Label>
         <MediaInput
-          type={'text'}
+          type="text"
           start={<DocumentIcon />}
           placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
           {...props.getFieldProps('campaign_name')}
@@ -162,7 +162,7 @@ export const WhatStep = ({
                   iconActive={<WebappIconActive />}
                   {...props.getFieldProps('product_type')}
                   {...(errors.product_type && { validation: 'error' })}
-                  value={'webapp'}
+                  value="webapp"
                   checked={radioValue === 'webapp'}
                   onChecked={handleRadioClick}
                 />
@@ -183,7 +183,7 @@ export const WhatStep = ({
                   iconActive={<MobileappIconActive />}
                   {...props.getFieldProps('product_type')}
                   {...(errors.product_type && { validation: 'error' })}
-                  value={'mobileapp'}
+                  value="mobileapp"
                   checked={radioValue === 'mobileapp'}
                   onChecked={handleRadioClick}
                 />

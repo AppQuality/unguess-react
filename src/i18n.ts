@@ -12,6 +12,7 @@ import it from './locales/it/translation.json';
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'));
 countries.registerLocale(require('i18n-iso-countries/langs/it.json'));
 countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
+
 const resources = {
   en: { translation: en, links: enLinks },
   it: { translation: it, links: itLinks },

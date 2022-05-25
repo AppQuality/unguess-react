@@ -30,7 +30,7 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const project =
     projectId && !isNaN(Number(projectId)) ? parseInt(projectId) : false;
 
-  let counters = {
+  const counters = {
     running: 0,
     completed: 0,
     inComing: 0,
@@ -45,7 +45,7 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
     if (cp.status_name === 'completed') counters.completed++;
     if (cp.status_name === 'incoming') counters.inComing++;
 
-    //Update type counters
+    // Update type counters
     if (cp.campaign_family_name.toLowerCase() === 'functional')
       counters.functional++;
 
@@ -62,14 +62,14 @@ export const Counters = () => {
     (state) => state.navigation.activeWorkspace
   );
 
-  var { projectId } = useParams();
+  const { projectId } = useParams();
 
   const { data, isLoading, isFetching, isError } =
     useGetWorkspacesByWidCampaignsQuery({
       wid: activeWorkspace?.id ?? 0,
     });
 
-  if (isError) return <></>; //TODO: Improve error handling
+  if (isError) return <></>; // TODO: Improve error handling
 
   const { running, completed, inComing, functional, experiential } =
     getCounterValues(data?.items ?? [], projectId) || 0;
@@ -78,20 +78,20 @@ export const Counters = () => {
     <Skeleton width="30%" height="32px" />
   ) : (
     <CounterContainer>
-      <Counter counter={completed} status={'completed'}>
+      <Counter counter={completed} status="completed">
         {t('__DASHABOARD_COUNTER_LABEL_COMPLETED')}
       </Counter>
-      <Counter counter={running} status={'progress'}>
+      <Counter counter={running} status="progress">
         {t('__DASHABOARD_COUNTER_LABEL_PROGRESS')}
       </Counter>
-      <Counter counter={inComing} status={'incoming'}>
+      <Counter counter={inComing} status="incoming">
         {t('__DASHABOARD_COUNTER_LABEL_INCOMING')}
       </Counter>
       <Pipe />
-      <Counter counter={functional} status={'functional'}>
+      <Counter counter={functional} status="functional">
         {t('__DASHABOARD_COUNTER_LABEL_FUNCTIONAL')}
       </Counter>
-      <Counter counter={experiential} status={'experiential'}>
+      <Counter counter={experiential} status="experiential">
         {t('__DASHABOARD_COUNTER_LABEL_EXPERIENTIAL')}
       </Counter>
     </CounterContainer>

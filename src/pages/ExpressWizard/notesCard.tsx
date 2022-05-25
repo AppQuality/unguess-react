@@ -2,7 +2,7 @@ import { Card, MD } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
 export const NotesTitle = styled(MD)`
-  color: ${({ theme }) => theme.palette.teal['M600']};
+  color: ${({ theme }) => theme.palette.teal.M600};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 

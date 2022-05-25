@@ -17,7 +17,7 @@ if (process.env.REACT_APP_GTM_ID) {
   TagManager.initialize(tagManagerArgs);
 }
 
-function App() {
+const App = () => {
   const { t } = useTranslation();
   return (
     <Provider store={store}>
@@ -26,7 +26,7 @@ function App() {
         <Helmet>
           <meta
             property="og:title"
-            content={'UNGUESS - ' + t('Be smart from the start')}
+            content={`UNGUESS - ${  t('Be smart from the start')}`}
           />
           <title>UNGUESS - {t('Be smart from the start')}</title>
           <meta

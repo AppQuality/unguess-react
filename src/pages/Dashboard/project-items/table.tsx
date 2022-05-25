@@ -19,7 +19,7 @@ import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
   const { t } = useTranslation();
 
-  let columns = [
+  const columns = [
     { name: t('__CAMPAIGNS_TABLE_COLUMN_NAME'), field: 'name' },
     { name: t('__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE'), field: 'type' },
     { name: t('__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE'), field: 'testType' },
@@ -32,21 +32,21 @@ export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
     switch (status) {
       case 'INCOMING':
         return (
-          <Counter status={'incoming'}>
+          <Counter status="incoming">
             {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING')}
           </Counter>
         );
 
       case 'COMPLETED':
         return (
-          <Counter status={'completed'}>
+          <Counter status="completed">
             {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED')}
           </Counter>
         );
 
       case 'PROGRESS':
         return (
-          <Counter status={'progress'}>
+          <Counter status="progress">
             {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS')}
           </Counter>
         );

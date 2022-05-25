@@ -1,4 +1,3 @@
-import { StyledRow } from './styled';
 import { useTranslation } from 'react-i18next';
 import { Field } from '@zendeskgarden/react-forms';
 import {
@@ -12,10 +11,11 @@ import {
   Label,
   theme,
 } from '@appquality/unguess-design-system';
+import { FormikProps } from 'formik';
+import { StyledRow } from './styled';
 import { CardDivider } from '../../cardDivider';
 import { Notes } from '../../notesCard';
 import { WizardModel } from '../../wizardModel';
-import { FormikProps } from 'formik';
 
 export const OutOfScopeSection = ({
   errors,
@@ -50,7 +50,7 @@ export const OutOfScopeSection = ({
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TOGGLE_LABEL')}
           </MD>
         </Col>
-        <Col size={2} textAlign={'end'}>
+        <Col size={2} textAlign="end">
           <Field>
             <Toggle
               {...props.getFieldProps('hasOutOfScope')}
@@ -66,8 +66,7 @@ export const OutOfScopeSection = ({
           <CardDivider style={{ marginTop: theme.space.xs }} />
         </Col>
         {values.hasOutOfScope && (
-          <>
-            <Col size={12}>
+          <Col size={12}>
               <Notes>
                 <Field>
                   <Label>
@@ -85,7 +84,6 @@ export const OutOfScopeSection = ({
                 </Field>
               </Notes>
             </Col>
-          </>
         )}
         {values.hasOutOfScope && errors.outOfScope && (
           <Col size={12}>

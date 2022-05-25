@@ -14,10 +14,10 @@ import { Field } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { WizardModel } from '../wizardModel';
-import { CardDivider } from '../cardDivider';
 import { t } from 'i18next';
 import { useState } from 'react';
+import { WizardModel } from '../wizardModel';
+import { CardDivider } from '../cardDivider';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -89,7 +89,7 @@ export const WhoStep = ({
                 checked={radioValue === 'it'}
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
-                <Label isRegular={true}>
+                <Label isRegular>
                   {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_1')}
                 </Label>
               </Radio>
@@ -106,7 +106,7 @@ export const WhoStep = ({
                 checked={radioValue === 'en'}
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
-                <Label isRegular={true}>
+                <Label isRegular>
                   {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2')}
                 </Label>
                 <StyledHint>

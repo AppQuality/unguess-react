@@ -15,15 +15,15 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
-import { ReactComponent as InfoImg } from '../../assets/icons/info-image.svg';
-import { Services } from './services-list';
-import { WaterButton } from '../ExpressWizard/waterButton';
 import { useAppSelector } from 'src/app/hooks';
 import { FEATURE_FLAG_CATALOG } from 'src/constants';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate } from 'react-router-dom';
 import { Feature } from 'src/features/api';
 import PageLoader from 'src/features/templates/PageLoader';
+import { WaterButton } from '../ExpressWizard/waterButton';
+import { Services } from './services-list';
+import { ReactComponent as InfoImg } from '../../assets/icons/info-image.svg';
 
 const StickyContainer = styled(Card)`
   position: sticky;
@@ -79,14 +79,14 @@ export default function Catalog() {
     populate: '*',
   });
 
-  let services = [];
+  const services = [];
 
   if (data) {
     if (data.data) {
-      data.data.map((service) => {
+      data.data.map((service) => 
         // TODO: check if express feature flag is enabled, if yes show the service
-        return services.push(service);
-      });
+         services.push(service)
+      );
     }
   }
 
@@ -120,8 +120,8 @@ export default function Catalog() {
   return isLoading || status === 'loading' ? (
     <PageLoader />
   ) : (
-    <Page title={t('__PAGE_TITLE_CATALOG')} route={'templates'}>
-      <Grid gutters={'lg'}>
+    <Page title={t('__PAGE_TITLE_CATALOG')} route="templates">
+      <Grid gutters="lg">
         <Row>
           <Col xs={12} lg={3}>
             <StickyContainer>

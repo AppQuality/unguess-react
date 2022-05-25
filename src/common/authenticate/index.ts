@@ -2,8 +2,7 @@ import { operations } from '../schema';
 
 export const login = (
   credentials: operations['post-authenticate']['requestBody']['content']['application/json']
-) => {
-  return fetch(`${process.env.REACT_APP_API_URL}/authenticate`, {
+) => fetch(`${process.env.REACT_APP_API_URL}/authenticate`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -17,4 +16,3 @@ export const login = (
       }
       return { token: false, error: data };
     });
-};

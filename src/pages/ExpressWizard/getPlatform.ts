@@ -12,7 +12,7 @@ import { WizardModel } from './wizardModel';
 export const getPlatform = (values: WizardModel): Array<PlatformObject> => {
   const { withSmartphone, withTablet, withDesktop, isIOS, isAndroid } = values;
 
-  let platforms = [];
+  const platforms = [];
 
   if (withSmartphone) {
     if (!isIOS && !isAndroid) {

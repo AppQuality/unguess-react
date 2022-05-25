@@ -13,7 +13,6 @@ import {
   MediaInput,
   Hint,
 } from '@appquality/unguess-design-system';
-import { CardDivider } from '../cardDivider';
 import { Field, Fieldset } from '@zendeskgarden/react-forms';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
 import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
@@ -21,11 +20,12 @@ import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg
 import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tablet-active.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { FormikProps } from 'formik';
-import { WizardModel } from '../wizardModel';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { OutOfScopeSection } from './where/outOfScope';
 import { useEffect, useState } from 'react';
+import { OutOfScopeSection } from './where/outOfScope';
+import { WizardModel } from '../wizardModel';
+import { CardDivider } from '../cardDivider';
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
@@ -49,7 +49,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
     : 'none';
   const [radioValue, setRadioValue] = useState(initialRadioValue);
 
-  //Reset web step
+  // Reset web step
   if (values.customBrowser) setFieldValue('customBrowser', false);
   if (values.withDesktop) setFieldValue('withDesktop', false);
 
@@ -167,7 +167,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 </Hint>
                 <MediaInput
                   start={<LinkIcon />}
-                  type={'url'}
+                  type="url"
                   placeholder="https://www.example.com"
                   {...props.getFieldProps('iOSLink')}
                   {...(errors.iOSLink && { validation: 'error' })}
@@ -180,7 +180,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 </Message>
               </InnerField>
             )}
-            <Field style={{ marginTop: theme.space.base * 4 + 'px' }}>
+            <Field style={{ marginTop: `${theme.space.base * 4  }px` }}>
               <Radio
                 name="device-platform"
                 value="android"
@@ -208,7 +208,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 </Hint>
                 <MediaInput
                   start={<LinkIcon />}
-                  type={'url'}
+                  type="url"
                   placeholder="https://www.example.com"
                   {...props.getFieldProps('androidLink')}
                   {...(errors.androidLink && { validation: 'error' })}

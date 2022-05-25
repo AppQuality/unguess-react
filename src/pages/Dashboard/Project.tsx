@@ -9,9 +9,9 @@ import {
   projectFilterChanged,
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { useGetProjectsByPidQuery } from 'src/features/api';
 import { ActionCards } from './ActionCards';
 import { DashboardHeaderContent } from './headerContent';
-import { useGetProjectsByPidQuery } from 'src/features/api';
 import { CardRowLoading } from './CardRowLoading';
 import { ProjectItems } from './project-items';
 
@@ -21,7 +21,7 @@ export default function Project() {
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
 
-  var { projectId } = useParams();
+  const { projectId } = useParams();
 
   if (!projectId || isNaN(Number(projectId))) {
     navigate(notFoundRoute, { replace: true });
@@ -43,11 +43,11 @@ export default function Project() {
   return (
     <Page
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
-      route={'projects'}
+      route="projects"
       pageHeader={
         <DashboardHeaderContent>
           {isLoading || !project.data ? (
-            <Skeleton width={'200px'} height={'12px'} />
+            <Skeleton width="200px" height="12px" />
           ) : (
             <XXXL style={{ color: theme.palette.blue[600] }}>
               {project.data.name}
