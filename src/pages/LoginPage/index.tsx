@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
-import { LoginForm, Logo, theme as globalTheme } from '@appquality/unguess-design-system';
+import {
+  LoginForm,
+  Logo,
+  theme as globalTheme,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import WPAPI from 'src/common/wpapi';
 import { FormikHelpers } from 'formik';
@@ -113,12 +117,15 @@ const LoginPage = () => {
         <Logo
           type="vertical"
           size={200}
-          style={{ marginTop: globalTheme.space.xs, marginBottom: globalTheme.space.md }}
+          style={{
+            marginTop: globalTheme.space.xs,
+            marginBottom: globalTheme.space.md,
+          }}
         />
         <LoginForm {...defaultArgs} />
       </CenteredXYContainer>
     </GoogleTagManager>
   );
-}
+};
 
 export default LoginPage;

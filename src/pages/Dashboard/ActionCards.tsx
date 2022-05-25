@@ -44,7 +44,7 @@ export const ActionCards = () => {
     <CardRowLoading />
   ) : (
     <Row>
-      <Col xs={12} style={{ marginBottom: `${theme.space.base * 4  }px` }}>
+      <Col xs={12} style={{ marginBottom: `${theme.space.base * 4}px` }}>
         <Paragraph>
           <MD style={{ color: theme.palette.grey[700] }}>
             {t('__DASHABOARD_NEWS_ACTION_CARDS_TITLE MAX:12').toUpperCase()}
@@ -68,7 +68,7 @@ export const ActionCards = () => {
       <ExpressDrawer
         onCtaClick={() => {
           dispatch(openWizard());
-          if(isMinMedia(theme.breakpoints.sm)) toggleChat(false);
+          if (isMinMedia(theme.breakpoints.sm)) toggleChat(false);
         }}
       />
       <ExpressWizardContainer />

@@ -42,9 +42,7 @@ export const DashboardHeaderContent = ({
     }
   `;
 
-  return status === 'idle' || status === 'loading' ? (
-    null
-  ) : (
+  return status === 'idle' || status === 'loading' ? null : (
     <>
       <PageHeaderContainer>
         <Grid>
@@ -58,7 +56,7 @@ export const DashboardHeaderContent = ({
                   isPrimary
                   onClick={() => {
                     // eslint-disable-next-line security/detect-non-literal-fs-filename
-                    window.open(JOTFORM_URL, '_blank')?.focus();  // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)
+                    window.open(JOTFORM_URL, '_blank')?.focus(); // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)
                   }}
                 >
                   {t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON')}
@@ -68,8 +66,8 @@ export const DashboardHeaderContent = ({
           </Row>
           <Row
             style={{
-              marginTop: `${globalTheme.space.base * 6  }px`,
-              paddingBottom: `${globalTheme.space.base * 6  }px`,
+              marginTop: `${globalTheme.space.base * 6}px`,
+              paddingBottom: `${globalTheme.space.base * 6}px`,
             }}
           >
             <Col xs={12}>

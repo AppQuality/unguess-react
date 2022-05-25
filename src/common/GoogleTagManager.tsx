@@ -25,12 +25,12 @@ export const GoogleTagManager = ({
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   const helmet = () => (
-      <Helmet>
-        <title>{title} - UNGUESS</title>
-        <meta property="og:title" content={title} />
-        <meta name="description" content={title} />
-      </Helmet>
-    );
+    <Helmet>
+      <title>{title} - UNGUESS</title>
+      <meta property="og:title" content={title} />
+      <meta name="description" content={title} />
+    </Helmet>
+  );
 
   if (userData?.role && userData?.tryber_wp_user_id) {
     tagManagerArgs.dataLayer = {

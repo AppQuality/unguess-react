@@ -26,7 +26,7 @@ const App = () => {
         <Helmet>
           <meta
             property="og:title"
-            content={`UNGUESS - ${  t('Be smart from the start')}`}
+            content={`UNGUESS - ${t('Be smart from the start')}`}
           />
           <title>UNGUESS - {t('Be smart from the start')}</title>
           <meta
@@ -42,6 +42,6 @@ const App = () => {
       </ThemeProvider>
     </Provider>
   );
-}
+};
 
 export default App;

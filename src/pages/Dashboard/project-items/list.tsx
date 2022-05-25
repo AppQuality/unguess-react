@@ -16,7 +16,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
             key={campaign.id}
             campaign={campaign}
             onCampaignClicked={clickToggle}
-            style={{ marginBottom: `${theme.space.base * 4  }px` }}
+            style={{ marginBottom: `${theme.space.base * 4}px` }}
           />
         </ColCard>
       ))}
@@ -25,7 +25,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
 };
 
 export const CardList = ({ campaigns }: { campaigns: Array<Campaign> }) => (
-    <Row>
-      <CardGroup items={campaigns} />
-    </Row>
-  );
+  <Row>
+    <CardGroup items={campaigns} />
+  </Row>
+);

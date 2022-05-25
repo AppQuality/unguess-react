@@ -10,7 +10,8 @@ export const CampaignStatus = {
 export const selectFilteredCampaigns = (
   campaigns: Campaign[],
   filters: FilterState
-) => campaigns.filter((campaign) => {
+) =>
+  campaigns.filter((campaign) => {
     // Check Project ID
     if (filters.projectId && filters.projectId !== campaign.project_id)
       return false;
@@ -45,7 +46,8 @@ export const selectFilteredCampaigns = (
     return true;
   });
 
-export const selectGroupedCampaigns = (campaigns: Campaign[]) => campaigns.reduce((acc: Array<Campaign[]>, campaign) => {
+export const selectGroupedCampaigns = (campaigns: Campaign[]) =>
+  campaigns.reduce((acc: Array<Campaign[]>, campaign) => {
     acc[campaign.project_id] = acc[campaign.project_id] || [];
     acc[campaign.project_id].push(campaign);
     return acc;
@@ -79,7 +81,7 @@ export const selectTestNames = (campaigns: Campaign[]): TestName[] => {
     ) {
       types.push({
         label: cp.campaign_type_name,
-        value: `${cp.campaign_type_id  }`,
+        value: `${cp.campaign_type_id}`,
       });
     }
   });

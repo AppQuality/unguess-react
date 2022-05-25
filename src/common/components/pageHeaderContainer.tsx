@@ -8,4 +8,6 @@ const StyledContainer = styled.div`
   }
 `;
 
-export const PageHeaderContainer: React.FC<{}> = ({ children }) => <StyledContainer>{children}</StyledContainer>;
+export const PageHeaderContainer: React.FC<{}> = ({ children }) => (
+  <StyledContainer>{children}</StyledContainer>
+);

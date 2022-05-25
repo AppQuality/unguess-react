@@ -35,18 +35,18 @@ const FilterInputContainer = styled.div`
 `;
 
 export const Filters = () => (
-    <FiltersRow>
-      <FiltersContainer>
-        <FilterInputContainer>
-          <StatusDropdown />
-        </FilterInputContainer>
-        <FilterInputContainer>
-          <CampaignTypeDropdown />
-        </FilterInputContainer>
-        <FilterInputContainer>
-          <TestTypeDropdown />
-        </FilterInputContainer>
-      </FiltersContainer>
-      <SearchInput />
-    </FiltersRow>
-  );
+  <FiltersRow>
+    <FiltersContainer>
+      <FilterInputContainer>
+        <StatusDropdown />
+      </FilterInputContainer>
+      <FilterInputContainer>
+        <CampaignTypeDropdown />
+      </FilterInputContainer>
+      <FilterInputContainer>
+        <TestTypeDropdown />
+      </FilterInputContainer>
+    </FiltersContainer>
+    <SearchInput />
+  </FiltersRow>
+);

@@ -23,4 +23,3 @@ export const ConfirmationFormButtons = (props: WizardButtonsProps) => {
     </>
   );
 };
-

@@ -103,7 +103,9 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 10  }px` }}>
+      <StyledFormField
+        style={{ marginTop: `${globalTheme.space.base * 10}px` }}
+      >
         <StyledCard>
           <Grid>
             <Row>
@@ -130,7 +132,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -157,7 +159,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -179,7 +181,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -203,7 +205,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
             <Row>

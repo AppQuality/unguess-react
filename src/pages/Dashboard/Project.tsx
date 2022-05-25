@@ -68,6 +68,6 @@ const Project = () => {
       </Grid>
     </Page>
   );
-}
+};
 
 export default Project;

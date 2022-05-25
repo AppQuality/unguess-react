@@ -298,17 +298,12 @@ const Service = () => {
       title={serviceName}
       route="templates"
     >
-      {error && (
-        <pre>{`>>> error: ${  JSON.stringify(error)}`}</pre>
-      )} 
-      {isLoading && (
-        <div>Loading...</div>
-      )}
-      
-      {data &&
-      (
+      {error && <pre>{`>>> error: ${JSON.stringify(error)}`}</pre>}
+      {isLoading && <div>Loading...</div>}
+
+      {data && (
         <>
-          <pre>{`>>> data: ${  JSON.stringify(data, null, 2)}`}</pre>
+          <pre>{`>>> data: ${JSON.stringify(data, null, 2)}`}</pre>
           <ExpressDrawer
             onCtaClick={() => {
               dispatch(openWizard());

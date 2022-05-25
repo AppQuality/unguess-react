@@ -24,4 +24,3 @@ export const WhoFormButtons = (props: WizardButtonsProps) => {
     </>
   );
 };
-

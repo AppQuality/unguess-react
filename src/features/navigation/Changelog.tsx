@@ -13,9 +13,9 @@ const StyledWidget = styled.div`
 `;
 
 export const Changelog = () => (
-    <StyledWidget>
-      <HeadwayWidget account="Jn0mVx">
-        <ChangelogIcon />
-      </HeadwayWidget>
-    </StyledWidget>
-  );
+  <StyledWidget>
+    <HeadwayWidget account="Jn0mVx">
+      <ChangelogIcon />
+    </HeadwayWidget>
+  </StyledWidget>
+);

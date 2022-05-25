@@ -37,22 +37,28 @@ export const CampaignsList = () => {
   // Get workspaces campaigns from rtk query and filter them
   const filters = useAppSelector((state) => state.filters);
 
-  const getFilteredCampaigns = useMemo(() => createSelector(selectFilteredCampaigns, (campaigns) => campaigns), []);
+  const getFilteredCampaigns = useMemo(
+    () => createSelector(selectFilteredCampaigns, (campaigns) => campaigns),
+    []
+  );
 
   const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery(
     { wid: activeWorkspace?.id || 0 },
     {
       selectFromResult: (result) => ({
-          ...result,
-          filteredCampaigns: getFilteredCampaigns(
-            result?.data?.items || [],
-            filters
-          ),
-        }),
+        ...result,
+        filteredCampaigns: getFilteredCampaigns(
+          result?.data?.items || [],
+          filters
+        ),
+      }),
     }
   );
 
-  const campaigns = useMemo(() => selectGroupedCampaigns(filteredCampaigns), [filteredCampaigns]);
+  const campaigns = useMemo(
+    () => selectGroupedCampaigns(filteredCampaigns),
+    [filteredCampaigns]
+  );
 
   const campaignsCount = filteredCampaigns.length;
   const [viewType, setViewType] = useState('list');
@@ -62,15 +68,16 @@ export const CampaignsList = () => {
       <Row
         alignItems="center"
         style={{
-          marginTop: `${theme.space.base * 8  }px`,
+          marginTop: `${theme.space.base * 8}px`,
           marginBottom: theme.space.xxs,
         }}
       >
         <Col>
           <Span>
             <MD style={{ color: theme.palette.grey[700] }}>
-              {`${t('__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5').toUpperCase() 
-                } (${campaignsCount})`}
+              {`${t(
+                '__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5'
+              ).toUpperCase()} (${campaignsCount})`}
             </MD>
           </Span>
         </Col>

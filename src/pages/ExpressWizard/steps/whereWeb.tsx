@@ -294,7 +294,8 @@ export const WhereStepValidationSchema = Yup.object().shape(
       then: Yup.bool().oneOf([true], 'Device type is required'),
     }),
     withDesktop: Yup.bool().when(['withSmartphone', 'withTablet'], {
-      is: (withSmartphone: boolean, withTablet: boolean) => !withSmartphone && !withTablet,
+      is: (withSmartphone: boolean, withTablet: boolean) =>
+        !withSmartphone && !withTablet,
       then: Yup.bool().oneOf([true], 'Device type is required'),
     }),
     customBrowser: Yup.bool(),

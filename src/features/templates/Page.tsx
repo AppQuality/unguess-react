@@ -13,9 +13,9 @@ export const Page = ({
   pageHeader?: React.ReactNode;
   route: string;
 }) => (
-    <GoogleTagManager title={title}>
-      <Logged route={route} pageHeader={pageHeader}>
-        {children}
-      </Logged>
-    </GoogleTagManager>
-  );
+  <GoogleTagManager title={title}>
+    <Logged route={route} pageHeader={pageHeader}>
+      {children}
+    </Logged>
+  </GoogleTagManager>
+);

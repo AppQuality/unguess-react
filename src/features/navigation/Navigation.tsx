@@ -37,7 +37,7 @@ export const Navigation = ({
     (state) => state.navigation
   );
 
-  const {workspaces} = user;
+  const { workspaces } = user;
 
   if (!activeWorkspace) {
     // dispatch(getWorkspaces());
@@ -70,10 +70,11 @@ export const Navigation = ({
       : projects.data.items.reduce((filtered: Array<any>, project) => {
           if (project.campaigns_count) {
             filtered.push({
-              id: `${project.id  }`,
+              id: `${project.id}`,
               title: project.name || '-',
-              campaigns:
-                `${project.campaigns_count} ${  t('__SIDEBAR_CAMPAIGNS_LABEL')}`,
+              campaigns: `${project.campaigns_count} ${t(
+                '__SIDEBAR_CAMPAIGNS_LABEL'
+              )}`,
             });
           }
           return filtered;
@@ -155,7 +156,9 @@ export const Navigation = ({
       localizedRoute = i18n.language === 'en' ? '/' : `/${i18n.language}`;
     } else {
       localizedRoute =
-        i18n.language === 'en' ? `/${requiredRoute}` : `/${i18n.language}/${requiredRoute}`;
+        i18n.language === 'en'
+          ? `/${requiredRoute}`
+          : `/${i18n.language}/${requiredRoute}`;
 
       if (routeParameter) {
         localizedRoute += `/${routeParameter}`;

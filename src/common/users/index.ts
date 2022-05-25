@@ -4,9 +4,7 @@ import HttpError from '../HttpError';
 export const me = async (
   token?: string,
   query?: string
-): Promise<
-  GetUsersMeApiResponse
-> => {
+): Promise<GetUsersMeApiResponse> => {
   let currentToken = token;
 
   if (process.env.REACT_APP_DEFAULT_TOKEN)
@@ -22,7 +20,7 @@ export const me = async (
   if (query) {
     const urlps = new URLSearchParams();
     urlps.set('fields', query);
-    url += `?${  urlps.toString()}`;
+    url += `?${urlps.toString()}`;
   }
   const res = await fetch(url, {
     method: 'GET',
@@ -30,8 +28,7 @@ export const me = async (
   });
   if (res.ok) {
     return res.json();
-  } 
-    const json = await res.json();
-    throw new HttpError(res.status, res.statusText, json.err);
-  
+  }
+  const json = await res.json();
+  throw new HttpError(res.status, res.statusText, json.err);
 };

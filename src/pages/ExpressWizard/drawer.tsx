@@ -87,7 +87,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE')}
         </SelectTitle>
         <ProjectDropdown />
-        <Notes style={{ marginTop: `${theme.space.base * 9  }px` }}>
+        <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
           <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
           <Paragraph>{t('__WIZARD_EXPRESS_BODY_NOTES_PARAGRAPH')}</Paragraph>
           <UnorderedList>

@@ -54,6 +54,6 @@ const NotFound = () => {
       </Grid>
     </Page>
   );
-}
+};
 
 export default NotFound;

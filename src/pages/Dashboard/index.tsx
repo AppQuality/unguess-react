@@ -41,6 +41,6 @@ const Dashboard = () => {
       </Grid>
     </Page>
   );
-}
+};
 
 export default Dashboard;

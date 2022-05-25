@@ -46,7 +46,10 @@ import { WizardButtonsProps } from './steps/forms/types';
 import { WhereForm, WhereFormButtons } from './steps/forms/WhereForm';
 import { WhoForm, WhoFormButtons } from './steps/forms/WhoForm';
 import { WhenForm, WhenFormButtons } from './steps/forms/WhenForm';
-import { ConfirmationForm, ConfirmationFormButtons } from './steps/forms/ConfirmationForm';
+import {
+  ConfirmationForm,
+  ConfirmationFormButtons,
+} from './steps/forms/ConfirmationForm';
 
 interface StepItem {
   label: string;
@@ -336,7 +339,11 @@ export const ExpressWizardContainer = () => {
                   (item, index) =>
                     index === activeStep && (
                       <ModalFullScreen.FooterItem>
-                        {item.buttons({ formikArgs: formProps, onBackClick: onBack, onNextClick: onNext })}
+                        {item.buttons({
+                          formikArgs: formProps,
+                          onBackClick: onBack,
+                          onNextClick: onNext,
+                        })}
                       </ModalFullScreen.FooterItem>
                     )
                 )}
@@ -346,7 +353,5 @@ export const ExpressWizardContainer = () => {
         </ModalFullScreen>
       )}
     </Formik>
-  ) : (
-    null
-  );
+  ) : null;
 };

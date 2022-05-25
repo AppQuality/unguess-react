@@ -97,16 +97,15 @@ export const WhenStep = ({
                 </Label>
                 <Datepicker
                   value={startDate}
-                  formatDate={(date: Date) => isToday(date)
+                  formatDate={(date: Date) =>
+                    isToday(date)
                       ? `${t(
                           '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TODAY_LABEL'
-                        ) 
-                          } (${ 
-                          format(date, 'EEEE d MMMM Y', {
-                            locale: lang.locale,
-                          }) 
-                          })`
-                      : format(date, 'EEEE d MMMM Y', { locale: lang.locale })}
+                        )} (${format(date, 'EEEE d MMMM Y', {
+                          locale: lang.locale,
+                        })})`
+                      : format(date, 'EEEE d MMMM Y', { locale: lang.locale })
+                  }
                   onChange={handleDateChange}
                   minValue={new Date()}
                   maxValue={

@@ -25,10 +25,10 @@ import HttpError from '../HttpError';
 //   });
 //   if (res.ok) {
 //     return res.json();
-//   } 
+//   }
 //     const json = await res.json();
 //     throw new HttpError(res.status, res.statusText, json.err);
-  
+
 // };
 
 export const createPages = async (campaignId: number) => {
@@ -43,10 +43,9 @@ export const createPages = async (campaignId: number) => {
   });
   if (res.ok) {
     return res.json();
-  } 
-    const json = await res.json();
-    throw new HttpError(res.status, res.statusText, json.err);
-  
+  }
+  const json = await res.json();
+  throw new HttpError(res.status, res.statusText, json.err);
 };
 
 export const createTasks = async (campaignId: number) => {
@@ -61,10 +60,9 @@ export const createTasks = async (campaignId: number) => {
   });
   if (res.ok) {
     return res.json();
-  } 
-    const json = await res.json();
-    throw new HttpError(res.status, res.statusText, json.err);
-  
+  }
+  const json = await res.json();
+  throw new HttpError(res.status, res.statusText, json.err);
 };
 
 export const createCrons = async (campaignId: number) => {
@@ -79,8 +77,7 @@ export const createCrons = async (campaignId: number) => {
   });
   if (res.ok) {
     return res.json();
-  } 
-    const json = await res.json();
-    throw new HttpError(res.status, res.statusText, json.err);
-  
+  }
+  const json = await res.json();
+  throw new HttpError(res.status, res.statusText, json.err);
 };

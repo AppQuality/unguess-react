@@ -20,7 +20,7 @@ import { WizardModel } from '../../wizardModel';
 export const OutOfScopeSection = ({
   errors,
   values,
-  getFieldProps
+  getFieldProps,
 }: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
 
@@ -62,27 +62,30 @@ export const OutOfScopeSection = ({
         </Col>
         {values.hasOutOfScope && (
           <Col size={12}>
-              <Notes>
-                <Field>
-                  <Label>
-                    {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_LABEL')}
-                    <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-                  </Label>
-                  <Textarea
-                    rows={5}
-                    placeholder={t(
-                      '__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_PLACEHOLDER'
-                    )}
-                    isResizable
-                    {...getFieldProps('outOfScope')}
-                  />
-                </Field>
-              </Notes>
-            </Col>
+            <Notes>
+              <Field>
+                <Label>
+                  {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_LABEL')}
+                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+                </Label>
+                <Textarea
+                  rows={5}
+                  placeholder={t(
+                    '__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_PLACEHOLDER'
+                  )}
+                  isResizable
+                  {...getFieldProps('outOfScope')}
+                />
+              </Field>
+            </Notes>
+          </Col>
         )}
         {values.hasOutOfScope && errors.outOfScope && (
           <Col size={12}>
-            <Message validation="error" style={{ marginTop: globalTheme.space.xs }}>
+            <Message
+              validation="error"
+              style={{ marginTop: globalTheme.space.xs }}
+            >
               {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_ERROR')}
             </Message>
           </Col>

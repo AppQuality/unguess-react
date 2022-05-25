@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { FEATURE_FLAG_EXPRESS } from 'src/constants';
-import { useGetWorkspacesByWidCampaignsQuery , Feature } from 'src/features/api';
+import { useGetWorkspacesByWidCampaignsQuery, Feature } from 'src/features/api';
 import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
@@ -55,7 +55,7 @@ export const SuggestedCampaigns = () => {
   ) : (
     <>
       <Row>
-        <Col xs={12} style={{ marginBottom: `${theme.space.base * 4  }px` }}>
+        <Col xs={12} style={{ marginBottom: `${theme.space.base * 4}px` }}>
           <Paragraph>
             <MD style={{ color: theme.palette.grey[700] }}>
               {t('__DASHABOARD_SUGGESTED_CAMPAIGN_TITLE MAX:12').toUpperCase()}

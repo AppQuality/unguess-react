@@ -54,7 +54,11 @@ export const TestTypeDropdown = () => {
       }}
     >
       <Field>
-        <Select {...(items[testNameId as number].value !== 'all' && { isPrimary: true })}>
+        <Select
+          {...(items[testNameId as number].value !== 'all' && {
+            isPrimary: true,
+          })}
+        >
           {getItemText(
             items[testNameId as number],
             t('__DASHABOARD_CAMPAIGN_TEST_NAME_LABEL Max:10')
@@ -65,7 +69,7 @@ export const TestTypeDropdown = () => {
         {Object.keys(items).map((key) => (
           <Item key={items[`${key}`].value} value={items[`${key}`]}>
             {items[`${key}`].icon ?? ''}
-            {` ${  items[`${key}`].label}`}
+            {` ${items[`${key}`].label}`}
           </Item>
         ))}
       </UgMenu>

@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { statusFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { CampaignStatus , selectStatuses } from 'src/features/campaigns';
+import { CampaignStatus, selectStatuses } from 'src/features/campaigns';
 import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
 import { DropdownItem, DropdownItems, getItemText } from './utils';
 import { UgMenu } from './styledMenu';
@@ -74,7 +74,9 @@ export const StatusDropdown = () => {
       }}
     >
       <Field>
-        <Select {...(items[`${status}`].value !== 'all' && { isPrimary: true })}>
+        <Select
+          {...(items[`${status}`].value !== 'all' && { isPrimary: true })}
+        >
           {getItemText(
             items[`${status}`],
             t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_LABEL Max:10')
@@ -91,7 +93,7 @@ export const StatusDropdown = () => {
             })}
           >
             {items[`${key}`].icon ?? ''}
-            {` ${  items[`${key}`].label}`}
+            {` ${items[`${key}`].label}`}
           </Item>
         ))}
       </UgMenu>

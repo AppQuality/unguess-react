@@ -9,23 +9,23 @@ import Service from 'src/pages/Service';
 const base = ':locale';
 
 const Pages = () => (
-    <Routes>
-      <Route path={`${base}/login`} element={<LoginPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/it" element={<Dashboard />} />
-      <Route path="/projects/:projectId" element={<Project />} />
-      <Route path="/it/projects/:projectId" element={<Project />} />
-      <Route path="/templates" element={<Catalog />} />
-      <Route path="/it/templates" element={<Catalog />} />
-      <Route path="/templates/:templateId" element={<Service />} />
-      <Route path="/it/templates/:templateId" element={<Service />} />
+  <Routes>
+    <Route path={`${base}/login`} element={<LoginPage />} />
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/" element={<Dashboard />} />
+    <Route path="/it" element={<Dashboard />} />
+    <Route path="/projects/:projectId" element={<Project />} />
+    <Route path="/it/projects/:projectId" element={<Project />} />
+    <Route path="/templates" element={<Catalog />} />
+    <Route path="/it/templates" element={<Catalog />} />
+    <Route path="/templates/:templateId" element={<Service />} />
+    <Route path="/it/templates/:templateId" element={<Service />} />
 
-      {/* No route found */}
-      <Route path="/oops" element={<NotFound />} />
-      <Route path=":language/oops" element={<NotFound />} />
-      <Route path="*" element={<Navigate replace to="/oops" />} />
-    </Routes>
-  )
+    {/* No route found */}
+    <Route path="/oops" element={<NotFound />} />
+    <Route path=":language/oops" element={<NotFound />} />
+    <Route path="*" element={<Navigate replace to="/oops" />} />
+  </Routes>
+);
 
 export default Pages;

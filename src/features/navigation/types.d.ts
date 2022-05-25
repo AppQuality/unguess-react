@@ -1,4 +1,4 @@
-import { Workspace } from "../api";
+import { Workspace } from '../api';
 
 type NavigationState = {
   isSidebarOpen: boolean;
