@@ -98,10 +98,10 @@ export const ProjectItems = () => {
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
       <Filters />
 
-      {campaignsCount && viewType === 'list' && (
+      {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={filteredCampaigns as Campaign[]} />
       )}
-      {campaignsCount && viewType === 'grid' && (
+      {campaignsCount > 0 && viewType === 'grid' && (
         <CardList campaigns={filteredCampaigns as Campaign[]} />
       )}
 

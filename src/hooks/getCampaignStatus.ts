@@ -14,5 +14,5 @@ export const getCampaignStatus = (campaign: Campaign) => {
     return 'PROGRESS';
   }
 
-  return 'UNKNOWN';
+  return undefined;
 };
