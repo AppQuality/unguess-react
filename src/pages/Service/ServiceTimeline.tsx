@@ -93,6 +93,8 @@ const ServiceTimeline = (
     const what = data ? data.data?.attributes?.what : {};
     const how = data ? data.data?.attributes?.how : {};
     const timeline = how?.timeline || [];
+    const slug = data ? data.data?.attributes?.service_slug : "";
+    const locale = data ? data.data?.attributes?.locale : "en";
 
     return (
         <>
@@ -105,184 +107,203 @@ const ServiceTimeline = (
                                     {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE")}
                                 </StickyContainerTitle>
                                 <StyledOrderedList>
-                                    <StyledOrderListItem>
-                                        <Link
-                                            to={"why"}
-                                            containerId={"why-card"}
-                                            spy={true}
-                                            smooth={true}
-                                            offset={-100}
-                                            duration={500}
-                                        >
-                                            {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHY_ITEM")}
-                                        </Link>
-                                    </StyledOrderListItem>
-                                    <StyledOrderListItem>
-                                        <Link
-                                            to={"what"}
-                                            containerId={"what-card"}
-                                            spy={true}
-                                            smooth={true}
-                                            offset={-100}
-                                            duration={500}
-                                        >
-                                            {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHAT_ITEM")}
-                                        </Link>
-                                    </StyledOrderListItem>
-                                    <StyledOrderListItem>
-                                        <Link
-                                            to={"how"}
-                                            containerId={"how-card"}
-                                            spy={true}
-                                            smooth={true}
-                                            offset={-100}
-                                            duration={500}
-                                        >
-                                            {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_HOW_ITEM")}
-                                        </Link>
-                                    </StyledOrderListItem>
+                                    {why && (
+                                        <StyledOrderListItem>
+                                            <Link
+                                                to={"why"}
+                                                containerId={"why-card"}
+                                                spy={true}
+                                                smooth={true}
+                                                offset={-100}
+                                                duration={500}
+                                            >
+                                                {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHY_ITEM")}
+                                            </Link>
+                                        </StyledOrderListItem>
+                                    )}
+
+                                    {what && (
+                                        <StyledOrderListItem>
+                                            <Link
+                                                to={"what"}
+                                                containerId={"what-card"}
+                                                spy={true}
+                                                smooth={true}
+                                                offset={-100}
+                                                duration={500}
+                                            >
+                                                {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHAT_ITEM")}
+                                            </Link>
+                                        </StyledOrderListItem>
+                                    )}
+
+                                    {how && (
+                                        <StyledOrderListItem>
+                                            <Link
+                                                to={"how"}
+                                                containerId={"how-card"}
+                                                spy={true}
+                                                smooth={true}
+                                                offset={-100}
+                                                duration={500}
+                                            >
+                                                {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_HOW_ITEM")}
+                                            </Link>
+                                        </StyledOrderListItem>
+                                    )}
                                 </StyledOrderedList>
                             </CardContainer>
                         </StickyContainer>
                     </Col>
                     <Col xs={12} lg={6}>
-                        <TimelineCard id={"why-card"} className={"why-card"}>
-                            <StepTitle>
-                                <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHY_TITLE">
-                                    <Span isBold>Why</Span> to choose this campaign
-                                </Trans>
-                            </StepTitle>
-                            <StepParagraph>{t("__CATALOG_DETAIL_TIMELINE_WHY_DESCRIPTION")}</StepParagraph>
-                            <StyledDivider />
-                            <Timeline>
-                                {reasons.map((reason, index) => {
-                                    const icon = reason.icon?.data?.attributes?.url || "";
-
-                                    return (
-                                        <Timeline.Item
-                                            key={index}
-                                            icon={<TimelineIcon width={24} height={24} src={`${STRAPI_URL}${icon}`} alt={reason.title} />}
-                                            hiddenLine
-                                        >
-                                            <Timeline.Content>
-                                                <Paragraph style={{ fontWeight: 500 }}>
-                                                    {reason.title}
-                                                </Paragraph>
-                                                {reason.description}
-                                            </Timeline.Content>
-                                        </Timeline.Item>
-                                    )
-                                })}
-                            </Timeline>
-                            <AdvantagesContainer>
-                                <SectionTitle>
-                                    {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE")}
-                                </SectionTitle>
+                        {why && (
+                            <TimelineCard id={"why-card"} className={"why-card"}>
+                                <StepTitle>
+                                    <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHY_TITLE">
+                                        <Span isBold>Why</Span> to choose this campaign
+                                    </Trans>
+                                </StepTitle>
+                                <StepParagraph>{t("__CATALOG_DETAIL_TIMELINE_WHY_DESCRIPTION")}</StepParagraph>
                                 <StyledDivider />
                                 <Timeline>
-                                    <Timeline.Item
-                                        hiddenLine
-                                        icon={<CheckIcon />}
-                                    >
-                                        <Timeline.Content>
-                                            <Paragraph style={{ fontWeight: 500 }}>
-                                                {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_TIME_TITLE")}
-                                            </Paragraph>
-                                        </Timeline.Content>
-                                    </Timeline.Item>
-                                    <Timeline.Item
-                                        hiddenLine
-                                        icon={<CheckIcon />}
-                                    >
-                                        <Timeline.Content>
-                                            <Paragraph style={{ fontWeight: 500 }}>
-                                                {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_COST_TITLE")}
-                                            </Paragraph>
-                                        </Timeline.Content>
-                                    </Timeline.Item>
-                                    <Timeline.Item
-                                        hiddenLine
-                                        icon={<CheckIcon />}
-                                    >
-                                        <Timeline.Content>
-                                            <Paragraph style={{ fontWeight: 500 }}>
-                                                {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_INTENGRATION_TITLE")}
-                                            </Paragraph>
-                                        </Timeline.Content>
-                                    </Timeline.Item>
-                                </Timeline>
-                            </AdvantagesContainer>
-                        </TimelineCard>
-                        <TimelineCard id={"what-card"} className={"what-card"}>
-                            <StepTitle>
-                                <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHAT_TITLE">
-                                    <Span isBold>What</Span> you get
-                                </Trans>
-                            </StepTitle>
-                            <StepParagraph>{what?.description}</StepParagraph>
-                            <>
-                                <SectionTitle>
-                                    {t("__CATALOG_DETAIL_TIMELINE_WHAT_RESULTS_TITLE")}
-                                </SectionTitle>
-                                <StyledDivider />
-                                <Paragraph>{what?.goal_text}</Paragraph>
-                            </>
-                        </TimelineCard>
-                        <TimelineCard id={"how-card"} className={"how-card"}>
-                            <StepTitle>
-                                <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_HOW_TITLE">
-                                    <Span isBold>How</Span> does it work
-                                </Trans>
-                            </StepTitle>
-                            <StepParagraph>{t("__CATALOG_DETAIL_TIMELINE_HOW_DESCRIPTION")}</StepParagraph>
-                            <Timeline>
-                                {timeline.map((item, index) => {
-                                    const icon = item.icon?.data?.attributes?.url || "";
+                                    {reasons.map((reason, index) => {
+                                        const icon = reason.icon?.data?.attributes?.url || "";
 
-                                    return (
+                                        return (
+                                            <Timeline.Item
+                                                key={index}
+                                                icon={<TimelineIcon width={24} height={24} src={`${STRAPI_URL}${icon}`} alt={reason.title} />}
+                                                hiddenLine
+                                            >
+                                                <Timeline.Content>
+                                                    <Paragraph style={{ fontWeight: 500 }}>
+                                                        {reason.title}
+                                                    </Paragraph>
+                                                    {reason.description}
+                                                </Timeline.Content>
+                                            </Timeline.Item>
+                                        )
+                                    })}
+                                </Timeline>
+                                <AdvantagesContainer>
+                                    <SectionTitle>
+                                        {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE")}
+                                    </SectionTitle>
+                                    <StyledDivider />
+                                    <Timeline>
                                         <Timeline.Item
-                                            key={index}
-                                            icon={<TimelineIcon width={24} height={24} src={`${STRAPI_URL}${icon}`} alt={item.title} />}
+                                            hiddenLine
+                                            icon={<CheckIcon />}
                                         >
                                             <Timeline.Content>
                                                 <Paragraph style={{ fontWeight: 500 }}>
-                                                    {item.title}
+                                                    {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_TIME_TITLE")}
                                                 </Paragraph>
-                                                {item.description}
                                             </Timeline.Content>
                                         </Timeline.Item>
-                                    )
-                                })}
-                            </Timeline>
-                        </TimelineCard>
+                                        <Timeline.Item
+                                            hiddenLine
+                                            icon={<CheckIcon />}
+                                        >
+                                            <Timeline.Content>
+                                                <Paragraph style={{ fontWeight: 500 }}>
+                                                    {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_COST_TITLE")}
+                                                </Paragraph>
+                                            </Timeline.Content>
+                                        </Timeline.Item>
+                                        <Timeline.Item
+                                            hiddenLine
+                                            icon={<CheckIcon />}
+                                        >
+                                            <Timeline.Content>
+                                                <Paragraph style={{ fontWeight: 500 }}>
+                                                    {t("__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_INTENGRATION_TITLE")}
+                                                </Paragraph>
+                                            </Timeline.Content>
+                                        </Timeline.Item>
+                                    </Timeline>
+                                </AdvantagesContainer>
+                            </TimelineCard>
+                        )}
+
+                        {what && (
+                            <TimelineCard id={"what-card"} className={"what-card"}>
+                                <StepTitle>
+                                    <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHAT_TITLE">
+                                        <Span isBold>What</Span> you get
+                                    </Trans>
+                                </StepTitle>
+                                <StepParagraph>{what?.description}</StepParagraph>
+                                <>
+                                    <SectionTitle>
+                                        {t("__CATALOG_DETAIL_TIMELINE_WHAT_RESULTS_TITLE")}
+                                    </SectionTitle>
+                                    <StyledDivider />
+                                    <Paragraph>{what?.goal_text}</Paragraph>
+                                </>
+                            </TimelineCard>
+                        )}
+
+                        {how && (
+                            <TimelineCard id={"how-card"} className={"how-card"}>
+                                <StepTitle>
+                                    <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_HOW_TITLE">
+                                        <Span isBold>How</Span> does it work
+                                    </Trans>
+                                </StepTitle>
+                                <StepParagraph>{t("__CATALOG_DETAIL_TIMELINE_HOW_DESCRIPTION")}</StepParagraph>
+                                <Timeline>
+                                    {timeline.map((item, index) => {
+                                        const icon = item.icon?.data?.attributes?.url || "";
+
+                                        return (
+                                            <Timeline.Item
+                                                id={`${slug}-${locale}-timeline-${index + 1}`}
+                                                key={index}
+                                                icon={<TimelineIcon width={24} height={24} src={`${STRAPI_URL}${icon}`} alt={item.title} />}
+                                            >
+                                                <Timeline.Content>
+                                                    <Paragraph style={{ fontWeight: 500 }}>
+                                                        {item.title}
+                                                    </Paragraph>
+                                                    {item.description}
+                                                </Timeline.Content>
+                                            </Timeline.Item>
+                                        )
+                                    })}
+                                </Timeline>
+                            </TimelineCard>
+                        )}
                     </Col>
                     <Col xs={12} lg={3}>
                         <StickyContainer>
-                            <CardContainer>
-                                <StickyContainerTitle>
-                                    {t("__CATALOG_DETAIL_STICKY_CONTAINER_REQUIREMENTS_TITLE")}
-                                </StickyContainerTitle>
-                                {requirements && requirements.description && (
-                                    <StickyContainerParagraph>
-                                        {requirements.description}
-                                    </StickyContainerParagraph>
-                                )}
-                                <Timeline>
-                                    {list.map((item, index) => (
-                                        <Timeline.Item
-                                            key={index}
-                                            icon={<CheckIcon />}
-                                            hiddenLine
-                                        >
-                                            <Timeline.Content>
-                                                <Paragraph style={{ fontWeight: 500 }}>
-                                                    {item.item}
-                                                </Paragraph>
-                                            </Timeline.Content>
-                                        </Timeline.Item>
-                                    ))}
-                                </Timeline>
-                            </CardContainer>
+                            {requirements && (
+                                <CardContainer>
+                                    <StickyContainerTitle>
+                                        {t("__CATALOG_DETAIL_STICKY_CONTAINER_REQUIREMENTS_TITLE")}
+                                    </StickyContainerTitle>
+                                    {requirements && requirements.description && (
+                                        <StickyContainerParagraph>
+                                            {requirements.description}
+                                        </StickyContainerParagraph>
+                                    )}
+                                    <Timeline>
+                                        {list.map((item, index) => (
+                                            <Timeline.Item
+                                                key={index}
+                                                icon={<CheckIcon />}
+                                                hiddenLine
+                                            >
+                                                <Timeline.Content>
+                                                    <Paragraph style={{ fontWeight: 500 }}>
+                                                        {item.item}
+                                                    </Paragraph>
+                                                </Timeline.Content>
+                                            </Timeline.Item>
+                                        ))}
+                                    </Timeline>
+                                </CardContainer>
+                            )}
                             <WaterButton
                                 isPill
                                 isPrimary
