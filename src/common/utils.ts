@@ -2,7 +2,7 @@ export const prepareGravatar = (url: string, size?: number) =>
   `${url  }?s=${size || 48}`;
 
 export const toggleChat = (open: boolean) => {
-  if (typeof customerly !== undefined) {
+  if (typeof customerly !== 'undefined') {
     if (open) {
       customerly.show();
     } else {

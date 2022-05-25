@@ -67,16 +67,16 @@ export const StatusDropdown = () => {
 
   return (
     <Dropdown
-      selectedItem={items[status]}
+      selectedItem={items[`${status}`]}
       onSelect={onSelectItem}
       downshiftProps={{
         itemToString: (item: DropdownItem) => item && item.value,
       }}
     >
       <Field>
-        <Select {...(items[status].value !== 'all' && { isPrimary: true })}>
+        <Select {...(items[`${status}`].value !== 'all' && { isPrimary: true })}>
           {getItemText(
-            items[status],
+            items[`${status}`],
             t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_LABEL Max:10')
           )}
         </Select>
@@ -84,14 +84,14 @@ export const StatusDropdown = () => {
       <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
           <Item
-            key={items[key].value}
-            value={items[key]}
-            {...(availableStatuses.indexOf(items[key].value) === -1 && {
+            key={items[`${key}`].value}
+            value={items[`${key}`]}
+            {...(availableStatuses.indexOf(items[`${key}`].value) === -1 && {
               disabled: true,
             })}
           >
-            {items[key].icon ?? ''}
-            {` ${  items[key].label}`}
+            {items[`${key}`].icon ?? ''}
+            {` ${  items[`${key}`].label}`}
           </Item>
         ))}
       </UgMenu>

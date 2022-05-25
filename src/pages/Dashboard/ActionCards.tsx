@@ -37,7 +37,7 @@ export const ActionCards = () => {
       (feature: Feature) => feature.slug === FEATURE_FLAG_EXPRESS
     )
   ) {
-    return <></>;
+    return null;
   }
 
   return status === 'idle' || status === 'loading' ? (
@@ -68,7 +68,7 @@ export const ActionCards = () => {
       <ExpressDrawer
         onCtaClick={() => {
           dispatch(openWizard());
-          isMinMedia(theme.breakpoints.sm) && toggleChat(false);
+          if(isMinMedia(theme.breakpoints.sm)) toggleChat(false);
         }}
       />
       <ExpressWizardContainer />

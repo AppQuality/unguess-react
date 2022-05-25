@@ -41,7 +41,7 @@ export const SuggestedCampaigns = () => {
     limit: hasExpress ? 3 : 4,
   });
 
-  if (campaigns.isError) return <></>; // TODO: Improve error handling
+  if (campaigns.isError) return null; // TODO: Improve error handling
 
   const goToCampaignDashboard = (campaignId: number, cpType: string) => {
     window.location.href = getLocalizeRoute(campaignId, cpType);

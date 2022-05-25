@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Chrome,
   Body,
-  theme,
+  theme as globalTheme,
   PageLoader,
   Main,
 } from '@appquality/unguess-design-system';
@@ -39,7 +39,7 @@ export const Logged = ({
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: ${theme.palette.grey[100]};
+    background-color: ${({ theme }) => theme.palette.grey[100]};
 
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       margin: ${({ theme }) => theme.space.xxl};
@@ -70,8 +70,8 @@ export const Logged = ({
   return status === 'idle' || status === 'loading' ? (
     <PageLoader />
   ) : (
-    <Chrome isFluid hue={theme.palette.white}>
-      <Body style={{ backgroundColor: theme.palette.grey[100] }}>
+    <Chrome isFluid hue={globalTheme.palette.white}>
+      <Body style={{ backgroundColor: globalTheme.palette.grey[100] }}>
         <Navigation route={route}>
           <Main style={{ backgroundColor: 'transparent', margin: 0 }}>
             {pageHeader && pageHeader}

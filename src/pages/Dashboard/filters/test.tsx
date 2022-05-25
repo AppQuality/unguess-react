@@ -47,25 +47,25 @@ export const TestTypeDropdown = () => {
 
   return (
     <Dropdown
-      selectedItem={items[testNameId]}
+      selectedItem={items[testNameId as number]}
       onSelect={onSelectItem}
       downshiftProps={{
         itemToString: (item: DropdownItem) => item && item.value,
       }}
     >
       <Field>
-        <Select {...(items[testNameId].value !== 'all' && { isPrimary: true })}>
+        <Select {...(items[testNameId as number].value !== 'all' && { isPrimary: true })}>
           {getItemText(
-            items[testNameId],
+            items[testNameId as number],
             t('__DASHABOARD_CAMPAIGN_TEST_NAME_LABEL Max:10')
           )}
         </Select>
       </Field>
       <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
-          <Item key={items[key].value} value={items[key]}>
-            {items[key].icon ?? ''}
-            {` ${  items[key].label}`}
+          <Item key={items[`${key}`].value} value={items[`${key}`]}>
+            {items[`${key}`].icon ?? ''}
+            {` ${  items[`${key}`].label}`}
           </Item>
         ))}
       </UgMenu>

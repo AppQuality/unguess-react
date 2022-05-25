@@ -96,15 +96,14 @@ export const CampaignsList = () => {
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
       <Filters />
 
-      {campaignsCount ? (
-        viewType === 'list' ? (
-          <TableList campaigns={campaigns} />
-        ) : (
-          <CardList campaigns={campaigns} />
-        )
-      ) : (
-        <EmptyResults />
+      {campaignsCount && viewType === 'list' && (
+        <TableList campaigns={campaigns} />
       )}
+      {campaignsCount && viewType === 'grid' && (
+        <CardList campaigns={campaigns} />
+      )}
+
+      {!campaignsCount && <EmptyResults />}
     </>
   );
 };

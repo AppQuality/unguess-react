@@ -28,7 +28,8 @@ export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
   ];
 
   const campaignStatus = (status?: string) => {
-    if (!status) return <></>;
+    if (!status) return null;
+
     switch (status) {
       case 'INCOMING':
         return (
@@ -50,6 +51,8 @@ export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
             {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS')}
           </Counter>
         );
+      default:
+        return null;
     }
   };
 

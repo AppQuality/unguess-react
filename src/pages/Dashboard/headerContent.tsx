@@ -2,7 +2,7 @@ import {
   Grid,
   Row,
   Col,
-  theme,
+  theme as globalTheme,
   Button,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
@@ -43,7 +43,7 @@ export const DashboardHeaderContent = ({
   `;
 
   return status === 'idle' || status === 'loading' ? (
-    <></>
+    null
   ) : (
     <>
       <PageHeaderContainer>
@@ -57,7 +57,8 @@ export const DashboardHeaderContent = ({
                 <StyledButton
                   isPrimary
                   onClick={() => {
-                    window.open(JOTFORM_URL, '_blank')?.focus();
+                    // eslint-disable-next-line security/detect-non-literal-fs-filename
+                    window.open(JOTFORM_URL, '_blank')?.focus();  // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)
                   }}
                 >
                   {t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON')}
@@ -67,8 +68,8 @@ export const DashboardHeaderContent = ({
           </Row>
           <Row
             style={{
-              marginTop: `${theme.space.base * 6  }px`,
-              paddingBottom: `${theme.space.base * 6  }px`,
+              marginTop: `${globalTheme.space.base * 6  }px`,
+              paddingBottom: `${globalTheme.space.base * 6  }px`,
             }}
           >
             <Col xs={12}>

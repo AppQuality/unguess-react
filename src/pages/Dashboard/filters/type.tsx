@@ -46,16 +46,16 @@ export const CampaignTypeDropdown = () => {
 
   return (
     <Dropdown
-      selectedItem={items[type]}
+      selectedItem={items[`${type}`]}
       onSelect={onSelectItem}
       downshiftProps={{
         itemToString: (item: DropdownItem) => item && item.value,
       }}
     >
       <Field>
-        <Select {...(items[type].value !== 'all' && { isPrimary: true })}>
+        <Select {...(items[`${type}`].value !== 'all' && { isPrimary: true })}>
           {getItemText(
-            items[type],
+            items[`${type}`],
             t('__DASHABOARD_CAMPAIGN_CAMPAIGN_TYPE_FILTER_LABEL Max:10')
           )}
         </Select>
@@ -63,13 +63,13 @@ export const CampaignTypeDropdown = () => {
       <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
           <Item
-            key={items[key].value}
-            value={items[key]}
-            {...(availableTypes.indexOf(items[key].value) === -1 && {
+            key={items[`${key}`].value}
+            value={items[`${key}`]}
+            {...(availableTypes.indexOf(items[`${key}`].value) === -1 && {
               disabled: true,
             })}
           >
-            {items[key].label}
+            {items[`${key}`].label}
           </Item>
         ))}
       </UgMenu>

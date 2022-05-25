@@ -1,4 +1,4 @@
-import { GetUsersMeApiResponse } from '@src/features/api';
+import { GetUsersMeApiResponse } from 'src/features/api';
 
 type UserState = {
   status: 'idle' | 'loading' | 'logged' | 'failed';

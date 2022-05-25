@@ -1,7 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
+    jest: true
   },
   extends: [
     'plugin:react/recommended',
@@ -30,6 +31,7 @@ module.exports = {
       },
     ],
     'no-use-before-define': 'off',
+    'camelcase': 'off',
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-use-before-define': 'error',
     'no-unused-vars': 'off',
@@ -53,6 +55,7 @@ module.exports = {
     'react/prop-types': 'off', // Since we do not use prop-types
     'react/require-default-props': 'off', // Since we do not use prop-types
     'react/jsx-props-no-spreading': 'off', // This is an anti-pattern, to be removed.
+    "no-param-reassign": ["error", { "props": false }],
   },
   settings: {
     'import/resolver': {
@@ -62,6 +65,7 @@ module.exports = {
   globals: {
     React: true,
     JSX: true,
+    customerly: true,
     fetch: true,
     HeadersInit: true,
   },

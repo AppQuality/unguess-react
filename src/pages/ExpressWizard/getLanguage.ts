@@ -1,9 +1,10 @@
-import { Locale , enGB, it } from 'date-fns';
+import * as dateFns from 'date-fns';
+import { enGB, it } from 'date-fns/locale';
 import { t } from 'i18next';
 
 interface Language {
   label: string;
-  locale: Locale;
+  locale: dateFns.Locale;
 }
 
 export const getLanguage = (lang: string): Language => {

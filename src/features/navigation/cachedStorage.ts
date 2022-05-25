@@ -1,3 +1,6 @@
+import { Workspace } from '../api';
+import { NavigationState } from './types';
+
 const WORKSPACE_KEY = 'unguess_ws';
 
 export const getWorkspaceFromLS = (): NavigationState['activeWorkspace'] => {
@@ -5,6 +8,6 @@ export const getWorkspaceFromLS = (): NavigationState['activeWorkspace'] => {
   return ws ? JSON.parse(ws) : false;
 };
 
-export const saveWorkspaceToLs = (workspace: Component['workspace']): void => {
+export const saveWorkspaceToLs = (workspace: Workspace): void => {
   localStorage.setItem(WORKSPACE_KEY, JSON.stringify(workspace));
 };

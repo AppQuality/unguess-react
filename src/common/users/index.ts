@@ -1,18 +1,22 @@
+import { GetUsersMeApiResponse } from 'src/features/api';
 import HttpError from '../HttpError';
 
 export const me = async (
   token?: string,
   query?: string
 ): Promise<
-  ApiOperations['get-users-me']['responses']['200']['content']['application/json']
+  GetUsersMeApiResponse
 > => {
+  let currentToken = token;
+
   if (process.env.REACT_APP_DEFAULT_TOKEN)
-    token = process.env.REACT_APP_DEFAULT_TOKEN;
+    currentToken = process.env.REACT_APP_DEFAULT_TOKEN;
 
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
-  if (token) {
-    requestHeaders.set('Authorization', `Bearer ${  token}`);
+
+  if (currentToken) {
+    requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
   let url = `${process.env.REACT_APP_API_URL}/users/me`;
   if (query) {
@@ -25,7 +29,7 @@ export const me = async (
     headers: requestHeaders,
   });
   if (res.ok) {
-    return await res.json();
+    return res.json();
   } 
     const json = await res.json();
     throw new HttpError(res.status, res.statusText, json.err);

@@ -13,3 +13,6 @@ export const TABLET_ANDROID = { id: 10, deviceType: 1 };
 export const TABLET_IOS = { id: 11, deviceType: 1 };
 export const DESKTOP_MAC = { id: 7, deviceType: 2 };
 export const DESKTOP_WINDOWS = { id: 8, deviceType: 2 };
+
+export const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
+

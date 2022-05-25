@@ -51,12 +51,10 @@ export const Navigation = ({
   if (params) {
     Object.keys(params).forEach((key) => {
       if (key !== 'language') {
-        parameter = params[key] ?? '';
+        parameter = params[`${key}`] ?? '';
       }
     });
   }
-
-  console.log('parameter', parameter);
 
   const projects = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id || 0,
@@ -142,7 +140,7 @@ export const Navigation = ({
       document.location.href = translatedRoute;
     },
     onToggleChat: () => {
-      if (typeof customerly !== undefined) {
+      if (typeof customerly !== 'undefined') {
         customerly.open();
       }
     },
@@ -151,16 +149,16 @@ export const Navigation = ({
     },
   };
 
-  const navigateTo = (route: string, parameter?: string) => {
+  const navigateTo = (requiredRoute: string, routeParameter?: string) => {
     let localizedRoute = '';
-    if (route === 'home') {
+    if (requiredRoute === 'home') {
       localizedRoute = i18n.language === 'en' ? '/' : `/${i18n.language}`;
     } else {
       localizedRoute =
-        i18n.language === 'en' ? `/${route}` : `/${i18n.language}/${route}`;
+        i18n.language === 'en' ? `/${requiredRoute}` : `/${i18n.language}/${requiredRoute}`;
 
-      if (parameter) {
-        localizedRoute += `/${parameter}`;
+      if (routeParameter) {
+        localizedRoute += `/${routeParameter}`;
       }
     }
 
@@ -224,7 +222,7 @@ export const Navigation = ({
           homeItemLabel={t('__APP_SIDEBAR_HOME_ITEM_LABEL')}
           activeWorkspace={activeWorkspace}
           workspaces={workspaces}
-          features={user.features}
+          features={user.features || []}
           onWorkspaceChange={(workspace: any) => {
             saveWorkspaceToLs(workspace);
             dispatch(setWorkspace(workspace));

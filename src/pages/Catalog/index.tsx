@@ -58,7 +58,7 @@ const StyledDivider = styled(Divider)`
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
-export default function Catalog() {
+const Catalog = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { userData, status } = useAppSelector((state) => state.user);
@@ -83,15 +83,14 @@ export default function Catalog() {
 
   if (data) {
     if (data.data) {
-      data.data.map((service) => 
+      data.data.map((service) =>
         // TODO: check if express feature flag is enabled, if yes show the service
-         services.push(service)
+        services.push(service)
       );
     }
   }
 
   if (error) {
-    console.error(error);
     navigate(notFoundRoute, { replace: true });
   }
 
@@ -106,11 +105,11 @@ export default function Catalog() {
         isPill
         isPrimary
         size="small"
-        onClick={() =>
-          (window.location.href = `mailto:${
+        onClick={() => {
+          window.location.href = `mailto:${
             activeWorkspace?.csm.email || 'info@unguess.io'
-          }`)
-        }
+          }`;
+        }}
       >
         {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
       </WaterButton>,
@@ -171,4 +170,6 @@ export default function Catalog() {
       </Grid>
     </Page>
   );
-}
+};
+
+export default Catalog;

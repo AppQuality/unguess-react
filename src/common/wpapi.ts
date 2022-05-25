@@ -9,27 +9,25 @@ const WPAPI = {
     username: string;
     password: string;
     security: string;
-  }) => fetch(
-      `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: queryString.stringify({
-          username,
-          password,
-          security,
-          action: 'ajaxlogin',
-        }),
-      }
-    )
+  }) =>
+    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: queryString.stringify({
+        username,
+        password,
+        security,
+        action: 'ajaxlogin',
+      }),
+    })
       .then((data) => data.json())
       .then((res) => {
         if (res.loggedin) {
           return true;
         }
-        if (res.hasOwnProperty('loggedin')) {
+        if (Object.prototype.hasOwnProperty.call(res, 'loggedin')) {
           throw new Error(
             JSON.stringify({ type: 'invalid', message: res.message })
           );
@@ -41,18 +39,16 @@ const WPAPI = {
           })
         );
       }),
-  getNonce: () => fetch(
-      `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: queryString.stringify({
-          action: 'ug_get_nonce',
-        }),
-      }
-    )
+  getNonce: () =>
+    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: queryString.stringify({
+        action: 'ug_get_nonce',
+      }),
+    })
       .then((data) => data.json())
       .then((res) => {
         if (res.success) {
@@ -60,7 +56,8 @@ const WPAPI = {
         }
         throw new Error('Nonce not found.');
       }),
-  logout: () => fetch(
+  logout: () =>
+    fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
       {
         method: 'GET',
@@ -70,7 +67,8 @@ const WPAPI = {
         window.location.reload();
       })
       .catch((e) => {
-        alert(e.message);
+        // eslint-disable-next-line no-console
+        console.error(e.message);
       }),
 };
 

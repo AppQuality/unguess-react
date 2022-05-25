@@ -9,7 +9,7 @@ import { SuggestedCampaigns } from './SuggestedCampaigns';
 import { CampaignsList } from './campaigns-list';
 import { DashboardHeaderContent } from './headerContent';
 
-export default function Dashboard() {
+const Dashboard = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -42,3 +42,5 @@ export default function Dashboard() {
     </Page>
   );
 }
+
+export default Dashboard;

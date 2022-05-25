@@ -1,6 +1,7 @@
 import { theme } from '@appquality/unguess-design-system';
 import { createSlice } from '@reduxjs/toolkit';
 import { isMinMedia } from 'src/common/utils';
+import { NavigationState } from './types';
 
 import { getWorkspaceFromLS } from './cachedStorage';
 

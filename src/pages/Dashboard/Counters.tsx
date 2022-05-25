@@ -71,7 +71,7 @@ export const Counters = () => {
       wid: activeWorkspace?.id ?? 0,
     });
 
-  if (isError) return false; // TODO: Improve error handling
+  if (isError) return (null); // TODO: Improve error handling
 
   const { running, completed, inComing, functional, experiential } =
     getCounterValues(data?.items ?? [], projectId) || 0;

@@ -20,14 +20,13 @@ import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import { toggleChat } from 'src/common/utils';
+import { STRAPI_URL } from 'src/constants';
 
 const ServicesContainer = styled.div``;
 
 const ServiceCol = styled(Col)`
   margin-bottom: ${theme.space.lg};
 `;
-
-const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
 
 const CardGroup = ({ items }: { items: any }) => {
   const { t } = useTranslation();
@@ -47,8 +46,7 @@ const CardGroup = ({ items }: { items: any }) => {
   return (
     <>
       {items.map((service: any) => {
-        const iconUrl =
-          STRAPI_URL + service?.attributes?.icon?.data?.attributes?.url;
+        const iconUrl = `${STRAPI_URL}${service?.attributes?.icon?.data?.attributes?.url}`;
         const tags = [];
         const buttons = [];
 
@@ -95,11 +93,11 @@ const CardGroup = ({ items }: { items: any }) => {
               isStretched
               size="small"
               isPrimary
-              onClick={() =>
-                (window.location.href = `mailto:${
+              onClick={() => {
+                window.location.href = `mailto:${
                   activeWorkspace?.csm.email || 'info@unguess.io'
-                }`)
-              }
+                }`;
+              }}
             >
               {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
             </WaterButton>

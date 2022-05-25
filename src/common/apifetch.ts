@@ -15,13 +15,18 @@ const apifetch = async ({
   token?: string;
   paramType?: string;
 }) => {
+  let currentToken = token;
+
   if (process.env.REACT_APP_DEFAULT_TOKEN)
-    token = process.env.REACT_APP_DEFAULT_TOKEN;
+    currentToken = process.env.REACT_APP_DEFAULT_TOKEN;
+
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
-  if (token) {
-    requestHeaders.set('Authorization', `Bearer ${  token}`);
+
+  if (currentToken) {
+    requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
+
   let query = '';
   if (params && Object.keys(params).length) {
     const urlps = new URLSearchParams();
@@ -32,7 +37,7 @@ const apifetch = async ({
         urlps.set(key, value);
       }
     });
-    query = `?${  urlps.toString()}`;
+    query = `?${urlps.toString()}`;
   }
   const fetchData: { method: string; headers: Headers; body?: string } = {
     method,
@@ -46,11 +51,10 @@ const apifetch = async ({
     fetchData
   );
   if (res.ok) {
-    return await res.json();
-  } 
-    const json = await res.json();
-    throw new HttpError(res.status, res.statusText, json.message || json.err);
-  
+    return res.json();
+  }
+  const json = await res.json();
+  throw new HttpError(res.status, res.statusText, json.message || json.err);
 };
 
 export default apifetch;
