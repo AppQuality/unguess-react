@@ -110,12 +110,12 @@ const ServiceTimeline = (
                                     {why && (
                                         <StyledOrderListItem>
                                             <Link
-                                                to={"why"}
-                                                containerId={"why-card"}
+                                                to={"why-card"}
+                                                containerId={"main"}
                                                 spy={true}
                                                 smooth={true}
-                                                offset={-100}
                                                 duration={500}
+                                                offset={-50}
                                             >
                                                 {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHY_ITEM")}
                                             </Link>
@@ -125,12 +125,12 @@ const ServiceTimeline = (
                                     {what && (
                                         <StyledOrderListItem>
                                             <Link
-                                                to={"what"}
-                                                containerId={"what-card"}
+                                                to={"what-card"}
+                                                containerId={"main"}
                                                 spy={true}
                                                 smooth={true}
-                                                offset={-100}
                                                 duration={500}
+                                                offset={-20}
                                             >
                                                 {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHAT_ITEM")}
                                             </Link>
@@ -140,12 +140,12 @@ const ServiceTimeline = (
                                     {how && (
                                         <StyledOrderListItem>
                                             <Link
-                                                to={"how"}
-                                                containerId={"how-card"}
+                                                to={"how-card"}
+                                                containerId={"main"}
                                                 spy={true}
                                                 smooth={true}
-                                                offset={-100}
                                                 duration={500}
+                                                offset={-20}
                                             >
                                                 {t("__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_HOW_ITEM")}
                                             </Link>

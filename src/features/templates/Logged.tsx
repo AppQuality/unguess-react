@@ -76,7 +76,7 @@ export const Logged = ({
     <Chrome isFluid hue={theme.palette.white}>
       <Body style={{ backgroundColor: theme.palette.grey[100] }}>
         <Navigation route={route}>
-          <Main style={{ backgroundColor: "transparent", margin: 0 }}>
+          <Main id={"main"} style={{ backgroundColor: "transparent", margin: 0 }}>
             {pageHeader && pageHeader}
             <Container>{children}</Container>
           </Main>
