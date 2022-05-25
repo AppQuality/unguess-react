@@ -37,6 +37,11 @@ const StyledOrderedList = styled(OrderedList)`
 
 const StyledOrderListItem = styled(OrderedList.Item)`
     margin-top: ${({ theme }) => theme.space.sm};
+    
+    ::marker, > a {
+        color: ${({ theme }) => theme.colors.primaryHue};
+        cursor: pointer;
+    }
 `;
 
 const TimelineCard = styled(Card)`
