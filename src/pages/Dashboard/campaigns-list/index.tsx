@@ -16,7 +16,7 @@ import { CardList } from "./list";
 import { TableList } from "./table";
 import { Separator } from "../Separator";
 import { Filters } from "../filters";
-import { EmptyResults } from "./emptyState";
+import { EmptyResults } from "../emptyState";
 import { selectGroupedCampaigns, selectFilteredCampaigns } from "src/features/campaigns";
 import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
 import { createSelector } from "@reduxjs/toolkit";
@@ -42,7 +42,7 @@ export const CampaignsList = () => {
 
   }, [])
   
-  const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery({wid: activeWorkspace?.id || 0, limit: 10000}, {
+  const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery({wid: activeWorkspace?.id || 0}, {
     selectFromResult: (result) => {
       return {
         ...result,

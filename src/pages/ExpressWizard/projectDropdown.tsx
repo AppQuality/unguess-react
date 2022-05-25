@@ -32,8 +32,7 @@ export const ProjectDropdown = () => {
 
   //Get workspaces projects from rtk query
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id || 0,
-    limit: 10000,
+    wid: activeWorkspace?.id || 0
   });
 
   const projects = data?.items || [];
@@ -70,6 +69,8 @@ export const ProjectDropdown = () => {
       if (selectedProject) {
         setSelectedItem(selectedProject);
       }
+    }else {
+      setSelectedItem(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedInputValue, project, projects]);

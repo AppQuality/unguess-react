@@ -1,9 +1,10 @@
+import {GetUsersMeApiResponse} from '@src/features/api';
 
 type UserState = {
   status: "idle" | "loading" | "logged" | "failed";
-  userData: Users["getUserMe"]
+  userData: GetUsersMeApiResponse;
 };
 
 type Users = {
-  getUserMe: ApiOperations["get-users-me"]["responses"]["200"]["content"]["application/json"]
+  getUserMe: GetUsersMeApiResponse;
 }

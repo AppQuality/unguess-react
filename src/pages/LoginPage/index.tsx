@@ -47,15 +47,12 @@ export default function LoginPage() {
       setCta(`${t("__LOGIN_FORM_CTA_REDIRECT_STATE")}`);
       document.location.href = "/";
     } catch (e: unknown) {
-      console.log("Login forms errors:", e);
       const { message } = e as Error;
       const error = JSON.parse(message);
 
       if (error.type === "invalid") {
-        console.log("Invalid credentials");
         setStatus({ message: `${t("__LOGIN_FORM_FAILED_INVALID")}` });
       } else {
-        console.log("Unknown error");
         document.location.href = "/";
       }
     }

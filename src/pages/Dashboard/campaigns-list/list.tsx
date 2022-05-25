@@ -5,20 +5,31 @@ import {
   Span,
   theme,
 } from "@appquality/unguess-design-system";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { Campaign } from "src/features/api";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
+import i18n from "src/i18n";
 import styled from "styled-components";
-import { CampaignItem } from "../CampaignItem";
+import { CampaignItem, ColCard } from "../CampaignItem";
 
 const FloatRight = styled.div`
   float: right;
 `;
 
-const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
+const CardGroup = ({ items }: { items: Array<Campaign> }) => {
   const { t } = useTranslation();
-  const [limit, toggleLimit] = useState(true);
-  const campaigns = limit ? items.slice(0, 4) : items;
+  const navigate = useNavigate();
+  const campaigns = items.slice(0, 4)
+
+  const navigateToProject = (projectId: number) => {
+    const localizedRoute =
+        i18n.language === "en"
+          ? `/projects/${projectId}`
+          : `/${i18n.language}/projects/${projectId}`;
+
+    navigate(localizedRoute);
+  };
 
   const clickToggle = (campaignId: number, cpType: string) => {
     window.location.href = getLocalizeRoute(campaignId, cpType);
@@ -40,23 +51,22 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
 
       {/* <CardsContainer> */}
       {campaigns.map((campaign) => (
-        <CampaignItem
-          key={campaign.id}
-          campaign={campaign}
-          size={3}
-          onCampaignClicked={clickToggle}
-          style={{ marginBottom: theme.space.base * 4 + "px" }}
-        />
+        <ColCard xs={12} md={6} lg={3}>
+          <CampaignItem
+            key={campaign.id}
+            campaign={campaign}
+            onCampaignClicked={clickToggle}
+            style={{ marginBottom: theme.space.base * 4 + "px" }}
+          />
+        </ColCard>
       ))}
       {/* </CardsContainer> */}
 
       {items.length > 4 && (
         <Col size={12}>
           <FloatRight>
-            <Button isBasic onClick={() => toggleLimit(!limit)}>
-              {limit
-                ? t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10")
-                : t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_LESS MAX:10")}
+            <Button isBasic onClick={() => navigateToProject(campaigns[0].project_id)}>
+              {t("__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10")}
             </Button>
           </FloatRight>
         </Col>
@@ -68,7 +78,7 @@ const CardGroup = ({ items }: { items: Array<Component["campaign"]> }) => {
 export const CardList = ({
   campaigns,
 }: {
-  campaigns: Array<Array<Component["campaign"]>>;
+  campaigns: Array<Array<Campaign>>;
 }) => {
   return (
     <>

@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "private": true,
   "dependencies": {
-    "@appquality/unguess-design-system": "2.10.16",
+    "@appquality/unguess-design-system": "2.10.38",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
@@ -16,6 +16,7 @@
     "i18n-iso-countries": "^7.3.0",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.3",
+    "qs": "^6.10.3",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -39,7 +40,8 @@
     "eject": "react-scripts eject",
     "translate": "i18next-scanner",
     "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/common/schema.ts ",
-    "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts"
+    "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts",
+    "generate-strapi": "npx @rtk-query/codegen-openapi src/features/backoffice/config.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -78,6 +80,7 @@
     "@types/async": "^3.2.13",
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.26",
+    "@types/qs": "^6.9.7",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "@types/react-gtm-module": "^2.0.1",

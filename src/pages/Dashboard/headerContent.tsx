@@ -12,14 +12,9 @@ import { useTranslation } from "react-i18next";
 import { useAppSelector } from "src/app/hooks";
 import React from "react";
 import { FEATURE_FLAG_SKY_JOTFORM } from "src/constants";
+import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
+import { Feature } from "src/features/api";
 
-const StyledContainer = styled.div`
-  background-color: white;
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding: ${({ theme }) => theme.space.xxl};
-    padding-bottom: 1px;
-  }
-`;
 
 export const DashboardHeaderContent = ({
   children,
@@ -33,23 +28,29 @@ export const DashboardHeaderContent = ({
 
   const hasButton =
     userData.features &&
-    userData.features.find((feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM);
+    userData.features.find((feature: Feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM);
 
   const StyledButton = styled(Button)`
     display: flex;
     margin-left: auto;
   `;
 
+  const StyledCol = styled(Col)`
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+      margin-top: ${({ theme }) => theme.space.lg};
+    }
+  `; 
+
   return status === "idle" || status === "loading" ? (
     <></>
   ) : (
     <>
-      <StyledContainer>
+      <PageHeaderContainer>
         <Grid>
           <Row>
-            <Col>{children}</Col>
+            <StyledCol xs={12} md={6}>{children}</StyledCol>
             {hasButton && (
-              <Col>
+              <Col xs={12} md={6}>
                 <StyledButton
                   isPrimary
                   onClick={() => {
@@ -64,7 +65,7 @@ export const DashboardHeaderContent = ({
           <Row
             style={{
               marginTop: theme.space.base * 6 + "px",
-              marginBottom: theme.space.base * 6 + "px",
+              paddingBottom: theme.space.base * 6 + "px",
             }}
           >
             <Col xs={12}>
@@ -72,7 +73,7 @@ export const DashboardHeaderContent = ({
             </Col>
           </Row>
         </Grid>
-      </StyledContainer>
+      </PageHeaderContainer>
       <Separator style={{ marginTop: 0 }} />
     </>
   );

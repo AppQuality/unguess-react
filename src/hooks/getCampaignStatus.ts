@@ -1,4 +1,6 @@
-export const getCampaignStatus = (campaign: Component["campaign"]) => {
+import { Campaign } from "src/features/api";
+
+export const getCampaignStatus = (campaign: Campaign) => {
     //Current Date
     const now = new Date().getTime();
 

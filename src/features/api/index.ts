@@ -221,22 +221,21 @@ export type PostCampaignsApiResponse = /** status 200 OK */ Campaign;
 export type PostCampaignsApiArg = {
   body: {
     title: string;
-    description?: string;
     start_date: string;
     end_date: string;
     close_date: string;
     customer_title?: string;
     status_id?: number;
     is_public?: number;
-    bug_form?: number;
     campaign_type_id: number;
-    test_type_id: number;
     project_id: number;
     pm_id: number;
     platforms?: PlatformObject[];
     page_preview_id?: number;
     page_manual_id?: number;
     customer_id?: number;
+    has_bug_form?: number;
+    has_bug_parade?: number;
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
@@ -275,6 +274,10 @@ export type Workspace = {
     picture?: string;
   };
 };
+export type Feature = {
+  slug?: string;
+  name?: string;
+};
 export type User = {
   id: number;
   email: string;
@@ -285,10 +288,7 @@ export type User = {
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
   picture?: string;
-  features?: {
-    slug?: string;
-    name?: string;
-  }[];
+  features?: Feature[];
 };
 export type Campaign = {
   id: number;
@@ -297,15 +297,16 @@ export type Campaign = {
   close_date: string;
   title: string;
   customer_title: string;
-  description: string;
   status_id: number;
   status_name: string;
   is_public: number;
   campaign_type_id: number;
   campaign_type_name: string;
-  test_type_name: string;
+  campaign_family_id?: number;
+  campaign_family_name: string;
   project_id: number;
   project_name: string;
+  bug_form?: number;
 };
 export type Project = {
   id: number;
@@ -314,14 +315,7 @@ export type Project = {
 };
 export type PlatformObject = {
   id: number;
-  name: string;
-  deviceType?:
-    | "smartphone"
-    | "tablet"
-    | "computer"
-    | "smartwatch"
-    | "console"
-    | "tv";
+  deviceType: number;
 };
 export const {
   useGetQuery,

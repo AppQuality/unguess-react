@@ -18,6 +18,8 @@ import i18n from "src/i18n";
 import { useNavigate, useParams } from "react-router-dom";
 import { Changelog } from "./Changelog";
 import { useGetWorkspacesByWidProjectsQuery } from "../api";
+import { saveWorkspaceToLs } from "./cachedStorage";
+import { prepareGravatar } from "src/common/utils";
 
 export const Navigation = ({
   children,
@@ -36,7 +38,7 @@ export const Navigation = ({
   );
 
   const workspaces = user.workspaces;
-  
+
   if (!activeWorkspace) {
     // dispatch(getWorkspaces());
     if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
@@ -54,23 +56,30 @@ export const Navigation = ({
     });
   }
 
-  const projects = useGetWorkspacesByWidProjectsQuery({ wid: activeWorkspace?.id || 0, limit: 1000});
+  console.log("parameter", parameter);
+
+  const projects = useGetWorkspacesByWidProjectsQuery({
+    wid: activeWorkspace?.id || 0
+  });
 
   if (projects.isFetching || projects.isLoading) {
     return <PageLoader />;
   }
 
-  const projectsList = !projects.data || !projects.data.items ? [] : projects.data.items.reduce((filtered: Array<any>, project) => {
-    if (project.campaigns_count) {
-      filtered.push({
-        id: project.id + "",
-        title: project.name || "-",
-        campaigns:
-          `${project.campaigns_count} ` + t("__SIDEBAR_CAMPAIGNS_LABEL"),
-      });
-    }
-    return filtered;
-  }, []);
+  const projectsList =
+    !projects.data || !projects.data.items
+      ? []
+      : projects.data.items.reduce((filtered: Array<any>, project) => {
+          if (project.campaigns_count) {
+            filtered.push({
+              id: project.id + "",
+              title: project.name || "-",
+              campaigns:
+                `${project.campaigns_count} ` + t("__SIDEBAR_CAMPAIGNS_LABEL"),
+            });
+          }
+          return filtered;
+        }, []);
 
   //Get initials from name
   const getInitials = (name: string) => {
@@ -84,13 +93,13 @@ export const Navigation = ({
       name: user.name,
       email: user.email,
       company: activeWorkspace?.company || "",
-      ...(user.picture && { picture: user.picture }),
+      ...(user.picture && { picture: prepareGravatar(user.picture) }),
     },
     csm: {
       name: activeWorkspace?.csm.name || "",
       email: activeWorkspace?.csm.email || "",
       ...(activeWorkspace?.csm.picture && {
-        picture: activeWorkspace?.csm.picture,
+        picture: prepareGravatar(activeWorkspace?.csm.picture),
       }),
     },
     languages: {
@@ -142,15 +151,19 @@ export const Navigation = ({
     },
   };
 
-  const navigateTo = (route: string) => {
+  const navigateTo = (route: string, parameter?: string) => {
     let localizedRoute = "";
     if (route === "home") {
       localizedRoute = i18n.language === "en" ? "/" : `/${i18n.language}`;
     } else {
       localizedRoute =
         i18n.language === "en"
-          ? `/projects/${route}`
-          : `/${i18n.language}/projects/${route}`;
+          ? `/${route}`
+          : `/${i18n.language}/${route}`;
+
+      if (parameter) {
+        localizedRoute += `/${parameter}`;
+      }
     }
 
     navigate(localizedRoute, { replace: true });
@@ -177,10 +190,16 @@ export const Navigation = ({
         brand={{
           brandName: `${activeWorkspace?.company}'s Workspace`,
           menuLabel: t("__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5"),
+          activeWorkspace: activeWorkspace,
+          workspaces: workspaces,
+          onWorkspaceChange: (workspace: any) => {
+            saveWorkspaceToLs(workspace);
+            dispatch(setWorkspace(workspace));
+          },
         }}
         avatar={{
           avatarType: user.picture ? "image" : "text",
-          children: user.picture ?? getInitials(user.name),
+          children: user.picture ? prepareGravatar(user.picture, 32) : getInitials(user.name),
         }}
         onSidebarMenuToggle={toggleSidebarState}
         isProfileModalOpen={isProfileModalOpen}
@@ -197,10 +216,17 @@ export const Navigation = ({
           onToggleMenu={toggleSidebarState}
           dividerLabel={t("__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL")}
           onNavToggle={navigateTo}
-          currentRoute={parameter !== "" ? parameter : route}
+          currentRoute={route === "projects" && parameter !== "" ? `${route}/${parameter}` : route}
           homeItemLabel={t("__APP_SIDEBAR_HOME_ITEM_LABEL")}
+          activeWorkspace={activeWorkspace}
+          workspaces={workspaces}
+          features={user.features}
+          onWorkspaceChange={(workspace: any) => {
+            saveWorkspaceToLs(workspace);
+            dispatch(setWorkspace(workspace));
+          }}
         />
-       {children}
+        {children}
       </Content>
     </>
   );

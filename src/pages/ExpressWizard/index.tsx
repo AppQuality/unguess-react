@@ -47,6 +47,8 @@ import format from "date-fns/format";
 import async from "async";
 import { reasonItems } from "./steps/what";
 import { create_crons, create_pages, create_tasks } from "src/common/campaigns";
+import { getPlatform } from "./getPlatform";
+import { toggleChat } from "src/common/utils";
 
 interface StepItem {
   label: string;
@@ -144,7 +146,6 @@ export const ExpressWizardContainer = () => {
             next(null, payload);
           })
           .catch((error) => {
-            console.error("rejected", error);
             return next(error);
           });
       } else {
@@ -158,7 +159,6 @@ export const ExpressWizardContainer = () => {
       createCampaign({
         body: {
           title: values.campaign_name || "Express campaign",
-          description: "Express campaign created by the user",
           start_date: values.campaign_date
             ? format(values.campaign_date, BASE_DATE_FORMAT)
             : fallBackDate,
@@ -170,18 +170,16 @@ export const ExpressWizardContainer = () => {
             : fallBackDate,
           customer_title: values.campaign_name,
           campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
-          test_type_id: 1, //TODO: check if this field is needed
           project_id: prj?.id || -1,
           pm_id: activeWorkspace?.csm.id || -1,
+          platforms: getPlatform(values),
         },
       })
         .unwrap()
         .then(async (payload) => {
-          console.log("Campaign created", payload);
           next(null, payload);
         })
         .catch((error) => {
-          console.error("rejected", error);
           return next(error);
         });
     };
@@ -196,18 +194,16 @@ export const ExpressWizardContainer = () => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          body: JSON.stringify({ cp: {...values, id: cp.id, product_type: reasonItems[values?.product_type || 'reason-a']}, user: userData, workspace: activeWorkspace }),
+          body: JSON.stringify({ cp: {...values, id: cp.id, reason: reasonItems[values?.product_type || 'reason-a']}, user: userData, workspace: activeWorkspace }),
         })
           .then((data) => {
             console.log(`Data sent, response: ${JSON.stringify(data)}`);
             return next(null, data);
           })
           .catch((error) => {
-            console.error("rejected 1", error);
             return next(error);
           });
       } catch (error) {
-        console.error("rejected", error);
         return next(error);
       }
     };
@@ -220,7 +216,6 @@ export const ExpressWizardContainer = () => {
         create_tasks(cp.id);
         next(null, cp);
       } catch (error) {
-        console.error("rejected", error);
         return next(error);
       }
     }
@@ -230,7 +225,6 @@ export const ExpressWizardContainer = () => {
       (err: any, result: any) => {
         if (err) {
           console.error("Unable to launch campaign " + JSON.stringify(err));
-          console.error(err);
           setSubmitting(false);
         } else {
           onNext();
@@ -338,6 +332,7 @@ export const ExpressWizardContainer = () => {
             dispatch(closeWizard());
             dispatch(resetWizard());
             setStep(0);
+            toggleChat(true);
           }}
         >
           <ModalFullScreen.Header>

@@ -27,7 +27,7 @@ export const selectFilteredCampaigns = (
     //Check Type
     if (
       filters.type !== "all" &&
-      campaign.test_type_name.toLowerCase() !== filters.type
+      campaign.campaign_family_name.toLowerCase() !== filters.type
     )
       return false;
 
@@ -97,7 +97,7 @@ export const selectTypes = (campaigns: Campaign[]): Array<string> => {
   let types = ["all"];
 
   campaigns.forEach((cp) => {
-    let testType = cp.test_type_name.toLowerCase();
+    let testType = cp.campaign_family_name.toLowerCase();
     if (types.indexOf(testType) === -1) {
       types.push(testType);
     }

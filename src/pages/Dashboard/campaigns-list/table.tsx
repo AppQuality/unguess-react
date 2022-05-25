@@ -6,23 +6,14 @@ import {
   theme,
 } from "@appquality/unguess-design-system";
 import { useTranslation } from "react-i18next";
+import { Campaign } from "src/features/api";
 import { getCampaignStatus } from "src/hooks/getCampaignStatus";
 import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
-import styled from "styled-components";
-
-const StyledTable = styled(GroupedTable)`
-  border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  border-collapse: separate !important;
-  border-radius: ${({ theme }) => theme.borderRadii.lg};
-  td {
-    vertical-align: middle;
-  }
-`;
 
 export const TableList = ({
   campaigns,
 }: {
-  campaigns: Array<Array<Component["campaign"]>>;
+  campaigns: Array<Array<Campaign>>;
 }) => {
   const { t } = useTranslation();
 
@@ -70,13 +61,13 @@ export const TableList = ({
 
       campaigns.push({
         name: (
-          <Anchor href={getLocalizeRoute(campaign.id, campaign.test_type_name)}>
+          <Anchor href={getLocalizeRoute(campaign.id, campaign.campaign_family_name)}>
             <Span isBold style={{ color: theme.palette.grey[800] }}>
               {campaign.title}
             </Span>
           </Anchor>
         ),
-        type: campaign.test_type_name,
+        type: campaign.campaign_family_name,
         testType: campaign.campaign_type_name,
         startDate: new Date(campaign.start_date).toLocaleDateString(),
         status: translatedStatus,
@@ -90,7 +81,7 @@ export const TableList = ({
   });
 
   return (
-    <StyledTable
+    <GroupedTable
       groups={groups}
       columns={columns}
       style={{ backgroundColor: "white" }}
