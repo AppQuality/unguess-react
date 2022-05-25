@@ -28,7 +28,9 @@ const CounterContainer = styled.div`
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const project =
-    projectId && !isNaN(Number(projectId)) ? parseInt(projectId) : false;
+    projectId && !Number.isNaN(Number(projectId))
+      ? parseInt(projectId, 10)
+      : false;
 
   const counters = {
     running: 0,
@@ -41,16 +43,16 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   campaigns.forEach((cp) => {
     if (project && cp.project_id !== project) return;
 
-    if (cp.status_name === 'running') counters.running++;
-    if (cp.status_name === 'completed') counters.completed++;
-    if (cp.status_name === 'incoming') counters.inComing++;
+    if (cp.status_name === 'running') counters.running += 1;
+    if (cp.status_name === 'completed') counters.completed += 1;
+    if (cp.status_name === 'incoming') counters.inComing += 1;
 
     // Update type counters
     if (cp.campaign_family_name.toLowerCase() === 'functional')
-      counters.functional++;
+      counters.functional += 1;
 
     if (cp.campaign_family_name.toLowerCase() === 'experiential')
-      counters.experiential++;
+      counters.experiential += 1;
   });
 
   return counters;
@@ -69,7 +71,7 @@ export const Counters = () => {
       wid: activeWorkspace?.id ?? 0,
     });
 
-  if (isError) return <></>; // TODO: Improve error handling
+  if (isError) return false; // TODO: Improve error handling
 
   const { running, completed, inComing, functional, experiential } =
     getCounterValues(data?.items ?? [], projectId) || 0;

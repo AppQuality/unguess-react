@@ -16,7 +16,7 @@ import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useEffect, useState } from 'react';
 import useDebounce from 'src/hooks/useDebounce';
-import { useGetWorkspacesByWidProjectsQuery , Project } from 'src/features/api';
+import { useGetWorkspacesByWidProjectsQuery, Project } from 'src/features/api';
 import { setExpressProject } from 'src/features/express/expressSlice';
 
 export const ProjectDropdown = () => {
@@ -51,11 +51,8 @@ export const ProjectDropdown = () => {
 
   const filterMatchingOptions = (value: string) => {
     const matchedOptions = projects.filter(
-      (project) =>
-        project.name
-          .trim()
-          .toLowerCase()
-          .indexOf(value.trim().toLowerCase()) !== -1
+      (prj) =>
+        prj.name.trim().toLowerCase().indexOf(value.trim().toLowerCase()) !== -1
     );
 
     setMatchingOptions(matchedOptions);
@@ -71,7 +68,6 @@ export const ProjectDropdown = () => {
     } else {
       setSelectedItem(undefined);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedInputValue, project, projects]);
 
   return isLoading || isFetching ? (
@@ -103,10 +99,10 @@ export const ProjectDropdown = () => {
       <Menu>
         {matchingOptions.length ? (
           matchingOptions.map((item) => (
-              <Item key={item.id} value={item}>
-                <span>{item.name}</span>
-              </Item>
-            ))
+            <Item key={item.id} value={item}>
+              <span>{item.name}</span>
+            </Item>
+          ))
         ) : (
           <Item disabled>
             <span>
@@ -125,8 +121,9 @@ export const ProjectDropdown = () => {
                 <AddIcon />
               </MediaFigure>
               <MediaBody>
-                {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_ADD_ITEM_LABEL')} "
-                {inputValue}"
+                {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_ADD_ITEM_LABEL')}{' '}
+                &quot;
+                {inputValue}&quot;
               </MediaBody>
             </Item>
           </>

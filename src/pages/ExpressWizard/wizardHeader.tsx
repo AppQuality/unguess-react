@@ -29,7 +29,7 @@ export const WizardHeader = ({
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
 
-  return width > parseInt(theme.breakpoints.sm) ? (
+  return width > parseInt(theme.breakpoints.sm, 10) ? (
     <Container>
       <Logo type="icon" size={25} style={{ marginRight: theme.space.xs }} />
       <Breadcrumb>
@@ -41,7 +41,7 @@ export const WizardHeader = ({
               dispatch(closeWizard());
             }}
           >
-            {workspace.company}'s Workspace
+            {workspace.company}&apos;s Workspace
           </Anchor>
         )}
         <Span>{title}</Span>

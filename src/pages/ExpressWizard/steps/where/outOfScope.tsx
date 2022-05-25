@@ -9,7 +9,7 @@ import {
   Span,
   Message,
   Label,
-  theme,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import { StyledRow } from './styled';
@@ -19,32 +19,27 @@ import { WizardModel } from '../../wizardModel';
 
 export const OutOfScopeSection = ({
   errors,
-  touched,
-  validateField,
-  validateForm,
-  handleChange,
   values,
-  setFieldValue,
-  ...props
+  getFieldProps
 }: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
 
   return (
     <>
-      <StyledRow style={{ marginTop: theme.space.lg }}>
+      <StyledRow style={{ marginTop: globalTheme.space.lg }}>
         <Col>
-          <XL isBold style={{ color: theme.palette.grey[800] }}>
+          <XL isBold style={{ color: globalTheme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE')}
           </XL>
           <MD>{t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_DESCRIPTION')}</MD>
         </Col>
       </StyledRow>
-      <StyledRow style={{ marginTop: theme.space.sm }}>
+      <StyledRow style={{ marginTop: globalTheme.space.sm }}>
         <Col>
           <MD
             style={{
-              color: theme.palette.grey[800],
-              fontWeight: theme.fontWeights.semibold,
+              color: globalTheme.palette.grey[800],
+              fontWeight: globalTheme.fontWeights.semibold,
             }}
           >
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TOGGLE_LABEL')}
@@ -53,7 +48,7 @@ export const OutOfScopeSection = ({
         <Col size={2} textAlign="end">
           <Field>
             <Toggle
-              {...props.getFieldProps('hasOutOfScope')}
+              {...getFieldProps('hasOutOfScope')}
               checked={values.hasOutOfScope}
             >
               <Label hidden>
@@ -63,7 +58,7 @@ export const OutOfScopeSection = ({
           </Field>
         </Col>
         <Col size={12}>
-          <CardDivider style={{ marginTop: theme.space.xs }} />
+          <CardDivider style={{ marginTop: globalTheme.space.xs }} />
         </Col>
         {values.hasOutOfScope && (
           <Col size={12}>
@@ -71,7 +66,7 @@ export const OutOfScopeSection = ({
                 <Field>
                   <Label>
                     {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_LABEL')}
-                    <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                    <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
                   </Label>
                   <Textarea
                     rows={5}
@@ -79,7 +74,7 @@ export const OutOfScopeSection = ({
                       '__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_PLACEHOLDER'
                     )}
                     isResizable
-                    {...props.getFieldProps('outOfScope')}
+                    {...getFieldProps('outOfScope')}
                   />
                 </Field>
               </Notes>
@@ -87,7 +82,7 @@ export const OutOfScopeSection = ({
         )}
         {values.hasOutOfScope && errors.outOfScope && (
           <Col size={12}>
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+            <Message validation="error" style={{ marginTop: globalTheme.space.xs }}>
               {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_ERROR')}
             </Message>
           </Col>

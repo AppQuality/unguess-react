@@ -47,10 +47,6 @@ const StyledHint = styled(Hint)`
 
 export const WhoStep = ({
   errors,
-  touched,
-  validateField,
-  validateForm,
-  handleChange,
   values,
   ...props
 }: FormikProps<WizardModel>) => {

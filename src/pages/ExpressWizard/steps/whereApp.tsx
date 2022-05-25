@@ -3,7 +3,7 @@ import {
   XXL,
   MD,
   Span,
-  theme,
+  theme as globalTheme,
   Message,
   Row,
   Col,
@@ -41,12 +41,14 @@ const InnerField = styled(Field)`
 `;
 
 export const WhereAppStep = (props: FormikProps<WizardModel>) => {
-  const { errors, values, setFieldValue, handleChange } = props;
-  const initialRadioValue = values.isIOS
-    ? 'ios'
-    : values.isAndroid
-    ? 'android'
-    : 'none';
+  const { errors, values, setFieldValue, handleChange, getFieldProps } = props;
+  let initialRadioValue = 'none';
+  if (values.isIOS) {
+    initialRadioValue = 'ios';
+  } else if (values.isAndroid) {
+    initialRadioValue = 'android';
+  }
+
   const [radioValue, setRadioValue] = useState(initialRadioValue);
 
   // Reset web step
@@ -69,7 +71,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
     <>
       <Row>
         <Col>
-          <XXL style={{ color: theme.palette.grey[800] }}>
+          <XXL style={{ color: globalTheme.palette.grey[800] }}>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
@@ -118,7 +120,10 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
         </Col>
         <Col size={12}>
           {(errors.withSmartphone || errors.withTablet) && (
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+            <Message
+              validation="error"
+              style={{ marginTop: globalTheme.space.xs }}
+            >
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
           )}
@@ -126,9 +131,9 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
       </StyledRow>
 
       {/** --- Operating System --- */}
-      <StyledRow style={{ marginTop: theme.space.lg }}>
+      <StyledRow style={{ marginTop: globalTheme.space.lg }}>
         <Col>
-          <XL isBold style={{ color: theme.palette.grey[800] }}>
+          <XL isBold style={{ color: globalTheme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_TITLE')}
           </XL>
         </Col>
@@ -160,7 +165,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               <InnerField>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_LABEL')}
-                  <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
                 </Label>
                 <Hint>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_DESCRIPTION')}
@@ -169,7 +174,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                   start={<LinkIcon />}
                   type="url"
                   placeholder="https://www.example.com"
-                  {...props.getFieldProps('iOSLink')}
+                  {...getFieldProps('iOSLink')}
                   {...(errors.iOSLink && { validation: 'error' })}
                 />
 
@@ -180,7 +185,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 </Message>
               </InnerField>
             )}
-            <Field style={{ marginTop: `${theme.space.base * 4  }px` }}>
+            <Field style={{ marginTop: `${globalTheme.space.base * 4}px` }}>
               <Radio
                 name="device-platform"
                 value="android"
@@ -201,7 +206,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               <InnerField>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_LABEL')}
-                  <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
                 </Label>
                 <Hint>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_DESCRIPTION')}
@@ -210,7 +215,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                   start={<LinkIcon />}
                   type="url"
                   placeholder="https://www.example.com"
-                  {...props.getFieldProps('androidLink')}
+                  {...getFieldProps('androidLink')}
                   {...(errors.androidLink && { validation: 'error' })}
                 />
 

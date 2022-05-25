@@ -15,7 +15,7 @@ import { DashboardHeaderContent } from './headerContent';
 import { CardRowLoading } from './CardRowLoading';
 import { ProjectItems } from './project-items';
 
-export default function Project() {
+const Project = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -23,12 +23,12 @@ export default function Project() {
 
   const { projectId } = useParams();
 
-  if (!projectId || isNaN(Number(projectId))) {
+  if (!projectId || Number.isNaN(Number(projectId))) {
     navigate(notFoundRoute, { replace: true });
   }
 
   const project = useGetProjectsByPidQuery({
-    pid: projectId ? parseInt(projectId) : 0,
+    pid: projectId ? parseInt(projectId, 10) : 0,
   });
 
   if (project.isError) navigate(notFoundRoute, { replace: true });
@@ -69,3 +69,5 @@ export default function Project() {
     </Page>
   );
 }
+
+export default Project;

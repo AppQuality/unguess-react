@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
-import addBusinessDays, { format, isToday } from 'date-fns/addBusinessDays';
+import { addBusinessDays, format, isToday } from 'date-fns';
 import { getLanguage } from '../getLanguage';
 import { CardDivider } from '../cardDivider';
 import { WizardModel } from '../wizardModel';
@@ -44,10 +44,6 @@ const StyledMessage = styled(Message)`
 
 export const WhenStep = ({
   errors,
-  touched,
-  validateField,
-  validateForm,
-  handleChange,
   values,
   ...props
 }: FormikProps<WizardModel>) => {

@@ -10,9 +10,8 @@ export const OperativeSystems = (props: FormikProps<WizardModel>) => {
 
   const items = [];
 
-  values.isAndroid &&
-    items.push(t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_ANDROID_LABEL'));
-  values.isIOS && items.push(t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_IOS_LABEL'));
+  if(values.isAndroid) items.push(t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_ANDROID_LABEL'));
+  if(values.isIOS) items.push(t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_IOS_LABEL'));
 
   return (
     <>

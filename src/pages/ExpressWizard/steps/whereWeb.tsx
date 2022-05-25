@@ -34,7 +34,7 @@ import { CardDivider } from '../cardDivider';
 import { OutOfScopeSection } from './where/outOfScope';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
-  const { errors, values, setFieldValue } = props;
+  const { errors, values, setFieldValue, getFieldProps } = props;
 
   // Reset App step
   if (values.isIOS) setFieldValue('isIOS', false);
@@ -146,7 +146,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               start={<LinkIcon />}
               type="url"
               placeholder="https://www.example.com"
-              {...props.getFieldProps('link')}
+              {...getFieldProps('link')}
               {...(errors.link && { validation: 'error' })}
             />
 
@@ -170,7 +170,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
         <Col size={2} textAlign="end">
           <Field>
             <Toggle
-              {...props.getFieldProps('customBrowser')}
+              {...getFieldProps('customBrowser')}
               checked={values.customBrowser}
             >
               <Label hidden>
@@ -202,12 +202,12 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                   </Label>
                   <Input
                     type="hidden"
-                    {...props.getFieldProps('customBrowserFilled')}
+                    {...getFieldProps('customBrowserFilled')}
                   />
                 </Field>
                 <SpacedField>
                   <Checkbox
-                    {...props.getFieldProps('withChrome')}
+                    {...getFieldProps('withChrome')}
                     checked={values.withChrome}
                   >
                     <Label style={{ color: theme.colors.primaryHue }}>
@@ -217,7 +217,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 </SpacedField>
                 <SpacedField>
                   <Checkbox
-                    {...props.getFieldProps('withEdge')}
+                    {...getFieldProps('withEdge')}
                     checked={values.withEdge}
                   >
                     <Label style={{ color: theme.colors.primaryHue }}>
@@ -227,7 +227,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 </SpacedField>
                 <SpacedField>
                   <Checkbox
-                    {...props.getFieldProps('withSafari')}
+                    {...getFieldProps('withSafari')}
                     checked={values.withSafari}
                   >
                     <Label style={{ color: theme.colors.primaryHue }}>
@@ -237,7 +237,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 </SpacedField>
                 <SpacedField>
                   <Checkbox
-                    {...props.getFieldProps('withFirefox')}
+                    {...getFieldProps('withFirefox')}
                     checked={values.withFirefox}
                   >
                     <Label style={{ color: theme.colors.primaryHue }}>

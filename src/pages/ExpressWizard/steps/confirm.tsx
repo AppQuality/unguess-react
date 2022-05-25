@@ -11,7 +11,7 @@ import {
   Col,
   Grid,
   Row,
-  theme,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { ReactComponent as WhatIcon } from 'src/assets/icons/step-what-icon.svg';
@@ -77,16 +77,16 @@ const TextareaNote = styled(Paragraph)`
 `;
 
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
-  const { values } = props;
+  const { values, getFieldProps } = props;
   const { project } = useAppSelector((state) => state.express);
   const lang = getLanguage(values.campaign_language || 'en');
 
-  const date_start_text = format(
+  const dateStartText = format(
     values.campaign_date || new Date(),
     'EEEE d MMMM Y',
     { locale: lang.locale }
   );
-  const date_end_text = format(
+  const dateEndText = format(
     values.campaign_date_end || new Date(),
     'EEEE d MMMM Y',
     { locale: lang.locale }
@@ -103,7 +103,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginTop: `${theme.space.base * 10  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 10  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -120,7 +120,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                     <Span isBold>
                       {{ campaign_name: values.campaign_name }}
                     </Span>{' '}
-                    all'interno del progetto{' '}
+                    all&apos;interno del progetto{' '}
                     <Span isBold>{{ project_name: project?.name }}</Span> per{' '}
                     <Span isBold>{{ product_type: productType }}</Span>.
                   </Trans>
@@ -130,7 +130,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -157,7 +157,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -179,7 +179,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -193,9 +193,9 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHEN_CONTENT_TEXT">
                     Campaign starts on{' '}
-                    <Span isBold>{{ campaign_date: date_start_text }}</Span> and
+                    <Span isBold>{{ campaign_date: dateStartText }}</Span> and
                     ends on{' '}
-                    <Span isBold>{{ campaign_date_end: date_end_text }}</Span>.
+                    <Span isBold>{{ campaign_date_end: dateEndText }}</Span>.
                   </Trans>
                 </StyledParagraph>
               </Col>
@@ -203,7 +203,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${theme.space.base * 7  }px` }}>
+      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7  }px` }}>
         <StyledCard>
           <Grid>
             <Row>
@@ -220,7 +220,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                   </Paragraph>
                 </StyledParagraph>
                 <StyledTextarea
-                  {...props.getFieldProps('campaign_more_info')}
+                  {...getFieldProps('campaign_more_info')}
                   placeholder={t(
                     '__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_PLACEHOLDER'
                   )}

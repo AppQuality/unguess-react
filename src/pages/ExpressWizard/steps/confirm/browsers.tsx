@@ -10,13 +10,13 @@ export const Browsers = (props: FormikProps<WizardModel>) => {
 
   const items = [];
 
-  values.withChrome &&
+  if (values.withChrome)
     items.push(t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME'));
-  values.withSafari &&
+  if (values.withSafari)
     items.push(t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI'));
-  values.withFirefox &&
+  if (values.withFirefox)
     items.push(t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX'));
-  values.withEdge &&
+  if (values.withEdge)
     items.push(t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE'));
 
   return values.customBrowser ? (

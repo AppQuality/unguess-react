@@ -10,11 +10,11 @@ export const Devices = (props: FormikProps<WizardModel>) => {
 
   const items = [];
 
-  values.withSmartphone &&
+  if (values.withSmartphone)
     items.push(t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE'));
-  values.withTablet &&
+  if (values.withTablet)
     items.push(t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET'));
-  values.withDesktop &&
+  if (values.withDesktop)
     items.push(t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP'));
 
   return (

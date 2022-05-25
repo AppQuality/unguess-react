@@ -14,7 +14,7 @@ import {
   Span,
   XL,
   XXL,
-  theme,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
@@ -72,10 +72,6 @@ const StyledMessage = styled(Message)`
 
 export const WhatStep = ({
   errors,
-  touched,
-  validateField,
-  validateForm,
-  handleChange,
   values,
   ...props
 }: FormikProps<WizardModel>) => {
@@ -98,7 +94,7 @@ export const WhatStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_LABEL')}
-          <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
         </Label>
         <MediaInput
           type="text"
@@ -129,7 +125,7 @@ export const WhatStep = ({
               {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
             </Label>
             <Select start={<FlagIcon />}>
-              {selectedItem && reasonItems[selectedItem]}
+              {selectedItem && reasonItems[`${selectedItem}`]}
             </Select>
             {errors.campaign_reason && (
               <StyledMessage validation="error">
@@ -140,7 +136,7 @@ export const WhatStep = ({
           <Menu>
             {Object.keys(reasonItems).map((key) => (
               <Item key={key} value={key}>
-                {reasonItems[key]}
+                {reasonItems[`${key}`]}
               </Item>
             ))}
           </Menu>

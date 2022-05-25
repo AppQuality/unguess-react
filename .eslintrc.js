@@ -1,8 +1,7 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
-    jest: true,
+    es2021: true
   },
   extends: [
     'plugin:react/recommended',
@@ -53,11 +52,17 @@ module.exports = {
     ],
     'react/prop-types': 'off', // Since we do not use prop-types
     'react/require-default-props': 'off', // Since we do not use prop-types
-    "react/jsx-props-no-spreading": "off", // This is an anti-pattern, to be removed.
+    'react/jsx-props-no-spreading': 'off', // This is an anti-pattern, to be removed.
   },
   settings: {
     'import/resolver': {
       typescript: {}, // this loads <rootdir>/tsconfig.json to eslint
     },
+  },
+  globals: {
+    React: true,
+    JSX: true,
+    fetch: true,
+    HeadersInit: true,
   },
 };
