@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledContainer = styled.div`
   background-color: ${({ theme }) => theme.palette.white};
@@ -9,6 +9,6 @@ const StyledContainer = styled.div`
   }
 `;
 
-export const PageHeaderContainer: React.FC<{}> = ({ children }) => {
-  return <StyledContainer>{children}</StyledContainer>;
-};
+export const PageHeaderContainer: React.FC<{}> = ({ children }) => (
+  <StyledContainer>{children}</StyledContainer>
+);

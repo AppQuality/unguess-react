@@ -1,8 +1,8 @@
-import { Page } from "src/features/templates/Page";
-import { Trans, useTranslation } from "react-i18next";
-import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
-import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
+import { Page } from 'src/features/templates/Page';
+import { Trans, useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   Anchor,
   Breadcrumb,
@@ -13,24 +13,25 @@ import {
   Row,
   Span,
   Tag,
-  theme,
+  theme as globalTheme,
   XXL,
-} from "@appquality/unguess-design-system";
-import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
-import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { ReactComponent as ExperientialIcon } from "src/assets/icons/experiential-icon.svg";
-import { ReactComponent as FunctionalIcon } from "src/assets/icons/functional-icon.svg";
-import { ReactComponent as EnvironmentIcon } from "src/assets/icons/environment-icon.svg";
-import { ReactComponent as TimeIcon } from "src/assets/icons/time-icon.svg";
-import { PageHeaderContainer } from "src/common/components/pageHeaderContainer";
-import { ExpressWizardContainer } from "src/pages/ExpressWizard";
-import { ExpressDrawer } from "src/pages/ExpressWizard/drawer";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { FEATURE_FLAG_CATALOG } from "src/constants";
-import { Feature } from "src/features/api";
-import { openDrawer, openWizard } from "src/features/express/expressSlice";
-import { useGetFullServicesByIdQuery } from "src/features/backoffice/strapi";
-import { WaterButton } from "../ExpressWizard/waterButton";
+} from '@appquality/unguess-design-system';
+import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
+import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
+import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
+import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
+import { ReactComponent as EnvironmentIcon } from 'src/assets/icons/environment-icon.svg';
+import { ReactComponent as TimeIcon } from 'src/assets/icons/time-icon.svg';
+import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
+import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
+import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { FEATURE_FLAG_CATALOG } from 'src/constants';
+import { Feature } from 'src/features/api';
+import { openDrawer, openWizard } from 'src/features/express/expressSlice';
+import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
+import { toggleChat } from 'src/common/utils';
+import { WaterButton } from '../ExpressWizard/waterButton';
 import { ServiceTimeline } from "./ServiceTimeline";
 
 const CampaignType = styled(Paragraph)`
@@ -85,38 +86,38 @@ const BannerContainer = styled.div`
 `;
 
 const ColBanner = styled(Col)`
-  @media (max-width: ${theme.breakpoints.lg}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: 0;
   }
 `;
 
 const ColMeta = styled(Col)`
-  @media (max-width: ${theme.breakpoints.lg}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     order: 1;
   }
 `;
 
 const StyledBreadcrumb = styled(Breadcrumb)`
-  @media (max-width: ${theme.breakpoints.lg}) {
-    margin-top: ${theme.space.lg};
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin-top: ${({ theme }) => theme.space.lg};
   }
 `;
 
-export default function Service() {
+const Service = () => {
   const { t } = useTranslation();
   const { templateId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const notFoundRoute = useLocalizeRoute("oops");
-  const homeRoute = useLocalizeRoute("");
-  const servicesRoute = useLocalizeRoute("templates");
-  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || "";
+  const notFoundRoute = useLocalizeRoute('oops');
+  const homeRoute = useLocalizeRoute('');
+  const servicesRoute = useLocalizeRoute('templates');
+  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
 
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   if (
-    status === "logged" &&
+    status === 'logged' &&
     (!userData.features ||
       !userData.features.find(
         (feature: Feature) => feature.slug === FEATURE_FLAG_CATALOG
@@ -125,11 +126,11 @@ export default function Service() {
     navigate(notFoundRoute, { replace: true });
   }
 
-  if (!templateId || isNaN(Number(templateId))) {
+  if (!templateId || Number.isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });
   }
   const { data, error, isLoading } = useGetFullServicesByIdQuery({
-    id: templateId ? templateId : "",
+    id: templateId || '',
     populate: {
       output_image: "*",
       requirements: {
@@ -160,15 +161,17 @@ export default function Service() {
     }
   });
 
-  const serviceName = data ? data.data?.attributes?.title : "";
-  const campaignType = data ? data.data?.attributes?.campaign_type : "";
-  const serviceDescription = data ? data.data?.attributes?.description : "";
+  const serviceName = data ? data.data?.attributes?.title : '';
+  const campaignType = data ? data.data?.attributes?.campaign_type : '';
+  const serviceDescription = data ? data.data?.attributes?.description : '';
   const isExpress = data ? data.data?.attributes?.is_express : false;
   const isFunctional = data ? data.data?.attributes?.is_functional : false;
   const days = data ? data.data?.attributes?.duration_in_days : 3;
-  const hours = (days ? days : 3) * 24;
-  const environment = data ? data.data?.attributes?.environment : "";
-  const bannerImg = data ? data.data?.attributes?.output_image?.data?.attributes?.url : "";
+  const hours = (days || 3) * 24;
+  const environment = data ? data.data?.attributes?.environment : '';
+  const bannerImg = data
+    ? data.data?.attributes?.output_image?.data?.attributes?.url
+    : '';
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
 
   return (
@@ -182,12 +185,12 @@ export default function Service() {
                   <Anchor
                     onClick={() => navigate(homeRoute, { replace: true })}
                   >
-                    {t("__BREADCRUMB_ITEM_DASHBOARD")}
+                    {t('__BREADCRUMB_ITEM_DASHBOARD')}
                   </Anchor>
                   <Anchor
                     onClick={() => navigate(servicesRoute, { replace: true })}
                   >
-                    {t("__BREADCRUMB_ITEM_SERVICES")}
+                    {t('__BREADCRUMB_ITEM_SERVICES')}
                   </Anchor>
                   <Span>{campaignType}</Span>
                 </StyledBreadcrumb>
@@ -206,24 +209,24 @@ export default function Service() {
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <ExpressIcon />
                       </StyledTag.Avatar>
-                      <Span>{t("__EXPRESS_LABEL")}</Span>
+                      <Span>{t('__EXPRESS_LABEL')}</Span>
                     </StyledTag>
                   ) : (
                     <StyledTag
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <TailoredIcon />
                       </StyledTag.Avatar>
-                      <Span>{t("__TAILORED_LABEL")}</Span>
+                      <Span>{t('__TAILORED_LABEL')}</Span>
                     </StyledTag>
                   )}
                   {isFunctional ? (
@@ -231,38 +234,38 @@ export default function Service() {
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <FunctionalIcon />
                       </StyledTag.Avatar>
-                      <Span>{t("__FUNCTIONAL_LABEL")}</Span>
+                      <Span>{t('__FUNCTIONAL_LABEL')}</Span>
                     </StyledTag>
                   ) : (
                     <StyledTag
                       size="large"
                       isPill
                       isRegular
-                      hue={theme.palette.grey[100]}
+                      hue={globalTheme.palette.grey[100]}
                     >
                       <StyledTag.Avatar>
                         <ExperientialIcon />
                       </StyledTag.Avatar>
-                      <Paragraph>{t("__EXPERIENTIAL_LABEL")}</Paragraph>
+                      <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
                     </StyledTag>
                   )}
                   <StyledTag
                     size="large"
                     isPill
                     isRegular
-                    hue={theme.palette.grey[100]}
+                    hue={globalTheme.palette.grey[100]}
                   >
                     <StyledTag.Avatar>
                       <TimeIcon />
                     </StyledTag.Avatar>
                     <Paragraph>
                       <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
-                        First results in <Span isBold>{{ hours: hours }}</Span>h
+                        First results in <Span isBold>{{ hours }}</Span>h
                       </Trans>
                     </Paragraph>
                   </StyledTag>
@@ -270,7 +273,7 @@ export default function Service() {
                     size="large"
                     isPill
                     isRegular
-                    hue={theme.palette.grey[100]}
+                    hue={globalTheme.palette.grey[100]}
                   >
                     <StyledTag.Avatar>
                       <EnvironmentIcon />
@@ -283,21 +286,25 @@ export default function Service() {
                     size="medium"
                     isPrimary
                     isPill
-                    onClick={() => dispatch(openDrawer())}
+                    onClick={() => {
+                      dispatch(openDrawer());
+                      toggleChat(false);
+                    }}
                   >
-                    {t("__CATALOG_PAGE_BUTTON_EXPRESS_LABEL")}
+                    {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
                   </CTAButton>
                 ) : (
                   <CTAButton
                     size="medium"
                     isPrimary
                     isPill
-                    onClick={() =>
-                    (window.location.href = `mailto:${activeWorkspace?.csm.email || "info@unguess.io"
-                      }`)
-                    }
+                    onClick={() => {
+                      window.location.href = `mailto:${
+                        activeWorkspace?.csm.email || 'info@unguess.io'
+                      }`;
+                    }}
                   >
-                    {t("__CATALOG_PAGE_BUTTON_CONTACT_LABEL")}
+                    {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
                   </CTAButton>
                 )}
               </ColMeta>
@@ -311,13 +318,12 @@ export default function Service() {
         </PageHeaderContainer>
       }
       title={serviceName}
-      route={"templates"}
+      route="templates"
     >
-      {error ? (
-        <pre>{">>> error: " + JSON.stringify(error)}</pre>
-      ) : isLoading ? (
-        <div>Loading...</div>
-      ) : (
+      {error && <pre>{`>>> error: ${JSON.stringify(error)}`}</pre>}
+      {isLoading && <div>Loading...</div>}
+
+      {data && (
         <>
           <ServiceTimeline {...data} />
           <ExpressDrawer
@@ -330,4 +336,6 @@ export default function Service() {
       )}
     </Page>
   );
-}
+};
+
+export default Service;

@@ -1,10 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const StatusFilters = {
-  All: "all",
-  Running: "running",
-  Completed: "completed",
-  Incoming: "incoming",
+  All: 'all',
+  Running: 'running',
+  Completed: 'completed',
+  Incoming: 'incoming',
 };
 
 export interface FilterState {
@@ -17,12 +17,12 @@ export interface FilterState {
 
 const initialState: FilterState = {
   status: StatusFilters.All,
-  type: "all",
+  type: 'all',
   testNameId: 0,
 };
 
 const filtersSlice = createSlice({
-  name: "filters",
+  name: 'filters',
   initialState,
   reducers: {
     statusFilterChanged(state, action) {
@@ -46,7 +46,7 @@ const filtersSlice = createSlice({
       state.testNameId = initialState.testNameId;
       state.search = initialState.search;
       state.projectId = initialState.projectId;
-    }
+    },
   },
 });
 

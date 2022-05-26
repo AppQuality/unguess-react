@@ -5,21 +5,22 @@ import {
   theme,
   MD,
   ProductCard,
-} from "@appquality/unguess-design-system";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { FEATURE_FLAG_EXPRESS } from "src/constants";
-import { ExpressWizardContainer } from "../ExpressWizard";
-import { ExpressDrawer } from "../ExpressWizard/drawer";
-import { CardRowLoading } from "./CardRowLoading";
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
+import { FEATURE_FLAG_EXPRESS } from 'src/constants';
 import {
   lockProject,
   openDrawer,
   openWizard,
   setExpressProject,
-} from "src/features/express/expressSlice";
-import { Feature } from "src/features/api";
+} from 'src/features/express/expressSlice';
+import { Feature } from 'src/features/api';
+import { isMinMedia, toggleChat } from 'src/common/utils';
+import { ExpressWizardContainer } from '../ExpressWizard';
+import { ExpressDrawer } from '../ExpressWizard/drawer';
+import { CardRowLoading } from './CardRowLoading';
 
 export const ActionCards = () => {
   const { t } = useTranslation();
@@ -27,24 +28,26 @@ export const ActionCards = () => {
   const { status, userData } = useAppSelector((state) => state.user);
   const { projectId } = useAppSelector((state) => state.filters);
 
-  const selectedProject = {id: projectId, name: ""};
+  const selectedProject = { id: projectId, name: '' };
 
   if (
     !projectId ||
     !userData.features ||
-    !userData.features.find((feature: Feature) => feature.slug === FEATURE_FLAG_EXPRESS)
+    !userData.features.find(
+      (feature: Feature) => feature.slug === FEATURE_FLAG_EXPRESS
+    )
   ) {
-    return <></>;
+    return null;
   }
 
-  return status === "idle" || status === "loading" ? (
+  return status === 'idle' || status === 'loading' ? (
     <CardRowLoading />
   ) : (
     <Row>
-      <Col xs={12} style={{ marginBottom: theme.space.base * 4 + "px" }}>
+      <Col xs={12} style={{ marginBottom: `${theme.space.base * 4}px` }}>
         <Paragraph>
           <MD style={{ color: theme.palette.grey[700] }}>
-            {t("__DASHABOARD_NEWS_ACTION_CARDS_TITLE MAX:12").toUpperCase()}
+            {t('__DASHABOARD_NEWS_ACTION_CARDS_TITLE MAX:12').toUpperCase()}
           </MD>
         </Paragraph>
       </Col>
@@ -52,18 +55,20 @@ export const ActionCards = () => {
         <ProductCard
           onCtaClick={() => {
             dispatch(setExpressProject(selectedProject));
-            dispatch(lockProject())
+            dispatch(lockProject());
             dispatch(openDrawer());
+            toggleChat(false);
           }}
           icon={<ExpressIcon />}
-          ctaLabel={t("__DASHABOARD_EXPRESS_CARD_CTA_TEXT")}
-          preTitle={t("__DASHABOARD_EXPRESS_CARD_PRE_TITLE MAX:12")}
-          productTitle={t("__DASHABOARD_EXPRESS_CARD_TITLE MAX:12")}
+          ctaLabel={t('__DASHABOARD_EXPRESS_CARD_CTA_TEXT')}
+          preTitle={t('__DASHABOARD_EXPRESS_CARD_PRE_TITLE MAX:12')}
+          productTitle={t('__DASHABOARD_EXPRESS_CARD_TITLE MAX:12')}
         />
       </Col>
       <ExpressDrawer
         onCtaClick={() => {
           dispatch(openWizard());
+          if (isMinMedia(theme.breakpoints.sm)) toggleChat(false);
         }}
       />
       <ExpressWizardContainer />

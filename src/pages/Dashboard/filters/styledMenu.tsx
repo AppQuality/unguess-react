@@ -1,5 +1,5 @@
-import { Menu } from "@appquality/unguess-design-system";
-import styled from "styled-components";
+import { Menu } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
 
 export const UgMenu = styled(Menu)`
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {

@@ -1,18 +1,20 @@
-import { theme } from "@appquality/unguess-design-system";
-import { createSlice } from "@reduxjs/toolkit";
+import { theme } from '@appquality/unguess-design-system';
+import { createSlice } from '@reduxjs/toolkit';
+import { isMinMedia } from 'src/common/utils';
+import { NavigationState } from './types';
 
-import { getWorkspaceFromLS } from "./cachedStorage";
+import { getWorkspaceFromLS } from './cachedStorage';
 
 const cachedWorkspace = getWorkspaceFromLS() || undefined;
 
 const initialState: NavigationState = {
   activeWorkspace: cachedWorkspace,
-  isSidebarOpen: window.matchMedia(`only screen and (min-width: ${theme.breakpoints.sm})`).matches,
+  isSidebarOpen: isMinMedia(theme.breakpoints.sm),
   isProfileModalOpen: false,
 };
 
 const navigationSlice = createSlice({
-  name: "navigation",
+  name: 'navigation',
   initialState,
   reducers: {
     setWorkspace: (state, action) => {
@@ -30,6 +32,11 @@ const navigationSlice = createSlice({
   },
 });
 
-export const { setWorkspace, toggleSidebar, toggleProfileModal, setProfileModalOpen } = navigationSlice.actions;
+export const {
+  setWorkspace,
+  toggleSidebar,
+  toggleProfileModal,
+  setProfileModalOpen,
+} = navigationSlice.actions;
 
 export default navigationSlice.reducer;
