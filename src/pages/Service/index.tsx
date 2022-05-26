@@ -32,7 +32,7 @@ import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
 import { toggleChat } from 'src/common/utils';
 import { WaterButton } from '../ExpressWizard/waterButton';
-import { ServiceTimeline } from "./ServiceTimeline";
+import { ServiceTimeline } from './ServiceTimeline';
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -132,33 +132,33 @@ const Service = () => {
   const { data, error, isLoading } = useGetFullServicesByIdQuery({
     id: templateId || '',
     populate: {
-      output_image: "*",
+      output_image: '*',
       requirements: {
         populate: {
           description: {
-            populate: "*",
+            populate: '*',
           },
           list: {
-            populate: "*",
-          }
-        }
+            populate: '*',
+          },
+        },
       },
       why: {
         populate: {
           reasons: {
-            populate: "*"
-          }
-        }
+            populate: '*',
+          },
+        },
       },
-      what: { populate: "*" },
-      how: { 
+      what: { populate: '*' },
+      how: {
         populate: {
           timeline: {
-            populate: "*"
-          }
-        }
+            populate: '*',
+          },
+        },
       },
-    }
+    },
   });
 
   const serviceName = data ? data.data?.attributes?.title : '';
