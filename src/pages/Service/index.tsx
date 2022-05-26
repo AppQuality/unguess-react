@@ -32,6 +32,7 @@ import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
 import { toggleChat } from 'src/common/utils';
 import { WaterButton } from '../ExpressWizard/waterButton';
+import { ServiceTimeline } from './ServiceTimeline';
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -76,8 +77,8 @@ const BannerContainer = styled.div`
     width: 100%;
     max-width: 60%;
 
-    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-      max-width: 100%;
+    @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+      max-width: 70%;
       width: 100%;
       margin: ${({ theme }) => theme.space.md} auto;
     }
@@ -132,10 +133,31 @@ const Service = () => {
     id: templateId || '',
     populate: {
       output_image: '*',
-      requirements: '*',
-      why: { populate: '*' },
+      requirements: {
+        populate: {
+          description: {
+            populate: '*',
+          },
+          list: {
+            populate: '*',
+          },
+        },
+      },
+      why: {
+        populate: {
+          reasons: {
+            populate: '*',
+          },
+        },
+      },
       what: { populate: '*' },
-      how: { populate: '*' },
+      how: {
+        populate: {
+          timeline: {
+            populate: '*',
+          },
+        },
+      },
     },
   });
 
@@ -303,7 +325,7 @@ const Service = () => {
 
       {data && (
         <>
-          <pre>{`>>> data: ${JSON.stringify(data, null, 2)}`}</pre>
+          <ServiceTimeline {...data} />
           <ExpressDrawer
             onCtaClick={() => {
               dispatch(openWizard());
