@@ -3,11 +3,13 @@
   "version": "1.1.0",
   "private": true,
   "dependencies": {
-    "@appquality/unguess-design-system": "2.10.38",
+    "@appquality/unguess-design-system": "2.10.40",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
     "@zendeskgarden/react-datepickers": "^8.49.4",
+    "@zendeskgarden/react-dropdowns": "^8.49.0",
+    "@zendeskgarden/react-forms": "^8.49.0",
     "@zendeskgarden/react-theming": "^8.48.2",
     "@zendeskgarden/svg-icons": "^6.31.1",
     "async": "^3.2.3",
@@ -41,7 +43,14 @@
     "translate": "i18next-scanner",
     "generate-schema": ". ./.env; npx openapi-typescript $REACT_APP_API_URL/reference/ --output src/common/schema.ts ",
     "generate-api": ". ./.env; API_URL=$REACT_APP_API_URL/reference/ npx @rtk-query/codegen-openapi src/features/api/config.ts",
-    "generate-strapi": "npx @rtk-query/codegen-openapi src/features/backoffice/config.ts"
+    "generate-strapi": "npx @rtk-query/codegen-openapi src/features/backoffice/config.ts",
+    "type:check": "tsc",
+    "prettier": "prettier 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'",
+    "format:check": "yarn run prettier --check",
+    "format:fix": "yarn run prettier --write",
+    "lint": "eslint --ext .tsx,.ts .",
+    "validate": "run-p lint type:check format:check",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -86,9 +95,24 @@
     "@types/react-gtm-module": "^2.0.1",
     "@types/react-helmet": "^6.1.5",
     "@types/styled-components": "^5.1.24",
+    "@typescript-eslint/eslint-plugin": "^5.26.0",
+    "@typescript-eslint/parser": "^5.26.0",
     "cz-conventional-changelog": "3.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-security": "^1.5.0",
+    "husky": ">=6",
     "i18next-scanner": "^3.1.0",
     "i18next-scanner-typescript": "^1.0.6",
+    "lint-staged": ">=10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.6.2",
     "ts-node": "^10.7.0"
   },
   "config": {
@@ -99,5 +123,9 @@
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
     "react-error-overlay": "6.0.9"
+  },
+  "lint-staged": {
+    "*.{tsx,ts}": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }

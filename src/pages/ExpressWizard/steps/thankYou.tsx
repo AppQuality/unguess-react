@@ -5,35 +5,39 @@ import {
   XXL,
   MD,
   theme,
-} from "@appquality/unguess-design-system";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch } from "src/app/hooks";
-import { closeDrawer, closeWizard, resetWizard } from "src/features/express/expressSlice";
-import { WaterButton } from "../waterButton";
-import { ReactComponent as SuccessIcon } from "src/assets/wizard-success.svg";
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
+import {
+  closeDrawer,
+  closeWizard,
+  resetWizard,
+} from 'src/features/express/expressSlice';
+import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
+import { WaterButton } from '../waterButton';
 
 export const ThankYouStep = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   return (
     <ContainerCard>
-      <Row style={{ marginBottom: theme.space.xs }}> 
-        <Col size={12} textAlign={"center"}>
+      <Row style={{ marginBottom: theme.space.xs }}>
+        <Col size={12} textAlign="center">
           <SuccessIcon />
         </Col>
       </Row>
       <Row style={{ marginTop: theme.space.md }}>
-        <Col size={12} textAlign={"center"}>
+        <Col size={12} textAlign="center">
           <XXL isBold style={{ color: theme.colors.primaryHue }}>
-            {t("__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE")}
+            {t('__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE')}
           </XXL>
           <MD style={{ color: theme.palette.grey[600] }}>
-            {t("__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE")}
+            {t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE')}
           </MD>
         </Col>
       </Row>
       <Row style={{ marginTop: theme.space.xl }}>
-        <Col size={12} textAlign={"center"}>
+        <Col size={12} textAlign="center">
           <WaterButton
             isPill
             isPrimary
@@ -42,7 +46,7 @@ export const ThankYouStep = () => {
               dispatch(closeWizard());
               dispatch(resetWizard());
 
-              //Refetch the data
+              // Refetch the data
               window.location.reload();
 
               // dispatch(
@@ -53,7 +57,7 @@ export const ThankYouStep = () => {
               // )
             }}
           >
-            {t("__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON")}
+            {t('__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON')}
           </WaterButton>
         </Col>
       </Row>

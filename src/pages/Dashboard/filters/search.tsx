@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { MediaInput } from "@appquality/unguess-design-system";
-import { ReactComponent as SearchIcon } from "src/assets/icons/search-stroke.svg";
-import { Field } from "@zendeskgarden/react-forms";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { searchFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import { MediaInput } from '@appquality/unguess-design-system';
+import { ReactComponent as SearchIcon } from 'src/assets/icons/search-stroke.svg';
+import { Field } from '@zendeskgarden/react-forms';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { searchFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import styled from 'styled-components';
 
 export const SearchInput = () => {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ export const SearchInput = () => {
 
   const { search } = useAppSelector((state) => state.filters);
 
-  const [value, setValue] = useState(search || "");
+  const [value, setValue] = useState(search || '');
 
   const StyledField = styled(Field)`
     width: 100%;
@@ -23,7 +23,7 @@ export const SearchInput = () => {
   `;
 
   useEffect(() => {
-    setValue(search || "");
+    setValue(search || '');
   }, [search]);
 
   const updateSearch = (text: string) => {
@@ -37,7 +37,7 @@ export const SearchInput = () => {
         onChange={(e) => updateSearch(e.target.value)}
         start={<SearchIcon />}
         value={value}
-        placeholder={t("__DASHBOARD_SEARCH_INPUT_PLACEHOLDER")}
+        placeholder={t('__DASHBOARD_SEARCH_INPUT_PLACEHOLDER')}
       />
     </StyledField>
   );

@@ -8,20 +8,19 @@ import {
   Row,
   Span,
   XXL,
-} from "@appquality/unguess-design-system";
-import i18n from "src/i18n";
-import { Datepicker } from "@zendeskgarden/react-datepickers";
-import { Field, Input } from "@zendeskgarden/react-forms";
-import { FormikProps } from "formik";
-import styled from "styled-components";
-import * as Yup from "yup";
-import { WizardModel } from "../wizardModel";
-import { CardDivider } from "../cardDivider";
-import { t } from "i18next";
-import { useState } from "react";
-import addBusinessDays from "date-fns/addBusinessDays";
-import { getLanguage } from "../getLanguage";
-import { format, isToday } from "date-fns";
+} from '@appquality/unguess-design-system';
+import i18n from 'src/i18n';
+import { Datepicker } from '@zendeskgarden/react-datepickers';
+import { Field, Input } from '@zendeskgarden/react-forms';
+import { FormikProps } from 'formik';
+import styled from 'styled-components';
+import * as Yup from 'yup';
+import { t } from 'i18next';
+import { useState } from 'react';
+import { addBusinessDays, format, isToday } from 'date-fns';
+import { getLanguage } from '../getLanguage';
+import { CardDivider } from '../cardDivider';
+import { WizardModel } from '../wizardModel';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -45,10 +44,6 @@ const StyledMessage = styled(Message)`
 
 export const WhenStep = ({
   errors,
-  touched,
-  validateField,
-  validateForm,
-  handleChange,
   values,
   ...props
 }: FormikProps<WizardModel>) => {
@@ -56,37 +51,40 @@ export const WhenStep = ({
   const START_DATE_MAX_VALUE = 30;
   const BUSINESS_DAYS_TO_ADD = 2;
 
-  const lang = getLanguage(i18n.language || "en");
+  const lang = getLanguage(i18n.language || 'en');
 
   const handleDateChange = (date: Date) => {
-    //We have to add 2 business days to determine the end date
+    // We have to add 2 business days to determine the end date
     let endDate = addBusinessDays(date, BUSINESS_DAYS_TO_ADD);
     setDate(date);
-    if (values.campaign_language === "en") {
+    if (values.campaign_language === 'en') {
       endDate = addBusinessDays(date, BUSINESS_DAYS_TO_ADD + 1);
     }
 
-    props.setFieldValue("campaign_date", date);
-    props.setFieldValue("campaign_date_end", endDate);
-    props.setFieldValue("campaign_date_end_text", format(endDate, "EEEE d MMMM Y", {locale: lang.locale}));
+    props.setFieldValue('campaign_date', date);
+    props.setFieldValue('campaign_date_end', endDate);
+    props.setFieldValue(
+      'campaign_date_end_text',
+      format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
+    );
   };
 
   return (
     <>
       <StyledFormField>
         <StepTitle>
-          <Span isBold>{t("__EXPRESS_WIZARD_STEP_WHEN_LABEL")}</Span>{" "}
-          {t("__EXPRESS_WIZARD_STEP_WHEN_LABEL_EXTRA")}
+          <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHEN_LABEL')}</Span>{' '}
+          {t('__EXPRESS_WIZARD_STEP_WHEN_LABEL_EXTRA')}
         </StepTitle>
-        <Paragraph>{t("__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION")}</Paragraph>
+        <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION')}</Paragraph>
       </StyledFormField>
       <CardDivider />
       <StyledFormField>
         <StyledAlert type="warning">
           <StyledAlert.Title>
-            {t("__EXPRESS_WIZARD_STEP_WHEN_ALERT_TITLE")}
+            {t('__EXPRESS_WIZARD_STEP_WHEN_ALERT_TITLE')}
           </StyledAlert.Title>
-          {t("__EXPRESS_WIZARD_STEP_WHEN_ALERT_DESCRIPTION")}
+          {t('__EXPRESS_WIZARD_STEP_WHEN_ALERT_DESCRIPTION')}
         </StyledAlert>
       </StyledFormField>
       <StyledFormField>
@@ -95,14 +93,18 @@ export const WhenStep = ({
             <Col xs={6}>
               <Field>
                 <Label>
-                  {t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_LABEL")}
+                  {t('__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_LABEL')}
                 </Label>
                 <Datepicker
                   value={startDate}
-                  formatDate={(date: Date) => { 
-                    return isToday(date) ? (
-                      t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TODAY_LABEL") + " (" + format(date, "EEEE d MMMM Y", {locale: lang.locale}) + ")"
-                    ) : format(date, "EEEE d MMMM Y", {locale: lang.locale}); }
+                  formatDate={(date: Date) =>
+                    isToday(date)
+                      ? `${t(
+                          '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TODAY_LABEL'
+                        )} (${format(date, 'EEEE d MMMM Y', {
+                          locale: lang.locale,
+                        })})`
+                      : format(date, 'EEEE d MMMM Y', { locale: lang.locale })
                   }
                   onChange={handleDateChange}
                   minValue={new Date()}
@@ -115,12 +117,12 @@ export const WhenStep = ({
                   }
                 >
                   <Input
-                    type={"text"}
+                    type="text"
                     placeholder={t(
-                      "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_PLACEHOLDER"
+                      '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_PLACEHOLDER'
                     )}
-                    {...props.getFieldProps("campaign_date")}
-                    {...(errors.campaign_date && { validation: "error" })}
+                    {...props.getFieldProps('campaign_date')}
+                    {...(errors.campaign_date && { validation: 'error' })}
                   />
                 </Datepicker>
                 {errors.campaign_date && (
@@ -132,30 +134,34 @@ export const WhenStep = ({
             </Col>
             <Col xs={6}>
               <Field>
-              <Label>
-                {t(
-                  "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_LABEL"
+                <Label>
+                  {t(
+                    '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_LABEL'
+                  )}
+                </Label>
+                <Input
+                  type="text"
+                  placeholder={t(
+                    '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER'
+                  )}
+                  readOnly
+                  disabled
+                  {...props.getFieldProps('campaign_date_end_text')}
+                />
+                <Input
+                  type="hidden"
+                  placeholder={t(
+                    '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER'
+                  )}
+                  readOnly
+                  disabled
+                  {...props.getFieldProps('campaign_date_end')}
+                />
+                {errors.campaign_date_end && (
+                  <StyledMessage validation="error">
+                    {errors.campaign_date_end}
+                  </StyledMessage>
                 )}
-              </Label>
-              <Input 
-                type={"text"}
-                placeholder={t(
-                  "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER"
-                )}
-                readOnly
-                disabled
-                {...props.getFieldProps("campaign_date_end_text")}
-              />
-              <Input
-                type={"hidden"}
-                placeholder={t(
-                  "__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_RESULTS_PLACEHOLDER"
-                )}
-                readOnly
-                disabled
-                {...props.getFieldProps("campaign_date_end")}
-              />
-              {errors.campaign_date_end && <StyledMessage validation="error">{errors.campaign_date_end}</StyledMessage>}
               </Field>
             </Col>
           </Row>
@@ -163,7 +169,7 @@ export const WhenStep = ({
       </StyledFormField>
       <StyledFormField>
         <Paragraph>
-          {t("__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_DESCRIPTION")}
+          {t('__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_DESCRIPTION')}
         </Paragraph>
       </StyledFormField>
     </>
@@ -172,7 +178,9 @@ export const WhenStep = ({
 
 export const WhenStepValidationSchema = Yup.object().shape({
   campaign_date: Yup.string().required(
-    t("__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_REQUIRED")
+    t('__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_REQUIRED')
   ),
-  campaign_date_end: Yup.string().required(t("__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_END_REQUIRED")),
+  campaign_date_end: Yup.string().required(
+    t('__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_DATE_END_REQUIRED')
+  ),
 });

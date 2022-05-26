@@ -1,4 +1,5 @@
-import { apiSlice as api } from "./api";
+import { apiSlice as api } from './api';
+
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     get: build.query<GetApiResponse, GetApiArg>({
@@ -10,7 +11,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/authenticate`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
@@ -91,14 +92,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/campaigns`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
     postProjects: build.mutation<PostProjectsApiResponse, PostProjectsApiArg>({
       query: (queryArg) => ({
         url: `/projects`,
-        method: "POST",
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
