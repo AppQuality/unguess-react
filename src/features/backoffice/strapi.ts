@@ -1,19 +1,20 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { GetServicesByIdApiResponse } from ".";
-import { stringify } from "qs";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { stringify } from 'qs';
+import { GetServicesByIdApiResponse } from '.';
+
 interface GetFullServicesByIdArgs {
   id: string;
   populate?: string[] | object;
 }
 
 export const strapiSlice = createApi({
-  reducerPath: "strapi",
+  reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_STRAPI_API_URL,
     prepareHeaders: (headers) => {
       if (process.env.REACT_APP_STRAPI_API_TOKEN) {
         const token = process.env.REACT_APP_STRAPI_API_TOKEN;
-        headers.set("Authorization", `Bearer ${token}`);
+        headers.set('Authorization', `Bearer ${token}`);
       }
 
       return headers;
@@ -35,7 +36,7 @@ export const strapiSlice = createApi({
           );
           url += `?${params}`;
         }
-        return { url: url };
+        return { url };
       },
     }),
   }),

@@ -1,4 +1,4 @@
-import { Span } from "@appquality/unguess-design-system";
+import { Span } from '@appquality/unguess-design-system';
 
 export interface DropdownItems {
   [key: string]: DropdownItem;
@@ -10,9 +10,9 @@ export interface DropdownItem {
 }
 
 export const getItemText = (selectedItem: DropdownItem, label: string) => {
-  if (selectedItem.value === "all") return selectedItem.label;
+  if (selectedItem.value === 'all') return selectedItem.label;
 
-  let icon = selectedItem.icon ? selectedItem.icon : "";
+  const icon = selectedItem.icon ? selectedItem.icon : '';
 
   return (
     <>

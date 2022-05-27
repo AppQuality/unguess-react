@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 import {
   Chrome,
   Body,
-  theme,
+  theme as globalTheme,
   PageLoader,
   Main,
-} from "@appquality/unguess-design-system";
-import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "src/app/hooks";
-import { Navigation } from "../navigation/Navigation";
-import styled from "styled-components";
-import TagManager from "react-gtm-module";
+} from '@appquality/unguess-design-system';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from 'src/app/hooks';
+import styled from 'styled-components';
+import TagManager from 'react-gtm-module';
+import { Navigation } from '../navigation/Navigation';
 
 export const Logged = ({
   children,
@@ -22,10 +22,8 @@ export const Logged = ({
   pageHeader?: React.ReactNode;
   route: string;
 }) => {
-  const loginRoute = useLocalizeRoute("login");
-  const { activeWorkspace } = useAppSelector(
-    (state) => state.navigation
-  );
+  const loginRoute = useLocalizeRoute('login');
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const navigate = useNavigate();
 
   const Container = styled.div`
@@ -41,22 +39,21 @@ export const Logged = ({
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: ${theme.palette.grey[100]};
+    background-color: ${({ theme }) => theme.palette.grey[100]};
 
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      margin: ${({ theme }) => theme.space.xxl }
+      margin: ${({ theme }) => theme.space.xxl};
     }
-
   `;
 
   const { status, userData } = useAppSelector((state) => state.user);
 
-  if (status === "failed") {
+  if (status === 'failed') {
     navigate(loginRoute);
   }
 
-  if (status === "logged") {
-    //App ready
+  if (status === 'logged') {
+    // App ready
     TagManager.dataLayer({
       dataLayer: {
         role: userData.role,
@@ -64,19 +61,19 @@ export const Logged = ({
         tester_id: userData.id,
         name: userData.name,
         email: userData.email,
-        company: activeWorkspace?.company || "unknown",
-        event: "UnguessLoaded",
+        company: activeWorkspace?.company || 'unknown',
+        event: 'UnguessLoaded',
       },
     });
   }
 
-  return status === "idle" || status === "loading" ? (
+  return status === 'idle' || status === 'loading' ? (
     <PageLoader />
   ) : (
-    <Chrome isFluid hue={theme.palette.white}>
-      <Body style={{ backgroundColor: theme.palette.grey[100] }}>
+    <Chrome isFluid hue={globalTheme.palette.white}>
+      <Body style={{ backgroundColor: globalTheme.palette.grey[100] }}>
         <Navigation route={route}>
-          <Main style={{ backgroundColor: "transparent", margin: 0 }}>
+          <Main id="main" style={{ backgroundColor: 'transparent', margin: 0 }}>
             {pageHeader && pageHeader}
             <Container>{children}</Container>
           </Main>

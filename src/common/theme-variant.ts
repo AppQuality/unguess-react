@@ -1,11 +1,11 @@
-import { theme } from "@appquality/unguess-design-system";
+import { theme } from '@appquality/unguess-design-system';
 
-const customTheme =  {
-    ...theme,
-    colors: {
-      ...theme.colors,
-      primaryHue: theme.palette.water[600],
-    },
-  };
+const customTheme = {
+  ...theme,
+  colors: {
+    ...theme.colors,
+    primaryHue: theme.palette.water[600],
+  },
+};
 
 export default customTheme;

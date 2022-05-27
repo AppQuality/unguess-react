@@ -1,0 +1,32 @@
+import { FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { WizardModel } from '../../wizardModel';
+import { WaterButton } from '../../waterButton';
+import { WizardButtonsProps } from './types';
+import { WhereWebStep } from '../whereWeb';
+import { WhereAppStep } from '../whereApp';
+
+export const WhereForm = (props: FormikProps<WizardModel>) => {
+  const { values } = props;
+  return values.product_type === 'webapp' ? (
+    <WhereWebStep {...props} />
+  ) : (
+    <WhereAppStep {...props} />
+  );
+};
+
+export const WhereFormButtons = (props: WizardButtonsProps) => {
+  const { t } = useTranslation();
+  const { onBackClick, onNextClick } = props;
+
+  return (
+    <>
+      <WaterButton isPill isBasic onClick={onBackClick}>
+        {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
+      </WaterButton>
+      <WaterButton isPill isPrimary onClick={onNextClick}>
+        {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
+      </WaterButton>
+    </>
+  );
+};

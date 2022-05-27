@@ -1,17 +1,13 @@
-import {
-  Dropdown,
-  Select,
-  Item,
-} from "@appquality/unguess-design-system";
+import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
 
-import { Field } from "@zendeskgarden/react-dropdowns";
-import { useTranslation } from "react-i18next";
-import { DropdownItem, DropdownItems, getItemText } from "./utils";
-import { useAppDispatch, useAppSelector } from "src/app/hooks";
-import { testTypeFilterChanged } from "src/features/campaignsFilter/campaignsFilterSlice";
-import { selectTestNames } from "src/features/campaigns";
-import { useGetWorkspacesByWidCampaignsQuery } from "src/features/api";
-import { UgMenu } from "./styledMenu";
+import { Field } from '@zendeskgarden/react-dropdowns';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { testTypeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { selectTestNames } from 'src/features/campaigns';
+import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
+import { DropdownItem, DropdownItems, getItemText } from './utils';
+import { UgMenu } from './styledMenu';
 
 export const TestTypeDropdown = () => {
   const { t } = useTranslation();
@@ -23,7 +19,7 @@ export const TestTypeDropdown = () => {
   );
 
   const { data } = useGetWorkspacesByWidCampaignsQuery({
-    wid: activeWorkspace?.id || 0
+    wid: activeWorkspace?.id || 0,
   });
 
   const campaigns = data?.items || [];
@@ -31,8 +27,8 @@ export const TestTypeDropdown = () => {
 
   const items: DropdownItems = {
     0: {
-      label: t("__DASHABOARD_CAMPAIGN_TEST_NAME_FILTER_ALL"),
-      value: "all",
+      label: t('__DASHABOARD_CAMPAIGN_TEST_NAME_FILTER_ALL'),
+      value: 'all',
     },
   };
 
@@ -51,25 +47,29 @@ export const TestTypeDropdown = () => {
 
   return (
     <Dropdown
-      selectedItem={items[testNameId]}
+      selectedItem={items[testNameId as number]}
       onSelect={onSelectItem}
       downshiftProps={{
         itemToString: (item: DropdownItem) => item && item.value,
       }}
     >
       <Field>
-        <Select {...(items[testNameId].value !== "all" && { isPrimary: true })}>
+        <Select
+          {...(items[testNameId as number].value !== 'all' && {
+            isPrimary: true,
+          })}
+        >
           {getItemText(
-            items[testNameId],
-            t("__DASHABOARD_CAMPAIGN_TEST_NAME_LABEL Max:10")
+            items[testNameId as number],
+            t('__DASHABOARD_CAMPAIGN_TEST_NAME_LABEL Max:10')
           )}
         </Select>
       </Field>
       <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
-          <Item key={items[key].value} value={items[key]}>
-            {items[key].icon ?? ""}
-            {" " + items[key].label}
+          <Item key={items[`${key}`].value} value={items[`${key}`]}>
+            {items[`${key}`].icon ?? ''}
+            {` ${items[`${key}`].label}`}
           </Item>
         ))}
       </UgMenu>
