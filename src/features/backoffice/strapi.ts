@@ -1,10 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { stringify } from 'qs';
-import { GetServicesByIdApiResponse } from '.';
+import {
+  GetServicesApiResponse,
+  GetServicesByIdApiResponse,
+  GetServicesApiArg,
+} from '.';
 
 interface GetFullServicesByIdArgs {
   id: string;
   populate?: string[] | object;
+  locale?: string;
+}
+
+interface GetServicesApiArgs extends GetServicesApiArg {
+  locale?: string;
 }
 
 export const strapiSlice = createApi({
@@ -21,6 +30,18 @@ export const strapiSlice = createApi({
     },
   }),
   endpoints: (builder) => ({
+    geti18nServices: builder.query<GetServicesApiResponse, GetServicesApiArgs>({
+      query: (queryArg) => ({
+        url: `/services`,
+        params: {
+          sort: queryArg.sort,
+          pagination: queryArg.pagination,
+          fields: queryArg.fields,
+          populate: queryArg.populate,
+          locale: queryArg.locale,
+        },
+      }),
+    }),
     getFullServicesById: builder.query<
       GetServicesByIdApiResponse,
       GetFullServicesByIdArgs
@@ -29,7 +50,7 @@ export const strapiSlice = createApi({
         let url = `/services/${queryArg.id}`;
         if (queryArg.populate) {
           const params = stringify(
-            { populate: queryArg.populate },
+            { populate: queryArg.populate, locale: queryArg.locale },
             {
               encodeValuesOnly: true,
             }
@@ -42,4 +63,5 @@ export const strapiSlice = createApi({
   }),
 });
 
-export const { useGetFullServicesByIdQuery } = strapiSlice;
+export const { useGetFullServicesByIdQuery, useGeti18nServicesQuery } =
+  strapiSlice;
