@@ -3,8 +3,6 @@ FROM alpine:3.14 as base
 RUN apk add nodejs yarn
 
 ARG STRAPI_TOKEN
-RUN echo ${STRAPI_TOKEN}
-
 
 COPY package.json ./
 COPY yarn.lock ./
