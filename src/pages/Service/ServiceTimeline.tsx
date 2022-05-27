@@ -238,7 +238,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
                     <Timeline.Content>
                       <Paragraph style={{ fontWeight: 500 }}>
                         {t(
-                          '__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_INTENGRATION_TITLE'
+                          '__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_INTEGRATION_TITLE'
                         )}
                       </Paragraph>
                     </Timeline.Content>

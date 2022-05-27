@@ -1,6 +1,5 @@
 import { Page } from 'src/features/templates/Page';
 import { useTranslation } from 'react-i18next';
-import { useGetServicesQuery } from 'src/features/backoffice';
 import styled from 'styled-components';
 import {
   Col,
@@ -13,6 +12,8 @@ import {
   XXL,
   Divider,
 } from '@appquality/unguess-design-system';
+import i18n from 'src/i18n';
+import { useGeti18nServicesQuery } from 'src/features/backoffice/strapi';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { useAppSelector } from 'src/app/hooks';
@@ -75,8 +76,9 @@ const Catalog = () => {
     navigate(notFoundRoute, { replace: true });
   }
 
-  const { data, error, isLoading } = useGetServicesQuery({
+  const { data, error, isLoading } = useGeti18nServicesQuery({
     populate: '*',
+    locale: i18n.language,
   });
 
   const services = [];
