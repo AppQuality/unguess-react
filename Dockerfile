@@ -9,7 +9,7 @@ COPY yarn.lock ./
 RUN ["yarn", "install"]
 RUN rm -f .npmrc
 
-RUN echo REACT_APP_DEFAULT_TOKEN=${STRAPI_TOKEN} > .env
+RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env
 
 COPY . .
 
