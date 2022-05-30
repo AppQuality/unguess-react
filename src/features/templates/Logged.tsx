@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Chrome,
   Body,
@@ -48,9 +48,11 @@ export const Logged = ({
 
   const { status, userData } = useAppSelector((state) => state.user);
 
-  if (status === 'failed') {
-    navigate(loginRoute);
-  }
+  useEffect(() => {
+    if (status === 'failed') {
+      navigate(loginRoute);
+    }
+  }, [status, navigate, loginRoute]);
 
   if (status === 'logged') {
     // App ready
