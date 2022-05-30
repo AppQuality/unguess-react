@@ -323,9 +323,6 @@ const Service = () => {
       title={serviceName}
       route="templates"
     >
-      {error && <pre>{`>>> error: ${JSON.stringify(error)}`}</pre>}
-      {isLoading && <div>Loading...</div>}
-
       {data && (
         <>
           <ServiceTimeline {...data} />
