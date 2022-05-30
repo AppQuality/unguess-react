@@ -1,8 +1,4 @@
 {
-  "Be smart from the start": "Be smart from the start",
-  "English": "Inglese",
-  "Italian": "Italiano",
-  "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.": "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.",
   "__404_PAGE_BUTTON": "Torna alla dashboard",
   "__404_PAGE_DESCRIPTION": "La pagina che stavi cercando potrebbe essere stata rimossa o temporaneamente non disponibile.",
   "__404_PAGE_SUB_TITLE MAX:80": "Non siamo riusciti a trovare la pagina che stavi cercando",
@@ -12,6 +8,7 @@
   "__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL": "Progetti",
   "__BREADCRUMB_ITEM_DASHBOARD": "Le mie campagne",
   "__BREADCRUMB_ITEM_SERVICES": "Servizi",
+  "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Senza Titolo",
   "__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE": "Tipo Campagna",
   "__CAMPAIGNS_TABLE_COLUMN_NAME": "Nome",
   "__CAMPAIGNS_TABLE_COLUMN_START_DATE": "Data Inizio",
@@ -20,7 +17,6 @@
   "__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING": "In Arrivo",
   "__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS": "In Corso",
   "__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE": "Tipo Test",
-  "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Senza Titolo",
   "__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_HOW_ITEM": "Come funziona",
   "__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE": "SULLA CAMPAGNA",
   "__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHAT_ITEM": "Cosa ottieni",
@@ -227,5 +223,9 @@
   "__WIZARD_EXPRESS_HEADER_TITLE": "Lancia campagna",
   "__WIZARD_EXPRESS_TAG_1_TEXT": "Risultati in 48h",
   "__WIZARD_EXPRESS_TAG_2_TEXT": "Test funzionale",
-  "__WIZARD_EXPRESS_TAG_3_TEXT": "30 Bug Unici"
+  "__WIZARD_EXPRESS_TAG_3_TEXT": "30 Bug Unici",
+  "Be smart from the start": "Be smart from the start",
+  "English": "Inglese",
+  "Italian": "Italiano",
+  "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.": "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform."
 }
