@@ -5,7 +5,7 @@ import {
   Span,
   theme,
 } from '@appquality/unguess-design-system';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { Workspace } from 'src/features/api';
 import { closeWizard } from 'src/features/express/expressSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -27,23 +27,43 @@ export const WizardHeader = ({
   workspace?: Workspace;
 }) => {
   const { width } = useWindowSize();
+  const { project, projectLocked } = useAppSelector((state) => state.express);
   const dispatch = useAppDispatch();
+
+  const breadcrumbs = [];
+
+  if (workspace) {
+    breadcrumbs.push({
+      name: workspace.company,
+      href: i18n.language === 'en' ? '/' : `/${i18n.language}`,
+    });
+  }
+
+  if (projectLocked) {
+    breadcrumbs.push({
+      name: project?.name || "Project",
+      href: i18n.language === 'en'
+      ? `/projects/${project && project.id}`
+      : `/${i18n.language}/${project && project.id}`,
+      onClick: (e: any) => {
+        e.preventDefault();
+        dispatch(closeWizard());
+      }
+    });
+  }
 
   return width > parseInt(theme.breakpoints.sm, 10) ? (
     <Container>
       <Logo type="icon" size={25} style={{ marginRight: theme.space.xs }} />
       <Breadcrumb>
-        {workspace && (
-          <Anchor
-            href={i18n.language === 'en' ? '/' : `/${i18n.language}`}
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(closeWizard());
-            }}
+        {breadcrumbs.map((crumb) => (
+          <Anchor 
+            href={crumb.href}
+            {...crumb.onClick && {onClick: crumb.onClick}}
           >
-            {workspace.company}&apos;s Workspace
+            {crumb.name}
           </Anchor>
-        )}
+        ))}
         <Span>{title}</Span>
       </Breadcrumb>
     </Container>

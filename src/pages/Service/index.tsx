@@ -188,7 +188,7 @@ const Service = () => {
                   <Anchor
                     onClick={() => navigate(homeRoute, { replace: true })}
                   >
-                    {t('__BREADCRUMB_ITEM_DASHBOARD')}
+                    {activeWorkspace?.company || t('__BREADCRUMB_ITEM_DASHBOARD')}
                   </Anchor>
                   <Anchor
                     onClick={() => navigate(servicesRoute, { replace: true })}
