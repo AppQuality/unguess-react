@@ -14,7 +14,7 @@ import {
   Span,
   Tag,
   theme as globalTheme,
-  XXL,
+  XXXL,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
@@ -31,6 +31,7 @@ import { Feature } from 'src/features/api';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
 import { toggleChat } from 'src/common/utils';
+import PageLoader from 'src/features/templates/PageLoader';
 import { WaterButton } from '../ExpressWizard/waterButton';
 import { ServiceTimeline } from './ServiceTimeline';
 
@@ -41,7 +42,7 @@ const CampaignType = styled(Paragraph)`
   text-transform: uppercase;
 `;
 
-const ServiceTitle = styled(XXL)`
+const ServiceTitle = styled(XXXL)`
   color: ${({ theme }) => theme.colors.primaryHue};
   margin-top: ${({ theme }) => theme.space.base * 4}px;
   font-weight: ${({ theme }) => theme.fontWeights.medium};
@@ -174,7 +175,9 @@ const Service = () => {
     : '';
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
 
-  return (
+  return isLoading || status === 'loading' ? (
+    <PageLoader />
+  ) : (
     <Page
       pageHeader={
         <PageHeaderContainer>
