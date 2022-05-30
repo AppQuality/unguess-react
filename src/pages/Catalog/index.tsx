@@ -10,17 +10,20 @@ import {
   Paragraph,
   Timeline,
   XXL,
+  XXXL,
   Divider,
+  LG,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
 import { useGeti18nServicesQuery } from 'src/features/backoffice/strapi';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { useAppSelector } from 'src/app/hooks';
-import { FEATURE_FLAG_CATALOG } from 'src/constants';
+import { FEATURE_FLAG_CATALOG, FEATURE_FLAG_EXPRESS } from 'src/constants';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate } from 'react-router-dom';
 import { Feature } from 'src/features/api';
+import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
 import { WaterButton } from '../ExpressWizard/waterButton';
 import { Services } from './services-list';
@@ -59,12 +62,27 @@ const StyledDivider = styled(Divider)`
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
+const PageHeaderTitle = styled(XXXL)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+`;
+
+const PageHeaderDescription = styled(LG)`
+  color: ${({ theme }) => theme.palette.grey[700]};
+  margin-top: ${({ theme }) => theme.space.xl};
+  margin-bottom: ${({ theme }) => theme.space.xl};
+`;
+
 const Catalog = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
+
+  const hasExpress =
+    status === 'logged' &&
+    userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
   if (
     status === 'logged' &&
@@ -85,10 +103,13 @@ const Catalog = () => {
 
   if (data) {
     if (data.data) {
-      data.data.map((service) =>
-        // TODO: check if express feature flag is enabled, if yes show the service
-        services.push(service)
-      );
+      data.data.forEach((service) => {
+        if (service.attributes?.is_express && hasExpress) {
+          services.push(service);
+        } else {
+          services.push(service);
+        }
+      });
     }
   }
 
@@ -121,7 +142,18 @@ const Catalog = () => {
   return isLoading || status === 'loading' ? (
     <PageLoader />
   ) : (
-    <Page title={t('__PAGE_TITLE_CATALOG')} route="templates">
+    <Page
+      pageHeader={
+        <PageHeaderContainer>
+          <PageHeaderTitle>{t('__CATALOG_PAGE_TITLE')}</PageHeaderTitle>
+          <PageHeaderDescription>
+            {t('__CATALOG_PAGE_DESCRIPTION')}
+          </PageHeaderDescription>
+        </PageHeaderContainer>
+      }
+      title={t('__PAGE_TITLE_CATALOG')}
+      route="templates"
+    >
       <Grid gutters="lg">
         <Row>
           <Col xs={12} lg={3}>

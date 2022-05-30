@@ -1,9 +1,19 @@
-var fs = require('fs');
-var typescriptTransform = require('i18next-scanner-typescript');
+const fs = require('fs');
+const typescriptTransform = require('i18next-scanner-typescript');
 
 const eol = require('eol');
 const path = require('path');
 const VirtualFile = require('vinyl');
+
+function sortObject(object) {
+  const unsortedArr = [...Object.entries(object)];
+  const sortedArr = unsortedArr.sort(([key1, value1], [key2, value2]) =>
+    key1.localeCompare(key2)
+  );
+  var sorted = {};
+  sortedArr.forEach(([key, value]) => (sorted[key] = value));
+  return sorted;
+}
 
 function flush(done) {
   const { parser } = this;
@@ -35,7 +45,11 @@ function flush(done) {
           delete obj[key];
         }
       });
-      let text = JSON.stringify(obj, null, jsonIndent) + '\n';
+
+      // Order the keys
+      const ordered = sortObject(obj);
+
+      let text = `${JSON.stringify(ordered, null, jsonIndent)}\n`;
 
       if (lineEnding === 'auto') {
         text = eol.auto(text);
@@ -63,7 +77,7 @@ function flush(done) {
       this.push(
         new VirtualFile({
           path: resPath,
-          contents: contents,
+          contents,
         })
       );
     });
@@ -88,7 +102,7 @@ module.exports = {
       i18nKey: 'i18nKey',
       defaultsKey: 'defaults',
       extensions: ['.js', '.jsx'],
-      fallbackKey: function (ns, value) {
+      fallbackKey(ns, value) {
         return value;
       },
       acorn: {
