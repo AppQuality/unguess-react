@@ -130,7 +130,7 @@ const Service = () => {
   if (!templateId || Number.isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });
   }
-  const { data, error, isLoading } = useGetFullServicesByIdQuery({
+  const { data, isLoading } = useGetFullServicesByIdQuery({
     id: templateId || '',
     populate: {
       output_image: '*',
