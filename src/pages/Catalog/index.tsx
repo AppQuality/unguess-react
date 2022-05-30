@@ -80,6 +80,10 @@ const Catalog = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
 
+  const hasExpress =
+    status === 'logged' &&
+    userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
+
   if (
     status === 'logged' &&
     (!userData.features ||
@@ -100,14 +104,8 @@ const Catalog = () => {
   if (data) {
     if (data.data) {
       data.data.forEach((service) => {
-        if (service.attributes?.is_express) {
-          if (
-            status === 'logged' &&
-            userData.features?.find(
-              (feature) => feature.slug === FEATURE_FLAG_EXPRESS
-            )
-          )
-            services.push(service);
+        if (service.attributes?.is_express && hasExpress) {
+          services.push(service);
         } else {
           services.push(service);
         }
