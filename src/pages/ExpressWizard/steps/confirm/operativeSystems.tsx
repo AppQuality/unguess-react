@@ -17,7 +17,7 @@ export const OperativeSystems = (props: FormikProps<WizardModel>) => {
 
   return (
     <>
-      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_OS')}{' '}
+      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_OS')}&nbsp;
       <Span isBold>{items.join(', ')}</Span>.
     </>
   );

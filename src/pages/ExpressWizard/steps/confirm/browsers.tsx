@@ -21,7 +21,7 @@ export const Browsers = (props: FormikProps<WizardModel>) => {
 
   return values.customBrowser ? (
     <>
-      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_BROWSERS')}{' '}
+      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_BROWSERS')}&nbsp;
       <Span isBold>{items.join(', ')}</Span>.
     </>
   ) : (

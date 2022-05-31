@@ -86,7 +86,7 @@ export const WhatStep = ({
   return (
     <>
       <StepTitle>
-        <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHAT_LABEL')}</Span>{' '}
+        <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHAT_LABEL')}</Span>&nbsp;
         {t('__EXPRESS_WIZARD_STEP_WHAT_LABEL_EXTRA')}
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>

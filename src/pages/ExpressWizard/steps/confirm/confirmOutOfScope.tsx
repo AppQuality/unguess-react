@@ -10,7 +10,7 @@ export const ConfirmOutOfScope = (props: FormikProps<WizardModel>) => {
 
   return values.hasOutOfScope ? (
     <>
-      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_OUT_OF_SCOPE')}{' '}
+      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_OUT_OF_SCOPE')}&nbsp;
       <Span isBold>{values.outOfScope}</Span>.
     </>
   ) : (
