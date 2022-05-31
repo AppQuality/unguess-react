@@ -351,7 +351,7 @@ export const ExpressWizardContainer = () => {
                       </ModalFullScreen.FooterItem>
                     );
                   }
-                  
+
                   return null;
                 })}
               </ModalFullScreen.Footer>
