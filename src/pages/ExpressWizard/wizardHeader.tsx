@@ -41,14 +41,15 @@ export const WizardHeader = ({
 
   if (projectLocked) {
     breadcrumbs.push({
-      name: project?.name || "Project",
-      href: i18n.language === 'en'
-      ? `/projects/${project && project.id}`
-      : `/${i18n.language}/${project && project.id}`,
+      name: project?.name || 'Project',
+      href:
+        i18n.language === 'en'
+          ? `/projects/${project && project.id}`
+          : `/${i18n.language}/${project && project.id}`,
       onClick: (e: any) => {
         e.preventDefault();
         dispatch(closeWizard());
-      }
+      },
     });
   }
 
@@ -57,9 +58,9 @@ export const WizardHeader = ({
       <Logo type="icon" size={25} style={{ marginRight: theme.space.xs }} />
       <Breadcrumb>
         {breadcrumbs.map((crumb) => (
-          <Anchor 
+          <Anchor
             href={crumb.href}
-            {...crumb.onClick && {onClick: crumb.onClick}}
+            {...(crumb.onClick && { onClick: crumb.onClick })}
           >
             {crumb.name}
           </Anchor>
