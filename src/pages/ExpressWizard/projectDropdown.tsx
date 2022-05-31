@@ -121,7 +121,7 @@ export const ProjectDropdown = () => {
                 <AddIcon />
               </MediaFigure>
               <MediaBody>
-                {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_ADD_ITEM_LABEL')}{' '}
+                {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_ADD_ITEM_LABEL')}&nbsp;
                 &quot;
                 {inputValue}&quot;
               </MediaBody>
