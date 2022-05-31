@@ -6,13 +6,13 @@ import {
   Grid,
   Row,
   MD,
-  Card,
   Paragraph,
   Timeline,
   XXL,
   XXXL,
   Divider,
   LG,
+  ContainerCard,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
 import { useGeti18nServicesQuery } from 'src/features/backoffice/strapi';
@@ -29,7 +29,7 @@ import { WaterButton } from '../ExpressWizard/waterButton';
 import { Services } from './services-list';
 import { ReactComponent as InfoImg } from '../../assets/icons/info-image.svg';
 
-const StickyContainer = styled(Card)`
+const StickyContainer = styled(ContainerCard)`
   position: sticky;
   top: ${({ theme }) => theme.space.md};
   z-index: 1;
@@ -69,7 +69,7 @@ const PageHeaderTitle = styled(XXXL)`
 
 const PageHeaderDescription = styled(LG)`
   color: ${({ theme }) => theme.palette.grey[700]};
-  margin-top: ${({ theme }) => theme.space.xl};
+  margin-top: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xl};
 `;
 

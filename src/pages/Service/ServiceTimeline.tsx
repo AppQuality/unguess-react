@@ -1,5 +1,5 @@
 import {
-  Card,
+  ContainerCard,
   Col,
   Divider,
   Grid,
@@ -25,7 +25,7 @@ const StickyContainer = styled.div`
   z-index: 1;
 `;
 
-const CardContainer = styled(Card)`
+const StyledCardContainer = styled(ContainerCard)`
   padding: ${({ theme }) => theme.space.base * 6}px;
   background-color: ${({ theme }) => theme.palette.white};
   margin-bottom: ${({ theme }) => theme.space.md};
@@ -57,7 +57,7 @@ const StyledOrderListItem = styled(OrderedList.Item)`
   }
 `;
 
-const TimelineCard = styled(Card)`
+const TimelineCard = styled(StyledCardContainer)`
   margin-bottom: ${({ theme }) => theme.space.md};
   border-radius: ${({ theme }) => theme.borderRadii.xl};
   border-color: ${({ theme }) => theme.palette.grey[300]};
@@ -118,7 +118,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
       <Row>
         <Col xs={12} lg={3}>
           <StickyContainer>
-            <CardContainer>
+            <StyledCardContainer>
               <StickyContainerTitle>
                 {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE')}
               </StickyContainerTitle>
@@ -168,7 +168,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
                   </StyledOrderListItem>
                 )}
               </StyledOrderedList>
-            </CardContainer>
+            </StyledCardContainer>
           </StickyContainer>
         </Col>
         <Col xs={12} lg={6}>
@@ -309,7 +309,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
         <Col xs={12} lg={3}>
           <StickyContainer>
             {requirements && (
-              <CardContainer>
+              <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_REQUIREMENTS_TITLE')}
                 </StickyContainerTitle>
@@ -333,7 +333,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
                     </Timeline.Item>
                   ))}
                 </Timeline>
-              </CardContainer>
+              </StyledCardContainer>
             )}
             <WaterButton
               isPill

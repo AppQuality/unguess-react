@@ -130,7 +130,7 @@ const Service = () => {
   if (!templateId || Number.isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });
   }
-  const { data, error, isLoading } = useGetFullServicesByIdQuery({
+  const { data, isLoading } = useGetFullServicesByIdQuery({
     id: templateId || '',
     populate: {
       output_image: '*',
@@ -188,7 +188,7 @@ const Service = () => {
                   <Anchor
                     onClick={() => navigate(homeRoute, { replace: true })}
                   >
-                    {t('__BREADCRUMB_ITEM_DASHBOARD')}
+                    {activeWorkspace?.company || t('__BREADCRUMB_ITEM_DASHBOARD')}
                   </Anchor>
                   <Anchor
                     onClick={() => navigate(servicesRoute, { replace: true })}
@@ -323,9 +323,6 @@ const Service = () => {
       title={serviceName}
       route="templates"
     >
-      {error && <pre>{`>>> error: ${JSON.stringify(error)}`}</pre>}
-      {isLoading && <div>Loading...</div>}
-
       {data && (
         <>
           <ServiceTimeline {...data} />
