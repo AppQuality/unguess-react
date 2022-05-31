@@ -121,9 +121,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                     Stai lanciando la campagna&nbsp;
                     <Span isBold>
                       {{ campaign_name: values.campaign_name }}
-                    </Span>&nbsp;
-                    all&apos;interno del progetto&nbsp;
-                    <Span isBold>{{ project_name: project?.name }}</Span> per&nbsp;
+                    </Span>
+                    &nbsp; all&apos;interno del progetto&nbsp;
+                    <Span isBold>{{ project_name: project?.name }}</Span>&nbsp;
+                    per&nbsp;
                     <Span isBold>{{ product_type: productType }}</Span>.
                   </Trans>
                 </StyledParagraph>
@@ -229,7 +230,8 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                   minRows={6}
                 />
                 <TextareaNote>
-                  <InfoIcon width="15" height="15" />&nbsp;
+                  <InfoIcon width="15" height="15" />
+                  &nbsp;
                   {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE')}
                 </TextareaNote>
               </Col>
