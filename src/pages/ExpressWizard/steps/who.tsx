@@ -60,7 +60,7 @@ export const WhoStep = ({
   return (
     <>
       <StepTitle>
-        <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</Span>{' '}
+        <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</Span>&nbsp;
         {t('__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA')}
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION')}</Paragraph>

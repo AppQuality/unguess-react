@@ -118,12 +118,12 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 </StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT">
-                    Stai lanciando la campagna{' '}
+                    Stai lanciando la campagna&nbsp;
                     <Span isBold>
                       {{ campaign_name: values.campaign_name }}
-                    </Span>{' '}
-                    all&apos;interno del progetto{' '}
-                    <Span isBold>{{ project_name: project?.name }}</Span> per{' '}
+                    </Span>&nbsp;
+                    all&apos;interno del progetto&nbsp;
+                    <Span isBold>{{ project_name: project?.name }}</Span> per&nbsp;
                     <Span isBold>{{ product_type: productType }}</Span>.
                   </Trans>
                 </StyledParagraph>
@@ -172,7 +172,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 </StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT">
-                    Testers speak{' '}
+                    Testers speak&nbsp;
                     <Span isBold>{{ campaign_language: lang.label }}</Span>.
                   </Trans>
                 </StyledParagraph>
@@ -194,9 +194,9 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                 </StyledLabel>
                 <StyledParagraph>
                   <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHEN_CONTENT_TEXT">
-                    Campaign starts on{' '}
+                    Campaign starts on&nbsp;
                     <Span isBold>{{ campaign_date: dateStartText }}</Span> and
-                    ends on{' '}
+                    ends on&nbsp;
                     <Span isBold>{{ campaign_date_end: dateEndText }}</Span>.
                   </Trans>
                 </StyledParagraph>
@@ -229,7 +229,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
                   minRows={6}
                 />
                 <TextareaNote>
-                  <InfoIcon width="15" height="15" />{' '}
+                  <InfoIcon width="15" height="15" />&nbsp;
                   {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE')}
                 </TextareaNote>
               </Col>

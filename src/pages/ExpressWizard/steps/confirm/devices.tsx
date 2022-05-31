@@ -19,7 +19,7 @@ export const Devices = (props: FormikProps<WizardModel>) => {
 
   return (
     <>
-      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_DEVICES')}{' '}
+      {t('__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_DEVICES')}&nbsp;
       <Span isBold>{items.join(', ')}</Span>.
     </>
   );

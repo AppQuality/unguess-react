@@ -73,7 +73,7 @@ export const WhenStep = ({
     <>
       <StyledFormField>
         <StepTitle>
-          <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHEN_LABEL')}</Span>{' '}
+          <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHEN_LABEL')}</Span>&nbsp;
           {t('__EXPRESS_WIZARD_STEP_WHEN_LABEL_EXTRA')}
         </StepTitle>
         <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION')}</Paragraph>
