@@ -87,7 +87,7 @@ export const ExpressWizardContainer = () => {
     (state) => state.express
   );
 
-  const [activeStep, setStep] = useState(4);
+  const [activeStep, setStep] = useState(0);
   const [isThankyou, setThankyou] = useState(false);
   const [createCampaign] = usePostCampaignsMutation();
   const [createProject] = usePostProjectsMutation();
