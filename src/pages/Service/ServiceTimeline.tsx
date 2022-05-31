@@ -1,5 +1,5 @@
 import {
-  Card,
+  ContainerCard,
   Col,
   Divider,
   Grid,
@@ -25,7 +25,7 @@ const StickyContainer = styled.div`
   z-index: 1;
 `;
 
-const CardContainer = styled(Card)`
+const StyledCardContainer = styled(ContainerCard)`
   padding: ${({ theme }) => theme.space.base * 6}px;
   background-color: ${({ theme }) => theme.palette.white};
   margin-bottom: ${({ theme }) => theme.space.md};
@@ -57,7 +57,7 @@ const StyledOrderListItem = styled(OrderedList.Item)`
   }
 `;
 
-const TimelineCard = styled(Card)`
+const TimelineCard = styled(StyledCardContainer)`
   margin-bottom: ${({ theme }) => theme.space.md};
   border-radius: ${({ theme }) => theme.borderRadii.xl};
   border-color: ${({ theme }) => theme.palette.grey[300]};
@@ -105,6 +105,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
 
   const why = data ? data?.attributes?.why : {};
   const reasons = why?.reasons || [];
+  const advantages = why?.advantages || [];
   const requirements = data ? data?.attributes?.requirements : {};
   const list = requirements?.list || [];
   const what = data ? data?.attributes?.what : {};
@@ -117,59 +118,61 @@ const ServiceTimeline = (response: ServiceResponse) => {
     <Grid gutters="lg">
       <Row>
         <Col xs={12} lg={3}>
-          <StickyContainer>
-            <CardContainer>
-              <StickyContainerTitle>
-                {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE')}
-              </StickyContainerTitle>
-              <StyledOrderedList>
-                {why && (
-                  <StyledOrderListItem>
-                    <Link
-                      to="why-card"
-                      containerId="main"
-                      spy
-                      smooth
-                      duration={500}
-                      offset={-50}
-                    >
-                      {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHY_ITEM')}
-                    </Link>
-                  </StyledOrderListItem>
-                )}
+          {(why || what || how) && (
+            <StickyContainer>
+              <StyledCardContainer>
+                <StickyContainerTitle>
+                  {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE')}
+                </StickyContainerTitle>
+                <StyledOrderedList>
+                  {why && (
+                    <StyledOrderListItem>
+                      <Link
+                        to="why-card"
+                        containerId="main"
+                        spy
+                        smooth
+                        duration={500}
+                        offset={-50}
+                      >
+                        {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHY_ITEM')}
+                      </Link>
+                    </StyledOrderListItem>
+                  )}
 
-                {what && (
-                  <StyledOrderListItem>
-                    <Link
-                      to="what-card"
-                      containerId="main"
-                      spy
-                      smooth
-                      duration={500}
-                      offset={-20}
-                    >
-                      {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHAT_ITEM')}
-                    </Link>
-                  </StyledOrderListItem>
-                )}
+                  {what && (
+                    <StyledOrderListItem>
+                      <Link
+                        to="what-card"
+                        containerId="main"
+                        spy
+                        smooth
+                        duration={500}
+                        offset={-20}
+                      >
+                        {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_WHAT_ITEM')}
+                      </Link>
+                    </StyledOrderListItem>
+                  )}
 
-                {how && (
-                  <StyledOrderListItem>
-                    <Link
-                      to="how-card"
-                      containerId="main"
-                      spy
-                      smooth
-                      duration={500}
-                      offset={-20}
-                    >
-                      {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_HOW_ITEM')}
-                    </Link>
-                  </StyledOrderListItem>
-                )}
-              </StyledOrderedList>
-            </CardContainer>
-          </StickyContainer>
+                  {how && (
+                    <StyledOrderListItem>
+                      <Link
+                        to="how-card"
+                        containerId="main"
+                        spy
+                        smooth
+                        duration={500}
+                        offset={-20}
+                      >
+                        {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_HOW_ITEM')}
+                      </Link>
+                    </StyledOrderListItem>
+                  )}
+                </StyledOrderedList>
+              </StyledCardContainer>
+            </StickyContainer>
+          )}
         </Col>
         <Col xs={12} lg={6}>
           {why && (
@@ -179,72 +182,60 @@ const ServiceTimeline = (response: ServiceResponse) => {
                   <Span isBold>Why</Span> to choose this campaign
                 </Trans>
               </StepTitle>
-              <StepParagraph>
-                {t('__CATALOG_DETAIL_TIMELINE_WHY_DESCRIPTION')}
-              </StepParagraph>
-              <StyledDivider />
-              <Timeline>
-                {reasons.map((reason) => {
-                  const icon = reason.icon?.data?.attributes?.url || '';
+              {reasons && (
+                <>
+                  <StepParagraph>
+                    {t('__CATALOG_DETAIL_TIMELINE_WHY_DESCRIPTION')}
+                  </StepParagraph>
+                  <StyledDivider />
+                  <Timeline>
+                    {reasons.map((reason) => {
+                      const icon = reason.icon?.data?.attributes?.url || '';
 
-                  return (
-                    <Timeline.Item
-                      key={`reason_${reason.id}`}
-                      icon={
-                        <TimelineIcon
-                          width={24}
-                          height={24}
-                          src={`${STRAPI_URL}${icon}`}
-                          alt={reason.title}
-                        />
-                      }
-                      hiddenLine
-                    >
-                      <Timeline.Content>
-                        <Paragraph style={{ fontWeight: 500 }}>
-                          {reason.title}
-                        </Paragraph>
-                        {reason.description}
-                      </Timeline.Content>
-                    </Timeline.Item>
-                  );
-                })}
-              </Timeline>
-              <AdvantagesContainer>
-                <SectionTitle>
-                  {t('__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE')}
-                </SectionTitle>
-                <StyledDivider />
-                <Timeline>
-                  <Timeline.Item hiddenLine icon={<CheckIcon />}>
-                    <Timeline.Content>
-                      <Paragraph style={{ fontWeight: 500 }}>
-                        {t(
-                          '__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_TIME_TITLE'
-                        )}
-                      </Paragraph>
-                    </Timeline.Content>
-                  </Timeline.Item>
-                  <Timeline.Item hiddenLine icon={<CheckIcon />}>
-                    <Timeline.Content>
-                      <Paragraph style={{ fontWeight: 500 }}>
-                        {t(
-                          '__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_COST_TITLE'
-                        )}
-                      </Paragraph>
-                    </Timeline.Content>
-                  </Timeline.Item>
-                  <Timeline.Item hiddenLine icon={<CheckIcon />}>
-                    <Timeline.Content>
-                      <Paragraph style={{ fontWeight: 500 }}>
-                        {t(
-                          '__CATALOG_DETAIL_TIMELINE_ADVANTAGES_ITEM_INTEGRATION_TITLE'
-                        )}
-                      </Paragraph>
-                    </Timeline.Content>
-                  </Timeline.Item>
-                </Timeline>
-              </AdvantagesContainer>
+                      return (
+                        <Timeline.Item
+                          key={`reason_${reason.id}`}
+                          icon={
+                            <TimelineIcon
+                              width={24}
+                              height={24}
+                              src={`${STRAPI_URL}${icon}`}
+                              alt={reason.title}
+                            />
+                          }
+                          hiddenLine
+                        >
+                          <Timeline.Content>
+                            <Paragraph style={{ fontWeight: 500 }}>
+                              {reason.title}
+                            </Paragraph>
+                            {reason.description}
+                          </Timeline.Content>
+                        </Timeline.Item>
+                      );
+                    })}
+                  </Timeline>
+                </>
+              )}
+              {advantages && (
+                <AdvantagesContainer>
+                  <SectionTitle>
+                    {t('__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE')}
+                  </SectionTitle>
+                  <StyledDivider />
+                  <Timeline>
+                    {advantages.map((advantage) => (
+                      <Timeline.Item hiddenLine icon={<CheckIcon />}>
+                        <Timeline.Content>
+                          <Paragraph style={{ fontWeight: 500 }}>
+                            {advantage.item}
+                          </Paragraph>
+                        </Timeline.Content>
+                      </Timeline.Item>
+                    ))}
+                  </Timeline>
+                </AdvantagesContainer>
+              )}
             </TimelineCard>
           )}
 
@@ -309,7 +300,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
         <Col xs={12} lg={3}>
           <StickyContainer>
             {requirements && (
-              <CardContainer>
+              <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_REQUIREMENTS_TITLE')}
                 </StickyContainerTitle>
@@ -333,20 +324,22 @@ const ServiceTimeline = (response: ServiceResponse) => {
                     </Timeline.Item>
                   ))}
                 </Timeline>
-              </CardContainer>
+              </StyledCardContainer>
             )}
-            <WaterButton
-              isPill
-              isPrimary
-              size="medium"
-              onClick={() => {
-                window.location.href = `mailto:${
-                  activeWorkspace?.csm.email || 'info@unguess.io'
-                }`;
-              }}
-            >
-              {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
-            </WaterButton>
+            {(why || what || how) && (
+              <WaterButton
+                isPill
+                isPrimary
+                size="medium"
+                onClick={() => {
+                  window.location.href = `mailto:${
+                    activeWorkspace?.csm.email || 'info@unguess.io'
+                  }`;
+                }}
+              >
+                {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
+              </WaterButton>
+            )}
           </StickyContainer>
         </Col>
       </Row>

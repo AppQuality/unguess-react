@@ -16,8 +16,9 @@ import {
   openWizard,
   setExpressProject,
 } from 'src/features/express/expressSlice';
-import { Feature } from 'src/features/api';
+import { Feature, useGetProjectsByPidQuery } from 'src/features/api';
 import { isMinMedia, toggleChat } from 'src/common/utils';
+import { useEffect } from 'react';
 import { ExpressWizardContainer } from '../ExpressWizard';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
 import { CardRowLoading } from './CardRowLoading';
@@ -28,7 +29,17 @@ export const ActionCards = () => {
   const { status, userData } = useAppSelector((state) => state.user);
   const { projectId } = useAppSelector((state) => state.filters);
 
-  const selectedProject = { id: projectId, name: '' };
+  const { data } = useGetProjectsByPidQuery({
+    pid: projectId ?? 0,
+  });
+
+  let selectedProject = { id: projectId, name: 'Project' };
+
+  useEffect(() => {
+    if (data) {
+      selectedProject = { id: data.id, name: data.name };
+    }
+  }, [data]);
 
   if (
     !projectId ||

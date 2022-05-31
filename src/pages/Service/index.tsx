@@ -14,7 +14,7 @@ import {
   Span,
   Tag,
   theme as globalTheme,
-  XXL,
+  XXXL,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
@@ -31,6 +31,7 @@ import { Feature } from 'src/features/api';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
 import { toggleChat } from 'src/common/utils';
+import PageLoader from 'src/features/templates/PageLoader';
 import { WaterButton } from '../ExpressWizard/waterButton';
 import { ServiceTimeline } from './ServiceTimeline';
 
@@ -41,7 +42,7 @@ const CampaignType = styled(Paragraph)`
   text-transform: uppercase;
 `;
 
-const ServiceTitle = styled(XXL)`
+const ServiceTitle = styled(XXXL)`
   color: ${({ theme }) => theme.colors.primaryHue};
   margin-top: ${({ theme }) => theme.space.base * 4}px;
   font-weight: ${({ theme }) => theme.fontWeights.medium};
@@ -129,7 +130,7 @@ const Service = () => {
   if (!templateId || Number.isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });
   }
-  const { data, error, isLoading } = useGetFullServicesByIdQuery({
+  const { data, isLoading, isError } = useGetFullServicesByIdQuery({
     id: templateId || '',
     populate: {
       output_image: '*',
@@ -148,6 +149,9 @@ const Service = () => {
           reasons: {
             populate: '*',
           },
+          advantages: {
+            populate: '*',
+          },
         },
       },
       what: { populate: '*' },
@@ -160,6 +164,10 @@ const Service = () => {
       },
     },
   });
+
+  if (isError) {
+    navigate(notFoundRoute, { replace: true });
+  }
 
   const serviceName = data ? data.data?.attributes?.title : '';
   const campaignType = data ? data.data?.attributes?.campaign_type : '';
@@ -174,7 +182,9 @@ const Service = () => {
     : '';
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
 
-  return (
+  return isLoading || status === 'loading' ? (
+    <PageLoader />
+  ) : (
     <Page
       pageHeader={
         <PageHeaderContainer>
@@ -185,7 +195,8 @@ const Service = () => {
                   <Anchor
                     onClick={() => navigate(homeRoute, { replace: true })}
                   >
-                    {t('__BREADCRUMB_ITEM_DASHBOARD')}
+                    {activeWorkspace?.company ||
+                      t('__BREADCRUMB_ITEM_DASHBOARD')}
                   </Anchor>
                   <Anchor
                     onClick={() => navigate(servicesRoute, { replace: true })}
@@ -199,7 +210,7 @@ const Service = () => {
           </Grid>
           <Grid>
             <Row>
-              <ColMeta xs={12} lg={6}>
+              <ColMeta xs={12} lg={bannerImg ? 6 : 12}>
                 <CampaignType>{campaignType}</CampaignType>
                 <ServiceTitle>{serviceName}</ServiceTitle>
                 <ServiceDescription>{serviceDescription}</ServiceDescription>
@@ -269,17 +280,19 @@ const Service = () => {
                       </Trans>
                     </Paragraph>
                   </StyledTag>
-                  <StyledTag
-                    size="large"
-                    isPill
-                    isRegular
-                    hue={globalTheme.palette.grey[100]}
-                  >
-                    <StyledTag.Avatar>
-                      <EnvironmentIcon />
-                    </StyledTag.Avatar>
-                    <Paragraph>{environment}</Paragraph>
-                  </StyledTag>
+                  {environment && (
+                    <StyledTag
+                      size="large"
+                      isPill
+                      isRegular
+                      hue={globalTheme.palette.grey[100]}
+                    >
+                      <StyledTag.Avatar>
+                        <EnvironmentIcon />
+                      </StyledTag.Avatar>
+                      <Paragraph>{environment}</Paragraph>
+                    </StyledTag>
+                  )}
                 </TagsContainer>
                 {isExpress ? (
                   <CTAButton
@@ -308,11 +321,13 @@ const Service = () => {
                   </CTAButton>
                 )}
               </ColMeta>
-              <ColBanner xs={12} lg={6}>
-                <BannerContainer>
-                  <img src={bannerImgUrl} alt={serviceName} />
-                </BannerContainer>
-              </ColBanner>
+              {bannerImg && (
+                <ColBanner xs={12} lg={6}>
+                  <BannerContainer>
+                    <img src={bannerImgUrl} alt={serviceName} />
+                  </BannerContainer>
+                </ColBanner>
+              )}
             </Row>
           </Grid>
         </PageHeaderContainer>
@@ -320,9 +335,6 @@ const Service = () => {
       title={serviceName}
       route="templates"
     >
-      {error && <pre>{`>>> error: ${JSON.stringify(error)}`}</pre>}
-      {isLoading && <div>Loading...</div>}
-
       {data && (
         <>
           <ServiceTimeline {...data} />
