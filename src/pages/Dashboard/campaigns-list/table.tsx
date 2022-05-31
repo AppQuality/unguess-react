@@ -4,11 +4,11 @@ import {
   GroupedTable,
   Span,
   theme,
-} from "@appquality/unguess-design-system";
-import { useTranslation } from "react-i18next";
-import { Campaign } from "src/features/api";
-import { getCampaignStatus } from "src/hooks/getCampaignStatus";
-import { getLocalizeRoute } from "src/hooks/useLocalizeDashboardUrl";
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { Campaign } from 'src/features/api';
+import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
+import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 
 export const TableList = ({
   campaigns,
@@ -17,51 +17,55 @@ export const TableList = ({
 }) => {
   const { t } = useTranslation();
 
-  let columns = [
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_NAME"), field: "name" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE"), field: "type" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE"), field: "testType" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_START_DATE"), field: "startDate" },
-    { name: t("__CAMPAIGNS_TABLE_COLUMN_STATUS"), field: "status" },
+  const columns = [
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_NAME'), field: 'name' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE'), field: 'type' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_TEST_TYPE'), field: 'testType' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_START_DATE'), field: 'startDate' },
+    { name: t('__CAMPAIGNS_TABLE_COLUMN_STATUS'), field: 'status' },
   ];
 
-  //Colonne Nome Campagna, Tipologia, Tipo Test, StartDate, Status
+  // Colonne Nome Campagna, Tipologia, Tipo Test, StartDate, Status
 
-  let groups: any = [];
+  const groups: any = [];
 
   campaigns.forEach((campaignGroup) => {
-    let projectName = campaignGroup[0].project_name;
-    let campaigns: any = [];
+    const projectName = campaignGroup[0].project_name;
+    const groupedCampaigns: any = [];
     campaignGroup.forEach((campaign) => {
       // Get translated status label
-      let translatedStatus = <></>;
+      let translatedStatus = null;
       switch (getCampaignStatus(campaign)) {
-        case "INCOMING":
+        case 'INCOMING':
           translatedStatus = (
-            <Counter status={"incoming"}>
-              {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING")}
+            <Counter status="incoming">
+              {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING')}
             </Counter>
           );
           break;
-        case "COMPLETED":
+        case 'COMPLETED':
           translatedStatus = (
-            <Counter status={"completed"}>
-              {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED")}
+            <Counter status="completed">
+              {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED')}
             </Counter>
           );
           break;
-        case "PROGRESS":
+        case 'PROGRESS':
           translatedStatus = (
-            <Counter status={"progress"}>
-              {t("__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS")}
+            <Counter status="progress">
+              {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS')}
             </Counter>
           );
           break;
+        default:
+          translatedStatus = null;
       }
 
-      campaigns.push({
+      groupedCampaigns.push({
         name: (
-          <Anchor href={getLocalizeRoute(campaign.id, campaign.campaign_family_name)}>
+          <Anchor
+            href={getLocalizeRoute(campaign.id, campaign.campaign_family_name)}
+          >
             <Span isBold style={{ color: theme.palette.grey[800] }}>
               {campaign.title}
             </Span>
@@ -76,7 +80,7 @@ export const TableList = ({
 
     groups.push({
       groupName: projectName,
-      items: campaigns,
+      items: groupedCampaigns,
     });
   });
 
@@ -84,7 +88,7 @@ export const TableList = ({
     <GroupedTable
       groups={groups}
       columns={columns}
-      style={{ backgroundColor: "white" }}
+      style={{ backgroundColor: 'white' }}
     />
   );
 };

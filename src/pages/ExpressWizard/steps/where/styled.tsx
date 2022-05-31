@@ -1,6 +1,6 @@
-import { Row, Span } from "@appquality/unguess-design-system";
-import { Field } from "@zendeskgarden/react-forms";
-import styled from "styled-components";
+import { Row, Span } from '@appquality/unguess-design-system';
+import { Field } from '@zendeskgarden/react-forms';
+import styled from 'styled-components';
 
 export const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};

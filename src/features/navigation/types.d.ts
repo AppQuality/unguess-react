@@ -1,7 +1,7 @@
+import { Workspace } from '../api';
 
 type NavigationState = {
   isSidebarOpen: boolean;
-  activeWorkspace?: Component['workspace'];
+  activeWorkspace?: Workspace;
   isProfileModalOpen: boolean;
 };
-

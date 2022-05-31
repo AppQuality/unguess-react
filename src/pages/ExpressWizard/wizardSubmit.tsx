@@ -1,10 +1,10 @@
-import { FormikProps } from "formik";
-import { useTranslation } from "react-i18next";
-import { WizardModel } from "./wizardModel";
-import { WaterButton } from "./waterButton";
-import { ReactComponent as RocketIcon } from "src/assets/icons/rocket-icon.svg";
-import { Spinner, theme } from "@appquality/unguess-design-system";
-import styled from "styled-components";
+import { FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { ReactComponent as RocketIcon } from 'src/assets/icons/rocket-icon.svg';
+import { Spinner, theme } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+import { WaterButton } from './waterButton';
+import { WizardModel } from './wizardModel';
 
 const StyledDiv = styled.div`
   /** Horizontal Align */
@@ -30,7 +30,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
         <WaterButton.StartIcon>
           <RocketIcon />
         </WaterButton.StartIcon>
-        {t("__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL")}
+        {t('__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL')}
       </WaterButton>
       {isSubmitting && (
         <Spinner

@@ -3,7 +3,7 @@ import {
   XXL,
   MD,
   Span,
-  theme,
+  theme as globalTheme,
   Message,
   Row,
   Col,
@@ -12,20 +12,20 @@ import {
   Label,
   MediaInput,
   Hint,
-} from "@appquality/unguess-design-system";
-import { CardDivider } from "../cardDivider";
-import { Field, Fieldset } from "@zendeskgarden/react-forms";
-import { ReactComponent as SmartphoneIcon } from "src/assets/icons/device-smartphone.svg";
-import { ReactComponent as SmartphoneIconActive } from "src/assets/icons/device-smartphone-active.svg";
-import { ReactComponent as TabletIcon } from "src/assets/icons/device-tablet.svg";
-import { ReactComponent as TabletIconActive } from "src/assets/icons/device-tablet-active.svg";
-import { ReactComponent as LinkIcon } from "src/assets/icons/link-stroke.svg";
-import { FormikProps } from "formik";
-import { WizardModel } from "../wizardModel";
-import { useTranslation, Trans } from "react-i18next";
-import styled from "styled-components";
-import { OutOfScopeSection } from "./where/outOfScope";
-import { useEffect, useState } from "react";
+} from '@appquality/unguess-design-system';
+import { Field, Fieldset } from '@zendeskgarden/react-forms';
+import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
+import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
+import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg';
+import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tablet-active.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { FormikProps } from 'formik';
+import { useTranslation, Trans } from 'react-i18next';
+import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { OutOfScopeSection } from './where/outOfScope';
+import { WizardModel } from '../wizardModel';
+import { CardDivider } from '../cardDivider';
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
@@ -41,21 +41,27 @@ const InnerField = styled(Field)`
 `;
 
 export const WhereAppStep = (props: FormikProps<WizardModel>) => {
-  const { errors, values, setFieldValue, handleChange } = props;
-  const initialRadioValue = values.isIOS ? "ios" : (values.isAndroid ? "android" : "none");
+  const { errors, values, setFieldValue, handleChange, getFieldProps } = props;
+  let initialRadioValue = 'none';
+  if (values.isIOS) {
+    initialRadioValue = 'ios';
+  } else if (values.isAndroid) {
+    initialRadioValue = 'android';
+  }
+
   const [radioValue, setRadioValue] = useState(initialRadioValue);
 
-  //Reset web step
-  if(values.customBrowser) setFieldValue("customBrowser", false);
-  if(values.withDesktop) setFieldValue("withDesktop", false);
+  // Reset web step
+  if (values.customBrowser) setFieldValue('customBrowser', false);
+  if (values.withDesktop) setFieldValue('withDesktop', false);
 
   useEffect(() => {
-    if (radioValue === "ios") {
-      setFieldValue("isIOS", true);
-      setFieldValue("isAndroid", false);
-    } else if (radioValue === "android") {
-      setFieldValue("isIOS", false);
-      setFieldValue("isAndroid", true);
+    if (radioValue === 'ios') {
+      setFieldValue('isIOS', true);
+      setFieldValue('isAndroid', false);
+    } else if (radioValue === 'android') {
+      setFieldValue('isIOS', false);
+      setFieldValue('isAndroid', true);
     }
   }, [radioValue, setFieldValue]);
 
@@ -65,7 +71,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
     <>
       <Row>
         <Col>
-          <XXL style={{color: theme.palette.grey[800]}}>
+          <XXL style={{ color: globalTheme.palette.grey[800] }}>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
@@ -87,13 +93,13 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
         <Col>
           <Field>
             <CheckboxCard
-              label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE")}
+              label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE')}
               icon={<SmartphoneIcon />}
               iconActive={<SmartphoneIconActive />}
               name="withSmartphone"
               defaultChecked={values.withSmartphone}
               onToggle={(isChecked) => {
-                setFieldValue("withSmartphone", isChecked);
+                setFieldValue('withSmartphone', isChecked);
               }}
             />
           </Field>
@@ -101,31 +107,34 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
         <Col>
           <Field>
             <CheckboxCard
-              label={t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET")}
+              label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET')}
               icon={<TabletIcon />}
               iconActive={<TabletIconActive />}
               name="withTablet"
               defaultChecked={values.withTablet}
               onToggle={(isChecked) => {
-                setFieldValue("withTablet", isChecked);
+                setFieldValue('withTablet', isChecked);
               }}
             />
           </Field>
         </Col>
         <Col size={12}>
           {(errors.withSmartphone || errors.withTablet) && (
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
-              {t("__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR")}
+            <Message
+              validation="error"
+              style={{ marginTop: globalTheme.space.xs }}
+            >
+              {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
           )}
         </Col>
       </StyledRow>
 
       {/** --- Operating System --- */}
-      <StyledRow style={{ marginTop: theme.space.lg }}>
+      <StyledRow style={{ marginTop: globalTheme.space.lg }}>
         <Col>
-          <XL isBold style={{ color: theme.palette.grey[800] }}>
-            {t("__EXPRESS_WIZARD_STEP_APP_WHERE_OS_TITLE")}
+          <XL isBold style={{ color: globalTheme.palette.grey[800] }}>
+            {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_TITLE')}
           </XL>
         </Col>
       </StyledRow>
@@ -133,21 +142,21 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
         <Col>
           <Fieldset>
             <Fieldset.Legend>
-              {t("__EXPRESS_WIZARD_STEP_APP_WHERE_OS_LABEL")}
+              {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_LABEL')}
             </Fieldset.Legend>
             <Field>
               <Radio
                 name="device-platform"
                 value="ios"
-                checked={radioValue === "ios"}
+                checked={radioValue === 'ios'}
                 onChange={(e) => {
                   setRadioValue(e.target.value);
-                  setFieldValue("isIOS", e.target.value === "ios");
+                  setFieldValue('isIOS', e.target.value === 'ios');
                   handleChange(e);
                 }}
               >
                 <Label isRegular>
-                  {t("__EXPRESS_WIZARD_STEP_APP_WHERE_OS_IOS_LABEL")}
+                  {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_IOS_LABEL')}
                 </Label>
               </Radio>
             </Field>
@@ -155,40 +164,40 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
             {values.isIOS && (
               <InnerField>
                 <Label>
-                  {t("__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_LABEL")}
-                  <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                  {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_LABEL')}
+                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
                 </Label>
                 <Hint>
-                  {t("__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_DESCRIPTION")}
+                  {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_DESCRIPTION')}
                 </Hint>
                 <MediaInput
                   start={<LinkIcon />}
-                  type={"url"}
+                  type="url"
                   placeholder="https://www.example.com"
-                  {...props.getFieldProps("iOSLink")}
-                  {...(errors.iOSLink && { validation: "error" })}
+                  {...getFieldProps('iOSLink')}
+                  {...(errors.iOSLink && { validation: 'error' })}
                 />
 
-                <Message {...(errors.iOSLink && { validation: "error" })}>
+                <Message {...(errors.iOSLink && { validation: 'error' })}>
                   {errors.iOSLink
-                    ? t("__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_ERROR")
-                    : t("__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_INFO")}
+                    ? t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_ERROR')
+                    : t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_INFO')}
                 </Message>
               </InnerField>
             )}
-            <Field style={{ marginTop: theme.space.base * 4 + "px" }}>
+            <Field style={{ marginTop: `${globalTheme.space.base * 4}px` }}>
               <Radio
                 name="device-platform"
                 value="android"
-                checked={radioValue === "android"}
+                checked={radioValue === 'android'}
                 onChange={(e) => {
                   setRadioValue(e.target.value);
-                  setFieldValue("isAndroid", e.target.value === "android");
+                  setFieldValue('isAndroid', e.target.value === 'android');
                   handleChange(e);
                 }}
               >
                 <Label isRegular>
-                  {t("__EXPRESS_WIZARD_STEP_APP_WHERE_OS_ANDROID_LABEL")}
+                  {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_ANDROID_LABEL')}
                 </Label>
               </Radio>
             </Field>
@@ -196,24 +205,24 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
             {values.isAndroid && (
               <InnerField>
                 <Label>
-                  {t("__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_LABEL")}
-                  <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                  {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_LABEL')}
+                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
                 </Label>
                 <Hint>
-                  {t("__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_DESCRIPTION")}
+                  {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_DESCRIPTION')}
                 </Hint>
                 <MediaInput
                   start={<LinkIcon />}
-                  type={"url"}
+                  type="url"
                   placeholder="https://www.example.com"
-                  {...props.getFieldProps("androidLink")}
-                  {...(errors.androidLink && { validation: "error" })}
+                  {...getFieldProps('androidLink')}
+                  {...(errors.androidLink && { validation: 'error' })}
                 />
 
-                <Message {...(errors.androidLink && { validation: "error" })}>
+                <Message {...(errors.androidLink && { validation: 'error' })}>
                   {errors.androidLink
-                    ? t("__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_ERROR")
-                    : t("__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_INFO")}
+                    ? t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_ERROR')
+                    : t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_INFO')}
                 </Message>
               </InnerField>
             )}

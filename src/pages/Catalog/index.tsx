@@ -1,31 +1,35 @@
-import { Page } from "src/features/templates/Page";
-import { useTranslation } from "react-i18next";
-import { useGetServicesQuery } from "src/features/backoffice";
-import styled from "styled-components";
+import { Page } from 'src/features/templates/Page';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import {
   Col,
   Grid,
   Row,
   MD,
-  Card,
   Paragraph,
   Timeline,
   XXL,
+  XXXL,
   Divider,
-} from "@appquality/unguess-design-system";
-import { ReactComponent as TailoredIcon } from "src/assets/icons/tailored-icon.svg";
-import { ReactComponent as ExpressIcon } from "src/assets/icons/express-icon.svg";
-import { ReactComponent as InfoImg } from "../../assets/icons/info-image.svg";
-import { Services } from "./services-list";
-import { WaterButton } from "../ExpressWizard/waterButton";
-import { useAppSelector } from "src/app/hooks";
-import { FEATURE_FLAG_CATALOG } from "src/constants";
-import { useLocalizeRoute } from "src/hooks/useLocalizedRoute";
-import { useNavigate } from "react-router-dom";
-import { Feature } from "src/features/api";
-import PageLoader from "src/features/templates/PageLoader";
+  LG,
+  ContainerCard,
+} from '@appquality/unguess-design-system';
+import i18n from 'src/i18n';
+import { useGeti18nServicesQuery } from 'src/features/backoffice/strapi';
+import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
+import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
+import { useAppSelector } from 'src/app/hooks';
+import { FEATURE_FLAG_CATALOG, FEATURE_FLAG_EXPRESS } from 'src/constants';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useNavigate } from 'react-router-dom';
+import { Feature } from 'src/features/api';
+import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
+import PageLoader from 'src/features/templates/PageLoader';
+import { WaterButton } from '../ExpressWizard/waterButton';
+import { Services } from './services-list';
+import { ReactComponent as InfoImg } from '../../assets/icons/info-image.svg';
 
-const StickyContainer = styled(Card)`
+const StickyContainer = styled(ContainerCard)`
   position: sticky;
   top: ${({ theme }) => theme.space.md};
   z-index: 1;
@@ -58,15 +62,30 @@ const StyledDivider = styled(Divider)`
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
-export default function Catalog() {
+const PageHeaderTitle = styled(XXXL)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+`;
+
+const PageHeaderDescription = styled(LG)`
+  color: ${({ theme }) => theme.palette.grey[700]};
+  margin-top: ${({ theme }) => theme.space.md};
+  margin-bottom: ${({ theme }) => theme.space.xl};
+`;
+
+const Catalog = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const notFoundRoute = useLocalizeRoute("oops");
+  const notFoundRoute = useLocalizeRoute('oops');
+
+  const hasExpress =
+    status === 'logged' &&
+    userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
   if (
-    status === "logged" &&
+    status === 'logged' &&
     (!userData.features ||
       !userData.features.find(
         (feature: Feature) => feature.slug === FEATURE_FLAG_CATALOG
@@ -75,23 +94,26 @@ export default function Catalog() {
     navigate(notFoundRoute, { replace: true });
   }
 
-  const { data, error, isLoading } = useGetServicesQuery({
-    populate: "*",
+  const { data, error, isLoading } = useGeti18nServicesQuery({
+    populate: '*',
+    locale: i18n.language,
   });
 
-  let services = [];
+  const services = [];
 
   if (data) {
     if (data.data) {
-      data.data.map((service) => {
-        // TODO: check if express feature flag is enabled, if yes show the service
-        return services.push(service);
+      data.data.forEach((service) => {
+        if (service.attributes?.is_express && hasExpress) {
+          services.push(service);
+        } else {
+          services.push(service);
+        }
       });
     }
   }
 
   if (error) {
-    console.error(error);
     navigate(notFoundRoute, { replace: true });
   }
 
@@ -99,56 +121,67 @@ export default function Catalog() {
   services.push({
     is_info: true,
     info_img: <InfoImg />,
-    info_subtitle: t("__CATALOG_PAGE_INFO_SERVICE_SUBTITLE"),
-    info_title: t("__CATALOG_PAGE_INFO_SERVICE_TITLE"),
+    info_subtitle: t('__CATALOG_PAGE_INFO_SERVICE_SUBTITLE'),
+    info_title: t('__CATALOG_PAGE_INFO_SERVICE_TITLE'),
     info_buttons: [
       <WaterButton
         isPill
         isPrimary
         size="small"
-        onClick={() =>
-          (window.location.href = `mailto:${
-            activeWorkspace?.csm.email || "info@unguess.io"
-          }`)
-        }
+        onClick={() => {
+          window.location.href = `mailto:${
+            activeWorkspace?.csm.email || 'info@unguess.io'
+          }`;
+        }}
       >
-        {t("__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL")}
+        {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
       </WaterButton>,
     ],
   });
 
-  return isLoading || status === "loading" ? (
+  return isLoading || status === 'loading' ? (
     <PageLoader />
   ) : (
-    <Page title={t("__PAGE_TITLE_CATALOG")} route={"templates"}>
-      <Grid gutters={"lg"}>
+    <Page
+      pageHeader={
+        <PageHeaderContainer>
+          <PageHeaderTitle>{t('__CATALOG_PAGE_TITLE')}</PageHeaderTitle>
+          <PageHeaderDescription>
+            {t('__CATALOG_PAGE_DESCRIPTION')}
+          </PageHeaderDescription>
+        </PageHeaderContainer>
+      }
+      title={t('__PAGE_TITLE_CATALOG')}
+      route="templates"
+    >
+      <Grid gutters="lg">
         <Row>
           <Col xs={12} lg={3}>
             <StickyContainer>
               <StickyContainerTitle>
-                {t("__CATALOG_STICKY_CONTAINER_TITLE")}
+                {t('__CATALOG_STICKY_CONTAINER_TITLE')}
               </StickyContainerTitle>
               <StickyContainerParagraph>
-                {t("__CATALOG_STICKY_CONTAINER_PARAGRAPH")}
+                {t('__CATALOG_STICKY_CONTAINER_PARAGRAPH')}
               </StickyContainerParagraph>
               <Timeline>
                 <Timeline.Item hiddenLine icon={<ExpressIcon />}>
                   <Timeline.Content>
                     <Paragraph style={{ fontWeight: 500 }}>
-                      {t("__EXPRESS_LABEL")}
+                      {t('__EXPRESS_LABEL')}
                     </Paragraph>
                     {t(
-                      "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_EXPRESS_DESCRIPTION"
+                      '__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_EXPRESS_DESCRIPTION'
                     )}
                   </Timeline.Content>
                 </Timeline.Item>
                 <Timeline.Item hiddenLine icon={<TailoredIcon />}>
                   <Timeline.Content>
                     <Paragraph style={{ fontWeight: 500 }}>
-                      {t("__TAILORED_LABEL")}
+                      {t('__TAILORED_LABEL')}
                     </Paragraph>
                     {t(
-                      "__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_TAILORED_DESCRIPTION"
+                      '__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_TAILORED_DESCRIPTION'
                     )}
                   </Timeline.Content>
                 </Timeline.Item>
@@ -157,13 +190,13 @@ export default function Catalog() {
           </Col>
           <Col xs={12} lg={9}>
             <PageContent>
-              <PageTitle>{t("__CATALOG_PAGE_CONTENT_TITLE")}</PageTitle>
-              <Paragraph>{t("__CATALOG_PAGE_CONTENT_PARAGRAPH")}</Paragraph>
+              <PageTitle>{t('__CATALOG_PAGE_CONTENT_TITLE')}</PageTitle>
+              <Paragraph>{t('__CATALOG_PAGE_CONTENT_PARAGRAPH')}</Paragraph>
               <StyledDivider />
               {services.length > 0 ? (
                 <Services services={services} />
               ) : (
-                <Paragraph>{t("__CATALOG_PAGE_CONTENT_NO_SERVICES")}</Paragraph>
+                <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
               )}
             </PageContent>
           </Col>
@@ -171,4 +204,6 @@ export default function Catalog() {
       </Grid>
     </Page>
   );
-}
+};
+
+export default Catalog;
