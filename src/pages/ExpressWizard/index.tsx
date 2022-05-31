@@ -87,7 +87,7 @@ export const ExpressWizardContainer = () => {
     (state) => state.express
   );
 
-  const [activeStep, setStep] = useState(0);
+  const [activeStep, setStep] = useState(4);
   const [isThankyou, setThankyou] = useState(false);
   const [createCampaign] = usePostCampaignsMutation();
   const [createProject] = usePostProjectsMutation();
@@ -275,90 +275,80 @@ export const ExpressWizardContainer = () => {
   };
 
   return isWizardOpen ? (
-    <Formik
-      innerRef={formRef}
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      validateOnChange={false}
-      validateOnBlur={false}
-      validationSchema={getValidationSchema(activeStep, steps)}
+    <ModalFullScreen
+      onClose={() => {
+        dispatch(closeWizard());
+        dispatch(resetWizard());
+        setStep(0);
+        setThankyou(false);
+        toggleChat(true);
+      }}
     >
-      {(formProps) => (
-        <ModalFullScreen
-          onClose={() => {
-            dispatch(closeWizard());
-            dispatch(resetWizard());
-            setStep(0);
-            toggleChat(true);
-          }}
+      {!isThankyou ? (
+        <Formik
+          innerRef={formRef}
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validateOnChange={false}
+          validateOnBlur={false}
+          validationSchema={getValidationSchema(activeStep, steps)}
         >
-          <ModalFullScreen.Header>
-            <WizardHeader
-              workspace={activeWorkspace}
-              title={t('__EXPRESS_WIZARD_TITLE')}
-            />
-            <ModalFullScreen.Close aria-label="Close modal" />
-          </ModalFullScreen.Header>
-
-          <ModalFullScreen.Body>
-            <Form onSubmit={formProps.handleSubmit}>
-              {isThankyou ? (
-                <Row>
-                  <Col xs={12} sm={12} md={12} lg={12} xl={6} offsetXl={3}>
-                    <ThankYouStep />
-                  </Col>
-                </Row>
-              ) : (
-                <Row>
-                  <Col xs={12} sm={12} md={12} lg={3} xl={3}>
-                    <StyledContainer
-                      style={{
-                        padding: globalTheme.space.xxl,
-                        paddingBottom: globalTheme.space.xl,
-                      }}
-                    >
-                      <Stepper activeIndex={activeStep}>
-                        {steps.map((item) => (
-                          <Stepper.Step key={item.label}>
-                            <Stepper.Label>{item.label}</Stepper.Label>
-                            <Stepper.Content>{item.content}</Stepper.Content>
-                          </Stepper.Step>
-                        ))}
-                      </Stepper>
-                    </StyledContainer>
-                  </Col>
-                  <Col xs={12} sm={12} md={12} lg={9} xl={6}>
-                    <ContainerCard>
-                      {steps[activeStep as number].form(formProps)}
-                    </ContainerCard>
-                  </Col>
-                </Row>
-              )}
-            </Form>
-          </ModalFullScreen.Body>
-          <Row style={{ marginLeft: 0, marginRight: 0 }}>
-            <Col xs={12} sm={12} md={12} lg={9} xl={6} offsetLg={3}>
-              <ModalFullScreen.Footer>
-                {steps.map((item, index) => {
-                  if (index === activeStep) {
-                    return (
-                      <ModalFullScreen.FooterItem>
-                        {item.buttons({
-                          formikArgs: formProps,
-                          onBackClick: onBack,
-                          onNextClick: onNext,
-                        })}
-                      </ModalFullScreen.FooterItem>
-                    );
-                  }
-
-                  return null;
-                })}
-              </ModalFullScreen.Footer>
-            </Col>
-          </Row>
-        </ModalFullScreen>
+          {(formProps) => (
+            <>
+              <ModalFullScreen.Header>
+                <WizardHeader
+                  workspace={activeWorkspace}
+                  title={t('__EXPRESS_WIZARD_TITLE')}
+                />
+                <ModalFullScreen.Close aria-label="Close modal" />
+              </ModalFullScreen.Header>
+              <ModalFullScreen.Body>
+                <Form onSubmit={formProps.handleSubmit}>
+                  <Row>
+                    <Col xs={12} sm={12} md={12} lg={3} xl={3}>
+                      <StyledContainer
+                        style={{
+                          padding: globalTheme.space.xxl,
+                          paddingBottom: globalTheme.space.xl,
+                        }}
+                      >
+                        <Stepper activeIndex={activeStep}>
+                          {steps.map((item) => (
+                            <Stepper.Step key={item.label}>
+                              <Stepper.Label>{item.label}</Stepper.Label>
+                              <Stepper.Content>{item.content}</Stepper.Content>
+                            </Stepper.Step>
+                          ))}
+                        </Stepper>
+                      </StyledContainer>
+                    </Col>
+                    <Col xs={12} sm={12} md={12} lg={9} xl={6}>
+                      <ContainerCard>
+                        {steps[activeStep as number].form(formProps)}
+                      </ContainerCard>
+                    </Col>
+                  </Row>
+                </Form>
+              </ModalFullScreen.Body>
+              <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                <Col xs={12} sm={12} md={12} lg={9} xl={6} offsetLg={3}>
+                  <ModalFullScreen.Footer>
+                    <ModalFullScreen.FooterItem>
+                      {steps[activeStep as number].buttons({
+                        formikArgs: formProps,
+                        onBackClick: onBack,
+                        onNextClick: onNext,
+                      })}
+                    </ModalFullScreen.FooterItem>
+                  </ModalFullScreen.Footer>
+                </Col>
+              </Row>
+            </>
+          )}
+        </Formik>
+      ) : (
+        <ThankYouStep />
       )}
-    </Formik>
+    </ModalFullScreen>
   ) : null;
 };
