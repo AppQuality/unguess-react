@@ -223,6 +223,7 @@ export const Navigation = ({
               : route
           }
           homeItemLabel={t('__APP_SIDEBAR_HOME_ITEM_LABEL')}
+          servicesItemLabel={t('__APP_SIDEBAR_SERVICES_ITEM_LABEL')}
           activeWorkspace={activeWorkspace}
           workspaces={workspaces}
           features={user.features || []}
