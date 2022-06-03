@@ -14,10 +14,10 @@ import {
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
-import { useAppSelector } from 'src/app/hooks';
 import { ServiceResponse } from 'src/features/backoffice';
 import { Link } from 'react-scroll';
-import { WaterButton } from '../ExpressWizard/waterButton';
+import { ServiceExpressCta } from './ServiceExpressCta';
+import { ServiceMailToCta } from './ServiceMailToCta';
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -100,7 +100,6 @@ const SectionTitle = styled(MD)`
 const ServiceTimeline = (response: ServiceResponse) => {
   const { t } = useTranslation();
   const { data } = response;
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
 
   const why = data ? data?.attributes?.why : {};
@@ -113,6 +112,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
   const timeline = how?.timeline || [];
   const slug = data ? data?.attributes?.service_slug : '';
   const locale = data ? data?.attributes?.locale : 'en';
+  const isExpress = data ? data?.attributes?.is_express : false;
 
   return (
     <Grid gutters="lg">
@@ -326,20 +326,8 @@ const ServiceTimeline = (response: ServiceResponse) => {
                 </Timeline>
               </StyledCardContainer>
             )}
-            {(why || what || how) && (
-              <WaterButton
-                isPill
-                isPrimary
-                size="medium"
-                onClick={() => {
-                  window.location.href = `mailto:${
-                    activeWorkspace?.csm.email || 'info@unguess.io'
-                  }`;
-                }}
-              >
-                {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
-              </WaterButton>
-            )}
+            {(why || what || how) &&
+              (isExpress ? <ServiceExpressCta /> : <ServiceMailToCta />)}
           </StickyContainer>
         </Col>
       </Row>

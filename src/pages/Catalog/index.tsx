@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import { Feature } from 'src/features/api';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
-import { WaterButton } from '../ExpressWizard/waterButton';
+import { WaterButton } from '../../common/components/waterButton';
 import { Services } from './services-list';
 import { ReactComponent as InfoImg } from '../../assets/icons/info-image.svg';
 

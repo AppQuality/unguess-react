@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as RocketIcon } from 'src/assets/icons/rocket-icon.svg';
 import { Spinner, theme } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { WaterButton } from './waterButton';
+import { WaterButton } from '../../common/components/waterButton';
 import { WizardModel } from './wizardModel';
 
 const StyledDiv = styled.div`
