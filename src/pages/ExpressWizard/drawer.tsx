@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { closeDrawer, resetWizard } from 'src/features/express/expressSlice';
 import { toggleChat } from 'src/common/utils';
 import { ProjectDropdown } from './projectDropdown';
-import { WaterButton } from './waterButton';
+import { WaterButton } from '../../common/components/waterButton';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
 

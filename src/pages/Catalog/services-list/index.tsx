@@ -14,7 +14,7 @@ import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.s
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
 import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
-import { WaterButton } from 'src/pages/ExpressWizard/waterButton';
+import { WaterButton } from 'src/common/components/waterButton';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
