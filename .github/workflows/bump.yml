@@ -16,12 +16,14 @@ jobs:
           token: ${{ secrets.REPO_PAT }}
 
       - name: Bump version and push tag
+        id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.REPO_PAT }}
           git-message: 'chore(release): {version}'
           tag-prefix: ''
           output-file: "false"
+          
       - uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.changelog.outputs.tag }}
