@@ -44,8 +44,8 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
           marginTop: `${theme.space.base * 4}px`,
         }}
       >
-        <Span isBold key={campaigns[0].project_id}>
-          {campaigns[0].project_name} ({items.length})
+        <Span isBold key={campaigns[0].project.id}>
+          {campaigns[0].project.name} ({items.length})
         </Span>
       </Col>
 
@@ -67,7 +67,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
           <FloatRight>
             <Button
               isBasic
-              onClick={() => navigateToProject(campaigns[0].project_id)}
+              onClick={() => navigateToProject(campaigns[0].project.id)}
             >
               {t('__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10')}
             </Button>

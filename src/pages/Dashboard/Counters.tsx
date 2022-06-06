@@ -27,7 +27,7 @@ const CounterContainer = styled.div`
 `;
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
-  const project =
+  const prjId =
     projectId && !Number.isNaN(Number(projectId))
       ? parseInt(projectId, 10)
       : false;
@@ -41,17 +41,20 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   };
 
   campaigns.forEach((cp) => {
-    if (project && cp.project_id !== project) return;
 
-    if (cp.status_name === 'running') counters.running += 1;
-    if (cp.status_name === 'completed') counters.completed += 1;
-    if (cp.status_name === 'incoming') counters.inComing += 1;
+    const { status, family, project} = cp;
+
+    if (prjId && project.id !== prjId) return;
+
+    if (status.name === 'running') counters.running += 1;
+    if (status.name === 'completed') counters.completed += 1;
+    if (status.name === 'incoming') counters.inComing += 1;
 
     // Update type counters
-    if (cp.campaign_family_name.toLowerCase() === 'functional')
+    if (family.name.toLowerCase() === 'functional')
       counters.functional += 1;
 
-    if (cp.campaign_family_name.toLowerCase() === 'experiential')
+    if (family.name.toLowerCase() === 'experiential')
       counters.experiential += 1;
   });
 

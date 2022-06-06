@@ -12,27 +12,28 @@ export const selectFilteredCampaigns = (
   filters: FilterState
 ) =>
   campaigns.filter((campaign) => {
+    const {project, status, family, type} = campaign;
     // Check Project ID
-    if (filters.projectId && filters.projectId !== campaign.project_id)
+    if (filters.projectId && filters.projectId !== project.id)
       return false;
 
     // Check status
     if (
       filters.status !== 'all' &&
-      campaign.status_name &&
-      campaign.status_name !== filters.status
+      status.name &&
+      status.name !== filters.status
     )
       return false;
 
     // Check Type
     if (
       filters.type !== 'all' &&
-      campaign.campaign_family_name.toLowerCase() !== filters.type
+      family.name.toLowerCase() !== filters.type
     )
       return false;
 
     // Check Test Type
-    if (filters.testNameId && campaign.campaign_type_id !== filters.testNameId)
+    if (filters.testNameId && type.id !== filters.testNameId)
       return false;
 
     // Check Search
@@ -48,8 +49,8 @@ export const selectFilteredCampaigns = (
 
 export const selectGroupedCampaigns = (campaigns: Campaign[]) =>
   campaigns.reduce((acc: Array<Campaign[]>, campaign) => {
-    acc[campaign.project_id] = acc[campaign.project_id] || [];
-    acc[campaign.project_id].push(campaign);
+    acc[campaign.project.id] = acc[campaign.project.id] || [];
+    acc[campaign.project.id].push(campaign);
     return acc;
   }, []);
 
@@ -57,9 +58,9 @@ export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
   const statuses = ['all'];
 
   campaigns.forEach((cp) => {
-    if (!cp.status_name) return;
-    if (statuses.indexOf(cp.status_name) === -1) {
-      statuses.push(cp.status_name);
+    if (!cp.status.name) return;
+    if (statuses.indexOf(cp.status.name) === -1) {
+      statuses.push(cp.status.name);
     }
   });
 
@@ -76,12 +77,12 @@ export const selectTestNames = (campaigns: Campaign[]): TestName[] => {
 
   campaigns.forEach((cp) => {
     if (
-      types.find((type) => Number(type.value) === cp.campaign_type_id) ===
+      types.find((type) => Number(type.value) === cp.type.id) ===
       undefined
     ) {
       types.push({
-        label: cp.campaign_type_name,
-        value: `${cp.campaign_type_id}`,
+        label: cp.type.name,
+        value: `${cp.type.id}`,
       });
     }
   });
@@ -93,7 +94,7 @@ export const selectTypes = (campaigns: Campaign[]): Array<string> => {
   const types = ['all'];
 
   campaigns.forEach((cp) => {
-    const testType = cp.campaign_family_name.toLowerCase();
+    const testType = cp.family.name.toLowerCase();
     if (types.indexOf(testType) === -1) {
       types.push(testType);
     }

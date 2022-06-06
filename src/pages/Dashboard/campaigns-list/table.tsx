@@ -30,7 +30,7 @@ export const TableList = ({
   const groups: any = [];
 
   campaigns.forEach((campaignGroup) => {
-    const projectName = campaignGroup[0].project_name;
+    const projectName = campaignGroup[0].project.name;
     const groupedCampaigns: any = [];
     campaignGroup.forEach((campaign) => {
       // Get translated status label
@@ -64,15 +64,15 @@ export const TableList = ({
       groupedCampaigns.push({
         name: (
           <Anchor
-            href={getLocalizeRoute(campaign.id, campaign.campaign_family_name)}
+            href={getLocalizeRoute(campaign.id, campaign.family.name)}
           >
             <Span isBold style={{ color: theme.palette.grey[800] }}>
               {campaign.title}
             </Span>
           </Anchor>
         ),
-        type: campaign.campaign_family_name,
-        testType: campaign.campaign_type_name,
+        type: campaign.family.name,
+        testType: campaign.type.name,
         startDate: new Date(campaign.start_date).toLocaleDateString(),
         status: translatedStatus,
       });
