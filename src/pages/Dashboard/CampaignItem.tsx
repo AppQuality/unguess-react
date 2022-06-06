@@ -35,9 +35,7 @@ export const CampaignItem = ({
       type={isFunctional ? 'FUNCTIONAL' : 'EXPERIENTIAL'}
       status={getCampaignStatus(campaign)}
       pillText={type.name}
-      onClick={() =>
-        onCampaignClicked(campaign.id, family.name)
-      }
+      onClick={() => onCampaignClicked(campaign.id, family.name)}
       {...props}
     />
   );

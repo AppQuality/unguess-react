@@ -41,8 +41,7 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   };
 
   campaigns.forEach((cp) => {
-
-    const { status, family, project} = cp;
+    const { status, family, project } = cp;
 
     if (prjId && project.id !== prjId) return;
 
@@ -51,8 +50,7 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
     if (status.name === 'incoming') counters.inComing += 1;
 
     // Update type counters
-    if (family.name.toLowerCase() === 'functional')
-      counters.functional += 1;
+    if (family.name.toLowerCase() === 'functional') counters.functional += 1;
 
     if (family.name.toLowerCase() === 'experiential')
       counters.experiential += 1;

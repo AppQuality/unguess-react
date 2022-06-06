@@ -63,9 +63,7 @@ export const TableList = ({
 
       groupedCampaigns.push({
         name: (
-          <Anchor
-            href={getLocalizeRoute(campaign.id, campaign.family.name)}
-          >
+          <Anchor href={getLocalizeRoute(campaign.id, campaign.family.name)}>
             <Span isBold style={{ color: theme.palette.grey[800] }}>
               {campaign.title}
             </Span>

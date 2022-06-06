@@ -12,10 +12,9 @@ export const selectFilteredCampaigns = (
   filters: FilterState
 ) =>
   campaigns.filter((campaign) => {
-    const {project, status, family, type} = campaign;
+    const { project, status, family, type } = campaign;
     // Check Project ID
-    if (filters.projectId && filters.projectId !== project.id)
-      return false;
+    if (filters.projectId && filters.projectId !== project.id) return false;
 
     // Check status
     if (
@@ -26,15 +25,11 @@ export const selectFilteredCampaigns = (
       return false;
 
     // Check Type
-    if (
-      filters.type !== 'all' &&
-      family.name.toLowerCase() !== filters.type
-    )
+    if (filters.type !== 'all' && family.name.toLowerCase() !== filters.type)
       return false;
 
     // Check Test Type
-    if (filters.testNameId && type.id !== filters.testNameId)
-      return false;
+    if (filters.testNameId && type.id !== filters.testNameId) return false;
 
     // Check Search
     if (
@@ -76,10 +71,7 @@ export const selectTestNames = (campaigns: Campaign[]): TestName[] => {
   const types: TestName[] = [];
 
   campaigns.forEach((cp) => {
-    if (
-      types.find((type) => Number(type.value) === cp.type.id) ===
-      undefined
-    ) {
+    if (types.find((type) => Number(type.value) === cp.type.id) === undefined) {
       types.push({
         label: cp.type.name,
         value: `${cp.type.id}`,
