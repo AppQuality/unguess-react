@@ -15,7 +15,7 @@ import {
   resetWizard,
 } from 'src/features/express/expressSlice';
 import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
-import { WaterButton } from '../waterButton';
+import { WaterButton } from '../../../common/components/waterButton';
 import { WizardHeader } from '../wizardHeader';
 
 export const ThankYouStep = () => {

@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { WizardModel } from '../../wizardModel';
-import { WaterButton } from '../../waterButton';
+import { WaterButton } from '../../../../common/components/waterButton';
 import { WizardButtonsProps } from './types';
 import { WhereWebStep } from '../whereWeb';
 import { WhereAppStep } from '../whereApp';
