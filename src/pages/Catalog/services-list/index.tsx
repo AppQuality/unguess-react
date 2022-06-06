@@ -61,6 +61,18 @@ const CardGroup = ({ items }: { items: any }) => {
           </Button>
         );
 
+        if (service?.attributes?.is_functional) {
+          tags.push({
+            label: t('__FUNCTIONAL_LABEL'),
+            icon: <FunctionalIcon />,
+          });
+        } else {
+          tags.push({
+            label: t('__EXPERIENTIAL_LABEL'),
+            icon: <ExperientialIcon />,
+          });
+        }
+
         if (service?.attributes?.is_express) {
           tags.push({
             label: t('__EXPRESS_LABEL'),
@@ -102,18 +114,6 @@ const CardGroup = ({ items }: { items: any }) => {
               {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
             </WaterButton>
           );
-        }
-
-        if (service?.attributes?.is_functional) {
-          tags.push({
-            label: t('__FUNCTIONAL_LABEL'),
-            icon: <FunctionalIcon />,
-          });
-        } else {
-          tags.push({
-            label: t('__EXPERIENTIAL_LABEL'),
-            icon: <ExperientialIcon />,
-          });
         }
 
         return service.is_info ? (

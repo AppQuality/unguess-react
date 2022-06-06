@@ -2,7 +2,7 @@ name: Bump version
 on:
   push:
     branches:
-      - develop
+      - master
     paths-ignore:
       - 'package.json'
       - 'CHANGELOG.md'
@@ -23,7 +23,7 @@ jobs:
           git-message: 'chore(release): {version}'
           tag-prefix: ''
           output-file: "false"
-          
+
       - uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.changelog.outputs.tag }}

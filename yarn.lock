@@ -42,10 +42,10 @@
     call-me-maybe "^1.0.1"
     z-schema "^5.0.1"
 
-"@appquality/unguess-design-system@2.10.42":
-  version "2.10.42"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.10.42.tgz#8b5e5f169ad23a2908ecbcb4a6bbaf81ddc12db3"
-  integrity sha512-K7PMCbFF+mBpLdbmWIObmuc0rfegmX6956lNztIY2D6reSLcQ2jOLU7hRjFt7rza7NVdYjkuJfKOWlzlrRJK7g==
+"@appquality/unguess-design-system@2.10.44":
+  version "2.10.44"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.10.44.tgz#52ac2294a913bc79d0424f45897138158b9c3c98"
+  integrity sha512-f7cz8zpwexOC0b5+K5Xv/eEMCZSkTAjDwMKTTykaLfsJL6VR3r7WAua64m6WyI56DK2RUYQRBTt/mDgiUaUFoA==
   dependencies:
     "@zendeskgarden/css-bedrock" "^9.0.0"
     "@zendeskgarden/react-accordions" "^8.49.0"

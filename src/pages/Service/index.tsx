@@ -73,7 +73,6 @@ const Service = () => {
   }
 
   const serviceName = data ? data.data?.attributes?.title : '';
-  
 
   return isLoading || status === 'loading' ? (
     <PageLoader />

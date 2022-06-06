@@ -10,7 +10,6 @@ import {
   Timeline,
   XXL,
   XXXL,
-  Divider,
   LG,
   ContainerCard,
 } from '@appquality/unguess-design-system';
@@ -25,9 +24,10 @@ import { useNavigate } from 'react-router-dom';
 import { Feature } from 'src/features/api';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
-import { WaterButton } from '../../common/components/waterButton';
+import { Divider } from 'src/common/components/divider';
+import { WaterButton } from 'src/common/components/waterButton';
+import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
 import { Services } from './services-list';
-import { ReactComponent as InfoImg } from '../../assets/icons/info-image.svg';
 
 const StickyContainer = styled(ContainerCard)`
   position: sticky;
