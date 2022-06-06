@@ -1,4 +1,4 @@
-import { Divider } from '@appquality/unguess-design-system';
+import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
 
 export const CardDivider = styled(Divider)`

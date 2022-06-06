@@ -1,7 +1,6 @@
 import {
   ContainerCard,
   Col,
-  Divider,
   Grid,
   MD,
   OrderedList,
@@ -11,6 +10,7 @@ import {
   Timeline,
   XXL,
 } from '@appquality/unguess-design-system';
+import { Divider } from 'src/common/components/divider';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';

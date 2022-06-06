@@ -104,16 +104,12 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
   // Strapi response
   const serviceName = data ? data?.attributes?.title : '';
   const campaignType = data ? data?.attributes?.campaign_type : '';
-  const serviceDescription = data
-    ? data?.attributes?.description
-    : '';
+  const serviceDescription = data ? data?.attributes?.description : '';
   const isExpress = data ? data?.attributes?.is_express : false;
-  const isFunctional = data
-    ? data?.attributes?.is_functional
-    : false;
+  const isFunctional = data ? data?.attributes?.is_functional : false;
   const days = data ? data?.attributes?.duration_in_days : 3;
   const hours = (days || 3) * 24;
-  const environment = data ? data?.attributes?.environment : ''; 
+  const environment = data ? data?.attributes?.environment : '';
 
   const bannerImg = data
     ? data?.attributes?.output_image?.data?.attributes?.url
@@ -129,9 +125,7 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
               <Anchor onClick={() => navigate(homeRoute)}>
                 {activeWorkspace?.company || t('__BREADCRUMB_ITEM_DASHBOARD')}
               </Anchor>
-              <Anchor
-                onClick={() => navigate(servicesRoute)}
-              >
+              <Anchor onClick={() => navigate(servicesRoute)}>
                 {t('__BREADCRUMB_ITEM_SERVICES')}
               </Anchor>
               <Span>{campaignType}</Span>
