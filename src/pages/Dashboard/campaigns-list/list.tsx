@@ -11,6 +11,7 @@ import { Campaign } from 'src/features/api';
 import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
+import { ReactComponent as ExternalIcon } from 'src/assets/icons/new-window-stroke.svg';
 import { CampaignItem, ColCard } from '../CampaignItem';
 
 const FloatRight = styled.div`
@@ -70,6 +71,9 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
               onClick={() => navigateToProject(campaigns[0].project.id)}
             >
               {t('__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10')}
+              <Button.EndIcon>
+                <ExternalIcon />
+              </Button.EndIcon>
             </Button>
           </FloatRight>
         </Col>
