@@ -3,6 +3,7 @@ import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
+import { format } from 'date-fns';
 import styled from 'styled-components';
 
 export const ColCard = styled(Col)`
@@ -20,7 +21,6 @@ export const CampaignItem = ({
 } & HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation();
   const { type, project, family } = campaign;
-
   const isFunctional = family.name.toLowerCase() === 'functional';
 
   return (
@@ -28,7 +28,7 @@ export const CampaignItem = ({
       className="suggested-campaign-card"
       key={campaign.id}
       // isNew={campaign?.isNew} TODO: need an API update
-      date={new Date(campaign.start_date).toLocaleString().substring(0, 10)}
+      date={format(new Date(campaign.start_date), 'dd/MM/Y')}
       projectTitle={`${project.name}`}
       campaignTitle={campaign.title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
       title={campaign.title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
