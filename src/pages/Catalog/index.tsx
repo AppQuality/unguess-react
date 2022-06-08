@@ -97,6 +97,7 @@ const Catalog = () => {
   const { data, error, isLoading } = useGeti18nServicesQuery({
     populate: '*',
     locale: i18n.language,
+    sort: 'sort_order',
   });
 
   const services = [];
