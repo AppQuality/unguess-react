@@ -102,21 +102,23 @@ const CategoriesNav = () => {
   ) : (
     <StickyContainer>
       {categories.length > 0 && (
-        <StickyNavItem
-          style={{ marginTop: 0 }}
-          to="featured"
-          containerId="main"
-          spy
-          smooth
-          duration={500}
-          offset={-350}
-        >
-          {t('__CATALOG_STICKY_CONTAINER_NAV_SHOW_ALL')}
-        </StickyNavItem>
+        <>
+          <StickyNavItem
+            style={{ marginTop: 0 }}
+            to="featured"
+            containerId="main"
+            spy
+            smooth
+            duration={500}
+            offset={-350}
+          >
+            {t('__CATALOG_STICKY_CONTAINER_NAV_SHOW_ALL')}
+          </StickyNavItem>
+          <StickyNavItemLabel>
+            {t('__CATALOG_STICKY_CONTAINER_NAV_CATEGORIES_LABEL')}
+          </StickyNavItemLabel>
+        </>
       )}
-      <StickyNavItemLabel>
-        {t('__CATALOG_STICKY_CONTAINER_NAV_CATEGORIES_LABEL')}
-      </StickyNavItemLabel>
       {categories.map((category) => {
         const { data } = category;
 
@@ -146,7 +148,7 @@ const CategoriesNav = () => {
           </StickyNavItem>
         );
       })}
-      <StyledDivider />
+      {categories.length > 0 && <StyledDivider />}
       <Anchor
         isExternal
         onClick={() => {
