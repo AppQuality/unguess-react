@@ -32,6 +32,7 @@ import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
 import React from 'react';
 import { ServiceResponse } from 'src/features/backoffice';
 import { Services } from './services-list';
+import { Featured } from './Featured';
 
 const StickyContainer = styled(ContainerCard)`
   position: sticky;
@@ -152,38 +153,7 @@ const Catalog = () => {
     },
   });
 
-  const featuredData = useGeti18nServicesFeaturedQuery({
-    populate: '*',
-    locale: i18n.language,
-    sort: 'sort_order',
-    filters: {
-      is_featured: {
-        $eq: true,
-      },
-    },
-  });
-
-  const featured: Array<ServiceResponse> = [];
-
-  if (featuredData.data) {
-    if (featuredData.data.data) {
-      featuredData.data.data.forEach((service) => {
-        if (service.attributes?.is_express && hasExpress) {
-          featured.push({ data: service });
-        } else {
-          featured.push({ data: service });
-        }
-      });
-    }
-  }
-
-  if (featuredData.error) {
-    navigate(notFoundRoute, { replace: true });
-  }
-
-  return featuredData.isLoading ||
-    servicesData.isLoading ||
-    status === 'loading' ? (
+  return servicesData.isLoading || status === 'loading' ? (
     <PageLoader />
   ) : (
     <Page
@@ -234,21 +204,10 @@ const Catalog = () => {
           </Col>
           <Col xs={12} lg={9}>
             <PageContent>
+              <Featured />
               <>
-                <PageTitle>{t('__CATALOG_PAGE_CONTENT_TITLE')}</PageTitle>
-                <Paragraph>{t('__CATALOG_PAGE_CONTENT_PARAGRAPH')}</Paragraph>
-                <StyledDivider />
-                {featured.length > 0 ? (
-                  <Services services={featured} />
-                ) : (
-                  <Paragraph>
-                    {t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}
-                  </Paragraph>
-                )}
-              </>
-              <>
-                <PageTitle>{t('__CATALOG_PAGE_CONTENT_TITLE')}</PageTitle>
-                <Paragraph>{t('__CATALOG_PAGE_CONTENT_PARAGRAPH')}</Paragraph>
+                <PageTitle>Category Title</PageTitle>
+                <Paragraph>Category Description</Paragraph>
                 <StyledDivider />
                 {services.length > 0 ? (
                   <Services services={services} />
