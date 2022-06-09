@@ -80,7 +80,7 @@ const Service = () => {
     <Page
       pageHeader={data && <SingleServicePageHeader {...data} />}
       title={serviceName}
-      route="templates"
+      route="services"
     >
       {data && (
         <>
