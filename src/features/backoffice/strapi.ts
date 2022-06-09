@@ -3,6 +3,7 @@ import { stringify } from 'qs';
 import {
   GetServicesApiResponse,
   GetServicesByIdApiResponse,
+  GetCategoriesApiResponse,
   GetServicesApiArg,
 } from '.';
 
@@ -19,6 +20,11 @@ interface GetServicesApiArgs extends GetServicesApiArg {
 interface Geti18nServicesFeaturedArgs extends GetServicesApiArg {
   filters?: object;
   locale?: string;
+}
+
+interface Geti18nCategoriesArgs {
+  locale?: string;
+  populate?: string[] | object;
 }
 
 export const strapiSlice = createApi({
@@ -53,15 +59,13 @@ export const strapiSlice = createApi({
     >({
       query: (queryArg) => {
         let url = `/services/${queryArg.id}`;
-        if (queryArg.populate) {
-          const params = stringify(
-            { populate: queryArg.populate, locale: queryArg.locale },
-            {
-              encodeValuesOnly: true,
-            }
-          );
-          url += `?${params}`;
-        }
+        const args: GetFullServicesByIdArgs = {
+          id: queryArg.id,
+        };
+        queryArg.locale ? (args.locale = queryArg.locale) : null;
+        queryArg.populate ? (args.populate = queryArg.populate) : null;
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
         return { url };
       },
     }),
@@ -70,18 +74,36 @@ export const strapiSlice = createApi({
       Geti18nServicesFeaturedArgs
     >({
       query: (queryArg) => {
-        let url = `/services/`;
+        let url = `/services`;
         const args: Geti18nServicesFeaturedArgs = {};
-        queryArg.filters ? args.filters = queryArg.filters : null;
-        queryArg.locale ? args.locale = queryArg.locale : null;
-        queryArg.populate ? args.populate = queryArg.populate : null;
+        queryArg.filters ? (args.filters = queryArg.filters) : null;
+        queryArg.locale ? (args.locale = queryArg.locale) : null;
+        queryArg.populate ? (args.populate = queryArg.populate) : null;
         const params = stringify(args, { encodeValuesOnly: true });
-        params ? url += `?${params}` : null;
+        params ? (url += `?${params}`) : null;
+        return { url };
+      },
+    }),
+    geti18nCategories: builder.query<
+      GetCategoriesApiResponse,
+      Geti18nCategoriesArgs
+    >({
+      query: (queryArg) => {
+        let url = `/categories`;
+        const args: Geti18nCategoriesArgs = {};
+        queryArg.locale ? (args.locale = queryArg.locale) : null;
+        queryArg.populate ? (args.populate = queryArg.populate) : null;
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
         return { url };
       },
     }),
   }),
 });
 
-export const { useGetFullServicesByIdQuery, useGeti18nServicesQuery, useGeti18nServicesFeaturedQuery } =
-  strapiSlice;
+export const {
+  useGetFullServicesByIdQuery,
+  useGeti18nServicesQuery,
+  useGeti18nServicesFeaturedQuery,
+  useGeti18nCategoriesQuery,
+} = strapiSlice;

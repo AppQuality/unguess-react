@@ -8,7 +8,6 @@ import {
   MD,
   Paragraph,
   Timeline,
-  XXL,
   XXXL,
   LG,
   ContainerCard,
@@ -18,7 +17,6 @@ import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg
 import { useAppSelector } from 'src/app/hooks';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
-import { Divider } from 'src/common/components/divider';
 import { Featured } from './Featured';
 import { Categories } from './Categories';
 
@@ -44,15 +42,6 @@ const StickyContainerParagraph = styled(Paragraph)`
 const PageContent = styled.div`
   width: 100%;
   padding-top: ${({ theme }) => theme.space.xl};
-`;
-
-const PageTitle = styled(XXL)`
-  margin-bottom: ${({ theme }) => theme.space.xs};
-`;
-
-const StyledDivider = styled(Divider)`
-  margin-top: ${({ theme }) => theme.space.base * 3}px;
-  margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
 const PageHeaderTitle = styled(XXXL)`

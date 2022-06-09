@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { Divider } from 'src/common/components/divider';
 import { FEATURE_FLAG_EXPRESS } from 'src/constants';
-import { ServiceResponse } from 'src/features/backoffice';
+import { CategoryResponse, ServiceResponse } from 'src/features/backoffice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
 import i18n from 'src/i18n';
-import { useGeti18nServicesQuery } from 'src/features/backoffice/strapi';
+import { useGeti18nCategoriesQuery } from 'src/features/backoffice/strapi';
 import styled from 'styled-components';
 import { WaterButton } from 'src/common/components/waterButton';
 import { Services } from './services-list';
@@ -35,80 +35,104 @@ interface InfoService {
   };
 }
 
-export const Categories = () => {
+const Categories = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
+  const showTipCard = false;
 
   const hasExpress =
     status === 'logged' &&
     userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
-  const servicesData = useGeti18nServicesQuery({
-    populate: '*',
+  const categoriesData = useGeti18nCategoriesQuery({
+    populate: {
+      services: {
+        populate: '*',
+        locale: i18n.language,
+        sort: 'sort_order',
+      },
+    },
     locale: i18n.language,
-    sort: 'sort_order',
   });
 
-  const services: Array<ServiceResponse | InfoService> = [];
+  const categories: Array<CategoryResponse> = [];
 
-  if (servicesData.data) {
-    if (servicesData.data.data) {
-      servicesData.data.data.forEach((service) => {
-        if (service.attributes?.is_express && hasExpress) {
-          services.push({ data: service });
-        } else {
-          services.push({ data: service });
-        }
+  if (categoriesData.data) {
+    if (categoriesData.data.data) {
+      categoriesData.data.data.forEach((category) => {
+        categories.push({ data: category });
       });
     }
   }
 
-  if (servicesData.error) {
+  if (categoriesData.error) {
     navigate(notFoundRoute, { replace: true });
   }
 
-  // Add info card service
-  services.push({
-    data: {
-      id: 0,
-      attributes: {
-        is_info: true,
-        info_img: <InfoImg />,
-        info_subtitle: t('__CATALOG_PAGE_INFO_SERVICE_SUBTITLE'),
-        info_title: t('__CATALOG_PAGE_INFO_SERVICE_TITLE'),
-        info_buttons: [
-          <WaterButton
-            isPill
-            isPrimary
-            size="small"
-            onClick={() => {
-              window.location.href = `mailto:${
-                activeWorkspace?.csm.email || 'info@unguess.io'
-              }`;
-            }}
-          >
-            {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
-          </WaterButton>,
-        ],
-      },
-    },
-  });
-
-  return servicesData.isLoading || status === 'loading' ? (
+  return categoriesData.isLoading || status === 'loading' ? (
     <PageLoader />
   ) : (
     <>
-      <PageTitle>Category Title</PageTitle>
-      <Paragraph>Category Description</Paragraph>
-      <StyledDivider />
-      {services.length > 0 ? (
-        <Services services={services} />
-      ) : (
-        <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
-      )}
+      {categories.map((category) => {
+        const categoryServices: Array<ServiceResponse | InfoService> = [];
+        if (category.data) {
+          if (category.data.attributes?.services?.data) {
+            category.data.attributes?.services?.data.forEach((service) => {
+              if (service.attributes?.is_express && hasExpress) {
+                categoryServices.push({ data: service });
+              } else {
+                categoryServices.push({ data: service });
+              }
+            });
+          }
+        }
+
+        // Add info card service
+        if (showTipCard)
+          categoryServices.push({
+            data: {
+              id: 0,
+              attributes: {
+                is_info: true,
+                info_img: <InfoImg />,
+                info_subtitle: t('__CATALOG_PAGE_INFO_SERVICE_SUBTITLE'),
+                info_title: t('__CATALOG_PAGE_INFO_SERVICE_TITLE'),
+                info_buttons: [
+                  <WaterButton
+                    isPill
+                    isPrimary
+                    size="small"
+                    onClick={() => {
+                      window.location.href = `mailto:${
+                        activeWorkspace?.csm.email || 'info@unguess.io'
+                      }`;
+                    }}
+                  >
+                    {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
+                  </WaterButton>,
+                ],
+              },
+            },
+          });
+
+        return (
+          <>
+            <PageTitle>{category.data?.attributes?.Name}</PageTitle>
+            <Paragraph>{category.data?.attributes?.Description}</Paragraph>
+            <StyledDivider />
+            {categoryServices.length > 0 ? (
+              <Services services={categoryServices} />
+            ) : (
+              <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
+            )}
+          </>
+        );
+      })}
     </>
   );
 };
+
+export { Categories };
