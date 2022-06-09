@@ -1,4 +1,9 @@
-import { PageLoader, Paragraph, XXL } from '@appquality/unguess-design-system';
+import {
+  PageLoader,
+  Paragraph,
+  Skeleton,
+  XXL,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -9,6 +14,7 @@ import { useGeti18nServicesFeaturedQuery } from 'src/features/backoffice/strapi'
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
+import { CardRowLoading } from '../Dashboard/CardRowLoading';
 import { Services } from './services-list';
 
 const PageTitle = styled(XXL)`
@@ -20,7 +26,11 @@ const StyledDivider = styled(Divider)`
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
-const FeaturedContainer = styled.div``;
+const FeaturedContainer = styled.div`
+  margin-bottom: ${({ theme }) => theme.space.xxl};
+`;
+
+const Wrapper = styled.div``;
 
 export const Featured = () => {
   const { t } = useTranslation();
@@ -62,17 +72,21 @@ export const Featured = () => {
   }
 
   return featuredData.isLoading || status === 'loading' ? (
-    <PageLoader />
-  ) : (
-    <FeaturedContainer id="featured">
-      <PageTitle>{t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}</PageTitle>
-      <Paragraph>{t('__CATALOG_PAGE_CONTENT_FEATURED_PARAGRAPH')}</Paragraph>
-      <StyledDivider />
-      {featured.length > 0 ? (
-        <Services services={featured} />
-      ) : (
-        <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
-      )}
+    <FeaturedContainer>
+      <CardRowLoading />
     </FeaturedContainer>
+  ) : (
+    <Wrapper>
+      {featured.length ? (
+        <FeaturedContainer>
+          <PageTitle>{t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}</PageTitle>
+          <Paragraph>
+            {t('__CATALOG_PAGE_CONTENT_FEATURED_PARAGRAPH')}
+          </Paragraph>
+          <StyledDivider />
+          <Services services={featured} />
+        </FeaturedContainer>
+      ) : null}
+    </Wrapper>
   );
 };

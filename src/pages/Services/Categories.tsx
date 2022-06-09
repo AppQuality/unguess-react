@@ -12,6 +12,7 @@ import { useGeti18nCategoriesQuery } from 'src/features/backoffice/strapi';
 import styled from 'styled-components';
 import { WaterButton } from 'src/common/components/waterButton';
 import { Services } from './services-list';
+import { CardRowLoading } from '../Dashboard/CardRowLoading';
 
 const PageTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.xs};
@@ -23,8 +24,10 @@ const StyledDivider = styled(Divider)`
 `;
 
 const CategoryContainer = styled.div`
-  margin-top: ${({ theme }) => theme.space.xxl};
+  margin-bottom: ${({ theme }) => theme.space.xxl};
 `;
+
+const Wrapper = styled.div``;
 
 interface InfoService {
   data: {
@@ -77,9 +80,11 @@ const Categories = () => {
   }
 
   return categoriesData.isLoading || status === 'loading' ? (
-    <PageLoader />
+    <CategoryContainer>
+      <CardRowLoading />
+    </CategoryContainer>
   ) : (
-    <>
+    <Wrapper>
       {categories.map((category) => {
         const categoryServices: Array<ServiceResponse | InfoService> = [];
         if (category.data) {
@@ -135,7 +140,7 @@ const Categories = () => {
           </CategoryContainer>
         );
       })}
-    </>
+    </Wrapper>
   );
 };
 

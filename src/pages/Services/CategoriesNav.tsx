@@ -105,9 +105,8 @@ const CategoriesNav = () => {
         <>
           <StickyNavItem
             style={{ marginTop: 0 }}
-            to="featured"
+            to="services-wrapper"
             containerId="main"
-            spy
             smooth
             duration={500}
             offset={-350}
