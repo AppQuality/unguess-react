@@ -14,19 +14,23 @@ import {
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
-import { useGeti18nServicesQuery } from 'src/features/backoffice/strapi';
+import {
+  useGeti18nServicesQuery,
+  useGeti18nServicesFeaturedQuery,
+} from 'src/features/backoffice/strapi';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { useAppSelector } from 'src/app/hooks';
 import { FEATURE_FLAG_EXPRESS } from 'src/constants';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate } from 'react-router-dom';
-import { Feature } from 'src/features/api';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
 import { Divider } from 'src/common/components/divider';
 import { WaterButton } from 'src/common/components/waterButton';
 import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
+import React from 'react';
+import { ServiceResponse } from 'src/features/backoffice';
 import { Services } from './services-list';
 
 const StickyContainer = styled(ContainerCard)`
@@ -73,6 +77,19 @@ const PageHeaderDescription = styled(LG)`
   margin-bottom: ${({ theme }) => theme.space.xl};
 `;
 
+interface InfoService {
+  data: {
+    id: number;
+    attributes: {
+      is_info: boolean;
+      info_img: React.ReactNode;
+      info_subtitle: string;
+      info_title: string;
+      info_buttons: Array<React.ReactNode>;
+    };
+  };
+}
+
 const Catalog = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -84,53 +101,89 @@ const Catalog = () => {
     status === 'logged' &&
     userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
-  const { data, error, isLoading } = useGeti18nServicesQuery({
+  const servicesData = useGeti18nServicesQuery({
     populate: '*',
     locale: i18n.language,
     sort: 'sort_order',
   });
 
-  const services = [];
+  const services: Array<ServiceResponse | InfoService> = [];
 
-  if (data) {
-    if (data.data) {
-      data.data.forEach((service) => {
+  if (servicesData.data) {
+    if (servicesData.data.data) {
+      servicesData.data.data.forEach((service) => {
         if (service.attributes?.is_express && hasExpress) {
-          services.push(service);
+          services.push({ data: service });
         } else {
-          services.push(service);
+          services.push({ data: service });
         }
       });
     }
   }
 
-  if (error) {
+  if (servicesData.error) {
     navigate(notFoundRoute, { replace: true });
   }
 
   // Add info card service
   services.push({
-    is_info: true,
-    info_img: <InfoImg />,
-    info_subtitle: t('__CATALOG_PAGE_INFO_SERVICE_SUBTITLE'),
-    info_title: t('__CATALOG_PAGE_INFO_SERVICE_TITLE'),
-    info_buttons: [
-      <WaterButton
-        isPill
-        isPrimary
-        size="small"
-        onClick={() => {
-          window.location.href = `mailto:${
-            activeWorkspace?.csm.email || 'info@unguess.io'
-          }`;
-        }}
-      >
-        {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
-      </WaterButton>,
-    ],
+    data: {
+      id: 0,
+      attributes: {
+        is_info: true,
+        info_img: <InfoImg />,
+        info_subtitle: t('__CATALOG_PAGE_INFO_SERVICE_SUBTITLE'),
+        info_title: t('__CATALOG_PAGE_INFO_SERVICE_TITLE'),
+        info_buttons: [
+          <WaterButton
+            isPill
+            isPrimary
+            size="small"
+            onClick={() => {
+              window.location.href = `mailto:${
+                activeWorkspace?.csm.email || 'info@unguess.io'
+              }`;
+            }}
+          >
+            {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
+          </WaterButton>,
+        ],
+      },
+    },
   });
 
-  return isLoading || status === 'loading' ? (
+  const featuredData = useGeti18nServicesFeaturedQuery({
+    populate: '*',
+    locale: i18n.language,
+    sort: 'sort_order',
+    filters: {
+      is_featured: {
+        $eq: true,
+      },
+    },
+  });
+
+  const featured: Array<ServiceResponse> = [];
+
+  if (featuredData.data) {
+    if (featuredData.data.data) {
+      featuredData.data.data.forEach((service) => {
+        if (service.attributes?.is_express && hasExpress) {
+          featured.push({ data: service });
+        } else {
+          featured.push({ data: service });
+        }
+      });
+    }
+  }
+
+  if (featuredData.error) {
+    navigate(notFoundRoute, { replace: true });
+  }
+
+  return featuredData.isLoading ||
+    servicesData.isLoading ||
+    status === 'loading' ? (
     <PageLoader />
   ) : (
     <Page
@@ -181,14 +234,30 @@ const Catalog = () => {
           </Col>
           <Col xs={12} lg={9}>
             <PageContent>
-              <PageTitle>{t('__CATALOG_PAGE_CONTENT_TITLE')}</PageTitle>
-              <Paragraph>{t('__CATALOG_PAGE_CONTENT_PARAGRAPH')}</Paragraph>
-              <StyledDivider />
-              {services.length > 0 ? (
-                <Services services={services} />
-              ) : (
-                <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
-              )}
+              <>
+                <PageTitle>{t('__CATALOG_PAGE_CONTENT_TITLE')}</PageTitle>
+                <Paragraph>{t('__CATALOG_PAGE_CONTENT_PARAGRAPH')}</Paragraph>
+                <StyledDivider />
+                {featured.length > 0 ? (
+                  <Services services={featured} />
+                ) : (
+                  <Paragraph>
+                    {t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}
+                  </Paragraph>
+                )}
+              </>
+              <>
+                <PageTitle>{t('__CATALOG_PAGE_CONTENT_TITLE')}</PageTitle>
+                <Paragraph>{t('__CATALOG_PAGE_CONTENT_PARAGRAPH')}</Paragraph>
+                <StyledDivider />
+                {services.length > 0 ? (
+                  <Services services={services} />
+                ) : (
+                  <Paragraph>
+                    {t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}
+                  </Paragraph>
+                )}
+              </>
             </PageContent>
           </Col>
         </Row>

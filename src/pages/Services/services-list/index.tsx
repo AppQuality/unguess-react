@@ -46,7 +46,7 @@ const CardGroup = ({ items }: { items: any }) => {
   return (
     <>
       {items.map((service: any) => {
-        const iconUrl = `${STRAPI_URL}${service?.attributes?.icon?.data?.attributes?.url}`;
+        const iconUrl = `${STRAPI_URL}${service.data.attributes?.icon?.data?.attributes?.url}`;
         const tags = [];
         const buttons = [];
 
@@ -55,13 +55,13 @@ const CardGroup = ({ items }: { items: any }) => {
             isPill
             isStretched
             size="small"
-            onClick={() => navigateToService(service.id)}
+            onClick={() => navigateToService(service.data.id)}
           >
             {t('__CATALOG_PAGE_BUTTON_HOW_LABEL')}
           </Button>
         );
 
-        if (service?.attributes?.is_functional) {
+        if (service.data?.attributes?.is_functional) {
           tags.push({
             label: t('__FUNCTIONAL_LABEL'),
             icon: <FunctionalIcon />,
@@ -73,7 +73,7 @@ const CardGroup = ({ items }: { items: any }) => {
           });
         }
 
-        if (service?.attributes?.is_express) {
+        if (service.data?.attributes?.is_express) {
           tags.push({
             label: t('__EXPRESS_LABEL'),
             icon: <ExpressIcon />,
@@ -116,13 +116,13 @@ const CardGroup = ({ items }: { items: any }) => {
           );
         }
 
-        return service.is_info ? (
+        return service.data.attributes.is_info ? (
           <ServiceCol xs={12} md={6} lg={4}>
             <InfoCard
-              infoImg={service.info_img}
-              infoTitle={service.info_title}
-              infoSubtitle={service.info_subtitle}
-              infoButtons={service.info_buttons}
+              infoImg={service.data.attributes.info_img}
+              infoTitle={service.data.attributes.info_title}
+              infoSubtitle={service.data.attributes.info_subtitle}
+              infoButtons={service.data.attributes.info_buttons}
             />
           </ServiceCol>
         ) : (
@@ -131,15 +131,15 @@ const CardGroup = ({ items }: { items: any }) => {
               serviceIcon={
                 <img
                   src={iconUrl}
-                  alt={`service ${service?.attributes?.title} icon`}
+                  alt={`service ${service.data?.attributes?.title} icon`}
                 />
               }
-              serviceTitle={service?.attributes?.title}
-              serviceSubtitle={service?.attributes?.campaign_type}
+              serviceTitle={service.data?.attributes?.title}
+              serviceSubtitle={service.data?.attributes?.campaign_type}
               tags={tags}
               isHoverable
-              hoverTitle={service?.attributes?.campaign_type}
-              hoverSubtitle={service?.attributes?.description}
+              hoverTitle={service.data?.attributes?.campaign_type}
+              hoverSubtitle={service.data?.attributes?.description}
               hoverButtons={buttons}
             />
           </ServiceCol>

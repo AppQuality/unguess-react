@@ -16,6 +16,11 @@ interface GetServicesApiArgs extends GetServicesApiArg {
   locale?: string;
 }
 
+interface Geti18nServicesFeaturedArgs extends GetServicesApiArg {
+  filters?: object;
+  locale?: string;
+}
+
 export const strapiSlice = createApi({
   reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
@@ -60,8 +65,23 @@ export const strapiSlice = createApi({
         return { url };
       },
     }),
+    geti18nServicesFeatured: builder.query<
+      GetServicesApiResponse,
+      Geti18nServicesFeaturedArgs
+    >({
+      query: (queryArg) => {
+        let url = `/services/`;
+        const args: Geti18nServicesFeaturedArgs = {};
+        queryArg.filters ? args.filters = queryArg.filters : null;
+        queryArg.locale ? args.locale = queryArg.locale : null;
+        queryArg.populate ? args.populate = queryArg.populate : null;
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? url += `?${params}` : null;
+        return { url };
+      },
+    }),
   }),
 });
 
-export const { useGetFullServicesByIdQuery, useGeti18nServicesQuery } =
+export const { useGetFullServicesByIdQuery, useGeti18nServicesQuery, useGeti18nServicesFeaturedQuery } =
   strapiSlice;
