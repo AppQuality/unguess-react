@@ -37,8 +37,8 @@ const CardGroup = ({ items }: { items: any }) => {
   const navigateToService = (serviceId: number) => {
     const localizedRoute =
       i18n.language === 'en'
-        ? `/templates/${serviceId}`
-        : `/${i18n.language}/templates/${serviceId}`;
+        ? `/services/${serviceId}`
+        : `/${i18n.language}/services/${serviceId}`;
 
     navigate(localizedRoute);
   };
