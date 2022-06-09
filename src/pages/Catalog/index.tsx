@@ -18,7 +18,7 @@ import { useGeti18nServicesQuery } from 'src/features/backoffice/strapi';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { useAppSelector } from 'src/app/hooks';
-import { FEATURE_FLAG_CATALOG, FEATURE_FLAG_EXPRESS } from 'src/constants';
+import { FEATURE_FLAG_EXPRESS } from 'src/constants';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate } from 'react-router-dom';
 import { Feature } from 'src/features/api';
@@ -83,16 +83,6 @@ const Catalog = () => {
   const hasExpress =
     status === 'logged' &&
     userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
-
-  if (
-    status === 'logged' &&
-    (!userData.features ||
-      !userData.features.find(
-        (feature: Feature) => feature.slug === FEATURE_FLAG_CATALOG
-      ))
-  ) {
-    navigate(notFoundRoute, { replace: true });
-  }
 
   const { data, error, isLoading } = useGeti18nServicesQuery({
     populate: '*',
