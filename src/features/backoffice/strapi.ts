@@ -61,9 +61,9 @@ export const strapiSlice = createApi({
         let url = `/services/${queryArg.id}`;
         const args: GetFullServicesByIdArgs = {
           id: queryArg.id,
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.populate && { populate: queryArg.populate }),
         };
-        queryArg.locale ? (args.locale = queryArg.locale) : null;
-        queryArg.populate ? (args.populate = queryArg.populate) : null;
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
         return { url };
@@ -75,10 +75,11 @@ export const strapiSlice = createApi({
     >({
       query: (queryArg) => {
         let url = `/services`;
-        const args: Geti18nServicesFeaturedArgs = {};
-        queryArg.filters ? (args.filters = queryArg.filters) : null;
-        queryArg.locale ? (args.locale = queryArg.locale) : null;
-        queryArg.populate ? (args.populate = queryArg.populate) : null;
+        const args: Geti18nServicesFeaturedArgs = {
+          ...(queryArg.filters && { filters: queryArg.filters }),
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.populate && { populate: queryArg.populate }),
+        };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
         return { url };
@@ -90,9 +91,10 @@ export const strapiSlice = createApi({
     >({
       query: (queryArg) => {
         let url = `/categories`;
-        const args: Geti18nCategoriesArgs = {};
-        queryArg.locale ? (args.locale = queryArg.locale) : null;
-        queryArg.populate ? (args.populate = queryArg.populate) : null;
+        const args: Geti18nCategoriesArgs = {
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.populate && { populate: queryArg.populate }),
+        };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
         return { url };
