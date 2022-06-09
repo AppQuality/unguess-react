@@ -153,7 +153,7 @@ const Catalog = () => {
         </PageHeaderContainer>
       }
       title={t('__PAGE_TITLE_CATALOG')}
-      route="templates"
+      route="services"
     >
       <Grid gutters="lg">
         <Row>
