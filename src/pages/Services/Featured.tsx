@@ -20,6 +20,8 @@ const StyledDivider = styled(Divider)`
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
+const FeaturedContainer = styled.div``;
+
 export const Featured = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -62,7 +64,7 @@ export const Featured = () => {
   return featuredData.isLoading || status === 'loading' ? (
     <PageLoader />
   ) : (
-    <>
+    <FeaturedContainer id="featured">
       <PageTitle>{t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}</PageTitle>
       <Paragraph>{t('__CATALOG_PAGE_CONTENT_FEATURED_PARAGRAPH')}</Paragraph>
       <StyledDivider />
@@ -71,6 +73,6 @@ export const Featured = () => {
       ) : (
         <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
       )}
-    </>
+    </FeaturedContainer>
   );
 };

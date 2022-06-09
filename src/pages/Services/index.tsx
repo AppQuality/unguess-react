@@ -1,43 +1,13 @@
 import { Page } from 'src/features/templates/Page';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import {
-  Col,
-  Grid,
-  Row,
-  MD,
-  Paragraph,
-  Timeline,
-  XXXL,
-  LG,
-  ContainerCard,
-} from '@appquality/unguess-design-system';
-import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
-import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
+import { Col, Grid, Row, XXXL, LG } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
 import { Featured } from './Featured';
 import { Categories } from './Categories';
-
-const StickyContainer = styled(ContainerCard)`
-  position: sticky;
-  top: ${({ theme }) => theme.space.md};
-  z-index: 1;
-  padding: ${({ theme }) => theme.space.base * 6}px;
-  padding-top: ${({ theme }) => theme.space.xl};
-  background-color: ${({ theme }) => theme.palette.white};
-`;
-
-const StickyContainerTitle = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-  margin-bottom: ${({ theme }) => theme.space.xs};
-`;
-
-const StickyContainerParagraph = styled(Paragraph)`
-  color: ${({ theme }) => theme.palette.grey[800]};
-  margin-bottom: ${({ theme }) => theme.space.xs};
-`;
+import { CategoriesNav } from './CategoriesNav';
 
 const PageContent = styled.div`
   width: 100%;
@@ -77,36 +47,7 @@ const Catalog = () => {
       <Grid gutters="lg">
         <Row>
           <Col xs={12} lg={3}>
-            <StickyContainer>
-              <StickyContainerTitle>
-                {t('__CATALOG_STICKY_CONTAINER_TITLE')}
-              </StickyContainerTitle>
-              <StickyContainerParagraph>
-                {t('__CATALOG_STICKY_CONTAINER_PARAGRAPH')}
-              </StickyContainerParagraph>
-              <Timeline>
-                <Timeline.Item hiddenLine icon={<ExpressIcon />}>
-                  <Timeline.Content>
-                    <Paragraph style={{ fontWeight: 500 }}>
-                      {t('__EXPRESS_LABEL')}
-                    </Paragraph>
-                    {t(
-                      '__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_EXPRESS_DESCRIPTION'
-                    )}
-                  </Timeline.Content>
-                </Timeline.Item>
-                <Timeline.Item hiddenLine icon={<TailoredIcon />}>
-                  <Timeline.Content>
-                    <Paragraph style={{ fontWeight: 500 }}>
-                      {t('__TAILORED_LABEL')}
-                    </Paragraph>
-                    {t(
-                      '__CATALOG_STICKY_CONTAINER_TIMELINE_ITEM_TAILORED_DESCRIPTION'
-                    )}
-                  </Timeline.Content>
-                </Timeline.Item>
-              </Timeline>
-            </StickyContainer>
+            <CategoriesNav />
           </Col>
           <Col xs={12} lg={9}>
             <PageContent>

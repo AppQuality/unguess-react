@@ -22,6 +22,10 @@ const StyledDivider = styled(Divider)`
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
+const CategoryContainer = styled.div`
+  margin-top: ${({ theme }) => theme.space.xxl};
+`;
+
 interface InfoService {
   data: {
     id: number;
@@ -41,7 +45,7 @@ const Categories = () => {
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
-  const showTipCard = false;
+  const showTipCard = true;
 
   const hasExpress =
     status === 'logged' &&
@@ -119,7 +123,7 @@ const Categories = () => {
           });
 
         return (
-          <>
+          <CategoryContainer id={category.data?.attributes?.Slug}>
             <PageTitle>{category.data?.attributes?.Name}</PageTitle>
             <Paragraph>{category.data?.attributes?.Description}</Paragraph>
             <StyledDivider />
@@ -128,7 +132,7 @@ const Categories = () => {
             ) : (
               <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
             )}
-          </>
+          </CategoryContainer>
         );
       })}
     </>
