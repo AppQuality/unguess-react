@@ -20,8 +20,8 @@ import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg
 import { useAppSelector } from 'src/app/hooks';
 import { FEATURE_FLAG_EXPRESS } from 'src/constants';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+
 import { useNavigate } from 'react-router-dom';
-import { Feature } from 'src/features/api';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
 import { Divider } from 'src/common/components/divider';
@@ -76,6 +76,7 @@ const PageHeaderDescription = styled(LG)`
 const Catalog = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+
   const { userData, status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
