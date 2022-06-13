@@ -97,7 +97,7 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
   const { t } = useTranslation();
   const { data } = response;
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const servicesRoute = useLocalizeRoute('templates');
+  const servicesRoute = useLocalizeRoute('services');
   const homeRoute = useLocalizeRoute('');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
 
