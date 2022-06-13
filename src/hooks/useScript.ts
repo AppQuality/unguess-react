@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 
 // Hook
 const cachedScripts: string[] = [];
+const scriptId = 'hubspot-cscript';
 
 function useScript(
   src: string,
   async: boolean = true,
-  addToHead: boolean = false
+  addToHead: boolean = false,
+  removeOnCleanup: boolean = false
 ): boolean[] {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
@@ -24,6 +26,7 @@ function useScript(
       const script = document.createElement('script');
       script.src = src;
       script.async = async;
+      script.id = scriptId;
 
       // Script event listener callbacks for load and error
       const onScriptLoad = () => {
@@ -31,14 +34,17 @@ function useScript(
         setError(false);
       };
 
-      const onScriptError = () => {
+      const removeCachedScript = () => {
         // Remove from cachedScripts we can try loading again
         const index = cachedScripts.indexOf(src);
         if (index >= 0) {
           cachedScripts.splice(index, 1);
         }
         script.remove();
+      };
 
+      const onScriptError = () => {
+        removeCachedScript();
         setLoaded(true);
         setError(true);
       };
@@ -57,6 +63,8 @@ function useScript(
       return () => {
         script.removeEventListener('load', onScriptLoad);
         script.removeEventListener('error', onScriptError);
+
+        if (removeOnCleanup) removeCachedScript();
       };
     }
 

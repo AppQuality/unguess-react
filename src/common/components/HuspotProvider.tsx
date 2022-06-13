@@ -16,19 +16,22 @@ export const useHubspotContext = () => useContext(HubspotContext);
 interface HubspotProviderProps {
   readonly async?: boolean;
   readonly addToHead?: boolean;
+  readonly removeOnCleanup?: boolean;
   readonly children: React.ReactNode;
 }
 
 const HubspotProvider = ({
   async,
   addToHead,
+  removeOnCleanup,
   children,
 }: HubspotProviderProps) => {
   // Attach hubspot script to the document
   const [loaded, error] = useScript(
     'https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js',
     async,
-    addToHead
+    addToHead,
+    removeOnCleanup
   );
 
   const HSProviderValue = useMemo(() => ({ loaded, error }), [loaded, error]);

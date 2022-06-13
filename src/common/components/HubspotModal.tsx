@@ -1,6 +1,5 @@
-import { Modal } from '@appquality/unguess-design-system';
+import { Modal, ModalClose } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import HubspotProvider from './HuspotProvider';
 
 const checkHubSpotUrl = (url: string): string | boolean => {
@@ -19,12 +18,6 @@ const checkHubSpotUrl = (url: string): string | boolean => {
   }
 };
 
-const StyledModal = styled(Modal)`
-  background-color: transparent;
-  height: 100%;
-  max-width: 100%;
-`;
-
 interface HubspotModalArgs {
   meetingUrl?: string;
   isOpen?: boolean;
@@ -40,16 +33,20 @@ const HubspotModal = (props: HubspotModalArgs) => {
   if (!url) return null;
 
   return isOpen ? (
-    <StyledModal
-      isLarge
+    <Modal
       onClose={onClose}
+      isLarge
       title={t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
-      style={{ backgroundColor: 'transparent', overflow: 'hidden' }}
+      restoreFocus={false}
     >
-      <HubspotProvider>
+      <Modal.Header>
+        {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}{' '}
+        <ModalClose aria-label="Close modal" />
+      </Modal.Header>
+      <HubspotProvider removeOnCleanup>
         <div className="meetings-iframe-container" data-src={url} />
       </HubspotProvider>
-    </StyledModal>
+    </Modal>
   ) : null;
 };
 
