@@ -1,6 +1,12 @@
-import { Modal, ModalClose } from '@appquality/unguess-design-system';
+import { ModalFullScreen } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import HubspotProvider from './HuspotProvider';
+
+const MeetingsContainer = styled.div`
+  max-height: 90%;
+  overflow: hidden;
+`;
 
 const checkHubSpotUrl = (url: string): string | boolean => {
   try {
@@ -33,20 +39,23 @@ const HubspotModal = (props: HubspotModalArgs) => {
   if (!url) return null;
 
   return isOpen ? (
-    <Modal
+    <ModalFullScreen
       onClose={onClose}
       isLarge
       title={t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
       restoreFocus={false}
     >
-      <Modal.Header>
-        {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}{' '}
-        <ModalClose aria-label="Close modal" />
-      </Modal.Header>
+      <ModalFullScreen.Header>
+        {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
+        <ModalFullScreen.Close aria-label="Close modal" />
+      </ModalFullScreen.Header>
       <HubspotProvider removeOnCleanup>
-        <div className="meetings-iframe-container" data-src={url} />
+        <MeetingsContainer
+          className="meetings-iframe-container"
+          data-src={url}
+        />
       </HubspotProvider>
-    </Modal>
+    </ModalFullScreen>
   ) : null;
 };
 
