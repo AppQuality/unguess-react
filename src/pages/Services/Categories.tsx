@@ -12,7 +12,7 @@ import { useGeti18nCategoriesQuery } from 'src/features/backoffice/strapi';
 import styled from 'styled-components';
 import { WaterButton } from 'src/common/components/waterButton';
 import { Services } from './services-list';
-import { CardRowLoading } from '../Dashboard/CardRowLoading';
+import { LoadingServices } from './LoadingServices';
 
 const SectionTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.xs};
@@ -84,7 +84,7 @@ const Categories = () => {
   if (isLoading || status === 'loading') {
     return (
       <CategoryContainer>
-        <CardRowLoading />
+        <LoadingServices />
       </CategoryContainer>
     );
   }

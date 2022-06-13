@@ -9,7 +9,7 @@ import { useGeti18nServicesFeaturedQuery } from 'src/features/backoffice/strapi'
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
-import { CardRowLoading } from '../Dashboard/CardRowLoading';
+import { LoadingServices } from './LoadingServices';
 import { Services } from './services-list';
 
 const SectionTitle = styled(XXL)`
@@ -74,7 +74,7 @@ export const Featured = () => {
   if (isLoading || status === 'loading') {
     return (
       <FeaturedContainer>
-        <CardRowLoading />
+        <LoadingServices />
       </FeaturedContainer>
     );
   }
