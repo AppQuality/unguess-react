@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Col, Grid, Row, XXXL, LG } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
+import { FEATURE_FLAG_EXPRESS } from 'src/constants';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useNavigate } from 'react-router-dom';
 import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
 import { Featured } from './Featured';
@@ -27,7 +30,39 @@ const PageHeaderDescription = styled(LG)`
 
 const Catalog = () => {
   const { t } = useTranslation();
-  const { status } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  const { userData, status } = useAppSelector((state) => state.user);
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const notFoundRoute = useLocalizeRoute('oops');
+
+  const hasExpress =
+    status === 'logged' &&
+    userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
+
+  const { data, error, isLoading } = useGeti18nServicesQuery({
+    populate: '*',
+    locale: i18n.language,
+    sort: 'sort_order',
+  });
+
+  const services = [];
+
+  if (data) {
+    if (data.data) {
+      data.data.forEach((service) => {
+        if (service.attributes?.is_express && hasExpress) {
+          services.push(service);
+        } else {
+          services.push(service);
+        }
+      });
+    }
+  }
+
+  if (error) {
+    navigate(notFoundRoute, { replace: true });
+  }
 
   return status === 'loading' ? (
     <PageLoader />
