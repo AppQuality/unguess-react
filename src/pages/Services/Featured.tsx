@@ -1,9 +1,4 @@
-import {
-  PageLoader,
-  Paragraph,
-  Skeleton,
-  XXL,
-} from '@appquality/unguess-design-system';
+import { Paragraph, XXL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -17,7 +12,7 @@ import styled from 'styled-components';
 import { CardRowLoading } from '../Dashboard/CardRowLoading';
 import { Services } from './services-list';
 
-const PageTitle = styled(XXL)`
+const SectionTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
@@ -42,7 +37,11 @@ export const Featured = () => {
     status === 'logged' &&
     userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
-  const featuredData = useGeti18nServicesFeaturedQuery({
+  const {
+    data: featuredData,
+    isLoading,
+    isError,
+  } = useGeti18nServicesFeaturedQuery({
     populate: '*',
     locale: i18n.language,
     sort: 'sort_order',
@@ -55,9 +54,9 @@ export const Featured = () => {
 
   const featured: Array<ServiceResponse> = [];
 
-  if (featuredData.data) {
-    if (featuredData.data.data) {
-      featuredData.data.data.forEach((service) => {
+  if (featuredData) {
+    if (featuredData.data) {
+      featuredData.data.forEach((service) => {
         if (service.attributes?.is_express && hasExpress) {
           featured.push({ data: service });
         } else {
@@ -67,19 +66,21 @@ export const Featured = () => {
     }
   }
 
-  if (featuredData.error) {
+  if (isError) {
     navigate(notFoundRoute, { replace: true });
   }
 
-  return featuredData.isLoading || status === 'loading' ? (
+  return isLoading || status === 'loading' ? (
     <FeaturedContainer>
       <CardRowLoading />
     </FeaturedContainer>
   ) : (
     <Wrapper>
       {featured.length ? (
-        <FeaturedContainer>
-          <PageTitle>{t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}</PageTitle>
+        <FeaturedContainer id="featured">
+          <SectionTitle>
+            {t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}
+          </SectionTitle>
           <Paragraph>
             {t('__CATALOG_PAGE_CONTENT_FEATURED_PARAGRAPH')}
           </Paragraph>

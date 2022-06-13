@@ -50,7 +50,7 @@ const Catalog = () => {
             <CategoriesNav />
           </Col>
           <Col xs={12} lg={9}>
-            <PageContent id="services-wrapper">
+            <PageContent>
               <Featured />
               <Categories />
             </PageContent>

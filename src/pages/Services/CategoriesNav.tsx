@@ -2,7 +2,7 @@ import {
   Anchor,
   ContainerCard,
   MD,
-  PageLoader,
+  Skeleton,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,10 @@ import { useAppSelector } from 'src/app/hooks';
 import { CategoryResponse, ServiceResponse } from 'src/features/backoffice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
-import { useGeti18nCategoriesQuery } from 'src/features/backoffice/strapi';
+import {
+  useGeti18nCategoriesQuery,
+  useGeti18nServicesFeaturedQuery,
+} from 'src/features/backoffice/strapi';
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { Link } from 'react-scroll';
@@ -72,7 +75,11 @@ const CategoriesNav = () => {
     status === 'logged' &&
     userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
-  const categoriesData = useGeti18nCategoriesQuery({
+  const {
+    data: categoriesData,
+    isLoading: categoriesLoading,
+    isError: categoriesError,
+  } = useGeti18nCategoriesQuery({
     populate: {
       services: {
         populate: '*',
@@ -85,69 +92,111 @@ const CategoriesNav = () => {
 
   const categories: Array<CategoryResponse> = [];
 
-  if (categoriesData.data) {
-    if (categoriesData.data.data) {
-      categoriesData.data.data.forEach((category) => {
+  if (categoriesData) {
+    if (categoriesData.data) {
+      categoriesData.data.forEach((category) => {
         categories.push({ data: category });
       });
     }
   }
 
-  if (categoriesData.error) {
+  if (categoriesError) {
     navigate(notFoundRoute, { replace: true });
   }
 
-  return categoriesData.isLoading || status === 'loading' ? (
-    <PageLoader />
+  const {
+    data: featuredData,
+    isLoading: featuredLoading,
+    isError: featuredError,
+  } = useGeti18nServicesFeaturedQuery({
+    populate: '*',
+    locale: i18n.language,
+    sort: 'sort_order',
+    filters: {
+      is_featured: {
+        $eq: true,
+      },
+    },
+  });
+
+  const featured: Array<ServiceResponse> = [];
+
+  if (featuredData) {
+    if (featuredData.data) {
+      featuredData.data.forEach((service) => {
+        if (service.attributes?.is_express && hasExpress) {
+          featured.push({ data: service });
+        } else {
+          featured.push({ data: service });
+        }
+      });
+    }
+  }
+
+  if (featuredError) {
+    navigate(notFoundRoute, { replace: true });
+  }
+
+  return featuredLoading || categoriesLoading || status === 'loading' ? (
+    <StickyContainer>
+      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
+      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
+      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
+      <StyledDivider />
+      <Skeleton width="100%" height="20px" />
+    </StickyContainer>
   ) : (
     <StickyContainer>
-      {categories.length > 0 && (
+      {featured.length > 0 ? (
+        <StickyNavItem
+          style={{ marginTop: 0 }}
+          to="featured"
+          containerId="main"
+          spy
+          smooth
+          duration={500}
+          offset={-350}
+        >
+          {t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')} ({featured.length})
+        </StickyNavItem>
+      ) : null}
+      {categories.length > 0 ? (
         <>
-          <StickyNavItem
-            style={{ marginTop: 0 }}
-            to="services-wrapper"
-            containerId="main"
-            smooth
-            duration={500}
-            offset={-350}
-          >
-            {t('__CATALOG_STICKY_CONTAINER_NAV_SHOW_ALL')}
-          </StickyNavItem>
           <StickyNavItemLabel>
             {t('__CATALOG_STICKY_CONTAINER_NAV_CATEGORIES_LABEL')}
           </StickyNavItemLabel>
-        </>
-      )}
-      {categories.map((category) => {
-        const { data } = category;
+          {categories.map((category) => {
+            const { data } = category;
 
-        const categoryServices: Array<ServiceResponse> = [];
-        if (category.data) {
-          if (category.data.attributes?.services?.data) {
-            category.data.attributes?.services?.data.forEach((service) => {
-              if (service.attributes?.is_express && hasExpress) {
-                categoryServices.push({ data: service });
-              } else {
-                categoryServices.push({ data: service });
+            const categoryServices: Array<ServiceResponse> = [];
+            if (category.data) {
+              if (category.data.attributes?.services?.data) {
+                category.data.attributes?.services?.data.forEach((service) => {
+                  if (service.attributes?.is_express && hasExpress) {
+                    categoryServices.push({ data: service });
+                  } else {
+                    categoryServices.push({ data: service });
+                  }
+                });
               }
-            });
-          }
-        }
+            }
 
-        return (
-          <StickyNavItem
-            to={data?.attributes?.Slug || ''}
-            containerId="main"
-            spy
-            smooth
-            duration={500}
-            offset={-350}
-          >
-            {data?.attributes?.Name} ({categoryServices.length})
-          </StickyNavItem>
-        );
-      })}
-      {categories.length > 0 && <StyledDivider />}
+            return categoryServices.length ? (
+              <StickyNavItem
+                to={data?.attributes?.Slug || ''}
+                containerId="main"
+                spy
+                smooth
+                duration={500}
+                offset={-350}
+              >
+                {data?.attributes?.Name} ({categoryServices.length})
+              </StickyNavItem>
+            ) : null;
+          })}
+        </>
+      ) : null}
+      {(featured.length > 0 || categories.length > 0) && <StyledDivider />}
       <Anchor
         isExternal
         onClick={() => {

@@ -1,4 +1,4 @@
-import { PageLoader, Paragraph, XXL } from '@appquality/unguess-design-system';
+import { Paragraph, XXL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -14,7 +14,7 @@ import { WaterButton } from 'src/common/components/waterButton';
 import { Services } from './services-list';
 import { CardRowLoading } from '../Dashboard/CardRowLoading';
 
-const PageTitle = styled(XXL)`
+const SectionTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
@@ -54,7 +54,11 @@ const Categories = () => {
     status === 'logged' &&
     userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
 
-  const categoriesData = useGeti18nCategoriesQuery({
+  const {
+    data: categoriesData,
+    isLoading,
+    isError,
+  } = useGeti18nCategoriesQuery({
     populate: {
       services: {
         populate: '*',
@@ -67,19 +71,19 @@ const Categories = () => {
 
   const categories: Array<CategoryResponse> = [];
 
-  if (categoriesData.data) {
-    if (categoriesData.data.data) {
-      categoriesData.data.data.forEach((category) => {
+  if (categoriesData) {
+    if (categoriesData.data) {
+      categoriesData.data.forEach((category) => {
         categories.push({ data: category });
       });
     }
   }
 
-  if (categoriesData.error) {
+  if (isError) {
     navigate(notFoundRoute, { replace: true });
   }
 
-  return categoriesData.isLoading || status === 'loading' ? (
+  return isLoading || status === 'loading' ? (
     <CategoryContainer>
       <CardRowLoading />
     </CategoryContainer>
@@ -127,17 +131,19 @@ const Categories = () => {
             },
           });
 
+        const initialServicesLength = showTipCard ? 1 : 0;
+
         return (
-          <CategoryContainer id={category.data?.attributes?.Slug}>
-            <PageTitle>{category.data?.attributes?.Name}</PageTitle>
-            <Paragraph>{category.data?.attributes?.Description}</Paragraph>
-            <StyledDivider />
-            {categoryServices.length > 0 ? (
-              <Services services={categoryServices} />
-            ) : (
-              <Paragraph>{t('__CATALOG_PAGE_CONTENT_NO_SERVICES')}</Paragraph>
+          <Wrapper>
+            {categoryServices.length > initialServicesLength && (
+              <CategoryContainer id={category.data?.attributes?.Slug}>
+                <SectionTitle>{category.data?.attributes?.Name}</SectionTitle>
+                <Paragraph>{category.data?.attributes?.Description}</Paragraph>
+                <StyledDivider />
+                <Services services={categoryServices} />
+              </CategoryContainer>
             )}
-          </CategoryContainer>
+          </Wrapper>
         );
       })}
     </Wrapper>
