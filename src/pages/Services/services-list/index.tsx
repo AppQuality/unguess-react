@@ -10,6 +10,7 @@ import {
   theme,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { useMemo, useState } from 'react';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
@@ -18,6 +19,7 @@ import { WaterButton } from 'src/common/components/waterButton';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
+import { HubspotModal } from 'src/common/components/HubspotModal';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import { toggleChat } from 'src/common/utils';
 import { STRAPI_URL } from 'src/constants';
@@ -28,11 +30,23 @@ const ServiceCol = styled(Col)`
   margin-bottom: ${theme.space.lg};
 `;
 
+const checkHubspotURL = (url: string) => {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.hostname === 'meetings.hubspot.com';
+  } catch (e) {
+    return false;
+  }
+};
+
 const CardGroup = ({ items }: { items: any }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
+
+  const memoCsm = useMemo(() => activeWorkspace?.csm, [activeWorkspace]);
 
   const navigateToService = (serviceId: number) => {
     const localizedRoute =
@@ -45,6 +59,11 @@ const CardGroup = ({ items }: { items: any }) => {
 
   return (
     <>
+      <HubspotModal
+        isOpen={isModalOpen}
+        meetingUrl={memoCsm?.url}
+        onClose={() => setIsModalOpen(false)}
+      />
       {items.map((service: any) => {
         const iconUrl = `${STRAPI_URL}${service?.attributes?.icon?.data?.attributes?.url}`;
         const tags = [];
@@ -106,9 +125,13 @@ const CardGroup = ({ items }: { items: any }) => {
               size="small"
               isPrimary
               onClick={() => {
-                window.location.href = `mailto:${
-                  activeWorkspace?.csm.email || 'info@unguess.io'
-                }`;
+                if (memoCsm && memoCsm.url && checkHubspotURL(memoCsm.url)) {
+                  setIsModalOpen(true);
+                } else {
+                  window.location.href = `mailto:${
+                    activeWorkspace?.csm.email || 'info@unguess.io'
+                  }`;
+                }
               }}
             >
               {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}

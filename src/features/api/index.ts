@@ -272,6 +272,7 @@ export type Workspace = {
     profile_id: number;
     tryber_wp_user_id: number;
     picture?: string;
+    url?: string;
   };
 };
 export type Feature = {
@@ -283,11 +284,11 @@ export type User = {
   email: string;
   role: string;
   name: string;
-  workspaces: Workspace[];
   profile_id: number;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
   picture?: string;
+  workspaces: Workspace[];
   features?: Feature[];
 };
 export type Campaign = {
