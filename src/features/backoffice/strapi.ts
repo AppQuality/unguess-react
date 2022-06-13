@@ -79,6 +79,7 @@ export const strapiSlice = createApi({
           ...(queryArg.filters && { filters: queryArg.filters }),
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.pagination && { pagination: queryArg.pagination }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;

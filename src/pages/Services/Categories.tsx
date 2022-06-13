@@ -27,8 +27,6 @@ const CategoryContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxl};
 `;
 
-const Wrapper = styled.div``;
-
 interface InfoService {
   data: {
     id: number;
@@ -83,12 +81,18 @@ const Categories = () => {
     navigate(notFoundRoute, { replace: true });
   }
 
-  return isLoading || status === 'loading' ? (
-    <CategoryContainer>
-      <CardRowLoading />
-    </CategoryContainer>
-  ) : (
-    <Wrapper>
+  if (isLoading || status === 'loading') {
+    return (
+      <CategoryContainer>
+        <CardRowLoading />
+      </CategoryContainer>
+    );
+  }
+
+  if (!categories.length) return null;
+
+  return (
+    <>
       {categories.map((category) => {
         const categoryServices: Array<ServiceResponse | InfoService> = [];
         if (category.data) {
@@ -104,7 +108,7 @@ const Categories = () => {
         }
 
         // Add info card service
-        if (showTipCard)
+        if (showTipCard) {
           categoryServices.push({
             data: {
               id: 0,
@@ -130,23 +134,20 @@ const Categories = () => {
               },
             },
           });
+        }
 
         const initialServicesLength = showTipCard ? 1 : 0;
 
-        return (
-          <Wrapper>
-            {categoryServices.length > initialServicesLength && (
-              <CategoryContainer id={category.data?.attributes?.Slug}>
-                <SectionTitle>{category.data?.attributes?.Name}</SectionTitle>
-                <Paragraph>{category.data?.attributes?.Description}</Paragraph>
-                <StyledDivider />
-                <Services services={categoryServices} />
-              </CategoryContainer>
-            )}
-          </Wrapper>
-        );
+        return categoryServices.length > initialServicesLength ? (
+          <CategoryContainer id={category.data?.attributes?.Slug}>
+            <SectionTitle>{category.data?.attributes?.Name}</SectionTitle>
+            <Paragraph>{category.data?.attributes?.Description}</Paragraph>
+            <StyledDivider />
+            <Services services={categoryServices} />
+          </CategoryContainer>
+        ) : null;
       })}
-    </Wrapper>
+    </>
   );
 };
 

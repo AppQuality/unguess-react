@@ -25,8 +25,6 @@ const FeaturedContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxl};
 `;
 
-const Wrapper = styled.div``;
-
 export const Featured = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -45,6 +43,9 @@ export const Featured = () => {
     populate: '*',
     locale: i18n.language,
     sort: 'sort_order',
+    pagination: {
+      limit: 3,
+    },
     filters: {
       is_featured: {
         $eq: true,
@@ -70,24 +71,20 @@ export const Featured = () => {
     navigate(notFoundRoute, { replace: true });
   }
 
-  return isLoading || status === 'loading' ? (
-    <FeaturedContainer>
-      <CardRowLoading />
+  if (isLoading || status === 'loading') {
+    return (
+      <FeaturedContainer>
+        <CardRowLoading />
+      </FeaturedContainer>
+    );
+  }
+
+  return featured.length ? (
+    <FeaturedContainer id="featured">
+      <SectionTitle>{t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}</SectionTitle>
+      <Paragraph>{t('__CATALOG_PAGE_CONTENT_FEATURED_PARAGRAPH')}</Paragraph>
+      <StyledDivider />
+      <Services services={featured} />
     </FeaturedContainer>
-  ) : (
-    <Wrapper>
-      {featured.length ? (
-        <FeaturedContainer id="featured">
-          <SectionTitle>
-            {t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}
-          </SectionTitle>
-          <Paragraph>
-            {t('__CATALOG_PAGE_CONTENT_FEATURED_PARAGRAPH')}
-          </Paragraph>
-          <StyledDivider />
-          <Services services={featured} />
-        </FeaturedContainer>
-      ) : null}
-    </Wrapper>
-  );
+  ) : null;
 };

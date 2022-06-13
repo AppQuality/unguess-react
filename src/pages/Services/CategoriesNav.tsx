@@ -117,6 +117,9 @@ const CategoriesNav = () => {
         $eq: true,
       },
     },
+    pagination: {
+      limit: 3,
+    },
   });
 
   const featured: Array<ServiceResponse> = [];
@@ -157,7 +160,7 @@ const CategoriesNav = () => {
           duration={500}
           offset={-350}
         >
-          {t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')} ({featured.length})
+          {t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}
         </StickyNavItem>
       ) : null}
       {categories.length > 0 ? (
