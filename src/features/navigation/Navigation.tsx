@@ -20,6 +20,7 @@ import { prepareGravatar } from 'src/common/utils';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { saveWorkspaceToLs } from './cachedStorage';
+import { isValidWorkspace } from './utils';
 
 export const Navigation = ({
   children,
@@ -39,7 +40,7 @@ export const Navigation = ({
 
   const { workspaces } = user;
 
-  if (!activeWorkspace) {
+  if (!activeWorkspace || !isValidWorkspace(activeWorkspace, workspaces)) {
     // dispatch(getWorkspaces());
     if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
   }
