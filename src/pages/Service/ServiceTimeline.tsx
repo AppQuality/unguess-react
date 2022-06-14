@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
 import { ServiceResponse } from 'src/features/backoffice';
 import { Link } from 'react-scroll';
+import { extractStrapiData } from 'src/common/getStrapiData';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceMailToCta } from './ServiceMailToCta';
 
@@ -99,33 +100,22 @@ const SectionTitle = styled(MD)`
 
 const ServiceTimeline = (response: ServiceResponse) => {
   const { t } = useTranslation();
-  const { data } = response;
+  const { data: serviceData } = response;
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
-
-  const why = data ? data?.attributes?.why : {};
-  const reasons = why?.reasons || [];
-  const advantages = why?.advantages || [];
-  const requirements = data ? data?.attributes?.requirements : {};
-  const list = requirements?.list || [];
-  const what = data ? data?.attributes?.what : {};
-  const how = data ? data?.attributes?.how : {};
-  const timeline = how?.timeline || [];
-  const slug = data ? data?.attributes?.service_slug : '';
-  const locale = data ? data?.attributes?.locale : 'en';
-  const isExpress = data ? data?.attributes?.is_express : false;
+  const service = extractStrapiData({ data: serviceData });
 
   return (
     <Grid gutters="lg">
       <Row>
         <Col xs={12} lg={3}>
-          {(why || what || how) && (
+          {(service.why || service.what || service.how) && (
             <StickyContainer>
               <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE')}
                 </StickyContainerTitle>
                 <StyledOrderedList>
-                  {why && (
+                  {service.why && (
                     <StyledOrderListItem>
                       <Link
                         to="why-card"
@@ -140,7 +130,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
                     </StyledOrderListItem>
                   )}
 
-                  {what && (
+                  {service.what && (
                     <StyledOrderListItem>
                       <Link
                         to="what-card"
@@ -155,7 +145,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
                     </StyledOrderListItem>
                   )}
 
-                  {how && (
+                  {service.how && (
                     <StyledOrderListItem>
                       <Link
                         to="how-card"
@@ -175,22 +165,23 @@ const ServiceTimeline = (response: ServiceResponse) => {
           )}
         </Col>
         <Col xs={12} lg={6}>
-          {why && (
+          {service.why && (
             <TimelineCard id="why-card" className="why-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHY_TITLE">
                   <Span isBold>Why</Span> to choose this campaign
                 </Trans>
               </StepTitle>
-              {reasons && (
+              {service.why.reasons && (
                 <>
                   <StepParagraph>
                     {t('__CATALOG_DETAIL_TIMELINE_WHY_DESCRIPTION')}
                   </StepParagraph>
                   <StyledDivider />
                   <Timeline>
-                    {reasons.map((reason) => {
-                      const icon = reason.icon?.data?.attributes?.url || '';
+                    {service.why.reasons.map((reason: any) => {
+                      const icon = extractStrapiData(reason.icon);
+                      const iconUrl = icon.url;
 
                       return (
                         <Timeline.Item
@@ -199,7 +190,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
                             <TimelineIcon
                               width={24}
                               height={24}
-                              src={`${STRAPI_URL}${icon}`}
+                              src={`${STRAPI_URL}${iconUrl}`}
                               alt={reason.title}
                             />
                           }
@@ -217,14 +208,14 @@ const ServiceTimeline = (response: ServiceResponse) => {
                   </Timeline>
                 </>
               )}
-              {advantages && (
+              {service.why.advantages && (
                 <AdvantagesContainer>
                   <SectionTitle>
                     {t('__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE')}
                   </SectionTitle>
                   <StyledDivider />
                   <Timeline>
-                    {advantages.map((advantage) => (
+                    {service.why.advantages.map((advantage: any) => (
                       <Timeline.Item hiddenLine icon={<CheckIcon />}>
                         <Timeline.Content>
                           <Paragraph style={{ fontWeight: 500 }}>
@@ -239,25 +230,25 @@ const ServiceTimeline = (response: ServiceResponse) => {
             </TimelineCard>
           )}
 
-          {what && (
+          {service.what && (
             <TimelineCard id="what-card" className="what-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHAT_TITLE">
                   <Span isBold>What</Span> you get
                 </Trans>
               </StepTitle>
-              <StepParagraph>{what?.description}</StepParagraph>
+              <StepParagraph>{service.what?.description}</StepParagraph>
               <>
                 <SectionTitle>
                   {t('__CATALOG_DETAIL_TIMELINE_WHAT_RESULTS_TITLE')}
                 </SectionTitle>
                 <StyledDivider />
-                <Paragraph>{what?.goal_text}</Paragraph>
+                <Paragraph>{service.what?.goal_text}</Paragraph>
               </>
             </TimelineCard>
           )}
 
-          {how && (
+          {service.how && (
             <TimelineCard id="how-card" className="how-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_HOW_TITLE">
@@ -268,18 +259,21 @@ const ServiceTimeline = (response: ServiceResponse) => {
                 {t('__CATALOG_DETAIL_TIMELINE_HOW_DESCRIPTION')}
               </StepParagraph>
               <Timeline>
-                {timeline.map((item, index) => {
-                  const icon = item.icon?.data?.attributes?.url || '';
+                {service.how.timeline.map((item: any, index: number) => {
+                  const icon = extractStrapiData(item.icon);
+                  const iconUrl = icon.url;
 
                   return (
                     <Timeline.Item
-                      id={`${slug}-${locale}-timeline-${index + 1}`}
+                      id={`${service.slug}-${service.locale}-timeline-${
+                        index + 1
+                      }`}
                       key={`timeline_${item.id}`}
                       icon={
                         <TimelineIcon
                           width={24}
                           height={24}
-                          src={`${STRAPI_URL}${icon}`}
+                          src={`${STRAPI_URL}${iconUrl}`}
                           alt={item.title}
                         />
                       }
@@ -299,18 +293,18 @@ const ServiceTimeline = (response: ServiceResponse) => {
         </Col>
         <Col xs={12} lg={3}>
           <StickyContainer>
-            {requirements && (
+            {service.requirements && (
               <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_REQUIREMENTS_TITLE')}
                 </StickyContainerTitle>
-                {requirements && requirements.description && (
+                {service.requirements && service.requirements.description && (
                   <StickyContainerParagraph>
-                    {requirements.description}
+                    {service.requirements.description}
                   </StickyContainerParagraph>
                 )}
                 <Timeline>
-                  {list.map((item) => (
+                  {service.requirements.list.map((item: any) => (
                     <Timeline.Item
                       key={`requiremens_${item.id}`}
                       icon={<CheckIcon />}
@@ -326,8 +320,12 @@ const ServiceTimeline = (response: ServiceResponse) => {
                 </Timeline>
               </StyledCardContainer>
             )}
-            {(why || what || how) &&
-              (isExpress ? <ServiceExpressCta /> : <ServiceMailToCta />)}
+            {(service.why || service.what || service.how) &&
+              (service.is_express ? (
+                <ServiceExpressCta />
+              ) : (
+                <ServiceMailToCta />
+              ))}
           </StickyContainer>
         </Col>
       </Row>

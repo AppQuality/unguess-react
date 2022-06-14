@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { openWizard } from 'src/features/express/expressSlice';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
 import PageLoader from 'src/features/templates/PageLoader';
+import { extractStrapiData } from 'src/common/getStrapiData';
 import { ServiceTimeline } from './ServiceTimeline';
 import { SingleServicePageHeader } from './SingleServicePageHeader';
 
@@ -22,6 +23,7 @@ const Service = () => {
   if (!templateId || Number.isNaN(Number(templateId))) {
     navigate(notFoundRoute, { replace: true });
   }
+
   const { data, isLoading, isError } = useGetFullServicesByIdQuery({
     id: templateId || '',
     populate: {
@@ -57,18 +59,22 @@ const Service = () => {
     },
   });
 
+  let service;
+
+  if (data) {
+    service = extractStrapiData(data);
+  }
+
   if (isError) {
     navigate(notFoundRoute, { replace: true });
   }
-
-  const serviceName = data ? data.data?.attributes?.title : '';
 
   return isLoading || status === 'loading' ? (
     <PageLoader />
   ) : (
     <Page
       pageHeader={data && <SingleServicePageHeader {...data} />}
-      title={serviceName}
+      title={service.title}
       route="services"
     >
       {data && (
