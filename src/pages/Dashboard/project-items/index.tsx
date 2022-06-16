@@ -18,6 +18,7 @@ import {
   useGetWorkspacesByWidCampaignsQuery,
 } from 'src/features/api';
 import { createSelector } from '@reduxjs/toolkit';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { CardList } from './list';
 import { TableList } from './table';
 import { Separator } from '../Separator';
@@ -26,6 +27,7 @@ import { EmptyResults } from '../emptyState';
 
 const FloatRight = styled.div`
   float: right;
+  margin-bottom: ${theme.space.xs};
 `;
 
 export const ProjectItems = () => {
@@ -33,6 +35,8 @@ export const ProjectItems = () => {
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
+  const { width } = useWindowSize();
+  const breakpointMd = parseInt(theme.breakpoints.md, 10);
 
   // Get workspaces campaigns from rtk query and filter them
   const filters = useAppSelector((state) => state.filters);
@@ -67,7 +71,7 @@ export const ProjectItems = () => {
           marginBottom: theme.space.xxs,
         }}
       >
-        <Col>
+        <Col xs={12} md={8}>
           <Span>
             <MD style={{ color: theme.palette.grey[700] }}>
               {`${t(
@@ -76,24 +80,26 @@ export const ProjectItems = () => {
             </MD>
           </Span>
         </Col>
-        <Col>
-          <FloatRight>
-            <IconButton
-              isPill
-              {...(viewType === 'list' && { isPrimary: true })}
-              onClick={() => setViewType('list')}
-            >
-              <ListIcon />
-            </IconButton>
-            <IconButton
-              isPill
-              {...(viewType === 'grid' && { isPrimary: true })}
-              onClick={() => setViewType('grid')}
-            >
-              <GridIcon />
-            </IconButton>
-          </FloatRight>
-        </Col>
+        {width >= breakpointMd && (
+          <Col md={4}>
+            <FloatRight>
+              <IconButton
+                isPill
+                {...(viewType === 'list' && { isPrimary: true })}
+                onClick={() => setViewType('list')}
+              >
+                <ListIcon />
+              </IconButton>
+              <IconButton
+                isPill
+                {...(viewType === 'grid' && { isPrimary: true })}
+                onClick={() => setViewType('grid')}
+              >
+                <GridIcon />
+              </IconButton>
+            </FloatRight>
+          </Col>
+        )}
       </Row>
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
       <Filters />

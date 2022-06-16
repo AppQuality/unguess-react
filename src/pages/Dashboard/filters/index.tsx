@@ -1,3 +1,4 @@
+import { Col, Row } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { SearchInput } from './search';
 import { StatusDropdown } from './status';
@@ -10,6 +11,7 @@ const FiltersRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ theme }) => theme.space.base * 8}px;
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: column;
   }
@@ -19,6 +21,7 @@ const FiltersContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: column;
     width: 100%;
@@ -26,10 +29,13 @@ const FiltersContainer = styled.div`
 `;
 
 const FilterInputContainer = styled.div`
+  width: 100%;
   margin-right: ${({ theme }) => theme.space.base * 4}px;
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+  margin-bottom: ${({ theme }) => theme.space.md};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     margin-right: 0;
-    margin-bottom: ${({ theme }) => theme.space.xxs};
+    margin-bottom: ${({ theme }) => theme.space.xs};
     width: 100%;
   }
 `;
@@ -37,16 +43,28 @@ const FilterInputContainer = styled.div`
 export const Filters = () => (
   <FiltersRow>
     <FiltersContainer>
-      <FilterInputContainer>
-        <StatusDropdown />
-      </FilterInputContainer>
-      <FilterInputContainer>
-        <CampaignTypeDropdown />
-      </FilterInputContainer>
-      <FilterInputContainer>
-        <TestTypeDropdown />
-      </FilterInputContainer>
+      <Row>
+        <Col xs={12} md={6} lg={3}>
+          <FilterInputContainer>
+            <StatusDropdown />
+          </FilterInputContainer>
+        </Col>
+        <Col xs={12} md={6} lg={3}>
+          <FilterInputContainer>
+            <CampaignTypeDropdown />
+          </FilterInputContainer>
+        </Col>
+        <Col xs={12} md={6} lg={3}>
+          <FilterInputContainer>
+            <TestTypeDropdown />
+          </FilterInputContainer>
+        </Col>
+        <Col xs={12} md={6} lg={3}>
+          <FilterInputContainer>
+            <SearchInput />
+          </FilterInputContainer>
+        </Col>
+      </Row>
     </FiltersContainer>
-    <SearchInput />
   </FiltersRow>
 );
