@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  LoginForm,
-  Logo,
-  theme as globalTheme,
-} from '@appquality/unguess-design-system';
+import { LoginForm, Logo } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import WPAPI from 'src/common/wpapi';
 import { FormikHelpers } from 'formik';
@@ -12,6 +8,15 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { LoginFormFields } from './type';
+
+const StyledLogo = styled(Logo)`
+  margin-top: ${({ theme }) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.md};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    max-width: 70%;
+  }
+`;
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -26,7 +31,6 @@ const CenteredXYContainer = styled.div`
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  // const [error, setError] = useState<string | boolean>(false);
   const [cta, setCta] = useState<string>(t('__LOGIN_FORM_CTA'));
   const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
@@ -114,14 +118,7 @@ const LoginPage = () => {
   return (
     <GoogleTagManager title={t('__PAGE_TITLE_LOGIN')}>
       <CenteredXYContainer>
-        <Logo
-          type="vertical"
-          size={200}
-          style={{
-            marginTop: globalTheme.space.xs,
-            marginBottom: globalTheme.space.md,
-          }}
-        />
+        <StyledLogo type="vertical" size={200} />
         <LoginForm {...defaultArgs} />
       </CenteredXYContainer>
     </GoogleTagManager>
