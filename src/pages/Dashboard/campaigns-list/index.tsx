@@ -11,7 +11,7 @@ import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { ReactComponent as GridIcon } from 'src/assets/icons/grid.svg';
 import { ReactComponent as ListIcon } from 'src/assets/icons/list.svg';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   selectGroupedCampaigns,
   selectFilteredCampaigns,
@@ -66,6 +66,12 @@ export const CampaignsList = () => {
 
   const campaignsCount = filteredCampaigns.length;
   const [viewType, setViewType] = useState('list');
+
+  useEffect(() => {
+    if (width < breakpointMd) {
+      setViewType('grid');
+    }
+  }, [viewType, width]);
 
   return (
     <>
