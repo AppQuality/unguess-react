@@ -167,6 +167,8 @@ export const Navigation = ({
     }
 
     navigate(localizedRoute, { replace: true });
+
+    dispatch(toggleSidebar());
   };
 
   const toggleSidebarState = () => {
