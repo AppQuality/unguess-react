@@ -63,16 +63,14 @@ const StyledTextarea = styled(Textarea)`
 `;
 
 const TextareaNote = styled(Paragraph)`
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   color: ${({ theme }) => theme.palette.grey[600]};
   margin-top: ${({ theme }) => theme.space.base * 3}px;
   font-size: ${({ theme }) => theme.fontSizes.sm};
   line-height: 1.2;
 
   svg {
-    margin-right: ${({ theme }) => theme.space.base * 2}px;
+    margin-bottom: -${({ theme }) => theme.space.base / 2}px;
+    margin-right: ${({ theme }) => theme.space.base}px;
   }
 `;
 
@@ -109,10 +107,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         <StyledCard>
           <Grid>
             <Row>
-              <Col xs={1}>
+              <Col xs={12} sm={1}>
                 <WhatIcon />
               </Col>
-              <Col>
+              <Col xs={12} sm={11}>
                 <StyledLabel>
                   {t('__EXPRESS_WIZARD_STEP_WHAT_LABEL')}
                 </StyledLabel>
@@ -137,10 +135,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         <StyledCard>
           <Grid>
             <Row>
-              <Col xs={1}>
+              <Col xs={12} sm={1}>
                 <WhereIcon />
               </Col>
-              <Col>
+              <Col xs={12} sm={11}>
                 <StyledLabel>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_LABEL')}
                 </StyledLabel>
@@ -164,10 +162,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         <StyledCard>
           <Grid>
             <Row>
-              <Col xs={1}>
+              <Col xs={12} sm={1}>
                 <WhoIcon />
               </Col>
-              <Col>
+              <Col xs={12} sm={11}>
                 <StyledLabel>
                   {t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}
                 </StyledLabel>
@@ -186,10 +184,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         <StyledCard>
           <Grid>
             <Row>
-              <Col xs={1}>
+              <Col xs={12} sm={1}>
                 <WhenIcon />
               </Col>
-              <Col>
+              <Col xs={12} sm={11}>
                 <StyledLabel>
                   {t('__EXPRESS_WIZARD_STEP_WHEN_LABEL')}
                 </StyledLabel>
@@ -210,10 +208,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         <StyledCard>
           <Grid>
             <Row>
-              <Col xs={1}>
+              <Col xs={12} sm={1}>
                 <MoreIcon />
               </Col>
-              <Col>
+              <Col xs={12} sm={11}>
                 <StyledLabel>
                   {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_LABEL')}
                 </StyledLabel>

@@ -55,6 +55,10 @@ const StyledOrCol = styled(Col)`
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
 
 const StyledFormField = styled.div`
@@ -148,7 +152,7 @@ export const WhatStep = ({
         </StyledProductTypeTitle>
         <Grid>
           <Row>
-            <Col xs={5} sm={5} md={5} lg={5}>
+            <Col xs={12} sm={5}>
               <FormField style={{ height: '100%' }}>
                 <RadioCard
                   label={t(
@@ -169,7 +173,7 @@ export const WhatStep = ({
                 {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_OR_LABEL')}
               </Paragraph>
             </StyledOrCol>
-            <Col xs={5} sm={5} md={5} lg={5}>
+            <Col xs={12} sm={5}>
               <FormField style={{ height: '100%' }}>
                 <RadioCard
                   label={t(
