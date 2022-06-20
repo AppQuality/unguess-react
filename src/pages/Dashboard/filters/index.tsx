@@ -10,7 +10,6 @@ const FiltersRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.space.base * 8}px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     flex-direction: column;
@@ -31,11 +30,9 @@ const FiltersContainer = styled.div`
 const FilterInputContainer = styled.div`
   width: 100%;
   margin-right: ${({ theme }) => theme.space.base * 4}px;
-  margin-bottom: ${({ theme }) => theme.space.md};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     margin-right: 0;
-    margin-bottom: ${({ theme }) => theme.space.xs};
     width: 100%;
   }
 `;

@@ -14,7 +14,7 @@ import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { toggleChat } from 'src/common/utils';
-import { CampaignItem, ColCard } from './CampaignItem';
+import { CampaignItem } from './CampaignItem';
 import { CardsContainer, StyledRow } from './CardContainer';
 import { CardRowLoading } from './CardRowLoading';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
@@ -66,16 +66,17 @@ export const SuggestedCampaigns = () => {
       <CardsContainer>
         <StyledRow>
           {campaigns.data.items.map((campaign) => (
-            <ColCard xs={10} md={6} lg={3}>
+            <Col xs={10} md={6} lg={3}>
               <CampaignItem
+                key={`suggested_${campaign.id}`}
                 campaign={campaign}
                 onCampaignClicked={goToCampaignDashboard}
               />
-            </ColCard>
+            </Col>
           ))}
           {hasExpress && (
             <>
-              <ColCard xs={10} md={6} lg={3}>
+              <Col xs={10} md={6} lg={3}>
                 <ProductCard
                   title={t('__EXPRESS_WIZARD_TITLE')}
                   onCtaClick={() => {
@@ -88,7 +89,7 @@ export const SuggestedCampaigns = () => {
                   productTitle={t('__DASHABOARD_EXPRESS_CARD_TITLE MAX:12')}
                   style={{ height: '100%' }}
                 />
-              </ColCard>
+              </Col>
               <ExpressDrawer onCtaClick={() => dispatch(openWizard())} />
               <ExpressWizardContainer />
             </>

@@ -4,10 +4,9 @@ import {
   ModalFullScreen,
   Row,
   Stepper,
-  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { closeWizard, resetWizard } from 'src/features/express/expressSlice';
@@ -62,11 +61,16 @@ interface StepItem {
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
   top: 0;
-  padding-right: ${({ theme }) => theme.space.sm};
+  padding: ${({ theme }) => theme.space.xxl};
+  paddingbottom: ${({ theme }) => theme.space.xl};
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
   overflow-y: auto;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
+  }
 `;
 
 const getValidationSchema = (step: number, steps: StepItem[]) => {
@@ -80,6 +84,7 @@ export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const formRef = useRef<FormikProps<{}>>(null);
+  const [stepperTitle, setStepperTitle] = useState('');
   const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
@@ -161,6 +166,14 @@ export const ExpressWizardContainer = () => {
       setStep(activeStep - 1);
     }
   };
+
+  useEffect(() => {
+    setStepperTitle(
+      t('__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE')
+        .replace('{current_step}', (activeStep + 1).toString())
+        .replace('{total_steps}', steps.length.toString())
+    );
+  }, [activeStep]);
 
   // Form actions
   const handleSubmit = async (
@@ -305,14 +318,12 @@ export const ExpressWizardContainer = () => {
               <ModalFullScreen.Body>
                 <Form onSubmit={formProps.handleSubmit}>
                   <Row>
-                    <Col xs={12} sm={12} md={12} lg={3} xl={3}>
-                      <StyledContainer
-                        style={{
-                          padding: globalTheme.space.xxl,
-                          paddingBottom: globalTheme.space.xl,
-                        }}
-                      >
-                        <Stepper activeIndex={activeStep}>
+                    <Col xs={12} lg={3}>
+                      <StyledContainer>
+                        <Stepper
+                          activeIndex={activeStep}
+                          accordionTitle={stepperTitle}
+                        >
                           {steps.map((item) => (
                             <Stepper.Step key={item.label}>
                               <Stepper.Label>{item.label}</Stepper.Label>
@@ -322,7 +333,7 @@ export const ExpressWizardContainer = () => {
                         </Stepper>
                       </StyledContainer>
                     </Col>
-                    <Col xs={12} sm={12} md={12} lg={9} xl={6}>
+                    <Col xs={12} lg={9} xl={6}>
                       <ContainerCard>
                         {steps[activeStep as number].form(formProps)}
                       </ContainerCard>
