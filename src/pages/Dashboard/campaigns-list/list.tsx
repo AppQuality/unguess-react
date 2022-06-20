@@ -12,7 +12,7 @@ import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { ReactComponent as ExternalIcon } from 'src/assets/icons/new-window-stroke.svg';
-import { CampaignItem, ColCard } from '../CampaignItem';
+import { CampaignItem } from '../CampaignItem';
 
 const FloatRight = styled.div`
   float: right;
@@ -52,14 +52,14 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
 
       {/* <CardsContainer> */}
       {campaigns.map((campaign) => (
-        <ColCard xs={12} md={6} lg={3}>
+        <Col xs={12} md={6} lg={3}>
           <CampaignItem
             key={campaign.id}
             campaign={campaign}
             onCampaignClicked={clickToggle}
             style={{ marginBottom: `${theme.space.base * 4}px` }}
           />
-        </ColCard>
+        </Col>
       ))}
       {/* </CardsContainer> */}
 

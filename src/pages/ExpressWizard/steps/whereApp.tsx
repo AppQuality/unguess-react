@@ -13,7 +13,7 @@ import {
   MediaInput,
   Hint,
 } from '@appquality/unguess-design-system';
-import { Field, Fieldset } from '@zendeskgarden/react-forms';
+import { Field as FormField, Fieldset } from '@zendeskgarden/react-forms';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
 import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg';
@@ -35,7 +35,7 @@ const PrimarySpan = styled(Span)`
   color: ${({ theme }) => theme.colors.primaryHue};
 `;
 
-const InnerField = styled(Field)`
+const InnerField = styled(FormField)`
   margin-top: ${({ theme }) => theme.space.sm};
   margin-left: ${({ theme }) => theme.space.base * 6}px;
 `;
@@ -90,8 +90,8 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
-        <Col>
-          <Field>
+        <Col xs={12} sm={6}>
+          <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE')}
               icon={<SmartphoneIcon />}
@@ -102,10 +102,10 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 setFieldValue('withSmartphone', isChecked);
               }}
             />
-          </Field>
+          </FormField>
         </Col>
-        <Col>
-          <Field>
+        <Col xs={12} sm={6}>
+          <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET')}
               icon={<TabletIcon />}
@@ -116,9 +116,9 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 setFieldValue('withTablet', isChecked);
               }}
             />
-          </Field>
+          </FormField>
         </Col>
-        <Col size={12}>
+        <Col xs={12}>
           {(errors.withSmartphone || errors.withTablet) && (
             <Message
               validation="error"
@@ -144,7 +144,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
             <Fieldset.Legend>
               {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_LABEL')}
             </Fieldset.Legend>
-            <Field>
+            <FormField>
               <Radio
                 name="device-platform"
                 value="ios"
@@ -159,7 +159,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                   {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_IOS_LABEL')}
                 </Label>
               </Radio>
-            </Field>
+            </FormField>
             {/** iOS Link */}
             {values.isIOS && (
               <InnerField>
@@ -185,7 +185,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 </Message>
               </InnerField>
             )}
-            <Field style={{ marginTop: `${globalTheme.space.base * 4}px` }}>
+            <FormField style={{ marginTop: `${globalTheme.space.base * 4}px` }}>
               <Radio
                 name="device-platform"
                 value="android"
@@ -200,7 +200,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                   {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_ANDROID_LABEL')}
                 </Label>
               </Radio>
-            </Field>
+            </FormField>
             {/** iOS Link */}
             {values.isAndroid && (
               <InnerField>

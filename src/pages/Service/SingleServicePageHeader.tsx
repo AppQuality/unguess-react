@@ -24,6 +24,7 @@ import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experientia
 import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
 import { ReactComponent as EnvironmentIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as TimeIcon } from 'src/assets/icons/time-icon.svg';
+import { extractStrapiData } from 'src/common/getStrapiData';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceMailToCta } from './ServiceMailToCta';
 
@@ -95,25 +96,19 @@ const StyledBreadcrumb = styled(Breadcrumb)`
 export const SingleServicePageHeader = (response: ServiceResponse) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { data } = response;
+  const { data: serviceData } = response;
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const servicesRoute = useLocalizeRoute('templates');
+  const servicesRoute = useLocalizeRoute('services');
   const homeRoute = useLocalizeRoute('');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
+  const service = extractStrapiData({ data: serviceData });
 
   // Strapi response
-  const serviceName = data ? data?.attributes?.title : '';
-  const campaignType = data ? data?.attributes?.campaign_type : '';
-  const serviceDescription = data ? data?.attributes?.description : '';
-  const isExpress = data ? data?.attributes?.is_express : false;
-  const isFunctional = data ? data?.attributes?.is_functional : false;
-  const days = data ? data?.attributes?.duration_in_days : 3;
+  const days = service.duration_in_days ?? 3;
   const hours = (days || 3) * 24;
-  const environment = data ? data?.attributes?.environment : '';
 
-  const bannerImg = data
-    ? data?.attributes?.output_image?.data?.attributes?.url
-    : '';
+  const outputImage = extractStrapiData(service.output_image);
+  const bannerImg = outputImage.url;
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
 
   return (
@@ -128,17 +123,17 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
               <Anchor onClick={() => navigate(servicesRoute)}>
                 {t('__BREADCRUMB_ITEM_SERVICES')}
               </Anchor>
-              <Span>{campaignType}</Span>
+              <Span>{service.campaign_type}</Span>
             </StyledBreadcrumb>
           </Col>
         </Row>
         <Row>
           <ColMeta xs={12} lg={bannerImg ? 6 : 12}>
-            <CampaignType>{campaignType}</CampaignType>
-            <ServiceTitle>{serviceName}</ServiceTitle>
-            <ServiceDescription>{serviceDescription}</ServiceDescription>
+            <CampaignType>{service.campaign_type}</CampaignType>
+            <ServiceTitle>{service.title}</ServiceTitle>
+            <ServiceDescription>{service.description}</ServiceDescription>
             <TagsContainer>
-              {isExpress ? (
+              {service.is_express ? (
                 <StyledTag
                   size="large"
                   isPill
@@ -163,7 +158,7 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
                   <Span>{t('__TAILORED_LABEL')}</Span>
                 </StyledTag>
               )}
-              {isFunctional ? (
+              {service.is_functional ? (
                 <StyledTag
                   size="large"
                   isPill
@@ -203,7 +198,7 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
                   </Trans>
                 </Paragraph>
               </StyledTag>
-              {environment && (
+              {service.environment && (
                 <StyledTag
                   size="large"
                   isPill
@@ -213,16 +208,16 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
                   <StyledTag.Avatar>
                     <EnvironmentIcon />
                   </StyledTag.Avatar>
-                  <Paragraph>{environment}</Paragraph>
+                  <Paragraph>{service.environment}</Paragraph>
                 </StyledTag>
               )}
             </TagsContainer>
-            {isExpress ? <ServiceExpressCta /> : <ServiceMailToCta />}
+            {service.is_express ? <ServiceExpressCta /> : <ServiceMailToCta />}
           </ColMeta>
           {bannerImg && (
             <ColBanner xs={12} lg={6}>
               <BannerContainer>
-                <img src={bannerImgUrl} alt={serviceName} />
+                <img src={bannerImgUrl} alt={service.title} />
               </BannerContainer>
             </ColBanner>
           )}

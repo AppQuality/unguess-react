@@ -10,6 +10,7 @@ import {
   theme,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { useMemo, useState } from 'react';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
@@ -18,9 +19,11 @@ import { WaterButton } from 'src/common/components/waterButton';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
+import { HubspotModal } from 'src/common/components/HubspotModal';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import { toggleChat } from 'src/common/utils';
 import { STRAPI_URL } from 'src/constants';
+import { extractStrapiData } from 'src/common/getStrapiData';
 
 const ServicesContainer = styled.div``;
 
@@ -28,25 +31,43 @@ const ServiceCol = styled(Col)`
   margin-bottom: ${theme.space.lg};
 `;
 
+const checkHubspotURL = (url: string) => {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.hostname === 'meetings.hubspot.com';
+  } catch (e) {
+    return false;
+  }
+};
+
 const CardGroup = ({ items }: { items: any }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
+
+  const memoCsm = useMemo(() => activeWorkspace?.csm, [activeWorkspace]);
 
   const navigateToService = (serviceId: number) => {
     const localizedRoute =
       i18n.language === 'en'
-        ? `/templates/${serviceId}`
-        : `/${i18n.language}/templates/${serviceId}`;
+        ? `/services/${serviceId}`
+        : `/${i18n.language}/services/${serviceId}`;
 
     navigate(localizedRoute);
   };
 
   return (
     <>
+      <HubspotModal
+        isOpen={isModalOpen}
+        meetingUrl={memoCsm?.url}
+        onClose={() => setIsModalOpen(false)}
+      />
       {items.map((service: any) => {
-        const iconUrl = `${STRAPI_URL}${service?.attributes?.icon?.data?.attributes?.url}`;
+        const icon = extractStrapiData(service.icon);
+        const iconUrl = `${STRAPI_URL}${icon.url}`;
         const tags = [];
         const buttons = [];
 
@@ -61,7 +82,7 @@ const CardGroup = ({ items }: { items: any }) => {
           </Button>
         );
 
-        if (service?.attributes?.is_functional) {
+        if (service.is_functional) {
           tags.push({
             label: t('__FUNCTIONAL_LABEL'),
             icon: <FunctionalIcon />,
@@ -73,7 +94,7 @@ const CardGroup = ({ items }: { items: any }) => {
           });
         }
 
-        if (service?.attributes?.is_express) {
+        if (service.is_express) {
           tags.push({
             label: t('__EXPRESS_LABEL'),
             icon: <ExpressIcon />,
@@ -106,9 +127,13 @@ const CardGroup = ({ items }: { items: any }) => {
               size="small"
               isPrimary
               onClick={() => {
-                window.location.href = `mailto:${
-                  activeWorkspace?.csm.email || 'info@unguess.io'
-                }`;
+                if (memoCsm && memoCsm.url && checkHubspotURL(memoCsm.url)) {
+                  setIsModalOpen(true);
+                } else {
+                  window.location.href = `mailto:${
+                    activeWorkspace?.csm.email || 'info@unguess.io'
+                  }`;
+                }
               }}
             >
               {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
@@ -129,17 +154,14 @@ const CardGroup = ({ items }: { items: any }) => {
           <ServiceCol xs={12} md={6} lg={4}>
             <ServiceCard
               serviceIcon={
-                <img
-                  src={iconUrl}
-                  alt={`service ${service?.attributes?.title} icon`}
-                />
+                <img src={iconUrl} alt={`service ${service.title} icon`} />
               }
-              serviceTitle={service?.attributes?.title}
-              serviceSubtitle={service?.attributes?.campaign_type}
+              serviceTitle={service.title}
+              serviceSubtitle={service.campaign_type}
               tags={tags}
               isHoverable
-              hoverTitle={service?.attributes?.campaign_type}
-              hoverSubtitle={service?.attributes?.description}
+              hoverTitle={service.campaign_type}
+              hoverSubtitle={service.description}
               hoverButtons={buttons}
             />
           </ServiceCol>

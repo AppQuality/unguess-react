@@ -4,6 +4,7 @@ import {
   Sidebar,
   ProfileModal,
   PageLoader,
+  theme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -16,10 +17,11 @@ import {
 import WPAPI from 'src/common/wpapi';
 import i18n from 'src/i18n';
 import { useNavigate, useParams } from 'react-router-dom';
-import { prepareGravatar } from 'src/common/utils';
+import { prepareGravatar, isMaxMedia } from 'src/common/utils';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { saveWorkspaceToLs } from './cachedStorage';
+import { isValidWorkspace } from './utils';
 
 export const Navigation = ({
   children,
@@ -39,7 +41,7 @@ export const Navigation = ({
 
   const { workspaces } = user;
 
-  if (!activeWorkspace) {
+  if (!activeWorkspace || !isValidWorkspace(activeWorkspace, workspaces)) {
     // dispatch(getWorkspaces());
     if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
   }
@@ -163,6 +165,10 @@ export const Navigation = ({
       if (routeParameter) {
         localizedRoute += `/${routeParameter}`;
       }
+    }
+
+    if (isMaxMedia(theme.breakpoints.sm)) {
+      dispatch(toggleSidebar());
     }
 
     navigate(localizedRoute, { replace: true });
