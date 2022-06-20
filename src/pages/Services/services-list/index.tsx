@@ -23,6 +23,7 @@ import { HubspotModal } from 'src/common/components/HubspotModal';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import { toggleChat } from 'src/common/utils';
 import { STRAPI_URL } from 'src/constants';
+import { extractStrapiData } from 'src/common/getStrapiData';
 
 const ServicesContainer = styled.div``;
 
@@ -65,7 +66,8 @@ const CardGroup = ({ items }: { items: any }) => {
         onClose={() => setIsModalOpen(false)}
       />
       {items.map((service: any) => {
-        const iconUrl = `${STRAPI_URL}${service.data.attributes?.icon?.data?.attributes?.url}`;
+        const icon = extractStrapiData(service.icon);
+        const iconUrl = `${STRAPI_URL}${icon.url}`;
         const tags = [];
         const buttons = [];
 
@@ -74,13 +76,13 @@ const CardGroup = ({ items }: { items: any }) => {
             isPill
             isStretched
             size="small"
-            onClick={() => navigateToService(service.data.id)}
+            onClick={() => navigateToService(service.id)}
           >
             {t('__CATALOG_PAGE_BUTTON_HOW_LABEL')}
           </Button>
         );
 
-        if (service.data?.attributes?.is_functional) {
+        if (service.is_functional) {
           tags.push({
             label: t('__FUNCTIONAL_LABEL'),
             icon: <FunctionalIcon />,
@@ -92,7 +94,7 @@ const CardGroup = ({ items }: { items: any }) => {
           });
         }
 
-        if (service.data?.attributes?.is_express) {
+        if (service.is_express) {
           tags.push({
             label: t('__EXPRESS_LABEL'),
             icon: <ExpressIcon />,
@@ -139,30 +141,27 @@ const CardGroup = ({ items }: { items: any }) => {
           );
         }
 
-        return service.data.attributes.is_info ? (
+        return service.is_info ? (
           <ServiceCol xs={12} md={6} lg={4}>
             <InfoCard
-              infoImg={service.data.attributes.info_img}
-              infoTitle={service.data.attributes.info_title}
-              infoSubtitle={service.data.attributes.info_subtitle}
-              infoButtons={service.data.attributes.info_buttons}
+              infoImg={service.info_img}
+              infoTitle={service.info_title}
+              infoSubtitle={service.info_subtitle}
+              infoButtons={service.info_buttons}
             />
           </ServiceCol>
         ) : (
           <ServiceCol xs={12} md={6} lg={4}>
             <ServiceCard
               serviceIcon={
-                <img
-                  src={iconUrl}
-                  alt={`service ${service.data?.attributes?.title} icon`}
-                />
+                <img src={iconUrl} alt={`service ${service.title} icon`} />
               }
-              serviceTitle={service.data?.attributes?.title}
-              serviceSubtitle={service.data?.attributes?.campaign_type}
+              serviceTitle={service.title}
+              serviceSubtitle={service.campaign_type}
               tags={tags}
               isHoverable
-              hoverTitle={service.data?.attributes?.campaign_type}
-              hoverSubtitle={service.data?.attributes?.description}
+              hoverTitle={service.campaign_type}
+              hoverSubtitle={service.description}
               hoverButtons={buttons}
             />
           </ServiceCol>

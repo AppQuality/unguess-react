@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { Divider } from 'src/common/components/divider';
+import { extractStrapiData } from 'src/common/getStrapiData';
 import { FEATURE_FLAG_EXPRESS } from 'src/constants';
-import { ServiceResponse } from 'src/features/backoffice';
 import { useGeti18nServicesFeaturedQuery } from 'src/features/backoffice/strapi';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
@@ -53,18 +53,18 @@ export const Featured = () => {
     },
   });
 
-  const featured: Array<ServiceResponse> = [];
+  const featured: Array<any> = [];
+
+  const formattedFeatured = extractStrapiData(featuredData);
 
   if (featuredData) {
-    if (featuredData.data) {
-      featuredData.data.forEach((service) => {
-        if (service.attributes?.is_express && hasExpress) {
-          featured.push({ data: service });
-        } else {
-          featured.push({ data: service });
-        }
-      });
-    }
+    formattedFeatured.forEach((service: any) => {
+      if (service.is_express && hasExpress) {
+        featured.push(service);
+      } else {
+        featured.push(service);
+      }
+    });
   }
 
   if (isError) {

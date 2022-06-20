@@ -5,64 +5,45 @@ import {
   ServiceResponse,
 } from 'src/features/backoffice';
 
-interface StrapiObject {
-  [key: string]: string | number | boolean | object | undefined;
-}
+type StrapiResponse =
+  | CategoryListResponse
+  | CategoryResponse
+  | ServiceListResponse
+  | ServiceResponse
+  | undefined;
 
-interface StrapiListItem {
-  id: number;
-  attributes: object;
-}
-
-export default (
-  strapiData:
-    | CategoryListResponse
-    | ServiceListResponse
-    | CategoryResponse
-    | ServiceResponse
-    | undefined
-): any => {
-  if (strapiData !== undefined) {
-    if (strapiData.data !== undefined) {
-      if (Array.isArray(strapiData.data)) {
-        const items: Array<StrapiObject> = [];
-        strapiData.data.forEach((item) => {
-          items.push({
-            ...(item.id && { id: item.id }),
-            ...item.attributes,
-          });
+/**
+ * Function extractStrapiData
+ * Returns a clean object or list receiving a Strapi response
+ * @type {Function}
+ * @param item {StrapiResponse}
+ * @returns {object | false}
+ */
+export const extractStrapiData = (item: StrapiResponse) => {
+  if (item !== undefined) {
+    if (item.data !== undefined) {
+      if (Array.isArray(item.data)) {
+        const items: any = [];
+        item.data.forEach((listItem) => {
+          const newListItem = extractStrapiData({ data: listItem });
+          if (newListItem) {
+            items.push(newListItem);
+          }
         });
 
-        items.forEach((item) => {
-          Object.entries(item).forEach(([key, value]) => {
-            const obj: any = value;
-            if (typeof obj === 'object') {
-              if (obj.data !== undefined) {
-                if (Array.isArray(obj.data)) {
-                  const childrens: Array<StrapiObject> = [];
-                  obj.data.forEach((children: StrapiListItem) => {
-                    // override item key with formatted children
-                    if (item[`${key}`] !== undefined) {
-                      childrens.push({
-                        ...(children.id && { id: children.id }),
-                        ...children.attributes,
-                      });
-                    }
-                  });
-
-                  item[`${key}`] = childrens;
-                }
-              }
-            }
-          });
-        });
-
-        return items; // Return list
+        return items;
       }
 
-      return strapiData.data; // Return single object
+      const newObj = {
+        ...(item.data.id && { id: item.data.id }),
+        ...item.data.attributes,
+      };
+
+      return newObj;
     }
+
+    return false;
   }
 
-  return {}; // Return empty object
+  return false;
 };

@@ -5,6 +5,8 @@ import {
   GetServicesByIdApiResponse,
   GetCategoriesApiResponse,
   GetServicesApiArg,
+  GetCategoriesByIdApiArg,
+  GetCategoriesByIdApiResponse,
 } from '.';
 
 interface GetFullServicesByIdArgs {
@@ -23,6 +25,11 @@ interface Geti18nServicesFeaturedArgs extends GetServicesApiArg {
 }
 
 interface Geti18nCategoriesArgs {
+  locale?: string;
+  populate?: string[] | object;
+}
+
+interface Geti18nCategoryArgs extends GetCategoriesByIdApiArg {
   locale?: string;
   populate?: string[] | object;
 }
@@ -101,6 +108,21 @@ export const strapiSlice = createApi({
         return { url };
       },
     }),
+    getFullCategoriesById: builder.query<
+      GetCategoriesByIdApiResponse,
+      Geti18nCategoryArgs
+    >({
+      query: (queryArg) => {
+        let url = `/categories/${queryArg.id}`;
+        const args: Geti18nCategoriesArgs = {
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.populate && { populate: queryArg.populate }),
+        };
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
+        return { url };
+      },
+    }),
   }),
 });
 
@@ -109,4 +131,5 @@ export const {
   useGeti18nServicesQuery,
   useGeti18nServicesFeaturedQuery,
   useGeti18nCategoriesQuery,
+  useGetFullCategoriesByIdQuery,
 } = strapiSlice;
