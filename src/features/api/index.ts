@@ -1,5 +1,4 @@
 import { apiSlice as api } from './api';
-
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
     get: build.query<GetApiResponse, GetApiArg>({
@@ -231,7 +230,7 @@ export type PostCampaignsApiArg = {
     campaign_type_id: number;
     project_id: number;
     pm_id: number;
-    platforms?: PlatformObject[];
+    platforms: PlatformObject[];
     page_preview_id?: number;
     page_manual_id?: number;
     customer_id?: number;
@@ -273,6 +272,7 @@ export type Workspace = {
     profile_id: number;
     tryber_wp_user_id: number;
     picture?: string;
+    url?: string;
   };
 };
 export type Feature = {
@@ -284,11 +284,11 @@ export type User = {
   email: string;
   role: string;
   name: string;
-  workspaces: Workspace[];
   profile_id: number;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
   picture?: string;
+  workspaces: Workspace[];
   features?: Feature[];
 };
 export type Campaign = {
@@ -298,16 +298,24 @@ export type Campaign = {
   close_date: string;
   title: string;
   customer_title: string;
-  status_id: number;
-  status_name: string;
   is_public: number;
-  campaign_type_id: number;
-  campaign_type_name: string;
-  campaign_family_id?: number;
-  campaign_family_name: string;
-  project_id: number;
-  project_name: string;
   bug_form?: number;
+  type: {
+    id: number;
+    name: string;
+  };
+  family: {
+    id: number;
+    name: string;
+  };
+  status: {
+    id: number;
+    name: string;
+  };
+  project: {
+    id: number;
+    name: string;
+  };
 };
 export type Project = {
   id: number;

@@ -17,6 +17,12 @@ export const SearchInput = () => {
 
   const StyledField = styled(Field)`
     width: 100%;
+    max-width: 100% !important;
+
+    > * {
+      width: 100%;
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       max-width: 260px;
     }

@@ -17,7 +17,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { Field } from '@zendeskgarden/react-forms';
+import { Field as FormField } from '@zendeskgarden/react-forms';
 import { useTranslation, Trans } from 'react-i18next';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
 import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
@@ -80,8 +80,8 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
-        <Col>
-          <Field>
+        <Col xs={12} sm={4}>
+          <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE')}
               icon={<SmartphoneIcon />}
@@ -92,10 +92,10 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 setFieldValue('withSmartphone', isChecked);
               }}
             />
-          </Field>
+          </FormField>
         </Col>
-        <Col>
-          <Field>
+        <Col xs={12} sm={4}>
+          <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET')}
               icon={<TabletIcon />}
@@ -106,10 +106,10 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 setFieldValue('withTablet', isChecked);
               }}
             />
-          </Field>
+          </FormField>
         </Col>
-        <Col>
-          <Field>
+        <Col xs={12} sm={4}>
+          <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP')}
               icon={<LaptopIcon />}
@@ -120,9 +120,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 setFieldValue('withDesktop', isChecked);
               }}
             />
-          </Field>
+          </FormField>
         </Col>
-        <Col size={12}>
+        <Col xs={12}>
           {(errors.withSmartphone ||
             errors.withTablet ||
             errors.withDesktop) && (
@@ -136,7 +136,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
       {/** --- Website Url --- */}
       <StyledRow>
         <Col>
-          <Field>
+          <FormField>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL')}
               <Span style={{ color: theme.colors.dangerHue }}>*</Span>
@@ -155,7 +155,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 ? t('__EXPRESS_WIZARD_STEP_WHERE_LINK_ERROR')
                 : t('__EXPRESS_WIZARD_STEP_WHERE_LINK_INFO')}
             </Message>
-          </Field>
+          </FormField>
         </Col>
       </StyledRow>
 
@@ -168,7 +168,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           </MD>
         </Col>
         <Col size={2} textAlign="end">
-          <Field>
+          <FormField>
             <Toggle
               {...getFieldProps('customBrowser')}
               checked={values.customBrowser}
@@ -177,7 +177,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
               </Label>
             </Toggle>
-          </Field>
+          </FormField>
         </Col>
         <Col size={12}>
           <CardDivider style={{ marginTop: theme.space.xs }} />
@@ -195,7 +195,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               </>
             ) : (
               <>
-                <Field>
+                <FormField>
                   <Label>
                     {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_LABEL')}
                     <Span style={{ color: theme.colors.dangerHue }}>*</Span>
@@ -204,7 +204,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     type="hidden"
                     {...getFieldProps('customBrowserFilled')}
                   />
-                </Field>
+                </FormField>
                 <SpacedField>
                   <Checkbox
                     {...getFieldProps('withChrome')}

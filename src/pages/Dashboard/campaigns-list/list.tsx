@@ -11,7 +11,8 @@ import { Campaign } from 'src/features/api';
 import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
-import { CampaignItem, ColCard } from '../CampaignItem';
+import { ReactComponent as ExternalIcon } from 'src/assets/icons/new-window-stroke.svg';
+import { CampaignItem } from '../CampaignItem';
 
 const FloatRight = styled.div`
   float: right;
@@ -44,21 +45,21 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
           marginTop: `${theme.space.base * 4}px`,
         }}
       >
-        <Span isBold key={campaigns[0].project_id}>
-          {campaigns[0].project_name} ({items.length})
+        <Span isBold key={campaigns[0].project.id}>
+          {campaigns[0].project.name} ({items.length})
         </Span>
       </Col>
 
       {/* <CardsContainer> */}
       {campaigns.map((campaign) => (
-        <ColCard xs={12} md={6} lg={3}>
+        <Col xs={12} md={6} lg={3}>
           <CampaignItem
             key={campaign.id}
             campaign={campaign}
             onCampaignClicked={clickToggle}
             style={{ marginBottom: `${theme.space.base * 4}px` }}
           />
-        </ColCard>
+        </Col>
       ))}
       {/* </CardsContainer> */}
 
@@ -67,9 +68,12 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
           <FloatRight>
             <Button
               isBasic
-              onClick={() => navigateToProject(campaigns[0].project_id)}
+              onClick={() => navigateToProject(campaigns[0].project.id)}
             >
               {t('__DASHBOARD_CARD_GROUP_LIST_BUTTON_SHOW_ALL MAX:10')}
+              <Button.EndIcon>
+                <ExternalIcon />
+              </Button.EndIcon>
             </Button>
           </FloatRight>
         </Col>

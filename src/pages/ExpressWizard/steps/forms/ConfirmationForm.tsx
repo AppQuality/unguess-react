@@ -1,7 +1,8 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { theme } from '@appquality/unguess-design-system';
 import { WizardModel } from '../../wizardModel';
-import { WaterButton } from '../../waterButton';
+import { WaterButton } from '../../../../common/components/waterButton';
 import { WizardButtonsProps } from './types';
 import { ConfirmationStep } from '../confirm';
 import { WizardSubmit } from '../../wizardSubmit';
@@ -16,7 +17,12 @@ export const ConfirmationFormButtons = (props: WizardButtonsProps) => {
 
   return (
     <>
-      <WaterButton isPill isBasic onClick={onBackClick}>
+      <WaterButton
+        isPill
+        isBasic
+        onClick={onBackClick}
+        style={{ marginRight: theme.space.sm }}
+      >
         {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
       </WaterButton>
       <WizardSubmit {...formikArgs} />

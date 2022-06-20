@@ -1,0 +1,49 @@
+import {
+  CategoryListResponse,
+  CategoryResponse,
+  ServiceListResponse,
+  ServiceResponse,
+} from 'src/features/backoffice';
+
+type StrapiResponse =
+  | CategoryListResponse
+  | CategoryResponse
+  | ServiceListResponse
+  | ServiceResponse
+  | undefined;
+
+/**
+ * Function extractStrapiData
+ * Returns a clean object or list receiving a Strapi response
+ * @type {Function}
+ * @param item {StrapiResponse}
+ * @returns {object | false}
+ */
+export const extractStrapiData = (item: StrapiResponse) => {
+  if (item !== undefined) {
+    if (item.data !== undefined) {
+      if (Array.isArray(item.data)) {
+        const items: any = [];
+        item.data.forEach((listItem) => {
+          const newListItem = extractStrapiData({ data: listItem });
+          if (newListItem) {
+            items.push(newListItem);
+          }
+        });
+
+        return items;
+      }
+
+      const newObj = {
+        ...(item.data.id && { id: item.data.id }),
+        ...item.data.attributes,
+      };
+
+      return newObj;
+    }
+
+    return false;
+  }
+
+  return false;
+};
