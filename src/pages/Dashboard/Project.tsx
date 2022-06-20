@@ -1,7 +1,7 @@
 // import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
-import { Grid, Skeleton, theme, XXXL } from '@appquality/unguess-design-system';
+import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -45,15 +45,7 @@ const Project = () => {
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
       route="projects"
       pageHeader={
-        <DashboardHeaderContent>
-          {isLoading || !project.data ? (
-            <Skeleton width="200px" height="12px" />
-          ) : (
-            <XXXL style={{ color: theme.palette.blue[600] }}>
-              {project.data.name}
-            </XXXL>
-          )}
-        </DashboardHeaderContent>
+        <DashboardHeaderContent pageTitle={project?.data?.name || 'Project'} />
       }
     >
       <Grid>
