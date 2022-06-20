@@ -1,14 +1,9 @@
-import { Col, CampaignCard } from '@appquality/unguess-design-system';
+import { CampaignCard } from '@appquality/unguess-design-system';
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { format } from 'date-fns';
-import styled from 'styled-components';
-
-export const ColCard = styled(Col)`
-  margin-bottom: ${(props) => props.theme.space.base * 4}px;
-`;
 
 export const CampaignItem = ({
   campaign,

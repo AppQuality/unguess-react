@@ -14,13 +14,13 @@ export const CardRowLoading = () => (
         <Skeleton width="200px" height="12px" />
       </Paragraph>
     </Col>
-    <Col size={3}>
+    <Col xs={12} md={6} lg={3}>
       <CampaignCard isLoading projectTitle="" campaignTitle="" date="" />
     </Col>
-    <Col size={3}>
+    <Col xs={12} md={6} lg={3}>
       <CampaignCard isLoading projectTitle="" campaignTitle="" date="" />
     </Col>
-    <Col size={3}>
+    <Col xs={12} md={6} lg={3}>
       <CampaignCard isLoading projectTitle="" campaignTitle="" date="" />
     </Col>
     <Col size={3}>

@@ -90,7 +90,7 @@ export const WhenStep = ({
       <StyledFormField>
         <Grid>
           <Row>
-            <Col xs={6}>
+            <Col xs={12} sm={6}>
               <Field>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_LABEL')}
@@ -132,7 +132,7 @@ export const WhenStep = ({
                 )}
               </Field>
             </Col>
-            <Col xs={6}>
+            <Col xs={12} sm={6}>
               <Field>
                 <Label>
                   {t(
