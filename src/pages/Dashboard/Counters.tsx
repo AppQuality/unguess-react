@@ -16,16 +16,6 @@ const Pipe = styled.div`
   display: inline;
 `;
 
-const CounterContainer = styled.div`
-  div:first-child {
-    padding-left: 0;
-  }
-
-  div:last-child {
-    padding-right: 0;
-  }
-`;
-
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const prjId =
     projectId && !Number.isNaN(Number(projectId))
@@ -80,7 +70,7 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <CounterContainer>
+    <>
       <Counter counter={completed} status="completed">
         {t('__DASHABOARD_COUNTER_LABEL_COMPLETED')}
       </Counter>
@@ -97,6 +87,6 @@ export const Counters = () => {
       <Counter counter={experiential} status="experiential">
         {t('__DASHABOARD_COUNTER_LABEL_EXPERIENTIAL')}
       </Counter>
-    </CounterContainer>
+    </>
   );
 };
