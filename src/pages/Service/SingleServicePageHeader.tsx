@@ -26,7 +26,7 @@ import { ReactComponent as EnvironmentIcon } from 'src/assets/icons/environment-
 import { ReactComponent as TimeIcon } from 'src/assets/icons/time-icon.svg';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { ServiceExpressCta } from './ServiceExpressCta';
-import { ServiceMailToCta } from './ServiceMailToCta';
+import { ServiceContactUsCta } from './ServiceContactUsCta';
 
 const CampaignType = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -93,7 +93,13 @@ const StyledBreadcrumb = styled(Breadcrumb)`
   }
 `;
 
-export const SingleServicePageHeader = (response: ServiceResponse) => {
+export const SingleServicePageHeader = ({
+  response,
+  onContactClick,
+}: {
+  response: ServiceResponse;
+  onContactClick: () => void;
+}) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { data: serviceData } = response;
@@ -212,7 +218,11 @@ export const SingleServicePageHeader = (response: ServiceResponse) => {
                 </StyledTag>
               )}
             </TagsContainer>
-            {service.is_express ? <ServiceExpressCta /> : <ServiceMailToCta />}
+            {service.is_express ? (
+              <ServiceExpressCta />
+            ) : (
+              <ServiceContactUsCta onCtaClick={onContactClick} />
+            )}
           </ColMeta>
           {bannerImg && (
             <ColBanner xs={12} lg={6}>

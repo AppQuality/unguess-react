@@ -18,7 +18,7 @@ import { ServiceResponse } from 'src/features/backoffice';
 import { Link } from 'react-scroll';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { ServiceExpressCta } from './ServiceExpressCta';
-import { ServiceMailToCta } from './ServiceMailToCta';
+import { ServiceContactUsCta } from './ServiceContactUsCta';
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -98,7 +98,13 @@ const SectionTitle = styled(MD)`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
-const ServiceTimeline = (response: ServiceResponse) => {
+const ServiceTimeline = ({
+  response,
+  onContactClick,
+}: {
+  response: ServiceResponse;
+  onContactClick: () => void;
+}) => {
   const { t } = useTranslation();
   const { data: serviceData } = response;
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
@@ -324,7 +330,7 @@ const ServiceTimeline = (response: ServiceResponse) => {
               (service.is_express ? (
                 <ServiceExpressCta />
               ) : (
-                <ServiceMailToCta />
+                <ServiceContactUsCta onCtaClick={onContactClick} />
               ))}
           </StickyContainer>
         </Col>

@@ -21,7 +21,7 @@ import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { HubspotModal } from 'src/common/components/HubspotModal';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
-import { toggleChat } from 'src/common/utils';
+import { checkHubspotURL, toggleChat } from 'src/common/utils';
 import { STRAPI_URL } from 'src/constants';
 import { extractStrapiData } from 'src/common/getStrapiData';
 
@@ -30,15 +30,6 @@ const ServicesContainer = styled.div``;
 const ServiceCol = styled(Col)`
   margin-bottom: ${theme.space.lg};
 `;
-
-const checkHubspotURL = (url: string) => {
-  try {
-    const urlObj = new URL(url);
-    return urlObj.hostname === 'meetings.hubspot.com';
-  } catch (e) {
-    return false;
-  }
-};
 
 const CardGroup = ({ items }: { items: any }) => {
   const { t } = useTranslation();
