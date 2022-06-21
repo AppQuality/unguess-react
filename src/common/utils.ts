@@ -16,3 +16,12 @@ export const isMinMedia = (breakpoint: string) =>
 
 export const isMaxMedia = (breakpoint: string) =>
   window.matchMedia(`only screen and (max-width: ${breakpoint})`).matches;
+
+export const checkHubspotURL = (url: string) => {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.hostname === 'meetings.hubspot.com';
+  } catch (e) {
+    return false;
+  }
+};

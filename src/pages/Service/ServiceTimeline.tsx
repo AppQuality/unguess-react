@@ -18,7 +18,7 @@ import { ServiceResponse } from 'src/features/backoffice';
 import { Link } from 'react-scroll';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { ServiceExpressCta } from './ServiceExpressCta';
-import { ServiceMailToCta } from './ServiceMailToCta';
+import { ServiceContactUsCta } from './ServiceContactUsCta';
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -98,14 +98,26 @@ const SectionTitle = styled(MD)`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
-const ServiceTimeline = (response: ServiceResponse) => {
+const StyledGrid = styled(Grid)`
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
+  }
+`;
+
+const ServiceTimeline = ({
+  response,
+  onContactClick,
+}: {
+  response: ServiceResponse;
+  onContactClick: () => void;
+}) => {
   const { t } = useTranslation();
   const { data: serviceData } = response;
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const service = extractStrapiData({ data: serviceData });
 
   return (
-    <Grid gutters="lg">
+    <StyledGrid gutters="lg">
       <Row>
         <Col xs={12} lg={3}>
           {(service.why || service.what || service.how) && (
@@ -324,12 +336,12 @@ const ServiceTimeline = (response: ServiceResponse) => {
               (service.is_express ? (
                 <ServiceExpressCta />
               ) : (
-                <ServiceMailToCta />
+                <ServiceContactUsCta onCtaClick={onContactClick} />
               ))}
           </StickyContainer>
         </Col>
       </Row>
-    </Grid>
+    </StyledGrid>
   );
 };
 

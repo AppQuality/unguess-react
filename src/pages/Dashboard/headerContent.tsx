@@ -22,7 +22,7 @@ export const DashboardHeaderContent = ({
     );
 
   return status === 'idle' || status === 'loading' ? null : (
-    <PageHeader style={{ position: 'relative' }}>
+    <PageHeader>
       <PageHeader.Main
         infoTitle={pageTitle || 'My Dashboard'}
         infoCounters={<Counters />}

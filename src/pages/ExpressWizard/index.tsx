@@ -342,7 +342,13 @@ export const ExpressWizardContainer = () => {
                 </Form>
               </ModalFullScreen.Body>
               <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                <Col xs={12} sm={12} md={12} lg={9} xl={6} offsetLg={3}>
+                <Col
+                  xs={12}
+                  lg={9}
+                  xl={6}
+                  offsetLg={3}
+                  style={{ marginBottom: 0 }}
+                >
                   <ModalFullScreen.Footer>
                     <ModalFullScreen.FooterItem>
                       {steps[activeStep as number].buttons({
