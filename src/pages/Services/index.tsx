@@ -1,9 +1,8 @@
 import { Page } from 'src/features/templates/Page';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Col, Grid, Row, XXXL, LG } from '@appquality/unguess-design-system';
+import { Col, Grid, Row, PageHeader } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
-import { PageHeaderContainer } from 'src/common/components/pageHeaderContainer';
 import PageLoader from 'src/features/templates/PageLoader';
 import { Featured } from './Featured';
 import { Categories } from './Categories';
@@ -14,15 +13,10 @@ const PageContent = styled.div`
   padding-top: ${({ theme }) => theme.space.xl};
 `;
 
-const PageHeaderTitle = styled(XXXL)`
-  color: ${({ theme }) => theme.colors.primaryHue};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
-`;
-
-const PageHeaderDescription = styled(LG)`
-  color: ${({ theme }) => theme.palette.grey[700]};
-  margin-top: ${({ theme }) => theme.space.md};
-  margin-bottom: ${({ theme }) => theme.space.xl};
+const StyledGrid = styled(Grid)`
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
+  }
 `;
 
 const Catalog = () => {
@@ -34,17 +28,17 @@ const Catalog = () => {
   ) : (
     <Page
       pageHeader={
-        <PageHeaderContainer>
-          <PageHeaderTitle>{t('__CATALOG_PAGE_TITLE')}</PageHeaderTitle>
-          <PageHeaderDescription>
-            {t('__CATALOG_PAGE_DESCRIPTION')}
-          </PageHeaderDescription>
-        </PageHeaderContainer>
+        <PageHeader>
+          <PageHeader.Main
+            infoTitle={t('__CATALOG_PAGE_TITLE')}
+            infoDescription={t('__CATALOG_PAGE_DESCRIPTION')}
+          />
+        </PageHeader>
       }
       title={t('__PAGE_TITLE_CATALOG')}
       route="services"
     >
-      <Grid gutters="lg">
+      <StyledGrid gutters="lg">
         <Row>
           <Col xs={12} lg={3}>
             <CategoriesNav />
@@ -56,7 +50,7 @@ const Catalog = () => {
             </PageContent>
           </Col>
         </Row>
-      </Grid>
+      </StyledGrid>
     </Page>
   );
 };

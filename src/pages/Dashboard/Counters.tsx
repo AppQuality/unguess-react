@@ -1,4 +1,4 @@
-import { Counter, Skeleton, theme } from '@appquality/unguess-design-system';
+import { Counter, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -8,21 +8,17 @@ import {
 } from 'src/features/api';
 import styled from 'styled-components';
 
-const Pipe = styled.div`
+const Pipe = styled.span`
   /** Vertical Separator */
-  border-left: 1px solid ${theme.palette.grey[300]};
-  height: 100%;
-  margin: 0 ${theme.space.base * 4}px;
+  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
+  height: ${({ theme }) => theme.space.lg};
+  margin-right: ${({ theme }) => theme.space.sm};
   display: inline;
-`;
 
-const CounterContainer = styled.div`
-  div:first-child {
-    padding-left: 0;
-  }
-
-  div:last-child {
-    padding-right: 0;
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    width: 100%;
+    height: 0;
+    margin: 0;
   }
 `;
 
@@ -80,7 +76,7 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <CounterContainer>
+    <>
       <Counter counter={completed} status="completed">
         {t('__DASHABOARD_COUNTER_LABEL_COMPLETED')}
       </Counter>
@@ -97,6 +93,6 @@ export const Counters = () => {
       <Counter counter={experiential} status="experiential">
         {t('__DASHABOARD_COUNTER_LABEL_EXPERIENTIAL')}
       </Counter>
-    </CounterContainer>
+    </>
   );
 };
