@@ -98,6 +98,12 @@ const SectionTitle = styled(MD)`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
+const StyledGrid = styled(Grid)`
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
+  }
+`;
+
 const ServiceTimeline = ({
   response,
   onContactClick,
@@ -111,7 +117,7 @@ const ServiceTimeline = ({
   const service = extractStrapiData({ data: serviceData });
 
   return (
-    <Grid gutters="lg">
+    <StyledGrid gutters="lg">
       <Row>
         <Col xs={12} lg={3}>
           {(service.why || service.what || service.how) && (
@@ -335,7 +341,7 @@ const ServiceTimeline = ({
           </StickyContainer>
         </Col>
       </Row>
-    </Grid>
+    </StyledGrid>
   );
 };
 
