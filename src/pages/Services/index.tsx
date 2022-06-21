@@ -13,6 +13,12 @@ const PageContent = styled.div`
   padding-top: ${({ theme }) => theme.space.xl};
 `;
 
+const StyledGrid = styled(Grid)`
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
+  }
+`;
+
 const Catalog = () => {
   const { t } = useTranslation();
   const { status } = useAppSelector((state) => state.user);
@@ -32,7 +38,7 @@ const Catalog = () => {
       title={t('__PAGE_TITLE_CATALOG')}
       route="services"
     >
-      <Grid gutters="lg">
+      <StyledGrid gutters="lg">
         <Row>
           <Col xs={12} lg={3}>
             <CategoriesNav />
@@ -44,7 +50,7 @@ const Catalog = () => {
             </PageContent>
           </Col>
         </Row>
-      </Grid>
+      </StyledGrid>
     </Page>
   );
 };

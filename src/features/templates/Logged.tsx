@@ -40,9 +40,10 @@ export const Logged = ({
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: ${({ theme }) => theme.palette.grey[100]};
+    margin: ${({ theme }) => theme.space.xxl};
 
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      margin: ${({ theme }) => theme.space.xxl};
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+      margin: ${({ theme }) => theme.space.md};
     }
   `;
 
