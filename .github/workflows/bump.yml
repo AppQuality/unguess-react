@@ -1,31 +1,14 @@
-name: Bump version
 on:
   push:
     branches:
       - master
-    paths-ignore:
-      - 'package.json'
-      - 'CHANGELOG.md'
+name: release-please
 jobs:
-  build:
+  release-please:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: google-github-actions/release-please-action@v3
         with:
-          token: ${{ secrets.REPO_PAT }}
-
-      - name: Bump version and push tag
-        id: changelog
-        uses: TriPSs/conventional-changelog-action@v3
-        with:
-          github-token: ${{ secrets.REPO_PAT }}
-          git-message: 'chore(release): {version}'
-
-      - name: Create Release
-        uses: ncipollo/release-action@v1
-        if: ${{ steps.changelog.outputs.skipped == 'false'}}
-        with:
-          tag: ${{ steps.changelog.outputs.tag }}
-          body: ${{ steps.changelog.outputs.clean_changelog }}
-          token: ${{ secrets.REPO_PAT }}
+          release-type: node
+          package-name: unguess-react
+          command: github-release

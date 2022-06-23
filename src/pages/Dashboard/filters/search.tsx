@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MediaInput } from '@appquality/unguess-design-system';
 import { ReactComponent as SearchIcon } from 'src/assets/icons/search-stroke.svg';
 import { Field } from '@zendeskgarden/react-forms';
@@ -37,14 +37,20 @@ export const SearchInput = () => {
     dispatch(searchFilterChanged(text));
   };
 
-  return (
-    <StyledField>
-      <MediaInput
-        onChange={(e) => updateSearch(e.target.value)}
-        start={<SearchIcon />}
-        value={value}
-        placeholder={t('__DASHBOARD_SEARCH_INPUT_PLACEHOLDER')}
-      />
-    </StyledField>
+  const Search = useCallback(
+    ({ searchValue }) => (
+      <StyledField>
+        <MediaInput
+          key="search-input"
+          onChange={(e) => updateSearch(e.target.value)}
+          start={<SearchIcon />}
+          value={searchValue}
+          placeholder={t('__DASHBOARD_SEARCH_INPUT_PLACEHOLDER')}
+        />
+      </StyledField>
+    ),
+    []
   );
+
+  return <Search searchValue={value} />;
 };
