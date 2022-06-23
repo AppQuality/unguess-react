@@ -1,6 +1,7 @@
 import {
   Col,
   ContainerCard,
+  Message,
   ModalFullScreen,
   Row,
   Stepper,
@@ -71,6 +72,10 @@ const StyledContainer = styled(ContainerCard)`
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     padding: 0;
   }
+`;
+
+const StyledFooterItem = styled(ModalFullScreen.FooterItem)`
+  align-items: center;
 `;
 
 const getValidationSchema = (step: number, steps: StepItem[]) => {
@@ -176,61 +181,71 @@ export const ExpressWizardContainer = () => {
   }, [activeStep]);
 
   // Form actions
-  const handleSubmit = async (
+  const handleSubmit = (
     values: WizardModel,
-    { setSubmitting }: FormikHelpers<WizardModel>
+    { setSubmitting, setStatus }: FormikHelpers<WizardModel>
   ) => {
+    // eslint-disable-next-line consistent-return
     const projectHandle = (next: any) => {
-      // Create project if it doesn't exist
-      if (
-        project &&
-        project.id === -1 &&
-        activeWorkspace &&
-        activeWorkspace.id
-      ) {
-        createProject({
-          body: {
-            name: project.name,
-            customer_id: activeWorkspace.id,
-          },
-        })
-          .unwrap()
-          .then((payload) => {
-            next(null, payload);
+      try {
+        // Create project if it doesn't exist
+        if (
+          project &&
+          project.id === -1 &&
+          activeWorkspace &&
+          activeWorkspace.id
+        ) {
+          createProject({
+            body: {
+              name: project.name,
+              customer_id: activeWorkspace.id,
+            },
           })
-          .catch((error) => next(error));
-      } else {
-        next(null, project);
+            .unwrap()
+            .then((payload) => {
+              next(null, payload);
+            })
+            .catch((error) => next(error));
+        } else {
+          next(null, project);
+        }
+      } catch (error) {
+        return next(error);
       }
     };
 
+    // eslint-disable-next-line consistent-return
     const campaignHandle = (prj: Project, next: any) => {
-      const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
-      // Create the campaign
-      createCampaign({
-        body: {
-          title: values.campaign_name || 'Express campaign',
-          start_date: values.campaign_date
-            ? format(values.campaign_date, BASE_DATE_FORMAT)
-            : fallBackDate,
-          end_date: values.campaign_date_end
-            ? format(values.campaign_date_end, BASE_DATE_FORMAT)
-            : fallBackDate,
-          close_date: values.campaign_date_end
-            ? format(values.campaign_date_end, BASE_DATE_FORMAT)
-            : fallBackDate,
-          customer_title: values.campaign_name,
-          campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
-          project_id: prj?.id || -1,
-          pm_id: activeWorkspace?.csm.id || -1,
-          platforms: getPlatform(values),
-        },
-      })
-        .unwrap()
-        .then(async (payload) => {
-          next(null, payload);
+      try {
+        const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
+        // Create the campaign
+        createCampaign({
+          body: {
+            title: values.campaign_name || 'Express campaign',
+            start_date: values.campaign_date
+              ? format(values.campaign_date, BASE_DATE_FORMAT)
+              : fallBackDate,
+            end_date: values.campaign_date_end
+              ? format(values.campaign_date_end, BASE_DATE_FORMAT)
+              : fallBackDate,
+            close_date: values.campaign_date_end
+              ? format(values.campaign_date_end, BASE_DATE_FORMAT)
+              : fallBackDate,
+            customer_title: values.campaign_name,
+            campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
+            project_id: prj?.id || -1,
+            pm_id: activeWorkspace?.csm.id || -1,
+            platforms: getPlatform(values),
+          },
         })
-        .catch((error) => next(error));
+          .unwrap()
+          .then(async (payload) => {
+            next(null, payload);
+          })
+          .catch((error) => next(error));
+      } catch (error) {
+        return next(error);
+      }
     };
 
     // eslint-disable-next-line consistent-return
@@ -254,10 +269,10 @@ export const ExpressWizardContainer = () => {
             workspace: activeWorkspace,
           }),
         })
-          .then((data) => next(null, data))
+          .then(() => next(null, cp))
           .catch((error) => next(error));
       } catch (error) {
-        next(error);
+        return next(error);
       }
     };
 
@@ -270,19 +285,22 @@ export const ExpressWizardContainer = () => {
         await createTasks(cp.id);
         next(null, cp);
       } catch (error) {
-        next(error);
+        next(null, cp); // Skip error handling
       }
     };
 
-    async.waterfall(
-      [projectHandle, campaignHandle, wordpressHandle, zapierHandle],
+    return async.waterfall(
+      [projectHandle, campaignHandle, zapierHandle, wordpressHandle],
       (err: any) => {
         if (err) {
+          // eslint-disable-next-line no-console
+          console.error('Submission error:', err);
           setSubmitting(false);
+          // TODO: Show error message modal
+          setStatus({ submitError: true });
         } else {
-          setSubmitting(false);
+          onNext();
         }
-        onNext();
       }
     );
   };
@@ -306,7 +324,7 @@ export const ExpressWizardContainer = () => {
           validateOnBlur={false}
           validationSchema={getValidationSchema(activeStep, steps)}
         >
-          {(formProps) => (
+          {(formProps: FormikProps<WizardModel>) => (
             <>
               <ModalFullScreen.Header>
                 <WizardHeader
@@ -350,13 +368,20 @@ export const ExpressWizardContainer = () => {
                   style={{ marginBottom: 0 }}
                 >
                   <ModalFullScreen.Footer>
-                    <ModalFullScreen.FooterItem>
+                    <StyledFooterItem>
+                      {formProps.status && formProps.status.submitError && (
+                        <Message validation="error">
+                          {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
+                        </Message>
+                      )}
+                    </StyledFooterItem>
+                    <StyledFooterItem>
                       {steps[activeStep as number].buttons({
                         formikArgs: formProps,
                         onBackClick: onBack,
                         onNextClick: onNext,
                       })}
-                    </ModalFullScreen.FooterItem>
+                    </StyledFooterItem>
                   </ModalFullScreen.Footer>
                 </Col>
               </Row>

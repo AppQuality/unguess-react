@@ -22,8 +22,9 @@ jobs:
           github-token: ${{ secrets.REPO_PAT }}
           git-message: 'chore(release): {version}'
 
-      - uses: ncipollo/release-action@v1
-        if: ${{steps.changelog.outputs.skipped == 'false'}}
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        if: ${{ steps.changelog.outputs.skipped == 'false'}}
         with:
           tag: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
