@@ -1,12 +1,15 @@
-# [1.2.0](https://github.com/AppQuality/unguess-react/compare/v1.0.0...1.2.0) (2022-06-06)
+# [1.4.0](https://github.com/AppQuality/unguess-react/compare/v1.5.0...v1.4.0) (2022-06-08)
 
 
 ### Bug Fixes
 
+* **action:** fix release action tag ([b1139d7](https://github.com/AppQuality/unguess-react/commit/b1139d7f08528544c62fc17513bbab81ccaf2b86))
+* **actions:** add missing id on changelog step ([85f050b](https://github.com/AppQuality/unguess-react/commit/85f050b4745162ab484752d2eaf8a1cb609a3dd8))
 * **api:** update schema ([1b4b924](https://github.com/AppQuality/unguess-react/commit/1b4b9246c35f709c9aefe79178a1730ca078a0e5))
 * **build:** fix errors on createCampaign ([416c426](https://github.com/AppQuality/unguess-react/commit/416c426cbbc5d80baf6bef9699e70cbbf46a3bf1))
 * **build:** fix tagManager id ([3b0ebf7](https://github.com/AppQuality/unguess-react/commit/3b0ebf741df52654c5552d6050feccc4cd790c50))
 * **campaign-cards:** add margin-bottom to cards + remove useless console log" ([7eaafa5](https://github.com/AppQuality/unguess-react/commit/7eaafa58101b56fbbfd2b7ae4351d1267f7aa2df))
+* **campaign-item:** update date format on campaign item card ([248e73c](https://github.com/AppQuality/unguess-react/commit/248e73c2d6ddbe951f9ad777babfe145455c9777))
 * **campaign-list-table:** add isReadOnly to table ([d54702b](https://github.com/AppQuality/unguess-react/commit/d54702b96712cb850e58a737772be586ac6c338e))
 * **campaignitem:** fix wrong url parameter ([c7f6249](https://github.com/AppQuality/unguess-react/commit/c7f62495fa6fb59c4724c9890ec515d16beaa377))
 * **campaignitem:** update props name ([c3fe7f3](https://github.com/AppQuality/unguess-react/commit/c3fe7f32545249e06f8b4ebdaeaf39baf1e380e0))
@@ -28,6 +31,7 @@
 * **customerly:** add toggleChat also on suggested campaigns and catalog pages ([09dc5e7](https://github.com/AppQuality/unguess-react/commit/09dc5e7dde5965d6e52e52dd4ebc5659e0efd1fd))
 * **dashboard:** remove useless imports ([e04a9e6](https://github.com/AppQuality/unguess-react/commit/e04a9e68875624ea0a8fe19c4ba1aa3cc71269cf))
 * **dashboardurl:** fix campaignType check ([e7bd31e](https://github.com/AppQuality/unguess-react/commit/e7bd31ef8910f229b749faea2d0803b48396c91d))
+* **design-system:** replace ds divider with in-house component ([812bb86](https://github.com/AppQuality/unguess-react/commit/812bb86375eb2fe2b7dfd82d3130ecdb9c5c2a99))
 * **dockerfile:** remove test command ([076ecf5](https://github.com/AppQuality/unguess-react/commit/076ecf5897503e1c834f3ffa8bc898b0c01dc8d1))
 * **dockerfile:** replace wrong env var ([5d41a1d](https://github.com/AppQuality/unguess-react/commit/5d41a1db6805f2810881b0c9a678971cf5dec1e9))
 * **drawer:** lock project dropdown only if triggered from project view ([7e58d92](https://github.com/AppQuality/unguess-react/commit/7e58d9271fac5de696bb4cea328055cbaa3a4c74))
@@ -90,7 +94,9 @@
 * **404:** add 404 Component and redirect rules ([c949c77](https://github.com/AppQuality/unguess-react/commit/c949c7709032b8edd43286d73622342b6c1570e2))
 * **api:** add api slice ([9da9127](https://github.com/AppQuality/unguess-react/commit/9da9127eb532ccd0e07153aa5c392218055bf499))
 * **api:** add support for platforms + cleanings ([2d1daea](https://github.com/AppQuality/unguess-react/commit/2d1daeaf727c7df489ee9253c9faa34c6e21b389))
+* **api:** update api slice and related components ([805e04a](https://github.com/AppQuality/unguess-react/commit/805e04a53287755b0ea83a6253fcdec3b79571f9))
 * **body:** add grey 100 background color ([c490abd](https://github.com/AppQuality/unguess-react/commit/c490abdac3c6540fb472a3a44aafe05b5c41028d))
+* **campaign-list:** add icon to show-all button ([7e3cea1](https://github.com/AppQuality/unguess-react/commit/7e3cea1ace87d51ccfd919c8f04575f9a75e1e57))
 * **campaignitem:** ad redirect to single campaign card ([8b35eca](https://github.com/AppQuality/unguess-react/commit/8b35ecabcda24b83a7addadd362195b06d3deb05))
 * **campaigns-list:** link campaign groups with related project page ([a10862c](https://github.com/AppQuality/unguess-react/commit/a10862cb0a624df84fb8dd2dc643a59eb039df18))
 * **campaigns:** update campaign api query ([987ed6c](https://github.com/AppQuality/unguess-react/commit/987ed6c269d99f49aba9d598c576bec06afa8baa))
