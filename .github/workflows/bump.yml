@@ -9,6 +9,7 @@ jobs:
     steps:
       - uses: google-github-actions/release-please-action@v3
         with:
+          token: ${{ secrets.REPO_PAT }}
           release-type: node
           package-name: unguess-react
           command: github-release
