@@ -10,5 +10,5 @@ export const isValidWorkspace = (
 ) => {
   const workspaceExists = workspaces.find((ws) => ws.id === workspace.id);
 
-  return workspaceExists !== undefined;
+  return workspaceExists;
 };

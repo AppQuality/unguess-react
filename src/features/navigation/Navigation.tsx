@@ -18,10 +18,14 @@ import WPAPI from 'src/common/wpapi';
 import i18n from 'src/i18n';
 import { useNavigate, useParams } from 'react-router-dom';
 import { prepareGravatar, isMaxMedia } from 'src/common/utils';
+import { useEffect } from 'react';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
-import { saveWorkspaceToLs } from './cachedStorage';
+import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
+import { selectWorkspaces } from '../workspaces/workspaceSlice';
+
+const cachedWorkspace = getWorkspaceFromLS();
 
 export const Navigation = ({
   children,
@@ -35,16 +39,24 @@ export const Navigation = ({
   const navigate = useNavigate();
   const { userData: user } = useAppSelector((state) => state.user);
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
+  const workspaces = useAppSelector(selectWorkspaces);
   const { isSidebarOpen, activeWorkspace } = useAppSelector(
     (state) => state.navigation
   );
 
-  const { workspaces } = user;
+  useEffect(() => {
+    if (workspaces && !activeWorkspace) {
+      const verifiedWs = cachedWorkspace
+        ? isValidWorkspace(cachedWorkspace, workspaces)
+        : false;
+      if (verifiedWs) {
+        dispatch(setWorkspace(verifiedWs));
+      } else {
+        dispatch(setWorkspace(workspaces[0]));
+      }
+    }
+  }, [workspaces]);
 
-  if (!activeWorkspace || !isValidWorkspace(activeWorkspace, workspaces)) {
-    // dispatch(getWorkspaces());
-    if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
-  }
   // Set current params
   const params = useParams();
 
@@ -196,7 +208,6 @@ export const Navigation = ({
           brandName: `${activeWorkspace?.company}'s Workspace`,
           menuLabel: t('__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5'),
           activeWorkspace,
-          workspaces,
           onWorkspaceChange: (workspace: any) => {
             saveWorkspaceToLs(workspace);
             dispatch(setWorkspace(workspace));
