@@ -17,7 +17,7 @@ import {
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { Link } from 'react-scroll';
-import { FEATURE_FLAG_EXPRESS } from 'src/constants';
+import { hasEnoughCoins } from 'src/common/utils';
 
 const StyledDivider = styled(Divider)`
   margin-top: ${({ theme }) => theme.space.base * 3}px;
@@ -68,12 +68,14 @@ const StickyNavItemLabel = styled(MD)`
 const CategoriesNav = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { userData, status } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
+
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+
   const notFoundRoute = useLocalizeRoute('oops');
 
   const hasExpress =
-    status === 'logged' &&
-    userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
+    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
 
   const {
     data: categoriesData,
