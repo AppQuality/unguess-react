@@ -3,12 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { isMinMedia } from 'src/common/utils';
 import { NavigationState } from './types';
 
-import { getWorkspaceFromLS } from './cachedStorage';
-
-const cachedWorkspace = getWorkspaceFromLS() || undefined;
-
 const initialState: NavigationState = {
-  activeWorkspace: cachedWorkspace,
   isSidebarOpen: isMinMedia(theme.breakpoints.sm),
   isProfileModalOpen: false,
 };

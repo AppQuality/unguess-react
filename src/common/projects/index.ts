@@ -87,3 +87,31 @@ export const workspaces = async (
   const json = await res.json();
   throw new HttpError(res.status, res.statusText, json.err);
 };
+
+export const workspacesById = async (
+  workspaceId: number,
+  token?: string
+): Promise<GetWorkspacesApiResponse> => {
+  let currentToken = token;
+
+  if (process.env.REACT_APP_DEFAULT_TOKEN)
+    currentToken = process.env.REACT_APP_DEFAULT_TOKEN;
+
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.set('Content-Type', 'application/json');
+
+  if (currentToken) {
+    requestHeaders.set('Authorization', `Bearer ${currentToken}`);
+  }
+  const url = `${process.env.REACT_APP_API_URL}/workspaces/${workspaceId}`;
+
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: requestHeaders,
+  });
+  if (res.ok) {
+    return res.json();
+  }
+  const json = await res.json();
+  throw new HttpError(res.status, res.statusText, json.err);
+};

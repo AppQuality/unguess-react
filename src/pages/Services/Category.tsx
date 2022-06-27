@@ -4,10 +4,10 @@ import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
 import { Divider } from 'src/common/components/divider';
 import { Paragraph, XXL } from '@appquality/unguess-design-system';
 import { WaterButton } from 'src/common/components/waterButton';
-import { FEATURE_FLAG_EXPRESS } from 'src/constants';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { hasEnoughCoins } from 'src/common/utils';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -30,13 +30,12 @@ const CategoryContainer = styled.div`
 export const Category = ({ id }: { id: any }) => {
   const { t } = useTranslation();
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { userData, status } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
 
   const hasExpress =
-    status === 'logged' &&
-    userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
+    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
 
   const showTipCard = true;
 
