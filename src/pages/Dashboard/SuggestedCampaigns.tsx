@@ -66,7 +66,7 @@ export const SuggestedCampaigns = () => {
               />
             </Col>
           ))}
-          {hasExpress && (
+          {hasExpress ? (
             <>
               <Col xs={10} md={6} lg={3}>
                 <ProductCard
@@ -85,7 +85,7 @@ export const SuggestedCampaigns = () => {
               <ExpressDrawer onCtaClick={() => dispatch(openWizard())} />
               <ExpressWizardContainer />
             </>
-          )}
+          ) : null}
         </StyledRow>
       </CardsContainer>
     </>

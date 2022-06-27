@@ -19,6 +19,7 @@ import i18n from 'src/i18n';
 import { useNavigate, useParams } from 'react-router-dom';
 import { prepareGravatar, isMaxMedia } from 'src/common/utils';
 import { useEffect } from 'react';
+import API from 'src/common/api';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
@@ -46,14 +47,22 @@ export const Navigation = ({
 
   useEffect(() => {
     if (workspaces && !activeWorkspace) {
-      const verifiedWs = cachedWorkspace
-        ? isValidWorkspace(cachedWorkspace, workspaces)
-        : false;
-      if (verifiedWs) {
-        dispatch(setWorkspace(verifiedWs));
-      } else {
-        dispatch(setWorkspace(workspaces[0]));
-      }
+      const fetchWS = async () => {
+        try {
+          const verifiedWs = cachedWorkspace
+            ? isValidWorkspace(cachedWorkspace, workspaces)
+            : false;
+          const ws = await API.workspacesById(
+            verifiedWs ? verifiedWs.id : workspaces[0].id
+          );
+
+          dispatch(setWorkspace(ws));
+        } catch (e) {
+          dispatch(setWorkspace(workspaces[0]));
+        }
+      };
+
+      fetchWS();
     }
   }, [workspaces]);
 
