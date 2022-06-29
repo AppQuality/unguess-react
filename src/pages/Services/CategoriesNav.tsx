@@ -127,9 +127,7 @@ const CategoriesNav = () => {
   if (featuredData) {
     if (featuredData.data) {
       featuredData.data.forEach((service) => {
-        if (service.attributes?.is_express && hasExpress) {
-          featured.push({ data: service });
-        } else {
+        if (!service.attributes?.is_express || hasExpress) {
           featured.push({ data: service });
         }
       });
@@ -175,9 +173,7 @@ const CategoriesNav = () => {
             if (category.data) {
               if (category.data.attributes?.services?.data) {
                 category.data.attributes?.services?.data.forEach((service) => {
-                  if (service.attributes?.is_express && hasExpress) {
-                    categoryServices.push({ data: service });
-                  } else {
+                  if (!service.attributes?.is_express || hasExpress) {
                     categoryServices.push({ data: service });
                   }
                 });
