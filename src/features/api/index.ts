@@ -247,9 +247,11 @@ export type PostCampaignsApiArg = {
     platforms: PlatformObject[];
     page_preview_id?: number;
     page_manual_id?: number;
-    customer_id?: number;
+    customer_id: number;
     has_bug_form?: number;
     has_bug_parade?: number;
+    description?: string;
+    base_bug_internal_id?: string;
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
@@ -350,6 +352,8 @@ export type Campaign = {
     id: number;
     name: string;
   };
+  description?: string;
+  base_bug_internal_id?: string;
 };
 export type Project = {
   id: number;
@@ -361,7 +365,7 @@ export type PlatformObject = {
   deviceType: number;
 };
 export type Coin = {
-  id?: number;
+  id: number;
   customer_id: number;
   amount: number;
   agreement_id?: number;

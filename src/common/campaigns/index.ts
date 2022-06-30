@@ -81,3 +81,20 @@ export const createCrons = async (campaignId: number) => {
   const json = await res.json();
   throw new HttpError(res.status, res.statusText, json.err);
 };
+
+export const createUseCases = async (campaignId: number) => {
+  const requestHeaders: HeadersInit = new Headers();
+  requestHeaders.set('Content-Type', 'application/json');
+
+  const url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-use-cases/${campaignId}`;
+
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: requestHeaders,
+  });
+  if (res.ok) {
+    return res.json();
+  }
+  const json = await res.json();
+  throw new HttpError(res.status, res.statusText, json.err);
+};
