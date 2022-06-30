@@ -241,6 +241,7 @@ export const ExpressWizardContainer = () => {
             project_id: prj?.id || -1,
             pm_id: activeWorkspace?.csm.id || -1,
             platforms: getPlatform(values),
+            customer_id: activeWorkspace?.id || -1,
           },
         })
           .unwrap()
