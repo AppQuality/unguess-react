@@ -217,6 +217,7 @@ export const Navigation = ({
           brandName: `${activeWorkspace?.company}'s Workspace`,
           menuLabel: t('__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5'),
           activeWorkspace,
+          workspaces,
           onWorkspaceChange: (workspace: any) => {
             saveWorkspaceToLs(workspace);
             dispatch(setWorkspace(workspace));
