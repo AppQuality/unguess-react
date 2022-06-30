@@ -24,7 +24,7 @@ import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
-import { selectWorkspaces } from '../workspaces/workspaceSlice';
+import { selectWorkspaces } from '../workspaces/selectors';
 
 const cachedWorkspace = getWorkspaceFromLS();
 
@@ -217,6 +217,7 @@ export const Navigation = ({
           brandName: `${activeWorkspace?.company}'s Workspace`,
           menuLabel: t('__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5'),
           activeWorkspace,
+          workspaces,
           onWorkspaceChange: (workspace: any) => {
             saveWorkspaceToLs(workspace);
             dispatch(setWorkspace(workspace));

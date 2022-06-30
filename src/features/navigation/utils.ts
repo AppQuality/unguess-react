@@ -1,4 +1,4 @@
-import { RootState } from 'src/app/store';
+import { RootState } from 'src/app/types';
 import { Workspace } from '../api';
 
 export const selectActiveWorkspace = (state: RootState) =>

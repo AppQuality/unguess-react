@@ -1,6 +1,4 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-// eslint-disable-next-line
-import { RootState } from 'src/app/store';
 import { Workspace } from '../api';
 import { getWorkspaces } from './actions';
 
@@ -31,5 +29,4 @@ const workspaceSlice = createSlice({
 
 export default workspaceSlice.reducer;
 
-export const { selectAll: selectWorkspaces, selectById: selectWorkspaceById } =
-  workspaceAdapter.getSelectors((state: RootState) => state.workspaces);
+export { workspaceAdapter };
