@@ -31,6 +31,7 @@ import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
 import { useState } from 'react';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
+import { WizardCol } from '../wizardCol';
 
 interface Reasons {
   [key: string]: string;
@@ -152,7 +153,7 @@ export const WhatStep = ({
         </StyledProductTypeTitle>
         <Grid>
           <Row>
-            <Col xs={12} sm={5}>
+            <WizardCol xs={12} sm={5}>
               <FormField style={{ height: '100%' }}>
                 <RadioCard
                   label={t(
@@ -167,13 +168,13 @@ export const WhatStep = ({
                   onChecked={handleRadioClick}
                 />
               </FormField>
-            </Col>
+            </WizardCol>
             <StyledOrCol>
               <Paragraph>
                 {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_OR_LABEL')}
               </Paragraph>
             </StyledOrCol>
-            <Col xs={12} sm={5}>
+            <WizardCol xs={12} sm={5}>
               <FormField style={{ height: '100%' }}>
                 <RadioCard
                   label={t(
@@ -188,7 +189,7 @@ export const WhatStep = ({
                   onChecked={handleRadioClick}
                 />
               </FormField>
-            </Col>
+            </WizardCol>
           </Row>
           {errors.product_type && (
             <StyledMessage validation="error">

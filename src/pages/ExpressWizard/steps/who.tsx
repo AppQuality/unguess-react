@@ -1,6 +1,5 @@
 import {
   Hint,
-  Col,
   Label,
   Message,
   Paragraph,
@@ -18,6 +17,7 @@ import { t } from 'i18next';
 import { useState } from 'react';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
+import { WizardCol } from '../wizardCol';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -76,7 +76,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>{t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}</Label>
         <Row>
-          <Col>
+          <WizardCol>
             <StyledRadioField>
               <Radio
                 {...props.getFieldProps('campaign_language')}
@@ -90,10 +90,10 @@ export const WhoStep = ({
                 </Label>
               </Radio>
             </StyledRadioField>
-          </Col>
+          </WizardCol>
         </Row>
         <Row>
-          <Col>
+          <WizardCol>
             <StyledRadioField>
               <Radio
                 {...props.getFieldProps('campaign_language')}
@@ -110,7 +110,7 @@ export const WhoStep = ({
                 </StyledHint>
               </Radio>
             </StyledRadioField>
-          </Col>
+          </WizardCol>
         </Row>
         {errors.campaign_language && (
           <Message validation="error">{errors.campaign_language}</Message>

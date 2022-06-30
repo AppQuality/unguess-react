@@ -5,7 +5,6 @@ import {
   theme,
   Message,
   Row,
-  Col,
   CheckboxCard,
   Checkbox,
   Label,
@@ -32,6 +31,7 @@ import { Notes, NotesTitle } from '../notesCard';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 import { OutOfScopeSection } from './where/outOfScope';
+import { WizardCol } from '../wizardCol';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   const { errors, values, setFieldValue, getFieldProps } = props;
@@ -60,7 +60,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   return (
     <>
       <Row>
-        <Col>
+        <WizardCol>
           <XXL style={{ color: theme.palette.grey[800] }}>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
@@ -73,14 +73,14 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               test on
             </Trans>
           </MD>
-        </Col>
+        </WizardCol>
       </Row>
 
       <CardDivider />
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
-        <Col xs={12} sm={4}>
+        <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE')}
@@ -93,8 +93,8 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               }}
             />
           </FormField>
-        </Col>
-        <Col xs={12} sm={4}>
+        </WizardCol>
+        <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET')}
@@ -107,8 +107,8 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               }}
             />
           </FormField>
-        </Col>
-        <Col xs={12} sm={4}>
+        </WizardCol>
+        <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP')}
@@ -121,8 +121,8 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               }}
             />
           </FormField>
-        </Col>
-        <Col xs={12}>
+        </WizardCol>
+        <WizardCol xs={12}>
           {(errors.withSmartphone ||
             errors.withTablet ||
             errors.withDesktop) && (
@@ -130,12 +130,12 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
           )}
-        </Col>
+        </WizardCol>
       </StyledRow>
 
       {/** --- Website Url --- */}
       <StyledRow>
-        <Col>
+        <WizardCol>
           <FormField>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL')}
@@ -156,18 +156,18 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 : t('__EXPRESS_WIZARD_STEP_WHERE_LINK_INFO')}
             </Message>
           </FormField>
-        </Col>
+        </WizardCol>
       </StyledRow>
 
       {/** --- Browsers --- */}
       <StyledRow style={{ marginTop: theme.space.lg }}>
         {/** LG: 32px */}
-        <Col>
+        <WizardCol>
           <MD style={{ color: theme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
           </MD>
-        </Col>
-        <Col size={2} textAlign="end">
+        </WizardCol>
+        <WizardCol size={2} textAlign="end">
           <FormField>
             <Toggle
               {...getFieldProps('customBrowser')}
@@ -178,11 +178,11 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               </Label>
             </Toggle>
           </FormField>
-        </Col>
-        <Col size={12}>
+        </WizardCol>
+        <WizardCol size={12}>
           <CardDivider style={{ marginTop: theme.space.xs }} />
-        </Col>
-        <Col size={12}>
+        </WizardCol>
+        <WizardCol size={12}>
           <Notes>
             {!values.customBrowser ? (
               <>
@@ -248,13 +248,13 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               </>
             )}
           </Notes>
-        </Col>
+        </WizardCol>
         {values.customBrowser && errors.customBrowserFilled && (
-          <Col size={12}>
+          <WizardCol size={12}>
             <Message validation="error" style={{ marginTop: theme.space.xs }}>
               {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_ERROR')}
             </Message>
-          </Col>
+          </WizardCol>
         )}
       </StyledRow>
 
