@@ -1,4 +1,4 @@
-import { RootState } from 'src/app/store';
+import { RootState } from 'src/app/types';
 import { Workspace } from '../api';
 
 export const selectActiveWorkspace = (state: RootState) =>
@@ -7,8 +7,8 @@ export const selectActiveWorkspace = (state: RootState) =>
 export const isValidWorkspace = (
   workspace: Workspace,
   workspaces: Workspace[]
-) => {
+): Workspace | false => {
   const workspaceExists = workspaces.find((ws) => ws.id === workspace.id);
 
-  return workspaceExists !== undefined;
+  return workspaceExists || false;
 };

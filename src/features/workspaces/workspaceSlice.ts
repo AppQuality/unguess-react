@@ -29,5 +29,4 @@ const workspaceSlice = createSlice({
 
 export default workspaceSlice.reducer;
 
-// export const { selectAll: selectWorkspaces, selectById: selectWorkspaceById } =
-//   workspaceAdapter.getSelectors((state: RootState) => state.workspaces);
+export { workspaceAdapter };

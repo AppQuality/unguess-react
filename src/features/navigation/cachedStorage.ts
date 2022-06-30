@@ -1,9 +1,8 @@
 import { Workspace } from '../api';
-import { NavigationState } from './types';
 
 const WORKSPACE_KEY = 'unguess_ws';
 
-export const getWorkspaceFromLS = (): NavigationState['activeWorkspace'] => {
+export const getWorkspaceFromLS = (): Workspace | false => {
   const ws = localStorage.getItem(WORKSPACE_KEY);
   return ws ? JSON.parse(ws) : false;
 };

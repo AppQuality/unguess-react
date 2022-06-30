@@ -6,7 +6,6 @@ import {
   theme as globalTheme,
   Message,
   Row,
-  Col,
   CheckboxCard,
   Radio,
   Label,
@@ -26,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { OutOfScopeSection } from './where/outOfScope';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
+import { WizardCol } from '../wizardCol';
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
@@ -70,7 +70,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
   return (
     <>
       <Row>
-        <Col>
+        <WizardCol>
           <XXL style={{ color: globalTheme.palette.grey[800] }}>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
@@ -83,14 +83,14 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               test on
             </Trans>
           </MD>
-        </Col>
+        </WizardCol>
       </Row>
 
       <CardDivider />
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
-        <Col xs={12} sm={6}>
+        <WizardCol xs={12} sm={6}>
           <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE')}
@@ -103,8 +103,8 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               }}
             />
           </FormField>
-        </Col>
-        <Col xs={12} sm={6}>
+        </WizardCol>
+        <WizardCol xs={12} sm={6}>
           <FormField style={{ height: '100%' }}>
             <CheckboxCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET')}
@@ -117,8 +117,8 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               }}
             />
           </FormField>
-        </Col>
-        <Col xs={12}>
+        </WizardCol>
+        <WizardCol xs={12}>
           {(errors.withSmartphone || errors.withTablet) && (
             <Message
               validation="error"
@@ -127,19 +127,19 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
           )}
-        </Col>
+        </WizardCol>
       </StyledRow>
 
       {/** --- Operating System --- */}
       <StyledRow style={{ marginTop: globalTheme.space.lg }}>
-        <Col>
+        <WizardCol>
           <XL isBold style={{ color: globalTheme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_TITLE')}
           </XL>
-        </Col>
+        </WizardCol>
       </StyledRow>
       <StyledRow>
-        <Col>
+        <WizardCol>
           <Fieldset>
             <Fieldset.Legend>
               {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_LABEL')}
@@ -227,7 +227,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               </InnerField>
             )}
           </Fieldset>
-        </Col>
+        </WizardCol>
       </StyledRow>
 
       {/** --- Out of scope --- */}

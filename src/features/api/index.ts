@@ -102,6 +102,20 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getWorkspacesByWidCoins: build.query<
+      GetWorkspacesByWidCoinsApiResponse,
+      GetWorkspacesByWidCoinsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/coins`,
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -233,9 +247,11 @@ export type PostCampaignsApiArg = {
     platforms: PlatformObject[];
     page_preview_id?: number;
     page_manual_id?: number;
-    customer_id?: number;
+    customer_id: number;
     has_bug_form?: number;
     has_bug_parade?: number;
+    description?: string;
+    base_bug_internal_id?: string;
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
@@ -244,6 +260,25 @@ export type PostProjectsApiArg = {
     name: string;
     customer_id: number;
   };
+};
+export type GetWorkspacesByWidCoinsApiResponse = /** status 200 OK */ {
+  items?: Coin[];
+  start?: number;
+  limit?: number;
+  size?: number;
+  total?: number;
+};
+export type GetWorkspacesByWidCoinsApiArg = {
+  /** Workspace (company, customer) id */
+  wid: number;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
 };
 export type Error = {
   message: string;
@@ -274,6 +309,7 @@ export type Workspace = {
     picture?: string;
     url?: string;
   };
+  coins?: number;
 };
 export type Feature = {
   slug?: string;
@@ -316,6 +352,8 @@ export type Campaign = {
     id: number;
     name: string;
   };
+  description?: string;
+  base_bug_internal_id?: string;
 };
 export type Project = {
   id: number;
@@ -325,6 +363,15 @@ export type Project = {
 export type PlatformObject = {
   id: number;
   deviceType: number;
+};
+export type Coin = {
+  id: number;
+  customer_id: number;
+  amount: number;
+  agreement_id?: number;
+  price?: number;
+  created_on?: string;
+  updated_on?: string;
 };
 export const {
   useGetQuery,
@@ -340,4 +387,5 @@ export const {
   useGetProjectsByPidQuery,
   usePostCampaignsMutation,
   usePostProjectsMutation,
+  useGetWorkspacesByWidCoinsQuery,
 } = injectedRtkApi;

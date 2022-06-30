@@ -26,7 +26,12 @@ import {
 } from 'src/constants';
 import format from 'date-fns/format';
 import async from 'async';
-import { createCrons, createPages, createTasks } from 'src/common/campaigns';
+import {
+  createCrons,
+  createPages,
+  createTasks,
+  createUseCases,
+} from 'src/common/campaigns';
 import { toggleChat } from 'src/common/utils';
 import {
   WhatStepValidationSchema,
@@ -236,6 +241,7 @@ export const ExpressWizardContainer = () => {
             project_id: prj?.id || -1,
             pm_id: activeWorkspace?.csm.id || -1,
             platforms: getPlatform(values),
+            customer_id: activeWorkspace?.id || -1,
           },
         })
           .unwrap()
@@ -281,6 +287,7 @@ export const ExpressWizardContainer = () => {
       try {
         // Post on webhook WordPress axios call
         await createPages(cp.id);
+        await createUseCases(cp.id);
         await createCrons(cp.id);
         await createTasks(cp.id);
         next(null, cp);

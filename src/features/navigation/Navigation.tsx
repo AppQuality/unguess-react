@@ -18,10 +18,15 @@ import WPAPI from 'src/common/wpapi';
 import i18n from 'src/i18n';
 import { useNavigate, useParams } from 'react-router-dom';
 import { prepareGravatar, isMaxMedia } from 'src/common/utils';
+import { useEffect } from 'react';
+import API from 'src/common/api';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
-import { saveWorkspaceToLs } from './cachedStorage';
+import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
+import { selectWorkspaces } from '../workspaces/selectors';
+
+const cachedWorkspace = getWorkspaceFromLS();
 
 export const Navigation = ({
   children,
@@ -35,16 +40,32 @@ export const Navigation = ({
   const navigate = useNavigate();
   const { userData: user } = useAppSelector((state) => state.user);
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
+  const workspaces = useAppSelector(selectWorkspaces);
   const { isSidebarOpen, activeWorkspace } = useAppSelector(
     (state) => state.navigation
   );
 
-  const { workspaces } = user;
+  useEffect(() => {
+    if (workspaces && !activeWorkspace) {
+      const fetchWS = async () => {
+        try {
+          const verifiedWs = cachedWorkspace
+            ? isValidWorkspace(cachedWorkspace, workspaces)
+            : false;
+          const ws = await API.workspacesById(
+            verifiedWs ? verifiedWs.id : workspaces[0].id
+          );
 
-  if (!activeWorkspace || !isValidWorkspace(activeWorkspace, workspaces)) {
-    // dispatch(getWorkspaces());
-    if (workspaces.length) dispatch(setWorkspace(workspaces[0]));
-  }
+          dispatch(setWorkspace(ws));
+        } catch (e) {
+          dispatch(setWorkspace(workspaces[0]));
+        }
+      };
+
+      fetchWS();
+    }
+  }, [workspaces]);
+
   // Set current params
   const params = useParams();
 
