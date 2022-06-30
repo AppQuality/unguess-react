@@ -24,7 +24,7 @@ import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
-import { selectWorkspaces } from '../workspaces/workspaceSlice';
+import { selectWorkspaces } from '../workspaces/selectors';
 
 const cachedWorkspace = getWorkspaceFromLS();
 
