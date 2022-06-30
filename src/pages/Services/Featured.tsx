@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { Divider } from 'src/common/components/divider';
 import { extractStrapiData } from 'src/common/getStrapiData';
-import { FEATURE_FLAG_EXPRESS } from 'src/constants';
+import { hasEnoughCoins } from 'src/common/utils';
 import { useGeti18nServicesFeaturedQuery } from 'src/features/backoffice/strapi';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
@@ -28,12 +28,12 @@ const FeaturedContainer = styled.div`
 export const Featured = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { userData, status } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
 
   const hasExpress =
-    status === 'logged' &&
-    userData.features?.find((feature) => feature.slug === FEATURE_FLAG_EXPRESS);
+    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
 
   const {
     data: featuredData,
@@ -59,9 +59,7 @@ export const Featured = () => {
 
   if (featuredData) {
     formattedFeatured.forEach((service: any) => {
-      if (service.is_express && hasExpress) {
-        featured.push(service);
-      } else {
+      if (!service.is_express || hasExpress) {
         featured.push(service);
       }
     });

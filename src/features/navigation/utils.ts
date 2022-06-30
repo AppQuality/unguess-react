@@ -7,8 +7,8 @@ export const selectActiveWorkspace = (state: RootState) =>
 export const isValidWorkspace = (
   workspace: Workspace,
   workspaces: Workspace[]
-) => {
+): Workspace | false => {
   const workspaceExists = workspaces.find((ws) => ws.id === workspace.id);
 
-  return workspaceExists !== undefined;
+  return workspaceExists || false;
 };

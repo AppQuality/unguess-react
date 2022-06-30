@@ -8,12 +8,11 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { FEATURE_FLAG_EXPRESS } from 'src/constants';
-import { useGetWorkspacesByWidCampaignsQuery, Feature } from 'src/features/api';
+import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
 import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { openDrawer, openWizard } from 'src/features/express/expressSlice';
-import { toggleChat } from 'src/common/utils';
+import { hasEnoughCoins, toggleChat } from 'src/common/utils';
 import { CampaignItem } from './CampaignItem';
 import { CardsContainer, StyledRow } from './CardContainer';
 import { CardRowLoading } from './CardRowLoading';
@@ -23,16 +22,9 @@ import { ExpressWizardContainer } from '../ExpressWizard';
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { userData } = useAppSelector((state) => state.user);
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
-  const hasExpress =
-    userData.features &&
-    userData.features.find(
-      (feature: Feature) => feature.slug === FEATURE_FLAG_EXPRESS
-    );
+  const hasExpress = hasEnoughCoins({ workspace: activeWorkspace });
 
   const campaigns = useGetWorkspacesByWidCampaignsQuery({
     wid: activeWorkspace?.id ?? 0,
@@ -74,7 +66,7 @@ export const SuggestedCampaigns = () => {
               />
             </Col>
           ))}
-          {hasExpress && (
+          {hasExpress ? (
             <>
               <Col xs={10} md={6} lg={3}>
                 <ProductCard
@@ -93,7 +85,7 @@ export const SuggestedCampaigns = () => {
               <ExpressDrawer onCtaClick={() => dispatch(openWizard())} />
               <ExpressWizardContainer />
             </>
-          )}
+          ) : null}
         </StyledRow>
       </CardsContainer>
     </>

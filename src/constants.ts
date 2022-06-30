@@ -15,3 +15,4 @@ export const DESKTOP_MAC = { id: 7, deviceType: 2 };
 export const DESKTOP_WINDOWS = { id: 8, deviceType: 2 };
 
 export const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
+export const DEFAULT_EXPRESS_REQUIRED_COINS = 1;

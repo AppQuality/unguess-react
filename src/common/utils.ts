@@ -1,3 +1,6 @@
+import { DEFAULT_EXPRESS_REQUIRED_COINS } from 'src/constants';
+import { Workspace } from 'src/features/api';
+
 export const prepareGravatar = (url: string, size?: number) =>
   `${url}?s=${size || 48}`;
 
@@ -24,4 +27,18 @@ export const checkHubspotURL = (url: string) => {
   } catch (e) {
     return false;
   }
+};
+
+export const hasEnoughCoins = ({
+  workspace,
+  coins,
+}: {
+  workspace?: Workspace;
+  coins?: number;
+}) => {
+  if (!workspace) return false;
+
+  const requiredCoins = coins || DEFAULT_EXPRESS_REQUIRED_COINS;
+
+  return workspace && workspace.coins && workspace.coins >= requiredCoins;
 };

@@ -9,15 +9,14 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
-import { FEATURE_FLAG_EXPRESS } from 'src/constants';
 import {
   lockProject,
   openDrawer,
   openWizard,
   setExpressProject,
 } from 'src/features/express/expressSlice';
-import { Feature, useGetProjectsByPidQuery } from 'src/features/api';
-import { isMinMedia, toggleChat } from 'src/common/utils';
+import { useGetProjectsByPidQuery } from 'src/features/api';
+import { hasEnoughCoins, isMinMedia, toggleChat } from 'src/common/utils';
 import { useEffect } from 'react';
 import { ExpressWizardContainer } from '../ExpressWizard';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
@@ -26,8 +25,9 @@ import { CardRowLoading } from './CardRowLoading';
 export const ActionCards = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { status, userData } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
   const { projectId } = useAppSelector((state) => state.filters);
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   const { data } = useGetProjectsByPidQuery({
     pid: projectId ?? 0,
@@ -41,13 +41,7 @@ export const ActionCards = () => {
     }
   }, [data]);
 
-  if (
-    !projectId ||
-    !userData.features ||
-    !userData.features.find(
-      (feature: Feature) => feature.slug === FEATURE_FLAG_EXPRESS
-    )
-  ) {
+  if (!projectId || !hasEnoughCoins({ workspace: activeWorkspace })) {
     return null;
   }
 
