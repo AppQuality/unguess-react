@@ -1,6 +1,5 @@
 import {
   Alert,
-  Col,
   Grid,
   Label,
   Message,
@@ -21,6 +20,7 @@ import { addBusinessDays, format, isToday } from 'date-fns';
 import { getLanguage } from '../getLanguage';
 import { CardDivider } from '../cardDivider';
 import { WizardModel } from '../wizardModel';
+import { WizardCol } from '../wizardCol';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -90,7 +90,7 @@ export const WhenStep = ({
       <StyledFormField>
         <Grid>
           <Row>
-            <Col xs={12} sm={6}>
+            <WizardCol xs={12} sm={6}>
               <Field>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_LABEL')}
@@ -131,8 +131,8 @@ export const WhenStep = ({
                   </StyledMessage>
                 )}
               </Field>
-            </Col>
-            <Col xs={12} sm={6}>
+            </WizardCol>
+            <WizardCol xs={12} sm={6}>
               <Field>
                 <Label>
                   {t(
@@ -163,7 +163,7 @@ export const WhenStep = ({
                   </StyledMessage>
                 )}
               </Field>
-            </Col>
+            </WizardCol>
           </Row>
         </Grid>
       </StyledFormField>
