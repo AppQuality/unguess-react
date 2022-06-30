@@ -59,9 +59,7 @@ export const Featured = () => {
 
   if (featuredData) {
     formattedFeatured.forEach((service: any) => {
-      if (service.is_express && hasExpress) {
-        featured.push(service);
-      } else {
+      if (!service.is_express || hasExpress) {
         featured.push(service);
       }
     });
