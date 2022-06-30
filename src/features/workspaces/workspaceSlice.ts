@@ -1,6 +1,6 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 // eslint-disable-next-line
-import { RootState } from 'src/app/store';
+import { RootState } from 'src/app/types';
 import { Workspace } from '../api';
 import { getWorkspaces } from './actions';
 
