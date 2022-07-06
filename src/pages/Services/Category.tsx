@@ -64,7 +64,8 @@ export const Category = ({ id }: { id: any }) => {
     formattedServices = extractStrapiData(formattedCategory.services);
     if (formattedServices.length) {
       formattedServices.forEach((service: any) => {
-        if (!service.is_express || hasExpress) {
+        const express = extractStrapiData(service.express);
+        if (!express || hasExpress) {
           services.push(service);
         }
       });

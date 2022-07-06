@@ -20,8 +20,8 @@ type StrapiResponse =
  * @returns {object | false}
  */
 export const extractStrapiData = (item: StrapiResponse) => {
-  if (item !== undefined) {
-    if (item.data !== undefined) {
+  if (item !== undefined && item.data !== null) {
+    if (item.data !== undefined && item.data !== null) {
       if (Array.isArray(item.data)) {
         const items: any = [];
         item.data.forEach((listItem) => {

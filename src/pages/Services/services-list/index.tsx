@@ -58,6 +58,7 @@ const CardGroup = ({ items }: { items: any }) => {
       />
       {items.map((service: any) => {
         const icon = extractStrapiData(service.icon);
+        const express = extractStrapiData(service.express);
         const iconUrl = `${STRAPI_URL}${icon.url}`;
         const tags = [];
         const buttons = [];
@@ -85,7 +86,7 @@ const CardGroup = ({ items }: { items: any }) => {
           });
         }
 
-        if (service.is_express) {
+        if (express) {
           tags.push({
             label: t('__EXPRESS_LABEL'),
             icon: <ExpressIcon />,

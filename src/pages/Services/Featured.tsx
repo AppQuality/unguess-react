@@ -59,7 +59,8 @@ export const Featured = () => {
 
   if (featuredData) {
     formattedFeatured.forEach((service: any) => {
-      if (!service.is_express || hasExpress) {
+      const express = extractStrapiData(service.express);
+      if (!express || hasExpress) {
         featured.push(service);
       }
     });
