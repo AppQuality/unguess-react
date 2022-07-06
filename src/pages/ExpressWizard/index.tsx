@@ -32,7 +32,6 @@ import {
   createTasks,
   createUseCases,
 } from 'src/common/campaigns';
-import { toggleChat } from 'src/common/utils';
 import {
   WhatStepValidationSchema,
   WhereStepValidationSchema,
@@ -319,7 +318,6 @@ export const ExpressWizardContainer = () => {
         dispatch(resetWizard());
         setStep(0);
         setThankyou(false);
-        toggleChat(true);
       }}
     >
       {!isThankyou ? (
@@ -330,6 +328,7 @@ export const ExpressWizardContainer = () => {
           validateOnChange={false}
           validateOnBlur={false}
           validationSchema={getValidationSchema(activeStep, steps)}
+          id="express_wizard"
         >
           {(formProps: FormikProps<WizardModel>) => (
             <>
