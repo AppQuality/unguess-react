@@ -5,11 +5,14 @@ export const prepareGravatar = (url: string, size?: number) =>
   `${url}?s=${size || 48}`;
 
 export const toggleChat = (open: boolean) => {
-  if (typeof customerly !== 'undefined') {
+  if (
+    typeof HubSpotConversations !== 'undefined' &&
+    HubSpotConversations.widget
+  ) {
     if (open) {
-      customerly.show();
+      HubSpotConversations.widget.refresh();
     } else {
-      customerly.hide();
+      HubSpotConversations.widget.close();
     }
   }
 };
