@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
+import { toggleChat } from 'src/common/utils';
 import { openDrawer } from 'src/features/express/expressSlice';
 import { ServiceCta } from './ServiceCta';
 
@@ -13,6 +14,7 @@ export const ServiceExpressCta = () => {
       isPill
       onClick={() => {
         dispatch(openDrawer());
+        toggleChat(false);
       }}
     >
       {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}

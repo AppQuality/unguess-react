@@ -4,6 +4,16 @@ import { Workspace } from 'src/features/api';
 export const prepareGravatar = (url: string, size?: number) =>
   `${url}?s=${size || 48}`;
 
+export const toggleChat = (open: boolean) => {
+  if (typeof customerly !== 'undefined') {
+    if (open) {
+      customerly.show();
+    } else {
+      customerly.hide();
+    }
+  }
+};
+
 export const isMinMedia = (breakpoint: string) =>
   window.matchMedia(`only screen and (min-width: ${breakpoint})`).matches;
 

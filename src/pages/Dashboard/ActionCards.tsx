@@ -16,7 +16,7 @@ import {
   setExpressProject,
 } from 'src/features/express/expressSlice';
 import { useGetProjectsByPidQuery } from 'src/features/api';
-import { hasEnoughCoins } from 'src/common/utils';
+import { hasEnoughCoins, isMinMedia, toggleChat } from 'src/common/utils';
 import { useEffect } from 'react';
 import { ExpressWizardContainer } from '../ExpressWizard';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
@@ -62,6 +62,7 @@ export const ActionCards = () => {
             dispatch(setExpressProject(selectedProject));
             dispatch(lockProject());
             dispatch(openDrawer());
+            toggleChat(false);
           }}
           icon={<ExpressIcon />}
           ctaLabel={t('__DASHABOARD_EXPRESS_CARD_CTA_TEXT')}
@@ -72,6 +73,7 @@ export const ActionCards = () => {
       <ExpressDrawer
         onCtaClick={() => {
           dispatch(openWizard());
+          if (isMinMedia(theme.breakpoints.sm)) toggleChat(false);
         }}
       />
       <ExpressWizardContainer />

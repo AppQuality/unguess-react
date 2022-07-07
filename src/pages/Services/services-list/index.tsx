@@ -21,7 +21,7 @@ import { openDrawer, openWizard } from 'src/features/express/expressSlice';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { HubspotModal } from 'src/common/components/HubspotModal';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
-import { checkHubspotURL } from 'src/common/utils';
+import { checkHubspotURL, toggleChat } from 'src/common/utils';
 import { STRAPI_URL } from 'src/constants';
 import { extractStrapiData } from 'src/common/getStrapiData';
 
@@ -99,6 +99,7 @@ const CardGroup = ({ items }: { items: any }) => {
               isPrimary
               onClick={() => {
                 dispatch(openDrawer());
+                toggleChat(false);
               }}
             >
               {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}

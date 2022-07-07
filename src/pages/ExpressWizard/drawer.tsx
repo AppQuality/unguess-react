@@ -14,6 +14,7 @@ import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-ic
 import { ReactComponent as BugIcon } from 'src/assets/icons/bug-icon.svg';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { closeDrawer, resetWizard } from 'src/features/express/expressSlice';
+import { toggleChat } from 'src/common/utils';
 import { ProjectDropdown } from './projectDropdown';
 import { WaterButton } from '../../common/components/waterButton';
 import { CardDivider } from './cardDivider';
@@ -50,6 +51,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const onClose = () => {
     dispatch(resetWizard());
     dispatch(closeDrawer());
+    toggleChat(true);
   };
 
   const { isDrawerOpen, project } = useAppSelector((state) => state.express);
@@ -57,7 +59,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   return (
     <Drawer isOpen={isDrawerOpen} onClose={onClose}>
       <Drawer.Header>{t('__WIZARD_EXPRESS_HEADER_TITLE')}</Drawer.Header>
-      <Drawer.Body id="express_drawer">
+      <Drawer.Body>
         <BodyTitle>{t('__WIZARD_EXPRESS_BODY_TITLE')}</BodyTitle>
         <Paragraph>{t('__WIZARD_EXPRESS_BODY_PARAGRAPH')}</Paragraph>
         <TagsContainer>

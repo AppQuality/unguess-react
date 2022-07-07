@@ -164,7 +164,9 @@ export const Navigation = ({
       document.location.href = translatedRoute;
     },
     onToggleChat: () => {
-      window.location.href = `${window.location.href}#hs-chat-open`;
+      if (typeof customerly !== 'undefined') {
+        customerly.open();
+      }
     },
     onLogout: async () => {
       await WPAPI.logout();
