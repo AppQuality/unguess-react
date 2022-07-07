@@ -12,7 +12,7 @@ export const toggleChat = (open: boolean) => {
     if (open) {
       HubSpotConversations.widget.refresh();
     } else {
-      HubSpotConversations.widget.close();
+      HubSpotConversations.widget.remove();
     }
   }
 };
