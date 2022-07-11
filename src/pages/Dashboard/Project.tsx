@@ -2,7 +2,7 @@
 import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
@@ -10,6 +10,7 @@ import {
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { useGetProjectsByPidQuery } from 'src/features/api';
+import { hasEnoughCoins } from 'src/common/utils';
 import { ActionCards } from './ActionCards';
 import { DashboardHeaderContent } from './headerContent';
 import { CardRowLoading } from './CardRowLoading';
@@ -20,6 +21,9 @@ const Project = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+
+  const hasExpress = hasEnoughCoins({ workspace: activeWorkspace });
 
   const { projectId } = useParams();
 
@@ -53,7 +57,7 @@ const Project = () => {
           <CardRowLoading />
         ) : (
           <>
-            <ActionCards />
+            {hasExpress && <ActionCards />}
             <ProjectItems />
           </>
         )}

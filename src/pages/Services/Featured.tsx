@@ -32,9 +32,6 @@ export const Featured = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
 
-  const hasExpress =
-    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
-
   const {
     data: featuredData,
     isLoading,
@@ -60,7 +57,10 @@ export const Featured = () => {
   if (featuredData) {
     formattedFeatured.forEach((service: any) => {
       const express = extractStrapiData(service.express);
-      if (!express || hasExpress) {
+      if (
+        !express ||
+        hasEnoughCoins({ workspace: activeWorkspace, coins: express.cost })
+      ) {
         featured.push(service);
       }
     });

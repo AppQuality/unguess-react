@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { Link } from 'react-scroll';
 import { hasEnoughCoins } from 'src/common/utils';
+import { extractStrapiData } from 'src/common/getStrapiData';
 
 const StyledDivider = styled(Divider)`
   margin-top: ${({ theme }) => theme.space.base * 3}px;
@@ -74,9 +75,6 @@ const CategoriesNav = () => {
 
   const notFoundRoute = useLocalizeRoute('oops');
 
-  const hasExpress =
-    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
-
   const {
     data: categoriesData,
     isLoading: categoriesLoading,
@@ -128,9 +126,14 @@ const CategoriesNav = () => {
 
   if (featuredData) {
     if (featuredData.data) {
-      featuredData.data.forEach((service) => {
-        const isExpress = service.attributes?.express?.data;
-        if (!isExpress || hasExpress) {
+      featuredData.data.forEach((serviceData) => {
+        const service = extractStrapiData({ data: serviceData });
+        // Check coins availability for each service considering the service express cost
+        const express = extractStrapiData(service.express);
+        if (
+          !express ||
+          hasEnoughCoins({ workspace: activeWorkspace, coins: express.cost })
+        ) {
           featured.push({ data: service });
         }
       });
@@ -169,15 +172,23 @@ const CategoriesNav = () => {
           <StickyNavItemLabel>
             {t('__CATALOG_STICKY_CONTAINER_NAV_CATEGORIES_LABEL')}
           </StickyNavItemLabel>
-          {categories.map((category) => {
-            const { data } = category;
-
+          {categories.map((categoryResponse) => {
+            const { data: categoryData } = categoryResponse;
+            const category = extractStrapiData({ data: categoryData });
             const categoryServices: Array<ServiceResponse> = [];
-            if (category.data) {
-              if (category.data.attributes?.services?.data) {
-                category.data.attributes?.services?.data.forEach((service) => {
-                  const isExpress = service.attributes?.express?.data;
-                  if (!isExpress || hasExpress) {
+            if (category) {
+              if (category.services) {
+                const services = extractStrapiData(category.services);
+                services.forEach((service: any) => {
+                  // Check coins availability for each service considering the service express cost
+                  const express = extractStrapiData(service.express);
+                  if (
+                    !express ||
+                    hasEnoughCoins({
+                      workspace: activeWorkspace,
+                      coins: express.cost,
+                    })
+                  ) {
                     categoryServices.push({ data: service });
                   }
                 });
@@ -186,14 +197,14 @@ const CategoriesNav = () => {
 
             return categoryServices.length ? (
               <StickyNavItem
-                to={data?.attributes?.Slug || ''}
+                to={category.Slug || ''}
                 containerId="main"
                 spy
                 smooth
                 duration={500}
                 offset={-350}
               >
-                {data?.attributes?.Name} ({categoryServices.length})
+                {category.Name} ({categoryServices.length})
               </StickyNavItem>
             ) : null;
           })}

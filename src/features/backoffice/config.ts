@@ -4,7 +4,7 @@ const config: ConfigFile = {
   schemaFile: './openapi/documentation.json',
   apiFile: './strapi.ts',
   apiImport: 'strapiSlice',
-  filterEndpoints: [/services/i, /categories/i],
+  filterEndpoints: [/services/i, /categories/i, /expresses/i],
   outputFile: 'index.ts',
   exportName: 'unguessStrapi',
   hooks: true,

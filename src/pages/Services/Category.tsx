@@ -30,12 +30,8 @@ const CategoryContainer = styled.div`
 export const Category = ({ id }: { id: any }) => {
   const { t } = useTranslation();
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-
-  const hasExpress =
-    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
 
   const showTipCard = true;
 
@@ -65,7 +61,10 @@ export const Category = ({ id }: { id: any }) => {
     if (formattedServices.length) {
       formattedServices.forEach((service: any) => {
         const express = extractStrapiData(service.express);
-        if (!express || hasExpress) {
+        if (
+          !express ||
+          hasEnoughCoins({ workspace: activeWorkspace, coins: express.cost })
+        ) {
           services.push(service);
         }
       });
