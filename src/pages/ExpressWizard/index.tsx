@@ -24,7 +24,7 @@ import {
   BASE_DATE_FORMAT,
   ZAPIER_WEBHOOK_TRIGGER,
 } from 'src/constants';
-import format from 'date-fns/format';
+import { format, formatISO } from 'date-fns';
 import async from 'async';
 import {
   createCrons,
@@ -269,6 +269,15 @@ export const ExpressWizardContainer = () => {
             cp: {
               ...values,
               id: cp.id,
+              ...(values.campaign_date && {
+                start_date: formatISO(values.campaign_date),
+              }),
+              ...(values.campaign_date_end && {
+                end_date: formatISO(values.campaign_date_end),
+              }),
+              ...(values.campaign_date_end && {
+                close_date: formatISO(values.campaign_date_end),
+              }),
               reason: reasonItems[values?.product_type || 'reason-a'],
             },
             user: userData,
