@@ -38,10 +38,11 @@ export const hasEnoughCoins = ({
 }: {
   workspace?: Workspace;
   coins?: number;
-}) => {
+}): boolean => {
   if (!workspace) return false;
+  if (!workspace.coins) return false;
 
   const requiredCoins = coins || DEFAULT_EXPRESS_REQUIRED_COINS;
 
-  return workspace && workspace.coins && workspace.coins >= requiredCoins;
+  return workspace.coins >= requiredCoins;
 };
