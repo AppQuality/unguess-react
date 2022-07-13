@@ -1,15 +1,21 @@
 import {
   CategoryListResponse,
   CategoryResponse,
+  ExpressTypeListResponse,
+  ExpressTypeResponse,
   ServiceListResponse,
   ServiceResponse,
 } from 'src/features/backoffice';
+import { StrapiIcon } from 'src/features/backoffice/strapi';
 
 type StrapiResponse =
   | CategoryListResponse
   | CategoryResponse
   | ServiceListResponse
   | ServiceResponse
+  | ExpressTypeListResponse
+  | ExpressTypeResponse
+  | StrapiIcon
   | undefined;
 
 /**

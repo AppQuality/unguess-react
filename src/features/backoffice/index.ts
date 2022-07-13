@@ -2972,7 +2972,7 @@ export type ExpressTypeListResponse = {
           };
         };
       };
-      Title?: string;
+      title?: string;
       description?: string;
       tags?: {
         id?: string;
@@ -3247,7 +3247,7 @@ export type ExpressTypeResponse = {
           };
         };
       };
-      Title?: string;
+      title?: string;
       description?: string;
       tags?: {
         id?: string;
@@ -3403,7 +3403,7 @@ export type ExpressTypeResponse = {
 };
 export type ExpressTypeRequest = {
   data?: {
-    Title?: string;
+    title?: string;
     description?: string;
   };
 };
@@ -3519,7 +3519,7 @@ export type ExpressTypeLocalizationResponse = {
       };
     };
   };
-  Title?: string;
+  title?: string;
   description?: string;
   tags?: {
     id?: string;
@@ -3671,7 +3671,7 @@ export type ExpressTypeLocalizationResponse = {
   locale?: string;
 };
 export type ExpressTypeLocalizationRequest = {
-  Title?: string;
+  title?: string;
   description?: string;
 };
 export type ServiceListResponse = {

@@ -9,6 +9,7 @@ export interface ExpressWizardState {
   isDrawerOpen?: boolean;
   isDirty?: boolean;
   currentStep?: number;
+  expressTypeId?: number;
 }
 
 export interface Step {
@@ -59,6 +60,9 @@ const expressSlice = createSlice({
     setExpressProject: (state, action) => {
       state.project = action.payload;
     },
+    setExpressTypeId: (state, action) => {
+      state.expressTypeId = action.payload;
+    },
   },
 });
 
@@ -73,6 +77,7 @@ export const {
   resetWizard,
   setExpressProject,
   lockProject,
+  setExpressTypeId,
 } = expressSlice.actions;
 
 export default expressSlice.reducer;

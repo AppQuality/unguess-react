@@ -9,6 +9,8 @@ import {
   GetCategoriesByIdApiResponse,
   GetExpressesApiResponse,
   GetExpressesApiArg,
+  GetExpressTypesByIdApiResponse,
+  GetExpressTypesByIdApiArg,
 } from '.';
 
 interface GetFullServicesByIdArgs {
@@ -39,6 +41,12 @@ interface Geti18nCategoryArgs extends GetCategoriesByIdApiArg {
 interface Geti18nExpressesApiArgs extends GetExpressesApiArg {
   locale?: string;
   filters?: object;
+}
+
+interface Geti18nExpressTypesByIdApiArgs extends GetExpressTypesByIdApiArg {
+  locale?: string;
+  filters?: object;
+  populate?: string[] | object;
 }
 
 export const strapiSlice = createApi({
@@ -130,12 +138,12 @@ export const strapiSlice = createApi({
         return { url };
       },
     }),
-    geti18nExpresses: builder.query<
+    geti18nExpressTypes: builder.query<
       GetExpressesApiResponse,
       Geti18nExpressesApiArgs
     >({
       query: (queryArg) => {
-        let url = '/expresses/';
+        let url = '/express-types/';
         const args = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.filters && { populate: queryArg.filters }),
@@ -146,11 +154,11 @@ export const strapiSlice = createApi({
       },
     }),
     geti18nExpressTypesById: builder.query<
-      GetCategoriesByIdApiResponse,
-      Geti18nCategoryArgs
+      GetExpressTypesByIdApiResponse,
+      Geti18nExpressTypesByIdApiArgs
     >({
       query: (queryArg) => {
-        let url = `/categories/${queryArg.id}`;
+        let url = `/express-types/${queryArg.id}`;
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
@@ -163,12 +171,37 @@ export const strapiSlice = createApi({
   }),
 });
 
+export interface StrapiIcon {
+  data?: {
+    id?: string;
+    attributes?: {
+      name?: string;
+      alternativeText?: string;
+      caption?: string;
+      width?: number;
+      height?: number;
+      formats?: any;
+      hash?: string;
+      ext?: string;
+      mime?: string;
+      size?: number;
+      url?: string;
+    };
+  };
+}
+
+export interface TagItem {
+  id: number;
+  label: string;
+  icon: StrapiIcon;
+}
+
 export const {
   useGetFullServicesByIdQuery,
   useGeti18nServicesQuery,
   useGeti18nServicesFeaturedQuery,
   useGeti18nCategoriesQuery,
   useGetFullCategoriesByIdQuery,
-  useGeti18nExpressesQuery,
+  useGeti18nExpressTypesQuery,
   useGeti18nExpressTypesByIdQuery,
 } = strapiSlice;

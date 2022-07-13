@@ -7,6 +7,7 @@ import {
   Tag,
   MD,
   UnorderedList,
+  Skeleton,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
@@ -15,6 +16,12 @@ import { ReactComponent as BugIcon } from 'src/assets/icons/bug-icon.svg';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { closeDrawer, resetWizard } from 'src/features/express/expressSlice';
 import { toggleChat } from 'src/common/utils';
+import {
+  useGeti18nExpressTypesByIdQuery,
+  TagItem,
+} from 'src/features/backoffice/strapi';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { STRAPI_URL } from 'src/constants';
 import { ProjectDropdown } from './projectDropdown';
 import { WaterButton } from '../../common/components/waterButton';
 import { CardDivider } from './cardDivider';
@@ -47,6 +54,22 @@ const StyledTag = styled(Tag)`
 export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { isDrawerOpen, project, expressTypeId } = useAppSelector(
+    (state) => state.express
+  );
+
+  const { data, isLoading, isError } = useGeti18nExpressTypesByIdQuery({
+    id: expressTypeId?.toString() || '0',
+    populate: {
+      tags: {
+        populate: '*',
+      },
+    },
+  });
+
+  const expressData = extractStrapiData(data);
+
+  console.log('expressData', expressData);
 
   const onClose = () => {
     dispatch(resetWizard());
@@ -54,57 +77,49 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
     toggleChat(true);
   };
 
-  const { isDrawerOpen, project } = useAppSelector((state) => state.express);
+  if (isError) {
+    return null;
+  }
 
   return (
     <Drawer isOpen={isDrawerOpen} onClose={onClose}>
       <Drawer.Header>{t('__WIZARD_EXPRESS_HEADER_TITLE')}</Drawer.Header>
       <Drawer.Body>
-        <BodyTitle>{t('__WIZARD_EXPRESS_BODY_TITLE')}</BodyTitle>
-        <Paragraph>{t('__WIZARD_EXPRESS_BODY_PARAGRAPH')}</Paragraph>
-        <TagsContainer>
-          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
-            <StyledTag.Avatar>
-              <ExpressIcon />
-            </StyledTag.Avatar>
-            <span>{t('__WIZARD_EXPRESS_TAG_1_TEXT')}</span>
-          </StyledTag>
-          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
-            <StyledTag.Avatar>
-              <FunctionalIcon />
-            </StyledTag.Avatar>
-            <span>{t('__WIZARD_EXPRESS_TAG_2_TEXT')}</span>
-          </StyledTag>
-          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
-            <StyledTag.Avatar>
-              <BugIcon />
-            </StyledTag.Avatar>
-            <span>{t('__WIZARD_EXPRESS_TAG_3_TEXT')}</span>
-          </StyledTag>
-        </TagsContainer>
-        <CardDivider />
-        <SelectTitle>
-          {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE')}
-        </SelectTitle>
-        <ProjectDropdown />
-        <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
-          <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
-          <Paragraph>{t('__WIZARD_EXPRESS_BODY_NOTES_PARAGRAPH')}</Paragraph>
-          <UnorderedList>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_1')}
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_2')}
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_3')}
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_4')}
-            </UnorderedList.Item>
-          </UnorderedList>
-        </Notes>
+        {isLoading ? (
+          <Skeleton width="60%" height="32px" />
+        ) : (
+          <>
+            <BodyTitle>{expressData.title}</BodyTitle>
+            <Paragraph>{expressData.description}</Paragraph>
+            <TagsContainer>
+              {expressData.tags.map((tag: TagItem) => {
+                const icon = extractStrapiData(tag.icon);
+                console.log('ICON', icon);
+                return (
+                  <StyledTag hue={theme.palette.grey[100]} isPill size="large">
+                    <StyledTag.Avatar>
+                      <img
+                        key={`tag_${tag.id}`}
+                        src={`${STRAPI_URL}${icon.url}`}
+                        alt={icon.alternativeText}
+                      />
+                    </StyledTag.Avatar>
+                    <span>{tag.label}</span>
+                  </StyledTag>
+                );
+              })}
+            </TagsContainer>
+            <CardDivider />
+            <SelectTitle>
+              {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE')}
+            </SelectTitle>
+            <ProjectDropdown />
+            <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
+              <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
+              <Paragraph>{expressData.before_starting_info}</Paragraph>
+            </Notes>
+          </>
+        )}
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
@@ -118,6 +133,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
+
       <Drawer.Close onClick={onClose} />
     </Drawer>
   );
