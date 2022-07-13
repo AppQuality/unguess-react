@@ -18,6 +18,8 @@ import {
 import { useGetProjectsByPidQuery } from 'src/features/api';
 import { hasEnoughCoins, isMinMedia, toggleChat } from 'src/common/utils';
 import { useEffect } from 'react';
+import i18n from 'src/i18n';
+import { useGeti18nExpressesQuery } from 'src/features/backoffice/strapi';
 import { ExpressWizardContainer } from '../ExpressWizard';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
 import { CardRowLoading } from './CardRowLoading';
@@ -28,6 +30,17 @@ export const ActionCards = () => {
   const { status } = useAppSelector((state) => state.user);
   const { projectId } = useAppSelector((state) => state.filters);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
+
+  const { data: expresses } = useGeti18nExpressesQuery({
+    locale: i18n.language,
+    filters: {
+      slug: {
+        $eq: 'exploratory-test',
+      },
+    },
+  });
+
+  console.log('Expresses', expresses);
 
   const { data } = useGetProjectsByPidQuery({
     pid: projectId ?? 0,

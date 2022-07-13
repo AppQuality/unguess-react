@@ -7,6 +7,8 @@ import {
   GetServicesApiArg,
   GetCategoriesByIdApiArg,
   GetCategoriesByIdApiResponse,
+  GetExpressesApiResponse,
+  GetExpressesApiArg,
 } from '.';
 
 interface GetFullServicesByIdArgs {
@@ -32,6 +34,11 @@ interface Geti18nCategoriesArgs {
 interface Geti18nCategoryArgs extends GetCategoriesByIdApiArg {
   locale?: string;
   populate?: string[] | object;
+}
+
+interface Geti18nExpressesApiArgs extends GetExpressesApiArg {
+  locale?: string;
+  filters?: object;
 }
 
 export const strapiSlice = createApi({
@@ -123,6 +130,36 @@ export const strapiSlice = createApi({
         return { url };
       },
     }),
+    geti18nExpresses: builder.query<
+      GetExpressesApiResponse,
+      Geti18nExpressesApiArgs
+    >({
+      query: (queryArg) => {
+        let url = '/expresses/';
+        const args = {
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.filters && { populate: queryArg.filters }),
+        };
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
+        return { url };
+      },
+    }),
+    geti18nExpressTypesById: builder.query<
+      GetCategoriesByIdApiResponse,
+      Geti18nCategoryArgs
+    >({
+      query: (queryArg) => {
+        let url = `/categories/${queryArg.id}`;
+        const args: Geti18nCategoriesArgs = {
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.populate && { populate: queryArg.populate }),
+        };
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
+        return { url };
+      },
+    }),
   }),
 });
 
@@ -132,4 +169,6 @@ export const {
   useGeti18nServicesFeaturedQuery,
   useGeti18nCategoriesQuery,
   useGetFullCategoriesByIdQuery,
+  useGeti18nExpressesQuery,
+  useGeti18nExpressTypesByIdQuery,
 } = strapiSlice;
