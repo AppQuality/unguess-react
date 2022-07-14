@@ -3105,6 +3105,10 @@ export type ExpressTypeListResponse = {
         label?: string;
       }[];
       before_starting_info?: string;
+      start_reasons?: {
+        id?: string;
+        item?: string;
+      }[];
       createdAt?: string;
       updatedAt?: string;
       publishedAt?: string;
@@ -3380,6 +3384,10 @@ export type ExpressTypeResponse = {
         label?: string;
       }[];
       before_starting_info?: string;
+      start_reasons?: {
+        id?: string;
+        item?: string;
+      }[];
       createdAt?: string;
       updatedAt?: string;
       publishedAt?: string;
@@ -3652,6 +3660,10 @@ export type ExpressTypeLocalizationResponse = {
     label?: string;
   }[];
   before_starting_info?: string;
+  start_reasons?: {
+    id?: string;
+    item?: string;
+  }[];
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
