@@ -33,36 +33,16 @@ import {
   createUseCases,
 } from 'src/common/campaigns';
 import { toggleChat } from 'src/common/utils';
-import {
-  WhatStepValidationSchema,
-  WhereStepValidationSchema,
-  WhoStepValidationSchema,
-  WhenStepValidationSchema,
-  ConfirmationValidationSchema,
-  ThankYouStep,
-} from './steps';
+import { useGetExpressTypesByIdQuery } from 'src/features/backoffice';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { ThankYouStep } from './steps';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
 import defaultValues from './wizardInitialValues';
 import { reasonItems } from './steps/what';
 import { getPlatform } from './getPlatform';
-import { WhatForm, WhatFormButtons } from './steps/forms/WhatForm';
-import { WizardButtonsProps } from './steps/forms/types';
-import { WhereForm, WhereFormButtons } from './steps/forms/WhereForm';
-import { WhoForm, WhoFormButtons } from './steps/forms/WhoForm';
-import { WhenForm, WhenFormButtons } from './steps/forms/WhenForm';
-import {
-  ConfirmationForm,
-  ConfirmationFormButtons,
-} from './steps/forms/ConfirmationForm';
 
-interface StepItem {
-  label: string;
-  content: string;
-  form: (props: FormikProps<WizardModel>) => JSX.Element;
-  validationSchema: Yup.ObjectSchema<any>;
-  buttons: (props: WizardButtonsProps) => JSX.Element;
-}
+import { StepItem, useExpressStep } from './steps/useSteps';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
@@ -98,9 +78,17 @@ export const ExpressWizardContainer = () => {
   const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { isWizardOpen, steps: draftSteps } = useAppSelector(
-    (state) => state.express
-  );
+  const {
+    isWizardOpen,
+    steps: draftSteps,
+    expressTypeId,
+  } = useAppSelector((state) => state.express);
+
+  const { data, isError } = useGetExpressTypesByIdQuery({
+    id: expressTypeId.toString(),
+  });
+
+  const expressTypeData = extractStrapiData(data);
 
   const [activeStep, setStep] = useState<number>(0);
   const [isThankyou, setThankyou] = useState<boolean>(false);
@@ -121,43 +109,7 @@ export const ExpressWizardContainer = () => {
     ...draft,
   };
 
-  const steps: Array<StepItem> = [
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHAT_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION'),
-      form: WhatForm,
-      validationSchema: WhatStepValidationSchema,
-      buttons: WhatFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHERE_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION'),
-      form: WhereForm,
-      validationSchema: WhereStepValidationSchema,
-      buttons: WhereFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHO_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION'),
-      form: WhoForm,
-      validationSchema: WhoStepValidationSchema,
-      buttons: WhoFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHEN_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION'),
-      form: WhenForm,
-      validationSchema: WhenStepValidationSchema,
-      buttons: WhenFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_CONFIRM_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION'),
-      form: ConfirmationForm,
-      validationSchema: ConfirmationValidationSchema,
-      buttons: ConfirmationFormButtons,
-    },
-  ];
+  const steps: Array<StepItem> = useExpressStep(expressTypeData.slug);
 
   const onNext = () => {
     if (activeStep === steps.length - 1) {
