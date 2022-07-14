@@ -32,6 +32,7 @@ export const ActionCards = () => {
   const { projectId } = useAppSelector((state) => state.filters);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
+  // TODO: this is a hack to get the express type id without a service attached
   const {
     data: exploratoryExpress,
     isLoading,

@@ -3,13 +3,13 @@ import { Project } from '../api';
 
 export interface ExpressWizardState {
   steps: { [key: string]: Step };
+  expressTypeId: number;
   project?: Project;
   projectLocked?: boolean;
   isWizardOpen?: boolean;
   isDrawerOpen?: boolean;
   isDirty?: boolean;
   currentStep?: number;
-  expressTypeId?: number;
 }
 
 export interface Step {
@@ -22,6 +22,7 @@ const initialState: ExpressWizardState = {
   isDrawerOpen: false,
   steps: {},
   projectLocked: false,
+  expressTypeId: 0,
 };
 
 const expressSlice = createSlice({
@@ -63,6 +64,9 @@ const expressSlice = createSlice({
     setExpressTypeId: (state, action) => {
       state.expressTypeId = action.payload;
     },
+    resetExpressTypeId: (state) => {
+      state.expressTypeId = 0;
+    },
   },
 });
 
@@ -78,6 +82,7 @@ export const {
   setExpressProject,
   lockProject,
   setExpressTypeId,
+  resetExpressTypeId,
 } = expressSlice.actions;
 
 export default expressSlice.reducer;

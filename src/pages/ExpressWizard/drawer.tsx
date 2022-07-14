@@ -7,14 +7,14 @@ import {
   Tag,
   MD,
   UnorderedList,
-  Skeleton,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
-import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
-import { ReactComponent as BugIcon } from 'src/assets/icons/bug-icon.svg';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeDrawer, resetWizard } from 'src/features/express/expressSlice';
+import {
+  closeDrawer,
+  resetExpressTypeId,
+  resetWizard,
+} from 'src/features/express/expressSlice';
 import { toggleChat } from 'src/common/utils';
 import {
   useGeti18nExpressTypesByIdQuery,
@@ -64,15 +64,17 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       tags: {
         populate: '*',
       },
+      start_reasons: {
+        populate: '*',
+      },
     },
   });
 
   const expressData = extractStrapiData(data);
 
-  console.log('expressData', expressData);
-
   const onClose = () => {
     dispatch(resetWizard());
+    dispatch(resetExpressTypeId());
     dispatch(closeDrawer());
     toggleChat(true);
   };
@@ -81,45 +83,45 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
     return null;
   }
 
-  return (
-    <Drawer isOpen={isDrawerOpen} onClose={onClose}>
+  return !isLoading ? (
+    <Drawer isOpen={isDrawerOpen} onClose={onClose} restoreFocus={false}>
       <Drawer.Header>{t('__WIZARD_EXPRESS_HEADER_TITLE')}</Drawer.Header>
       <Drawer.Body>
-        {isLoading ? (
-          <Skeleton width="60%" height="32px" />
-        ) : (
-          <>
-            <BodyTitle>{expressData.title}</BodyTitle>
-            <Paragraph>{expressData.description}</Paragraph>
-            <TagsContainer>
-              {expressData.tags.map((tag: TagItem) => {
-                const icon = extractStrapiData(tag.icon);
-                console.log('ICON', icon);
-                return (
-                  <StyledTag hue={theme.palette.grey[100]} isPill size="large">
-                    <StyledTag.Avatar>
-                      <img
-                        key={`tag_${tag.id}`}
-                        src={`${STRAPI_URL}${icon.url}`}
-                        alt={icon.alternativeText}
-                      />
-                    </StyledTag.Avatar>
-                    <span>{tag.label}</span>
-                  </StyledTag>
-                );
-              })}
-            </TagsContainer>
-            <CardDivider />
-            <SelectTitle>
-              {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE')}
-            </SelectTitle>
-            <ProjectDropdown />
-            <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
-              <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
-              <Paragraph>{expressData.before_starting_info}</Paragraph>
-            </Notes>
-          </>
-        )}
+        <BodyTitle>{expressData.title}</BodyTitle>
+        <Paragraph>{expressData.description}</Paragraph>
+        <TagsContainer>
+          {expressData.tags.map((tag: TagItem) => {
+            const icon = extractStrapiData(tag.icon);
+            return (
+              <StyledTag hue={theme.palette.grey[100]} isPill size="large">
+                <StyledTag.Avatar>
+                  <img
+                    key={`tag_${tag.id}`}
+                    src={`${STRAPI_URL}${icon.url}`}
+                    alt={icon.alternativeText}
+                  />
+                </StyledTag.Avatar>
+                <span>{tag.label}</span>
+              </StyledTag>
+            );
+          })}
+        </TagsContainer>
+        <CardDivider />
+        <SelectTitle>
+          {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE')}
+        </SelectTitle>
+        <ProjectDropdown />
+        <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
+          <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
+          <Paragraph>{expressData.before_starting_info}</Paragraph>
+          <UnorderedList>
+            {expressData.start_reasons.map(
+              (reason: { id: number; item: string }) => (
+                <UnorderedList.Item>{reason.item}</UnorderedList.Item>
+              )
+            )}
+          </UnorderedList>
+        </Notes>
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
@@ -136,5 +138,5 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
 
       <Drawer.Close onClick={onClose} />
     </Drawer>
-  );
+  ) : null;
 };
