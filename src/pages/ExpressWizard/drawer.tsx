@@ -109,6 +109,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       <Drawer.Footer>
         <Drawer.FooterItem>
           <WaterButton
+            id="express-drawer-start-button"
             isPrimary
             isPill
             onClick={onCtaClick}
@@ -118,7 +119,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
-      <Drawer.Close onClick={onClose} />
+      <Drawer.Close id="express-drawer-close-button" onClick={onClose} />
     </Drawer>
   );
 };

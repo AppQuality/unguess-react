@@ -65,6 +65,8 @@ const CardGroup = ({ items }: { items: any }) => {
 
         buttons.push(
           <Button
+            id={`service-card-details-button-${service.id}`}
+            className="service-card-details-button"
             isPill
             isStretched
             size="small"
@@ -94,6 +96,8 @@ const CardGroup = ({ items }: { items: any }) => {
 
           buttons.push(
             <WaterButton
+              id={`service-card-express-button-${service.id}`}
+              className="service-card-express-button"
               isPill
               isStretched
               size="small"
@@ -114,6 +118,8 @@ const CardGroup = ({ items }: { items: any }) => {
 
           buttons.push(
             <WaterButton
+              id={`service-card-contact-button-${service.id}`}
+              className="service-card-contact-button"
               isPill
               isStretched
               size="small"
@@ -145,6 +151,8 @@ const CardGroup = ({ items }: { items: any }) => {
         ) : (
           <ServiceCol xs={12} md={6} lg={4}>
             <ServiceCard
+              id={`service-card-${service.id}`}
+              {...(express && { className: 'service-card-express' })}
               serviceIcon={
                 <img src={iconUrl} alt={`service ${service.title} icon`} />
               }

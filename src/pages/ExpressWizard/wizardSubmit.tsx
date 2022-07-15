@@ -21,6 +21,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   return (
     <StyledDiv>
       <WaterButton
+        id="express-wizard-submit-button"
         isPill
         isPrimary
         type="submit"

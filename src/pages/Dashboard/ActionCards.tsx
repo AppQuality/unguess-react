@@ -58,6 +58,7 @@ export const ActionCards = () => {
       </Col>
       <Col xs={12} md={4} lg={3}>
         <ProductCard
+          id="express-card-project"
           onCtaClick={() => {
             dispatch(setExpressProject(selectedProject));
             dispatch(lockProject());
