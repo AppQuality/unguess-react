@@ -308,7 +308,10 @@ export const ExpressWizardContainer = () => {
                   workspace={activeWorkspace}
                   title={t('__EXPRESS_WIZARD_TITLE')}
                 />
-                <ModalFullScreen.Close aria-label="Close modal" />
+                <ModalFullScreen.Close
+                  id="express-wizard-close-button"
+                  aria-label="Close modal"
+                />
               </ModalFullScreen.Header>
               <ModalFullScreen.Body>
                 <Form onSubmit={formProps.handleSubmit}>

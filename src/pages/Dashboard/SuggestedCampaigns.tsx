@@ -93,6 +93,7 @@ export const SuggestedCampaigns = () => {
             <>
               <Col xs={10} md={6} lg={3}>
                 <ProductCard
+                  id="express-card-dashboard"
                   title={t('__EXPRESS_WIZARD_TITLE')}
                   onCtaClick={() => {
                     if (exploratoryExpress && exploratoryExpress.data)

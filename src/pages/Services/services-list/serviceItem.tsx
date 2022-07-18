@@ -74,6 +74,7 @@ export const ServiceItem = ({
 
   buttons.push(
     <Button
+      className="service-card-details-button"
       isPill
       isStretched
       size="small"
@@ -107,6 +108,7 @@ export const ServiceItem = ({
 
       buttons.push(
         <WaterButton
+          className="service-card-express-button"
           isPill
           isStretched
           size="small"
@@ -131,6 +133,7 @@ export const ServiceItem = ({
 
     buttons.push(
       <WaterButton
+        className="service-card-contact-button"
         isPill
         isStretched
         size="small"
@@ -145,6 +148,9 @@ export const ServiceItem = ({
   return (
     <ServiceCol xs={12} md={6} lg={4}>
       <ServiceCard
+        {...(express
+          ? { className: 'service-card-express' }
+          : { className: 'service-card' })}
         serviceIcon={
           <img src={iconUrl} alt={`service ${service.title} icon`} />
         }

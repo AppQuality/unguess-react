@@ -17,6 +17,7 @@ export const WhenFormButtons = (props: WizardButtonsProps) => {
   return (
     <>
       <WaterButton
+        id="express-wizard-when-back-button"
         isPill
         isBasic
         onClick={onBackClick}
@@ -24,7 +25,12 @@ export const WhenFormButtons = (props: WizardButtonsProps) => {
       >
         {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
       </WaterButton>
-      <WaterButton isPill isPrimary onClick={onNextClick}>
+      <WaterButton
+        id="express-wizard-when-next-button"
+        isPill
+        isPrimary
+        onClick={onNextClick}
+      >
         {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
       </WaterButton>
     </>
