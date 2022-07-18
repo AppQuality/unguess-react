@@ -5,11 +5,14 @@ export const prepareGravatar = (url: string, size?: number) =>
   `${url}?s=${size || 48}`;
 
 export const toggleChat = (open: boolean) => {
-  if (typeof customerly !== 'undefined') {
+  if (
+    typeof HubSpotConversations !== 'undefined' &&
+    HubSpotConversations.widget
+  ) {
     if (open) {
-      customerly.show();
+      HubSpotConversations.widget.refresh();
     } else {
-      customerly.hide();
+      HubSpotConversations.widget.remove();
     }
   }
 };
@@ -35,10 +38,11 @@ export const hasEnoughCoins = ({
 }: {
   workspace?: Workspace;
   coins?: number;
-}) => {
+}): boolean => {
   if (!workspace) return false;
+  if (!workspace.coins) return false;
 
   const requiredCoins = coins || DEFAULT_EXPRESS_REQUIRED_COINS;
 
-  return workspace && workspace.coins && workspace.coins >= requiredCoins;
+  return workspace.coins >= requiredCoins;
 };

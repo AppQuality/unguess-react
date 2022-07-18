@@ -1,18 +1,16 @@
 import i18n from 'src/i18n';
 import { useGetFullCategoriesByIdQuery } from 'src/features/backoffice/strapi';
-import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
 import { Divider } from 'src/common/components/divider';
-import { Paragraph, XXL } from '@appquality/unguess-design-system';
-import { WaterButton } from 'src/common/components/waterButton';
-import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'src/app/hooks';
+import { Paragraph, Row, XXL } from '@appquality/unguess-design-system';
 import { extractStrapiData } from 'src/common/getStrapiData';
-import { hasEnoughCoins } from 'src/common/utils';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { SERVICES_SHOW_TIPS } from 'src/constants';
 import { LoadingServices } from './LoadingServices';
-import { Services } from './services-list';
+import { ServiceItem } from './services-list/serviceItem';
+import { ServiceCol } from './services-list/ServiceCol';
+import { ServiceTip } from './services-list/serviceTip';
 
 const SectionTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.xs};
@@ -27,22 +25,20 @@ const CategoryContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxl};
 `;
 
-export const Category = ({ id }: { id: any }) => {
-  const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { status } = useAppSelector((state) => state.user);
+export const Category = ({
+  id,
+  handleHubspot,
+}: {
+  id: string;
+  handleHubspot: () => void;
+}) => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
 
-  const hasExpress =
-    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
-
-  const showTipCard = true;
-
   const {
     data: categoryData,
-    isLoading: categoryLoading,
-    isError: categoryError,
+    isLoading,
+    isError,
   } = useGetFullCategoriesByIdQuery({
     id,
     locale: i18n.language,
@@ -55,54 +51,14 @@ export const Category = ({ id }: { id: any }) => {
     },
   });
 
-  let formattedCategory;
-  let formattedServices;
-  const services: Array<any> = [];
+  const formattedCategory = extractStrapiData(categoryData);
+  const formattedServices = extractStrapiData(formattedCategory.services);
 
-  if (categoryData) {
-    formattedCategory = extractStrapiData(categoryData);
-    formattedServices = extractStrapiData(formattedCategory.services);
-    if (formattedServices.length) {
-      formattedServices.forEach((service: any) => {
-        if (!service.is_express || hasExpress) {
-          services.push(service);
-        }
-      });
-    }
+  if (isError) {
+    navigate(notFoundRoute);
   }
 
-  // Add info card service
-  if (showTipCard) {
-    services.push({
-      id: 0,
-      is_info: true,
-      info_img: <InfoImg />,
-      info_subtitle: t('__CATALOG_PAGE_INFO_SERVICE_SUBTITLE'),
-      info_title: t('__CATALOG_PAGE_INFO_SERVICE_TITLE'),
-      info_buttons: [
-        <WaterButton
-          isPill
-          isPrimary
-          size="small"
-          onClick={() => {
-            window.location.href = `mailto:${
-              activeWorkspace?.csm.email || 'info@unguess.io'
-            }`;
-          }}
-        >
-          {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
-        </WaterButton>,
-      ],
-    });
-  }
-
-  const initialServicesLength = showTipCard ? 1 : 0;
-
-  if (categoryError) {
-    navigate(notFoundRoute, { replace: true });
-  }
-
-  if (categoryLoading) {
+  if (isLoading) {
     return (
       <CategoryContainer>
         <LoadingServices />
@@ -110,12 +66,25 @@ export const Category = ({ id }: { id: any }) => {
     );
   }
 
-  return services.length > initialServicesLength ? (
-    <CategoryContainer id={formattedCategory.Slug}>
+  return formattedServices.length ? (
+    <CategoryContainer key={formattedCategory.Slug} id={formattedCategory.Slug}>
       <SectionTitle>{formattedCategory.Name}</SectionTitle>
       <Paragraph>{formattedCategory.Description}</Paragraph>
       <StyledDivider />
-      <Services services={services} />
+      <Row>
+        {formattedServices.map((service: any) => (
+          <ServiceItem
+            serviceId={service.id}
+            key={service.id}
+            handleHubspot={handleHubspot}
+          />
+        ))}
+        {SERVICES_SHOW_TIPS && (
+          <ServiceCol xs={12} md={6} lg={4}>
+            <ServiceTip />
+          </ServiceCol>
+        )}
+      </Row>
     </CategoryContainer>
   ) : null;
 };

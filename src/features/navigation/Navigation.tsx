@@ -164,8 +164,11 @@ export const Navigation = ({
       document.location.href = translatedRoute;
     },
     onToggleChat: () => {
-      if (typeof customerly !== 'undefined') {
-        customerly.open();
+      if (
+        typeof HubSpotConversations !== 'undefined' &&
+        HubSpotConversations.widget
+      ) {
+        HubSpotConversations.widget.open();
       }
     },
     onLogout: async () => {

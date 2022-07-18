@@ -12,7 +12,7 @@ const CategoryContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxl};
 `;
 
-const Categories = () => {
+const Categories = ({ handleHubspot }: { handleHubspot: () => void }) => {
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
   const notFoundRoute = useLocalizeRoute('oops');
@@ -58,7 +58,7 @@ const Categories = () => {
   return (
     <>
       {categories.map((category) => (
-        <Category id={category.id} />
+        <Category id={category.id} handleHubspot={handleHubspot} />
       ))}
     </>
   );

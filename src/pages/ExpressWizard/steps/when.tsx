@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
-import { addBusinessDays, format, isToday } from 'date-fns';
+import { addBusinessDays, format, isToday, setHours } from 'date-fns';
 import { getLanguage } from '../getLanguage';
 import { CardDivider } from '../cardDivider';
 import { WizardModel } from '../wizardModel';
@@ -61,8 +61,8 @@ export const WhenStep = ({
       endDate = addBusinessDays(date, BUSINESS_DAYS_TO_ADD + 1);
     }
 
-    props.setFieldValue('campaign_date', date);
-    props.setFieldValue('campaign_date_end', endDate);
+    props.setFieldValue('campaign_date', setHours(date, 10));
+    props.setFieldValue('campaign_date_end', setHours(endDate, 18));
     props.setFieldValue(
       'campaign_date_end_text',
       format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })

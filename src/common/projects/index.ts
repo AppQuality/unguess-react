@@ -1,8 +1,11 @@
 import {
   GetProjectsByPidApiResponse,
+  GetWorkspacesApiArg,
   GetWorkspacesApiResponse,
   GetWorkspacesByWidProjectsApiResponse,
 } from 'src/features/api';
+
+import { stringify } from 'qs';
 import HttpError from '../HttpError';
 
 export const projects = async (
@@ -62,7 +65,8 @@ export const project = async (
 };
 
 export const workspaces = async (
-  token?: string
+  token?: string,
+  params?: GetWorkspacesApiArg
 ): Promise<GetWorkspacesApiResponse> => {
   let currentToken = token;
 
@@ -75,7 +79,13 @@ export const workspaces = async (
   if (currentToken) {
     requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
-  const url = `${process.env.REACT_APP_API_URL}/workspaces`;
+
+  let args = '';
+  if (params) {
+    args = `?${stringify(params)}`;
+  }
+
+  const url = `${process.env.REACT_APP_API_URL}/workspaces${args}`;
 
   const res = await fetch(url, {
     method: 'GET',

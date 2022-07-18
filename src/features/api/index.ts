@@ -20,7 +20,12 @@ const injectedRtkApi = api.injectEndpoints({
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
-        params: { limit: queryArg.limit, start: queryArg.start },
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
       }),
     }),
     getWorkspacesByWid: build.query<
@@ -143,6 +148,10 @@ export type GetWorkspacesApiArg = {
   limit?: number;
   /** Start pagination parameter */
   start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
 };
 export type GetWorkspacesByWidApiResponse = /** status 200 OK */ Workspace;
 export type GetWorkspacesByWidApiArg = {
@@ -295,6 +304,21 @@ export type Authentication = {
   iat?: number;
   exp?: number;
 };
+export type Feature = {
+  slug?: string;
+  name?: string;
+};
+export type User = {
+  id: number;
+  email: string;
+  role: string;
+  name: string;
+  profile_id: number;
+  tryber_wp_user_id: number;
+  unguess_wp_user_id: number;
+  picture?: string;
+  features?: Feature[];
+};
 export type Workspace = {
   id: number;
   company: string;
@@ -310,22 +334,6 @@ export type Workspace = {
     url?: string;
   };
   coins?: number;
-};
-export type Feature = {
-  slug?: string;
-  name?: string;
-};
-export type User = {
-  id: number;
-  email: string;
-  role: string;
-  name: string;
-  profile_id: number;
-  tryber_wp_user_id: number;
-  unguess_wp_user_id: number;
-  picture?: string;
-  workspaces: Workspace[];
-  features?: Feature[];
 };
 export type Campaign = {
   id: number;
