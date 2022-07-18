@@ -31,6 +31,7 @@ import { CardDivider } from '../cardDivider';
 import { WizardModel } from '../wizardModel';
 import { WizardCol } from '../wizardCol';
 import { WhereConfirm } from './confirm/whereConfirm';
+import { WhoConfirm } from './confirm/whoConfirm';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -96,6 +97,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       : t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL');
 
   const hasWhereStep = values.isAndroid || values.isIOS || values.hasOutOfScope;
+  const hasWhoStep = values.campaign_language;
 
   return (
     <>
@@ -145,28 +147,16 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         </StyledFormField>
       ) : null}
 
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
-        <StyledCard>
-          <Grid>
-            <Row>
-              <WizardCol xs={12} sm={1}>
-                <WhoIcon />
-              </WizardCol>
-              <WizardCol xs={12} sm={11}>
-                <StyledLabel>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}
-                </StyledLabel>
-                <StyledParagraph>
-                  <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT">
-                    Testers speak&nbsp;
-                    <Span isBold>{{ campaign_language: lang.label }}</Span>.
-                  </Trans>
-                </StyledParagraph>
-              </WizardCol>
-            </Row>
-          </Grid>
-        </StyledCard>
-      </StyledFormField>
+      {hasWhoStep ? (
+        <StyledFormField
+          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
+        >
+          <StyledCard>
+            <WhoConfirm {...props} />
+          </StyledCard>
+        </StyledFormField>
+      ) : null}
+
       <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
