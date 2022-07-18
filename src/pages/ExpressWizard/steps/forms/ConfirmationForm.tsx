@@ -18,6 +18,7 @@ export const ConfirmationFormButtons = (props: WizardButtonsProps) => {
   return (
     <>
       <WaterButton
+        id="express-wizard-confirm-back-button"
         isPill
         isBasic
         onClick={onBackClick}

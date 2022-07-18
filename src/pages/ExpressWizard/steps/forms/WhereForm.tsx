@@ -23,6 +23,7 @@ export const WhereFormButtons = (props: WizardButtonsProps) => {
   return (
     <>
       <WaterButton
+        id="express-wizard-where-back-button"
         isPill
         isBasic
         onClick={onBackClick}
@@ -30,7 +31,12 @@ export const WhereFormButtons = (props: WizardButtonsProps) => {
       >
         {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
       </WaterButton>
-      <WaterButton isPill isPrimary onClick={onNextClick}>
+      <WaterButton
+        id="express-wizard-where-next-button"
+        isPill
+        isPrimary
+        onClick={onNextClick}
+      >
         {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
       </WaterButton>
     </>
