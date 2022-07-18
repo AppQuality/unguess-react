@@ -148,7 +148,9 @@ export const ServiceItem = ({
   return (
     <ServiceCol xs={12} md={6} lg={4}>
       <ServiceCard
-        {...(express && { className: 'service-card-express' })}
+        {...(express
+          ? { className: 'service-card-express' }
+          : { className: 'service-card' })}
         serviceIcon={
           <img src={iconUrl} alt={`service ${service.title} icon`} />
         }
