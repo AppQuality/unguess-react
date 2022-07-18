@@ -30,6 +30,7 @@ import { getLanguage } from '../getLanguage';
 import { CardDivider } from '../cardDivider';
 import { WizardModel } from '../wizardModel';
 import { WizardCol } from '../wizardCol';
+import { WhereConfirm } from './confirm/whereConfirm';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -94,6 +95,8 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       ? t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_WEBAPP_LABEL')
       : t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_MOBILEAPP_LABEL');
 
+  const hasWhereStep = values.isAndroid || values.isIOS || values.hasOutOfScope;
+
   return (
     <>
       <StepTitle>
@@ -131,33 +134,17 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
-        <StyledCard>
-          <Grid>
-            <Row>
-              <WizardCol xs={12} sm={1}>
-                <WhereIcon />
-              </WizardCol>
-              <WizardCol xs={12} sm={11}>
-                <StyledLabel>
-                  {t('__EXPRESS_WIZARD_STEP_WHERE_LABEL')}
-                </StyledLabel>
-                <StyledParagraph>
-                  <Devices {...props} />
-                  <br />
-                  {values.product_type === 'webapp' ? (
-                    <Browsers {...props} />
-                  ) : (
-                    <OperativeSystems {...props} />
-                  )}
-                  <br />
-                  <ConfirmOutOfScope {...props} />
-                </StyledParagraph>
-              </WizardCol>
-            </Row>
-          </Grid>
-        </StyledCard>
-      </StyledFormField>
+
+      {hasWhereStep ? (
+        <StyledFormField
+          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
+        >
+          <StyledCard>
+            <WhereConfirm {...props} />
+          </StyledCard>
+        </StyledFormField>
+      ) : null}
+
       <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
