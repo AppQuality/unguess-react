@@ -33,8 +33,9 @@ import {
   createUseCases,
 } from 'src/common/campaigns';
 import { toggleChat } from 'src/common/utils';
-import { useGetExpressTypesByIdQuery } from 'src/features/backoffice';
+import i18n from 'src/i18n';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { ThankYouStep } from './steps';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
@@ -84,11 +85,19 @@ export const ExpressWizardContainer = () => {
     expressTypeId,
   } = useAppSelector((state) => state.express);
 
-  const { data, isError } = useGetExpressTypesByIdQuery({
+  // TODO: show an alert if isError is set
+  const { data } = useGeti18nExpressTypesByIdQuery({
     id: expressTypeId.toString(),
+    locale: i18n.language,
+    populate: {
+      express: {
+        populate: '*',
+      },
+    },
   });
 
   const expressTypeData = extractStrapiData(data);
+  const expressTypeMeta = extractStrapiData(expressTypeData.express);
 
   const [activeStep, setStep] = useState<number>(0);
   const [isThankyou, setThankyou] = useState<boolean>(false);
@@ -109,7 +118,7 @@ export const ExpressWizardContainer = () => {
     ...draft,
   };
 
-  const steps: Array<StepItem> = useExpressStep(expressTypeData.slug);
+  const steps: Array<StepItem> = useExpressStep(expressTypeMeta.slug);
 
   const onNext = () => {
     if (activeStep === steps.length - 1) {

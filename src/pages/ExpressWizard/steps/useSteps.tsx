@@ -70,7 +70,7 @@ export const useExpressStep = (type: string): Array<StepItem> => {
   };
 
   switch (type) {
-    case 'express-light':
+    case 'exploratory-light':
       return [WhatStep, ConfirmationStep];
     default:
       return [WhatStep, WhereStep, WhoStep, WhenStep, ConfirmationStep];
