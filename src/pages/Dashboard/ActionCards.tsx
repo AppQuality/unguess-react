@@ -14,10 +14,14 @@ import {
   openDrawer,
   openWizard,
   setExpressProject,
+  setExpressTypeId,
 } from 'src/features/express/expressSlice';
 import { useGetProjectsByPidQuery } from 'src/features/api';
 import { hasEnoughCoins, isMinMedia, toggleChat } from 'src/common/utils';
 import { useEffect } from 'react';
+import i18n from 'src/i18n';
+import { useGeti18nExpressTypesQuery } from 'src/features/backoffice/strapi';
+import { extractStrapiData } from 'src/common/getStrapiData';
 import { ExpressWizardContainer } from '../ExpressWizard';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
 import { CardRowLoading } from './CardRowLoading';
@@ -25,15 +29,32 @@ import { CardRowLoading } from './CardRowLoading';
 export const ActionCards = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.user);
   const { projectId } = useAppSelector((state) => state.filters);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
+
+  // TODO: this is a hack to get the express type id without a service attached
+  const {
+    data: exploratoryExpress,
+    isLoading,
+    isError,
+    isFetching,
+  } = useGeti18nExpressTypesQuery({
+    locale: i18n.language,
+    filters: {
+      express: {
+        slug: {
+          $eq: 'exploratory-test',
+        },
+      },
+    },
+  });
 
   const { data } = useGetProjectsByPidQuery({
     pid: projectId ?? 0,
   });
 
   let selectedProject = { id: projectId, name: 'Project' };
+  let expressTypeId = 0;
 
   useEffect(() => {
     if (data) {
@@ -41,11 +62,22 @@ export const ActionCards = () => {
     }
   }, [data]);
 
-  if (!projectId || !hasEnoughCoins({ workspace: activeWorkspace })) {
+  useEffect(() => {
+    const expressData = extractStrapiData(exploratoryExpress);
+    if (expressData && expressData.length) {
+      expressTypeId = expressData[0].id;
+    }
+  }, [exploratoryExpress]);
+
+  if (
+    !projectId ||
+    isError ||
+    !hasEnoughCoins({ workspace: activeWorkspace })
+  ) {
     return null;
   }
 
-  return status === 'idle' || status === 'loading' ? (
+  return isLoading || isFetching ? (
     <CardRowLoading />
   ) : (
     <Row>
@@ -60,6 +92,7 @@ export const ActionCards = () => {
         <ProductCard
           onCtaClick={() => {
             dispatch(setExpressProject(selectedProject));
+            dispatch(setExpressTypeId(expressTypeId));
             dispatch(lockProject());
             dispatch(openDrawer());
             toggleChat(false);
