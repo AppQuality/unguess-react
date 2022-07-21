@@ -21,10 +21,7 @@ import { prepareGravatar, isMaxMedia } from 'src/common/utils';
 import { useEffect } from 'react';
 import API from 'src/common/api';
 import { Changelog } from './Changelog';
-import {
-  useGetWorkspacesByWidProjectsQuery,
-  useGetWorkspacesByWidQuery,
-} from '../api';
+import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
 import { selectWorkspaces } from '../workspaces/selectors';
@@ -56,11 +53,11 @@ export const Navigation = ({
             ? isValidWorkspace(cachedWorkspace, workspaces)
             : false;
 
-          const { data: ws } = useGetWorkspacesByWidQuery({
-            wid: verifiedWs ? verifiedWs.id : workspaces[0].id,
+          API.workspacesById(
+            verifiedWs ? verifiedWs.id : workspaces[0].id
+          ).then((ws) => {
+            dispatch(setWorkspace(ws));
           });
-
-          dispatch(setWorkspace(ws));
         } catch (e) {
           dispatch(setWorkspace(workspaces[0]));
         }
