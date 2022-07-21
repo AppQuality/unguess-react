@@ -8,6 +8,7 @@ export interface ExpressWizardState {
   projectLocked?: boolean;
   isWizardOpen?: boolean;
   isDrawerOpen?: boolean;
+  isUseCaseModalOpen?: boolean;
   isDirty?: boolean;
   currentStep?: number;
 }
@@ -19,6 +20,7 @@ export interface Step {
 
 const initialState: ExpressWizardState = {
   isWizardOpen: false,
+  isUseCaseModalOpen: true,
   isDrawerOpen: false,
   steps: {},
   projectLocked: false,
@@ -40,6 +42,12 @@ const expressSlice = createSlice({
     },
     closeDrawer: (state) => {
       state.isDrawerOpen = false;
+    },
+    openUseCaseModal: (state) => {
+      state.isUseCaseModalOpen = true;
+    },
+    closeUseCaseModal: (state) => {
+      state.isUseCaseModalOpen = false;
     },
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload;
@@ -75,6 +83,8 @@ export const {
   closeWizard,
   openDrawer,
   closeDrawer,
+  openUseCaseModal,
+  closeUseCaseModal,
   setCurrentStep,
   addStep,
   removeStep,
