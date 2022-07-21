@@ -43,9 +43,6 @@ export const ModalUseCase = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { userData } = useAppSelector((state) => state.user);
-  const { project } = useAppSelector((state) => state.express);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
 
   return isUseCaseModalOpen ? (

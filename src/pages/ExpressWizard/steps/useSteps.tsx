@@ -6,6 +6,7 @@ import {
   WhereStepValidationSchema,
   WhoStepValidationSchema,
   WhenStepValidationSchema,
+  HowStepValidationSchema,
   ConfirmationValidationSchema,
 } from '.';
 import { WizardModel } from '../wizardModel';
@@ -14,6 +15,7 @@ import { WhatForm, WhatFormButtons } from './forms/WhatForm';
 import { WhereForm, WhereFormButtons } from './forms/WhereForm';
 import { WhoForm, WhoFormButtons } from './forms/WhoForm';
 import { WhenForm, WhenFormButtons } from './forms/WhenForm';
+import { HowForm, HowFormButtons } from './forms/HowForm';
 import {
   ConfirmationForm,
   ConfirmationFormButtons,
@@ -61,6 +63,14 @@ export const useExpressStep = (type: string): Array<StepItem> => {
     buttons: WhenFormButtons,
   };
 
+  const HowStep = {
+    label: t('__EXPRESS_WIZARD_STEP_HOW_LABEL'),
+    content: t('__EXPRESS_WIZARD_STEP_HOW_DESCRIPTION'),
+    form: HowForm,
+    validationSchema: HowStepValidationSchema,
+    buttons: HowFormButtons,
+  };
+
   const ConfirmationStep = {
     label: t('__EXPRESS_WIZARD_STEP_CONFIRM_LABEL'),
     content: t('__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION'),
@@ -72,7 +82,8 @@ export const useExpressStep = (type: string): Array<StepItem> => {
   switch (type) {
     case 'exploratory-light':
       return [WhatStep, ConfirmationStep];
-    // TODO: Add express #2 type here
+    case 'express-2':
+      return [WhatStep, WhereStep, WhoStep, HowStep, ConfirmationStep];
     default:
       return [WhatStep, WhereStep, WhoStep, WhenStep, ConfirmationStep];
   }

@@ -13,6 +13,7 @@ import {
   MediaInput,
   Paragraph,
   Input,
+  ContainerCard,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
@@ -58,7 +59,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   ]);
 
   return (
-    <>
+    <ContainerCard>
       <Row>
         <WizardCol>
           <XXL style={{ color: theme.palette.grey[800] }}>
@@ -260,7 +261,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Out of scope --- */}
       <OutOfScopeSection {...props} />
-    </>
+    </ContainerCard>
   );
 };
 

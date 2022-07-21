@@ -1,4 +1,5 @@
 import {
+  ContainerCard,
   Hint,
   Label,
   Message,
@@ -58,7 +59,7 @@ export const WhoStep = ({
   };
 
   return (
-    <>
+    <ContainerCard>
       <StepTitle>
         <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</Span>&nbsp;
         {t('__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA')}
@@ -116,7 +117,7 @@ export const WhoStep = ({
           <Message validation="error">{errors.campaign_language}</Message>
         )}
       </StyledFormField>
-    </>
+    </ContainerCard>
   );
 };
 

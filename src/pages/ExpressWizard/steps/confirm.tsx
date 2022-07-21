@@ -10,6 +10,7 @@ import {
   Grid,
   Row,
   theme as globalTheme,
+  ContainerCard,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { ReactComponent as MoreIcon } from 'src/assets/icons/step-more-icon.svg';
@@ -75,7 +76,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const hasWhenStep = values.campaign_date;
 
   return (
-    <>
+    <ContainerCard>
       <StepTitle>
         <Span isBold>{t('__EXPRESS_WIZARD_STEP_RECAP_TITLE')}</Span>
       </StepTitle>
@@ -155,7 +156,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </Grid>
         </StyledCard>
       </StyledFormField>
-    </>
+    </ContainerCard>
   );
 };
 

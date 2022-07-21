@@ -20,7 +20,7 @@ export interface Step {
 
 const initialState: ExpressWizardState = {
   isWizardOpen: false,
-  isUseCaseModalOpen: true,
+  isUseCaseModalOpen: false,
   isDrawerOpen: false,
   steps: {},
   projectLocked: false,

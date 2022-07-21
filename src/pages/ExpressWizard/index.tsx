@@ -42,8 +42,8 @@ import { WizardModel } from './wizardModel';
 import defaultValues from './wizardInitialValues';
 import { reasonItems } from './steps/what';
 import { getPlatform } from './getPlatform';
-
 import { StepItem, useExpressStep } from './steps/useSteps';
+import { ModalUseCase } from './ModalUseCase';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
@@ -303,6 +303,7 @@ export const ExpressWizardContainer = () => {
         >
           {(formProps: FormikProps<WizardModel>) => (
             <>
+              <ModalUseCase />
               <ModalFullScreen.Header>
                 <WizardHeader
                   workspace={activeWorkspace}
@@ -332,9 +333,7 @@ export const ExpressWizardContainer = () => {
                       </StyledContainer>
                     </Col>
                     <Col xs={12} lg={9} xl={6}>
-                      <ContainerCard>
-                        {steps[activeStep as number].form(formProps)}
-                      </ContainerCard>
+                      {steps[activeStep as number].form(formProps)}
                     </Col>
                   </Row>
                 </Form>
