@@ -43,7 +43,7 @@ import defaultValues from './wizardInitialValues';
 import { reasonItems } from './steps/what';
 import { getPlatform } from './getPlatform';
 import { StepItem, useExpressStep } from './steps/useSteps';
-import { ModalUseCase } from './ModalUseCase';
+import { ModalUseCase } from './modalUseCase';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;

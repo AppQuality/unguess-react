@@ -15,7 +15,6 @@ export interface ExpressWizardState {
 
 export interface Step {
   data: { [key: string]: string };
-  isValid?: boolean;
 }
 
 const initialState: ExpressWizardState = {
