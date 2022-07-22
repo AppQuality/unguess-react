@@ -27,6 +27,7 @@ import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functional
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ModalUseCaseHelp } from './modalUseCaseHelp';
+import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { Notes, NotesTitle } from './notesCard';
 
 const Body = styled(ModalFullScreen.Body)`
@@ -85,7 +86,7 @@ export const ModalUseCase = () => {
           <Row>
             <ContentCol xs={8}>
               <TextCasesTabs>
-                <span>TEXT CASES</span>
+                <ModalUseCaseTabLayout />
               </TextCasesTabs>
               <TextCaseForm>
                 <StyledFormField style={{ marginTop: 0 }}>
@@ -142,9 +143,7 @@ export const ModalUseCase = () => {
                   <Textarea
                     rows={12}
                     style={{ marginTop: globalTheme.space.md }}
-                  >
-                    adssaas
-                  </Textarea>
+                  />
                 </StyledFormField>
                 <StyledFormField>
                   <Label>
