@@ -46,10 +46,10 @@ const ContentCol = styled(Col)`
 `;
 
 const HelpCol = styled(Col)`
-  padding: ${({ theme }) => theme.space.xl};
   border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
   background-color: white;
   margin-bottom: 0;
+  padding: 0;
 `;
 
 const TextCasesTabs = styled.div`
@@ -105,158 +105,173 @@ export const ModalUseCase = () => {
         <ModalUseCaseHeader />
       </ModalFullScreen.Header>
       <Body>
-        <Grid>
-          <Row>
+        <Grid style={{ height: '100%' }}>
+          <Row style={{ height: '100%' }}>
             <ContentCol xs={8}>
               <TextCasesTabs>
                 <ModalUseCaseTabLayout />
               </TextCasesTabs>
-              <TextCaseForm>
-                <StyledFormField style={{ marginTop: 0 }}>
-                  <Label>
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE'
-                    )}
-                    <Span style={{ color: globalTheme.colors.dangerHue }}>
-                      *
-                    </Span>
-                  </Label>
-                  <Input
-                    type="text"
-                    placeholder={t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
-                    )}
-                    focusInset
-                    {...(currentUseCase.title && {
-                      value: currentUseCase.title,
-                    })}
-                  />
-                </StyledFormField>
-                <Notes style={{ marginTop: globalTheme.space.lg }}>
-                  <StyledFormField style={{ marginTop: globalTheme.space.xs }}>
-                    <Dropdown
-                      {...(currentUseCase.functionality && {
-                        selectedItem: currentUseCase.functionality,
-                      })}
+              {currentUseCase ? (
+                <TextCaseForm>
+                  <StyledFormField style={{ marginTop: 0 }}>
+                    <Label>
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE'
+                      )}
+                      <Span style={{ color: globalTheme.colors.dangerHue }}>
+                        *
+                      </Span>
+                    </Label>
+                    <Input
+                      type="text"
+                      placeholder={t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
+                      )}
+                      focusInset
+                      {...(currentUseCase &&
+                        currentUseCase.title && {
+                          value: currentUseCase.title,
+                        })}
+                    />
+                  </StyledFormField>
+                  <Notes style={{ marginTop: globalTheme.space.lg }}>
+                    <StyledFormField
+                      style={{ marginTop: globalTheme.space.xs }}
                     >
-                      <DropdownField>
+                      <Dropdown
+                        {...(currentUseCase &&
+                          currentUseCase.functionality && {
+                            selectedItem: currentUseCase.functionality,
+                          })}
+                      >
+                        <DropdownField>
+                          <Label>
+                            {t(
+                              '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE'
+                            )}
+                            <Span
+                              style={{ color: globalTheme.colors.dangerHue }}
+                            >
+                              *
+                            </Span>
+                          </Label>
+                          <Select start={<FunctionalityIcon />}>
+                            {t(
+                              '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
+                            )}
+                          </Select>
+                        </DropdownField>
+                        <Menu>
+                          {/* TODO CUP-1019: API /templates */}
+                          <Item key="" value="">
+                            adsadsadsa
+                          </Item>
+                        </Menu>
+                      </Dropdown>
+                    </StyledFormField>
+                    <StyledFormField
+                      style={{ marginTop: globalTheme.space.lg }}
+                    >
+                      <InlineRow>
                         <Label>
                           {t(
-                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE'
+                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_TITLE'
                           )}
-                          <Span style={{ color: globalTheme.colors.dangerHue }}>
-                            *
-                          </Span>
                         </Label>
-                        <Select start={<FunctionalityIcon />}>
+                        <Toggle
+                          {...(currentUseCase &&
+                            currentUseCase.logged && {
+                              checked: currentUseCase.logged,
+                            })}
+                        >
+                          <Label hidden>hidden</Label>
+                        </Toggle>
+                      </InlineRow>
+                      <Divider
+                        style={{
+                          marginTop: globalTheme.space.sm,
+                          marginBottom: globalTheme.space.md,
+                        }}
+                      />
+                      <InlineRow>
+                        <Paragraph>
                           {t(
-                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
+                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_DESCRIPTION'
                           )}
-                        </Select>
-                      </DropdownField>
-                      <Menu>
-                        {/* TODO CUP-1019: API /templates */}
-                        <Item key="" value="">
-                          adsadsadsa
-                        </Item>
-                      </Menu>
-                    </Dropdown>
-                  </StyledFormField>
-                  <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
-                    <InlineRow>
-                      <Label>
-                        {t(
-                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_TITLE'
-                        )}
-                      </Label>
-                      <Toggle
-                        {...(currentUseCase.logged && {
-                          checked: currentUseCase.logged,
+                        </Paragraph>
+                        <InfoIcon className="authentication-info-button" />
+                      </InlineRow>
+                    </StyledFormField>
+                  </Notes>
+                  <StyledFormField style={{ marginTop: globalTheme.space.xl }}>
+                    <DescriptionTitle>
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_TITLE'
+                      )}
+                    </DescriptionTitle>
+                    <Paragraph>
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION'
+                      )}
+                    </Paragraph>
+                    {/* TODO CUP-1062: editor */}
+                    <Textarea
+                      rows={12}
+                      style={{ marginTop: globalTheme.space.md }}
+                      {...(currentUseCase &&
+                        currentUseCase.description && {
+                          value: currentUseCase.description,
                         })}
-                      >
-                        <Label hidden>hidden</Label>
-                      </Toggle>
-                    </InlineRow>
-                    <Divider
-                      style={{
-                        marginTop: globalTheme.space.sm,
-                        marginBottom: globalTheme.space.md,
-                      }}
                     />
-                    <InlineRow>
-                      <Paragraph>
-                        {t(
-                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_DESCRIPTION'
-                        )}
-                      </Paragraph>
-                      <InfoIcon className="authentication-info-button" />
-                    </InlineRow>
                   </StyledFormField>
-                </Notes>
-                <StyledFormField style={{ marginTop: globalTheme.space.xl }}>
-                  <DescriptionTitle>
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_TITLE'
-                    )}
-                  </DescriptionTitle>
-                  <Paragraph>
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION'
-                    )}
-                  </Paragraph>
-                  {/* TODO CUP-1062: editor */}
-                  <Textarea
-                    rows={12}
-                    style={{ marginTop: globalTheme.space.md }}
-                    {...(currentUseCase.description && {
-                      value: currentUseCase.description,
-                    })}
-                  />
-                </StyledFormField>
-                <Notes style={{ marginTop: globalTheme.space.lg }}>
-                  <NotesTitle>
-                    <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_TITLE'
-                    )}
-                  </NotesTitle>
-                  <Paragraph>
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_SUBTITLE'
-                    )}
-                  </Paragraph>
-                </Notes>
-                <StyledFormField>
-                  <Label>
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE'
-                    )}
-                    <Span style={{ color: globalTheme.palette.grey[600] }}>
-                      {t('__FORM_OPTIONAL_LABEL')}
-                    </Span>
-                  </Label>
-                  <Paragraph style={{ marginBottom: globalTheme.space.xs }}>
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_SUBTITLE'
-                    )}
-                  </Paragraph>
-                  <MediaInput
-                    start={<LinkIcon />}
-                    type="text"
-                    placeholder={t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_PLACEHOLDER'
-                    )}
-                    focusInset
-                    {...(currentUseCase.link && { value: currentUseCase.link })}
-                  />
-                  <StyledMessage>
-                    <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_MESSAGE'
-                    )}
-                  </StyledMessage>
-                </StyledFormField>
-              </TextCaseForm>
+                  <Notes style={{ marginTop: globalTheme.space.lg }}>
+                    <NotesTitle>
+                      <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_TITLE'
+                      )}
+                    </NotesTitle>
+                    <Paragraph>
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_SUBTITLE'
+                      )}
+                    </Paragraph>
+                  </Notes>
+                  <StyledFormField>
+                    <Label>
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE'
+                      )}
+                      <Span style={{ color: globalTheme.palette.grey[600] }}>
+                        {t('__FORM_OPTIONAL_LABEL')}
+                      </Span>
+                    </Label>
+                    <Paragraph style={{ marginBottom: globalTheme.space.xs }}>
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_SUBTITLE'
+                      )}
+                    </Paragraph>
+                    <MediaInput
+                      start={<LinkIcon />}
+                      type="text"
+                      placeholder={t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_PLACEHOLDER'
+                      )}
+                      focusInset
+                      {...(currentUseCase &&
+                        currentUseCase.link && { value: currentUseCase.link })}
+                    />
+                    <StyledMessage>
+                      <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_MESSAGE'
+                      )}
+                    </StyledMessage>
+                  </StyledFormField>
+                </TextCaseForm>
+              ) : (
+                <Paragraph>Empty state</Paragraph>
+              )}
             </ContentCol>
             <HelpCol xs={4}>
               <ModalUseCaseHelp />

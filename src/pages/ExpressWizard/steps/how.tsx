@@ -2,6 +2,7 @@ import {
   Card,
   ContainerCard,
   Paragraph,
+  SM,
   Span,
   Textarea,
   theme as globalTheme,
@@ -13,9 +14,16 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-import { openUseCaseModal } from 'src/features/express/expressSlice';
+import {
+  addUseCase,
+  emptyUseCase,
+  openUseCaseModal,
+  setCurrentUseCase,
+  UseCase,
+} from 'src/features/express/expressSlice';
+import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 
@@ -37,7 +45,7 @@ const StyledLanguageTitle = styled(XL)`
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
-const AddUseCaseCardButton = styled(Card)`
+const UseCaseCardButton = styled(Card)`
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -45,13 +53,24 @@ const AddUseCaseCardButton = styled(Card)`
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xl};
 `;
 
-const AddUseCaseCardButtonText = styled.div`
+const UseCaseCardButtonText = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   padding: 0 ${({ theme }) => theme.space.base * 4}px;
+  color: ${({ theme }) => theme.palette.grey[800]};
+`;
+
+const UseCaseCardButtonDescription = styled(SM)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+`;
+
+const UseCaseEditLabel = styled(Paragraph)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+  margin-right: ${({ theme }) => theme.space.xs};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
 export const HowStep = ({
@@ -61,6 +80,7 @@ export const HowStep = ({
 }: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { useCases } = useAppSelector((state) => state.express);
 
   return (
     <>
@@ -85,24 +105,55 @@ export const HowStep = ({
               '__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_PLACEHOLDER'
             )}
             isResizable
-            {...props.getFieldProps('outOfScope')}
             style={{ marginTop: globalTheme.space.md }}
+            {...props.getFieldProps('test_description')}
           />
         </StyledFormField>
       </ContainerCard>
-      <AddUseCaseCardButton
-        onClick={() => dispatch(openUseCaseModal())}
-        style={{ marginTop: globalTheme.space.md }}
-      >
-        <AddIcon />
-        <AddUseCaseCardButtonText>
-          <XL>{t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}</XL>
-          <Paragraph>
-            {t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_SUBTITLE')}
-          </Paragraph>
-        </AddUseCaseCardButtonText>
-        <RightArrow />
-      </AddUseCaseCardButton>
+      {useCases.map((useCase: UseCase) => (
+        <UseCaseCardButton
+          className="use-case-edit-card-button"
+          onClick={() => {
+            dispatch(setCurrentUseCase(useCase));
+            dispatch(openUseCaseModal());
+          }}
+          style={{ marginTop: globalTheme.space.md }}
+        >
+          <UseCaseCardButtonText>
+            <UseCaseCardButtonDescription>
+              {useCase.index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
+              {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
+            </UseCaseCardButtonDescription>
+            <XL>{useCase.title}</XL>
+          </UseCaseCardButtonText>
+          <UseCaseEditLabel>
+            {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
+          </UseCaseEditLabel>
+          <RightArrow />
+        </UseCaseCardButton>
+      ))}
+      {EXPRESS_USE_CASES_LIMIT - useCases.length > 0 && (
+        <UseCaseCardButton
+          className="use-case-add-card-button"
+          onClick={() => {
+            dispatch(addUseCase(emptyUseCase));
+            dispatch(
+              setCurrentUseCase({ ...emptyUseCase, index: useCases.length })
+            );
+            dispatch(openUseCaseModal());
+          }}
+          style={{ marginTop: globalTheme.space.md }}
+        >
+          <AddIcon />
+          <UseCaseCardButtonText>
+            <XL>{t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}</XL>
+            <UseCaseCardButtonDescription>
+              {t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_SUBTITLE')}
+            </UseCaseCardButtonDescription>
+          </UseCaseCardButtonText>
+          <RightArrow />
+        </UseCaseCardButton>
+      )}
     </>
   );
 };

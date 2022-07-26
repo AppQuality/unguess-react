@@ -12,7 +12,7 @@ export interface ExpressWizardState {
   isDirty?: boolean;
   currentStep?: number;
   useCases: UseCase[];
-  currentUseCase: UseCase;
+  currentUseCase?: UseCase;
 }
 
 export interface Step {
@@ -30,11 +30,11 @@ export interface UseCase {
 
 export const emptyUseCase: UseCase = {
   index: 0,
-  title: 'string',
-  functionality: 'string',
+  title: '',
+  functionality: '',
   logged: false,
-  description: 'string',
-  link: 'string',
+  description: '',
+  link: '',
 };
 
 const initialState: ExpressWizardState = {
@@ -44,8 +44,7 @@ const initialState: ExpressWizardState = {
   steps: {},
   projectLocked: false,
   expressTypeId: 0,
-  useCases: [emptyUseCase],
-  currentUseCase: emptyUseCase,
+  useCases: [],
 };
 
 const expressSlice = createSlice({
@@ -97,13 +96,13 @@ const expressSlice = createSlice({
       state.expressTypeId = 0;
     },
     addUseCase: (state, action) => {
-      state.useCases.push(action.payload);
+      state.useCases.push({ ...action.payload, index: state.useCases.length });
     },
     removeUseCase: (state, action) => {
       state.useCases.splice(0, action.payload);
     },
     clearUseCases: (state) => {
-      state.useCases = [emptyUseCase];
+      state.useCases = [];
     },
     setCurrentUseCase: (state, action) => {
       state.currentUseCase = action.payload;

@@ -89,9 +89,10 @@ export const ModalUseCaseTabLayout = () => {
                     formProps.values.useCases.map(
                       (useCase: UseCase, index: number) => (
                         <UseCaseCard
-                          {...(currentUseCase.index === index && {
-                            className: 'current-card',
-                          })}
+                          {...(currentUseCase &&
+                            currentUseCase.index === index && {
+                              className: 'current-card',
+                            })}
                           onClick={() => {
                             dispatch(setCurrentUseCase(useCase));
                           }}
@@ -112,12 +113,7 @@ export const ModalUseCaseTabLayout = () => {
                           ...emptyUseCase,
                           index: formProps.values.useCases.length,
                         });
-                        dispatch(
-                          addUseCase({
-                            ...emptyUseCase,
-                            index: formProps.values.useCases.length,
-                          })
-                        );
+                        dispatch(addUseCase(emptyUseCase));
                         dispatch(
                           setCurrentUseCase({
                             ...emptyUseCase,

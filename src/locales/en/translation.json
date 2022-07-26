@@ -84,6 +84,7 @@
   "__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_SUBTITLE": "The actions performed by the tester to test one or more functionalities",
   "__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE": "Add use case",
   "__EXPRESS_WIZARD_STEP_HOW_DESCRIPTION": "Test manual",
+  "__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL": "Edit",
   "__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_DESCRIPTION": "Give some instructions to the tester to perform the test",
   "__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_PLACEHOLDER": "You will test the X product, which is used for Y",
   "__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_TITLE": "Product description",

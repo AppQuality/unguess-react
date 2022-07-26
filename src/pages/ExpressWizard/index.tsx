@@ -54,7 +54,6 @@ const StyledContainer = styled(ContainerCard)`
   position: sticky;
   top: 0;
   padding: ${({ theme }) => theme.space.xxl};
-  paddingbottom: ${({ theme }) => theme.space.xl};
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
