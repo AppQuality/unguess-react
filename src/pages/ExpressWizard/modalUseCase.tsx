@@ -43,6 +43,11 @@ const Body = styled(ModalFullScreen.Body)`
 const ContentCol = styled(Col)`
   padding: ${({ theme }) => theme.space.xl};
   margin-bottom: 0;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-content: stretch;
+  display: flex;
+  flex-direction: column;
 `;
 
 const HelpCol = styled(Col)`
@@ -85,6 +90,15 @@ const InlineRow = styled.div`
 
 const DescriptionTitle = styled(LG)`
   color: ${({ theme }) => theme.palette.grey[800]};
+`;
+
+const CenteredContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  margin-top: ${({ theme }) => theme.space.xl};
 `;
 
 export const ModalUseCase = () => {
@@ -270,7 +284,9 @@ export const ModalUseCase = () => {
                   </StyledFormField>
                 </TextCaseForm>
               ) : (
-                <Paragraph>Empty state</Paragraph>
+                <CenteredContainer>
+                  <Paragraph>Empty state</Paragraph>
+                </CenteredContainer>
               )}
             </ContentCol>
             <HelpCol xs={4}>
