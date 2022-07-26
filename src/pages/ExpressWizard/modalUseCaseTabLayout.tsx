@@ -53,6 +53,13 @@ const UseCaseCard = styled(Card)`
     }
   }
 
+  &.empty-card {
+    background-color: transparent;
+    color: ${({ theme }) => theme.palette.grey[500]};
+    border: 1px dashed ${({ theme }) => theme.palette.grey[500]};
+    pointer-events: none;
+  }
+
   &:focus {
     outline: none;
   }
@@ -111,6 +118,22 @@ export const ModalUseCaseTabLayout = () => {
                         )}
                       </UseCaseCard>
                     )}
+                    {EXPRESS_USE_CASES_LIMIT -
+                      formProps.values.useCases.length >
+                      0 &&
+                      [
+                        ...Array(
+                          EXPRESS_USE_CASES_LIMIT -
+                            formProps.values.useCases.length -
+                            1
+                        ),
+                      ].map(() => (
+                        <UseCaseCard isFloating={false} className="empty-card">
+                          {t(
+                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_LABEL'
+                          )}
+                        </UseCaseCard>
+                      ))}
                   </UseCasesWrapper>
                 )}
               </FieldArray>
