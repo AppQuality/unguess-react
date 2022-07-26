@@ -4,15 +4,13 @@ import styled from 'styled-components';
 import {
   UseCase,
   addUseCase,
-  removeUseCase,
   emptyUseCase,
-  clearUseCases,
+  setCurrentUseCase,
 } from 'src/features/express/expressSlice';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { useEffect } from 'react';
 
 const Container = styled.div`
   padding: 0 ${({ theme }) => theme.space.md};
@@ -33,15 +31,21 @@ const UseCaseCard = styled(Card)`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.primaryHue};
-  border: 1px solid ${({ theme }) => theme.colors.primaryHue};
-  color: white;
+  background-color: white;
+  border: 1px solid ${({ theme }) => theme.palette.grey[300]};
+  color: ${({ theme }) => theme.colors.primaryHue};
   padding: 0;
   height: ${({ theme }) => theme.space.base * 20}px;
   width: 20%;
   margin: 0 ${({ theme }) => theme.space.xs};
   cursor: pointer;
   user-select: none;
+
+  &.current-card {
+    background-color: ${({ theme }) => theme.colors.primaryHue};
+    border: 1px solid ${({ theme }) => theme.colors.primaryHue};
+    color: white;
+  }
 
   &.add-card {
     background-color: ${({ theme }) => theme.palette.blue[100]};
@@ -68,78 +72,86 @@ const UseCaseCard = styled(Card)`
 export const ModalUseCaseTabLayout = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { useCases } = useAppSelector((state) => state.express);
+  const { useCases, currentUseCase } = useAppSelector((state) => state.express);
 
   console.log('state.express.useCases', useCases);
+  console.log('state.express.currentUseCase', currentUseCase);
 
   return (
     <Container>
-      <Formik
-        initialValues={{ useCases }}
-        onSubmit={(values, { setSubmitting }) =>
-          alert(JSON.stringify(values, null, 2))
-        }
-      >
-        {(formProps: FormikProps<any>) => {
-          console.log('formProps.values', formProps.values);
-
-          return (
-            <Form>
-              <FieldArray name="useCases">
-                {({ push, remove, insert, replace }) => (
-                  <UseCasesWrapper>
-                    {formProps.values.useCases.length > 0 &&
-                      formProps.values.useCases.map(
-                        (useCase: UseCase, index: number) => (
-                          <UseCaseCard
-                            onClick={() => {
-                              console.log('useCase', useCase);
-                            }}
-                          >
-                            {t(
-                              '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
-                            )}{' '}
-                            {index + 1}
-                          </UseCaseCard>
-                        )
+      <Formik initialValues={{ useCases }} onSubmit={() => {}}>
+        {(formProps: FormikProps<any>) => (
+          <Form>
+            <FieldArray name="useCases">
+              {({ push }) => (
+                <UseCasesWrapper>
+                  {formProps.values.useCases.length > 0 &&
+                    formProps.values.useCases.map(
+                      (useCase: UseCase, index: number) => (
+                        <UseCaseCard
+                          {...(currentUseCase.index === index && {
+                            className: 'current-card',
+                          })}
+                          onClick={() => {
+                            dispatch(setCurrentUseCase(useCase));
+                          }}
+                        >
+                          {t(
+                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
+                          )}{' '}
+                          {index + 1}
+                        </UseCaseCard>
+                      )
+                    )}
+                  {formProps.values.useCases.length <
+                    EXPRESS_USE_CASES_LIMIT && (
+                    <UseCaseCard
+                      className="add-card"
+                      onClick={() => {
+                        push({
+                          ...emptyUseCase,
+                          index: formProps.values.useCases.length,
+                        });
+                        dispatch(
+                          addUseCase({
+                            ...emptyUseCase,
+                            index: formProps.values.useCases.length,
+                          })
+                        );
+                        dispatch(
+                          setCurrentUseCase({
+                            ...emptyUseCase,
+                            index: formProps.values.useCases.length,
+                          })
+                        );
+                      }}
+                    >
+                      <AddIcon />
+                      {t(
+                        '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
                       )}
-                    {formProps.values.useCases.length <
-                      EXPRESS_USE_CASES_LIMIT && (
-                      <UseCaseCard
-                        className="add-card"
-                        onClick={() => {
-                          push(emptyUseCase);
-                          dispatch(addUseCase(emptyUseCase));
-                        }}
-                      >
-                        <AddIcon />
+                    </UseCaseCard>
+                  )}
+                  {EXPRESS_USE_CASES_LIMIT - formProps.values.useCases.length >
+                    0 &&
+                    [
+                      ...Array(
+                        EXPRESS_USE_CASES_LIMIT -
+                          formProps.values.useCases.length -
+                          1
+                      ),
+                    ].map(() => (
+                      <UseCaseCard isFloating={false} className="empty-card">
                         {t(
-                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
+                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_LABEL'
                         )}
                       </UseCaseCard>
-                    )}
-                    {EXPRESS_USE_CASES_LIMIT -
-                      formProps.values.useCases.length >
-                      0 &&
-                      [
-                        ...Array(
-                          EXPRESS_USE_CASES_LIMIT -
-                            formProps.values.useCases.length -
-                            1
-                        ),
-                      ].map(() => (
-                        <UseCaseCard isFloating={false} className="empty-card">
-                          {t(
-                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_LABEL'
-                          )}
-                        </UseCaseCard>
-                      ))}
-                  </UseCasesWrapper>
-                )}
-              </FieldArray>
-            </Form>
-          );
-        }}
+                    ))}
+                </UseCasesWrapper>
+              )}
+            </FieldArray>
+          </Form>
+        )}
       </Formik>
     </Container>
   );

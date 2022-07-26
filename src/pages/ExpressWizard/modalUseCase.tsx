@@ -1,8 +1,10 @@
 import { useTranslation } from 'react-i18next';
-import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeUseCaseModal } from 'src/features/express/expressSlice';
+import {
+  closeUseCaseModal,
+  setCurrentUseCase,
+} from 'src/features/express/expressSlice';
 import {
   Col,
   Grid,
@@ -67,6 +69,10 @@ const StyledFormField = styled.div`
 `;
 
 const StyledMessage = styled(Message)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
   margin-top: ${({ theme }) => theme.space.sm};
 `;
 
@@ -85,7 +91,9 @@ export const ModalUseCase = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
+  const { isUseCaseModalOpen, currentUseCase } = useAppSelector(
+    (state) => state.express
+  );
 
   return isUseCaseModalOpen ? (
     <ModalFullScreen
@@ -119,11 +127,18 @@ export const ModalUseCase = () => {
                       '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
                     )}
                     focusInset
+                    {...(currentUseCase.title && {
+                      value: currentUseCase.title,
+                    })}
                   />
                 </StyledFormField>
                 <Notes style={{ marginTop: globalTheme.space.lg }}>
                   <StyledFormField style={{ marginTop: globalTheme.space.xs }}>
-                    <Dropdown>
+                    <Dropdown
+                      {...(currentUseCase.functionality && {
+                        selectedItem: currentUseCase.functionality,
+                      })}
+                    >
                       <DropdownField>
                         <Label>
                           {t(
@@ -154,7 +169,11 @@ export const ModalUseCase = () => {
                           '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_TITLE'
                         )}
                       </Label>
-                      <Toggle>
+                      <Toggle
+                        {...(currentUseCase.logged && {
+                          checked: currentUseCase.logged,
+                        })}
+                      >
                         <Label hidden>hidden</Label>
                       </Toggle>
                     </InlineRow>
@@ -189,10 +208,14 @@ export const ModalUseCase = () => {
                   <Textarea
                     rows={12}
                     style={{ marginTop: globalTheme.space.md }}
+                    {...(currentUseCase.description && {
+                      value: currentUseCase.description,
+                    })}
                   />
                 </StyledFormField>
                 <Notes style={{ marginTop: globalTheme.space.lg }}>
                   <NotesTitle>
+                    <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
                     {t(
                       '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_TITLE'
                     )}
@@ -224,8 +247,10 @@ export const ModalUseCase = () => {
                       '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_PLACEHOLDER'
                     )}
                     focusInset
+                    {...(currentUseCase.link && { value: currentUseCase.link })}
                   />
                   <StyledMessage>
+                    <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
                     {t(
                       '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_MESSAGE'
                     )}

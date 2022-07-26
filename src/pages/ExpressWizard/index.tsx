@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
+  clearCurrentUseCase,
   clearUseCases,
   closeWizard,
   resetWizard,
@@ -292,6 +293,7 @@ export const ExpressWizardContainer = () => {
         dispatch(closeWizard());
         dispatch(resetWizard());
         dispatch(clearUseCases());
+        dispatch(clearCurrentUseCase());
         setStep(0);
         setThankyou(false);
         toggleChat(true);
