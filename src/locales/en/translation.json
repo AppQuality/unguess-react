@@ -92,6 +92,7 @@
   "__EXPRESS_WIZARD_STEP_HOW_LABEL_EXTRA": "we test it?",
   "__EXPRESS_WIZARD_STEP_HOW_SUBTITLE": "Build the tester's flow, creating from 1 to 5 use cases",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON": "Add",
+  "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL": "Delete",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION": "These will be the informations the testers will receive in order to test the functionality",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_TITLE": "Instructions for the test",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_LABEL": "Empty",

@@ -81,6 +81,7 @@ export const HowStep = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { useCases } = useAppSelector((state) => state.express);
+  let highestUseCaseId = 0;
 
   return (
     <>
@@ -110,35 +111,42 @@ export const HowStep = ({
           />
         </StyledFormField>
       </ContainerCard>
-      {useCases.map((useCase: UseCase) => (
-        <UseCaseCardButton
-          className="use-case-edit-card-button"
-          onClick={() => {
-            dispatch(setCurrentUseCase(useCase));
-            dispatch(openUseCaseModal());
-          }}
-          style={{ marginTop: globalTheme.space.md }}
-        >
-          <UseCaseCardButtonText>
-            <UseCaseCardButtonDescription>
-              {useCase.index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
-              {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
-            </UseCaseCardButtonDescription>
-            <XL>{useCase.title}</XL>
-          </UseCaseCardButtonText>
-          <UseCaseEditLabel>
-            {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
-          </UseCaseEditLabel>
-          <RightArrow />
-        </UseCaseCardButton>
-      ))}
+      {useCases.map((useCase: UseCase, index: number) => {
+        // Update the highest use case id
+        if (useCase.id > highestUseCaseId) {
+          highestUseCaseId = useCase.id;
+        }
+
+        return (
+          <UseCaseCardButton
+            className="use-case-edit-card-button"
+            onClick={() => {
+              dispatch(setCurrentUseCase(useCase));
+              dispatch(openUseCaseModal());
+            }}
+            style={{ marginTop: globalTheme.space.md }}
+          >
+            <UseCaseCardButtonText>
+              <UseCaseCardButtonDescription>
+                {index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
+                {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
+              </UseCaseCardButtonDescription>
+              <XL>{useCase.title}</XL>
+            </UseCaseCardButtonText>
+            <UseCaseEditLabel>
+              {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
+            </UseCaseEditLabel>
+            <RightArrow />
+          </UseCaseCardButton>
+        );
+      })}
       {EXPRESS_USE_CASES_LIMIT - useCases.length > 0 && (
         <UseCaseCardButton
           className="use-case-add-card-button"
           onClick={() => {
-            dispatch(addUseCase(emptyUseCase));
+            dispatch(addUseCase({ ...emptyUseCase, id: highestUseCaseId + 1 }));
             dispatch(
-              setCurrentUseCase({ ...emptyUseCase, index: useCases.length })
+              setCurrentUseCase({ ...emptyUseCase, id: highestUseCaseId + 1 })
             );
             dispatch(openUseCaseModal());
           }}

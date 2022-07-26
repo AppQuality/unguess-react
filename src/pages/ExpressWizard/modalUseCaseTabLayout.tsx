@@ -73,36 +73,45 @@ export const ModalUseCaseTabLayout = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { useCases, currentUseCase } = useAppSelector((state) => state.express);
-
-  console.log('state.express.useCases', useCases);
-  console.log('state.express.currentUseCase', currentUseCase);
+  let highestUseCaseId = 0;
 
   return (
     <Container>
-      <Formik initialValues={{ useCases }} onSubmit={() => {}}>
+      <Formik
+        enableReinitialize
+        initialValues={{ useCases }}
+        onSubmit={() => {}}
+      >
         {(formProps: FormikProps<any>) => (
           <Form>
             <FieldArray name="useCases">
-              {({ push }) => (
+              {({ push, remove }) => (
                 <UseCasesWrapper>
                   {formProps.values.useCases.length > 0 &&
                     formProps.values.useCases.map(
-                      (useCase: UseCase, index: number) => (
-                        <UseCaseCard
-                          {...(currentUseCase &&
-                            currentUseCase.index === index && {
-                              className: 'current-card',
-                            })}
-                          onClick={() => {
-                            dispatch(setCurrentUseCase(useCase));
-                          }}
-                        >
-                          {t(
-                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
-                          )}{' '}
-                          {index + 1}
-                        </UseCaseCard>
-                      )
+                      (useCase: UseCase, index: number) => {
+                        // Update the highest use case id
+                        if (useCase.id > highestUseCaseId) {
+                          highestUseCaseId = useCase.id;
+                        }
+
+                        return (
+                          <UseCaseCard
+                            {...(currentUseCase &&
+                              currentUseCase.id === useCase.id && {
+                                className: 'current-card',
+                              })}
+                            onClick={() => {
+                              dispatch(setCurrentUseCase(useCase));
+                            }}
+                          >
+                            {t(
+                              '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
+                            )}{' '}
+                            {index + 1}
+                          </UseCaseCard>
+                        );
+                      }
                     )}
                   {formProps.values.useCases.length <
                     EXPRESS_USE_CASES_LIMIT && (
@@ -111,13 +120,18 @@ export const ModalUseCaseTabLayout = () => {
                       onClick={() => {
                         push({
                           ...emptyUseCase,
-                          index: formProps.values.useCases.length,
+                          id: highestUseCaseId + 1,
                         });
-                        dispatch(addUseCase(emptyUseCase));
+                        dispatch(
+                          addUseCase({
+                            ...emptyUseCase,
+                            id: highestUseCaseId + 1,
+                          })
+                        );
                         dispatch(
                           setCurrentUseCase({
                             ...emptyUseCase,
-                            index: formProps.values.useCases.length,
+                            id: highestUseCaseId + 1,
                           })
                         );
                       }}

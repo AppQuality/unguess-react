@@ -20,7 +20,7 @@ export interface Step {
 }
 
 export interface UseCase {
-  index: number;
+  id: number;
   title: string;
   functionality: string;
   logged: boolean;
@@ -29,7 +29,7 @@ export interface UseCase {
 }
 
 export const emptyUseCase: UseCase = {
-  index: 0,
+  id: 0,
   title: '',
   functionality: '',
   logged: false,
@@ -96,10 +96,12 @@ const expressSlice = createSlice({
       state.expressTypeId = 0;
     },
     addUseCase: (state, action) => {
-      state.useCases.push({ ...action.payload, index: state.useCases.length });
+      state.useCases.push(action.payload);
     },
     removeUseCase: (state, action) => {
-      state.useCases.splice(0, action.payload);
+      state.useCases = state.useCases.filter(
+        (useCase) => useCase.id !== action.payload
+      );
     },
     clearUseCases: (state) => {
       state.useCases = [];
@@ -108,7 +110,7 @@ const expressSlice = createSlice({
       state.currentUseCase = action.payload;
     },
     clearCurrentUseCase: (state) => {
-      state.currentUseCase = emptyUseCase;
+      delete state.currentUseCase;
     },
   },
 });

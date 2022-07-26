@@ -92,6 +92,7 @@
   "__EXPRESS_WIZARD_STEP_HOW_LABEL_EXTRA": "lo testiamo?",
   "__EXPRESS_WIZARD_STEP_HOW_SUBTITLE": "Costruisci il percorso del tester, individuando da 1 a 5 test case.",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON": "Aggiungi",
+  "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL": "Elimina",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION": "Queste sono le istruzioni che riceveranno i tester per testare la funzionalità",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_TITLE": "Istruzioni per il test",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_LABEL": "Vuoto",

@@ -2,8 +2,11 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
+  clearCurrentUseCase,
   closeUseCaseModal,
+  removeUseCase,
   setCurrentUseCase,
+  UseCase,
 } from 'src/features/express/expressSlice';
 import {
   Col,
@@ -25,12 +28,14 @@ import {
   Textarea,
   Toggle,
   LG,
+  Button,
 } from '@appquality/unguess-design-system';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { Divider } from 'src/common/components/divider';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { FieldArray } from 'formik';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
@@ -101,11 +106,19 @@ const CenteredContainer = styled.div`
   margin-top: ${({ theme }) => theme.space.xl};
 `;
 
+const PullRight = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: ${({ theme }) => theme.space.md};
+`;
+
 export const ModalUseCase = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { isUseCaseModalOpen, currentUseCase } = useAppSelector(
+  const { isUseCaseModalOpen, useCases, currentUseCase } = useAppSelector(
     (state) => state.express
   );
 
@@ -282,6 +295,40 @@ export const ModalUseCase = () => {
                       )}
                     </StyledMessage>
                   </StyledFormField>
+                  <PullRight>
+                    <FieldArray name="useCases">
+                      {({ remove }) => (
+                        <Button
+                          themeColor={globalTheme.palette.red[600]}
+                          onClick={() => {
+                            const currentId = currentUseCase.id;
+                            const currentIndex = useCases.findIndex(
+                              (useCase: UseCase) => useCase.id === currentId
+                            );
+                            const currentLength = useCases.length;
+                            remove(currentId);
+                            dispatch(removeUseCase(currentId));
+
+                            // Set current use case
+                            if (currentIndex === 0 && currentLength === 1) {
+                              dispatch(clearCurrentUseCase());
+                            } else if (currentIndex === 0) {
+                              dispatch(setCurrentUseCase(useCases[1]));
+                            } else {
+                              dispatch(
+                                setCurrentUseCase(useCases[currentIndex - 1])
+                              );
+                            }
+                          }}
+                        >
+                          {t(
+                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                          )}{' '}
+                          {currentUseCase.id}
+                        </Button>
+                      )}
+                    </FieldArray>
+                  </PullRight>
                 </TextCaseForm>
               ) : (
                 <CenteredContainer>
