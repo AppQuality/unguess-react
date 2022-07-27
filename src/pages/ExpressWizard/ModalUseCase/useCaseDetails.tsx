@@ -10,7 +10,6 @@ import {
   Item,
   MediaInput,
   Paragraph,
-  Textarea,
   Toggle,
   LG,
   Editor,
@@ -21,6 +20,7 @@ import { FormikProps } from 'formik';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
 import { useState } from 'react';
 import { UseCase } from 'src/features/express/expressSlice';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
@@ -169,6 +169,7 @@ export const UseCaseDetails = ({
         {/* TODO CUP-1062: editor */}
         {isEditing ? (
           <Editor
+            key={`editor_${useCaseIndex}`}
             onSave={(editor) => {
               console.log('saving...');
               setFieldValue(
@@ -182,8 +183,21 @@ export const UseCaseDetails = ({
           </Editor>
         ) : (
           <Notes>
-            <Editor editable={false}>{description}</Editor>
-            <Button onClick={() => setIsEditing(true)}>Edit</Button>
+            <Editor key={`editor_readonly_${useCaseIndex}`} editable={false}>
+              {description}
+            </Editor>
+            <Button
+              themeColor={globalTheme.colors.accentHue}
+              style={{ marginTop: globalTheme.space.md }}
+              onClick={() => setIsEditing(true)}
+              isPrimary
+              isPill
+            >
+              <Button.StartIcon>
+                <EditIcon fill={globalTheme.palette.white} />
+              </Button.StartIcon>
+              {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
+            </Button>
           </Notes>
         )}
       </StyledFormField>
