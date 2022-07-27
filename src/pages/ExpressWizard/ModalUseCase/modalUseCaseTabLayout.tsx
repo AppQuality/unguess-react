@@ -5,7 +5,6 @@ import { UseCase, emptyUseCase } from 'src/features/express/expressSlice';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
-import { useAppDispatch } from 'src/app/hooks';
 import { WizardModel } from '../wizardModel';
 
 const Container = styled.div`
@@ -75,7 +74,6 @@ export const ModalUseCaseTabLayout = ({
   currentUseCase: UseCase;
 }) => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const { values } = formikProps;
   const { use_cases } = values;
 
@@ -87,9 +85,8 @@ export const ModalUseCaseTabLayout = ({
 
   return (
     <Container>
-      {/* {(props) => ( */}
       <FieldArray name="use_cases">
-        {({ push, remove }) => (
+        {({ push }) => (
           <UseCasesWrapper>
             {use_cases &&
               use_cases.length > 0 &&
@@ -144,7 +141,6 @@ export const ModalUseCaseTabLayout = ({
           </UseCasesWrapper>
         )}
       </FieldArray>
-      {/* )} */}
     </Container>
   );
 };

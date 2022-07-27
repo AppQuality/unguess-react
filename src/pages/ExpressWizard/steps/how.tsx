@@ -76,7 +76,7 @@ const UseCaseEditLabel = styled(Paragraph)`
 export const HowStep = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
   const [currentUseCase, setCurrentUseCase] = useState<UseCase>(emptyUseCase);
-  const { errors, values, getFieldProps, setValues } = props;
+  const { values, getFieldProps, setValues } = props;
   const { use_cases } = values;
   const dispatch = useAppDispatch();
 
