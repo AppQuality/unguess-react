@@ -17,3 +17,4 @@ export const DESKTOP_WINDOWS = { id: 8, deviceType: 2 };
 export const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
 export const DEFAULT_EXPRESS_REQUIRED_COINS = 1;
 export const SERVICES_SHOW_TIPS = true;
+export const EXPRESS_USE_CASES_LIMIT = 5;

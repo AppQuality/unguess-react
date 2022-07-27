@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "private": true,
   "dependencies": {
-    "@appquality/unguess-design-system": "2.10.60",
+    "@appquality/unguess-design-system": "2.10.64",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
@@ -124,7 +124,9 @@
   },
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2"
   },
   "lint-staged": {
     "*.{tsx,ts,js,css,md}": "prettier --write"

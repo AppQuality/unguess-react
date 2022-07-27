@@ -21,6 +21,8 @@ const values: WizardModel = {
   isAndroid: false,
   link: '',
   campaign_language: '',
+  test_description: '',
+  use_cases: [],
 };
 
 export default values;

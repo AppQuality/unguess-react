@@ -50,15 +50,21 @@ export const Featured = ({ handleHubspot }: { handleHubspot: () => void }) => {
     },
   });
 
-  const formattedFeatured = extractStrapiData(featuredData);
+  let formattedFeatured = [];
+  if (featuredData) {
+    formattedFeatured = extractStrapiData(featuredData);
+  }
 
   // Reduce the featured services to only the ones that have enough coins
-  const featuredServices = formattedFeatured.filter((service: any) =>
-    hasEnoughCoins({
-      workspace: activeWorkspace,
-      coins: extractStrapiData(service.express).price,
-    })
-  );
+  let featuredServices = [];
+  if (formattedFeatured) {
+    featuredServices = formattedFeatured.filter((service: any) =>
+      hasEnoughCoins({
+        workspace: activeWorkspace,
+        coins: extractStrapiData(service.express).price,
+      })
+    );
+  }
 
   if (isError) {
     navigate(notFoundRoute, { replace: true });

@@ -42,14 +42,12 @@ import { WizardModel } from './wizardModel';
 import defaultValues from './wizardInitialValues';
 import { reasonItems } from './steps/what';
 import { getPlatform } from './getPlatform';
-
 import { StepItem, useExpressStep } from './steps/useSteps';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
   top: 0;
   padding: ${({ theme }) => theme.space.xxl};
-  paddingbottom: ${({ theme }) => theme.space.xl};
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
@@ -332,9 +330,7 @@ export const ExpressWizardContainer = () => {
                       </StyledContainer>
                     </Col>
                     <Col xs={12} lg={9} xl={6}>
-                      <ContainerCard>
-                        {steps[activeStep as number].form(formProps)}
-                      </ContainerCard>
+                      {steps[activeStep as number].form(formProps)}
                     </Col>
                   </Row>
                 </Form>
