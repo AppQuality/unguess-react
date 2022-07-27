@@ -1,13 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import {
-  clearCurrentUseCase,
-  closeUseCaseModal,
-  removeUseCase,
-  setCurrentUseCase,
-  UseCase,
-} from 'src/features/express/expressSlice';
+import { closeUseCaseModal, UseCase } from 'src/features/express/expressSlice';
 import {
   Col,
   Grid,
@@ -36,10 +30,12 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { Divider } from 'src/common/components/divider';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
-import { FieldArray } from 'formik';
+import { FieldArray, FormikProps } from 'formik';
+
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
+import { WizardModel } from '../wizardModel';
 
 const Body = styled(ModalFullScreen.Body)`
   padding: 0;
@@ -114,13 +110,26 @@ const PullRight = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-export const ModalUseCase = () => {
+export const ModalUseCase = ({
+  formikProps,
+  currentUseCase,
+  setUseCase,
+}: {
+  formikProps: FormikProps<WizardModel>;
+  currentUseCase: UseCase;
+  setUseCase: (item: UseCase) => void;
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { isUseCaseModalOpen, useCases, currentUseCase } = useAppSelector(
-    (state) => state.express
-  );
+  const { values } = formikProps;
+  const { use_cases } = values;
+
+  const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
+
+  // eslint-disable-next-line
+  console.log('values', values);
+  console.log('currentUseCase', currentUseCase);
 
   return isUseCaseModalOpen ? (
     <ModalFullScreen
@@ -136,9 +145,13 @@ export const ModalUseCase = () => {
           <Row style={{ height: '100%' }}>
             <ContentCol xs={8}>
               <TextCasesTabs>
-                <ModalUseCaseTabLayout />
+                <ModalUseCaseTabLayout
+                  formikProps={formikProps}
+                  handleCurrentUseCase={(useCase) => setUseCase(useCase)}
+                  currentUseCase={currentUseCase}
+                />
               </TextCasesTabs>
-              {currentUseCase ? (
+              {use_cases && use_cases.length ? (
                 <TextCaseForm>
                   <StyledFormField style={{ marginTop: 0 }}>
                     <Label>
@@ -286,7 +299,9 @@ export const ModalUseCase = () => {
                       )}
                       focusInset
                       {...(currentUseCase &&
-                        currentUseCase.link && { value: currentUseCase.link })}
+                        currentUseCase.link && {
+                          value: currentUseCase.link,
+                        })}
                     />
                     <StyledMessage>
                       <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
@@ -296,28 +311,23 @@ export const ModalUseCase = () => {
                     </StyledMessage>
                   </StyledFormField>
                   <PullRight>
-                    <FieldArray name="useCases">
+                    <FieldArray name="use_cases">
                       {({ remove }) => (
                         <Button
                           themeColor={globalTheme.palette.red[600]}
                           onClick={() => {
                             const currentId = currentUseCase.id;
-                            const currentIndex = useCases.findIndex(
+                            const currentIndex = use_cases.findIndex(
                               (useCase: UseCase) => useCase.id === currentId
                             );
-                            const currentLength = useCases.length;
-                            remove(currentId);
-                            dispatch(removeUseCase(currentId));
+
+                            remove(currentIndex);
 
                             // Set current use case
-                            if (currentIndex === 0 && currentLength === 1) {
-                              dispatch(clearCurrentUseCase());
-                            } else if (currentIndex === 0) {
-                              dispatch(setCurrentUseCase(useCases[1]));
+                            if (currentIndex === 0) {
+                              setUseCase(use_cases[currentIndex + 1]);
                             } else {
-                              dispatch(
-                                setCurrentUseCase(useCases[currentIndex - 1])
-                              );
+                              setUseCase(use_cases[currentIndex - 1]);
                             }
                           }}
                         >
