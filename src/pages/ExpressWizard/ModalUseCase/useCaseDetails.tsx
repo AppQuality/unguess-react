@@ -13,13 +13,15 @@ import {
   Textarea,
   Toggle,
   LG,
+  Editor,
+  Button,
 } from '@appquality/unguess-design-system';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
-
+import { useState } from 'react';
 import { UseCase } from 'src/features/express/expressSlice';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
@@ -53,11 +55,22 @@ const DescriptionTitle = styled(LG)`
 export const UseCaseDetails = ({
   formikProps,
   useCase,
+  useCaseIndex,
 }: {
   formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
+  useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
+  const [isEditing, setIsEditing] = useState(false);
+  const { getFieldProps, setFieldValue, values } = formikProps;
+
+  const description =
+    values.use_cases && values.use_cases[useCaseIndex]
+      ? values.use_cases[useCaseIndex].description
+      : '';
+
+  console.log('useCase', description);
 
   return (
     <>
@@ -76,6 +89,7 @@ export const UseCaseDetails = ({
             useCase.title && {
               value: useCase.title,
             })}
+          {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
         />
       </StyledFormField>
       <Notes style={{ marginTop: globalTheme.space.lg }}>
@@ -85,6 +99,9 @@ export const UseCaseDetails = ({
               useCase.functionality && {
                 selectedItem: useCase.functionality,
               })}
+            onSelect={(item) => {
+              setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
+            }}
           >
             <DropdownField>
               <Label>
@@ -117,6 +134,7 @@ export const UseCaseDetails = ({
                 useCase.logged && {
                   checked: useCase.logged,
                 })}
+              {...getFieldProps(`use_cases[${useCaseIndex}].logged`)}
             >
               <Label hidden>hidden</Label>
             </Toggle>
@@ -143,20 +161,31 @@ export const UseCaseDetails = ({
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_TITLE'
           )}
         </DescriptionTitle>
-        <Paragraph>
+        <Paragraph style={{ marginBottom: globalTheme.space.md }}>
           {t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION'
           )}
         </Paragraph>
         {/* TODO CUP-1062: editor */}
-        <Textarea
-          rows={12}
-          style={{ marginTop: globalTheme.space.md }}
-          {...(useCase &&
-            useCase.description && {
-              value: useCase.description,
-            })}
-        />
+        {isEditing ? (
+          <Editor
+            onSave={(editor) => {
+              console.log('saving...');
+              setFieldValue(
+                `use_cases[${useCaseIndex}].description`,
+                editor.getHTML()
+              );
+              setIsEditing(false);
+            }}
+          >
+            {description}
+          </Editor>
+        ) : (
+          <Notes>
+            <Editor editable={false}>{description}</Editor>
+            <Button onClick={() => setIsEditing(true)}>Edit</Button>
+          </Notes>
+        )}
       </StyledFormField>
       <Notes style={{ marginTop: globalTheme.space.lg }}>
         <NotesTitle>
@@ -188,6 +217,7 @@ export const UseCaseDetails = ({
             useCase.link && {
               value: useCase.link,
             })}
+          {...getFieldProps(`use_cases[${useCaseIndex}].link`)}
         />
         <StyledMessage>
           <InfoIcon style={{ marginRight: globalTheme.space.xs }} />

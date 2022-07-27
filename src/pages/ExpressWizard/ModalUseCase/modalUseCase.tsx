@@ -87,6 +87,10 @@ export const ModalUseCase = ({
 
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
 
+  const useCaseIndex = use_cases
+    ? use_cases.findIndex((item) => item.id === currentUseCase.id)
+    : 0;
+
   // eslint-disable-next-line
   console.log('values', values);
 
@@ -115,6 +119,7 @@ export const ModalUseCase = ({
                   <UseCaseDetails
                     formikProps={formikProps}
                     useCase={currentUseCase}
+                    useCaseIndex={useCaseIndex}
                   />
                   <PullRight>
                     <FieldArray name="use_cases">
@@ -123,17 +128,14 @@ export const ModalUseCase = ({
                           themeColor={globalTheme.palette.red[600]}
                           onClick={() => {
                             const currentId = currentUseCase.id;
-                            const currentIndex = use_cases.findIndex(
-                              (useCase: UseCase) => useCase.id === currentId
-                            );
 
-                            remove(currentIndex);
+                            remove(useCaseIndex);
 
                             // Set current use case
-                            if (currentIndex === 0) {
-                              setUseCase(use_cases[currentIndex + 1]);
+                            if (useCaseIndex === 0) {
+                              setUseCase(use_cases[useCaseIndex + 1]);
                             } else {
-                              setUseCase(use_cases[currentIndex - 1]);
+                              setUseCase(use_cases[useCaseIndex - 1]);
                             }
                           }}
                         >
