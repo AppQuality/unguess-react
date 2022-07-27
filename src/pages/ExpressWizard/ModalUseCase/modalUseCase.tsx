@@ -35,11 +35,11 @@ import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functional
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { Divider } from 'src/common/components/divider';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { FieldArray } from 'formik';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
-import { Notes, NotesTitle } from './notesCard';
 
 const Body = styled(ModalFullScreen.Body)`
   padding: 0;

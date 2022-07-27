@@ -26,6 +26,7 @@ import {
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
+import { ModalUseCase } from '../ModalUseCase/modalUseCase';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -85,6 +86,8 @@ export const HowStep = ({
 
   return (
     <>
+      <ModalUseCase />
+
       <ContainerCard>
         <StepTitle>
           <Span isBold>{t('__EXPRESS_WIZARD_STEP_HOW_LABEL')}</Span>&nbsp;

@@ -48,7 +48,6 @@ import defaultValues from './wizardInitialValues';
 import { reasonItems } from './steps/what';
 import { getPlatform } from './getPlatform';
 import { StepItem, useExpressStep } from './steps/useSteps';
-import { ModalUseCase } from './modalUseCase';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
@@ -309,7 +308,6 @@ export const ExpressWizardContainer = () => {
         >
           {(formProps: FormikProps<WizardModel>) => (
             <>
-              <ModalUseCase />
               <ModalFullScreen.Header>
                 <WizardHeader
                   workspace={activeWorkspace}
