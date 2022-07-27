@@ -91,9 +91,6 @@ export const ModalUseCase = ({
     ? use_cases.findIndex((item) => item.id === currentUseCase.id)
     : 0;
 
-  // eslint-disable-next-line
-  console.log('values', values);
-
   return isUseCaseModalOpen ? (
     <ModalFullScreen
       onClose={() => {
@@ -127,8 +124,6 @@ export const ModalUseCase = ({
                         <Button
                           themeColor={globalTheme.palette.red[600]}
                           onClick={() => {
-                            const currentId = currentUseCase.id;
-
                             remove(useCaseIndex);
 
                             // Set current use case
@@ -141,8 +136,7 @@ export const ModalUseCase = ({
                         >
                           {t(
                             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
-                          )}{' '}
-                          {currentUseCase.id}
+                          )}
                         </Button>
                       )}
                     </FieldArray>

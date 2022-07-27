@@ -16,6 +16,7 @@ import {
   Button,
 } from '@appquality/unguess-design-system';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
+import { Field as FormField } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
@@ -66,11 +67,9 @@ export const UseCaseDetails = ({
   const { getFieldProps, setFieldValue, values } = formikProps;
 
   const description =
-    values.use_cases && values.use_cases[useCaseIndex]
-      ? values.use_cases[useCaseIndex].description
+    values.use_cases && values.use_cases[useCaseIndex as number]
+      ? values.use_cases[useCaseIndex as number].description
       : '';
-
-  console.log('useCase', description);
 
   return (
     <>
@@ -129,15 +128,17 @@ export const UseCaseDetails = ({
             <Label>
               {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_TITLE')}
             </Label>
-            <Toggle
-              {...(useCase &&
-                useCase.logged && {
-                  checked: useCase.logged,
-                })}
-              {...getFieldProps(`use_cases[${useCaseIndex}].logged`)}
-            >
-              <Label hidden>hidden</Label>
-            </Toggle>
+            <FormField>
+              <Toggle
+                {...(useCase &&
+                  useCase.logged && {
+                    checked: useCase.logged,
+                  })}
+                {...getFieldProps(`use_cases[${useCaseIndex}].logged`)}
+              >
+                <Label hidden>hidden</Label>
+              </Toggle>
+            </FormField>
           </InlineRow>
           <Divider
             style={{
@@ -171,7 +172,6 @@ export const UseCaseDetails = ({
           <Editor
             key={`editor_${useCaseIndex}`}
             onSave={(editor) => {
-              console.log('saving...');
               setFieldValue(
                 `use_cases[${useCaseIndex}].description`,
                 editor.getHTML()

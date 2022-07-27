@@ -10,12 +10,7 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import {
-  clearCurrentUseCase,
-  clearUseCases,
-  closeWizard,
-  resetWizard,
-} from 'src/features/express/expressSlice';
+import { closeWizard, resetWizard } from 'src/features/express/expressSlice';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import {
@@ -290,8 +285,6 @@ export const ExpressWizardContainer = () => {
       onClose={() => {
         dispatch(closeWizard());
         dispatch(resetWizard());
-        dispatch(clearUseCases());
-        dispatch(clearCurrentUseCase());
         setStep(0);
         setThankyou(false);
         toggleChat(true);

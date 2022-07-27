@@ -11,8 +11,6 @@ export interface ExpressWizardState {
   isUseCaseModalOpen?: boolean;
   isDirty?: boolean;
   currentStep?: number;
-  useCases: UseCase[];
-  currentUseCase?: UseCase;
 }
 
 export interface Step {
@@ -33,7 +31,8 @@ export const emptyUseCase: UseCase = {
   title: '',
   functionality: '',
   logged: false,
-  description: '',
+  description:
+    '<h3>Descrizione della funzionalità</h3><p>Stai per testare la funzionalità “barra di ricerca” il cui scopo è quello di “cercare prodotti”</p><h3>Azioni da compiere per validare il funzionamento</h3><p><strong>Per testare il funzionamento:</strong></p><ul><li><p>Usa la barra di ricerca per cercare contenuti all’interno del sito, sia attraverso stringhe parziali che totali.</p></li><li><p>Usa eventuali opzioni di filtro e ordinamento</p></li></ul><p><strong>Assicurati che</strong><br>I contenuti trovati siano sempre coerenti con quanto desiderato, in base ai loro dettagli</p>',
   link: '',
 };
 
@@ -44,7 +43,6 @@ const initialState: ExpressWizardState = {
   steps: {},
   projectLocked: false,
   expressTypeId: 0,
-  useCases: [],
 };
 
 const expressSlice = createSlice({
@@ -95,23 +93,6 @@ const expressSlice = createSlice({
     resetExpressTypeId: (state) => {
       state.expressTypeId = 0;
     },
-    addUseCase: (state, action) => {
-      state.useCases.push(action.payload);
-    },
-    removeUseCase: (state, action) => {
-      state.useCases = state.useCases.filter(
-        (useCase) => useCase.id !== action.payload
-      );
-    },
-    clearUseCases: (state) => {
-      state.useCases = [];
-    },
-    setCurrentUseCase: (state, action) => {
-      state.currentUseCase = action.payload;
-    },
-    clearCurrentUseCase: (state) => {
-      delete state.currentUseCase;
-    },
   },
 });
 
@@ -130,11 +111,6 @@ export const {
   lockProject,
   setExpressTypeId,
   resetExpressTypeId,
-  addUseCase,
-  removeUseCase,
-  clearUseCases,
-  setCurrentUseCase,
-  clearCurrentUseCase,
 } = expressSlice.actions;
 
 export default expressSlice.reducer;

@@ -81,8 +81,6 @@ export const ModalUseCaseTabLayout = ({
   const remainingSpots =
     EXPRESS_USE_CASES_LIMIT - (use_cases ? use_cases.length : 0);
 
-  console.log('currentUseCase', currentUseCase);
-
   return (
     <Container>
       <FieldArray name="use_cases">
