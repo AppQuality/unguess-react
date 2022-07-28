@@ -11,6 +11,7 @@ import {
   Label,
   MediaInput,
   Hint,
+  ContainerCard,
 } from '@appquality/unguess-design-system';
 import { Field as FormField, Fieldset } from '@zendeskgarden/react-forms';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
@@ -68,7 +69,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
 
   return (
-    <>
+    <ContainerCard>
       <Row>
         <WizardCol>
           <XXL style={{ color: globalTheme.palette.grey[800] }}>
@@ -232,6 +233,6 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Out of scope --- */}
       <OutOfScopeSection {...props} />
-    </>
+    </ContainerCard>
   );
 };

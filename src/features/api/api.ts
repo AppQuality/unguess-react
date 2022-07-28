@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { GetWorkspacesByWidApiArg, GetWorkspacesByWidApiResponse } from '.';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -13,5 +14,14 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  endpoints: () => ({}),
+  endpoints: (build) => ({
+    getWorkspacesByWid: build.query<
+      GetWorkspacesByWidApiResponse,
+      GetWorkspacesByWidApiArg
+    >({
+      query: (queryArg) => ({ url: `/workspaces/${queryArg.wid}` }),
+    }),
+  }),
 });
+
+export const { useLazyGetWorkspacesByWidQuery } = apiSlice;

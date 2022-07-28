@@ -8,17 +8,37 @@ export interface ExpressWizardState {
   projectLocked?: boolean;
   isWizardOpen?: boolean;
   isDrawerOpen?: boolean;
+  isUseCaseModalOpen?: boolean;
   isDirty?: boolean;
   currentStep?: number;
 }
 
 export interface Step {
   data: { [key: string]: string };
-  isValid?: boolean;
 }
+
+export interface UseCase {
+  id: number;
+  title: string;
+  functionality: string;
+  logged: boolean;
+  description: string;
+  link?: string;
+}
+
+export const emptyUseCase: UseCase = {
+  id: 0,
+  title: '',
+  functionality: '',
+  logged: false,
+  description:
+    '<h3>Descrizione della funzionalità</h3><p>Stai per testare la funzionalità “barra di ricerca” il cui scopo è quello di “cercare prodotti”</p><h3>Azioni da compiere per validare il funzionamento</h3><p><strong>Per testare il funzionamento:</strong></p><ul><li><p>Usa la barra di ricerca per cercare contenuti all’interno del sito, sia attraverso stringhe parziali che totali.</p></li><li><p>Usa eventuali opzioni di filtro e ordinamento</p></li></ul><p><strong>Assicurati che</strong><br>I contenuti trovati siano sempre coerenti con quanto desiderato, in base ai loro dettagli</p>',
+  link: '',
+};
 
 const initialState: ExpressWizardState = {
   isWizardOpen: false,
+  isUseCaseModalOpen: false,
   isDrawerOpen: false,
   steps: {},
   projectLocked: false,
@@ -40,6 +60,12 @@ const expressSlice = createSlice({
     },
     closeDrawer: (state) => {
       state.isDrawerOpen = false;
+    },
+    openUseCaseModal: (state) => {
+      state.isUseCaseModalOpen = true;
+    },
+    closeUseCaseModal: (state) => {
+      state.isUseCaseModalOpen = false;
     },
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload;
@@ -75,6 +101,8 @@ export const {
   closeWizard,
   openDrawer,
   closeDrawer,
+  openUseCaseModal,
+  closeUseCaseModal,
   setCurrentStep,
   addStep,
   removeStep,

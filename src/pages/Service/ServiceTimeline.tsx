@@ -116,6 +116,7 @@ const ServiceTimeline = ({
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const service = extractStrapiData({ data: serviceData });
   const express = extractStrapiData(service.express);
+  const expressType = extractStrapiData(express.express_type);
 
   return (
     <StyledGrid gutters="lg">
@@ -334,8 +335,8 @@ const ServiceTimeline = ({
               </StyledCardContainer>
             )}
             {(service.why || service.what || service.how) &&
-              (express ? (
-                <ServiceExpressCta />
+              (expressType && expressType.id ? (
+                <ServiceExpressCta expressTypeId={expressType.id} />
               ) : (
                 <ServiceContactUsCta onCtaClick={onContactClick} />
               ))}

@@ -1,5 +1,6 @@
 import {
   Alert,
+  ContainerCard,
   Grid,
   Label,
   Message,
@@ -70,7 +71,7 @@ export const WhenStep = ({
   };
 
   return (
-    <>
+    <ContainerCard>
       <StyledFormField>
         <StepTitle>
           <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHEN_LABEL')}</Span>&nbsp;
@@ -172,7 +173,7 @@ export const WhenStep = ({
           {t('__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_DESCRIPTION')}
         </Paragraph>
       </StyledFormField>
-    </>
+    </ContainerCard>
   );
 };
 

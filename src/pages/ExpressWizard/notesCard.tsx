@@ -4,6 +4,9 @@ import styled from 'styled-components';
 export const NotesTitle = styled(MD)`
   color: ${({ theme }) => theme.palette.teal.M600};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export const Notes = styled(Card)`

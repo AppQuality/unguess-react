@@ -15,6 +15,7 @@ import {
   XL,
   XXL,
   theme as globalTheme,
+  ContainerCard,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
@@ -89,7 +90,7 @@ export const WhatStep = ({
   };
 
   return (
-    <>
+    <ContainerCard>
       <StepTitle>
         <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHAT_LABEL')}</Span>&nbsp;
         {t('__EXPRESS_WIZARD_STEP_WHAT_LABEL_EXTRA')}
@@ -198,7 +199,7 @@ export const WhatStep = ({
           )}
         </Grid>
       </StyledFormField>
-    </>
+    </ContainerCard>
   );
 };
 

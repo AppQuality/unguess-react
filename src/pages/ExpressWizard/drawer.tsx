@@ -15,13 +15,14 @@ import {
   resetExpressTypeId,
   resetWizard,
 } from 'src/features/express/expressSlice';
-import { toggleChat } from 'src/common/utils';
+import { getLocalizedStrapiData, toggleChat } from 'src/common/utils';
 import {
   useGeti18nExpressTypesByIdQuery,
   TagItem,
 } from 'src/features/backoffice/strapi';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { STRAPI_URL } from 'src/constants';
+import i18n from 'src/i18n';
 import { ProjectDropdown } from './projectDropdown';
 import { WaterButton } from '../../common/components/waterButton';
 import { CardDivider } from './cardDivider';
@@ -67,10 +68,26 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       start_reasons: {
         populate: '*',
       },
+      localizations: {
+        populate: {
+          tags: {
+            populate: '*',
+          },
+          start_reasons: {
+            populate: '*',
+          },
+        },
+      },
     },
   });
 
-  const expressData = extractStrapiData(data);
+  // Get localized strapi data
+  if (!data) return null;
+
+  const expressData = getLocalizedStrapiData({
+    item: data,
+    language: i18n.language,
+  });
 
   const onClose = () => {
     dispatch(resetWizard());

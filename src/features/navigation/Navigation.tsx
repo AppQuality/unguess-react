@@ -52,11 +52,12 @@ export const Navigation = ({
           const verifiedWs = cachedWorkspace
             ? isValidWorkspace(cachedWorkspace, workspaces)
             : false;
-          const ws = await API.workspacesById(
-            verifiedWs ? verifiedWs.id : workspaces[0].id
-          );
 
-          dispatch(setWorkspace(ws));
+          API.workspacesById(
+            verifiedWs ? verifiedWs.id : workspaces[0].id
+          ).then((ws) => {
+            dispatch(setWorkspace(ws));
+          });
         } catch (e) {
           dispatch(setWorkspace(workspaces[0]));
         }
@@ -222,8 +223,15 @@ export const Navigation = ({
           activeWorkspace,
           workspaces,
           onWorkspaceChange: (workspace: any) => {
-            saveWorkspaceToLs(workspace);
-            dispatch(setWorkspace(workspace));
+            if (workspace.id !== activeWorkspace?.id) {
+              saveWorkspaceToLs(workspace);
+              API.workspacesById(workspace.id).then((ws) => {
+                dispatch(setWorkspace(ws));
+              });
+            }
+            // saveWorkspaceToLs(workspace);
+            // dispatch(setWorkspace(workspace));
+            // window.location.reload();
           },
         }}
         avatar={{
@@ -259,7 +267,9 @@ export const Navigation = ({
           features={user.features || []}
           onWorkspaceChange={(workspace: any) => {
             saveWorkspaceToLs(workspace);
-            dispatch(setWorkspace(workspace));
+            API.workspacesById(workspace.id).then((ws) => {
+              dispatch(setWorkspace(ws));
+            });
           }}
         />
         {children}

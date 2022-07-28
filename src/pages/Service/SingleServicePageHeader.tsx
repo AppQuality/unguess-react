@@ -57,6 +57,7 @@ export const SingleServicePageHeader = ({
   const bannerImg = outputImage.url;
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
   const express = extractStrapiData(service.express);
+  const expressType = extractStrapiData(express.express_type);
 
   return (
     <PageHeader>
@@ -75,7 +76,7 @@ export const SingleServicePageHeader = ({
         infoDescription={service.description}
         infoCounters={
           <TagsContainer>
-            {express ? (
+            {expressType && expressType.id ? (
               <StyledTag
                 size="large"
                 isPill
@@ -158,8 +159,8 @@ export const SingleServicePageHeader = ({
         {...(bannerImg && { metaImage: bannerImgUrl })}
       />
       <PageHeader.Buttons>
-        {express ? (
-          <ServiceExpressCta />
+        {expressType && expressType.id ? (
+          <ServiceExpressCta expressTypeId={expressType.id} />
         ) : (
           <ServiceContactUsCta onCtaClick={onContactClick} />
         )}
