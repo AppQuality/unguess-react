@@ -16,16 +16,14 @@ import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-ad
 import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-import {
-  emptyUseCase,
-  openUseCaseModal,
-  UseCase,
-} from 'src/features/express/expressSlice';
+import { t as i18n } from 'i18next';
+import { openUseCaseModal } from 'src/features/express/expressSlice';
 import { useState } from 'react';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 import { ModalUseCase } from '../ModalUseCase/modalUseCase';
+import { emptyUseCase, UseCase } from '../fields/how';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -180,4 +178,9 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
   );
 };
 
-export const HowStepValidationSchema = Yup.object().shape({});
+export const HowStepValidationSchema = Yup.object().shape({
+  test_description: Yup.string().required(),
+  use_cases: Yup.array()
+    .of(Yup.object().shape({}))
+    .min(1, i18n('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),
+});

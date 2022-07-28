@@ -23,12 +23,12 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
 import { useState } from 'react';
-import { UseCase } from 'src/features/express/expressSlice';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { WizardModel } from '../wizardModel';
+import { UseCase } from '../fields/how';
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};

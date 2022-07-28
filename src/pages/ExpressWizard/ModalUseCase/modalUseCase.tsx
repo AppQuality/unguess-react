@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeUseCaseModal, UseCase } from 'src/features/express/expressSlice';
+import { closeUseCaseModal } from 'src/features/express/expressSlice';
 import {
   Col,
   Grid,
@@ -20,6 +20,7 @@ import { ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { WizardModel } from '../wizardModel';
 import { UseCaseDetails } from './useCaseDetails';
+import { UseCase } from '../fields/how';
 
 const Body = styled(ModalFullScreen.Body)`
   padding: 0;

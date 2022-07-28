@@ -1,11 +1,11 @@
 import { Card } from '@appquality/unguess-design-system';
 import { FieldArray, FormikProps } from 'formik';
 import styled from 'styled-components';
-import { UseCase, emptyUseCase } from 'src/features/express/expressSlice';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from '../wizardModel';
+import { emptyUseCase, UseCase } from '../fields/how';
 
 const Container = styled.div`
   padding: 0 ${({ theme }) => theme.space.md};
