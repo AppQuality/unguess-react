@@ -8,7 +8,7 @@ import {
 } from 'src/features/backoffice';
 import { StrapiIcon } from 'src/features/backoffice/strapi';
 
-type StrapiResponse =
+export type StrapiResponse =
   | CategoryListResponse
   | CategoryResponse
   | ServiceListResponse
