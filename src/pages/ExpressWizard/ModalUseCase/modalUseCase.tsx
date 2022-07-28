@@ -83,8 +83,11 @@ export const ModalUseCase = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { values } = formikProps;
+  const { values, validateForm, isValid, errors } = formikProps;
   const { use_cases } = values;
+
+  console.log('ModalUseCase: currentUseCase: ', currentUseCase);
+  console.log('ModalUseCase: usecases: ', use_cases);
 
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
 
@@ -92,14 +95,18 @@ export const ModalUseCase = ({
     ? use_cases.findIndex((item) => item.id === currentUseCase.id)
     : 0;
 
-  return isUseCaseModalOpen ? (
-    <ModalFullScreen
-      onClose={() => {
+  const closeModal = () => {
+    validateForm().then(() => {
+      if (!errors.use_cases) {
         dispatch(closeUseCaseModal());
-      }}
-    >
+      }
+    });
+  };
+
+  return isUseCaseModalOpen ? (
+    <ModalFullScreen onClose={closeModal}>
       <ModalFullScreen.Header>
-        <ModalUseCaseHeader />
+        <ModalUseCaseHeader onClose={closeModal} />
       </ModalFullScreen.Header>
       <Body>
         <Grid style={{ height: '100%' }}>

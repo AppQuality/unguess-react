@@ -17,7 +17,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as FormField } from '@zendeskgarden/react-forms';
-import { FormikProps } from 'formik';
+import { FormikErrors, FormikProps } from 'formik';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
@@ -27,19 +27,12 @@ import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { WizardModel } from '../wizardModel';
 import { UseCase } from '../fields/how';
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
-`;
-
-const StyledMessage = styled(Message)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 const InlineRow = styled.div`
@@ -64,15 +57,30 @@ export const UseCaseDetails = ({
 }) => {
   const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
-  const { getFieldProps, setFieldValue, values } = formikProps;
+  const { getFieldProps, setFieldValue, validateForm, values, errors } =
+    formikProps;
+
+  const functionality =
+    values.use_cases && values.use_cases[useCaseIndex as number]
+      ? values.use_cases[useCaseIndex as number].functionality
+      : null;
+
+  const [selectedFunc, setSelectedFunc] = useState(functionality);
 
   const description =
     values.use_cases && values.use_cases[useCaseIndex as number]
       ? values.use_cases[useCaseIndex as number].description
       : '';
 
+  const useCaseErrors = errors.use_cases
+    ? (errors.use_cases[useCaseIndex as number] as unknown as UseCase)
+    : null;
+
+  console.log('useCaseErrors', useCaseErrors);
+
   return (
     <>
+      {/* Title */}
       <StyledFormField style={{ marginTop: 0 }}>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
@@ -89,18 +97,30 @@ export const UseCaseDetails = ({
               value: useCase.title,
             })}
           {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
+          {...(useCaseErrors &&
+            useCaseErrors?.title && { validation: 'error' })}
+          onBlur={() => validateForm()}
         />
+        {useCaseErrors && useCaseErrors?.title && (
+          <HelpTextMessage validation="error">
+            {useCaseErrors?.title}
+          </HelpTextMessage>
+        )}
       </StyledFormField>
+
+      {/* Dropdown */}
       <Notes style={{ marginTop: globalTheme.space.lg }}>
         <StyledFormField style={{ marginTop: globalTheme.space.xs }}>
           <Dropdown
-            {...(useCase &&
-              useCase.functionality && {
-                selectedItem: useCase.functionality,
-              })}
+            selectedItem={selectedFunc}
             onSelect={(item) => {
+              console.log('selected Item', item);
               setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
+              setSelectedFunc(item);
+              validateForm();
             }}
+            {...(useCaseErrors &&
+              useCaseErrors?.functionality && { validation: 'error' })}
           >
             <DropdownField>
               <Label>
@@ -110,18 +130,24 @@ export const UseCaseDetails = ({
                 <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
               </Label>
               <Select start={<FunctionalityIcon />}>
-                {t(
-                  '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
-                )}
+                {selectedFunc ??
+                  t(
+                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
+                  )}
               </Select>
             </DropdownField>
             <Menu>
               {/* TODO CUP-1019: API /templates */}
-              <Item key="" value="">
+              <Item key="adsadsadsa" value="adsadsadsa">
                 adsadsadsa
               </Item>
             </Menu>
           </Dropdown>
+          {useCaseErrors && useCaseErrors?.functionality && (
+            <HelpTextMessage validation="error">
+              {useCaseErrors?.functionality}
+            </HelpTextMessage>
+          )}
         </StyledFormField>
         <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
           <InlineRow>
@@ -156,6 +182,8 @@ export const UseCaseDetails = ({
           </InlineRow>
         </StyledFormField>
       </Notes>
+
+      {/* Editor */}
       <StyledFormField style={{ marginTop: globalTheme.space.xl }}>
         <DescriptionTitle>
           {t(
@@ -201,6 +229,7 @@ export const UseCaseDetails = ({
           </Notes>
         )}
       </StyledFormField>
+
       <Notes style={{ marginTop: globalTheme.space.lg }}>
         <NotesTitle>
           <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
@@ -210,6 +239,8 @@ export const UseCaseDetails = ({
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_SUBTITLE')}
         </Paragraph>
       </Notes>
+
+      {/* Link */}
       <StyledFormField>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE')}
@@ -232,11 +263,19 @@ export const UseCaseDetails = ({
               value: useCase.link,
             })}
           {...getFieldProps(`use_cases[${useCaseIndex}].link`)}
+          {...(useCaseErrors && useCaseErrors?.link && { validation: 'error' })}
+          onBlur={() => validateForm()}
         />
-        <StyledMessage>
-          <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
-          {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_MESSAGE')}
-        </StyledMessage>
+        {useCaseErrors && useCaseErrors?.link ? (
+          <HelpTextMessage validation="error">
+            {useCaseErrors?.link}
+          </HelpTextMessage>
+        ) : (
+          <HelpTextMessage>
+            <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
+            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_MESSAGE')}
+          </HelpTextMessage>
+        )}
       </StyledFormField>
     </>
   );

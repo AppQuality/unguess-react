@@ -12,6 +12,7 @@ import {
 import i18n from 'src/i18n';
 import { Datepicker } from '@zendeskgarden/react-datepickers';
 import { Field, Input } from '@zendeskgarden/react-forms';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -127,9 +128,9 @@ export const WhenStep = ({
                   />
                 </Datepicker>
                 {errors.campaign_date && (
-                  <StyledMessage validation="error">
+                  <HelpTextMessage validation="error">
                     {errors.campaign_date}
-                  </StyledMessage>
+                  </HelpTextMessage>
                 )}
               </Field>
             </WizardCol>
@@ -159,9 +160,9 @@ export const WhenStep = ({
                   {...props.getFieldProps('campaign_date_end')}
                 />
                 {errors.campaign_date_end && (
-                  <StyledMessage validation="error">
+                  <HelpTextMessage validation="error">
                     {errors.campaign_date_end}
-                  </StyledMessage>
+                  </HelpTextMessage>
                 )}
               </Field>
             </WizardCol>

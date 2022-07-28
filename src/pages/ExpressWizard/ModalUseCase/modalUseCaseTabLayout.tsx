@@ -74,7 +74,7 @@ export const ModalUseCaseTabLayout = ({
   currentUseCase: UseCase;
 }) => {
   const { t } = useTranslation();
-  const { values } = formikProps;
+  const { values, validateForm, errors } = formikProps;
   const { use_cases } = values;
 
   let highestUseCaseId = 0;
@@ -113,14 +113,19 @@ export const ModalUseCaseTabLayout = ({
               <UseCaseCard
                 className="add-card"
                 onClick={() => {
-                  push({
-                    ...emptyUseCase,
-                    id: highestUseCaseId + 1,
-                  });
+                  validateForm().then(() => {
+                    if (!errors.use_cases) {
+                      console.log('Highest use case id: ', highestUseCaseId);
+                      push({
+                        ...emptyUseCase,
+                        id: highestUseCaseId + 1,
+                      });
 
-                  handleCurrentUseCase({
-                    ...emptyUseCase,
-                    id: highestUseCaseId + 1,
+                      handleCurrentUseCase({
+                        ...emptyUseCase,
+                        id: highestUseCaseId + 1,
+                      });
+                    }
                   });
                 }}
               >
