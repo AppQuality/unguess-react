@@ -87,9 +87,7 @@ export const useExpressStep = (type: string): Array<StepItem> => {
   };
 
   switch (type) {
-    case 'exploratory-light':
-      return [WhatStep, ConfirmationStep];
-    case 'express-2':
+    case 'bug-hunting':
       return [WhatStep, WhereStep, WhoStep, HowStep, ConfirmationStep];
     default:
       return [WhatStep, WhereStep, WhoStep, WhenStep, ConfirmationStep];
