@@ -1,5 +1,6 @@
 import { DEFAULT_EXPRESS_REQUIRED_COINS } from 'src/constants';
 import { Workspace } from 'src/features/api';
+import { extractStrapiData, StrapiResponse } from './getStrapiData';
 
 export const prepareGravatar = (url: string, size?: number) =>
   `${url}?s=${size || 48}`;
@@ -45,4 +46,34 @@ export const hasEnoughCoins = ({
   const requiredCoins = coins || DEFAULT_EXPRESS_REQUIRED_COINS;
 
   return workspace.coins >= requiredCoins;
+};
+
+export const getLocalizedStrapiData = ({
+  item,
+  language,
+}: {
+  item: StrapiResponse;
+  language: string;
+}): any => {
+  // Extract the data from the item
+  const data = extractStrapiData(item);
+
+  // Verify if localizations are available
+  if (data && data.localizations) {
+    // Extract the localized items
+    const localizations = extractStrapiData(data.localizations);
+
+    // Filter localizations by language
+    const localizedItem = localizations.find(
+      (localization: any) => localization.locale === language
+    );
+
+    if (localizedItem) {
+      // Return the localized item
+      return localizedItem;
+    }
+  }
+
+  // Return the default language item (EN)
+  return data;
 };
