@@ -63,7 +63,7 @@ const Service = () => {
         },
       },
       express: {
-        populate: '*',
+        populate: { express_type: '*' },
       },
     },
   });
