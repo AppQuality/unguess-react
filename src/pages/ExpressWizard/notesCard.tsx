@@ -21,7 +21,7 @@ export const Notes = styled(Card)<NotesProps>`
   ${({ hasIcon, theme }) => hasIcon && `padding-left: ${theme.space.xl};`}
   box-shadow: none !important; /** TODO: temporary fix */
 
-  > svg {
+  & > svg {
     position: absolute;
     left: ${({ theme }) => theme.space.base * 4}px;
     top: ${({ theme }) => theme.space.base * 4 + 1}px;
@@ -32,28 +32,28 @@ export const Notes = styled(Card)<NotesProps>`
       case 'error':
         return `
           ${NotesTitle} { color: ${theme.colors.dangerHue}; }
-          svg {
+          > svg {
             fill: ${theme.colors.dangerHue};
           }
         `;
       case 'warning':
         return `
           ${NotesTitle} { color: ${theme.colors.warningHue}; }
-          svg {
+          > svg {
             fill: ${theme.colors.warningHue};
           }
         `;
       case 'success':
         return `
           ${NotesTitle} { color: ${theme.colors.successHue}; }
-          svg {
+          > svg {
             fill: ${theme.colors.successHue};
           }
         `;
       default:
         return `
           ${NotesTitle} { color: ${theme.palette.teal.M600}; }
-          svg {
+          > svg {
             fill: ${theme.palette.teal.M600};
           }
         `;

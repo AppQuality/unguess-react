@@ -18,7 +18,7 @@ import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { openUseCaseModal } from 'src/features/express/expressSlice';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
@@ -81,11 +81,20 @@ const UseCaseEditLabel = styled(Paragraph)`
 export const HowStep = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
   const [currentUseCase, setCurrentUseCase] = useState<UseCase>(emptyUseCase);
+  const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
   const { values, getFieldProps, setValues, validateForm, errors } = props;
   const { use_cases } = values;
   const dispatch = useAppDispatch();
 
-  let highestUseCaseId = 0;
+  useEffect(() => {
+    if (Array.isArray(use_cases)) {
+      const highestUCId = use_cases.reduce(
+        (highestId, useCase) => Math.max(highestId, useCase.id),
+        0
+      );
+      setHighestUseCaseId(highestUCId);
+    }
+  }, [use_cases]);
 
   return (
     <>
@@ -131,38 +140,31 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
       </ContainerCard>
       {use_cases &&
         use_cases.length > 0 &&
-        use_cases.map((useCase: UseCase, index: number) => {
-          // Update the highest use case id
-          if (useCase.id > highestUseCaseId) {
-            highestUseCaseId = useCase.id;
-          }
-
-          return (
-            <UseCaseCardButton
-              className="use-case-edit-card-button"
-              onClick={() => {
-                setCurrentUseCase(useCase);
-                dispatch(openUseCaseModal());
-              }}
-              style={{ marginTop: globalTheme.space.md }}
-            >
-              <UseCaseCardButtonText>
-                <UseCaseCardButtonDescription>
-                  {index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
-                  {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
-                </UseCaseCardButtonDescription>
-                <XL>{useCase.title}</XL>
-              </UseCaseCardButtonText>
-              <UseCaseEditLabel>
-                {errors &&
-                  errors.use_cases &&
-                  errors.use_cases[useCase.id - 1] && <WarningIcon />}
-                {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
-              </UseCaseEditLabel>
-              <RightArrow />
-            </UseCaseCardButton>
-          );
-        })}
+        use_cases.map((useCase: UseCase, index: number) => (
+          <UseCaseCardButton
+            className="use-case-edit-card-button"
+            onClick={() => {
+              setCurrentUseCase(useCase);
+              dispatch(openUseCaseModal());
+            }}
+            style={{ marginTop: globalTheme.space.md }}
+          >
+            <UseCaseCardButtonText>
+              <UseCaseCardButtonDescription>
+                {index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
+                {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
+              </UseCaseCardButtonDescription>
+              <XL>{useCase.title}</XL>
+            </UseCaseCardButtonText>
+            <UseCaseEditLabel>
+              {errors &&
+                errors.use_cases &&
+                errors.use_cases[useCase.id - 1] && <WarningIcon />}
+              {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
+            </UseCaseEditLabel>
+            <RightArrow />
+          </UseCaseCardButton>
+        ))}
 
       {use_cases && EXPRESS_USE_CASES_LIMIT - use_cases.length > 0 ? (
         <UseCaseCardButton
