@@ -1,10 +1,10 @@
 import { WizardModel } from './wizardModel';
 
 const values: WizardModel = {
-  campaign_name: '',
+  campaign_name: 'CIOLLONA',
   product_type: 'webapp',
   campaign_reason: 'reason-a',
-  withSmartphone: false,
+  withSmartphone: true,
   withDesktop: false,
   withTablet: false,
   customBrowser: false,
@@ -19,8 +19,8 @@ const values: WizardModel = {
   androidLink: '',
   isIOS: false,
   isAndroid: false,
-  link: '',
-  campaign_language: '',
+  link: 'https://garden.zendesk.com/components/typography',
+  campaign_language: 'en',
   test_description: '',
   use_cases: [],
 };

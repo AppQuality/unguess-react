@@ -15,6 +15,8 @@ import * as Yup from 'yup';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
 import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
+import { ReactComponent as SuccessIcon } from 'src/assets/icons/success-icon.svg';
+import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
@@ -64,7 +66,11 @@ const UseCaseCardButtonText = styled.div`
 `;
 
 const UseCaseCardButtonDescription = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
+  color: ${({ theme }) => theme.palette.grey[500]};
+`;
+
+const WarningMessage = styled(SM)`
+  color: ${({ theme }) => theme.colors.warningHue};
 `;
 
 const UseCaseEditLabel = styled(Paragraph)`
@@ -149,18 +155,33 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             }}
             style={{ marginTop: globalTheme.space.md }}
           >
+            {errors && errors.use_cases && errors.use_cases[useCase.id - 1] ? (
+              <WarningIcon />
+            ) : (
+              <SuccessIcon />
+            )}
             <UseCaseCardButtonText>
               <UseCaseCardButtonDescription>
                 {index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
                 {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
               </UseCaseCardButtonDescription>
-              <XL>{useCase.title}</XL>
-            </UseCaseCardButtonText>
-            <UseCaseEditLabel>
+              <XL isBold>{useCase.title}</XL>
               {errors &&
                 errors.use_cases &&
-                errors.use_cases[useCase.id - 1] && <WarningIcon />}
-              {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
+                errors.use_cases[useCase.id - 1] && (
+                  <WarningMessage>
+                    {t(
+                      '__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_INCOMEPLETE_LABEL'
+                    )}
+                  </WarningMessage>
+                )}
+            </UseCaseCardButtonText>
+            <UseCaseEditLabel>
+              {errors && errors.use_cases && errors.use_cases[useCase.id - 1]
+                ? t(
+                    '__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL_INCOMPLETE'
+                  )
+                : t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
             </UseCaseEditLabel>
             <RightArrow />
           </UseCaseCardButton>
@@ -170,6 +191,11 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
         <UseCaseCardButton
           className="use-case-add-card-button"
           onClick={() => {
+            setCurrentUseCase({
+              ...emptyUseCase,
+              id: highestUseCaseId + 1,
+            });
+            dispatch(openUseCaseModal());
             if (values.use_cases) {
               values.use_cases.push({
                 ...emptyUseCase,
@@ -177,30 +203,38 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
               });
               setValues(values);
             }
-
-            setCurrentUseCase({
-              ...emptyUseCase,
-              id: highestUseCaseId + 1,
-            });
-            dispatch(openUseCaseModal());
           }}
           style={{ marginTop: globalTheme.space.md }}
         >
-          <AddIcon />
+          {errors &&
+          errors.use_cases &&
+          typeof errors.use_cases === 'string' ? (
+            <ErrorIcon />
+          ) : (
+            <AddIcon />
+          )}
           <UseCaseCardButtonText>
-            <XL>{t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}</XL>{' '}
-            <UseCaseCardButtonDescription>
-              {t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_SUBTITLE')}
-            </UseCaseCardButtonDescription>
+            <XL isBold>
+              {t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}
+            </XL>
+            {/* UseCase validation message */}
+            {errors &&
+            errors.use_cases &&
+            typeof errors.use_cases === 'string' ? (
+              <UseCaseCardButtonDescription
+                style={{ color: globalTheme.colors.dangerHue }}
+              >
+                {errors.use_cases}
+              </UseCaseCardButtonDescription>
+            ) : (
+              <UseCaseCardButtonDescription>
+                {t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_SUBTITLE')}
+              </UseCaseCardButtonDescription>
+            )}
           </UseCaseCardButtonText>
           <RightArrow />
         </UseCaseCardButton>
       ) : null}
-
-      {/* UseCase validation message */}
-      {errors && errors.use_cases && typeof errors.use_cases === 'string' && (
-        <HelpTextMessage validation="error">{errors.use_cases}</HelpTextMessage>
-      )}
     </>
   );
 };
