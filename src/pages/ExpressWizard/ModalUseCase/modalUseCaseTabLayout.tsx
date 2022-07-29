@@ -1,11 +1,12 @@
 import { Card } from '@appquality/unguess-design-system';
 import { FieldArray, FormikProps } from 'formik';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { UseCase, emptyUseCase } from 'src/features/express/expressSlice';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from '../wizardModel';
+import { emptyUseCase, UseCase } from '../fields/how';
 
 const Container = styled.div`
   padding: 0 ${({ theme }) => theme.space.md};
@@ -74,12 +75,22 @@ export const ModalUseCaseTabLayout = ({
   currentUseCase: UseCase;
 }) => {
   const { t } = useTranslation();
-  const { values } = formikProps;
+  const { values, validateForm, errors } = formikProps;
+  const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
   const { use_cases } = values;
 
-  let highestUseCaseId = 0;
   const remainingSpots =
     EXPRESS_USE_CASES_LIMIT - (use_cases ? use_cases.length : 0);
+
+  useEffect(() => {
+    if (Array.isArray(use_cases)) {
+      const highestUCId = use_cases.reduce(
+        (highestId, useCase) => Math.max(highestId, useCase.id),
+        0
+      );
+      setHighestUseCaseId(highestUCId);
+    }
+  }, [use_cases]);
 
   return (
     <Container>
@@ -87,40 +98,39 @@ export const ModalUseCaseTabLayout = ({
         {({ push }) => (
           <UseCasesWrapper>
             {use_cases &&
-              use_cases.length > 0 &&
-              use_cases.map((useCase: UseCase, index: number) => {
-                // Update the highest use case id
-                if (useCase.id > highestUseCaseId) {
-                  highestUseCaseId = useCase.id;
-                }
-
-                return (
-                  <UseCaseCard
-                    {...(currentUseCase &&
-                      currentUseCase.id === useCase.id && {
-                        className: 'current-card',
-                      })}
-                    onClick={() => handleCurrentUseCase(useCase)}
-                  >
-                    {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
-                    )}{' '}
-                    {index + 1}
-                  </UseCaseCard>
-                );
-              })}
+              Array.isArray(use_cases) &&
+              use_cases.map((useCase: UseCase, index: number) => (
+                <UseCaseCard
+                  {...(currentUseCase &&
+                    currentUseCase.id === useCase.id && {
+                      className: 'current-card',
+                    })}
+                  onClick={() => handleCurrentUseCase(useCase)}
+                >
+                  {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}{' '}
+                  {index + 1}
+                </UseCaseCard>
+              ))}
             {use_cases && use_cases.length < EXPRESS_USE_CASES_LIMIT && (
               <UseCaseCard
                 className="add-card"
                 onClick={() => {
-                  push({
-                    ...emptyUseCase,
-                    id: highestUseCaseId + 1,
-                  });
+                  validateForm().then(() => {
+                    // if (
+                    //   !errors ||
+                    //   !Array.isArray(errors.use_cases) ||
+                    //   !errors.use_cases.length
+                    // ) {
+                    push({
+                      ...emptyUseCase,
+                      id: highestUseCaseId + 1,
+                    });
 
-                  handleCurrentUseCase({
-                    ...emptyUseCase,
-                    id: highestUseCaseId + 1,
+                    handleCurrentUseCase({
+                      ...emptyUseCase,
+                      id: highestUseCaseId + 1,
+                    });
+                    // }
                   });
                 }}
               >
