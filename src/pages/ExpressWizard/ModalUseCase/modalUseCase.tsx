@@ -70,8 +70,6 @@ const CenteredContainer = styled.div`
   margin-top: ${({ theme }) => theme.space.xl};
 `;
 
-const TextCaseForm = styled(ContainerCard)``;
-
 const PullRight = styled.div`
   display: flex;
   flex-direction: row;
@@ -112,9 +110,10 @@ export const ModalUseCase = ({
 
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
 
-  const useCaseIndex = use_cases
-    ? use_cases.findIndex((item) => item.id === currentUseCase.id)
-    : 0;
+  const useCaseIndex =
+    use_cases && Array.isArray(use_cases) && use_cases.length && currentUseCase
+      ? use_cases.findIndex((item) => item.id === currentUseCase.id)
+      : 0;
 
   const closeModal = () => {
     validateForm().then(() => {
@@ -136,13 +135,13 @@ export const ModalUseCase = ({
               <TextCasesTabs>
                 <ModalUseCaseTabLayout
                   formikProps={formikProps}
-                  handleCurrentUseCase={(useCase) => setUseCase(useCase)}
+                  handleCurrentUseCase={setUseCase}
                   currentUseCase={currentUseCase}
                 />
               </TextCasesTabs>
               {use_cases && use_cases.length ? (
                 <BodyScrollingContainer>
-                  <TextCaseForm>
+                  <ContainerCard>
                     <UseCaseDetails
                       formikProps={formikProps}
                       useCase={currentUseCase}
@@ -171,7 +170,7 @@ export const ModalUseCase = ({
                         )}
                       </FieldArray>
                     </PullRight>
-                  </TextCaseForm>
+                  </ContainerCard>
                 </BodyScrollingContainer>
               ) : (
                 <CenteredContainer>

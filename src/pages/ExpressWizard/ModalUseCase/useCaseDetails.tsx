@@ -76,8 +76,8 @@ export const UseCaseDetails = ({
   const [selectedFunc, setSelectedFunc] = useState(functionality);
 
   const useCaseErrors =
-    errors && errors.use_cases
-      ? (errors.use_cases[useCaseIndex as number] as unknown as UseCase)
+    errors && errors.use_cases && Array.isArray(errors.use_cases)
+      ? (errors.use_cases[useCaseIndex as number] as UseCase)
       : null;
 
   const handleSave = useCallback(() => {
