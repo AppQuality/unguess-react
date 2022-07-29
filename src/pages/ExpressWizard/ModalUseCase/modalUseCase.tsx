@@ -83,11 +83,8 @@ export const ModalUseCase = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { values, validateForm, isValid, errors } = formikProps;
+  const { values, validateForm } = formikProps;
   const { use_cases } = values;
-
-  console.log('ModalUseCase: currentUseCase: ', currentUseCase);
-  console.log('ModalUseCase: usecases: ', use_cases);
 
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
 
@@ -97,9 +94,9 @@ export const ModalUseCase = ({
 
   const closeModal = () => {
     validateForm().then(() => {
-      if (!errors.use_cases) {
-        dispatch(closeUseCaseModal());
-      }
+      // if (!errors || !errors.use_cases) {
+      dispatch(closeUseCaseModal());
+      // }
     });
   };
 
@@ -152,7 +149,7 @@ export const ModalUseCase = ({
                 </TextCaseForm>
               ) : (
                 <CenteredContainer>
-                  <Paragraph>Empty state</Paragraph>
+                  <Paragraph>Empty state 🚨</Paragraph>
                 </CenteredContainer>
               )}
             </ContentCol>

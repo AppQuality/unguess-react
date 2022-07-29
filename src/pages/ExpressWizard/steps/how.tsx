@@ -14,9 +14,10 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
+import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-import { t as i18n } from 'i18next';
+import i18n from 'i18next';
 import { useState } from 'react';
 import { openUseCaseModal } from 'src/features/express/expressSlice';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
@@ -67,6 +68,11 @@ const UseCaseCardButtonDescription = styled(SM)`
 `;
 
 const UseCaseEditLabel = styled(Paragraph)`
+  display: flex;
+  align-items: center;
+  svg {
+    margin-right: ${({ theme }) => theme.space.sm};
+  }
   color: ${({ theme }) => theme.colors.primaryHue};
   margin-right: ${({ theme }) => theme.space.xs};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
@@ -148,12 +154,16 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 <XL>{useCase.title}</XL>
               </UseCaseCardButtonText>
               <UseCaseEditLabel>
+                {errors &&
+                  errors.use_cases &&
+                  errors.use_cases[useCase.id - 1] && <WarningIcon />}
                 {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
               </UseCaseEditLabel>
               <RightArrow />
             </UseCaseCardButton>
           );
         })}
+
       {use_cases && EXPRESS_USE_CASES_LIMIT - use_cases.length > 0 ? (
         <UseCaseCardButton
           className="use-case-add-card-button"
@@ -190,26 +200,28 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
 export const HowStepValidationSchema = Yup.object().shape({
   test_description: Yup.string().required(
-    i18n('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_REQUIRED')
+    i18n.t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_REQUIRED')
   ),
   use_cases: Yup.array()
     .of(
       Yup.object().shape({
         title: Yup.string().required(
-          i18n('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')
+          i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')
         ),
         functionality: Yup.string().required(
-          i18n(
+          i18n.t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_FUNCTIONALITY_REQUIRED'
           )
         ),
         description: Yup.string().required(
-          i18n('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_REQUIRED')
+          i18n.t(
+            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_REQUIRED'
+          )
         ),
         link: Yup.string().url(
-          i18n('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_INVALID')
+          i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_INVALID')
         ),
       })
     )
-    .min(1, i18n('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),
+    .min(1, i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),
 });

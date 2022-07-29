@@ -1,5 +1,4 @@
 import {
-  Message,
   Label,
   theme as globalTheme,
   Span,
@@ -14,15 +13,17 @@ import {
   LG,
   Editor,
   Button,
+  Col,
+  Row,
 } from '@appquality/unguess-design-system';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as FormField } from '@zendeskgarden/react-forms';
-import { FormikErrors, FormikProps } from 'formik';
+import { FormikProps } from 'formik';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -59,24 +60,32 @@ export const UseCaseDetails = ({
   const [isEditing, setIsEditing] = useState(false);
   const { getFieldProps, setFieldValue, validateForm, values, errors } =
     formikProps;
-
-  const functionality =
-    values.use_cases && values.use_cases[useCaseIndex as number]
-      ? values.use_cases[useCaseIndex as number].functionality
-      : null;
-
-  const [selectedFunc, setSelectedFunc] = useState(functionality);
-
   const description =
     values.use_cases && values.use_cases[useCaseIndex as number]
       ? values.use_cases[useCaseIndex as number].description
       : '';
 
-  const useCaseErrors = errors.use_cases
-    ? (errors.use_cases[useCaseIndex as number] as unknown as UseCase)
-    : null;
+  const [editorContent, setEditorContent] = useState(description);
+  const [editorChars, setEditorChars] = useState(description.length);
 
-  console.log('useCaseErrors', useCaseErrors);
+  const functionality =
+    values.use_cases && values.use_cases[useCaseIndex as number]
+      ? values.use_cases[useCaseIndex as number].functionality
+      : undefined;
+
+  const [selectedFunc, setSelectedFunc] = useState(functionality);
+
+  const useCaseErrors =
+    errors && errors.use_cases
+      ? (errors.use_cases[useCaseIndex as number] as unknown as UseCase)
+      : null;
+
+  const handleSave = useCallback(() => {
+    if (editorChars) {
+      setFieldValue(`use_cases[${useCaseIndex}].description`, editorContent);
+      setIsEditing(false);
+    }
+  }, [editorChars]);
 
   return (
     <>
@@ -114,13 +123,11 @@ export const UseCaseDetails = ({
           <Dropdown
             selectedItem={selectedFunc}
             onSelect={(item) => {
-              console.log('selected Item', item);
               setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
               setSelectedFunc(item);
               validateForm();
             }}
-            {...(useCaseErrors &&
-              useCaseErrors?.functionality && { validation: 'error' })}
+            {...(!selectedFunc && { validation: 'error' })}
           >
             <DropdownField>
               <Label>
@@ -143,7 +150,7 @@ export const UseCaseDetails = ({
               </Item>
             </Menu>
           </Dropdown>
-          {useCaseErrors && useCaseErrors?.functionality && (
+          {!selectedFunc && (
             <HelpTextMessage validation="error">
               {useCaseErrors?.functionality}
             </HelpTextMessage>
@@ -199,13 +206,11 @@ export const UseCaseDetails = ({
         {isEditing ? (
           <Editor
             key={`editor_${useCaseIndex}`}
-            onSave={(editor) => {
-              setFieldValue(
-                `use_cases[${useCaseIndex}].description`,
-                editor.getHTML()
-              );
-              setIsEditing(false);
+            onUpdate={({ editor }) => {
+              setEditorChars(editor.storage.characterCount.characters());
+              setEditorContent(editor.getHTML());
             }}
+            onSave={handleSave}
           >
             {description}
           </Editor>
@@ -229,17 +234,61 @@ export const UseCaseDetails = ({
           </Notes>
         )}
       </StyledFormField>
-
-      <Notes style={{ marginTop: globalTheme.space.lg }}>
-        <NotesTitle>
-          <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
-          {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_TITLE')}
-        </NotesTitle>
-        <Paragraph>
-          {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_SUBTITLE')}
-        </Paragraph>
-      </Notes>
-
+      {isEditing && (
+        <Row alignItems="center" style={{ marginTop: globalTheme.space.lg }}>
+          <Col sm="6" md="8" lg="9">
+            {!editorChars ? (
+              <Notes validation="error">
+                <NotesTitle>
+                  <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
+                  {t(
+                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_ERROR_TITLE'
+                  )}
+                </NotesTitle>
+                <Paragraph>
+                  {t(
+                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_ERROR_SUBTITLE'
+                  )}
+                </Paragraph>
+              </Notes>
+            ) : (
+              <Notes>
+                <NotesTitle>
+                  <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
+                  {t(
+                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_TITLE'
+                  )}
+                </NotesTitle>
+                <Paragraph>
+                  {t(
+                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_SUBTITLE'
+                  )}
+                </Paragraph>
+              </Notes>
+            )}
+          </Col>
+          <Col textAlign="end">
+            <Button
+              onClick={() => {
+                setEditorContent(description);
+                setIsEditing(false);
+              }}
+              themeColor={globalTheme.colors.accentHue}
+              isBasic
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSave}
+              themeColor={globalTheme.colors.accentHue}
+              isPill
+              isPrimary
+            >
+              Save
+            </Button>
+          </Col>
+        </Row>
+      )}
       {/* Link */}
       <StyledFormField>
         <Label>

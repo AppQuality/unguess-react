@@ -3,7 +3,6 @@ import {
   ContainerCard,
   Grid,
   Label,
-  Message,
   Paragraph,
   Row,
   Span,
@@ -38,10 +37,6 @@ const StyledFormField = styled.div`
 
 const StyledAlert = styled(Alert)`
   margin-top: ${({ theme }) => theme.space.lg};
-`;
-
-const StyledMessage = styled(Message)`
-  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 export const WhenStep = ({

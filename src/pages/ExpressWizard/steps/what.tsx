@@ -6,7 +6,6 @@ import {
   Label,
   MediaInput,
   Menu,
-  Message,
   Paragraph,
   RadioCard,
   Row,
@@ -71,10 +70,6 @@ const StyledFormField = styled.div`
 const StyledProductTypeTitle = styled(XL)`
   margin-bottom: ${({ theme }) => theme.space.sm};
   color: ${({ theme }) => theme.palette.grey[800]};
-`;
-
-const StyledMessage = styled(Message)`
-  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 export const WhatStep = ({

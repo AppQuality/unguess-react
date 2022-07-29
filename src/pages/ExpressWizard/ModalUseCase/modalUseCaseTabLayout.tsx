@@ -114,8 +114,7 @@ export const ModalUseCaseTabLayout = ({
                 className="add-card"
                 onClick={() => {
                   validateForm().then(() => {
-                    if (!errors.use_cases) {
-                      console.log('Highest use case id: ', highestUseCaseId);
+                    if (!errors || !errors.use_cases) {
                       push({
                         ...emptyUseCase,
                         id: highestUseCaseId + 1,
