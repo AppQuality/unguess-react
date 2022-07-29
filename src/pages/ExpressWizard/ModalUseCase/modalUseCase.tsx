@@ -148,7 +148,7 @@ export const ModalUseCase = ({
                 />
               </TextCasesTabs>
               <BodyScrollingContainer>
-                <TextCaseForm>
+                <ContainerCard>
                   {use_cases && use_cases.length ? (
                     <>
                       <UseCaseDetails
@@ -197,7 +197,7 @@ export const ModalUseCase = ({
                       </EmptyStateText>
                     </CenteredContainer>
                   )}
-                </TextCaseForm>
+                </ContainerCard>
               </BodyScrollingContainer>
             </ContentCol>
             <HelpCol xs={4}>
