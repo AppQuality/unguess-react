@@ -194,6 +194,11 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
           <RightArrow />
         </UseCaseCardButton>
       ) : null}
+
+      {/* UseCase validation message */}
+      {errors && errors.use_cases && typeof errors.use_cases === 'string' && (
+        <HelpTextMessage validation="error">{errors.use_cases}</HelpTextMessage>
+      )}
     </>
   );
 };
