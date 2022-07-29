@@ -1,7 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { useAppDispatch } from 'src/app/hooks';
-import { closeUseCaseModal } from 'src/features/express/expressSlice';
 import {
   Logo,
   XXL,
@@ -25,13 +23,12 @@ const Back = styled(ArrowLeftIcon)`
   cursor: pointer;
 `;
 
-export const ModalUseCaseHeader = () => {
+export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
 
   return (
     <Container>
-      <Back onClick={() => dispatch(closeUseCaseModal())} />
+      <Back onClick={onClose} />
       <Logo
         type="icon"
         size={25}
