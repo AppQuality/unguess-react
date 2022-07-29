@@ -16,7 +16,7 @@ import {
 import { FieldArray, FormikProps } from 'formik';
 
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
-import { ModalUseCaseHelp } from './modalUseCaseHelp';
+import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { WizardModel } from '../wizardModel';
 import { UseCaseDetails } from './useCaseDetails';
@@ -24,16 +24,22 @@ import { UseCase } from '../fields/how';
 
 const Body = styled(ModalFullScreen.Body)`
   padding: 0;
+  overflow: hidden;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ContentCol = styled(Col)`
-  padding: ${({ theme }) => theme.space.xl};
+  padding: 0;
   margin-bottom: 0;
   flex-wrap: nowrap;
   align-items: stretch;
   align-content: stretch;
   display: flex;
   flex-direction: column;
+  height: 100%;
 `;
 
 const HelpCol = styled(Col)`
@@ -41,6 +47,7 @@ const HelpCol = styled(Col)`
   background-color: white;
   margin-bottom: 0;
   padding: 0;
+  height: 100%;
 `;
 
 const TextCasesTabs = styled.div`
@@ -48,7 +55,10 @@ const TextCasesTabs = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.space.xl};
+  width: 100%;
+  position: sticky;
+  top: 0;
 `;
 
 const CenteredContainer = styled.div`
@@ -60,15 +70,29 @@ const CenteredContainer = styled.div`
   margin-top: ${({ theme }) => theme.space.xl};
 `;
 
-const TextCaseForm = styled(ContainerCard)`
-  margin-top: ${({ theme }) => theme.space.lg};
-`;
+const TextCaseForm = styled(ContainerCard)``;
+
 const PullRight = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
   margin-top: ${({ theme }) => theme.space.md};
+`;
+
+const BodyScrollingContainer = styled(ScrollingContainer)`
+  padding: 0 ${({ theme }) => theme.space.xl};
+  padding-bottom: ${({ theme }) => theme.space.xl};
+
+  ::-webkit-scrollbar {
+    background-color: transparent;
+  }
+
+  &:hover {
+    ::-webkit-scrollbar {
+      background-color: inherit;
+    }
+  }
 `;
 
 export const ModalUseCase = ({
@@ -117,36 +141,38 @@ export const ModalUseCase = ({
                 />
               </TextCasesTabs>
               {use_cases && use_cases.length ? (
-                <TextCaseForm>
-                  <UseCaseDetails
-                    formikProps={formikProps}
-                    useCase={currentUseCase}
-                    useCaseIndex={useCaseIndex}
-                  />
-                  <PullRight>
-                    <FieldArray name="use_cases">
-                      {({ remove }) => (
-                        <Button
-                          themeColor={globalTheme.palette.red[600]}
-                          onClick={() => {
-                            remove(useCaseIndex);
+                <BodyScrollingContainer>
+                  <TextCaseForm>
+                    <UseCaseDetails
+                      formikProps={formikProps}
+                      useCase={currentUseCase}
+                      useCaseIndex={useCaseIndex}
+                    />
+                    <PullRight>
+                      <FieldArray name="use_cases">
+                        {({ remove }) => (
+                          <Button
+                            themeColor={globalTheme.palette.red[600]}
+                            onClick={() => {
+                              remove(useCaseIndex);
 
-                            // Set current use case
-                            if (useCaseIndex === 0) {
-                              setUseCase(use_cases[useCaseIndex + 1]);
-                            } else {
-                              setUseCase(use_cases[useCaseIndex - 1]);
-                            }
-                          }}
-                        >
-                          {t(
-                            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
-                          )}
-                        </Button>
-                      )}
-                    </FieldArray>
-                  </PullRight>
-                </TextCaseForm>
+                              // Set current use case
+                              if (useCaseIndex === 0) {
+                                setUseCase(use_cases[useCaseIndex + 1]);
+                              } else {
+                                setUseCase(use_cases[useCaseIndex - 1]);
+                              }
+                            }}
+                          >
+                            {t(
+                              '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                            )}
+                          </Button>
+                        )}
+                      </FieldArray>
+                    </PullRight>
+                  </TextCaseForm>
+                </BodyScrollingContainer>
               ) : (
                 <CenteredContainer>
                   <Paragraph>Empty state 🚨</Paragraph>
