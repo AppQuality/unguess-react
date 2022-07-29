@@ -238,9 +238,9 @@ export const UseCaseDetails = ({
         <Row alignItems="center" style={{ marginTop: globalTheme.space.lg }}>
           <Col sm="6" md="8" lg="9">
             {!editorChars ? (
-              <Notes validation="error">
+              <Notes hasIcon validation="error">
+                <InfoIcon />
                 <NotesTitle>
-                  <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
                   {t(
                     '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_ERROR_TITLE'
                   )}
@@ -252,9 +252,9 @@ export const UseCaseDetails = ({
                 </Paragraph>
               </Notes>
             ) : (
-              <Notes>
+              <Notes hasIcon>
+                <InfoIcon />
                 <NotesTitle>
-                  <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
                   {t(
                     '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_TITLE'
                   )}
