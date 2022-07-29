@@ -116,21 +116,21 @@ export const ModalUseCaseTabLayout = ({
                 className="add-card"
                 onClick={() => {
                   validateForm().then(() => {
-                    if (
-                      !errors ||
-                      !Array.isArray(errors.use_cases) ||
-                      !errors.use_cases.length
-                    ) {
-                      push({
-                        ...emptyUseCase,
-                        id: highestUseCaseId + 1,
-                      });
+                    // if (
+                    //   !errors ||
+                    //   !Array.isArray(errors.use_cases) ||
+                    //   !errors.use_cases.length
+                    // ) {
+                    push({
+                      ...emptyUseCase,
+                      id: highestUseCaseId + 1,
+                    });
 
-                      handleCurrentUseCase({
-                        ...emptyUseCase,
-                        id: highestUseCaseId + 1,
-                      });
-                    }
+                    handleCurrentUseCase({
+                      ...emptyUseCase,
+                      id: highestUseCaseId + 1,
+                    });
+                    // }
                   });
                 }}
               >
