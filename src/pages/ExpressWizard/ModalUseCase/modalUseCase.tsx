@@ -7,14 +7,14 @@ import {
   Grid,
   ModalFullScreen,
   Row,
-  Paragraph,
   ContainerCard,
   theme as globalTheme,
   Button,
+  LG,
+  Paragraph,
 } from '@appquality/unguess-design-system';
-
+import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
 import { FieldArray, FormikProps } from 'formik';
-
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
@@ -67,7 +67,6 @@ const CenteredContainer = styled.div`
   align-items: center;
   justify-content: center;
   flex: 1;
-  margin-top: ${({ theme }) => theme.space.xl};
 `;
 
 const TextCaseForm = styled(ContainerCard)``;
@@ -93,6 +92,15 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
       background-color: inherit;
     }
   }
+`;
+
+const EmptyStateTitle = styled(LG)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+`;
+
+const EmptyStateText = styled(Paragraph)`
+  color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
 export const ModalUseCase = ({
@@ -140,44 +148,58 @@ export const ModalUseCase = ({
                   currentUseCase={currentUseCase}
                 />
               </TextCasesTabs>
-              {use_cases && use_cases.length ? (
-                <BodyScrollingContainer>
-                  <TextCaseForm>
-                    <UseCaseDetails
-                      formikProps={formikProps}
-                      useCase={currentUseCase}
-                      useCaseIndex={useCaseIndex}
-                    />
-                    <PullRight>
-                      <FieldArray name="use_cases">
-                        {({ remove }) => (
-                          <Button
-                            themeColor={globalTheme.palette.red[600]}
-                            onClick={() => {
-                              remove(useCaseIndex);
+              <BodyScrollingContainer>
+                <TextCaseForm>
+                  {use_cases && use_cases.length ? (
+                    <>
+                      <UseCaseDetails
+                        formikProps={formikProps}
+                        useCase={currentUseCase}
+                        useCaseIndex={useCaseIndex}
+                      />
+                      <PullRight>
+                        <FieldArray name="use_cases">
+                          {({ remove }) => (
+                            <Button
+                              themeColor={globalTheme.palette.red[600]}
+                              onClick={() => {
+                                remove(useCaseIndex);
 
-                              // Set current use case
-                              if (useCaseIndex === 0) {
-                                setUseCase(use_cases[useCaseIndex + 1]);
-                              } else {
-                                setUseCase(use_cases[useCaseIndex - 1]);
-                              }
-                            }}
-                          >
-                            {t(
-                              '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
-                            )}
-                          </Button>
+                                // Set current use case
+                                if (useCaseIndex === 0) {
+                                  setUseCase(use_cases[useCaseIndex + 1]);
+                                } else {
+                                  setUseCase(use_cases[useCaseIndex - 1]);
+                                }
+                              }}
+                            >
+                              {t(
+                                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                              )}
+                            </Button>
+                          )}
+                        </FieldArray>
+                      </PullRight>
+                    </>
+                  ) : (
+                    <CenteredContainer>
+                      <EmptyImg
+                        style={{ marginBottom: globalTheme.space.lg }}
+                      />
+                      <EmptyStateTitle>
+                        {t(
+                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'
                         )}
-                      </FieldArray>
-                    </PullRight>
-                  </TextCaseForm>
-                </BodyScrollingContainer>
-              ) : (
-                <CenteredContainer>
-                  <Paragraph>Empty state 🚨</Paragraph>
-                </CenteredContainer>
-              )}
+                      </EmptyStateTitle>
+                      <EmptyStateText>
+                        {t(
+                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_DESCRIPTION'
+                        )}
+                      </EmptyStateText>
+                    </CenteredContainer>
+                  )}
+                </TextCaseForm>
+              </BodyScrollingContainer>
             </ContentCol>
             <HelpCol xs={4}>
               <ModalUseCaseHelp />
