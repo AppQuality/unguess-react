@@ -1,11 +1,11 @@
 import { Card } from '@appquality/unguess-design-system';
 import { FieldArray, FormikProps } from 'formik';
 import styled from 'styled-components';
-import { UseCase, emptyUseCase } from 'src/features/express/expressSlice';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from '../wizardModel';
+import { emptyUseCase, UseCase } from '../fields/how';
 
 const Container = styled.div`
   padding: 0 ${({ theme }) => theme.space.md};
@@ -74,7 +74,7 @@ export const ModalUseCaseTabLayout = ({
   currentUseCase: UseCase;
 }) => {
   const { t } = useTranslation();
-  const { values } = formikProps;
+  const { values, validateForm, errors } = formikProps;
   const { use_cases } = values;
 
   let highestUseCaseId = 0;
@@ -113,14 +113,18 @@ export const ModalUseCaseTabLayout = ({
               <UseCaseCard
                 className="add-card"
                 onClick={() => {
-                  push({
-                    ...emptyUseCase,
-                    id: highestUseCaseId + 1,
-                  });
+                  validateForm().then(() => {
+                    if (!errors || !errors.use_cases) {
+                      push({
+                        ...emptyUseCase,
+                        id: highestUseCaseId + 1,
+                      });
 
-                  handleCurrentUseCase({
-                    ...emptyUseCase,
-                    id: highestUseCaseId + 1,
+                      handleCurrentUseCase({
+                        ...emptyUseCase,
+                        id: highestUseCaseId + 1,
+                      });
+                    }
                   });
                 }}
               >

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeUseCaseModal, UseCase } from 'src/features/express/expressSlice';
+import { closeUseCaseModal } from 'src/features/express/expressSlice';
 import {
   Col,
   Grid,
@@ -20,6 +20,7 @@ import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { WizardModel } from '../wizardModel';
 import { UseCaseDetails } from './useCaseDetails';
+import { UseCase } from '../fields/how';
 
 const Body = styled(ModalFullScreen.Body)`
   padding: 0;
@@ -106,7 +107,7 @@ export const ModalUseCase = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { values } = formikProps;
+  const { values, validateForm } = formikProps;
   const { use_cases } = values;
 
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
@@ -115,14 +116,18 @@ export const ModalUseCase = ({
     ? use_cases.findIndex((item) => item.id === currentUseCase.id)
     : 0;
 
+  const closeModal = () => {
+    validateForm().then(() => {
+      // if (!errors || !errors.use_cases) {
+      dispatch(closeUseCaseModal());
+      // }
+    });
+  };
+
   return isUseCaseModalOpen ? (
-    <ModalFullScreen
-      onClose={() => {
-        dispatch(closeUseCaseModal());
-      }}
-    >
+    <ModalFullScreen onClose={closeModal}>
       <ModalFullScreen.Header>
-        <ModalUseCaseHeader />
+        <ModalUseCaseHeader onClose={closeModal} />
       </ModalFullScreen.Header>
       <Body>
         <Grid style={{ height: '100%' }}>
@@ -170,7 +175,7 @@ export const ModalUseCase = ({
                 </BodyScrollingContainer>
               ) : (
                 <CenteredContainer>
-                  <Paragraph>Empty state</Paragraph>
+                  <Paragraph>Empty state 🚨</Paragraph>
                 </CenteredContainer>
               )}
             </ContentCol>

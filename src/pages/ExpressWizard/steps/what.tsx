@@ -6,7 +6,6 @@ import {
   Label,
   MediaInput,
   Menu,
-  Message,
   Paragraph,
   RadioCard,
   Row,
@@ -29,6 +28,7 @@ import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg'
 import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
 import { ReactComponent as DocumentIcon } from 'src/assets/icons/document-icon.svg';
 import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
@@ -72,10 +72,6 @@ const StyledProductTypeTitle = styled(XL)`
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
-const StyledMessage = styled(Message)`
-  margin-top: ${({ theme }) => theme.space.sm};
-`;
-
 export const WhatStep = ({
   errors,
   values,
@@ -111,9 +107,9 @@ export const WhatStep = ({
           {...(errors.campaign_name && { validation: 'error' })}
         />
         {errors.campaign_name && (
-          <StyledMessage validation="error">
+          <HelpTextMessage validation="error">
             {errors.campaign_name}
-          </StyledMessage>
+          </HelpTextMessage>
         )}
       </StyledFormField>
       <StyledFormField>
@@ -134,9 +130,9 @@ export const WhatStep = ({
               {selectedItem && reasonItems[`${selectedItem}`]}
             </Select>
             {errors.campaign_reason && (
-              <StyledMessage validation="error">
+              <HelpTextMessage validation="error">
                 {errors.campaign_reason}
-              </StyledMessage>
+              </HelpTextMessage>
             )}
           </DropdownField>
           <Menu>
@@ -193,9 +189,9 @@ export const WhatStep = ({
             </WizardCol>
           </Row>
           {errors.product_type && (
-            <StyledMessage validation="error">
+            <HelpTextMessage validation="error">
               {errors.product_type}
-            </StyledMessage>
+            </HelpTextMessage>
           )}
         </Grid>
       </StyledFormField>

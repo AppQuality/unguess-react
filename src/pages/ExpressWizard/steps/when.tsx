@@ -3,7 +3,6 @@ import {
   ContainerCard,
   Grid,
   Label,
-  Message,
   Paragraph,
   Row,
   Span,
@@ -12,6 +11,7 @@ import {
 import i18n from 'src/i18n';
 import { Datepicker } from '@zendeskgarden/react-datepickers';
 import { Field, Input } from '@zendeskgarden/react-forms';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -37,10 +37,6 @@ const StyledFormField = styled.div`
 
 const StyledAlert = styled(Alert)`
   margin-top: ${({ theme }) => theme.space.lg};
-`;
-
-const StyledMessage = styled(Message)`
-  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 export const WhenStep = ({
@@ -127,9 +123,9 @@ export const WhenStep = ({
                   />
                 </Datepicker>
                 {errors.campaign_date && (
-                  <StyledMessage validation="error">
+                  <HelpTextMessage validation="error">
                     {errors.campaign_date}
-                  </StyledMessage>
+                  </HelpTextMessage>
                 )}
               </Field>
             </WizardCol>
@@ -159,9 +155,9 @@ export const WhenStep = ({
                   {...props.getFieldProps('campaign_date_end')}
                 />
                 {errors.campaign_date_end && (
-                  <StyledMessage validation="error">
+                  <HelpTextMessage validation="error">
                     {errors.campaign_date_end}
-                  </StyledMessage>
+                  </HelpTextMessage>
                 )}
               </Field>
             </WizardCol>
