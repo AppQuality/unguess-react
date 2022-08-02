@@ -2,7 +2,7 @@ import {
   Dropdown,
   Select,
   Item,
-  theme,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.svg';
 import { Field } from '@zendeskgarden/react-dropdowns';
@@ -20,6 +20,12 @@ const Circle = styled(CircleFill)`
   height: 100%;
   max-height: 10px;
   margin: 0 2px;
+`;
+
+const StyledItem = styled(Item)`
+  svg {
+    margin-right: ${({ theme }) => theme.space.xs};
+  }
 `;
 
 export const StatusDropdown = () => {
@@ -45,17 +51,17 @@ export const StatusDropdown = () => {
       value: 'all',
     },
     incoming: {
-      icon: <Circle color={theme.palette.azure[600]} />,
+      icon: <Circle color={globalTheme.palette.azure[600]} />,
       label: t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_INCOMING'),
       value: CampaignStatus.Incoming,
     },
     running: {
-      icon: <Circle color={theme.palette.yellow[600]} />,
+      icon: <Circle color={globalTheme.palette.yellow[600]} />,
       label: t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_PROGRESS'),
       value: CampaignStatus.Running,
     },
     completed: {
-      icon: <Circle color={theme.palette.green[600]} />,
+      icon: <Circle color={globalTheme.palette.green[600]} />,
       label: t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_COMPLETED'),
       value: CampaignStatus.Completed,
     },
@@ -85,7 +91,7 @@ export const StatusDropdown = () => {
       </Field>
       <UgMenu hasArrow>
         {Object.keys(items).map((key) => (
-          <Item
+          <StyledItem
             key={items[`${key}`].value}
             value={items[`${key}`]}
             {...(availableStatuses.indexOf(items[`${key}`].value) === -1 && {
@@ -94,7 +100,7 @@ export const StatusDropdown = () => {
           >
             {items[`${key}`].icon ?? ''}
             {` ${items[`${key}`].label}`}
-          </Item>
+          </StyledItem>
         ))}
       </UgMenu>
     </Dropdown>
