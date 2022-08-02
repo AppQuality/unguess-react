@@ -84,6 +84,7 @@ export const UseCaseDetails = ({
 
   const handleDropdownChange = useCallback(
     (item: string) => {
+      console.log('HandleDropdownChange: ', item, useCaseIndex);
       setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
       setSelectedFunc(item);
       validateForm();
