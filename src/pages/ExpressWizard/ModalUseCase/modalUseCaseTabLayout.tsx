@@ -75,7 +75,7 @@ export const ModalUseCaseTabLayout = ({
   currentUseCase: UseCase;
 }) => {
   const { t } = useTranslation();
-  const { values, validateForm, errors } = formikProps;
+  const { values, validateForm } = formikProps;
   const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
   const { use_cases } = values;
 

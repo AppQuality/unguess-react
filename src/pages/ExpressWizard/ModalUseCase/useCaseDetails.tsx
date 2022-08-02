@@ -3,10 +3,6 @@ import {
   theme as globalTheme,
   Span,
   Input,
-  Dropdown,
-  Select,
-  Menu,
-  Item,
   MediaInput,
   Paragraph,
   Toggle,
@@ -16,10 +12,8 @@ import {
   Col,
   Row,
 } from '@appquality/unguess-design-system';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
-import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
@@ -31,6 +25,7 @@ import { Divider } from 'src/common/components/divider';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { WizardModel } from '../wizardModel';
 import { UseCase } from '../fields/how';
+import { TemplateDropdown } from './templateDropdown';
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
@@ -87,6 +82,15 @@ export const UseCaseDetails = ({
     }
   }, [editorChars]);
 
+  const handleDropdownChange = useCallback(
+    (item: string) => {
+      setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
+      setSelectedFunc(item);
+      validateForm();
+    },
+    [selectedFunc]
+  );
+
   return (
     <>
       {/* Title */}
@@ -120,42 +124,20 @@ export const UseCaseDetails = ({
       {/* Dropdown */}
       <Notes style={{ marginTop: globalTheme.space.lg }}>
         <StyledFormField style={{ marginTop: globalTheme.space.xs }}>
-          <Dropdown
+          <TemplateDropdown
+            deviceType={values.product_type}
             selectedItem={selectedFunc}
-            onSelect={(item) => {
-              setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
-              setSelectedFunc(item);
-              validateForm();
-            }}
-            {...(!selectedFunc && { validation: 'error' })}
-          >
-            <DropdownField>
-              <Label>
-                {t(
-                  '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE'
-                )}
-                <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-              </Label>
-              <Select start={<FunctionalityIcon />}>
-                {selectedFunc ??
-                  t(
-                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
-                  )}
-              </Select>
-            </DropdownField>
-            <Menu>
-              {/* TODO CUP-1019: API /templates */}
-              <Item key="adsadsadsa" value="adsadsadsa">
-                adsadsadsa
-              </Item>
-            </Menu>
-          </Dropdown>
+            onSelect={handleDropdownChange}
+          />
+
           {!selectedFunc && (
             <HelpTextMessage validation="error">
               {useCaseErrors?.functionality}
             </HelpTextMessage>
           )}
         </StyledFormField>
+
+        {/* Logged Toggle */}
         <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
           <InlineRow>
             <Label>
