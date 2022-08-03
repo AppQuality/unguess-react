@@ -51,6 +51,11 @@ export const Category = ({ id }: { id: any }) => {
         populate: '*',
         locale: i18n.language,
         sort: 'sort_order',
+        filters: {
+          publishedAt: {
+            $null: false,
+          },
+        },
       },
     },
   });
