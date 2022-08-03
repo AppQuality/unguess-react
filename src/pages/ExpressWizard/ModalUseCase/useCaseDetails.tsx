@@ -17,7 +17,7 @@ import { FormikProps } from 'formik';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -63,12 +63,11 @@ export const UseCaseDetails = ({
   const [editorContent, setEditorContent] = useState(description);
   const [editorChars, setEditorChars] = useState(description.length);
 
-  const functionality =
-    values.use_cases && values.use_cases[useCaseIndex as number]
-      ? values.use_cases[useCaseIndex as number].functionality
-      : undefined;
+  const functionality = useCase ? useCase.functionality : undefined;
 
-  const [selectedFunc, setSelectedFunc] = useState(functionality);
+  const [selectedFunc, setSelectedFunc] = useState<string | undefined>(
+    functionality
+  );
 
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
@@ -82,9 +81,12 @@ export const UseCaseDetails = ({
     }
   }, [editorChars]);
 
+  useEffect(() => {
+    setSelectedFunc(useCase ? useCase.functionality : undefined);
+  }, [useCase]);
+
   const handleDropdownChange = useCallback(
     (item: string) => {
-      console.log('HandleDropdownChange: ', item, useCaseIndex);
       setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
       setSelectedFunc(item);
       validateForm();

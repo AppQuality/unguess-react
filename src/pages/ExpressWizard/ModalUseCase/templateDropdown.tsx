@@ -3,7 +3,6 @@ import {
   theme as globalTheme,
   Span,
   Dropdown,
-  Select,
   Menu,
   Item,
   ItemContent,
@@ -25,8 +24,6 @@ import useDebounce from 'src/hooks/useDebounce';
 
 export const TemplateDropdown = (props: TemplateDropdownProps) => {
   const { selectedItem, onSelect, deviceType } = props;
-
-  console.log('DROPDOWN: selectedItem', selectedItem);
   const { t } = useTranslation();
   const { data, isLoading, isFetching } = useGetTemplatesQuery({
     filterBy: {
