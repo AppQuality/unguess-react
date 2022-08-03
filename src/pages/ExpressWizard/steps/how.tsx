@@ -197,11 +197,16 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             });
             dispatch(openUseCaseModal());
             if (values.use_cases) {
-              values.use_cases.push({
-                ...emptyUseCase,
-                id: highestUseCaseId + 1,
+              setValues({
+                ...values,
+                use_cases: [
+                  ...values.use_cases,
+                  {
+                    ...emptyUseCase,
+                    id: highestUseCaseId + 1,
+                  },
+                ],
               });
-              setValues(values);
             }
           }}
           style={{ marginTop: globalTheme.space.md }}
