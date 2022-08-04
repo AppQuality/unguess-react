@@ -21,6 +21,20 @@ import i18n from 'src/i18n';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
 import useDebounce from 'src/hooks/useDebounce';
+import styled from 'styled-components';
+
+const StyledItem = styled(Item)`
+  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
+
+  &:first-child {
+    margin-top: 0;
+  }
+`;
+
+const GroupLabel = styled(StyledItem)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  text-transform: uppercase;
+`;
 
 export const TemplateDropdown = (props: TemplateDropdownProps) => {
   const { selectedItem, onSelect, deviceType } = props;
@@ -34,19 +48,38 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
 
   const templates = data || [];
 
+  // Group templates by category id
+  const groupedTemplates = templates.reduce(
+    (acc: UseCaseTemplate[][], template: UseCaseTemplate) => {
+      const categoryId = template.category.id ?? -1;
+      if (!acc[categoryId]) {
+        acc[categoryId] = [];
+      }
+
+      acc[categoryId].push(template);
+      return acc;
+    },
+    []
+  );
+
+  console.log('groupedTemplates', groupedTemplates);
+
   const [inputValue, setInputValue] = useState<string>('');
-  const [matchingOptions, setMatchingOptions] = useState(templates);
+  const [matchingOptions, setMatchingOptions] = useState(groupedTemplates);
 
   const debouncedInputValue = useDebounce<string>(inputValue, 300);
 
   const filterMatchingOptions = useCallback(
     (value: string) => {
-      const matchedOptions = templates.filter(
-        (tmpl) =>
-          tmpl.title
-            .trim()
-            .toLowerCase()
-            .indexOf(value.trim().toLowerCase()) !== -1
+      const matchedOptions = groupedTemplates.filter(
+        (group: UseCaseTemplate[]) =>
+          group.filter(
+            (template: UseCaseTemplate) =>
+              template.title
+                .trim()
+                .toLowerCase()
+                .indexOf(value.trim().toLowerCase()) !== -1
+          )
       );
 
       setMatchingOptions(matchedOptions);
@@ -64,6 +97,8 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
     <Dropdown
       selectedItem={selectedItem}
       onSelect={(item: UseCaseTemplate) => {
+        if (!item) return;
+
         if (item.id === -1) {
           setInputValue(item.title);
         } else {
@@ -94,28 +129,33 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
       </DropdownField>
       <Menu>
         {matchingOptions.length ? (
-          matchingOptions.map((item: UseCaseTemplate) => (
-            <Item key={`template_${item.id}`} value={item}>
-              <ItemContent
-                thumbSrc={item.image}
-                description={item.description}
-                label={item.title}
-              />
-            </Item>
+          matchingOptions.map((group: UseCaseTemplate[]) => (
+            <>
+              <GroupLabel disabled>{group[0].category.name}</GroupLabel>
+              {group.map((template: UseCaseTemplate) => (
+                <StyledItem key={`template_${template.id}`} value={template}>
+                  <ItemContent
+                    thumbSrc={template.image}
+                    description={template.description}
+                    label={template.title}
+                  />
+                </StyledItem>
+              ))}
+            </>
           ))
         ) : (
-          <Item disabled>
+          <StyledItem disabled>
             <span>
               {t(
                 '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_NO_RESULTS'
               )}
             </span>
-          </Item>
+          </StyledItem>
         )}
         {inputValue && (
           <>
             <Separator />
-            <Item key="new" value={{ id: -1, title: inputValue }}>
+            <StyledItem key="new" value={{ id: -1, title: inputValue }}>
               <MediaFigure>
                 <AddIcon />
               </MediaFigure>
@@ -126,7 +166,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
                 &nbsp; &quot;
                 {inputValue}&quot;
               </MediaBody>
-            </Item>
+            </StyledItem>
           </>
         )}
       </Menu>
