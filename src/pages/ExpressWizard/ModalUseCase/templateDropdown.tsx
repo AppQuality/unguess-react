@@ -75,15 +75,22 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
 
   const filterMatchingOptions = useCallback(
     (value: string) => {
-      const matchedOptions = groupedTemplates.filter(
-        (group: UseCaseTemplate[]) =>
-          group.filter(
+      const matchedOptions = groupedTemplates.reduce(
+        (acc: UseCaseTemplate[][], group: UseCaseTemplate[]) => {
+          const categoryId = group[0].category.id ?? -1;
+          const matchGroup = group.filter(
             (template: UseCaseTemplate) =>
               template.title
                 .trim()
                 .toLowerCase()
                 .indexOf(value.trim().toLowerCase()) !== -1
-          )
+          );
+          if (matchGroup.length) {
+            acc[categoryId as number] = matchGroup;
+          }
+          return acc;
+        },
+        []
       );
 
       setMatchingOptions(matchedOptions);
