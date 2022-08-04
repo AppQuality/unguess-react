@@ -86,7 +86,7 @@ const UseCaseEditLabel = styled(Paragraph)`
 
 export const HowStep = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
-  const [currentUseCase, setCurrentUseCase] = useState<UseCase>(emptyUseCase);
+  const [currentUseCase, setCurrentUseCase] = useState<UseCase | undefined>();
   const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
   const { values, getFieldProps, setValues, validateForm, errors } = props;
   const { use_cases } = values;
@@ -251,22 +251,10 @@ export const HowStepValidationSchema = Yup.object().shape({
   use_cases: Yup.array()
     .of(
       Yup.object().shape({
-        title: Yup.string().required(
-          i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')
-        ),
-        functionality: Yup.string().required(
-          i18n.t(
-            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_FUNCTIONALITY_REQUIRED'
-          )
-        ),
-        description: Yup.string().required(
-          i18n.t(
-            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_REQUIRED'
-          )
-        ),
-        link: Yup.string().url(
-          i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_INVALID')
-        ),
+        title: Yup.string().required(),
+        functionality: Yup.string().required(),
+        description: Yup.string().required(),
+        link: Yup.string().url(),
       })
     )
     .min(1, i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),

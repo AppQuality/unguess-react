@@ -57,9 +57,11 @@ export const UseCaseDetails = ({
     formikProps;
 
   const [isEditing, setIsEditing] = useState(false);
-  const [editorContent, setEditorContent] = useState(useCase.description);
+  const [editorContent, setEditorContent] = useState(
+    useCase ? useCase.description : ''
+  );
   const [editorChars, setEditorChars] = useState(
-    useCase.description.length || 0
+    useCase ? useCase.description.length : 0
   );
   const [selectedFunc, setSelectedFunc] = useState<UseCaseTemplate | undefined>(
     useCase ? useCase.functionality : undefined
@@ -95,9 +97,12 @@ export const UseCaseDetails = ({
       setFieldValue(`use_cases[${useCaseIndex}].logged`, isLogged);
       setFieldValue(`use_cases[${useCaseIndex}].description`, content);
       setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
+
       setEditorContent(content);
       useCase.description = content;
+
       useCase.logged = isLogged;
+      useCase.functionality = item;
 
       setSelectedFunc(item ?? undefined);
       validateForm();
@@ -130,7 +135,7 @@ export const UseCaseDetails = ({
         />
         {useCaseErrors && useCaseErrors?.title && (
           <HelpTextMessage validation="error">
-            {useCaseErrors?.title}
+            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
           </HelpTextMessage>
         )}
       </StyledFormField>
@@ -146,7 +151,9 @@ export const UseCaseDetails = ({
 
           {!selectedFunc && (
             <HelpTextMessage validation="error">
-              {useCaseErrors?.functionality}
+              {t(
+                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_FUNCTIONALITY_REQUIRED'
+              )}
             </HelpTextMessage>
           )}
         </StyledFormField>
@@ -159,9 +166,10 @@ export const UseCaseDetails = ({
             </Label>
             <FormField>
               <Toggle
-                {...(useCase &&
-                  useCase.logged && {
-                    checked: useCase.logged,
+                {...(values &&
+                  values.use_cases &&
+                  values.use_cases[useCaseIndex] && {
+                    checked: values.use_cases[useCaseIndex].logged,
                   })}
                 {...getFieldProps(`use_cases[${useCaseIndex}].logged`)}
               >
@@ -201,19 +209,18 @@ export const UseCaseDetails = ({
         {/* TODO CUP-1062: editor */}
         {isEditing ? (
           <Editor
-            key={`editor_${useCaseIndex}`}
             onUpdate={({ editor }) => {
               setEditorChars(editor.storage.characterCount.characters());
               setEditorContent(editor.getHTML());
             }}
             onSave={handleSave}
           >
-            {useCase.description}
+            {useCase ? useCase.description : ''}
           </Editor>
         ) : (
           <Notes>
-            <Editor key={`editor_readonly_${useCaseIndex}`} editable={false}>
-              {useCase.description}
+            <Editor key={Math.random()} editable={false}>
+              {useCase ? useCase.description : ''}
             </Editor>
             <Button
               themeColor={globalTheme.colors.accentHue}
@@ -266,7 +273,7 @@ export const UseCaseDetails = ({
           <Col textAlign="end">
             <Button
               onClick={() => {
-                setEditorContent(useCase.description);
+                setEditorContent(useCase ? useCase.description : '');
                 setIsEditing(false);
               }}
               themeColor={globalTheme.colors.accentHue}
@@ -313,7 +320,7 @@ export const UseCaseDetails = ({
         />
         {useCaseErrors && useCaseErrors?.link ? (
           <HelpTextMessage validation="error">
-            {useCaseErrors?.link}
+            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_INVALID')}
           </HelpTextMessage>
         ) : (
           <HelpTextMessage>

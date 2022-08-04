@@ -12,6 +12,7 @@ import {
   Button,
   LG,
   Paragraph,
+  Skeleton,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
 import { FieldArray, FormikProps } from 'formik';
@@ -107,8 +108,8 @@ export const ModalUseCase = ({
   setUseCase,
 }: {
   formikProps: FormikProps<WizardModel>;
-  currentUseCase: UseCase;
-  setUseCase: (item: UseCase) => void;
+  currentUseCase?: UseCase;
+  setUseCase: (item?: UseCase) => void;
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -119,7 +120,7 @@ export const ModalUseCase = ({
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
 
   const useCaseIndex =
-    use_cases && Array.isArray(use_cases) && use_cases.length && currentUseCase
+    currentUseCase && use_cases && Array.isArray(use_cases) && use_cases.length
       ? use_cases.findIndex((item) => item.id === currentUseCase.id)
       : 0;
 
@@ -150,36 +151,52 @@ export const ModalUseCase = ({
               <BodyScrollingContainer>
                 <ContainerCard>
                   {use_cases && use_cases.length ? (
-                    <>
-                      <UseCaseDetails
-                        formikProps={formikProps}
-                        useCase={currentUseCase}
-                        useCaseIndex={useCaseIndex}
-                      />
-                      <PullRight>
-                        <FieldArray name="use_cases">
-                          {({ remove }) => (
-                            <Button
-                              themeColor={globalTheme.palette.red[600]}
-                              onClick={() => {
-                                remove(useCaseIndex);
+                    <div>
+                      {currentUseCase ? (
+                        <>
+                          <UseCaseDetails
+                            formikProps={formikProps}
+                            useCase={currentUseCase}
+                            useCaseIndex={useCaseIndex}
+                          />
+                          <PullRight>
+                            <FieldArray name="use_cases">
+                              {({ remove }) => (
+                                <Button
+                                  themeColor={globalTheme.palette.red[600]}
+                                  onClick={() => {
+                                    remove(useCaseIndex);
 
-                                // Set current use case
-                                if (useCaseIndex === 0) {
-                                  setUseCase(use_cases[useCaseIndex + 1]);
-                                } else {
-                                  setUseCase(use_cases[useCaseIndex - 1]);
-                                }
-                              }}
-                            >
-                              {t(
-                                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                                    // Set current use case
+                                    if (useCaseIndex === 0) {
+                                      // If there is at least an other use case next, set it
+                                      if (use_cases[useCaseIndex + 1]) {
+                                        setUseCase(use_cases[useCaseIndex + 1]);
+                                      } else {
+                                        // Clear current use case
+                                        setUseCase();
+                                      }
+                                    } else if (useCaseIndex > 0) {
+                                      // Set the previous one
+                                      setUseCase(use_cases[useCaseIndex - 1]);
+                                    }
+                                  }}
+                                >
+                                  {t(
+                                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                                  )}
+                                </Button>
                               )}
-                            </Button>
-                          )}
-                        </FieldArray>
-                      </PullRight>
-                    </>
+                            </FieldArray>
+                          </PullRight>
+                        </>
+                      ) : (
+                        <>
+                          <Skeleton height="32px" width="100%" />
+                          <Skeleton height="32px" width="100%" />
+                        </>
+                      )}
+                    </div>
                   ) : (
                     <CenteredContainer>
                       <EmptyImg
