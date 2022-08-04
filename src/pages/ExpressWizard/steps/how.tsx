@@ -191,11 +191,6 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
         <UseCaseCardButton
           className="use-case-add-card-button"
           onClick={() => {
-            setCurrentUseCase({
-              ...emptyUseCase,
-              id: highestUseCaseId + 1,
-            });
-            dispatch(openUseCaseModal());
             if (values.use_cases) {
               setValues({
                 ...values,
@@ -208,6 +203,13 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 ],
               });
             }
+
+            setCurrentUseCase({
+              ...emptyUseCase,
+              id: highestUseCaseId + 1,
+            });
+
+            dispatch(openUseCaseModal());
           }}
           style={{ marginTop: globalTheme.space.md }}
         >
