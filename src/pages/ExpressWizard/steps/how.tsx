@@ -252,7 +252,9 @@ export const HowStepValidationSchema = Yup.object().shape({
     .of(
       Yup.object().shape({
         title: Yup.string().required(),
-        functionality: Yup.string().required(),
+        functionality: Yup.object().shape({
+          title: Yup.string().required(),
+        }),
         description: Yup.string().required(),
         link: Yup.string().url(),
       })

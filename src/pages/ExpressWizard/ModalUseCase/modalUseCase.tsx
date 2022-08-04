@@ -150,53 +150,44 @@ export const ModalUseCase = ({
               </TextCasesTabs>
               <BodyScrollingContainer>
                 <ContainerCard>
-                  {use_cases && use_cases.length ? (
-                    <div>
-                      {currentUseCase ? (
-                        <>
-                          <UseCaseDetails
-                            formikProps={formikProps}
-                            useCase={currentUseCase}
-                            useCaseIndex={useCaseIndex}
-                          />
-                          <PullRight>
-                            <FieldArray name="use_cases">
-                              {({ remove }) => (
-                                <Button
-                                  themeColor={globalTheme.palette.red[600]}
-                                  onClick={() => {
-                                    remove(useCaseIndex);
+                  {use_cases && currentUseCase && use_cases.length ? (
+                    <>
+                      <UseCaseDetails
+                        formikProps={formikProps}
+                        useCase={currentUseCase}
+                        useCaseIndex={useCaseIndex}
+                      />
+                      <PullRight>
+                        <FieldArray name="use_cases">
+                          {({ remove }) => (
+                            <Button
+                              themeColor={globalTheme.palette.red[600]}
+                              onClick={() => {
+                                remove(useCaseIndex);
 
-                                    // Set current use case
-                                    if (useCaseIndex === 0) {
-                                      // If there is at least an other use case next, set it
-                                      if (use_cases[useCaseIndex + 1]) {
-                                        setUseCase(use_cases[useCaseIndex + 1]);
-                                      } else {
-                                        // Clear current use case
-                                        setUseCase();
-                                      }
-                                    } else if (useCaseIndex > 0) {
-                                      // Set the previous one
-                                      setUseCase(use_cases[useCaseIndex - 1]);
-                                    }
-                                  }}
-                                >
-                                  {t(
-                                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
-                                  )}
-                                </Button>
+                                // Set current use case
+                                if (useCaseIndex === 0) {
+                                  // If there is at least an other use case next, set it
+                                  if (use_cases[useCaseIndex + 1]) {
+                                    setUseCase(use_cases[useCaseIndex + 1]);
+                                  } else {
+                                    // Clear current use case
+                                    setUseCase();
+                                  }
+                                } else if (useCaseIndex > 0) {
+                                  // Set the previous one
+                                  setUseCase(use_cases[useCaseIndex - 1]);
+                                }
+                              }}
+                            >
+                              {t(
+                                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
                               )}
-                            </FieldArray>
-                          </PullRight>
-                        </>
-                      ) : (
-                        <>
-                          <Skeleton height="32px" width="100%" />
-                          <Skeleton height="32px" width="100%" />
-                        </>
-                      )}
-                    </div>
+                            </Button>
+                          )}
+                        </FieldArray>
+                      </PullRight>
+                    </>
                   ) : (
                     <CenteredContainer>
                       <EmptyImg
