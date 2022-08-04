@@ -25,7 +25,7 @@ import { Divider } from 'src/common/components/divider';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { UseCaseTemplate } from 'src/features/api/api';
 import { WizardModel } from '../wizardModel';
-import { UseCase } from '../fields/how';
+import { emptyUseCase, UseCase } from '../fields/how';
 import { TemplateDropdown } from './templateDropdown';
 
 const StyledFormField = styled.div`
@@ -56,14 +56,11 @@ export const UseCaseDetails = ({
   const { getFieldProps, setFieldValue, validateForm, values, errors } =
     formikProps;
 
-  const description =
-    values.use_cases && values.use_cases[useCaseIndex as number]
-      ? values.use_cases[useCaseIndex as number].description
-      : '';
-
   const [isEditing, setIsEditing] = useState(false);
-  const [editorContent, setEditorContent] = useState(description);
-  const [editorChars, setEditorChars] = useState(description.length);
+  const [editorContent, setEditorContent] = useState(useCase.description);
+  const [editorChars, setEditorChars] = useState(
+    useCase.description.length || 0
+  );
   const [selectedFunc, setSelectedFunc] = useState<UseCaseTemplate | undefined>(
     useCase ? useCase.functionality : undefined
   );
@@ -76,6 +73,7 @@ export const UseCaseDetails = ({
   const handleSave = useCallback(() => {
     if (editorChars) {
       setFieldValue(`use_cases[${useCaseIndex}].description`, editorContent);
+      useCase.description = editorContent;
       setIsEditing(false);
     }
   }, [editorChars]);
@@ -86,10 +84,21 @@ export const UseCaseDetails = ({
 
   const handleDropdownChange = useCallback(
     (item: UseCaseTemplate | undefined) => {
-      setFieldValue(
-        `use_cases[${useCaseIndex}].functionality`,
-        item && item.title ? item.title : ''
-      );
+      let isLogged = emptyUseCase.logged;
+      let content = emptyUseCase.description;
+
+      if (item && item.id !== -1) {
+        isLogged = !!item.requiresLogin;
+        content = item.content;
+      }
+
+      setFieldValue(`use_cases[${useCaseIndex}].logged`, isLogged);
+      setFieldValue(`use_cases[${useCaseIndex}].description`, content);
+      setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
+      setEditorContent(content);
+      useCase.description = content;
+      useCase.logged = isLogged;
+
       setSelectedFunc(item ?? undefined);
       validateForm();
     },
@@ -199,12 +208,12 @@ export const UseCaseDetails = ({
             }}
             onSave={handleSave}
           >
-            {description}
+            {useCase.description}
           </Editor>
         ) : (
           <Notes>
             <Editor key={`editor_readonly_${useCaseIndex}`} editable={false}>
-              {description}
+              {useCase.description}
             </Editor>
             <Button
               themeColor={globalTheme.colors.accentHue}
@@ -257,7 +266,7 @@ export const UseCaseDetails = ({
           <Col textAlign="end">
             <Button
               onClick={() => {
-                setEditorContent(description);
+                setEditorContent(useCase.description);
                 setIsEditing(false);
               }}
               themeColor={globalTheme.colors.accentHue}

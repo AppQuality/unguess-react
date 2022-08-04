@@ -1,10 +1,10 @@
 import { WizardModel } from './wizardModel';
 
 const values: WizardModel = {
-  campaign_name: '',
+  campaign_name: 'Campaign Name',
   product_type: 'webapp',
   campaign_reason: 'reason-a',
-  withSmartphone: false,
+  withSmartphone: true,
   withDesktop: false,
   withTablet: false,
   customBrowser: false,
@@ -19,9 +19,9 @@ const values: WizardModel = {
   androidLink: '',
   isIOS: false,
   isAndroid: false,
-  link: '',
-  campaign_language: '',
-  test_description: '',
+  link: 'https://app.unguess.io',
+  campaign_language: 'en',
+  test_description: 'Here you can describe your test',
   use_cases: [],
 };
 
