@@ -34,6 +34,12 @@ const StyledItem = styled(Item)`
 const GroupLabel = styled(StyledItem)`
   color: ${({ theme }) => theme.palette.grey[600]};
   text-transform: uppercase;
+
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+
+  &:not(:first-child) {
+    margin-top: ${({ theme }) => theme.space.sm};
+  }
 `;
 
 export const TemplateDropdown = (props: TemplateDropdownProps) => {
@@ -52,17 +58,15 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
   const groupedTemplates = templates.reduce(
     (acc: UseCaseTemplate[][], template: UseCaseTemplate) => {
       const categoryId = template.category.id ?? -1;
-      if (!acc[categoryId]) {
-        acc[categoryId] = [];
+      if (!acc[categoryId as number]) {
+        acc[categoryId as number] = [];
       }
 
-      acc[categoryId].push(template);
+      acc[categoryId as number].push(template);
       return acc;
     },
     []
   );
-
-  console.log('groupedTemplates', groupedTemplates);
 
   const [inputValue, setInputValue] = useState<string>('');
   const [matchingOptions, setMatchingOptions] = useState(groupedTemplates);
