@@ -132,6 +132,8 @@
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR": "Please add at least one use case",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_SUBTITLE": "Follow the instructions, our experts will check your test cases before launching the campaign!",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_NOTES_FIELD_TITLE": "Don't be afraid to make mistakes!",
+  "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_ADD_ITEM_LABEL": "Add",
+  "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_NO_RESULTS": "No results",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER": "Search or add typology",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE": "Type of functionality to be tested",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER": "Insert test case title",

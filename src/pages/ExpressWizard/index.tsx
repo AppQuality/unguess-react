@@ -287,6 +287,9 @@ export const ExpressWizardContainer = () => {
         dispatch(resetWizard());
         setStep(0);
         setThankyou(false);
+        if (formRef.current) {
+          formRef.current?.resetForm();
+        }
         toggleChat(true);
       }}
     >
