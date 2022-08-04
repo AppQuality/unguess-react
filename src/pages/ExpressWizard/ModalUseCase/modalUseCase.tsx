@@ -12,7 +12,6 @@ import {
   Button,
   LG,
   Paragraph,
-  Skeleton,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
 import { FieldArray, FormikProps } from 'formik';

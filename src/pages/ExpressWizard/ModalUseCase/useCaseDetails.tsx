@@ -168,8 +168,8 @@ export const UseCaseDetails = ({
               <Toggle
                 {...(values &&
                   values.use_cases &&
-                  values.use_cases[useCaseIndex] && {
-                    checked: values.use_cases[useCaseIndex].logged,
+                  values.use_cases[useCaseIndex as number] && {
+                    checked: values.use_cases[useCaseIndex as number].logged,
                   })}
                 {...getFieldProps(`use_cases[${useCaseIndex}].logged`)}
               >
