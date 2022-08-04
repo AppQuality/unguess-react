@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
+import { UseCaseTemplate } from 'src/features/api/api';
 import { WizardModel } from '../wizardModel';
 import { UseCase } from '../fields/how';
 import { TemplateDropdown } from './templateDropdown';
@@ -52,21 +53,19 @@ export const UseCaseDetails = ({
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
   const { getFieldProps, setFieldValue, validateForm, values, errors } =
     formikProps;
+
   const description =
     values.use_cases && values.use_cases[useCaseIndex as number]
       ? values.use_cases[useCaseIndex as number].description
       : '';
 
+  const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState(description);
   const [editorChars, setEditorChars] = useState(description.length);
-
-  const functionality = useCase ? useCase.functionality : undefined;
-
-  const [selectedFunc, setSelectedFunc] = useState<string | undefined>(
-    functionality
+  const [selectedFunc, setSelectedFunc] = useState<UseCaseTemplate | undefined>(
+    useCase ? useCase.functionality : undefined
   );
 
   const useCaseErrors =
@@ -86,9 +85,12 @@ export const UseCaseDetails = ({
   }, [useCase]);
 
   const handleDropdownChange = useCallback(
-    (item: string) => {
-      setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
-      setSelectedFunc(item);
+    (item: UseCaseTemplate | undefined) => {
+      setFieldValue(
+        `use_cases[${useCaseIndex}].functionality`,
+        item && item.title ? item.title : ''
+      );
+      setSelectedFunc(item ?? undefined);
       validateForm();
     },
     [selectedFunc]

@@ -63,10 +63,21 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
   ) : (
     <Dropdown
       selectedItem={selectedItem}
-      onSelect={onSelect}
+      onSelect={(item: UseCaseTemplate) => {
+        if (item.id === -1) {
+          setInputValue(item.title);
+        } else {
+          setInputValue('');
+        }
+
+        onSelect(item);
+      }}
       {...(!selectedItem && { validation: 'error' })}
       onInputValueChange={(value) => {
         setInputValue(value);
+      }}
+      downshiftProps={{
+        itemToString: (item: UseCaseTemplate) => item?.title || '',
       }}
     >
       <DropdownField>
@@ -75,7 +86,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
           <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
         </Label>
         <Autocomplete start={<FunctionalityIcon />}>
-          {selectedItem ??
+          {selectedItem?.title ??
             t(
               '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
             )}
@@ -84,7 +95,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
       <Menu>
         {matchingOptions.length ? (
           matchingOptions.map((item: UseCaseTemplate) => (
-            <Item key={`template_${item.id}`} value={item.title}>
+            <Item key={`template_${item.id}`} value={item}>
               <ItemContent
                 thumbSrc={item.image}
                 description={item.description}
@@ -104,7 +115,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
         {inputValue && (
           <>
             <Separator />
-            <Item key="new" value={inputValue}>
+            <Item key="new" value={{ id: -1, title: inputValue }}>
               <MediaFigure>
                 <AddIcon />
               </MediaFigure>
@@ -125,6 +136,6 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
 
 interface TemplateDropdownProps {
   deviceType?: string;
-  selectedItem?: string;
-  onSelect: (item: string) => void;
+  selectedItem?: UseCaseTemplate;
+  onSelect: (item: UseCaseTemplate | undefined) => void;
 }
