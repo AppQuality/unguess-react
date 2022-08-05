@@ -17,8 +17,9 @@ import {
 import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
 import { WaterButton } from '../../../common/components/waterButton';
 import { WizardHeader } from '../wizardHeader';
+import { WizardModel } from '../wizardModel';
 
-export const ThankYouStep = () => {
+export const ThankYouStep = ({ values }: { values: WizardModel }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
@@ -47,7 +48,9 @@ export const ThankYouStep = () => {
                     {t('__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE')}
                   </XXL>
                   <MD style={{ color: theme.palette.grey[600] }}>
-                    {t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE')}
+                    {values.use_cases
+                      ? t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE_USE_CASES')
+                      : t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE')}
                   </MD>
                 </Col>
               </Row>

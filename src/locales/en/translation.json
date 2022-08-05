@@ -157,6 +157,7 @@
   "__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT": "Testers speak: <1><0>{{campaign_language}}</0></1>.",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON": "Go back to dashboard",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE": "Keep track of your campaign in realtime, directly from your dashboard.",
+  "__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE_USE_CASES": "Our tester leaders will soon reach out to you about the campaign launch.",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE": "Campaign launched!",
   "__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION": "What is the campaign about?",
   "__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED": "Campaign Name is required",
