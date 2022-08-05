@@ -107,8 +107,8 @@ export const ModalUseCase = ({
   setUseCase,
 }: {
   formikProps: FormikProps<WizardModel>;
-  currentUseCase: UseCase;
-  setUseCase: (item: UseCase) => void;
+  currentUseCase?: UseCase;
+  setUseCase: (item?: UseCase) => void;
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -119,7 +119,7 @@ export const ModalUseCase = ({
   const { isUseCaseModalOpen } = useAppSelector((state) => state.express);
 
   const useCaseIndex =
-    use_cases && Array.isArray(use_cases) && use_cases.length && currentUseCase
+    currentUseCase && use_cases && Array.isArray(use_cases) && use_cases.length
       ? use_cases.findIndex((item) => item.id === currentUseCase.id)
       : 0;
 
@@ -149,7 +149,7 @@ export const ModalUseCase = ({
               </TextCasesTabs>
               <BodyScrollingContainer>
                 <ContainerCard>
-                  {use_cases && use_cases.length ? (
+                  {use_cases && currentUseCase && use_cases.length ? (
                     <>
                       <UseCaseDetails
                         formikProps={formikProps}
@@ -166,8 +166,15 @@ export const ModalUseCase = ({
 
                                 // Set current use case
                                 if (useCaseIndex === 0) {
-                                  setUseCase(use_cases[useCaseIndex + 1]);
-                                } else {
+                                  // If there is at least an other use case next, set it
+                                  if (use_cases[useCaseIndex + 1]) {
+                                    setUseCase(use_cases[useCaseIndex + 1]);
+                                  } else {
+                                    // Clear current use case
+                                    setUseCase();
+                                  }
+                                } else if (useCaseIndex > 0) {
+                                  // Set the previous one
                                   setUseCase(use_cases[useCaseIndex - 1]);
                                 }
                               }}

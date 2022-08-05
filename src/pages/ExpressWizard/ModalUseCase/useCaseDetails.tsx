@@ -3,10 +3,6 @@ import {
   theme as globalTheme,
   Span,
   Input,
-  Dropdown,
-  Select,
-  Menu,
-  Item,
   MediaInput,
   Paragraph,
   Toggle,
@@ -16,21 +12,21 @@ import {
   Col,
   Row,
 } from '@appquality/unguess-design-system';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
-import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
+import { UseCaseTemplate } from 'src/features/api/api';
 import { WizardModel } from '../wizardModel';
-import { UseCase } from '../fields/how';
+import { emptyUseCase, UseCase } from '../fields/how';
+import { TemplateDropdown } from './templateDropdown';
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
@@ -57,23 +53,19 @@ export const UseCaseDetails = ({
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const [isEditing, setIsEditing] = useState(false);
   const { getFieldProps, setFieldValue, validateForm, values, errors } =
     formikProps;
-  const description =
-    values.use_cases && values.use_cases[useCaseIndex as number]
-      ? values.use_cases[useCaseIndex as number].description
-      : '';
 
-  const [editorContent, setEditorContent] = useState(description);
-  const [editorChars, setEditorChars] = useState(description.length);
-
-  const functionality =
-    values.use_cases && values.use_cases[useCaseIndex as number]
-      ? values.use_cases[useCaseIndex as number].functionality
-      : undefined;
-
-  const [selectedFunc, setSelectedFunc] = useState(functionality);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editorContent, setEditorContent] = useState(
+    useCase ? useCase.description : ''
+  );
+  const [editorChars, setEditorChars] = useState(
+    useCase ? useCase.description.length : 0
+  );
+  const [selectedFunc, setSelectedFunc] = useState<UseCaseTemplate | undefined>(
+    useCase ? useCase.functionality : undefined
+  );
 
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
@@ -83,9 +75,40 @@ export const UseCaseDetails = ({
   const handleSave = useCallback(() => {
     if (editorChars) {
       setFieldValue(`use_cases[${useCaseIndex}].description`, editorContent);
+      useCase.description = editorContent;
       setIsEditing(false);
     }
   }, [editorChars]);
+
+  useEffect(() => {
+    setSelectedFunc(useCase ? useCase.functionality : undefined);
+  }, [useCase]);
+
+  const handleDropdownChange = useCallback(
+    (item: UseCaseTemplate | undefined) => {
+      let isLogged = emptyUseCase.logged;
+      let content = emptyUseCase.description;
+
+      if (item && item.id !== -1) {
+        isLogged = !!item.requiresLogin;
+        content = item.content;
+      }
+
+      setFieldValue(`use_cases[${useCaseIndex}].logged`, isLogged);
+      setFieldValue(`use_cases[${useCaseIndex}].description`, content);
+      setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
+
+      setEditorContent(content);
+      useCase.description = content;
+
+      useCase.logged = isLogged;
+      useCase.functionality = item;
+
+      setSelectedFunc(item ?? undefined);
+      validateForm();
+    },
+    [selectedFunc]
+  );
 
   return (
     <>
@@ -112,7 +135,7 @@ export const UseCaseDetails = ({
         />
         {useCaseErrors && useCaseErrors?.title && (
           <HelpTextMessage validation="error">
-            {useCaseErrors?.title}
+            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
           </HelpTextMessage>
         )}
       </StyledFormField>
@@ -120,42 +143,22 @@ export const UseCaseDetails = ({
       {/* Dropdown */}
       <Notes style={{ marginTop: globalTheme.space.lg }}>
         <StyledFormField style={{ marginTop: globalTheme.space.xs }}>
-          <Dropdown
+          <TemplateDropdown
+            deviceType={values.product_type}
             selectedItem={selectedFunc}
-            onSelect={(item) => {
-              setFieldValue(`use_cases[${useCaseIndex}].functionality`, item);
-              setSelectedFunc(item);
-              validateForm();
-            }}
-            {...(!selectedFunc && { validation: 'error' })}
-          >
-            <DropdownField>
-              <Label>
-                {t(
-                  '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE'
-                )}
-                <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-              </Label>
-              <Select start={<FunctionalityIcon />}>
-                {selectedFunc ??
-                  t(
-                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
-                  )}
-              </Select>
-            </DropdownField>
-            <Menu>
-              {/* TODO CUP-1019: API /templates */}
-              <Item key="adsadsadsa" value="adsadsadsa">
-                adsadsadsa
-              </Item>
-            </Menu>
-          </Dropdown>
+            onSelect={handleDropdownChange}
+          />
+
           {!selectedFunc && (
             <HelpTextMessage validation="error">
-              {useCaseErrors?.functionality}
+              {t(
+                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_FUNCTIONALITY_REQUIRED'
+              )}
             </HelpTextMessage>
           )}
         </StyledFormField>
+
+        {/* Logged Toggle */}
         <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
           <InlineRow>
             <Label>
@@ -163,9 +166,10 @@ export const UseCaseDetails = ({
             </Label>
             <FormField>
               <Toggle
-                {...(useCase &&
-                  useCase.logged && {
-                    checked: useCase.logged,
+                {...(values &&
+                  values.use_cases &&
+                  values.use_cases[useCaseIndex as number] && {
+                    checked: values.use_cases[useCaseIndex as number].logged,
                   })}
                 {...getFieldProps(`use_cases[${useCaseIndex}].logged`)}
               >
@@ -205,19 +209,18 @@ export const UseCaseDetails = ({
         {/* TODO CUP-1062: editor */}
         {isEditing ? (
           <Editor
-            key={`editor_${useCaseIndex}`}
             onUpdate={({ editor }) => {
               setEditorChars(editor.storage.characterCount.characters());
               setEditorContent(editor.getHTML());
             }}
             onSave={handleSave}
           >
-            {description}
+            {useCase ? useCase.description : ''}
           </Editor>
         ) : (
           <Notes>
-            <Editor key={`editor_readonly_${useCaseIndex}`} editable={false}>
-              {description}
+            <Editor key={Math.random()} editable={false}>
+              {useCase ? useCase.description : ''}
             </Editor>
             <Button
               themeColor={globalTheme.colors.accentHue}
@@ -270,7 +273,7 @@ export const UseCaseDetails = ({
           <Col textAlign="end">
             <Button
               onClick={() => {
-                setEditorContent(description);
+                setEditorContent(useCase ? useCase.description : '');
                 setIsEditing(false);
               }}
               themeColor={globalTheme.colors.accentHue}
@@ -317,7 +320,7 @@ export const UseCaseDetails = ({
         />
         {useCaseErrors && useCaseErrors?.link ? (
           <HelpTextMessage validation="error">
-            {useCaseErrors?.link}
+            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_INVALID')}
           </HelpTextMessage>
         ) : (
           <HelpTextMessage>

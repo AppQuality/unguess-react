@@ -97,6 +97,7 @@ export const ExpressWizardContainer = () => {
   const expressTypeData = extractStrapiData(data);
   const expressTypeMeta = extractStrapiData(expressTypeData.express);
 
+  const [formValues, setFormValues] = useState<WizardModel>(defaultValues);
   const [activeStep, setStep] = useState<number>(0);
   const [isThankyou, setThankyou] = useState<boolean>(false);
   const [createCampaign] = usePostCampaignsMutation();
@@ -149,6 +150,9 @@ export const ExpressWizardContainer = () => {
     values: WizardModel,
     { setSubmitting, setStatus }: FormikHelpers<WizardModel>
   ) => {
+    // Save submitted form values
+    setFormValues(values);
+
     // eslint-disable-next-line consistent-return
     const projectHandle = (next: any) => {
       try {
@@ -283,11 +287,16 @@ export const ExpressWizardContainer = () => {
   return isWizardOpen ? (
     <ModalFullScreen
       onClose={() => {
-        dispatch(closeWizard());
-        dispatch(resetWizard());
-        setStep(0);
-        setThankyou(false);
-        toggleChat(true);
+        if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
+          dispatch(closeWizard());
+          dispatch(resetWizard());
+          setStep(0);
+          setThankyou(false);
+          if (formRef.current) {
+            formRef.current?.resetForm();
+          }
+          toggleChat(true);
+        }
       }}
     >
       {!isThankyou ? (
@@ -365,7 +374,7 @@ export const ExpressWizardContainer = () => {
           )}
         </Formik>
       ) : (
-        <ThankYouStep />
+        <ThankYouStep values={formValues} />
       )}
     </ModalFullScreen>
   ) : null;
