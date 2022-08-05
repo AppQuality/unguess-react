@@ -283,14 +283,16 @@ export const ExpressWizardContainer = () => {
   return isWizardOpen ? (
     <ModalFullScreen
       onClose={() => {
-        dispatch(closeWizard());
-        dispatch(resetWizard());
-        setStep(0);
-        setThankyou(false);
-        if (formRef.current) {
-          formRef.current?.resetForm();
+        if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
+          dispatch(closeWizard());
+          dispatch(resetWizard());
+          setStep(0);
+          setThankyou(false);
+          if (formRef.current) {
+            formRef.current?.resetForm();
+          }
+          toggleChat(true);
         }
-        toggleChat(true);
       }}
     >
       {!isThankyou ? (
