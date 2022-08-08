@@ -16,6 +16,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
+import { addBusinessDays } from 'date-fns';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 import { WizardCol } from '../wizardCol';
@@ -56,6 +57,13 @@ export const WhoStep = ({
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
     props.setFieldValue('campaign_language', value);
+    if (value === 'en') {
+      if (values.campaign_date_end)
+        props.setFieldValue(
+          'campaign_date_end',
+          addBusinessDays(values.campaign_date_end, 1)
+        );
+    }
   };
 
   return (
