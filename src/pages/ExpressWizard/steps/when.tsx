@@ -18,6 +18,10 @@ import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
 import { addBusinessDays, format, isToday, setHours } from 'date-fns';
+import {
+  EXPRESS_BUSINESS_DAYS_TO_ADD,
+  EXPRESS_START_DATE_MAX_VALUE,
+} from 'src/constants';
 import { getLanguage } from '../getLanguage';
 import { CardDivider } from '../cardDivider';
 import { WizardModel } from '../wizardModel';
@@ -45,17 +49,15 @@ export const WhenStep = ({
   ...props
 }: FormikProps<WizardModel>) => {
   const [startDate, setDate] = useState(values.campaign_date);
-  const START_DATE_MAX_VALUE = 30;
-  const BUSINESS_DAYS_TO_ADD = 2;
 
   const lang = getLanguage(i18n.language || 'en');
 
   const handleDateChange = (date: Date) => {
     // We have to add 2 business days to determine the end date
-    let endDate = addBusinessDays(date, BUSINESS_DAYS_TO_ADD);
+    let endDate = addBusinessDays(date, EXPRESS_BUSINESS_DAYS_TO_ADD);
     setDate(date);
     if (values.campaign_language === 'en') {
-      endDate = addBusinessDays(date, BUSINESS_DAYS_TO_ADD + 1);
+      endDate = addBusinessDays(date, EXPRESS_BUSINESS_DAYS_TO_ADD + 1);
     }
 
     props.setFieldValue('campaign_date', setHours(date, 10));
@@ -108,7 +110,7 @@ export const WhenStep = ({
                   maxValue={
                     new Date(
                       new Date().setDate(
-                        new Date().getDate() + START_DATE_MAX_VALUE
+                        new Date().getDate() + EXPRESS_START_DATE_MAX_VALUE
                       )
                     )
                   }
