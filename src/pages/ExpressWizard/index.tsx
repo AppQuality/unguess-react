@@ -287,6 +287,7 @@ export const ExpressWizardContainer = () => {
   return isWizardOpen ? (
     <ModalFullScreen
       onClose={() => {
+        // eslint-disable-next-line no-alert
         if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
           dispatch(closeWizard());
           dispatch(resetWizard());
