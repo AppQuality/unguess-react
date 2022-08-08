@@ -16,10 +16,13 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
-import { addBusinessDays } from 'date-fns';
+import { addBusinessDays, format } from 'date-fns';
+import i18n from 'src/i18n';
+import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 import { WizardCol } from '../wizardCol';
+import { getLanguage } from '../getLanguage';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -53,16 +56,32 @@ export const WhoStep = ({
   ...props
 }: FormikProps<WizardModel>) => {
   const [radioValue, setRadioValue] = useState(values.campaign_language);
+  const lang = getLanguage(i18n.language || 'en');
 
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
     props.setFieldValue('campaign_language', value);
-    if (value === 'en') {
-      if (values.campaign_date_end)
-        props.setFieldValue(
-          'campaign_date_end',
-          addBusinessDays(values.campaign_date_end, 1)
+
+    // Update initial values for when
+    if (values.campaign_date) {
+      let endDate = addBusinessDays(
+        values.campaign_date,
+        EXPRESS_BUSINESS_DAYS_TO_ADD
+      );
+
+      if (value === 'en') {
+        endDate = addBusinessDays(
+          values.campaign_date,
+          EXPRESS_BUSINESS_DAYS_TO_ADD + 1
         );
+      }
+
+      props.setFieldValue('campaign_date_end', endDate);
+
+      props.setFieldValue(
+        'campaign_date_end_text',
+        format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
+      );
     }
   };
 
