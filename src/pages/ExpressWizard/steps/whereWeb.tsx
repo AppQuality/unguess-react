@@ -31,7 +31,6 @@ import { PrimarySpan, StyledRow, SpacedField } from './where/styled';
 import { Notes, NotesTitle } from '../notesCard';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
-import { OutOfScopeSection } from './where/outOfScope';
 import { WizardCol } from '../wizardCol';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
@@ -57,6 +56,21 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
     values.withFirefox,
     values.withSafari,
   ]);
+
+  // Max two devices allowed
+  let selectedDevices = [
+    values.withSmartphone,
+    values.withTablet,
+    values.withDesktop,
+  ].filter(Boolean).length;
+
+  useEffect(() => {
+    selectedDevices = [
+      values.withSmartphone,
+      values.withTablet,
+      values.withDesktop,
+    ].filter(Boolean).length;
+  }, [values.withSmartphone, values.withTablet, values.withDesktop]);
 
   return (
     <ContainerCard>
@@ -92,6 +106,8 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               onToggle={(isChecked) => {
                 setFieldValue('withSmartphone', isChecked);
               }}
+              {...(!values.withSmartphone &&
+                selectedDevices > 1 && { card: { isDisabled: true } })}
             />
           </FormField>
         </WizardCol>
@@ -106,6 +122,8 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               onToggle={(isChecked) => {
                 setFieldValue('withTablet', isChecked);
               }}
+              {...(!values.withTablet &&
+                selectedDevices > 1 && { card: { isDisabled: true } })}
             />
           </FormField>
         </WizardCol>
@@ -120,6 +138,8 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               onToggle={(isChecked) => {
                 setFieldValue('withDesktop', isChecked);
               }}
+              {...(!values.withDesktop &&
+                selectedDevices > 1 && { card: { isDisabled: true } })}
             />
           </FormField>
         </WizardCol>
@@ -258,9 +278,6 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           </WizardCol>
         )}
       </StyledRow>
-
-      {/** --- Out of scope --- */}
-      <OutOfScopeSection {...props} />
     </ContainerCard>
   );
 };
@@ -303,11 +320,6 @@ export const WhereStepValidationSchema = Yup.object().shape(
     customBrowserFilled: Yup.bool().when('customBrowser', {
       is: true,
       then: Yup.bool().oneOf([true], 'Custom Browser is required'),
-    }),
-    hasOutOfScope: Yup.bool(),
-    outOfScope: Yup.string().when('hasOutOfScope', {
-      is: true,
-      then: Yup.string().required(),
     }),
   },
   [
