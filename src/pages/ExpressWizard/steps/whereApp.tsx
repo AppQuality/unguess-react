@@ -23,7 +23,6 @@ import { FormikProps } from 'formik';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { OutOfScopeSection } from './where/outOfScope';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 import { WizardCol } from '../wizardCol';
@@ -230,9 +229,6 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
           </Fieldset>
         </WizardCol>
       </StyledRow>
-
-      {/** --- Out of scope --- */}
-      <OutOfScopeSection {...props} />
     </ContainerCard>
   );
 };
