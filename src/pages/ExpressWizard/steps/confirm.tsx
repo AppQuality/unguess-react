@@ -6,15 +6,14 @@ import {
   Paragraph,
   Span,
   XXL,
-  Card,
   Grid,
   Row,
   theme as globalTheme,
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { ReactComponent as MoreIcon } from 'src/assets/icons/step-more-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { ReactComponent as NotAllowedIcon } from 'src/assets/icons/not-allowed-icon.svg';
 import { Textarea } from '@zendeskgarden/react-forms';
 import { CardDivider } from '../cardDivider';
 import { WizardModel } from '../wizardModel';
@@ -23,6 +22,7 @@ import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
 import { WhenConfirm } from './confirm/whenConfirm';
 import { WhatConfirm } from './confirm/whatConfirm';
+import { HowConfirm } from './confirm/howConfirm';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -36,7 +36,7 @@ const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(ContainerCard)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
   padding: ${({ theme }) => theme.space.base * 4}px;
 `;
@@ -71,9 +71,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const { values, getFieldProps } = props;
 
   const hasWhatStep = values.campaign_name;
-  const hasWhereStep = values.isAndroid || values.isIOS || values.hasOutOfScope;
+  const hasWhereStep = values.link;
   const hasWhoStep = values.campaign_language;
-  const hasWhenStep = values.campaign_date;
+  const hasWhenStep = false; // Hide when step until it will be moved into the modal footer launch button
+  const hasHowStep = values.use_cases;
 
   return (
     <ContainerCard>
@@ -123,26 +124,36 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         </StyledFormField>
       ) : null}
 
+      {hasHowStep ? (
+        <StyledFormField
+          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
+        >
+          <StyledCard>
+            <HowConfirm {...props} />
+          </StyledCard>
+        </StyledFormField>
+      ) : null}
+
       <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
             <Row>
               <WizardCol xs={12} sm={1}>
-                <MoreIcon />
+                <NotAllowedIcon />
               </WizardCol>
               <WizardCol xs={12} sm={11}>
                 <StyledLabel>
-                  {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_LABEL')}
+                  {t('__EXPRESS_WIZARD_STEP_RECAP_OUT_OF_SCOPE_LABEL')}
                 </StyledLabel>
                 <StyledParagraph>
                   <Paragraph>
-                    {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_CONTENT_TEXT')}
+                    {t('__EXPRESS_WIZARD_STEP_RECAP_OUT_OF_SCOPE_DESCRIPTION')}
                   </Paragraph>
                 </StyledParagraph>
                 <StyledTextarea
-                  {...getFieldProps('campaign_more_info')}
+                  {...getFieldProps('outOfScope')}
                   placeholder={t(
-                    '__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_PLACEHOLDER'
+                    '__EXPRESS_WIZARD_STEP_RECAP_OUT_OF_SCOPE_PLACEHOLDER'
                   )}
                   minRows={6}
                 />
