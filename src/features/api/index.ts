@@ -271,7 +271,7 @@ export type PostCampaignsApiArg = {
     has_bug_parade?: number;
     description?: string;
     base_bug_internal_id?: string;
-    express_slug?: string;
+    express_slug: string;
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;

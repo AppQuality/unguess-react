@@ -205,6 +205,9 @@ export const ExpressWizardContainer = () => {
             pm_id: activeWorkspace?.csm.id || -1,
             platforms: getPlatform(values),
             customer_id: activeWorkspace?.id || -1,
+
+            express_slug: expressTypeMeta.slug,
+            ...(values.use_cases && { use_cases: values.use_cases }),
           },
         })
           .unwrap()
@@ -221,7 +224,7 @@ export const ExpressWizardContainer = () => {
     const zapierHandle = (cp: Campaign, next: any) => {
       try {
         // Post on webhook Zapier axios call
-        fetch(ZAPIER_WEBHOOK_TRIGGER, {
+        fetch(expressTypeData.webhook_url ?? ZAPIER_WEBHOOK_TRIGGER, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
