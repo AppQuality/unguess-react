@@ -17,17 +17,20 @@ import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-ico
 import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
 import { ReactComponent as SuccessIcon } from 'src/assets/icons/success-icon.svg';
 import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
 import { openUseCaseModal } from 'src/features/express/expressSlice';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
+import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from '../wizardModel';
 import { CardDivider } from '../cardDivider';
 import { ModalUseCase } from '../ModalUseCase/modalUseCase';
 import { emptyUseCase, UseCase } from '../fields/how';
+import { HowLoading } from './howLoading';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -86,11 +89,27 @@ const UseCaseEditLabel = styled(Paragraph)`
 
 export const HowStep = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const [currentUseCase, setCurrentUseCase] = useState<UseCase | undefined>();
   const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
   const { values, getFieldProps, setValues, validateForm, errors } = props;
   const { use_cases } = values;
-  const dispatch = useAppDispatch();
+
+  const { expressTypeId } = useAppSelector((state) => state.express);
+
+  const { data, isLoading } = useGeti18nExpressTypesByIdQuery({
+    id: expressTypeId?.toString() || '0',
+    populate: {
+      localizations: {
+        populate: '*',
+      },
+    },
+  });
+
+  const expressData = getLocalizedStrapiData({
+    item: data,
+    language: i18n.language,
+  });
 
   useEffect(() => {
     if (Array.isArray(use_cases)) {
@@ -101,6 +120,10 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
       setHighestUseCaseId(highestUCId);
     }
   }, [use_cases]);
+
+  if (isLoading) {
+    return <HowLoading />;
+  }
 
   return (
     <>
@@ -198,6 +221,10 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                   ...values.use_cases,
                   {
                     ...emptyUseCase,
+                    ...(expressData &&
+                      expressData.default_use_case_text && {
+                        description: expressData.default_use_case_text,
+                      }),
                     id: highestUseCaseId + 1,
                   },
                 ],
@@ -206,6 +233,10 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
             setCurrentUseCase({
               ...emptyUseCase,
+              ...(expressData &&
+                expressData.default_use_case_text && {
+                  description: expressData.default_use_case_text,
+                }),
               id: highestUseCaseId + 1,
             });
 

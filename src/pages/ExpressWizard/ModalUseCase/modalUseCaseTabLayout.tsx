@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'src/app/hooks';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
+import { getLocalizedStrapiData } from 'src/common/utils';
+import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import i18n from 'i18next';
 import { WizardModel } from '../wizardModel';
 import { emptyUseCase, UseCase } from '../fields/how';
 
@@ -82,6 +86,22 @@ export const ModalUseCaseTabLayout = ({
   const remainingSpots =
     EXPRESS_USE_CASES_LIMIT - (use_cases ? use_cases.length : 0);
 
+  const { expressTypeId } = useAppSelector((state) => state.express);
+
+  const { data } = useGeti18nExpressTypesByIdQuery({
+    id: expressTypeId?.toString() || '0',
+    populate: {
+      localizations: {
+        populate: '*',
+      },
+    },
+  });
+
+  const expressData = getLocalizedStrapiData({
+    item: data,
+    language: i18n.language,
+  });
+
   useEffect(() => {
     if (Array.isArray(use_cases)) {
       const highestUCId = use_cases.reduce(
@@ -123,11 +143,19 @@ export const ModalUseCaseTabLayout = ({
                     // ) {
                     push({
                       ...emptyUseCase,
+                      ...(expressData &&
+                        expressData.default_use_case_text && {
+                          description: expressData.default_use_case_text,
+                        }),
                       id: highestUseCaseId + 1,
                     });
 
                     handleCurrentUseCase({
                       ...emptyUseCase,
+                      ...(expressData &&
+                        expressData.default_use_case_text && {
+                          description: expressData.default_use_case_text,
+                        }),
                       id: highestUseCaseId + 1,
                     });
                     // }

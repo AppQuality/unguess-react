@@ -24,6 +24,10 @@ import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { UseCaseTemplate } from 'src/features/api/api';
+import { useAppSelector } from 'src/app/hooks';
+import { getLocalizedStrapiData } from 'src/common/utils';
+import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import i18n from 'i18next';
 import { WizardModel } from '../wizardModel';
 import { emptyUseCase, UseCase } from '../fields/how';
 import { TemplateDropdown } from './templateDropdown';
@@ -55,6 +59,21 @@ export const UseCaseDetails = ({
   const { t } = useTranslation();
   const { getFieldProps, setFieldValue, validateForm, values, errors } =
     formikProps;
+  const { expressTypeId } = useAppSelector((state) => state.express);
+
+  const { data } = useGeti18nExpressTypesByIdQuery({
+    id: expressTypeId?.toString() || '0',
+    populate: {
+      localizations: {
+        populate: '*',
+      },
+    },
+  });
+
+  const expressData = getLocalizedStrapiData({
+    item: data,
+    language: i18n.language,
+  });
 
   const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState(
@@ -87,7 +106,10 @@ export const UseCaseDetails = ({
   const handleDropdownChange = useCallback(
     (item: UseCaseTemplate | undefined) => {
       let isLogged = emptyUseCase.logged;
-      let content = emptyUseCase.description;
+      let content =
+        expressData && expressData.default_use_case_text
+          ? expressData.default_use_case_text
+          : emptyUseCase.description;
 
       if (item && item.id !== -1) {
         isLogged = !!item.requiresLogin;
