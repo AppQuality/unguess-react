@@ -17,6 +17,7 @@ interface GetFullServicesByIdArgs {
   id: string;
   populate?: string[] | object;
   locale?: string;
+  filters?: object;
 }
 
 interface GetServicesApiArgs extends GetServicesApiArg {
@@ -31,11 +32,13 @@ interface Geti18nServicesFeaturedArgs extends GetServicesApiArg {
 interface Geti18nCategoriesArgs {
   locale?: string;
   populate?: string[] | object;
+  filters?: object;
 }
 
 interface Geti18nCategoryArgs extends GetCategoriesByIdApiArg {
   locale?: string;
   populate?: string[] | object;
+  filters?: object;
 }
 
 interface Geti18nExpressesApiArgs extends GetExpressesApiArg {
@@ -85,6 +88,7 @@ export const strapiSlice = createApi({
           id: queryArg.id,
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
@@ -117,6 +121,7 @@ export const strapiSlice = createApi({
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
@@ -132,6 +137,7 @@ export const strapiSlice = createApi({
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;

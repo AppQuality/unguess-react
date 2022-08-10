@@ -26,6 +26,7 @@ export type StrapiResponse =
  * @returns {object | false}
  */
 export const extractStrapiData = (item: StrapiResponse) => {
+  const isDev = process.env.NODE_ENV === 'development';
   if (item !== undefined && item.data !== null) {
     if (item.data !== undefined && item.data !== null) {
       if (Array.isArray(item.data)) {
@@ -33,7 +34,9 @@ export const extractStrapiData = (item: StrapiResponse) => {
         item.data.forEach((listItem) => {
           const newListItem = extractStrapiData({ data: listItem });
           if (newListItem) {
-            items.push(newListItem);
+            if (isDev || newListItem.publishedAt !== null) {
+              items.push(newListItem);
+            }
           }
         });
 
