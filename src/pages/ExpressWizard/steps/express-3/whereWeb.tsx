@@ -5,15 +5,11 @@ import {
   theme,
   Message,
   Row,
-  CheckboxCard,
-  Checkbox,
   Label,
   Hint,
-  Toggle,
   MediaInput,
-  Paragraph,
-  Input,
   ContainerCard,
+  RadioCard,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
@@ -27,11 +23,10 @@ import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg
 import { ReactComponent as LaptopIconActive } from 'src/assets/icons/device-laptop-active.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useEffect } from 'react';
-import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-import { PrimarySpan, StyledRow, SpacedField } from './where/styled';
+import { PrimarySpan, StyledRow } from './where/styled';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   const { errors, values, setFieldValue, getFieldProps } = props;
@@ -43,34 +38,16 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const atLeastOneChecked =
-      values.withChrome ||
-      values.withFirefox ||
-      values.withSafari ||
-      values.withEdge;
-    setFieldValue('customBrowserFilled', atLeastOneChecked);
-  }, [
-    setFieldValue,
-    values.withChrome,
-    values.withEdge,
-    values.withFirefox,
-    values.withSafari,
-  ]);
+    if (!values.withSmartphone && !values.withTablet && !values.withDesktop) {
+      setFieldValue('withSmartphone', true);
+    }
+  }, []);
 
-  // Max two devices allowed
-  let selectedDevices = [
-    values.withSmartphone,
-    values.withTablet,
-    values.withDesktop,
-  ].filter(Boolean).length;
-
-  useEffect(() => {
-    selectedDevices = [
-      values.withSmartphone,
-      values.withTablet,
-      values.withDesktop,
-    ].filter(Boolean).length;
-  }, [values.withSmartphone, values.withTablet, values.withDesktop]);
+  const handleRadioClick = (value: string) => {
+    setFieldValue('withSmartphone', value === 'smartphone');
+    setFieldValue('withTablet', value === 'tablet');
+    setFieldValue('withDesktop', value === 'desktop');
+  };
 
   return (
     <ContainerCard>
@@ -97,49 +74,37 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
       <StyledRow>
         <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
-            <CheckboxCard
+            <RadioCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE')}
               icon={<SmartphoneIcon />}
               iconActive={<SmartphoneIconActive />}
-              name="withSmartphone"
-              defaultChecked={values.withSmartphone}
-              onToggle={(isChecked) => {
-                setFieldValue('withSmartphone', isChecked);
-              }}
-              {...(!values.withSmartphone &&
-                selectedDevices > 1 && { card: { isDisabled: true } })}
+              value="smartphone"
+              checked={values.withSmartphone}
+              onChecked={handleRadioClick}
             />
           </FormField>
         </WizardCol>
         <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
-            <CheckboxCard
+            <RadioCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET')}
               icon={<TabletIcon />}
               iconActive={<TabletIconActive />}
-              name="withTablet"
-              defaultChecked={values.withTablet}
-              onToggle={(isChecked) => {
-                setFieldValue('withTablet', isChecked);
-              }}
-              {...(!values.withTablet &&
-                selectedDevices > 1 && { card: { isDisabled: true } })}
+              value="tablet"
+              checked={values.withTablet}
+              onChecked={handleRadioClick}
             />
           </FormField>
         </WizardCol>
         <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
-            <CheckboxCard
+            <RadioCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP')}
               icon={<LaptopIcon />}
               iconActive={<LaptopIconActive />}
-              name="withDesktop"
-              defaultChecked={values.withDesktop}
-              onToggle={(isChecked) => {
-                setFieldValue('withDesktop', isChecked);
-              }}
-              {...(!values.withDesktop &&
-                selectedDevices > 1 && { card: { isDisabled: true } })}
+              value="desktop"
+              checked={values.withDesktop}
+              onChecked={handleRadioClick}
             />
           </FormField>
         </WizardCol>
@@ -179,105 +144,6 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           </FormField>
         </WizardCol>
       </StyledRow>
-
-      {/** --- Browsers --- */}
-      <StyledRow style={{ marginTop: theme.space.lg }}>
-        {/** LG: 32px */}
-        <WizardCol>
-          <MD style={{ color: theme.palette.grey[800] }}>
-            {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
-          </MD>
-        </WizardCol>
-        <WizardCol size={2} textAlign="end">
-          <FormField>
-            <Toggle
-              {...getFieldProps('customBrowser')}
-              checked={values.customBrowser}
-            >
-              <Label hidden>
-                {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
-              </Label>
-            </Toggle>
-          </FormField>
-        </WizardCol>
-        <WizardCol size={12}>
-          <CardDivider style={{ marginTop: theme.space.xs }} />
-        </WizardCol>
-        <WizardCol size={12}>
-          <Notes>
-            {!values.customBrowser ? (
-              <>
-                <NotesTitle>
-                  {t('__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_TITLE')}
-                </NotesTitle>
-                <Paragraph>
-                  {t('__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_DESCRIPTION')}
-                </Paragraph>
-              </>
-            ) : (
-              <>
-                <FormField>
-                  <Label>
-                    {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_LABEL')}
-                    <Span style={{ color: theme.colors.dangerHue }}>*</Span>
-                  </Label>
-                  <Input
-                    type="hidden"
-                    {...getFieldProps('customBrowserFilled')}
-                  />
-                </FormField>
-                <SpacedField>
-                  <Checkbox
-                    {...getFieldProps('withChrome')}
-                    checked={values.withChrome}
-                  >
-                    <Label style={{ color: theme.colors.primaryHue }}>
-                      {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME')}
-                    </Label>
-                  </Checkbox>
-                </SpacedField>
-                <SpacedField>
-                  <Checkbox
-                    {...getFieldProps('withEdge')}
-                    checked={values.withEdge}
-                  >
-                    <Label style={{ color: theme.colors.primaryHue }}>
-                      {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE')}
-                    </Label>
-                  </Checkbox>
-                </SpacedField>
-                <SpacedField>
-                  <Checkbox
-                    {...getFieldProps('withSafari')}
-                    checked={values.withSafari}
-                  >
-                    <Label style={{ color: theme.colors.primaryHue }}>
-                      {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI')}
-                    </Label>
-                  </Checkbox>
-                </SpacedField>
-                <SpacedField>
-                  <Checkbox
-                    {...getFieldProps('withFirefox')}
-                    checked={values.withFirefox}
-                  >
-                    <Label style={{ color: theme.colors.primaryHue }}>
-                      {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX')}
-                    </Label>
-                  </Checkbox>
-                </SpacedField>
-              </>
-            )}
-          </Notes>
-        </WizardCol>
-        {values.customBrowser && errors.customBrowserFilled && (
-          <WizardCol size={12}>
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
-              {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_ERROR')}
-            </Message>
-          </WizardCol>
-        )}
-      </StyledRow>
     </ContainerCard>
   );
 };
@@ -315,11 +181,6 @@ export const WhereStepValidationSchema = Yup.object().shape(
       is: (withSmartphone: boolean, withTablet: boolean) =>
         !withSmartphone && !withTablet,
       then: Yup.bool().oneOf([true], 'Device type is required'),
-    }),
-    customBrowser: Yup.bool(),
-    customBrowserFilled: Yup.bool().when('customBrowser', {
-      is: true,
-      then: Yup.bool().oneOf([true], 'Custom Browser is required'),
     }),
   },
   [
