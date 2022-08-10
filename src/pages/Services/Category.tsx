@@ -47,13 +47,6 @@ export const Category = ({
         populate: '*',
         locale: i18n.language,
         sort: 'sort_order',
-        ...(process.env.NODE_ENV !== 'development' && {
-          filters: {
-            publishedAt: {
-              $null: false,
-            },
-          },
-        }),
       },
     },
   });

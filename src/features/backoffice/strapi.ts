@@ -52,14 +52,6 @@ interface Geti18nExpressTypesByIdApiArgs extends GetExpressTypesByIdApiArg {
   populate?: string[] | object;
 }
 
-const defaultFilter = {
-  ...(process.env.NODE_ENV !== 'development' && {
-    publishedAt: {
-      $null: false,
-    },
-  }),
-};
-
 export const strapiSlice = createApi({
   reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
@@ -96,9 +88,7 @@ export const strapiSlice = createApi({
           id: queryArg.id,
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
-          ...(queryArg.filters && {
-            filters: { ...defaultFilter, ...queryArg.filters },
-          }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
@@ -112,9 +102,7 @@ export const strapiSlice = createApi({
       query: (queryArg) => {
         let url = `/services`;
         const args: Geti18nServicesFeaturedArgs = {
-          ...(queryArg.filters && {
-            filters: { ...defaultFilter, ...queryArg.filters },
-          }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
           ...(queryArg.pagination && { pagination: queryArg.pagination }),
@@ -133,9 +121,7 @@ export const strapiSlice = createApi({
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
-          ...(queryArg.filters && {
-            filters: { ...defaultFilter, ...queryArg.filters },
-          }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
@@ -151,9 +137,7 @@ export const strapiSlice = createApi({
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
-          ...(queryArg.filters && {
-            filters: { ...defaultFilter, ...queryArg.filters },
-          }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
