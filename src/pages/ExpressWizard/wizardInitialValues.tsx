@@ -3,7 +3,7 @@ import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { WizardModel } from './wizardModel';
 
 const values: WizardModel = {
-  campaign_name: '',
+  campaign_name: 'Provolona',
   product_type: 'webapp',
   campaign_reason: 'reason-a',
   withSmartphone: false,
@@ -21,12 +21,15 @@ const values: WizardModel = {
   androidLink: '',
   isIOS: false,
   isAndroid: false,
-  link: '',
+  link: 'https://www.provolona.com',
   campaign_language: '',
   test_description: '',
   use_cases: [],
   campaign_date: new Date(),
   campaign_date_end: addBusinessDays(new Date(), EXPRESS_BUSINESS_DAYS_TO_ADD),
+  age_range: 'all',
+  gender: 'all',
+  digital_literacy: 'all',
 };
 
 export default values;
