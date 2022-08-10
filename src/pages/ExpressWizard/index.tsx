@@ -36,11 +36,11 @@ import { toggleChat } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
-import { ThankYouStep } from './steps';
+import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
 import defaultValues from './wizardInitialValues';
-import { reasonItems } from './steps/what';
+import { reasonItems } from './steps/express-1/what';
 import { getPlatform } from './getPlatform';
 import { StepItem, useExpressStep } from './steps/useSteps';
 
@@ -244,7 +244,9 @@ export const ExpressWizardContainer = () => {
               ...(values.campaign_date_end && {
                 close_date: formatISO(values.campaign_date_end),
               }),
-              reason: reasonItems[values?.product_type || 'reason-a'],
+              ...(values.campaign_reason && {
+                reason: reasonItems[values.campaign_reason],
+              }),
             },
             user: userData,
             workspace: activeWorkspace,

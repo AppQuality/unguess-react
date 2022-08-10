@@ -15,9 +15,9 @@ import {
   resetWizard,
 } from 'src/features/express/expressSlice';
 import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
-import { WaterButton } from '../../../common/components/waterButton';
-import { WizardHeader } from '../wizardHeader';
-import { WizardModel } from '../wizardModel';
+import { WaterButton } from 'src/common/components/waterButton';
+import { WizardHeader } from 'src/pages/ExpressWizard/wizardHeader';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 export const ThankYouStep = ({ values }: { values: WizardModel }) => {
   const dispatch = useAppDispatch();
