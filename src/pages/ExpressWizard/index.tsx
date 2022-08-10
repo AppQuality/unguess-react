@@ -20,9 +20,11 @@ import {
   usePostProjectsMutation,
 } from 'src/features/api';
 import {
-  EXPRESS_CAMPAIGN_TYPE_ID,
   BASE_DATE_FORMAT,
   ZAPIER_WEBHOOK_TRIGGER,
+  EXPRESS_3_CAMPAIGN_TYPE_ID,
+  EXPRESS_2_CAMPAIGN_TYPE_ID,
+  EXPRESS_1_CAMPAIGN_TYPE_ID,
 } from 'src/constants';
 import { format, formatISO } from 'date-fns';
 import async from 'async';
@@ -67,6 +69,17 @@ const getValidationSchema = (step: number, steps: StepItem[]) => {
     return steps[step as number].validationSchema;
   }
   return Yup.object();
+};
+
+const getExpressCPTypeId = (expressSlug: string) => {
+  switch (expressSlug) {
+    case 'unmoderated-usability-testing':
+      return EXPRESS_3_CAMPAIGN_TYPE_ID;
+    case 'bug-hunting':
+      return EXPRESS_2_CAMPAIGN_TYPE_ID;
+    default: // exploratory-test
+      return EXPRESS_1_CAMPAIGN_TYPE_ID;
+  }
 };
 
 export const ExpressWizardContainer = () => {
@@ -200,7 +213,7 @@ export const ExpressWizardContainer = () => {
               ? format(values.campaign_date_end, BASE_DATE_FORMAT)
               : fallBackDate,
             customer_title: values.campaign_name,
-            campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
+            campaign_type_id: getExpressCPTypeId(expressTypeMeta.slug),
             project_id: prj?.id || -1,
             pm_id: activeWorkspace?.csm.id || -1,
             platforms: getPlatform(values),
