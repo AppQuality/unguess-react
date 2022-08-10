@@ -9,6 +9,8 @@ import {
   Span,
   XL,
   XXL,
+  Tag,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
@@ -23,6 +25,9 @@ import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { getLanguage } from 'src/pages/ExpressWizard/getLanguage';
+import { ReactComponent as UsersIcon } from 'src/assets/icons/users-icon.svg';
+import { ReactComponent as WorldIcon } from 'src/assets/icons/world-icon.svg';
+import { ReactComponent as TranslationIcon } from 'src/assets/icons/translation-icon.svg';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -46,44 +51,105 @@ const StyledRadioField = styled(Field)`
   margin-top: ${({ theme }) => theme.space.base * 4}px;
 `;
 
-const StyledHint = styled(Hint)`
-  color: ${({ theme }) => theme.palette.yellow[800]};
+const StyledTag = styled(Tag)`
+  margin-right: ${({ theme }) => theme.space.sm};
+  margin-top: ${({ theme }) => theme.space.xs};
 `;
+
+const UsersTags = () => (
+  <>
+    <StyledTag
+      size="large"
+      isPill
+      isRegular
+      hue={globalTheme.palette.grey[100]}
+    >
+      <StyledTag.Avatar>
+        <UsersIcon />
+      </StyledTag.Avatar>
+      <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS')}</Span>
+    </StyledTag>
+    <StyledTag
+      size="large"
+      isPill
+      isRegular
+      hue={globalTheme.palette.grey[100]}
+    >
+      <StyledTag.Avatar>
+        <WorldIcon />
+      </StyledTag.Avatar>
+      <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS_LOCATION')}</Span>
+    </StyledTag>
+    <StyledTag
+      size="large"
+      isPill
+      isRegular
+      hue={globalTheme.palette.grey[100]}
+    >
+      <StyledTag.Avatar>
+        <TranslationIcon />
+      </StyledTag.Avatar>
+      <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS_LANGUAGE')}</Span>
+    </StyledTag>
+  </>
+);
+
+interface RadioItem {
+  label: string;
+  description?: string;
+  value: string;
+}
 
 export const WhoStep = ({
   errors,
   values,
   ...props
 }: FormikProps<WizardModel>) => {
-  const [radioValue, setRadioValue] = useState(values.campaign_language);
-  const lang = getLanguage(i18n.language || 'en');
+  const [age, setAge] = useState(values.age_range);
+  const [gender, setGender] = useState(values.gender);
+  const [literacy, setLiteracy] = useState(values.digital_literacy);
 
-  const handleRadioClick = (value: string) => {
-    setRadioValue(value);
-    props.setFieldValue('campaign_language', value);
-
-    // Update initial values for when
-    if (values.campaign_date) {
-      let endDate = addBusinessDays(
-        values.campaign_date,
-        EXPRESS_BUSINESS_DAYS_TO_ADD
-      );
-
-      if (value === 'en') {
-        endDate = addBusinessDays(
-          values.campaign_date,
-          EXPRESS_BUSINESS_DAYS_TO_ADD + 1
-        );
-      }
-
-      props.setFieldValue('campaign_date_end', endDate);
-
-      props.setFieldValue(
-        'campaign_date_end_text',
-        format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
-      );
-    }
+  const handleAgeClick = (value: string) => {
+    setAge(value);
+    props.setFieldValue('age_range', value);
   };
+
+  const handleGenderClick = (value: string) => {
+    setGender(value);
+    props.setFieldValue('gender', value);
+  };
+
+  const handleLiteracyClick = (value: string) => {
+    setLiteracy(value);
+    props.setFieldValue('digital_literacy', value);
+  };
+
+  const ageRanges = ['18-24', '25-34', '35-54', '55-70'];
+  const genders: RadioItem[] = [
+    { label: t('__EXPRESS_3_WIZARD_STEP_WHO_GENDER_MALE'), value: 'male' },
+    { label: t('__EXPRESS_3_WIZARD_STEP_WHO_GENDER_FEMALE'), value: 'female' },
+  ];
+  const literacies: RadioItem[] = [
+    {
+      label: t('__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_EXPERT'),
+      description: t('__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_EXPERT_DESCRIPTION'),
+      value: 'expert',
+    },
+    {
+      label: t('__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_INTERMEDIATE'),
+      description: t(
+        '__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_INTERMEDIATE_DESCRIPTION'
+      ),
+      value: 'intermediate',
+    },
+    {
+      label: t('__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_BEGINNER'),
+      description: t(
+        '__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_BEGINNER_DESCRIPTION'
+      ),
+      value: 'beginner',
+    },
+  ];
 
   return (
     <ContainerCard>
@@ -91,57 +157,168 @@ export const WhoStep = ({
         <Span isBold>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</Span>&nbsp;
         {t('__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA')}
       </StepTitle>
-      <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION')}</Paragraph>
+      <Paragraph>
+        {t('__EXPRESS_3_WIZARD_STEP_WHO_LABEL_SELECTION_CRITERIA')}
+      </Paragraph>
+
       <CardDivider />
+      <UsersTags />
       <StyledFormField>
         <StyledLanguageTitle>
-          {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_TITLE')}
+          {t('__EXPRESS_3_WIZARD_STEP_WHO_DEMOGRAPHICS_CRITERIA_TITLE')}
         </StyledLanguageTitle>
         <Paragraph>
-          {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_DESCRIPTION')}
+          {t('__EXPRESS_3_WIZARD_STEP_WHO_DEMOGRAPHICS_CRITERIA_DESCRIPTION')}
         </Paragraph>
       </StyledFormField>
+
+      {/* Age ranges Radio buttons */}
       <StyledFormField>
-        <Label>{t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}</Label>
+        <Label>
+          {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_AGE_RANGE_LABEL')}
+          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+        </Label>
         <Row>
           <WizardCol>
             <StyledRadioField>
               <Radio
-                {...props.getFieldProps('campaign_language')}
-                {...(errors.campaign_language && { validation: 'error' })}
-                value="it"
-                checked={radioValue === 'it'}
-                onChange={(e) => handleRadioClick(e.target.value)}
+                {...props.getFieldProps('age_range')}
+                {...(errors.age_range && { validation: 'error' })}
+                value="all"
+                checked={age === 'all'}
+                onChange={(e) => handleAgeClick(e.target.value)}
               >
                 <Label isRegular>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_1')}
+                  {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_AGE_RANGE_ALL')}
                 </Label>
+                <Hint>
+                  {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_AGE_RANGE_ALL_HINT')}
+                </Hint>
               </Radio>
             </StyledRadioField>
           </WizardCol>
         </Row>
+
+        {ageRanges.map((ageRange) => (
+          <Row>
+            <WizardCol>
+              <StyledRadioField>
+                <Radio
+                  {...props.getFieldProps('age_range')}
+                  {...(errors.age_range && { validation: 'error' })}
+                  value={ageRange}
+                  checked={age === ageRange}
+                  onChange={(e) => handleAgeClick(e.target.value)}
+                >
+                  <Label isRegular>{ageRange}</Label>
+                </Radio>
+              </StyledRadioField>
+            </WizardCol>
+          </Row>
+        ))}
+
+        {errors.age_range && (
+          <Message validation="error">{errors.age_range}</Message>
+        )}
+      </StyledFormField>
+
+      {/* Gender Radio buttons */}
+      <StyledFormField>
+        <Label>
+          {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_GENDER_LABEL')}
+          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+        </Label>
         <Row>
           <WizardCol>
             <StyledRadioField>
               <Radio
-                {...props.getFieldProps('campaign_language')}
-                {...(errors.campaign_language && { validation: 'error' })}
-                value="en"
-                checked={radioValue === 'en'}
-                onChange={(e) => handleRadioClick(e.target.value)}
+                {...props.getFieldProps('gender')}
+                {...(errors.gender && { validation: 'error' })}
+                value="all"
+                checked={gender === 'all'}
+                onChange={(e) => handleGenderClick(e.target.value)}
               >
                 <Label isRegular>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2')}
+                  {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_GENDER_ALL')}
                 </Label>
-                <StyledHint>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2_HINT')}
-                </StyledHint>
+                <Hint>
+                  {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_GENDER_ALL_HINT')}
+                </Hint>
               </Radio>
             </StyledRadioField>
           </WizardCol>
         </Row>
-        {errors.campaign_language && (
-          <Message validation="error">{errors.campaign_language}</Message>
+
+        {genders.map((gen: RadioItem) => (
+          <Row>
+            <WizardCol>
+              <StyledRadioField>
+                <Radio
+                  {...props.getFieldProps('gender')}
+                  {...(errors.gender && { validation: 'error' })}
+                  value={gen.value}
+                  checked={gen.value === gender}
+                  onChange={(e) => handleAgeClick(e.target.value)}
+                >
+                  <Label isRegular>{gen.label}</Label>
+                  {gen.description && <Hint>{gen.description}</Hint>}
+                </Radio>
+              </StyledRadioField>
+            </WizardCol>
+          </Row>
+        ))}
+
+        {errors.gender && <Message validation="error">{errors.gender}</Message>}
+      </StyledFormField>
+
+      {/* Literacy Radio buttons */}
+      <StyledFormField>
+        <Label>
+          {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_LITERACY_LABEL')}
+          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+        </Label>
+        <Row>
+          <WizardCol>
+            <StyledRadioField>
+              <Radio
+                {...props.getFieldProps('digital_literacy')}
+                {...(errors.digital_literacy && { validation: 'error' })}
+                value="all"
+                checked={literacy === 'all'}
+                onChange={(e) => handleLiteracyClick(e.target.value)}
+              >
+                <Label isRegular>
+                  {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_LITERACY_ALL')}
+                </Label>
+                <Hint>
+                  {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_LITERACY_ALL_HINT')}
+                </Hint>
+              </Radio>
+            </StyledRadioField>
+          </WizardCol>
+        </Row>
+
+        {literacies.map((item: RadioItem) => (
+          <Row>
+            <WizardCol>
+              <StyledRadioField>
+                <Radio
+                  {...props.getFieldProps('digital_literacy')}
+                  {...(errors.digital_literacy && { validation: 'error' })}
+                  value={item.value}
+                  checked={item.value === literacy}
+                  onChange={(e) => handleLiteracyClick(e.target.value)}
+                >
+                  <Label isRegular>{item.label}</Label>
+                  {item.description && <Hint>{item.description}</Hint>}
+                </Radio>
+              </StyledRadioField>
+            </WizardCol>
+          </Row>
+        ))}
+
+        {errors.digital_literacy && (
+          <Message validation="error">{errors.digital_literacy}</Message>
         )}
       </StyledFormField>
     </ContainerCard>
@@ -149,7 +326,5 @@ export const WhoStep = ({
 };
 
 export const WhoStepValidationSchema = Yup.object().shape({
-  campaign_language: Yup.string().required(
-    t('__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_LANGUAGE_REQUIRED')
-  ),
+  campaign_language: Yup.string(),
 });
