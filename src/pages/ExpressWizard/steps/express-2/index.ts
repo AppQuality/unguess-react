@@ -2,13 +2,11 @@ import { t } from 'i18next';
 import { WhatStepValidationSchema } from './what';
 import { WhereStepValidationSchema } from './whereWeb';
 import { WhoStepValidationSchema } from './who';
-import { WhenStepValidationSchema } from './when';
 import { HowStepValidationSchema } from './how';
 import { ConfirmationValidationSchema } from './confirm';
 import { WhatForm, WhatFormButtons } from './forms/WhatForm';
 import { WhereForm, WhereFormButtons } from './forms/WhereForm';
 import { WhoForm, WhoFormButtons } from './forms/WhoForm';
-import { WhenForm, WhenFormButtons } from './forms/WhenForm';
 import { HowForm, HowFormButtons } from './forms/HowForm';
 import {
   ConfirmationForm,
@@ -40,15 +38,6 @@ export const Who = {
   form: WhoForm,
   validationSchema: WhoStepValidationSchema,
   buttons: WhoFormButtons,
-};
-
-export const When = {
-  id: 'when',
-  label: t('__EXPRESS_WIZARD_STEP_WHEN_LABEL'),
-  content: t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION'),
-  form: WhenForm,
-  validationSchema: WhenStepValidationSchema,
-  buttons: WhenFormButtons,
 };
 
 export const How = {

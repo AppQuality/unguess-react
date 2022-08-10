@@ -22,7 +22,6 @@ import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
 import { WhenConfirm } from './confirm/whenConfirm';
 import { WhatConfirm } from './confirm/whatConfirm';
-import { HowConfirm } from './confirm/howConfirm';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -74,7 +73,6 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const hasWhereStep = values.link;
   const hasWhoStep = values.campaign_language;
   const hasWhenStep = false; // Hide when step until it will be moved into the modal footer launch button
-  const hasHowStep = values.use_cases;
 
   return (
     <ContainerCard>
@@ -120,16 +118,6 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
         >
           <StyledCard>
             <WhenConfirm {...props} />
-          </StyledCard>
-        </StyledFormField>
-      ) : null}
-
-      {hasHowStep ? (
-        <StyledFormField
-          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
-        >
-          <StyledCard>
-            <HowConfirm {...props} />
           </StyledCard>
         </StyledFormField>
       ) : null}

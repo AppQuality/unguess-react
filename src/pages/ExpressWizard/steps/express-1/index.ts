@@ -3,13 +3,12 @@ import { WhatStepValidationSchema } from './what';
 import { WhereStepValidationSchema } from './whereWeb';
 import { WhoStepValidationSchema } from './who';
 import { WhenStepValidationSchema } from './when';
-import { HowStepValidationSchema } from './how';
 import { ConfirmationValidationSchema } from './confirm';
 import { WhatForm, WhatFormButtons } from './forms/WhatForm';
 import { WhereForm, WhereFormButtons } from './forms/WhereForm';
 import { WhoForm, WhoFormButtons } from './forms/WhoForm';
 import { WhenForm, WhenFormButtons } from './forms/WhenForm';
-import { HowForm, HowFormButtons } from './forms/HowForm';
+
 import {
   ConfirmationForm,
   ConfirmationFormButtons,
@@ -49,15 +48,6 @@ export const When = {
   form: WhenForm,
   validationSchema: WhenStepValidationSchema,
   buttons: WhenFormButtons,
-};
-
-export const How = {
-  id: 'how',
-  label: t('__EXPRESS_WIZARD_STEP_HOW_LABEL'),
-  content: t('__EXPRESS_WIZARD_STEP_HOW_DESCRIPTION'),
-  form: HowForm,
-  validationSchema: HowStepValidationSchema,
-  buttons: HowFormButtons,
 };
 
 export const Confirmation = {
