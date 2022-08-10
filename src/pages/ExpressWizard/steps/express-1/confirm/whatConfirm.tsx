@@ -10,8 +10,8 @@ import styled from 'styled-components';
 import { ReactComponent as WhatIcon } from 'src/assets/icons/step-what-icon.svg';
 import { useTranslation, Trans } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
-import { WizardCol } from '../../wizardCol';
-import { WizardModel } from '../../wizardModel';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const StyledLabel = styled(Label)`
   font-size: ${({ theme }) => theme.fontSizes.sm};

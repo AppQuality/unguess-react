@@ -1,16 +1,16 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { theme } from '@appquality/unguess-design-system';
-import { WizardModel } from '../../wizardModel';
-import { WaterButton } from '../../../../common/components/waterButton';
-import { WizardButtonsProps } from './types';
-import { HowStep } from '../how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { WaterButton } from 'src/common/components/waterButton';
+import { WizardButtonsProps } from 'src/pages/ExpressWizard/steps/types';
+import { WhoStep } from '../who';
 
-export const HowForm = (props: FormikProps<WizardModel>) => (
-  <HowStep {...props} />
+export const WhoForm = (props: FormikProps<WizardModel>) => (
+  <WhoStep {...props} />
 );
 
-export const HowFormButtons = (props: WizardButtonsProps) => {
+export const WhoFormButtons = (props: WizardButtonsProps) => {
   const { t } = useTranslation();
   const { onBackClick, onNextClick } = props;
 

@@ -30,9 +30,9 @@ import { ReactComponent as DocumentIcon } from 'src/assets/icons/document-icon.s
 import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
-import { WizardModel } from '../wizardModel';
-import { CardDivider } from '../cardDivider';
-import { WizardCol } from '../wizardCol';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 
 interface Reasons {
   [key: string]: string;

@@ -1,23 +1,23 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { theme } from '@appquality/unguess-design-system';
-import { WizardModel } from '../../wizardModel';
-import { WaterButton } from '../../../../common/components/waterButton';
-import { WizardButtonsProps } from './types';
-import { WhoStep } from '../who';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { WaterButton } from 'src/common/components/waterButton';
+import { WizardButtonsProps } from 'src/pages/ExpressWizard/steps/types';
+import { WhenStep } from '../when';
 
-export const WhoForm = (props: FormikProps<WizardModel>) => (
-  <WhoStep {...props} />
+export const WhenForm = (props: FormikProps<WizardModel>) => (
+  <WhenStep {...props} />
 );
 
-export const WhoFormButtons = (props: WizardButtonsProps) => {
+export const WhenFormButtons = (props: WizardButtonsProps) => {
   const { t } = useTranslation();
   const { onBackClick, onNextClick } = props;
 
   return (
     <>
       <WaterButton
-        id="express-wizard-who-back-button"
+        id="express-wizard-when-back-button"
         isPill
         isBasic
         onClick={onBackClick}
@@ -26,7 +26,7 @@ export const WhoFormButtons = (props: WizardButtonsProps) => {
         {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
       </WaterButton>
       <WaterButton
-        id="express-wizard-who-next-button"
+        id="express-wizard-when-next-button"
         isPill
         isPrimary
         onClick={onNextClick}

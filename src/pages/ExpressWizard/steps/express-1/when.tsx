@@ -22,10 +22,10 @@ import {
   EXPRESS_BUSINESS_DAYS_TO_ADD,
   EXPRESS_START_DATE_MAX_VALUE,
 } from 'src/constants';
-import { getLanguage } from '../getLanguage';
-import { CardDivider } from '../cardDivider';
-import { WizardModel } from '../wizardModel';
-import { WizardCol } from '../wizardCol';
+import { getLanguage } from 'src/pages/ExpressWizard/getLanguage';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;

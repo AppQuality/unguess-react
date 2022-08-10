@@ -1,7 +1,7 @@
 import { Span } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { WizardModel } from '../../wizardModel';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 export const OperativeSystems = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();

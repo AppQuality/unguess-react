@@ -10,9 +10,9 @@ import styled from 'styled-components';
 import { format } from 'date-fns';
 import { ReactComponent as WhenIcon } from 'src/assets/icons/step-when-icon.svg';
 import { useTranslation, Trans } from 'react-i18next';
-import { WizardCol } from '../../wizardCol';
-import { WizardModel } from '../../wizardModel';
-import { getLanguage } from '../../getLanguage';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { getLanguage } from 'src/pages/ExpressWizard/getLanguage';
 
 const StyledLabel = styled(Label)`
   font-size: ${({ theme }) => theme.fontSizes.sm};

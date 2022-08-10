@@ -27,11 +27,11 @@ import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg
 import { ReactComponent as LaptopIconActive } from 'src/assets/icons/device-laptop-active.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useEffect } from 'react';
+import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { PrimarySpan, StyledRow, SpacedField } from './where/styled';
-import { Notes, NotesTitle } from '../notesCard';
-import { WizardModel } from '../wizardModel';
-import { CardDivider } from '../cardDivider';
-import { WizardCol } from '../wizardCol';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   const { errors, values, setFieldValue, getFieldProps } = props;

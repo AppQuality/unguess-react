@@ -26,10 +26,10 @@ import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
-import { WizardModel } from '../wizardModel';
-import { CardDivider } from '../cardDivider';
-import { ModalUseCase } from '../ModalUseCase/modalUseCase';
-import { emptyUseCase, UseCase } from '../fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { ModalUseCase } from 'src/pages/ExpressWizard/ModalUseCase/modalUseCase';
+import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { HowLoading } from './howLoading';
 
 const StepTitle = styled(XXL)`

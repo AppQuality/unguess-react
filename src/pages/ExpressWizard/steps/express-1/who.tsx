@@ -19,10 +19,10 @@ import { useState } from 'react';
 import { addBusinessDays, format } from 'date-fns';
 import i18n from 'src/i18n';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
-import { WizardModel } from '../wizardModel';
-import { CardDivider } from '../cardDivider';
-import { WizardCol } from '../wizardCol';
-import { getLanguage } from '../getLanguage';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { getLanguage } from 'src/pages/ExpressWizard/getLanguage';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;

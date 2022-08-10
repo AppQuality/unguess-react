@@ -12,10 +12,10 @@ import {
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import { StyledRow } from './styled';
-import { CardDivider } from '../../cardDivider';
-import { Notes } from '../../notesCard';
-import { WizardModel } from '../../wizardModel';
-import { WizardCol } from '../../wizardCol';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { Notes } from 'src/pages/ExpressWizard/notesCard';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 
 export const OutOfScopeSection = ({
   errors,

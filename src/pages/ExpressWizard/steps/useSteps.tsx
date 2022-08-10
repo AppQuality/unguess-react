@@ -2,24 +2,28 @@ import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import {
-  WhatStepValidationSchema,
-  WhereStepValidationSchema,
-  WhoStepValidationSchema,
-  WhenStepValidationSchema,
-  HowStepValidationSchema,
-  ConfirmationValidationSchema,
-} from '.';
+  WhatStepValidationSchema as WhatStepValidationSchemaExpress1,
+  WhatForm as WhatFormExpress1,
+  WhatFormButtons as WhatFormButtonsExpress1,
+  WhereStepValidationSchema as WhereStepValidationSchemaExpress1,
+  WhereForm as WhereFormExpress1,
+  WhereFormButtons as WhereFormButtonsExpress1,
+  WhoStepValidationSchema as WhoStepValidationSchemaExpress1,
+  WhoForm as WhoFormExpress1,
+  WhoFormButtons as WhoFormButtonsExpress1,
+  WhenStepValidationSchema as WhenStepValidationSchemaExpress1,
+  WhenForm as WhenFormExpress1,
+  WhenFormButtons as WhenFormButtonsExpress1,
+  HowStepValidationSchema as HowStepValidationSchemaExpress1,
+  HowForm as HowFormExpress1,
+  HowFormButtons as HowFormButtonsExpress1,
+  ConfirmationValidationSchema as ConfirmationValidationSchemaExpress1,
+  ConfirmationForm as ConfirmationFormExpress1,
+  ConfirmationFormButtons as ConfirmationFormButtonsExpress1,
+} from './express-1';
+
+import { WizardButtonsProps } from './types';
 import { WizardModel } from '../wizardModel';
-import { WizardButtonsProps } from './forms/types';
-import { WhatForm, WhatFormButtons } from './forms/WhatForm';
-import { WhereForm, WhereFormButtons } from './forms/WhereForm';
-import { WhoForm, WhoFormButtons } from './forms/WhoForm';
-import { WhenForm, WhenFormButtons } from './forms/WhenForm';
-import { HowForm, HowFormButtons } from './forms/HowForm';
-import {
-  ConfirmationForm,
-  ConfirmationFormButtons,
-} from './forms/ConfirmationForm';
 
 export interface StepItem {
   id: string;
@@ -32,64 +36,73 @@ export interface StepItem {
 
 export const useExpressStep = (type: string): Array<StepItem> => {
   const { t } = useTranslation();
-  const WhatStep = {
+
+  const WhatStepExpress1 = {
     id: 'what',
     label: t('__EXPRESS_WIZARD_STEP_WHAT_LABEL'),
     content: t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION'),
-    form: WhatForm,
-    validationSchema: WhatStepValidationSchema,
-    buttons: WhatFormButtons,
+    form: WhatFormExpress1,
+    validationSchema: WhatStepValidationSchemaExpress1,
+    buttons: WhatFormButtonsExpress1,
   };
 
-  const WhereStep = {
+  const WhereStepExpress1 = {
     id: 'where',
     label: t('__EXPRESS_WIZARD_STEP_WHERE_LABEL'),
     content: t('__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION'),
-    form: WhereForm,
-    validationSchema: WhereStepValidationSchema,
-    buttons: WhereFormButtons,
+    form: WhereFormExpress1,
+    validationSchema: WhereStepValidationSchemaExpress1,
+    buttons: WhereFormButtonsExpress1,
   };
 
-  const WhoStep = {
+  const WhoStepExpress1 = {
     id: 'who',
     label: t('__EXPRESS_WIZARD_STEP_WHO_LABEL'),
     content: t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION'),
-    form: WhoForm,
-    validationSchema: WhoStepValidationSchema,
-    buttons: WhoFormButtons,
+    form: WhoFormExpress1,
+    validationSchema: WhoStepValidationSchemaExpress1,
+    buttons: WhoFormButtonsExpress1,
   };
 
-  const WhenStep = {
+  const WhenStepExpress1 = {
     id: 'when',
     label: t('__EXPRESS_WIZARD_STEP_WHEN_LABEL'),
     content: t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION'),
-    form: WhenForm,
-    validationSchema: WhenStepValidationSchema,
-    buttons: WhenFormButtons,
+    form: WhenFormExpress1,
+    validationSchema: WhenStepValidationSchemaExpress1,
+    buttons: WhenFormButtonsExpress1,
   };
 
-  const HowStep = {
+  const HowStepExpress1 = {
     id: 'how',
     label: t('__EXPRESS_WIZARD_STEP_HOW_LABEL'),
     content: t('__EXPRESS_WIZARD_STEP_HOW_DESCRIPTION'),
-    form: HowForm,
-    validationSchema: HowStepValidationSchema,
-    buttons: HowFormButtons,
+    form: HowFormExpress1,
+    validationSchema: HowStepValidationSchemaExpress1,
+    buttons: HowFormButtonsExpress1,
   };
 
-  const ConfirmationStep = {
+  const ConfirmationStepExpress1 = {
     id: 'confirmation',
     label: t('__EXPRESS_WIZARD_STEP_CONFIRM_LABEL'),
     content: t('__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION'),
-    form: ConfirmationForm,
-    validationSchema: ConfirmationValidationSchema,
-    buttons: ConfirmationFormButtons,
+    form: ConfirmationFormExpress1,
+    validationSchema: ConfirmationValidationSchemaExpress1,
+    buttons: ConfirmationFormButtonsExpress1,
   };
 
   switch (type) {
+    case 'unmoderated-usability-testing':
+      return [];
     case 'bug-hunting':
-      return [WhatStep, WhereStep, WhoStep, HowStep, ConfirmationStep];
-    default:
-      return [WhatStep, WhereStep, WhoStep, WhenStep, ConfirmationStep];
+      return [];
+    default: // exploratory-test
+      return [
+        WhatStepExpress1,
+        WhereStepExpress1,
+        WhoStepExpress1,
+        WhenStepExpress1,
+        ConfirmationStepExpress1,
+      ];
   }
 };

@@ -1,9 +1,9 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { WizardModel } from '../../wizardModel';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { WaterButton } from 'src/common/components/waterButton';
+import { WizardButtonsProps } from 'src/pages/ExpressWizard/steps/types';
 import { WhatStep } from '../what';
-import { WaterButton } from '../../../../common/components/waterButton';
-import { WizardButtonsProps } from './types';
 
 export const WhatForm = (props: FormikProps<WizardModel>) => (
   <WhatStep {...props} />

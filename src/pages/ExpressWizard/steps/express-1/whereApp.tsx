@@ -23,9 +23,9 @@ import { FormikProps } from 'formik';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { WizardModel } from '../wizardModel';
-import { CardDivider } from '../cardDivider';
-import { WizardCol } from '../wizardCol';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
