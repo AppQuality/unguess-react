@@ -6,12 +6,12 @@ import {
   theme as globalTheme,
   Message,
   Row,
-  CheckboxCard,
   Radio,
   Label,
   MediaInput,
   Hint,
   ContainerCard,
+  RadioCard,
 } from '@appquality/unguess-design-system';
 import { Field as FormField, Fieldset } from '@zendeskgarden/react-forms';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
@@ -55,6 +55,11 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
   if (values.customBrowser) setFieldValue('customBrowser', false);
   if (values.withDesktop) setFieldValue('withDesktop', false);
 
+  const handleRadioClick = (value: string) => {
+    setFieldValue('withSmartphone', value === 'smartphone');
+    setFieldValue('withTablet', value === 'tablet');
+  };
+
   useEffect(() => {
     if (radioValue === 'ios') {
       setFieldValue('isIOS', true);
@@ -92,29 +97,25 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
       <StyledRow>
         <WizardCol xs={12} sm={6}>
           <FormField style={{ height: '100%' }}>
-            <CheckboxCard
+            <RadioCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE')}
               icon={<SmartphoneIcon />}
               iconActive={<SmartphoneIconActive />}
-              name="withSmartphone"
-              defaultChecked={values.withSmartphone}
-              onToggle={(isChecked) => {
-                setFieldValue('withSmartphone', isChecked);
-              }}
+              value="smartphone"
+              checked={values.withSmartphone}
+              onChecked={handleRadioClick}
             />
           </FormField>
         </WizardCol>
         <WizardCol xs={12} sm={6}>
           <FormField style={{ height: '100%' }}>
-            <CheckboxCard
+            <RadioCard
               label={t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_TABLET')}
               icon={<TabletIcon />}
               iconActive={<TabletIconActive />}
-              name="withTablet"
-              defaultChecked={values.withTablet}
-              onToggle={(isChecked) => {
-                setFieldValue('withTablet', isChecked);
-              }}
+              value="tablet"
+              checked={values.withTablet}
+              onChecked={handleRadioClick}
             />
           </FormField>
         </WizardCol>
