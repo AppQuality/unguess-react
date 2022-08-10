@@ -1,11 +1,10 @@
-import { WhatStep, WhatStepValidationSchema } from './what';
-import { WhereAppStep } from './whereApp';
-import { WhereWebStep, WhereStepValidationSchema } from './whereWeb';
-import { WhoStep, WhoStepValidationSchema } from './who';
-import { WhenStep, WhenStepValidationSchema } from './when';
-import { HowStep, HowStepValidationSchema } from './how';
-import { ConfirmationStep, ConfirmationValidationSchema } from './confirm';
-import { ThankYouStep } from '../thankYou';
+import { t } from 'i18next';
+import { WhatStepValidationSchema } from './what';
+import { WhereStepValidationSchema } from './whereWeb';
+import { WhoStepValidationSchema } from './who';
+import { WhenStepValidationSchema } from './when';
+import { HowStepValidationSchema } from './how';
+import { ConfirmationValidationSchema } from './confirm';
 import { WhatForm, WhatFormButtons } from './forms/WhatForm';
 import { WhereForm, WhereFormButtons } from './forms/WhereForm';
 import { WhoForm, WhoFormButtons } from './forms/WhoForm';
@@ -16,37 +15,56 @@ import {
   ConfirmationFormButtons,
 } from './forms/ConfirmationForm';
 
-export {
-  WhatStep,
-  WhereAppStep,
-  WhereWebStep,
-  WhoStep,
-  WhenStep,
-  HowStep,
-  ConfirmationStep,
-  ThankYouStep,
+export const What = {
+  id: 'what',
+  label: t('__EXPRESS_WIZARD_STEP_WHAT_LABEL'),
+  content: t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION'),
+  form: WhatForm,
+  validationSchema: WhatStepValidationSchema,
+  buttons: WhatFormButtons,
 };
 
-export {
-  WhatStepValidationSchema,
-  WhereStepValidationSchema,
-  WhoStepValidationSchema,
-  WhenStepValidationSchema,
-  HowStepValidationSchema,
-  ConfirmationValidationSchema,
+export const Where = {
+  id: 'where',
+  label: t('__EXPRESS_WIZARD_STEP_WHERE_LABEL'),
+  content: t('__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION'),
+  form: WhereForm,
+  validationSchema: WhereStepValidationSchema,
+  buttons: WhereFormButtons,
 };
 
-export {
-  WhatForm,
-  WhatFormButtons,
-  WhereForm,
-  WhereFormButtons,
-  WhoForm,
-  WhoFormButtons,
-  WhenForm,
-  WhenFormButtons,
-  HowForm,
-  HowFormButtons,
-  ConfirmationForm,
-  ConfirmationFormButtons,
+export const Who = {
+  id: 'who',
+  label: t('__EXPRESS_WIZARD_STEP_WHO_LABEL'),
+  content: t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION'),
+  form: WhoForm,
+  validationSchema: WhoStepValidationSchema,
+  buttons: WhoFormButtons,
+};
+
+export const When = {
+  id: 'when',
+  label: t('__EXPRESS_WIZARD_STEP_WHEN_LABEL'),
+  content: t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION'),
+  form: WhenForm,
+  validationSchema: WhenStepValidationSchema,
+  buttons: WhenFormButtons,
+};
+
+export const How = {
+  id: 'how',
+  label: t('__EXPRESS_WIZARD_STEP_HOW_LABEL'),
+  content: t('__EXPRESS_WIZARD_STEP_HOW_DESCRIPTION'),
+  form: HowForm,
+  validationSchema: HowStepValidationSchema,
+  buttons: HowFormButtons,
+};
+
+export const Confirmation = {
+  id: 'confirmation',
+  label: t('__EXPRESS_WIZARD_STEP_CONFIRM_LABEL'),
+  content: t('__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION'),
+  form: ConfirmationForm,
+  validationSchema: ConfirmationValidationSchema,
+  buttons: ConfirmationFormButtons,
 };
