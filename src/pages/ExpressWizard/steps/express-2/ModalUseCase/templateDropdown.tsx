@@ -24,7 +24,7 @@ import useDebounce from 'src/hooks/useDebounce';
 import styled from 'styled-components';
 
 const StyledItem = styled(Item)`
-  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
+  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.lg};
 
   &:first-child {
     margin-top: 0;
@@ -32,6 +32,7 @@ const StyledItem = styled(Item)`
 `;
 
 const GroupLabel = styled(StyledItem)`
+  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
   color: ${({ theme }) => theme.palette.grey[600]};
   text-transform: uppercase;
 
