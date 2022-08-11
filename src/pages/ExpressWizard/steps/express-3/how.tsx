@@ -4,6 +4,7 @@ import {
   Paragraph,
   SM,
   Span,
+  Tag,
   Textarea,
   theme as globalTheme,
   XL,
@@ -17,8 +18,10 @@ import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-ico
 import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
 import { ReactComponent as SuccessIcon } from 'src/assets/icons/success-icon.svg';
 import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
+import { ReactComponent as UserTaskIcon } from 'src/assets/icons/user-task-icon.svg';
+import { ReactComponent as ChatIcon } from 'src/assets/icons/chat-icon.svg';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
 import { openUseCaseModal } from 'src/features/express/expressSlice';
@@ -28,8 +31,8 @@ import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
-import { ModalUseCase } from 'src/pages/ExpressWizard/ModalUseCase/modalUseCase';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { ModalUseCase } from './ModalUseCase/modalUseCase';
 import { HowLoading } from './howLoading';
 
 const StepTitle = styled(XXL)`
@@ -87,6 +90,17 @@ const UseCaseEditLabel = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
+const TagsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: ${({ theme }) => theme.space.sm};
+
+  > * {
+    margin-right: ${({ theme }) => theme.space.xs};
+  }
+`;
+
 export const HowStep = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -138,22 +152,59 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
           <Span isBold>{t('__EXPRESS_WIZARD_STEP_HOW_LABEL')}</Span>&nbsp;
           {t('__EXPRESS_WIZARD_STEP_HOW_LABEL_EXTRA')}
         </StepTitle>
-        <Paragraph>{t('__EXPRESS_WIZARD_STEP_HOW_SUBTITLE')}</Paragraph>
+        <Paragraph>
+          {t('__EXPRESS_WIZARD_STEP_HOW_UNMODERATED_SUBTITLE')}
+        </Paragraph>
+
         <CardDivider />
 
         <StyledFormField>
+          <TagsContainer>
+            <Tag
+              size="large"
+              isPill
+              isRegular
+              hue={globalTheme.palette.grey[100]}
+            >
+              <Tag.Avatar>
+                <UserTaskIcon />
+              </Tag.Avatar>
+              <Trans i18nKey="__EXPRESS_WIZARD_STEP_HOW_TAG_USER_TASKS_LABEL">
+                <Span>
+                  N° User Tasks{' '}
+                  <Span isBold>
+                    {{ express_use_cases_limit: EXPRESS_USE_CASES_LIMIT }}
+                  </Span>
+                </Span>
+              </Trans>
+            </Tag>
+            <Tag
+              size="large"
+              isPill
+              isRegular
+              hue={globalTheme.palette.grey[100]}
+            >
+              <Tag.Avatar>
+                <ChatIcon />
+              </Tag.Avatar>
+              <Span>
+                {t('__EXPRESS_WIZARD_STEP_HOW_TAG_THINK_ALOUD_LABEL')}
+              </Span>
+            </Tag>
+          </TagsContainer>
+        </StyledFormField>
+
+        <StyledFormField>
           <StyledLanguageTitle>
-            {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_TITLE')}
+            {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_GOAL_TITLE')}
             <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
           </StyledLanguageTitle>
           <Paragraph>
-            {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_DESCRIPTION')}
+            {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_GOAL_DESCRIPTION')}
           </Paragraph>
           <Textarea
             rows={5}
-            placeholder={t(
-              '__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_PLACEHOLDER'
-            )}
+            placeholder={t('__EXPRESS_WIZARD_STEP_HOW_FIELD_GOAL_PLACEHOLDER')}
             isResizable
             style={{ marginTop: globalTheme.space.md }}
             {...getFieldProps('test_description')}
@@ -279,7 +330,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
 export const HowStepValidationSchema = Yup.object().shape({
   test_description: Yup.string().required(
-    i18n.t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_REQUIRED')
+    i18n.t('__EXPRESS_WIZARD_STEP_HOW_FIELD_GOAL_REQUIRED')
   ),
   use_cases: Yup.array()
     .of(

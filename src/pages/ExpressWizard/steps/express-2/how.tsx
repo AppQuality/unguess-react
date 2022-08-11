@@ -28,8 +28,8 @@ import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
-import { ModalUseCase } from 'src/pages/ExpressWizard/ModalUseCase/modalUseCase';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { ModalUseCase } from './ModalUseCase/modalUseCase';
 import { HowLoading } from './howLoading';
 
 const StepTitle = styled(XXL)`
