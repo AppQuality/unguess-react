@@ -1,15 +1,11 @@
 import {
   Col,
-  Dropdown,
   Grid,
-  Item,
   Label,
   MediaInput,
-  Menu,
   Paragraph,
   RadioCard,
   Row,
-  Select,
   Span,
   XL,
   XXL,
@@ -17,7 +13,6 @@ import {
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';
@@ -27,22 +22,11 @@ import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-acti
 import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
 import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
 import { ReactComponent as DocumentIcon } from 'src/assets/icons/document-icon.svg';
-import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-
-interface Reasons {
-  [key: string]: string;
-}
-
-export const reasonItems: Reasons = {
-  'reason-a': t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_OPTION_1'),
-  'reason-b': t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_OPTION_2'),
-  'reason-c': t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_OPTION_3'),
-};
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -78,7 +62,6 @@ export const WhatStep = ({
   ...props
 }: FormikProps<WizardModel>) => {
   const [radioValue, setRadioValue] = useState(values.product_type);
-  const [selectedItem, setSelectedItem] = useState(values.campaign_reason);
 
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
@@ -111,38 +94,6 @@ export const WhatStep = ({
             {errors.campaign_name}
           </HelpTextMessage>
         )}
-      </StyledFormField>
-      <StyledFormField>
-        <Dropdown
-          {...props.getFieldProps('campaign_reason')}
-          {...(errors.campaign_reason && { validation: 'error' })}
-          onSelect={(item) => {
-            props.setFieldValue('campaign_reason', item);
-            setSelectedItem(item);
-          }}
-          selectedItem={selectedItem}
-        >
-          <DropdownField>
-            <Label>
-              {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
-            </Label>
-            <Select start={<FlagIcon />}>
-              {selectedItem && reasonItems[`${selectedItem}`]}
-            </Select>
-            {errors.campaign_reason && (
-              <HelpTextMessage validation="error">
-                {errors.campaign_reason}
-              </HelpTextMessage>
-            )}
-          </DropdownField>
-          <Menu>
-            {Object.keys(reasonItems).map((key) => (
-              <Item key={key} value={key}>
-                {reasonItems[`${key}`]}
-              </Item>
-            ))}
-          </Menu>
-        </Dropdown>
       </StyledFormField>
       <StyledFormField>
         <StyledProductTypeTitle>
