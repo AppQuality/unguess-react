@@ -47,11 +47,6 @@ export const Category = ({
         populate: '*',
         locale: i18n.language,
         sort: 'sort_order',
-        filters: {
-          publishedAt: {
-            $null: false,
-          },
-        },
       },
     },
   });

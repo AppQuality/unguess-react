@@ -215,6 +215,67 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.serviceLocalizationRequest,
       }),
     }),
+    getUseCaseTemplateCategories: build.query<
+      GetUseCaseTemplateCategoriesApiResponse,
+      GetUseCaseTemplateCategoriesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/use-case-template-categories`,
+        params: {
+          sort: queryArg.sort,
+          pagination: queryArg.pagination,
+          fields: queryArg.fields,
+          populate: queryArg.populate,
+        },
+      }),
+    }),
+    postUseCaseTemplateCategories: build.mutation<
+      PostUseCaseTemplateCategoriesApiResponse,
+      PostUseCaseTemplateCategoriesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/use-case-template-categories`,
+        method: 'POST',
+        body: queryArg.useCaseTemplateCategoryRequest,
+      }),
+    }),
+    getUseCaseTemplateCategoriesById: build.query<
+      GetUseCaseTemplateCategoriesByIdApiResponse,
+      GetUseCaseTemplateCategoriesByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/use-case-template-categories/${queryArg.id}`,
+      }),
+    }),
+    putUseCaseTemplateCategoriesById: build.mutation<
+      PutUseCaseTemplateCategoriesByIdApiResponse,
+      PutUseCaseTemplateCategoriesByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/use-case-template-categories/${queryArg.id}`,
+        method: 'PUT',
+        body: queryArg.useCaseTemplateCategoryRequest,
+      }),
+    }),
+    deleteUseCaseTemplateCategoriesById: build.mutation<
+      DeleteUseCaseTemplateCategoriesByIdApiResponse,
+      DeleteUseCaseTemplateCategoriesByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/use-case-template-categories/${queryArg.id}`,
+        method: 'DELETE',
+      }),
+    }),
+    postUseCaseTemplateCategoriesByIdLocalizations: build.mutation<
+      PostUseCaseTemplateCategoriesByIdLocalizationsApiResponse,
+      PostUseCaseTemplateCategoriesByIdLocalizationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/use-case-template-categories/${queryArg.id}/localizations`,
+        method: 'POST',
+        body: queryArg.useCaseTemplateCategoryLocalizationRequest,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -375,6 +436,50 @@ export type PostServicesByIdLocalizationsApiResponse =
 export type PostServicesByIdLocalizationsApiArg = {
   id: string;
   serviceLocalizationRequest: ServiceLocalizationRequest;
+};
+export type GetUseCaseTemplateCategoriesApiResponse =
+  /** status 200 OK */ UseCaseTemplateCategoryListResponse;
+export type GetUseCaseTemplateCategoriesApiArg = {
+  /** Sort by attributes ascending (asc) or descending (desc) */
+  sort?: string;
+  pagination?: {
+    withCount?: boolean;
+    page?: number;
+    pageSize?: number;
+    start?: number;
+    limit?: number;
+  };
+  /** Fields to return (ex: title,author) */
+  fields?: string;
+  /** Relations to return */
+  populate?: string;
+};
+export type PostUseCaseTemplateCategoriesApiResponse =
+  /** status 200 OK */ UseCaseTemplateCategoryResponse;
+export type PostUseCaseTemplateCategoriesApiArg = {
+  useCaseTemplateCategoryRequest: UseCaseTemplateCategoryRequest;
+};
+export type GetUseCaseTemplateCategoriesByIdApiResponse =
+  /** status 200 OK */ UseCaseTemplateCategoryResponse;
+export type GetUseCaseTemplateCategoriesByIdApiArg = {
+  id: string;
+};
+export type PutUseCaseTemplateCategoriesByIdApiResponse =
+  /** status 200 OK */ UseCaseTemplateCategoryResponse;
+export type PutUseCaseTemplateCategoriesByIdApiArg = {
+  id: string;
+  useCaseTemplateCategoryRequest: UseCaseTemplateCategoryRequest;
+};
+export type DeleteUseCaseTemplateCategoriesByIdApiResponse =
+  /** status 200 OK */ number;
+export type DeleteUseCaseTemplateCategoriesByIdApiArg = {
+  id: string;
+};
+export type PostUseCaseTemplateCategoriesByIdLocalizationsApiResponse =
+  /** status 200 OK */ UseCaseTemplateCategoryLocalizationResponse;
+export type PostUseCaseTemplateCategoriesByIdLocalizationsApiArg = {
+  id: string;
+  useCaseTemplateCategoryLocalizationRequest: UseCaseTemplateCategoryLocalizationRequest;
 };
 export type CategoryListResponse = {
   data?: {
@@ -1206,6 +1311,23 @@ export type CategoryListResponse = {
                           id?: string;
                           item?: string;
                         }[];
+                        webhook_url?: string;
+                        default_use_case_text?: string;
+                        use_cases_help?: {
+                          id?: string;
+                          title?: string;
+                          description?: string;
+                          suggestions?: {
+                            id?: string;
+                            group_title?: string;
+                            items?: {
+                              id?: string;
+                              is_pros?: boolean;
+                              title?: string;
+                              content?: string;
+                            }[];
+                          }[];
+                        };
                         createdAt?: string;
                         updatedAt?: string;
                         publishedAt?: string;
@@ -2131,6 +2253,23 @@ export type CategoryResponse = {
                           id?: string;
                           item?: string;
                         }[];
+                        webhook_url?: string;
+                        default_use_case_text?: string;
+                        use_cases_help?: {
+                          id?: string;
+                          title?: string;
+                          description?: string;
+                          suggestions?: {
+                            id?: string;
+                            group_title?: string;
+                            items?: {
+                              id?: string;
+                              is_pros?: boolean;
+                              title?: string;
+                              content?: string;
+                            }[];
+                          }[];
+                        };
                         createdAt?: string;
                         updatedAt?: string;
                         publishedAt?: string;
@@ -3044,6 +3183,23 @@ export type CategoryLocalizationResponse = {
                       id?: string;
                       item?: string;
                     }[];
+                    webhook_url?: string;
+                    default_use_case_text?: string;
+                    use_cases_help?: {
+                      id?: string;
+                      title?: string;
+                      description?: string;
+                      suggestions?: {
+                        id?: string;
+                        group_title?: string;
+                        items?: {
+                          id?: string;
+                          is_pros?: boolean;
+                          title?: string;
+                          content?: string;
+                        }[];
+                      }[];
+                    };
                     createdAt?: string;
                     updatedAt?: string;
                     publishedAt?: string;
@@ -3388,6 +3544,23 @@ export type ExpressListResponse = {
               id?: string;
               item?: string;
             }[];
+            webhook_url?: string;
+            default_use_case_text?: string;
+            use_cases_help?: {
+              id?: string;
+              title?: string;
+              description?: string;
+              suggestions?: {
+                id?: string;
+                group_title?: string;
+                items?: {
+                  id?: string;
+                  is_pros?: boolean;
+                  title?: string;
+                  content?: string;
+                }[];
+              }[];
+            };
             createdAt?: string;
             updatedAt?: string;
             publishedAt?: string;
@@ -3698,6 +3871,23 @@ export type ExpressResponse = {
               id?: string;
               item?: string;
             }[];
+            webhook_url?: string;
+            default_use_case_text?: string;
+            use_cases_help?: {
+              id?: string;
+              title?: string;
+              description?: string;
+              suggestions?: {
+                id?: string;
+                group_title?: string;
+                items?: {
+                  id?: string;
+                  is_pros?: boolean;
+                  title?: string;
+                  content?: string;
+                }[];
+              }[];
+            };
             createdAt?: string;
             updatedAt?: string;
             publishedAt?: string;
@@ -3901,6 +4091,23 @@ export type ExpressTypeListResponse = {
                     id?: string;
                     item?: string;
                   }[];
+                  webhook_url?: string;
+                  default_use_case_text?: string;
+                  use_cases_help?: {
+                    id?: string;
+                    title?: string;
+                    description?: string;
+                    suggestions?: {
+                      id?: string;
+                      group_title?: string;
+                      items?: {
+                        id?: string;
+                        is_pros?: boolean;
+                        title?: string;
+                        content?: string;
+                      }[];
+                    }[];
+                  };
                   createdAt?: string;
                   updatedAt?: string;
                   publishedAt?: string;
@@ -4161,6 +4368,23 @@ export type ExpressTypeListResponse = {
         id?: string;
         item?: string;
       }[];
+      webhook_url?: string;
+      default_use_case_text?: string;
+      use_cases_help?: {
+        id?: string;
+        title?: string;
+        description?: string;
+        suggestions?: {
+          id?: string;
+          group_title?: string;
+          items?: {
+            id?: string;
+            is_pros?: boolean;
+            title?: string;
+            content?: string;
+          }[];
+        }[];
+      };
       createdAt?: string;
       updatedAt?: string;
       publishedAt?: string;
@@ -4347,6 +4571,23 @@ export type ExpressTypeResponse = {
                     id?: string;
                     item?: string;
                   }[];
+                  webhook_url?: string;
+                  default_use_case_text?: string;
+                  use_cases_help?: {
+                    id?: string;
+                    title?: string;
+                    description?: string;
+                    suggestions?: {
+                      id?: string;
+                      group_title?: string;
+                      items?: {
+                        id?: string;
+                        is_pros?: boolean;
+                        title?: string;
+                        content?: string;
+                      }[];
+                    }[];
+                  };
                   createdAt?: string;
                   updatedAt?: string;
                   publishedAt?: string;
@@ -4607,6 +4848,23 @@ export type ExpressTypeResponse = {
         id?: string;
         item?: string;
       }[];
+      webhook_url?: string;
+      default_use_case_text?: string;
+      use_cases_help?: {
+        id?: string;
+        title?: string;
+        description?: string;
+        suggestions?: {
+          id?: string;
+          group_title?: string;
+          items?: {
+            id?: string;
+            is_pros?: boolean;
+            title?: string;
+            content?: string;
+          }[];
+        }[];
+      };
       createdAt?: string;
       updatedAt?: string;
       publishedAt?: string;
@@ -4632,6 +4890,7 @@ export type ExpressTypeRequest = {
   data?: {
     title?: string;
     description?: string;
+    webhook_url?: string;
   };
 };
 export type ExpressTypeLocalizationResponse = {
@@ -4790,6 +5049,23 @@ export type ExpressTypeLocalizationResponse = {
                 id?: string;
                 item?: string;
               }[];
+              webhook_url?: string;
+              default_use_case_text?: string;
+              use_cases_help?: {
+                id?: string;
+                title?: string;
+                description?: string;
+                suggestions?: {
+                  id?: string;
+                  group_title?: string;
+                  items?: {
+                    id?: string;
+                    is_pros?: boolean;
+                    title?: string;
+                    content?: string;
+                  }[];
+                }[];
+              };
               createdAt?: string;
               updatedAt?: string;
               publishedAt?: string;
@@ -5050,6 +5326,23 @@ export type ExpressTypeLocalizationResponse = {
     id?: string;
     item?: string;
   }[];
+  webhook_url?: string;
+  default_use_case_text?: string;
+  use_cases_help?: {
+    id?: string;
+    title?: string;
+    description?: string;
+    suggestions?: {
+      id?: string;
+      group_title?: string;
+      items?: {
+        id?: string;
+        is_pros?: boolean;
+        title?: string;
+        content?: string;
+      }[];
+    }[];
+  };
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
@@ -5071,6 +5364,7 @@ export type ExpressTypeLocalizationResponse = {
 export type ExpressTypeLocalizationRequest = {
   title?: string;
   description?: string;
+  webhook_url?: string;
 };
 export type ServiceListResponse = {
   data?: {
@@ -6339,6 +6633,23 @@ export type ServiceListResponse = {
                                 id?: string;
                                 item?: string;
                               }[];
+                              webhook_url?: string;
+                              default_use_case_text?: string;
+                              use_cases_help?: {
+                                id?: string;
+                                title?: string;
+                                description?: string;
+                                suggestions?: {
+                                  id?: string;
+                                  group_title?: string;
+                                  items?: {
+                                    id?: string;
+                                    is_pros?: boolean;
+                                    title?: string;
+                                    content?: string;
+                                  }[];
+                                }[];
+                              };
                               createdAt?: string;
                               updatedAt?: string;
                               publishedAt?: string;
@@ -7805,6 +8116,23 @@ export type ServiceResponse = {
                                 id?: string;
                                 item?: string;
                               }[];
+                              webhook_url?: string;
+                              default_use_case_text?: string;
+                              use_cases_help?: {
+                                id?: string;
+                                title?: string;
+                                description?: string;
+                                suggestions?: {
+                                  id?: string;
+                                  group_title?: string;
+                                  items?: {
+                                    id?: string;
+                                    is_pros?: boolean;
+                                    title?: string;
+                                    content?: string;
+                                  }[];
+                                }[];
+                              };
                               createdAt?: string;
                               updatedAt?: string;
                               publishedAt?: string;
@@ -9274,6 +9602,23 @@ export type ServiceLocalizationResponse = {
                             id?: string;
                             item?: string;
                           }[];
+                          webhook_url?: string;
+                          default_use_case_text?: string;
+                          use_cases_help?: {
+                            id?: string;
+                            title?: string;
+                            description?: string;
+                            suggestions?: {
+                              id?: string;
+                              group_title?: string;
+                              items?: {
+                                id?: string;
+                                is_pros?: boolean;
+                                title?: string;
+                                content?: string;
+                              }[];
+                            }[];
+                          };
                           createdAt?: string;
                           updatedAt?: string;
                           publishedAt?: string;
@@ -9473,6 +9818,349 @@ export type ServiceLocalizationRequest = {
   is_featured?: boolean;
   sort_order?: number;
 };
+export type UseCaseTemplateCategoryListResponse = {
+  data?: {
+    id?: string;
+    attributes?: {
+      category_name?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      publishedAt?: string;
+      createdBy?: {
+        data?: {
+          id?: string;
+          attributes?: {
+            firstname?: string;
+            lastname?: string;
+            username?: string;
+            email?: string;
+            resetPasswordToken?: string;
+            registrationToken?: string;
+            isActive?: boolean;
+            roles?: {
+              data?: {
+                id?: string;
+                attributes?: {
+                  name?: string;
+                  code?: string;
+                  description?: string;
+                  users?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    }[];
+                  };
+                  permissions?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {
+                        action?: string;
+                        subject?: string;
+                        properties?: any;
+                        conditions?: any;
+                        role?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        createdAt?: string;
+                        updatedAt?: string;
+                        createdBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        updatedBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                      };
+                    }[];
+                  };
+                  createdAt?: string;
+                  updatedAt?: string;
+                  createdBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                  updatedBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                };
+              }[];
+            };
+            blocked?: boolean;
+            preferedLanguage?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            createdBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+            updatedBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+          };
+        };
+      };
+      updatedBy?: {
+        data?: {
+          id?: string;
+          attributes?: {};
+        };
+      };
+      localizations?: {}[];
+      locale?: string;
+    };
+  }[];
+  meta?: {
+    pagination?: {
+      page?: number;
+      pageSize?: number;
+      pageCount?: number;
+      total?: number;
+    };
+  };
+};
+export type UseCaseTemplateCategoryResponse = {
+  data?: {
+    id?: string;
+    attributes?: {
+      category_name?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      publishedAt?: string;
+      createdBy?: {
+        data?: {
+          id?: string;
+          attributes?: {
+            firstname?: string;
+            lastname?: string;
+            username?: string;
+            email?: string;
+            resetPasswordToken?: string;
+            registrationToken?: string;
+            isActive?: boolean;
+            roles?: {
+              data?: {
+                id?: string;
+                attributes?: {
+                  name?: string;
+                  code?: string;
+                  description?: string;
+                  users?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    }[];
+                  };
+                  permissions?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {
+                        action?: string;
+                        subject?: string;
+                        properties?: any;
+                        conditions?: any;
+                        role?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        createdAt?: string;
+                        updatedAt?: string;
+                        createdBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        updatedBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                      };
+                    }[];
+                  };
+                  createdAt?: string;
+                  updatedAt?: string;
+                  createdBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                  updatedBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                };
+              }[];
+            };
+            blocked?: boolean;
+            preferedLanguage?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            createdBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+            updatedBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+          };
+        };
+      };
+      updatedBy?: {
+        data?: {
+          id?: string;
+          attributes?: {};
+        };
+      };
+      localizations?: {}[];
+      locale?: string;
+    };
+  };
+  meta?: object;
+};
+export type UseCaseTemplateCategoryRequest = {
+  data?: {
+    category_name?: string;
+  };
+};
+export type UseCaseTemplateCategoryLocalizationResponse = {
+  id?: string;
+  category_name?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+  createdBy?: {
+    data?: {
+      id?: string;
+      attributes?: {
+        firstname?: string;
+        lastname?: string;
+        username?: string;
+        email?: string;
+        resetPasswordToken?: string;
+        registrationToken?: string;
+        isActive?: boolean;
+        roles?: {
+          data?: {
+            id?: string;
+            attributes?: {
+              name?: string;
+              code?: string;
+              description?: string;
+              users?: {
+                data?: {
+                  id?: string;
+                  attributes?: {};
+                }[];
+              };
+              permissions?: {
+                data?: {
+                  id?: string;
+                  attributes?: {
+                    action?: string;
+                    subject?: string;
+                    properties?: any;
+                    conditions?: any;
+                    role?: {
+                      data?: {
+                        id?: string;
+                        attributes?: {};
+                      };
+                    };
+                    createdAt?: string;
+                    updatedAt?: string;
+                    createdBy?: {
+                      data?: {
+                        id?: string;
+                        attributes?: {};
+                      };
+                    };
+                    updatedBy?: {
+                      data?: {
+                        id?: string;
+                        attributes?: {};
+                      };
+                    };
+                  };
+                }[];
+              };
+              createdAt?: string;
+              updatedAt?: string;
+              createdBy?: {
+                data?: {
+                  id?: string;
+                  attributes?: {};
+                };
+              };
+              updatedBy?: {
+                data?: {
+                  id?: string;
+                  attributes?: {};
+                };
+              };
+            };
+          }[];
+        };
+        blocked?: boolean;
+        preferedLanguage?: string;
+        createdAt?: string;
+        updatedAt?: string;
+        createdBy?: {
+          data?: {
+            id?: string;
+            attributes?: {};
+          };
+        };
+        updatedBy?: {
+          data?: {
+            id?: string;
+            attributes?: {};
+          };
+        };
+      };
+    };
+  };
+  updatedBy?: {
+    data?: {
+      id?: string;
+      attributes?: {};
+    };
+  };
+  localizations?: {}[];
+  locale?: string;
+};
+export type UseCaseTemplateCategoryLocalizationRequest = {
+  category_name?: string;
+};
 export const {
   useGetCategoriesQuery,
   usePostCategoriesMutation,
@@ -9497,4 +10185,10 @@ export const {
   usePutServicesByIdMutation,
   useDeleteServicesByIdMutation,
   usePostServicesByIdLocalizationsMutation,
+  useGetUseCaseTemplateCategoriesQuery,
+  usePostUseCaseTemplateCategoriesMutation,
+  useGetUseCaseTemplateCategoriesByIdQuery,
+  usePutUseCaseTemplateCategoriesByIdMutation,
+  useDeleteUseCaseTemplateCategoriesByIdMutation,
+  usePostUseCaseTemplateCategoriesByIdLocalizationsMutation,
 } = injectedRtkApi;

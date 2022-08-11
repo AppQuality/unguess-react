@@ -1,25 +1,31 @@
 import { FormikProps } from 'formik';
-import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import {
-  WhatStepValidationSchema,
-  WhereStepValidationSchema,
-  WhoStepValidationSchema,
-  WhenStepValidationSchema,
-  HowStepValidationSchema,
-  ConfirmationValidationSchema,
-} from '.';
-import { WizardModel } from '../wizardModel';
-import { WizardButtonsProps } from './forms/types';
-import { WhatForm, WhatFormButtons } from './forms/WhatForm';
-import { WhereForm, WhereFormButtons } from './forms/WhereForm';
-import { WhoForm, WhoFormButtons } from './forms/WhoForm';
-import { WhenForm, WhenFormButtons } from './forms/WhenForm';
-import { HowForm, HowFormButtons } from './forms/HowForm';
+  What as WhatExpress1,
+  Who as WhoExpress1,
+  Where as WhereExpress1,
+  When as WhenExpress1,
+  Confirmation as ConfirmationExpress1,
+} from './express-1';
+
 import {
-  ConfirmationForm,
-  ConfirmationFormButtons,
-} from './forms/ConfirmationForm';
+  What as WhatExpress2,
+  Who as WhoExpress2,
+  Where as WhereExpress2,
+  How as HowExpress2,
+  Confirmation as ConfirmationExpress2,
+} from './express-2';
+
+import {
+  What as WhatExpress3,
+  Who as WhoExpress3,
+  Where as WhereExpress3,
+  How as HowExpress3,
+  Confirmation as ConfirmationExpress3,
+} from './express-3';
+
+import { WizardButtonsProps } from './types';
+import { WizardModel } from '../wizardModel';
 
 export interface StepItem {
   id: string;
@@ -31,65 +37,30 @@ export interface StepItem {
 }
 
 export const useExpressStep = (type: string): Array<StepItem> => {
-  const { t } = useTranslation();
-  const WhatStep = {
-    id: 'what',
-    label: t('__EXPRESS_WIZARD_STEP_WHAT_LABEL'),
-    content: t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION'),
-    form: WhatForm,
-    validationSchema: WhatStepValidationSchema,
-    buttons: WhatFormButtons,
-  };
-
-  const WhereStep = {
-    id: 'where',
-    label: t('__EXPRESS_WIZARD_STEP_WHERE_LABEL'),
-    content: t('__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION'),
-    form: WhereForm,
-    validationSchema: WhereStepValidationSchema,
-    buttons: WhereFormButtons,
-  };
-
-  const WhoStep = {
-    id: 'who',
-    label: t('__EXPRESS_WIZARD_STEP_WHO_LABEL'),
-    content: t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION'),
-    form: WhoForm,
-    validationSchema: WhoStepValidationSchema,
-    buttons: WhoFormButtons,
-  };
-
-  const WhenStep = {
-    id: 'when',
-    label: t('__EXPRESS_WIZARD_STEP_WHEN_LABEL'),
-    content: t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION'),
-    form: WhenForm,
-    validationSchema: WhenStepValidationSchema,
-    buttons: WhenFormButtons,
-  };
-
-  const HowStep = {
-    id: 'how',
-    label: t('__EXPRESS_WIZARD_STEP_HOW_LABEL'),
-    content: t('__EXPRESS_WIZARD_STEP_HOW_DESCRIPTION'),
-    form: HowForm,
-    validationSchema: HowStepValidationSchema,
-    buttons: HowFormButtons,
-  };
-
-  const ConfirmationStep = {
-    id: 'confirmation',
-    label: t('__EXPRESS_WIZARD_STEP_CONFIRM_LABEL'),
-    content: t('__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION'),
-    form: ConfirmationForm,
-    validationSchema: ConfirmationValidationSchema,
-    buttons: ConfirmationFormButtons,
-  };
-
   switch (type) {
+    case 'unmoderated-usability-testing':
+      return [
+        WhatExpress3,
+        WhereExpress3,
+        WhoExpress3,
+        HowExpress3,
+        ConfirmationExpress3,
+      ];
     case 'bug-hunting':
-      return [WhatStep, WhereStep, WhoStep, HowStep, ConfirmationStep];
-    default:
-      return [WhatStep, WhereStep, WhoStep, WhenStep, ConfirmationStep];
+      return [
+        WhatExpress2,
+        WhereExpress2,
+        WhoExpress2,
+        HowExpress2,
+        ConfirmationExpress2,
+      ];
+    default: // exploratory-test
+      return [
+        WhatExpress1,
+        WhereExpress1,
+        WhoExpress1,
+        WhenExpress1,
+        ConfirmationExpress1,
+      ];
   }
 };

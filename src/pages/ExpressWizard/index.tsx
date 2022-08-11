@@ -20,9 +20,11 @@ import {
   usePostProjectsMutation,
 } from 'src/features/api';
 import {
-  EXPRESS_CAMPAIGN_TYPE_ID,
   BASE_DATE_FORMAT,
   ZAPIER_WEBHOOK_TRIGGER,
+  EXPRESS_3_CAMPAIGN_TYPE_ID,
+  EXPRESS_2_CAMPAIGN_TYPE_ID,
+  EXPRESS_1_CAMPAIGN_TYPE_ID,
 } from 'src/constants';
 import { format, formatISO } from 'date-fns';
 import async from 'async';
@@ -36,11 +38,11 @@ import { toggleChat } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
-import { ThankYouStep } from './steps';
+import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
 import defaultValues from './wizardInitialValues';
-import { reasonItems } from './steps/what';
+import { reasonItems } from './steps/express-1/what';
 import { getPlatform } from './getPlatform';
 import { StepItem, useExpressStep } from './steps/useSteps';
 
@@ -67,6 +69,17 @@ const getValidationSchema = (step: number, steps: StepItem[]) => {
     return steps[step as number].validationSchema;
   }
   return Yup.object();
+};
+
+const getExpressCPTypeId = (expressSlug: string) => {
+  switch (expressSlug) {
+    case 'unmoderated-usability-testing':
+      return EXPRESS_3_CAMPAIGN_TYPE_ID;
+    case 'bug-hunting':
+      return EXPRESS_2_CAMPAIGN_TYPE_ID;
+    default: // exploratory-test
+      return EXPRESS_1_CAMPAIGN_TYPE_ID;
+  }
 };
 
 export const ExpressWizardContainer = () => {
@@ -200,11 +213,14 @@ export const ExpressWizardContainer = () => {
               ? format(values.campaign_date_end, BASE_DATE_FORMAT)
               : fallBackDate,
             customer_title: values.campaign_name,
-            campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
+            campaign_type_id: getExpressCPTypeId(expressTypeMeta.slug),
             project_id: prj?.id || -1,
             pm_id: activeWorkspace?.csm.id || -1,
             platforms: getPlatform(values),
             customer_id: activeWorkspace?.id || -1,
+
+            express_slug: expressTypeMeta.slug,
+            ...(values.use_cases && { use_cases: values.use_cases }),
           },
         })
           .unwrap()
@@ -221,7 +237,7 @@ export const ExpressWizardContainer = () => {
     const zapierHandle = (cp: Campaign, next: any) => {
       try {
         // Post on webhook Zapier axios call
-        fetch(ZAPIER_WEBHOOK_TRIGGER, {
+        fetch(expressTypeData.webhook_url ?? ZAPIER_WEBHOOK_TRIGGER, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
@@ -241,7 +257,9 @@ export const ExpressWizardContainer = () => {
               ...(values.campaign_date_end && {
                 close_date: formatISO(values.campaign_date_end),
               }),
-              reason: reasonItems[values?.product_type || 'reason-a'],
+              ...(values.campaign_reason && {
+                reason: reasonItems[values.campaign_reason],
+              }),
             },
             user: userData,
             workspace: activeWorkspace,
@@ -259,7 +277,9 @@ export const ExpressWizardContainer = () => {
       try {
         // Post on webhook WordPress axios call
         await createPages(cp.id);
-        await createUseCases(cp.id);
+        if (!values.use_cases) {
+          await createUseCases(cp.id);
+        }
         await createCrons(cp.id);
         await createTasks(cp.id);
         next(null, cp);
@@ -287,6 +307,7 @@ export const ExpressWizardContainer = () => {
   return isWizardOpen ? (
     <ModalFullScreen
       onClose={() => {
+        // eslint-disable-next-line no-alert
         if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
           dispatch(closeWizard());
           dispatch(resetWizard());
