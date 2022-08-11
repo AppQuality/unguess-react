@@ -13,8 +13,6 @@ RUN rm -f .npmrc
 
 COPY . .
 
-RUN echo $STRAPI_TOKEN
-
 RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env.local
 
 FROM base as app-production
@@ -32,6 +30,5 @@ RUN ["yarn", "build"]
 FROM alpine:3.14 as web
 COPY --from=final /build /build
 RUN apk add nginx
-RUN ls -la 
 COPY nginx.config /etc/nginx/http.d/default.conf
 CMD nginx -g 'daemon off;'
