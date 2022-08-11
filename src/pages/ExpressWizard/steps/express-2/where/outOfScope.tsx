@@ -11,11 +11,11 @@ import {
   theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { StyledRow } from './styled';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { Notes } from 'src/pages/ExpressWizard/notesCard';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { StyledRow } from './styled';
 
 export const OutOfScopeSection = ({
   errors,
