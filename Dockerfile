@@ -12,7 +12,7 @@ RUN rm -f .npmrc
 
 COPY . .
 
-RUN if [[ "$STAGE_ENV" = 'development']] ; then cp .env.development .env ; fi
+RUN if [[ "$STAGE_ENV" = 'development']] ; then cp .env.development .env.local ; fi
 
 RUN printf '\nREACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN}\n' >> .env
 
