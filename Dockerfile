@@ -3,6 +3,7 @@ FROM alpine:3.14 as base
 RUN apk add nodejs yarn
 
 ARG STRAPI_TOKEN
+ARG STAGE_ENV
 
 COPY package.json ./
 COPY yarn.lock ./
@@ -11,7 +12,9 @@ RUN rm -f .npmrc
 
 COPY . .
 
-RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env
+RUN if [[ "$STAGE_ENV" = 'development']] ; then cp .env.development .env ; fi
+
+RUN printf '\nREACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN}\n' >> .env
 
 RUN ["yarn", "build"]
 
