@@ -9,8 +9,8 @@ import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import i18n from 'i18next';
-import { WizardModel } from '../wizardModel';
-import { emptyUseCase, UseCase } from '../fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
 
 const Container = styled.div`
   padding: 0 ${({ theme }) => theme.space.md};

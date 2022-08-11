@@ -3,10 +3,10 @@ import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { WizardModel } from './wizardModel';
 
 const values: WizardModel = {
-  campaign_name: '',
+  campaign_name: 'adsadsa',
   product_type: 'webapp',
   campaign_reason: 'reason-a',
-  withSmartphone: false,
+  withSmartphone: true,
   withDesktop: false,
   withTablet: false,
   customBrowser: false,
@@ -21,9 +21,9 @@ const values: WizardModel = {
   androidLink: '',
   isIOS: false,
   isAndroid: false,
-  link: '',
-  campaign_language: '',
-  test_description: '',
+  link: 'https://calendar.google.com/',
+  campaign_language: 'it',
+  test_description: 'adsadas',
   use_cases: [],
   campaign_date: new Date(),
   campaign_date_end: addBusinessDays(new Date(), EXPRESS_BUSINESS_DAYS_TO_ADD),

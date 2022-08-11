@@ -72,7 +72,7 @@ export const ModalUseCaseHelp = () => {
     <ScrollingContainer>
       <HelpContainer>
         <HelpImg />
-        {data && !isError && !isFetching && !isLoading ? (
+        {data && useCaseHelp && !isError && !isFetching && !isLoading ? (
           <>
             {useCaseHelp.title ? (
               <XXL style={{ marginTop: globalTheme.space.lg }}>

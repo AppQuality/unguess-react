@@ -15,12 +15,12 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
 import { FieldArray, FormikProps } from 'formik';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
-import { WizardModel } from '../wizardModel';
 import { UseCaseDetails } from './useCaseDetails';
-import { UseCase } from '../fields/how';
 
 const Body = styled(ModalFullScreen.Body)`
   padding: 0;

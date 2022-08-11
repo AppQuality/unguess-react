@@ -28,8 +28,8 @@ import { useAppSelector } from 'src/app/hooks';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import i18n from 'i18next';
-import { WizardModel } from '../wizardModel';
-import { emptyUseCase, UseCase } from '../fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { TemplateDropdown } from './templateDropdown';
 
 const StyledFormField = styled.div`
@@ -228,7 +228,6 @@ export const UseCaseDetails = ({
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION'
           )}
         </Paragraph>
-        {/* TODO CUP-1062: editor */}
         {isEditing ? (
           <Editor
             onUpdate={({ editor }) => {
