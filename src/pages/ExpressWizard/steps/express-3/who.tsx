@@ -254,7 +254,7 @@ export const WhoStep = ({
                   {...(errors.gender && { validation: 'error' })}
                   value={gen.value}
                   checked={gen.value === gender}
-                  onChange={(e) => handleAgeClick(e.target.value)}
+                  onChange={(e) => handleGenderClick(e.target.value)}
                 >
                   <Label isRegular>{gen.label}</Label>
                   {gen.description && <Hint>{gen.description}</Hint>}
