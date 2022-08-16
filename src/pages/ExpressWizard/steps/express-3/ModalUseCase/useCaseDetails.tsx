@@ -15,7 +15,7 @@ import { FormikProps } from 'formik';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -41,8 +41,7 @@ export const UseCaseDetails = ({
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const { getFieldProps, setFieldValue, validateForm, errors, touched } =
-    formikProps;
+  const { getFieldProps, setFieldValue, validateForm, errors } = formikProps;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState(
@@ -57,11 +56,6 @@ export const UseCaseDetails = ({
       ? (errors.use_cases[useCaseIndex as number] as UseCase)
       : null;
 
-  const useCaseTouches =
-    touched && touched.use_cases && Array.isArray(touched.use_cases)
-      ? touched.use_cases[useCaseIndex as number]
-      : null;
-
   const handleSave = useCallback(() => {
     if (editorChars) {
       setFieldValue(`use_cases[${useCaseIndex}].description`, editorContent);
@@ -69,6 +63,10 @@ export const UseCaseDetails = ({
       setIsEditing(false);
     }
   }, [editorChars]);
+
+  useEffect(() => {
+    setIsEditing(false);
+  }, [useCase]);
 
   return (
     <>
@@ -91,18 +89,16 @@ export const UseCaseDetails = ({
             })}
           {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
           {...(useCaseErrors &&
-            useCaseErrors?.title &&
-            useCaseTouches &&
-            useCaseTouches.title && { validation: 'error' })}
+            useCaseErrors?.title && { validation: 'error' })}
+          onBlur={() => {
+            validateForm();
+          }}
         />
-        {useCaseErrors &&
-          useCaseErrors?.title &&
-          useCaseTouches &&
-          useCaseTouches.title && (
-            <HelpTextMessage validation="error">
-              {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
-            </HelpTextMessage>
-          )}
+        {useCaseErrors && useCaseErrors?.title && (
+          <HelpTextMessage validation="error">
+            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
+          </HelpTextMessage>
+        )}
       </StyledFormField>
 
       {/* Editor */}
