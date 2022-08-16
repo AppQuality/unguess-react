@@ -121,40 +121,6 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
           </StyledCard>
         </StyledFormField>
       ) : null}
-
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
-        <StyledCard>
-          <Grid>
-            <Row>
-              <WizardCol xs={12} sm={1}>
-                <NotAllowedIcon />
-              </WizardCol>
-              <WizardCol xs={12} sm={11}>
-                <StyledLabel>
-                  {t('__EXPRESS_WIZARD_STEP_RECAP_OUT_OF_SCOPE_LABEL')}
-                </StyledLabel>
-                <StyledParagraph>
-                  <Paragraph>
-                    {t('__EXPRESS_WIZARD_STEP_RECAP_OUT_OF_SCOPE_DESCRIPTION')}
-                  </Paragraph>
-                </StyledParagraph>
-                <StyledTextarea
-                  {...getFieldProps('outOfScope')}
-                  placeholder={t(
-                    '__EXPRESS_WIZARD_STEP_RECAP_OUT_OF_SCOPE_PLACEHOLDER'
-                  )}
-                  minRows={6}
-                />
-                <TextareaNote>
-                  <InfoIcon width="15" height="15" />
-                  &nbsp;
-                  {t('__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE')}
-                </TextareaNote>
-              </WizardCol>
-            </Row>
-          </Grid>
-        </StyledCard>
-      </StyledFormField>
     </ContainerCard>
   );
 };
