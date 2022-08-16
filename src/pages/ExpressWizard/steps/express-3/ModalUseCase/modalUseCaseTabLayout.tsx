@@ -17,55 +17,62 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const UseCasesWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 ${({ theme }) => theme.space.md};
-  width: 100%;
-`;
-
 const UseCaseCard = styled(Card)`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   background-color: white;
   border: 1px solid ${({ theme }) => theme.palette.grey[300]};
   color: ${({ theme }) => theme.colors.primaryHue};
   padding: 0;
-  height: ${({ theme }) => theme.space.base * 20}px;
+  height: ${({ theme }) => theme.space.base * 15}px;
   width: 20%;
-  margin: 0 ${({ theme }) => theme.space.xs};
   cursor: pointer;
   user-select: none;
 
   &.current-card {
     background-color: ${({ theme }) => theme.colors.primaryHue};
-    border: 1px solid ${({ theme }) => theme.colors.primaryHue};
+    border: 2px solid ${({ theme }) => theme.colors.primaryHue};
     color: white;
   }
 
   &.add-card {
     background-color: ${({ theme }) => theme.palette.blue[100]};
     color: ${({ theme }) => theme.palette.grey[600]};
-    border: 1px dashed ${({ theme }) => theme.palette.grey[500]};
+    border: 2px dashed ${({ theme }) => theme.palette.grey[300]};
 
     svg {
       margin-bottom: ${({ theme }) => theme.space.base}px;
+      margin-right: ${({ theme }) => theme.space.xs};
     }
   }
 
   &.empty-card {
     background-color: transparent;
     color: ${({ theme }) => theme.palette.grey[500]};
-    border: 1px dashed ${({ theme }) => theme.palette.grey[500]};
+    border: 2px dashed ${({ theme }) => theme.palette.grey[300]};
     pointer-events: none;
   }
 
   &:focus {
     outline: none;
+  }
+`;
+
+const UseCasesWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 ${({ theme }) => theme.space.xxl};
+  width: 100%;
+
+  ${UseCaseCard} {
+    margin: 0 ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
+    &:first-child {
+      margin-left: 0;
+    }
   }
 `;
 
