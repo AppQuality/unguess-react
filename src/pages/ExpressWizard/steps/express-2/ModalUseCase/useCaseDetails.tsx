@@ -57,8 +57,15 @@ export const UseCaseDetails = ({
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const { getFieldProps, setFieldValue, validateForm, values, errors } =
-    formikProps;
+  const {
+    getFieldProps,
+    setFieldValue,
+    validateForm,
+    values,
+    errors,
+    touched,
+    setTouched,
+  } = formikProps;
   const { expressTypeId } = useAppSelector((state) => state.express);
 
   const { data } = useGeti18nExpressTypesByIdQuery({
@@ -89,6 +96,11 @@ export const UseCaseDetails = ({
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
       ? (errors.use_cases[useCaseIndex as number] as UseCase)
+      : null;
+
+  const useCaseTouches =
+    touched && touched.use_cases && Array.isArray(touched.use_cases)
+      ? touched.use_cases[useCaseIndex as number]
       : null;
 
   const handleSave = useCallback(() => {
@@ -142,6 +154,7 @@ export const UseCaseDetails = ({
         </Label>
         <Input
           type="text"
+          key={`use_cases[${useCaseIndex}].title`}
           placeholder={t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
           )}
@@ -152,14 +165,18 @@ export const UseCaseDetails = ({
             })}
           {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
           {...(useCaseErrors &&
-            useCaseErrors?.title && { validation: 'error' })}
-          onBlur={() => validateForm()}
+            useCaseErrors?.title &&
+            useCaseTouches &&
+            useCaseTouches.title && { validation: 'error' })}
         />
-        {useCaseErrors && useCaseErrors?.title && (
-          <HelpTextMessage validation="error">
-            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
-          </HelpTextMessage>
-        )}
+        {useCaseErrors &&
+          useCaseErrors?.title &&
+          useCaseTouches &&
+          useCaseTouches.title && (
+            <HelpTextMessage validation="error">
+              {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
+            </HelpTextMessage>
+          )}
       </StyledFormField>
 
       {/* Dropdown */}
@@ -171,7 +188,7 @@ export const UseCaseDetails = ({
             onSelect={handleDropdownChange}
           />
 
-          {!selectedFunc && (
+          {!selectedFunc && useCaseTouches && useCaseTouches.functionality && (
             <HelpTextMessage validation="error">
               {t(
                 '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_FUNCTIONALITY_REQUIRED'

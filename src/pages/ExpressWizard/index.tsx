@@ -6,7 +6,13 @@ import {
   Row,
   Stepper,
 } from '@appquality/unguess-design-system';
-import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import {
+  Form,
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  setNestedObjectValues,
+} from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -136,9 +142,13 @@ export const ExpressWizardContainer = () => {
     if (activeStep === steps.length - 1) {
       setThankyou(true);
     } else if (formRef.current) {
-      formRef.current?.validateForm().then(() => {
+      formRef.current?.validateForm().then((errors) => {
+        console.log('Validation completed, errors: ', errors);
         if (formRef.current?.isValid) {
           setStep(activeStep + 1);
+        } else {
+          // We want to touch all the fields to show the error
+          formRef.current?.setTouched(setNestedObjectValues(errors, true));
         }
       });
     }
