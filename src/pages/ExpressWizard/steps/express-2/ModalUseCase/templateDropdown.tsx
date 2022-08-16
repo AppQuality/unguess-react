@@ -117,7 +117,9 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
           setInputValue('');
         }
 
-        onSelect(item);
+        if (item.title) {
+          onSelect(item);
+        }
       }}
       {...(!selectedItem && { validation: 'error' })}
       onInputValueChange={(value) => {

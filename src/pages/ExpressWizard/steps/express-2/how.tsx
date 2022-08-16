@@ -92,7 +92,15 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
   const dispatch = useAppDispatch();
   const [currentUseCase, setCurrentUseCase] = useState<UseCase | undefined>();
   const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
-  const { values, getFieldProps, setValues, validateForm, errors } = props;
+  const {
+    values,
+    getFieldProps,
+    setValues,
+    validateForm,
+    errors,
+    touched,
+    setTouched,
+  } = props;
   const { use_cases } = values;
 
   const { expressTypeId } = useAppSelector((state) => state.express);
@@ -120,6 +128,12 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
       setHighestUseCaseId(highestUCId);
     }
   }, [use_cases]);
+
+  useEffect(() => {
+    if (Array.isArray(use_cases) && use_cases.length > 0) {
+      validateForm();
+    }
+  }, []);
 
   if (isLoading) {
     return <HowLoading />;
@@ -157,10 +171,14 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             isResizable
             style={{ marginTop: globalTheme.space.md }}
             {...getFieldProps('test_description')}
-            {...(errors.test_description && { validation: 'error' })}
-            onBlur={() => validateForm()}
+            {...(errors.test_description &&
+              touched.test_description && { validation: 'error' })}
+            onBlur={() => {
+              setTouched({ ...touched, test_description: true });
+              validateForm();
+            }}
           />
-          {errors.test_description && (
+          {errors.test_description && touched.test_description && (
             <HelpTextMessage validation="error">
               {errors.test_description}
             </HelpTextMessage>
@@ -245,6 +263,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
           style={{ marginTop: globalTheme.space.md }}
         >
           {errors &&
+          touched.use_cases &&
           errors.use_cases &&
           typeof errors.use_cases === 'string' ? (
             <ErrorIcon />
@@ -257,6 +276,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             </XL>
             {/* UseCase validation message */}
             {errors &&
+            touched.use_cases &&
             errors.use_cases &&
             typeof errors.use_cases === 'string' ? (
               <UseCaseCardButtonDescription
