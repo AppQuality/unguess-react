@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { Browsers } from './browsers';
-import { ConfirmOutOfScope } from './confirmOutOfScope';
 import { Devices } from './devices';
 import { OperativeSystems } from './operativeSystems';
 
@@ -40,8 +39,6 @@ export const WhereConfirm = (props: FormikProps<WizardModel>) => {
             ) : (
               <OperativeSystems {...props} />
             )}
-            <br />
-            <ConfirmOutOfScope {...props} />
           </StyledParagraph>
         </WizardCol>
       </Row>
