@@ -112,6 +112,7 @@ export const UseCaseDetails = ({
 
   useEffect(() => {
     setSelectedFunc(useCase ? useCase.functionality : undefined);
+    setIsEditing(false);
   }, [useCase]);
 
   const handleDropdownChange = useCallback(
@@ -164,18 +165,16 @@ export const UseCaseDetails = ({
             })}
           {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
           {...(useCaseErrors &&
-            useCaseErrors?.title &&
-            useCaseTouches &&
-            useCaseTouches.title && { validation: 'error' })}
+            useCaseErrors?.title && { validation: 'error' })}
+          onBlur={() => {
+            validateForm();
+          }}
         />
-        {useCaseErrors &&
-          useCaseErrors?.title &&
-          useCaseTouches &&
-          useCaseTouches.title && (
-            <HelpTextMessage validation="error">
-              {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
-            </HelpTextMessage>
-          )}
+        {useCaseErrors && useCaseErrors?.title && (
+          <HelpTextMessage validation="error">
+            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
+          </HelpTextMessage>
+        )}
       </StyledFormField>
 
       {/* Dropdown */}
@@ -246,10 +245,12 @@ export const UseCaseDetails = ({
         </Paragraph>
         {isEditing ? (
           <Editor
+            key={`use_cases[${useCaseIndex}].description`}
             onUpdate={({ editor }) => {
               setEditorChars(editor.storage.characterCount.characters());
               setEditorContent(editor.getHTML());
             }}
+            hasInlineMenu
             onSave={handleSave}
           >
             {useCase ? useCase.description : ''}
