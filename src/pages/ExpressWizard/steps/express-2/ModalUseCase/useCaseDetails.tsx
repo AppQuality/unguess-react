@@ -214,20 +214,27 @@ export const UseCaseDetails = ({
               </Toggle>
             </FormField>
           </InlineRow>
-          <Divider
-            style={{
-              marginTop: globalTheme.space.sm,
-              marginBottom: globalTheme.space.md,
-            }}
-          />
-          <InlineRow>
-            <Paragraph>
-              {t(
-                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_DESCRIPTION'
-              )}
-            </Paragraph>
-            <InfoIcon className="authentication-info-button" />
-          </InlineRow>
+          {values &&
+          values.use_cases &&
+          values.use_cases[useCaseIndex as number] &&
+          values.use_cases[useCaseIndex as number].logged ? (
+            <>
+              <Divider
+                style={{
+                  marginTop: globalTheme.space.sm,
+                  marginBottom: globalTheme.space.md,
+                }}
+              />
+              <InlineRow>
+                <Paragraph>
+                  {t(
+                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_DESCRIPTION'
+                  )}
+                </Paragraph>
+                <InfoIcon className="authentication-info-button" />
+              </InlineRow>
+            </>
+          ) : null}
         </StyledFormField>
       </Notes>
 
