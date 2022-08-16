@@ -71,6 +71,7 @@
   "__DASHBOARD_SEARCH_INPUT_PLACEHOLDER": "Start typing...",
   "__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON": "Launch a new campaign",
   "__EXPERIENTIAL_LABEL": "Experiential",
+  "__EXPRESS_3_WIZARD_STEP_WHERE_SUBTITLE": "Choose a <1>type of device</1> where to perform the test.",
   "__EXPRESS_3_WIZARD_STEP_CONFIRM_WHO_TEXT": "Your users",
   "__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT": "Are aged between <1><0>{{age_range_start}}</0> and <2>{{age_range_end}}</2></1> years.",
   "__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT_ALL": "Are <1>evenly distributed</1> by <3>age</3>.",
