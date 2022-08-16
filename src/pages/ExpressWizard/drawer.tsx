@@ -35,6 +35,10 @@ const SelectTitle = styled(MD)`
 
 const TagsContainer = styled.div`
   margin-top: ${theme.space.base * 4}px;
+  display: flex;
+  flex-align: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 `;
 
 const BodyTitle = styled(XXL)`
