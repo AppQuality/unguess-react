@@ -41,14 +41,8 @@ export const UseCaseDetails = ({
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const {
-    getFieldProps,
-    setFieldValue,
-    validateForm,
-    errors,
-    touched,
-    setTouched,
-  } = formikProps;
+  const { getFieldProps, setFieldValue, validateForm, errors, touched } =
+    formikProps;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState(

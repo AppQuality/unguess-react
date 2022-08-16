@@ -106,15 +106,8 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
   const dispatch = useAppDispatch();
   const [currentUseCase, setCurrentUseCase] = useState<UseCase | undefined>();
   const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
-  const {
-    values,
-    getFieldProps,
-    setValues,
-    validateForm,
-    errors,
-    touched,
-    setTouched,
-  } = props;
+  const { values, getFieldProps, setValues, validateForm, errors, touched } =
+    props;
   const { use_cases } = values;
 
   const { expressTypeId } = useAppSelector((state) => state.express);

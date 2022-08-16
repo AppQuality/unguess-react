@@ -64,7 +64,6 @@ export const UseCaseDetails = ({
     values,
     errors,
     touched,
-    setTouched,
   } = formikProps;
   const { expressTypeId } = useAppSelector((state) => state.express);
 

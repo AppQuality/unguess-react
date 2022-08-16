@@ -143,7 +143,6 @@ export const ExpressWizardContainer = () => {
       setThankyou(true);
     } else if (formRef.current) {
       formRef.current?.validateForm().then((errors) => {
-        console.log('Validation completed, errors: ', errors);
         if (formRef.current?.isValid) {
           setStep(activeStep + 1);
         } else {
