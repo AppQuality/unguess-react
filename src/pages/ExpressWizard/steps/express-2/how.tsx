@@ -73,7 +73,7 @@ const UseCaseCardButtonDescription = styled(SM)`
 `;
 
 const WarningMessage = styled(SM)`
-  color: ${({ theme }) => theme.colors.warningHue};
+  color: ${({ theme }) => theme.palette.yellow[800]};
 `;
 
 const UseCaseEditLabel = styled(Paragraph)`
