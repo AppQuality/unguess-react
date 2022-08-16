@@ -115,9 +115,6 @@ export const UseCaseDetails = ({
     setSelectedFunc(useCase ? useCase.functionality : undefined);
   }, [useCase]);
 
-  console.log('touched', touched);
-  console.log('useCaseTouches', useCaseTouches);
-
   const handleDropdownChange = useCallback(
     (item: UseCaseTemplate | undefined) => {
       let isLogged = emptyUseCase.logged;
