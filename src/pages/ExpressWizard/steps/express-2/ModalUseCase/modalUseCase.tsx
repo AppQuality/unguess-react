@@ -55,7 +55,7 @@ const TextCasesTabs = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.space.md};
   width: 100%;
   position: sticky;
   top: 0;
