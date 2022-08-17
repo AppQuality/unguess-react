@@ -71,7 +71,9 @@ const StyledFooterItem = styled(ModalFullScreen.FooterItem)`
   align-items: center;
 `;
 
-const StyledModalBody = styled(ModalFullScreen.Body)`
+// const ModalFullScreen.Body = styled(ModalFullScreen.Body)``;
+
+const StyledModalContent = styled.div`
   margin: 0 auto;
 `;
 
@@ -92,7 +94,7 @@ const StyledModalNav = styled.div`
 const StyledModal = styled(ModalFullScreen)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
 
-  ${StyledModalBody}, ${StyledModalNav} {
+  ${StyledModalContent}, ${StyledModalNav} {
     max-width: ${({ theme }) => theme.breakpoints.xl};
   }
 `;
@@ -379,37 +381,41 @@ export const ExpressWizardContainer = () => {
                   aria-label="Close modal"
                 />
               </StyledModal.Header>
-              <StyledModalBody>
-                <Form onSubmit={formProps.handleSubmit}>
-                  <Row>
-                    <Col xs={12} lg={3}>
-                      <StyledContainer>
-                        <Stepper
-                          activeIndex={activeStep}
-                          accordionTitle={stepperTitle}
-                        >
-                          {steps.map((item) => (
-                            <Stepper.Step key={item.label}>
-                              <Stepper.Label>{item.label}</Stepper.Label>
-                              <Stepper.Content>{item.content}</Stepper.Content>
-                            </Stepper.Step>
-                          ))}
-                        </Stepper>
-                      </StyledContainer>
-                    </Col>
-                    <Col xs={12} lg={9} xl={6}>
-                      {steps[activeStep as number].form(formProps)}
-                    </Col>
-                  </Row>
-                </Form>
-              </StyledModalBody>
+              <ModalFullScreen.Body>
+                <StyledModalContent>
+                  <Form onSubmit={formProps.handleSubmit}>
+                    <Row>
+                      <Col xs={12} lg={3}>
+                        <StyledContainer>
+                          <Stepper
+                            activeIndex={activeStep}
+                            accordionTitle={stepperTitle}
+                          >
+                            {steps.map((item) => (
+                              <Stepper.Step key={item.label}>
+                                <Stepper.Label>{item.label}</Stepper.Label>
+                                <Stepper.Content>
+                                  {item.content}
+                                </Stepper.Content>
+                              </Stepper.Step>
+                            ))}
+                          </Stepper>
+                        </StyledContainer>
+                      </Col>
+                      <Col xs={12} lg={9} xl={7}>
+                        {steps[activeStep as number].form(formProps)}
+                      </Col>
+                    </Row>
+                  </Form>
+                </StyledModalContent>
+              </ModalFullScreen.Body>
               <ModalFooter>
                 <StyledModalNav>
                   <Row style={{ marginLeft: 0, marginRight: 0 }}>
                     <Col
                       xs={12}
                       lg={9}
-                      xl={6}
+                      xl={7}
                       offsetLg={3}
                       style={{ marginBottom: 0 }}
                     >
