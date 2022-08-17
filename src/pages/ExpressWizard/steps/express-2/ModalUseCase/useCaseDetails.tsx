@@ -178,7 +178,7 @@ export const UseCaseDetails = ({
       </StyledFormField>
 
       {/* Dropdown */}
-      <Notes style={{ marginTop: globalTheme.space.lg }}>
+      <Notes style={{ marginTop: globalTheme.space.xl }}>
         <StyledFormField style={{ marginTop: globalTheme.space.xs }}>
           <TemplateDropdown
             deviceType={values.product_type}
@@ -239,13 +239,13 @@ export const UseCaseDetails = ({
       </Notes>
 
       {/* Editor */}
-      <StyledFormField style={{ marginTop: globalTheme.space.xl }}>
+      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
         <DescriptionTitle>
           {t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_TITLE'
           )}
         </DescriptionTitle>
-        <Paragraph style={{ marginBottom: globalTheme.space.md }}>
+        <Paragraph style={{ marginBottom: globalTheme.space.lg }}>
           {t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION'
           )}
@@ -337,8 +337,9 @@ export const UseCaseDetails = ({
           </Col>
         </Row>
       )}
+
       {/* Link */}
-      <StyledFormField>
+      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE')}
           <Span style={{ color: globalTheme.palette.grey[600] }}>

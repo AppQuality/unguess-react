@@ -102,6 +102,10 @@ const EmptyStateText = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
+const StyledContainerCard = styled(ContainerCard)`
+  padding: ${({ theme }) => theme.space.xl};
+`;
+
 export const ModalUseCase = ({
   formikProps,
   currentUseCase,
@@ -149,7 +153,7 @@ export const ModalUseCase = ({
                 />
               </TextCasesTabs>
               <BodyScrollingContainer>
-                <ContainerCard>
+                <StyledContainerCard>
                   {use_cases && currentUseCase && use_cases.length ? (
                     <>
                       <UseCaseDetails
@@ -157,13 +161,12 @@ export const ModalUseCase = ({
                         useCase={currentUseCase}
                         useCaseIndex={useCaseIndex}
                       />
-                      <PullLeft>
+                      <PullLeft style={{ marginTop: globalTheme.space.xxl }}>
                         <FieldArray name="use_cases">
                           {({ remove }) => (
                             <Button
                               themeColor={globalTheme.palette.red[600]}
                               isBasic
-                              style={{ marginTop: globalTheme.space.xxl }}
                               onClick={() => {
                                 remove(useCaseIndex);
 
@@ -210,7 +213,7 @@ export const ModalUseCase = ({
                       </EmptyStateText>
                     </CenteredContainer>
                   )}
-                </ContainerCard>
+                </StyledContainerCard>
               </BodyScrollingContainer>
             </ContentCol>
             <HelpCol xs={4}>
