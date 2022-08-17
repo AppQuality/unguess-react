@@ -56,6 +56,7 @@ const UseCaseCardButton = styled(Card)`
   justify-content: center;
   align-items: center;
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xl};
+  border-radius: ${({ theme }) => theme.borderRadii.xl};
 `;
 
 const UseCaseCardButtonText = styled.div`
