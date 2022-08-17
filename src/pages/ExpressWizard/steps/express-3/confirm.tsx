@@ -9,6 +9,7 @@ import {
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import { addBusinessDays } from 'date-fns';
 import { EXPRESS_3_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
@@ -17,7 +18,6 @@ import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
 import { WhatConfirm } from './confirm/whatConfirm';
 import { HowConfirm } from './confirm/howConfirm';
-import { useEffect } from 'react';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
