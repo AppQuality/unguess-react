@@ -14,6 +14,7 @@ import {
   Paragraph,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FieldArray, FormikProps } from 'formik';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
@@ -69,11 +70,11 @@ const CenteredContainer = styled.div`
   flex: 1;
 `;
 
-const PullRight = styled.div`
+const PullLeft = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
@@ -156,11 +157,13 @@ export const ModalUseCase = ({
                         useCase={currentUseCase}
                         useCaseIndex={useCaseIndex}
                       />
-                      <PullRight>
+                      <PullLeft>
                         <FieldArray name="use_cases">
                           {({ remove }) => (
                             <Button
                               themeColor={globalTheme.palette.red[600]}
+                              isBasic
+                              style={{ marginTop: globalTheme.space.xxl }}
                               onClick={() => {
                                 remove(useCaseIndex);
 
@@ -179,13 +182,16 @@ export const ModalUseCase = ({
                                 }
                               }}
                             >
+                              <Button.StartIcon>
+                                <TrashIcon />
+                              </Button.StartIcon>
                               {t(
-                                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                                '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
                               )}
                             </Button>
                           )}
                         </FieldArray>
-                      </PullRight>
+                      </PullLeft>
                     </>
                   ) : (
                     <CenteredContainer>
