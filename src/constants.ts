@@ -23,3 +23,4 @@ export const EXPRESS_USE_CASES_LIMIT = 5;
 
 export const EXPRESS_START_DATE_MAX_VALUE = 30;
 export const EXPRESS_BUSINESS_DAYS_TO_ADD = 2;
+export const EXPRESS_3_BUSINESS_DAYS_TO_ADD = 3;

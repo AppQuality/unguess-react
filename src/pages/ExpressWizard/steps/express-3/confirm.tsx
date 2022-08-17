@@ -9,6 +9,8 @@ import {
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { addBusinessDays } from 'date-fns';
+import { EXPRESS_3_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WhereConfirm } from './confirm/whereConfirm';
@@ -35,6 +37,12 @@ const StyledCard = styled(ContainerCard)`
 
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const { values } = props;
+
+  // Update the campaign_date_end field with the correct days to add
+  values.campaign_date_end = addBusinessDays(
+    new Date(),
+    EXPRESS_3_BUSINESS_DAYS_TO_ADD
+  );
 
   const hasWhatStep = values.campaign_name;
   const hasWhereStep = values.link;
