@@ -10,10 +10,10 @@ import { ReactComponent as HelpImg } from 'src/assets/modal-use-case-help.svg';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
 import { ReactComponent as CancelIcon } from 'src/assets/icons/cancel-icon.svg';
 import styled from 'styled-components';
+import { getLocalizedStrapiData } from 'src/common/utils';
 import { useAppSelector } from 'src/app/hooks';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import i18n from 'src/i18n';
-import { extractStrapiData } from 'src/common/getStrapiData';
 
 export const ScrollingContainer = styled.div`
   overflow-x: hidden;
@@ -53,7 +53,6 @@ export const ModalUseCaseHelp = () => {
   const { data, isLoading, isFetching, isError } =
     useGeti18nExpressTypesByIdQuery({
       id: expressTypeId.toString(),
-      locale: i18n.language,
       populate: {
         use_cases_help: {
           populate: {
@@ -62,10 +61,25 @@ export const ModalUseCaseHelp = () => {
             },
           },
         },
+        localizations: {
+          populate: {
+            use_cases_help: {
+              populate: {
+                suggestions: {
+                  populate: '*',
+                },
+              },
+            },
+          },
+        },
       },
     });
 
-  const expressType = extractStrapiData(data);
+  const expressType = getLocalizedStrapiData({
+    item: data,
+    language: i18n.language,
+  });
+
   const { use_cases_help: useCaseHelp } = expressType;
 
   return (
