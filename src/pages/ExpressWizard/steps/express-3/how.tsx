@@ -245,7 +245,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             <UseCaseCardButtonText>
               <UseCaseCardButtonDescription>
                 {index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
-                {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
+                {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
               </UseCaseCardButtonDescription>
               <XL isBold>{useCase.title}</XL>
               {errors &&
@@ -253,7 +253,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 errors.use_cases[useCase.id - 1] && (
                   <WarningMessage>
                     {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_INCOMEPLETE_LABEL'
+                      '__EXPRESS_3_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_INCOMEPLETE_LABEL'
                     )}
                   </WarningMessage>
                 )}
@@ -313,7 +313,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
           )}
           <UseCaseCardButtonText>
             <XL isBold>
-              {t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}
+              {t('__EXPRESS_3_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}
             </XL>
             {/* UseCase validation message */}
             {errors &&
@@ -350,5 +350,5 @@ export const HowStepValidationSchema = Yup.object().shape({
         link: Yup.string().url(),
       })
     )
-    .min(1, i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),
+    .min(1, i18n.t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),
 });
