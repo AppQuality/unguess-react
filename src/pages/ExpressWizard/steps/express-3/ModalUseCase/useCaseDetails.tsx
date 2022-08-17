@@ -198,8 +198,9 @@ export const UseCaseDetails = ({
           </Col>
         </Row>
       )}
+
       {/* Link */}
-      <StyledFormField>
+      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE')}
           <Span style={{ color: globalTheme.palette.grey[600] }}>

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { getLanguage } from 'src/pages/ExpressWizard/getLanguage';
 import { AgeRange } from './ageRange';
 import { Gender } from './gender';
 import { Digitalization } from './digitalization';
