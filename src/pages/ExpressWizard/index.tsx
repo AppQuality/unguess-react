@@ -342,22 +342,22 @@ export const ExpressWizardContainer = () => {
     );
   };
 
+  const closeExpressWizard = () => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
+      dispatch(closeWizard());
+      dispatch(resetWizard());
+      setStep(0);
+      setThankyou(false);
+      if (formRef.current) {
+        formRef.current?.resetForm();
+      }
+      toggleChat(true);
+    }
+  };
+
   return isWizardOpen ? (
-    <StyledModal
-      onClose={() => {
-        // eslint-disable-next-line no-alert
-        if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
-          dispatch(closeWizard());
-          dispatch(resetWizard());
-          setStep(0);
-          setThankyou(false);
-          if (formRef.current) {
-            formRef.current?.resetForm();
-          }
-          toggleChat(true);
-        }
-      }}
-    >
+    <StyledModal onClose={closeExpressWizard}>
       {!isThankyou ? (
         <Formik
           innerRef={formRef}
@@ -375,6 +375,7 @@ export const ExpressWizardContainer = () => {
                 <WizardHeader
                   workspace={activeWorkspace}
                   title={expressTypeData?.title ?? t('__EXPRESS_WIZARD_TITLE')}
+                  onClose={closeExpressWizard}
                 />
                 <StyledModal.Close
                   id="express-wizard-close-button"
