@@ -269,7 +269,7 @@
   "__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA": "is the target of the campaign?",
   "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} of {total_steps}",
   "__EXPRESS_WIZARD_SUBMIT_ERROR": "An error occurred, please try again.",
-  "__EXPRESS_WIZARD_TITLE": "New express exploratory test",
+  "__EXPRESS_WIZARD_TITLE": "New express test",
   "__FORM_FIELD_REQUIRED_MESSAGE": "This field is required",
   "__FORM_OPTIONAL_LABEL": "(optional)",
   "__FUNCTIONAL_LABEL": "Functional",

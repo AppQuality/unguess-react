@@ -374,7 +374,7 @@ export const ExpressWizardContainer = () => {
               >
                 <WizardHeader
                   workspace={activeWorkspace}
-                  title={t('__EXPRESS_WIZARD_TITLE')}
+                  title={expressTypeData?.title ?? t('__EXPRESS_WIZARD_TITLE')}
                 />
                 <StyledModal.Close
                   id="express-wizard-close-button"
