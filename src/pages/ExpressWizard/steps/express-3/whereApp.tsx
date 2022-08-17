@@ -83,9 +83,8 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
             </Trans>
           </XXL>
           <MD>
-            <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_SUBTITLE">
-              Choose what kind of <Span isBold>devices</Span> do you want to
-              test on
+            <Trans i18nKey="__EXPRESS_3_WIZARD_STEP_WHERE_SUBTITLE">
+              Choose a <Span isBold>device</Span> you want to test on
             </Trans>
           </MD>
         </WizardCol>

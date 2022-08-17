@@ -14,6 +14,7 @@ import {
   Paragraph,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FieldArray, FormikProps } from 'formik';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
@@ -29,6 +30,9 @@ const Body = styled(ModalFullScreen.Body)`
   ::-webkit-scrollbar {
     display: none;
   }
+
+  max-width: ${({ theme }) => theme.breakpoints.xl};
+  margin: 0 auto;
 `;
 
 const ContentCol = styled(Col)`
@@ -44,6 +48,7 @@ const ContentCol = styled(Col)`
 
 const HelpCol = styled(Col)`
   border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
+  border-right: 1px solid ${({ theme }) => theme.palette.grey[300]};
   background-color: white;
   margin-bottom: 0;
   padding: 0;
@@ -55,7 +60,7 @@ const TextCasesTabs = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.space.md};
   width: 100%;
   position: sticky;
   top: 0;
@@ -69,11 +74,11 @@ const CenteredContainer = styled.div`
   flex: 1;
 `;
 
-const PullRight = styled.div`
+const PullLeft = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
@@ -99,6 +104,14 @@ const EmptyStateTitle = styled(LG)`
 
 const EmptyStateText = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
+`;
+
+const StyledContainerCard = styled(ContainerCard)`
+  padding: ${({ theme }) => theme.space.xl};
+`;
+
+const StyledModal = styled(ModalFullScreen)`
+  background-color: ${({ theme }) => theme.palette.grey[100]};
 `;
 
 export const ModalUseCase = ({
@@ -132,10 +145,12 @@ export const ModalUseCase = ({
   };
 
   return isUseCaseModalOpen ? (
-    <ModalFullScreen onClose={closeModal}>
-      <ModalFullScreen.Header>
+    <StyledModal onClose={closeModal}>
+      <StyledModal.Header
+        style={{ backgroundColor: globalTheme.palette.white }}
+      >
         <ModalUseCaseHeader onClose={closeModal} />
-      </ModalFullScreen.Header>
+      </StyledModal.Header>
       <Body>
         <Grid style={{ height: '100%' }}>
           <Row style={{ height: '100%' }}>
@@ -148,7 +163,7 @@ export const ModalUseCase = ({
                 />
               </TextCasesTabs>
               <BodyScrollingContainer>
-                <ContainerCard>
+                <StyledContainerCard>
                   {use_cases && currentUseCase && use_cases.length ? (
                     <>
                       <UseCaseDetails
@@ -156,11 +171,12 @@ export const ModalUseCase = ({
                         useCase={currentUseCase}
                         useCaseIndex={useCaseIndex}
                       />
-                      <PullRight>
+                      <PullLeft style={{ marginTop: globalTheme.space.xxl }}>
                         <FieldArray name="use_cases">
                           {({ remove }) => (
                             <Button
                               themeColor={globalTheme.palette.red[600]}
+                              isBasic
                               onClick={() => {
                                 remove(useCaseIndex);
 
@@ -179,13 +195,16 @@ export const ModalUseCase = ({
                                 }
                               }}
                             >
+                              <Button.StartIcon>
+                                <TrashIcon />
+                              </Button.StartIcon>
                               {t(
-                                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                                '__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
                               )}
                             </Button>
                           )}
                         </FieldArray>
-                      </PullRight>
+                      </PullLeft>
                     </>
                   ) : (
                     <CenteredContainer>
@@ -204,7 +223,7 @@ export const ModalUseCase = ({
                       </EmptyStateText>
                     </CenteredContainer>
                   )}
-                </ContainerCard>
+                </StyledContainerCard>
               </BodyScrollingContainer>
             </ContentCol>
             <HelpCol xs={4}>
@@ -213,6 +232,6 @@ export const ModalUseCase = ({
           </Row>
         </Grid>
       </Body>
-    </ModalFullScreen>
+    </StyledModal>
   ) : null;
 };

@@ -37,7 +37,7 @@ export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
           marginLeft: globalTheme.space.sm,
         }}
       />
-      <ModalTitle>{t('__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE')}</ModalTitle>
+      <ModalTitle>{t('__WIZARD_3_EXPRESS_USE_CASE_MODAL_TITLE')}</ModalTitle>
     </Container>
   );
 };

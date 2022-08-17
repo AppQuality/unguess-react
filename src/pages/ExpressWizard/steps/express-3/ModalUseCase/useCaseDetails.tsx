@@ -15,7 +15,7 @@ import { FormikProps } from 'formik';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -64,18 +64,23 @@ export const UseCaseDetails = ({
     }
   }, [editorChars]);
 
+  useEffect(() => {
+    setIsEditing(false);
+  }, [useCase]);
+
   return (
     <>
       {/* Title */}
       <StyledFormField style={{ marginTop: 0 }}>
         <Label>
-          {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
+          {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
           <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
         </Label>
         <Input
           type="text"
+          key={`use_cases[${useCaseIndex}].title`}
           placeholder={t(
-            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
+            '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
           )}
           focusInset
           {...(useCase &&
@@ -85,11 +90,13 @@ export const UseCaseDetails = ({
           {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
           {...(useCaseErrors &&
             useCaseErrors?.title && { validation: 'error' })}
-          onBlur={() => validateForm()}
+          onBlur={() => {
+            validateForm();
+          }}
         />
         {useCaseErrors && useCaseErrors?.title && (
           <HelpTextMessage validation="error">
-            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
+            {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
           </HelpTextMessage>
         )}
       </StyledFormField>
@@ -191,8 +198,9 @@ export const UseCaseDetails = ({
           </Col>
         </Row>
       )}
+
       {/* Link */}
-      <StyledFormField>
+      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE')}
           <Span style={{ color: globalTheme.palette.grey[600] }}>

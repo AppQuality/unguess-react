@@ -4,7 +4,6 @@ import {
   What as WhatExpress1,
   Who as WhoExpress1,
   Where as WhereExpress1,
-  When as WhenExpress1,
   Confirmation as ConfirmationExpress1,
 } from './express-1';
 
@@ -55,12 +54,6 @@ export const useExpressStep = (type: string): Array<StepItem> => {
         ConfirmationExpress2,
       ];
     default: // exploratory-test
-      return [
-        WhatExpress1,
-        WhereExpress1,
-        WhoExpress1,
-        WhenExpress1,
-        ConfirmationExpress1,
-      ];
+      return [WhatExpress1, WhereExpress1, WhoExpress1, ConfirmationExpress1];
   }
 };

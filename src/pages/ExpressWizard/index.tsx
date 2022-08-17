@@ -5,8 +5,15 @@ import {
   ModalFullScreen,
   Row,
   Stepper,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
-import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import {
+  Form,
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  setNestedObjectValues,
+} from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -62,6 +69,32 @@ const StyledContainer = styled(ContainerCard)`
 
 const StyledFooterItem = styled(ModalFullScreen.FooterItem)`
   align-items: center;
+`;
+
+const StyledModalBody = styled(ModalFullScreen.Body)`
+  margin: 0 auto;
+`;
+
+const ModalFooter = styled.div`
+  background-color: ${({ theme }) => theme.palette.white};
+`;
+
+const StyledModalNav = styled.div`
+  margin-left: 0;
+  margin-right: 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    width: ${({ theme }) => theme.breakpoints.xl};
+    margin: 0 auto;
+  }
+`;
+
+const StyledModal = styled(ModalFullScreen)`
+  background-color: ${({ theme }) => theme.palette.grey[100]};
+
+  ${StyledModalBody}, ${StyledModalNav} {
+    max-width: ${({ theme }) => theme.breakpoints.xl};
+  }
 `;
 
 const getValidationSchema = (step: number, steps: StepItem[]) => {
@@ -136,9 +169,12 @@ export const ExpressWizardContainer = () => {
     if (activeStep === steps.length - 1) {
       setThankyou(true);
     } else if (formRef.current) {
-      formRef.current?.validateForm().then(() => {
+      formRef.current?.validateForm().then((errors) => {
         if (formRef.current?.isValid) {
           setStep(activeStep + 1);
+        } else {
+          // We want to touch all the fields to show the error
+          formRef.current?.setTouched(setNestedObjectValues(errors, true));
         }
       });
     }
@@ -305,7 +341,7 @@ export const ExpressWizardContainer = () => {
   };
 
   return isWizardOpen ? (
-    <ModalFullScreen
+    <StyledModal
       onClose={() => {
         // eslint-disable-next-line no-alert
         if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
@@ -331,17 +367,19 @@ export const ExpressWizardContainer = () => {
         >
           {(formProps: FormikProps<WizardModel>) => (
             <>
-              <ModalFullScreen.Header>
+              <StyledModal.Header
+                style={{ backgroundColor: globalTheme.palette.white }}
+              >
                 <WizardHeader
                   workspace={activeWorkspace}
                   title={t('__EXPRESS_WIZARD_TITLE')}
                 />
-                <ModalFullScreen.Close
+                <StyledModal.Close
                   id="express-wizard-close-button"
                   aria-label="Close modal"
                 />
-              </ModalFullScreen.Header>
-              <ModalFullScreen.Body>
+              </StyledModal.Header>
+              <StyledModalBody>
                 <Form onSubmit={formProps.handleSubmit}>
                   <Row>
                     <Col xs={12} lg={3}>
@@ -364,39 +402,43 @@ export const ExpressWizardContainer = () => {
                     </Col>
                   </Row>
                 </Form>
-              </ModalFullScreen.Body>
-              <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                <Col
-                  xs={12}
-                  lg={9}
-                  xl={6}
-                  offsetLg={3}
-                  style={{ marginBottom: 0 }}
-                >
-                  <ModalFullScreen.Footer>
-                    <StyledFooterItem>
-                      {formProps.status && formProps.status.submitError && (
-                        <Message validation="error">
-                          {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
-                        </Message>
-                      )}
-                    </StyledFooterItem>
-                    <StyledFooterItem>
-                      {steps[activeStep as number].buttons({
-                        formikArgs: formProps,
-                        onBackClick: onBack,
-                        onNextClick: onNext,
-                      })}
-                    </StyledFooterItem>
-                  </ModalFullScreen.Footer>
-                </Col>
-              </Row>
+              </StyledModalBody>
+              <ModalFooter>
+                <StyledModalNav>
+                  <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                    <Col
+                      xs={12}
+                      lg={9}
+                      xl={6}
+                      offsetLg={3}
+                      style={{ marginBottom: 0 }}
+                    >
+                      <ModalFullScreen.Footer>
+                        <StyledFooterItem>
+                          {formProps.status && formProps.status.submitError && (
+                            <Message validation="error">
+                              {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
+                            </Message>
+                          )}
+                        </StyledFooterItem>
+                        <StyledFooterItem>
+                          {steps[activeStep as number].buttons({
+                            formikArgs: formProps,
+                            onBackClick: onBack,
+                            onNextClick: onNext,
+                          })}
+                        </StyledFooterItem>
+                      </ModalFullScreen.Footer>
+                    </Col>
+                  </Row>
+                </StyledModalNav>
+              </ModalFooter>
             </>
           )}
         </Formik>
       ) : (
         <ThankYouStep values={formValues} />
       )}
-    </ModalFullScreen>
+    </StyledModal>
   ) : null;
 };

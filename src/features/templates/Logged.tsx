@@ -13,6 +13,38 @@ import styled from 'styled-components';
 import TagManager from 'react-gtm-module';
 import { Navigation } from '../navigation/Navigation';
 
+const Container = styled.div`
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: ${({ theme }) => theme.palette.grey[100]};
+  margin: ${({ theme }) => theme.space.xxl};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    margin: ${({ theme }) => theme.space.md};
+  }
+
+  max-width: ${({ theme }) => theme.breakpoints.xl};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    margin: ${({ theme }) => theme.space.xxl} auto;
+  }
+`;
+
+const StyledMain = styled(Main)`
+  background-color: transparent;
+  margin: 0;
+`;
+
 export const Logged = ({
   children,
   pageHeader,
@@ -25,27 +57,6 @@ export const Logged = ({
   const loginRoute = useLocalizeRoute('login');
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const navigate = useNavigate();
-
-  const Container = styled.div`
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    ::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Hide scrollbar for IE, Edge and Firefox */
-
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: ${({ theme }) => theme.palette.grey[100]};
-    margin: ${({ theme }) => theme.space.xxl};
-
-    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-      margin: ${({ theme }) => theme.space.md};
-    }
-  `;
 
   const { status, userData } = useAppSelector((state) => state.user);
 
@@ -76,10 +87,10 @@ export const Logged = ({
     <Chrome isFluid hue={globalTheme.palette.white}>
       <Body style={{ backgroundColor: globalTheme.palette.grey[100] }}>
         <Navigation route={route}>
-          <Main id="main" style={{ backgroundColor: 'transparent', margin: 0 }}>
+          <StyledMain id="main">
             {pageHeader && pageHeader}
             <Container>{children}</Container>
-          </Main>
+          </StyledMain>
         </Navigation>
       </Body>
     </Chrome>

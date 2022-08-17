@@ -59,6 +59,7 @@ const UseCaseCardButton = styled(Card)`
   justify-content: center;
   align-items: center;
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xl};
+  border-radius: ${({ theme }) => theme.borderRadii.xl};
 `;
 
 const UseCaseCardButtonText = styled.div`
@@ -76,7 +77,7 @@ const UseCaseCardButtonDescription = styled(SM)`
 `;
 
 const WarningMessage = styled(SM)`
-  color: ${({ theme }) => theme.colors.warningHue};
+  color: ${({ theme }) => theme.palette.yellow[800]};
 `;
 
 const UseCaseEditLabel = styled(Paragraph)`
@@ -106,7 +107,8 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
   const dispatch = useAppDispatch();
   const [currentUseCase, setCurrentUseCase] = useState<UseCase | undefined>();
   const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
-  const { values, getFieldProps, setValues, validateForm, errors } = props;
+  const { values, getFieldProps, setValues, validateForm, errors, touched } =
+    props;
   const { use_cases } = values;
 
   const { expressTypeId } = useAppSelector((state) => state.express);
@@ -134,6 +136,12 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
       setHighestUseCaseId(highestUCId);
     }
   }, [use_cases]);
+
+  useEffect(() => {
+    if (Array.isArray(use_cases) && use_cases.length > 0) {
+      validateForm();
+    }
+  }, []);
 
   if (isLoading) {
     return <HowLoading />;
@@ -237,7 +245,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             <UseCaseCardButtonText>
               <UseCaseCardButtonDescription>
                 {index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
-                {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
+                {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
               </UseCaseCardButtonDescription>
               <XL isBold>{useCase.title}</XL>
               {errors &&
@@ -245,7 +253,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 errors.use_cases[useCase.id - 1] && (
                   <WarningMessage>
                     {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_INCOMEPLETE_LABEL'
+                      '__EXPRESS_3_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_INCOMEPLETE_LABEL'
                     )}
                   </WarningMessage>
                 )}
@@ -296,6 +304,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
           style={{ marginTop: globalTheme.space.md }}
         >
           {errors &&
+          touched.use_cases &&
           errors.use_cases &&
           typeof errors.use_cases === 'string' ? (
             <ErrorIcon />
@@ -304,10 +313,11 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
           )}
           <UseCaseCardButtonText>
             <XL isBold>
-              {t('__EXPRESS_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}
+              {t('__EXPRESS_3_WIZARD_STEP_HOW_ADD_USE_CASE_CARD_TITLE')}
             </XL>
             {/* UseCase validation message */}
             {errors &&
+            touched.use_cases &&
             errors.use_cases &&
             typeof errors.use_cases === 'string' ? (
               <UseCaseCardButtonDescription
@@ -336,12 +346,9 @@ export const HowStepValidationSchema = Yup.object().shape({
     .of(
       Yup.object().shape({
         title: Yup.string().required(),
-        functionality: Yup.object().shape({
-          title: Yup.string().required(),
-        }),
         description: Yup.string().required(),
         link: Yup.string().url(),
       })
     )
-    .min(1, i18n.t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),
+    .min(1, i18n.t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_MIN_ERROR')),
 });
