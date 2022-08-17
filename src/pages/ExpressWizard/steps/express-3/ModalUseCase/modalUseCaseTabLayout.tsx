@@ -134,7 +134,9 @@ export const ModalUseCaseTabLayout = ({
                     })}
                   onClick={() => handleCurrentUseCase(useCase)}
                 >
-                  {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}{' '}
+                  {t(
+                    '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
+                  )}{' '}
                   {index + 1}
                 </UseCaseCard>
               ))}

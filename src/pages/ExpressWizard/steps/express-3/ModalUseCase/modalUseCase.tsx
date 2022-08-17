@@ -213,12 +213,12 @@ export const ModalUseCase = ({
                       />
                       <EmptyStateTitle>
                         {t(
-                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'
+                          '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'
                         )}
                       </EmptyStateTitle>
                       <EmptyStateText>
                         {t(
-                          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_DESCRIPTION'
+                          '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_DESCRIPTION'
                         )}
                       </EmptyStateText>
                     </CenteredContainer>

@@ -73,14 +73,14 @@ export const UseCaseDetails = ({
       {/* Title */}
       <StyledFormField style={{ marginTop: 0 }}>
         <Label>
-          {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
+          {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
           <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
         </Label>
         <Input
           type="text"
           key={`use_cases[${useCaseIndex}].title`}
           placeholder={t(
-            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
+            '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
           )}
           focusInset
           {...(useCase &&
@@ -96,7 +96,7 @@ export const UseCaseDetails = ({
         />
         {useCaseErrors && useCaseErrors?.title && (
           <HelpTextMessage validation="error">
-            {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
+            {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
           </HelpTextMessage>
         )}
       </StyledFormField>
