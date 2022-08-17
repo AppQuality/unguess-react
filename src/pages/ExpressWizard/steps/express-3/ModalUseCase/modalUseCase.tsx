@@ -30,6 +30,9 @@ const Body = styled(ModalFullScreen.Body)`
   ::-webkit-scrollbar {
     display: none;
   }
+
+  max-width: ${({ theme }) => theme.breakpoints.xl};
+  margin: 0 auto;
 `;
 
 const ContentCol = styled(Col)`
@@ -45,6 +48,7 @@ const ContentCol = styled(Col)`
 
 const HelpCol = styled(Col)`
   border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
+  border-right: 1px solid ${({ theme }) => theme.palette.grey[300]};
   background-color: white;
   margin-bottom: 0;
   padding: 0;
@@ -106,6 +110,10 @@ const StyledContainerCard = styled(ContainerCard)`
   padding: ${({ theme }) => theme.space.xl};
 `;
 
+const StyledModal = styled(ModalFullScreen)`
+  background-color: ${({ theme }) => theme.palette.grey[100]};
+`;
+
 export const ModalUseCase = ({
   formikProps,
   currentUseCase,
@@ -137,10 +145,12 @@ export const ModalUseCase = ({
   };
 
   return isUseCaseModalOpen ? (
-    <ModalFullScreen onClose={closeModal}>
-      <ModalFullScreen.Header>
+    <StyledModal onClose={closeModal}>
+      <StyledModal.Header
+        style={{ backgroundColor: globalTheme.palette.white }}
+      >
         <ModalUseCaseHeader onClose={closeModal} />
-      </ModalFullScreen.Header>
+      </StyledModal.Header>
       <Body>
         <Grid style={{ height: '100%' }}>
           <Row style={{ height: '100%' }}>
@@ -222,6 +232,6 @@ export const ModalUseCase = ({
           </Row>
         </Grid>
       </Body>
-    </ModalFullScreen>
+    </StyledModal>
   ) : null;
 };
