@@ -109,7 +109,7 @@ export const UseCaseDetails = ({
       useCase.description = editorContent;
       setIsEditing(false);
     }
-  }, [editorChars]);
+  }, [editorChars, editorContent]);
 
   useEffect(() => {
     setSelectedFunc(useCase ? useCase.functionality : undefined);
@@ -285,7 +285,7 @@ export const UseCaseDetails = ({
       </StyledFormField>
       {isEditing && (
         <Row alignItems="center" style={{ marginTop: globalTheme.space.lg }}>
-          <Col sm="6" md="8" lg="9">
+          <Col xs="12" sm="6" md="7" lg="8">
             {!editorChars ? (
               <Notes hasIcon validation="error">
                 <InfoIcon />
@@ -316,7 +316,7 @@ export const UseCaseDetails = ({
               </Notes>
             )}
           </Col>
-          <Col textAlign="end">
+          <Col textAlign="end" textAlignXs="center">
             <Button
               onClick={() => {
                 setEditorContent(useCase ? useCase.description : '');

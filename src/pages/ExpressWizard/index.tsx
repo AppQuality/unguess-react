@@ -75,8 +75,6 @@ const StyledFooterItem = styled(ModalFullScreen.FooterItem)`
   align-items: center;
 `;
 
-// const ModalFullScreen.Body = styled(ModalFullScreen.Body)``;
-
 const StyledModalContent = styled.div`
   margin: 0 auto;
 `;
@@ -361,6 +359,14 @@ export const ExpressWizardContainer = () => {
     }
   };
 
+  // Hardcoded breadcrumbs for Wizard (only Services page)
+  const breadcrumbs = [
+    {
+      name: t('__BREADCRUMB_ITEM_SERVICES'),
+      onClick: closeExpressWizard,
+    },
+  ];
+
   return isWizardOpen ? (
     <StyledModal onClose={closeExpressWizard}>
       {!isThankyou ? (
@@ -378,9 +384,8 @@ export const ExpressWizardContainer = () => {
                 style={{ backgroundColor: globalTheme.palette.white }}
               >
                 <WizardHeader
-                  workspace={activeWorkspace}
+                  breadcrumbs={breadcrumbs}
                   title={expressTypeData?.title ?? t('__EXPRESS_WIZARD_TITLE')}
-                  onClose={closeExpressWizard}
                 />
                 <StyledModal.Close
                   id="express-wizard-close-button"

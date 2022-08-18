@@ -63,7 +63,7 @@ export const UseCaseDetails = ({
       useCase.description = editorContent;
       setIsEditing(false);
     }
-  }, [editorChars]);
+  }, [editorChars, editorContent]);
 
   useEffect(() => {
     setIsEditing(false);
@@ -116,10 +116,12 @@ export const UseCaseDetails = ({
         </Paragraph>
         {isEditing ? (
           <Editor
+            key={`use_cases[${useCaseIndex}].description`}
             onUpdate={({ editor }) => {
               setEditorChars(editor.storage.characterCount.characters());
               setEditorContent(editor.getHTML());
             }}
+            hasInlineMenu
             onSave={handleSave}
           >
             {useCase ? useCase.description : ''}
