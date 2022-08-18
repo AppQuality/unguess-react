@@ -88,7 +88,7 @@
     "__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE": "Titolo user task",
     "__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED": "Campo obbligatorio",
     "__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL": "User Task",
-    "__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT": "Hanno un’età compresa fra i  <1><0>{{age_range_start}}</0> e i <2>{{age_range_end}}</2></1> anni.",
+    "__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT": "Hanno un’età compresa fra i <1><0>{{age_range_start}}</0> e i <2>{{age_range_end}}</2></1> anni.",
     "__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT_ALL": "Sono <1>equamente distribuiti</1> per <3>età</3>.",
     "__EXPRESS_3_WIZARD_STEP_RECAP_WHO_DIGITALIZATION_TEXT_ALL": "Sono <1>equamente distribuiti</1> per <4>alfabetizzazione digitale</4>.",
     "__EXPRESS_3_WIZARD_STEP_RECAP_WHO_DIGITALIZATION_TEXT_BEGINNER": "Hanno un <1>livello basso</1> di <4>alfabetizzazione digitale</4>.",
