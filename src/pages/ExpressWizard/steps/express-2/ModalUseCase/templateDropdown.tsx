@@ -141,7 +141,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
             )}
         </Autocomplete>
       </DropdownField>
-      <Menu>
+      <Menu style={{ maxHeight: '250px' }}>
         {matchingOptions.length ? (
           matchingOptions.map((group: UseCaseTemplate[]) => (
             <>

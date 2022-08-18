@@ -96,7 +96,7 @@ export const ProjectDropdown = () => {
           {selectedItem ? selectedItem.name : placeholder.name}
         </Autocomplete>
       </Field>
-      <Menu>
+      <Menu style={{ maxHeight: '205px' }}>
         {matchingOptions.length ? (
           matchingOptions.map((item) => (
             <Item key={item.id} value={item}>
