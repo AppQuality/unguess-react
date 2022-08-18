@@ -17,7 +17,11 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeWizard, resetWizard } from 'src/features/express/expressSlice';
+import {
+  closeDrawer,
+  closeWizard,
+  resetWizard,
+} from 'src/features/express/expressSlice';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import {
@@ -345,6 +349,7 @@ export const ExpressWizardContainer = () => {
   const closeExpressWizard = () => {
     // eslint-disable-next-line no-alert
     if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
+      dispatch(closeDrawer());
       dispatch(closeWizard());
       dispatch(resetWizard());
       setStep(0);
