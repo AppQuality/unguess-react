@@ -184,7 +184,12 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
       <StyledRow style={{ marginTop: theme.space.lg }}>
         {/** LG: 32px */}
         <WizardCol>
-          <MD style={{ color: theme.palette.grey[800] }}>
+          <MD
+            style={{
+              color: theme.palette.grey[800],
+              fontWeight: theme.fontWeights.medium,
+            }}
+          >
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
           </MD>
         </WizardCol>

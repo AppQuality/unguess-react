@@ -39,7 +39,7 @@ export const OutOfScopeSection = ({
           <MD
             style={{
               color: globalTheme.palette.grey[800],
-              fontWeight: globalTheme.fontWeights.semibold,
+              fontWeight: globalTheme.fontWeights.medium,
             }}
           >
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TOGGLE_LABEL')}
