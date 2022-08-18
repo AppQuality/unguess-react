@@ -36,10 +36,7 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
   const breadcrumbs = [
     {
       name: t('__BREADCRUMB_ITEM_SERVICES'),
-      onClick: () => {
-        dispatch(closeWizard());
-        dispatch(closeDrawer());
-      },
+      onClick: handleClose,
     },
   ];
 
