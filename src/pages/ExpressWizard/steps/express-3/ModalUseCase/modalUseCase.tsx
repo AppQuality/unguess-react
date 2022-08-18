@@ -178,20 +178,29 @@ export const ModalUseCase = ({
                               themeColor={globalTheme.palette.red[600]}
                               isBasic
                               onClick={() => {
-                                remove(useCaseIndex);
+                                if (
+                                  // eslint-disable-next-line no-alert
+                                  window.confirm(
+                                    t(
+                                      '__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE'
+                                    )
+                                  )
+                                ) {
+                                  remove(useCaseIndex);
 
-                                // Set current use case
-                                if (useCaseIndex === 0) {
-                                  // If there is at least an other use case next, set it
-                                  if (use_cases[useCaseIndex + 1]) {
-                                    setUseCase(use_cases[useCaseIndex + 1]);
-                                  } else {
-                                    // Clear current use case
-                                    setUseCase();
+                                  // Set current use case
+                                  if (useCaseIndex === 0) {
+                                    // If there is at least an other use case next, set it
+                                    if (use_cases[useCaseIndex + 1]) {
+                                      setUseCase(use_cases[useCaseIndex + 1]);
+                                    } else {
+                                      // Clear current use case
+                                      setUseCase();
+                                    }
+                                  } else if (useCaseIndex > 0) {
+                                    // Set the previous one
+                                    setUseCase(use_cases[useCaseIndex - 1]);
                                   }
-                                } else if (useCaseIndex > 0) {
-                                  // Set the previous one
-                                  setUseCase(use_cases[useCaseIndex - 1]);
                                 }
                               }}
                             >
