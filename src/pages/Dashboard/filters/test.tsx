@@ -33,7 +33,9 @@ export const TestTypeDropdown = () => {
   };
 
   const onSelectItem = (item: DropdownItem) => {
-    dispatch(testTypeFilterChanged(Number(item.value)));
+    dispatch(
+      testTypeFilterChanged(item.value === 'all' ? 0 : Number(item.value))
+    );
   };
 
   if (availableTests.length) {
