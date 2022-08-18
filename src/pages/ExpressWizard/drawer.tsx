@@ -9,12 +9,20 @@ import {
   UnorderedList,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
-import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
-import { ReactComponent as BugIcon } from 'src/assets/icons/bug-icon.svg';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeDrawer, resetWizard } from 'src/features/express/expressSlice';
-import { toggleChat } from 'src/common/utils';
+import {
+  closeDrawer,
+  resetExpressTypeId,
+  resetWizard,
+} from 'src/features/express/expressSlice';
+import { getLocalizedStrapiData, toggleChat } from 'src/common/utils';
+import {
+  useGeti18nExpressTypesByIdQuery,
+  TagItem,
+} from 'src/features/backoffice/strapi';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { STRAPI_URL } from 'src/constants';
+import i18n from 'src/i18n';
 import { ProjectDropdown } from './projectDropdown';
 import { WaterButton } from '../../common/components/waterButton';
 import { CardDivider } from './cardDivider';
@@ -27,6 +35,10 @@ const SelectTitle = styled(MD)`
 
 const TagsContainer = styled.div`
   margin-top: ${theme.space.base * 4}px;
+  display: flex;
+  flex-align: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 `;
 
 const BodyTitle = styled(XXL)`
@@ -47,40 +59,73 @@ const StyledTag = styled(Tag)`
 export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { isDrawerOpen, project, expressTypeId } = useAppSelector(
+    (state) => state.express
+  );
+
+  const { data, isLoading, isError } = useGeti18nExpressTypesByIdQuery({
+    id: expressTypeId?.toString() || '0',
+    populate: {
+      tags: {
+        populate: '*',
+      },
+      start_reasons: {
+        populate: '*',
+      },
+      localizations: {
+        populate: {
+          tags: {
+            populate: '*',
+          },
+          start_reasons: {
+            populate: '*',
+          },
+        },
+      },
+    },
+  });
+
+  // Get localized strapi data
+  if (!data) return null;
+
+  const expressData = getLocalizedStrapiData({
+    item: data,
+    language: i18n.language,
+  });
 
   const onClose = () => {
     dispatch(resetWizard());
+    dispatch(resetExpressTypeId());
     dispatch(closeDrawer());
     toggleChat(true);
   };
 
-  const { isDrawerOpen, project } = useAppSelector((state) => state.express);
+  if (isError) {
+    return null;
+  }
 
-  return (
-    <Drawer isOpen={isDrawerOpen} onClose={onClose}>
+  return !isLoading ? (
+    <Drawer isOpen={isDrawerOpen} onClose={onClose} restoreFocus={false}>
       <Drawer.Header>{t('__WIZARD_EXPRESS_HEADER_TITLE')}</Drawer.Header>
       <Drawer.Body>
-        <BodyTitle>{t('__WIZARD_EXPRESS_BODY_TITLE')}</BodyTitle>
-        <Paragraph>{t('__WIZARD_EXPRESS_BODY_PARAGRAPH')}</Paragraph>
+        <BodyTitle>{expressData.title}</BodyTitle>
+        <Paragraph>{expressData.description}</Paragraph>
         <TagsContainer>
-          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
-            <StyledTag.Avatar>
-              <ExpressIcon />
-            </StyledTag.Avatar>
-            <span>{t('__WIZARD_EXPRESS_TAG_1_TEXT')}</span>
-          </StyledTag>
-          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
-            <StyledTag.Avatar>
-              <FunctionalIcon />
-            </StyledTag.Avatar>
-            <span>{t('__WIZARD_EXPRESS_TAG_2_TEXT')}</span>
-          </StyledTag>
-          <StyledTag hue={theme.palette.grey[100]} isPill size="large">
-            <StyledTag.Avatar>
-              <BugIcon />
-            </StyledTag.Avatar>
-            <span>{t('__WIZARD_EXPRESS_TAG_3_TEXT')}</span>
-          </StyledTag>
+          {expressData.tags.map((tag: TagItem) => {
+            const icon = extractStrapiData(tag.icon);
+            return (
+              <StyledTag hue={theme.palette.grey[100]} isPill size="large">
+                <StyledTag.Avatar>
+                  <img
+                    key={`tag_${tag.id}`}
+                    src={`${STRAPI_URL}${icon.url}`}
+                    alt={icon.alternativeText}
+                  />
+                </StyledTag.Avatar>
+                <span>{tag.label}</span>
+              </StyledTag>
+            );
+          })}
         </TagsContainer>
         <CardDivider />
         <SelectTitle>
@@ -89,26 +134,20 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
         <ProjectDropdown />
         <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
           <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
-          <Paragraph>{t('__WIZARD_EXPRESS_BODY_NOTES_PARAGRAPH')}</Paragraph>
+          <Paragraph>{expressData.before_starting_info}</Paragraph>
           <UnorderedList>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_1')}
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_2')}
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_3')}
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              {t('__WIZARD_EXPRESS_BODY_NOTES_LIST_ITEM_4')}
-            </UnorderedList.Item>
+            {expressData.start_reasons.map(
+              (reason: { id: number; item: string }) => (
+                <UnorderedList.Item>{reason.item}</UnorderedList.Item>
+              )
+            )}
           </UnorderedList>
         </Notes>
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
           <WaterButton
+            id="express-drawer-start-button"
             isPrimary
             isPill
             onClick={onCtaClick}
@@ -118,7 +157,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
-      <Drawer.Close onClick={onClose} />
+      <Drawer.Close id="express-drawer-close-button" onClick={onClose} />
     </Drawer>
-  );
+  ) : null;
 };

@@ -1,4 +1,4 @@
-import { Paragraph, XXL } from '@appquality/unguess-design-system';
+import { Paragraph, Row, XXL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -10,7 +10,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { LoadingServices } from './LoadingServices';
-import { Services } from './services-list';
+import { ServiceItem } from './services-list/serviceItem';
 
 const SectionTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.xs};
@@ -25,19 +25,16 @@ const FeaturedContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxl};
 `;
 
-export const Featured = () => {
+export const Featured = ({ handleHubspot }: { handleHubspot: () => void }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { status } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const notFoundRoute = useLocalizeRoute('oops');
-
-  const hasExpress =
-    status === 'logged' && hasEnoughCoins({ workspace: activeWorkspace });
 
   const {
     data: featuredData,
     isLoading,
+    isFetching,
     isError,
   } = useGeti18nServicesFeaturedQuery({
     populate: '*',
@@ -53,23 +50,27 @@ export const Featured = () => {
     },
   });
 
-  const featured: Array<any> = [];
-
-  const formattedFeatured = extractStrapiData(featuredData);
-
+  let formattedFeatured = [];
   if (featuredData) {
-    formattedFeatured.forEach((service: any) => {
-      if (!service.is_express || hasExpress) {
-        featured.push(service);
-      }
-    });
+    formattedFeatured = extractStrapiData(featuredData);
+  }
+
+  // Reduce the featured services to only the ones that have enough coins
+  let featuredServices = [];
+  if (formattedFeatured) {
+    featuredServices = formattedFeatured.filter((service: any) =>
+      hasEnoughCoins({
+        workspace: activeWorkspace,
+        coins: extractStrapiData(service.express).price,
+      })
+    );
   }
 
   if (isError) {
     navigate(notFoundRoute, { replace: true });
   }
 
-  if (isLoading || status === 'loading') {
+  if (isLoading || isFetching) {
     return (
       <FeaturedContainer>
         <LoadingServices />
@@ -77,12 +78,20 @@ export const Featured = () => {
     );
   }
 
-  return featured.length ? (
+  return featuredServices.length ? (
     <FeaturedContainer id="featured">
       <SectionTitle>{t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}</SectionTitle>
       <Paragraph>{t('__CATALOG_PAGE_CONTENT_FEATURED_PARAGRAPH')}</Paragraph>
       <StyledDivider />
-      <Services services={featured} />
+      <Row>
+        {featuredServices.map((featured: any) => (
+          <ServiceItem
+            serviceId={featured.id}
+            key={featured.id}
+            handleHubspot={handleHubspot}
+          />
+        ))}
+      </Row>
     </FeaturedContainer>
   ) : null;
 };

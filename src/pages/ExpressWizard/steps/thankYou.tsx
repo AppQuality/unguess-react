@@ -8,26 +8,43 @@ import {
   ModalFullScreen,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppDispatch } from 'src/app/hooks';
 import {
   closeDrawer,
   closeWizard,
   resetWizard,
 } from 'src/features/express/expressSlice';
 import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
-import { WaterButton } from '../../../common/components/waterButton';
-import { WizardHeader } from '../wizardHeader';
+import { WaterButton } from 'src/common/components/waterButton';
+import { WizardHeader } from 'src/pages/ExpressWizard/wizardHeader';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
-export const ThankYouStep = () => {
+export const ThankYouStep = ({ values }: { values: WizardModel }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+
+  const handleClose = () => {
+    dispatch(closeDrawer());
+    dispatch(closeWizard());
+    dispatch(resetWizard());
+
+    // Refetch the data
+    window.location.reload();
+  };
+
+  // Hardcoded breadcrumbs for Wizard (only Services page)
+  const breadcrumbs = [
+    {
+      name: t('__BREADCRUMB_ITEM_SERVICES'),
+      onClick: handleClose,
+    },
+  ];
 
   return (
     <>
       <ModalFullScreen.Header>
         <WizardHeader
-          workspace={activeWorkspace}
+          breadcrumbs={breadcrumbs}
           title={t('__EXPRESS_WIZARD_TITLE')}
         />
         <ModalFullScreen.Close aria-label="Close modal" />
@@ -47,31 +64,15 @@ export const ThankYouStep = () => {
                     {t('__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE')}
                   </XXL>
                   <MD style={{ color: theme.palette.grey[600] }}>
-                    {t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE')}
+                    {values.use_cases
+                      ? t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE_USE_CASES')
+                      : t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE')}
                   </MD>
                 </Col>
               </Row>
               <Row style={{ marginTop: theme.space.xl }}>
                 <Col size={12} textAlign="center">
-                  <WaterButton
-                    isPill
-                    isPrimary
-                    onClick={() => {
-                      dispatch(closeDrawer());
-                      dispatch(closeWizard());
-                      dispatch(resetWizard());
-
-                      // Refetch the data
-                      window.location.reload();
-
-                      // dispatch(
-                      //   api.endpoints.getPosts.initiate(
-                      //     { count: 5 },
-                      //     { subscribe: false, forceRefetch: true }
-                      //   )
-                      // )
-                    }}
-                  >
+                  <WaterButton isPill isPrimary onClick={handleClose}>
                     {t('__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON')}
                   </WaterButton>
                 </Col>

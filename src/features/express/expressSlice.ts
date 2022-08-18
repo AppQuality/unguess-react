@@ -3,24 +3,27 @@ import { Project } from '../api';
 
 export interface ExpressWizardState {
   steps: { [key: string]: Step };
+  expressTypeId: number;
   project?: Project;
   projectLocked?: boolean;
   isWizardOpen?: boolean;
   isDrawerOpen?: boolean;
+  isUseCaseModalOpen?: boolean;
   isDirty?: boolean;
   currentStep?: number;
 }
 
 export interface Step {
   data: { [key: string]: string };
-  isValid?: boolean;
 }
 
 const initialState: ExpressWizardState = {
   isWizardOpen: false,
+  isUseCaseModalOpen: false,
   isDrawerOpen: false,
   steps: {},
   projectLocked: false,
+  expressTypeId: 0,
 };
 
 const expressSlice = createSlice({
@@ -38,6 +41,12 @@ const expressSlice = createSlice({
     },
     closeDrawer: (state) => {
       state.isDrawerOpen = false;
+    },
+    openUseCaseModal: (state) => {
+      state.isUseCaseModalOpen = true;
+    },
+    closeUseCaseModal: (state) => {
+      state.isUseCaseModalOpen = false;
     },
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload;
@@ -59,6 +68,12 @@ const expressSlice = createSlice({
     setExpressProject: (state, action) => {
       state.project = action.payload;
     },
+    setExpressTypeId: (state, action) => {
+      state.expressTypeId = action.payload;
+    },
+    resetExpressTypeId: (state) => {
+      state.expressTypeId = 0;
+    },
   },
 });
 
@@ -67,12 +82,16 @@ export const {
   closeWizard,
   openDrawer,
   closeDrawer,
+  openUseCaseModal,
+  closeUseCaseModal,
   setCurrentStep,
   addStep,
   removeStep,
   resetWizard,
   setExpressProject,
   lockProject,
+  setExpressTypeId,
+  resetExpressTypeId,
 } = expressSlice.actions;
 
 export default expressSlice.reducer;

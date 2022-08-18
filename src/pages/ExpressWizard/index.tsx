@@ -5,12 +5,23 @@ import {
   ModalFullScreen,
   Row,
   Stepper,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
-import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import {
+  Form,
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  setNestedObjectValues,
+} from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeWizard, resetWizard } from 'src/features/express/expressSlice';
+import {
+  closeDrawer,
+  closeWizard,
+  resetWizard,
+} from 'src/features/express/expressSlice';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import {
@@ -20,11 +31,13 @@ import {
   usePostProjectsMutation,
 } from 'src/features/api';
 import {
-  EXPRESS_CAMPAIGN_TYPE_ID,
   BASE_DATE_FORMAT,
   ZAPIER_WEBHOOK_TRIGGER,
+  EXPRESS_3_CAMPAIGN_TYPE_ID,
+  EXPRESS_2_CAMPAIGN_TYPE_ID,
+  EXPRESS_1_CAMPAIGN_TYPE_ID,
 } from 'src/constants';
-import format from 'date-fns/format';
+import { format, formatISO } from 'date-fns';
 import async from 'async';
 import {
   createCrons,
@@ -33,42 +46,21 @@ import {
   createUseCases,
 } from 'src/common/campaigns';
 import { toggleChat } from 'src/common/utils';
-import {
-  WhatStepValidationSchema,
-  WhereStepValidationSchema,
-  WhoStepValidationSchema,
-  WhenStepValidationSchema,
-  ConfirmationValidationSchema,
-  ThankYouStep,
-} from './steps';
+import i18n from 'src/i18n';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
 import defaultValues from './wizardInitialValues';
-import { reasonItems } from './steps/what';
+import { reasonItems } from './steps/express-1/what';
 import { getPlatform } from './getPlatform';
-import { WhatForm, WhatFormButtons } from './steps/forms/WhatForm';
-import { WizardButtonsProps } from './steps/forms/types';
-import { WhereForm, WhereFormButtons } from './steps/forms/WhereForm';
-import { WhoForm, WhoFormButtons } from './steps/forms/WhoForm';
-import { WhenForm, WhenFormButtons } from './steps/forms/WhenForm';
-import {
-  ConfirmationForm,
-  ConfirmationFormButtons,
-} from './steps/forms/ConfirmationForm';
-
-interface StepItem {
-  label: string;
-  content: string;
-  form: (props: FormikProps<WizardModel>) => JSX.Element;
-  validationSchema: Yup.ObjectSchema<any>;
-  buttons: (props: WizardButtonsProps) => JSX.Element;
-}
+import { StepItem, useExpressStep } from './steps/useSteps';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
   top: 0;
   padding: ${({ theme }) => theme.space.xxl};
-  paddingbottom: ${({ theme }) => theme.space.xl};
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
@@ -83,11 +75,48 @@ const StyledFooterItem = styled(ModalFullScreen.FooterItem)`
   align-items: center;
 `;
 
+const StyledModalContent = styled.div`
+  margin: 0 auto;
+`;
+
+const ModalFooter = styled.div`
+  background-color: ${({ theme }) => theme.palette.white};
+`;
+
+const StyledModalNav = styled.div`
+  margin-left: 0;
+  margin-right: 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
+    width: ${({ theme }) => theme.breakpoints.xxl};
+    margin: 0 auto;
+  }
+`;
+
+const StyledModal = styled(ModalFullScreen)`
+  background-color: ${({ theme }) => theme.palette.grey[100]};
+
+  ${StyledModalContent}, ${StyledModalNav} {
+    max-width: ${({ theme }) => theme.breakpoints.xxl};
+  }
+`;
+
 const getValidationSchema = (step: number, steps: StepItem[]) => {
   if (step in steps) {
     return steps[step as number].validationSchema;
   }
   return Yup.object();
+};
+
+const getExpressCPTypeId = (expressSlug: string) => {
+  switch (expressSlug) {
+    case 'unmoderated-usability-testing':
+      return EXPRESS_3_CAMPAIGN_TYPE_ID;
+    case 'bug-hunting':
+      return EXPRESS_2_CAMPAIGN_TYPE_ID;
+    default: // exploratory-test
+      return EXPRESS_1_CAMPAIGN_TYPE_ID;
+  }
 };
 
 export const ExpressWizardContainer = () => {
@@ -98,12 +127,29 @@ export const ExpressWizardContainer = () => {
   const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const { isWizardOpen, steps: draftSteps } = useAppSelector(
-    (state) => state.express
-  );
+  const {
+    isWizardOpen,
+    steps: draftSteps,
+    expressTypeId,
+  } = useAppSelector((state) => state.express);
 
-  const [activeStep, setStep] = useState(0);
-  const [isThankyou, setThankyou] = useState(false);
+  // TODO: show an alert if isError is set
+  const { data } = useGeti18nExpressTypesByIdQuery({
+    id: expressTypeId.toString(),
+    locale: i18n.language,
+    populate: {
+      express: {
+        populate: '*',
+      },
+    },
+  });
+
+  const expressTypeData = extractStrapiData(data);
+  const expressTypeMeta = extractStrapiData(expressTypeData.express);
+
+  const [formValues, setFormValues] = useState<WizardModel>(defaultValues);
+  const [activeStep, setStep] = useState<number>(0);
+  const [isThankyou, setThankyou] = useState<boolean>(false);
   const [createCampaign] = usePostCampaignsMutation();
   const [createProject] = usePostProjectsMutation();
 
@@ -121,51 +167,18 @@ export const ExpressWizardContainer = () => {
     ...draft,
   };
 
-  const steps: Array<StepItem> = [
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHAT_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION'),
-      form: WhatForm,
-      validationSchema: WhatStepValidationSchema,
-      buttons: WhatFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHERE_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION'),
-      form: WhereForm,
-      validationSchema: WhereStepValidationSchema,
-      buttons: WhereFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHO_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION'),
-      form: WhoForm,
-      validationSchema: WhoStepValidationSchema,
-      buttons: WhoFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_WHEN_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_WHEN_DESCRIPTION'),
-      form: WhenForm,
-      validationSchema: WhenStepValidationSchema,
-      buttons: WhenFormButtons,
-    },
-    {
-      label: t('__EXPRESS_WIZARD_STEP_CONFIRM_LABEL'),
-      content: t('__EXPRESS_WIZARD_STEP_CONFIRM_DESCRIPTION'),
-      form: ConfirmationForm,
-      validationSchema: ConfirmationValidationSchema,
-      buttons: ConfirmationFormButtons,
-    },
-  ];
+  const steps: Array<StepItem> = useExpressStep(expressTypeMeta.slug);
 
   const onNext = () => {
     if (activeStep === steps.length - 1) {
       setThankyou(true);
     } else if (formRef.current) {
-      formRef.current?.validateForm().then(() => {
+      formRef.current?.validateForm().then((errors) => {
         if (formRef.current?.isValid) {
           setStep(activeStep + 1);
+        } else {
+          // We want to touch all the fields to show the error
+          formRef.current?.setTouched(setNestedObjectValues(errors, true));
         }
       });
     }
@@ -190,6 +203,9 @@ export const ExpressWizardContainer = () => {
     values: WizardModel,
     { setSubmitting, setStatus }: FormikHelpers<WizardModel>
   ) => {
+    // Save submitted form values
+    setFormValues(values);
+
     // eslint-disable-next-line consistent-return
     const projectHandle = (next: any) => {
       try {
@@ -237,11 +253,14 @@ export const ExpressWizardContainer = () => {
               ? format(values.campaign_date_end, BASE_DATE_FORMAT)
               : fallBackDate,
             customer_title: values.campaign_name,
-            campaign_type_id: EXPRESS_CAMPAIGN_TYPE_ID,
+            campaign_type_id: getExpressCPTypeId(expressTypeMeta.slug),
             project_id: prj?.id || -1,
             pm_id: activeWorkspace?.csm.id || -1,
             platforms: getPlatform(values),
             customer_id: activeWorkspace?.id || -1,
+
+            express_slug: expressTypeMeta.slug,
+            ...(values.use_cases && { use_cases: values.use_cases }),
           },
         })
           .unwrap()
@@ -258,7 +277,7 @@ export const ExpressWizardContainer = () => {
     const zapierHandle = (cp: Campaign, next: any) => {
       try {
         // Post on webhook Zapier axios call
-        fetch(ZAPIER_WEBHOOK_TRIGGER, {
+        fetch(expressTypeData.webhook_url ?? ZAPIER_WEBHOOK_TRIGGER, {
           method: 'POST',
           mode: 'no-cors',
           headers: {
@@ -269,7 +288,18 @@ export const ExpressWizardContainer = () => {
             cp: {
               ...values,
               id: cp.id,
-              reason: reasonItems[values?.product_type || 'reason-a'],
+              ...(values.campaign_date && {
+                start_date: formatISO(values.campaign_date),
+              }),
+              ...(values.campaign_date_end && {
+                end_date: formatISO(values.campaign_date_end),
+              }),
+              ...(values.campaign_date_end && {
+                close_date: formatISO(values.campaign_date_end),
+              }),
+              ...(values.campaign_reason && {
+                reason: reasonItems[values.campaign_reason],
+              }),
             },
             user: userData,
             workspace: activeWorkspace,
@@ -287,7 +317,9 @@ export const ExpressWizardContainer = () => {
       try {
         // Post on webhook WordPress axios call
         await createPages(cp.id);
-        await createUseCases(cp.id);
+        if (!values.use_cases) {
+          await createUseCases(cp.id);
+        }
         await createCrons(cp.id);
         await createTasks(cp.id);
         next(null, cp);
@@ -312,16 +344,31 @@ export const ExpressWizardContainer = () => {
     );
   };
 
+  const closeExpressWizard = () => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
+      dispatch(closeDrawer());
+      dispatch(closeWizard());
+      dispatch(resetWizard());
+      setStep(0);
+      setThankyou(false);
+      if (formRef.current) {
+        formRef.current?.resetForm();
+      }
+      toggleChat(true);
+    }
+  };
+
+  // Hardcoded breadcrumbs for Wizard (only Services page)
+  const breadcrumbs = [
+    {
+      name: t('__BREADCRUMB_ITEM_SERVICES'),
+      onClick: closeExpressWizard,
+    },
+  ];
+
   return isWizardOpen ? (
-    <ModalFullScreen
-      onClose={() => {
-        dispatch(closeWizard());
-        dispatch(resetWizard());
-        setStep(0);
-        setThankyou(false);
-        toggleChat(true);
-      }}
-    >
+    <StyledModal onClose={closeExpressWizard}>
       {!isThankyou ? (
         <Formik
           innerRef={formRef}
@@ -333,71 +380,82 @@ export const ExpressWizardContainer = () => {
         >
           {(formProps: FormikProps<WizardModel>) => (
             <>
-              <ModalFullScreen.Header>
+              <StyledModal.Header
+                style={{ backgroundColor: globalTheme.palette.white }}
+              >
                 <WizardHeader
-                  workspace={activeWorkspace}
-                  title={t('__EXPRESS_WIZARD_TITLE')}
+                  breadcrumbs={breadcrumbs}
+                  title={expressTypeData?.title ?? t('__EXPRESS_WIZARD_TITLE')}
                 />
-                <ModalFullScreen.Close aria-label="Close modal" />
-              </ModalFullScreen.Header>
+                <StyledModal.Close
+                  id="express-wizard-close-button"
+                  aria-label="Close modal"
+                />
+              </StyledModal.Header>
               <ModalFullScreen.Body>
-                <Form onSubmit={formProps.handleSubmit}>
-                  <Row>
-                    <Col xs={12} lg={3}>
-                      <StyledContainer>
-                        <Stepper
-                          activeIndex={activeStep}
-                          accordionTitle={stepperTitle}
-                        >
-                          {steps.map((item) => (
-                            <Stepper.Step key={item.label}>
-                              <Stepper.Label>{item.label}</Stepper.Label>
-                              <Stepper.Content>{item.content}</Stepper.Content>
-                            </Stepper.Step>
-                          ))}
-                        </Stepper>
-                      </StyledContainer>
-                    </Col>
-                    <Col xs={12} lg={9} xl={6}>
-                      <ContainerCard>
+                <StyledModalContent>
+                  <Form onSubmit={formProps.handleSubmit}>
+                    <Row>
+                      <Col xs={12} lg={3}>
+                        <StyledContainer>
+                          <Stepper
+                            activeIndex={activeStep}
+                            accordionTitle={stepperTitle}
+                          >
+                            {steps.map((item) => (
+                              <Stepper.Step key={item.label}>
+                                <Stepper.Label>{item.label}</Stepper.Label>
+                                <Stepper.Content>
+                                  {item.content}
+                                </Stepper.Content>
+                              </Stepper.Step>
+                            ))}
+                          </Stepper>
+                        </StyledContainer>
+                      </Col>
+                      <Col xs={12} lg={9} xl={7}>
                         {steps[activeStep as number].form(formProps)}
-                      </ContainerCard>
+                      </Col>
+                    </Row>
+                  </Form>
+                </StyledModalContent>
+              </ModalFullScreen.Body>
+              <ModalFooter>
+                <StyledModalNav>
+                  <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                    <Col
+                      xs={12}
+                      lg={9}
+                      xl={7}
+                      offsetLg={3}
+                      style={{ marginBottom: 0 }}
+                    >
+                      <ModalFullScreen.Footer>
+                        <StyledFooterItem>
+                          {formProps.status && formProps.status.submitError && (
+                            <Message validation="error">
+                              {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
+                            </Message>
+                          )}
+                        </StyledFooterItem>
+                        <StyledFooterItem>
+                          {steps[activeStep as number].buttons({
+                            formikArgs: formProps,
+                            onBackClick: onBack,
+                            onNextClick: onNext,
+                          })}
+                        </StyledFooterItem>
+                      </ModalFullScreen.Footer>
                     </Col>
                   </Row>
-                </Form>
-              </ModalFullScreen.Body>
-              <Row style={{ marginLeft: 0, marginRight: 0 }}>
-                <Col
-                  xs={12}
-                  lg={9}
-                  xl={6}
-                  offsetLg={3}
-                  style={{ marginBottom: 0 }}
-                >
-                  <ModalFullScreen.Footer>
-                    <StyledFooterItem>
-                      {formProps.status && formProps.status.submitError && (
-                        <Message validation="error">
-                          {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
-                        </Message>
-                      )}
-                    </StyledFooterItem>
-                    <StyledFooterItem>
-                      {steps[activeStep as number].buttons({
-                        formikArgs: formProps,
-                        onBackClick: onBack,
-                        onNextClick: onNext,
-                      })}
-                    </StyledFooterItem>
-                  </ModalFullScreen.Footer>
-                </Col>
-              </Row>
+                </StyledModalNav>
+              </ModalFooter>
             </>
           )}
         </Formik>
       ) : (
-        <ThankYouStep />
+        <ThankYouStep values={formValues} />
       )}
-    </ModalFullScreen>
+    </StyledModal>
   ) : null;
 };

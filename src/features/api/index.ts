@@ -121,6 +121,16 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getTemplates: build.query<GetTemplatesApiResponse, GetTemplatesApiArg>({
+      query: (queryArg) => ({
+        url: `/templates`,
+        params: {
+          filterBy: queryArg.filterBy,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -261,6 +271,7 @@ export type PostCampaignsApiArg = {
     has_bug_parade?: number;
     description?: string;
     base_bug_internal_id?: string;
+    express_slug: string;
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
@@ -284,6 +295,17 @@ export type GetWorkspacesByWidCoinsApiArg = {
   limit?: number;
   /** Start pagination parameter */
   start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
+};
+export type GetTemplatesApiResponse = /** status 200 OK */ ({
+  id?: number;
+} & Template)[];
+export type GetTemplatesApiArg = {
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
   /** Order value (ASC, DESC) */
   order?: string;
   /** Order by accepted field */
@@ -381,6 +403,20 @@ export type Coin = {
   created_on?: string;
   updated_on?: string;
 };
+export type TemplateCategory = {
+  id?: number;
+  name: string;
+};
+export type Template = {
+  title: string;
+  description: string;
+  content: string;
+  category: TemplateCategory;
+  device_type: 'webapp' | 'mobileapp';
+  locale: 'en' | 'it';
+  image?: string;
+  requiresLogin?: boolean;
+};
 export const {
   useGetQuery,
   usePostAuthenticateMutation,
@@ -396,4 +432,5 @@ export const {
   usePostCampaignsMutation,
   usePostProjectsMutation,
   useGetWorkspacesByWidCoinsQuery,
+  useGetTemplatesQuery,
 } = injectedRtkApi;

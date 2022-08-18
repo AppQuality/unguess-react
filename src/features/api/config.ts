@@ -23,4 +23,6 @@ const config: ConfigFile = {
   hooks: true,
 };
 
+// (require codegen 1.1)  hooks: { queries: true, lazyQueries: true, mutations: true },
+
 export default config;

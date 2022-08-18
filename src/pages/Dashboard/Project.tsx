@@ -1,4 +1,3 @@
-// import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
@@ -10,7 +9,6 @@ import {
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { useGetProjectsByPidQuery } from 'src/features/api';
-import { ActionCards } from './ActionCards';
 import { DashboardHeaderContent } from './headerContent';
 import { CardRowLoading } from './CardRowLoading';
 import { ProjectItems } from './project-items';
@@ -20,7 +18,6 @@ const Project = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
-
   const { projectId } = useParams();
 
   if (!projectId || Number.isNaN(Number(projectId))) {
@@ -48,16 +45,7 @@ const Project = () => {
         <DashboardHeaderContent pageTitle={project?.data?.name || 'Project'} />
       }
     >
-      <Grid>
-        {isLoading ? (
-          <CardRowLoading />
-        ) : (
-          <>
-            <ActionCards />
-            <ProjectItems />
-          </>
-        )}
-      </Grid>
+      <Grid>{isLoading ? <CardRowLoading /> : <ProjectItems />}</Grid>
     </Page>
   );
 };

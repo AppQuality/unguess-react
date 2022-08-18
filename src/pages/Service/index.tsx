@@ -62,6 +62,9 @@ const Service = () => {
           },
         },
       },
+      express: {
+        populate: { express_type: '*' },
+      },
     },
   });
 

@@ -1,18 +1,32 @@
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { toggleChat } from 'src/common/utils';
-import { openDrawer } from 'src/features/express/expressSlice';
+import {
+  openDrawer,
+  setExpressTypeId,
+} from 'src/features/express/expressSlice';
 import { ServiceCta } from './ServiceCta';
 
-export const ServiceExpressCta = () => {
+export const ServiceExpressCta = ({
+  expressTypeId,
+}: {
+  expressTypeId: number;
+}) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
+  if (!expressTypeId) {
+    return null;
+  }
+
   return (
     <ServiceCta
+      className="service-details-express-button"
       size="medium"
       isPrimary
       isPill
       onClick={() => {
+        dispatch(setExpressTypeId(expressTypeId));
         dispatch(openDrawer());
         toggleChat(false);
       }}

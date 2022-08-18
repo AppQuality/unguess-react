@@ -1,4 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { stringify } from 'qs';
+import {
+  GetWorkspacesByWidApiArg,
+  GetWorkspacesByWidApiResponse,
+  Template,
+} from '.';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -12,6 +18,20 @@ export const apiSlice = createApi({
 
       return headers;
     },
+    paramsSerializer: (params) => stringify(params, { encodeValuesOnly: true }),
   }),
-  endpoints: () => ({}),
+  endpoints: (build) => ({
+    getWorkspacesByWid: build.query<
+      GetWorkspacesByWidApiResponse,
+      GetWorkspacesByWidApiArg
+    >({
+      query: (queryArg) => ({ url: `/workspaces/${queryArg.wid}` }),
+    }),
+  }),
 });
+
+export const { useLazyGetWorkspacesByWidQuery } = apiSlice;
+
+export interface UseCaseTemplate extends Template {
+  id?: number;
+}

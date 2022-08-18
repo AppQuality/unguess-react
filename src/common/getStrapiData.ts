@@ -1,15 +1,21 @@
 import {
   CategoryListResponse,
   CategoryResponse,
+  ExpressTypeListResponse,
+  ExpressTypeResponse,
   ServiceListResponse,
   ServiceResponse,
 } from 'src/features/backoffice';
+import { StrapiIcon } from 'src/features/backoffice/strapi';
 
-type StrapiResponse =
+export type StrapiResponse =
   | CategoryListResponse
   | CategoryResponse
   | ServiceListResponse
   | ServiceResponse
+  | ExpressTypeListResponse
+  | ExpressTypeResponse
+  | StrapiIcon
   | undefined;
 
 /**
@@ -20,14 +26,17 @@ type StrapiResponse =
  * @returns {object | false}
  */
 export const extractStrapiData = (item: StrapiResponse) => {
-  if (item !== undefined) {
-    if (item.data !== undefined) {
+  const isDev = process.env.REACT_APP_ENV === 'development';
+  if (item !== undefined && item.data !== null) {
+    if (item.data !== undefined && item.data !== null) {
       if (Array.isArray(item.data)) {
         const items: any = [];
         item.data.forEach((listItem) => {
           const newListItem = extractStrapiData({ data: listItem });
           if (newListItem) {
-            items.push(newListItem);
+            if (isDev || newListItem.publishedAt !== null) {
+              items.push(newListItem);
+            }
           }
         });
 

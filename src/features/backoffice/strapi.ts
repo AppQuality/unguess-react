@@ -7,12 +7,17 @@ import {
   GetServicesApiArg,
   GetCategoriesByIdApiArg,
   GetCategoriesByIdApiResponse,
+  GetExpressesApiResponse,
+  GetExpressesApiArg,
+  GetExpressTypesByIdApiResponse,
+  GetExpressTypesByIdApiArg,
 } from '.';
 
 interface GetFullServicesByIdArgs {
   id: string;
   populate?: string[] | object;
   locale?: string;
+  filters?: object;
 }
 
 interface GetServicesApiArgs extends GetServicesApiArg {
@@ -27,10 +32,23 @@ interface Geti18nServicesFeaturedArgs extends GetServicesApiArg {
 interface Geti18nCategoriesArgs {
   locale?: string;
   populate?: string[] | object;
+  filters?: object;
 }
 
 interface Geti18nCategoryArgs extends GetCategoriesByIdApiArg {
   locale?: string;
+  populate?: string[] | object;
+  filters?: object;
+}
+
+interface Geti18nExpressesApiArgs extends GetExpressesApiArg {
+  locale?: string;
+  filters?: object;
+}
+
+interface Geti18nExpressTypesByIdApiArgs extends GetExpressTypesByIdApiArg {
+  locale?: string;
+  filters?: object;
   populate?: string[] | object;
 }
 
@@ -70,6 +88,7 @@ export const strapiSlice = createApi({
           id: queryArg.id,
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
@@ -102,6 +121,7 @@ export const strapiSlice = createApi({
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
@@ -117,6 +137,37 @@ export const strapiSlice = createApi({
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
+        };
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
+        return { url };
+      },
+    }),
+    geti18nExpressTypes: builder.query<
+      GetExpressesApiResponse,
+      Geti18nExpressesApiArgs
+    >({
+      query: (queryArg) => {
+        let url = '/express-types/';
+        const args = {
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.filters && { populate: queryArg.filters }),
+        };
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
+        return { url };
+      },
+    }),
+    geti18nExpressTypesById: builder.query<
+      GetExpressTypesByIdApiResponse,
+      Geti18nExpressTypesByIdApiArgs
+    >({
+      query: (queryArg) => {
+        let url = `/express-types/${queryArg.id}`;
+        const args: Geti18nCategoriesArgs = {
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.populate && { populate: queryArg.populate }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
@@ -126,10 +177,37 @@ export const strapiSlice = createApi({
   }),
 });
 
+export interface StrapiIcon {
+  data?: {
+    id?: string;
+    attributes?: {
+      name?: string;
+      alternativeText?: string;
+      caption?: string;
+      width?: number;
+      height?: number;
+      formats?: any;
+      hash?: string;
+      ext?: string;
+      mime?: string;
+      size?: number;
+      url?: string;
+    };
+  };
+}
+
+export interface TagItem {
+  id: number;
+  label: string;
+  icon: StrapiIcon;
+}
+
 export const {
   useGetFullServicesByIdQuery,
   useGeti18nServicesQuery,
   useGeti18nServicesFeaturedQuery,
   useGeti18nCategoriesQuery,
   useGetFullCategoriesByIdQuery,
+  useGeti18nExpressTypesQuery,
+  useGeti18nExpressTypesByIdQuery,
 } = strapiSlice;

@@ -1,8 +1,10 @@
+ARG STAGE_ENV
+
 FROM alpine:3.14 as base
 
-RUN apk add nodejs yarn
-
 ARG STRAPI_TOKEN
+
+RUN apk add nodejs yarn
 
 COPY package.json ./
 COPY yarn.lock ./
@@ -11,13 +13,22 @@ RUN rm -f .npmrc
 
 COPY . .
 
-RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env
+RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env.local
 
+FROM base as app-production
+RUN echo "prepare production build..."
+
+FROM base as app-development
+RUN echo "prepare development build..."
+RUN cat .env.development >> .env.local
+
+FROM app-${STAGE_ENV} as final
+RUN echo 'building react...'
 RUN ["yarn", "build"]
 
-FROM alpine:3.14 as web
 
-COPY --from=base /build /build
+FROM alpine:3.14 as web
+COPY --from=final /build /build
 RUN apk add nginx
 COPY nginx.config /etc/nginx/http.d/default.conf
 CMD nginx -g 'daemon off;'
