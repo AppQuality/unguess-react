@@ -22,6 +22,7 @@ import styled from 'styled-components';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { AnimatedContainer } from 'src/common/components/animatedContainer';
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
@@ -69,7 +70,7 @@ export const UseCaseDetails = ({
   }, [useCase]);
 
   return (
-    <>
+    <AnimatedContainer>
       {/* Title */}
       <StyledFormField style={{ marginTop: 0 }}>
         <Label>
@@ -236,6 +237,6 @@ export const UseCaseDetails = ({
           </HelpTextMessage>
         )}
       </StyledFormField>
-    </>
+    </AnimatedContainer>
   );
 };

@@ -30,6 +30,7 @@ import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi'
 import i18n from 'i18next';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { AnimatedContainer } from 'src/common/components/animatedContainer';
 import { TemplateDropdown } from './templateDropdown';
 
 const StyledFormField = styled.div`
@@ -145,7 +146,7 @@ export const UseCaseDetails = ({
   );
 
   return (
-    <>
+    <AnimatedContainer>
       {/* Title */}
       <StyledFormField style={{ marginTop: 0 }}>
         <Label>
@@ -375,6 +376,6 @@ export const UseCaseDetails = ({
           </HelpTextMessage>
         )}
       </StyledFormField>
-    </>
+    </AnimatedContainer>
   );
 };
