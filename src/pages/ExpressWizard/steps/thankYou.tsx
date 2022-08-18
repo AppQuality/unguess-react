@@ -24,12 +24,22 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
   const { t } = useTranslation();
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
+  const handleClose = () => {
+    dispatch(closeDrawer());
+    dispatch(closeWizard());
+    dispatch(resetWizard());
+
+    // Refetch the data
+    window.location.reload();
+  };
+
   return (
     <>
       <ModalFullScreen.Header>
         <WizardHeader
           workspace={activeWorkspace}
           title={t('__EXPRESS_WIZARD_TITLE')}
+          onClose={handleClose}
         />
         <ModalFullScreen.Close aria-label="Close modal" />
       </ModalFullScreen.Header>
@@ -56,25 +66,7 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
               </Row>
               <Row style={{ marginTop: theme.space.xl }}>
                 <Col size={12} textAlign="center">
-                  <WaterButton
-                    isPill
-                    isPrimary
-                    onClick={() => {
-                      dispatch(closeDrawer());
-                      dispatch(closeWizard());
-                      dispatch(resetWizard());
-
-                      // Refetch the data
-                      window.location.reload();
-
-                      // dispatch(
-                      //   api.endpoints.getPosts.initiate(
-                      //     { count: 5 },
-                      //     { subscribe: false, forceRefetch: true }
-                      //   )
-                      // )
-                    }}
-                  >
+                  <WaterButton isPill isPrimary onClick={handleClose}>
                     {t('__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON')}
                   </WaterButton>
                 </Col>

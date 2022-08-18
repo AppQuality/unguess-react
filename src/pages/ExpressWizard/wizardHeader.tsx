@@ -5,9 +5,9 @@ import {
   Span,
   theme,
 } from '@appquality/unguess-design-system';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+
+import { useAppSelector } from 'src/app/hooks';
 import { Workspace } from 'src/features/api';
-import { closeWizard } from 'src/features/express/expressSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
@@ -22,13 +22,14 @@ const Container = styled.div`
 export const WizardHeader = ({
   title,
   workspace,
+  onClose,
 }: {
   title: string;
+  onClose: () => void;
   workspace?: Workspace;
 }) => {
   const { width } = useWindowSize();
   const { project, projectLocked } = useAppSelector((state) => state.express);
-  const dispatch = useAppDispatch();
 
   const breadcrumbs = [];
 
@@ -48,7 +49,7 @@ export const WizardHeader = ({
           : `/${i18n.language}/${project && project.id}`,
       onClick: (e: any) => {
         e.preventDefault();
-        dispatch(closeWizard());
+        onClose();
       },
     });
   }

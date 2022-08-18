@@ -17,7 +17,11 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeWizard, resetWizard } from 'src/features/express/expressSlice';
+import {
+  closeDrawer,
+  closeWizard,
+  resetWizard,
+} from 'src/features/express/expressSlice';
 import * as Yup from 'yup';
 import styled from 'styled-components';
 import {
@@ -71,7 +75,9 @@ const StyledFooterItem = styled(ModalFullScreen.FooterItem)`
   align-items: center;
 `;
 
-const StyledModalBody = styled(ModalFullScreen.Body)`
+// const ModalFullScreen.Body = styled(ModalFullScreen.Body)``;
+
+const StyledModalContent = styled.div`
   margin: 0 auto;
 `;
 
@@ -83,8 +89,8 @@ const StyledModalNav = styled.div`
   margin-left: 0;
   margin-right: 0;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-    width: ${({ theme }) => theme.breakpoints.xl};
+  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
+    width: ${({ theme }) => theme.breakpoints.xxl};
     margin: 0 auto;
   }
 `;
@@ -92,8 +98,8 @@ const StyledModalNav = styled.div`
 const StyledModal = styled(ModalFullScreen)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
 
-  ${StyledModalBody}, ${StyledModalNav} {
-    max-width: ${({ theme }) => theme.breakpoints.xl};
+  ${StyledModalContent}, ${StyledModalNav} {
+    max-width: ${({ theme }) => theme.breakpoints.xxl};
   }
 `;
 
@@ -340,22 +346,23 @@ export const ExpressWizardContainer = () => {
     );
   };
 
+  const closeExpressWizard = () => {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
+      dispatch(closeDrawer());
+      dispatch(closeWizard());
+      dispatch(resetWizard());
+      setStep(0);
+      setThankyou(false);
+      if (formRef.current) {
+        formRef.current?.resetForm();
+      }
+      toggleChat(true);
+    }
+  };
+
   return isWizardOpen ? (
-    <StyledModal
-      onClose={() => {
-        // eslint-disable-next-line no-alert
-        if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
-          dispatch(closeWizard());
-          dispatch(resetWizard());
-          setStep(0);
-          setThankyou(false);
-          if (formRef.current) {
-            formRef.current?.resetForm();
-          }
-          toggleChat(true);
-        }
-      }}
-    >
+    <StyledModal onClose={closeExpressWizard}>
       {!isThankyou ? (
         <Formik
           innerRef={formRef}
@@ -372,44 +379,49 @@ export const ExpressWizardContainer = () => {
               >
                 <WizardHeader
                   workspace={activeWorkspace}
-                  title={t('__EXPRESS_WIZARD_TITLE')}
+                  title={expressTypeData?.title ?? t('__EXPRESS_WIZARD_TITLE')}
+                  onClose={closeExpressWizard}
                 />
                 <StyledModal.Close
                   id="express-wizard-close-button"
                   aria-label="Close modal"
                 />
               </StyledModal.Header>
-              <StyledModalBody>
-                <Form onSubmit={formProps.handleSubmit}>
-                  <Row>
-                    <Col xs={12} lg={3}>
-                      <StyledContainer>
-                        <Stepper
-                          activeIndex={activeStep}
-                          accordionTitle={stepperTitle}
-                        >
-                          {steps.map((item) => (
-                            <Stepper.Step key={item.label}>
-                              <Stepper.Label>{item.label}</Stepper.Label>
-                              <Stepper.Content>{item.content}</Stepper.Content>
-                            </Stepper.Step>
-                          ))}
-                        </Stepper>
-                      </StyledContainer>
-                    </Col>
-                    <Col xs={12} lg={9} xl={6}>
-                      {steps[activeStep as number].form(formProps)}
-                    </Col>
-                  </Row>
-                </Form>
-              </StyledModalBody>
+              <ModalFullScreen.Body>
+                <StyledModalContent>
+                  <Form onSubmit={formProps.handleSubmit}>
+                    <Row>
+                      <Col xs={12} lg={3}>
+                        <StyledContainer>
+                          <Stepper
+                            activeIndex={activeStep}
+                            accordionTitle={stepperTitle}
+                          >
+                            {steps.map((item) => (
+                              <Stepper.Step key={item.label}>
+                                <Stepper.Label>{item.label}</Stepper.Label>
+                                <Stepper.Content>
+                                  {item.content}
+                                </Stepper.Content>
+                              </Stepper.Step>
+                            ))}
+                          </Stepper>
+                        </StyledContainer>
+                      </Col>
+                      <Col xs={12} lg={9} xl={7}>
+                        {steps[activeStep as number].form(formProps)}
+                      </Col>
+                    </Row>
+                  </Form>
+                </StyledModalContent>
+              </ModalFullScreen.Body>
               <ModalFooter>
                 <StyledModalNav>
                   <Row style={{ marginLeft: 0, marginRight: 0 }}>
                     <Col
                       xs={12}
                       lg={9}
-                      xl={6}
+                      xl={7}
                       offsetLg={3}
                       style={{ marginBottom: 0 }}
                     >
