@@ -167,6 +167,7 @@ export const ModalUseCase = ({
                   {use_cases && currentUseCase && use_cases.length ? (
                     <>
                       <UseCaseDetails
+                        key={`useCaseDetails_k${currentUseCase.id}`}
                         formikProps={formikProps}
                         useCase={currentUseCase}
                         useCaseIndex={useCaseIndex}
