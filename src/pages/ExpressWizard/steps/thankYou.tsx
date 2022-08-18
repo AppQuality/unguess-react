@@ -8,7 +8,7 @@ import {
   ModalFullScreen,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppDispatch } from 'src/app/hooks';
 import {
   closeDrawer,
   closeWizard,
@@ -22,7 +22,6 @@ import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 export const ThankYouStep = ({ values }: { values: WizardModel }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   const handleClose = () => {
     dispatch(closeDrawer());
@@ -33,13 +32,23 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
     window.location.reload();
   };
 
+  // Hardcoded breadcrumbs for Wizard (only Services page)
+  const breadcrumbs = [
+    {
+      name: t('__BREADCRUMB_ITEM_SERVICES'),
+      onClick: () => {
+        dispatch(closeWizard());
+        dispatch(closeDrawer());
+      },
+    },
+  ];
+
   return (
     <>
       <ModalFullScreen.Header>
         <WizardHeader
-          workspace={activeWorkspace}
+          breadcrumbs={breadcrumbs}
           title={t('__EXPRESS_WIZARD_TITLE')}
-          onClose={handleClose}
         />
         <ModalFullScreen.Close aria-label="Close modal" />
       </ModalFullScreen.Header>
