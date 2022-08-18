@@ -31,7 +31,7 @@ const Body = styled(ModalFullScreen.Body)`
     display: none;
   }
 
-  max-width: ${({ theme }) => theme.breakpoints.xl};
+  max-width: ${({ theme }) => theme.breakpoints.xxl};
   margin: 0 auto;
 `;
 

@@ -89,8 +89,8 @@ const StyledModalNav = styled.div`
   margin-left: 0;
   margin-right: 0;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-    width: ${({ theme }) => theme.breakpoints.xl};
+  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
+    width: ${({ theme }) => theme.breakpoints.xxl};
     margin: 0 auto;
   }
 `;
@@ -99,7 +99,7 @@ const StyledModal = styled(ModalFullScreen)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
 
   ${StyledModalContent}, ${StyledModalNav} {
-    max-width: ${({ theme }) => theme.breakpoints.xl};
+    max-width: ${({ theme }) => theme.breakpoints.xxl};
   }
 `;
 

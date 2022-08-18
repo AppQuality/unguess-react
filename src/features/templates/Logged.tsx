@@ -33,10 +33,12 @@ const Container = styled.div`
     margin: ${({ theme }) => theme.space.md};
   }
 
-  max-width: ${({ theme }) => theme.breakpoints.xl};
+  max-width: ${({ theme }) => theme.breakpoints.xxl};
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
     margin: ${({ theme }) => theme.space.xxl} auto;
+    padding-left: ${({ theme }) => theme.space.xxl};
+    padding-right: ${({ theme }) => theme.space.xxl};
   }
 `;
 
