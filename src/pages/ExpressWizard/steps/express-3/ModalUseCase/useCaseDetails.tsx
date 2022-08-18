@@ -63,7 +63,7 @@ export const UseCaseDetails = ({
       useCase.description = editorContent;
       setIsEditing(false);
     }
-  }, [editorChars]);
+  }, [editorChars, editorContent]);
 
   useEffect(() => {
     setIsEditing(false);
