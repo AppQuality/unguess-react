@@ -7,6 +7,7 @@ import {
   Anchor,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-circle.svg';
+import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
 
 const Container = styled.div`
   display: flex;
@@ -26,11 +27,30 @@ const TitleContainer = styled.div`
   flex-direction: column;
 `;
 
+const BackContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: ${({ theme }) => theme.space.xs};
+
+  > svg {
+    cursor: pointer;
+  }
+`;
+
 export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
 
   return (
     <Container>
+      <BackContainer>
+        <ArrowLeft
+          width={30}
+          height={30}
+          fill={globalTheme.colors.primaryHue}
+          onClick={onClose}
+        />
+      </BackContainer>
       <TitleContainer>
         <Anchor onClick={onClose}>
           {t('__WIZARD_EXPRESS_2_USE_CASE_MODAL_PRE_TITLE')}
