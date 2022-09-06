@@ -5,6 +5,7 @@ import {
   theme as globalTheme,
   Button,
   Anchor,
+  IconButton,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-circle.svg';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
@@ -32,10 +33,6 @@ const BackContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-right: ${({ theme }) => theme.space.xs};
-
-  > svg {
-    cursor: pointer;
-  }
 `;
 
 export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
@@ -44,12 +41,13 @@ export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
   return (
     <Container>
       <BackContainer>
-        <ArrowLeft
-          width={30}
-          height={30}
-          fill={globalTheme.colors.primaryHue}
-          onClick={onClose}
-        />
+        <IconButton onClick={onClose}>
+          <ArrowLeft
+            width={30}
+            height={30}
+            fill={globalTheme.colors.primaryHue}
+          />
+        </IconButton>
       </BackContainer>
       <TitleContainer>
         <Anchor onClick={onClose}>
