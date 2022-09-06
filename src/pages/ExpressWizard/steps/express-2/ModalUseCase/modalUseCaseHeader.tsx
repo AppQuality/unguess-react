@@ -42,11 +42,7 @@ export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
     <Container>
       <BackContainer>
         <IconButton onClick={onClose}>
-          <ArrowLeft
-            width={30}
-            height={30}
-            fill={globalTheme.colors.primaryHue}
-          />
+          <ArrowLeft width={30} height={30} />
         </IconButton>
       </BackContainer>
       <TitleContainer>
