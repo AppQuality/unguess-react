@@ -65,7 +65,7 @@ export const TableList = ({
         name: (
           <Anchor href={getLocalizeRoute(campaign.id, campaign.family.name)}>
             <Span isBold style={{ color: theme.palette.grey[800] }}>
-              {campaign.title}
+              {campaign.customer_title ?? campaign.title}
             </Span>
           </Anchor>
         ),
