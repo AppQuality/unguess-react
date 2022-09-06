@@ -316,10 +316,11 @@ export const ExpressWizardContainer = () => {
     const wordpressHandle = async (cp: Campaign, next: any) => {
       try {
         // Post on webhook WordPress axios call
-        await createPages(cp.id);
         if (!values.use_cases) {
           await createUseCases(cp.id);
         }
+
+        await createPages(cp.id);
         await createCrons(cp.id);
         await createTasks(cp.id);
         next(null, cp);
