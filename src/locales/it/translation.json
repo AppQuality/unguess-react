@@ -271,6 +271,8 @@
   "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} di {total_steps}",
   "__EXPRESS_WIZARD_SUBMIT_ERROR": "Qualcosa è andato storto. Per favore riprova.",
   "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT": "Risultati a partire dal primo giorno lavorativo dopo il lancio",
+  "__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_FIRST_RESULTS": "Primi risultati",
+  "__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE": "Pianifica lancio",
   "__EXPRESS_WIZARD_TITLE": "Nuovo test esplorativo express",
   "__FORM_FIELD_REQUIRED_MESSAGE": "Campo obbligatorio",
   "__FORM_OPTIONAL_LABEL": "(opzionale)",
