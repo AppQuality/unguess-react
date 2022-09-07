@@ -360,14 +360,6 @@ export const ExpressWizardContainer = () => {
     }
   };
 
-  // Hardcoded breadcrumbs for Wizard (only Services page)
-  const breadcrumbs = [
-    {
-      name: t('__BREADCRUMB_ITEM_SERVICES'),
-      onClick: closeExpressWizard,
-    },
-  ];
-
   return isWizardOpen ? (
     <StyledModal onClose={closeExpressWizard}>
       {!isThankyou ? (
@@ -384,10 +376,7 @@ export const ExpressWizardContainer = () => {
               <StyledModal.Header
                 style={{ backgroundColor: globalTheme.palette.white }}
               >
-                <WizardHeader
-                  breadcrumbs={breadcrumbs}
-                  title={expressTypeData?.title ?? t('__EXPRESS_WIZARD_TITLE')}
-                />
+                <WizardHeader {...formProps} />
                 <StyledModal.Close
                   id="express-wizard-close-button"
                   aria-label="Close modal"
