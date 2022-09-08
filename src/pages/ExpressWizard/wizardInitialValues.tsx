@@ -3,10 +3,10 @@ import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { WizardModel } from './wizardModel';
 
 const values: WizardModel = {
-  campaign_name: 'Provolona',
+  campaign_name: '',
   product_type: 'webapp',
   campaign_reason: 'reason-a',
-  withSmartphone: true,
+  withSmartphone: false,
   withDesktop: false,
   withTablet: false,
   customBrowser: false,
@@ -21,8 +21,8 @@ const values: WizardModel = {
   androidLink: '',
   isIOS: false,
   isAndroid: false,
-  link: 'https://calendar.google.com/',
-  campaign_language: 'en',
+  link: '',
+  campaign_language: '',
   test_description: '',
   use_cases: [],
   campaign_date: new Date(),

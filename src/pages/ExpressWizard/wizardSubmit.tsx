@@ -5,6 +5,8 @@ import { ReactComponent as CheckIcon } from 'src/assets/icons/check-lg-stroke.sv
 import { ReactComponent as EmptyIcon } from 'src/assets/icons/empty.svg';
 import {
   MD,
+  Modal,
+  ModalClose,
   Paragraph,
   SM,
   Spinner,
@@ -14,13 +16,15 @@ import {
   TooltipModal,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { addBusinessDays, format, formatRelative } from 'date-fns';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { WaterButton } from '../../common/components/waterButton';
 import { WizardModel } from './wizardModel';
 import { getLanguage } from './getLanguage';
+import { CardDivider } from './cardDivider';
+import { PlanningModal } from './planningModal';
 
 const StyledDiv = styled.div`
   /** Horizontal Align */
@@ -41,10 +45,15 @@ const InteractiveTimelineItem = styled(Timeline.Item)`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.palette.grey[100]};
+    background-color: ${({ theme }) => theme.palette.kale[100]};
     svg {
-      background-color: ${({ theme }) => theme.palette.grey[100]};
+      background-color: ${({ theme }) => theme.palette.kale[100]};
     }
+  }
+
+  div[data-garden-id='timeline.content.separator'] {
+    padding: ${({ theme }) =>
+      `${theme.space.xs} 0 ${theme.space.xs} ${theme.space.sm}`};
   }
 `;
 
@@ -55,9 +64,15 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [refElement, setRefElement] = useState<HTMLButtonElement | null>();
   const [selectedDateSpot, setSelectedDateSpot] = useState<number>(0);
+  const [isDateModalOpen, setIsDateModalOpen] = useState(false);
+
+  const [launchDate, setlaunchDate] = useState<Date>(
+    values.campaign_date ?? new Date()
+  );
+  const [endDate, setEndDate] = useState<Date>();
 
   const lang = getLanguage(i18n.language || 'en');
-  const start_date = values.campaign_date ?? new Date();
+  const today = new Date();
   const requiredDuration =
     values.campaign_language === 'en'
       ? EXPRESS_BUSINESS_DAYS_TO_ADD + 1
@@ -65,25 +80,41 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
 
   // format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
   const dateSpots = [
-    addBusinessDays(start_date, 1),
-    addBusinessDays(start_date, 5),
+    addBusinessDays(launchDate, 1),
+    addBusinessDays(launchDate, 5),
   ];
 
-  useEffect(() => {
-    const endDate = addBusinessDays(
-      dateSpots[selectedDateSpot],
-      requiredDuration
-    );
+  const triggerSubmit = useCallback(() => {
+    if (selectedDateSpot !== -1) {
+      const resultsDate = addBusinessDays(
+        dateSpots[selectedDateSpot], // start_date,
+        requiredDuration
+      );
 
-    setFieldValue('campaign_date', dateSpots[selectedDateSpot]);
-    setFieldValue('campaign_date_end', endDate);
-    setFieldValue(
-      'campaign_date_end_text',
-      format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
-    );
+      setFieldValue('campaign_date', dateSpots[selectedDateSpot]);
+      setFieldValue('campaign_date_end', resultsDate);
+      setFieldValue(
+        'campaign_date_end_text',
+        format(resultsDate, 'EEEE d MMMM Y', { locale: lang.locale })
+      );
+    } else {
+      setFieldValue('campaign_date', launchDate);
+      setFieldValue('campaign_date_end', endDate);
+      setFieldValue(
+        'campaign_date_end_text',
+        format(
+          endDate ?? addBusinessDays(launchDate, requiredDuration),
+          'EEEE d MMMM Y',
+          { locale: lang.locale }
+        )
+      );
+    }
+
+    // Trigger form submit
+    handleSubmit();
   }, [selectedDateSpot]);
 
-  console.log('values', values);
+  console.log('Current values', values);
 
   return (
     <StyledDiv>
@@ -94,9 +125,11 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           isPrimary
           type="submit"
           disabled={Object.keys(errors).length > 0 || isSubmitting}
-          onClick={() => handleSubmit()}
+          onClick={triggerSubmit}
         >
-          {t('__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL')}
+          {!selectedDateSpot
+            ? t('__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL')
+            : t('__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL')}
         </WaterButton>
         <WaterButton
           isPill
@@ -116,15 +149,22 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           style={{ marginLeft: globalTheme.space.sm }}
         />
       ) : (
-        <HelpText>{t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}</HelpText>
+        <HelpText>
+          {selectedDateSpot === -1 && endDate
+            ? `${t(
+                '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
+              )} ${format(endDate, 'EEEE d MMMM', { locale: lang.locale })}`
+            : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
+        </HelpText>
       )}
       <TooltipModal
         referenceElement={refElement}
         onClose={() => setRefElement(null)}
         placement="auto"
         hasArrow={false}
+        style={{ padding: globalTheme.space.xxs, width: 'auto' }}
       >
-        <TooltipModal.Title>
+        <TooltipModal.Title style={{ padding: globalTheme.space.xs }}>
           <MD isBold style={{ color: globalTheme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}
           </MD>
@@ -145,7 +185,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
               >
                 <Timeline.Content>
                   <Paragraph style={{ fontWeight: 500 }}>
-                    {formatRelative(date, start_date, {
+                    {formatRelative(date, today, {
                       locale: {
                         ...lang.locale,
                         formatRelative: (token) =>
@@ -164,10 +204,41 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
                 </Timeline.Content>
               </InteractiveTimelineItem>
             ))}
+            <CardDivider />
+            <InteractiveTimelineItem
+              onClick={() => setIsDateModalOpen(true)}
+              icon={
+                selectedDateSpot === -1 ? (
+                  <CheckIcon width={24} />
+                ) : (
+                  <EmptyIcon />
+                )
+              }
+              hiddenLine
+            >
+              <Timeline.Content>
+                <Paragraph style={{ fontWeight: 500 }}>
+                  {t('__EXPRESS_WIZARD_SUBMIT_TOOLTIP_MODAL_CUSTOM_DATE_ITEM')}
+                </Paragraph>
+              </Timeline.Content>
+            </InteractiveTimelineItem>
           </Timeline>
         </TooltipModal.Body>
-        <TooltipModal.Close aria-label="Close" />
       </TooltipModal>
+
+      {isDateModalOpen && (
+        <PlanningModal
+          startDate={launchDate}
+          onSave={(start, end) => {
+            setlaunchDate(start);
+            setEndDate(end);
+            setSelectedDateSpot(-1);
+            setIsDateModalOpen(false);
+          }}
+          duration={requiredDuration}
+          onClose={() => setIsDateModalOpen(false)}
+        />
+      )}
     </StyledDiv>
   );
 };
