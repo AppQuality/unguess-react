@@ -98,19 +98,6 @@ export const WhatStep = ({
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_LABEL')}
           <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
         </Label>
-        <MediaInput
-          type="text"
-          start={<DocumentIcon />}
-          placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
-          {...props.getFieldProps('campaign_name')}
-          focusInset
-          {...(errors.campaign_name && { validation: 'error' })}
-        />
-        {errors.campaign_name && (
-          <HelpTextMessage validation="error">
-            {errors.campaign_name}
-          </HelpTextMessage>
-        )}
       </StyledFormField>
       <StyledFormField>
         <Dropdown
@@ -200,9 +187,6 @@ export const WhatStep = ({
 };
 
 export const WhatStepValidationSchema = Yup.object().shape({
-  campaign_name: Yup.string().required(
-    t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')
-  ),
   campaign_reason: Yup.string().required(
     t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_REQUIRED')
   ),

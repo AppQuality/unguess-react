@@ -103,4 +103,8 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   );
 };
 
-export const ConfirmationValidationSchema = Yup.object().shape({});
+export const ConfirmationValidationSchema = Yup.object().shape({
+  campaign_name: Yup.string().required(
+    t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')
+  ),
+});
