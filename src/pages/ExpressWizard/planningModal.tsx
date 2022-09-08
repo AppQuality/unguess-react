@@ -1,7 +1,6 @@
 import {
   Col,
   Label,
-  Grid,
   Modal,
   ModalClose,
   Row,
@@ -45,13 +44,6 @@ const PlanningModal = ({
     // We have to add 2 business days to determine the end date
     setlaunchDate(date);
     setEndDate(addBusinessDays(date, duration));
-
-    // props.setFieldValue('campaign_date', setHours(date, 10));
-    // props.setFieldValue('campaign_date_end', setHours(endDate, 18));
-    // props.setFieldValue(
-    //   'campaign_date_end_text',
-    //   format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
-    // );
   };
 
   return (

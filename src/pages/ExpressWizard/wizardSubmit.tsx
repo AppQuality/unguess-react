@@ -5,8 +5,6 @@ import { ReactComponent as CheckIcon } from 'src/assets/icons/check-lg-stroke.sv
 import { ReactComponent as EmptyIcon } from 'src/assets/icons/empty.svg';
 import {
   MD,
-  Modal,
-  ModalClose,
   Paragraph,
   SM,
   Spinner,
@@ -87,11 +85,11 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const triggerSubmit = useCallback(() => {
     if (selectedDateSpot !== -1) {
       const resultsDate = addBusinessDays(
-        dateSpots[selectedDateSpot], // start_date,
+        dateSpots[selectedDateSpot as number], // start_date,
         requiredDuration
       );
 
-      setFieldValue('campaign_date', dateSpots[selectedDateSpot]);
+      setFieldValue('campaign_date', dateSpots[selectedDateSpot as number]);
       setFieldValue('campaign_date_end', resultsDate);
       setFieldValue(
         'campaign_date_end_text',
@@ -113,8 +111,6 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
     // Trigger form submit
     handleSubmit();
   }, [selectedDateSpot]);
-
-  console.log('Current values', values);
 
   return (
     <StyledDiv>
