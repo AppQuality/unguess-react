@@ -27,7 +27,7 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
         name="campaign_name"
         placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
         style={{ minWidth: '20%', marginLeft: theme.space.md }}
-        size={26}
+        size={22}
         value={values.campaign_name || ''}
         onChange={(e) => {
           setFieldValue('campaign_name', e.target.value);

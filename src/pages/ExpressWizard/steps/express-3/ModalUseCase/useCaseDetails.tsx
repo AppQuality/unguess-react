@@ -2,7 +2,6 @@ import {
   Label,
   theme as globalTheme,
   Span,
-  Input,
   MediaInput,
   Paragraph,
   LG,
@@ -10,6 +9,7 @@ import {
   Button,
   Col,
   Row,
+  InputToggle,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
@@ -73,33 +73,33 @@ export const UseCaseDetails = ({
     <AnimatedContainer>
       {/* Title */}
       <StyledFormField style={{ marginTop: 0 }}>
-        <Label>
-          {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-        </Label>
-        <Input
-          type="text"
+        <InputToggle
           key={`use_cases[${useCaseIndex}].title`}
+          name={`use_cases[${useCaseIndex}].title`}
+          value={useCase.title}
+          onChange={(e) => {
+            setFieldValue(`use_cases[${useCaseIndex}].title`, e.target.value);
+            useCase.title = e.target.value;
+          }}
           placeholder={t(
-            '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
+            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
           )}
-          focusInset
-          {...(useCase &&
-            useCase.title && {
-              value: useCase.title,
-            })}
-          {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
-          {...(useCaseErrors &&
-            useCaseErrors?.title && { validation: 'error' })}
+          size={26}
+          label={t(
+            '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE'
+          )}
+          required
           onBlur={() => {
             validateForm();
           }}
+          {...(useCaseErrors &&
+            useCaseErrors?.title && {
+              validation: 'error',
+              message: t(
+                '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED'
+              ),
+            })}
         />
-        {useCaseErrors && useCaseErrors?.title && (
-          <HelpTextMessage validation="error">
-            {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
-          </HelpTextMessage>
-        )}
       </StyledFormField>
 
       {/* Editor */}
