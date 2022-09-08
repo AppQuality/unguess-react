@@ -168,6 +168,7 @@ export const UseCaseDetails = ({
           onBlur={() => {
             validateForm();
           }}
+          endIcon={<EditIcon fill={globalTheme.palette.grey[600]} />}
           {...(useCaseErrors &&
             useCaseErrors?.title && {
               validation: 'error',
