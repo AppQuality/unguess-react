@@ -2,7 +2,6 @@ import {
   Col,
   Grid,
   Label,
-  MediaInput,
   Paragraph,
   RadioCard,
   Row,
@@ -21,7 +20,6 @@ import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
 import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-active.svg';
 import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
 import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
-import { ReactComponent as DocumentIcon } from 'src/assets/icons/document-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
