@@ -61,7 +61,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [refElement, setRefElement] = useState<HTMLButtonElement | null>();
-  const [selectedDateSpot, setSelectedDateSpot] = useState<number>(0);
+  const [selectedDateSpot, setSelectedDateSpot] = useState<number>();
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
 
   const [launchDate, setlaunchDate] = useState<Date>(
@@ -78,8 +78,8 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
 
   // format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
   const dateSpots = [
-    addBusinessDays(launchDate, 1),
-    addBusinessDays(launchDate, 5),
+    addBusinessDays(values.campaign_date ?? today, 1),
+    addBusinessDays(values.campaign_date ?? today, 5),
   ];
 
   const triggerSubmit = useCallback(() => {
