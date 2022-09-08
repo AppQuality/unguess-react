@@ -22,7 +22,7 @@ export const Container = styled.div`
 export const WizardHeader = (props: FormikProps<WizardModel>) => {
   const { width } = useWindowSize();
   const { t } = useTranslation();
-  const { values, setFieldValue, errors } = props;
+  const { values, setFieldValue, errors, validateForm } = props;
 
   const isDesktop = width > parseInt(theme.breakpoints.sm, 10);
 
@@ -42,6 +42,9 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
         value={values.campaign_name || ''}
         onChange={(e) => {
           setFieldValue('campaign_name', e.target.value);
+        }}
+        onBlur={() => {
+          validateForm();
         }}
         {...(errors.campaign_name && {
           validation: 'error',
