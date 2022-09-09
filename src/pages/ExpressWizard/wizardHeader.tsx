@@ -1,9 +1,5 @@
-import {
-  Logo,
-  theme,
-  InputToggle,
-  Span,
-} from '@appquality/unguess-design-system';
+import { Logo, theme, Span } from '@appquality/unguess-design-system';
+import { InputToggle } from 'src/common/components/input-toggle';
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -23,7 +19,7 @@ export const Container = styled.div`
 export const WizardHeader = (props: FormikProps<WizardModel>) => {
   const { width } = useWindowSize();
   const { t } = useTranslation();
-  const { values, setFieldValue, errors, validateForm } = props;
+  const { values, setFieldValue, getFieldProps, errors, validateForm } = props;
   const [key, setKey] = useState(new Date().getTime());
   const isDesktop = width > parseInt(theme.breakpoints.sm, 10);
 
@@ -32,8 +28,16 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
       {width > parseInt(theme.breakpoints.sm, 10) ? (
         <Logo type="icon" size={25} style={{ marginRight: theme.space.xs }} />
       ) : null}
-      <InputToggle
-        key={`campaign_name_${key}`}
+
+      <InputToggle isFocused>
+        <InputToggle.Item
+          size={isDesktop ? 22 : 16}
+          placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
+          {...getFieldProps('campaign_name')}
+        />
+      </InputToggle>
+
+      {/* <InputToggle
         name="campaign_name"
         placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
         style={{
@@ -61,7 +65,7 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
               '__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED'
             ),
           })}
-      />
+      /> */}
       {isDesktop && errors.campaign_name && (
         <>
           <ErrorIcon width={20} style={{ marginLeft: theme.space.sm }} />
