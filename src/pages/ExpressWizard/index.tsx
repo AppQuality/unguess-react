@@ -260,6 +260,8 @@ export const ExpressWizardContainer = () => {
             customer_id: activeWorkspace?.id || -1,
 
             express_slug: expressTypeMeta.slug,
+            has_bug_form: values.has_bug_form ? 1 : 0,
+            has_bug_parade: values.has_bug_parade ? 1 : 0,
             ...(values.use_cases && { use_cases: values.use_cases }),
           },
         })

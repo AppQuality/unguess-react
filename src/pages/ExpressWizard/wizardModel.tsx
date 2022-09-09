@@ -13,4 +13,8 @@ export interface WizardModel
     WhoStep,
     HowStep,
     WhenStep,
-    ConfirmStep {}
+    ConfirmStep {
+  has_bug_form?: boolean;
+  has_bug_parade?: boolean;
+  base_cp_duration?: number;
+}
