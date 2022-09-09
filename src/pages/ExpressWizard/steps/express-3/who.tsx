@@ -72,7 +72,7 @@ const UsersTags = () => (
       hue={globalTheme.palette.grey[100]}
     >
       <StyledTag.Avatar>
-        <WorldIcon />
+        <TranslationIcon />
       </StyledTag.Avatar>
       <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS_LOCATION')}</Span>
     </StyledTag>
@@ -83,7 +83,7 @@ const UsersTags = () => (
       hue={globalTheme.palette.grey[100]}
     >
       <StyledTag.Avatar>
-        <TranslationIcon />
+        <WorldIcon />
       </StyledTag.Avatar>
       <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS_LANGUAGE')}</Span>
     </StyledTag>
