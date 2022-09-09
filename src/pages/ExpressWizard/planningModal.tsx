@@ -6,7 +6,6 @@ import {
   Row,
   theme as globalTheme,
   Paragraph,
-  FooterItem,
   MD,
 } from '@appquality/unguess-design-system';
 import { Field, Input } from '@zendeskgarden/react-forms';
@@ -20,8 +19,15 @@ import {
   EXPRESS_START_DATE_MAX_VALUE,
 } from 'src/constants';
 import { WaterButton } from 'src/common/components/waterButton';
-
+import styled from 'styled-components';
 import { getLanguage } from './getLanguage';
+
+const InBodyFooter = styled.div`
+  margin-top: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
 
 const PlanningModal = ({
   startDate,
@@ -51,7 +57,7 @@ const PlanningModal = ({
       <Modal.Header>
         {t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}
       </Modal.Header>
-      <Modal.Body style={{ minHeight: '250px' }}>
+      <Modal.Body style={{ paddingBottom: 0, minHeight: '300px' }}>
         <Row style={{ marginTop: '60px' }}>
           <Col xs={12} sm={6}>
             <Field>
@@ -121,25 +127,21 @@ const PlanningModal = ({
                 {t('__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_NOTE')}
               </MD>
             </Paragraph>
+            <InBodyFooter>
+              <WaterButton isBasic onClick={onClose}>
+                {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CANCEL')}
+              </WaterButton>
+              <WaterButton
+                isPill
+                isPrimary
+                onClick={() => onSave(launchDate, endDate)}
+              >
+                {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CONFIRM')}
+              </WaterButton>
+            </InBodyFooter>
           </Col>
         </Row>
       </Modal.Body>
-      <Modal.Footer>
-        <FooterItem>
-          <WaterButton isBasic onClick={onClose}>
-            {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CANCEL')}
-          </WaterButton>
-        </FooterItem>
-        <FooterItem>
-          <WaterButton
-            isPill
-            isPrimary
-            onClick={() => onSave(launchDate, endDate)}
-          >
-            {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CONFIRM')}
-          </WaterButton>
-        </FooterItem>
-      </Modal.Footer>
       <ModalClose aria-label="Close modal" />
     </Modal>
   );

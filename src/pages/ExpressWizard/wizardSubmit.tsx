@@ -117,19 +117,8 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
     handleSubmit();
   }, [selectedDateSpot]);
 
-  // We consider cp as planned when the campaign_date is default or has a custom date value smaller than the first date spot
+  // We consider cp as planned when the difference between the launchDate and the first date spot is at least 0
   const isPlanned = differenceInBusinessDays(launchDate, dateSpots[0]) > -1;
-
-  console.log('--------------------------');
-  console.log('isPlanned', isPlanned);
-  console.log(
-    'differenceInBusinessDays',
-    differenceInBusinessDays(launchDate, dateSpots[0])
-  );
-  console.log('selectedDateSpot', selectedDateSpot);
-  console.log('launchDate', launchDate);
-  console.log('dateSpots[0]', dateSpots[0]);
-  console.log('launchDate < dateSpots[0]', launchDate < dateSpots[0]);
 
   return (
     <StyledDiv>
