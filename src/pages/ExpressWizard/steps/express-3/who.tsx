@@ -38,7 +38,6 @@ const StyledFormField = styled.div`
 `;
 
 const StyledLanguageTitle = styled(XL)`
-  padding-top: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.sm};
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
