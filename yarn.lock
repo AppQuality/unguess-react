@@ -42,7 +42,7 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/unguess-design-system@2.11.15":
+"@appquality/unguess-design-system@2.11.5":
   version "2.11.5"
   resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.11.5.tgz#69ddd519de27ed505893f5ed41a6cf6ff65daaba"
   integrity sha512-loDmMGcwrLD5BD8OCrKGh9sKORAhjYPejQ8/OC/Lrhk2QKH0ATx6yYXKeiq8hGgbZvnj4FIV1CkGZcGh8A2PzQ==
