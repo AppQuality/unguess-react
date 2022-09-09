@@ -58,7 +58,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
   // Group templates by category id
   const groupedTemplates = templates.reduce(
     (acc: UseCaseTemplate[][], template: UseCaseTemplate) => {
-      const categoryId = template.category.id ?? -1;
+      const categoryId = template?.category?.id ?? -1;
       if (!acc[categoryId as number]) {
         acc[categoryId as number] = [];
       }
@@ -78,7 +78,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
     (value: string) => {
       const matchedOptions = groupedTemplates.reduce(
         (acc: UseCaseTemplate[][], group: UseCaseTemplate[]) => {
-          const categoryId = group[0].category.id ?? -1;
+          const categoryId = group[0]?.category?.id ?? -1;
           const matchGroup = group.filter(
             (template: UseCaseTemplate) =>
               template.title
@@ -145,7 +145,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
         {matchingOptions.length ? (
           matchingOptions.map((group: UseCaseTemplate[]) => (
             <>
-              <GroupLabel disabled>{group[0].category.name}</GroupLabel>
+              <GroupLabel disabled>{group[0]?.category?.name}</GroupLabel>
               {group.map((template: UseCaseTemplate) => (
                 <StyledItem key={`template_${template.id}`} value={template}>
                   <ItemContent

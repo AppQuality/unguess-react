@@ -260,6 +260,8 @@ export const ExpressWizardContainer = () => {
             customer_id: activeWorkspace?.id || -1,
 
             express_slug: expressTypeMeta.slug,
+            has_bug_form: values.has_bug_form ? 1 : 0,
+            has_bug_parade: values.has_bug_parade ? 1 : 0,
             ...(values.use_cases && { use_cases: values.use_cases }),
           },
         })
@@ -316,10 +318,11 @@ export const ExpressWizardContainer = () => {
     const wordpressHandle = async (cp: Campaign, next: any) => {
       try {
         // Post on webhook WordPress axios call
-        await createPages(cp.id);
         if (!values.use_cases) {
           await createUseCases(cp.id);
         }
+
+        await createPages(cp.id);
         await createCrons(cp.id);
         await createTasks(cp.id);
         next(null, cp);
@@ -421,7 +424,7 @@ export const ExpressWizardContainer = () => {
                 </StyledModalContent>
               </ModalFullScreen.Body>
               <ModalFooter>
-                <StyledModalNav>
+                <StyledModalNav style={{ position: 'relative' }}>
                   <Row style={{ marginLeft: 0, marginRight: 0 }}>
                     <Col
                       xs={12}

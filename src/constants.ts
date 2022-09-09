@@ -24,3 +24,24 @@ export const EXPRESS_USE_CASES_LIMIT = 5;
 export const EXPRESS_START_DATE_MAX_VALUE = 30;
 export const EXPRESS_BUSINESS_DAYS_TO_ADD = 2;
 export const EXPRESS_3_BUSINESS_DAYS_TO_ADD = 3;
+
+export const RELATIVE_DATE_FORMAT_OPTS: {
+  [key: string]: { [key: string]: string };
+} = {
+  en: {
+    lastWeek: "EEEE','  d MMMM Y",
+    yesterday: "'Yesterday,' EEEE d MMMM",
+    today: "'Today,' EEEE d MMMM",
+    tomorrow: "'Tomorrow,' EEEE d MMMM",
+    nextWeek: "EEEE',' d MMMM Y",
+    other: "EEEE',' d MMMM Y",
+  },
+  it: {
+    lastWeek: "EEEE',' d MMMM Y",
+    yesterday: "'Ieri,' EEEE d MMMM",
+    today: "'Oggi,' EEEE d MMMM",
+    tomorrow: "'Domani,' EEEE d MMMM",
+    nextWeek: "EEEE',' d MMMM Y",
+    other: "EEEE',' d MMMM Y",
+  },
+};

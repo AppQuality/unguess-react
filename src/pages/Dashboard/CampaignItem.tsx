@@ -17,6 +17,7 @@ export const CampaignItem = ({
   const { t } = useTranslation();
   const { type, project, family } = campaign;
   const isFunctional = family.name.toLowerCase() === 'functional';
+  const title = campaign.customer_title ?? campaign.title;
 
   return (
     <CampaignCard
@@ -25,8 +26,8 @@ export const CampaignItem = ({
       // isNew={campaign?.isNew} TODO: need an API update
       date={format(new Date(campaign.start_date), 'dd/MM/Y')}
       projectTitle={`${project.name}`}
-      campaignTitle={campaign.title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
-      title={campaign.title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
+      campaignTitle={title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
+      title={title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
       type={isFunctional ? 'FUNCTIONAL' : 'EXPERIENTIAL'}
       status={getCampaignStatus(campaign)}
       pillText={type.name}
