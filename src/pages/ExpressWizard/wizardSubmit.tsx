@@ -16,7 +16,12 @@ import {
 import i18n from 'src/i18n';
 import { useCallback, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { addBusinessDays, format, formatRelative } from 'date-fns';
+import {
+  addBusinessDays,
+  differenceInBusinessDays,
+  format,
+  formatRelative,
+} from 'date-fns';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { WaterButton } from '../../common/components/waterButton';
 import { WizardModel } from './wizardModel';
@@ -112,6 +117,20 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
     handleSubmit();
   }, [selectedDateSpot]);
 
+  // We consider cp as planned when the campaign_date is default or has a custom date value smaller than the first date spot
+  const isPlanned = differenceInBusinessDays(launchDate, dateSpots[0]) > -1;
+
+  console.log('--------------------------');
+  console.log('isPlanned', isPlanned);
+  console.log(
+    'differenceInBusinessDays',
+    differenceInBusinessDays(launchDate, dateSpots[0])
+  );
+  console.log('selectedDateSpot', selectedDateSpot);
+  console.log('launchDate', launchDate);
+  console.log('dateSpots[0]', dateSpots[0]);
+  console.log('launchDate < dateSpots[0]', launchDate < dateSpots[0]);
+
   return (
     <StyledDiv>
       <SplitButton>
@@ -123,9 +142,9 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           disabled={Object.keys(errors).length > 0 || isSubmitting}
           onClick={triggerSubmit}
         >
-          {!selectedDateSpot
-            ? t('__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL')
-            : t('__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL')}
+          {isPlanned
+            ? t('__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL')
+            : t('__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL')}
         </WaterButton>
         <WaterButton
           isPill
@@ -146,10 +165,14 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
         />
       ) : (
         <HelpText>
-          {selectedDateSpot === -1 && endDate
+          {isPlanned
             ? `${t(
                 '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
-              )} ${format(endDate, 'EEEE d MMMM', { locale: lang.locale })}`
+              )} ${format(
+                endDate ?? addBusinessDays(launchDate, requiredDuration),
+                'EEEE d MMMM',
+                { locale: lang.locale }
+              )}`
             : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
         </HelpText>
       )}
@@ -169,7 +192,10 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           <Timeline>
             {dateSpots.map((date, index) => (
               <InteractiveTimelineItem
-                onClick={() => setSelectedDateSpot(index)}
+                onClick={() => {
+                  setSelectedDateSpot(index);
+                  setlaunchDate(date);
+                }}
                 icon={
                   index === selectedDateSpot ? (
                     <CheckIcon width={24} />
