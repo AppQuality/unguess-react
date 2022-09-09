@@ -1,14 +1,12 @@
 import {
   Col,
   Grid,
-  Label,
   Paragraph,
   RadioCard,
   Row,
   Span,
   XL,
   XXL,
-  theme as globalTheme,
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
@@ -74,12 +72,6 @@ export const WhatStep = ({
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField>
-        <Label>
-          {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-        </Label>
-      </StyledFormField>
       <StyledFormField>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
