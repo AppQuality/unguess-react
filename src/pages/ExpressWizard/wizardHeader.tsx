@@ -3,8 +3,8 @@ import {
   theme as globalTheme,
   Span,
   Label,
+  InputToggle,
 } from '@appquality/unguess-design-system';
-import { InputToggle } from 'src/common/components/input-toggle';
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -24,10 +24,6 @@ export const Container = styled.div`
 const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const StyledLabel = styled(Label)`
-  padding: ${({ theme }) => `${theme.space.xxs} ${theme.space.xxs} 0`};
 `;
 
 export const WizardHeader = (props: FormikProps<WizardModel>) => {
@@ -52,7 +48,7 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
         <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
           Labellina
         </InputToggle.Label>
-        <InputToggle isFocused label="porterei">
+        <InputToggle isFocused>
           <InputToggle.Item
             size={isDesktop ? 22 : 16}
             placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
