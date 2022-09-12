@@ -95,7 +95,39 @@ export const WhatStep = ({
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginBottom: globalTheme.space.xl }}>
+      <StyledFormField>
+        <Dropdown
+          {...props.getFieldProps('campaign_reason')}
+          {...(errors.campaign_reason && { validation: 'error' })}
+          onSelect={(item) => {
+            props.setFieldValue('campaign_reason', item);
+            setSelectedItem(item);
+          }}
+          selectedItem={selectedItem}
+        >
+          <DropdownField>
+            <Label>
+              {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
+            </Label>
+            <Select start={<FlagIcon />}>
+              {selectedItem && reasonItems[`${selectedItem}`]}
+            </Select>
+            {errors.campaign_reason && (
+              <HelpTextMessage validation="error">
+                {errors.campaign_reason}
+              </HelpTextMessage>
+            )}
+          </DropdownField>
+          <Menu>
+            {Object.keys(reasonItems).map((key) => (
+              <Item key={key} value={key}>
+                {reasonItems[`${key}`]}
+              </Item>
+            ))}
+          </Menu>
+        </Dropdown>
+      </StyledFormField>
+      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>

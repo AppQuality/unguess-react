@@ -122,7 +122,7 @@ export const WhatStep = ({
           </Menu>
         </Dropdown>
       </StyledFormField>
-      <StyledFormField>
+      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>
