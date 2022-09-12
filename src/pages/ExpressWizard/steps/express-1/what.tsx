@@ -13,6 +13,7 @@ import {
   XL,
   XXL,
   ContainerCard,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
@@ -26,7 +27,7 @@ import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg'
 import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
 import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
@@ -82,6 +83,10 @@ export const WhatStep = ({
     props.setFieldValue('product_type', value);
   };
 
+  useEffect(() => {
+    props.setFieldValue('campaign_name', '', true);
+  }, []);
+
   return (
     <ContainerCard>
       <StepTitle>
@@ -90,39 +95,7 @@ export const WhatStep = ({
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField>
-        <Dropdown
-          {...props.getFieldProps('campaign_reason')}
-          {...(errors.campaign_reason && { validation: 'error' })}
-          onSelect={(item) => {
-            props.setFieldValue('campaign_reason', item);
-            setSelectedItem(item);
-          }}
-          selectedItem={selectedItem}
-        >
-          <DropdownField>
-            <Label>
-              {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
-            </Label>
-            <Select start={<FlagIcon />}>
-              {selectedItem && reasonItems[`${selectedItem}`]}
-            </Select>
-            {errors.campaign_reason && (
-              <HelpTextMessage validation="error">
-                {errors.campaign_reason}
-              </HelpTextMessage>
-            )}
-          </DropdownField>
-          <Menu>
-            {Object.keys(reasonItems).map((key) => (
-              <Item key={key} value={key}>
-                {reasonItems[`${key}`]}
-              </Item>
-            ))}
-          </Menu>
-        </Dropdown>
-      </StyledFormField>
-      <StyledFormField>
+      <StyledFormField style={{ marginBottom: globalTheme.space.xl }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>
@@ -172,6 +145,38 @@ export const WhatStep = ({
             </HelpTextMessage>
           )}
         </Grid>
+      </StyledFormField>
+      <StyledFormField>
+        <Dropdown
+          {...props.getFieldProps('campaign_reason')}
+          {...(errors.campaign_reason && { validation: 'error' })}
+          onSelect={(item) => {
+            props.setFieldValue('campaign_reason', item);
+            setSelectedItem(item);
+          }}
+          selectedItem={selectedItem}
+        >
+          <DropdownField>
+            <Label>
+              {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
+            </Label>
+            <Select start={<FlagIcon />}>
+              {selectedItem && reasonItems[`${selectedItem}`]}
+            </Select>
+            {errors.campaign_reason && (
+              <HelpTextMessage validation="error">
+                {errors.campaign_reason}
+              </HelpTextMessage>
+            )}
+          </DropdownField>
+          <Menu>
+            {Object.keys(reasonItems).map((key) => (
+              <Item key={key} value={key}>
+                {reasonItems[`${key}`]}
+              </Item>
+            ))}
+          </Menu>
+        </Dropdown>
       </StyledFormField>
     </ContainerCard>
   );

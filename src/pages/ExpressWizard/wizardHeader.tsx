@@ -2,7 +2,6 @@ import {
   Logo,
   theme as globalTheme,
   Span,
-  Label,
   InputToggle,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
@@ -10,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
-import { useState } from 'react';
 import { WizardModel } from './wizardModel';
 
 export const Container = styled.div`
@@ -29,10 +27,9 @@ const TitleContainer = styled.div`
 export const WizardHeader = (props: FormikProps<WizardModel>) => {
   const { width } = useWindowSize();
   const { t } = useTranslation();
-  const { values, setFieldValue, getFieldProps, errors, validateForm } = props;
-  const [key, setKey] = useState(new Date().getTime());
+  const { getFieldProps, errors, validateForm } = props;
+
   const isDesktop = width > parseInt(globalTheme.breakpoints.sm, 10);
-  const [showLabel, setShowLabel] = useState(false);
 
   return (
     <Container>
@@ -45,21 +42,14 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
       ) : null}
 
       <TitleContainer>
-        <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
-          Labellina
-        </InputToggle.Label>
         <InputToggle isFocused>
           <InputToggle.Item
             size={isDesktop ? 22 : 16}
             placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
             {...getFieldProps('campaign_name')}
             validation={errors.campaign_name ? 'error' : undefined}
-            onFocus={() => {
-              setShowLabel(true);
-            }}
             onBlur={() => {
               validateForm();
-              setShowLabel(false);
             }}
           />
         </InputToggle>
