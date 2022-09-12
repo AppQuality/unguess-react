@@ -1,4 +1,9 @@
-import { Logo, theme, Span } from '@appquality/unguess-design-system';
+import {
+  Logo,
+  theme as globalTheme,
+  Span,
+  Label,
+} from '@appquality/unguess-design-system';
 import { InputToggle } from 'src/common/components/input-toggle';
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -16,26 +21,53 @@ export const Container = styled.div`
   width: 100%;
 `;
 
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledLabel = styled(Label)`
+  padding: ${({ theme }) => `${theme.space.xxs} ${theme.space.xxs} 0`};
+`;
+
 export const WizardHeader = (props: FormikProps<WizardModel>) => {
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const { values, setFieldValue, getFieldProps, errors, validateForm } = props;
   const [key, setKey] = useState(new Date().getTime());
-  const isDesktop = width > parseInt(theme.breakpoints.sm, 10);
+  const isDesktop = width > parseInt(globalTheme.breakpoints.sm, 10);
+  const [showLabel, setShowLabel] = useState(false);
 
   return (
     <Container>
-      {width > parseInt(theme.breakpoints.sm, 10) ? (
-        <Logo type="icon" size={25} style={{ marginRight: theme.space.xs }} />
+      {width > parseInt(globalTheme.breakpoints.sm, 10) ? (
+        <Logo
+          type="icon"
+          size={25}
+          style={{ marginRight: globalTheme.space.xs }}
+        />
       ) : null}
 
-      <InputToggle isFocused>
-        <InputToggle.Item
-          size={isDesktop ? 22 : 16}
-          placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
-          {...getFieldProps('campaign_name')}
-        />
-      </InputToggle>
+      <TitleContainer>
+        <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
+          Labellina
+        </InputToggle.Label>
+        <InputToggle isFocused label="porterei">
+          <InputToggle.Item
+            size={isDesktop ? 22 : 16}
+            placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
+            {...getFieldProps('campaign_name')}
+            validation={errors.campaign_name ? 'error' : undefined}
+            onFocus={() => {
+              setShowLabel(true);
+            }}
+            onBlur={() => {
+              validateForm();
+              setShowLabel(false);
+            }}
+          />
+        </InputToggle>
+      </TitleContainer>
 
       {/* <InputToggle
         name="campaign_name"
@@ -68,11 +100,11 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
       /> */}
       {isDesktop && errors.campaign_name && (
         <>
-          <ErrorIcon width={20} style={{ marginLeft: theme.space.sm }} />
+          <ErrorIcon width={20} style={{ marginLeft: globalTheme.space.sm }} />
           <Span
             style={{
-              color: theme.colors.dangerHue,
-              marginLeft: theme.space.sm,
+              color: globalTheme.colors.dangerHue,
+              marginLeft: globalTheme.space.sm,
             }}
           >
             {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')}
