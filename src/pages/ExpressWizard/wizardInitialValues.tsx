@@ -30,6 +30,9 @@ const values: WizardModel = {
   age_range: 'all',
   gender: 'all',
   digital_literacy: 'all',
+  has_bug_form: false,
+  has_bug_parade: false,
+  base_cp_duration: EXPRESS_BUSINESS_DAYS_TO_ADD,
 };
 
 export default values;

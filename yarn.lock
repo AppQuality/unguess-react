@@ -41,7 +41,6 @@
     ajv "^8.6.3"
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
-
 "@appquality/unguess-design-system@2.11.14":
   version "2.11.14"
   resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.11.14.tgz#a37c96696ae50c79760cf9b1b54c0c5b52b0a29e"
