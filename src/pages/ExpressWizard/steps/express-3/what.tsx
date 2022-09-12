@@ -1,15 +1,12 @@
 import {
   Col,
   Grid,
-  Label,
-  MediaInput,
   Paragraph,
   RadioCard,
   Row,
   Span,
   XL,
   XXL,
-  theme as globalTheme,
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
@@ -21,7 +18,6 @@ import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
 import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-active.svg';
 import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
 import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
-import { ReactComponent as DocumentIcon } from 'src/assets/icons/document-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
@@ -151,9 +147,6 @@ export const WhatStep = ({
 };
 
 export const WhatStepValidationSchema = Yup.object().shape({
-  campaign_name: Yup.string().required(
-    t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')
-  ),
   campaign_reason: Yup.string().required(
     t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_REQUIRED')
   ),

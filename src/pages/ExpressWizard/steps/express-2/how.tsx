@@ -1,6 +1,7 @@
 import {
   Card,
   ContainerCard,
+  Label,
   Paragraph,
   SM,
   Span,
@@ -42,12 +43,6 @@ const StepTitle = styled(XXL)`
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
-`;
-
-const StyledLanguageTitle = styled(XL)`
-  padding-top: ${({ theme }) => theme.space.md};
-  margin-bottom: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
 const UseCaseCardButton = styled(Card)`
@@ -157,10 +152,10 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
         <CardDivider />
 
         <StyledFormField>
-          <StyledLanguageTitle>
+          <Label>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_TITLE')}
             <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-          </StyledLanguageTitle>
+          </Label>
           <Paragraph>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_DESCRIPTION')}
           </Paragraph>
@@ -170,7 +165,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
               '__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_PLACEHOLDER'
             )}
             isResizable
-            style={{ marginTop: globalTheme.space.md }}
+            style={{ marginTop: globalTheme.space.xs }}
             {...getFieldProps('test_description')}
             {...(errors.test_description &&
               touched.test_description && { validation: 'error' })}
