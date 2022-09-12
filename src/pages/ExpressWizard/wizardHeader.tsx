@@ -1,49 +1,102 @@
 import {
-  Anchor,
-  Breadcrumb,
   Logo,
+  theme as globalTheme,
   Span,
-  theme,
+  InputToggle,
 } from '@appquality/unguess-design-system';
+import { FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
+import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
+import { WizardModel } from './wizardModel';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  width: 100%;
 `;
 
-interface IBreadcrumb {
-  name: string;
-  onClick?: () => void;
-}
+const TitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
-export const WizardHeader = ({
-  title,
-  breadcrumbs,
-}: {
-  title: string;
-  breadcrumbs?: Array<IBreadcrumb>;
-}) => {
+export const WizardHeader = (props: FormikProps<WizardModel>) => {
   const { width } = useWindowSize();
+  const { t } = useTranslation();
+  const { getFieldProps, errors, validateForm } = props;
 
-  return width > parseInt(theme.breakpoints.sm, 10) ? (
+  const isDesktop = width > parseInt(globalTheme.breakpoints.sm, 10);
+
+  return (
     <Container>
-      <Logo type="icon" size={25} style={{ marginRight: theme.space.xs }} />
-      <Breadcrumb>
-        {breadcrumbs &&
-          breadcrumbs.length &&
-          breadcrumbs.map((crumb) => (
-            <Anchor {...(crumb.onClick && { onClick: crumb.onClick })}>
-              {crumb.name}
-            </Anchor>
-          ))}
-        <Span>{title}</Span>
-      </Breadcrumb>
+      {width > parseInt(globalTheme.breakpoints.sm, 10) ? (
+        <Logo
+          type="icon"
+          size={25}
+          style={{ marginRight: globalTheme.space.xs }}
+        />
+      ) : null}
+
+      <TitleContainer>
+        <InputToggle isFocused>
+          <InputToggle.Item
+            size={isDesktop ? 22 : 16}
+            placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
+            {...getFieldProps('campaign_name')}
+            validation={errors.campaign_name ? 'error' : undefined}
+            onBlur={() => {
+              validateForm();
+            }}
+          />
+        </InputToggle>
+      </TitleContainer>
+
+      {/* <InputToggle
+        name="campaign_name"
+        placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
+        style={{
+          minWidth: isDesktop ? '25%' : '90%',
+          marginLeft: theme.space.md,
+        }}
+        size={isDesktop ? 22 : 16}
+        value={values.campaign_name || ''}
+        onFocus={() => {
+          console.log('onFocus');
+        }}
+        onChange={(e) => {
+          setFieldValue('campaign_name', e.target.value);
+        }}
+        onBlur={() => {
+          validateForm();
+        }}
+        isFocused
+        {...(errors.campaign_name && {
+          validation: 'error',
+        })}
+        {...(!isDesktop &&
+          errors.campaign_name && {
+            message: t(
+              '__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED'
+            ),
+          })}
+      /> */}
+      {isDesktop && errors.campaign_name && (
+        <>
+          <ErrorIcon width={20} style={{ marginLeft: globalTheme.space.sm }} />
+          <Span
+            style={{
+              color: globalTheme.colors.dangerHue,
+              marginLeft: globalTheme.space.sm,
+            }}
+          >
+            {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')}
+          </Span>
+        </>
+      )}
     </Container>
-  ) : (
-    <Span>{title}</Span>
   );
 };
