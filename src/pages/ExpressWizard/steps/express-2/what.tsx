@@ -13,6 +13,7 @@ import {
   XL,
   XXL,
   ContainerCard,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';

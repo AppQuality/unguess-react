@@ -79,7 +79,7 @@ export const UseCaseDetails = ({
           {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
           <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
         </InputToggle.Label>
-        <InputToggle>
+        <InputToggle style={{ color: globalTheme.palette.grey[800] }}>
           <InputToggle.Item
             key={`use_cases[${useCaseIndex}].title`}
             placeholder={t(
