@@ -3,12 +3,14 @@ import {
   theme as globalTheme,
   Span,
   InputToggle,
+  Anchor,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
+import { useAppSelector } from 'src/app/hooks';
 import { WizardModel } from './wizardModel';
 
 export const Container = styled.div`
@@ -24,10 +26,19 @@ const TitleContainer = styled.div`
   flex-direction: column;
 `;
 
-export const WizardHeader = (props: FormikProps<WizardModel>) => {
+const StyledAnchor = styled(Anchor)`
+  padding: 0 ${({ theme }) => theme.space.xxs};
+`;
+
+interface WizardHeaderProps extends FormikProps<WizardModel> {
+  onClose: () => void;
+}
+
+export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const { getFieldProps, errors, validateForm } = props;
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   const isDesktop = width > parseInt(globalTheme.breakpoints.sm, 10);
 
@@ -42,6 +53,11 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
       ) : null}
 
       <TitleContainer>
+        <StyledAnchor onClick={() => onClose()}>
+          {activeWorkspace
+            ? `${activeWorkspace.company}'s Workspace`
+            : 'Workspace'}
+        </StyledAnchor>
         <InputToggle isFocused>
           <InputToggle.Item
             size={isDesktop ? 22 : 16}
@@ -51,6 +67,7 @@ export const WizardHeader = (props: FormikProps<WizardModel>) => {
             onBlur={() => {
               validateForm();
             }}
+            style={{ paddingTop: 0 }}
           />
         </InputToggle>
       </TitleContainer>

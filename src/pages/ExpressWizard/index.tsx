@@ -378,7 +378,7 @@ export const ExpressWizardContainer = () => {
               <StyledModal.Header
                 style={{ backgroundColor: globalTheme.palette.white }}
               >
-                <WizardHeader {...formProps} />
+                <WizardHeader {...formProps} onClose={closeExpressWizard} />
                 <StyledModal.Close
                   id="express-wizard-close-button"
                   aria-label="Close modal"
