@@ -2,7 +2,6 @@ import {
   Label,
   theme as globalTheme,
   Span,
-  Input,
   MediaInput,
   Paragraph,
   LG,
@@ -10,6 +9,7 @@ import {
   Button,
   Col,
   Row,
+  InputToggle,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
@@ -52,6 +52,8 @@ export const UseCaseDetails = ({
     useCase ? useCase.description.length : 0
   );
 
+  const [showLabel, setShowLabel] = useState<boolean>(false);
+
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
       ? (errors.use_cases[useCaseIndex as number] as UseCase)
@@ -73,28 +75,33 @@ export const UseCaseDetails = ({
     <AnimatedContainer>
       {/* Title */}
       <StyledFormField style={{ marginTop: 0 }}>
-        <Label>
+        <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
           {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
           <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-        </Label>
-        <Input
-          type="text"
-          key={`use_cases[${useCaseIndex}].title`}
-          placeholder={t(
-            '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
-          )}
-          focusInset
-          {...(useCase &&
-            useCase.title && {
-              value: useCase.title,
-            })}
-          {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
-          {...(useCaseErrors &&
-            useCaseErrors?.title && { validation: 'error' })}
-          onBlur={() => {
-            validateForm();
-          }}
-        />
+        </InputToggle.Label>
+        <InputToggle style={{ color: globalTheme.palette.grey[800] }}>
+          <InputToggle.Item
+            key={`use_cases[${useCaseIndex}].title`}
+            size={26}
+            placeholder={t(
+              '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
+            )}
+            {...(useCase &&
+              useCase.title && {
+                value: useCase.title,
+              })}
+            {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
+            {...(useCaseErrors &&
+              useCaseErrors?.title && { validation: 'error' })}
+            onFocus={() => {
+              setShowLabel(true);
+            }}
+            onBlur={() => {
+              validateForm();
+              setShowLabel(false);
+            }}
+          />
+        </InputToggle>
         {useCaseErrors && useCaseErrors?.title && (
           <HelpTextMessage validation="error">
             {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}

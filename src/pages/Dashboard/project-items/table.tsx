@@ -71,7 +71,7 @@ export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
             <TableCell>
               <Anchor href={getLocalizeRoute(cp.id, cp.family.name)}>
                 <Span isBold style={{ color: theme.palette.grey[800] }}>
-                  {cp.title}
+                  {cp.customer_title ?? cp.title}
                 </Span>
               </Anchor>
             </TableCell>

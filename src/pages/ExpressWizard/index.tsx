@@ -260,6 +260,8 @@ export const ExpressWizardContainer = () => {
             customer_id: activeWorkspace?.id || -1,
 
             express_slug: expressTypeMeta.slug,
+            has_bug_form: values.has_bug_form ? 1 : 0,
+            has_bug_parade: values.has_bug_parade ? 1 : 0,
             ...(values.use_cases && { use_cases: values.use_cases }),
           },
         })
@@ -316,10 +318,11 @@ export const ExpressWizardContainer = () => {
     const wordpressHandle = async (cp: Campaign, next: any) => {
       try {
         // Post on webhook WordPress axios call
-        await createPages(cp.id);
         if (!values.use_cases) {
           await createUseCases(cp.id);
         }
+
+        await createPages(cp.id);
         await createCrons(cp.id);
         await createTasks(cp.id);
         next(null, cp);
@@ -359,14 +362,6 @@ export const ExpressWizardContainer = () => {
     }
   };
 
-  // Hardcoded breadcrumbs for Wizard (only Services page)
-  const breadcrumbs = [
-    {
-      name: t('__BREADCRUMB_ITEM_SERVICES'),
-      onClick: closeExpressWizard,
-    },
-  ];
-
   return isWizardOpen ? (
     <StyledModal onClose={closeExpressWizard}>
       {!isThankyou ? (
@@ -383,10 +378,7 @@ export const ExpressWizardContainer = () => {
               <StyledModal.Header
                 style={{ backgroundColor: globalTheme.palette.white }}
               >
-                <WizardHeader
-                  breadcrumbs={breadcrumbs}
-                  title={expressTypeData?.title ?? t('__EXPRESS_WIZARD_TITLE')}
-                />
+                <WizardHeader {...formProps} onClose={closeExpressWizard} />
                 <StyledModal.Close
                   id="express-wizard-close-button"
                   aria-label="Close modal"
@@ -421,7 +413,7 @@ export const ExpressWizardContainer = () => {
                 </StyledModalContent>
               </ModalFullScreen.Body>
               <ModalFooter>
-                <StyledModalNav>
+                <StyledModalNav style={{ position: 'relative' }}>
                   <Row style={{ marginLeft: 0, marginRight: 0 }}>
                     <Col
                       xs={12}

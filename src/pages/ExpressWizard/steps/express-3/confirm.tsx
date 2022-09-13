@@ -10,7 +10,6 @@ import {
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { addBusinessDays } from 'date-fns';
 import { EXPRESS_3_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
@@ -37,14 +36,11 @@ const StyledCard = styled(ContainerCard)`
 `;
 
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
-  const { values } = props;
+  const { values, setFieldValue } = props;
 
   useEffect(() => {
-    // Update the campaign_date_end field with the correct days to add
-    values.campaign_date_end = addBusinessDays(
-      new Date(),
-      EXPRESS_3_BUSINESS_DAYS_TO_ADD
-    );
+    // This XPS require more time to be completed, so we update the default duration value
+    setFieldValue('base_cp_duration', EXPRESS_3_BUSINESS_DAYS_TO_ADD);
   }, []);
 
   const hasWhatStep = values.campaign_name;
@@ -103,4 +99,8 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   );
 };
 
-export const ConfirmationValidationSchema = Yup.object().shape({});
+export const ConfirmationValidationSchema = Yup.object().shape({
+  campaign_name: Yup.string().required(
+    t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')
+  ),
+});

@@ -8,11 +8,12 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { openWizard } from 'src/features/express/expressSlice';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
 import PageLoader from 'src/features/templates/PageLoader';
-import { extractStrapiData } from 'src/common/getStrapiData';
 import { HubspotModal } from 'src/common/components/HubspotModal';
-import { checkHubspotURL } from 'src/common/utils';
+import { checkHubspotURL, getLocalizedStrapiData } from 'src/common/utils';
+import i18n from 'src/i18n';
 import { ServiceTimeline } from './ServiceTimeline';
 import { SingleServicePageHeader } from './SingleServicePageHeader';
+import { strapiParams } from './strapi';
 
 const Service = () => {
   const { templateId } = useParams();
@@ -33,37 +34,11 @@ const Service = () => {
   const { data, isLoading, isError } = useGetFullServicesByIdQuery({
     id: templateId || '',
     populate: {
-      output_image: '*',
-      requirements: {
+      ...strapiParams,
+      localizations: {
         populate: {
-          description: {
-            populate: '*',
-          },
-          list: {
-            populate: '*',
-          },
+          ...strapiParams,
         },
-      },
-      why: {
-        populate: {
-          reasons: {
-            populate: '*',
-          },
-          advantages: {
-            populate: '*',
-          },
-        },
-      },
-      what: { populate: '*' },
-      how: {
-        populate: {
-          timeline: {
-            populate: '*',
-          },
-        },
-      },
-      express: {
-        populate: { express_type: '*' },
       },
     },
   });
@@ -71,7 +46,10 @@ const Service = () => {
   let service;
 
   if (data) {
-    service = extractStrapiData(data);
+    service = getLocalizedStrapiData({
+      item: data,
+      language: i18n.language,
+    });
   }
 
   if (isError) {

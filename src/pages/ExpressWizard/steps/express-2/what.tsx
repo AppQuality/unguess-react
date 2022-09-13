@@ -4,7 +4,6 @@ import {
   Grid,
   Item,
   Label,
-  MediaInput,
   Menu,
   Paragraph,
   RadioCard,
@@ -13,8 +12,8 @@ import {
   Span,
   XL,
   XXL,
-  theme as globalTheme,
   ContainerCard,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
@@ -26,7 +25,6 @@ import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
 import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-active.svg';
 import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
 import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
-import { ReactComponent as DocumentIcon } from 'src/assets/icons/document-icon.svg';
 import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
@@ -94,25 +92,6 @@ export const WhatStep = ({
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>
       <CardDivider />
       <StyledFormField>
-        <Label>
-          {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
-        </Label>
-        <MediaInput
-          type="text"
-          start={<DocumentIcon />}
-          placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
-          {...props.getFieldProps('campaign_name')}
-          focusInset
-          {...(errors.campaign_name && { validation: 'error' })}
-        />
-        {errors.campaign_name && (
-          <HelpTextMessage validation="error">
-            {errors.campaign_name}
-          </HelpTextMessage>
-        )}
-      </StyledFormField>
-      <StyledFormField>
         <Dropdown
           {...props.getFieldProps('campaign_reason')}
           {...(errors.campaign_reason && { validation: 'error' })}
@@ -144,7 +123,7 @@ export const WhatStep = ({
           </Menu>
         </Dropdown>
       </StyledFormField>
-      <StyledFormField>
+      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>
@@ -200,9 +179,6 @@ export const WhatStep = ({
 };
 
 export const WhatStepValidationSchema = Yup.object().shape({
-  campaign_name: Yup.string().required(
-    t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')
-  ),
   campaign_reason: Yup.string().required(
     t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_REQUIRED')
   ),

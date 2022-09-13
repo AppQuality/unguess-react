@@ -272,6 +272,7 @@ export type PostCampaignsApiArg = {
     description?: string;
     base_bug_internal_id?: string;
     express_slug: string;
+    use_cases?: UseCase[];
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
@@ -394,6 +395,29 @@ export type PlatformObject = {
   id: number;
   deviceType: number;
 };
+export type TemplateCategory = {
+  id?: number;
+  name: string;
+};
+export type Template = {
+  title: string;
+  description?: string;
+  content?: string;
+  category?: TemplateCategory;
+  device_type?: 'webapp' | 'mobileapp';
+  locale?: 'en' | 'it';
+  image?: string;
+  requiresLogin?: boolean;
+};
+export type UseCase = {
+  title: string;
+  description: string;
+  functionality?: {
+    id?: number;
+  } & Template;
+  logged?: boolean;
+  link?: string;
+};
 export type Coin = {
   id: number;
   customer_id: number;
@@ -402,20 +426,6 @@ export type Coin = {
   price?: number;
   created_on?: string;
   updated_on?: string;
-};
-export type TemplateCategory = {
-  id?: number;
-  name: string;
-};
-export type Template = {
-  title: string;
-  description: string;
-  content: string;
-  category: TemplateCategory;
-  device_type: 'webapp' | 'mobileapp';
-  locale: 'en' | 'it';
-  image?: string;
-  requiresLogin?: boolean;
 };
 export const {
   useGetQuery,

@@ -18,6 +18,7 @@ import { Textarea } from '@zendeskgarden/react-forms';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { useEffect } from 'react';
 import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
 import { WhatConfirm } from './confirm/whatConfirm';
@@ -66,11 +67,16 @@ const TextareaNote = styled(Paragraph)`
 `;
 
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
-  const { values, getFieldProps } = props;
+  const { values, getFieldProps, setFieldValue } = props;
 
   const hasWhatStep = values.campaign_name;
   const hasWhereStep = values.link;
   const hasWhoStep = values.campaign_language;
+
+  useEffect(() => {
+    // Tryber campaign configuration specific for this XPS campaign
+    setFieldValue('has_bug_form', true);
+  }, []);
 
   return (
     <ContainerCard>
@@ -147,4 +153,8 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   );
 };
 
-export const ConfirmationValidationSchema = Yup.object().shape({});
+export const ConfirmationValidationSchema = Yup.object().shape({
+  campaign_name: Yup.string().required(
+    t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')
+  ),
+});

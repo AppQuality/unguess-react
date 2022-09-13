@@ -17,6 +17,8 @@ import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
 import { ServiceResponse } from 'src/features/backoffice';
 import { Link } from 'react-scroll';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { getLocalizedStrapiData } from 'src/common/utils';
+import i18n from 'src/i18n';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
 
@@ -112,9 +114,11 @@ const ServiceTimeline = ({
   onContactClick: () => void;
 }) => {
   const { t } = useTranslation();
-  const { data: serviceData } = response;
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
-  const service = extractStrapiData({ data: serviceData });
+  const service = getLocalizedStrapiData({
+    item: response,
+    language: i18n.language,
+  });
   const express = extractStrapiData(service.express);
   const expressType = extractStrapiData(express.express_type);
 
