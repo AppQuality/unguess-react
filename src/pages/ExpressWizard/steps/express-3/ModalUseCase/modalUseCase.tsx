@@ -145,7 +145,7 @@ export const ModalUseCase = ({
   };
 
   return isUseCaseModalOpen ? (
-    <StyledModal onClose={closeModal}>
+    <StyledModal onClose={closeModal} focusOnMount={false}>
       <StyledModal.Header
         style={{ backgroundColor: globalTheme.palette.white }}
       >
