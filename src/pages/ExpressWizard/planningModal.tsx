@@ -57,7 +57,7 @@ const PlanningModal = ({
       <Modal.Header>
         {t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}
       </Modal.Header>
-      <Modal.Body style={{ paddingBottom: 0, minHeight: '300px' }}>
+      <Modal.Body style={{ paddingBottom: 0, minHeight: '480px' }}>
         <Row style={{ marginTop: '60px' }}>
           <Col xs={12} sm={6}>
             <Field>

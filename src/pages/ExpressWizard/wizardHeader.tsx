@@ -6,6 +6,7 @@ import {
   Anchor,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
@@ -41,6 +42,8 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   const isDesktop = width > parseInt(globalTheme.breakpoints.sm, 10);
+
+  useEffect(() => {}, []);
 
   return (
     <Container>

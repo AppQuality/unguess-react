@@ -363,7 +363,7 @@ export const ExpressWizardContainer = () => {
   };
 
   return isWizardOpen ? (
-    <StyledModal onClose={closeExpressWizard}>
+    <StyledModal onClose={closeExpressWizard} focusOnMount={false}>
       {!isThankyou ? (
         <Formik
           innerRef={formRef}
