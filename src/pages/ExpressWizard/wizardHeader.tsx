@@ -6,6 +6,7 @@ import {
   Anchor,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
@@ -42,6 +43,8 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
 
   const isDesktop = width > parseInt(globalTheme.breakpoints.sm, 10);
 
+  useEffect(() => {}, []);
+
   return (
     <Container>
       {width > parseInt(globalTheme.breakpoints.sm, 10) ? (
@@ -60,7 +63,7 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
         </StyledAnchor>
         <InputToggle isFocused>
           <InputToggle.Item
-            size={isDesktop ? 22 : 16}
+            textSize={isDesktop ? '22px' : '16px'}
             placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
             {...getFieldProps('campaign_name')}
             validation={errors.campaign_name ? 'error' : undefined}

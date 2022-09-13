@@ -156,7 +156,7 @@ export const WhatStep = ({
           }}
           selectedItem={selectedItem}
         >
-          <DropdownField>
+          <DropdownField style={{ marginTop: globalTheme.space.lg }}>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
             </Label>
