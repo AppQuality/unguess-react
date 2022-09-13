@@ -88,7 +88,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   ];
 
   const triggerSubmit = useCallback(() => {
-    if (selectedDateSpot !== -1) {
+    if (selectedDateSpot && selectedDateSpot !== -1) {
       const resultsDate = addBusinessDays(
         dateSpots[selectedDateSpot as number], // start_date,
         requiredDuration
