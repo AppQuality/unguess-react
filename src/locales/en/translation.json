@@ -117,7 +117,7 @@
   "__EXPRESS_LABEL": "Express",
   "__EXPRESS_WIZARD_BACK_BUTTON_LABEL": "Back",
   "__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL": "Launch",
-  "__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE": "If you close this modal, you will lose all the informations you have entered.",
+  "__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE": "The campaign will be discarded.",
   "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE": "If you delete it, you will lose all the informations you have entered.",
   "__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL": "Plan",
   "__EXPRESS_WIZARD_NEXT_BUTTON_LABEL": "Next",
