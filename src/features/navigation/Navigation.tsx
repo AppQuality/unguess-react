@@ -253,6 +253,7 @@ export const Navigation = ({
           projects={projectsList}
           isExpanded={isSidebarOpen}
           onToggleMenu={toggleSidebarState}
+          defaultAccordionPanels={[1]}
           dividerLabel={t('__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL')}
           onNavToggle={navigateTo}
           currentRoute={
