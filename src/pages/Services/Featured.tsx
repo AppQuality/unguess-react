@@ -61,7 +61,7 @@ export const Featured = ({ handleHubspot }: { handleHubspot: () => void }) => {
     featuredServices = formattedFeatured.filter((service: any) =>
       hasEnoughCoins({
         workspace: activeWorkspace,
-        coins: extractStrapiData(service.express).price,
+        coins: extractStrapiData(service.express).cost,
       })
     );
   }
