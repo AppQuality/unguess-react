@@ -63,7 +63,7 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
         </StyledAnchor>
         <InputToggle isFocused>
           <InputToggle.Item
-            textSize={isDesktop ? '22px' : '16px'}
+            textSize={isDesktop ? 'xl' : 'lg'}
             placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
             {...getFieldProps('campaign_name')}
             validation={errors.campaign_name ? 'error' : undefined}
