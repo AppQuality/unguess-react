@@ -90,6 +90,16 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/projects/${queryArg.pid}` }),
     }),
+    patchProjectsByPid: build.mutation<
+      PatchProjectsByPidApiResponse,
+      PatchProjectsByPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     postCampaigns: build.mutation<
       PostCampaignsApiResponse,
       PostCampaignsApiArg
@@ -97,6 +107,16 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/campaigns`,
         method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    patchCampaignsByCid: build.mutation<
+      PatchCampaignsByCidApiResponse,
+      PatchCampaignsByCidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}`,
+        method: 'PATCH',
         body: queryArg.body,
       }),
     }),
@@ -250,6 +270,14 @@ export type GetProjectsByPidApiArg = {
   /** Project id */
   pid: number;
 };
+export type PatchProjectsByPidApiResponse = /** status 200 OK */ Project;
+export type PatchProjectsByPidApiArg = {
+  /** Project id */
+  pid: number;
+  body: {
+    display_name: string;
+  };
+};
 export type PostCampaignsApiResponse = /** status 200 OK */ Campaign;
 export type PostCampaignsApiArg = {
   body: {
@@ -273,6 +301,14 @@ export type PostCampaignsApiArg = {
     base_bug_internal_id?: string;
     express_slug: string;
     use_cases?: UseCase[];
+  };
+};
+export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
+export type PatchCampaignsByCidApiArg = {
+  /** Campaign id */
+  cid: number;
+  body: {
+    customer_title?: string;
   };
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
@@ -439,7 +475,9 @@ export const {
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   useGetProjectsByPidCampaignsQuery,
   useGetProjectsByPidQuery,
+  usePatchProjectsByPidMutation,
   usePostCampaignsMutation,
+  usePatchCampaignsByCidMutation,
   usePostProjectsMutation,
   useGetWorkspacesByWidCoinsQuery,
   useGetTemplatesQuery,
