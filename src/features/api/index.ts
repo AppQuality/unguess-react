@@ -57,6 +57,7 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/workspaces/${queryArg.wid}/projects`,
         params: { limit: queryArg.limit, start: queryArg.start },
       }),
+      providesTags: ['Projects'],
     }),
     getWorkspacesByWidProjectsAndPid: build.query<
       GetWorkspacesByWidProjectsAndPidApiResponse,
@@ -89,6 +90,7 @@ const injectedRtkApi = api.injectEndpoints({
       GetProjectsByPidApiArg
     >({
       query: (queryArg) => ({ url: `/projects/${queryArg.pid}` }),
+      providesTags: ['Projects'],
     }),
     patchProjectsByPid: build.mutation<
       PatchProjectsByPidApiResponse,
@@ -99,6 +101,7 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'PATCH',
         body: queryArg.body,
       }),
+      invalidatesTags: ['Projects'],
     }),
     postCampaigns: build.mutation<
       PostCampaignsApiResponse,

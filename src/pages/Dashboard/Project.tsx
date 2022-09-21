@@ -1,6 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
-import { Grid } from '@appquality/unguess-design-system';
+import {
+  Grid,
+  Skeleton,
+  theme as globalTheme,
+} from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -8,10 +12,11 @@ import {
   projectFilterChanged,
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { useEffect, useState } from 'react';
 import { useGetProjectsByPidQuery } from 'src/features/api';
-import { DashboardHeaderContent } from './headerContent';
 import { CardRowLoading } from './CardRowLoading';
 import { ProjectItems } from './project-items';
+import { ProjectPageHeader } from './projectPageHeader';
 
 const Project = () => {
   const { t } = useTranslation();
@@ -22,30 +27,20 @@ const Project = () => {
 
   if (!projectId || Number.isNaN(Number(projectId))) {
     navigate(notFoundRoute, { replace: true });
-  }
-
-  const project = useGetProjectsByPidQuery({
-    pid: projectId ? parseInt(projectId, 10) : 0,
-  });
-
-  if (project.isError) navigate(notFoundRoute, { replace: true });
-
-  if (project.isSuccess && project.data) {
+  } else {
     dispatch(resetFilters());
-    dispatch(projectFilterChanged(project.data.id));
+    dispatch(projectFilterChanged(Number(projectId)));
   }
-
-  const isLoading = project.isFetching || project.isLoading;
 
   return (
     <Page
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
       route="projects"
-      pageHeader={
-        <DashboardHeaderContent pageTitle={project?.data?.name || 'Project'} />
-      }
+      pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
     >
-      <Grid>{isLoading ? <CardRowLoading /> : <ProjectItems />}</Grid>
+      <Grid>
+        <ProjectItems />
+      </Grid>
     </Page>
   );
 };

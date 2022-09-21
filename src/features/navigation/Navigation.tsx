@@ -84,10 +84,6 @@ export const Navigation = ({
     wid: activeWorkspace?.id || 0,
   });
 
-  if (projects.isFetching || projects.isLoading) {
-    return <PageLoader />;
-  }
-
   const projectsList =
     !projects.data || !projects.data.items
       ? []
@@ -254,6 +250,7 @@ export const Navigation = ({
           isExpanded={isSidebarOpen}
           onToggleMenu={toggleSidebarState}
           defaultAccordionPanels={[1]}
+          isLoading={projects.isFetching || projects.isLoading}
           dividerLabel={t('__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL')}
           onNavToggle={navigateTo}
           currentRoute={
