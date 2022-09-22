@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
+import { unguessApiSlice } from 'src/features/api/apiTags';
 import userReducer from '../features/user/userSlice';
 import navigationReducer from '../features/navigation/navigationSlice';
 import workspaceReducer from '../features/workspaces/workspaceSlice';
 import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
 import expressReducer from '../features/express/expressSlice';
-import { apiSlice } from '../features/api/api';
 import { strapiSlice } from '../features/backoffice/strapi';
 
 export const store = configureStore({
@@ -15,13 +15,13 @@ export const store = configureStore({
     workspaces: workspaceReducer,
     filters: filterReducer,
     express: expressReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    [unguessApiSlice.reducerPath]: unguessApiSlice.reducer,
     [strapiSlice.reducerPath]: strapiSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      .concat(apiSlice.middleware)
+      .concat(unguessApiSlice.middleware)
       .concat(strapiSlice.middleware),
 });
 

@@ -49,3 +49,5 @@ unguessApi.enhanceEndpoints({
     },
   },
 });
+
+export { unguessApi as unguessApiSlice };
