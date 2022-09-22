@@ -53,7 +53,12 @@ const Catalog = () => {
           <PageHeader.Main
             infoTitle={t('__CATALOG_PAGE_TITLE')}
             infoDescription={t('__CATALOG_PAGE_DESCRIPTION')}
-          />
+          >
+            <PageHeader.Title>{t('__CATALOG_PAGE_TITLE')}</PageHeader.Title>
+            <PageHeader.Description>
+              {t('__CATALOG_PAGE_DESCRIPTION')}
+            </PageHeader.Description>
+          </PageHeader.Main>
         </PageHeader>
       }
       title={t('__PAGE_TITLE_CATALOG')}

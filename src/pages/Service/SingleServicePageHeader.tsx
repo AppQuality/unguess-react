@@ -75,10 +75,15 @@ export const SingleServicePageHeader = ({
         <Span>{service.campaign_type}</Span>
       </PageHeader.Breadcrumb>
       <PageHeader.Main
-        infoOverline={service.campaign_type.toUpperCase()}
         infoTitle={service.title}
-        infoDescription={service.description}
-        infoCounters={
+        {...(bannerImg && { metaImage: bannerImgUrl })}
+      >
+        <PageHeader.Overline>
+          {service.campaign_type.toUpperCase()}
+        </PageHeader.Overline>
+        <PageHeader.Title>{service.title}</PageHeader.Title>
+        <PageHeader.Description>{service.description}</PageHeader.Description>
+        <PageHeader.Counters>
           <TagsContainer>
             {expressType && expressType.id ? (
               <StyledTag
@@ -159,9 +164,8 @@ export const SingleServicePageHeader = ({
               </StyledTag>
             )}
           </TagsContainer>
-        }
-        {...(bannerImg && { metaImage: bannerImgUrl })}
-      />
+        </PageHeader.Counters>
+      </PageHeader.Main>
       <PageHeader.Buttons>
         {expressType && expressType.id ? (
           <ServiceExpressCta expressTypeId={expressType.id} />

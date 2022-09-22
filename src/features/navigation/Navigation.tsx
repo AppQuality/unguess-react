@@ -3,7 +3,6 @@ import {
   Content,
   Sidebar,
   ProfileModal,
-  PageLoader,
   theme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -83,10 +82,6 @@ export const Navigation = ({
   const projects = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id || 0,
   });
-
-  if (projects.isFetching || projects.isLoading) {
-    return <PageLoader />;
-  }
 
   const projectsList =
     !projects.data || !projects.data.items
@@ -253,6 +248,8 @@ export const Navigation = ({
           projects={projectsList}
           isExpanded={isSidebarOpen}
           onToggleMenu={toggleSidebarState}
+          defaultAccordionPanels={[1]}
+          isLoading={projects.isFetching || projects.isLoading}
           dividerLabel={t('__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL')}
           onNavToggle={navigateTo}
           currentRoute={

@@ -20,6 +20,7 @@ export const apiSlice = createApi({
     },
     paramsSerializer: (params) => stringify(params, { encodeValuesOnly: true }),
   }),
+  tagTypes: ['User', 'Workspaces', 'Projects', 'Campaigns', 'Templates'],
   endpoints: (build) => ({
     getWorkspacesByWid: build.query<
       GetWorkspacesByWidApiResponse,
