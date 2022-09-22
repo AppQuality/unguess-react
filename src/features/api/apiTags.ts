@@ -12,7 +12,7 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Workspaces'],
     },
     getWorkspacesByWidCampaigns: {
-      providesTags: ['Campaigns'],
+      providesTags: ['Campaigns', 'Projects'],
     },
     getWorkspacesByWidProjects: {
       providesTags: ['Projects'],

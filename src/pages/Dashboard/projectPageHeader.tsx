@@ -3,9 +3,8 @@ import {
   InputToggle,
   PageHeader,
   Skeleton,
-  theme as globalTheme,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +31,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     isError,
     isSuccess,
     data: project,
-    refetch,
   } = useGetProjectsByPidQuery({
     pid: projectId,
   });
@@ -55,43 +53,43 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
       (feature: Feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM
     );
 
+  // Memoize InputToggle component to avoid re-rendering
+  const InputToggleMemo = useMemo(
+    () => (
+      <InputToggle>
+        <InputToggle.Item
+          textSize="xxxl"
+          maxLength={64}
+          value={itemTitle}
+          onChange={(e) => setItemTitle(e.target.value)}
+          onBlur={async (e) => {
+            try {
+              await patchProject({
+                pid: projectId,
+                body: { display_name: e.currentTarget.value },
+              }).unwrap();
+            } catch {
+              // eslint-disable-next-line
+              alert(t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR'));
+            }
+          }}
+          style={{ paddingLeft: 0 }}
+        />
+      </InputToggle>
+    ),
+    [project, itemTitle]
+  );
+
   return (
     <PageHeader>
       <PageHeader.Main infoTitle={itemTitle || ''}>
-        {isLoading || isFetching || status === 'loading' ? (
-          <Skeleton
-            width="60%"
-            height="44px"
-            style={{
-              marginTop: globalTheme.space.sm,
-              marginLeft: globalTheme.space.sm,
-            }}
-          />
-        ) : (
-          <PageHeader.Title>
-            <InputToggle>
-              <InputToggle.Item
-                textSize="xxxl"
-                maxLength={64}
-                value={itemTitle}
-                onChange={(e) => setItemTitle(e.target.value)}
-                onBlur={async (e) => {
-                  try {
-                    await patchProject({
-                      pid: projectId,
-                      body: { display_name: e.currentTarget.value },
-                    }).unwrap();
-                  } catch {
-                    alert('Something went wrong');
-                  } finally {
-                    refetch();
-                  }
-                }}
-                style={{ paddingLeft: 0 }}
-              />
-            </InputToggle>
-          </PageHeader.Title>
-        )}
+        <PageHeader.Title style={{ minHeight: '66px' }}>
+          {isLoading || isFetching || status === 'loading' ? (
+            <Skeleton width="60%" height="44px" />
+          ) : (
+            InputToggleMemo
+          )}
+        </PageHeader.Title>
         <PageHeader.Counters>
           <Counters />
         </PageHeader.Counters>

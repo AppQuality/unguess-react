@@ -295,6 +295,7 @@
   "__PROFILE_MODAL_FEEDBACK_TITLE": "Dacci il tuo feedback",
   "__PROFILE_MODAL_LANGUAGES_TITLE": "Cambia Lingua",
   "__PROFILE_MODAL_LOGOUT_TITLE": "Esci",
+  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "",
   "__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL": "Primi risultati in <1><0>{{hours}}</0></1>h",
   "__SIDEBAR_CAMPAIGNS_LABEL": "campagne",
   "__TAILORED_LABEL": "Tailored",

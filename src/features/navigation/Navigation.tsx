@@ -3,7 +3,6 @@ import {
   Content,
   Sidebar,
   ProfileModal,
-  PageLoader,
   theme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
