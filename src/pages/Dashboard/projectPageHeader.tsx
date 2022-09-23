@@ -64,10 +64,12 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
-              await patchProject({
-                pid: projectId,
-                body: { display_name: e.currentTarget.value },
-              }).unwrap();
+              if (e.currentTarget.value && e.currentTarget.value !== project?.name) {
+                await patchProject({
+                  pid: projectId,
+                  body: { display_name: e.currentTarget.value },
+                }).unwrap();
+              }
             } catch {
               // eslint-disable-next-line
               alert(t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR'));
