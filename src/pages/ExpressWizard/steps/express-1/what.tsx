@@ -27,7 +27,7 @@ import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg'
 import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
 import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
@@ -82,10 +82,6 @@ export const WhatStep = ({
     setRadioValue(value);
     props.setFieldValue('product_type', value);
   };
-
-  useEffect(() => {
-    props.setFieldValue('campaign_name', '', true);
-  }, []);
 
   return (
     <ContainerCard>
