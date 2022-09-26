@@ -24,6 +24,7 @@ import { TableList } from './table';
 import { Separator } from '../Separator';
 import { Filters } from '../filters';
 import { EmptyResults } from '../emptyState';
+import { CardRowLoading } from '../CardRowLoading';
 
 const FloatRight = styled.div`
   float: right;
@@ -46,18 +47,19 @@ export const ProjectItems = () => {
     []
   );
 
-  const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery(
-    { wid: activeWorkspace?.id || 0, limit: 10000 },
-    {
-      selectFromResult: (result) => ({
-        ...result,
-        filteredCampaigns: getFilteredCampaigns(
-          result?.data?.items || [],
-          filters
-        ),
-      }),
-    }
-  );
+  const { filteredCampaigns, isLoading, isFetching } =
+    useGetWorkspacesByWidCampaignsQuery(
+      { wid: activeWorkspace?.id || 0, limit: 10000 },
+      {
+        selectFromResult: (result) => ({
+          ...result,
+          filteredCampaigns: getFilteredCampaigns(
+            result?.data?.items || [],
+            filters
+          ),
+        }),
+      }
+    );
 
   const campaignsCount = filteredCampaigns.length;
   const [viewType, setViewType] = useState('list');
@@ -67,6 +69,10 @@ export const ProjectItems = () => {
       setViewType('grid');
     }
   }, [viewType, width]);
+
+  if (isLoading || isFetching) {
+    return <CardRowLoading />;
+  }
 
   return (
     <>
