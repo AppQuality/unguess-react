@@ -97,7 +97,7 @@ export const ServiceItem = ({
   }
 
   if (express) {
-    if (hasEnoughCoins({ workspace: activeWorkspace, coins: express.price })) {
+    if (hasEnoughCoins({ workspace: activeWorkspace, coins: express.cost })) {
       tags.push({
         label: t('__EXPRESS_LABEL'),
         icon: <ExpressIcon />,

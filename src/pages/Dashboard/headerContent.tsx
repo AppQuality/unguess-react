@@ -23,10 +23,12 @@ export const DashboardHeaderContent = ({
 
   return status === 'idle' || status === 'loading' ? null : (
     <PageHeader>
-      <PageHeader.Main
-        infoTitle={pageTitle || 'My Dashboard'}
-        infoCounters={<Counters />}
-      />
+      <PageHeader.Main infoTitle={pageTitle || 'My Dashboard'}>
+        <PageHeader.Title>{pageTitle || 'My Dashboard'}</PageHeader.Title>
+        <PageHeader.Counters>
+          <Counters />
+        </PageHeader.Counters>
+      </PageHeader.Main>
       {hasButton && (
         <PageHeader.Buttons>
           <Button

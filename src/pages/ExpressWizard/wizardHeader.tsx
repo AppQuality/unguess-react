@@ -63,7 +63,7 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
         </StyledAnchor>
         <InputToggle isFocused>
           <InputToggle.Item
-            textSize={isDesktop ? '22px' : '16px'}
+            textSize={isDesktop ? 'xl' : 'lg'}
             placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
             {...getFieldProps('campaign_name')}
             validation={errors.campaign_name ? 'error' : undefined}
@@ -74,36 +74,6 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
           />
         </InputToggle>
       </TitleContainer>
-
-      {/* <InputToggle
-        name="campaign_name"
-        placeholder={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_NAME_PLACEHOLDER')}
-        style={{
-          minWidth: isDesktop ? '25%' : '90%',
-          marginLeft: theme.space.md,
-        }}
-        size={isDesktop ? 22 : 16}
-        value={values.campaign_name || ''}
-        onFocus={() => {
-          console.log('onFocus');
-        }}
-        onChange={(e) => {
-          setFieldValue('campaign_name', e.target.value);
-        }}
-        onBlur={() => {
-          validateForm();
-        }}
-        isFocused
-        {...(errors.campaign_name && {
-          validation: 'error',
-        })}
-        {...(!isDesktop &&
-          errors.campaign_name && {
-            message: t(
-              '__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED'
-            ),
-          })}
-      /> */}
       {isDesktop && errors.campaign_name && (
         <>
           <ErrorIcon width={20} style={{ marginLeft: globalTheme.space.sm }} />
