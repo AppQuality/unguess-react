@@ -64,7 +64,10 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
-              if (e.currentTarget.value && e.currentTarget.value !== project?.name) {
+              if (
+                e.currentTarget.value &&
+                e.currentTarget.value !== project?.name
+              ) {
                 await patchProject({
                   pid: projectId,
                   body: { display_name: e.currentTarget.value },
