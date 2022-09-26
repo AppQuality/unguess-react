@@ -206,6 +206,8 @@ export const Navigation = ({
     dispatch(setProfileModalOpen(false));
   };
 
+  if (!activeWorkspace) return null;
+
   return (
     <>
       <AppHeader
