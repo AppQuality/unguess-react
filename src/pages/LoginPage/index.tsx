@@ -43,6 +43,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (status === 'logged') {
+      console.log('logged, we should redirect to', from);
       navigate(from || '/');
     }
   }, [navigate, status]);
