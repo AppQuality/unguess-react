@@ -120,6 +120,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCampaignsByCidReports: build.query<
+      GetCampaignsByCidReportsApiResponse,
+      GetCampaignsByCidReportsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/reports` }),
+    }),
     postProjects: build.mutation<PostProjectsApiResponse, PostProjectsApiArg>({
       query: (queryArg) => ({
         url: `/projects`,
@@ -311,6 +317,11 @@ export type PatchCampaignsByCidApiArg = {
     customer_title?: string;
   };
 };
+export type GetCampaignsByCidReportsApiResponse = /** status 200 OK */ Report[];
+export type GetCampaignsByCidReportsApiArg = {
+  /** Campaign id */
+  cid: number;
+};
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
 export type PostProjectsApiArg = {
   body: {
@@ -454,6 +465,34 @@ export type UseCase = {
   logged?: boolean;
   link?: string;
 };
+export type ReportExtensions =
+  | 'pdf'
+  | 'doc'
+  | 'docx'
+  | 'xls'
+  | 'xlsx'
+  | 'ppt'
+  | 'pptx'
+  | 'rar'
+  | 'txt'
+  | 'csv'
+  | 'zip'
+  | 'gzip'
+  | 'gz'
+  | '7z';
+export type Report = {
+  id?: number;
+  title?: string;
+  description?: string;
+  url: string;
+  file_type?: {
+    extension?: ReportExtensions;
+    type: string;
+    domain_name?: string;
+  };
+  creation_date?: string;
+  update_date?: string;
+};
 export type Coin = {
   id: number;
   customer_id: number;
@@ -478,6 +517,7 @@ export const {
   usePatchProjectsByPidMutation,
   usePostCampaignsMutation,
   usePatchCampaignsByCidMutation,
+  useGetCampaignsByCidReportsQuery,
   usePostProjectsMutation,
   useGetWorkspacesByWidCoinsQuery,
   useGetTemplatesQuery,

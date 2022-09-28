@@ -47,6 +47,9 @@ unguessApi.enhanceEndpoints({
     getTemplates: {
       providesTags: ['Templates'],
     },
+    getCampaignsByCidReports: {
+      providesTags: ['Reports'],
+    },
   },
 });
 
