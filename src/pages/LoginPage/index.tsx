@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import WPAPI from 'src/common/wpapi';
 import { FormikHelpers } from 'formik';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { LoginFormFields } from './type';
@@ -29,15 +29,21 @@ const CenteredXYContainer = styled.div`
   }
 `;
 
+interface NavigationState {
+  from: string;
+}
+
 const LoginPage = () => {
   const { t } = useTranslation();
   const [cta, setCta] = useState<string>(t('__LOGIN_FORM_CTA'));
   const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
+  const { state: locationState } = useLocation();
+  const { from } = locationState as NavigationState;
 
   useEffect(() => {
     if (status === 'logged') {
-      navigate('/');
+      navigate(from || '/');
     }
   }, [navigate, status]);
 
