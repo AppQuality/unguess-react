@@ -43,7 +43,6 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (status === 'logged') {
-      console.log('logged, we should redirect to', from);
       navigate(from || '/');
     }
   }, [navigate, status]);
@@ -61,7 +60,7 @@ const LoginPage = () => {
       });
 
       setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
-      document.location.href = '/';
+      document.location.href = from || '/';
     } catch (e: unknown) {
       const { message } = e as Error;
       const error = JSON.parse(message);
@@ -69,7 +68,7 @@ const LoginPage = () => {
       if (error.type === 'invalid') {
         setStatus({ message: `${t('__LOGIN_FORM_FAILED_INVALID')}` });
       } else {
-        document.location.href = '/';
+        document.location.href = from || '/';
       }
     }
 
