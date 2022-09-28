@@ -7,7 +7,7 @@ import {
   Main,
 } from '@appquality/unguess-design-system';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import TagManager from 'react-gtm-module';
@@ -56,6 +56,7 @@ export const Logged = ({
   pageHeader?: React.ReactNode;
   route: string;
 }) => {
+  const location = useLocation();
   const loginRoute = useLocalizeRoute('login');
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const navigate = useNavigate();
@@ -64,7 +65,9 @@ export const Logged = ({
 
   useEffect(() => {
     if (status === 'failed') {
-      navigate(loginRoute);
+      navigate(loginRoute, {
+        state: { from: location.pathname },
+      });
     }
   }, [status, navigate, loginRoute]);
 
