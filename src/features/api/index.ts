@@ -120,6 +120,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCampaignsByCid: build.query<
+      GetCampaignsByCidApiResponse,
+      GetCampaignsByCidApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}` }),
+    }),
     getCampaignsByCidReports: build.query<
       GetCampaignsByCidReportsApiResponse,
       GetCampaignsByCidReportsApiArg
@@ -316,6 +322,11 @@ export type PatchCampaignsByCidApiArg = {
   body: {
     customer_title?: string;
   };
+};
+export type GetCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
+export type GetCampaignsByCidApiArg = {
+  /** Campaign id */
+  cid: number;
 };
 export type GetCampaignsByCidReportsApiResponse = /** status 200 OK */ Report[];
 export type GetCampaignsByCidReportsApiArg = {
@@ -517,6 +528,7 @@ export const {
   usePatchProjectsByPidMutation,
   usePostCampaignsMutation,
   usePatchCampaignsByCidMutation,
+  useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
   usePostProjectsMutation,
   useGetWorkspacesByWidCoinsQuery,

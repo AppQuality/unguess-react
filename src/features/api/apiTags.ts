@@ -50,6 +50,9 @@ unguessApi.enhanceEndpoints({
     getCampaignsByCidReports: {
       providesTags: ['Reports'],
     },
+    getCampaignsByCid: {
+      providesTags: ['Campaigns'],
+    },
   },
 });
 
