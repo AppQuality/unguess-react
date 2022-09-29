@@ -3,14 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useGetCampaignsByCidReportsQuery } from 'src/features/api';
+import {
+  useGetCampaignsByCidQuery,
+  useGetCampaignsByCidReportsQuery,
+} from 'src/features/api';
 import { CampaignPageHeader } from './pageHeader';
+import { HeaderLoader } from './pageHeaderLoading';
 
 const Campaign = () => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
 
@@ -24,14 +26,16 @@ const Campaign = () => {
     isLoading,
     isFetching,
     isError,
-    error,
     data: reports,
   } = useGetCampaignsByCidReportsQuery({
     cid: Number(campaignId),
   });
 
-  if (isError) {
-    console.log(error);
+  const campaign = useGetCampaignsByCidQuery({
+    cid: Number(campaignId),
+  });
+
+  if (isError || campaign.isError) {
     navigate(notFoundRoute);
   }
 
@@ -39,7 +43,14 @@ const Campaign = () => {
     <Page
       title={t('__PAGE_TITLE_CAMPAIGN_DASHBOARD')}
       pageHeader={
-        <CampaignPageHeader pageTitle={t('__PAGE_TITLE_CAMPAIGN_DASHBOARD')} />
+        isLoading || isFetching || !campaign.data ? (
+          <HeaderLoader />
+        ) : (
+          <CampaignPageHeader
+            projectId={Number(campaign.data.project.id)}
+            pageTitle={campaign.data.customer_title}
+          />
+        )
       }
       route="campaigns"
     >
