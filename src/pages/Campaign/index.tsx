@@ -25,7 +25,8 @@ import { ReactComponent as ExcelIcon } from 'src/assets/icons/file-icon-excel.sv
 import { ReactComponent as LinkIcon } from 'src/assets/icons/file-icon-link.svg';
 import { ReactComponent as PdfIcon } from 'src/assets/icons/file-icon-pdf.svg';
 import { ReactComponent as PresentationIcon } from 'src/assets/icons/file-icon-presentation.svg';
-import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-icon.svg';
+import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
+import { ReactComponent as OpenLinkIcon } from 'src/assets/icons/new-window-stroke.svg';
 import { ReactComponent as EmptyReportsImage } from 'src/assets/emptyReports.svg';
 import styled from 'styled-components';
 import { t } from 'i18next';
@@ -133,19 +134,21 @@ const Campaign = () => {
       route="campaigns"
     >
       <Grid>
-        <Row>
-          <Col xs={12}>
-            <XL
-              style={{
-                fontWeight: theme.fontWeights.medium,
-                marginBottom: theme.space.xs,
-              }}
-            >
-              {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
-            </XL>
-            <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
-          </Col>
-        </Row>
+        {reports && reports.length && (
+          <Row>
+            <Col xs={12}>
+              <XL
+                style={{
+                  fontWeight: theme.fontWeights.medium,
+                  marginBottom: theme.space.xs,
+                }}
+              >
+                {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
+              </XL>
+              <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
+            </Col>
+          </Row>
+        )}
         <Row>
           {reports && reports.length ? (
             reports.map((report) => (
@@ -196,10 +199,16 @@ const Campaign = () => {
                         window.open(report.url || '', '_blank');
                       }}
                     >
-                      <DownloadIcon style={{ marginRight: 8 }} />
-                      <Span>
-                        {t('__CAMPAIGN_PAGE_REPORTS_CARDS_DOWNLOAD_LABEL')}
-                      </Span>
+                      <Button.StartIcon>
+                        {report.file_type?.type === 'link' ? (
+                          <OpenLinkIcon />
+                        ) : (
+                          <DownloadIcon />
+                        )}
+                      </Button.StartIcon>
+                      {report.file_type?.type === 'link'
+                        ? t('__CAMPAIGN_PAGE_REPORTS_CARDS_OPEN_LINK_LABEL')
+                        : t('__CAMPAIGN_PAGE_REPORTS_CARDS_DOWNLOAD_LABEL')}
                     </Button>
                   </SpecialCard.Footer>
                 </SpecialCard>

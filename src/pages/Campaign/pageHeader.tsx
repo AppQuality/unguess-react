@@ -56,7 +56,7 @@ export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
           textSize="xxxl"
           maxLength={64}
           value={itemTitle}
-          onChange={(e) => setItemTitle(e.target.value.trim())}
+          onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
               if (
