@@ -108,7 +108,7 @@ const Campaign = () => {
           <HeaderLoader />
         ) : (
           <CampaignPageHeader
-            projectId={Number(campaign.data.project.id)}
+            campaignId={Number(campaign.data.id)}
             pageTitle={campaign.data.customer_title}
           />
         )
