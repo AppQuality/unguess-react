@@ -36,7 +36,7 @@ export const CampaignItem = ({
         onCampaignClicked({
           campaignId: campaign.id,
           cpFamily: family.name,
-          type,
+          outputs: campaign.outputs || [],
         })
       }
       {...props}

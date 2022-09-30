@@ -67,7 +67,7 @@ export const TableList = ({
             href={getLocalizeDashboardRoute({
               campaignId: campaign.id,
               cpFamily: campaign.family.name,
-              type: campaign.type,
+              outputs: campaign.outputs || [],
             })}
           >
             <Span isBold style={{ color: theme.palette.grey[800] }}>

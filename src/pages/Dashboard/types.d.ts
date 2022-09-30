@@ -1,8 +1,7 @@
+import { Output } from 'src/features/api';
+
 export interface CampaignActionProps {
   campaignId: number;
   cpFamily: string;
-  type: {
-    id: number;
-    name: string;
-  };
+  outputs: Output[];
 }
