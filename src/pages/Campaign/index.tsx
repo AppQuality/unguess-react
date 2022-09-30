@@ -116,7 +116,7 @@ const Campaign = () => {
 
   return (
     <Page
-      title={t('__PAGE_TITLE_CAMPAIGN_DASHBOARD')}
+      title={campaign.data?.customer_title ?? 'Campaign'}
       pageHeader={
         isLoading || isFetching || !campaign.data ? (
           <HeaderLoader />
@@ -127,6 +127,19 @@ const Campaign = () => {
       route="campaigns"
     >
       <Grid>
+        <Row>
+          <Col xs={12}>
+            <XL
+              style={{
+                fontWeight: theme.fontWeights.medium,
+                marginBottom: theme.space.xs,
+              }}
+            >
+              {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
+            </XL>
+            <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
+          </Col>
+        </Row>
         <Row>
           {reports && reports.length ? (
             reports.map((report) => (
