@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import {
   Button,
@@ -29,6 +28,7 @@ import { ReactComponent as PresentationIcon } from 'src/assets/icons/file-icon-p
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-icon.svg';
 import { ReactComponent as EmptyReportsImage } from 'src/assets/emptyReports.svg';
 import styled from 'styled-components';
+import { t } from 'i18next';
 import { CampaignPageHeader } from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 
@@ -41,23 +41,30 @@ const CenteredContent = styled.div`
   width: 100%;
 `;
 
-const getFileTypeName = (type: string) => {
+const getFileTypeName = (type: string, url: string) => {
+  const urlHostname = new URL(url).hostname;
+
   switch (type) {
     case 'spreadsheet':
-      return 'Excel';
+      return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_EXCEL');
     case 'pdf':
-      return 'PDF';
+      return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_PDF');
     case 'text':
     case 'document':
-      return 'Document';
+      return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_DOCUMENT');
     case 'presentation':
-      return 'Presentation';
+      return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_PRESENTATION');
     case 'archive':
-      return 'Archive';
+      return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_ARCHIVE');
     case 'link':
-      return 'Link';
+      // Check url to see if is a recognized domain
+      if (urlHostname.includes('miro.com'))
+        return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_BOARD');
+      if (urlHostname.includes('drive.google.com'))
+        return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_DRIVE');
+      return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_LINK');
     default:
-      return 'Link';
+      return t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_LINK');
   }
 };
 
@@ -87,7 +94,6 @@ const getFileTypeIcon = (type: string, url: string) => {
 };
 
 const Campaign = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
 
@@ -168,7 +174,10 @@ const Campaign = () => {
 
                   <SpecialCard.Header>
                     <SpecialCard.Header.Label>
-                      {getFileTypeName(report.file_type?.type ?? '')}
+                      {getFileTypeName(
+                        report.file_type?.type ?? '',
+                        report.url
+                      )}
                     </SpecialCard.Header.Label>
                     <SpecialCard.Header.Title>
                       {report.title}
