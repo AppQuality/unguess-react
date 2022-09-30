@@ -15,6 +15,7 @@ import {
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
 import { format } from 'date-fns';
+import { ReactComponent as ArchiveIcon } from 'src/assets/icons/file-icon-archive.svg';
 import { ReactComponent as BoardIcon } from 'src/assets/icons/file-icon-board.svg';
 import { ReactComponent as DocumentIcon } from 'src/assets/icons/file-icon-document.svg';
 import { ReactComponent as DriveIcon } from 'src/assets/icons/file-icon-drive.svg';
@@ -60,7 +61,7 @@ const getFileTypeIcon = (type: string, url: string) => {
     case 'presentation':
       return <PresentationIcon />;
     case 'archive':
-      return <LinkIcon />;
+      return <ArchiveIcon />;
     case 'link':
       // Check url to see if is a recognized domain
       if (urlHostname.includes('miro.com')) return <BoardIcon />;
