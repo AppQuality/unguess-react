@@ -1,12 +1,31 @@
-export function getLocalizeRoute(
-  campaignId: number,
-  campaignType: string,
-  lang?: string
-): string {
-  const currentLang = lang || 'en';
+import { CampaignActionProps } from 'src/pages/Dashboard/types';
+import i18n from 'src/i18n';
+import { Output } from 'src/features/api';
+
+const isReactCampaign = (outputs: Output[]): boolean => {
+  let isReact = true;
+
+  if (outputs.length) {
+    outputs.forEach((output) => {
+      if (output === 'bugs') isReact = false;
+      if (output === 'media') isReact = false;
+    });
+  }
+
+  return isReact;
+};
+
+export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
+  const { campaignId, cpFamily, outputs } = props;
+
+  const currentLang = i18n.language || 'en';
   let localizedRoute = '';
 
-  if (campaignType.toLocaleLowerCase() === 'functional') {
+  if (isReactCampaign(outputs)) {
+    localizedRoute = `${
+      currentLang === 'en' ? '' : currentLang
+    }/campaigns/${campaignId}`;
+  } else if (cpFamily.toLocaleLowerCase() === 'functional') {
     localizedRoute =
       currentLang === 'en'
         ? `/functional-customer-dashboard/?cid=${campaignId}`
