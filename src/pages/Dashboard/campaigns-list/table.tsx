@@ -8,7 +8,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
-import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 
 export const TableList = ({
   campaigns,
@@ -63,7 +63,13 @@ export const TableList = ({
 
       groupedCampaigns.push({
         name: (
-          <Anchor href={getLocalizeRoute(campaign.id, campaign.family.name)}>
+          <Anchor
+            href={getLocalizeDashboardRoute({
+              campaignId: campaign.id,
+              cpFamily: campaign.family.name,
+              type: campaign.type,
+            })}
+          >
             <Span isBold style={{ color: theme.palette.grey[800] }}>
               {campaign.customer_title ?? campaign.title}
             </Span>

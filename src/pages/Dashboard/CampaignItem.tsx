@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { format } from 'date-fns';
+import { CampaignActionProps } from './types';
 
 export const CampaignItem = ({
   campaign,
@@ -11,7 +12,7 @@ export const CampaignItem = ({
   ...props
 }: {
   campaign: Campaign;
-  onCampaignClicked: (campaignId: number, cpType: string) => void;
+  onCampaignClicked: (args: CampaignActionProps) => void;
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {
   const { t } = useTranslation();
@@ -31,7 +32,13 @@ export const CampaignItem = ({
       type={isFunctional ? 'FUNCTIONAL' : 'EXPERIENTIAL'}
       status={getCampaignStatus(campaign)}
       pillText={type.name}
-      onClick={() => onCampaignClicked(campaign.id, family.name)}
+      onClick={() =>
+        onCampaignClicked({
+          campaignId: campaign.id,
+          cpFamily: family.name,
+          type,
+        })
+      }
       {...props}
     />
   );

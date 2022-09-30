@@ -14,7 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
-import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 
 export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
   const { t } = useTranslation();
@@ -69,7 +69,13 @@ export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
         {campaigns.map((cp) => (
           <TableRow key={cp.id}>
             <TableCell>
-              <Anchor href={getLocalizeRoute(cp.id, cp.family.name)}>
+              <Anchor
+                href={getLocalizeDashboardRoute({
+                  campaignId: cp.id,
+                  cpFamily: cp.family.name,
+                  type: cp.type,
+                })}
+              >
                 <Span isBold style={{ color: theme.palette.grey[800] }}>
                   {cp.customer_title ?? cp.title}
                 </Span>
