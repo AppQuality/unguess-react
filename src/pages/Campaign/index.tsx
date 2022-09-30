@@ -154,7 +154,10 @@ const Campaign = () => {
             reports.map((report) => (
               <Col xs={12} md={4} lg={3}>
                 <SpecialCard>
-                  <SpecialCard.Meta justifyContent="start">
+                  <SpecialCard.Meta
+                    justifyContent="start"
+                    style={{ fontSize: theme.fontSizes.sm }}
+                  >
                     {report.update_date ? (
                       <>
                         {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPDATED_ON_LABEL')}{' '}
