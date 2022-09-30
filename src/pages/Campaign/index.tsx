@@ -4,9 +4,12 @@ import {
   Button,
   Col,
   Grid,
+  Paragraph,
   Row,
   Span,
   SpecialCard,
+  XL,
+  theme,
 } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -24,8 +27,19 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/file-icon-link.svg'
 import { ReactComponent as PdfIcon } from 'src/assets/icons/file-icon-pdf.svg';
 import { ReactComponent as PresentationIcon } from 'src/assets/icons/file-icon-presentation.svg';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-icon.svg';
+import { ReactComponent as EmptyReportsImage } from 'src/assets/emptyReports.svg';
+import styled from 'styled-components';
 import { CampaignPageHeader } from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
+
+const CenteredContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+`;
 
 const getFileTypeName = (type: string) => {
   switch (type) {
@@ -114,7 +128,7 @@ const Campaign = () => {
     >
       <Grid>
         <Row>
-          {reports &&
+          {reports && reports.length ? (
             reports.map((report) => (
               <Col xs={12} md={4} lg={3}>
                 <SpecialCard>
@@ -168,7 +182,23 @@ const Campaign = () => {
                   </SpecialCard.Footer>
                 </SpecialCard>
               </Col>
-            ))}
+            ))
+          ) : (
+            <CenteredContent>
+              <EmptyReportsImage />
+              <XL
+                style={{
+                  fontWeight: theme.fontWeights.medium,
+                  marginBottom: theme.space.sm,
+                }}
+              >
+                {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TITLE')}
+              </XL>
+              <Paragraph style={{ textAlign: 'center' }}>
+                {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TEXT')}
+              </Paragraph>
+            </CenteredContent>
+          )}
         </Row>
       </Grid>
     </Page>
