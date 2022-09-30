@@ -290,7 +290,7 @@ export type PatchProjectsByPidApiArg = {
     display_name: string;
   };
 };
-export type PostCampaignsApiResponse = /** status 200 OK */ Campaign;
+export type PostCampaignsApiResponse = /** status 200 OK */ Campaign2;
 export type PostCampaignsApiArg = {
   body: {
     title: string;
@@ -315,7 +315,7 @@ export type PostCampaignsApiArg = {
     use_cases?: UseCase[];
   };
 };
-export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
+export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign2;
 export type PatchCampaignsByCidApiArg = {
   /** Campaign id */
   cid: number;
@@ -416,6 +416,7 @@ export type Workspace = {
   };
   coins?: number;
 };
+export type Output = 'bugs' | 'reports' | 'media';
 export type Campaign = {
   id: number;
   start_date: string;
@@ -443,11 +444,40 @@ export type Campaign = {
   };
   description?: string;
   base_bug_internal_id?: string;
+  outputs?: Output[];
 };
 export type Project = {
   id: number;
   name: string;
   campaigns_count: number;
+};
+export type Campaign2 = {
+  id: number;
+  start_date: string;
+  end_date: string;
+  close_date: string;
+  title: string;
+  customer_title: string;
+  is_public: number;
+  bug_form?: number;
+  type: {
+    id: number;
+    name: string;
+  };
+  family: {
+    id: number;
+    name: string;
+  };
+  status: {
+    id: number;
+    name: string;
+  };
+  project: {
+    id: number;
+    name: string;
+  };
+  description?: string;
+  base_bug_internal_id?: string;
 };
 export type PlatformObject = {
   id: number;
