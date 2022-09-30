@@ -27,7 +27,7 @@ export const CampaignPageHeader = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
-  const [itemTitle, setItemTitle] = useState<string>();
+  const [itemTitle, setItemTitle] = useState<string>(pageTitle ?? '');
 
   const {
     isLoading,
@@ -49,7 +49,7 @@ export const CampaignPageHeader = ({
         <InputToggle.Item
           textSize="xxxl"
           maxLength={64}
-          value={pageTitle}
+          value={itemTitle}
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
