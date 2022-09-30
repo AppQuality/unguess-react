@@ -107,10 +107,7 @@ const Campaign = () => {
         isLoading || isFetching || !campaign.data ? (
           <HeaderLoader />
         ) : (
-          <CampaignPageHeader
-            campaignId={Number(campaign.data.id)}
-            pageTitle={campaign.data.customer_title}
-          />
+          <CampaignPageHeader campaignId={Number(campaign.data.id)} />
         )
       }
       route="campaigns"
@@ -159,7 +156,8 @@ const Campaign = () => {
                       isPill
                       isStretched
                       onClick={() => {
-                        window.open(report.url, '_blank');
+                        // eslint-disable-next-line security/detect-non-literal-fs-filename
+                        window.open(report.url || '', '_blank');
                       }}
                     >
                       <DownloadIcon style={{ marginRight: 8 }} />

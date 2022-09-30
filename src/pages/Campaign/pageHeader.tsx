@@ -1,6 +1,5 @@
 import {
   Anchor,
-  Button,
   InputToggle,
   PageHeader,
   Skeleton,
@@ -13,30 +12,37 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {
   useGetCampaignsByCidQuery,
+  useGetProjectsByPidQuery,
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 
-export const CampaignPageHeader = ({
-  pageTitle,
-  campaignId,
-}: {
-  pageTitle?: string;
-  campaignId: number;
-}) => {
+export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
-  const [itemTitle, setItemTitle] = useState<string>(pageTitle ?? '');
 
   const {
-    isLoading,
-    isFetching,
+    isLoading: isCampaignLoading,
+    isFetching: isCampaignFetching,
+    isError: isCampaignError,
     data: campaign,
-    isError,
   } = useGetCampaignsByCidQuery({
     cid: campaignId,
   });
+
+  const {
+    isLoading: isProjectLoading,
+    isFetching: isProjectFetching,
+    isError: isProjectError,
+    data: project,
+  } = useGetProjectsByPidQuery({
+    pid: campaign?.project.id ?? 0,
+  });
+
+  const [itemTitle, setItemTitle] = useState<string>(
+    campaign?.customer_title ?? ''
+  );
 
   const campaignRoute = useLocalizeRoute(`campaign/${campaignId}`);
 
@@ -50,7 +56,7 @@ export const CampaignPageHeader = ({
           textSize="xxxl"
           maxLength={64}
           value={itemTitle}
-          onChange={(e) => setItemTitle(e.target.value)}
+          onChange={(e) => setItemTitle(e.target.value.trim())}
           onBlur={async (e) => {
             try {
               if (
@@ -74,7 +80,14 @@ export const CampaignPageHeader = ({
     [campaign, itemTitle]
   );
 
-  if (isLoading || isFetching) {
+  if (
+    isCampaignLoading ||
+    isProjectLoading ||
+    isCampaignFetching ||
+    isProjectFetching ||
+    !project ||
+    !campaign
+  ) {
     return (
       <PageHeader>
         <PageHeader.Main infoTitle="My Campaign">
@@ -89,15 +102,16 @@ export const CampaignPageHeader = ({
     );
   }
 
-  return status === 'idle' || status === 'loading' || isError ? null : (
+  return status === 'idle' ||
+    status === 'loading' ||
+    isCampaignError ||
+    isProjectError ? null : (
     <PageHeader>
       <PageHeader.Breadcrumb>
-        <Anchor onClick={() => navigate(campaignRoute)}>
-          {campaign?.customer_title || 'Campaign'}
-        </Anchor>
-        <Span>{pageTitle}</Span>
+        <Anchor onClick={() => navigate(campaignRoute)}>{project.name}</Anchor>
+        <Span>{campaign.customer_title}</Span>
       </PageHeader.Breadcrumb>
-      <PageHeader.Main infoTitle={pageTitle || 'My Campaign'}>
+      <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>{InputToggleMemo}</PageHeader.Title>
       </PageHeader.Main>
     </PageHeader>
