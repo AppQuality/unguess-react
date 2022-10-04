@@ -44,7 +44,9 @@ export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
     campaign?.customer_title ?? ''
   );
 
-  const campaignRoute = useLocalizeRoute(`campaign/${campaignId}`);
+  const projectRoute = useLocalizeRoute(
+    `projects/${campaign?.project.id ?? 0}`
+  );
 
   const [patchCampaign] = usePatchCampaignsByCidMutation();
 
@@ -108,7 +110,7 @@ export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
     isProjectError ? null : (
     <PageHeader>
       <PageHeader.Breadcrumb>
-        <Anchor onClick={() => navigate(campaignRoute)}>{project.name}</Anchor>
+        <Anchor onClick={() => navigate(projectRoute)}>{project.name}</Anchor>
         <Span>{campaign.customer_title}</Span>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
