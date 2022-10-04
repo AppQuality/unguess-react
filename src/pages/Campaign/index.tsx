@@ -5,7 +5,6 @@ import {
   Grid,
   Paragraph,
   Row,
-  Span,
   SpecialCard,
   XL,
   theme,
@@ -134,7 +133,7 @@ const Campaign = () => {
       route="campaigns"
     >
       <Grid>
-        {reports && reports.length && (
+        {reports && reports.length ? (
           <Row>
             <Col xs={12}>
               <XL
@@ -148,7 +147,7 @@ const Campaign = () => {
               <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
             </Col>
           </Row>
-        )}
+        ) : null}
         <Row>
           {reports && reports.length ? (
             reports.map((report) => (
