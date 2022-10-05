@@ -97,21 +97,9 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
 
       setFieldValue('campaign_date', dateSpots[selectedDateSpot as number]);
       setFieldValue('campaign_date_end', resultsDate);
-      setFieldValue(
-        'campaign_date_end_text',
-        format(resultsDate, 'EEEE d MMMM Y', { locale: lang.locale })
-      );
     } else {
       setFieldValue('campaign_date', launchDate);
       setFieldValue('campaign_date_end', endDate);
-      setFieldValue(
-        'campaign_date_end_text',
-        format(
-          endDate ?? addBusinessDays(launchDate, requiredDuration),
-          'EEEE d MMMM Y',
-          { locale: lang.locale }
-        )
-      );
     }
 
     // Trigger form submit

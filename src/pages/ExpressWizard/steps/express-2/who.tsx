@@ -76,11 +76,6 @@ export const WhoStep = ({
       }
 
       props.setFieldValue('campaign_date_end', endDate);
-
-      props.setFieldValue(
-        'campaign_date_end_text',
-        format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
-      );
     }
   };
 
