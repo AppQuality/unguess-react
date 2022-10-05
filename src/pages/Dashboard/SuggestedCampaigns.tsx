@@ -8,10 +8,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
-import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { CampaignItem } from './CampaignItem';
 import { CardsContainer, StyledRow } from './CardContainer';
 import { CardRowLoading } from './CardRowLoading';
+import { CampaignActionProps } from './types';
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
@@ -26,8 +27,8 @@ export const SuggestedCampaigns = () => {
 
   if (campaigns.isError || !campaigns.data?.total) return null;
 
-  const goToCampaignDashboard = (campaignId: number, cpType: string) => {
-    window.location.href = getLocalizeRoute(campaignId, cpType);
+  const goToCampaignDashboard = (props: CampaignActionProps) => {
+    window.location.href = getLocalizeDashboardRoute(props);
   };
 
   return campaigns.isLoading ||

@@ -1,11 +1,12 @@
 import { Row, Col, theme } from '@appquality/unguess-design-system';
 import { Campaign } from 'src/features/api';
-import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { CampaignItem } from '../CampaignItem';
+import { CampaignActionProps } from '../types';
 
 const CardGroup = ({ items }: { items: Array<Campaign> }) => {
-  const clickToggle = (campaignId: number, cpType: string) => {
-    window.location.href = getLocalizeRoute(campaignId, cpType);
+  const clickToggle = (props: CampaignActionProps) => {
+    window.location.href = getLocalizeDashboardRoute(props);
   };
 
   return (

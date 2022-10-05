@@ -8,11 +8,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Campaign } from 'src/features/api';
-import { getLocalizeRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { ReactComponent as ExternalIcon } from 'src/assets/icons/new-window-stroke.svg';
 import { CampaignItem } from '../CampaignItem';
+import { CampaignActionProps } from '../types';
 
 const FloatRight = styled.div`
   float: right;
@@ -32,8 +33,8 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
     navigate(localizedRoute);
   };
 
-  const clickToggle = (campaignId: number, cpType: string) => {
-    window.location.href = getLocalizeRoute(campaignId, cpType);
+  const clickToggle = (props: CampaignActionProps) => {
+    window.location.href = getLocalizeDashboardRoute(props);
   };
 
   return (

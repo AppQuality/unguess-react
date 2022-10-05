@@ -7,6 +7,7 @@ import NotFound from 'src/pages/NotFound';
 import Catalog from 'src/pages/Services';
 import Service from 'src/pages/Service';
 import { useEffect } from 'react';
+import Campaign from 'src/pages/Campaign';
 
 const base = ':locale';
 
@@ -22,9 +23,9 @@ const Pages = () => {
     });
   };
 
-  useEffect(() => {
-    trackPageView(location.pathname);
-  }, [location]);
+  // useEffect(() => {
+  //   trackPageView(location.pathname);
+  // }, [location]);
 
   return (
     <Routes>
@@ -34,6 +35,8 @@ const Pages = () => {
       <Route path="/it" element={<Dashboard />} />
       <Route path="/projects/:projectId" element={<Project />} />
       <Route path="/it/projects/:projectId" element={<Project />} />
+      <Route path="/campaigns/:campaignId" element={<Campaign />} />
+      <Route path="/it/campaigns/:campaignId" element={<Campaign />} />
       <Route path="/services" element={<Catalog />} />
       <Route path="/it/services" element={<Catalog />} />
       <Route path="/services/:templateId" element={<Service />} />
