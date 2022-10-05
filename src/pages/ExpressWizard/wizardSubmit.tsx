@@ -74,14 +74,15 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const [launchDate, setlaunchDate] = useState<Date>(
     values.campaign_date ?? new Date()
   );
-  const [endDate, setEndDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>(
+    values.campaign_date_end ?? addBusinessDays(launchDate, base_cp_duration)
+  );
 
   const lang = getLanguage(i18n.language || 'en');
   const today = new Date();
   const requiredDuration =
     values.campaign_language === 'en' ? base_cp_duration + 1 : base_cp_duration;
 
-  // format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
   const dateSpots = [
     addBusinessDays(values.campaign_date ?? today, 1),
     addBusinessDays(values.campaign_date ?? today, 5),
@@ -115,7 +116,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
 
     // Trigger form submit
     handleSubmit();
-  }, [selectedDateSpot]);
+  }, [selectedDateSpot, launchDate, endDate]);
 
   // We consider cp as planned when the difference between the launchDate and the first date spot is at least 0
   const isPlanned = differenceInBusinessDays(launchDate, dateSpots[0]) > -1;
@@ -184,6 +185,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
                 onClick={() => {
                   setSelectedDateSpot(index);
                   setlaunchDate(date);
+                  setEndDate(addBusinessDays(date, requiredDuration));
                 }}
                 icon={
                   index === selectedDateSpot ? (
