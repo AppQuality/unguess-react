@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TagManager from 'react-gtm-module';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from 'src/app/hooks';
@@ -32,18 +32,21 @@ export const GoogleTagManager = ({
     </Helmet>
   );
 
-  if (userData?.role && userData?.tryber_wp_user_id) {
-    tagManagerArgs.dataLayer = {
-      role: userData.role,
-      wp_user_id: userData.tryber_wp_user_id,
-      tester_id: userData.id,
-      name: userData.name,
-      email: userData.email,
-      company: activeWorkspace?.company || 'unknown',
-    };
-  }
+  useEffect(() => {
+    if (userData?.role && userData?.tryber_wp_user_id) {
+      tagManagerArgs.dataLayer = {
+        role: userData.role,
+        wp_user_id: userData.tryber_wp_user_id,
+        tester_id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        company: activeWorkspace?.company || 'unknown',
+      };
+    }
 
-  TagManager.dataLayer(tagManagerArgs);
+    TagManager.dataLayer(tagManagerArgs);
+  }, [userData, activeWorkspace]);
+
   return (
     <>
       {helmet()}
