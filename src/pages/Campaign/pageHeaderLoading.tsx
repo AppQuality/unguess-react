@@ -1,10 +1,14 @@
-import { PageHeader, Skeleton } from '@appquality/unguess-design-system';
+import { PageHeader, Skeleton, theme } from '@appquality/unguess-design-system';
 
 export const HeaderLoader = () => (
   <PageHeader>
     <PageHeader.Main infoTitle="My Campaign">
-      <Skeleton width="80%" height="34px" />
-      <Skeleton width="60%" height="18px" />
+      <Skeleton
+        width="30%"
+        height="20px"
+        style={{ marginBottom: theme.space.md }}
+      />
+      <Skeleton width="50%" height="40px" />
     </PageHeader.Main>
   </PageHeader>
 );
