@@ -123,11 +123,11 @@ export const Navigation = ({
     languages: {
       en: {
         key: 'en',
-        label: t('English'), // TODO: i18n strings for languages
+        label: t('__APP_LANGUANGE_EN_TEXT'), // TODO: i18n strings for languages
       },
       it: {
         key: 'it',
-        label: t('Italian'),
+        label: t('__APP_LANGUANGE_IT_TEXT'),
       },
     },
     currentLanguage: i18n.language,

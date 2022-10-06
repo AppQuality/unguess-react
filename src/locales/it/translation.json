@@ -3,6 +3,10 @@
   "__404_PAGE_DESCRIPTION": "La pagina che stavi cercando potrebbe essere stata rimossa o temporaneamente non disponibile.",
   "__404_PAGE_SUB_TITLE MAX:80": "Non siamo riusciti a trovare la pagina che stavi cercando",
   "__404_PAGE_TITLE MAX:10": "Oops!",
+  "__APP_LANGUANGE_EN_TEXT": "Inglese",
+  "__APP_LANGUANGE_IT_TEXT": "Italiano",
+  "__APP_META_DESCRIPTION": "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.",
+  "__APP_META_PAYOFF": "Be smart from the start",
   "__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5": "menu",
   "__APP_SIDEBAR_HOME_ITEM_LABEL": "Le mie campagne",
   "__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL": "Progetti",
@@ -192,6 +196,7 @@
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER": "Titolo nuovo caso d'uso",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE": "Titolo test case",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL": "Test Case",
+  "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} di {total_steps}",
   "__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION": "Controlla i dati e fai partire la campagna",
   "__EXPRESS_WIZARD_STEP_RECAP_HOW_CONTENT_TEXT": "Hai indicato <1><0>{{use_cases_count}}</0> test case:</1>",
   "__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE": "Non utilizzare questo spazio per comunicare dati sensibili come credenziali di accesso",
@@ -277,7 +282,6 @@
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_TITLE": "Lingua",
   "__EXPRESS_WIZARD_STEP_WHO_LABEL": "Chi",
   "__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA": "è il target della campagna?",
-  "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} di {total_steps}",
   "__EXPRESS_WIZARD_SUBMIT_ERROR": "Qualcosa è andato storto. Per favore riprova.",
   "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT": "Risultati a partire dal primo giorno lavorativo dopo il lancio",
   "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE": "Risultati a partire da",
@@ -325,9 +329,5 @@
   "__WIZARD_EXPRESS_DEFAULT_ITEM": "Cerca o aggiungi progetto",
   "__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON": "Iniziamo!",
   "__WIZARD_EXPRESS_HEADER_TITLE": "Lancia campagna",
-  "__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE": "Aggiungi uno o più test case",
-  "Be smart from the start": "Be smart from the start",
-  "English": "Inglese",
-  "Italian": "Italiano",
-  "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.": "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform."
+  "__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE": "Aggiungi uno o più test case"
 }
