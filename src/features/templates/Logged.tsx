@@ -71,7 +71,7 @@ export const Logged = ({
     }
   }, [status, navigate, loginRoute]);
 
-  if (status === 'logged') {
+  if (status === 'logged' && activeWorkspace?.company) {
     // App ready
     TagManager.dataLayer({
       dataLayer: {
@@ -80,7 +80,7 @@ export const Logged = ({
         tester_id: userData.id,
         name: userData.name,
         email: userData.email,
-        company: activeWorkspace?.company || 'unknown',
+        company: activeWorkspace.company,
         event: 'UnguessLoaded',
       },
     });

@@ -33,14 +33,18 @@ export const GoogleTagManager = ({
   );
 
   useEffect(() => {
-    if (userData?.role && userData?.tryber_wp_user_id) {
+    if (
+      userData?.role &&
+      userData?.tryber_wp_user_id &&
+      activeWorkspace?.company
+    ) {
       tagManagerArgs.dataLayer = {
         role: userData.role,
         wp_user_id: userData.tryber_wp_user_id,
         tester_id: userData.id,
         name: userData.name,
         email: userData.email,
-        company: activeWorkspace?.company || 'unknown',
+        company: activeWorkspace.company,
       };
     }
 
