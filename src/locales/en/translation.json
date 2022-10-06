@@ -3,6 +3,10 @@
   "__404_PAGE_DESCRIPTION": "The page are you looking for might be removed or is temporarily unavailable.",
   "__404_PAGE_SUB_TITLE MAX:80": "We couldn't find the page that you are looking for",
   "__404_PAGE_TITLE MAX:10": "Oops!",
+  "__APP_LANGUANGE_EN_TEXT": "English",
+  "__APP_LANGUANGE_IT_TEXT": "Italian",
+  "__APP_META_DESCRIPTION": "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.",
+  "__APP_META_PAYOFF": "Be smart from the start",
   "__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5": "menu",
   "__APP_SIDEBAR_HOME_ITEM_LABEL": "My campaigns",
   "__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL": "Projects",
@@ -192,6 +196,7 @@
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER": "New test case title",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE": "Test case title",
   "__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL": "Test Case",
+  "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} of {total_steps}",
   "__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION": "Check your informations and launch the campaign",
   "__EXPRESS_WIZARD_STEP_RECAP_HOW_CONTENT_TEXT": "You inserted <1><0>{{use_cases_count}}</0> test cases:</1>",
   "__EXPRESS_WIZARD_STEP_RECAP_MORE_TEXTAREA_NOTE": "Do not use this field to insert sensitive informations such as credentials",
@@ -277,7 +282,6 @@
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_TITLE": "Language",
   "__EXPRESS_WIZARD_STEP_WHO_LABEL": "Who",
   "__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA": "is the target of the campaign?",
-  "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} of {total_steps}",
   "__EXPRESS_WIZARD_SUBMIT_ERROR": "An error occurred, please try again.",
   "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT": "Results will be available the first working day after the campaign's launch",
   "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE": "Results will be available from",
@@ -325,9 +329,5 @@
   "__WIZARD_EXPRESS_DEFAULT_ITEM": "Search or add project",
   "__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON": "Let's go!",
   "__WIZARD_EXPRESS_HEADER_TITLE": "Launch campaign",
-  "__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE": "Add one or more test cases",
-  "Be smart from the start": "Be smart from the start",
-  "English": "English",
-  "Italian": "Italian",
-  "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.": "UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform."
+  "__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE": "Add one or more test cases"
 }
