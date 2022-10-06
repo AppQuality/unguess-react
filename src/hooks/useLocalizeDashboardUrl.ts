@@ -28,13 +28,21 @@ export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   } else if (cpFamily.toLocaleLowerCase() === 'functional') {
     localizedRoute =
       currentLang === 'en'
-        ? `/functional-customer-dashboard/?cid=${campaignId}`
-        : `it/dashboard-campagne-funzionali/?cid=${campaignId}`;
+        ? `${
+            process.env.REACT_APP_CROWD_WP_URL ?? ''
+          }/functional-customer-dashboard/?cid=${campaignId}`
+        : `${
+            process.env.REACT_APP_CROWD_WP_URL ?? ''
+          }/it/dashboard-campagne-funzionali/?cid=${campaignId}`;
   } else {
     localizedRoute =
       currentLang === 'en'
-        ? `/ux-customer-dashboard/?cid=${campaignId}`
-        : `it/dashboard-campagne-esperienziali/?cid=${campaignId}`;
+        ? `${
+            process.env.REACT_APP_CROWD_WP_URL ?? ''
+          }/ux-customer-dashboard/?cid=${campaignId}`
+        : `${
+            process.env.REACT_APP_CROWD_WP_URL ?? ''
+          }/it/dashboard-campagne-esperienziali/?cid=${campaignId}`;
   }
 
   // in case of base route ("") we already have a forward slash
