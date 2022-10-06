@@ -414,7 +414,7 @@ export const ExpressWizardContainer = () => {
               </ModalFullScreen.Body>
               <ModalFooter>
                 <StyledModalNav style={{ position: 'relative' }}>
-                  <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                  <Row>
                     <Col
                       xs={12}
                       lg={9}
