@@ -32,15 +32,10 @@ const App = () => {
         <Helmet>
           <meta
             property="og:title"
-            content={`UNGUESS - ${t('Be smart from the start')}`}
+            content={`UNGUESS - ${t('__APP_META_PAYOFF')}`}
           />
-          <title>UNGUESS - {t('Be smart from the start')}</title>
-          <meta
-            name="description"
-            content={t(
-              'UNGUESS provides collective wisdom to improve your decision-making process. Eliminate inefficiencies with our testing, monitoring and research platform.'
-            )}
-          />
+          <title>UNGUESS - {t('__APP_META_PAYOFF')}</title>
+          <meta name="description" content={t('__APP_META_DESCRIPTION')} />
         </Helmet>
         <BrowserRouter>
           <Pages />
