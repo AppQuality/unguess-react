@@ -68,23 +68,21 @@ export const Logged = ({
       navigate(loginRoute, {
         state: { from: location.pathname },
       });
+    } else if (status === 'logged' && activeWorkspace?.company) {
+      // App ready
+      TagManager.dataLayer({
+        dataLayer: {
+          role: userData.role,
+          wp_user_id: userData.tryber_wp_user_id,
+          tester_id: userData.id,
+          name: userData.name,
+          email: userData.email,
+          company: activeWorkspace.company,
+          event: 'UnguessLoaded',
+        },
+      });
     }
-  }, [status, navigate, loginRoute]);
-
-  if (status === 'logged' && activeWorkspace?.company) {
-    // App ready
-    TagManager.dataLayer({
-      dataLayer: {
-        role: userData.role,
-        wp_user_id: userData.tryber_wp_user_id,
-        tester_id: userData.id,
-        name: userData.name,
-        email: userData.email,
-        company: activeWorkspace.company,
-        event: 'UnguessLoaded',
-      },
-    });
-  }
+  }, [status, activeWorkspace]);
 
   return status === 'idle' || status === 'loading' ? (
     <PageLoader />
