@@ -9,6 +9,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-circle.svg';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
+import useWindowSize from 'src/hooks/useWindowSize';
 
 const Container = styled.div`
   display: flex;
@@ -38,6 +39,9 @@ const BackContainer = styled.div`
 export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
 
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(globalTheme.breakpoints.md, 10);
+
   return (
     <Container>
       <BackContainer>
@@ -51,18 +55,20 @@ export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
         </Anchor>
         <ModalTitle>{t('__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE')}</ModalTitle>
       </TitleContainer>
-      <Button
-        isPrimary
-        isPill
-        onClick={onClose}
-        themeColor={globalTheme.colors.accentHue}
-        style={{ marginLeft: 'auto' }}
-      >
-        <Button.StartIcon>
-          <CheckIcon />
-        </Button.StartIcon>
-        {t('__WIZARD_EXPRESS_3_USE_CASE_MODAL_HEADER_SAVE_BUTTON')}
-      </Button>
+      {width > breakpointSm && (
+        <Button
+          isPrimary
+          isPill
+          onClick={onClose}
+          themeColor={globalTheme.colors.accentHue}
+          style={{ marginLeft: 'auto' }}
+        >
+          <Button.StartIcon>
+            <CheckIcon />
+          </Button.StartIcon>
+          {t('__WIZARD_EXPRESS_3_USE_CASE_MODAL_HEADER_SAVE_BUTTON')}
+        </Button>
+      )}
     </Container>
   );
 };

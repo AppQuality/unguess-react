@@ -53,6 +53,10 @@ const HelpCol = styled(Col)`
   margin-bottom: 0;
   padding: 0;
   height: 100%;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: none;
+  }
 `;
 
 const TextCasesTabs = styled.div`
@@ -64,6 +68,10 @@ const TextCasesTabs = styled.div`
   width: 100%;
   position: sticky;
   top: 0;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.space.md} 0;
+  }
 `;
 
 const CenteredContainer = styled.div`
@@ -95,6 +103,10 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
       background-color: inherit;
     }
   }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0 ${({ theme }) => theme.space.sm};
+  }
 `;
 
 const EmptyStateTitle = styled(LG)`
@@ -108,6 +120,10 @@ const EmptyStateText = styled(Paragraph)`
 
 const StyledContainerCard = styled(ContainerCard)`
   padding: ${({ theme }) => theme.space.xl};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => `${theme.space.lg} ${theme.space.md}`};
+  }
 `;
 
 const StyledModal = styled(ModalFullScreen)`
@@ -154,7 +170,7 @@ export const ModalUseCase = ({
       <Body>
         <Grid style={{ height: '100%' }}>
           <Row style={{ height: '100%' }}>
-            <ContentCol xs={8}>
+            <ContentCol xs={12} lg={8}>
               <TextCasesTabs>
                 <ModalUseCaseTabLayout
                   formikProps={formikProps}
@@ -236,7 +252,7 @@ export const ModalUseCase = ({
                 </StyledContainerCard>
               </BodyScrollingContainer>
             </ContentCol>
-            <HelpCol xs={4}>
+            <HelpCol xs={12} lg={4}>
               <ModalUseCaseHelp />
             </HelpCol>
           </Row>
