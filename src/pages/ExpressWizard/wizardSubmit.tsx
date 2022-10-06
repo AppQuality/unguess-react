@@ -41,7 +41,18 @@ const HelpText = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[600]};
   max-width: 250px;
   position: absolute;
-  right: ${({ theme }) => theme.space.xs};
+
+  left: ${({ theme }) => theme.space.lg};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    left: auto;
+    right: 0;
+    padding: 0 ${({ theme }) => theme.space.xs};
+  }
 `;
 
 const InteractiveTimelineItem = styled(Timeline.Item)`
@@ -62,7 +73,8 @@ const InteractiveTimelineItem = styled(Timeline.Item)`
 
 export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
-  const { errors, isSubmitting, handleSubmit, values, setFieldValue } = props;
+  const { errors, isSubmitting, handleSubmit, values, setFieldValue, status } =
+    props;
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [refElement, setRefElement] = useState<HTMLButtonElement | null>();
@@ -142,17 +154,19 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           style={{ marginLeft: globalTheme.space.sm }}
         />
       ) : (
-        <HelpText>
-          {isPlanned
-            ? `${t(
-                '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
-              )} ${format(
-                endDate ?? addBusinessDays(launchDate, requiredDuration),
-                'EEEE d MMMM',
-                { locale: lang.locale }
-              )}`
-            : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
-        </HelpText>
+        (!status || !status.submitError) && (
+          <HelpText>
+            {isPlanned
+              ? `${t(
+                  '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
+                )} ${format(
+                  endDate ?? addBusinessDays(launchDate, requiredDuration),
+                  'EEEE d MMMM',
+                  { locale: lang.locale }
+                )}`
+              : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
+          </HelpText>
+        )
       )}
       <TooltipModal
         referenceElement={refElement}
