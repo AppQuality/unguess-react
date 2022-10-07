@@ -1,4 +1,4 @@
-import { Card } from '@appquality/unguess-design-system';
+import { Card, Span } from '@appquality/unguess-design-system';
 import { FieldArray, FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -16,6 +16,7 @@ const Container = styled.div`
   padding: 0 ${({ theme }) => theme.space.md};
   width: 100%;
 `;
+const CardTitle = styled(Span)``;
 
 const UseCaseCard = styled(Card)`
   display: flex;
@@ -23,6 +24,7 @@ const UseCaseCard = styled(Card)`
   align-items: center;
   justify-content: center;
   background-color: white;
+  text-align: center;
   border: 1px solid ${({ theme }) => theme.palette.grey[300]};
   color: ${({ theme }) => theme.colors.primaryHue};
   padding: 0;
@@ -45,6 +47,10 @@ const UseCaseCard = styled(Card)`
     svg {
       margin-bottom: ${({ theme }) => theme.space.base}px;
       margin-right: ${({ theme }) => theme.space.xs};
+
+      @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+        margin: 0;
+      }
     }
   }
 
@@ -57,6 +63,12 @@ const UseCaseCard = styled(Card)`
 
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    ${CardTitle} {
+      display: none;
+    }
   }
 `;
 
@@ -73,6 +85,10 @@ const UseCasesWrapper = styled.div`
     &:first-child {
       margin-left: 0;
     }
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
   }
 `;
 
@@ -134,7 +150,11 @@ export const ModalUseCaseTabLayout = ({
                     })}
                   onClick={() => handleCurrentUseCase(useCase)}
                 >
-                  {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}{' '}
+                  <CardTitle>
+                    {t(
+                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
+                    )}{' '}
+                  </CardTitle>
                   {index + 1}
                 </UseCaseCard>
               ))}
@@ -143,11 +163,6 @@ export const ModalUseCaseTabLayout = ({
                 className="add-card"
                 onClick={() => {
                   validateForm().then(() => {
-                    // if (
-                    //   !errors ||
-                    //   !Array.isArray(errors.use_cases) ||
-                    //   !errors.use_cases.length
-                    // ) {
                     push({
                       ...emptyUseCase,
                       ...(expressData &&
@@ -165,20 +180,23 @@ export const ModalUseCaseTabLayout = ({
                         }),
                       id: highestUseCaseId + 1,
                     });
-                    // }
                   });
                 }}
               >
                 <AddIcon />
-                {t(
-                  '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
-                )}
+                <CardTitle>
+                  {t(
+                    '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
+                  )}
+                </CardTitle>
               </UseCaseCard>
             )}
             {remainingSpots > 0 &&
               [...Array(remainingSpots - 1)].map(() => (
                 <UseCaseCard isFloating={false} className="empty-card">
-                  {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_LABEL')}
+                  <CardTitle>
+                    {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_LABEL')}
+                  </CardTitle>
                 </UseCaseCard>
               ))}
           </UseCasesWrapper>
