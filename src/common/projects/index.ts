@@ -2,6 +2,7 @@ import {
   GetProjectsByPidApiResponse,
   GetWorkspacesApiArg,
   GetWorkspacesApiResponse,
+  GetWorkspacesByWidApiResponse,
   GetWorkspacesByWidProjectsApiResponse,
 } from 'src/features/api';
 
@@ -101,7 +102,7 @@ export const workspaces = async (
 export const workspacesById = async (
   workspaceId: number,
   token?: string
-): Promise<GetWorkspacesApiResponse> => {
+): Promise<GetWorkspacesByWidApiResponse> => {
   let currentToken = token;
 
   if (process.env.REACT_APP_DEFAULT_TOKEN)
