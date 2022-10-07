@@ -416,7 +416,7 @@ export type Workspace = {
   };
   coins?: number;
 };
-export type Output = 'bugs' | 'reports' | 'media';
+export type Output = 'bugs' | 'media';
 export type Campaign = {
   id: number;
   start_date: string;
@@ -450,6 +450,7 @@ export type Project = {
   id: number;
   name: string;
   campaigns_count: number;
+  workspaceId: number;
 };
 export type Campaign2 = {
   id: number;
