@@ -1,15 +1,19 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useGetProjectsByPidQuery } from 'src/features/api';
 import {
   projectFilterChanged,
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
+
+import { CardRowLoading } from './CardRowLoading';
 
 const Project = () => {
   const { t } = useTranslation();
@@ -19,10 +23,22 @@ const Project = () => {
   const { projectId } = useParams();
 
   if (!projectId || Number.isNaN(Number(projectId))) {
-    navigate(notFoundRoute, { replace: true });
-  } else {
-    dispatch(resetFilters());
-    dispatch(projectFilterChanged(Number(projectId)));
+    navigate(notFoundRoute);
+  }
+
+  const project = useGetProjectsByPidQuery({
+    pid: Number(projectId),
+  });
+
+  useEffect(() => {
+    if (project.isSuccess) {
+      dispatch(resetFilters());
+      dispatch(projectFilterChanged(Number(projectId)));
+    }
+  }, [project]);
+
+  if (project.isError) {
+    navigate(notFoundRoute);
   }
 
   return (
@@ -31,9 +47,7 @@ const Project = () => {
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
     >
-      <Grid>
-        <ProjectItems />
-      </Grid>
+      <Grid>{project.isSuccess ? <ProjectItems /> : <CardRowLoading />}</Grid>
     </Page>
   );
 };

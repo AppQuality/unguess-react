@@ -41,6 +41,7 @@ export const ProjectDropdown = () => {
     id: 0,
     name: t('__WIZARD_EXPRESS_DEFAULT_ITEM'),
     campaigns_count: 0,
+    workspaceId: 0,
   };
 
   const [selectedItem, setSelectedItem] = useState<Project>();
