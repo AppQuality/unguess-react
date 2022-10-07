@@ -219,6 +219,9 @@ export const Navigation = ({
         company: workspaceName,
       },
     });
+
+    // Navigate to home
+    navigateTo('home');
   };
 
   if (!activeWorkspace) return null;
