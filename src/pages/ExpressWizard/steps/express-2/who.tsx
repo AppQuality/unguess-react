@@ -16,13 +16,11 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
-import { addBusinessDays, format } from 'date-fns';
-import i18n from 'src/i18n';
+import { addBusinessDays } from 'date-fns';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-import { getLanguage } from 'src/pages/ExpressWizard/getLanguage';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -55,7 +53,6 @@ export const WhoStep = ({
   ...props
 }: FormikProps<WizardModel>) => {
   const [radioValue, setRadioValue] = useState(values.campaign_language);
-  const lang = getLanguage(i18n.language || 'en');
 
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
@@ -76,11 +73,6 @@ export const WhoStep = ({
       }
 
       props.setFieldValue('campaign_date_end', endDate);
-
-      props.setFieldValue(
-        'campaign_date_end_text',
-        format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
-      );
     }
   };
 

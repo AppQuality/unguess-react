@@ -41,7 +41,18 @@ const HelpText = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[600]};
   max-width: 250px;
   position: absolute;
-  right: ${({ theme }) => theme.space.xs};
+
+  left: ${({ theme }) => theme.space.lg};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    left: auto;
+    right: 0;
+    padding: 0 ${({ theme }) => theme.space.xs};
+  }
 `;
 
 const InteractiveTimelineItem = styled(Timeline.Item)`
@@ -62,7 +73,8 @@ const InteractiveTimelineItem = styled(Timeline.Item)`
 
 export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
-  const { errors, isSubmitting, handleSubmit, values, setFieldValue } = props;
+  const { errors, isSubmitting, handleSubmit, values, setFieldValue, status } =
+    props;
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [refElement, setRefElement] = useState<HTMLButtonElement | null>();
@@ -74,14 +86,15 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const [launchDate, setlaunchDate] = useState<Date>(
     values.campaign_date ?? new Date()
   );
-  const [endDate, setEndDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>(
+    values.campaign_date_end ?? addBusinessDays(launchDate, base_cp_duration)
+  );
 
   const lang = getLanguage(i18n.language || 'en');
   const today = new Date();
   const requiredDuration =
     values.campaign_language === 'en' ? base_cp_duration + 1 : base_cp_duration;
 
-  // format(endDate, 'EEEE d MMMM Y', { locale: lang.locale })
   const dateSpots = [
     addBusinessDays(values.campaign_date ?? today, 1),
     addBusinessDays(values.campaign_date ?? today, 5),
@@ -96,26 +109,14 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
 
       setFieldValue('campaign_date', dateSpots[selectedDateSpot as number]);
       setFieldValue('campaign_date_end', resultsDate);
-      setFieldValue(
-        'campaign_date_end_text',
-        format(resultsDate, 'EEEE d MMMM Y', { locale: lang.locale })
-      );
     } else {
       setFieldValue('campaign_date', launchDate);
       setFieldValue('campaign_date_end', endDate);
-      setFieldValue(
-        'campaign_date_end_text',
-        format(
-          endDate ?? addBusinessDays(launchDate, requiredDuration),
-          'EEEE d MMMM Y',
-          { locale: lang.locale }
-        )
-      );
     }
 
     // Trigger form submit
     handleSubmit();
-  }, [selectedDateSpot]);
+  }, [selectedDateSpot, launchDate, endDate]);
 
   // We consider cp as planned when the difference between the launchDate and the first date spot is at least 0
   const isPlanned = differenceInBusinessDays(launchDate, dateSpots[0]) > -1;
@@ -153,17 +154,19 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           style={{ marginLeft: globalTheme.space.sm }}
         />
       ) : (
-        <HelpText>
-          {isPlanned
-            ? `${t(
-                '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
-              )} ${format(
-                endDate ?? addBusinessDays(launchDate, requiredDuration),
-                'EEEE d MMMM',
-                { locale: lang.locale }
-              )}`
-            : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
-        </HelpText>
+        (!status || !status.submitError) && (
+          <HelpText>
+            {isPlanned
+              ? `${t(
+                  '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
+                )} ${format(
+                  endDate ?? addBusinessDays(launchDate, requiredDuration),
+                  'EEEE d MMMM',
+                  { locale: lang.locale }
+                )}`
+              : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
+          </HelpText>
+        )
       )}
       <TooltipModal
         referenceElement={refElement}
@@ -184,6 +187,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
                 onClick={() => {
                   setSelectedDateSpot(index);
                   setlaunchDate(date);
+                  setEndDate(addBusinessDays(date, requiredDuration));
                 }}
                 icon={
                   index === selectedDateSpot ? (

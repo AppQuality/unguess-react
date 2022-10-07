@@ -37,7 +37,7 @@ import {
   EXPRESS_2_CAMPAIGN_TYPE_ID,
   EXPRESS_1_CAMPAIGN_TYPE_ID,
 } from 'src/constants';
-import { format, formatISO } from 'date-fns';
+import { format } from 'date-fns';
 import async from 'async';
 import {
   createCrons,
@@ -291,13 +291,13 @@ export const ExpressWizardContainer = () => {
               ...values,
               id: cp.id,
               ...(values.campaign_date && {
-                start_date: formatISO(values.campaign_date),
+                start_date: format(values.campaign_date, BASE_DATE_FORMAT),
               }),
               ...(values.campaign_date_end && {
-                end_date: formatISO(values.campaign_date_end),
+                end_date: format(values.campaign_date_end, BASE_DATE_FORMAT),
               }),
               ...(values.campaign_date_end && {
-                close_date: formatISO(values.campaign_date_end),
+                close_date: format(values.campaign_date_end, BASE_DATE_FORMAT),
               }),
               ...(values.campaign_reason && {
                 reason: reasonItems[values.campaign_reason],
@@ -414,7 +414,7 @@ export const ExpressWizardContainer = () => {
               </ModalFullScreen.Body>
               <ModalFooter>
                 <StyledModalNav style={{ position: 'relative' }}>
-                  <Row style={{ marginLeft: 0, marginRight: 0 }}>
+                  <Row>
                     <Col
                       xs={12}
                       lg={9}

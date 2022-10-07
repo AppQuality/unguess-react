@@ -120,6 +120,18 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCampaignsByCid: build.query<
+      GetCampaignsByCidApiResponse,
+      GetCampaignsByCidApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}` }),
+    }),
+    getCampaignsByCidReports: build.query<
+      GetCampaignsByCidReportsApiResponse,
+      GetCampaignsByCidReportsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/reports` }),
+    }),
     postProjects: build.mutation<PostProjectsApiResponse, PostProjectsApiArg>({
       query: (queryArg) => ({
         url: `/projects`,
@@ -278,7 +290,7 @@ export type PatchProjectsByPidApiArg = {
     display_name: string;
   };
 };
-export type PostCampaignsApiResponse = /** status 200 OK */ Campaign;
+export type PostCampaignsApiResponse = /** status 200 OK */ Campaign2;
 export type PostCampaignsApiArg = {
   body: {
     title: string;
@@ -303,13 +315,23 @@ export type PostCampaignsApiArg = {
     use_cases?: UseCase[];
   };
 };
-export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
+export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign2;
 export type PatchCampaignsByCidApiArg = {
   /** Campaign id */
   cid: number;
   body: {
     customer_title?: string;
   };
+};
+export type GetCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
+export type GetCampaignsByCidApiArg = {
+  /** Campaign id */
+  cid: number;
+};
+export type GetCampaignsByCidReportsApiResponse = /** status 200 OK */ Report[];
+export type GetCampaignsByCidReportsApiArg = {
+  /** Campaign id */
+  cid: number;
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
 export type PostProjectsApiArg = {
@@ -394,6 +416,7 @@ export type Workspace = {
   };
   coins?: number;
 };
+export type Output = 'bugs' | 'reports' | 'media';
 export type Campaign = {
   id: number;
   start_date: string;
@@ -421,11 +444,40 @@ export type Campaign = {
   };
   description?: string;
   base_bug_internal_id?: string;
+  outputs?: Output[];
 };
 export type Project = {
   id: number;
   name: string;
   campaigns_count: number;
+};
+export type Campaign2 = {
+  id: number;
+  start_date: string;
+  end_date: string;
+  close_date: string;
+  title: string;
+  customer_title: string;
+  is_public: number;
+  bug_form?: number;
+  type: {
+    id: number;
+    name: string;
+  };
+  family: {
+    id: number;
+    name: string;
+  };
+  status: {
+    id: number;
+    name: string;
+  };
+  project: {
+    id: number;
+    name: string;
+  };
+  description?: string;
+  base_bug_internal_id?: string;
 };
 export type PlatformObject = {
   id: number;
@@ -454,6 +506,34 @@ export type UseCase = {
   logged?: boolean;
   link?: string;
 };
+export type ReportExtensions =
+  | 'pdf'
+  | 'doc'
+  | 'docx'
+  | 'xls'
+  | 'xlsx'
+  | 'ppt'
+  | 'pptx'
+  | 'rar'
+  | 'txt'
+  | 'csv'
+  | 'zip'
+  | 'gzip'
+  | 'gz'
+  | '7z';
+export type Report = {
+  id?: number;
+  title?: string;
+  description?: string;
+  url: string;
+  file_type?: {
+    extension?: ReportExtensions;
+    type: string;
+    domain_name?: string;
+  };
+  creation_date?: string;
+  update_date?: string;
+};
 export type Coin = {
   id: number;
   customer_id: number;
@@ -478,6 +558,8 @@ export const {
   usePatchProjectsByPidMutation,
   usePostCampaignsMutation,
   usePatchCampaignsByCidMutation,
+  useGetCampaignsByCidQuery,
+  useGetCampaignsByCidReportsQuery,
   usePostProjectsMutation,
   useGetWorkspacesByWidCoinsQuery,
   useGetTemplatesQuery,

@@ -8,7 +8,11 @@ const VirtualFile = require('vinyl');
 function sortObject(object) {
   const unsortedArr = [...Object.entries(object)];
   const sortedArr = unsortedArr.sort(([key1, value1], [key2, value2]) =>
-    key1.localeCompare(key2)
+    key1.localeCompare(key2, 'en', {
+      sensitivity: 'base',
+      numeric: true,
+      ignorePunctuation: true,
+    })
   );
   var sorted = {};
   sortedArr.forEach(([key, value]) => (sorted[key] = value));

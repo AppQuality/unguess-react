@@ -1,18 +1,22 @@
-import React from 'react';
-import TagManager from 'react-gtm-module';
+import React, { useEffect } from 'react';
+import TagManager, { TagManagerArgs } from 'react-gtm-module';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from 'src/app/hooks';
 
-const tagManagerArgs = {
-  dataLayer: {
-    role: 'unknown',
-    wp_user_id: 0,
-    tester_id: 0,
-    name: 'unknown',
-    email: 'unknown',
-    company: 'unknown',
+const tagManagerArgs: TagManagerArgs = {
+  gtmId: process.env.REACT_APP_GTM_ID || 'GTM-WVXPS94',
+  ...(process.env.REACT_APP_GTM_AUTH && {
+    auth: process.env.REACT_APP_GTM_AUTH,
+  }),
+  ...(process.env.REACT_APP_GTM_ENV && {
+    preview: process.env.REACT_APP_GTM_ENV,
+  }),
+  events: {
+    unguess_loaded: 'unguess_loaded',
+    workspace_change: 'workspace_change',
   },
 };
+TagManager.initialize(tagManagerArgs);
 
 export const GoogleTagManager = ({
   title,
@@ -32,18 +36,24 @@ export const GoogleTagManager = ({
     </Helmet>
   );
 
-  if (userData?.role && userData?.tryber_wp_user_id) {
-    tagManagerArgs.dataLayer = {
-      role: userData.role,
-      wp_user_id: userData.tryber_wp_user_id,
-      tester_id: userData.id,
-      name: userData.name,
-      email: userData.email,
-      company: activeWorkspace?.company || 'unknown',
-    };
-  }
+  useEffect(() => {
+    if (userData?.role && activeWorkspace?.company) {
+      const tagManagerDataLayer = {
+        role: userData.role,
+        wp_user_id: userData.tryber_wp_user_id,
+        tester_id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        company: activeWorkspace.company,
+        event: 'unguess_loaded',
+      };
 
-  TagManager.dataLayer(tagManagerArgs);
+      TagManager.dataLayer({
+        dataLayer: tagManagerDataLayer,
+      });
+    }
+  }, [userData, activeWorkspace]);
+
   return (
     <>
       {helmet()}

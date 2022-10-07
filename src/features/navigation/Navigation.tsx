@@ -19,6 +19,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { prepareGravatar, isMaxMedia } from 'src/common/utils';
 import { useEffect } from 'react';
 import API from 'src/common/api';
+import TagManager from 'react-gtm-module';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
@@ -123,11 +124,11 @@ export const Navigation = ({
     languages: {
       en: {
         key: 'en',
-        label: t('English'), // TODO: i18n strings for languages
+        label: t('__APP_LANGUANGE_EN_TEXT'), // TODO: i18n strings for languages
       },
       it: {
         key: 'it',
-        label: t('Italian'),
+        label: t('__APP_LANGUANGE_IT_TEXT'),
       },
     },
     currentLanguage: i18n.language,
@@ -206,6 +207,20 @@ export const Navigation = ({
     dispatch(setProfileModalOpen(false));
   };
 
+  const toggleGtmWorkspaceChange = (workspaceName: string) => {
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'workspace_change',
+        role: user.role,
+        wp_user_id: user.tryber_wp_user_id,
+        tester_id: user.id,
+        name: user.name,
+        email: user.email,
+        company: workspaceName,
+      },
+    });
+  };
+
   if (!activeWorkspace) return null;
 
   return (
@@ -224,6 +239,7 @@ export const Navigation = ({
               saveWorkspaceToLs(workspace);
               API.workspacesById(workspace.id).then((ws) => {
                 dispatch(setWorkspace(ws));
+                toggleGtmWorkspaceChange(ws.company);
               });
             }
             // saveWorkspaceToLs(workspace);
@@ -268,6 +284,7 @@ export const Navigation = ({
             saveWorkspaceToLs(workspace);
             API.workspacesById(workspace.id).then((ws) => {
               dispatch(setWorkspace(ws));
+              toggleGtmWorkspaceChange(ws.company);
             });
           }}
         />

@@ -7,10 +7,9 @@ import {
   Main,
 } from '@appquality/unguess-design-system';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
-import TagManager from 'react-gtm-module';
 import { Navigation } from '../navigation/Navigation';
 
 const Container = styled.div`
@@ -56,32 +55,19 @@ export const Logged = ({
   pageHeader?: React.ReactNode;
   route: string;
 }) => {
+  const location = useLocation();
   const loginRoute = useLocalizeRoute('login');
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const navigate = useNavigate();
 
-  const { status, userData } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (status === 'failed') {
-      navigate(loginRoute);
+      navigate(loginRoute, {
+        state: { from: location.pathname },
+      });
     }
-  }, [status, navigate, loginRoute]);
-
-  if (status === 'logged') {
-    // App ready
-    TagManager.dataLayer({
-      dataLayer: {
-        role: userData.role,
-        wp_user_id: userData.tryber_wp_user_id,
-        tester_id: userData.id,
-        name: userData.name,
-        email: userData.email,
-        company: activeWorkspace?.company || 'unknown',
-        event: 'UnguessLoaded',
-      },
-    });
-  }
+  }, [status]);
 
   return status === 'idle' || status === 'loading' ? (
     <PageLoader />

@@ -15,17 +15,17 @@ export const getLanguage = (lang: string): Language => {
   let relativeDateFormat;
   switch (lang) {
     case 'en':
-      label = t('English');
+      label = t('__APP_LANGUANGE_EN_TEXT');
       locale = enGB;
       relativeDateFormat = RELATIVE_DATE_FORMAT_OPTS.en;
       break;
     case 'it':
-      label = t('Italian');
+      label = t('__APP_LANGUANGE_IT_TEXT');
       locale = it;
       relativeDateFormat = RELATIVE_DATE_FORMAT_OPTS.it;
       break;
     default:
-      label = t('English');
+      label = t('__APP_LANGUANGE_EN_TEXT');
       locale = enGB;
       relativeDateFormat = RELATIVE_DATE_FORMAT_OPTS.en;
       break;
