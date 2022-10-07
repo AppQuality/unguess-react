@@ -208,7 +208,6 @@ export const Navigation = ({
   };
 
   const toggleGtmWorkspaceChange = (workspaceName: string) => {
-    console.log('Switching to workspace: ', workspaceName);
     TagManager.dataLayer({
       dataLayer: {
         event: 'workspace_change',
