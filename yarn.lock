@@ -42,10 +42,10 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/unguess-design-system@2.12.16":
-  version "2.12.16"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.16.tgz#50d9f724650ea5a6db293cd124edf7b6f4a16e3b"
-  integrity sha512-11OlAMEziwF5VNF5FjCuoJ1qVCyjQK9WT1NrghEBQ3Hzl+xpkYsiih65YzJ1e9RGtbJHiHPvb3OXQz/Ylke8FA==
+"@appquality/unguess-design-system@2.12.17":
+  version "2.12.17"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.17.tgz#d0edcd4772455df34cc716442056bd8dba3ab746"
+  integrity sha512-n3pOfWO8lbIXywjnrmq/txE+S2h2LXRyhYM6/P+/Oihz2uodcCoQbb8WN2q39Fuog8718MDQlD2r6ndkdjZMhg==
   dependencies:
     "@tiptap/extension-bubble-menu" "^2.0.0-beta.61"
     "@tiptap/extension-character-count" "^2.0.0-beta.31"

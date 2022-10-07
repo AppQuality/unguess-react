@@ -14,7 +14,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
       {items.map((campaign) => (
         <Col size={3} xs={12} md={6} lg={3}>
           <CampaignItem
-            key={campaign.id}
+            key={`campaign_${campaign.id}`}
             campaign={campaign}
             onCampaignClicked={clickToggle}
             style={{ marginBottom: `${theme.space.base * 4}px` }}

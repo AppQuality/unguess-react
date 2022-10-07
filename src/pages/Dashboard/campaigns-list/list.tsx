@@ -40,22 +40,23 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
   return (
     <>
       <Col
+        key={`campaign_project_col_${campaigns[0].project.id}`}
         size={12}
         style={{
           marginBottom: `${theme.space.base * 4}px`,
           marginTop: `${theme.space.base * 4}px`,
         }}
       >
-        <Span isBold key={campaigns[0].project.id}>
+        <Span isBold>
           {campaigns[0].project.name} ({items.length})
         </Span>
       </Col>
 
       {/* <CardsContainer> */}
       {campaigns.map((campaign) => (
-        <Col xs={12} md={6} lg={3}>
+        <Col xs={12} md={6} lg={3} key={`campaign_col_${campaign.id}`}>
           <CampaignItem
-            key={campaign.id}
+            key={`campaign_${campaign.id}`}
             campaign={campaign}
             onCampaignClicked={clickToggle}
             style={{ marginBottom: `${theme.space.base * 4}px` }}
@@ -65,7 +66,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
       {/* </CardsContainer> */}
 
       {items.length > 4 && (
-        <Col size={12}>
+        <Col size={12} key={`campaign_project_cta_${campaigns[0].project.id}`}>
           <FloatRight>
             <Button
               isBasic
@@ -90,8 +91,8 @@ export const CardList = ({
 }) => (
   <>
     {campaigns.map((group) => (
-      <Row>
-        <CardGroup items={group} />
+      <Row key={`cards_row_start_${group[0].id}`}>
+        <CardGroup key={`cards_group_start_${group[0].id}`} items={group} />
       </Row>
     ))}
   </>

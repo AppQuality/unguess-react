@@ -50,7 +50,7 @@ export const SuggestedCampaigns = () => {
       <CardsContainer>
         <StyledRow>
           {campaigns.data.items.map((campaign) => (
-            <Col xs={10} md={6} lg={3}>
+            <Col xs={10} md={6} lg={3} key={`suggested_col_${campaign.id}`}>
               <CampaignItem
                 key={`suggested_${campaign.id}`}
                 campaign={campaign}
