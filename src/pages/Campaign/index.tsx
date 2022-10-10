@@ -80,8 +80,8 @@ const Campaign = () => {
             </Col>
           </Row>
         ) : null}
-        {reports && !isLoadingReports && !isFetchingReports ? (
-          <ReportRow reports={reports} campaignId={Number(campaignId)} />
+        {reports && campaign && !isLoadingReports && !isFetchingReports ? (
+          <ReportRow reports={reports} campaign={campaign} />
         ) : (
           <ReportRowLoading />
         )}
