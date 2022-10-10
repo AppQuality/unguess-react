@@ -23,7 +23,6 @@ export const CampaignItem = ({
   return (
     <CampaignCard
       className="suggested-campaign-card"
-      key={campaign.id}
       // isNew={campaign?.isNew} TODO: need an API update
       date={format(new Date(campaign.start_date), 'dd/MM/Y')}
       projectTitle={`${project.name}`}
