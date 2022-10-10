@@ -7,6 +7,19 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { searchFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import styled from 'styled-components';
 
+const StyledField = styled(Field)`
+  width: 100%;
+  max-width: 100% !important;
+
+  > * {
+    width: 100%;
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    max-width: 260px;
+  }
+`;
+
 export const SearchInput = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -14,19 +27,6 @@ export const SearchInput = () => {
   const { search } = useAppSelector((state) => state.filters);
 
   const [value, setValue] = useState(search || '');
-
-  const StyledField = styled(Field)`
-    width: 100%;
-    max-width: 100% !important;
-
-    > * {
-      width: 100%;
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      max-width: 260px;
-    }
-  `;
 
   useEffect(() => {
     setValue(search || '');
