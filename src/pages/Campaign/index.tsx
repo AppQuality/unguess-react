@@ -81,7 +81,7 @@ const Campaign = () => {
           </Row>
         ) : null}
         {reports && !isLoadingReports && !isFetchingReports ? (
-          <ReportRow reports={reports} />
+          <ReportRow reports={reports} campaignId={Number(campaignId)} />
         ) : (
           <ReportRowLoading />
         )}

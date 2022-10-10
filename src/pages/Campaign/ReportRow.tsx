@@ -22,6 +22,7 @@ import { Report } from 'src/features/api';
 import { format } from 'date-fns';
 import { t } from 'i18next';
 import styled from 'styled-components';
+import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
 
 const CenteredContent = styled.div`
   display: flex;
@@ -84,7 +85,13 @@ const getFileTypeIcon = (type: string, url: string) => {
   }
 };
 
-export const ReportRow = ({ reports }: { reports?: Report[] }) => (
+export const ReportRow = ({
+  reports,
+  campaignId,
+}: {
+  reports?: Report[];
+  campaignId: number;
+}) => (
   <Row>
     {reports && reports.length ? (
       reports.map((report) => (
@@ -150,6 +157,7 @@ export const ReportRow = ({ reports }: { reports?: Report[] }) => (
         <XL
           style={{
             fontWeight: theme.fontWeights.medium,
+            marginTop: theme.space.xl,
             marginBottom: theme.space.sm,
           }}
         >
@@ -158,6 +166,19 @@ export const ReportRow = ({ reports }: { reports?: Report[] }) => (
         <Paragraph style={{ textAlign: 'center' }}>
           {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TEXT')}
         </Paragraph>
+        <Paragraph style={{ textAlign: 'center' }}>
+          {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_INTEGRATIONS_TEXT')}
+        </Paragraph>
+        <Button
+          isPill
+          onClick={() => {
+            window.location.href =
+              getLocalizeIntegrationCenterRoute(campaignId);
+          }}
+          style={{ marginTop: theme.space.md }}
+        >
+          {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_INTEGRATIONS_BUTTON')}
+        </Button>
       </CenteredContent>
     )}
   </Row>
