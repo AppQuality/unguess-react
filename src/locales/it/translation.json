@@ -19,6 +19,8 @@
   "__CAMPAIGN_PAGE_REPORTS_CARDS_UPDATED_ON_LABEL": "Ultima modifica:",
   "__CAMPAIGN_PAGE_REPORTS_CARDS_UPLOADED_ON_LABEL": "Caricato il",
   "__CAMPAIGN_PAGE_REPORTS_DESCRIPTION": "Qui puoi trovare tutti i materiali relativi alla tua campagna",
+  "__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_INTEGRATIONS_BUTTON": "Vai all’Integration Center",
+  "__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_INTEGRATIONS_TEXT": "Vuoi cominciare a configurare l’integrazione con il tuo sofware di issue tracking (es. Jira)?",
   "__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TEXT": "Qui troverai gli allegati della tua campagna, quando sarà finita. \nSei hai dubbi o domande, contatta il tuo CSM.",
   "__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TITLE": "Non ci sono ancora contenuti",
   "__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_ARCHIVE": "Archivio",
