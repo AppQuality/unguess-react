@@ -133,6 +133,9 @@ export const ReportRow = ({
 
               <SpecialCard.Footer direction="column" justifyContent="center">
                 <Button
+                  className={`report-btn report-btn-${
+                    report.file_type?.type === 'link' ? 'link' : 'download'
+                  } report-btn-${report.file_type?.type ?? ''}`}
                   isPill
                   isStretched
                   onClick={() => {
