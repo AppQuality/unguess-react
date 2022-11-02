@@ -254,6 +254,7 @@
   "__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_DESCRIPTION": "Ti garantiamo il giusto equilibrio tra le tipologie di dispositivi e browser in base alle statistiche di mercato e alla nostra esperienza.",
   "__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_TITLE": "Scelta dei browser? Ci pensiamo noi.",
   "__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION": "I dispositivi del test",
+  "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_OPERATING_SYSTEM_ERROR": "Seleziona un sistema operativo",
   "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP": "Desktop",
   "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR": "Seleziona almeno un dispositivo",
   "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_SMARTPHONE": "Smartphone",
