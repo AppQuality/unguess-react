@@ -332,7 +332,8 @@ export const ExpressWizardContainer = () => {
     };
 
     return async.waterfall(
-      [projectHandle, campaignHandle, zapierHandle, wordpressHandle],
+      // [projectHandle, campaignHandle, zapierHandle, wordpressHandle],
+      [projectHandle, campaignHandle, wordpressHandle],
       (err: any) => {
         if (err) {
           // eslint-disable-next-line no-console

@@ -228,6 +228,16 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
             )}
           </Fieldset>
         </WizardCol>
+        <WizardCol xs={12}>
+          {(errors.isIOS || errors.isAndroid) && (
+            <Message
+              validation="error"
+              style={{ marginTop: globalTheme.space.sm }}
+            >
+              {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_OPERATING_SYSTEM_ERROR')}
+            </Message>
+          )}
+        </WizardCol>
       </StyledRow>
     </ContainerCard>
   );
