@@ -1,9 +1,10 @@
 import { Span } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 export const Gender = (props: FormikProps<WizardModel>) => {
+  const { t } = useTranslation();
   const { values } = props;
   const { gender } = values;
 
@@ -15,9 +16,14 @@ export const Gender = (props: FormikProps<WizardModel>) => {
       </Trans>
     );
 
+  const translatedGender =
+    gender === 'male'
+      ? t('__EXPRESS_3_WIZARD_STEP_WHO_GENDER_MALE_PLURAL')
+      : t('__EXPRESS_3_WIZARD_STEP_WHO_GENDER_FEMALE_PLURAL');
+
   return (
     <Trans i18nKey="__EXPRESS_3_WIZARD_STEP_RECAP_WHO_GENDER_TEXT">
-      Are <Span isBold>{{ gender }}</Span>.
+      Are <Span isBold>{{ gender: translatedGender }}</Span>.
     </Trans>
   );
 };

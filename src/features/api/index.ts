@@ -480,34 +480,6 @@ export type Campaign2 = {
   description?: string;
   base_bug_internal_id?: string;
 };
-export type Campaign2 = {
-  id: number;
-  start_date: string;
-  end_date: string;
-  close_date: string;
-  title: string;
-  customer_title: string;
-  is_public: number;
-  bug_form?: number;
-  type: {
-    id: number;
-    name: string;
-  };
-  family: {
-    id: number;
-    name: string;
-  };
-  status: {
-    id: number;
-    name: string;
-  };
-  project: {
-    id: number;
-    name: string;
-  };
-  description?: string;
-  base_bug_internal_id?: string;
-};
 export type PlatformObject = {
   id: number;
   deviceType: number;
