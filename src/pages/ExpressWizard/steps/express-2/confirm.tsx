@@ -70,8 +70,7 @@ const TextareaNote = styled(Paragraph)`
 export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   const { values, getFieldProps, setFieldValue } = props;
 
-  const hasWhatStep = values.campaign_name;
-  const hasWhereStep = values.link;
+  const hasWhereStep = values.link || values.iOSLink || values.androidLink;
   const hasWhoStep = values.campaign_language;
   const hasHowStep = values?.use_cases?.length;
 
@@ -88,15 +87,13 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION')}</Paragraph>
       <CardDivider />
 
-      {hasWhatStep ? (
-        <StyledFormField
-          style={{ marginTop: `${globalTheme.space.base * 10}px` }}
-        >
-          <StyledCard>
-            <WhatConfirm {...props} />
-          </StyledCard>
-        </StyledFormField>
-      ) : null}
+      <StyledFormField
+        style={{ marginTop: `${globalTheme.space.base * 10}px` }}
+      >
+        <StyledCard>
+          <WhatConfirm {...props} />
+        </StyledCard>
+      </StyledFormField>
 
       {hasWhereStep ? (
         <StyledFormField

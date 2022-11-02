@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { Browsers } from './browsers';
 import { Devices } from './devices';
 import { OperativeSystems } from './operativeSystems';
 
@@ -34,11 +33,9 @@ export const WhereConfirm = (props: FormikProps<WizardModel>) => {
           <StyledParagraph>
             <Devices {...props} />
             <br />
-            {values.product_type === 'webapp' ? (
-              <Browsers {...props} />
-            ) : (
+            {values.product_type === 'mobileapp' ? (
               <OperativeSystems {...props} />
-            )}
+            ) : null}
           </StyledParagraph>
         </WizardCol>
       </Row>
