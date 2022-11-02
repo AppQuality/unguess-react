@@ -49,6 +49,7 @@ import { toggleChat } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
@@ -132,6 +133,7 @@ export const ExpressWizardContainer = () => {
     steps: draftSteps,
     expressTypeId,
   } = useAppSelector((state) => state.express);
+  const sendGTMEvent = useSendGTMevent();
 
   // TODO: show an alert if isError is set
   const { data } = useGeti18nExpressTypesByIdQuery({
@@ -337,9 +339,17 @@ export const ExpressWizardContainer = () => {
         if (err) {
           // eslint-disable-next-line no-console
           console.error('Submission error:', err);
+
           setSubmitting(false);
+
           // TODO: Show error message modal
           setStatus({ submitError: true });
+
+          // Send error to GTM
+          sendGTMEvent({
+            event: 'generic_error',
+            content: JSON.stringify(err),
+          });
         } else {
           onNext();
         }
