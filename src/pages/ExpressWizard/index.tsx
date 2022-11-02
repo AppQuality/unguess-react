@@ -315,7 +315,7 @@ export const ExpressWizardContainer = () => {
     };
 
     // eslint-disable-next-line consistent-return
-    const wordpressHandle = async (cp: Campaign, next: any) => {
+    const wordpressHandle = async (cp: Campaign) => {
       try {
         // Post on webhook WordPress axios call
         if (!values.use_cases) {
@@ -325,9 +325,9 @@ export const ExpressWizardContainer = () => {
         await createPages(cp.id);
         await createCrons(cp.id);
         await createTasks(cp.id);
-        next(null, cp);
+        return [cp];
       } catch (error) {
-        next(null, cp); // Skip error handling
+        return null; // Skip error handling
       }
     };
 

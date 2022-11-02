@@ -22,7 +22,6 @@ import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tabl
 import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg';
 import { ReactComponent as LaptopIconActive } from 'src/assets/icons/device-laptop-active.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
-import { useEffect } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
@@ -36,12 +35,6 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   if (values.isAndroid) setFieldValue('isAndroid', false);
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (!values.withSmartphone && !values.withTablet && !values.withDesktop) {
-      setFieldValue('withSmartphone', true);
-    }
-  }, []);
 
   const handleRadioClick = (value: string) => {
     setFieldValue('withSmartphone', value === 'smartphone');
@@ -150,8 +143,16 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 export const WhereStepValidationSchema = Yup.object().shape(
   {
     // Where APP STEP
-    isIOS: Yup.bool(),
-    isAndroid: Yup.bool(),
+    isIOS: Yup.bool().when(['isAndroid', 'product_type'], {
+      is: (isAndroid: boolean, product_type: string) =>
+        !isAndroid && product_type === 'mobileapp',
+      then: Yup.bool().oneOf([true], 'Operating system is required'),
+    }),
+    isAndroid: Yup.bool().when(['isIOS', 'product_type'], {
+      is: (isIOS: boolean, product_type: string) =>
+        !isIOS && product_type === 'mobileapp',
+      then: Yup.bool().oneOf([true], 'Operating system is required'),
+    }),
     iOSLink: Yup.string().url().when('isIOS', {
       is: true,
       then: Yup.string().url().required(),
@@ -186,5 +187,8 @@ export const WhereStepValidationSchema = Yup.object().shape(
     ['withTablet', 'withDesktop'],
     ['withSmartphone', 'withDesktop'],
     ['withSmartphone', 'withTablet'],
+    ['isIOS', 'product_type'],
+    ['isAndroid', 'product_type'],
+    ['isIOS', 'isAndroid'],
   ]
 );

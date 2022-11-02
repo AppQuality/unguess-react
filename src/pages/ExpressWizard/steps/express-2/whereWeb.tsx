@@ -290,8 +290,16 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 export const WhereStepValidationSchema = Yup.object().shape(
   {
     // Where APP STEP
-    isIOS: Yup.bool(),
-    isAndroid: Yup.bool(),
+    isIOS: Yup.bool().when(['isAndroid', 'product_type'], {
+      is: (isAndroid: boolean, product_type: string) =>
+        !isAndroid && product_type === 'mobileapp',
+      then: Yup.bool().oneOf([true], 'Operating system is required'),
+    }),
+    isAndroid: Yup.bool().when(['isIOS', 'product_type'], {
+      is: (isIOS: boolean, product_type: string) =>
+        !isIOS && product_type === 'mobileapp',
+      then: Yup.bool().oneOf([true], 'Operating system is required'),
+    }),
     iOSLink: Yup.string().url().when('isIOS', {
       is: true,
       then: Yup.string().url().required(),
@@ -331,5 +339,8 @@ export const WhereStepValidationSchema = Yup.object().shape(
     ['withTablet', 'withDesktop'],
     ['withSmartphone', 'withDesktop'],
     ['withSmartphone', 'withTablet'],
+    ['isIOS', 'product_type'],
+    ['isAndroid', 'product_type'],
+    ['isIOS', 'isAndroid'],
   ]
 );
