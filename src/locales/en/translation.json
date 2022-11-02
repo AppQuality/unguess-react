@@ -127,6 +127,8 @@
   "__EXPRESS_3_WIZARD_STEP_WHO_FIELD_LITERACY_LABEL": "Digital literacy level",
   "__EXPRESS_3_WIZARD_STEP_WHO_GENDER_FEMALE": "Female",
   "__EXPRESS_3_WIZARD_STEP_WHO_GENDER_MALE": "Male",
+  "__EXPRESS_3_WIZARD_STEP_WHO_GENDER_FEMALE_PLURAL": "women",
+  "__EXPRESS_3_WIZARD_STEP_WHO_GENDER_MALE_PLURAL": "men",
   "__EXPRESS_3_WIZARD_STEP_WHO_LABEL_SELECTION_CRITERIA": "Specify selection criteria for the 6 users who will browse your product",
   "__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_BEGINNER": "Beginner",
   "__EXPRESS_3_WIZARD_STEP_WHO_LITERACY_BEGINNER_DESCRIPTION": "This tester has no autonomy, needs help from family and friens",
