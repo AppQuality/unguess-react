@@ -22,7 +22,6 @@ import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tabl
 import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg';
 import { ReactComponent as LaptopIconActive } from 'src/assets/icons/device-laptop-active.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
-import { useEffect } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
@@ -36,12 +35,6 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   if (values.isAndroid) setFieldValue('isAndroid', false);
 
   const { t } = useTranslation();
-
-  // useEffect(() => {
-  //   if (!values.withSmartphone && !values.withTablet && !values.withDesktop) {
-  //     setFieldValue('withSmartphone', true);
-  //   }
-  // }, []);
 
   const handleRadioClick = (value: string) => {
     setFieldValue('withSmartphone', value === 'smartphone');

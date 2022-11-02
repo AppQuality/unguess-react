@@ -315,7 +315,7 @@ export const ExpressWizardContainer = () => {
     };
 
     // eslint-disable-next-line consistent-return
-    const wordpressHandle = async (cp: Campaign, next: any) => {
+    const wordpressHandle = async (cp: Campaign) => {
       try {
         // Post on webhook WordPress axios call
         if (!values.use_cases) {
