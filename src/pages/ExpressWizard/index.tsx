@@ -325,15 +325,14 @@ export const ExpressWizardContainer = () => {
         await createPages(cp.id);
         await createCrons(cp.id);
         await createTasks(cp.id);
-        next(null, cp);
+        return [cp];
       } catch (error) {
-        next(null, cp); // Skip error handling
+        return null; // Skip error handling
       }
     };
 
     return async.waterfall(
-      // [projectHandle, campaignHandle, zapierHandle, wordpressHandle],
-      [projectHandle, campaignHandle, wordpressHandle],
+      [projectHandle, campaignHandle, zapierHandle, wordpressHandle],
       (err: any) => {
         if (err) {
           // eslint-disable-next-line no-console
