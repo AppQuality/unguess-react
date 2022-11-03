@@ -23,6 +23,7 @@ import { format } from 'date-fns';
 import { t } from 'i18next';
 import styled from 'styled-components';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
+import { BugsReportCard } from 'src/features/bugsReport/BugsReportCard';
 
 const CenteredContent = styled.div`
   display: flex;
@@ -192,6 +193,12 @@ export const ReportRow = ({
           ) : null}
         </CenteredContent>
       )}
+      <Col xs={12} md={4} lg={3}>
+        <BugsReportCard
+          id="3044"
+          title="Training Campaign: Sunglasses ecommerce"
+        />
+      </Col>
     </Row>
   );
 };
