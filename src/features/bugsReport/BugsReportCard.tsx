@@ -1,29 +1,44 @@
 import { Button, SpecialCard, theme } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as LinkIcon } from 'src/assets/icons/file-icon-link.svg';
-import { ReactComponent as OpenLinkIcon } from 'src/assets/icons/new-window-stroke.svg';
+import { ReactComponent as ExcelIcon } from 'src/assets/icons/file-icon-excel.svg';
+import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
+import queryString from 'query-string';
 
 export const BugsReportCard = ({
-  id,
+  campaignId,
   title,
 }: {
-  id: string;
+  campaignId: number;
   title: string;
 }) => {
   const { t } = useTranslation();
   const getReport = () => {
-    fetch('https://dev.unguess.io/wp-admin/admin-ajax.php', {
+    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
       },
-      body: new URLSearchParams({
+      body: queryString.stringify({
         action: 'bugs_excel',
-        project: id,
+        project: campaignId,
         type: 'campaign',
         title,
       }),
-    });
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          window.location.href = `${process.env.REACT_APP_CROWD_WP_URL}/wp-content/themes/unguess/report/temp/${data.file}`;
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(data);
+        }
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error('error', error);
+      });
   };
 
   return (
@@ -32,16 +47,16 @@ export const BugsReportCard = ({
         justifyContent="start"
         style={{ fontSize: theme.fontSizes.sm }}
       >
-        Lorem ipsum dolor sit amet
+        {t('__CAMPAIGN_GENERATE_REPORT_CARD_META')}
       </SpecialCard.Meta>
 
       <SpecialCard.Thumb>
-        <LinkIcon />
+        <ExcelIcon />
       </SpecialCard.Thumb>
 
       <SpecialCard.Header>
         <SpecialCard.Header.Label>
-          Lorem ipsum dolor sit amet
+          {t('__CAMPAIGN_PAGE_REPORTS_FILE_TYPE_EXCEL')}
         </SpecialCard.Header.Label>
         <SpecialCard.Header.Title>{title}</SpecialCard.Header.Title>
       </SpecialCard.Header>
@@ -54,9 +69,9 @@ export const BugsReportCard = ({
           onClick={getReport}
         >
           <Button.StartIcon>
-            <OpenLinkIcon />
+            <DownloadIcon />
           </Button.StartIcon>
-          {t('__CAMPAIGN_PAGE_REPORTS_CARDS_OPEN_LINK_LABEL')}
+          {t('__CAMPAIGN_GENERATE_REPORT_CARD_BUTTON_LABEL')}
         </Button>
       </SpecialCard.Footer>
     </SpecialCard>
