@@ -3,11 +3,10 @@ name: Build and Push to ECR
 on:
   push:
     branches:
-      - master
-      - develop
+      - "*"
   workflow_dispatch:
 
-jobs:  
+jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +50,7 @@ jobs:
           fi
           echo "##[set-output name=img_tag;]$TAG"
         id: extract_image_tag
-      
+
       - name: Extract env name
         shell: bash
         run: |
