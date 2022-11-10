@@ -16,8 +16,9 @@ import {
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { Counters } from './Counters';
 
-export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
+const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
@@ -103,7 +104,6 @@ export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
       </PageHeader>
     );
   }
-
   return status === 'idle' ||
     status === 'loading' ||
     isCampaignError ||
@@ -115,7 +115,11 @@ export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>{InputToggleMemo}</PageHeader.Title>
+        <PageHeader.Counters>
+          <Counters campaign={campaign} />
+        </PageHeader.Counters>
       </PageHeader.Main>
     </PageHeader>
   );
 };
+export default CampaignPageHeader;

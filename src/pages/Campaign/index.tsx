@@ -14,7 +14,7 @@ import {
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
-import { CampaignPageHeader } from './pageHeader';
+import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
