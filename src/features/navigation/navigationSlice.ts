@@ -18,6 +18,9 @@ const navigationSlice = createSlice({
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
+    closeSidebar: (state) => {
+      state.isSidebarOpen = false;
+    },
     toggleProfileModal: (state) => {
       state.isProfileModalOpen = !state.isProfileModalOpen;
     },
@@ -32,6 +35,7 @@ export const {
   toggleSidebar,
   toggleProfileModal,
   setProfileModalOpen,
+  closeSidebar,
 } = navigationSlice.actions;
 
 export default navigationSlice.reducer;
