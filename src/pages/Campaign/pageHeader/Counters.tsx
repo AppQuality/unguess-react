@@ -22,16 +22,25 @@ export const Counters: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <Counter status="functional">{campaign.type.name}</Counter>
-      <Counter status="progress">{campaign.type.name}</Counter>
-      <Counter status="completed">{campaign.type.name}</Counter>
-      <Counter status="incoming">{campaign.type.name}</Counter>
-      <Counter status="experiential">{campaign.type.name}</Counter>
-      <Pipe />
-      <Counter status="functional">
-        {t('__DASHABOARD_COUNTER_LABEL_FUNCTIONAL')}
-      </Counter>
-    </>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '100%',
+      }}
+    >
+      <div>
+        <Counter status="functional">{campaign.type.name}</Counter>
+        <Counter status="progress">{campaign.type.name}</Counter>
+        <Counter status="completed">{campaign.type.name}</Counter>
+        <Counter status="incoming">{campaign.type.name}</Counter>
+        <Counter status="experiential">{campaign.type.name}</Counter>
+        <Pipe />
+        <Counter status="functional">
+          {t('__DASHABOARD_COUNTER_LABEL_FUNCTIONAL')}
+        </Counter>
+      </div>
+      <div>bottone</div>
+    </div>
   );
 };
