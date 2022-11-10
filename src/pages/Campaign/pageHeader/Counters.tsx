@@ -23,7 +23,11 @@ export const Counters: FC<{ campaign: Campaign }> = ({ campaign }) => {
 
   return (
     <>
-      <Counter status="progress">{campaign.type}</Counter>
+      <Counter status="functional">{campaign.type.name}</Counter>
+      <Counter status="progress">{campaign.type.name}</Counter>
+      <Counter status="completed">{campaign.type.name}</Counter>
+      <Counter status="incoming">{campaign.type.name}</Counter>
+      <Counter status="experiential">{campaign.type.name}</Counter>
       <Pipe />
       <Counter status="functional">
         {t('__DASHABOARD_COUNTER_LABEL_FUNCTIONAL')}
