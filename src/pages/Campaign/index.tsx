@@ -14,6 +14,9 @@ import {
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { useAppDispatch } from 'src/app/hooks';
+import { closeSidebar } from 'src/features/navigation/navigationSlice';
 import { CampaignPageHeader } from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
@@ -23,7 +26,7 @@ const Campaign = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-
+  const dispatch = useAppDispatch();
   const { campaignId } = useParams();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
@@ -51,6 +54,10 @@ const Campaign = () => {
   if (isErrorCampaign || isErrorReports) {
     navigate(notFoundRoute);
   }
+
+  useEffect(() => {
+    dispatch(closeSidebar());
+  }, []);
 
   return (
     <Page
