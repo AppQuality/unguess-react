@@ -65,26 +65,31 @@ const Campaign = () => {
       route="campaigns"
     >
       <Grid>
-        {reports && reports.length ? (
-          <Row>
-            <Col xs={12}>
-              <XL
-                style={{
-                  fontWeight: theme.fontWeights.medium,
-                  marginBottom: theme.space.xs,
-                }}
-              >
-                {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
-              </XL>
-              <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
-            </Col>
-          </Row>
-        ) : null}
-        {reports && campaign && !isLoadingReports && !isFetchingReports ? (
-          <ReportRow reports={reports} campaign={campaign} />
-        ) : (
-          <ReportRowLoading />
-        )}
+        <Row>
+          <Col md={3}>menu</Col>
+          <Col md={9}>
+            {reports && reports.length ? (
+              <Col xs={12}>
+                <XL
+                  style={{
+                    fontWeight: theme.fontWeights.medium,
+                    marginBottom: theme.space.xs,
+                  }}
+                >
+                  {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
+                </XL>
+                <Paragraph>
+                  {t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}
+                </Paragraph>
+              </Col>
+            ) : null}
+            {reports && campaign && !isLoadingReports && !isFetchingReports ? (
+              <ReportRow reports={reports} campaign={campaign} />
+            ) : (
+              <ReportRowLoading />
+            )}
+          </Col>
+        </Row>
       </Grid>
     </Page>
   );
