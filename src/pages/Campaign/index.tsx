@@ -13,6 +13,7 @@ import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
+import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { useTranslation } from 'react-i18next';
 import { CampaignPageHeader } from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
@@ -53,6 +54,15 @@ const Campaign = () => {
     navigate(notFoundRoute);
   }
 
+  let externalLink = '';
+  if (campaign && campaign.outputs) {
+    externalLink = getLocalizeDashboardRoute({
+      campaignId: Number(campaignId),
+      cpFamily: campaign.family.name,
+      outputs: campaign.outputs,
+    });
+  }
+
   return (
     <Page
       title={(campaign && campaign.customer_title) ?? 'Campaign'}
@@ -68,7 +78,7 @@ const Campaign = () => {
       <Grid>
         <Row>
           <Col xs={12} lg={3}>
-            <Navigation />
+            <Navigation externalLink={externalLink} />
           </Col>
           <Col md={9}>
             {reports && reports.length ? (

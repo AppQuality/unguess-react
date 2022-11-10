@@ -1,16 +1,15 @@
 import { Anchor } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import {
   StickyNavItem,
   StickyNavItemLabel,
   StyledDivider,
 } from 'src/common/components/navigation';
+import { FC } from 'react';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 
-export const Navigation = () => {
+export const Navigation: FC<{ externalLink: string }> = ({ externalLink }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   return (
     <StickyContainer>
       <StickyNavItem
@@ -66,7 +65,7 @@ export const Navigation = () => {
       <Anchor
         isExternal
         onClick={() => {
-          window.open('https://unguess.io/services/', '_blank');
+          window.open(externalLink, '_blank');
         }}
       >
         {t('__MOTHER_DASHBOARD_NAVIGATION_BUG_DETAILS', 'Bug details')}
