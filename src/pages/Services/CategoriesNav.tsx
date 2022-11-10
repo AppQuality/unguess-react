@@ -1,9 +1,4 @@
-import {
-  Anchor,
-  ContainerCard,
-  MD,
-  Skeleton,
-} from '@appquality/unguess-design-system';
+import { Anchor, MD, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -19,18 +14,11 @@ import { Divider } from 'src/common/components/divider';
 import { Link } from 'react-scroll';
 import { hasEnoughCoins } from 'src/common/utils';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { StickyContainer } from 'src/common/components/StickyContainer';
 
 const StyledDivider = styled(Divider)`
   margin-top: ${({ theme }) => theme.space.base * 3}px;
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
-`;
-
-const StickyContainer = styled(ContainerCard)`
-  position: sticky;
-  top: ${({ theme }) => theme.space.md};
-  z-index: 1;
-  padding: ${({ theme }) => theme.space.base * 6}px;
-  background-color: ${({ theme }) => theme.palette.white};
 `;
 
 const StickyNavItem = styled(Link)`

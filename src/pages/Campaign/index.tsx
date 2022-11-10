@@ -18,6 +18,7 @@ import { CampaignPageHeader } from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
+import { Navigation } from './Navigation';
 
 const Campaign = () => {
   const { t } = useTranslation();
@@ -66,7 +67,9 @@ const Campaign = () => {
     >
       <Grid>
         <Row>
-          <Col md={3}>menu</Col>
+          <Col xs={12} lg={3}>
+            <Navigation />
+          </Col>
           <Col md={9}>
             {reports && reports.length ? (
               <Col xs={12}>
