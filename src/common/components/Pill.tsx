@@ -1,4 +1,4 @@
-import { Span, Tag } from '@appquality/unguess-design-system';
+import { Avatar, Span, Tag } from '@appquality/unguess-design-system';
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
@@ -6,9 +6,11 @@ const StyledTag = styled(Tag)`
   background: transparent;
   color: ${(props) => props.hue};
   pointer-events: none;
-
   svg {
     margin-right: ${({ theme }) => theme.space.xxs} !important;
+  }
+  .icon {
+    margin-right: -2px;
   }
 `;
 
@@ -24,9 +26,10 @@ export const Pill: FC<{ hue?: string; icon?: ReactNode; title: string }> = ({
   title,
   children,
 }) => (
-  <StyledTag isPill isRegular hue={hue}>
-    {icon as ReactNode}
-
+  <StyledTag isPill isRegular hue={hue} size="large">
+    <StyledTag.Avatar className="icon">
+      <span>{icon}</span>
+    </StyledTag.Avatar>
     <Span isBold>{title}</Span>
     {children && <StyledSpan>{children}</StyledSpan>}
   </StyledTag>
