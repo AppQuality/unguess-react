@@ -8,7 +8,7 @@ import {
 import { FC } from 'react';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 
-export const Navigation: FC<{ externalLink: string }> = ({ externalLink }) => {
+export const Navigation: FC<{ externalLink?: string }> = ({ externalLink }) => {
   const { t } = useTranslation();
   return (
     <StickyContainer>
@@ -61,15 +61,19 @@ export const Navigation: FC<{ externalLink: string }> = ({ externalLink }) => {
       >
         {t('__MOTHER_DASHBOARD_NAVIGATION_REPORTS', 'Reports & Attachments')}
       </StickyNavItem>
-      <StyledDivider />
-      <Anchor
-        isExternal
-        onClick={() => {
-          window.open(externalLink, '_blank');
-        }}
-      >
-        {t('__MOTHER_DASHBOARD_NAVIGATION_BUG_DETAILS', 'Bug details')}
-      </Anchor>
+      {externalLink && (
+        <>
+          <StyledDivider />
+          <Anchor
+            isExternal
+            onClick={() => {
+              window.open(externalLink, '_blank');
+            }}
+          >
+            {t('__MOTHER_DASHBOARD_NAVIGATION_BUG_DETAILS', 'Bug details')}
+          </Anchor>
+        </>
+      )}
     </StickyContainer>
   );
 };
