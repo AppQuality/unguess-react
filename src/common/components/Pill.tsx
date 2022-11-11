@@ -1,4 +1,4 @@
-import { Avatar, Span, Tag } from '@appquality/unguess-design-system';
+import { Span, Tag } from '@appquality/unguess-design-system';
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
@@ -11,6 +11,10 @@ const StyledTag = styled(Tag)`
   }
   .icon {
     margin-right: -2px;
+  }
+  > * {
+    overflow: visible;
+    text-overflow: unset;
   }
 `;
 
