@@ -36,7 +36,17 @@ const FooterContainer = styled.div`
 `;
 const ButtonWrapper = styled.div``;
 
-const PillsWrapper = styled.div``;
+const PillsWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+
+  > div:first-child > div {
+    padding-left: 0;
+  }
+`;
 
 function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -90,7 +100,6 @@ export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
           <Span>{campaign.id}</Span>
         </Pill>
       </PillsWrapper>
-
       <ButtonWrapper>
         <Button isPrimary isPill themeColor={globalTheme.palette.water[600]}>
           {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
