@@ -42,7 +42,7 @@ const ButtonWrapper = styled.div``;
 
 const PillsWrapper = styled.div``;
 
-export const Counters: FC<{ campaign: Campaign }> = ({ campaign }) => {
+export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t } = useTranslation();
 
   const formattedStartDate = new Date(campaign.start_date)

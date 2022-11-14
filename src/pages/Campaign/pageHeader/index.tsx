@@ -16,7 +16,12 @@ import {
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { Counters } from './Counters';
+import styled from 'styled-components';
+import { Pills } from './Pills';
+
+const StyledPillsWrapper = styled(PageHeader.Counters)`
+  width: 100%;
+`;
 
 const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
@@ -115,9 +120,9 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>{InputToggleMemo}</PageHeader.Title>
-        <PageHeader.Counters style={{ width: '100%' }}>
-          <Counters campaign={campaign} />
-        </PageHeader.Counters>
+        <StyledPillsWrapper>
+          <Pills campaign={campaign} />
+        </StyledPillsWrapper>
       </PageHeader.Main>
     </PageHeader>
   );
