@@ -23,6 +23,7 @@ import { format } from 'date-fns';
 import { t } from 'i18next';
 import styled from 'styled-components';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
+import { BugsReportCard } from 'src/features/bugsReport/BugsReportCard';
 
 const CenteredContent = styled.div`
   display: flex;
@@ -92,11 +93,14 @@ export const ReportRow = ({
   reports?: Report[];
   campaign: Campaign;
 }) => {
-  const { id: campaignId, family } = campaign;
+  const { id: campaignId, family, customer_title } = campaign;
   const { name: cpFamily } = family;
 
   return (
     <Row>
+      <Col xs={12} md={6} lg={3}>
+        <BugsReportCard campaignId={campaignId} title={customer_title} />
+      </Col>
       {reports && reports.length ? (
         reports.map((report) => (
           <Col xs={12} md={4} lg={3}>
