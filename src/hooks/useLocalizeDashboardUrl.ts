@@ -15,7 +15,7 @@ const isReactCampaign = (outputs: Output[]): boolean => {
   return isReact;
 };
 
-export const getLocalizedCustomerDashboardUrl = (
+export const getLocalizedFunctionalDashboardUrl = (
   aCampaignId: number,
   aLanguage: string
 ): string =>
@@ -50,7 +50,10 @@ export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
       currentLang === 'en' ? '' : currentLang
     }/campaigns/${campaignId}`;
   } else if (cpFamily.toLocaleLowerCase() === 'functional') {
-    localizedRoute = getLocalizedCustomerDashboardUrl(campaignId, currentLang);
+    localizedRoute = getLocalizedFunctionalDashboardUrl(
+      campaignId,
+      currentLang
+    );
   } else {
     localizedRoute = getLocalizedUXDashboardUrl(campaignId, currentLang);
   }

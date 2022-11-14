@@ -1,15 +1,27 @@
+import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import {
-  getLocalizedCustomerDashboardUrl,
+  getLocalizedFunctionalDashboardUrl,
   getLocalizedUXDashboardUrl,
 } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 
-export function useExternalLink(aCampaign?: Campaign): string | undefined {
+export function useExternalLink(
+  aCampaign?: Campaign
+): { url: string; label: string } | undefined {
+  const { t } = useTranslation();
   if (!aCampaign) return undefined;
-  if (aCampaign.type.name === 'functional')
-    return getLocalizedCustomerDashboardUrl(aCampaign.id, i18n.language);
-  if (aCampaign.type.name === 'exp')
-    return getLocalizedUXDashboardUrl(aCampaign.id, i18n.language);
+  if (aCampaign.type.name === 'functional') {
+    return {
+      url: getLocalizedFunctionalDashboardUrl(aCampaign.id, i18n.language),
+      label: t('__MOTHER_DASHBOARD_NAVIGATION_BUG_DETAILS', 'Bug details'),
+    };
+  }
+  if (aCampaign.type.name === 'exp') {
+    return {
+      url: getLocalizedUXDashboardUrl(aCampaign.id, i18n.language),
+      label: t('__MOTHER_DASHBOARD_NAVIGATION_VIDEO_DETAILS', 'Video details'),
+    };
+  }
   return undefined;
 }

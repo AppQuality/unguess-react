@@ -18,7 +18,7 @@ import { CampaignPageHeader } from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
-import { Navigation } from './Navigation';
+import Navigation from './navigation';
 import { useExternalLink } from './useExternaLink';
 
 const Campaign = () => {
@@ -71,7 +71,10 @@ const Campaign = () => {
       <Grid>
         <Row>
           <Col xs={12} lg={3}>
-            <Navigation externalLink={externalLink} />
+            <Navigation
+              externalLink={externalLink}
+              type={campaign?.type.name}
+            />
           </Col>
           <Col md={9}>
             {reports && reports.length ? (
