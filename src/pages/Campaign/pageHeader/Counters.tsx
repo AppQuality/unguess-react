@@ -11,7 +11,7 @@ import { Pill } from 'src/common/components/Pill';
 
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
-import { ReactComponent as UsersIcon } from 'src/assets/icons/users-icon-custom.svg';
+import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
 
@@ -92,7 +92,9 @@ export const Counters: FC<{ campaign: Campaign }> = ({ campaign }) => {
       </PillsWrapper>
 
       <ButtonWrapper>
-        <Button>Button</Button>
+        <Button isPrimary isPill themeColor={globalTheme.palette.water[600]}>
+          {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
+        </Button>
       </ButtonWrapper>
     </FooterContainer>
   );
