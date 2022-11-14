@@ -4,9 +4,10 @@ import { StickyNavItem, StyledDivider } from 'src/common/components/navigation';
 import { FC } from 'react';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 import { FunctionalNavigation } from './FunctionalNavigation';
+import { ExternalLink } from '../useExternaLink';
 
 const Navigation: FC<{
-  externalLink?: { url: string; label: string };
+  externalLink?: ExternalLink;
   type?: string;
 }> = ({ externalLink, type }) => {
   const { t } = useTranslation();

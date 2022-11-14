@@ -6,9 +6,14 @@ import {
 } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 
+export interface ExternalLink {
+  url: string;
+  label: string;
+}
+
 export function useExternalLink(
   aCampaign?: Campaign
-): { url: string; label: string } | undefined {
+): ExternalLink | undefined {
   const { t } = useTranslation();
   if (!aCampaign) return undefined;
   if (aCampaign.type.name === 'functional') {
