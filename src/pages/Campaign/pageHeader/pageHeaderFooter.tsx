@@ -55,7 +55,7 @@ const campaignDetails = {
   users: 100,
 };
 
-export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
+export const HeaderFooter: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t } = useTranslation();
 
   // Format dates

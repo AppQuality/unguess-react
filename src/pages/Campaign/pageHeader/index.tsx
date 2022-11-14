@@ -17,7 +17,7 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { Pills } from './Pills';
+import { HeaderFooter } from './pageHeaderFooter';
 
 const StyledPillsWrapper = styled(PageHeader.Counters)`
   width: 100%;
@@ -121,7 +121,7 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>{InputToggleMemo}</PageHeader.Title>
         <StyledPillsWrapper>
-          <Pills campaign={campaign} />
+          <HeaderFooter campaign={campaign} />
         </StyledPillsWrapper>
       </PageHeader.Main>
     </PageHeader>
