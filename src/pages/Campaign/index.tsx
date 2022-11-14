@@ -23,7 +23,6 @@ const Campaign = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-
   const { campaignId } = useParams();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
