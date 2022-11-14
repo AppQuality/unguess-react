@@ -3,15 +3,9 @@ import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
 const StyledTag = styled(Tag)`
-  background: transparent;
   color: ${(props) => props.hue};
   pointer-events: none;
-  svg {
-    margin-right: ${({ theme }) => theme.space.xxs} !important;
-  }
-  .icon {
-    margin-right: -2px;
-  }
+
   > * {
     overflow: visible;
     text-overflow: unset;
@@ -19,22 +13,20 @@ const StyledTag = styled(Tag)`
 `;
 
 const StyledSpan = styled(Span)`
-  margin-left: ${({ theme }) => theme.space.xxs};
   color: ${({ theme }) => theme.palette.grey[700]};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
-export const Pill: FC<{ hue?: string; icon?: ReactNode; title: string }> = ({
-  hue,
-  icon,
-  title,
-  children,
-}) => (
-  <StyledTag isPill isRegular hue={hue} size="large">
-    <StyledTag.Avatar className="icon">
-      <span>{icon}</span>
-    </StyledTag.Avatar>
-    <Span isBold>{title}</Span>
+export const Pill: FC<{
+  title: string;
+  background?: string;
+  color?: string;
+  icon?: ReactNode;
+}> = ({ background, color, icon, title, children }) => (
+  <StyledTag isPill hue={background ?? 'white'} size="large">
+    {icon && <StyledTag.Avatar className="icon">{icon}</StyledTag.Avatar>}
+    <Span isBold style={{ color: color ?? 'black' }}>
+      {title}
+    </Span>
     {children && <StyledSpan>{children}</StyledSpan>}
   </StyledTag>
 );

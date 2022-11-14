@@ -8,7 +8,6 @@ import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
 import { Campaign } from 'src/features/api';
 import { Pill } from 'src/common/components/Pill';
-
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
@@ -28,9 +27,6 @@ const Pipe = styled.span`
     margin: 0;
   }
 `;
-function capitalizeFirstLetter(string: string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 const FooterContainer = styled.div`
   display: flex;
@@ -41,6 +37,10 @@ const FooterContainer = styled.div`
 const ButtonWrapper = styled.div``;
 
 const PillsWrapper = styled.div``;
+
+function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t } = useTranslation();
@@ -56,17 +56,17 @@ export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <Pill
           icon={<GearIcon />}
           title={campaign.type.name}
-          hue={globalTheme.palette.blue[600]}
+          color={globalTheme.palette.blue[600]}
         />
         <Pill
           icon={<ProgressIcon />}
           title={capitalizeFirstLetter(campaign.status.name)}
-          hue={globalTheme.palette.yellow[700]}
+          color={globalTheme.palette.yellow[700]}
         />
         <Pill
           icon={<ClockIcon />}
           title={t('__CAMPAIGN_PAGE_INFO_HEADER_TEST_TIMING')}
-          hue={globalTheme.palette.azure[600]}
+          color={globalTheme.palette.azure[600]}
         >
           <Trans i18nKey="__CAMPAIGN_PAGE_INFO_HEADER_FROM_DATE_TO_DATE">
             <Span>{{ start_date: formattedStartDate }}</Span> to{' '}
@@ -79,13 +79,13 @@ export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <Pill
           icon={<DesktopIcon />}
           title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
-          hue={globalTheme.palette.azure[600]}
+          color={globalTheme.palette.azure[600]}
         />
 
         <Pill
           icon={<UsersIcon />}
           title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
-          hue={globalTheme.palette.water[600]}
+          color={globalTheme.palette.water[600]}
         >
           <Span>{campaign.id}</Span>
         </Pill>
