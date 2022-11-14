@@ -15,6 +15,30 @@ const isReactCampaign = (outputs: Output[]): boolean => {
   return isReact;
 };
 
+export const getLocalizedFunctionalDashboardUrl = (
+  aCampaignId: number,
+  aLanguage: string
+): string =>
+  aLanguage === 'en'
+    ? `${
+        process.env.REACT_APP_CROWD_WP_URL ?? ''
+      }/functional-customer-dashboard/?cid=${aCampaignId}`
+    : `${
+        process.env.REACT_APP_CROWD_WP_URL ?? ''
+      }/it/dashboard-campagne-funzionali/?cid=${aCampaignId}`;
+
+export const getLocalizedUXDashboardUrl = (
+  aCampaignId: number,
+  aLanguage: string
+): string =>
+  aLanguage === 'en'
+    ? `${
+        process.env.REACT_APP_CROWD_WP_URL ?? ''
+      }/ux-customer-dashboard/?cid=${aCampaignId}`
+    : `${
+        process.env.REACT_APP_CROWD_WP_URL ?? ''
+      }/it/dashboard-campagne-esperienziali/?cid=${aCampaignId}`;
+
 export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   const { campaignId, cpFamily, outputs } = props;
 
@@ -26,23 +50,12 @@ export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
       currentLang === 'en' ? '' : currentLang
     }/campaigns/${campaignId}`;
   } else if (cpFamily.toLocaleLowerCase() === 'functional') {
-    localizedRoute =
-      currentLang === 'en'
-        ? `${
-            process.env.REACT_APP_CROWD_WP_URL ?? ''
-          }/functional-customer-dashboard/?cid=${campaignId}`
-        : `${
-            process.env.REACT_APP_CROWD_WP_URL ?? ''
-          }/it/dashboard-campagne-funzionali/?cid=${campaignId}`;
+    localizedRoute = getLocalizedFunctionalDashboardUrl(
+      campaignId,
+      currentLang
+    );
   } else {
-    localizedRoute =
-      currentLang === 'en'
-        ? `${
-            process.env.REACT_APP_CROWD_WP_URL ?? ''
-          }/ux-customer-dashboard/?cid=${campaignId}`
-        : `${
-            process.env.REACT_APP_CROWD_WP_URL ?? ''
-          }/it/dashboard-campagne-esperienziali/?cid=${campaignId}`;
+    localizedRoute = getLocalizedUXDashboardUrl(campaignId, currentLang);
   }
 
   // in case of base route ("") we already have a forward slash

@@ -19,6 +19,7 @@ import { Link } from 'react-scroll';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
+import { StyledDivider } from 'src/common/components/navigation';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
 
@@ -79,10 +80,6 @@ const StepTitle = styled(XXL)`
 const StepParagraph = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.fontWeights.semiBold};
   margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
-const StyledDivider = styled(Divider)`
-  margin: ${({ theme }) => theme.space.sm} 0;
 `;
 
 const TimelineIcon = styled.img`
