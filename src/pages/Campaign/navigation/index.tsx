@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { StickyNavItem, StyledDivider } from 'src/common/components/navigation';
 import { FC } from 'react';
 import { StickyContainer } from 'src/common/components/StickyContainer';
+import { ExternalLink } from 'src/hooks/useExternaLink';
 import { FunctionalNavigation } from './FunctionalNavigation';
-import { ExternalLink } from '../useExternaLink';
 
 const Navigation: FC<{
   externalLink?: ExternalLink;
