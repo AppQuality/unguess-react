@@ -42,10 +42,6 @@ const PillsWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
-
-  > div:first-child > div {
-    padding-left: 0;
-  }
 `;
 
 function capitalizeFirstLetter(string: string) {
@@ -55,10 +51,16 @@ function capitalizeFirstLetter(string: string) {
 export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t } = useTranslation();
 
-  const formattedStartDate = new Date(campaign.start_date)
-    .toLocaleDateString('it')
-    .substring(0, 4);
-  const formattedEndDate = new Date(campaign.end_date).toLocaleDateString('it');
+  // Format dates
+  const startDate = new Date(campaign.start_date);
+  const endDate = new Date(campaign.end_date);
+  const startYear = startDate.getFullYear();
+  const endYear = endDate.getFullYear();
+  const formattedStartDate =
+    startYear === endYear
+      ? startDate.toLocaleDateString('it').substring(0, 4)
+      : startDate.toLocaleDateString('it');
+  const formattedEndDate = endDate.toLocaleDateString('it');
 
   return (
     <FooterContainer>
