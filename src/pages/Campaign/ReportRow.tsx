@@ -18,7 +18,7 @@ import { ReactComponent as OpenLinkIcon } from 'src/assets/icons/new-window-stro
 import { Campaign, Report } from 'src/features/api';
 import { format } from 'date-fns';
 import { t } from 'i18next';
-import { BugsReportCard } from 'src/features/bugsReport/BugsReportCard';
+import { BugsReportCard } from 'src/common/components/BugsReportCard';
 
 const getFileTypeName = (type: string, url: string) => {
   const urlHostname = new URL(url).hostname;

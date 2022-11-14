@@ -47,7 +47,7 @@ export const BugsReportCard = ({
         justifyContent="start"
         style={{ fontSize: theme.fontSizes.sm }}
       >
-        {t('__CAMPAIGN_GENERATE_REPORT_CARD_META')}
+        {t('__CAMPAIGN_PAGE_REPORTS_GENERATE_REPORT_CARD_META')}
       </SpecialCard.Meta>
 
       <SpecialCard.Thumb>
@@ -71,7 +71,7 @@ export const BugsReportCard = ({
           <Button.StartIcon>
             <DownloadIcon />
           </Button.StartIcon>
-          {t('__CAMPAIGN_GENERATE_REPORT_CARD_BUTTON_LABEL')}
+          {t('__CAMPAIGN_PAGE_REPORTS_GENERATE_REPORT_CARD_BUTTON_LABEL')}
         </Button>
       </SpecialCard.Footer>
     </SpecialCard>
