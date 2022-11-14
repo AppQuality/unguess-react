@@ -12,6 +12,7 @@ import {
   setWorkspace,
   toggleProfileModal,
   setProfileModalOpen,
+  setSidebarOpen,
 } from 'src/features/navigation/navigationSlice';
 import WPAPI from 'src/common/wpapi';
 import i18n from 'src/i18n';
@@ -44,6 +45,15 @@ export const Navigation = ({
   const { isSidebarOpen, activeWorkspace } = useAppSelector(
     (state) => state.navigation
   );
+
+  // Set isSidebarOpen to false if the route is "campaigns"
+  useEffect(() => {
+    if (route === 'campaigns') {
+      dispatch(setSidebarOpen(false));
+    } else {
+      dispatch(setSidebarOpen(true));
+    }
+  }, [route]);
 
   useEffect(() => {
     if (workspaces && !activeWorkspace) {
