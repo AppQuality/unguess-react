@@ -10,6 +10,7 @@ import { Campaign } from 'src/features/api';
 import { Pill } from 'src/common/components/Pill';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
+import { ReactComponent as MobileIcon } from 'src/assets/icons/pill-icon-mobile.svg';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
@@ -48,6 +49,12 @@ function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+// TODO: Fetch campaign details from API
+const campaignDetails = {
+  devices: ['desktop', 'mobile'],
+  users: 100,
+};
+
 export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t } = useTranslation();
 
@@ -85,22 +92,32 @@ export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
             <Span>{{ end_date: formattedEndDate }}</Span>
           </Trans>
         </Pill>
-
-        <Pipe />
-
-        <Pill
-          icon={<DesktopIcon />}
-          title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
-          color={globalTheme.palette.azure[600]}
-        />
-
-        <Pill
-          icon={<UsersIcon />}
-          title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
-          color={globalTheme.palette.water[600]}
-        >
-          <Span>{campaign.id}</Span>
-        </Pill>
+        {campaignDetails ? (
+          <>
+            <Pipe style={{ marginRight: globalTheme.space.md }} />
+            {campaignDetails.devices.includes('desktop') && (
+              <Pill
+                icon={<DesktopIcon />}
+                title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
+                color={globalTheme.palette.azure[600]}
+              />
+            )}
+            {campaignDetails.devices.includes('mobile') && (
+              <Pill
+                icon={<MobileIcon />}
+                title={t('__CAMPAIGN_PAGE_INFO_HEADER_MOBILE')}
+                color={globalTheme.palette.azure[600]}
+              />
+            )}
+            <Pill
+              icon={<UsersIcon />}
+              title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
+              color={globalTheme.palette.water[600]}
+            >
+              <Span>{campaignDetails.users}</Span>
+            </Pill>
+          </>
+        ) : null}
       </PillsWrapper>
       <ButtonWrapper>
         <Button isPrimary isPill themeColor={globalTheme.palette.water[600]}>
