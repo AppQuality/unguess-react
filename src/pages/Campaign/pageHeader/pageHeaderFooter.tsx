@@ -14,6 +14,7 @@ import { ReactComponent as MobileIcon } from 'src/assets/icons/pill-icon-mobile.
 import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
+import { getDashboardDetailUrl } from 'src/hooks/useDetailDashboardUrl';
 
 const Pipe = styled.span`
   /** Vertical Separator */
@@ -57,10 +58,11 @@ const campaignDetails = {
 
 export const HeaderFooter: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t } = useTranslation();
+  const { start_date, end_date, type, status } = campaign;
 
   // Format dates
-  const startDate = new Date(campaign.start_date);
-  const endDate = new Date(campaign.end_date);
+  const startDate = new Date(start_date);
+  const endDate = new Date(end_date);
   const startYear = startDate.getFullYear();
   const endYear = endDate.getFullYear();
   const formattedStartDate =
@@ -74,12 +76,12 @@ export const HeaderFooter: FC<{ campaign: Campaign }> = ({ campaign }) => {
       <PillsWrapper>
         <Pill
           icon={<GearIcon />}
-          title={campaign.type.name}
+          title={type.name}
           color={globalTheme.palette.blue[600]}
         />
         <Pill
           icon={<ProgressIcon />}
-          title={capitalizeFirstLetter(campaign.status.name)}
+          title={capitalizeFirstLetter(status.name)}
           color={globalTheme.palette.yellow[700]}
         />
         <Pill
@@ -120,7 +122,12 @@ export const HeaderFooter: FC<{ campaign: Campaign }> = ({ campaign }) => {
         ) : null}
       </PillsWrapper>
       <ButtonWrapper>
-        <Button isPrimary isPill themeColor={globalTheme.palette.water[600]}>
+        <Button
+          isPrimary
+          isPill
+          themeColor={globalTheme.palette.water[600]}
+          onClick={() => window.open(getDashboardDetailUrl(campaign), '_blank')}
+        >
           {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
         </Button>
       </ButtonWrapper>

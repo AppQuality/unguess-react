@@ -16,7 +16,7 @@ export function useExternalLink(
 ): ExternalLink | undefined {
   const { t } = useTranslation();
   if (!aCampaign) return undefined;
-  if (aCampaign.type.name === 'functional') {
+  if (aCampaign.type.name.toLocaleLowerCase() === 'functional') {
     return {
       url: getLocalizedFunctionalDashboardUrl(aCampaign.id, i18n.language),
       label: t('__MOTHER_DASHBOARD_NAVIGATION_BUG_DETAILS', 'Bug details'),

@@ -23,7 +23,7 @@ const Navigation: FC<{
       >
         {t('__MOTHER_DASHBOARD_NAVIGATION_OVERVIEW', 'Campaign Overview')}
       </StickyNavItem>
-      {type === 'functional' && <FunctionalNavigation />}
+      {type?.toLocaleLowerCase() === 'functional' && <FunctionalNavigation />}
       {externalLink && (
         <>
           <StyledDivider />

@@ -19,7 +19,7 @@ import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
 import Navigation from './navigation';
-import { useExternalLink } from './useExternaLink';
+import { useExternalLink } from '../../hooks/useExternaLink';
 
 const Campaign = () => {
   const { t } = useTranslation();
