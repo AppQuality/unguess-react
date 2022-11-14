@@ -30,6 +30,7 @@ const Navigation: FC<{
           <Anchor
             isExternal
             onClick={() => {
+              // eslint-disable-next-line security/detect-non-literal-fs-filename
               window.open(externalLink.url, '_blank');
             }}
           >

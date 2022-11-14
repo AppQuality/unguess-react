@@ -4,8 +4,6 @@ import {
   SpecialCard,
   Button,
   theme,
-  XL,
-  Paragraph,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as ArchiveIcon } from 'src/assets/icons/file-icon-archive.svg';
 import { ReactComponent as BoardIcon } from 'src/assets/icons/file-icon-board.svg';
@@ -17,22 +15,10 @@ import { ReactComponent as PdfIcon } from 'src/assets/icons/file-icon-pdf.svg';
 import { ReactComponent as PresentationIcon } from 'src/assets/icons/file-icon-presentation.svg';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { ReactComponent as OpenLinkIcon } from 'src/assets/icons/new-window-stroke.svg';
-import { ReactComponent as EmptyReportsImage } from 'src/assets/emptyReports.svg';
 import { Campaign, Report } from 'src/features/api';
 import { format } from 'date-fns';
 import { t } from 'i18next';
-import styled from 'styled-components';
-import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
 import { BugsReportCard } from 'src/features/bugsReport/BugsReportCard';
-
-const CenteredContent = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-`;
 
 const getFileTypeName = (type: string, url: string) => {
   const urlHostname = new URL(url).hostname;
@@ -93,109 +79,78 @@ export const ReportRow = ({
   reports?: Report[];
   campaign: Campaign;
 }) => {
-  const { id: campaignId, family, customer_title } = campaign;
-  const { name: cpFamily } = family;
+  const { id: campaignId, customer_title } = campaign;
 
   return (
     <Row>
       <Col xs={12} md={6} lg={3}>
         <BugsReportCard campaignId={campaignId} title={customer_title} />
       </Col>
-      {reports && reports.length ? (
-        reports.map((report) => (
-          <Col xs={12} md={4} lg={3}>
-            <SpecialCard>
-              <SpecialCard.Meta
-                justifyContent="start"
-                style={{ fontSize: theme.fontSizes.sm }}
-              >
-                {report.update_date ? (
-                  <>
-                    {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPDATED_ON_LABEL')}{' '}
-                    {format(new Date(report.update_date), 'dd/MM/yyyy')}
-                  </>
-                ) : (
-                  <>
-                    {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPLOADED_ON_LABEL')}{' '}
-                    {format(new Date(report.creation_date ?? ''), 'dd/MM/yyyy')}
-                  </>
-                )}
-              </SpecialCard.Meta>
-
-              <SpecialCard.Thumb>
-                {getFileTypeIcon(report.file_type?.type ?? '', report.url)}
-              </SpecialCard.Thumb>
-
-              <SpecialCard.Header>
-                <SpecialCard.Header.Label>
-                  {getFileTypeName(report.file_type?.type ?? '', report.url)}
-                </SpecialCard.Header.Label>
-                <SpecialCard.Header.Title>
-                  {report.title}
-                </SpecialCard.Header.Title>
-              </SpecialCard.Header>
-
-              <SpecialCard.Footer direction="column" justifyContent="center">
-                <Button
-                  className={`report-btn report-btn-${
-                    report.file_type?.type === 'link' ? 'link' : 'download'
-                  } report-btn-${report.file_type?.type ?? ''}`}
-                  isPill
-                  isStretched
-                  onClick={() => {
-                    // eslint-disable-next-line security/detect-non-literal-fs-filename
-                    window.open(report.url || '', '_blank');
-                  }}
+      {reports && reports.length
+        ? reports.map((report) => (
+            <Col xs={12} md={4} lg={3}>
+              <SpecialCard>
+                <SpecialCard.Meta
+                  justifyContent="start"
+                  style={{ fontSize: theme.fontSizes.sm }}
                 >
-                  <Button.StartIcon>
-                    {report.file_type?.type === 'link' ? (
-                      <OpenLinkIcon />
-                    ) : (
-                      <DownloadIcon />
-                    )}
-                  </Button.StartIcon>
-                  {report.file_type?.type === 'link'
-                    ? t('__CAMPAIGN_PAGE_REPORTS_CARDS_OPEN_LINK_LABEL')
-                    : t('__CAMPAIGN_PAGE_REPORTS_CARDS_DOWNLOAD_LABEL')}
-                </Button>
-              </SpecialCard.Footer>
-            </SpecialCard>
-          </Col>
-        ))
-      ) : (
-        <CenteredContent>
-          <EmptyReportsImage />
-          <XL
-            style={{
-              fontWeight: theme.fontWeights.medium,
-              marginTop: theme.space.xl,
-              marginBottom: theme.space.sm,
-            }}
-          >
-            {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TITLE')}
-          </XL>
-          <Paragraph style={{ textAlign: 'center' }}>
-            {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TEXT')}
-          </Paragraph>
-          {cpFamily.toLocaleLowerCase() === 'functional' ? (
-            <>
-              <Paragraph style={{ textAlign: 'center' }}>
-                {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_INTEGRATIONS_TEXT')}
-              </Paragraph>
-              <Button
-                isPill
-                onClick={() => {
-                  window.location.href =
-                    getLocalizeIntegrationCenterRoute(campaignId);
-                }}
-                style={{ marginTop: theme.space.md }}
-              >
-                {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_INTEGRATIONS_BUTTON')}
-              </Button>
-            </>
-          ) : null}
-        </CenteredContent>
-      )}
+                  {report.update_date ? (
+                    <>
+                      {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPDATED_ON_LABEL')}{' '}
+                      {format(new Date(report.update_date), 'dd/MM/yyyy')}
+                    </>
+                  ) : (
+                    <>
+                      {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPLOADED_ON_LABEL')}{' '}
+                      {format(
+                        new Date(report.creation_date ?? ''),
+                        'dd/MM/yyyy'
+                      )}
+                    </>
+                  )}
+                </SpecialCard.Meta>
+
+                <SpecialCard.Thumb>
+                  {getFileTypeIcon(report.file_type?.type ?? '', report.url)}
+                </SpecialCard.Thumb>
+
+                <SpecialCard.Header>
+                  <SpecialCard.Header.Label>
+                    {getFileTypeName(report.file_type?.type ?? '', report.url)}
+                  </SpecialCard.Header.Label>
+                  <SpecialCard.Header.Title>
+                    {report.title}
+                  </SpecialCard.Header.Title>
+                </SpecialCard.Header>
+
+                <SpecialCard.Footer direction="column" justifyContent="center">
+                  <Button
+                    className={`report-btn report-btn-${
+                      report.file_type?.type === 'link' ? 'link' : 'download'
+                    } report-btn-${report.file_type?.type ?? ''}`}
+                    isPill
+                    isStretched
+                    onClick={() => {
+                      // eslint-disable-next-line security/detect-non-literal-fs-filename
+                      window.open(report.url || '', '_blank');
+                    }}
+                  >
+                    <Button.StartIcon>
+                      {report.file_type?.type === 'link' ? (
+                        <OpenLinkIcon />
+                      ) : (
+                        <DownloadIcon />
+                      )}
+                    </Button.StartIcon>
+                    {report.file_type?.type === 'link'
+                      ? t('__CAMPAIGN_PAGE_REPORTS_CARDS_OPEN_LINK_LABEL')
+                      : t('__CAMPAIGN_PAGE_REPORTS_CARDS_DOWNLOAD_LABEL')}
+                  </Button>
+                </SpecialCard.Footer>
+              </SpecialCard>
+            </Col>
+          ))
+        : null}
     </Row>
   );
 };
