@@ -6,11 +6,13 @@ import {
   theme,
   Tag,
 } from '@appquality/unguess-design-system';
+import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Campaign } from 'src/features/api';
 import { WidgetCard } from './WidgetCard';
 
-export const Progress = () => {
-  const { t } = useTranslation();
+export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
+  const { t, i18n } = useTranslation();
   return (
     <WidgetCard>
       <WidgetCard.Header
@@ -67,8 +69,14 @@ export const Progress = () => {
         <Tag>
           {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
             defaultValue: 'Durata test: {{startDate}} a {{endDate}}',
-            startDate: '10/04',
-            endDate: '12/04/2022',
+            startDate: new Date(campaign.start_date).toLocaleDateString(
+              i18n.language,
+              { month: 'numeric', day: 'numeric' }
+            ),
+            endDate: new Date(campaign.end_date).toLocaleDateString(
+              i18n.language,
+              { month: 'numeric', day: 'numeric', year: 'numeric' }
+            ),
           })}
         </Tag>
       </WidgetCard.Footer>
