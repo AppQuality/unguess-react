@@ -1,7 +1,5 @@
 import {
-  XL,
   XXXL,
-  SM,
   MD,
   BulletChart,
   Paragraph,
@@ -15,10 +13,12 @@ export const Progress = () => {
   const { t } = useTranslation();
   return (
     <WidgetCard>
-      <WidgetCard.Header tooltipContent="Tooltip content">
+      <WidgetCard.Header
+        tooltipContent={t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TOOLTIP')}
+      >
         {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TITLE', 'Stato avanzamento')}
       </WidgetCard.Header>
-      <div style={{ marginBottom: theme.space.lg }}>
+      <div style={{ marginBottom: theme.space.lg, marginTop: theme.space.lg }}>
         <Paragraph style={{ marginBottom: theme.space.sm, paddingLeft: 10 }}>
           {t(
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_USECASE_BULLET_TITLE',
@@ -26,7 +26,13 @@ export const Progress = () => {
           )}
         </Paragraph>
         <BulletChart ranges={[25, 50, 75, 100]} values={[25]} height="20px" />
-        <Paragraph style={{ marginBottom: theme.space.sm, paddingLeft: 10 }}>
+        <Paragraph
+          style={{
+            marginBottom: theme.space.sm,
+            marginTop: theme.space.md,
+            paddingLeft: 10,
+          }}
+        >
           {t(
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_TIME_BULLET_TITLE',
             'Tempo trascorso'
@@ -40,9 +46,11 @@ export const Progress = () => {
           'Campagna attiva da:'
         )}
         content={
-          <XXXL tag="span" isBold color={theme.palette.blue[600]}>
-            72 {t('hours', 'ore')}
-          </XXXL>
+          <div style={{ color: theme.palette.blue['600'] }}>
+            <XXXL tag="span" isBold>
+              72 {t('hours', 'ore')}
+            </XXXL>
+          </div>
         }
         footer={
           <Paragraph>
