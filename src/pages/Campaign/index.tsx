@@ -78,14 +78,16 @@ const Campaign = () => {
             />
           </Col>
           <Col md={9}>
-            <Row>
-              <Col md={4}>
-                <UniqueBugs />
-              </Col>
-              <Col md={4}>
-                <Progress />
-              </Col>
-            </Row>
+            {campaign?.outputs?.includes('bugs') && (
+              <Row>
+                <Col xs={12} md={4}>
+                  <UniqueBugs />
+                </Col>
+                <Col xs={12} md={4}>
+                  <Progress />
+                </Col>
+              </Row>
+            )}
             {reports && reports.length ? (
               <Col xs={12}>
                 <XL
