@@ -6,7 +6,7 @@ import {
   theme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Campaign } from 'src/features/api';
+import { CampaignWithOutput as Campaign } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 
