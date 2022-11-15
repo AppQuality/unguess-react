@@ -6,10 +6,10 @@ import {
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { Severities } from './types';
 import { useBugs } from './useBugs';
 import { WidgetCard } from '../WidgetCard';
+import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 
 const SEVERITY_COLORS: Record<Severities, string> = {
   critical: '#800208',
@@ -60,18 +60,16 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
           {{ severity: translateSeverity(maxSeverity, t) }} bugs
         </Trans>
       </WidgetCard.Header>
-      <div style={{ width: '50%', height, position: 'relative' }}>
-        <HalfPieChart
-          width="100%"
-          height={height}
-          colors={colorScheme}
-          data={Object.entries(data.bySeverity).map(([key, value]) => ({
-            id: key,
-            label: key,
-            value,
-          }))}
-        />
-      </div>
+      <HalfPieChart
+        width="50%"
+        height={height}
+        colors={colorScheme}
+        data={Object.entries(data.bySeverity).map(([key, value]) => ({
+          id: key,
+          label: key,
+          value,
+        }))}
+      />
       <WidgetCard.Description
         header={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_DESCRIPTION_HEADER')}
         content={
