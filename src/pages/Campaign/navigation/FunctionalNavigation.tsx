@@ -6,6 +6,16 @@ import {
 
 export const FunctionalNavigation = () => (
   <>
+    <StickyNavItem
+      to="campaign-overview"
+      containerId="main"
+      spy
+      smooth
+      duration={500}
+      offset={-350}
+    >
+      {t('__MOTHER_DASHBOARD_NAVIGATION_OVERVIEW', 'Campaign Overview')}
+    </StickyNavItem>
     <StickyNavItemLabel>
       {t('__MOTHER_DASHBOARD_NAVIGATION_DETAILS', 'Details')}
     </StickyNavItemLabel>
@@ -31,19 +41,6 @@ export const FunctionalNavigation = () => (
       offset={-350}
     >
       {t('__MOTHER_DASHBOARD_NAVIGATION_DEVICES', 'Devices and types')}
-    </StickyNavItem>
-    <StickyNavItemLabel>
-      {t('__MOTHER_DASHBOARD_NAVIGATION_OTHER', 'Other')}
-    </StickyNavItemLabel>
-    <StickyNavItem
-      to="reports"
-      containerId="main"
-      spy
-      smooth
-      duration={500}
-      offset={-350}
-    >
-      {t('__MOTHER_DASHBOARD_NAVIGATION_REPORTS', 'Reports & Attachments')}
     </StickyNavItem>
   </>
 );

@@ -1,6 +1,10 @@
 import { Anchor } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { StickyNavItem, StyledDivider } from 'src/common/components/navigation';
+import {
+  StickyNavItem,
+  StickyNavItemLabel,
+  StyledDivider,
+} from 'src/common/components/navigation';
 import { FC } from 'react';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 import { ExternalLink } from 'src/hooks/useExternaLink';
@@ -13,17 +17,20 @@ const Navigation: FC<{
   const { t } = useTranslation();
   return (
     <StickyContainer>
+      {type?.toLocaleLowerCase() === 'functional' && <FunctionalNavigation />}
+      <StickyNavItemLabel>
+        {t('__MOTHER_DASHBOARD_NAVIGATION_OTHER', 'Other')}
+      </StickyNavItemLabel>
       <StickyNavItem
-        to="campaign-overview"
+        to="reports"
         containerId="main"
         spy
         smooth
         duration={500}
         offset={-350}
       >
-        {t('__MOTHER_DASHBOARD_NAVIGATION_OVERVIEW', 'Campaign Overview')}
+        {t('__MOTHER_DASHBOARD_NAVIGATION_REPORTS', 'Reports & Attachments')}
       </StickyNavItem>
-      {type?.toLocaleLowerCase() === 'functional' && <FunctionalNavigation />}
       {externalLink && (
         <>
           <StyledDivider />
