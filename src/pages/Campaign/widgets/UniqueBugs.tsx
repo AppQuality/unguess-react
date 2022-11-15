@@ -1,29 +1,22 @@
-import { XL } from '@appquality/unguess-design-system';
+import { WaffleChart } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { WidgetCard } from './WidgetCard';
 
 export const UniqueBugs = () => (
   <WidgetCard>
-    <WidgetCard.Header tooltipContent="Tooltip content">
+    <WidgetCard.Header
+      tooltipContent={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TOOLTIP')}
+    >
       {t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TITLE')}
     </WidgetCard.Header>
-    <div>HERE MY MAIN CONTENT (e.g. a graph)</div>
+    <WaffleChart rows={8} columns={8} total={100} data={[]} />
     <WidgetCard.Description
-      header="Small text on top"
-      content={
-        <span style={{ color: 'purple' }}>
-          8
-          <XL tag="span" isBold>
-            critical bugs
-          </XL>
-        </span>
-      }
-      footer="of 100 bugs"
+      header={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_REPORTED_BY')}
+      content={<span />}
+      footer=""
     />
     <WidgetCard.Footer>
-      <a href="www.google.com">
-        FOOTER LINK<i>my_external_link_icon</i>
-      </a>
+      <span style={{ fontWeight: 'bold' }}>+12 Bug</span>
     </WidgetCard.Footer>
   </WidgetCard>
 );
