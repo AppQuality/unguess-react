@@ -17,8 +17,6 @@ const Navigation: FC<{
 }> = ({ externalLink, outputs }) => {
   const { t } = useTranslation();
 
-  console.log('outputs', outputs);
-
   return (
     <StickyContainer>
       {outputs?.includes('bugs') && <FunctionalNavigation />}

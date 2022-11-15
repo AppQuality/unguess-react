@@ -20,7 +20,6 @@ import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
 import Navigation from './navigation';
 import { useExternalLink } from '../../hooks/useExternaLink';
-import { WidgetCard } from './widgets/WidgetCard';
 import { UniqueBugs } from './widgets/UniqueBugs';
 import { Progress } from './widgets/Progress';
 

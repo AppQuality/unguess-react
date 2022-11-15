@@ -129,8 +129,8 @@ export const HeaderFooter: FC<{ campaign: CampaignWithOutput }> = ({
             isPrimary
             isPill
             themeColor={globalTheme.palette.water[600]}
-            // eslint-disable-next-line security/detect-non-literal-fs-filename
             onClick={() =>
+              // eslint-disable-next-line security/detect-non-literal-fs-filename
               window.open(getDashboardDetailUrl(campaign), '_blank')
             }
           >
