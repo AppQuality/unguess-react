@@ -1,11 +1,13 @@
 import {
   XL,
   XXXL,
+  SM,
+  MD,
   BulletChart,
   Paragraph,
   theme,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { WidgetCard } from './WidgetCard';
 
 export const Progress = () => {
@@ -37,7 +39,7 @@ export const Progress = () => {
           'Campagna attiva da:'
         )}
         content={
-          <span style={{ color: theme.palette.blue[600] }}>
+          <span>
             <XXXL tag="span" isBold>
               8{' '}
             </XXXL>
@@ -49,12 +51,25 @@ export const Progress = () => {
             </XL>
           </span>
         }
-        footer="of 100 bugs"
+        footer={
+          <Paragraph>
+            <Trans
+              i18nkey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
+              defaults="su <bold>{{estimatedTime}} stimate</bold>"
+              values={{ estimatedTime: '72h' }}
+              components={{ bold: <MD isBold tag="span" /> }}
+            />
+          </Paragraph>
+        }
       />
       <WidgetCard.Footer>
-        <a href="www.google.com">
-          FOOTER LINK<i>my_external_link_icon</i>
-        </a>
+        <SM tag="span" isBold>
+          {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
+            defaultValue: 'Durata test: {{startDate}} a {{endDate}}',
+            startDate: '10/04',
+            endDate: '12/04/2022',
+          })}
+        </SM>
       </WidgetCard.Footer>
     </WidgetCard>
   );
