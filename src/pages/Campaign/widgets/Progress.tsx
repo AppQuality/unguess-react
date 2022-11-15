@@ -6,6 +6,7 @@ import {
   BulletChart,
   Paragraph,
   theme,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { WidgetCard } from './WidgetCard';
@@ -17,7 +18,7 @@ export const Progress = () => {
       <WidgetCard.Header tooltipContent="Tooltip content">
         {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TITLE', 'Stato avanzamento')}
       </WidgetCard.Header>
-      <div>
+      <div style={{ marginBottom: theme.space.lg }}>
         <Paragraph style={{ marginBottom: theme.space.sm, paddingLeft: 10 }}>
           {t(
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_USECASE_BULLET_TITLE',
@@ -39,17 +40,9 @@ export const Progress = () => {
           'Campagna attiva da:'
         )}
         content={
-          <span>
-            <XXXL tag="span" isBold>
-              8{' '}
-            </XXXL>
-            <XL tag="span" isBold>
-              {t(
-                '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_BUGS',
-                'bug unici'
-              )}
-            </XL>
-          </span>
+          <XXXL tag="span" isBold color={theme.palette.blue[600]}>
+            72 {t('hours', 'ore')}
+          </XXXL>
         }
         footer={
           <Paragraph>
@@ -63,13 +56,13 @@ export const Progress = () => {
         }
       />
       <WidgetCard.Footer>
-        <SM tag="span" isBold>
+        <Tag>
           {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
             defaultValue: 'Durata test: {{startDate}} a {{endDate}}',
             startDate: '10/04',
             endDate: '12/04/2022',
           })}
-        </SM>
+        </Tag>
       </WidgetCard.Footer>
     </WidgetCard>
   );
