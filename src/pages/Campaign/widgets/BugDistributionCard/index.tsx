@@ -1,6 +1,12 @@
-import { HalfPieChart, Spinner, XL } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import {
+  Anchor,
+  HalfPieChart,
+  Skeleton,
+  XL,
+} from '@appquality/unguess-design-system';
+import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
+import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { Severities } from './types';
 import { useBugs } from './useBugs';
 import { WidgetCard } from '../WidgetCard';
@@ -15,49 +21,29 @@ const SEVERITY_COLORS: Record<Severities, string> = {
 function translateSeverity(severity: Severities, t: TFunction) {
   switch (severity) {
     case 'critical':
-      return t('critical');
+      return t('__BUG_SEVERITY_CRITICAL');
     case 'high':
-      return t('high');
+      return t('__BUG_SEVERITY_HIGH');
     case 'medium':
-      return t('medium');
+      return t('__BUG_SEVERITY_MEDIUM');
     case 'low':
-      return t('low');
+      return t('__BUG_SEVERITY_LOW');
     default:
-      throw new Error('Unknown severity');
+      throw new Error(`Unknown severity ${severity}`);
   }
 }
-const BugDistributionDescription = ({
-  t,
-  maxSeverity,
-  maxSeverityCount,
-  total,
-}: {
-  t: TFunction;
-  maxSeverity: Severities;
-  maxSeverityCount: number;
-  total: number;
-}) => (
-  <WidgetCard.Description
-    header={t('Segnalati dai tester:')}
-    content={
-      <span style={{ color: SEVERITY_COLORS[maxSeverity] }}>
-        {`${maxSeverityCount} `}
-        <XL tag="span" isBold>
-          Bug {translateSeverity(maxSeverity, t)}
-        </XL>
-      </span>
-    }
-    footer={t('su un totale di {{total}}', { total })}
-  />
-);
 
 const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const height = '140px';
   const { data, isLoading } = useBugs(campaignId);
 
-  if (isLoading || !('bySeverity' in data)) {
-    return <Spinner size="50" />;
+  if (
+    isLoading ||
+    !('bySeverity' in data) ||
+    Object.keys(data.bySeverity).length === 0
+  ) {
+    return <Skeleton />;
   }
 
   const colorScheme = Object.keys(data.bySeverity).map(
@@ -67,10 +53,12 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <WidgetCard>
-      <WidgetCard.Header tooltipContent="Tooltip content">
-        {t('{{severity}} bugs', {
-          severity: translateSeverity(maxSeverity, t),
-        })}
+      <WidgetCard.Header
+        tooltipContent={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOOLTIP')}
+      >
+        <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_HEADER">
+          {{ severity: translateSeverity(maxSeverity, t) }} bugs
+        </Trans>
       </WidgetCard.Header>
       <div style={{ width: '50%', height, position: 'relative' }}>
         <HalfPieChart
@@ -84,13 +72,35 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
           }))}
         />
       </div>
-      <BugDistributionDescription
-        t={t}
-        maxSeverity={maxSeverity}
-        maxSeverityCount={data.bySeverity[maxSeverity] || 0}
-        total={data.total || 0}
+      <WidgetCard.Description
+        header={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_DESCRIPTION_HEADER')}
+        content={
+          <span style={{ color: SEVERITY_COLORS[maxSeverity as Severities] }}>
+            {`${data.bySeverity[maxSeverity as Severities] || 0} `}
+            <XL tag="span" isBold>
+              <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_DESCRIPTION">
+                bugs {{ severity: translateSeverity(maxSeverity, t) }}
+              </Trans>
+            </XL>
+          </span>
+        }
+        footer={
+          <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_DESCRIPTION">
+            out of {{ total: data.total || 0 }}
+          </Trans>
+        }
       />
-      <WidgetCard.Footer>{t('Go to the bug list')}</WidgetCard.Footer>
+      <WidgetCard.Footer>
+        <Anchor
+          onClick={() =>
+            window.open(
+              getLocalizedFunctionalDashboardUrl(campaignId, i18n.language)
+            )
+          }
+        >
+          {t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_GOTOLIST_LINK')}
+        </Anchor>
+      </WidgetCard.Footer>
     </WidgetCard>
   );
 };

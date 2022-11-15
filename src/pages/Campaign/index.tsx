@@ -91,9 +91,11 @@ const Campaign = () => {
                       <UniqueBugs campaignId={campaign ? campaign.id : 0} />
                     </Col>
                     <Col xs={12} md={4} lg={4}>
-                      <BugDistributionCard
-                        campaignId={campaign ? campaign.id : 0}
-                      />
+                      {isFetchingCampaign ? undefined : (
+                        <BugDistributionCard
+                          campaignId={campaign ? campaign.id : 0}
+                        />
+                      )}
                     </Col>
                   </Row>
                 )}
