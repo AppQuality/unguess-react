@@ -20,6 +20,9 @@ import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
 import Navigation from './navigation';
 import { useExternalLink } from '../../hooks/useExternaLink';
+import { WidgetCard } from './widgets/WidgetCard';
+import { UniqueBugs } from './widgets/UniqueBugs';
+import { Progress } from './widgets/Progress';
 
 const Campaign = () => {
   const { t } = useTranslation();
@@ -76,6 +79,14 @@ const Campaign = () => {
             />
           </Col>
           <Col md={9}>
+            <Row>
+              <Col md={4}>
+                <UniqueBugs />
+              </Col>
+              <Col md={4}>
+                <Progress />
+              </Col>
+            </Row>
             {reports && reports.length ? (
               <Col xs={12}>
                 <XL
