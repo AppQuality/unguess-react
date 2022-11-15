@@ -1,10 +1,11 @@
 import { XL } from '@appquality/unguess-design-system';
+import { t } from 'i18next';
 import { WidgetCard } from './WidgetCard';
 
 export const UniqueBugs = () => (
   <WidgetCard>
     <WidgetCard.Header tooltipContent="Tooltip content">
-      CARD TITLE
+      {t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TITLE')}
     </WidgetCard.Header>
     <div>HERE MY MAIN CONTENT (e.g. a graph)</div>
     <WidgetCard.Description
