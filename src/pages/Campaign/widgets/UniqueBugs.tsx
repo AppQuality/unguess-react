@@ -5,13 +5,13 @@ import { WidgetCard } from './WidgetCard';
 export const UniqueBugs = () => (
   <WidgetCard>
     <WidgetCard.Header
-      tooltipContent={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TOOLTIP')}
+      tooltipContent={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOOLTIP')}
     >
       {t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TITLE')}
     </WidgetCard.Header>
     <WaffleChart rows={8} columns={8} total={100} data={[]} />
     <WidgetCard.Description
-      header={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_REPORTED_BY')}
+      header={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY')}
       content={<span />}
       footer=""
     />
