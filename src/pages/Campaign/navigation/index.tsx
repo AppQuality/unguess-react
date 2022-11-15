@@ -1,27 +1,26 @@
-import { Anchor } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
   StickyNavItem,
   StickyNavItemLabel,
-  StyledDivider,
 } from 'src/common/components/navigation';
 import { CampaignWithOutput } from 'src/features/api';
-import { FC } from 'react';
 import { StickyContainer } from 'src/common/components/StickyContainer';
-import { ExternalLink } from 'src/hooks/useExternaLink';
-import { FunctionalNavigation } from './FunctionalNavigation';
+import { BugsNavigation, BugsNavigationLink } from './bugs';
 
-const Navigation: FC<{
-  externalLink?: ExternalLink;
-  outputs?: CampaignWithOutput['outputs'];
-}> = ({ externalLink, outputs }) => {
+const Navigation = ({
+  campaignId,
+  outputs,
+}: {
+  campaignId: number;
+  outputs: CampaignWithOutput['outputs'];
+}) => {
   const { t } = useTranslation();
 
   return (
     <StickyContainer>
-      {outputs?.includes('bugs') && <FunctionalNavigation />}
+      {outputs?.includes('bugs') && <BugsNavigation />}
       <StickyNavItemLabel>
-        {t('__MOTHER_DASHBOARD_NAVIGATION_OTHER', 'Other')}
+        {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_GROUP_OTHER_LABEL')}
       </StickyNavItemLabel>
       <StickyNavItem
         to="reports"
@@ -31,21 +30,10 @@ const Navigation: FC<{
         duration={500}
         offset={-350}
       >
-        {t('__MOTHER_DASHBOARD_NAVIGATION_REPORTS', 'Reports & Attachments')}
+        {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OTHER_REPORTS_LABEL')}
       </StickyNavItem>
-      {externalLink && (
-        <>
-          <StyledDivider />
-          <Anchor
-            isExternal
-            onClick={() => {
-              // eslint-disable-next-line security/detect-non-literal-fs-filename
-              window.open(externalLink.url, '_blank');
-            }}
-          >
-            {externalLink.label}
-          </Anchor>
-        </>
+      {outputs?.includes('bugs') && (
+        <BugsNavigationLink campaignId={campaignId} />
       )}
     </StickyContainer>
   );

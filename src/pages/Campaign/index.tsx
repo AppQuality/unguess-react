@@ -19,7 +19,6 @@ import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
 import Navigation from './navigation';
-import { useExternalLink } from '../../hooks/useExternaLink';
 import { UniqueBugs } from './widgets/UniqueBugs';
 import { Progress } from './widgets/Progress';
 
@@ -55,8 +54,6 @@ const Campaign = () => {
     navigate(notFoundRoute);
   }
 
-  const externalLink = useExternalLink(campaign);
-
   return (
     <Page
       title={(campaign && campaign.customer_title) ?? 'Campaign'}
@@ -73,8 +70,8 @@ const Campaign = () => {
         <Row>
           <Col xs={12} lg={3}>
             <Navigation
-              externalLink={externalLink}
-              outputs={campaign?.outputs}
+              campaignId={campaign ? campaign.id : 0}
+              outputs={campaign ? campaign.outputs : []}
             />
           </Col>
           <Col md={9}>

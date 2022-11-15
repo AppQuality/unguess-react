@@ -14,7 +14,8 @@ import { ReactComponent as MobileIcon } from 'src/assets/icons/pill-icon-mobile.
 import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
-import { getDashboardDetailUrl } from 'src/hooks/useDetailDashboardUrl';
+import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import i18n from 'src/i18n';
 
 const Pipe = styled.span`
   /** Vertical Separator */
@@ -131,7 +132,10 @@ export const HeaderFooter: FC<{ campaign: CampaignWithOutput }> = ({
             themeColor={globalTheme.palette.water[600]}
             onClick={() =>
               // eslint-disable-next-line security/detect-non-literal-fs-filename
-              window.open(getDashboardDetailUrl(campaign), '_blank')
+              window.open(
+                getLocalizedFunctionalDashboardUrl(campaign.id, i18n.language),
+                '_blank'
+              )
             }
           >
             {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
