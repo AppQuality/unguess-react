@@ -6,7 +6,7 @@ import {
 import { FC } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { Campaign } from 'src/features/api';
+import { CampaignWithOutput } from 'src/features/api';
 import { Pill } from 'src/common/components/Pill';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
@@ -56,9 +56,11 @@ const campaignDetails = {
   users: 100,
 };
 
-export const HeaderFooter: FC<{ campaign: Campaign }> = ({ campaign }) => {
+export const HeaderFooter: FC<{ campaign: CampaignWithOutput }> = ({
+  campaign,
+}) => {
   const { t } = useTranslation();
-  const { start_date, end_date, type, status } = campaign;
+  const { start_date, end_date, type, status, outputs } = campaign;
 
   // Format dates
   const startDate = new Date(start_date);
@@ -122,14 +124,19 @@ export const HeaderFooter: FC<{ campaign: Campaign }> = ({ campaign }) => {
         ) : null}
       </PillsWrapper>
       <ButtonWrapper>
-        <Button
-          isPrimary
-          isPill
-          themeColor={globalTheme.palette.water[600]}
-          onClick={() => window.open(getDashboardDetailUrl(campaign), '_blank')}
-        >
-          {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
-        </Button>
+        {outputs?.includes('bugs') && (
+          <Button
+            isPrimary
+            isPill
+            themeColor={globalTheme.palette.water[600]}
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
+            onClick={() =>
+              window.open(getDashboardDetailUrl(campaign), '_blank')
+            }
+          >
+            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
+          </Button>
+        )}
       </ButtonWrapper>
     </FooterContainer>
   );

@@ -5,6 +5,7 @@ import {
   StickyNavItemLabel,
   StyledDivider,
 } from 'src/common/components/navigation';
+import { CampaignWithOutput } from 'src/features/api';
 import { FC } from 'react';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 import { ExternalLink } from 'src/hooks/useExternaLink';
@@ -12,12 +13,15 @@ import { FunctionalNavigation } from './FunctionalNavigation';
 
 const Navigation: FC<{
   externalLink?: ExternalLink;
-  type?: string;
-}> = ({ externalLink, type }) => {
+  outputs?: CampaignWithOutput['outputs'];
+}> = ({ externalLink, outputs }) => {
   const { t } = useTranslation();
+
+  console.log('outputs', outputs);
+
   return (
     <StickyContainer>
-      {type?.toLocaleLowerCase() === 'functional' && <FunctionalNavigation />}
+      {outputs?.includes('bugs') && <FunctionalNavigation />}
       <StickyNavItemLabel>
         {t('__MOTHER_DASHBOARD_NAVIGATION_OTHER', 'Other')}
       </StickyNavItemLabel>

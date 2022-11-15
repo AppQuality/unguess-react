@@ -75,7 +75,7 @@ const Campaign = () => {
           <Col xs={12} lg={3}>
             <Navigation
               externalLink={externalLink}
-              type={campaign?.type.name}
+              outputs={campaign?.outputs}
             />
           </Col>
           <Col md={9}>
