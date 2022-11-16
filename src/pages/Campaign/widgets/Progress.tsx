@@ -32,8 +32,34 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
     const diff = (today.getTime() - startDate.getTime()) / (1000 * 60 * 60); // hours
 
     return diff <= 72
-      ? `${diff} ${t('hours')}`
-      : `${Math.round(diff / 24)} ${t('days')}`;
+      ? `${diff} ${t('hours', 'ore')}`
+      : `${Math.round(diff / 24)} ${t('days', 'giorni')}`;
+  };
+
+  const getCampaignEstimatedTime = () => {
+    const startDate = new Date(campaign.start_date);
+    const endDate = new Date(campaign.end_date);
+    const diff = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60); // hours
+    return diff <= 72
+      ? `${Math.round(diff)} ${t('hours', 'ore')}`
+      : `${Math.round(diff / 24)} ${t('days', 'giorni')}`;
+  };
+
+  const getFormattedStartDate = () => {
+    const options: Intl.DateTimeFormatOptions = {
+      month: 'numeric',
+      day: 'numeric',
+    };
+    if (
+      new Date(campaign.end_date).getFullYear() !==
+      new Date(campaign.start_date).getFullYear()
+    ) {
+      options.year = 'numeric';
+    }
+    return new Date(campaign.start_date).toLocaleDateString(
+      i18n.language,
+      options
+    );
   };
 
   return (
@@ -79,7 +105,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
             <Trans
               i18nkey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
               defaults="su <bold>{{estimatedTime}} stimate</bold>"
-              values={{ estimatedTime: '72h' }}
+              values={{ estimatedTime: getCampaignEstimatedTime() }}
               components={{ bold: <MD isBold tag="span" /> }}
             />
           </Paragraph>
@@ -89,10 +115,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <Tag>
           {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
             defaultValue: 'Durata test: {{startDate}} a {{endDate}}',
-            startDate: new Date(campaign.start_date).toLocaleDateString(
-              i18n.language,
-              { month: 'numeric', day: 'numeric' }
-            ),
+            startDate: getFormattedStartDate(),
             endDate: new Date(campaign.end_date).toLocaleDateString(
               i18n.language,
               { month: 'numeric', day: 'numeric', year: 'numeric' }
