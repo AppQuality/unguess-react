@@ -1,4 +1,4 @@
-import { WaffleChart,XL } from '@appquality/unguess-design-system';
+import { WaffleChart } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { WidgetCard } from './WidgetCard';
 
