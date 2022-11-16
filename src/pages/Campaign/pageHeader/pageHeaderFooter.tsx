@@ -6,7 +6,7 @@ import {
 import { FC } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { CampaignWithOutput } from 'src/features/api';
+import { Campaign, CampaignWithOutput } from 'src/features/api';
 import { Pill } from 'src/common/components/Pill';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
@@ -51,15 +51,18 @@ function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// TODO: Fetch campaign details from API
-const campaignDetails = {
-  devices: ['desktop', 'mobile'],
-  users: 100,
-};
+export const Pills: FC<{ campaign: CampaignWithOutput }> = ({ campaign }) => {
+  // TODO: Fetch campaign details from API
+  const useGetCpMetaQuery = (): {
+    campaign: Campaign;
+    selected_testers: number;
+    allowed_devices: string[];
+  } => ({
+    campaign,
+    selected_testers: 69,
+    allowed_devices: ['desktop', 'mobile'],
+  });
 
-export const HeaderFooter: FC<{ campaign: CampaignWithOutput }> = ({
-  campaign,
-}) => {
   const { t } = useTranslation();
   const { start_date, end_date, type, status, outputs } = campaign;
 
@@ -97,17 +100,17 @@ export const HeaderFooter: FC<{ campaign: CampaignWithOutput }> = ({
             <Span>{{ end_date: formattedEndDate }}</Span>
           </Trans>
         </Pill>
-        {campaignDetails ? (
+        {useGetCpMetaQuery() ? (
           <>
             <Pipe style={{ marginRight: globalTheme.space.md }} />
-            {campaignDetails.devices.includes('desktop') && (
+            {useGetCpMetaQuery().allowed_devices.includes('desktop') && (
               <Pill
                 icon={<DesktopIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
                 color={globalTheme.palette.azure[600]}
               />
             )}
-            {campaignDetails.devices.includes('mobile') && (
+            {useGetCpMetaQuery().allowed_devices.includes('mobile') && (
               <Pill
                 icon={<MobileIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_MOBILE')}
@@ -119,7 +122,7 @@ export const HeaderFooter: FC<{ campaign: CampaignWithOutput }> = ({
               title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
               color={globalTheme.palette.water[600]}
             >
-              <Span>{campaignDetails.users}</Span>
+              <Span>{useGetCpMetaQuery().selected_testers}</Span>
             </Pill>
           </>
         ) : null}
