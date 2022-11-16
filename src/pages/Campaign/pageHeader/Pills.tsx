@@ -49,13 +49,18 @@ function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// TODO: Fetch campaign details from API
-const campaignDetails = {
-  devices: ['desktop', 'mobile'],
-  users: 100,
-};
-
 export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
+  // TODO: Fetch campaign details from API
+  const useGetCpMetaQuery = (): {
+    campaign: Campaign;
+    selected_testers: number;
+    allowed_devices: string[];
+  } => ({
+    campaign,
+    selected_testers: 69,
+    allowed_devices: ['desktop', 'mobile'],
+  });
+
   const { t } = useTranslation();
 
   // Format dates
@@ -92,17 +97,17 @@ export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
             <Span>{{ end_date: formattedEndDate }}</Span>
           </Trans>
         </Pill>
-        {campaignDetails ? (
+        {useGetCpMetaQuery() ? (
           <>
             <Pipe style={{ marginRight: globalTheme.space.md }} />
-            {campaignDetails.devices.includes('desktop') && (
+            {useGetCpMetaQuery().allowed_devices.includes('desktop') && (
               <Pill
                 icon={<DesktopIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
                 color={globalTheme.palette.azure[600]}
               />
             )}
-            {campaignDetails.devices.includes('mobile') && (
+            {useGetCpMetaQuery().allowed_devices.includes('mobile') && (
               <Pill
                 icon={<MobileIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_MOBILE')}
@@ -114,7 +119,7 @@ export const Pills: FC<{ campaign: Campaign }> = ({ campaign }) => {
               title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
               color={globalTheme.palette.water[600]}
             >
-              <Span>{campaignDetails.users}</Span>
+              <Span>{useGetCpMetaQuery().selected_testers}</Span>
             </Pill>
           </>
         ) : null}
