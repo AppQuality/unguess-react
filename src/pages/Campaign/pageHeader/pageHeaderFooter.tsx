@@ -7,7 +7,11 @@ import {
 import { FC } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { CampaignWithOutput, useGetCampaignsByCidMetaQuery } from 'src/features/api';
+import {
+  Campaign,
+  CampaignWithOutput,
+  useGetCampaignsByCidMetaQuery,
+} from 'src/features/api';
 import { Pill } from 'src/common/components/Pill';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
@@ -16,8 +20,8 @@ import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.sv
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
 import { format } from 'date-fns';
-import i18n from 'src/i18n';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import i18n from 'src/i18n';
 
 const Pipe = styled.span`
   /** Vertical Separator */
