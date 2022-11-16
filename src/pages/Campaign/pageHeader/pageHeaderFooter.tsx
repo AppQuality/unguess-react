@@ -2,11 +2,12 @@ import {
   Button,
   Span,
   theme as globalTheme,
+  Skeleton,
 } from '@appquality/unguess-design-system';
 import { FC } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
-import { Campaign, CampaignWithOutput } from 'src/features/api';
+import { CampaignWithOutput, useGetCampaignsByCidMetaQuery } from 'src/features/api';
 import { Pill } from 'src/common/components/Pill';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
@@ -14,8 +15,9 @@ import { ReactComponent as MobileIcon } from 'src/assets/icons/pill-icon-mobile.
 import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import { format } from 'date-fns';
 import i18n from 'src/i18n';
+import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 
 const Pipe = styled.span`
   /** Vertical Separator */
@@ -52,31 +54,25 @@ function capitalizeFirstLetter(string: string) {
 }
 
 export const Pills: FC<{ campaign: CampaignWithOutput }> = ({ campaign }) => {
-  // TODO: Fetch campaign details from API
-  const useGetCpMetaQuery = (): {
-    campaign: Campaign;
-    selected_testers: number;
-    allowed_devices: string[];
-  } => ({
-    campaign,
-    selected_testers: 69,
-    allowed_devices: ['desktop', 'mobile'],
-  });
+  const {
+    data: meta,
+    isLoading,
+    isFetching,
+  } = useGetCampaignsByCidMetaQuery({ cid: campaign.id });
 
   const { t } = useTranslation();
   const { start_date, end_date, type, status, outputs } = campaign;
 
   // Format dates
-  const startDate = new Date(start_date);
-  const endDate = new Date(end_date);
-  const startYear = startDate.getFullYear();
-  const endYear = endDate.getFullYear();
+  const startDate = new Date(campaign.start_date);
+  const endDate = new Date(campaign.end_date);
   const formattedStartDate =
-    startYear === endYear
-      ? startDate.toLocaleDateString('it').substring(0, 4)
-      : startDate.toLocaleDateString('it');
-  const formattedEndDate = endDate.toLocaleDateString('it');
+    startDate.getFullYear() === endDate.getFullYear()
+      ? format(startDate, 'dd/MM')
+      : format(startDate, 'dd/MM/yyyy');
+  const formattedEndDate = format(endDate, 'dd/MM/yyyy');
 
+  if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
   return (
     <FooterContainer>
       <PillsWrapper>
@@ -100,17 +96,18 @@ export const Pills: FC<{ campaign: CampaignWithOutput }> = ({ campaign }) => {
             <Span>{{ end_date: formattedEndDate }}</Span>
           </Trans>
         </Pill>
-        {useGetCpMetaQuery() ? (
+        {meta ? (
           <>
             <Pipe style={{ marginRight: globalTheme.space.md }} />
-            {useGetCpMetaQuery().allowed_devices.includes('desktop') && (
+            {meta.allowed_devices.includes('desktop') && (
               <Pill
                 icon={<DesktopIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
                 color={globalTheme.palette.azure[600]}
               />
             )}
-            {useGetCpMetaQuery().allowed_devices.includes('mobile') && (
+            {(meta.allowed_devices.includes('smartphone') ||
+              meta.allowed_devices.includes('tablet')) && (
               <Pill
                 icon={<MobileIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_MOBILE')}
@@ -122,7 +119,7 @@ export const Pills: FC<{ campaign: CampaignWithOutput }> = ({ campaign }) => {
               title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
               color={globalTheme.palette.water[600]}
             >
-              <Span>{useGetCpMetaQuery().selected_testers}</Span>
+              <Span>{meta.selected_testers}</Span>
             </Pill>
           </>
         ) : null}
