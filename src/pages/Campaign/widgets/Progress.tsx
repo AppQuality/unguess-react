@@ -13,6 +13,29 @@ import { WidgetCard } from './WidgetCard';
 
 export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { t, i18n } = useTranslation();
+  const getCampaignDurationLabel = () => {
+    const endDate = new Date(campaign.end_date);
+    const today = new Date();
+    return today > endDate
+      ? t(
+          '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_FINISHED',
+          'Durata campagna:'
+        )
+      : t(
+          '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_ACTIVE',
+          'Campagna attiva da:'
+        );
+  };
+  const getCampaignDurationTime = () => {
+    const startDate = new Date(campaign.start_date);
+    const today = new Date();
+    const diff = (today.getTime() - startDate.getTime()) / (1000 * 60 * 60); // hours
+
+    return diff <= 72
+      ? `${diff} ${t('hours')}`
+      : `${Math.round(diff / 24)} ${t('days')}`;
+  };
+
   return (
     <WidgetCard>
       <WidgetCard.Header
@@ -43,14 +66,11 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <BulletChart ranges={[25, 50, 75, 100]} values={[75]} height="20px" />
       </div>
       <WidgetCard.Description
-        header={t(
-          '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER',
-          'Campagna attiva da:'
-        )}
+        header={getCampaignDurationLabel()}
         content={
           <div style={{ color: theme.palette.blue['600'] }}>
             <XXXL tag="span" isBold>
-              72 {t('hours', 'ore')}
+              {getCampaignDurationTime()}
             </XXXL>
           </div>
         }
