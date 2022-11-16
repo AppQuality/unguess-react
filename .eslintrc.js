@@ -52,6 +52,7 @@ module.exports = {
         unnamedComponents: 'arrow-function',
       },
     ],
+    'react/no-unstable-nested-components': ['error', { allowAsProps: true }],
     'react/prop-types': 'off', // Since we do not use prop-types
     'react/require-default-props': 'off', // Since we do not use prop-types
     'react/jsx-props-no-spreading': 'off', // This is an anti-pattern, to be removed.
