@@ -1,5 +1,5 @@
 import {
-  theme,
+  theme as globalTheme,
   WaffleChart,
   XL,
   Skeleton,
@@ -8,10 +8,12 @@ import {
 import { t } from 'i18next';
 import { Trans } from 'react-i18next';
 import { useUniqueBugs } from './useUniqueBugs';
+import WaffleTooltip from './WaffleTooltip';
 import { WidgetCard } from '../WidgetCard';
 
-export const UniqueBugs = () => {
-  const { bugs, uniqueBugs, isLoading, uniquePercent } = useUniqueBugs(4852);
+export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
+  const { bugs, uniqueBugs, isLoading, uniquePercent } =
+    useUniqueBugs(campaignId);
 
   if (isLoading) return <Skeleton />;
 
@@ -26,19 +28,11 @@ export const UniqueBugs = () => {
         total={{ label: 'total', value: bugs }}
         data={{ label: 'unique', value: uniqueBugs }}
         tooltip={({ value, label }) => (
-          <div style={{ padding: '5px 9px' }}>
-            {label === 'unique' ? (
-              <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_WAFFLE_TOOLTIP_UNIQUE">
-                {{ value }} unique bugs -{' '}
-                {{ percent: Math.floor(uniquePercent * 100) }}%
-              </Trans>
-            ) : null}
-            {label === 'total' ? (
-              <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_WAFFLE_TOOLTIP_TOTAL">
-                Total bugs: {{ value }}
-              </Trans>
-            ) : null}
-          </div>
+          <WaffleTooltip
+            value={value}
+            label={label}
+            percentage={Math.floor(uniquePercent * 100)}
+          />
         )}
         width="40%"
         height="140px"
@@ -46,7 +40,7 @@ export const UniqueBugs = () => {
       <WidgetCard.Description
         header={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY')}
         content={
-          <span style={{ color: theme.palette.blue[600] }}>
+          <span style={{ color: globalTheme.palette.blue[600] }}>
             {uniqueBugs}{' '}
             <XL tag="span" isBold>
               <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_COUNT_DESCRIPTION">
