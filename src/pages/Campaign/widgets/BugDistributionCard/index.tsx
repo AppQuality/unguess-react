@@ -90,6 +90,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
       />
       <WidgetCard.Footer>
         <Anchor
+          isExternal
           onClick={() =>
             window.open(
               getLocalizedFunctionalDashboardUrl(campaignId, i18n.language)
