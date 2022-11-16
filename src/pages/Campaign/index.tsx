@@ -88,7 +88,7 @@ const Campaign = () => {
                 {campaign?.outputs?.includes('bugs') && (
                   <Row>
                     <Col xs={12} md={4}>
-                      <UniqueBugs />
+                      <UniqueBugs campaignId={campaign ? campaign.id : 0} />
                     </Col>
                     <Col xs={12} md={4}>
                       <Progress />
