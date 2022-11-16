@@ -49,6 +49,8 @@
   "__CAMPAIGN_PAGE_UPDATE_CAMPAIGN_NAME_ERROR": "Errore",
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY": "Segnalati dai Tryber",
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOOLTIP": "Monitora i bug univoci segnalati solo una volta da un solo tester o una serie di bug segnalati tester diversi, che noi organizziamo in gruppi di bug duplicati",
+  "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND": "",
+  "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_plural": "",
   "__CAMPAIGNS_TABLE_COLUMN_CAMPAIGN_TYPE": "Tipo Campagna",
   "__CAMPAIGNS_TABLE_COLUMN_NAME": "Nome",
   "__CAMPAIGNS_TABLE_COLUMN_START_DATE": "Data Inizio",
