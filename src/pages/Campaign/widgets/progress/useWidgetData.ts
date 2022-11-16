@@ -1,3 +1,4 @@
+import { count } from 'console';
 import { TFunction } from 'i18next';
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
@@ -7,10 +8,11 @@ export const useWidgetData = (
   currentLanguage: string
 ) => {
   function getFormattedTime(time: number) {
-    const hours = time / (1000 * 60 * 60); // hours
+    const hours = Math.round(time / (1000 * 60 * 60));
+    const days = Math.round(time / (1000 * 60 * 60 * 24));
     return hours <= 72
-      ? `${Math.round(hours)} ${t('hours', 'ore')}`
-      : `${Math.round(hours / 24)} ${t('days', 'giorni')}`;
+      ? `${hours} ${t('hours', { count: hours })}`
+      : `${days} ${t('days', { count: days })}`;
   }
   function getFormattedStartDate(start_date: string, end_date: string) {
     const options: Intl.DateTimeFormatOptions = {
@@ -43,7 +45,7 @@ export const useWidgetData = (
     expected_duration: number
   ): number {
     const percentage = Math.round((time_elapsed / expected_duration) * 100);
-    return percentage;
+    return percentage > 100 ? 100 : percentage;
   }
 
   let widgetData;

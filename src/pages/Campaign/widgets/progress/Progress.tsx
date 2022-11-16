@@ -85,7 +85,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
       <WidgetCard.Footer>
         <Tag>
           {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
-            defaultValue: 'Durata test: {{startDate}} a {{endDate}}',
+            defaultValue: 'Test duration: {{startDate}} to {{endDate}}',
             startDate: widgetData.startDate,
             endDate: widgetData.endDate,
           })}
