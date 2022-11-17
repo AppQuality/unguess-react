@@ -43,7 +43,7 @@ const WidgetCardFooter = ({ children }: { children: React.ReactNode }) => (
 );
 
 const WidgetCardDescriptionHeader = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[500]};
+  color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
 const WidgetCardDescriptionContent = styled(XXL)`
