@@ -58,9 +58,6 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
           />
         }
       />
-      <WidgetCard.Footer>
-        <span />
-      </WidgetCard.Footer>
     </WidgetCard>
   );
 };
