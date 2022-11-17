@@ -6,6 +6,7 @@ import {
   theme,
   Tag,
   Skeleton,
+  SM,
 } from '@appquality/unguess-design-system';
 import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -33,18 +34,18 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TITLE', 'Stato avanzamento')}
       </WidgetCard.Header>
       <div style={{ marginBottom: theme.space.lg, marginTop: theme.space.lg }}>
-        <Paragraph style={{ marginBottom: theme.space.sm, paddingLeft: 10 }}>
+        <SM style={{ marginBottom: theme.space.sm, paddingLeft: 10 }}>
           {t(
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_USECASE_BULLET_TITLE',
             'Completamento Use Case'
           )}
-        </Paragraph>
+        </SM>
         <BulletChart
           ranges={[25, 50, 75, 100]}
           values={[widgetData.raw.usecase_completion]}
           height="20px"
         />
-        <Paragraph
+        <SM
           style={{
             marginBottom: theme.space.sm,
             marginTop: theme.space.md,
@@ -55,7 +56,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_TIME_BULLET_TITLE',
             'Tempo trascorso'
           )}
-        </Paragraph>
+        </SM>
         <BulletChart
           ranges={[25, 50, 75, 100]}
           values={[widgetData.elapsedTimePercentage]}
@@ -83,7 +84,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         }
       />
       <WidgetCard.Footer>
-        <Tag>
+        <Tag isPill>
           {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
             defaultValue: 'Test duration: {{startDate}} to {{endDate}}',
             startDate: widgetData.startDate,
