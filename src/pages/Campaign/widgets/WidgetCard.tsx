@@ -28,7 +28,7 @@ const WidgetCardHeader = ({
   <>
     <SpecialCard.Meta justifyContent="space-between">
       <SpecialCard.Header.Title>{children}</SpecialCard.Header.Title>
-      <Tooltip content={tooltipContent}>
+      <Tooltip content={tooltipContent} size="small" type="light">
         <IconButton>
           <InfoStrokeIcon />
         </IconButton>
