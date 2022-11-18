@@ -4,6 +4,7 @@ import {
   XL,
   Skeleton,
   MD,
+  Span,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { Trans } from 'react-i18next';
@@ -40,18 +41,16 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
       <WidgetCard.Description
         header={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY')}
         content={
-          <span style={{ color: globalTheme.palette.blue[600] }}>
+          <Span style={{ color: globalTheme.palette.blue[600] }}>
             {uniqueBugs}{' '}
             <XL tag="span" isBold>
-              <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_COUNT_DESCRIPTION">
-                unique bugs
-              </Trans>
+              {t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_COUNT_LABEL')}
             </XL>
-          </span>
+          </Span>
         }
         footer={
           <Trans
-            i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_DESCRIPTION"
+            i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_LABEL"
             components={{ bold: <MD isBold tag="span" /> }}
             defaults="out of <bold>{{ total }}</bold>"
             values={{ total: bugs }}
