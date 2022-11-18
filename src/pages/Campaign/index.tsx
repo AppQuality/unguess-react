@@ -6,7 +6,6 @@ import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
-import { useTranslation } from 'react-i18next';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
@@ -14,9 +13,9 @@ import { ReportRow } from './ReportRow';
 import { Navigation, NavigationLoading } from './navigation';
 import { UniqueBugs } from './widgets/UniqueBugs';
 import { Progress } from './widgets/Progress';
+import { EmptyState } from './EmptyState';
 
 const Campaign = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const { campaignId } = useParams();
@@ -64,42 +63,51 @@ const Campaign = () => {
     >
       <Grid>
         <Row>
-          <Col xs={12} md={3}>
-            {isLoadingCampaign ||
-            isFetchingCampaign ||
-            isLoadingReports ||
-            isFetchingReports ? (
-              <NavigationLoading />
-            ) : (
-              <Navigation
-                campaignId={campaign ? campaign.id : 0}
-                outputs={campaign ? campaign.outputs : []}
-                reports={reports ?? []}
-                {...(isFunctional && { isFunctional })}
-              />
-            )}
-          </Col>
-          <Col xs={12} md={9}>
-            {campaign?.outputs?.includes('bugs') && (
-              <Row>
-                <Col xs={12} md={4}>
-                  <UniqueBugs />
-                </Col>
-                <Col xs={12} md={4}>
-                  <Progress />
-                </Col>
-              </Row>
-            )}
-            {reports && campaign && !isLoadingReports && !isFetchingReports ? (
-              <ReportRow
-                reports={reports}
-                campaign={campaign}
-                {...(isFunctional && { isFunctional })}
-              />
-            ) : (
-              <ReportRowLoading />
-            )}
-          </Col>
+          {!campaign?.outputs?.length && !reports?.length && !isFunctional ? (
+            <EmptyState />
+          ) : (
+            <>
+              <Col xs={12} md={3}>
+                {isLoadingCampaign ||
+                isFetchingCampaign ||
+                isLoadingReports ||
+                isFetchingReports ? (
+                  <NavigationLoading />
+                ) : (
+                  <Navigation
+                    campaignId={campaign ? campaign.id : 0}
+                    outputs={campaign ? campaign.outputs : []}
+                    reports={reports ?? []}
+                    {...(isFunctional && { isFunctional })}
+                  />
+                )}
+              </Col>
+              <Col xs={12} md={9}>
+                {campaign?.outputs?.includes('bugs') && (
+                  <Row>
+                    <Col xs={12} md={4}>
+                      <UniqueBugs />
+                    </Col>
+                    <Col xs={12} md={4}>
+                      <Progress />
+                    </Col>
+                  </Row>
+                )}
+                {reports &&
+                campaign &&
+                !isLoadingReports &&
+                !isFetchingReports ? (
+                  <ReportRow
+                    reports={reports}
+                    campaign={campaign}
+                    {...(isFunctional && { isFunctional })}
+                  />
+                ) : (
+                  <ReportRowLoading />
+                )}
+              </Col>
+            </>
+          )}
         </Row>
       </Grid>
     </Page>
