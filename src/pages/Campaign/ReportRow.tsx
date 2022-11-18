@@ -79,13 +79,15 @@ export const ReportRow = ({
   reports?: Report[];
   campaign: Campaign;
 }) => {
-  const { id: campaignId, customer_title } = campaign;
+  const { id: campaignId, customer_title, family } = campaign;
 
   return (
     <Row>
-      <Col xs={12} md={6} lg={3}>
-        <BugsReportCard campaignId={campaignId} title={customer_title} />
-      </Col>
+      {family.name.toLocaleLowerCase() === 'functional' && (
+        <Col xs={12} md={4} lg={3}>
+          <BugsReportCard campaignId={campaignId} title={customer_title} />
+        </Col>
+      )}
       {reports && reports.length
         ? reports.map((report) => (
             <Col xs={12} md={4} lg={3}>
