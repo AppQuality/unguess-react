@@ -63,7 +63,9 @@ const Campaign = () => {
     >
       <Grid>
         <Row>
-          {!campaign?.outputs?.length && !reports?.length && !isFunctional ? (
+          {!campaign?.outputs?.includes('bugs') &&
+          !reports?.length &&
+          !isFunctional ? (
             <EmptyState />
           ) : (
             <>
