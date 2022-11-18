@@ -4,6 +4,7 @@ export const FEATURE_FLAG_CATALOG = 'catalog-pages';
 export const EXPRESS_1_CAMPAIGN_TYPE_ID = 46;
 export const EXPRESS_2_CAMPAIGN_TYPE_ID = 51;
 export const EXPRESS_3_CAMPAIGN_TYPE_ID = 52;
+export const EXPRESS_4_CAMPAIGN_TYPE_ID = 66;
 export const BASE_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 export const ZAPIER_WEBHOOK_TRIGGER =
   process.env.REACT_ZAPIER_WEBHOOK ||
@@ -24,6 +25,7 @@ export const EXPRESS_USE_CASES_LIMIT = 5;
 export const EXPRESS_START_DATE_MAX_VALUE = 30;
 export const EXPRESS_BUSINESS_DAYS_TO_ADD = 2;
 export const EXPRESS_3_BUSINESS_DAYS_TO_ADD = 3;
+export const EXPRESS_4_UX_TAGGING_BUSINESS_DAYS_TO_ADD = 5;
 
 export const RELATIVE_DATE_FORMAT_OPTS: {
   [key: string]: { [key: string]: string };

@@ -33,6 +33,7 @@ import {
 import {
   BASE_DATE_FORMAT,
   ZAPIER_WEBHOOK_TRIGGER,
+  EXPRESS_4_CAMPAIGN_TYPE_ID,
   EXPRESS_3_CAMPAIGN_TYPE_ID,
   EXPRESS_2_CAMPAIGN_TYPE_ID,
   EXPRESS_1_CAMPAIGN_TYPE_ID,
@@ -111,6 +112,8 @@ const getValidationSchema = (step: number, steps: StepItem[]) => {
 
 const getExpressCPTypeId = (expressSlug: string) => {
   switch (expressSlug) {
+    case 'ux-tagging':
+      return EXPRESS_4_CAMPAIGN_TYPE_ID;
     case 'unmoderated-usability-testing':
       return EXPRESS_3_CAMPAIGN_TYPE_ID;
     case 'bug-hunting':
