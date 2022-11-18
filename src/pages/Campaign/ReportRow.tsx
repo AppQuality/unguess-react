@@ -4,6 +4,8 @@ import {
   SpecialCard,
   Button,
   theme,
+  XL,
+  Paragraph,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as ArchiveIcon } from 'src/assets/icons/file-icon-archive.svg';
 import { ReactComponent as BoardIcon } from 'src/assets/icons/file-icon-board.svg';
@@ -75,15 +77,30 @@ const getFileTypeIcon = (type: string, url: string) => {
 export const ReportRow = ({
   reports,
   campaign,
+  isFunctional,
 }: {
   reports?: Report[];
   campaign: Campaign;
+  isFunctional?: boolean;
 }) => {
-  const { id: campaignId, customer_title, family } = campaign;
+  const { id: campaignId, customer_title } = campaign;
 
   return (
     <Row>
-      {family.name.toLocaleLowerCase() === 'functional' && (
+      {(reports && reports.length) || isFunctional ? (
+        <Col xs={12}>
+          <XL
+            style={{
+              fontWeight: theme.fontWeights.medium,
+              marginBottom: theme.space.xs,
+            }}
+          >
+            {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
+          </XL>
+          <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
+        </Col>
+      ) : null}
+      {isFunctional && (
         <Col xs={12} md={4} lg={3}>
           <BugsReportCard campaignId={campaignId} title={customer_title} />
         </Col>

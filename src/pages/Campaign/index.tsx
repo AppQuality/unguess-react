@@ -1,12 +1,5 @@
 import { Page } from 'src/features/templates/Page';
-import {
-  Col,
-  Grid,
-  Paragraph,
-  Row,
-  XL,
-  theme,
-} from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
@@ -54,6 +47,9 @@ const Campaign = () => {
     navigate(notFoundRoute);
   }
 
+  const isFunctional =
+    campaign?.family.name.toLocaleLowerCase() === 'functional';
+
   return (
     <Page
       title={(campaign && campaign.customer_title) ?? 'Campaign'}
@@ -79,9 +75,7 @@ const Campaign = () => {
                 campaignId={campaign ? campaign.id : 0}
                 outputs={campaign ? campaign.outputs : []}
                 reports={reports ?? []}
-                isFunctional={
-                  campaign?.family.name.toLocaleLowerCase() === 'functional'
-                }
+                {...(isFunctional && { isFunctional })}
               />
             )}
           </Col>
@@ -96,23 +90,12 @@ const Campaign = () => {
                 </Col>
               </Row>
             )}
-            {reports && reports.length ? (
-              <Col xs={12}>
-                <XL
-                  style={{
-                    fontWeight: theme.fontWeights.medium,
-                    marginBottom: theme.space.xs,
-                  }}
-                >
-                  {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
-                </XL>
-                <Paragraph>
-                  {t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}
-                </Paragraph>
-              </Col>
-            ) : null}
             {reports && campaign && !isLoadingReports && !isFetchingReports ? (
-              <ReportRow reports={reports} campaign={campaign} />
+              <ReportRow
+                reports={reports}
+                campaign={campaign}
+                {...(isFunctional && { isFunctional })}
+              />
             ) : (
               <ReportRowLoading />
             )}
