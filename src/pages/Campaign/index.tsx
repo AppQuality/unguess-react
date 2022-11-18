@@ -18,7 +18,7 @@ import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
-import Navigation from './navigation';
+import { Navigation, NavigationLoading } from './navigation';
 import { UniqueBugs } from './widgets/UniqueBugs';
 import { Progress } from './widgets/Progress';
 
@@ -68,13 +68,24 @@ const Campaign = () => {
     >
       <Grid>
         <Row>
-          <Col xs={12} lg={3}>
-            <Navigation
-              campaignId={campaign ? campaign.id : 0}
-              outputs={campaign ? campaign.outputs : []}
-            />
+          <Col xs={12} md={3}>
+            {isLoadingCampaign ||
+            isFetchingCampaign ||
+            isLoadingReports ||
+            isFetchingReports ? (
+              <NavigationLoading />
+            ) : (
+              <Navigation
+                campaignId={campaign ? campaign.id : 0}
+                outputs={campaign ? campaign.outputs : []}
+                reports={reports ?? []}
+                isFunctional={
+                  campaign?.family.name.toLocaleLowerCase() === 'functional'
+                }
+              />
+            )}
           </Col>
-          <Col md={9}>
+          <Col xs={12} md={9}>
             {campaign?.outputs?.includes('bugs') && (
               <Row>
                 <Col xs={12} md={4}>
