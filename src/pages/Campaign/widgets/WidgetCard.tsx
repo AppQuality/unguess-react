@@ -4,11 +4,11 @@ import {
   IconButton,
   XXL,
   MD,
-  Separator,
   SM,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import React from 'react';
+import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
 
 const StyledSpecialCard = styled(SpecialCard)`
@@ -34,7 +34,7 @@ const WidgetCardHeader = ({
         </IconButton>
       </Tooltip>
     </SpecialCard.Meta>
-    <Separator />
+    <Divider />
   </>
 );
 
