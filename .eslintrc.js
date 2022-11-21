@@ -70,4 +70,12 @@ module.exports = {
     fetch: true,
     HeadersInit: true,
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.mts', '*.cts', '*.tsx'],
+      rules: {
+        'no-undef': 'off',
+      },
+    },
+  ],
 };
