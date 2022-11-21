@@ -21,13 +21,13 @@ const SEVERITY_COLORS: Record<Severities, string> = {
 function translateSeverity(severity: Severities, t: TFunction) {
   switch (severity) {
     case 'critical':
-      return t('__BUG_SEVERITY_CRITICAL');
+      return t('__BUG_SEVERITY_CRITICAL', 'critical');
     case 'high':
-      return t('__BUG_SEVERITY_HIGH');
+      return t('__BUG_SEVERITY_HIGH', 'high');
     case 'medium':
-      return t('__BUG_SEVERITY_MEDIUM');
+      return t('__BUG_SEVERITY_MEDIUM', 'medium');
     case 'low':
-      return t('__BUG_SEVERITY_LOW');
+      return t('__BUG_SEVERITY_LOW', 'low');
     default:
       throw new Error(`Unknown severity ${severity}`);
   }
@@ -104,7 +104,10 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
             )
           }
         >
-          {t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_GOTOLIST_LINK')}
+          {t(
+            '__CAMPAIGN_WIDGET_BUGDISTRIBUTION_GOTOLIST_LINK',
+            'Go to bug list'
+          )}
         </Anchor>
       </WidgetCard.Footer>
     </WidgetCard>
