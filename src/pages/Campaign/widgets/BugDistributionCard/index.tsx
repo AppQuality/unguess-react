@@ -6,10 +6,10 @@ import {
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
+import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { Severities } from './types';
 import { useBugs } from './useBugs';
 import { WidgetCard } from '../WidgetCard';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 
 const SEVERITY_COLORS: Record<Severities, string> = {
   critical: '#800208',
@@ -76,14 +76,20 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
           <span style={{ color: SEVERITY_COLORS[maxSeverity as Severities] }}>
             {`${data.bySeverity[maxSeverity as Severities] || 0} `}
             <XL tag="span" isBold>
-              <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_DESCRIPTION">
+              <Trans
+                i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_LABEL"
+                count={data.bySeverity[maxSeverity as Severities] || 0}
+              >
                 bugs {{ severity: translateSeverity(maxSeverity, t) }}
               </Trans>
             </XL>
           </span>
         }
         footer={
-          <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_DESCRIPTION">
+          <Trans
+            i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL"
+            count={data.total || 0}
+          >
             out of {{ total: data.total || 0 }}
           </Trans>
         }
@@ -92,6 +98,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
         <Anchor
           isExternal
           onClick={() =>
+            // eslint-disable-next-line security/detect-non-literal-fs-filename
             window.open(
               getLocalizedFunctionalDashboardUrl(campaignId, i18n.language)
             )
