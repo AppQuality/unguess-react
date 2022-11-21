@@ -18,6 +18,11 @@ const WidgetCard = ({ children }: { children: React.ReactNode }) => (
   <StyledSpecialCard>{children}</StyledSpecialCard>
 );
 
+const CapitalizeFirstLetter = styled.div`
+  &:first-letter {
+    text-transform: uppercase;
+  }
+`;
 const WidgetCardHeader = ({
   children,
   tooltipContent,
@@ -27,7 +32,9 @@ const WidgetCardHeader = ({
 }) => (
   <>
     <SpecialCard.Meta justifyContent="space-between">
-      <SpecialCard.Header.Title>{children}</SpecialCard.Header.Title>
+      <SpecialCard.Header.Title>
+        <CapitalizeFirstLetter>{children}</CapitalizeFirstLetter>
+      </SpecialCard.Header.Title>
       <Tooltip content={tooltipContent} size="small" type="light">
         <IconButton>
           <InfoStrokeIcon />
