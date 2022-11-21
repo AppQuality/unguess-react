@@ -29,7 +29,10 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
   return (
     <WidgetCard>
       <WidgetCard.Header
-        tooltipContent={t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TOOLTIP')}
+        tooltipContent={t(
+          '__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TOOLTIP',
+          "This widget shows the progress of the campaign's tasks"
+        )}
       >
         {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TITLE', 'Stato avanzamento')}
       </WidgetCard.Header>

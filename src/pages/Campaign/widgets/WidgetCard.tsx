@@ -31,7 +31,7 @@ const WidgetCardHeader = ({
       <SpecialCard.Header.Title color={ugTheme.palette.grey[800]}>
         {children}
       </SpecialCard.Header.Title>
-      <Tooltip content={tooltipContent} size="small" type="light">
+      <Tooltip content={tooltipContent} size="large" type="light">
         <IconButton>
           <InfoStrokeIcon />
         </IconButton>
