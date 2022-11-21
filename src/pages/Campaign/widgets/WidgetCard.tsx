@@ -6,6 +6,7 @@ import {
   MD,
   Separator,
   SM,
+  theme as ugTheme,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import React from 'react';
@@ -27,7 +28,9 @@ const WidgetCardHeader = ({
 }) => (
   <>
     <SpecialCard.Meta justifyContent="space-between">
-      <SpecialCard.Header.Title>{children}</SpecialCard.Header.Title>
+      <SpecialCard.Header.Title color={ugTheme.palette.grey[800]}>
+        {children}
+      </SpecialCard.Header.Title>
       <Tooltip content={tooltipContent}>
         <IconButton>
           <InfoStrokeIcon />
