@@ -1,7 +1,7 @@
 import { CampaignCard } from '@appquality/unguess-design-system';
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CampaignWithOutput as Campaign } from 'src/features/api';
+import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { format } from 'date-fns';
 import { CampaignActionProps } from './types';
@@ -11,7 +11,7 @@ export const CampaignItem = ({
   onCampaignClicked,
   ...props
 }: {
-  campaign: Campaign;
+  campaign: CampaignWithOutput;
   onCampaignClicked: (args: CampaignActionProps) => void;
   size?: number;
 } & HTMLAttributes<HTMLDivElement>) => {
