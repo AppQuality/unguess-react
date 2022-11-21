@@ -45,7 +45,7 @@ export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   let localizedRoute = '';
 
   if (isReactCampaign(outputs)) {
-    localizedRoute = `${
+    localizedRoute = `/${
       currentLang === 'en' ? '' : currentLang
     }/campaigns/${campaignId}`;
   } else if (cpFamily.toLocaleLowerCase() === 'functional') {
