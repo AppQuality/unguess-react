@@ -31,11 +31,11 @@ export const useWidgetData = (
     return today > endDate
       ? t(
           '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_FINISHED',
-          'Durata campagna:'
+          'Campaign duration:'
         )
       : t(
           '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_ACTIVE',
-          'Campagna attiva da:'
+          'Active since:'
         );
   };
 

@@ -37,7 +37,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <SM style={{ marginBottom: theme.space.sm, paddingLeft: 10 }}>
           {t(
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_USECASE_BULLET_TITLE',
-            'Completamento Use Case'
+            'Use Case completion'
           )}
         </SM>
         <BulletChart
@@ -54,7 +54,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         >
           {t(
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_TIME_BULLET_TITLE',
-            'Tempo trascorso'
+            'Time passed'
           )}
         </SM>
         <BulletChart
@@ -76,7 +76,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
           <Paragraph>
             <Trans
               i18nkey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
-              defaults="su <bold>{{expectedDuration}} stimate</bold>"
+              defaults="over <bold>{{expectedDuration}} expected</bold>"
               values={{ expectedDuration: widgetData.expectedDuration }}
               components={{ bold: <MD isBold tag="span" /> }}
             />
