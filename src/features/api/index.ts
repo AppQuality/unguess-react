@@ -78,6 +78,12 @@ const injectedRtkApi = api.injectEndpoints({
         params: { s: queryArg.s },
       }),
     }),
+    getCampaignsByCidMeta: build.query<
+      GetCampaignsByCidMetaApiResponse,
+      GetCampaignsByCidMetaApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/meta` }),
+    }),
     postProjects: build.mutation<PostProjectsApiResponse, PostProjectsApiArg>({
       query: (queryArg) => ({
         url: `/projects`,
@@ -287,12 +293,20 @@ export type GetCampaignsByCidReportsApiArg = {
 };
 export type GetCampaignsByCidWidgetsApiResponse =
   /** status 200 OK */
-  WidgetBugsByUseCase | WidgetBugsByDevice;
+  WidgetBugsByUseCase | WidgetBugsByDevice | WidgetCampaignProgress;
 export type GetCampaignsByCidWidgetsApiArg = {
   /** Campaign id */
   cid: number;
   /** Campaign widget slug */
-  s: 'bugs-by-usecase' | 'bugs-by-device' | 'bugs-by-type';
+  s: 'bugs-by-usecase' | 'bugs-by-device' | 'bugs-by-type' | 'cp-progress';
+};
+export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
+  selected_testers: number;
+  allowed_devices: string[];
+};
+export type GetCampaignsByCidMetaApiArg = {
+  /** Campaign id */
+  cid: number;
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
 export type PostProjectsApiArg = {
@@ -522,7 +536,7 @@ export type CampaignWithOutput = Campaign & {
 export type BugTitle = {
   full: string;
   compact: string;
-  context?: string;
+  context?: string[];
 };
 export type BugStatus = {
   id: number;
@@ -662,6 +676,16 @@ export type WidgetBugsByDevice = {
   })[];
   kind: 'bugsByDevice';
 };
+export type WidgetCampaignProgress = {
+  data: {
+    start_date: string;
+    end_date: string;
+    usecase_completion: 12.5 | 37.5 | 62.5 | 87.5 | 100;
+    time_elapsed: number;
+    expected_duration: number;
+  };
+  kind: 'campaignProgress';
+};
 export type Project = {
   id: number;
   name: string;
@@ -718,6 +742,7 @@ export const {
   useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidWidgetsQuery,
+  useGetCampaignsByCidMetaQuery,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,

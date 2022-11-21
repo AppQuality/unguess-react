@@ -12,11 +12,15 @@ import {
   theme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { CampaignWithOutput as Campaign } from 'src/features/api';
+import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 
-export const TableList = ({ campaigns }: { campaigns: Array<Campaign> }) => {
+export const TableList = ({
+  campaigns,
+}: {
+  campaigns: Array<CampaignWithOutput>;
+}) => {
   const { t } = useTranslation();
 
   const columns = [
