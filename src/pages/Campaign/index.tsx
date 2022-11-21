@@ -13,6 +13,7 @@ import { ReportRow } from './ReportRow';
 import { Navigation, NavigationLoading } from './navigation';
 import { UniqueBugs } from './widgets/UniqueBugs';
 import { Progress } from './widgets/progress/Progress';
+import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 
 const Campaign = () => {
@@ -88,10 +89,17 @@ const Campaign = () => {
                 {campaign?.outputs?.includes('bugs') && (
                   <Row>
                     <Col xs={12} md={4}>
-                      <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+                      <Progress campaign={campaign} />
                     </Col>
                     <Col xs={12} md={4}>
-                      <Progress campaign={campaign} />
+                      <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+                    </Col>
+                    <Col xs={12} md={4} lg={4}>
+                      {isFetchingCampaign ? undefined : (
+                        <BugDistributionCard
+                          campaignId={campaign ? campaign.id : 0}
+                        />
+                      )}
                     </Col>
                   </Row>
                 )}
