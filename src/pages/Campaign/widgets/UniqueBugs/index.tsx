@@ -42,10 +42,12 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
         header={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY')}
         content={
           <Span style={{ color: globalTheme.palette.blue[600] }}>
-            {uniqueBugs}{' '}
-            <XL tag="span" isBold>
-              {t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_COUNT_LABEL')}
-            </XL>
+            <Trans
+              count={uniqueBugs}
+              i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_COUNT_LABEL"
+              components={{ bold: <XL isBold tag="span" /> }}
+              defaults="{{count}} <bold>unique bug</bold>"
+            />
           </Span>
         }
         footer={
