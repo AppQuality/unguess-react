@@ -37,7 +37,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TITLE', 'Stato avanzamento')}
       </WidgetCard.Header>
       <div style={{ marginBottom: theme.space.lg, marginTop: theme.space.lg }}>
-        <SM style={{ marginBottom: theme.space.sm, paddingLeft: 10 }}>
+        <SM style={{ marginBottom: theme.space.sm }}>
           {t(
             '__CAMPAIGN_PAGE_WIDGET_PROGRESS_USECASE_BULLET_TITLE',
             'Use Case completion'
@@ -46,14 +46,13 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <BulletChart
           ranges={[25, 50, 75, 100]}
           values={[widgetData.raw.usecase_completion]}
-          height="20px"
+          height="15px"
           width="60%"
         />
         <SM
           style={{
             marginBottom: theme.space.sm,
             marginTop: theme.space.md,
-            paddingLeft: 10,
           }}
         >
           {t(
@@ -64,7 +63,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <BulletChart
           ranges={[25, 50, 75, 100]}
           values={[widgetData.elapsedTimePercentage]}
-          height="20px"
+          height="15px"
           width="60%"
         />
       </div>
