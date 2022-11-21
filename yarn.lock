@@ -42,10 +42,10 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/unguess-design-system@2.12.33":
-  version "2.12.33"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.33.tgz#2002a5830b91163979171aa97e9161c499bb1cd2"
-  integrity sha512-EjUNnUtX9e7PIMAYGL/e+9eoLeV6VqF/FkAz9LJRSQgQ7ANLZ67mnLr8B6pHX0sZexm34rOqtCUA2tR6CzVdHg==
+"@appquality/unguess-design-system@2.12.35":
+  version "2.12.35"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.35.tgz#428c7cdb6b5ee3bc423c0d7f157478bd494e276a"
+  integrity sha512-KH0uURIZ7pGM7kPttyMc/cEV2Fmj6uRl6c278rtnbMaR/sqrleMr7jYqWzaupNjh+Wb3Q6Q0CsAVtjUmUX/UVA==
   dependencies:
     "@nivo/bar" "^0.80.0"
     "@nivo/bullet" "^0.80.0"
@@ -54,6 +54,7 @@
     "@nivo/pie" "^0.80.0"
     "@nivo/stream" "^0.80.0"
     "@nivo/sunburst" "^0.80.0"
+    "@nivo/tooltip" "^0.80.0"
     "@nivo/waffle" "^0.80.0"
     "@tiptap/extension-bubble-menu" "^2.0.0-beta.61"
     "@tiptap/extension-character-count" "^2.0.0-beta.31"
@@ -1776,7 +1777,7 @@
     d3-hierarchy "^1.1.8"
     lodash "^4.17.21"
 
-"@nivo/tooltip@0.80.0":
+"@nivo/tooltip@0.80.0", "@nivo/tooltip@^0.80.0":
   version "0.80.0"
   resolved "https://registry.yarnpkg.com/@nivo/tooltip/-/tooltip-0.80.0.tgz#07ebef47eb708a0612bd6297d5ad156bbec19d34"
   integrity sha512-qGmrreRwnCsYjn/LAuwBtxBn/tvG8y+rwgd4gkANLBAoXd3bzJyvmkSe+QJPhUG64bq57ibDK+lO2pC48a3/fw==
