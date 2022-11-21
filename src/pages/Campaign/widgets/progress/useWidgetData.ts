@@ -1,4 +1,3 @@
-import { count } from 'console';
 import { TFunction } from 'i18next';
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
