@@ -47,6 +47,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
           ranges={[25, 50, 75, 100]}
           values={[widgetData.raw.usecase_completion]}
           height="20px"
+          width="60%"
         />
         <SM
           style={{
@@ -64,6 +65,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
           ranges={[25, 50, 75, 100]}
           values={[widgetData.elapsedTimePercentage]}
           height="20px"
+          width="60%"
         />
       </div>
       <WidgetCard.Description
