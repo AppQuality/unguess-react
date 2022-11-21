@@ -44,11 +44,6 @@ export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   const currentLang = i18n.language || 'en';
   let localizedRoute = '';
 
-  if (campaignId === 4106) {
-    // eslint-disable-next-line no-debugger
-    debugger;
-  }
-
   if (isReactCampaign(outputs)) {
     localizedRoute = `${
       currentLang === 'en' ? '' : `/${currentLang}`
