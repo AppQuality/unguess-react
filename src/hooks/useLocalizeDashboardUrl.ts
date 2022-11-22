@@ -30,11 +30,11 @@ export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
 
   const currentLang = i18n.language || 'en';
 
-  if (outputs.some((o) => o === 'media')) {
-    return getLocalizedUXDashboardUrl(campaignId, currentLang);
+  if (outputs.length === 0 || outputs.some((o) => o === 'bugs')) {
+    return `${
+      currentLang === 'en' ? '' : `/${currentLang}`
+    }/campaigns/${campaignId}/`;
   }
 
-  return `${
-    currentLang === 'en' ? '' : `/${currentLang}`
-  }/campaigns/${campaignId}/`;
+  return getLocalizedUXDashboardUrl(campaignId, currentLang);
 }
