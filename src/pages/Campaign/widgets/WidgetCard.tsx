@@ -33,9 +33,9 @@ const WidgetCardHeader = ({
 }) => (
   <>
     <SpecialCard.Meta justifyContent="space-between">
-      <SpecialCard.Header.Title color={ugTheme.palette.grey[800]}>
+      <MD style={{ color: ugTheme.palette.grey[800] }}>
         <CapitalizeFirstLetter>{children}</CapitalizeFirstLetter>
-      </SpecialCard.Header.Title>
+      </MD>
       <Tooltip content={tooltipContent} size="large" type="light">
         <IconButton size="small">
           <InfoStrokeIcon />
