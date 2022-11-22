@@ -4,8 +4,6 @@ import {
   SpecialCard,
   Button,
   theme,
-  XL,
-  Paragraph,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as ArchiveIcon } from 'src/assets/icons/file-icon-archive.svg';
 import { ReactComponent as BoardIcon } from 'src/assets/icons/file-icon-board.svg';

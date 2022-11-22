@@ -1,12 +1,5 @@
 import { Page } from 'src/features/templates/Page';
-import {
-  Col,
-  Grid,
-  Paragraph,
-  Row,
-  theme,
-  XL,
-} from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
