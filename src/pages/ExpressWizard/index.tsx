@@ -330,7 +330,7 @@ export const ExpressWizardContainer = () => {
         await createPages(cp.id);
         await createCrons(cp.id);
         await createTasks(cp.id);
-        return [cp];
+        return null;
       } catch (error) {
         return null; // Skip error handling
       }
@@ -354,6 +354,8 @@ export const ExpressWizardContainer = () => {
             content: JSON.stringify(err),
           });
         } else {
+          // eslint-disable-next-line no-console
+          console.log('done');
           onNext();
         }
       }
