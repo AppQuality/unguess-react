@@ -7,6 +7,7 @@ import {
   theme,
   ModalFullScreen,
   Logo,
+  theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
@@ -37,7 +38,9 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
 
   return (
     <>
-      <ModalFullScreen.Header>
+      <ModalFullScreen.Header
+        style={{ backgroundColor: globalTheme.palette.white }}
+      >
         {width > parseInt(theme.breakpoints.sm, 10) ? (
           <Container>
             <Logo

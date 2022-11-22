@@ -33,6 +33,7 @@ import {
 import {
   BASE_DATE_FORMAT,
   ZAPIER_WEBHOOK_TRIGGER,
+  EXPRESS_4_CAMPAIGN_TYPE_ID,
   EXPRESS_3_CAMPAIGN_TYPE_ID,
   EXPRESS_2_CAMPAIGN_TYPE_ID,
   EXPRESS_1_CAMPAIGN_TYPE_ID,
@@ -111,6 +112,8 @@ const getValidationSchema = (step: number, steps: StepItem[]) => {
 
 const getExpressCPTypeId = (expressSlug: string) => {
   switch (expressSlug) {
+    case 'ux-tagging':
+      return EXPRESS_4_CAMPAIGN_TYPE_ID;
     case 'unmoderated-usability-testing':
       return EXPRESS_3_CAMPAIGN_TYPE_ID;
     case 'bug-hunting':
@@ -317,19 +320,19 @@ export const ExpressWizardContainer = () => {
     };
 
     // eslint-disable-next-line consistent-return
-    const wordpressHandle = async (cp: Campaign) => {
+    const wordpressHandle = (cp: Campaign, next: any) => {
       try {
         // Post on webhook WordPress axios call
         if (!values.use_cases) {
-          await createUseCases(cp.id);
+          createUseCases(cp.id);
         }
 
-        await createPages(cp.id);
-        await createCrons(cp.id);
-        await createTasks(cp.id);
-        return [cp];
+        createPages(cp.id);
+        createCrons(cp.id);
+        createTasks(cp.id);
+        return next(null);
       } catch (error) {
-        return null; // Skip error handling
+        return next(null); // Skip error handling
       }
     };
 
@@ -351,6 +354,8 @@ export const ExpressWizardContainer = () => {
             content: JSON.stringify(err),
           });
         } else {
+          // eslint-disable-next-line no-console
+          console.log('done');
           onNext();
         }
       }
