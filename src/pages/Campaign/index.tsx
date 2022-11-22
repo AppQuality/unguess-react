@@ -12,6 +12,7 @@ import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
 import { Navigation, NavigationLoading } from './navigation';
 import { UniqueBugs } from './widgets/UniqueBugs';
+import { Progress } from './widgets/progress/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 
@@ -87,6 +88,9 @@ const Campaign = () => {
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
                   <Row>
+                    <Col xs={12} md={4}>
+                      <Progress campaign={campaign} />
+                    </Col>
                     <Col xs={12} md={4}>
                       <UniqueBugs campaignId={campaign ? campaign.id : 0} />
                     </Col>

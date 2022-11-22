@@ -5,6 +5,7 @@ import {
   XXL,
   MD,
   SM,
+  theme as ugTheme,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import React from 'react';
@@ -32,10 +33,10 @@ const WidgetCardHeader = ({
 }) => (
   <>
     <SpecialCard.Meta justifyContent="space-between">
-      <SpecialCard.Header.Title>
+      <SpecialCard.Header.Title color={ugTheme.palette.grey[800]}>
         <CapitalizeFirstLetter>{children}</CapitalizeFirstLetter>
       </SpecialCard.Header.Title>
-      <Tooltip content={tooltipContent} size="small" type="light">
+      <Tooltip content={tooltipContent} size="large" type="light">
         <IconButton>
           <InfoStrokeIcon />
         </IconButton>
@@ -50,7 +51,7 @@ const WidgetCardFooter = ({ children }: { children: React.ReactNode }) => (
 );
 
 const WidgetCardDescriptionHeader = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[500]};
+  color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
 const WidgetCardDescriptionContent = styled(XXL)`
