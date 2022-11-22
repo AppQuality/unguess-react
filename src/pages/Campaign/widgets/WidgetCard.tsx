@@ -2,7 +2,7 @@ import {
   SpecialCard,
   Tooltip,
   IconButton,
-  XXL,
+  XXXL,
   MD,
   SM,
   theme as ugTheme,
@@ -54,7 +54,7 @@ const WidgetCardDescriptionHeader = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
-const WidgetCardDescriptionContent = styled(XXL)`
+const WidgetCardDescriptionContent = styled(XXXL)`
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
 `;

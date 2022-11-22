@@ -9,9 +9,16 @@ export const useWidgetData = (
   function getFormattedTime(time: number) {
     const hours = Math.round(time / (1000 * 60 * 60));
     const days = Math.round(time / (1000 * 60 * 60 * 24));
-    return hours <= 72
-      ? `${hours} ${t('hours', { count: hours })}`
-      : `${days} ${t('days', { count: days })}`;
+    if (hours <= 72) {
+      return {
+        value: hours,
+        unit: t('hours', { count: hours }),
+      };
+    }
+    return {
+      value: days,
+      unit: t('days', { count: days }),
+    };
   }
   function getFormattedStartDate(start_date: string, end_date: string) {
     const options: Intl.DateTimeFormatOptions = {
@@ -55,9 +62,10 @@ export const useWidgetData = (
     });
 
   if (data?.kind === 'campaignProgress') {
+    const expectedDuration = getFormattedTime(data.data.expected_duration);
     widgetData = {
       raw: data.data,
-      expectedDuration: getFormattedTime(data.data.expected_duration),
+      expectedDuration: `${expectedDuration.value} ${expectedDuration.unit}`,
       timeElapsed: getFormattedTime(data.data.time_elapsed),
       startDate: getFormattedStartDate(
         data.data.start_date,
