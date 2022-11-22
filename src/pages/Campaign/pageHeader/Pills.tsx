@@ -18,6 +18,8 @@ import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-sma
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
+import { ReactComponent as IncomingIcon } from 'src/assets/icons/pill-icon-incoming.svg';
+import { ReactComponent as CompletedIcon } from 'src/assets/icons/pill-icon-completed.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
 import { format } from 'date-fns';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
@@ -76,6 +78,36 @@ export const Pills: FC<{ campaign: CampaignWithOutput }> = ({ campaign }) => {
       : format(startDate, 'dd/MM/yyyy');
   const formattedEndDate = format(endDate, 'dd/MM/yyyy');
 
+  function renderStatusPill(statusName: string) {
+    switch (statusName) {
+      case 'incoming':
+        return (
+          <Pill
+            icon={<IncomingIcon />}
+            title={capitalizeFirstLetter(statusName)}
+            color={globalTheme.palette.azure[600]}
+          />
+        );
+      case 'completed':
+        return (
+          <Pill
+            icon={<CompletedIcon />}
+            title={capitalizeFirstLetter(statusName)}
+            color={globalTheme.palette.green[800]}
+          />
+        );
+      case 'running':
+      default:
+        return (
+          <Pill
+            icon={<ProgressIcon />}
+            title={capitalizeFirstLetter(statusName)}
+            color={globalTheme.palette.yellow[700]}
+          />
+        );
+    }
+  }
+
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
   return (
     <FooterContainer>
@@ -85,11 +117,7 @@ export const Pills: FC<{ campaign: CampaignWithOutput }> = ({ campaign }) => {
           title={type.name}
           color={globalTheme.palette.blue[600]}
         />
-        <Pill
-          icon={<ProgressIcon />}
-          title={capitalizeFirstLetter(status.name)}
-          color={globalTheme.palette.yellow[700]}
-        />
+        {renderStatusPill(status.name)}
         <Pill
           icon={<ClockIcon />}
           title={t('__CAMPAIGN_PAGE_INFO_HEADER_TEST_TIMING')}
