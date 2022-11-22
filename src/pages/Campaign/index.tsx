@@ -1,11 +1,19 @@
 import { Page } from 'src/features/templates/Page';
-import { Col, Grid, Row } from '@appquality/unguess-design-system';
+import {
+  Col,
+  Grid,
+  Paragraph,
+  Row,
+  theme,
+  XL,
+} from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
+import { useTranslation } from 'react-i18next';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
@@ -15,11 +23,13 @@ import { UniqueBugs } from './widgets/UniqueBugs';
 import { Progress } from './widgets/progress/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
+import { SectionTitle } from './SectionTitle';
 
 const Campaign = () => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const { campaignId } = useParams();
+  const { t } = useTranslation();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute);
@@ -88,6 +98,12 @@ const Campaign = () => {
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
                   <Row>
+                    <Col xs={12}>
+                      <SectionTitle
+                        title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
+                        subtitle={t('__CAMPAIGN_PAGE_WIDGET_DESCRIPTION')}
+                      />
+                    </Col>
                     <Col xs={12} md={4}>
                       <Progress campaign={campaign} />
                     </Col>

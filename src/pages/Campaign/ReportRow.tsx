@@ -21,6 +21,7 @@ import { Campaign, Report } from 'src/features/api';
 import { format } from 'date-fns';
 import { t } from 'i18next';
 import { BugsReportCard } from 'src/common/components/BugsReportCard';
+import { SectionTitle } from './SectionTitle';
 
 const getFileTypeName = (type: string, url: string) => {
   const urlHostname = new URL(url).hostname;
@@ -89,15 +90,10 @@ export const ReportRow = ({
     <Row>
       {(reports && reports.length) || isFunctional ? (
         <Col xs={12}>
-          <XL
-            style={{
-              fontWeight: theme.fontWeights.medium,
-              marginBottom: theme.space.xs,
-            }}
-          >
-            {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
-          </XL>
-          <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
+          <SectionTitle
+            title={t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
+            subtitle={t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}
+          />
         </Col>
       ) : null}
       {isFunctional && (
