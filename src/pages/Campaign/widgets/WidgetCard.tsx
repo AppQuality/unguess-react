@@ -37,7 +37,7 @@ const WidgetCardHeader = ({
         <CapitalizeFirstLetter>{children}</CapitalizeFirstLetter>
       </SpecialCard.Header.Title>
       <Tooltip content={tooltipContent} size="large" type="light">
-        <IconButton>
+        <IconButton size="small">
           <InfoStrokeIcon />
         </IconButton>
       </Tooltip>
