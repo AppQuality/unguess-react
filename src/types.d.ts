@@ -23,4 +23,8 @@ declare global {
   type ApiComponents = components;
   type SupportedLanguages = 'it' | 'en';
   type OrderType = 'DESC' | 'ASC';
+  type PartialRecord<K extends keyof any, T> = {
+    [P in K]?: T;
+  };
+  type Severities = 'critical' | 'high' | 'medium' | 'low';
 }
