@@ -4,7 +4,6 @@ import {
   theme as globalTheme,
   Skeleton,
 } from '@appquality/unguess-design-system';
-import { FC } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import styled from 'styled-components';
 import {
@@ -59,7 +58,7 @@ function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export const Pills: FC<{ campaign: CampaignWithOutput }> = ({ campaign }) => {
+export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const {
     data: meta,
     isLoading,
