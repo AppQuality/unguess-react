@@ -3,7 +3,7 @@ import {
   Tag,
   theme as globalTheme,
 } from '@appquality/unguess-design-system';
-import { FC, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const StyledTag = styled(Tag)`
@@ -26,12 +26,19 @@ const PillContainer = styled.div`
   margin-right: ${({ theme }) => theme.space.xs};
 `;
 
-export const Pill: FC<{
+export const Pill = ({
+  background,
+  color,
+  icon,
+  title,
+  children,
+}: {
   title: string;
   background?: string;
   color?: string;
   icon?: ReactNode;
-}> = ({ background, color, icon, title, children }) => (
+  children?: ReactNode;
+}) => (
   <PillContainer>
     <StyledTag isPill hue={background ?? 'white'} size="large">
       {icon && <StyledAvatar>{icon}</StyledAvatar>}
