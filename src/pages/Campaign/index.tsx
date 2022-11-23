@@ -92,10 +92,7 @@ const Campaign = () => {
                 {campaign?.outputs?.includes('bugs') && (
                   <Row>
                     <Col xs={12}>
-                      <SectionTitle
-                        title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
-                        subtitle={t('__CAMPAIGN_PAGE_WIDGET_DESCRIPTION')}
-                      />
+                      <SectionTitle title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')} />
                     </Col>
                     <Col xs={12} md={4}>
                       <Progress campaign={campaign} />

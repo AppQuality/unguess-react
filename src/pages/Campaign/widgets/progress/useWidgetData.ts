@@ -8,12 +8,12 @@ export const useWidgetData = (cid: number, t: TFunction) => {
     if (hours <= 72) {
       return {
         value: hours,
-        unit: t('hours', { count: hours }),
+        unit: t('__APP_HOURS_LABEL', { count: hours }),
       };
     }
     return {
       value: days,
-      unit: t('days', { count: days }),
+      unit: t('__APP_DAYS_LABEL', { count: days }),
     };
   }
   function getFormattedStartDate(start_date: string, end_date: string) {

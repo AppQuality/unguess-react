@@ -85,14 +85,15 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         footer={
           widgetData.expectedDuration ? (
             <Paragraph>
-              <Trans
-                i18nkey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
-                defaults="over <bold>{{expectedDuration}} expected</bold>"
-                values={{
-                  expectedDuration: `${widgetData.expectedDuration.value} ${widgetData.expectedDuration.unit}`,
-                }}
-                components={{ bold: <MD isBold tag="span" /> }}
-              />
+              <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER">
+                over{' '}
+                <MD isBold tag="span">
+                  {{
+                    expectedDuration: `${widgetData.expectedDuration.value} ${widgetData.expectedDuration.unit}`,
+                  }}{' '}
+                  expected
+                </MD>
+              </Trans>
             </Paragraph>
           ) : null
         }
