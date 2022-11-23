@@ -14,6 +14,7 @@ const tagManagerArgs: TagManagerArgs = {
   events: {
     unguess_loaded: 'unguess_loaded',
     workspace_change: 'workspace_change',
+    generic_error: 'generic_error',
   },
 };
 TagManager.initialize(tagManagerArgs);

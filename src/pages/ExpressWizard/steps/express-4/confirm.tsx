@@ -10,7 +10,7 @@ import {
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { EXPRESS_3_BUSINESS_DAYS_TO_ADD } from 'src/constants';
+import { EXPRESS_4_UX_TAGGING_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WhereConfirm } from './confirm/whereConfirm';
@@ -40,7 +40,10 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
 
   useEffect(() => {
     // This XPS require more time to be completed, so we update the default duration value
-    setFieldValue('base_cp_duration', EXPRESS_3_BUSINESS_DAYS_TO_ADD);
+    setFieldValue(
+      'base_cp_duration',
+      EXPRESS_4_UX_TAGGING_BUSINESS_DAYS_TO_ADD
+    );
   }, []);
 
   const hasWhereStep = values.link || values.iOSLink || values.androidLink;

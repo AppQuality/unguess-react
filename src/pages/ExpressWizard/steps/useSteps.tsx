@@ -23,6 +23,14 @@ import {
   Confirmation as ConfirmationExpress3,
 } from './express-3';
 
+import {
+  What as WhatExpress4,
+  Who as WhoExpress4,
+  Where as WhereExpress4,
+  How as HowExpress4,
+  Confirmation as ConfirmationExpress4,
+} from './express-4';
+
 import { WizardButtonsProps } from './types';
 import { WizardModel } from '../wizardModel';
 
@@ -37,6 +45,14 @@ export interface StepItem {
 
 export const useExpressStep = (type: string): Array<StepItem> => {
   switch (type) {
+    case 'ux-tagging':
+      return [
+        WhatExpress4,
+        WhereExpress4,
+        WhoExpress4,
+        HowExpress4,
+        ConfirmationExpress4,
+      ];
     case 'unmoderated-usability-testing':
       return [
         WhatExpress3,
