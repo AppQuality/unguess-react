@@ -13,7 +13,7 @@ import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
 import { Navigation, NavigationLoading } from './navigation';
 import { UniqueBugs } from './widgets/UniqueBugs';
-import { Progress } from './widgets/progress/Progress';
+import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
