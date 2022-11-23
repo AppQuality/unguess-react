@@ -1,11 +1,7 @@
 import { TFunction } from 'i18next';
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
-export const useWidgetData = (
-  cid: number,
-  t: TFunction,
-  currentLanguage: string
-) => {
+export const useWidgetData = (cid: number, t: TFunction) => {
   function getFormattedTime(time: number) {
     const hours = Math.round(time / (1000 * 60 * 60));
     const days = Math.round(time / (1000 * 60 * 60 * 24));

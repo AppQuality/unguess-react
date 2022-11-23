@@ -22,12 +22,8 @@ const ChartContainer = styled.div`
 
 export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const height = '140px';
-  const { t, i18n } = useTranslation();
-  const { widgetData, isLoading } = useWidgetData(
-    campaign.id,
-    t,
-    i18n.language
-  );
+  const { t } = useTranslation();
+  const { widgetData, isLoading } = useWidgetData(campaign.id, t);
 
   if (isLoading || !widgetData) {
     return <Skeleton />;
