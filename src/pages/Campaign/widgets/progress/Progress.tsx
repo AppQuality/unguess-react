@@ -80,21 +80,25 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         header={widgetData.durationLabel}
         content={
           <div style={{ color: theme.palette.blue['600'] }}>
-            {widgetData.timeElapsed.value}{' '}
+            {widgetData.duration.value}{' '}
             <XL tag="span" isBold>
-              {widgetData.timeElapsed.unit}
+              {widgetData.duration.unit}
             </XL>
           </div>
         }
         footer={
-          <Paragraph>
-            <Trans
-              i18nkey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
-              defaults="over <bold>{{expectedDuration}} expected</bold>"
-              values={{ expectedDuration: widgetData.expectedDuration }}
-              components={{ bold: <MD isBold tag="span" /> }}
-            />
-          </Paragraph>
+          widgetData.expectedDuration ? (
+            <Paragraph>
+              <Trans
+                i18nkey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
+                defaults="over <bold>{{expectedDuration}} expected</bold>"
+                values={{
+                  expectedDuration: `${widgetData.expectedDuration.value} ${widgetData.expectedDuration.unit}`,
+                }}
+                components={{ bold: <MD isBold tag="span" /> }}
+              />
+            </Paragraph>
+          ) : null
         }
       />
       <WidgetCard.Footer>

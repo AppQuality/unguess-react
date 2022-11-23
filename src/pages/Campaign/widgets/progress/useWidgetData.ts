@@ -32,18 +32,20 @@ export const useWidgetData = (
     }
     return new Date(start_date).toLocaleDateString('it', options);
   }
+
+  const isClosed = (end_date: string) => new Date(end_date) < new Date();
+
   const getCampaignDurationLabel = (end_date: string) => {
-    const endDate = new Date(end_date);
-    const today = new Date();
-    return today > endDate
-      ? t(
-          '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_FINISHED',
-          'Campaign duration:'
-        )
-      : t(
-          '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_ACTIVE',
-          'Active since:'
-        );
+    if (isClosed(end_date)) {
+      return t(
+        '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_FINISHED',
+        'Campaign duration:'
+      );
+    }
+    return t(
+      '__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_HEADER_ACTIVE',
+      'Active since:'
+    );
   };
 
   function getElapsedTimePercentage(
@@ -62,11 +64,14 @@ export const useWidgetData = (
     });
 
   if (data?.kind === 'campaignProgress') {
-    const expectedDuration = getFormattedTime(data.data.expected_duration);
     widgetData = {
       raw: data.data,
-      expectedDuration: `${expectedDuration.value} ${expectedDuration.unit}`,
-      timeElapsed: getFormattedTime(data.data.time_elapsed),
+      duration: isClosed(data.data.end_date)
+        ? getFormattedTime(data.data.expected_duration)
+        : getFormattedTime(data.data.time_elapsed),
+      expectedDuration: isClosed(data.data.end_date)
+        ? (false as const)
+        : getFormattedTime(data.data.expected_duration),
       startDate: getFormattedStartDate(
         data.data.start_date,
         data.data.end_date
