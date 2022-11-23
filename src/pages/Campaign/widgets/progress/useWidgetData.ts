@@ -30,7 +30,7 @@ export const useWidgetData = (
     ) {
       options.year = 'numeric';
     }
-    return new Date(start_date).toLocaleDateString(currentLanguage, options);
+    return new Date(start_date).toLocaleDateString('it', options);
   }
   const getCampaignDurationLabel = (end_date: string) => {
     const endDate = new Date(end_date);
@@ -71,10 +71,11 @@ export const useWidgetData = (
         data.data.start_date,
         data.data.end_date
       ),
-      endDate: new Date(data.data.end_date).toLocaleDateString(
-        currentLanguage,
-        { month: 'numeric', day: 'numeric', year: 'numeric' }
-      ),
+      endDate: new Date(data.data.end_date).toLocaleDateString('it', {
+        month: 'numeric',
+        day: 'numeric',
+        year: 'numeric',
+      }),
       durationLabel: getCampaignDurationLabel(data.data.end_date),
       elapsedTimePercentage: getElapsedTimePercentage(
         data.data.time_elapsed,
