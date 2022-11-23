@@ -1,5 +1,4 @@
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
-import { Severities } from './types';
 
 const useBugs = (cid: number) => {
   const { data, isLoading } = useGetCampaignsByCidBugsQuery({

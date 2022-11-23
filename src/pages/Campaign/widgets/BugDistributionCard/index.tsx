@@ -7,16 +7,9 @@ import {
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import { Severities } from './types';
+import { SEVERITY_COLORS } from 'src/constants';
 import { useBugs } from './useBugs';
 import { WidgetCard } from '../WidgetCard';
-
-const SEVERITY_COLORS: Record<Severities, string> = {
-  critical: '#800208',
-  high: '#c78430',
-  medium: '#024780',
-  low: '#02807a',
-};
 
 function translateSeverity(severity: Severities, t: TFunction) {
   switch (severity) {
@@ -113,4 +106,5 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
     </WidgetCard>
   );
 };
+
 export default BugDistributionCard;
