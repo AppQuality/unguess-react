@@ -7,7 +7,8 @@ import {
   SM,
   theme as ugTheme,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
+import { ReactComponent as LineGraphIcon } from '@zendeskgarden/svg-icons/src/16/line-graph-stroke.svg';
+import { ReactComponent as ListBulletIcon } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg';
 import React from 'react';
 import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
@@ -38,10 +39,10 @@ const WidgetCardHeader = ({
       </MD>
       <div>
         <IconButton size="small">
-          <InfoStrokeIcon />
+          <LineGraphIcon />
         </IconButton>
         <IconButton size="small">
-          <InfoStrokeIcon />
+          <ListBulletIcon />
         </IconButton>
       </div>
     </SpecialCard.Meta>
@@ -53,39 +54,30 @@ const WidgetCardFooter = ({ children }: { children: React.ReactNode }) => (
   <SpecialCard.Footer>{children}</SpecialCard.Footer>
 );
 
-const WidgetCardDescriptionHeader = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-`;
-
-const WidgetCardDescriptionContent = styled(XXXL)`
+const WidgetCardFaceContent = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
+  display: none;
+    &.visible {
+      display: block;
+    }
+  }
 `;
 
-const WidgetCardDescriptionFooter = styled(MD)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-  color: ${({ theme }) => theme.palette.blue[600]};
-`;
-
-const WidgetCardDescription = ({
-  header,
-  content,
-  footer,
+const WidgetCardBody = ({
+  front,
+  back,
 }: {
-  header: React.ReactNode;
-  content: React.ReactNode;
-  footer: React.ReactNode;
+  front: React.ReactNode;
+  back: React.ReactNode;
 }) => (
   <div>
-    <WidgetCardDescriptionHeader>{header}</WidgetCardDescriptionHeader>
-    <WidgetCardDescriptionContent isBold>
-      {content}
-    </WidgetCardDescriptionContent>
-    <WidgetCardDescriptionFooter>{footer}</WidgetCardDescriptionFooter>
+    <WidgetCardFaceContent className="visible">{front}</WidgetCardFaceContent>
+    <WidgetCardFaceContent>{back}</WidgetCardFaceContent>
   </div>
 );
 
 FlippableCard.Header = WidgetCardHeader;
 FlippableCard.Footer = WidgetCardFooter;
-FlippableCard.Description = WidgetCardDescription;
+FlippableCard.Body = WidgetCardBody;
 export { FlippableCard };
