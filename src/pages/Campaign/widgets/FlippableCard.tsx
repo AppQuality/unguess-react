@@ -58,11 +58,23 @@ const FlippableCard = ({ children }: { children?: React.ReactNode }) => {
   return <StyledSpecialCard>{cardChildren}</StyledSpecialCard>;
 };
 
-const CapitalizeFirstLetter = styled.div`
+const CapitalizeFirstLetter = styled.span`
   &:first-letter {
     text-transform: uppercase;
   }
 `;
+
+const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
+  background-color: ${(p) =>
+    p.isActive ? p.theme.palette.blue[600] : 'transparent'};
+  &:hover {
+    background-color: ${(p) =>
+      p.isActive ? p.theme.palette.blue[600] : p.theme.palette.grey[100]};
+  }
+  transition: background-color 0.25s ease-in-out;
+  margin-left: ${(p) => p.theme.space.xs};
+`;
+
 const WidgetCardHeader = ({
   children,
   setVisibleFace,
@@ -79,36 +91,26 @@ const WidgetCardHeader = ({
       </MD>
       {setVisibleFace && (
         <div>
-          <IconButton
+          <FlipButton
+            isActive={visibleFace === 'front'}
             size="small"
-            style={{
-              backgroundColor:
-                visibleFace === 'front'
-                  ? ugTheme.palette.blue[600]
-                  : 'transparent',
-            }}
             onClick={() => setVisibleFace('front')}
           >
             <>
               {visibleFace === 'front' && <LineGraphIconFill color="white" />}
               {visibleFace === 'back' && <LineGraphIconStroke />}
             </>
-          </IconButton>
-          <IconButton
+          </FlipButton>
+          <FlipButton
             size="small"
-            style={{
-              backgroundColor:
-                visibleFace === 'back'
-                  ? ugTheme.colors.primaryHue
-                  : 'transparent',
-            }}
+            isActive={visibleFace === 'back'}
             onClick={() => setVisibleFace('back')}
           >
             <>
               {visibleFace === 'front' && <ListBulletIconStroke />}
               {visibleFace === 'back' && <ListBulletIconFill color="white" />}
             </>
-          </IconButton>
+          </FlipButton>
         </div>
       )}
     </SpecialCard.Meta>
