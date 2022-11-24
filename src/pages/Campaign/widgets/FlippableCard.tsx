@@ -4,11 +4,12 @@ import {
   MD,
   theme as ugTheme,
 } from '@appquality/unguess-design-system';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { ReactComponent as LineGraphIconStroke } from '@zendeskgarden/svg-icons/src/16/line-graph-stroke.svg';
 import { ReactComponent as LineGraphIconFill } from '@zendeskgarden/svg-icons/src/16/line-graph-fill.svg';
 import { ReactComponent as ListBulletIconStroke } from '@zendeskgarden/svg-icons/src/16/list-bullet-stroke.svg';
 import { ReactComponent as ListBulletIconFill } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg';
-import React, { Children, FC } from 'react';
+import React, { useRef } from 'react';
 import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
 
@@ -125,10 +126,28 @@ const WidgetCardFooter = ({ children }: { children: React.ReactNode }) => (
 const WidgetCardFaceContent = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
-  display: none;
-    &.visible {
-      display: block;
-    }
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+
+  &.face-enter {
+    opacity: 0;
+  }
+  &.face-enter-active,
+  &.face-enter-done {
+    opacity: 1;
+    transition: opacity 500ms;
+  }
+  &.face-exit {
+    opacity: 1;
+  }
+  &.face-exit-active,
+  &.face-exit-done {
+    opacity: 0;
+    transition: opacity 500ms;
   }
 `;
 
@@ -136,24 +155,40 @@ const WidgetCardBody = ({
   front,
   back,
   visibleFace,
+  height,
 }: {
   front: React.ReactNode;
   back: React.ReactNode;
+  height?: string;
   visibleFace?: FaceType;
-}) => (
-  <div>
-    <WidgetCardFaceContent
-      className={`${visibleFace === 'front' ? 'visible' : ''}`}
+}) => {
+  const frontRef = useRef(null);
+  const backRef = useRef(null);
+  return (
+    <div
+      style={{
+        position: 'relative',
+        height: `${height || 'auto'}`,
+        width: '100%',
+      }}
     >
-      {front}
-    </WidgetCardFaceContent>
-    <WidgetCardFaceContent
-      className={`${visibleFace === 'back' ? 'visible' : ''}`}
-    >
-      {back}
-    </WidgetCardFaceContent>
-  </div>
-);
+      <CSSTransition
+        in={visibleFace === 'back'}
+        timeout={600}
+        classNames="face"
+      >
+        <WidgetCardFaceContent ref={backRef}>{back}</WidgetCardFaceContent>
+      </CSSTransition>
+      <CSSTransition
+        in={visibleFace === 'front'}
+        timeout={600}
+        classNames="face"
+      >
+        <WidgetCardFaceContent ref={frontRef}>{front}</WidgetCardFaceContent>
+      </CSSTransition>
+    </div>
+  );
+};
 
 FlippableCard.Header = WidgetCardHeader;
 FlippableCard.Footer = WidgetCardFooter;
