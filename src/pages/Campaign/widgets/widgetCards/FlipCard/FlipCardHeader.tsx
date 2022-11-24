@@ -33,20 +33,18 @@ export const FlipCardHeader = ({
             size="small"
             onClick={() => setVisibleFace('front')}
           >
-            <>
-              {visibleFace === 'front' && <LineGraphIconFill color="white" />}
-              {visibleFace === 'back' && <LineGraphIconStroke />}
-            </>
+            <LineGraphIconFill
+              color={`${visibleFace === 'front' && 'white'}`}
+            />
           </FlipButton>
           <FlipButton
             size="small"
             isActive={visibleFace === 'back'}
             onClick={() => setVisibleFace('back')}
           >
-            <>
-              {visibleFace === 'front' && <ListBulletIconStroke />}
-              {visibleFace === 'back' && <ListBulletIconFill color="white" />}
-            </>
+            <ListBulletIconFill
+              color={`${visibleFace === 'back' && 'white'}`}
+            />
           </FlipButton>
         </div>
       )
