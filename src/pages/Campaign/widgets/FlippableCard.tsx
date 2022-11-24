@@ -126,7 +126,7 @@ const WidgetCardFooter = ({ children }: { children: React.ReactNode }) => (
 const WidgetCardFaceContent = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
-  position: absolute;
+
   background-color: white;
   width: 100%;
   height: 100%;
@@ -135,6 +135,9 @@ const WidgetCardFaceContent = styled.div`
 
   &.face-enter {
     opacity: 0;
+  }
+  &.face-enter-active {
+    position: absolute;
   }
   &.face-enter-active,
   &.face-enter-done {
@@ -155,7 +158,7 @@ const WidgetCardBody = ({
   front,
   back,
   visibleFace,
-  height,
+  height = 'auto',
 }: {
   front: React.ReactNode;
   back: React.ReactNode;
@@ -164,29 +167,27 @@ const WidgetCardBody = ({
 }) => {
   const frontRef = useRef(null);
   const backRef = useRef(null);
+
   return (
-    <div
+    <TransitionGroup
       style={{
         position: 'relative',
-        height: `${height || 'auto'}`,
         width: '100%',
+        height,
+        overflow: 'hidden',
       }}
     >
-      <CSSTransition
-        in={visibleFace === 'back'}
-        timeout={600}
-        classNames="face"
-      >
-        <WidgetCardFaceContent ref={backRef}>{back}</WidgetCardFaceContent>
-      </CSSTransition>
-      <CSSTransition
-        in={visibleFace === 'front'}
-        timeout={600}
-        classNames="face"
-      >
-        <WidgetCardFaceContent ref={frontRef}>{front}</WidgetCardFaceContent>
-      </CSSTransition>
-    </div>
+      {visibleFace === 'back' && (
+        <CSSTransition timeout={500} classNames="face">
+          <WidgetCardFaceContent ref={backRef}>{back}</WidgetCardFaceContent>
+        </CSSTransition>
+      )}
+      {visibleFace === 'front' && (
+        <CSSTransition timeout={500} classNames="face">
+          <WidgetCardFaceContent ref={frontRef}>{front}</WidgetCardFaceContent>
+        </CSSTransition>
+      )}
+    </TransitionGroup>
   );
 };
 

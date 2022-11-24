@@ -120,8 +120,53 @@ const Campaign = () => {
                         <FlippableCard>
                           <FlippableCard.Header>Header</FlippableCard.Header>
                           <FlippableCard.Body
-                            front={<div>front content graph</div>}
-                            back={<div>back content list</div>}
+                            front={
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexFlow: 'column',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <div>..</div>
+                                <div>....</div>
+                                <div>........</div>
+                                <div>FRONT CONTENT</div>
+                                <div>GRAPH</div>
+                                <div>........</div>
+                                <div>....</div>
+                                <div>..</div>
+                              </div>
+                            }
+                            back={
+                              <div>
+                                <div>LIST</div>
+                                <div>
+                                  Item1
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item2
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item3
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item4
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item5
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item6
+                                  ..................................................................
+                                </div>
+                              </div>
+                            }
                           />
                           <FlippableCard.Footer>
                             <div>footer</div>
