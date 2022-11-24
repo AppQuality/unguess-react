@@ -21,7 +21,10 @@ import { ReactComponent as IncomingIcon } from 'src/assets/icons/pill-icon-incom
 import { ReactComponent as CompletedIcon } from 'src/assets/icons/pill-icon-completed.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
 import { format } from 'date-fns';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import {
+  getLocalizedFunctionalDashboardUrl,
+  getLocalizedUXDashboardUrl,
+} from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 
 const Pipe = styled.span`
@@ -44,14 +47,19 @@ const FooterContainer = styled.div`
   align-items: center;
   width: 100%;
 `;
-const ButtonWrapper = styled.div``;
+const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+`;
 
 const PillsWrapper = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 function capitalizeFirstLetter(string: string) {
@@ -108,6 +116,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
   }
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
+
   return (
     <FooterContainer>
       <PillsWrapper>
@@ -176,6 +185,23 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             }
           >
             {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
+          </Button>
+        )}
+        {outputs?.includes('media') && (
+          <Button
+            isPrimary
+            isPill
+            themeColor={globalTheme.palette.water[600]}
+            onClick={() =>
+              // eslint-disable-next-line security/detect-non-literal-fs-filename
+              window.open(
+                getLocalizedUXDashboardUrl(campaign.id, i18n.language),
+                '_blank'
+              )
+            }
+            style={{ marginLeft: globalTheme.space.xs }}
+          >
+            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
           </Button>
         )}
       </ButtonWrapper>
