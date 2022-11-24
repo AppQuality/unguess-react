@@ -2,11 +2,13 @@ import { useTranslation } from 'react-i18next';
 import {
   StickyNavItem,
   StickyNavItemLabel,
+  StyledDivider,
 } from 'src/common/components/navigation';
 import { CampaignWithOutput, Report } from 'src/features/api';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 import { BugsNavigation, BugsNavigationLink } from './bugs';
 import { NavigationLoading } from './NavigationLoading';
+import { MediaNavigation, MediaNavigationLink } from './media';
 
 const Navigation = ({
   campaignId,
@@ -24,6 +26,7 @@ const Navigation = ({
   return (
     <StickyContainer>
       {outputs?.includes('bugs') && <BugsNavigation />}
+      {outputs?.includes('media') && <MediaNavigation />}
       {reports.length || isFunctional ? (
         <>
           <StickyNavItemLabel>
@@ -41,8 +44,14 @@ const Navigation = ({
           </StickyNavItem>
         </>
       ) : null}
+      {(outputs?.includes('bugs') || outputs?.includes('media')) && (
+        <StyledDivider />
+      )}
       {outputs?.includes('bugs') && (
         <BugsNavigationLink campaignId={campaignId} />
+      )}
+      {outputs?.includes('media') && (
+        <MediaNavigationLink campaignId={campaignId} />
       )}
     </StickyContainer>
   );
