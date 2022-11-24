@@ -26,11 +26,13 @@ const BasicWidgetHeader = ({
   <WidgetCardHeader
     title={children}
     action={
-      <Tooltip content={tooltipContent} size="large" type="light">
-        <IconButton size="small">
-          <InfoStrokeIcon />
-        </IconButton>
-      </Tooltip>
+      tooltipContent && (
+        <Tooltip content={tooltipContent} size="large" type="light">
+          <IconButton size="small">
+            <InfoStrokeIcon />
+          </IconButton>
+        </Tooltip>
+      )
     }
   />
 );
@@ -49,7 +51,7 @@ const WidgetCardDescriptionFooter = styled(MD)`
   color: ${({ theme }) => theme.palette.blue[600]};
 `;
 
-const WidgetCardDescription = ({
+const BasicWidgetDescription = ({
   header,
   content,
   footer,
@@ -69,5 +71,5 @@ const WidgetCardDescription = ({
 
 BasicWidget.Header = BasicWidgetHeader;
 BasicWidget.Footer = WidgetCardFooter;
-BasicWidget.Description = WidgetCardDescription;
+BasicWidget.Description = BasicWidgetDescription;
 export { BasicWidget };
