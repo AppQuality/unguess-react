@@ -17,7 +17,7 @@ import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
-import { FlippableCard } from './widgets/FlippableCard';
+import FlipCard from './widgets/widgetCards/FlipCard';
 
 const Campaign = () => {
   const navigate = useNavigate();
@@ -117,9 +117,10 @@ const Campaign = () => {
                         <SectionTitle title="distribuzione bug unici" />
                       </Col>
                       <Col xs={12} md={6}>
-                        <FlippableCard>
-                          <FlippableCard.Header>Header</FlippableCard.Header>
-                          <FlippableCard.Body
+                        <FlipCard>
+                          <FlipCard.Header>Header</FlipCard.Header>
+                          <FlipCard.Body
+                            // height='300px'
                             front={
                               <div
                                 style={{
@@ -168,10 +169,10 @@ const Campaign = () => {
                               </div>
                             }
                           />
-                          <FlippableCard.Footer>
+                          <FlipCard.Footer>
                             <div>footer</div>
-                          </FlippableCard.Footer>
-                        </FlippableCard>
+                          </FlipCard.Footer>
+                        </FlipCard>
                       </Col>
                       <Col xs={12} md={4}>
                         <div />

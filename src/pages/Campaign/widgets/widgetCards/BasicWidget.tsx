@@ -1,53 +1,38 @@
 import {
-  SpecialCard,
   Tooltip,
   IconButton,
   XXXL,
   MD,
   SM,
-  theme as ugTheme,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import React from 'react';
-import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
+import { StyledSpecialCard } from './common/StyledSpecialCard';
+import { WidgetCardFooter } from './common/WidgetCardFooter';
+import { WidgetCardHeader } from './common/WidgetCardHeader';
 
-const StyledSpecialCard = styled(SpecialCard)`
-  border-radius: ${({ theme }) => theme.borderRadii.xl};
-`;
-const WidgetCard = ({ children }: { children: React.ReactNode }) => (
+const BasicWidget = ({ children }: { children: React.ReactNode }) => (
   <StyledSpecialCard>{children}</StyledSpecialCard>
 );
 
-const CapitalizeFirstLetter = styled.div`
-  &:first-letter {
-    text-transform: uppercase;
-  }
-`;
-const WidgetCardHeader = ({
+const BasicWidgetHeader = ({
   children,
   tooltipContent,
 }: {
   children: React.ReactNode;
   tooltipContent: string;
 }) => (
-  <>
-    <SpecialCard.Meta justifyContent="space-between">
-      <MD style={{ color: ugTheme.palette.grey[800] }}>
-        <CapitalizeFirstLetter>{children}</CapitalizeFirstLetter>
-      </MD>
+  <WidgetCardHeader
+    title={children}
+    action={
       <Tooltip content={tooltipContent} size="large" type="light">
         <IconButton size="small">
           <InfoStrokeIcon />
         </IconButton>
       </Tooltip>
-    </SpecialCard.Meta>
-    <Divider />
-  </>
-);
-
-const WidgetCardFooter = ({ children }: { children: React.ReactNode }) => (
-  <SpecialCard.Footer>{children}</SpecialCard.Footer>
+    }
+  />
 );
 
 const WidgetCardDescriptionHeader = styled(SM)`
@@ -82,7 +67,7 @@ const WidgetCardDescription = ({
   </div>
 );
 
-WidgetCard.Header = WidgetCardHeader;
-WidgetCard.Footer = WidgetCardFooter;
-WidgetCard.Description = WidgetCardDescription;
-export { WidgetCard };
+BasicWidget.Header = BasicWidgetHeader;
+BasicWidget.Footer = WidgetCardFooter;
+BasicWidget.Description = WidgetCardDescription;
+export { BasicWidget };
