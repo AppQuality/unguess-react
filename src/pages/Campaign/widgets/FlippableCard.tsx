@@ -1,24 +1,62 @@
 import {
   SpecialCard,
-  Tooltip,
   IconButton,
-  XXXL,
   MD,
-  SM,
   theme as ugTheme,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as LineGraphIcon } from '@zendeskgarden/svg-icons/src/16/line-graph-stroke.svg';
-import { ReactComponent as ListBulletIcon } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg';
-import React from 'react';
+import { ReactComponent as LineGraphIconStroke } from '@zendeskgarden/svg-icons/src/16/line-graph-stroke.svg';
+import { ReactComponent as LineGraphIconFill } from '@zendeskgarden/svg-icons/src/16/line-graph-fill.svg';
+import { ReactComponent as ListBulletIconStroke } from '@zendeskgarden/svg-icons/src/16/list-bullet-stroke.svg';
+import { ReactComponent as ListBulletIconFill } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg';
+import React, { Children, FC } from 'react';
 import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
 
 const StyledSpecialCard = styled(SpecialCard)`
   border-radius: ${({ theme }) => theme.borderRadii.xl};
 `;
-const FlippableCard = ({ children }: { children: React.ReactNode }) => (
-  <StyledSpecialCard>{children}</StyledSpecialCard>
-);
+
+type FaceType = 'front' | 'back';
+
+interface FlipCardHeader {
+  visibleFace: FaceType;
+  setVisibleFace: (face: FaceType) => void;
+}
+interface FlipCardBody {
+  visibleFace: FaceType;
+}
+
+const FlippableCard = ({ children }: { children?: React.ReactNode }) => {
+  const [visibleFace, setVisibleFace] = React.useState<FaceType>('front');
+  const cardChildren = React.Children.map(children, (child) => {
+    if (!React.isValidElement(child)) return null;
+    if (
+      typeof child.type !== 'string' &&
+      child.type.name === 'WidgetCardHeader'
+    ) {
+      const el = React.cloneElement<FlipCardHeader>(
+        child as React.ReactElement,
+        {
+          visibleFace,
+          setVisibleFace,
+        }
+      );
+      return el;
+    }
+    if (
+      typeof child.type !== 'string' &&
+      child.type.name === 'WidgetCardBody'
+    ) {
+      const el = React.cloneElement<FlipCardBody>(child as React.ReactElement, {
+        visibleFace,
+      });
+      return el;
+    }
+    return child;
+  });
+
+  return <StyledSpecialCard>{cardChildren}</StyledSpecialCard>;
+};
 
 const CapitalizeFirstLetter = styled.div`
   &:first-letter {
@@ -27,24 +65,52 @@ const CapitalizeFirstLetter = styled.div`
 `;
 const WidgetCardHeader = ({
   children,
-  tooltipContent,
+  setVisibleFace,
+  visibleFace,
 }: {
   children: React.ReactNode;
-  tooltipContent: string;
+  setVisibleFace?: (face: FaceType) => void;
+  visibleFace?: FaceType;
 }) => (
   <>
     <SpecialCard.Meta justifyContent="space-between">
       <MD style={{ color: ugTheme.palette.grey[800] }}>
         <CapitalizeFirstLetter>{children}</CapitalizeFirstLetter>
       </MD>
-      <div>
-        <IconButton size="small">
-          <LineGraphIcon />
-        </IconButton>
-        <IconButton size="small">
-          <ListBulletIcon />
-        </IconButton>
-      </div>
+      {setVisibleFace && (
+        <div>
+          <IconButton
+            size="small"
+            style={{
+              backgroundColor:
+                visibleFace === 'front'
+                  ? ugTheme.palette.blue[600]
+                  : 'transparent',
+            }}
+            onClick={() => setVisibleFace('front')}
+          >
+            <>
+              {visibleFace === 'front' && <LineGraphIconFill color="white" />}
+              {visibleFace === 'back' && <LineGraphIconStroke />}
+            </>
+          </IconButton>
+          <IconButton
+            size="small"
+            style={{
+              backgroundColor:
+                visibleFace === 'back'
+                  ? ugTheme.colors.primaryHue
+                  : 'transparent',
+            }}
+            onClick={() => setVisibleFace('back')}
+          >
+            <>
+              {visibleFace === 'front' && <ListBulletIconStroke />}
+              {visibleFace === 'back' && <ListBulletIconFill color="white" />}
+            </>
+          </IconButton>
+        </div>
+      )}
     </SpecialCard.Meta>
     <Divider />
   </>
@@ -67,13 +133,23 @@ const WidgetCardFaceContent = styled.div`
 const WidgetCardBody = ({
   front,
   back,
+  visibleFace,
 }: {
   front: React.ReactNode;
   back: React.ReactNode;
+  visibleFace?: FaceType;
 }) => (
   <div>
-    <WidgetCardFaceContent className="visible">{front}</WidgetCardFaceContent>
-    <WidgetCardFaceContent>{back}</WidgetCardFaceContent>
+    <WidgetCardFaceContent
+      className={`${visibleFace === 'front' ? 'visible' : ''}`}
+    >
+      {front}
+    </WidgetCardFaceContent>
+    <WidgetCardFaceContent
+      className={`${visibleFace === 'back' ? 'visible' : ''}`}
+    >
+      {back}
+    </WidgetCardFaceContent>
   </div>
 );
 

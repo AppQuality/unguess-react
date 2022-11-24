@@ -118,12 +118,10 @@ const Campaign = () => {
                       </Col>
                       <Col xs={12} md={6}>
                         <FlippableCard>
-                          <FlippableCard.Header tooltipContent="tooltip">
-                            Header
-                          </FlippableCard.Header>
+                          <FlippableCard.Header>Header</FlippableCard.Header>
                           <FlippableCard.Body
-                            front={<div>front</div>}
-                            back={<div>back</div>}
+                            front={<div>front content graph</div>}
+                            back={<div>back content list</div>}
                           />
                           <FlippableCard.Footer>
                             <div>footer</div>
