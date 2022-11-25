@@ -160,13 +160,6 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
                 color={globalTheme.palette.azure[600]}
               />
             )}
-            <Pill
-              icon={<UsersIcon />}
-              title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
-              color={globalTheme.palette.water[600]}
-            >
-              <Span>{meta.selected_testers}</Span>
-            </Pill>
           </>
         ) : null}
       </PillsWrapper>
