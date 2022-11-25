@@ -7,7 +7,7 @@ import {
 } from '@appquality/unguess-design-system';
 import React from 'react';
 import styled from 'styled-components';
-import { SEVERITY_COLORS } from 'src/constants';
+import { theme as globalTheme } from 'src/app/theme';
 
 const BugCardContainer = styled(SpecialCard)<
   React.ComponentProps<typeof Tag> & {
@@ -29,7 +29,9 @@ const BugCard = ({
   children: React.ReactNode;
   severity: Severities;
 }) => (
-  <BugCardContainer borderColor={SEVERITY_COLORS[severity as Severities]}>
+  <BugCardContainer
+    borderColor={globalTheme.colors.bySeverity[severity as Severities]}
+  >
     {children}
   </BugCardContainer>
 );
@@ -76,7 +78,7 @@ const BugCardPill = ({
   let background;
   let color;
   if (severity) {
-    background = SEVERITY_COLORS[severity as Severities];
+    background = globalTheme.colors.bySeverity[severity as Severities];
     color = 'white';
   }
 

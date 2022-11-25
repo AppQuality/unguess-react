@@ -4,10 +4,10 @@ import {
   Skeleton,
   XL,
 } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import { SEVERITY_COLORS } from 'src/constants';
 import { useBugs } from './useBugs';
 import { WidgetCard } from '../WidgetCard';
 
@@ -40,7 +40,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   }
 
   const colorScheme = Object.keys(data.bySeverity).map(
-    (key) => SEVERITY_COLORS[key as Severities]
+    (key) => theme.colors.bySeverity[key as Severities]
   );
   const maxSeverity = Object.keys(data.bySeverity).at(0) as Severities;
 
@@ -66,7 +66,11 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
       <WidgetCard.Description
         header={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_DESCRIPTION_HEADER')}
         content={
-          <span style={{ color: SEVERITY_COLORS[maxSeverity as Severities] }}>
+          <span
+            style={{
+              color: theme.colors.bySeverity[maxSeverity as Severities],
+            }}
+          >
             {`${data.bySeverity[maxSeverity as Severities] || 0} `}
             <XL tag="span" isBold>
               <Trans
