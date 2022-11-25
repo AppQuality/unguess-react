@@ -3,6 +3,7 @@ import {
   Title,
   SM,
   Progress,
+  CHARTS_COLOR_PALETTE,
 } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
@@ -44,7 +45,7 @@ export const ListItem = ({
     <Progress
       value={Math.round((numerator / denominator) * 100)}
       size="small"
-      color="#02807A"
+      color={CHARTS_COLOR_PALETTE.darkPine}
     />
     {/* todo: use theme chart color dark pine */}
   </ListItemWrapper>
