@@ -1,6 +1,7 @@
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
+import { FlipCardContext } from '.';
 import { FlipCardBodyProps } from './types';
 
 const durationMilliseconds = 500;
@@ -36,11 +37,12 @@ const WidgetCardFaceContent = styled.div`
 export const FlipCardBody = ({
   front,
   back,
-  visibleFace,
   height = 'auto',
 }: FlipCardBodyProps) => {
   const frontRef = useRef(null);
   const backRef = useRef(null);
+  const context = useContext(FlipCardContext);
+  const { visibleFace } = context;
 
   return (
     <TransitionGroup

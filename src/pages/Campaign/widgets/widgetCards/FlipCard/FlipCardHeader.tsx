@@ -1,11 +1,11 @@
 import { IconButton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { ReactComponent as LineGraphIconStroke } from '@zendeskgarden/svg-icons/src/16/line-graph-stroke.svg';
+import { useContext } from 'react';
 import { ReactComponent as LineGraphIconFill } from '@zendeskgarden/svg-icons/src/16/line-graph-fill.svg';
-import { ReactComponent as ListBulletIconStroke } from '@zendeskgarden/svg-icons/src/16/list-bullet-stroke.svg';
 import { ReactComponent as ListBulletIconFill } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg';
 import { WidgetCardHeader } from '../common/WidgetCardHeader';
 import { FlipCardHeaderProps } from './types';
+import { FlipCardContext } from '.';
 
 const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
   background-color: ${(p) =>
@@ -18,36 +18,37 @@ const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
   margin-left: ${(p) => p.theme.space.xs};
 `;
 
-export const FlipCardHeader = ({
-  children,
-  setVisibleFace,
-  visibleFace,
-}: FlipCardHeaderProps) => (
-  <WidgetCardHeader
-    title={children}
-    action={
-      setVisibleFace && (
-        <div>
-          <FlipButton
-            isActive={visibleFace === 'front'}
-            size="small"
-            onClick={() => setVisibleFace('front')}
-          >
-            <LineGraphIconFill
-              color={`${visibleFace === 'front' && 'white'}`}
-            />
-          </FlipButton>
-          <FlipButton
-            size="small"
-            isActive={visibleFace === 'back'}
-            onClick={() => setVisibleFace('back')}
-          >
-            <ListBulletIconFill
-              color={`${visibleFace === 'back' && 'white'}`}
-            />
-          </FlipButton>
-        </div>
-      )
-    }
-  />
-);
+export const FlipCardHeader = ({ children }: FlipCardHeaderProps) => {
+  const context = useContext(FlipCardContext);
+  const { visibleFace, setVisibleFace } = context;
+
+  return (
+    <WidgetCardHeader
+      title={children}
+      action={
+        setVisibleFace && (
+          <>
+            <FlipButton
+              isActive={visibleFace === 'front'}
+              size="small"
+              onClick={() => setVisibleFace('front')}
+            >
+              <LineGraphIconFill
+                color={`${visibleFace === 'front' && 'white'}`}
+              />
+            </FlipButton>
+            <FlipButton
+              size="small"
+              isActive={visibleFace === 'back'}
+              onClick={() => setVisibleFace('back')}
+            >
+              <ListBulletIconFill
+                color={`${visibleFace === 'back' && 'white'}`}
+              />
+            </FlipButton>
+          </>
+        )
+      }
+    />
+  );
+};

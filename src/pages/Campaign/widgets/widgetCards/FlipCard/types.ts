@@ -1,3 +1,8 @@
+export type FlipCardContextType = React.Context<{
+  visibleFace: FaceType;
+  setVisibleFace: (face: FaceType) => void;
+}>;
+
 export interface FlipCardHeaderProps {
   children: React.ReactNode;
   setVisibleFace?: (face: FaceType) => void;
