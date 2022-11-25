@@ -47,6 +47,5 @@ export const ListItem = ({
       size="small"
       color={CHARTS_COLOR_PALETTE.darkPine}
     />
-    {/* todo: use theme chart color dark pine */}
   </ListItemWrapper>
 );
