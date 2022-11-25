@@ -83,11 +83,19 @@ BugCard.Title = BugCardTitle;
 const StyledPill = styled(Tag)<
   React.ComponentProps<typeof Tag> & {
     background?: string;
-    color?: string;
+    isTextWhite?: boolean;
+    theme: Theme;
   }
 >`
   ${({ background }) => background && `background-color: ${background};`}
-  ${({ color }) => color && `color: ${color};`}
+  ${({ isTextWhite, theme }) =>
+    isTextWhite
+      ? `
+    color: ${theme.palette.white};
+    &:hover {
+      color: ${theme.palette.white};
+    }`
+      : ``}
 `;
 
 const BugCardPill = ({
@@ -102,12 +110,12 @@ const BugCardPill = ({
     props = {
       ...props,
       background: globalTheme.colors.bySeverity[severity as Severities],
-      color: globalTheme.palette.white,
+      isTextWhite: true,
     };
   }
 
   return (
-    <StyledPill isPill {...props}>
+    <StyledPill size="small" isPill {...props}>
       {children}
     </StyledPill>
   );
