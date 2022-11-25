@@ -15,7 +15,6 @@ import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.sv
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
-import { ReactComponent as UsersIcon } from 'src/assets/icons/pill-icon-users.svg';
 import { ReactComponent as ProgressIcon } from 'src/assets/icons/pill-icon-progress.svg';
 import { ReactComponent as IncomingIcon } from 'src/assets/icons/pill-icon-incoming.svg';
 import { ReactComponent as CompletedIcon } from 'src/assets/icons/pill-icon-completed.svg';
@@ -160,13 +159,6 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
                 color={globalTheme.palette.azure[600]}
               />
             )}
-            <Pill
-              icon={<UsersIcon />}
-              title={t('__CAMPAIGN_PAGE_INFO_HEADER_USERS_NUMBER')}
-              color={globalTheme.palette.water[600]}
-            >
-              <Span>{meta.selected_testers}</Span>
-            </Pill>
           </>
         ) : null}
       </PillsWrapper>
