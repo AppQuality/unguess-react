@@ -8,7 +8,7 @@ import { t } from 'i18next';
 import { Trans } from 'react-i18next';
 import { useUniqueBugsByUsecases } from './useUniqueBugsByUsecases';
 import { WidgetCard } from '../WidgetCard';
-import { ListItemTable } from './ListItemTable';
+import { ListItemTable } from '../ListItemTable';
 
 export const UniqueBugsByUsecases = ({
   campaignId,
@@ -16,7 +16,18 @@ export const UniqueBugsByUsecases = ({
   campaignId: number;
 }) => {
   const { uniqueBugs, isLoading } = useUniqueBugsByUsecases(campaignId);
-
+  const items = [
+    {
+      title: 'UC 2. Navigazione sito',
+      numerator: 36,
+      denominator: 100,
+    },
+    { title: 'UC 1. Homepage', numerator: 87, denominator: 100 },
+    { title: 'UC 4. Check-out', numerator: 33, denominator: 100 },
+    { title: 'UC 3. Pagina prodotto', numerator: 69, denominator: 100 },
+    { title: 'UC 5. Lista prodotti', numerator: 56, denominator: 137 },
+    { title: 'UC 6. Pagina prodotto2', numerator: 37, denominator: 600 },
+  ];
   if (isLoading) return <Skeleton />;
   return (
     <WidgetCard>
@@ -39,7 +50,7 @@ export const UniqueBugsByUsecases = ({
         }
         footer=""
       />
-      <ListItemTable campaignId={campaignId} />
+      <ListItemTable items={items} />
     </WidgetCard>
   );
 };
