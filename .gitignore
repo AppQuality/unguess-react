@@ -26,3 +26,5 @@ yarn-error.log*
 .eslintcache
 
 generate-devel-token.json
+
+.vscode
