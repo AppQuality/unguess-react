@@ -2,49 +2,46 @@ import {
   Span,
   theme as globalTheme,
   Title,
+  SM,
+  Progress,
 } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+
+const ListItemTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const ListItemWrapper = styled.div`
+  margin-top: ${(p) => p.theme.space.xxs};
+`;
 
 export const ListItem = ({
   item,
 }: {
   item: { usecase: string; unique: number; total: number };
 }) => (
-  <>
-    <Span style={{ textAlign: 'center', height: '20px' }}>
-      <Title style={{ float: 'left' }}>{item.usecase}</Title>
-      <Span style={{ float: 'right' }}>
-        <Span style={{ color: globalTheme.palette.blue[600] }}>
+  <ListItemWrapper>
+    <ListItemTitle>
+      <Title style={{ color: globalTheme.palette.blue[600] }}>
+        {item.usecase}
+      </Title>
+      <div>
+        <SM tag="span" isBold color={globalTheme.palette.grey[700]}>
           {item.unique}
-        </Span>
-        /{item.total}
-      </Span>
-    </Span>
-    <div
-      style={{
-        height: '2px',
-        width: '100%',
-        marginBottom: '16px',
-        display: 'flex',
-      }}
-    >
-      <div
-        style={{
-          height: '100%',
-          width: `${Math.round((item.unique / item.total) * 100)}%`,
-          background: '#02807A',
-        }}
-      >
-        {' '}
+        </SM>
+        /
+        <SM tag="span" color={globalTheme.palette.grey[600]}>
+          {item.total}
+        </SM>
       </div>
-      <div
-        style={{
-          height: '100%',
-          width: `${Math.round(100 - (item.unique / item.total) * 100)}%`,
-          background: globalTheme.palette.grey[200],
-        }}
-      >
-        {' '}
-      </div>
-    </div>
-  </>
+    </ListItemTitle>
+    <Progress
+      value={Math.round((item.unique / item.total) * 100)}
+      size="small"
+      color="#02807A"
+    />
+    {/* todo: use theme chart color dark pine */}
+  </ListItemWrapper>
 );
