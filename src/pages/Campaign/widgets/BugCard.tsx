@@ -131,7 +131,7 @@ BugCard.Pill = BugCardPill;
 BugCard.Footer = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-top: ${({ theme }) => theme.space.sm};
+  margin-top: ${({ theme }) => theme.space.xs};
   margin-bottom: ${({ theme }) => theme.space.xxs};
   & > * {
     &:not(:first-child):not(:last-child) {
@@ -152,6 +152,7 @@ BugCard.Separator = styled.div`
 `;
 
 const BugCardDescription = styled(SM)`
+  color: ${({ theme }) => theme.palette.grey['700']};
   margin-top: ${({ theme }) => theme.space.xxs};
   margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
