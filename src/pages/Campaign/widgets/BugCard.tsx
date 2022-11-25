@@ -121,7 +121,7 @@ const BugCardPill = ({
   }
 
   return (
-    <StyledPill size="small" isPill {...props}>
+    <StyledPill isPill {...props}>
       {children}
     </StyledPill>
   );
