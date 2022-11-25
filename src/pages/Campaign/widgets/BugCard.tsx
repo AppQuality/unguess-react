@@ -1,5 +1,5 @@
 import {
-  SpecialCard,
+  ContainerCard,
   Tag,
   MD,
   SM,
@@ -9,11 +9,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 
-const BugCardContainer = styled(SpecialCard)<
-  React.ComponentProps<typeof Tag> & {
+const BugCardContainer = styled(ContainerCard)<
+  React.ComponentProps<typeof ContainerCard> & {
     borderColor: string;
   }
 >`
+  padding: ${({ theme }) => theme.space.sm};
+  border: 0;
   border-left: 2px solid ${(props) => props.borderColor};
   border-radius: 0;
   display: flex;
