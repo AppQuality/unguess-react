@@ -39,6 +39,10 @@ type BugCardArgs = {
  *         <BugCard.Title url="#">
  *           Title
  *         </BugCard.Title>
+ *          <BugCard.Description>
+ *            Use case: Use Case 3 - Check-out e pagamento
+ *            [Gruppo A]
+ *          </BugCard.Description>
  *         <BugCard.Footer>
  *           <BugCard.Pill>Pill1</BugCard.Pill>
  *           <BugCard.Pill>Pill1</BugCard.Pill>
@@ -146,5 +150,11 @@ BugCard.Separator = styled.div`
   width: 1px;
   background-color: #e6e6e6;
 `;
+
+const BugCardDescription = styled(SM)`
+  margin-top: ${({ theme }) => theme.space.xxs};
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+`;
+BugCard.Description = BugCardDescription;
 
 export { BugCard };
