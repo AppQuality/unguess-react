@@ -1,4 +1,4 @@
-import { theme } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { operations, components } from 'src/common/schema';
 import { GetUsersMeApiResponse } from './features/api';
 
