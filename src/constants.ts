@@ -47,10 +47,3 @@ export const RELATIVE_DATE_FORMAT_OPTS: {
     other: "EEEE',' d MMMM Y",
   },
 };
-
-export const SEVERITY_COLORS: Record<Severities, string> = {
-  critical: '#800208',
-  high: '#c78430',
-  medium: '#024780',
-  low: '#02807a',
-};
