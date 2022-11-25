@@ -17,6 +17,7 @@ import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
+import { UniqueBugsByUsecases } from './widgets/UniqueBugsByUsecases';
 
 const Campaign = () => {
   const navigate = useNavigate();
@@ -90,24 +91,43 @@ const Campaign = () => {
               </Col>
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
-                  <Row>
-                    <Col xs={12}>
-                      <SectionTitle title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')} />
-                    </Col>
-                    <Col xs={12} md={4}>
-                      <Progress campaign={campaign} />
-                    </Col>
-                    <Col xs={12} md={4}>
-                      <UniqueBugs campaignId={campaign ? campaign.id : 0} />
-                    </Col>
-                    <Col xs={12} md={4} lg={4}>
-                      {isFetchingCampaign ? undefined : (
-                        <BugDistributionCard
-                          campaignId={campaign ? campaign.id : 0}
+                  <>
+                    <Row>
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
                         />
-                      )}
-                    </Col>
-                  </Row>
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <Progress campaign={campaign} />
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+                      </Col>
+                      <Col xs={12} md={4} lg={4}>
+                        {isFetchingCampaign ? undefined : (
+                          <BugDistributionCard
+                            campaignId={campaign ? campaign.id : 0}
+                          />
+                        )}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t(
+                            '__CAMPAIGN_PAGE_UNIQUE_BUGS_DISTRIBUTION_TITLE'
+                          )}
+                        />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <UniqueBugsByUsecases campaignId={campaign.id} />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <UniqueBugsByUsecases campaignId={campaign.id} />
+                      </Col>
+                    </Row>
+                  </>
                 )}
                 {reports &&
                 campaign &&
