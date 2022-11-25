@@ -4,10 +4,11 @@ import {
   SM,
   Progress,
 } from '@appquality/unguess-design-system';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 export interface ListItemProps {
-  title: string;
+  children: ReactNode;
   numerator: number;
   denominator: number;
 }
@@ -22,24 +23,26 @@ const ListItemWrapper = styled.div`
   margin-top: ${(p) => p.theme.space.xxs};
 `;
 
-export const ListItem = ({ item }: { item: ListItemProps }) => (
+export const ListItem = ({
+  children,
+  numerator,
+  denominator,
+}: ListItemProps) => (
   <ListItemWrapper>
     <ListItemTitle>
-      <Title style={{ color: globalTheme.palette.blue[600] }}>
-        {item.title}
-      </Title>
+      <Title style={{ color: globalTheme.palette.blue[600] }}>{children}</Title>
       <div>
         <SM tag="span" isBold color={globalTheme.palette.grey[700]}>
-          {item.numerator}
+          {numerator}
         </SM>
         /
         <SM tag="span" color={globalTheme.palette.grey[600]}>
-          {item.denominator}
+          {denominator}
         </SM>
       </div>
     </ListItemTitle>
     <Progress
-      value={Math.round((item.numerator / item.denominator) * 100)}
+      value={Math.round((numerator / denominator) * 100)}
       size="small"
       color="#02807A"
     />
