@@ -22,17 +22,39 @@ const BugCardContainer = styled(SpecialCard)<
   height: auto;
 `;
 
-const BugCard = ({
-  children,
-  severity,
-}: {
-  children: React.ReactNode;
+type BugCardArgs = {
   severity: Severities;
-}) => (
+  children: (severity: Severities) => React.ReactNode | React.ReactElement;
+};
+
+/**
+ * Example:
+ * ```
+ *  <BugCard severity="critical">
+ *    {(severity) => (
+ *       <>
+ *         <BugCard.TopTitle>ID 123</BugCard.TopTitle>
+ *         <BugCard.Title url="#">
+ *           Title
+ *         </BugCard.Title>
+ *         <BugCard.Footer>
+ *           <BugCard.Pill>Pill1</BugCard.Pill>
+ *           <BugCard.Pill>Pill1</BugCard.Pill>
+ *           <BugCard.Separator />
+ *           <BugCard.Pill severity={severity}>
+ *             {severity}
+ *           </BugCard.Pill>
+ *         </BugCard.Footer>
+ *       </>
+ *     )}
+ *   </BugCard>
+ * ```
+ */
+const BugCard = ({ children, severity }: BugCardArgs) => (
   <BugCardContainer
     borderColor={globalTheme.colors.bySeverity[severity as Severities]}
   >
-    {children}
+    {children(severity)}
   </BugCardContainer>
 );
 
@@ -75,15 +97,17 @@ const BugCardPill = ({
   children: React.ReactNode;
   severity?: Severities;
 }) => {
-  let background;
-  let color;
+  let props = {};
   if (severity) {
-    background = globalTheme.colors.bySeverity[severity as Severities];
-    color = 'white';
+    props = {
+      ...props,
+      background: globalTheme.colors.bySeverity[severity as Severities],
+      color: globalTheme.palette.white,
+    };
   }
 
   return (
-    <StyledPill isPill background={background} color={color}>
+    <StyledPill isPill {...props}>
       {children}
     </StyledPill>
   );
