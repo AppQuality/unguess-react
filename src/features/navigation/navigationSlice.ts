@@ -1,4 +1,4 @@
-import { theme } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { createSlice } from '@reduxjs/toolkit';
 import { isMinMedia } from 'src/common/utils';
 import { NavigationState } from './types';

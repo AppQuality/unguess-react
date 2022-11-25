@@ -1,8 +1,5 @@
-import {
-  Span,
-  Tag,
-  theme as globalTheme,
-} from '@appquality/unguess-design-system';
+import { Span, Tag } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 

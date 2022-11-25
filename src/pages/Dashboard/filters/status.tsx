@@ -1,9 +1,5 @@
-import {
-  Dropdown,
-  Select,
-  Item,
-  theme as globalTheme,
-} from '@appquality/unguess-design-system';
+import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.svg';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useTranslation } from 'react-i18next';

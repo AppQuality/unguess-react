@@ -1,10 +1,11 @@
 import '../i18n';
-import { GlobalStyle, theme } from '@appquality/unguess-design-system';
+import { GlobalStyle } from '@appquality/unguess-design-system';
 import { ThemeProvider } from '@zendeskgarden/react-theming';
 import { BrowserRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
 import Pages from 'src/common/Pages';
+import { theme } from 'src/app/theme';
 import { Provider } from 'react-redux';
 import { store } from './store';
 

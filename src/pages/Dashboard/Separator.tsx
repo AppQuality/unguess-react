@@ -1,4 +1,4 @@
-import { theme } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 

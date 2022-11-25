@@ -1,7 +1,7 @@
 import { ReactComponent as ChangelogIcon } from 'src/assets/icons/megaphone-stroke.svg';
 import HeadwayWidget from '@headwayapp/react-widget';
 import styled from 'styled-components';
-import { theme } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 
 const StyledWidget = styled.div`
   svg {

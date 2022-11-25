@@ -1,4 +1,5 @@
-import { Button, SpecialCard, theme } from '@appquality/unguess-design-system';
+import { Button, SpecialCard } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ExcelIcon } from 'src/assets/icons/file-icon-excel.svg';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
