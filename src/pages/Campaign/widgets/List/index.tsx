@@ -66,13 +66,9 @@ export const List = ({ items, total, header, title }: ListProps) => {
       <Items>
         {paginatedItems &&
           paginatedItems[cursor] &&
-          paginatedItems[cursor].map((item, index) => (
+          paginatedItems[cursor].map((item) => (
             // eslint-disable-next-line react/no-array-index-key
-            <ListItem
-              numerator={item.numerator}
-              denominator={item.denominator}
-              key={index}
-            >
+            <ListItem numerator={item.numerator} denominator={item.denominator}>
               {item.children}
             </ListItem>
           ))}
