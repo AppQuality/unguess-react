@@ -1,8 +1,8 @@
 import { IconButton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useContext } from 'react';
-import { ReactComponent as LineGraphIconFill } from '@zendeskgarden/svg-icons/src/16/line-graph-fill.svg';
-import { ReactComponent as ListBulletIconFill } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg';
+import { ReactComponent as LineGraphIconFill } from 'src/assets/icons/line-graph-fill.svg';
+import { ReactComponent as ListBulletIconFill } from 'src/assets/icons/list-bullet-fill.svg';
 import { WidgetCardHeader } from '../common/WidgetCardHeader';
 import { FlipCardHeaderProps } from './types';
 import { FlipCardContext } from './FlipCardContext';
