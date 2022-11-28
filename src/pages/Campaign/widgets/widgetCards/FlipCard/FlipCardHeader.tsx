@@ -1,11 +1,10 @@
 import { IconButton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { useContext } from 'react';
 import { ReactComponent as LineGraphIconFill } from 'src/assets/icons/line-graph-fill.svg';
 import { ReactComponent as ListBulletIconFill } from 'src/assets/icons/list-bullet-fill.svg';
 import { WidgetCardHeader } from '../common/WidgetCardHeader';
+import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardHeaderProps } from './types';
-import { FlipCardContext } from './FlipCardContext';
 
 const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
   background-color: ${(p) =>
@@ -19,7 +18,7 @@ const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
 `;
 
 export const FlipCardHeader = ({ children }: FlipCardHeaderProps) => {
-  const { visibleFace, setVisibleFace } = useContext(FlipCardContext);
+  const { visibleFace, setVisibleFace } = useFlipCardContext();
 
   return (
     <WidgetCardHeader
