@@ -91,72 +91,24 @@ const Campaign = () => {
               </Col>
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
-                  <>
-                    <Row>
-                      <Col xs={12}>
-                        <SectionTitle
-                          title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
+                  <Row>
+                    <Col xs={12}>
+                      <SectionTitle title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')} />
+                    </Col>
+                    <Col xs={12} md={4}>
+                      <Progress campaign={campaign} />
+                    </Col>
+                    <Col xs={12} md={4}>
+                      <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+                    </Col>
+                    <Col xs={12} md={4} lg={4}>
+                      {isFetchingCampaign ? undefined : (
+                        <BugDistributionCard
+                          campaignId={campaign ? campaign.id : 0}
                         />
-                      </Col>
-                      <Col xs={12} md={4}>
-                        <Progress campaign={campaign} />
-                      </Col>
-                      <Col xs={12} md={4}>
-                        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
-                      </Col>
-                      <Col xs={12} md={4} lg={4}>
-                        {isFetchingCampaign ? undefined : (
-                          <BugDistributionCard
-                            campaignId={campaign ? campaign.id : 0}
-                          />
-                        )}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col xs={12}>
-                        <SectionTitle
-                          title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
-                        />
-                      </Col>
-                      <Col xs={12} md={6}>
-                        <List
-                          items={[
-                            {
-                              numerator: 10,
-                              denominator: 100,
-                              children: 'USECASE1',
-                            },
-                            {
-                              numerator: 20,
-                              denominator: 100,
-                              children: 'USECASE2',
-                            },
-                            {
-                              numerator: 20,
-                              denominator: 100,
-                              children: 'USECASE2',
-                            },
-                            {
-                              numerator: 20,
-                              denominator: 100,
-                              children: 'USECASE2',
-                            },
-                            {
-                              numerator: 20,
-                              denominator: 100,
-                              children: 'USECASE2',
-                            },
-                            {
-                              numerator: 20,
-                              denominator: 100,
-                              children: 'USECASE2',
-                            },
-                          ]}
-                          total={1000}
-                        />
-                      </Col>
-                    </Row>
-                  </>
+                      )}
+                    </Col>
+                  </Row>
                 )}
                 {reports &&
                 campaign &&
