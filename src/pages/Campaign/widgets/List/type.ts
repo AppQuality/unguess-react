@@ -8,5 +8,7 @@ export interface ListItemProps {
 
 export interface ListProps {
   items: ListItemProps[];
+  header: ReactNode;
+  title: ReactNode;
   total: number;
 }
