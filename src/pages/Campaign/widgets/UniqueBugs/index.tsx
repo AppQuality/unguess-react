@@ -10,7 +10,7 @@ import { t } from 'i18next';
 import { Trans } from 'react-i18next';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
-import { WidgetCard } from '../WidgetCard';
+import { BasicWidget } from '../widgetCards/BasicWidget';
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
   const { bugs, uniqueBugs, isLoading, uniquePercent } =
@@ -19,12 +19,12 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
   if (isLoading) return <Skeleton />;
 
   return (
-    <WidgetCard>
-      <WidgetCard.Header
+    <BasicWidget>
+      <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOOLTIP')}
       >
         {t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TITLE')}
-      </WidgetCard.Header>
+      </BasicWidget.Header>
       <WaffleChart
         total={{ label: 'total', value: bugs }}
         data={{ label: 'unique', value: uniqueBugs }}
@@ -38,7 +38,7 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
         width="40%"
         height="140px"
       />
-      <WidgetCard.Description
+      <BasicWidget.Description
         header={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY')}
         content={
           <Span style={{ color: globalTheme.palette.blue[600] }}>
@@ -59,6 +59,6 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
           />
         }
       />
-    </WidgetCard>
+    </BasicWidget>
   );
 };

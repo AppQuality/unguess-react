@@ -12,7 +12,7 @@ import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import styled from 'styled-components';
-import { WidgetCard } from '../WidgetCard';
+import { BasicWidget } from '../widgetCards/BasicWidget';
 import { useWidgetData } from './useWidgetData';
 
 const ChartContainer = styled.div`
@@ -30,15 +30,15 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
   }
 
   return (
-    <WidgetCard>
-      <WidgetCard.Header
+    <BasicWidget>
+      <BasicWidget.Header
         tooltipContent={t(
           '__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TOOLTIP',
           "This widget shows the progress of the campaign's tasks"
         )}
       >
         {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TITLE', 'Stato avanzamento')}
-      </WidgetCard.Header>
+      </BasicWidget.Header>
       <ChartContainer style={{ height }}>
         <div style={{ width: '100%' }}>
           <SM style={{ marginBottom: theme.space.xs }}>
@@ -72,7 +72,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
           />
         </div>
       </ChartContainer>
-      <WidgetCard.Description
+      <BasicWidget.Description
         header={widgetData.durationLabel}
         content={
           <div style={{ color: theme.palette.blue['600'] }}>
@@ -98,7 +98,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
           ) : null
         }
       />
-      <WidgetCard.Footer>
+      <BasicWidget.Footer>
         <Tag isPill>
           {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
             defaultValue: 'Test duration: {{startDate}} to {{endDate}}',
@@ -106,7 +106,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
             endDate: widgetData.endDate,
           })}
         </Tag>
-      </WidgetCard.Footer>
-    </WidgetCard>
+      </BasicWidget.Footer>
+    </BasicWidget>
   );
 };

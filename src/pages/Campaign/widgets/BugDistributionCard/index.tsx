@@ -9,7 +9,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { useBugs } from './useBugs';
-import { WidgetCard } from '../WidgetCard';
+import { BasicWidget } from '../widgetCards/BasicWidget';
 
 function translateSeverity(severity: Severities, t: TFunction) {
   switch (severity) {
@@ -45,14 +45,14 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const maxSeverity = Object.keys(data.bySeverity).at(0) as Severities;
 
   return (
-    <WidgetCard>
-      <WidgetCard.Header
+    <BasicWidget>
+      <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOOLTIP')}
       >
         <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_HEADER">
           {{ severity: translateSeverity(maxSeverity, t) }} bugs
         </Trans>
-      </WidgetCard.Header>
+      </BasicWidget.Header>
       <HalfPieChart
         width="50%"
         height={height}
@@ -63,7 +63,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
           value,
         }))}
       />
-      <WidgetCard.Description
+      <BasicWidget.Description
         header={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_DESCRIPTION_HEADER')}
         content={
           <span
@@ -91,7 +91,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
           </Trans>
         }
       />
-      <WidgetCard.Footer>
+      <BasicWidget.Footer>
         <Anchor
           isExternal
           onClick={() =>
@@ -106,8 +106,8 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
             'Go to bug list'
           )}
         </Anchor>
-      </WidgetCard.Footer>
-    </WidgetCard>
+      </BasicWidget.Footer>
+    </BasicWidget>
   );
 };
 

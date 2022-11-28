@@ -17,6 +17,7 @@ import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
+import FlipCard from './widgets/widgetCards/FlipCard';
 
 const Campaign = () => {
   const navigate = useNavigate();
@@ -90,24 +91,97 @@ const Campaign = () => {
               </Col>
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
-                  <Row>
-                    <Col xs={12}>
-                      <SectionTitle title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')} />
-                    </Col>
-                    <Col xs={12} md={4}>
-                      <Progress campaign={campaign} />
-                    </Col>
-                    <Col xs={12} md={4}>
-                      <UniqueBugs campaignId={campaign ? campaign.id : 0} />
-                    </Col>
-                    <Col xs={12} md={4} lg={4}>
-                      {isFetchingCampaign ? undefined : (
-                        <BugDistributionCard
-                          campaignId={campaign ? campaign.id : 0}
+                  <>
+                    <Row>
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
                         />
-                      )}
-                    </Col>
-                  </Row>
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <Progress campaign={campaign} />
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+                      </Col>
+                      <Col xs={12} md={4} lg={4}>
+                        {isFetchingCampaign ? undefined : (
+                          <BugDistributionCard
+                            campaignId={campaign ? campaign.id : 0}
+                          />
+                        )}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}>
+                        <SectionTitle title="distribuzione bug unici" />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <FlipCard>
+                          <FlipCard.Header>Header</FlipCard.Header>
+                          <FlipCard.Body
+                            // height='300px'
+                            front={
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexFlow: 'column',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <div>..</div>
+                                <div>....</div>
+                                <div>........</div>
+                                <div>FRONT CONTENT</div>
+                                <div>GRAPH</div>
+                                <div>........</div>
+                                <div>....</div>
+                                <div>..</div>
+                              </div>
+                            }
+                            back={
+                              <div>
+                                <div>LIST</div>
+                                <div>
+                                  Item1
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item2
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item3
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item4
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item5
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item6
+                                  ..................................................................
+                                </div>
+                              </div>
+                            }
+                          />
+                          <FlipCard.Footer>
+                            <div>footer</div>
+                          </FlipCard.Footer>
+                        </FlipCard>
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <div />
+                      </Col>
+                      <Col xs={12} md={4} lg={4}>
+                        <div />
+                      </Col>
+                    </Row>
+                  </>
                 )}
                 {reports &&
                 campaign &&
