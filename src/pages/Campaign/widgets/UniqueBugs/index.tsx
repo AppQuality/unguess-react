@@ -5,18 +5,56 @@ import {
   Skeleton,
   MD,
   Span,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { Trans } from 'react-i18next';
+import { ReactComponent as TrendIcon } from 'src/assets/icons/trend-icon.svg';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
-  const { bugs, uniqueBugs, isLoading, uniquePercent } =
-    useUniqueBugs(campaignId);
+  const {
+    totalBugs,
+    uniqueBugs,
+    trendBugs,
+    uniquePercentage,
+    isLoading,
+    isFetching,
+    isError,
+  } = useUniqueBugs(campaignId);
 
-  if (isLoading) return <Skeleton />;
+  if (isLoading || isFetching || isError) return <Skeleton />;
+
+  const trendIcon = (
+    <TrendIcon
+      {...(trendBugs
+        ? {
+            color:
+              trendBugs > 0
+                ? globalTheme.palette.green[600]
+                : globalTheme.palette.red[600],
+          }
+        : {})}
+    />
+  );
+
+  let trendText = (
+    <Span>{t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_EQUAL_LABEL')}</Span>
+  );
+
+  if (trendBugs !== 0) {
+    trendText = (
+      <Span>
+        {trendBugs > 0 ? '+' : ''}
+        {trendBugs}{' '}
+        {t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_LABEL', {
+          count: trendBugs,
+        })}
+      </Span>
+    );
+  }
 
   return (
     <BasicWidget>
@@ -26,13 +64,13 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
         {t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TITLE')}
       </BasicWidget.Header>
       <WaffleChart
-        total={{ label: 'total', value: bugs }}
+        total={{ label: 'total', value: totalBugs }}
         data={{ label: 'unique', value: uniqueBugs }}
         tooltip={({ value, label }) => (
           <WaffleTooltip
             value={value}
             label={label}
-            percentage={Math.floor(uniquePercent * 100)}
+            percentage={uniquePercentage}
           />
         )}
         width="40%"
@@ -55,10 +93,16 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
             i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_LABEL"
             components={{ bold: <MD isBold tag="span" /> }}
             defaults="out of <bold>{{ total }}</bold>"
-            values={{ total: bugs }}
+            values={{ total: totalBugs }}
           />
         }
       />
+      <BasicWidget.Footer>
+        <Tag isPill>
+          <Tag.Avatar>{trendIcon}</Tag.Avatar>
+          {trendText}
+        </Tag>
+      </BasicWidget.Footer>
     </BasicWidget>
   );
 };

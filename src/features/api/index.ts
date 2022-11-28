@@ -75,7 +75,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/widgets`,
-        params: { s: queryArg.s },
+        params: { s: queryArg.s, updateTrend: queryArg.updateTrend },
       }),
     }),
     getCampaignsByCidMeta: build.query<
@@ -293,12 +293,22 @@ export type GetCampaignsByCidReportsApiArg = {
 };
 export type GetCampaignsByCidWidgetsApiResponse =
   /** status 200 OK */
-  WidgetBugsByUseCase | WidgetBugsByDevice | WidgetCampaignProgress;
+  | WidgetBugsByUseCase
+  | WidgetBugsByDevice
+  | WidgetCampaignProgress
+  | WidgetCampaignUniqueBugs;
 export type GetCampaignsByCidWidgetsApiArg = {
   /** Campaign id */
   cid: number;
   /** Campaign widget slug */
-  s: 'bugs-by-usecase' | 'bugs-by-device' | 'bugs-by-type' | 'cp-progress';
+  s:
+    | 'bugs-by-usecase'
+    | 'bugs-by-device'
+    | 'bugs-by-type'
+    | 'cp-progress'
+    | 'unique-bugs';
+  /** should update bug trend after request resolves? */
+  updateTrend?: boolean;
 };
 export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
   selected_testers: number;
@@ -667,11 +677,13 @@ export type WidgetBugsByUseCase = {
   data: (UseCase & {
     bugs: number;
     usecase_id: number;
+    usecase_completion?: number;
   })[];
   kind: 'bugsByUseCase';
 };
 export type WidgetBugsByDevice = {
   data: ((Smartphone | Desktop | Tablet) & {
+    unique_bugs: number;
     bugs: number;
   })[];
   kind: 'bugsByDevice';
@@ -685,6 +697,14 @@ export type WidgetCampaignProgress = {
     expected_duration: number;
   };
   kind: 'campaignProgress';
+};
+export type WidgetCampaignUniqueBugs = {
+  data: {
+    unique: number;
+    total: number;
+    trend: number;
+  };
+  kind: 'campaignUniqueBugs';
 };
 export type Project = {
   id: number;

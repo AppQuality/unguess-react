@@ -547,6 +547,8 @@ export interface components {
         /** @description Unique bugs */
         bugs: number;
         usecase_id: number;
+        /** Format: float */
+        usecase_completion?: number;
       })[];
       /**
        * @default bugsByUseCase
@@ -565,6 +567,7 @@ export interface components {
         | components['schemas']['Desktop']
         | components['schemas']['Tablet']
       ) & {
+        unique_bugs: number;
         /** @description Unique bugs */
         bugs: number;
       })[];
@@ -601,6 +604,23 @@ export interface components {
        */
       kind: 'campaignProgress';
     };
+    /**
+     * WidgetCampaignUniqueBugs
+     * @description Used to show an overview of unique bugs and its trent
+     */
+    WidgetCampaignUniqueBugs: {
+      data: {
+        unique: number;
+        total: number;
+        trend: number;
+      };
+      /**
+       * @default campaignUniqueBugs
+       * @example campaignUniqueBugs
+       * @enum {string}
+       */
+      kind: 'campaignUniqueBugs';
+    };
   };
   responses: {
     /** Example response */
@@ -634,7 +654,8 @@ export interface components {
       | 'bugs-by-usecase'
       | 'bugs-by-device'
       | 'bugs-by-type'
-      | 'cp-progress';
+      | 'cp-progress'
+      | 'unique-bugs';
   };
   requestBodies: {
     Credentials: {
@@ -860,6 +881,8 @@ export interface operations {
       query: {
         /** Campaign widget slug */
         s: components['parameters']['wslug'];
+        /** should update bug trend after request resolves? */
+        updateTrend?: boolean;
       };
     };
     responses: {
@@ -869,7 +892,8 @@ export interface operations {
           'application/json':
             | components['schemas']['WidgetBugsByUseCase']
             | components['schemas']['WidgetBugsByDevice']
-            | components['schemas']['WidgetCampaignProgress'];
+            | components['schemas']['WidgetCampaignProgress']
+            | components['schemas']['WidgetCampaignUniqueBugs'];
         };
       };
       400: components['responses']['Error'];

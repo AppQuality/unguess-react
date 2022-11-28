@@ -1,18 +1,36 @@
-import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
+import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
 const useUniqueBugs = (campaignId: number) => {
-  const { data: uniqueBugs, isLoading: isLoadingUniqueBugs } =
-    useGetCampaignsByCidBugsQuery({
+  const { data, isLoading, isFetching, isError } =
+    useGetCampaignsByCidWidgetsQuery({
       cid: campaignId,
-      filterBy: { is_duplicated: 0 },
+      s: 'unique-bugs',
     });
-  const { data: bugs, isLoading: isLoadingBugs } =
-    useGetCampaignsByCidBugsQuery({ cid: campaignId });
+
+  const { data: results, kind } = data || {};
+
+  if (results && kind === 'campaignUniqueBugs') {
+    const { total: totalBugs, unique: uniqueBugs, trend: trendBugs } = results;
+
+    return {
+      totalBugs,
+      uniqueBugs,
+      trendBugs,
+      uniquePercentage: Math.floor((uniqueBugs / totalBugs) * 100),
+      isLoading,
+      isFetching,
+      isError,
+    };
+  }
+
   return {
-    bugs: bugs?.total || 0,
-    uniqueBugs: uniqueBugs?.total || 0,
-    isLoading: isLoadingBugs || isLoadingUniqueBugs,
-    uniquePercent: bugs?.total ? (uniqueBugs?.total || 0) / bugs.total : 0,
+    totalBugs: 0,
+    uniqueBugs: 0,
+    trendBugs: 0,
+    uniquePercentage: 0,
+    isLoading,
+    isFetching,
+    isError,
   };
 };
 
