@@ -5,16 +5,15 @@ import {
   Skeleton,
   MD,
   Span,
-  Tag,
 } from '@appquality/unguess-design-system';
-import { t } from 'i18next';
-import { Trans } from 'react-i18next';
-import { ReactComponent as TrendIcon } from 'src/assets/icons/trend-icon.svg';
+import { Trans, useTranslation } from 'react-i18next';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
 import { BasicWidget } from '../widgetCards/BasicWidget';
+import { TrendPill } from './Trend';
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
+  const { t } = useTranslation();
   const {
     totalBugs,
     uniqueBugs,
@@ -26,35 +25,6 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
   } = useUniqueBugs(campaignId);
 
   if (isLoading || isFetching || isError) return <Skeleton />;
-
-  const trendIcon = (
-    <TrendIcon
-      {...(trendBugs
-        ? {
-            color:
-              trendBugs > 0
-                ? globalTheme.palette.green[600]
-                : globalTheme.palette.red[600],
-          }
-        : {})}
-    />
-  );
-
-  let trendText = (
-    <Span>{t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_EQUAL_LABEL')}</Span>
-  );
-
-  if (trendBugs !== 0) {
-    trendText = (
-      <Span>
-        {trendBugs > 0 ? '+' : ''}
-        {trendBugs}{' '}
-        {t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_LABEL', {
-          count: trendBugs,
-        })}
-      </Span>
-    );
-  }
 
   return (
     <BasicWidget>
@@ -98,10 +68,7 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
         }
       />
       <BasicWidget.Footer>
-        <Tag isPill>
-          <Tag.Avatar>{trendIcon}</Tag.Avatar>
-          {trendText}
-        </Tag>
+        <TrendPill trend={trendBugs} />
       </BasicWidget.Footer>
     </BasicWidget>
   );
