@@ -17,7 +17,6 @@ import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
-import { List } from './widgets/List';
 
 const Campaign = () => {
   const navigate = useNavigate();
