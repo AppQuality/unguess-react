@@ -6,17 +6,25 @@ import {
   MD,
   Span,
 } from '@appquality/unguess-design-system';
-import { t } from 'i18next';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
 import { BasicWidget } from '../widgetCards/BasicWidget';
+import { TrendPill } from './Trend';
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
-  const { bugs, uniqueBugs, isLoading, uniquePercent } =
-    useUniqueBugs(campaignId);
+  const { t } = useTranslation();
+  const {
+    totalBugs,
+    uniqueBugs,
+    trendBugs,
+    uniquePercentage,
+    isLoading,
+    isFetching,
+    isError,
+  } = useUniqueBugs(campaignId);
 
-  if (isLoading) return <Skeleton />;
+  if (isLoading || isFetching || isError) return <Skeleton />;
 
   return (
     <BasicWidget>
@@ -26,13 +34,13 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
         {t('__CAMPAIGN_PAGE_UNIQUE_BUGS_TITLE')}
       </BasicWidget.Header>
       <WaffleChart
-        total={{ label: 'total', value: bugs }}
+        total={{ label: 'total', value: totalBugs }}
         data={{ label: 'unique', value: uniqueBugs }}
         tooltip={({ value, label }) => (
           <WaffleTooltip
             value={value}
             label={label}
-            percentage={Math.floor(uniquePercent * 100)}
+            percentage={uniquePercentage}
           />
         )}
         width="40%"
@@ -55,10 +63,13 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
             i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_LABEL"
             components={{ bold: <MD isBold tag="span" /> }}
             defaults="out of <bold>{{ total }}</bold>"
-            values={{ total: bugs }}
+            values={{ total: totalBugs }}
           />
         }
       />
+      <BasicWidget.Footer>
+        <TrendPill trend={trendBugs} />
+      </BasicWidget.Footer>
     </BasicWidget>
   );
 };
