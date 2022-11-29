@@ -1,11 +1,5 @@
-import {
-  theme as globalTheme,
-  SM,
-  Progress,
-  CHARTS_COLOR_PALETTE,
-  MD,
-  Span,
-} from '@appquality/unguess-design-system';
+import { SM, Progress, MD, Span } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { ListItemProps } from './type';
 
@@ -41,7 +35,7 @@ export const ListItem = ({
     <Progress
       value={Math.round((numerator / denominator) * 100)}
       size="small"
-      color={CHARTS_COLOR_PALETTE.darkPine}
+      color={globalTheme.colors.darkPine}
       style={{ margin: 0, marginTop: globalTheme.space.xxs }}
     />
   </ListItemWrapper>
