@@ -397,6 +397,8 @@
   "__FORM_FIELD_REQUIRED_MESSAGE": "Campo obbligatorio",
   "__FORM_OPTIONAL_LABEL": "(opzionale)",
   "__FUNCTIONAL_LABEL": "Funzionali",
+  "__LIST_PAGE_NEXT": "Indietro",
+  "__LIST_PAGE_PREVIOUS": "Avanti",
   "__LOGIN_FORM_BACK_TO_LABEL": "Torna su Unguess",
   "__LOGIN_FORM_CTA": "Login",
   "__LOGIN_FORM_CTA_REDIRECT_STATE": "Reindirizzamento...",
