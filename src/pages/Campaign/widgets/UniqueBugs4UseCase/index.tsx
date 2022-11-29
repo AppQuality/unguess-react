@@ -1,10 +1,11 @@
 import { PieChart } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
+import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 import { List } from '../List';
 import { ListItem } from '../List/ListItem';
 import FlipCard from '../widgetCards/FlipCard';
+import { ListItemProps } from '../List/type';
 
 const pieChartProps = {
   width: '100%',
@@ -53,50 +54,25 @@ const ChartUniqueBugs4UseCase = () => (
 );
 
 const ListUniqueBugs4UseCase = () => {
-  const items = [
-    {
-      id: 1,
-      numerator: 1,
-      denominator: 2,
-      children: 'Use Case 1',
-    },
-    {
-      id: 2,
-      numerator: 1,
-      denominator: 2,
-      children: 'Use Case 2',
-    },
-    {
-      id: 3,
-      numerator: 1,
-      denominator: 2,
-      children: 'Use Case 3',
-    },
-    {
-      id: 4,
-      numerator: 1,
-      denominator: 2,
-      children: 'Use Case 4',
-    },
-    {
-      id: 5,
-      numerator: 1,
-      denominator: 2,
-      children: 'Use Case 5',
-    },
-    {
-      id: 6,
-      numerator: 1,
-      denominator: 2,
-      children: 'Use Case 6',
-    },
-    {
-      id: 7,
-      numerator: 1,
-      denominator: 2,
-      children: 'Use Case 7',
-    },
-  ];
+  const { data } = useGetCampaignsByCidWidgetsQuery({
+    cid: 3044,
+    s: 'bugs-by-usecase',
+  });
+
+  const [items, setItems] = useState<ListItemProps[]>([]);
+  useEffect(() => {
+    if (data && 'kind' in data && data.kind === 'bugsByUseCase') {
+      const total = data.data.reduce((acc, current) => acc + current.bugs, 0);
+      const currentItems = data.data.map((item) => ({
+        key: item.usecase_id,
+        children: item.title,
+        numerator: item.bugs,
+        denominator: total,
+      }));
+      setItems(currentItems);
+    }
+  }, [data]);
+
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [paginatedItems, setPaginatedItems] = useState(items);
 
@@ -118,7 +94,7 @@ const ListUniqueBugs4UseCase = () => {
       </List.Columns>
       {paginatedItems.map((item) => (
         <ListItem
-          key={item.id}
+          key={item.key}
           numerator={item.numerator}
           denominator={item.denominator}
         >
