@@ -12,7 +12,11 @@ export const SEVERITY_COLORS: Record<Severities, string> = {
 
 const theme = {
   ...baseTheme,
-  colors: { ...baseTheme.colors, bySeverity: SEVERITY_COLORS },
+  colors: {
+    ...baseTheme.colors,
+    bySeverity: SEVERITY_COLORS,
+    darkPine: CHARTS_COLOR_PALETTE.darkPine,
+  },
 };
 
 export { theme };
