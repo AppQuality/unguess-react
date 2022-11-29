@@ -11,4 +11,5 @@ export interface ListProps {
   header: ReactNode;
   title: ReactNode;
   total: number;
+  columns: String[];
 }

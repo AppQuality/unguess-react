@@ -18,7 +18,7 @@ const ListItemTitle = styled.div`
 `;
 
 const ListItemWrapper = styled.div`
-  margin-top: ${(p) => p.theme.space.xxs};
+  margin-bottom: ${(p) => p.theme.space.xxs};
 `;
 
 export const ListItem = ({

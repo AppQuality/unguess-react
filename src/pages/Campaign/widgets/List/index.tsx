@@ -1,6 +1,5 @@
 import {
   SM,
-  theme as globalTheme,
   XL,
   XXXL,
   CursorPagination as CP,
@@ -11,78 +10,114 @@ import { useTranslation } from 'react-i18next';
 import { ListItem } from './ListItem';
 import { ListItemProps, ListProps } from './type';
 
-const ListHeader = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
+const ListHeader = styled.div`
+  margin-top: ${({ theme }) => theme.space.lg};
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const ListTitle = styled(XXXL)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
+const ListHeaderLabel = styled(SM)`
+  color: ${({ theme }) => theme.palette.grey[500]};
+`;
+
+const ListHeaderTitle = styled(XXXL)`
   margin-top: ${({ theme }) => theme.space.xxs};
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+  color: ${({ theme }) => theme.palette.blue[600]};
 `;
 
-const Items = styled.div``;
+const ListColumns = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+const ListBody = styled.div``;
 
 const ListWrapper = styled.div`
-  margin-top: ${(p) => p.theme.space.xxs};
-`;
-const PaginationWrapper = styled.div`
-  margin-top: ${(p) => p.theme.space.xxs};
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: flex-start;
 `;
 
-export const List = ({ items, total, header, title }: ListProps) => {
+const ListPagination = styled.div`
+  margin-top: auto;
+`;
+
+const ListPaginationWrapper = styled.div`
+  margin-top: ${({ theme }) => theme.space.lg};
+`;
+
+export const List = ({ columns, items, total, header, title }: ListProps) => {
   const { t } = useTranslation();
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
   const pagesNumber = Math.ceil(items.length / itemsPerPage);
-  const [cursor, setCursor] = useState(0);
+
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const [paginatedItems, setPaginatedItems] = useState<ListItemProps[][]>([]);
+
   useEffect(() => {
-    let i = 0;
     const newPaginatedItems = [];
     const currentItems = [...items];
     while (currentItems.length) {
       newPaginatedItems.push(currentItems.splice(0, itemsPerPage));
-      i += 1;
     }
     setPaginatedItems(newPaginatedItems);
-  }, [items, itemsPerPage]);
+  }, [items]);
 
   const onPrevious = () => {
-    setCursor(cursor - 1);
+    setCurrentPage(currentPage - 1);
   };
   const onNext = () => {
-    setCursor(cursor + 1);
+    setCurrentPage(currentPage + 1);
   };
 
   return (
     /* List */
 
     <ListWrapper>
-      <ListHeader>{header}</ListHeader>
-      <ListTitle isBold style={{ color: globalTheme.palette.blue[600] }}>
-        <XXXL tag="span">{total}</XXXL> <XL tag="span">{title}</XL>{' '}
-      </ListTitle>
+      <ListHeader>
+        <ListHeaderLabel isBold>{header}</ListHeaderLabel>
+        <ListHeaderTitle isBold>
+          <XXXL tag="span" isBold>
+            {total}
+          </XXXL>{' '}
+          <XL tag="span" isBold>
+            {title}
+          </XL>{' '}
+        </ListHeaderTitle>
+        <ListColumns>
+          {columns.map((column) => (
+            <ListHeaderLabel isBold>{column}</ListHeaderLabel>
+          ))}
+        </ListColumns>
+      </ListHeader>
 
-      <Items>
+      <ListBody>
         {paginatedItems &&
-          paginatedItems[cursor] &&
-          paginatedItems[cursor].map((item) => (
-            // eslint-disable-next-line react/no-array-index-key
+          paginatedItems[`${currentPage}`] &&
+          paginatedItems[`${currentPage}`].map((item) => (
             <ListItem numerator={item.numerator} denominator={item.denominator}>
               {item.children}
             </ListItem>
           ))}
-      </Items>
-      <PaginationWrapper>
-        <CP aria-label="Cursor pagination" style={{ justifyContent: 'end' }}>
-          <CP.Previous onClick={onPrevious} disabled={cursor <= 0}>
-            {t('__LIST_PAGE_PREVIOUS')}
-          </CP.Previous>
-          <CP.Next onClick={onNext} disabled={cursor >= pagesNumber - 1}>
-            {t('__LIST_PAGE_NEXT')}
-          </CP.Next>
-        </CP>
-      </PaginationWrapper>
+      </ListBody>
+
+      <ListPagination>
+        <ListPaginationWrapper>
+          <CP aria-label="Cursor pagination" style={{ justifyContent: 'end' }}>
+            <CP.Previous onClick={onPrevious} disabled={currentPage <= 0}>
+              {t('__LIST_PAGE_PREVIOUS')}
+            </CP.Previous>
+            <CP.Next onClick={onNext} disabled={currentPage >= pagesNumber - 1}>
+              {t('__LIST_PAGE_NEXT')}
+            </CP.Next>
+          </CP>
+        </ListPaginationWrapper>
+      </ListPagination>
     </ListWrapper>
   );
 };
