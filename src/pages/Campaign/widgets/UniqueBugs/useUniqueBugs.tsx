@@ -5,6 +5,7 @@ const useUniqueBugs = (campaignId: number) => {
     useGetCampaignsByCidWidgetsQuery({
       cid: campaignId,
       s: 'unique-bugs',
+      updateTrend: true,
     });
 
   const { data: results, kind } = data || {};
