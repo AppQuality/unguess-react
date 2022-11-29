@@ -1,5 +1,7 @@
 import { PieChart } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { List } from '../List';
 import { ListItem } from '../List/ListItem';
 import FlipCard from '../widgetCards/FlipCard';
@@ -134,15 +136,20 @@ const ListUniqueBugs4UseCase = () => {
 
 const headerHeight = 67;
 const cardHeight = 537;
-const UniqueBugs4UseCase = () => (
-  <FlipCard>
-    <FlipCard.Header>Header</FlipCard.Header>
-    <FlipCard.Body
-      height={`${cardHeight - headerHeight}px`}
-      front={<ChartUniqueBugs4UseCase />}
-      back={<ListUniqueBugs4UseCase />}
-    />
-  </FlipCard>
-);
+const UniqueBugs4UseCase = () => {
+  const { t } = useTranslation();
+  return (
+    <FlipCard>
+      <FlipCard.Header>
+        {t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_CARD_TITLE')}
+      </FlipCard.Header>
+      <FlipCard.Body
+        height={`${cardHeight - headerHeight}px`}
+        front={<ChartUniqueBugs4UseCase />}
+        back={<ListUniqueBugs4UseCase />}
+      />
+    </FlipCard>
+  );
+};
 
 export default UniqueBugs4UseCase;
