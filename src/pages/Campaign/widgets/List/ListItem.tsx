@@ -12,7 +12,7 @@ const ListItemTitle = styled.div`
 `;
 
 const ListItemWrapper = styled.div`
-  margin-bottom: ${(p) => p.theme.space.xxs};
+  margin-top: ${(p) => p.theme.space.xxs};
 `;
 
 export const ListItem = ({

@@ -4,12 +4,11 @@ export interface ListItemProps {
   children: ReactNode;
   numerator: number;
   denominator: number;
+  key: string | number;
 }
 
 export interface ListProps {
-  items: ListItemProps[];
-  header: ReactNode;
+  header?: ReactNode;
   title: ReactNode;
-  total: number;
-  columns: String[];
+  children: ReactNode;
 }
