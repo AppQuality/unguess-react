@@ -7,6 +7,7 @@ const isReactCampaign = (outputs: Output[]): boolean => {
 
   if (outputs.length) {
     outputs.forEach((output) => {
+      if (output === 'bugs') isReact = false;
       if (output === 'media') isReact = false;
     });
   }
