@@ -17,7 +17,8 @@ import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
-import FlipCard from './widgets/widgetCards/FlipCard';
+import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
+import IncomingBugs from './widgets/incomingBugs';
 
 const Campaign = () => {
   const navigate = useNavigate();
@@ -117,62 +118,10 @@ const Campaign = () => {
                         <SectionTitle title="distribuzione bug unici" />
                       </Col>
                       <Col xs={12} md={6}>
-                        <FlipCard>
-                          <FlipCard.Header>Header</FlipCard.Header>
-                          <FlipCard.Body
-                            // height='300px'
-                            front={
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  flexFlow: 'column',
-                                  alignItems: 'center',
-                                }}
-                              >
-                                <div>..</div>
-                                <div>....</div>
-                                <div>........</div>
-                                <div>FRONT CONTENT</div>
-                                <div>GRAPH</div>
-                                <div>........</div>
-                                <div>....</div>
-                                <div>..</div>
-                              </div>
-                            }
-                            back={
-                              <div>
-                                <div>LIST</div>
-                                <div>
-                                  Item1
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item2
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item3
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item4
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item5
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item6
-                                  ..................................................................
-                                </div>
-                              </div>
-                            }
-                          />
-                          <FlipCard.Footer>
-                            <div>footer</div>
-                          </FlipCard.Footer>
-                        </FlipCard>
+                        <UniqueBugs4UseCase />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <IncomingBugs />
                       </Col>
                       <Col xs={12} md={4}>
                         <div />
