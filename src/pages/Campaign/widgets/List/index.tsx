@@ -32,8 +32,6 @@ const ListColumns = styled.div`
   width: 100%;
 `;
 
-const ListBody = styled.div``;
-
 const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -96,15 +94,13 @@ export const List = ({ columns, items, total, header, title }: ListProps) => {
         </ListColumns>
       </ListHeader>
 
-      <ListBody>
-        {paginatedItems &&
-          paginatedItems[`${currentPage}`] &&
-          paginatedItems[`${currentPage}`].map((item) => (
-            <ListItem numerator={item.numerator} denominator={item.denominator}>
-              {item.children}
-            </ListItem>
-          ))}
-      </ListBody>
+      {paginatedItems &&
+        paginatedItems[`${currentPage}`] &&
+        paginatedItems[`${currentPage}`].map((item) => (
+          <ListItem numerator={item.numerator} denominator={item.denominator}>
+            {item.children}
+          </ListItem>
+        ))}
 
       <ListPagination>
         <ListPaginationWrapper>
