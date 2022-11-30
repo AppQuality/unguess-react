@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 import { List } from '../List';
 import { ListItem } from '../List/ListItem';
@@ -7,8 +8,10 @@ import { ListItemProps } from '../List/type';
 
 export const ListUniqueBugs4UseCase = () => {
   const { t } = useTranslation();
+  const { campaignId } = useParams();
+
   const { data } = useGetCampaignsByCidWidgetsQuery({
-    cid: 3044,
+    cid: Number(campaignId),
     s: 'bugs-by-usecase',
   });
 
