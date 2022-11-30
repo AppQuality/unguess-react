@@ -17,7 +17,9 @@ import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
-import FlipCard from './widgets/widgetCards/FlipCard';
+import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
+import IncomingBugs from './widgets/incomingBugs';
+import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
 
 const Campaign = () => {
   const navigate = useNavigate();
@@ -53,6 +55,8 @@ const Campaign = () => {
 
   const isFunctional =
     campaign?.family.name.toLocaleLowerCase() === 'functional';
+
+  const contentHeight = '470px';
 
   return (
     <Page
@@ -114,71 +118,27 @@ const Campaign = () => {
                     </Row>
                     <Row>
                       <Col xs={12}>
-                        <SectionTitle title="distribuzione bug unici" />
+                        <SectionTitle
+                          title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}
+                        />
                       </Col>
                       <Col xs={12} md={6}>
-                        <FlipCard>
-                          <FlipCard.Header>Header</FlipCard.Header>
-                          <FlipCard.Body
-                            // height='300px'
-                            front={
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  flexFlow: 'column',
-                                  alignItems: 'center',
-                                }}
-                              >
-                                <div>..</div>
-                                <div>....</div>
-                                <div>........</div>
-                                <div>FRONT CONTENT</div>
-                                <div>GRAPH</div>
-                                <div>........</div>
-                                <div>....</div>
-                                <div>..</div>
-                              </div>
-                            }
-                            back={
-                              <div>
-                                <div>LIST</div>
-                                <div>
-                                  Item1
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item2
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item3
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item4
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item5
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item6
-                                  ..................................................................
-                                </div>
-                              </div>
-                            }
-                          />
-                          <FlipCard.Footer>
-                            <div>footer</div>
-                          </FlipCard.Footer>
-                        </FlipCard>
+                        <UniqueBugs4UseCase contentHeight={contentHeight} />
                       </Col>
-                      <Col xs={12} md={4}>
-                        <div />
+                      <Col xs={12} md={6}>
+                        <IncomingBugs />
                       </Col>
-                      <Col xs={12} md={4} lg={4}>
-                        <div />
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t(
+                            '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
+                          )}
+                        />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <TotalBugsByOsAndDevices
+                          contentHeight={contentHeight}
+                        />
                       </Col>
                     </Row>
                   </>
