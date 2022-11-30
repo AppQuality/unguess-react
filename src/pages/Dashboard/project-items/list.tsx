@@ -1,4 +1,5 @@
-import { Row, Col, theme } from '@appquality/unguess-design-system';
+import { Row, Col } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { Campaign } from 'src/features/api';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { CampaignItem } from '../CampaignItem';

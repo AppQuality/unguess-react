@@ -23,6 +23,7 @@ export const apiSlice = createApi({
     'Campaigns',
     'Reports',
     'Templates',
+    'Bugs',
   ],
   endpoints: () => ({}),
 });

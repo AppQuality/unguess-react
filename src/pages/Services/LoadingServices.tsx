@@ -3,8 +3,8 @@ import {
   Col,
   Row,
   Skeleton,
-  theme as globalTheme,
 } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 
 export const LoadingServices = () => (
   <>

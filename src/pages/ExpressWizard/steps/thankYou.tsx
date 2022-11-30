@@ -7,8 +7,8 @@ import {
   theme,
   ModalFullScreen,
   Logo,
-  theme as globalTheme,
 } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import {

@@ -1,12 +1,5 @@
 import { Page } from 'src/features/templates/Page';
-import {
-  Col,
-  Grid,
-  Paragraph,
-  Row,
-  XL,
-  theme,
-} from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
@@ -14,17 +7,23 @@ import {
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
-import { CampaignPageHeader } from './pageHeader';
+import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
+import { Navigation, NavigationLoading } from './navigation';
+import { UniqueBugs } from './widgets/UniqueBugs';
+import { Progress } from './widgets/Progress';
+import BugDistributionCard from './widgets/BugDistributionCard';
+import { EmptyState } from './EmptyState';
+import { SectionTitle } from './SectionTitle';
+import FlipCard from './widgets/widgetCards/FlipCard';
 
 const Campaign = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-
   const { campaignId } = useParams();
+  const { t } = useTranslation();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute);
@@ -52,6 +51,9 @@ const Campaign = () => {
     navigate(notFoundRoute);
   }
 
+  const isFunctional =
+    campaign?.family.name.toLocaleLowerCase() === 'functional';
+
   return (
     <Page
       title={(campaign && campaign.customer_title) ?? 'Campaign'}
@@ -65,26 +67,138 @@ const Campaign = () => {
       route="campaigns"
     >
       <Grid>
-        {reports && reports.length ? (
-          <Row>
-            <Col xs={12}>
-              <XL
-                style={{
-                  fontWeight: theme.fontWeights.medium,
-                  marginBottom: theme.space.xs,
-                }}
-              >
-                {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
-              </XL>
-              <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
-            </Col>
-          </Row>
-        ) : null}
-        {reports && campaign && !isLoadingReports && !isFetchingReports ? (
-          <ReportRow reports={reports} campaign={campaign} />
-        ) : (
-          <ReportRowLoading />
-        )}
+        <Row>
+          {!campaign?.outputs?.includes('bugs') &&
+          !reports?.length &&
+          !isFunctional ? (
+            <EmptyState />
+          ) : (
+            <>
+              <Col xs={12} md={3}>
+                {isLoadingCampaign ||
+                isFetchingCampaign ||
+                isLoadingReports ||
+                isFetchingReports ? (
+                  <NavigationLoading />
+                ) : (
+                  <Navigation
+                    campaignId={campaign ? campaign.id : 0}
+                    outputs={campaign ? campaign.outputs : []}
+                    reports={reports ?? []}
+                    {...(isFunctional && { isFunctional })}
+                  />
+                )}
+              </Col>
+              <Col xs={12} md={9}>
+                {campaign?.outputs?.includes('bugs') && (
+                  <>
+                    <Row>
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
+                        />
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <Progress campaign={campaign} />
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+                      </Col>
+                      <Col xs={12} md={4} lg={4}>
+                        {isFetchingCampaign ? undefined : (
+                          <BugDistributionCard
+                            campaignId={campaign ? campaign.id : 0}
+                          />
+                        )}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col xs={12}>
+                        <SectionTitle title="distribuzione bug unici" />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <FlipCard>
+                          <FlipCard.Header>Header</FlipCard.Header>
+                          <FlipCard.Body
+                            // height='300px'
+                            front={
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  flexFlow: 'column',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <div>..</div>
+                                <div>....</div>
+                                <div>........</div>
+                                <div>FRONT CONTENT</div>
+                                <div>GRAPH</div>
+                                <div>........</div>
+                                <div>....</div>
+                                <div>..</div>
+                              </div>
+                            }
+                            back={
+                              <div>
+                                <div>LIST</div>
+                                <div>
+                                  Item1
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item2
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item3
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item4
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item5
+                                  ..................................................................
+                                </div>
+                                <div>
+                                  Item6
+                                  ..................................................................
+                                </div>
+                              </div>
+                            }
+                          />
+                          <FlipCard.Footer>
+                            <div>footer</div>
+                          </FlipCard.Footer>
+                        </FlipCard>
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <div />
+                      </Col>
+                      <Col xs={12} md={4} lg={4}>
+                        <div />
+                      </Col>
+                    </Row>
+                  </>
+                )}
+                {reports &&
+                campaign &&
+                !isLoadingReports &&
+                !isFetchingReports ? (
+                  <ReportRow
+                    reports={reports}
+                    campaign={campaign}
+                    {...(isFunctional && { isFunctional })}
+                  />
+                ) : (
+                  <ReportRowLoading />
+                )}
+              </Col>
+            </>
+          )}
+        </Row>
       </Grid>
     </Page>
   );
