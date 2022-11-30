@@ -1,3 +1,4 @@
+// import {Tabs} from "@appquality/unguess-design-system";
 import { BasicWidget } from '../widgetCards/BasicWidget';
 
 const IncomingBugs = () => (
@@ -5,7 +6,7 @@ const IncomingBugs = () => (
     <BasicWidget.Header tooltipContent="tooltip">
       incoming bugs
     </BasicWidget.Header>
-    Tab Layout
+
     <BasicWidget.Footer>vai al dettaglio dei bug</BasicWidget.Footer>
   </BasicWidget>
 );

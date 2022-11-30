@@ -42,10 +42,10 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/unguess-design-system@2.12.37":
-  version "2.12.37"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.37.tgz#22fa9f9d5d905f87563b8f4de596dda661deea69"
-  integrity sha512-i0PXTFdMTezrXd2W0ZwSGrGN3EHeAo0q8uxNDOVfw3ZIwlb4Fvn9tNJDAoddWGOT/u8wdmARz9ImKMnFaAh4cg==
+"@appquality/unguess-design-system@2.12.39":
+  version "2.12.39"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.39.tgz#b55ea5352b63cc83536ca59bd3a95f0d0d8cf61c"
+  integrity sha512-TaFbtoYiw7riOb3gyeN8DPHuYfX3gB5ll6XAE6c70dylxg12cjktH6Yrs4v7WVW/lwSBFE2oJH6a1dUfANTpfg==
   dependencies:
     "@nivo/bar" "^0.80.0"
     "@nivo/bullet" "^0.80.0"
@@ -74,6 +74,7 @@
     "@zendeskgarden/react-notifications" "^8.49.0"
     "@zendeskgarden/react-pagination" "^8.49.0"
     "@zendeskgarden/react-tables" "^8.49.0"
+    "@zendeskgarden/react-tabs" "^8.49.0"
     "@zendeskgarden/react-tags" "^8.49.0"
     "@zendeskgarden/react-tooltips" "^8.49.0"
     "@zendeskgarden/react-typography" "^8.49.0"
@@ -3397,6 +3398,15 @@
     "@babel/runtime" "^7.8.4"
     "@zendeskgarden/container-utilities" "^1.0.1"
 
+"@zendeskgarden/container-tabs@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/container-tabs/-/container-tabs-1.0.1.tgz#b6f91eccbf9b1dc5d6bb4e75f710b9e621696243"
+  integrity sha512-IBBx56yJ3ivftVsirXQksDeN76fwMH3eswTqV45U2NjxzMPvRuKLyx6EuQ89iidcHTBKIBg+/NRH9z+vdB/sWw==
+  dependencies:
+    "@babel/runtime" "^7.8.4"
+    "@zendeskgarden/container-selection" "^2.0.1"
+    "@zendeskgarden/container-utilities" "^1.0.1"
+
 "@zendeskgarden/container-tooltip@^0.5.12":
   version "0.5.17"
   resolved "https://registry.npmjs.org/@zendeskgarden/container-tooltip/-/container-tooltip-0.5.17.tgz"
@@ -3602,6 +3612,17 @@
     dom-helpers "^5.1.0"
     polished "^4.0.0"
     prop-types "^15.5.7"
+
+"@zendeskgarden/react-tabs@^8.49.0", "@zendeskgarden/react-tabs@^8.60.0":
+  version "8.60.0"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-tabs/-/react-tabs-8.60.0.tgz#f0dae789ca2cc6a170a121f999ffd6d35d27dea9"
+  integrity sha512-DNAd3F4pJWYMl1M+wWiTE+RdXjfVgRkt6ZoFCa1VlLAIA71VFwda7D4yZcluI7iniVPadSyEupLQPezdoZc6KA==
+  dependencies:
+    "@zendeskgarden/container-tabs" "^1.0.0"
+    "@zendeskgarden/container-utilities" "^1.0.0"
+    polished "^4.0.0"
+    prop-types "^15.5.7"
+    react-merge-refs "^1.1.0"
 
 "@zendeskgarden/react-tags@^8.49.0":
   version "8.60.0"
