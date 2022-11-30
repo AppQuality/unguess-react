@@ -10,12 +10,21 @@ const main = () => {
   store.dispatch(fetchUser());
   store.dispatch(getWorkspaces());
 
-  ReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    document.getElementById('root')
-  );
+  setInterval(() => {
+    console.error(`
+  ##########################################
+  ##########################################
+  ##########################################
+      RESTORE STRICT MODE BEFORE MERGE
+      RESTORE STRICT MODE BEFORE MERGE
+      RESTORE STRICT MODE BEFORE MERGE
+      RESTORE STRICT MODE BEFORE MERGE
+  ##########################################
+  ##########################################
+  ##########################################
+  `);
+  }, 10000);
+  ReactDOM.render(<App />, document.getElementById('root'));
 };
 
 main();
