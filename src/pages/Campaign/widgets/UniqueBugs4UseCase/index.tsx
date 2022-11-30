@@ -91,7 +91,7 @@ const ListUniqueBugs4UseCase = () => {
     setPaginatedItems(
       items.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     );
-  }, [currentPage]);
+  }, [currentPage, items]);
 
   return (
     <List
