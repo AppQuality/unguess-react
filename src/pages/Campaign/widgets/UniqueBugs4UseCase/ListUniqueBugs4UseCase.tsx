@@ -51,10 +51,15 @@ export const ListUniqueBugs4UseCase = () => {
 
   return (
     <List
-      header={t('__CAMPAIGN_WIDGET_UNIQUE_BUGS_BY_USECASE_HEADER_LABEL')}
-      title={`${total} ${t(
-        '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_LIST_HEADER'
-      )}`}
+      header={t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_LIST_HEADER')}
+      title={
+        <>
+          {total}{' '}
+          <XL tag="span" isBold>
+            {t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_LIST_CONTENT')}
+          </XL>
+        </>
+      }
     >
       <List.Columns>
         <List.Columns.Label isBold>
