@@ -9,9 +9,12 @@ const durationMilliseconds = 500;
 const WidgetCardFaceContent = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
+  height: calc(
+    100% - ${({ theme }) => theme.space.xxs} - ${({ theme }) => theme.space.xxs}
+  );
+
   background-color: white;
   width: 100%;
-  height: 100%;
 
   &.face-enter {
     opacity: 0;
