@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Page } from 'src/features/templates/Page';
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -58,8 +57,6 @@ const Campaign = () => {
     campaign?.family.name.toLocaleLowerCase() === 'functional';
 
   const contentHeight = '470px';
-
-  const [selectedTab, setSelectedTab] = useState('tab1');
 
   return (
     <Page
