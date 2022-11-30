@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Page } from 'src/features/templates/Page';
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
-import { Tabs, TabList, Tab, TabPanel } from '@zendeskgarden/react-tabs';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
@@ -121,19 +120,6 @@ const Campaign = () => {
                       </Col>
                     </Row>
                     <Row>
-                      <Col xs={12}>
-                        <Tabs
-                          selectedItem={selectedTab}
-                          onChange={setSelectedTab}
-                        >
-                          <TabList>
-                            <Tab item="tab1">Tab 1</Tab>
-                            <Tab item="tab2">Tab 2</Tab>
-                          </TabList>
-                          <TabPanel item="tab1">Tab 1 content</TabPanel>
-                          <TabPanel item="tab2">Tab 2 content</TabPanel>
-                        </Tabs>
-                      </Col>
                       <Col xs={12}>
                         <SectionTitle
                           title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}

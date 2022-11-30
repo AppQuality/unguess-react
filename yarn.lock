@@ -3613,7 +3613,7 @@
     polished "^4.0.0"
     prop-types "^15.5.7"
 
-"@zendeskgarden/react-tabs@^8.49.0", "@zendeskgarden/react-tabs@^8.60.0":
+"@zendeskgarden/react-tabs@^8.49.0":
   version "8.60.0"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-tabs/-/react-tabs-8.60.0.tgz#f0dae789ca2cc6a170a121f999ffd6d35d27dea9"
   integrity sha512-DNAd3F4pJWYMl1M+wWiTE+RdXjfVgRkt6ZoFCa1VlLAIA71VFwda7D4yZcluI7iniVPadSyEupLQPezdoZc6KA==
