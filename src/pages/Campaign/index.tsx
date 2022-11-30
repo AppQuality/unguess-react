@@ -115,7 +115,9 @@ const Campaign = () => {
                     </Row>
                     <Row>
                       <Col xs={12}>
-                        <SectionTitle title="distribuzione bug unici" />
+                        <SectionTitle
+                          title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}
+                        />
                       </Col>
                       <Col xs={12} md={6}>
                         <UniqueBugs4UseCase />
