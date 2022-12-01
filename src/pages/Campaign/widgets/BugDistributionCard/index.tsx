@@ -10,6 +10,7 @@ import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { useBugs } from './useBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
+import { CapitalizeFirstLetter } from '../widgetCards/common/CapitalizeFirstLetter';
 
 function translateSeverity(severity: Severities, t: TFunction) {
   switch (severity) {
@@ -49,9 +50,14 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
       <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOOLTIP')}
       >
-        <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_HEADER">
-          {{ severity: translateSeverity(maxSeverity, t) }} bugs
-        </Trans>
+        <CapitalizeFirstLetter>
+          <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_HEADER">
+            {{
+              severity: translateSeverity(maxSeverity, t),
+            }}{' '}
+            bugs
+          </Trans>
+        </CapitalizeFirstLetter>
       </BasicWidget.Header>
       <HalfPieChart
         width="50%"

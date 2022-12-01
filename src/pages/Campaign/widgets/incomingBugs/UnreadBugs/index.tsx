@@ -1,7 +1,7 @@
 import { Accordion, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { useUnreadBugs } from './useUnreadBugs';
 
@@ -36,7 +36,9 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <div style={{ height: '84%', overflowY: 'scroll' }}>
-      <StyledSM>{t('__CAMPAIGN_UNREAD_BUGS_DESCRIPTION')}</StyledSM>
+      <StyledSM>
+        {t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_DESCRIPTION')}
+      </StyledSM>
       <Accordion isCompact isExpandable isAnimated={false} level={1}>
         {data.map((usecase) => (
           <Accordion.Section>
@@ -44,7 +46,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
               <StyledAccordionLabel>
                 <UseCaseLabel>
                   <SM isBold>{usecase.title}</SM>
-                  <SM>{`(Non letti:${usecase.unreadCount}/${usecase.totalCount})`}</SM>
+                  <SM>{`(${usecase.unreadCount}/${usecase.totalCount})`}</SM>
                 </UseCaseLabel>
               </StyledAccordionLabel>
             </Accordion.Header>

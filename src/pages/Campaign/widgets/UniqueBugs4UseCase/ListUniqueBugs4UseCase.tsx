@@ -47,7 +47,7 @@ export const ListUniqueBugs4UseCase = () => {
 
   return (
     <List
-      header="header"
+      header={t('__CAMPAIGN_WIDGET_UNIQUE_BUGS_BY_USECASE_HEADER_LABEL')}
       title={`${total} ${t(
         '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_LIST_HEADER'
       )}`}

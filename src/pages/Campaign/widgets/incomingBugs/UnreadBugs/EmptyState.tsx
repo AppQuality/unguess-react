@@ -18,7 +18,9 @@ const EmptyState = () => {
   return (
     <EmptyContainer>
       <Empty style={{ width: 'auto', height: '260px' }} />
-      <StyledLG isBold>{t('__CAMPAIGN_UNREAD_NO_BUGS')}</StyledLG>
+      <StyledLG isBold>
+        {t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_NO_BUGS')}
+      </StyledLG>
     </EmptyContainer>
   );
 };
