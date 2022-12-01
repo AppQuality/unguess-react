@@ -1,17 +1,21 @@
-import { PieChart } from '@appquality/unguess-design-system';
-import { PieDatum } from '@appquality/unguess-design-system/build/stories/charts/pie/_types';
+import { PieChart, Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
+interface PieItem {
+  [key: string]: string | number;
+}
+
 export const ChartUniqueBugs4UseCase = () => {
   const { campaignId } = useParams();
-  const { data } = useGetCampaignsByCidWidgetsQuery({
-    cid: Number(campaignId),
-    s: 'bugs-by-usecase',
-  });
+  const { data, isFetching, isLoading, isError } =
+    useGetCampaignsByCidWidgetsQuery({
+      cid: Number(campaignId),
+      s: 'bugs-by-usecase',
+    });
   const [total, setTotal] = useState(0);
-  const [items, setItems] = useState<PieDatum[]>([]);
+  const [items, setItems] = useState<PieItem[]>([]);
 
   useEffect(() => {
     if (data && 'kind' in data && data.kind === 'bugsByUseCase') {
@@ -28,18 +32,16 @@ export const ChartUniqueBugs4UseCase = () => {
       setTotal(newTotal);
     }
   }, [data]);
-  const pieChartProps = {
-    width: '100%',
-    height: '270px',
-    data: items,
-    centerItem: {
-      label: 'Tot. bugs',
-      value: String(total),
-    },
-  };
+
+  if (isFetching || isLoading || isError) {
+    return <Skeleton />;
+  }
   return (
-    <div>
-      <PieChart {...pieChartProps} />
-    </div>
+    <PieChart
+      width="100%"
+      height="270px"
+      centerItem={{ label: 'Tot. Bugs', value: total.toString() }}
+      data={items}
+    />
   );
 };
