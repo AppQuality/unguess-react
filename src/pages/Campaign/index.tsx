@@ -126,7 +126,7 @@ const Campaign = () => {
                         <UniqueBugs4UseCase contentHeight={contentHeight} />
                       </Col>
                       <Col xs={12} md={6}>
-                        <IncomingBugs />
+                        <IncomingBugs campaignId={campaign.id ?? 0} />
                       </Col>
                       <Col xs={12}>
                         <SectionTitle

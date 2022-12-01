@@ -38,3 +38,16 @@ export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
 
   return getLocalizedUXDashboardUrl(campaignId, currentLang);
 }
+
+export const getLocalizedBugUrl = (
+  aCampaignId: number,
+  aBugId: number,
+  aLanguage: string
+): string =>
+  aLanguage === 'en'
+    ? `${
+        process.env.REACT_APP_CROWD_WP_URL ?? ''
+      }/functional-customer-dashboard/?cid=${aCampaignId}&bug_id=${aBugId}`
+    : `${
+        process.env.REACT_APP_CROWD_WP_URL ?? ''
+      }/it/dashboard-campagne-funzionali/?cid=${aCampaignId}&bug_id=${aBugId}`;

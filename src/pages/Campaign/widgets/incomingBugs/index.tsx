@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { UnreadBugs } from './UnreadBugs';
 import { DuplicateBugs } from './DuplicateBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
+import { useBugsByDuplicates } from './useBugsByDuplicates';
 
-const IncomingBugs = () => {
-  const thereAreDuplicates = true;
+const IncomingBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
+  const duplicatesResponse = useBugsByDuplicates(campaignId);
+  const thereAreDuplicates = duplicatesResponse.bugs?.length > 0;
 
   return (
     <BasicWidget>
@@ -24,7 +26,7 @@ const IncomingBugs = () => {
             </Tabs.Tab>
           </Tabs.List>
           <Tabs.Panel item="duplicate">
-            <DuplicateBugs />
+            <DuplicateBugs data={duplicatesResponse} />
           </Tabs.Panel>
           <Tabs.Panel item="unread">
             <UnreadBugs />
