@@ -1,9 +1,6 @@
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import i18n from 'src/i18n';
-import {
-  getLocalizedBugUrl,
-  getLocalizedFunctionalDashboardUrl,
-} from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizedBugUrl } from 'src/hooks/useLocalizeDashboardUrl';
 
 const countBugsByUsecaseId = (
   bugs: { application_section: { id?: number } }[],
