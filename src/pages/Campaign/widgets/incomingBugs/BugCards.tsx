@@ -21,8 +21,6 @@ const BugCards = ({ bugs }: { bugs: WidgetBugsByDuplicates['data'] }) => {
           i18n.language
         );
 
-        console.log('bug', bug);
-
         return (
           <BugCardWrapper>
             <BugCard
