@@ -62,7 +62,7 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
           <Trans
             i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_LABEL"
             components={{ bold: <MD isBold tag="span" /> }}
-            defaults="out of <bold>{{ total }}</bold>"
+            defaults="out of <bold>{{ total }}</bold> total"
             values={{ total: totalBugs }}
           />
         }

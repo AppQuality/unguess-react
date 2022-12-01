@@ -77,7 +77,7 @@ const StepTitle = styled(XXL)`
 `;
 
 const StepParagraph = styled(Paragraph)`
-  font-weight: ${({ theme }) => theme.fontWeights.semiBold};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
