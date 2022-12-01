@@ -1,7 +1,7 @@
 import { Accordion, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { useUnreadBugs } from './useUnreadBugs';
 
@@ -35,7 +35,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
   if (isError) return <EmptyState />;
 
   return (
-    <div style={{ height: '84%', overflowY: 'scroll' }}>
+    <div style={{ height: '84%', overflowY: 'scroll', overflowX: 'hidden' }}>
       <StyledSM>
         {t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_DESCRIPTION')}
       </StyledSM>

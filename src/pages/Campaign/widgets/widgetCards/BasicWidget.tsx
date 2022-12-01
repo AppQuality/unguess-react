@@ -12,9 +12,13 @@ import { StyledSpecialCard } from './common/StyledSpecialCard';
 import { WidgetCardFooter } from './common/WidgetCardFooter';
 import { WidgetCardHeader } from './common/WidgetCardHeader';
 
-const BasicWidget = ({ children }: { children: React.ReactNode }) => (
-  <StyledSpecialCard>{children}</StyledSpecialCard>
-);
+const BasicWidget = ({
+  children,
+  height,
+}: {
+  children: React.ReactNode;
+  height?: string;
+}) => <StyledSpecialCard style={{ height }}>{children}</StyledSpecialCard>;
 
 const BasicWidgetHeader = ({
   children,

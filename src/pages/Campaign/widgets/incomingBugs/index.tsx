@@ -7,13 +7,19 @@ import { DuplicateBugs } from './DuplicateBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 import { useBugsByDuplicates } from './DuplicateBugs/useBugsByDuplicates';
 
-const IncomingBugs = ({ campaignId }: { campaignId: number }) => {
+const IncomingBugs = ({
+  campaignId,
+  height,
+}: {
+  campaignId: number;
+  height?: string;
+}) => {
   const { t } = useTranslation();
   const duplicatesResponse = useBugsByDuplicates(campaignId);
   const thereAreDuplicates = duplicatesResponse.bugs?.length > 0;
 
   return (
-    <BasicWidget>
+    <BasicWidget height={height}>
       <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_WIDGET_INCOMING_BUGS_TOOLTIP')}
       >
