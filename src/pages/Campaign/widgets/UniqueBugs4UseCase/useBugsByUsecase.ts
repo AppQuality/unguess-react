@@ -29,11 +29,14 @@ export const useBugsByUsecase = (campaignId: string) => {
           denominator: currentTotal,
         }))
       );
+      return;
     }
     setTotal(0);
     setItems([]);
   }, [data]);
 
+  console.log('data', data);
+  console.log('total', total);
   return {
     total,
     items,
