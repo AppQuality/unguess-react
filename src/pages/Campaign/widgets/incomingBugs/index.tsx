@@ -1,7 +1,6 @@
 import { Anchor, Tabs, theme } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import i18n from 'src/i18n';
-import styled from 'styled-components';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { UnreadBugs } from './UnreadBugs';
 import { DuplicateBugs } from './DuplicateBugs';

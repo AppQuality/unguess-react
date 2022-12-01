@@ -1,4 +1,4 @@
-import { Accordion, SM } from '@appquality/unguess-design-system';
+import { Accordion, Skeleton, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useUnreadBugs } from './useUnreadBugs';
@@ -24,11 +24,22 @@ const StyledSM = styled(SM)`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
+const StyledSkeleton = styled(Skeleton)`
+  margin-bottom: ${({ theme }) => theme.space.base * 4}px;
+`;
+
 const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const { data, isLoading, isError } = useUnreadBugs(campaignId);
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading)
+    return (
+      <>
+        <StyledSkeleton height="110px" style={{ borderRadius: 0 }} />
+        <StyledSkeleton height="110px" style={{ borderRadius: 0 }} />
+        <StyledSkeleton height="110px" style={{ borderRadius: 0 }} />
+      </>
+    );
 
   if (isError) return <EmptyState />;
 
