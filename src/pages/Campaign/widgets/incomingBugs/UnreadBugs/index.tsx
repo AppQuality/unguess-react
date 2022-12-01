@@ -26,6 +26,12 @@ const StyledSM = styled(SM)`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
+const UnreadBugsWrapper = styled.div`
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+`;
+
 const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const { data, isLoading, isError } = useUnreadBugs(campaignId);
@@ -35,7 +41,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
   if (isError) return <EmptyState />;
 
   return (
-    <div style={{ height: '84%', overflowY: 'scroll' }}>
+    <UnreadBugsWrapper>
       <StyledSM>{t('__CAMPAIGN_UNREAD_BUGS_DESCRIPTION')}</StyledSM>
       <Accordion isCompact isExpandable isAnimated={false} level={1}>
         {data.map((usecase) => (
@@ -74,7 +80,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
           </Accordion.Section>
         ))}
       </Accordion>
-    </div>
+    </UnreadBugsWrapper>
   );
 };
 
