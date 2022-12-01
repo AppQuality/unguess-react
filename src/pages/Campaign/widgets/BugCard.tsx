@@ -27,6 +27,7 @@ const BugCardContainer = styled(ContainerCard)<
 type BugCardArgs = {
   severity: Severities;
   children: (severity: Severities) => React.ReactNode | React.ReactElement;
+  className?: string;
 };
 
 /**
@@ -56,8 +57,9 @@ type BugCardArgs = {
  *   </BugCard>
  * ```
  */
-const BugCard = ({ children, severity }: BugCardArgs) => (
+const BugCard = ({ children, severity, className }: BugCardArgs) => (
   <BugCardContainer
+    className={className}
     borderColor={globalTheme.colors.bySeverity[severity as Severities]}
   >
     {children(severity)}
