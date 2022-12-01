@@ -1,6 +1,9 @@
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import i18n from 'src/i18n';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import {
+  getLocalizedBugUrl,
+  getLocalizedFunctionalDashboardUrl,
+} from 'src/hooks/useLocalizeDashboardUrl';
 
 const countBugsByUsecaseId = (
   bugs: { application_section: { id?: number } }[],
@@ -107,10 +110,7 @@ const useUnreadBugs = (
         severity: bug.severity.name.toLowerCase() as Severities,
         title: bug.title.compact,
         titleContext: bug.title.context,
-        url: `${getLocalizedFunctionalDashboardUrl(
-          campaignId,
-          i18n.language
-        )}&bug_id=${bug.id}`,
+        url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
         type: bug.type.name,
         internal_id: bug.internal_id,
       })),
