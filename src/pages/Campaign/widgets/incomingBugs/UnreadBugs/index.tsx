@@ -1,7 +1,6 @@
 import { Accordion, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import i18n from 'src/i18n';
+
 import { useTranslation } from 'react-i18next';
 
 import { useUnreadBugs } from './useUnreadBugs';
@@ -29,7 +28,7 @@ const StyledSM = styled(SM)`
 
 const UnreadBugs = () => {
   const { t } = useTranslation();
-  const campaignId = 4000;
+  const campaignId = 4852;
   const { data, isLoading, isError } = useUnreadBugs(campaignId);
 
   if (isLoading) return <>Loading...</>;
@@ -56,21 +55,14 @@ const UnreadBugs = () => {
                   {(severity) => (
                     <>
                       <BugCard.TopTitle>{bug.internal_id}</BugCard.TopTitle>
-                      <BugCard.Title
-                        url={`${getLocalizedFunctionalDashboardUrl(
-                          campaignId,
-                          i18n.language
-                        )}&bug_id=${bug.id}`}
-                      >
-                        {bug.title.compact}
-                      </BugCard.Title>
+                      <BugCard.Title url={bug.url}>{bug.title}</BugCard.Title>
                       <BugCard.Footer>
-                        {bug.title.context &&
-                          bug.title.context.map((context) => (
+                        {bug.titleContext &&
+                          bug.titleContext.map((context) => (
                             <BugCard.Pill>{context}</BugCard.Pill>
                           ))}
                         <BugCard.Separator />
-                        <BugCard.Pill>{bug.type.name}</BugCard.Pill>
+                        <BugCard.Pill>{bug.type}</BugCard.Pill>
                         <BugCard.Pill severity={severity}>
                           {severity}
                         </BugCard.Pill>
