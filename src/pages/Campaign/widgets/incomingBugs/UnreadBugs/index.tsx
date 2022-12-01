@@ -26,9 +26,8 @@ const StyledSM = styled(SM)`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const UnreadBugs = () => {
+const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
-  const campaignId = 4852;
   const { data, isLoading, isError } = useUnreadBugs(campaignId);
 
   if (isLoading) return <>Loading...</>;

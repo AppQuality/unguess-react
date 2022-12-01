@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { UnreadBugs } from './UnreadBugs';
 import { DuplicateBugs } from './DuplicateBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
-import { useBugsByDuplicates } from './useBugsByDuplicates';
+import { useBugsByDuplicates } from './DuplicateBugs/useBugsByDuplicates';
 
 const IncomingBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
@@ -17,23 +17,17 @@ const IncomingBugs = ({ campaignId }: { campaignId: number }) => {
       </BasicWidget.Header>
       {thereAreDuplicates ? (
         <Tabs>
-          <Tabs.List>
-            <Tabs.Tab item="duplicate">
-              {t('__CAMPAIGN_DUPLICATED_BUGS_TITLE', 'Most submitted')}
-            </Tabs.Tab>
-            <Tabs.Tab item="unread">
-              {t('__CAMPAIGN_UNREAD_BUGS_TITLE', 'Unread')}
-            </Tabs.Tab>
-          </Tabs.List>
-          <Tabs.Panel item="duplicate">
-            <DuplicateBugs data={duplicatesResponse} />
+          <Tabs.Panel
+            title={t('__CAMPAIGN_DUPLICATED_BUGS_TITLE', 'Most submitted')}
+          >
+            <DuplicateBugs campaignId={campaignId} />
           </Tabs.Panel>
-          <Tabs.Panel item="unread">
-            <UnreadBugs />
+          <Tabs.Panel title={t('__CAMPAIGN_UNREAD_BUGS_TITLE', 'Unread')}>
+            <UnreadBugs campaignId={campaignId} />
           </Tabs.Panel>
         </Tabs>
       ) : (
-        <UnreadBugs />
+        <UnreadBugs campaignId={campaignId} />
       )}
 
       <BasicWidget.Footer>vai al dettaglio dei bug</BasicWidget.Footer>
