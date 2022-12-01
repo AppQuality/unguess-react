@@ -11,6 +11,7 @@ export const ChartUniqueBugs4UseCase = ({
   }
   return (
     <PieChart
+      legend
       width="100%"
       height="270px"
       centerItem={{ label: 'Tot. Bugs', value: total.toString() }}

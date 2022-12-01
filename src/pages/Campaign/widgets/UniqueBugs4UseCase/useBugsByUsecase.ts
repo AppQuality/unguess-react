@@ -20,8 +20,15 @@ export const useBugsByUsecase = (campaignId: string) => {
       setTotal(currentTotal);
       setItems(
         data.data.map((item) => ({
-          id: item.title,
-          label: 'label test',
+          id: item.title
+            .replace(/use case/i, 'UC')
+            .replace(/caso d'uso/i, 'UC')
+            .toLowerCase(),
+          label: item.title
+            .replace(/\[(.*?)\]/, '')
+            .replace(/use case\s?[0-9]*:*/i, '')
+            .replace(/caso d'uso\s?[0-9]*:*/i, '')
+            .toLowerCase(),
           value: item.bugs,
           key: item.usecase_id,
           children: item.title,
@@ -35,8 +42,6 @@ export const useBugsByUsecase = (campaignId: string) => {
     setItems([]);
   }, [data]);
 
-  console.log('data', data);
-  console.log('total', total);
   return {
     total,
     items,
