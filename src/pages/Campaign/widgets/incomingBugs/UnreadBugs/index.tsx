@@ -1,12 +1,10 @@
 import { Accordion, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-
 import { useTranslation } from 'react-i18next';
-
 import { useUnreadBugs } from './useUnreadBugs';
-
 import { EmptyState } from './EmptyState';
 import { BugCard } from '../../BugCard';
+import { UnreadBugsWrapper } from './UnreadBugsWrapper';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
   padding-right: 0;
@@ -24,12 +22,6 @@ const StyledBugCard = styled(BugCard)`
 const StyledSM = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[600]};
   margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
-const UnreadBugsWrapper = styled.div`
-  height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
 `;
 
 const UnreadBugs = ({ campaignId }: { campaignId: number }) => {

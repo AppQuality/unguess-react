@@ -1,11 +1,13 @@
-import { Anchor, Tabs } from '@appquality/unguess-design-system';
+import { Anchor, Tabs, theme } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import i18n from 'src/i18n';
+import styled from 'styled-components';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { UnreadBugs } from './UnreadBugs';
 import { DuplicateBugs } from './DuplicateBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 import { useBugsByDuplicates } from './DuplicateBugs/useBugsByDuplicates';
+import { UnreadBugsWrapper } from './UnreadBugs/UnreadBugsWrapper';
 
 const IncomingBugs = ({
   campaignId,
@@ -41,7 +43,9 @@ const IncomingBugs = ({
           </Tabs.Panel>
         </Tabs>
       ) : (
-        <UnreadBugs campaignId={campaignId} />
+        <UnreadBugsWrapper marginTop={theme.space.md}>
+          <UnreadBugs campaignId={campaignId} />
+        </UnreadBugsWrapper>
       )}
       <BasicWidget.Footer>
         <Anchor
