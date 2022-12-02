@@ -19,7 +19,7 @@ const getUsecases = (
   const useCases: { [key: number]: string } = {};
   bugs.forEach((bug) => {
     if (
-      bug.application_section.id &&
+      typeof bug.application_section.id !== 'undefined' &&
       bug.application_section.title &&
       !useCases[bug.application_section.id]
     ) {
@@ -45,6 +45,7 @@ const useUnreadBugs = (
         bugs: {
           severity: Severities;
           internal_id: string;
+          id: number;
           title: string;
           titleContext?: string[];
           type: string;
@@ -103,14 +104,17 @@ const useUnreadBugs = (
       title: useCases[Number(useCaseId)],
       unreadCount: countBugsByUsecaseId(items.unreadBugs, Number(useCaseId)),
       totalCount: countBugsByUsecaseId(items.totalBugs, Number(useCaseId)),
-      bugs: items.unreadBugs.map((bug) => ({
-        severity: bug.severity.name.toLowerCase() as Severities,
-        title: bug.title.compact,
-        titleContext: bug.title.context,
-        url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
-        type: bug.type.name,
-        internal_id: bug.internal_id,
-      })),
+      bugs: items.unreadBugs
+        .filter((bug) => bug.application_section.id === Number(useCaseId))
+        .map((bug) => ({
+          severity: bug.severity.name.toLowerCase() as Severities,
+          title: bug.title.compact,
+          titleContext: bug.title.context,
+          url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
+          type: bug.type.name,
+          internal_id: bug.internal_id,
+          id: bug.id,
+        })),
     })),
   };
 };

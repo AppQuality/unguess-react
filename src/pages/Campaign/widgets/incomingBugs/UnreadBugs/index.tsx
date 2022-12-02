@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useUnreadBugs } from './useUnreadBugs';
 import { EmptyState } from './EmptyState';
 import { BugCard } from '../../BugCard';
+import { theme as ugTheme } from '../../../../../app/theme';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
@@ -54,8 +55,19 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
             <Accordion.Header>
               <StyledAccordionLabel>
                 <UseCaseLabel>
-                  <SM isBold>{usecase.title}</SM>
-                  <SM>{`(${usecase.unreadCount}/${usecase.totalCount})`}</SM>
+                  <SM isBold style={{ paddingRight: ugTheme.space.xs }}>
+                    {usecase.title}
+                  </SM>
+                  <SM style={{ color: ugTheme.palette.grey[600] }}>
+                    <span>
+                      ({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD', 'Unread')}
+                    </span>
+                    {': '}
+                    <span style={{ color: ugTheme.palette.blue[600] }}>
+                      {usecase.unreadCount}
+                    </span>
+                    /{usecase.totalCount})
+                  </SM>
                 </UseCaseLabel>
               </StyledAccordionLabel>
             </Accordion.Header>
@@ -64,14 +76,13 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                 <StyledBugCard severity={bug.severity}>
                   {(severity) => (
                     <>
-                      <BugCard.TopTitle>{bug.internal_id}</BugCard.TopTitle>
+                      <BugCard.TopTitle>ID {bug.id}</BugCard.TopTitle>
                       <BugCard.Title url={bug.url}>{bug.title}</BugCard.Title>
                       <BugCard.Footer>
                         {bug.titleContext &&
                           bug.titleContext.map((context) => (
                             <BugCard.Pill>{context}</BugCard.Pill>
                           ))}
-                        <BugCard.Separator />
                         <BugCard.Pill>{bug.type}</BugCard.Pill>
                         <BugCard.Pill severity={severity}>
                           {severity}
