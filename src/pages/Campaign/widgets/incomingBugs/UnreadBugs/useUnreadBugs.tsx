@@ -19,7 +19,7 @@ const getUsecases = (
   const useCases: { [key: number]: string } = {};
   bugs.forEach((bug) => {
     if (
-      bug.application_section.id &&
+      typeof bug.application_section.id !== 'undefined' &&
       bug.application_section.title &&
       !useCases[bug.application_section.id]
     ) {
