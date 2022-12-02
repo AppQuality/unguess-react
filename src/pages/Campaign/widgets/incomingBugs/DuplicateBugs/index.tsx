@@ -62,7 +62,9 @@ const DuplicateBugs = ({ campaignId }: { campaignId: number }) => {
                       <BugCard.Separator />
                       <BugCard.Pill>{bug.type.name}</BugCard.Pill>
                       <BugCard.Pill severity={severity}>
-                        {severity}
+                        <span style={{ textTransform: 'capitalize' }}>
+                          {severity}
+                        </span>
                       </BugCard.Pill>
                     </BugCard.Footer>
                   </>
