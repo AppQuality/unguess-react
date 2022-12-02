@@ -1,4 +1,4 @@
-import { Skeleton, Span, XL } from '@appquality/unguess-design-system';
+import { Skeleton, XL } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
