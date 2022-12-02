@@ -1,14 +1,10 @@
-import {
-  Accordion,
-  Skeleton,
-  SM,
-  theme as ugTheme,
-} from '@appquality/unguess-design-system';
+import { Accordion, Skeleton, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useUnreadBugs } from './useUnreadBugs';
 import { EmptyState } from './EmptyState';
 import { BugCard } from '../../BugCard';
+import { theme as ugTheme } from '../../../../../app/theme';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
