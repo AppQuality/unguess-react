@@ -5,8 +5,10 @@ import { ListTotalBugsByDevice } from './ListTotalBugsByDevice';
 
 const TotalBugsByOsAndDevices = ({
   contentHeight,
+  campaignId,
 }: {
   contentHeight: string;
+  campaignId: number;
 }) => {
   const { t } = useTranslation();
   return (
@@ -16,8 +18,8 @@ const TotalBugsByOsAndDevices = ({
       </FlipCard.Header>
       <FlipCard.Body
         height={contentHeight}
-        front={<ChartTotalBugsByDevice />}
-        back={<ListTotalBugsByDevice />}
+        front={<ChartTotalBugsByDevice campaignId={campaignId} />}
+        back={<ListTotalBugsByDevice campaignId={campaignId} />}
       />
     </FlipCard>
   );

@@ -1,74 +1,71 @@
-import { SunburstChart } from '@appquality/unguess-design-system';
+import { SunburstChart, SM } from '@appquality/unguess-design-system';
+import { Trans, useTranslation } from 'react-i18next';
+import styled from 'styled-components';
+import { useState, useEffect } from 'react';
+import { useBugsByDevices } from './useBugsByDevices';
+import { getChildrenValue } from './getChildrenValue';
 
-export const ChartTotalBugsByDevice = () => {
-  const chartData = [
-    {
-      name: 'desktop',
-      children: [
-        {
-          name: 'Windows',
-          children: [
-            { name: 'Notebook1', value: 34 },
-            { name: 'Gaming PC', value: 9 },
-          ],
-        },
-        {
-          name: 'MacOS',
-          children: [{ name: 'Notebook', value: 6 }],
-        },
-      ],
-    },
-    {
-      name: 'smartphone',
-      children: [
-        {
-          name: 'Android',
-          children: [
-            {
-              name: 'Huawei P30 Lite',
-              value: 9,
-            },
-            {
-              name: 'Samsung Galaxy A52s',
-              value: 14,
-            },
-            {
-              name: 'Xiaomi Poco X3 Pro',
-              value: 22,
-            },
-            {
-              name: 'Samsung Galaxy A80',
-              value: 16,
-            },
-          ],
-        },
-        {
-          name: 'smartphone iOS',
-          children: [
-            {
-              name: 'Apple iPhone XS Max',
-              value: 10,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: 'tablet',
-      children: [
-        {
-          name: 'tablet iOS',
-          children: [{ name: 'Apple iPad Air 2', value: 17 }],
-        },
-      ],
-    },
-  ];
+const StyledSM = styled(SM)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+`;
 
-  return (
+const Tooltip = styled.div`
+  padding: ${({ theme }) => theme.space.base * 3}px;
+  background: ${({ theme }) => theme.palette.white};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+`;
+
+export const ChartTotalBugsByDevice = ({
+  campaignId,
+}: {
+  campaignId: number;
+}) => {
+  const { t } = useTranslation();
+  const { chartData } = useBugsByDevices(campaignId);
+  const [totalBugs, setTotalBugs] = useState(0);
+
+  useEffect(() => {
+    setTotalBugs(getChildrenValue(chartData));
+  }, [chartData]);
+
+  return chartData.children && chartData.children.length > 0 ? (
     <SunburstChart
-      data={{ name: 'graph', children: chartData }}
+      data={chartData}
+      centerItem={{
+        label: t(
+          '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_HEADER',
+          'Tot bug'
+        ),
+        value: totalBugs.toString(),
+        fontSizeMultiplier: 0.8,
+      }}
+      tooltip={({ label, value, data }) => (
+        <Tooltip>
+          {!data?.isLast ? (
+            <StyledSM isBold>
+              {t(
+                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_TOOLTIP_DRILLDOWN',
+                `👉 Drill down to:`
+              )}
+            </StyledSM>
+          ) : null}
+          <StyledSM isBold>{label}</StyledSM>
+          <StyledSM>
+            <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_TOOLTIP_VALUE">
+              Bugs:{' '}
+              {{
+                value,
+              }}
+            </Trans>
+          </StyledSM>
+        </Tooltip>
+      )}
+      onChange={(data) => setTotalBugs(getChildrenValue(data))}
       width="100%"
-      height="270px"
+      height="70%"
+      legend={{
+        columns: chartData.children.length,
+      }}
     />
-  );
+  ) : null;
 };
