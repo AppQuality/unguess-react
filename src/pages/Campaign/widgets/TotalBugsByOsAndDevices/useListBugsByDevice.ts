@@ -21,9 +21,7 @@ const useListBugsByDevice = (campaignId: number) => {
   useEffect(() => {
     if (results && kind === 'bugsByDevice') {
       const bugsByDevice: {
-        [key: string]: {
-          bugs: number;
-        };
+        [key: string]: number;
       } = {};
 
       // Desktops
@@ -33,10 +31,10 @@ const useListBugsByDevice = (campaignId: number) => {
             item.type === 'desktop'
         )
         .forEach((item) => {
-          bugsByDevice[`${item.desktop_type}`] = {
-            ...bugsByDevice[`${item.desktop_type}`],
-            ...item,
-          };
+          if (!(item.desktop_type in bugsByDevice)) {
+            bugsByDevice[item.desktop_type] = 0;
+          }
+          bugsByDevice[item.desktop_type] += item.bugs;
         });
 
       // Non desktops
@@ -46,17 +44,17 @@ const useListBugsByDevice = (campaignId: number) => {
             item.type === 'smartphone' || item.type === 'tablet'
         )
         .forEach((item) => {
-          bugsByDevice[`${item.manufacturer} ${item.model}`] = {
-            ...bugsByDevice[`${item.manufacturer} ${item.model}`],
-            ...item,
-          };
+          if (!(`${item.manufacturer} ${item.model}` in bugsByDevice)) {
+            bugsByDevice[`${item.manufacturer} ${item.model}`] = 0;
+          }
+          bugsByDevice[`${item.manufacturer} ${item.model}`] += item.bugs;
         });
 
       // Transform the object into an array [ device: string; bugs: number; ]
       const formattedBugs = Object.entries(bugsByDevice).map(
-        ([device, meta]) => ({
+        ([device, bugs]) => ({
           device,
-          bugs: meta.bugs,
+          bugs,
         })
       );
 
