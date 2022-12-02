@@ -74,7 +74,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                 <StyledBugCard severity={bug.severity}>
                   {(severity) => (
                     <>
-                      <BugCard.TopTitle>{bug.internal_id}</BugCard.TopTitle>
+                      <BugCard.TopTitle>ID {bug.id}</BugCard.TopTitle>
                       <BugCard.Title url={bug.url}>{bug.title}</BugCard.Title>
                       <BugCard.Footer>
                         {bug.titleContext &&

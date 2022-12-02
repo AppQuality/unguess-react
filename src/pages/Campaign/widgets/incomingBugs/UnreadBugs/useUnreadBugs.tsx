@@ -45,6 +45,7 @@ const useUnreadBugs = (
         bugs: {
           severity: Severities;
           internal_id: string;
+          id: number;
           title: string;
           titleContext?: string[];
           type: string;
@@ -112,6 +113,7 @@ const useUnreadBugs = (
           url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
           type: bug.type.name,
           internal_id: bug.internal_id,
+          id: bug.id,
         })),
     })),
   };
