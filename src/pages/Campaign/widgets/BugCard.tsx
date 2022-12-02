@@ -95,6 +95,11 @@ const StyledPill = styled(Tag)<
     theme: Theme;
   }
 >`
+  margin-top: ${({ theme }) => theme.space.xs};
+  margin-right: ${({ theme }) => theme.space.xs};
+  &:last-child {
+    margin-right: 0;
+  }
   ${({ background }) => background && `background-color: ${background};`}
   ${({ isTextWhite, theme }) =>
     isTextWhite
@@ -133,19 +138,8 @@ BugCard.Pill = BugCardPill;
 BugCard.Footer = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-top: ${({ theme }) => theme.space.xs};
+  flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.space.xxs};
-  & > * {
-    &:not(:first-child):not(:last-child) {
-      margin: 0 ${({ theme }) => theme.space.xxs};
-    }
-    &:first-child {
-      margin-right: ${({ theme }) => theme.space.xxs};
-    }
-    &:last-child {
-      margin-left: ${({ theme }) => theme.space.xxs};
-    }
-  }
 `;
 BugCard.Separator = styled.div`
   height: 16px;

@@ -81,7 +81,6 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                           bug.titleContext.map((context) => (
                             <BugCard.Pill>{context}</BugCard.Pill>
                           ))}
-                        <BugCard.Separator />
                         <BugCard.Pill>{bug.type}</BugCard.Pill>
                         <BugCard.Pill severity={severity}>
                           {severity}
