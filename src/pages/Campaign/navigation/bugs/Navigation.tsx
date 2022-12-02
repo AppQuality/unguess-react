@@ -19,11 +19,10 @@ export const BugsNavigation = () => {
       >
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL')}
       </StickyNavItem>
-      <StickyNavItemLabel style={{ display: 'none' }}>
+      <StickyNavItemLabel>
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_GROUP_DETAILS_LABEL')}
       </StickyNavItemLabel>
       <StickyNavItem
-        style={{ display: 'none' }}
         to="unique-bug-distribution"
         containerId="main"
         spy
@@ -34,7 +33,6 @@ export const BugsNavigation = () => {
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_DETAILS_UNIQUE_BUGS_LABEL')}
       </StickyNavItem>
       <StickyNavItem
-        style={{ display: 'none' }}
         to="devices-and-types"
         containerId="main"
         spy

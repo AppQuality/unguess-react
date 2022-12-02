@@ -89,6 +89,7 @@ export const ReportRow = ({
       {(reports && reports.length) || isFunctional ? (
         <Col xs={12}>
           <SectionTitle
+            id="reports"
             title={t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
             subtitle={t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}
           />

@@ -99,6 +99,7 @@ const Campaign = () => {
                     <Row>
                       <Col xs={12}>
                         <SectionTitle
+                          id="campaign-overview"
                           title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
                         />
                       </Col>
@@ -119,6 +120,7 @@ const Campaign = () => {
                     <Row>
                       <Col xs={12}>
                         <SectionTitle
+                          id="unique-bug-distribution"
                           title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}
                         />
                       </Col>
@@ -133,6 +135,7 @@ const Campaign = () => {
                       </Col>
                       <Col xs={12}>
                         <SectionTitle
+                          id="devices-and-types"
                           title={t(
                             '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
                           )}
