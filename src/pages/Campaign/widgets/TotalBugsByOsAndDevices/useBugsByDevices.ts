@@ -29,15 +29,9 @@ const useBugsByDevices = (campaignId: number) => {
     name: 'graph',
     children: [],
   });
-  const [totalBugs, setTotalBugs] = useState(0);
 
   useEffect(() => {
     if (data && 'kind' in data && data.kind === 'bugsByDevice') {
-      const newTotal = data.data.reduce(
-        (acc, current) => acc + current.bugs,
-        0
-      );
-
       let firstLevel = groupArrayOfObjects(data.data, 'type');
 
       firstLevel = Object.keys(firstLevel).map((type) => {
@@ -53,21 +47,18 @@ const useBugsByDevices = (campaignId: number) => {
             ),
           };
 
-          thirdLevel = Object.keys(thirdLevel).map((item) => {
-            const total = thirdLevel[item].reduce(
-              (acc: number, thirdLevelItem: { unique_bugs: number }) =>
-                acc + thirdLevelItem.unique_bugs,
+          thirdLevel = Object.keys(thirdLevel).map((item) => ({
+            name: item,
+            label:
+              thirdLevel[item][0].desktop_type ||
+              `${thirdLevel[item][0].manufacturer} ${thirdLevel[item][0].model}`,
+            isLast: true,
+            value: thirdLevel[item].reduce(
+              (acc: number, thirdLevelItem: { bugs: number }) =>
+                acc + thirdLevelItem.bugs,
               0
-            );
-            return {
-              name: item,
-              label:
-                thirdLevel[item][0].desktop_type ||
-                `${thirdLevel[item][0].manufacturer} ${thirdLevel[item][0].model}`,
-              isLast: true,
-              value: total,
-            };
-          });
+            ),
+          }));
 
           return {
             name: os,
@@ -89,11 +80,10 @@ const useBugsByDevices = (campaignId: number) => {
       });
 
       setChartData({ name: 'graph', children: firstLevel });
-      setTotalBugs(newTotal);
     }
   }, [data]);
 
-  return { chartData, totalBugs };
+  return { chartData };
 };
 
 export { useBugsByDevices };

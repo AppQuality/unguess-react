@@ -1,12 +1,27 @@
-import { SunburstChart } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { SunburstChart, SM } from '@appquality/unguess-design-system';
+import { Trans, useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useBugsByDevices } from './useBugsByDevices';
 import { getChildrenValue } from './getChildrenValue';
 
-export const ChartTotalBugsByDevice = () => {
+const StyledSM = styled(SM)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+`;
+
+const Tooltip = styled.div`
+  padding: ${({ theme }) => theme.space.base * 3}px;
+  background: ${({ theme }) => theme.palette.white};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+`;
+
+export const ChartTotalBugsByDevice = ({
+  campaignId,
+}: {
+  campaignId: number;
+}) => {
   const { t } = useTranslation();
-  const { chartData } = useBugsByDevices(3044);
+  const { chartData } = useBugsByDevices(campaignId);
   const [totalBugs, setTotalBugs] = useState(0);
 
   useEffect(() => {
@@ -19,26 +34,35 @@ export const ChartTotalBugsByDevice = () => {
       centerItem={{
         label: t(
           '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_HEADER',
-          'tot bug'
+          'Tot bug'
         ),
         value: totalBugs.toString(),
+        fontSizeMultiplier: 0.8,
       }}
       tooltip={({ label, value, data }) => (
-        <div style={{ padding: '12px', background: 'white' }}>
-          {data?.isLast ? (
-            <div>Bug Unici: {value}</div>
-          ) : (
-            <>
-              <div>👉 Drill down to:</div>
-              <div>{label}</div>
-              <div>Bug Unici: {value}</div>
-            </>
-          )}
-        </div>
+        <Tooltip>
+          {!data?.isLast ? (
+            <StyledSM isBold>
+              {t(
+                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_TOOLTIP_DRILLDOWN',
+                `👉 Drill down to:`
+              )}
+            </StyledSM>
+          ) : null}
+          <StyledSM isBold>{label}</StyledSM>
+          <StyledSM>
+            <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_TOOLTIP_VALUE">
+              Bugs:{' '}
+              {{
+                value,
+              }}
+            </Trans>
+          </StyledSM>
+        </Tooltip>
       )}
       onChange={(data) => setTotalBugs(getChildrenValue(data))}
       width="100%"
-      height="250px"
+      height="70%"
       legend={{
         columns: chartData.children.length,
       }}

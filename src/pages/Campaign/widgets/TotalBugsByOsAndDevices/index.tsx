@@ -18,7 +18,7 @@ const TotalBugsByOsAndDevices = ({
       </FlipCard.Header>
       <FlipCard.Body
         height={contentHeight}
-        front={<ChartTotalBugsByDevice />}
+        front={<ChartTotalBugsByDevice campaignId={campaignId} />}
         back={<ListTotalBugsByDevice campaignId={campaignId} />}
       />
     </FlipCard>
