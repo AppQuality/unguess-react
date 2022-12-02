@@ -1,4 +1,4 @@
-import { Skeleton, Span } from '@appquality/unguess-design-system';
+import { Skeleton, Span, XL } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
@@ -44,7 +44,12 @@ export const ListTotalBugsByDevice = ({
       header={t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_LIST_HEADER_LABEL')}
       title={
         <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_LIST_TITLE">
-          <Span>{{ total }}</Span> bugs
+          {{
+            total,
+          }}{' '}
+          <XL tag="span" isBold>
+            total bugs
+          </XL>
         </Trans>
       }
     >
