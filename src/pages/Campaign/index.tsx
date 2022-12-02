@@ -138,6 +138,7 @@ const Campaign = () => {
                       <Col xs={12} md={6}>
                         <TotalBugsByOsAndDevices
                           contentHeight={contentHeight}
+                          campaignId={campaign.id ?? 0}
                         />
                       </Col>
                     </Row>
