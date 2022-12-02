@@ -1,4 +1,9 @@
-import { Accordion, Skeleton, SM } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  Skeleton,
+  SM,
+  theme as ugTheme,
+} from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useUnreadBugs } from './useUnreadBugs';
@@ -55,7 +60,12 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
               <StyledAccordionLabel>
                 <UseCaseLabel>
                   <SM isBold>{usecase.title}</SM>
-                  <SM>{`(${usecase.unreadCount}/${usecase.totalCount})`}</SM>
+                  <SM style={{ color: ugTheme.palette.grey[600] }}>
+                    <span style={{ color: ugTheme.palette.blue[600] }}>
+                      {usecase.unreadCount}
+                    </span>
+                    /{usecase.totalCount}
+                  </SM>
                 </UseCaseLabel>
               </StyledAccordionLabel>
             </Accordion.Header>
