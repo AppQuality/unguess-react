@@ -1,5 +1,5 @@
 import { Skeleton, Span } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 import { List } from '../List';
@@ -12,30 +12,31 @@ export const ListTotalBugsByDevice = ({
   campaignId: number;
 }) => {
   const { t } = useTranslation();
-
-  const { bugsByDevice, bugsTotal, isLoading, isFetching, isError } =
-    useListBugsByDevice(campaignId);
+  const { items, total, isLoading, isError } = useListBugsByDevice(campaignId);
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [paginatedItems, setPaginatedItems] = useState(bugsByDevice);
+  const [paginatedItems, setPaginatedItems] = useState(items);
   const pageSize = 6;
-  const maxPages = Math.ceil(bugsTotal / pageSize);
+  const maxPages = useMemo(
+    () => Math.ceil(total / pageSize),
+    [items, pageSize]
+  );
 
   useEffect(() => {
     setPaginatedItems(
-      bugsByDevice.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+      items.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     );
-  }, [currentPage, bugsByDevice]);
+  }, [currentPage, items]);
 
-  if (isLoading || isFetching || isError)
+  if (isLoading || isError)
     return (
-      <div>
+      <>
         <Skeleton
           height="100px"
           style={{ borderRadius: 0, margin: `${theme.space.md} 0` }}
         />
         <Skeleton height="200px" style={{ borderRadius: 0 }} />
-      </div>
+      </>
     );
 
   return (
@@ -43,7 +44,7 @@ export const ListTotalBugsByDevice = ({
       header={t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_LIST_HEADER_LABEL')}
       title={
         <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_LIST_TITLE">
-          <Span>{{ bugsTotal }}</Span> bugs
+          <Span>{{ total }}</Span> bugs
         </Trans>
       }
     >
@@ -56,11 +57,7 @@ export const ListTotalBugsByDevice = ({
         </List.Columns.Label>
       </List.Columns>
       {paginatedItems.map((item) => (
-        <ListItem
-          key={item.device}
-          numerator={item.meta.bugs as number}
-          denominator={bugsTotal}
-        >
+        <ListItem key={item.device} numerator={item.bugs} denominator={total}>
           {item.device}
         </ListItem>
       ))}
