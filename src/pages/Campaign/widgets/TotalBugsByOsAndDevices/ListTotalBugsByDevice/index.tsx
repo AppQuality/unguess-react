@@ -16,9 +16,9 @@ export const ListTotalBugsByDevice = ({
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [paginatedItems, setPaginatedItems] = useState(items);
-  const pageSize = 6;
+  const pageSize = 4;
   const maxPages = useMemo(
-    () => Math.ceil(total / pageSize),
+    () => Math.ceil(items.length / pageSize),
     [items, pageSize]
   );
 
