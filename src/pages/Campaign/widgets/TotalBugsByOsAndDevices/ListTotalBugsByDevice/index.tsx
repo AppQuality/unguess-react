@@ -2,8 +2,8 @@ import { Skeleton, XL } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
-import { List } from '../List';
-import { ListItem } from '../List/ListItem';
+import { List } from '../../List';
+import { ListItem } from '../../List/ListItem';
 import { useListBugsByDevice } from './useListBugsByDevice';
 
 export const ListTotalBugsByDevice = ({
@@ -16,9 +16,9 @@ export const ListTotalBugsByDevice = ({
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [paginatedItems, setPaginatedItems] = useState(items);
-  const pageSize = 6;
+  const pageSize = 4;
   const maxPages = useMemo(
-    () => Math.ceil(total / pageSize),
+    () => Math.ceil(items.length / pageSize),
     [items, pageSize]
   );
 
