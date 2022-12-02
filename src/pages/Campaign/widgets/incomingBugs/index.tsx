@@ -29,16 +29,16 @@ const IncomingBugs = ({
       {thereAreDuplicates ? (
         <Tabs>
           <Tabs.Panel
+            title={t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_TAB_TITLE')}
+          >
+            <UnreadBugs campaignId={campaignId} />
+          </Tabs.Panel>
+          <Tabs.Panel
             title={t(
               '__CAMPAIGN_WIDGET_INCOMING_BUGS_MOST_SUBMITTED_TAB_TITLE'
             )}
           >
             <DuplicateBugs campaignId={campaignId} />
-          </Tabs.Panel>
-          <Tabs.Panel
-            title={t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_TAB_TITLE')}
-          >
-            <UnreadBugs campaignId={campaignId} />
           </Tabs.Panel>
         </Tabs>
       ) : (
