@@ -92,6 +92,7 @@ const StyledPill = styled(Tag)<
   React.ComponentProps<typeof Tag> & {
     background?: string;
     isTextWhite?: boolean;
+    textTransform?: string;
     theme: Theme;
   }
 >`
@@ -109,6 +110,7 @@ const StyledPill = styled(Tag)<
       color: ${theme.palette.white};
     }`
       : ``}
+  ${({ textTransform }) => textTransform && `text-transform: ${textTransform};`}
 `;
 
 const BugCardPill = ({
@@ -124,6 +126,7 @@ const BugCardPill = ({
       ...props,
       background: globalTheme.colors.bySeverity[severity as Severities],
       isTextWhite: true,
+      textTransform: 'capitalize',
     };
   }
 
