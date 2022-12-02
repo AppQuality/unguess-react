@@ -103,14 +103,16 @@ const useUnreadBugs = (
       title: useCases[Number(useCaseId)],
       unreadCount: countBugsByUsecaseId(items.unreadBugs, Number(useCaseId)),
       totalCount: countBugsByUsecaseId(items.totalBugs, Number(useCaseId)),
-      bugs: items.unreadBugs.map((bug) => ({
-        severity: bug.severity.name.toLowerCase() as Severities,
-        title: bug.title.compact,
-        titleContext: bug.title.context,
-        url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
-        type: bug.type.name,
-        internal_id: bug.internal_id,
-      })),
+      bugs: items.unreadBugs
+        .filter((bug) => bug.application_section.id === Number(useCaseId))
+        .map((bug) => ({
+          severity: bug.severity.name.toLowerCase() as Severities,
+          title: bug.title.compact,
+          titleContext: bug.title.context,
+          url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
+          type: bug.type.name,
+          internal_id: bug.internal_id,
+        })),
     })),
   };
 };
