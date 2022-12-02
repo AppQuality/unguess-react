@@ -62,7 +62,7 @@ export const ChartTotalBugsByDevice = ({
       )}
       onChange={(data) => setTotalBugs(getChildrenValue(data))}
       width="100%"
-      height="70%"
+      height="300px"
       legend={{
         columns: chartData.children.length,
       }}
