@@ -61,10 +61,14 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                 <UseCaseLabel>
                   <SM isBold>{usecase.title}</SM>
                   <SM style={{ color: ugTheme.palette.grey[600] }}>
+                    <span>
+                      ({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD', 'Unread')}
+                    </span>
+                    {': '}
                     <span style={{ color: ugTheme.palette.blue[600] }}>
                       {usecase.unreadCount}
                     </span>
-                    /{usecase.totalCount}
+                    /{usecase.totalCount})
                   </SM>
                 </UseCaseLabel>
               </StyledAccordionLabel>
