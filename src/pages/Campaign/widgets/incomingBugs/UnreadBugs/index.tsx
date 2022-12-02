@@ -59,7 +59,9 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
             <Accordion.Header>
               <StyledAccordionLabel>
                 <UseCaseLabel>
-                  <SM isBold>{usecase.title}</SM>
+                  <SM isBold style={{ paddingRight: ugTheme.space.xs }}>
+                    {usecase.title}
+                  </SM>
                   <SM style={{ color: ugTheme.palette.grey[600] }}>
                     <span>
                       ({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD', 'Unread')}
