@@ -1,43 +1,23 @@
-import { useEffect, useState } from 'react';
+import { Skeleton, XL } from '@appquality/unguess-design-system';
+import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 import { List } from '../List';
 import { ListItem } from '../List/ListItem';
-import { ListItemProps } from '../List/type';
+import { BugsByUseCaseVisualizationProps } from './types';
+import { useBugsByUsecase } from './useBugsByUsecase';
 
-export const ListUniqueBugs4UseCase = () => {
+export const ListUniqueBugs4UseCase = ({
+  campaignId,
+}: BugsByUseCaseVisualizationProps) => {
   const { t } = useTranslation();
-  const { data } = useGetCampaignsByCidWidgetsQuery({
-    cid: 3044,
-    s: 'bugs-by-usecase',
-  });
-
-  const [total, setTotal] = useState(0);
-  const [items, setItems] = useState<ListItemProps[]>([]);
-
-  useEffect(() => {
-    if (data && 'kind' in data && data.kind === 'bugsByUseCase') {
-      const newTotal = data.data.reduce(
-        (acc, current) => acc + current.bugs,
-        0
-      );
-      const currentItems = data.data.map((item) => ({
-        key: item.usecase_id,
-        children: item.title,
-        numerator: item.bugs,
-        denominator: newTotal,
-      }));
-      setItems(currentItems);
-      setTotal(newTotal);
-    }
-  }, [data]);
-
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { items, total, isLoading, isError } = useBugsByUsecase(campaignId);
+  const [currentPage, setCurrentPage] = useState(1);
   const [paginatedItems, setPaginatedItems] = useState(items);
-
   const pageSize = 6;
-
-  const maxPages = Math.ceil(items.length / pageSize);
+  const maxPages = useMemo(
+    () => Math.ceil(items.length / pageSize),
+    [items, pageSize]
+  );
 
   useEffect(() => {
     setPaginatedItems(
@@ -45,12 +25,21 @@ export const ListUniqueBugs4UseCase = () => {
     );
   }, [currentPage, items]);
 
+  if (isLoading || isError) {
+    return <Skeleton />;
+  }
+
   return (
     <List
-      header={t('__CAMPAIGN_WIDGET_UNIQUE_BUGS_BY_USECASE_HEADER_LABEL')}
-      title={`${total} ${t(
-        '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_LIST_HEADER'
-      )}`}
+      header={t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_LIST_HEADER')}
+      title={
+        <>
+          {total}{' '}
+          <XL tag="span" isBold>
+            {t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_LIST_CONTENT')}
+          </XL>
+        </>
+      }
     >
       <List.Columns>
         <List.Columns.Label isBold>

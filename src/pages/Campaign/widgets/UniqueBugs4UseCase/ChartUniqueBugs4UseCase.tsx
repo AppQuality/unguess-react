@@ -1,47 +1,30 @@
-import { PieChart } from '@appquality/unguess-design-system';
+import { PieChart, Skeleton, theme } from '@appquality/unguess-design-system';
+import { BugsByUseCaseVisualizationProps } from './types';
+import { useBugsByUsecase } from './useBugsByUsecase';
+import { useMaxItems } from './useMaxItems';
 
-const pieChartProps = {
-  width: '100%',
-  height: '270px',
-  data: [
-    {
-      id: 'sass',
-      label: 'sass',
-      value: 309,
-      color: 'hsl(162, 70%, 50%)',
-    },
-    {
-      id: 'make',
-      label: 'make',
-      value: 420,
-      color: 'hsl(175, 70%, 50%)',
-    },
-    {
-      id: 'erlang',
-      label: 'erlang',
-      value: 300,
-      color: 'hsl(159, 70%, 50%)',
-    },
-    {
-      id: 'lisp',
-      label: 'lisp',
-      value: 491,
-      color: 'hsl(243, 70%, 50%)',
-    },
-    {
-      id: 'go',
-      label: 'go',
-      value: 108,
-      color: 'hsl(163, 70%, 50%)',
-    },
-  ],
-  centerItem: {
-    label: 'Tot. bugs',
-    value: '27',
-  },
+export const ChartUniqueBugs4UseCase = ({
+  campaignId,
+}: BugsByUseCaseVisualizationProps) => {
+  const { items, total, isLoading, isError } = useBugsByUsecase(campaignId);
+  const newItems = useMaxItems(items, 6);
+
+  if (isLoading || isError) {
+    return <Skeleton />;
+  }
+  return (
+    <div style={{ marginBottom: theme.space.lg }}>
+      <PieChart
+        legend={{
+          width: '100%',
+          columns: 2,
+        }}
+        width="100%"
+        height="270px"
+        centerItem={{ label: 'Tot. Bugs', value: total.toString() }}
+        data={newItems}
+        theme={{ labels: { text: { fontSize: 10 } } }}
+      />
+    </div>
+  );
 };
-export const ChartUniqueBugs4UseCase = () => (
-  <div>
-    <PieChart {...pieChartProps} />
-  </div>
-);
