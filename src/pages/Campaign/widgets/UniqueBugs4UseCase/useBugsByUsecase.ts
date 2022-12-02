@@ -1,6 +1,38 @@
 import { useState, useEffect } from 'react';
-import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
+import {
+  useGetCampaignsByCidWidgetsQuery,
+  WidgetBugsByUseCase,
+} from 'src/features/api';
+
 import { WidgetItem } from './types';
+
+function abbreviateUsecase(string: string): string {
+  return string
+    .toLowerCase()
+    .replace(/use case /, 'UC')
+    .replace(/caso d'uso /, 'UC');
+}
+
+function getSimpleTitle(title: WidgetBugsByUseCase['data'][0]['title']) {
+  if (title.simple) {
+    return title.simple.toLowerCase();
+  }
+  return title.full
+    .replace(/\[(.*?)\]/, '')
+    .replace(/use case\s?[0-9]*:*/i, '')
+    .replace(/caso d'uso\s?[0-9]*:*/i, '')
+    .toLowerCase();
+}
+function getArcLinkLabel(title: WidgetBugsByUseCase['data'][0]['title']) {
+  return abbreviateUsecase(title.full);
+}
+
+function getLegendLabel(title: WidgetBugsByUseCase['data'][0]['title']) {
+  if (title.prefix && title.simple) {
+    return `${title.prefix} ${title.simple}`;
+  }
+  return getSimpleTitle(title);
+}
 
 export const useBugsByUsecase = (campaignId: string) => {
   const { data, isFetching, isLoading, isError } =
@@ -20,18 +52,11 @@ export const useBugsByUsecase = (campaignId: string) => {
       setTotal(currentTotal);
       setItems(
         data.data.map((item) => ({
-          id: item.title
-            .replace(/use case/i, 'UC')
-            .replace(/caso d'uso/i, 'UC')
-            .toLowerCase(),
-          label: item.title
-            .replace(/\[(.*?)\]/, '')
-            .replace(/use case\s?[0-9]*:*/i, '')
-            .replace(/caso d'uso\s?[0-9]*:*/i, '')
-            .toLowerCase(),
+          id: getArcLinkLabel(item.title),
+          label: getLegendLabel(item.title),
           value: item.bugs,
           key: item.usecase_id,
-          children: item.title,
+          children: item.title.full,
           numerator: item.bugs,
           denominator: currentTotal,
         }))
