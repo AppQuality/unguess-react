@@ -4,19 +4,18 @@ import FlipCard from '../widgetCards/FlipCard';
 import { ChartUniqueBugs4UseCase } from './ChartUniqueBugs4UseCase';
 import { ListUniqueBugs4UseCase } from './ListUniqueBugs4UseCase';
 
-const UniqueBugs4UseCase = ({ contentHeight }: { contentHeight: string }) => {
+const UniqueBugs4UseCase = ({ height }: { height: string }) => {
   const { t } = useTranslation();
   const { campaignId } = useParams();
   if (!campaignId) {
     return null;
   }
   return (
-    <FlipCard>
+    <FlipCard height={height}>
       <FlipCard.Header>
         {t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_CARD_TITLE')}
       </FlipCard.Header>
       <FlipCard.Body
-        height={contentHeight}
         front={<ChartUniqueBugs4UseCase campaignId={campaignId} />}
         back={<ListUniqueBugs4UseCase campaignId={campaignId} />}
       />

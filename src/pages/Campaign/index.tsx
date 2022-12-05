@@ -56,7 +56,7 @@ const Campaign = () => {
   const isFunctional =
     campaign?.family.name.toLocaleLowerCase() === 'functional';
 
-  const contentHeight = '470px';
+  const firstRowHeight = '540px';
 
   return (
     <Page
@@ -125,11 +125,11 @@ const Campaign = () => {
                         />
                       </Col>
                       <Col xs={12} md={6}>
-                        <UniqueBugs4UseCase contentHeight={contentHeight} />
+                        <UniqueBugs4UseCase height={firstRowHeight} />
                       </Col>
                       <Col xs={12} md={6}>
                         <IncomingBugs
-                          height="540px"
+                          height={firstRowHeight}
                           campaignId={campaign.id ?? 0}
                         />
                       </Col>
