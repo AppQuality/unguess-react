@@ -46,6 +46,10 @@ export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
   const backRef = useRef(null);
   const { visibleFace } = useFlipCardContext();
 
+  if (!back) {
+    return <WidgetCardFaceContent>{front}</WidgetCardFaceContent>;
+  }
+
   return (
     <TransitionGroup
       style={{

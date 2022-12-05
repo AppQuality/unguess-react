@@ -17,33 +17,35 @@ const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
   margin-left: ${(p) => p.theme.space.xs};
 `;
 
-export const FlipCardHeader = ({ children }: FlipCardHeaderProps) => {
+export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
   const { visibleFace, setVisibleFace } = useFlipCardContext();
 
   return (
     <WidgetCardHeader
       title={children}
       action={
-        <div>
-          <FlipButton
-            isActive={visibleFace === 'front'}
-            size="small"
-            onClick={() => setVisibleFace('front')}
-          >
-            <LineGraphIconFill
-              color={`${visibleFace === 'front' && 'white'}`}
-            />
-          </FlipButton>
-          <FlipButton
-            size="small"
-            isActive={visibleFace === 'back'}
-            onClick={() => setVisibleFace('back')}
-          >
-            <ListBulletIconFill
-              color={`${visibleFace === 'back' && 'white'}`}
-            />
-          </FlipButton>
-        </div>
+        hasBack === true ? (
+          <div>
+            <FlipButton
+              isActive={visibleFace === 'front'}
+              size="small"
+              onClick={() => setVisibleFace('front')}
+            >
+              <LineGraphIconFill
+                color={`${visibleFace === 'front' && 'white'}`}
+              />
+            </FlipButton>
+            <FlipButton
+              size="small"
+              isActive={visibleFace === 'back'}
+              onClick={() => setVisibleFace('back')}
+            >
+              <ListBulletIconFill
+                color={`${visibleFace === 'back' && 'white'}`}
+              />
+            </FlipButton>
+          </div>
+        ) : null
       }
     />
   );
