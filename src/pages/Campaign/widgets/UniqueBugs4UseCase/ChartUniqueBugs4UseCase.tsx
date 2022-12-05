@@ -13,7 +13,7 @@ export const ChartUniqueBugs4UseCase = ({
     return <Skeleton />;
   }
   return (
-    <div style={{ marginBottom: theme.space.lg }}>
+    <div style={{ marginBottom: theme.space.lg, width: '100%' }}>
       <PieChart
         legend={{
           width: '100%',
