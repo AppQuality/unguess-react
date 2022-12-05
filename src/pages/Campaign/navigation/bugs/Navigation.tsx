@@ -15,7 +15,7 @@ export const BugsNavigation = () => {
         spy
         smooth
         duration={500}
-        offset={-350}
+        offset={-30}
       >
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL')}
       </StickyNavItem>
@@ -28,7 +28,7 @@ export const BugsNavigation = () => {
         spy
         smooth
         duration={500}
-        offset={-350}
+        offset={-30}
       >
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_DETAILS_UNIQUE_BUGS_LABEL')}
       </StickyNavItem>
@@ -38,7 +38,7 @@ export const BugsNavigation = () => {
         spy
         smooth
         duration={500}
-        offset={-350}
+        offset={-30}
       >
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_DETAILS_DEVICES_LABEL')}
       </StickyNavItem>
