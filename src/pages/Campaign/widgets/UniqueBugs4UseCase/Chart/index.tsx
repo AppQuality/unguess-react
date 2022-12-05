@@ -7,9 +7,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import styled from 'styled-components';
-import { BugsByUseCaseVisualizationProps } from './types';
-import { useBugsByUsecase } from './useBugsByUsecase';
-import { useMaxItems } from './useMaxItems';
+import { BugsByUseCaseVisualizationProps } from '../types';
+import { useBugsByUsecase } from '../useBugsByUsecase';
+import { useMaxItems } from '../useMaxItems';
 
 const TooltipSM = styled(SM)`
   color: ${({ theme }) => theme.colors.primaryHue};

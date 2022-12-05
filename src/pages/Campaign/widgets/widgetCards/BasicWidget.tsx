@@ -25,7 +25,7 @@ const BasicWidgetHeader = ({
   tooltipContent,
 }: {
   children: React.ReactNode;
-  tooltipContent: string;
+  tooltipContent?: string;
 }) => (
   <WidgetCardHeader
     title={children}

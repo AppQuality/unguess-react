@@ -1,10 +1,10 @@
 import { Skeleton, XL } from '@appquality/unguess-design-system';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { List } from '../List';
-import { ListItem } from '../List/ListItem';
-import { BugsByUseCaseVisualizationProps } from './types';
-import { useBugsByUsecase } from './useBugsByUsecase';
+import { List } from '../../List';
+import { ListItem } from '../../List/ListItem';
+import { BugsByUseCaseVisualizationProps } from '../types';
+import { useBugsByUsecase } from '../useBugsByUsecase';
 
 export const ListUniqueBugs4UseCase = ({
   campaignId,
