@@ -24,7 +24,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
     <WidgetCardHeader
       title={children}
       action={
-        hasBack === true ? (
+        hasBack === false ? null : (
           <div>
             <FlipButton
               isActive={visibleFace === 'front'}
@@ -45,7 +45,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
               />
             </FlipButton>
           </div>
-        ) : null
+        )
       }
     />
   );
