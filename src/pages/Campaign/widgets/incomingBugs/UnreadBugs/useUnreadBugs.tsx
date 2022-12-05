@@ -97,25 +97,29 @@ const useUnreadBugs = (
 
   const useCases = getUsecases(unreadBugs.items);
 
+  const formattedUseCases = Object.keys(useCases).map((useCaseId) => ({
+    title: useCases[Number(useCaseId)],
+    unreadCount: countBugsByUsecaseId(items.unreadBugs, Number(useCaseId)),
+    totalCount: countBugsByUsecaseId(items.totalBugs, Number(useCaseId)),
+    bugs: items.unreadBugs
+      .filter((bug) => bug.application_section.id === Number(useCaseId))
+      .map((bug) => ({
+        severity: bug.severity.name.toLowerCase() as Severities,
+        title: bug.title.compact,
+        titleContext: bug.title.context,
+        url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
+        type: bug.type.name,
+        internal_id: bug.internal_id,
+        id: bug.id,
+      })),
+  }));
+
+  formattedUseCases.sort((a, b) => (b.title < a.title ? 1 : -1));
+
   return {
     isLoading: false,
     isError: false,
-    data: Object.keys(useCases).map((useCaseId) => ({
-      title: useCases[Number(useCaseId)],
-      unreadCount: countBugsByUsecaseId(items.unreadBugs, Number(useCaseId)),
-      totalCount: countBugsByUsecaseId(items.totalBugs, Number(useCaseId)),
-      bugs: items.unreadBugs
-        .filter((bug) => bug.application_section.id === Number(useCaseId))
-        .map((bug) => ({
-          severity: bug.severity.name.toLowerCase() as Severities,
-          title: bug.title.compact,
-          titleContext: bug.title.context,
-          url: `${getLocalizedBugUrl(campaignId, bug.id, i18n.language)}`,
-          type: bug.type.name,
-          internal_id: bug.internal_id,
-          id: bug.id,
-        })),
-    })),
+    data: formattedUseCases,
   };
 };
 
