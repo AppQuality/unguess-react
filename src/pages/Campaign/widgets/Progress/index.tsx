@@ -1,23 +1,26 @@
 import {
   XL,
-  MD,
   BulletChart,
-  Paragraph,
-  theme,
+  Span,
   Tag,
   Skeleton,
   SM,
 } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
+import styled from 'styled-components';
 import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
-import styled from 'styled-components';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 import { useWidgetData } from './useWidgetData';
 
 const ChartContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const Value = styled(Span)`
+  color: ${({ theme: globalTheme }) => globalTheme.colors.primaryHue};
 `;
 
 export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
@@ -84,17 +87,14 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         }
         footer={
           widgetData.expectedDuration ? (
-            <Paragraph>
-              <Trans i18nKey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER">
-                over{' '}
-                <MD isBold tag="span">
-                  {{
-                    expectedDuration: `${widgetData.expectedDuration.value} ${widgetData.expectedDuration.unit}`,
-                  }}{' '}
-                  expected
-                </MD>
-              </Trans>
-            </Paragraph>
+            <Trans
+              i18nKey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
+              components={{ bold: <Value isBold /> }}
+              defaults="over <bold>{{ expectedDuration }}</bold> expected"
+              values={{
+                expectedDuration: `${widgetData.expectedDuration.value} ${widgetData.expectedDuration.unit}`,
+              }}
+            />
           ) : null
         }
       />

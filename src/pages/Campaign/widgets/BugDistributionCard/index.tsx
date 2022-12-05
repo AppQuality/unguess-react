@@ -3,11 +3,13 @@ import {
   HalfPieChart,
   Skeleton,
   XL,
+  Span,
 } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import styled from 'styled-components';
 import { useBugs } from './useBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 import { CapitalizeFirstLetter } from '../widgetCards/common/CapitalizeFirstLetter';
@@ -26,6 +28,10 @@ function translateSeverity(severity: Severities, t: TFunction) {
       throw new Error(`Unknown severity ${severity}`);
   }
 }
+
+const Value = styled(Span)`
+  color: ${({ theme: globalTheme }) => globalTheme.colors.primaryHue};
+`;
 
 const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const { t, i18n } = useTranslation();
@@ -91,10 +97,15 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
         footer={
           <Trans
             i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL"
+            defaults="out of <bold>{{total}}</bold> unique"
             count={data.total || 0}
-          >
-            out of {{ total: data.total || 0 }}
-          </Trans>
+            components={{
+              bold: <Value isBold />,
+            }}
+            values={{
+              total: data.total || 0,
+            }}
+          />
         }
       />
       <BasicWidget.Footer>
