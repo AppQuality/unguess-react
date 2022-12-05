@@ -4,6 +4,7 @@ import {
   Skeleton,
   XL,
   Span,
+  SM,
 } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
@@ -118,10 +119,9 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
             )
           }
         >
-          {t(
-            '__CAMPAIGN_WIDGET_BUGDISTRIBUTION_GOTOLIST_LINK',
-            'Go to bug list'
-          )}
+          <SM tag="span">
+            {t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_GOTOLIST_LINK')}
+          </SM>
         </Anchor>
       </BasicWidget.Footer>
     </BasicWidget>
