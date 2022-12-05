@@ -123,6 +123,9 @@ const Campaign = () => {
                         <SectionTitle
                           id="unique-bug-distribution"
                           title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}
+                          subtitle={t(
+                            '__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_SUBTITLE'
+                          )}
                         />
                       </Col>
                       <Col xs={12} md={6}>
@@ -139,6 +142,9 @@ const Campaign = () => {
                           id="devices-and-types"
                           title={t(
                             '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
+                          )}
+                          subtitle={t(
+                            '__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_SUBTITLE'
                           )}
                         />
                       </Col>
