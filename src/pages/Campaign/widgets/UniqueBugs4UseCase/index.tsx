@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import FlipCard from '../widgetCards/FlipCard';
-import { ChartUniqueBugs4UseCase } from './ChartUniqueBugs4UseCase';
-import { ListUniqueBugs4UseCase } from './ListUniqueBugs4UseCase';
+import { ChartUniqueBugs4UseCase } from './Chart';
+import { ListUniqueBugs4UseCase } from './List';
 
 const UniqueBugs4UseCase = ({ height }: { height: string }) => {
   const { t } = useTranslation();
