@@ -41,11 +41,7 @@ const WidgetCardFaceContent = styled.div`
   }
 `;
 
-export const FlipCardBody = ({
-  front,
-  back,
-  height = 'auto',
-}: FlipCardBodyProps) => {
+export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
   const frontRef = useRef(null);
   const backRef = useRef(null);
   const { visibleFace } = useFlipCardContext();
@@ -55,7 +51,7 @@ export const FlipCardBody = ({
       style={{
         position: 'relative',
         width: '100%',
-        height,
+        height: '100%',
         overflow: 'hidden',
       }}
     >

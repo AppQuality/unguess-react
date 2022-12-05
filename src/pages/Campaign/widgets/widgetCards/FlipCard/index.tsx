@@ -1,12 +1,23 @@
+import styled from 'styled-components';
 import { StyledSpecialCard } from '../common/StyledSpecialCard';
 import { WidgetCardFooter } from '../common/WidgetCardFooter';
 import { FlipCardBody } from './FlipCardBody';
 import { FlipCardHeader } from './FlipCardHeader';
 import { FlipCardContextProvider } from './context/FlipCardContext';
 
-const FlipCard = ({ children }: { children?: React.ReactNode }) => (
+const FlipCardContainer = styled(StyledSpecialCard)<{ height?: string }>`
+  height: ${({ height }) => height || 'auto'};
+`;
+
+const FlipCard = ({
+  children,
+  height,
+}: {
+  children?: React.ReactNode;
+  height?: string;
+}) => (
   <FlipCardContextProvider>
-    <StyledSpecialCard>{children}</StyledSpecialCard>
+    <FlipCardContainer height={height}>{children}</FlipCardContainer>
   </FlipCardContextProvider>
 );
 
