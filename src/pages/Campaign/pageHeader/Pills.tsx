@@ -39,18 +39,32 @@ const Pipe = styled.span`
     margin: 0;
   }
 `;
-
-const FooterContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
+`;
+
+const FooterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  flex-direction: column;
+  align-items: flex-start;
+  ${ButtonWrapper} {
+    margin-top: ${({ theme }) => theme.space.base * 5}px;
+    margin-bottom: ${({ theme }) => theme.space.base * 6}px;
+  }
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    flex-direction: row;
+    align-items: center;
+    ${ButtonWrapper} {
+      margin-top: inherit;
+      margin-bottom: inherit;
+    }
+  }
 `;
 
 const PillsWrapper = styled.div`
