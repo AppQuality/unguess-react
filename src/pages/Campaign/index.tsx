@@ -145,7 +145,7 @@ const Campaign = () => {
                             '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
                           )}
                           subtitle={t(
-                            '__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_SUBTITLE'
+                            '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_SUBTITLE'
                           )}
                         />
                       </Col>
