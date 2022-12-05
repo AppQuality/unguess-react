@@ -31,7 +31,13 @@ const BasicWidgetHeader = ({
     title={children}
     action={
       tooltipContent && (
-        <Tooltip content={tooltipContent} size="large" type="light">
+        <Tooltip
+          content={tooltipContent}
+          size="large"
+          type="light"
+          placement="bottom-end"
+          hasArrow={false}
+        >
           <IconButton size="small">
             <InfoStrokeIcon />
           </IconButton>
