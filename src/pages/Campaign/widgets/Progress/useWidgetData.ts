@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { TFunction } from 'i18next';
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
@@ -11,22 +12,21 @@ export const useWidgetData = (cid: number, t: TFunction) => {
         unit: t('__APP_HOURS_LABEL', { count: hours }),
       };
     }
+
     return {
       value: days,
       unit: t('__APP_DAYS_LABEL', { count: days }),
     };
   }
+
   function getFormattedStartDate(start_date: string, end_date: string) {
-    const options: Intl.DateTimeFormatOptions = {
-      month: 'numeric',
-      day: 'numeric',
-    };
     if (
       new Date(end_date).getFullYear() !== new Date(start_date).getFullYear()
     ) {
-      options.year = 'numeric';
+      return format(new Date(start_date), 'dd/MM/yyyy');
     }
-    return new Date(start_date).toLocaleDateString('it', options);
+
+    return format(new Date(start_date), 'dd/MM');
   }
 
   const isClosed = (end_date: string) => new Date(end_date) < new Date();
@@ -53,34 +53,34 @@ export const useWidgetData = (cid: number, t: TFunction) => {
   }
 
   let widgetData;
-  const { data, isFetching, isLoading, isError } =
-    useGetCampaignsByCidWidgetsQuery({
-      cid,
-      s: 'cp-progress',
-    });
+  const {
+    data: widget,
+    isFetching,
+    isLoading,
+    isError,
+  } = useGetCampaignsByCidWidgetsQuery({
+    cid,
+    s: 'cp-progress',
+  });
 
-  if (data?.kind === 'campaignProgress') {
+  if (widget?.kind === 'campaignProgress') {
     widgetData = {
-      raw: data.data,
-      duration: isClosed(data.data.end_date)
-        ? getFormattedTime(data.data.expected_duration)
-        : getFormattedTime(data.data.time_elapsed),
-      expectedDuration: isClosed(data.data.end_date)
+      raw: widget.data,
+      duration: isClosed(widget.data.end_date)
+        ? getFormattedTime(widget.data.expected_duration)
+        : getFormattedTime(widget.data.time_elapsed),
+      expectedDuration: isClosed(widget.data.end_date)
         ? (false as const)
-        : getFormattedTime(data.data.expected_duration),
+        : getFormattedTime(widget.data.expected_duration),
       startDate: getFormattedStartDate(
-        data.data.start_date,
-        data.data.end_date
+        widget.data.start_date,
+        widget.data.end_date
       ),
-      endDate: new Date(data.data.end_date).toLocaleDateString('it', {
-        month: 'numeric',
-        day: 'numeric',
-        year: 'numeric',
-      }),
-      durationLabel: getCampaignDurationLabel(data.data.end_date),
+      endDate: format(new Date(widget.data.end_date), 'dd/MM/yyyy'),
+      durationLabel: getCampaignDurationLabel(widget.data.end_date),
       elapsedTimePercentage: getElapsedTimePercentage(
-        data.data.time_elapsed,
-        data.data.expected_duration
+        widget.data.time_elapsed,
+        widget.data.expected_duration
       ),
     };
   }
