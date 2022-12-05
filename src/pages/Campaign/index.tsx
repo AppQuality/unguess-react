@@ -57,6 +57,7 @@ const Campaign = () => {
     campaign?.family.name.toLocaleLowerCase() === 'functional';
 
   const firstRowHeight = '540px';
+  const secondRowHeight = '465px';
 
   return (
     <Page
@@ -143,7 +144,7 @@ const Campaign = () => {
                       </Col>
                       <Col xs={12} md={6}>
                         <TotalBugsByOsAndDevices
-                          contentHeight="370px"
+                          height={secondRowHeight}
                           campaignId={campaign.id ?? 0}
                         />
                       </Col>
