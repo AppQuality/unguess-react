@@ -20,6 +20,7 @@ import { SectionTitle } from './SectionTitle';
 import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
 import IncomingBugs from './widgets/incomingBugs';
 import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
+import { WidgetSection } from './WidgetSection';
 
 const Campaign = () => {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ const Campaign = () => {
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
                   <>
-                    <Row>
+                    <WidgetSection>
                       <Col xs={12}>
                         <SectionTitle
                           id="campaign-overview"
@@ -117,8 +118,8 @@ const Campaign = () => {
                           />
                         )}
                       </Col>
-                    </Row>
-                    <Row>
+                    </WidgetSection>
+                    <WidgetSection>
                       <Col xs={12}>
                         <SectionTitle
                           id="unique-bug-distribution"
@@ -144,7 +145,7 @@ const Campaign = () => {
                             '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
                           )}
                           subtitle={t(
-                            '__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_SUBTITLE'
+                            '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_SUBTITLE'
                           )}
                         />
                       </Col>
@@ -154,7 +155,7 @@ const Campaign = () => {
                           campaignId={campaign.id ?? 0}
                         />
                       </Col>
-                    </Row>
+                    </WidgetSection>
                   </>
                 )}
                 {reports &&

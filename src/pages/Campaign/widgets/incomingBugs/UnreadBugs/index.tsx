@@ -1,4 +1,9 @@
-import { Accordion, Skeleton, SM } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  Skeleton,
+  SM,
+  Span,
+} from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useUnreadBugs } from './useUnreadBugs';
@@ -59,13 +64,13 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                     {usecase.title}
                   </SM>
                   <SM style={{ color: ugTheme.palette.grey[600] }}>
-                    <span>
+                    <Span>
                       ({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD', 'Unread')}
-                    </span>
+                    </Span>
                     {': '}
-                    <span style={{ color: ugTheme.palette.blue[600] }}>
+                    <Span isBold style={{ color: ugTheme.palette.blue[600] }}>
                       {usecase.unreadCount}
-                    </span>
+                    </Span>
                     /{usecase.totalCount})
                   </SM>
                 </UseCaseLabel>

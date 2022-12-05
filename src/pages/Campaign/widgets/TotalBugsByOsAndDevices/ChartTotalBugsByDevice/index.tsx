@@ -13,6 +13,7 @@ const Tooltip = styled.div`
   padding: ${({ theme }) => theme.space.base * 3}px;
   background: ${({ theme }) => theme.palette.white};
   box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  max-width: 216px;
 `;
 
 export const ChartTotalBugsByDevice = ({
