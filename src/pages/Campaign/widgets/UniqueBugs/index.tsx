@@ -1,16 +1,20 @@
 import {
-  theme as globalTheme,
   WaffleChart,
   XL,
   Skeleton,
-  MD,
   Span,
 } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
+import styled from 'styled-components';
 import { Trans, useTranslation } from 'react-i18next';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 import { TrendPill } from './Trend';
+
+const Value = styled(Span)`
+  color: ${({ theme }) => theme.colors.primaryHue};
+`;
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
@@ -61,7 +65,7 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
         footer={
           <Trans
             i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_LABEL"
-            components={{ bold: <MD isBold tag="span" /> }}
+            components={{ bold: <Value isBold /> }}
             defaults="out of <bold>{{ total }}</bold> total"
             values={{ total: totalBugs }}
           />

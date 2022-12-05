@@ -58,7 +58,7 @@ const WidgetCardDescriptionContent = styled(XXXL)`
 
 const WidgetCardDescriptionFooter = styled(MD)`
   margin-bottom: ${({ theme }) => theme.space.xxs};
-  color: ${({ theme }) => theme.palette.blue[600]};
+  color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
 const BasicWidgetDescription = ({

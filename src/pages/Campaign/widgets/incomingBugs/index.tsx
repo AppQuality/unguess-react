@@ -1,4 +1,5 @@
-import { Anchor, Tabs, theme } from '@appquality/unguess-design-system';
+import { Anchor, Tabs, SM } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import i18n from 'src/i18n';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
@@ -57,7 +58,9 @@ const IncomingBugs = ({
             );
           }}
         >
-          {t('__CAMPAIGN_WIDGET_INCOMING_BUGS_EXTERNAL_LINK_LABEL')}
+          <SM tag="span">
+            {t('__CAMPAIGN_WIDGET_INCOMING_BUGS_EXTERNAL_LINK_LABEL')}
+          </SM>
         </Anchor>
       </BasicWidget.Footer>
     </BasicWidget>
