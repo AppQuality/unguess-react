@@ -19,7 +19,7 @@ const Tooltip = styled.div`
   padding: ${({ theme }) => theme.space.base * 3}px;
   background: ${({ theme }) => theme.palette.white};
   box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
-  max-width: 216px;
+  max-width: 25ch;
 `;
 
 export const ChartUniqueBugs4UseCase = ({
@@ -55,14 +55,14 @@ export const ChartUniqueBugs4UseCase = ({
             <TooltipSM>
               {t(
                 '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_USECASE_LABEL',
-                `Use Case:`
+                `Use Case: `
               )}
               <Span isBold>{label}</Span>
             </TooltipSM>
             <TooltipSM>
               {t(
                 '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_UNIQUE_BUGS_LABEL',
-                `Unique bugs:`
+                `Unique bugs: `
               )}
               <Span isBold style={{ marginLeft: globalTheme.space.xxs }}>
                 {value}
