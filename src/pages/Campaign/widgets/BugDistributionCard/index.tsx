@@ -45,7 +45,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const colorScheme = Object.keys(data.bySeverity).map(
     (key) => theme.colors.bySeverity[key as Severities]
   );
-  const maxSeverity = Object.keys(data.bySeverity).at(0) as Severities;
+  const maxSeverity = Object.keys(data.bySeverity)[0] as Severities;
 
   return (
     <BasicWidget>
