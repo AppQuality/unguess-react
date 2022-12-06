@@ -26,7 +26,7 @@ function translateSeverity(severity: Severities, t: TFunction) {
     case 'low':
       return t('__BUG_SEVERITY_LOW', 'low');
     default:
-      throw new Error(`Unknown severity ${severity}`);
+      return '';
   }
 }
 

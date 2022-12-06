@@ -51,7 +51,9 @@ const DuplicateBugs = ({ campaignId }: { campaignId: number }) => {
                       {bug.title.context &&
                         bug.title.context.length > 0 &&
                         bug.title.context.map((context) => (
-                          <BugCard.Pill>{context}</BugCard.Pill>
+                          <BugCard.Pill key={`${bug.id}_${context}`}>
+                            {context}
+                          </BugCard.Pill>
                         ))}
                       <BugCard.Pill>
                         {t(
