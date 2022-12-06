@@ -30,11 +30,13 @@ const IncomingBugs = ({
       {thereAreDuplicates ? (
         <Tabs>
           <Tabs.Panel
+            id="tab-unread-bugs-incoming-bugs-widget"
             title={t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_TAB_TITLE')}
           >
             <UnreadBugs campaignId={campaignId} />
           </Tabs.Panel>
           <Tabs.Panel
+            id="tab-most-submitted-bugs-incoming-bugs-widget"
             title={t(
               '__CAMPAIGN_WIDGET_INCOMING_BUGS_MOST_SUBMITTED_TAB_TITLE'
             )}
@@ -49,6 +51,7 @@ const IncomingBugs = ({
       )}
       <BasicWidget.Footer>
         <Anchor
+          id="anchor-bugs-list-incoming-bugs-widget"
           isExternal
           onClick={() => {
             // eslint-disable-next-line security/detect-non-literal-fs-filename

@@ -27,6 +27,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
         hasBack === false ? null : (
           <div>
             <FlipButton
+              className="flip-card-button-chart"
               isActive={visibleFace === 'front'}
               size="small"
               onClick={() => setVisibleFace('front')}
@@ -36,6 +37,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
               />
             </FlipButton>
             <FlipButton
+              className="flip-card-button-list"
               size="small"
               isActive={visibleFace === 'back'}
               onClick={() => setVisibleFace('back')}

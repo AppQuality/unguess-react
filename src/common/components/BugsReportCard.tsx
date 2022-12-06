@@ -64,7 +64,7 @@ export const BugsReportCard = ({
 
       <SpecialCard.Footer direction="column" justifyContent="center">
         <Button
-          className="report-btn report-btn-link report-btn-link"
+          className="report-btn report-btn-download report-btn-bugs-report"
           isPill
           isStretched
           onClick={getReport}

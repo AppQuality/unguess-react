@@ -154,6 +154,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             <Pipe style={{ marginRight: globalTheme.space.md }} />
             {meta.allowed_devices.includes('desktop') && (
               <Pill
+                id="pill-desktop-header"
                 icon={<DesktopIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
                 color={globalTheme.palette.azure[600]}
@@ -161,6 +162,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             )}
             {meta.allowed_devices.includes('smartphone') && (
               <Pill
+                id="pill-smartphone-header"
                 icon={<SmartphoneIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}
                 color={globalTheme.palette.azure[600]}
@@ -168,6 +170,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             )}
             {meta.allowed_devices.includes('tablet') && (
               <Pill
+                id="pill-tablet-header"
                 icon={<TabletIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_TABLET')}
                 color={globalTheme.palette.azure[600]}
@@ -179,6 +182,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
       <ButtonWrapper>
         {outputs?.includes('bugs') && (
           <Button
+            id="button-bugs-list-header"
             isPrimary
             isPill
             themeColor={globalTheme.palette.water[600]}
@@ -195,6 +199,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
         )}
         {outputs?.includes('media') && (
           <Button
+            id="button-media-list-header"
             isPrimary
             isPill
             themeColor={globalTheme.palette.water[600]}

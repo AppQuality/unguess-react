@@ -24,19 +24,21 @@ const PillContainer = styled.div`
 `;
 
 export const Pill = ({
+  id,
   background,
   color,
   icon,
   title,
   children,
 }: {
+  id?: string;
   title: string;
   background?: string;
   color?: string;
   icon?: ReactNode;
   children?: ReactNode;
 }) => (
-  <PillContainer>
+  <PillContainer {...(id && { id })}>
     <StyledTag isPill hue={background ?? 'white'} size="large">
       {icon && <StyledAvatar>{icon}</StyledAvatar>}
       <Span isBold style={{ color: color ?? globalTheme.palette.grey[700] }}>
