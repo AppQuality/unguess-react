@@ -39,12 +39,8 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const height = '140px';
   const { data, isLoading } = useBugs(campaignId);
 
-  if (!('bySeverity' in data)) return null;
-
-  const showLoader =
-    isLoading ||
-    !('bySeverity' in data) ||
-    Object.keys(data.bySeverity).length === 0;
+  if (!('bySeverity' in data) || Object.keys(data.bySeverity).length === 0)
+    return null;
 
   const colorScheme = Object.keys(data.bySeverity).map(
     (key) => theme.colors.bySeverity[key as Severities]
@@ -65,7 +61,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
           </Trans>
         </CapitalizeFirstLetter>
       </BasicWidget.Header>
-      {showLoader ? (
+      {isLoading ? (
         <WidgetLoader />
       ) : (
         <>
