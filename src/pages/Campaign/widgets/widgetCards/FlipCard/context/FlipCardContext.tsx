@@ -1,4 +1,7 @@
 import { createContext, useContext, useMemo, useState } from 'react';
+import { theme as globalTheme } from 'src/app/theme';
+import { isMinMedia } from 'src/common/utils';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { FaceType, FlipCardContextType } from '../types';
 
 export const FlipCardContext = createContext<FlipCardContextType | null>(null);
@@ -8,15 +11,24 @@ export const FlipCardContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [visibleFace, setVisibleFace] = useState<FaceType>('front');
+  const { width } = useWindowSize();
+  const breakpointMd = parseInt(globalTheme.breakpoints.md, 10);
 
-  const flipCardContextValue = useMemo(
-    () => ({
+  const isDesktop = isMinMedia(globalTheme.breakpoints.sm);
+  const [visibleFace, setVisibleFace] = useState<FaceType>(
+    isDesktop ? 'front' : 'back'
+  );
+
+  const flipCardContextValue = useMemo(() => {
+    if (width < breakpointMd) {
+      setVisibleFace('back');
+    }
+    return {
       visibleFace,
       setVisibleFace,
-    }),
-    [visibleFace, setVisibleFace]
-  );
+      width,
+    };
+  }, [visibleFace, setVisibleFace, width]);
 
   return (
     <FlipCardContext.Provider value={flipCardContextValue}>
