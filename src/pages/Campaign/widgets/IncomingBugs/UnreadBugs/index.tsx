@@ -64,9 +64,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                     {usecase.title}
                   </SM>
                   <SM style={{ color: ugTheme.palette.grey[600] }}>
-                    <Span>
-                      ({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD', 'Unread')}
-                    </Span>
+                    <Span>({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD')}</Span>
                     {': '}
                     <Span isBold style={{ color: ugTheme.palette.blue[600] }}>
                       {usecase.unreadCount}

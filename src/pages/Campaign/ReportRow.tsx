@@ -85,11 +85,10 @@ export const ReportRow = ({
   const { id: campaignId, customer_title } = campaign;
 
   return (
-    <Row>
+    <Row id="reports" style={{ marginBottom: theme.space.xxl }}>
       {(reports && reports.length) || isFunctional ? (
         <Col xs={12}>
           <SectionTitle
-            id="reports"
             title={t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
             subtitle={t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}
           />

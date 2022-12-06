@@ -18,7 +18,7 @@ import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
 import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
-import IncomingBugs from './widgets/incomingBugs';
+import IncomingBugs from './widgets/IncomingBugs';
 import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
 import { WidgetSection } from './WidgetSection';
 
@@ -98,11 +98,12 @@ const Campaign = () => {
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
                   <>
-                    <WidgetSection>
+                    <WidgetSection id="campaign-overview">
                       <Col xs={12}>
                         <SectionTitle
-                          id="campaign-overview"
-                          title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
+                          title={t(
+                            '__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL'
+                          )}
                         />
                       </Col>
                       <Col xs={12} md={4}>
@@ -119,10 +120,9 @@ const Campaign = () => {
                         )}
                       </Col>
                     </WidgetSection>
-                    <WidgetSection>
+                    <WidgetSection id="unique-bug-distribution">
                       <Col xs={12}>
                         <SectionTitle
-                          id="unique-bug-distribution"
                           title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}
                           subtitle={t(
                             '__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_SUBTITLE'
@@ -138,9 +138,10 @@ const Campaign = () => {
                           campaignId={campaign.id ?? 0}
                         />
                       </Col>
+                    </WidgetSection>
+                    <WidgetSection id="devices-and-types">
                       <Col xs={12}>
                         <SectionTitle
-                          id="devices-and-types"
                           title={t(
                             '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
                           )}
