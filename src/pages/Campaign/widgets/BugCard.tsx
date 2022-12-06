@@ -82,7 +82,7 @@ const BugCardTitle = ({
   children: React.ReactNode;
   url: string;
 }) => (
-  <Anchor href={url} target="_blank">
+  <Anchor className="anchor-bug-card-title" href={url} target="_blank">
     <MD isBold>{children}</MD>
   </Anchor>
 );

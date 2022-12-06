@@ -38,7 +38,7 @@ const BasicWidgetHeader = ({
           placement="bottom-end"
           hasArrow={false}
         >
-          <IconButton size="small">
+          <IconButton className="button-basic-widget-tooltip" size="small">
             <InfoStrokeIcon />
           </IconButton>
         </Tooltip>

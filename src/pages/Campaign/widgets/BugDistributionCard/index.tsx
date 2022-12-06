@@ -113,6 +113,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
 
       <BasicWidget.Footer>
         <Anchor
+          id="anchor-bugs-list-bugs-distribution-widget"
           isExternal
           onClick={() =>
             // eslint-disable-next-line security/detect-non-literal-fs-filename

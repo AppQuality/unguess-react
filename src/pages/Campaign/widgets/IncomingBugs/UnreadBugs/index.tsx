@@ -64,7 +64,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
       </StyledSM>
       <Accordion isCompact isExpandable isAnimated={false} level={1}>
         {data.map((usecase) => (
-          <Accordion.Section>
+          <Accordion.Section className="accordion-use-case-unread-bugs-incoming-bugs-widget">
             <Accordion.Header>
               <StyledAccordionLabel>
                 <UseCaseLabel>
