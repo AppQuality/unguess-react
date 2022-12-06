@@ -21,10 +21,11 @@ const groupArrayOfObjects = (
 };
 
 const useBugsByDevices = (campaignId: number) => {
-  const { data } = useGetCampaignsByCidWidgetsQuery({
-    cid: campaignId,
-    s: 'bugs-by-device',
-  });
+  const { data, isLoading, isError, isFetching } =
+    useGetCampaignsByCidWidgetsQuery({
+      cid: campaignId,
+      s: 'bugs-by-device',
+    });
   const [chartData, setChartData] = useState<SunburstData>({
     name: 'graph',
     children: [],
@@ -83,7 +84,7 @@ const useBugsByDevices = (campaignId: number) => {
     }
   }, [data]);
 
-  return { chartData };
+  return { chartData, isLoading: isLoading || isFetching || isError };
 };
 
 export { useBugsByDevices };

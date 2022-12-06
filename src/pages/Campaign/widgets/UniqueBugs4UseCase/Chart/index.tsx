@@ -1,12 +1,8 @@
-import {
-  PieChart,
-  Skeleton,
-  SM,
-  Span,
-} from '@appquality/unguess-design-system';
+import { PieChart, SM, Span } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { WidgetLoader } from '../../widgetLoader';
 import { BugsByUseCaseVisualizationProps } from '../types';
 import { useBugsByUsecase } from '../useBugsByUsecase';
 import { useMaxItems } from '../useMaxItems';
@@ -30,7 +26,7 @@ export const ChartUniqueBugs4UseCase = ({
   const newItems = useMaxItems(items, 6);
 
   if (isLoading || isError) {
-    return <Skeleton />;
+    return <WidgetLoader size="md" align="center" />;
   }
   return (
     <div style={{ marginBottom: globalTheme.space.lg, width: '100%' }}>

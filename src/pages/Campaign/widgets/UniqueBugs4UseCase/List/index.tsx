@@ -1,8 +1,9 @@
-import { Skeleton, XL } from '@appquality/unguess-design-system';
+import { XL } from '@appquality/unguess-design-system';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { List } from '../../List';
 import { ListItem } from '../../List/ListItem';
+import { WidgetLoader } from '../../widgetLoader';
 import { BugsByUseCaseVisualizationProps } from '../types';
 import { useBugsByUsecase } from '../useBugsByUsecase';
 
@@ -26,7 +27,7 @@ export const ListUniqueBugs4UseCase = ({
   }, [currentPage, items]);
 
   if (isLoading || isError) {
-    return <Skeleton />;
+    return <WidgetLoader />;
   }
 
   return (

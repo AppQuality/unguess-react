@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useBugsByDevices } from './useBugsByDevices';
 import { getChildrenValue } from './getChildrenValue';
+import { WidgetLoader } from '../../widgetLoader';
 
 const StyledSM = styled(SM)`
   color: ${({ theme }) => theme.colors.primaryHue};
@@ -22,12 +23,14 @@ export const ChartTotalBugsByDevice = ({
   campaignId: number;
 }) => {
   const { t } = useTranslation();
-  const { chartData } = useBugsByDevices(campaignId);
+  const { chartData, isLoading } = useBugsByDevices(campaignId);
   const [totalBugs, setTotalBugs] = useState(0);
 
   useEffect(() => {
     setTotalBugs(getChildrenValue(chartData));
   }, [chartData]);
+
+  if (isLoading) return <WidgetLoader size="md" align="center" />;
 
   return chartData.children && chartData.children.length > 0 ? (
     <SunburstChart
@@ -45,8 +48,7 @@ export const ChartTotalBugsByDevice = ({
           {!data?.isLast ? (
             <StyledSM isBold>
               {t(
-                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_TOOLTIP_DRILLDOWN',
-                `👉 Drill down to:`
+                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_TOOLTIP_DRILLDOWN'
               )}
             </StyledSM>
           ) : null}
