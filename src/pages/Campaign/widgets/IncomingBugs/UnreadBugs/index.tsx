@@ -6,10 +6,10 @@ import {
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { theme as globalTheme } from 'src/app/theme';
 import { useUnreadBugs } from './useUnreadBugs';
 import { EmptyState } from './EmptyState';
 import { BugCard } from '../../BugCard';
-import { theme as ugTheme } from '../../../../../app/theme';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
@@ -40,11 +40,19 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
 
   if (isLoading)
     return (
-      <>
-        <StyledSkeleton height="110px" style={{ borderRadius: 0 }} />
-        <StyledSkeleton height="110px" style={{ borderRadius: 0 }} />
-        <StyledSkeleton height="110px" style={{ borderRadius: 0 }} />
-      </>
+      <div style={{ marginTop: globalTheme.space.sm }}>
+        <StyledSkeleton width="80%" height="28px" />
+        <StyledSkeleton width="60%" height="22px" />
+        <StyledSkeleton
+          width="60%"
+          height="22px"
+          style={{ marginBottom: globalTheme.space.md }}
+        />
+
+        <StyledSkeleton width="80%" height="28px" />
+        <StyledSkeleton width="60%" height="22px" />
+        <StyledSkeleton width="60%" height="22px" />
+      </div>
     );
 
   if (isError) return <EmptyState />;
@@ -60,13 +68,16 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
             <Accordion.Header>
               <StyledAccordionLabel>
                 <UseCaseLabel>
-                  <SM isBold style={{ paddingRight: ugTheme.space.xs }}>
+                  <SM isBold style={{ paddingRight: globalTheme.space.xs }}>
                     {usecase.title}
                   </SM>
-                  <SM style={{ color: ugTheme.palette.grey[600] }}>
+                  <SM style={{ color: globalTheme.palette.grey[600] }}>
                     <Span>({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD')}</Span>
                     {': '}
-                    <Span isBold style={{ color: ugTheme.palette.blue[600] }}>
+                    <Span
+                      isBold
+                      style={{ color: globalTheme.palette.blue[600] }}
+                    >
                       {usecase.unreadCount}
                     </Span>
                     /{usecase.totalCount})
