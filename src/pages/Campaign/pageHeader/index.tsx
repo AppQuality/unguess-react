@@ -16,8 +16,14 @@ import {
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import styled from 'styled-components';
+import { Pills } from './Pills';
 
-export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
+const StyledPillsWrapper = styled(PageHeader.Counters)`
+  width: 100%;
+`;
+
+const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
@@ -103,19 +109,24 @@ export const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
       </PageHeader>
     );
   }
-
   return status === 'idle' ||
     status === 'loading' ||
     isCampaignError ||
     isProjectError ? null : (
     <PageHeader>
       <PageHeader.Breadcrumb>
-        <Anchor onClick={() => navigate(projectRoute)}>{project.name}</Anchor>
+        <Anchor id="breadcrumb-parent" onClick={() => navigate(projectRoute)}>
+          {project.name}
+        </Anchor>
         <Span>{campaign.customer_title}</Span>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>{InputToggleMemo}</PageHeader.Title>
+        <StyledPillsWrapper>
+          <Pills campaign={campaign} />
+        </StyledPillsWrapper>
       </PageHeader.Main>
     </PageHeader>
   );
 };
+export default CampaignPageHeader;

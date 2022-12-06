@@ -10,7 +10,6 @@ import {
   Timeline,
   XXL,
 } from '@appquality/unguess-design-system';
-import { Divider } from 'src/common/components/divider';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
@@ -19,6 +18,7 @@ import { Link } from 'react-scroll';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
+import { StyledDivider } from 'src/common/components/navigation';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
 
@@ -77,12 +77,8 @@ const StepTitle = styled(XXL)`
 `;
 
 const StepParagraph = styled(Paragraph)`
-  font-weight: ${({ theme }) => theme.fontWeights.semiBold};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
   margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
-const StyledDivider = styled(Divider)`
-  margin: ${({ theme }) => theme.space.sm} 0;
 `;
 
 const TimelineIcon = styled.img`

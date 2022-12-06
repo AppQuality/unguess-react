@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { theme } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WaterButton } from 'src/common/components/waterButton';
 import { WizardButtonsProps } from 'src/pages/ExpressWizard/steps/types';

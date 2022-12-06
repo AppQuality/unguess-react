@@ -1,12 +1,5 @@
 import { Page } from 'src/features/templates/Page';
-import {
-  Col,
-  Grid,
-  Paragraph,
-  Row,
-  XL,
-  theme,
-} from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
@@ -14,17 +7,26 @@ import {
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
-import { CampaignPageHeader } from './pageHeader';
+import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
 import { ReportRow } from './ReportRow';
+import { Navigation, NavigationLoading } from './navigation';
+import { UniqueBugs } from './widgets/UniqueBugs';
+import { Progress } from './widgets/Progress';
+import BugDistributionCard from './widgets/BugDistributionCard';
+import { EmptyState } from './EmptyState';
+import { SectionTitle } from './SectionTitle';
+import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
+import IncomingBugs from './widgets/IncomingBugs';
+import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
+import { WidgetSection } from './WidgetSection';
 
 const Campaign = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-
   const { campaignId } = useParams();
+  const { t } = useTranslation();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute);
@@ -52,6 +54,12 @@ const Campaign = () => {
     navigate(notFoundRoute);
   }
 
+  const isFunctional =
+    campaign?.family.name.toLocaleLowerCase() === 'functional';
+
+  const firstRowHeight = '540px';
+  const secondRowHeight = '465px';
+
   return (
     <Page
       title={(campaign && campaign.customer_title) ?? 'Campaign'}
@@ -65,26 +73,108 @@ const Campaign = () => {
       route="campaigns"
     >
       <Grid>
-        {reports && reports.length ? (
-          <Row>
-            <Col xs={12}>
-              <XL
-                style={{
-                  fontWeight: theme.fontWeights.medium,
-                  marginBottom: theme.space.xs,
-                }}
-              >
-                {t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
-              </XL>
-              <Paragraph>{t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}</Paragraph>
-            </Col>
-          </Row>
-        ) : null}
-        {reports && campaign && !isLoadingReports && !isFetchingReports ? (
-          <ReportRow reports={reports} campaign={campaign} />
-        ) : (
-          <ReportRowLoading />
-        )}
+        <Row>
+          {!campaign?.outputs?.includes('bugs') &&
+          !reports?.length &&
+          !isFunctional ? (
+            <EmptyState />
+          ) : (
+            <>
+              <Col xs={12} md={3}>
+                {isLoadingCampaign ||
+                isFetchingCampaign ||
+                isLoadingReports ||
+                isFetchingReports ? (
+                  <NavigationLoading />
+                ) : (
+                  <Navigation
+                    campaignId={campaign ? campaign.id : 0}
+                    outputs={campaign ? campaign.outputs : []}
+                    reports={reports ?? []}
+                    {...(isFunctional && { isFunctional })}
+                  />
+                )}
+              </Col>
+              <Col xs={12} md={9}>
+                {campaign?.outputs?.includes('bugs') && (
+                  <>
+                    <WidgetSection id="campaign-overview">
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t(
+                            '__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL'
+                          )}
+                        />
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <Progress campaign={campaign} />
+                      </Col>
+                      <Col xs={12} md={4}>
+                        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+                      </Col>
+                      <Col xs={12} md={4} lg={4}>
+                        {isFetchingCampaign ? undefined : (
+                          <BugDistributionCard
+                            campaignId={campaign ? campaign.id : 0}
+                          />
+                        )}
+                      </Col>
+                    </WidgetSection>
+                    <WidgetSection id="unique-bug-distribution">
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}
+                          subtitle={t(
+                            '__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_SUBTITLE'
+                          )}
+                        />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <UniqueBugs4UseCase height={firstRowHeight} />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <IncomingBugs
+                          height={firstRowHeight}
+                          campaignId={campaign.id ?? 0}
+                        />
+                      </Col>
+                    </WidgetSection>
+                    <WidgetSection id="devices-and-types">
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t(
+                            '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
+                          )}
+                          subtitle={t(
+                            '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_SUBTITLE'
+                          )}
+                        />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <TotalBugsByOsAndDevices
+                          height={secondRowHeight}
+                          campaignId={campaign.id ?? 0}
+                        />
+                      </Col>
+                    </WidgetSection>
+                  </>
+                )}
+                {reports &&
+                campaign &&
+                !isLoadingReports &&
+                !isFetchingReports ? (
+                  <ReportRow
+                    reports={reports}
+                    campaign={campaign}
+                    {...(isFunctional && { isFunctional })}
+                  />
+                ) : (
+                  <ReportRowLoading />
+                )}
+              </Col>
+            </>
+          )}
+        </Row>
       </Grid>
     </Page>
   );

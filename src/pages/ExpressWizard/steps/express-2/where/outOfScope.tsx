@@ -8,8 +8,8 @@ import {
   Span,
   Message,
   Label,
-  theme as globalTheme,
 } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { FormikProps } from 'formik';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { Notes } from 'src/pages/ExpressWizard/notesCard';

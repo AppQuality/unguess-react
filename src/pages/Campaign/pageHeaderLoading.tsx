@@ -1,4 +1,5 @@
-import { PageHeader, Skeleton, theme } from '@appquality/unguess-design-system';
+import { PageHeader, Skeleton } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 
 export const HeaderLoader = () => (
   <PageHeader>

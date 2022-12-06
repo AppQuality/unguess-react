@@ -1,4 +1,4 @@
-import { theme } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { operations, components } from 'src/common/schema';
 import { GetUsersMeApiResponse } from './features/api';
 
@@ -23,4 +23,8 @@ declare global {
   type ApiComponents = components;
   type SupportedLanguages = 'it' | 'en';
   type OrderType = 'DESC' | 'ASC';
+  type PartialRecord<K extends keyof any, T> = {
+    [P in K]?: T;
+  };
+  type Severities = 'critical' | 'high' | 'medium' | 'low';
 }
