@@ -1,5 +1,6 @@
 import { IconButton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { theme as globalTheme } from 'src/app/theme';
 import { ReactComponent as LineGraphIconFill } from 'src/assets/icons/line-graph-fill.svg';
 import { ReactComponent as ListBulletIconFill } from 'src/assets/icons/list-bullet-fill.svg';
 import { WidgetCardHeader } from '../common/WidgetCardHeader';
@@ -17,15 +18,20 @@ const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
   margin-left: ${(p) => p.theme.space.xs};
 `;
 
+export const FlipButtonContainer = styled.div`
+  display: flex;
+`;
+
 export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
-  const { visibleFace, setVisibleFace } = useFlipCardContext();
+  const { visibleFace, setVisibleFace, width } = useFlipCardContext();
+  const breakpointMd = parseInt(globalTheme.breakpoints.md, 10);
 
   return (
     <WidgetCardHeader
       title={children}
       action={
-        hasBack === false ? null : (
-          <div>
+        hasBack === false || width < breakpointMd ? null : (
+          <FlipButtonContainer>
             <FlipButton
               isActive={visibleFace === 'front'}
               size="small"
@@ -44,7 +50,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
                 color={`${visibleFace === 'back' && 'white'}`}
               />
             </FlipButton>
-          </div>
+          </FlipButtonContainer>
         )
       }
     />
