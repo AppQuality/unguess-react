@@ -17,7 +17,10 @@ import { Progress } from './widgets/Progress';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
-import FlipCard from './widgets/widgetCards/FlipCard';
+import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
+import IncomingBugs from './widgets/IncomingBugs';
+import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
+import { WidgetSection } from './WidgetSection';
 
 const Campaign = () => {
   const navigate = useNavigate();
@@ -53,6 +56,9 @@ const Campaign = () => {
 
   const isFunctional =
     campaign?.family.name.toLocaleLowerCase() === 'functional';
+
+  const firstRowHeight = '540px';
+  const secondRowHeight = '465px';
 
   return (
     <Page
@@ -92,10 +98,12 @@ const Campaign = () => {
               <Col xs={12} md={9}>
                 {campaign?.outputs?.includes('bugs') && (
                   <>
-                    <Row>
+                    <WidgetSection id="campaign-overview">
                       <Col xs={12}>
                         <SectionTitle
-                          title={t('__CAMPAIGN_PAGE_WIDGET_TITLE')}
+                          title={t(
+                            '__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL'
+                          )}
                         />
                       </Col>
                       <Col xs={12} md={4}>
@@ -111,76 +119,44 @@ const Campaign = () => {
                           />
                         )}
                       </Col>
-                    </Row>
-                    <Row>
+                    </WidgetSection>
+                    <WidgetSection id="unique-bug-distribution">
                       <Col xs={12}>
-                        <SectionTitle title="distribuzione bug unici" />
+                        <SectionTitle
+                          title={t('__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_TITLE')}
+                          subtitle={t(
+                            '__CAMPAIGN_PAGE_UNIQUE_BUGS_SECTION_SUBTITLE'
+                          )}
+                        />
                       </Col>
                       <Col xs={12} md={6}>
-                        <FlipCard>
-                          <FlipCard.Header>Header</FlipCard.Header>
-                          <FlipCard.Body
-                            // height='300px'
-                            front={
-                              <div
-                                style={{
-                                  display: 'flex',
-                                  flexFlow: 'column',
-                                  alignItems: 'center',
-                                }}
-                              >
-                                <div>..</div>
-                                <div>....</div>
-                                <div>........</div>
-                                <div>FRONT CONTENT</div>
-                                <div>GRAPH</div>
-                                <div>........</div>
-                                <div>....</div>
-                                <div>..</div>
-                              </div>
-                            }
-                            back={
-                              <div>
-                                <div>LIST</div>
-                                <div>
-                                  Item1
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item2
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item3
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item4
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item5
-                                  ..................................................................
-                                </div>
-                                <div>
-                                  Item6
-                                  ..................................................................
-                                </div>
-                              </div>
-                            }
-                          />
-                          <FlipCard.Footer>
-                            <div>footer</div>
-                          </FlipCard.Footer>
-                        </FlipCard>
+                        <UniqueBugs4UseCase height={firstRowHeight} />
                       </Col>
-                      <Col xs={12} md={4}>
-                        <div />
+                      <Col xs={12} md={6}>
+                        <IncomingBugs
+                          height={firstRowHeight}
+                          campaignId={campaign.id ?? 0}
+                        />
                       </Col>
-                      <Col xs={12} md={4} lg={4}>
-                        <div />
+                    </WidgetSection>
+                    <WidgetSection id="devices-and-types">
+                      <Col xs={12}>
+                        <SectionTitle
+                          title={t(
+                            '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE'
+                          )}
+                          subtitle={t(
+                            '__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_SUBTITLE'
+                          )}
+                        />
                       </Col>
-                    </Row>
+                      <Col xs={12} md={6}>
+                        <TotalBugsByOsAndDevices
+                          height={secondRowHeight}
+                          campaignId={campaign.id ?? 0}
+                        />
+                      </Col>
+                    </WidgetSection>
                   </>
                 )}
                 {reports &&

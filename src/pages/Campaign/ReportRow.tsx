@@ -85,7 +85,7 @@ export const ReportRow = ({
   const { id: campaignId, customer_title } = campaign;
 
   return (
-    <Row>
+    <Row id="reports" style={{ marginBottom: theme.space.xxl }}>
       {(reports && reports.length) || isFunctional ? (
         <Col xs={12}>
           <SectionTitle

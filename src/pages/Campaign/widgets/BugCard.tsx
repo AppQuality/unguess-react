@@ -27,6 +27,7 @@ const BugCardContainer = styled(ContainerCard)<
 type BugCardArgs = {
   severity: Severities;
   children: (severity: Severities) => React.ReactNode | React.ReactElement;
+  className?: string;
 };
 
 /**
@@ -56,8 +57,9 @@ type BugCardArgs = {
  *   </BugCard>
  * ```
  */
-const BugCard = ({ children, severity }: BugCardArgs) => (
+const BugCard = ({ children, severity, className }: BugCardArgs) => (
   <BugCardContainer
+    className={className}
     borderColor={globalTheme.colors.bySeverity[severity as Severities]}
   >
     {children(severity)}
@@ -80,7 +82,7 @@ const BugCardTitle = ({
   children: React.ReactNode;
   url: string;
 }) => (
-  <Anchor href={url} target="_blank">
+  <Anchor className="anchor-bug-card-title" href={url} target="_blank">
     <MD isBold>{children}</MD>
   </Anchor>
 );
@@ -90,9 +92,15 @@ const StyledPill = styled(Tag)<
   React.ComponentProps<typeof Tag> & {
     background?: string;
     isTextWhite?: boolean;
+    textTransform?: string;
     theme: Theme;
   }
 >`
+  margin-top: ${({ theme }) => theme.space.xs};
+  margin-right: ${({ theme }) => theme.space.xs};
+  &:last-child {
+    margin-right: 0;
+  }
   ${({ background }) => background && `background-color: ${background};`}
   ${({ isTextWhite, theme }) =>
     isTextWhite
@@ -102,6 +110,7 @@ const StyledPill = styled(Tag)<
       color: ${theme.palette.white};
     }`
       : ``}
+  ${({ textTransform }) => textTransform && `text-transform: ${textTransform};`}
 `;
 
 const BugCardPill = ({
@@ -117,6 +126,7 @@ const BugCardPill = ({
       ...props,
       background: globalTheme.colors.bySeverity[severity as Severities],
       isTextWhite: true,
+      textTransform: 'capitalize',
     };
   }
 
@@ -131,19 +141,8 @@ BugCard.Pill = BugCardPill;
 BugCard.Footer = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin-top: ${({ theme }) => theme.space.xs};
+  flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.space.xxs};
-  & > * {
-    &:not(:first-child):not(:last-child) {
-      margin: 0 ${({ theme }) => theme.space.xxs};
-    }
-    &:first-child {
-      margin-right: ${({ theme }) => theme.space.xxs};
-    }
-    &:last-child {
-      margin-left: ${({ theme }) => theme.space.xxs};
-    }
-  }
 `;
 BugCard.Separator = styled.div`
   height: 16px;

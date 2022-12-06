@@ -33,6 +33,7 @@ const Navigation = ({
             {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_GROUP_OTHER_LABEL')}
           </StickyNavItemLabel>
           <StickyNavItem
+            id="anchor-reports-navigation"
             to="reports"
             containerId="main"
             spy

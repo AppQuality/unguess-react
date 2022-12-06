@@ -14,6 +14,7 @@ export const BugsNavigationLink = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <StyledAnchor
+      id="anchor-bugs-list-navigation"
       isExternal
       onClick={() => {
         // eslint-disable-next-line security/detect-non-literal-fs-filename

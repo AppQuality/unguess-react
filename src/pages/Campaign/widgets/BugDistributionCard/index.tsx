@@ -1,15 +1,19 @@
 import {
   Anchor,
   HalfPieChart,
-  Skeleton,
   XL,
+  Span,
+  SM,
 } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import styled from 'styled-components';
 import { useBugs } from './useBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
+import { CapitalizeFirstLetter } from '../widgetCards/common/CapitalizeFirstLetter';
+import { WidgetLoader } from '../widgetLoader';
 
 function translateSeverity(severity: Severities, t: TFunction) {
   switch (severity) {
@@ -22,77 +26,94 @@ function translateSeverity(severity: Severities, t: TFunction) {
     case 'low':
       return t('__BUG_SEVERITY_LOW', 'low');
     default:
-      throw new Error(`Unknown severity ${severity}`);
+      return '';
   }
 }
+
+const Value = styled(Span)`
+  color: ${({ theme: globalTheme }) => globalTheme.colors.primaryHue};
+`;
 
 const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const { t, i18n } = useTranslation();
   const height = '140px';
   const { data, isLoading } = useBugs(campaignId);
 
-  if (
-    isLoading ||
-    !('bySeverity' in data) ||
-    Object.keys(data.bySeverity).length === 0
-  ) {
-    return <Skeleton />;
-  }
+  if (!('bySeverity' in data) || Object.keys(data.bySeverity).length === 0)
+    return null;
 
   const colorScheme = Object.keys(data.bySeverity).map(
     (key) => theme.colors.bySeverity[key as Severities]
   );
-  const maxSeverity = Object.keys(data.bySeverity).at(0) as Severities;
+  const maxSeverity = Object.keys(data.bySeverity)[0] as Severities;
 
   return (
     <BasicWidget>
       <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOOLTIP')}
       >
-        <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_HEADER">
-          {{ severity: translateSeverity(maxSeverity, t) }} bugs
-        </Trans>
-      </BasicWidget.Header>
-      <HalfPieChart
-        width="50%"
-        height={height}
-        colors={colorScheme}
-        data={Object.entries(data.bySeverity).map(([key, value]) => ({
-          id: key,
-          label: key,
-          value,
-        }))}
-      />
-      <BasicWidget.Description
-        header={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_DESCRIPTION_HEADER')}
-        content={
-          <span
-            style={{
-              color: theme.colors.bySeverity[maxSeverity as Severities],
-            }}
-          >
-            {`${data.bySeverity[maxSeverity as Severities] || 0} `}
-            <XL tag="span" isBold>
-              <Trans
-                i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_LABEL"
-                count={data.bySeverity[maxSeverity as Severities] || 0}
-              >
-                bugs {{ severity: translateSeverity(maxSeverity, t) }}
-              </Trans>
-            </XL>
-          </span>
-        }
-        footer={
-          <Trans
-            i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL"
-            count={data.total || 0}
-          >
-            out of {{ total: data.total || 0 }}
+        <CapitalizeFirstLetter>
+          <Trans i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_HEADER">
+            {{
+              severity: translateSeverity(maxSeverity, t),
+            }}{' '}
+            bugs
           </Trans>
-        }
-      />
+        </CapitalizeFirstLetter>
+      </BasicWidget.Header>
+      {isLoading ? (
+        <WidgetLoader />
+      ) : (
+        <>
+          <HalfPieChart
+            width="50%"
+            height={height}
+            colors={colorScheme}
+            data={Object.entries(data.bySeverity).map(([key, value]) => ({
+              id: key,
+              label: key,
+              value,
+            }))}
+          />
+          <BasicWidget.Description
+            header={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_DESCRIPTION_HEADER')}
+            content={
+              <span
+                style={{
+                  color: theme.colors.bySeverity[maxSeverity as Severities],
+                }}
+              >
+                {`${data.bySeverity[maxSeverity as Severities] || 0} `}
+                <XL tag="span" isBold>
+                  <Trans
+                    i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_LABEL"
+                    count={data.bySeverity[maxSeverity as Severities] || 0}
+                  >
+                    bugs {{ severity: translateSeverity(maxSeverity, t) }}
+                  </Trans>
+                </XL>
+              </span>
+            }
+            footer={
+              <Trans
+                i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL"
+                defaults="out of <bold>{{total}}</bold> unique"
+                count={data.total || 0}
+                components={{
+                  bold: <Value isBold />,
+                }}
+                values={{
+                  total: data.total || 0,
+                }}
+              />
+            }
+          />
+        </>
+      )}
+
       <BasicWidget.Footer>
         <Anchor
+          id="anchor-bugs-list-bugs-distribution-widget"
           isExternal
           onClick={() =>
             // eslint-disable-next-line security/detect-non-literal-fs-filename
@@ -101,10 +122,9 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
             )
           }
         >
-          {t(
-            '__CAMPAIGN_WIDGET_BUGDISTRIBUTION_GOTOLIST_LINK',
-            'Go to bug list'
-          )}
+          <SM tag="span">
+            {t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_GOTOLIST_LINK')}
+          </SM>
         </Anchor>
       </BasicWidget.Footer>
     </BasicWidget>

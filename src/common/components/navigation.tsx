@@ -37,6 +37,6 @@ export const StickyNavItem = styled(Link)`
 `;
 
 export const StickyNavItemLabel = styled(MD)`
-  color: ${({ theme }) => theme.palette.blue[700]};
+  color: ${({ theme }) => theme.palette.grey[800]};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;

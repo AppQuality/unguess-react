@@ -4,14 +4,15 @@ import {
   StickyNavItem,
 } from 'src/common/components/navigation';
 
-export const BugsNavigation = () => {
+export const BugsNavigation = ({ containerId }: { containerId?: string }) => {
   const { t } = useTranslation();
 
   return (
     <>
       <StickyNavItem
+        id="anchor-campaign-overview-navigation"
         to="campaign-overview"
-        containerId="main"
+        containerId={containerId ?? 'main'}
         spy
         smooth
         duration={500}
@@ -19,13 +20,13 @@ export const BugsNavigation = () => {
       >
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL')}
       </StickyNavItem>
-      <StickyNavItemLabel style={{ display: 'none' }}>
+      <StickyNavItemLabel>
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_GROUP_DETAILS_LABEL')}
       </StickyNavItemLabel>
       <StickyNavItem
-        style={{ display: 'none' }}
+        id="anchor-unique-bug-distribution-navigation"
         to="unique-bug-distribution"
-        containerId="main"
+        containerId={containerId ?? 'main'}
         spy
         smooth
         duration={500}
@@ -34,9 +35,9 @@ export const BugsNavigation = () => {
         {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_DETAILS_UNIQUE_BUGS_LABEL')}
       </StickyNavItem>
       <StickyNavItem
-        style={{ display: 'none' }}
+        id="anchor-devices-and-types-navigation"
         to="devices-and-types"
-        containerId="main"
+        containerId={containerId ?? 'main'}
         spy
         smooth
         duration={500}

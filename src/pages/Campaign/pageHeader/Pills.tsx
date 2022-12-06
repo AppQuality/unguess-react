@@ -39,18 +39,32 @@ const Pipe = styled.span`
     margin: 0;
   }
 `;
-
-const FooterContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
+`;
+
+const FooterContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  flex-direction: column;
+  align-items: flex-start;
+  ${ButtonWrapper} {
+    margin-top: ${({ theme }) => theme.space.base * 5}px;
+    margin-bottom: ${({ theme }) => theme.space.base * 6}px;
+  }
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    flex-direction: row;
+    align-items: center;
+    ${ButtonWrapper} {
+      margin-top: inherit;
+      margin-bottom: inherit;
+    }
+  }
 `;
 
 const PillsWrapper = styled.div`
@@ -140,6 +154,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             <Pipe style={{ marginRight: globalTheme.space.md }} />
             {meta.allowed_devices.includes('desktop') && (
               <Pill
+                id="pill-desktop-header"
                 icon={<DesktopIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
                 color={globalTheme.palette.azure[600]}
@@ -147,6 +162,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             )}
             {meta.allowed_devices.includes('smartphone') && (
               <Pill
+                id="pill-smartphone-header"
                 icon={<SmartphoneIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}
                 color={globalTheme.palette.azure[600]}
@@ -154,6 +170,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             )}
             {meta.allowed_devices.includes('tablet') && (
               <Pill
+                id="pill-tablet-header"
                 icon={<TabletIcon />}
                 title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_TABLET')}
                 color={globalTheme.palette.azure[600]}
@@ -165,6 +182,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
       <ButtonWrapper>
         {outputs?.includes('bugs') && (
           <Button
+            id="button-bugs-list-header"
             isPrimary
             isPill
             themeColor={globalTheme.palette.water[600]}
@@ -181,6 +199,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
         )}
         {outputs?.includes('media') && (
           <Button
+            id="button-media-list-header"
             isPrimary
             isPill
             themeColor={globalTheme.palette.water[600]}

@@ -14,6 +14,7 @@ export const MediaNavigationLink = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <StyledAnchor
+      id="anchor-media-list-navigation"
       isExternal
       onClick={() => {
         // eslint-disable-next-line security/detect-non-literal-fs-filename

@@ -115,7 +115,9 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
     isProjectError ? null : (
     <PageHeader>
       <PageHeader.Breadcrumb>
-        <Anchor onClick={() => navigate(projectRoute)}>{project.name}</Anchor>
+        <Anchor id="breadcrumb-parent" onClick={() => navigate(projectRoute)}>
+          {project.name}
+        </Anchor>
         <Span>{campaign.customer_title}</Span>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>

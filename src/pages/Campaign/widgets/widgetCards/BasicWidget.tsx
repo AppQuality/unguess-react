@@ -12,23 +12,33 @@ import { StyledSpecialCard } from './common/StyledSpecialCard';
 import { WidgetCardFooter } from './common/WidgetCardFooter';
 import { WidgetCardHeader } from './common/WidgetCardHeader';
 
-const BasicWidget = ({ children }: { children: React.ReactNode }) => (
-  <StyledSpecialCard>{children}</StyledSpecialCard>
-);
+const BasicWidget = ({
+  children,
+  height,
+}: {
+  children: React.ReactNode;
+  height?: string;
+}) => <StyledSpecialCard style={{ height }}>{children}</StyledSpecialCard>;
 
 const BasicWidgetHeader = ({
   children,
   tooltipContent,
 }: {
   children: React.ReactNode;
-  tooltipContent: string;
+  tooltipContent?: string;
 }) => (
   <WidgetCardHeader
     title={children}
     action={
       tooltipContent && (
-        <Tooltip content={tooltipContent} size="large" type="light">
-          <IconButton size="small">
+        <Tooltip
+          content={tooltipContent}
+          size="large"
+          type="light"
+          placement="bottom-end"
+          hasArrow={false}
+        >
+          <IconButton className="button-basic-widget-tooltip" size="small">
             <InfoStrokeIcon />
           </IconButton>
         </Tooltip>
@@ -48,7 +58,7 @@ const WidgetCardDescriptionContent = styled(XXXL)`
 
 const WidgetCardDescriptionFooter = styled(MD)`
   margin-bottom: ${({ theme }) => theme.space.xxs};
-  color: ${({ theme }) => theme.palette.blue[600]};
+  color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
 const BasicWidgetDescription = ({

@@ -296,7 +296,8 @@ export type GetCampaignsByCidWidgetsApiResponse =
   | WidgetBugsByUseCase
   | WidgetBugsByDevice
   | WidgetCampaignProgress
-  | WidgetCampaignUniqueBugs;
+  | WidgetCampaignUniqueBugs
+  | WidgetBugsByDuplicates;
 export type GetCampaignsByCidWidgetsApiArg = {
   /** Campaign id */
   cid: number;
@@ -304,9 +305,9 @@ export type GetCampaignsByCidWidgetsApiArg = {
   s:
     | 'bugs-by-usecase'
     | 'bugs-by-device'
-    | 'bugs-by-type'
     | 'cp-progress'
-    | 'unique-bugs';
+    | 'unique-bugs'
+    | 'bugs-by-duplicates';
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
 };
@@ -674,11 +675,19 @@ export type Report = {
   update_date?: string;
 };
 export type WidgetBugsByUseCase = {
-  data: (UseCase & {
+  data: {
+    title: {
+      full: string;
+      simple?: string;
+      prefix?: string;
+      info?: string;
+    };
+    description: string;
+    uniqueBugs?: number;
     bugs: number;
-    usecase_id: number;
     usecase_completion?: number;
-  })[];
+    usecase_id: number;
+  }[];
   kind: 'bugsByUseCase';
 };
 export type WidgetBugsByDevice = {
@@ -705,6 +714,12 @@ export type WidgetCampaignUniqueBugs = {
     trend: number;
   };
   kind: 'campaignUniqueBugs';
+};
+export type WidgetBugsByDuplicates = {
+  data: (Bug & {
+    duplicates: number;
+  })[];
+  kind: 'bugsByDuplicates';
 };
 export type Project = {
   id: number;

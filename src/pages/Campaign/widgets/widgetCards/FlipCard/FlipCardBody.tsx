@@ -9,9 +9,16 @@ const durationMilliseconds = 500;
 const WidgetCardFaceContent = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
+  height: calc(
+    100% - ${({ theme }) => theme.space.xxs} - ${({ theme }) => theme.space.xxs}
+  );
+
   background-color: white;
   width: 100%;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   &.face-enter {
     opacity: 0;
@@ -34,21 +41,21 @@ const WidgetCardFaceContent = styled.div`
   }
 `;
 
-export const FlipCardBody = ({
-  front,
-  back,
-  height = 'auto',
-}: FlipCardBodyProps) => {
+export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
   const frontRef = useRef(null);
   const backRef = useRef(null);
   const { visibleFace } = useFlipCardContext();
+
+  if (!back) {
+    return <WidgetCardFaceContent>{front}</WidgetCardFaceContent>;
+  }
 
   return (
     <TransitionGroup
       style={{
         position: 'relative',
         width: '100%',
-        height,
+        height: '100%',
         overflow: 'hidden',
       }}
     >

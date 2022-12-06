@@ -11,7 +11,7 @@ const ColumnsComponent = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 
   ${Label} {
-    color: ${({ theme }) => theme.palette.grey[500]};
+    color: ${({ theme }) => theme.palette.grey[600]};
   }
 `;
 

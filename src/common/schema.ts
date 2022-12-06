@@ -543,13 +543,19 @@ export interface components {
      * @description Returns a list of use case with the number of bugs
      */
     WidgetBugsByUseCase: {
-      data: (components['schemas']['UseCase'] & {
-        /** @description Unique bugs */
+      data: {
+        title: {
+          full: string;
+          simple?: string;
+          prefix?: string;
+          info?: string;
+        };
+        description: string;
+        uniqueBugs?: number;
         bugs: number;
-        usecase_id: number;
-        /** Format: float */
         usecase_completion?: number;
-      })[];
+        usecase_id: number;
+      }[];
       /**
        * @default bugsByUseCase
        * @example bugsByUseCase
@@ -577,6 +583,17 @@ export interface components {
        * @enum {string}
        */
       kind: 'bugsByDevice';
+    };
+    /**
+     * WidgetBugsByDuplicates
+     * @description Returns the most 10 reported bugs ordered by numberd of duplicates
+     */
+    WidgetBugsByDuplicates: {
+      data: (components['schemas']['Bug'] & {
+        duplicates: number;
+      })[];
+      /** @enum {string} */
+      kind: 'bugsByDuplicates';
     };
     /**
      * WidgetCampaignProgress
@@ -653,9 +670,9 @@ export interface components {
     wslug:
       | 'bugs-by-usecase'
       | 'bugs-by-device'
-      | 'bugs-by-type'
       | 'cp-progress'
-      | 'unique-bugs';
+      | 'unique-bugs'
+      | 'bugs-by-duplicates';
   };
   requestBodies: {
     Credentials: {
@@ -893,7 +910,8 @@ export interface operations {
             | components['schemas']['WidgetBugsByUseCase']
             | components['schemas']['WidgetBugsByDevice']
             | components['schemas']['WidgetCampaignProgress']
-            | components['schemas']['WidgetCampaignUniqueBugs'];
+            | components['schemas']['WidgetCampaignUniqueBugs']
+            | components['schemas']['WidgetBugsByDuplicates'];
         };
       };
       400: components['responses']['Error'];
