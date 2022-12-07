@@ -51,8 +51,8 @@ export const useBugsByUsecase = (campaignId: string) => {
       );
       setTotal(currentTotal);
       setItems(
-        data.data.map((item) => ({
-          id: getArcLinkLabel(item.title),
+        data.data.map((item, index) => ({
+          id: getArcLinkLabel(item.title) + index,
           label: getLegendLabel(item.title),
           value: item.bugs,
           key: item.usecase_id,
