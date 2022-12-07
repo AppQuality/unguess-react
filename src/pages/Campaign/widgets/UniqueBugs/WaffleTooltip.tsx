@@ -14,7 +14,7 @@ const WaffleTooltip = ({
   percentage,
 }: {
   value: number;
-  label: string;
+  label: string | number;
   percentage: number;
 }) => {
   switch (label) {
