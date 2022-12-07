@@ -19,6 +19,7 @@ import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
 import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
 import IncomingBugs from './widgets/IncomingBugs';
+import BugsByType from './widgets/BugsByType';
 import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
 import { WidgetSection } from './WidgetSection';
 
@@ -152,6 +153,12 @@ const Campaign = () => {
                       </Col>
                       <Col xs={12} md={6}>
                         <TotalBugsByOsAndDevices
+                          height={secondRowHeight}
+                          campaignId={campaign.id ?? 0}
+                        />
+                      </Col>
+                      <Col xs={12} md={6}>
+                        <BugsByType
                           height={secondRowHeight}
                           campaignId={campaign.id ?? 0}
                         />
