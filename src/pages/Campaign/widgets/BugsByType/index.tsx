@@ -13,9 +13,7 @@ const BugsByType = ({
 
   return (
     <BasicWidget height={height}>
-      <BasicWidget.Header
-        tooltipContent={t('__CAMPAIGN_WIDGET_BUGS_BY_TYPE_TOOLTIP')}
-      >
+      <BasicWidget.Header>
         {t('__CAMPAIGN_WIDGET_BUGS_BY_TYPE_HEADER')}
       </BasicWidget.Header>
 
