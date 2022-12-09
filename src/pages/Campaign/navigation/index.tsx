@@ -39,7 +39,7 @@ const Navigation = ({
             spy
             smooth
             duration={500}
-            offset={-350}
+            offset={-30}
           >
             {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OTHER_REPORTS_LABEL')}
           </StickyNavItem>
