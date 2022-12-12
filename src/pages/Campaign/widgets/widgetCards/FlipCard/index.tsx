@@ -12,12 +12,16 @@ const FlipCardContainer = styled(StyledSpecialCard)<{ height?: string }>`
 const FlipCard = ({
   children,
   height,
+  className,
 }: {
   children?: React.ReactNode;
   height?: string;
+  className?: string;
 }) => (
   <FlipCardContextProvider>
-    <FlipCardContainer height={height}>{children}</FlipCardContainer>
+    <FlipCardContainer {...{ className }} height={height}>
+      {children}
+    </FlipCardContainer>
   </FlipCardContextProvider>
 );
 
