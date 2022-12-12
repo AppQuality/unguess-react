@@ -15,10 +15,16 @@ import { WidgetCardHeader } from './common/WidgetCardHeader';
 const BasicWidget = ({
   children,
   height,
+  className,
 }: {
   children: React.ReactNode;
   height?: string;
-}) => <StyledSpecialCard style={{ height }}>{children}</StyledSpecialCard>;
+  className?: string;
+}) => (
+  <StyledSpecialCard {...{ className }} style={{ height }}>
+    {children}
+  </StyledSpecialCard>
+);
 
 const BasicWidgetHeader = ({
   children,
