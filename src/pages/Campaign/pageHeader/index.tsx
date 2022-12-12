@@ -25,7 +25,6 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
         <Anchor id="breadcrumb-parent" onClick={() => navigate(project.route)}>
           {project.name}
         </Anchor>
-        <Span>{campaign.customer_title}</Span>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>
