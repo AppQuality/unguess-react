@@ -15,7 +15,7 @@ export const StatusPill = ({
     case 'incoming':
       return (
         <Pill
-          {...{ className }}
+          className={className}
           icon={<IncomingIcon />}
           title="Incoming"
           color={theme.palette.azure[600]}
@@ -24,7 +24,7 @@ export const StatusPill = ({
     case 'completed':
       return (
         <Pill
-          {...{ className }}
+          className={className}
           icon={<CompletedIcon />}
           title="Completed"
           color={theme.palette.green[800]}
@@ -34,7 +34,7 @@ export const StatusPill = ({
     default:
       return (
         <Pill
-          {...{ className }}
+          className={className}
           icon={<ProgressIcon />}
           title="Running"
           color={theme.palette.yellow[700]}

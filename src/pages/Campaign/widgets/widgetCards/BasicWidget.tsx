@@ -21,7 +21,7 @@ const BasicWidget = ({
   height?: string;
   className?: string;
 }) => (
-  <StyledSpecialCard {...{ className }} style={{ height }}>
+  <StyledSpecialCard className={className} style={{ height }}>
     {children}
   </StyledSpecialCard>
 );

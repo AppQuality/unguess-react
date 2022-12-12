@@ -30,6 +30,7 @@ export const Pill = ({
   icon,
   title,
   children,
+  className,
 }: {
   id?: string;
   title: string;
@@ -37,8 +38,9 @@ export const Pill = ({
   color?: string;
   icon?: ReactNode;
   children?: ReactNode;
+  className?: string;
 }) => (
-  <PillContainer {...(id && { id })}>
+  <PillContainer {...(id && { id })} {...(className && { className })}>
     <StyledTag isPill hue={background ?? 'white'} size="large">
       {icon && <StyledAvatar>{icon}</StyledAvatar>}
       <Span isBold style={{ color: color ?? globalTheme.palette.grey[700] }}>

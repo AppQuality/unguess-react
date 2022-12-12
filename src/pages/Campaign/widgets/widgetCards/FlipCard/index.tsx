@@ -19,7 +19,7 @@ const FlipCard = ({
   className?: string;
 }) => (
   <FlipCardContextProvider>
-    <FlipCardContainer {...{ className }} height={height}>
+    <FlipCardContainer className={className} height={height}>
       {children}
     </FlipCardContainer>
   </FlipCardContextProvider>

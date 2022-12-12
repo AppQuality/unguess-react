@@ -10,7 +10,7 @@ export const CampaignTypePill = ({
   className?: string;
 }) => (
   <Pill
-    {...{ className }}
+    className={className}
     icon={<GearIcon />}
     title={type}
     color={theme.palette.blue[600]}
