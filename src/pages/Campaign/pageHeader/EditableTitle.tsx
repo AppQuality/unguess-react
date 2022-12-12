@@ -25,6 +25,7 @@ export const EditableTitle = ({ campaignId }: { campaignId: number }) => {
           textSize="xxxl"
           maxLength={64}
           value={itemTitle}
+          className="editable-title"
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
