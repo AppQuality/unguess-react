@@ -8,9 +8,11 @@ import { Span } from '@appquality/unguess-design-system';
 export const CampaignDurationPill = ({
   start,
   end,
+  className,
 }: {
   start: string;
   end: string;
+  className?: string;
 }) => {
   const { t } = useTranslation();
 
@@ -24,6 +26,7 @@ export const CampaignDurationPill = ({
 
   return (
     <Pill
+      {...{ className }}
       icon={<ClockIcon />}
       title={t('__CAMPAIGN_PAGE_INFO_HEADER_TEST_TIMING')}
       color={theme.palette.azure[600]}

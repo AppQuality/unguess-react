@@ -4,11 +4,18 @@ import { ReactComponent as IncomingIcon } from 'src/assets/icons/pill-icon-incom
 import { ReactComponent as CompletedIcon } from 'src/assets/icons/pill-icon-completed.svg';
 import { Pill } from 'src/common/components/Pill';
 
-export const StatusPill = ({ status }: { status: string }) => {
+export const StatusPill = ({
+  status,
+  className,
+}: {
+  status: string;
+  className?: string;
+}) => {
   switch (status) {
     case 'incoming':
       return (
         <Pill
+          {...{ className }}
           icon={<IncomingIcon />}
           title="Incoming"
           color={theme.palette.azure[600]}
@@ -17,6 +24,7 @@ export const StatusPill = ({ status }: { status: string }) => {
     case 'completed':
       return (
         <Pill
+          {...{ className }}
           icon={<CompletedIcon />}
           title="Completed"
           color={theme.palette.green[800]}
@@ -26,6 +34,7 @@ export const StatusPill = ({ status }: { status: string }) => {
     default:
       return (
         <Pill
+          {...{ className }}
           icon={<ProgressIcon />}
           title="Running"
           color={theme.palette.yellow[700]}

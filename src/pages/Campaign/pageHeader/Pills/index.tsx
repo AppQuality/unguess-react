@@ -83,9 +83,13 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
   return (
     <FooterContainer>
       <PillsWrapper>
-        <CampaignTypePill type={type.name} />
-        <StatusPill status={status.name} />
-        <CampaignDurationPill start={start_date} end={end_date} />
+        <CampaignTypePill className="campaign-type-pill" type={type.name} />
+        <StatusPill className="campaign-status-pill" status={status.name} />
+        <CampaignDurationPill
+          className="campaign-duration-pill"
+          start={start_date}
+          end={end_date}
+        />
         {meta ? (
           <>
             <Pipe style={{ marginRight: globalTheme.space.md }} />
