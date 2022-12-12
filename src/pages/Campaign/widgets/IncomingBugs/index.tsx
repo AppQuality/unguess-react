@@ -28,7 +28,7 @@ const IncomingBugs = ({
         {t('__CAMPAIGN_WIDGET_INCOMING_BUGS_HEADER')}
       </BasicWidget.Header>
       {thereAreDuplicates ? (
-        <Tabs className="suca">
+        <Tabs>
           <Tabs.Panel
             id="tab-unread-bugs-incoming-bugs-widget"
             title={t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_TAB_TITLE')}
