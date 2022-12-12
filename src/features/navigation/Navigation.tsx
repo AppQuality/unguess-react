@@ -259,6 +259,7 @@ export const Navigation = ({
             // dispatch(setWorkspace(workspace));
             // window.location.reload();
           },
+          onClick: () => navigateTo('home'),
         }}
         avatar={{
           avatarType: user.picture ? 'image' : 'text',
