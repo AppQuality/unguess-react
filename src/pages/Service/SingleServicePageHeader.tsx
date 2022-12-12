@@ -72,7 +72,6 @@ export const SingleServicePageHeader = ({
         <Anchor onClick={() => navigate(servicesRoute)}>
           {t('__BREADCRUMB_ITEM_SERVICES')}
         </Anchor>
-        <Span>{service.campaign_type}</Span>
       </PageHeader.Breadcrumb>
       <PageHeader.Main
         infoTitle={service.title}
