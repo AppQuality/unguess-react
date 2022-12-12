@@ -12,7 +12,7 @@ const BugsByType = ({
   const { t } = useTranslation();
 
   return (
-    <BasicWidget height={height}>
+    <BasicWidget className="bugs-by-type-widget" height={height}>
       <BasicWidget.Header>
         {t('__CAMPAIGN_WIDGET_BUGS_BY_TYPE_HEADER')}
       </BasicWidget.Header>
