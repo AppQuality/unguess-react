@@ -12,16 +12,13 @@ import { StyledSpecialCard } from './common/StyledSpecialCard';
 import { WidgetCardFooter } from './common/WidgetCardFooter';
 import { WidgetCardHeader } from './common/WidgetCardHeader';
 
-const BasicWidget = ({
-  children,
-  height,
-  className,
-}: {
-  children: React.ReactNode;
+interface BasicWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode;
   height?: string;
-  className?: string;
-}) => (
-  <StyledSpecialCard className={className} style={{ height }}>
+}
+
+const BasicWidget = ({ children, height, ...props }: BasicWidgetProps) => (
+  <StyledSpecialCard {...props} style={{ height }}>
     {children}
   </StyledSpecialCard>
 );

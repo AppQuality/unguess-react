@@ -22,25 +22,23 @@ const PillContainer = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   margin-right: ${({ theme }) => theme.space.xs};
 `;
-
-export const Pill = ({
-  id,
-  background,
-  color,
-  icon,
-  title,
-  children,
-  className,
-}: {
-  id?: string;
+interface PillProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   background?: string;
   color?: string;
   icon?: ReactNode;
   children?: ReactNode;
-  className?: string;
-}) => (
-  <PillContainer {...(id && { id })} {...(className && { className })}>
+}
+
+export const Pill = ({
+  background,
+  color,
+  icon,
+  title,
+  children,
+  ...props
+}: PillProps) => (
+  <PillContainer {...props}>
     <StyledTag isPill hue={background ?? 'white'} size="large">
       {icon && <StyledAvatar>{icon}</StyledAvatar>}
       <Span isBold style={{ color: color ?? globalTheme.palette.grey[700] }}>

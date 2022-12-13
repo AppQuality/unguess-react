@@ -20,12 +20,11 @@ export const EditableTitle = ({ campaignId }: { campaignId: number }) => {
 
   const InputToggleMemo = useMemo(
     () => (
-      <InputToggle>
+      <InputToggle className="editable-title">
         <InputToggle.Item
           textSize="xxxl"
           maxLength={64}
           value={itemTitle}
-          className="editable-title"
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
