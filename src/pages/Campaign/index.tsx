@@ -19,6 +19,7 @@ import { EmptyState } from './EmptyState';
 import { SectionTitle } from './SectionTitle';
 import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';
 import IncomingBugs from './widgets/IncomingBugs';
+import BugsByType from './widgets/BugsByType';
 import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
 import { WidgetSection } from './WidgetSection';
 
@@ -80,7 +81,7 @@ const Campaign = () => {
             <EmptyState />
           ) : (
             <>
-              <Col xs={12} md={3}>
+              <Col xs={12} xl={3}>
                 {isLoadingCampaign ||
                 isFetchingCampaign ||
                 isLoadingReports ||
@@ -95,7 +96,7 @@ const Campaign = () => {
                   />
                 )}
               </Col>
-              <Col xs={12} md={9}>
+              <Col xs={12} xl={9}>
                 {campaign?.outputs?.includes('bugs') && (
                   <>
                     <WidgetSection id="campaign-overview">
@@ -106,13 +107,13 @@ const Campaign = () => {
                           )}
                         />
                       </Col>
-                      <Col xs={12} md={4}>
+                      <Col xs={12} sm={6} xl={4}>
                         <Progress campaign={campaign} />
                       </Col>
-                      <Col xs={12} md={4}>
+                      <Col xs={12} sm={6} xl={4}>
                         <UniqueBugs campaignId={campaign ? campaign.id : 0} />
                       </Col>
-                      <Col xs={12} md={4} lg={4}>
+                      <Col xs={12} sm={6} xl={4}>
                         {isFetchingCampaign ? undefined : (
                           <BugDistributionCard
                             campaignId={campaign ? campaign.id : 0}
@@ -129,10 +130,10 @@ const Campaign = () => {
                           )}
                         />
                       </Col>
-                      <Col xs={12} md={6}>
+                      <Col xs={12} xl={6}>
                         <UniqueBugs4UseCase height={firstRowHeight} />
                       </Col>
-                      <Col xs={12} md={6}>
+                      <Col xs={12} xl={6}>
                         <IncomingBugs
                           height={firstRowHeight}
                           campaignId={campaign.id ?? 0}
@@ -150,8 +151,14 @@ const Campaign = () => {
                           )}
                         />
                       </Col>
-                      <Col xs={12} md={6}>
+                      <Col xs={12} xl={6}>
                         <TotalBugsByOsAndDevices
+                          height={secondRowHeight}
+                          campaignId={campaign.id ?? 0}
+                        />
+                      </Col>
+                      <Col xs={12} xl={6}>
+                        <BugsByType
                           height={secondRowHeight}
                           campaignId={campaign.id ?? 0}
                         />
