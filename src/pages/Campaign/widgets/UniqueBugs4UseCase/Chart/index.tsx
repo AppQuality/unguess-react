@@ -50,15 +50,13 @@ export const ChartUniqueBugs4UseCase = ({
           <Tooltip>
             <TooltipSM>
               {t(
-                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_USECASE_LABEL',
-                `Use Case: `
+                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_USECASE_LABEL'
               )}
               <Span isBold>{label}</Span>
             </TooltipSM>
             <TooltipSM>
               {t(
-                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_UNIQUE_BUGS_LABEL',
-                `Unique bugs: `
+                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_UNIQUE_BUGS_LABEL'
               )}
               <Span isBold style={{ marginLeft: globalTheme.space.xxs }}>
                 {value}

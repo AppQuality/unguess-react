@@ -1,14 +1,17 @@
 import { useTranslation } from 'react-i18next';
-import {
-  StickyNavItem,
-  StickyNavItemLabel,
-  StyledDivider,
-} from 'src/common/components/navigation';
+import { StyledDivider } from 'src/common/components/navigation';
 import { CampaignWithOutput, Report } from 'src/features/api';
 import { StickyContainer } from 'src/common/components/StickyContainer';
-import { BugsNavigation, BugsNavigationLink } from './bugs';
+import {
+  getLocalizedFunctionalDashboardUrl,
+  getLocalizedUXDashboardUrl,
+} from 'src/hooks/useLocalizeDashboardUrl';
+import i18n from 'src/i18n';
 import { NavigationLoading } from './NavigationLoading';
-import { MediaNavigation, MediaNavigationLink } from './media';
+import { BugsNavigation } from './BugsNavigation';
+import { MediaNavigation } from './MediaNavigation';
+import { ReportNavigation } from './ReportNavigation';
+import { ExternalLink } from './ExternalLink';
 
 const Navigation = ({
   campaignId,
@@ -23,36 +26,31 @@ const Navigation = ({
 }) => {
   const { t } = useTranslation();
 
+  const hasBugs = outputs?.includes('bugs');
+  const hasMedia = outputs?.includes('media');
+  const hasReports = !!(reports.length || isFunctional);
+
   return (
     <StickyContainer>
-      {outputs?.includes('bugs') && <BugsNavigation />}
-      {outputs?.includes('media') && <MediaNavigation />}
-      {reports.length || isFunctional ? (
-        <>
-          <StickyNavItemLabel>
-            {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_GROUP_OTHER_LABEL')}
-          </StickyNavItemLabel>
-          <StickyNavItem
-            id="anchor-reports-navigation"
-            to="reports"
-            containerId="main"
-            spy
-            smooth
-            duration={500}
-            offset={-350}
-          >
-            {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OTHER_REPORTS_LABEL')}
-          </StickyNavItem>
-        </>
-      ) : null}
-      {(outputs?.includes('bugs') || outputs?.includes('media')) && (
-        <StyledDivider />
+      {hasBugs && <BugsNavigation />}
+      {hasMedia && <MediaNavigation />}
+      {hasReports && <ReportNavigation />}
+      {(hasBugs || hasMedia) && <StyledDivider />}
+      {hasBugs && (
+        <ExternalLink
+          id="anchor-bugs-list-navigation"
+          url={getLocalizedFunctionalDashboardUrl(campaignId, i18n.language)}
+        >
+          {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
+        </ExternalLink>
       )}
-      {outputs?.includes('bugs') && (
-        <BugsNavigationLink campaignId={campaignId} />
-      )}
-      {outputs?.includes('media') && (
-        <MediaNavigationLink campaignId={campaignId} />
+      {hasMedia && (
+        <ExternalLink
+          id="anchor-media-list-navigation"
+          url={getLocalizedUXDashboardUrl(campaignId, i18n.language)}
+        >
+          {t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_EXTERNAL_LINK_LABEL')}
+        </ExternalLink>
       )}
     </StickyContainer>
   );
