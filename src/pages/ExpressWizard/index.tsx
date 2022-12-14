@@ -300,12 +300,6 @@ export const ExpressWizardContainer = () => {
           }),
         }
       );
-
-      if (res.ok) {
-        return res.json();
-      }
-      const json = await res.json();
-      throw new HttpError(res.status, res.statusText, json.err);
     };
 
     const wordpressHandle = async (cp: Campaign) => {
