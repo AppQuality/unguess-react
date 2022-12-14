@@ -51,7 +51,6 @@ import i18n from 'src/i18n';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
-import HttpError from 'src/common/HttpError';
 import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
@@ -269,37 +268,34 @@ export const ExpressWizardContainer = () => {
 
     const zapierHandle = async (cp: Campaign) => {
       // Post on webhook Zapier axios call
-      const res = await fetch(
-        expressTypeData.webhook_url ?? ZAPIER_WEBHOOK_TRIGGER,
-        {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
+      await fetch(expressTypeData.webhook_url ?? ZAPIER_WEBHOOK_TRIGGER, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          cp: {
+            ...values,
+            id: cp.id,
+            ...(values.campaign_date && {
+              start_date: format(values.campaign_date, BASE_DATE_FORMAT),
+            }),
+            ...(values.campaign_date_end && {
+              end_date: format(values.campaign_date_end, BASE_DATE_FORMAT),
+            }),
+            ...(values.campaign_date_end && {
+              close_date: format(values.campaign_date_end, BASE_DATE_FORMAT),
+            }),
+            ...(values.campaign_reason && {
+              reason: reasonItems[values.campaign_reason],
+            }),
           },
-          body: JSON.stringify({
-            cp: {
-              ...values,
-              id: cp.id,
-              ...(values.campaign_date && {
-                start_date: format(values.campaign_date, BASE_DATE_FORMAT),
-              }),
-              ...(values.campaign_date_end && {
-                end_date: format(values.campaign_date_end, BASE_DATE_FORMAT),
-              }),
-              ...(values.campaign_date_end && {
-                close_date: format(values.campaign_date_end, BASE_DATE_FORMAT),
-              }),
-              ...(values.campaign_reason && {
-                reason: reasonItems[values.campaign_reason],
-              }),
-            },
-            user: userData,
-            workspace: activeWorkspace,
-          }),
-        }
-      );
+          user: userData,
+          workspace: activeWorkspace,
+        }),
+      });
     };
 
     const wordpressHandle = async (cp: Campaign) => {
