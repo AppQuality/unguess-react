@@ -1,4 +1,4 @@
-import { Anchor, PageHeader, Span } from '@appquality/unguess-design-system';
+import { Anchor, PageHeader } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Pills } from './Pills';
