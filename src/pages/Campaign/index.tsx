@@ -81,7 +81,7 @@ const Campaign = () => {
             <EmptyState />
           ) : (
             <>
-              <Col xs={12} xl={3}>
+              <Col xs={12} lg={3}>
                 {isLoadingCampaign ||
                 isFetchingCampaign ||
                 isLoadingReports ||
@@ -96,7 +96,7 @@ const Campaign = () => {
                   />
                 )}
               </Col>
-              <Col xs={12} xl={9}>
+              <Col xs={12} lg={9}>
                 {campaign?.outputs?.includes('bugs') && (
                   <>
                     <WidgetSection id="campaign-overview">
