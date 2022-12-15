@@ -12,6 +12,10 @@ const ListHeaderTitle = styled(XXXL)`
   margin-top: ${({ theme }) => theme.space.xxs};
   margin-bottom: ${({ theme }) => theme.space.xxs};
   color: ${({ theme }) => theme.palette.blue[600]};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    font-size: ${({ theme }) => theme.fontSizes.xxl};
+  }
 `;
 
 const ListWrapper = styled.div`

@@ -96,13 +96,13 @@ export const ReportRow = ({
           </Col>
         ) : null}
         {isFunctional && (
-          <Col xs={12} md={4} lg={3}>
+          <Col xs={12} sm={6} md={4} lg={3}>
             <BugsReportCard campaignId={campaignId} title={customer_title} />
           </Col>
         )}
         {reports && reports.length
           ? reports.map((report) => (
-              <Col xs={12} md={4} lg={3}>
+              <Col xs={12} sm={6} md={4} lg={3}>
                 <SpecialCard>
                   <SpecialCard.Meta
                     justifyContent="start"
