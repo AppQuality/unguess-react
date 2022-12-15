@@ -9,6 +9,8 @@ const StyledContainer = styled.div`
   }
 `;
 
-export const PageHeaderContainer: React.FC<{}> = ({ children }) => (
-  <StyledContainer>{children}</StyledContainer>
-);
+export const PageHeaderContainer = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => <StyledContainer>{children}</StyledContainer>;

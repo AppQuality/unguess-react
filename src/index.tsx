@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { getWorkspaces } from 'src/features/workspaces/actions';
 import App from './app/App';
 import { store } from './app/store';
@@ -9,12 +9,12 @@ import reportWebVitals from './reportWebVitals';
 const main = () => {
   store.dispatch(fetchUser());
   store.dispatch(getWorkspaces());
-
-  ReactDOM.render(
+  const container = document.getElementById('root');
+  const root = createRoot(container!);
+  root.render(
     <React.StrictMode>
       <App />
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>
   );
 };
 

@@ -17,5 +17,6 @@
     "jsx": "react-jsx",
     "baseUrl": "."
   },
+  "files": ["src/react-i18next.d.ts", "src/i18next.d.ts"],
   "include": ["src", "i18next-scanner.config.js"]
 }

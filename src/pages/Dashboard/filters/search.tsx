@@ -38,13 +38,13 @@ export const SearchInput = () => {
   };
 
   const Search = useCallback(
-    ({ searchValue }) => (
+    (options: { searchValue: string }) => (
       <StyledField>
         <MediaInput
           key="search-input"
           onChange={(e) => updateSearch(e.target.value)}
           start={<SearchIcon />}
-          value={searchValue}
+          value={options.searchValue}
           placeholder={t('__DASHBOARD_SEARCH_INPUT_PLACEHOLDER')}
         />
       </StyledField>

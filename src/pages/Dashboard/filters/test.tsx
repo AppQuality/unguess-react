@@ -1,6 +1,10 @@
-import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
+import {
+  Dropdown,
+  Select,
+  Item,
+  ZDField as Field,
+} from '@appquality/unguess-design-system';
 
-import { Field } from '@zendeskgarden/react-dropdowns';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { testTypeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';

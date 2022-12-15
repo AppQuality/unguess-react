@@ -11,8 +11,8 @@ import {
   Separator,
   MediaFigure,
   MediaBody,
+  ZDField as DropdownField,
 } from '@appquality/unguess-design-system';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { useGetTemplatesQuery } from 'src/features/api';
 import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';

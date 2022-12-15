@@ -13,10 +13,10 @@ import {
   XL,
   XXL,
   ContainerCard,
+  ZDField as DropdownField,
 } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
 import { Field as FormField } from '@zendeskgarden/react-forms';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import styled from 'styled-components';

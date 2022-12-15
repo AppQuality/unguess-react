@@ -9,8 +9,8 @@ import {
   MediaFigure,
   MediaBody,
   Skeleton,
+  ZDField as Field,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
 
 import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
