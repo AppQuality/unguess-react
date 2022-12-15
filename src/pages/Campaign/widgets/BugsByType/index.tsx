@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ListTotalBugsByType } from './ListTotalBugsByType';
 import { BasicWidget } from '../widgetCards/BasicWidget';
+import FlipCard from '../widgetCards/FlipCard';
 
 const BugsByType = ({
   campaignId,
@@ -12,13 +13,15 @@ const BugsByType = ({
   const { t } = useTranslation();
 
   return (
-    <BasicWidget className="bugs-by-type-widget" height={height}>
-      <BasicWidget.Header>
+    <FlipCard className="bugs-by-type-widget" height={height}>
+      <FlipCard.Header>
         {t('__CAMPAIGN_WIDGET_BUGS_BY_TYPE_HEADER')}
-      </BasicWidget.Header>
-
-      <ListTotalBugsByType campaignId={campaignId} />
-    </BasicWidget>
+      </FlipCard.Header>
+      <FlipCard.Body
+        front={<ListTotalBugsByType campaignId={campaignId} />}
+        back={<ListTotalBugsByType campaignId={campaignId} />}
+      />
+    </FlipCard>
   );
 };
 
