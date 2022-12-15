@@ -8,16 +8,16 @@ import { FlipCardContextProvider } from './context/FlipCardContext';
 const FlipCardContainer = styled(StyledSpecialCard)<{ height?: string }>`
   height: ${({ height }) => height || 'auto'};
 `;
-
-const FlipCard = ({
-  children,
-  height,
-}: {
+interface FlipCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   height?: string;
-}) => (
+}
+
+const FlipCard = ({ children, height, ...props }: FlipCardProps) => (
   <FlipCardContextProvider>
-    <FlipCardContainer height={height}>{children}</FlipCardContainer>
+    <FlipCardContainer {...props} height={height}>
+      {children}
+    </FlipCardContainer>
   </FlipCardContextProvider>
 );
 

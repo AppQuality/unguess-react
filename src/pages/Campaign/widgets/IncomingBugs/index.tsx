@@ -21,7 +21,7 @@ const IncomingBugs = ({
   const thereAreDuplicates = duplicatesResponse.bugs?.length > 0;
 
   return (
-    <BasicWidget height={height}>
+    <BasicWidget className="incoming-bugs-widget" height={height}>
       <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_WIDGET_INCOMING_BUGS_TOOLTIP')}
       >
