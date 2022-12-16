@@ -1,7 +1,5 @@
-import {
-  BarChart,
-  CHARTS_COLOR_PALETTE,
-} from '@appquality/unguess-design-system';
+import { BarChart } from '@appquality/unguess-design-system';
+import { theme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { WidgetLoader } from '../widgetLoader';
 import { useBugsByType } from './useBugsByType';
@@ -16,10 +14,10 @@ const ChartBugsByType = ({ campaignId }: { campaignId: number }) => {
     <div className="chart-bugs-by-type" style={{ width: '100%' }}>
       <BarChart
         colors={[
-          CHARTS_COLOR_PALETTE.darkPine,
-          CHARTS_COLOR_PALETTE.blueRoyal,
-          CHARTS_COLOR_PALETTE.gubbioLight,
-          CHARTS_COLOR_PALETTE.mattone,
+          theme.colors.bySeverity.low,
+          theme.colors.bySeverity.medium,
+          theme.colors.bySeverity.high,
+          theme.colors.bySeverity.critical,
         ]}
         width="100%"
         height="279px"
