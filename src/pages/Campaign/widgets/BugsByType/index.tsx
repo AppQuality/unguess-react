@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ListTotalBugsByType } from './ListTotalBugsByType';
-import { BasicWidget } from '../widgetCards/BasicWidget';
 import FlipCard from '../widgetCards/FlipCard';
+import ChartBugsByType from './ChartBugsByType';
 
 const BugsByType = ({
   campaignId,
@@ -18,7 +18,7 @@ const BugsByType = ({
         {t('__CAMPAIGN_WIDGET_BUGS_BY_TYPE_HEADER')}
       </FlipCard.Header>
       <FlipCard.Body
-        front={<ListTotalBugsByType campaignId={campaignId} />}
+        front={<ChartBugsByType campaignId={campaignId} />}
         back={<ListTotalBugsByType campaignId={campaignId} />}
       />
     </FlipCard>
