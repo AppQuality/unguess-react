@@ -1,3 +1,4 @@
+import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 
 interface ChartData {
@@ -28,14 +29,16 @@ export const useChartData = (campaignId: number) => {
 
   const bugsByType: ChartData[] = bugTypes.map((type) => ({
     label: type,
-    keys: { low: 0, medium: 0, high: 0, critical: 0 },
+    keys: { Low: 0, Medium: 0, High: 0, Critical: 0 },
     total: 0,
   }));
 
   data?.items?.forEach((item) => {
-    const bugType = bugsByType.find((type) => type.label === item.type.name);
+    let bugType = bugsByType.find((type) => type.label === item.type.name);
+    // fallback to Other for unknown bug types
+    bugType = bugType || bugsByType.find((type) => type.label === 'Other');
     if (typeof bugType !== 'undefined') {
-      bugType.keys[item.severity.name.toLowerCase()] += 1;
+      bugType.keys[capitalizeFirstLetter(item.severity.name)] += 1;
       bugType.total += 1;
     }
   });
