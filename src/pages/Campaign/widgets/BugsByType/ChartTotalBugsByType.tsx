@@ -3,12 +3,12 @@ import {
   CHARTS_COLOR_PALETTE,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { WidgetLoader } from '../../widgetLoader';
-import { useChartData } from './useChartData';
+import { WidgetLoader } from '../widgetLoader';
+import { useBugsByType } from './useBugsByType';
 
 const ChartBugsByType = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
-  const { bugsByType, isLoading, totalBugs } = useChartData(campaignId);
+  const { bugsByType, isLoading, totalBugs } = useBugsByType(campaignId);
 
   if (isLoading) return <WidgetLoader size="md" align="center" />;
 

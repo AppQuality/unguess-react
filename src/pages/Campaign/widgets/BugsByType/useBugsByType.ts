@@ -9,7 +9,7 @@ interface ChartData {
   total: number;
 }
 
-export const useChartData = (campaignId: number) => {
+export const useBugsByType = (campaignId: number) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidBugsQuery({
       cid: campaignId,
