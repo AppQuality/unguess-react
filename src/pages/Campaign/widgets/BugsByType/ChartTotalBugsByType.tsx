@@ -24,12 +24,12 @@ const ChartBugsByType = ({ campaignId }: { campaignId: number }) => {
         margin={{ top: 20, right: 60, bottom: 60, left: 140 }}
         data={bugsByType}
         axisBottomLabel={`${t(
-          'PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_BOTTOM_LABEL',
+          '__PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_BOTTOM_LABEL',
           {
             count: totalBugs,
           }
         )} (Tot: ${totalBugs})`}
-        axisLeftLabel={t('PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_LEFT_LABEL')}
+        axisLeftLabel={t('__PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_LEFT_LABEL')}
         legend={{ marginTop: '20px', columns: 4, width: '100%' }}
       />
     </div>

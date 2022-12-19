@@ -4,15 +4,18 @@ import { Trans, useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 import { List } from '../List';
 import { ListItem } from '../List/ListItem';
-import { useBugsByType } from './useBugsByType';
+import { BugsByTypeData, useBugsByType } from './useBugsByType';
 
 export const ListTotalBugsByType = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const { bugsByType, totalBugs, isLoading, isError } =
     useBugsByType(campaignId);
+  const [sortedItems, setSortedItems] = useState<BugsByTypeData[]>(
+    bugsByType.reverse()
+  );
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [paginatedItems, setPaginatedItems] = useState(bugsByType.reverse());
+  const [paginatedItems, setPaginatedItems] = useState<BugsByTypeData[]>([]);
   const pageSize = 4;
   const maxPages = useMemo(
     () => Math.ceil(bugsByType.length / pageSize),
@@ -20,10 +23,16 @@ export const ListTotalBugsByType = ({ campaignId }: { campaignId: number }) => {
   );
 
   useEffect(() => {
+    // reverse order by number of bugs for the list
+    setSortedItems(bugsByType.reverse());
+  }, [bugsByType]);
+
+  useEffect(() => {
+    // pagination
     setPaginatedItems(
-      bugsByType.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+      sortedItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)
     );
-  }, [currentPage, bugsByType]);
+  }, [currentPage, sortedItems]);
 
   if (isLoading || isError)
     return (
