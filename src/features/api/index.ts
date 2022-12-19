@@ -55,6 +55,12 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getCampaignsByCidBugTypes: build.query<
+      GetCampaignsByCidBugTypesApiResponse,
+      GetCampaignsByCidBugTypesApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/bugTypes` }),
+    }),
     getCampaignsByCidBugsAndBid: build.query<
       GetCampaignsByCidBugsAndBidApiResponse,
       GetCampaignsByCidBugsAndBidApiArg
@@ -273,6 +279,12 @@ export type GetCampaignsByCidBugsApiArg = {
   orderBy?: string;
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
+};
+export type GetCampaignsByCidBugTypesApiResponse =
+  /** status 200 OK */ BugType[];
+export type GetCampaignsByCidBugTypesApiArg = {
+  /** Campaign id */
+  cid: string;
 };
 export type GetCampaignsByCidBugsAndBidApiResponse =
   /** status 200 OK */ Bug & {
@@ -609,6 +621,8 @@ export type Bug = {
   application_section: {
     id?: number;
     title?: string;
+    simple_title?: string;
+    prefix_title?: string;
   };
   duplicated_of_id?: number;
   is_favorite?: number;
@@ -774,6 +788,7 @@ export const {
   usePatchCampaignsByCidMutation,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidBugsQuery,
+  useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidWidgetsQuery,

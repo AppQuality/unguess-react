@@ -36,6 +36,15 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/bugTypes': {
+    get: operations['get-campaigns-cid-bug-types'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/bugs/{bid}': {
     get: operations['get-campaigns-single-bug'];
     parameters: {
@@ -207,6 +216,8 @@ export interface components {
       application_section: {
         id?: number;
         title?: string;
+        simple_title?: string;
+        prefix_title?: string;
       };
       duplicated_of_id?: number;
       is_favorite?: number;
@@ -842,6 +853,25 @@ export interface operations {
       };
       400: components['responses']['Error'];
       401: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-campaigns-cid-bug-types': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugType'][];
+        };
+      };
+      400: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
     };
