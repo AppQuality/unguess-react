@@ -10,9 +10,6 @@ export const ListTotalBugsByType = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const { bugsByType, totalBugs, isLoading, isError } =
     useBugsByType(campaignId);
-  const [sortedItems, setSortedItems] = useState<BugsByTypeData[]>(
-    bugsByType.reverse()
-  );
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [paginatedItems, setPaginatedItems] = useState<BugsByTypeData[]>([]);
@@ -23,16 +20,12 @@ export const ListTotalBugsByType = ({ campaignId }: { campaignId: number }) => {
   );
 
   useEffect(() => {
-    // reverse order by number of bugs for the list
-    setSortedItems(bugsByType.reverse());
-  }, [bugsByType]);
-
-  useEffect(() => {
-    // pagination
     setPaginatedItems(
-      sortedItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+      [...bugsByType]
+        .reverse()
+        .slice((currentPage - 1) * pageSize, currentPage * pageSize)
     );
-  }, [currentPage, sortedItems]);
+  }, [currentPage, bugsByType]);
 
   if (isLoading || isError)
     return (
