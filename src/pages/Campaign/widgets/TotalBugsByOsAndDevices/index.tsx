@@ -12,7 +12,7 @@ const TotalBugsByOsAndDevices = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <FlipCard height={height}>
+    <FlipCard className="flip-card-total-bugs-by-os-devices" height={height}>
       <FlipCard.Header>
         {t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_OS_AND_DEVICE_CARD_TITLE')}
       </FlipCard.Header>

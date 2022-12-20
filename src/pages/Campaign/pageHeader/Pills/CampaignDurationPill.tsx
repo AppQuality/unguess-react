@@ -24,6 +24,7 @@ export const CampaignDurationPill = ({
 
   return (
     <Pill
+      className="campaign-duration-pill"
       icon={<ClockIcon />}
       title={t('__CAMPAIGN_PAGE_INFO_HEADER_TEST_TIMING')}
       color={theme.palette.azure[600]}
