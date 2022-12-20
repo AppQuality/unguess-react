@@ -40,6 +40,7 @@ services:
       - '80:80'
     environment:
       PORT: 80
+      REACT_APP_ENV: $ENVIRONMENT
 
 " > $DOCKER_COMPOSE_FILE
 

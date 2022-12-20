@@ -26,7 +26,7 @@ export type StrapiResponse =
  * @returns {object | false}
  */
 export const extractStrapiData = (item: StrapiResponse) => {
-  const isDev = process.env.REACT_APP_ENV === 'development';
+  const isDev = ['staging', 'local'].includes(react_env.REACT_APP_ENV);
   if (item !== undefined && item.data !== null) {
     if (item.data !== undefined && item.data !== null) {
       if (Array.isArray(item.data)) {

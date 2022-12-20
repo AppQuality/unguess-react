@@ -17,6 +17,9 @@ export type UnguessRoutes =
   | '';
 
 declare global {
+  let react_env: {
+    REACT_APP_ENV: string;
+  };
   type Theme = typeof theme;
   type UserData = GetUsersMeApiResponse;
   type ApiOperations = operations;
