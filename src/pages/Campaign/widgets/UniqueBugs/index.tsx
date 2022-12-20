@@ -25,7 +25,7 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
   } = useUniqueBugs(campaignId);
 
   return (
-    <BasicWidget>
+    <BasicWidget className="unique-bugs-widget">
       <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOOLTIP')}
       >

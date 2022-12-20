@@ -29,7 +29,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
   const { widgetData, isLoading } = useWidgetData(campaign.id, t);
 
   return (
-    <BasicWidget>
+    <BasicWidget className="usecase-progress-widget">
       <BasicWidget.Header
         tooltipContent={t(
           '__CAMPAIGN_PAGE_WIDGET_PROGRESS_CARD_TOOLTIP',

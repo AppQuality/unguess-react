@@ -11,7 +11,7 @@ const UniqueBugs4UseCase = ({ height }: { height: string }) => {
     return null;
   }
   return (
-    <FlipCard height={height}>
+    <FlipCard className="flip-card-unique-bugs-by-usecase" height={height}>
       <FlipCard.Header>
         {t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_CARD_TITLE')}
       </FlipCard.Header>

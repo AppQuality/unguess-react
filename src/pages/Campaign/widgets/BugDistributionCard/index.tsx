@@ -48,7 +48,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const maxSeverity = Object.keys(data.bySeverity)[0] as Severities;
 
   return (
-    <BasicWidget>
+    <BasicWidget className="bugs-distribution-widget">
       <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOOLTIP')}
       >

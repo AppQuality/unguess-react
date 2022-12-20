@@ -20,7 +20,7 @@ export const EditableTitle = ({ campaignId }: { campaignId: number }) => {
 
   const InputToggleMemo = useMemo(
     () => (
-      <InputToggle>
+      <InputToggle className="editable-title">
         <InputToggle.Item
           textSize="xxxl"
           maxLength={64}
