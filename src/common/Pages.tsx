@@ -6,6 +6,7 @@ import NotFound from 'src/pages/NotFound';
 import Catalog from 'src/pages/Services';
 import Service from 'src/pages/Service';
 import Campaign from 'src/pages/Campaign';
+import Bugs from 'src/pages/Bugs';
 
 const base = ':locale';
 
@@ -19,6 +20,8 @@ const Pages = () => (
     <Route path="/it/projects/:projectId" element={<Project />} />
     <Route path="/campaigns/:campaignId" element={<Campaign />} />
     <Route path="/it/campaigns/:campaignId" element={<Campaign />} />
+    <Route path="/campaigns/:campaignId/bugs" element={<Bugs />} />
+    <Route path="/it/campaigns/:campaignId/bugs" element={<Bugs />} />
     <Route path="/services" element={<Catalog />} />
     <Route path="/it/services" element={<Catalog />} />
     <Route path="/services/:templateId" element={<Service />} />
