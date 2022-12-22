@@ -1,42 +1,56 @@
-import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
-import BugsDetail from './Detail';
-import BugsFilters from './Filters';
-import BugsPageHeader from './PageHeader';
-import BugsTable from './Table';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { BugsPageContent, BugsPageContentLoader } from './Content';
+import { BugsPageHeader, BugsPageHeaderLoader } from './PageHeader';
 
 const Bugs = () => {
+  const { campaignId } = useParams();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const notFoundRoute = useLocalizeRoute('oops');
   const [isDetailOpen, setIsDetailOpen] = useState(true);
+
+  if (!campaignId || Number.isNaN(Number(campaignId))) {
+    navigate(notFoundRoute);
+  }
+
+  const {
+    isLoading: isLoadingCampaign,
+    isFetching: isFetchingCampaign,
+    isError: isErrorCampaign,
+    data: campaign,
+  } = useGetCampaignsByCidQuery({
+    cid: Number(campaignId),
+  });
+
+  if (isErrorCampaign) {
+    navigate(notFoundRoute);
+  }
 
   return (
     <Page
       title={t('__BUGS_PAGE_TITLE')}
-      pageHeader={<BugsPageHeader />}
+      pageHeader={
+        isLoadingCampaign || isFetchingCampaign ? (
+          <BugsPageHeaderLoader />
+        ) : (
+          <BugsPageHeader />
+        )
+      }
       route="bugs"
     >
-      <Grid>
-        <Row>
-          <Col xs={12}>
-            <BugsFilters />
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={12} md={isDetailOpen ? 8 : 12}>
-            <BugsTable />
-          </Col>
-          {isDetailOpen && (
-            <Col xs={12} md={4}>
-              <BugsDetail
-                isDetailOpen={isDetailOpen}
-                setIsDetailOpen={setIsDetailOpen}
-              />
-            </Col>
-          )}
-        </Row>
-      </Grid>
+      {isLoadingCampaign || isFetchingCampaign ? (
+        <BugsPageContentLoader />
+      ) : (
+        <BugsPageContent
+          isDetailOpen={isDetailOpen}
+          setIsDetailOpen={setIsDetailOpen}
+        />
+      )}
     </Page>
   );
 };

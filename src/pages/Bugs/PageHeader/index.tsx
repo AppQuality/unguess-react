@@ -1,3 +1,5 @@
+import BugsPageHeaderLoader from './PageHeaderLoader';
+
 const BugsPageHeader = () => <>BugsPageHeader</>;
 
-export default BugsPageHeader;
+export { BugsPageHeader, BugsPageHeaderLoader };

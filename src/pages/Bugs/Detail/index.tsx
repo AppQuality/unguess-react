@@ -19,4 +19,4 @@ const BugsDetail = ({ isDetailOpen, setIsDetailOpen }: BugsDetailProps) => (
   </>
 );
 
-export default BugsDetail;
+export { BugsDetail };

@@ -1,3 +1,3 @@
 const BugsFilters = () => <>BugsFilters</>;
 
-export default BugsFilters;
+export { BugsFilters };
