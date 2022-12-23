@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from 'src/app/hooks';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
+import { addCampaign } from 'src/features/bugsFilters/bugsFiltersSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { BugsPageContent, BugsPageContentLoader } from './Content';
@@ -10,6 +12,7 @@ import { BugsPageHeader, BugsPageHeaderLoader } from './PageHeader';
 const Bugs = () => {
   const { campaignId } = useParams();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const [isDetailOpen, setIsDetailOpen] = useState(true);
@@ -26,6 +29,23 @@ const Bugs = () => {
   } = useGetCampaignsByCidQuery({
     cid: Number(campaignId),
   });
+
+  useEffect(() => {
+    if (campaign) {
+      dispatch(
+        addCampaign({
+          cp_id: campaign.id,
+          filters: {
+            types: [
+              { id: 1, name: 'Crash' },
+              { id: 2, name: 'Malfunction' },
+              { id: 3, name: 'Typo' },
+            ],
+          },
+        })
+      );
+    }
+  }, [campaign]);
 
   if (isErrorCampaign) {
     navigate(notFoundRoute);
@@ -49,6 +69,7 @@ const Bugs = () => {
         <BugsPageContent
           isDetailOpen={isDetailOpen}
           setIsDetailOpen={setIsDetailOpen}
+          campaignId={campaign?.id || 0}
         />
       )}
     </Page>
