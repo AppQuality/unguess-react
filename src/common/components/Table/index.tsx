@@ -8,21 +8,29 @@ import {
   Cell,
   Row,
 } from '@zendeskgarden/react-tables';
+import styled from 'styled-components';
 
-interface WithId {
+interface TableData {
   id: string;
+  isHighlighted?: boolean;
 }
 export type ColumnDefinitionType<T, K extends keyof T> = {
   key: K;
   header: ReactNode;
   width?: string;
 };
-type TableProps<T extends WithId, K extends keyof T> = {
+type TableProps<T extends TableData, K extends keyof T> = {
   data: Array<T>;
   columns: Array<ColumnDefinitionType<T, K>>;
 };
 
-const Table = <T extends WithId, K extends keyof T>({
+const StyledRow = styled(Row)<{ isHighlighted?: boolean }>`
+  cursor: pointer;
+  background-color: ${({ isHighlighted, theme }) =>
+    isHighlighted ? theme.palette.white : theme.palette.grey[100]};
+`;
+
+const Table = <T extends TableData, K extends keyof T>({
   columns,
   data,
 }: TableProps<T, K>) => {
@@ -38,14 +46,15 @@ const Table = <T extends WithId, K extends keyof T>({
       </Head>
       <Body>
         {data.map((row) => (
-          <Row
+          <StyledRow
             onClick={() => setSelectedRow(row.id)}
             isSelected={row.id === selectedRow}
+            isHighlighted={row.isHighlighted}
           >
             {columns.map((column) => (
               <Cell>{row[column.key]}</Cell>
             ))}
-          </Row>
+          </StyledRow>
         ))}
       </Body>
     </ZendeskTable>
