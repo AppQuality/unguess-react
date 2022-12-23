@@ -1,7 +1,7 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { BugsDetail } from '../Detail';
 import { BugsFilters } from '../Filters';
-import { BugsTable } from '../Table';
+import BugsTable from '../Table';
 import BugsPageContentLoader from './ContentLoader';
 
 interface BugsPageContentProps {
