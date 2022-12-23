@@ -1,6 +1,6 @@
 import { Button, Col, Grid, Row } from '@appquality/unguess-design-system';
-import { useAppDispatch } from 'src/app/hooks';
-import { updateFilters } from 'src/features/bugsFilters/bugsFiltersSlice';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { BugsDetail } from '../Detail';
 import { BugsFilters } from '../Filters';
 import { BugsTable } from '../Table';
@@ -9,15 +9,14 @@ import BugsPageContentLoader from './ContentLoader';
 interface BugsPageContentProps {
   isDetailOpen: boolean;
   setIsDetailOpen: (open: boolean) => void;
-  campaignId: number;
 }
 
 const BugsPageContent = ({
   isDetailOpen,
   setIsDetailOpen,
-  campaignId,
 }: BugsPageContentProps) => {
   const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.bugsPage);
 
   return (
     <Grid>
@@ -29,11 +28,11 @@ const BugsPageContent = ({
       <Row>
         <Col xs={12} md={isDetailOpen ? 8 : 12}>
           <BugsTable />
+          {JSON.stringify(data)}
           <Button
             onClick={() => {
               dispatch(
                 updateFilters({
-                  cp_id: campaignId,
                   filters: {
                     types: [{ id: 1, name: 'Crash' }],
                   },

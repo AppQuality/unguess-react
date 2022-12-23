@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
-import { addCampaign } from 'src/features/bugsFilters/bugsFiltersSlice';
+import { selectCampaign } from 'src/features/bugsPage/bugsPageSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { BugsPageContent, BugsPageContentLoader } from './Content';
@@ -33,7 +33,7 @@ const Bugs = () => {
   useEffect(() => {
     if (campaign) {
       dispatch(
-        addCampaign({
+        selectCampaign({
           cp_id: campaign.id,
           filters: {
             types: [
@@ -69,7 +69,6 @@ const Bugs = () => {
         <BugsPageContent
           isDetailOpen={isDetailOpen}
           setIsDetailOpen={setIsDetailOpen}
-          campaignId={campaign?.id || 0}
         />
       )}
     </Page>
