@@ -96,6 +96,20 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
         ) : null}
       </PillsWrapper>
       <ButtonWrapper>
+        {outputs?.includes('media') && (
+          <Button
+            id="button-media-list-header"
+            isPill
+            onClick={() =>
+              openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
+                newTab: true,
+              })
+            }
+            style={{ marginLeft: globalTheme.space.xs }}
+          >
+            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
+          </Button>
+        )}
         {outputs?.includes('bugs') && (
           <Button
             id="button-bugs-list-header"
@@ -112,22 +126,6 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             }
           >
             {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
-          </Button>
-        )}
-        {outputs?.includes('media') && (
-          <Button
-            id="button-media-list-header"
-            isPrimary
-            isPill
-            themeColor={globalTheme.palette.water[600]}
-            onClick={() =>
-              openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
-                newTab: true,
-              })
-            }
-            style={{ marginLeft: globalTheme.space.xs }}
-          >
-            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
           </Button>
         )}
       </ButtonWrapper>
