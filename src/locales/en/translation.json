@@ -23,6 +23,7 @@
   "__BUG_SEVERITY_HIGH": "high",
   "__BUG_SEVERITY_LOW": "low",
   "__BUG_SEVERITY_MEDIUM": "medium",
+  "__BUGS_PAGE_TITLE": "Bugs List",
   "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Untitled",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG": "Go to bug list",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA": "Go to media list",
