@@ -3,7 +3,7 @@ import { useAppDispatch } from 'src/app/hooks';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { BugsDetail } from '../Detail';
 import { BugsFilters } from '../Filters';
-import { BugsTable } from '../Table/mock';
+import BugsTable from '../Table';
 import BugsPageContentLoader from './ContentLoader';
 
 interface BugsPageContentProps {
