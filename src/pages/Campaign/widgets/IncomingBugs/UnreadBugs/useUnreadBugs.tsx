@@ -60,7 +60,7 @@ const useUnreadBugs = (
   } = useGetCampaignsByCidBugsQuery({
     cid: campaignId,
     filterBy: {
-      unread: true,
+      read: false,
     },
   });
   const {
