@@ -27,7 +27,8 @@ type TableDatum = {
 };
 
 const BugTitle = styled.div<{ isUnread?: boolean }>`
-  font-weight: ${({ isUnread }) => (isUnread ? 'bold' : 'normal')};
+  font-weight: ${({ isUnread }) =>
+    isUnread ? theme.fontWeights.medium : theme.fontWeights.regular};
 `;
 
 // todo: move to theme in a way or another
@@ -38,20 +39,17 @@ const severitiesBackground = {
   low: '#EEFFFE',
 };
 
-const SeverityTag = styled.div<{ severity: Severity }>`
+const Pill = styled(Tag)`
+  pointer-events: none;
+  margin-right: ${(p) => p.theme.space.xs};
+  border-radius: ${theme.borderRadii.lg};
+`;
+const SeverityPill = styled(Pill)<{ severity: Severity }>`
   ${({ severity }) => `color: ${theme.colors.bySeverity[severity]};`}
   ${({ severity }) => `background-color: ${severitiesBackground[severity]};`}
-  border-radius: 8px;
-  padding-left: 4px;
-  padding-right: 4px;
   width: min-content;
   margin-right: 0;
   margin-left: auto;
-`;
-
-const StyledTag = styled(Tag)`
-  pointer-events: none;
-  margin-right: ${(p) => p.theme.space.xs};
 `;
 
 export const useTableData = () => {
@@ -68,9 +66,19 @@ export const useTableData = () => {
     {
       id: 263410,
       title: 'Link a pagina specifica di prodotto porta alla homepage',
+      tags: ['Boutiques ACME', 'Footer', 'Malfunction'],
       severity: 'high',
       created: '2021-01-01',
       updated: '2021-01-01',
+    },
+    {
+      id: 263411,
+      title: 'Non funzionano i link del footer ',
+      tags: ['Boutiques ACME', 'Footer', 'Malfunction'],
+      severity: 'medium',
+      created: '2021-01-01',
+      updated: '2021-01-01',
+      isUnread: true,
     },
   ];
 
@@ -100,15 +108,15 @@ export const useTableData = () => {
       bugs.map((bug) => ({
         id: bug.id.toString(),
         severity: (
-          <SeverityTag severity={bug.severity}>
+          <SeverityPill severity={bug.severity}>
             {capitalizeFirstLetter(bug.severity)}
-          </SeverityTag>
+          </SeverityPill>
         ),
         title: (
           <div>
             <BugTitle isUnread={bug.isUnread}>{bug.title}</BugTitle>
             {bug.tags?.map((tag) => (
-              <StyledTag>{tag}</StyledTag>
+              <Pill>{tag}</Pill>
             ))}
           </div>
         ),
