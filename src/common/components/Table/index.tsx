@@ -27,18 +27,23 @@ type TableProps<T extends TableData, K extends keyof T> = {
 
 const StyledRow = styled(Row)<{
   isHighlighted?: boolean;
+  isSelected?: boolean;
   borderColor?: string;
 }>`
   cursor: pointer;
-  background-color: ${({ isHighlighted, theme }) =>
-    isHighlighted ? theme.palette.white : theme.palette.grey[100]};
   border-left: ${({ borderColor }) =>
     borderColor ? `2px solid ${borderColor}` : 'none'};
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
   border-top: 1px solid ${({ theme }) => theme.palette.grey[100]};
   &:hover {
     background-color: ${({ theme }) => theme.palette.grey[200]};
+    border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
   }
+  background-color: ${({ theme }) => theme.palette.grey[100]};
+  ${({ isHighlighted, theme }) =>
+    isHighlighted && `background-color: ${theme.palette.white};`}
+  ${({ isSelected, theme }) =>
+    isSelected && `background-color: ${theme.palette.grey[200]};`}
 `;
 
 const StyledZendeskTable = styled.div`
