@@ -13,6 +13,7 @@ import styled from 'styled-components';
 interface TableData {
   id: string;
   isHighlighted?: boolean;
+  borderColor?: string;
 }
 export type ColumnDefinitionType<T, K extends keyof T> = {
   key: K;
@@ -24,10 +25,18 @@ type TableProps<T extends TableData, K extends keyof T> = {
   columns: Array<ColumnDefinitionType<T, K>>;
 };
 
-const StyledRow = styled(Row)<{ isHighlighted?: boolean }>`
+const StyledRow = styled(Row)<{
+  isHighlighted?: boolean;
+  borderColor?: string;
+}>`
   cursor: pointer;
   background-color: ${({ isHighlighted, theme }) =>
     isHighlighted ? theme.palette.white : theme.palette.grey[100]};
+  border-left: ${({ borderColor }) =>
+    borderColor ? `2px solid ${borderColor}` : 'none'};
+  &:hover {
+    background-color: ${({ theme }) => theme.palette.grey[200]};
+  }
 `;
 
 const Table = <T extends TableData, K extends keyof T>({
@@ -50,6 +59,7 @@ const Table = <T extends TableData, K extends keyof T>({
             onClick={() => setSelectedRow(row.id)}
             isSelected={row.id === selectedRow}
             isHighlighted={row.isHighlighted}
+            borderColor={row.borderColor}
           >
             {columns.map((column) => (
               <Cell>{row[column.key]}</Cell>
