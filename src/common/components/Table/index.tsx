@@ -44,6 +44,9 @@ const StyledRow = styled(Row)<{
     isHighlighted && `background-color: ${theme.palette.white};`}
   ${({ isSelected, theme }) =>
     isSelected && `background-color: ${theme.palette.grey[200]};`}
+  > td {
+    box-shadow: none !important;
+  }
 `;
 
 const StyledZendeskTable = styled.div`
