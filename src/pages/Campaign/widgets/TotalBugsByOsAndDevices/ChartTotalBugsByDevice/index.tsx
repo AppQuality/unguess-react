@@ -25,6 +25,11 @@ export const ChartTotalBugsByDevice = ({
   const { t } = useTranslation();
   const { chartData, isLoading } = useBugsByDevices(campaignId);
   const [totalBugs, setTotalBugs] = useState(0);
+  const centerLabelDefault = t(
+    '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_HEADER',
+    'Tot bug'
+  );
+  const [centerLabel, setCenterLabel] = useState<string>(centerLabelDefault);
 
   useEffect(() => {
     setTotalBugs(getChildrenValue(chartData));
@@ -36,10 +41,7 @@ export const ChartTotalBugsByDevice = ({
     <SunburstChart
       data={chartData}
       centerItem={{
-        label: t(
-          '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_DEVICE_CHART_HEADER',
-          'Tot bug'
-        ),
+        label: centerLabel,
         value: totalBugs.toString(),
         fontSizeMultiplier: 0.8,
       }}
@@ -63,7 +65,10 @@ export const ChartTotalBugsByDevice = ({
           </StyledSM>
         </Tooltip>
       )}
-      onChange={(data) => setTotalBugs(getChildrenValue(data))}
+      onChange={(data) => {
+        setTotalBugs(getChildrenValue(data));
+        setCenterLabel(data.label ?? centerLabelDefault);
+      }}
       width="100%"
       height="300px"
       legend={{
