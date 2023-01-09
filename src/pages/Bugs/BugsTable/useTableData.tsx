@@ -2,12 +2,15 @@ import { Tag } from '@appquality/unguess-design-system';
 import { ReactNode, useMemo } from 'react';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { ColumnDefinitionType } from 'src/common/components/Table';
+import { theme } from 'src/app/theme';
 import styled from 'styled-components';
+
+type Severity = 'critical' | 'high' | 'medium' | 'low';
 
 type Bug = {
   id: number;
   title: string;
-  severity: 'critical' | 'high' | 'medium' | 'low';
+  severity: Severity;
   created: string;
   updated?: string;
   isUnread?: boolean;
@@ -24,12 +27,31 @@ type TableDatum = {
 };
 
 const BugTitle = styled.div<{ isUnread?: boolean }>`
-  .bug-title {
-    font-weight: ${({ isUnread }) => (isUnread ? 'bold' : 'normal')};
-  }
-  .tag {
-    margin-right: 5px;
-  }
+  font-weight: ${({ isUnread }) => (isUnread ? 'bold' : 'normal')};
+`;
+
+// todo: move to theme in a way or another
+const severitiesBackground = {
+  critical: '#FFEEEE',
+  high: '#FFF7EE',
+  medium: '#EEF7FF',
+  low: '#EEFFFE',
+};
+
+const SeverityTag = styled.div<{ severity: Severity }>`
+  ${({ severity }) => `color: ${theme.colors.bySeverity[severity]};`}
+  ${({ severity }) => `background-color: ${severitiesBackground[severity]};`}
+  border-radius: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+  width: min-content;
+  margin-right: 0;
+  margin-left: auto;
+`;
+
+const StyledTag = styled(Tag)`
+  pointer-events: none;
+  margin-right: ${(p) => p.theme.space.xs};
 `;
 
 export const useTableData = () => {
@@ -77,21 +99,25 @@ export const useTableData = () => {
     () =>
       bugs.map((bug) => ({
         id: bug.id.toString(),
-        severity: <Tag>{capitalizeFirstLetter(bug.severity)}</Tag>,
+        severity: (
+          <SeverityTag severity={bug.severity}>
+            {capitalizeFirstLetter(bug.severity)}
+          </SeverityTag>
+        ),
         title: (
-          <BugTitle isUnread={bug.isUnread}>
-            <div className="bug-title">{bug.title}</div>
+          <div>
+            <BugTitle isUnread={bug.isUnread}>{bug.title}</BugTitle>
             {bug.tags?.map((tag) => (
-              <Tag className="tag">{tag}</Tag>
+              <StyledTag>{tag}</StyledTag>
             ))}
-          </BugTitle>
+          </div>
         ),
         isHighlighted: bug.isUnread,
         created: bug.created,
         updated: bug.updated,
+        borderColor: theme.colors.bySeverity[bug.severity],
       })),
     [bugs]
   );
-
   return { columns, data: mapBugsToTableData };
 };
