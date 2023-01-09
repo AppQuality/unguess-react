@@ -34,9 +34,20 @@ const StyledRow = styled(Row)<{
     isHighlighted ? theme.palette.white : theme.palette.grey[100]};
   border-left: ${({ borderColor }) =>
     borderColor ? `2px solid ${borderColor}` : 'none'};
+  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  border-top: 1px solid ${({ theme }) => theme.palette.grey[100]};
   &:hover {
     background-color: ${({ theme }) => theme.palette.grey[200]};
   }
+`;
+
+const StyledZendeskTable = styled.div`
+  width: 100%;
+  background-color: white;
+  border-radius: ${({ theme }) => theme.borderRadii.lg};
+  padding-bottom: ${({ theme }) => theme.space.sm};
+  padding-left: ${({ theme }) => theme.space.xxs};
+  padding-right: ${({ theme }) => theme.space.xxs};
 `;
 
 const Table = <T extends TableData, K extends keyof T>({
@@ -45,29 +56,31 @@ const Table = <T extends TableData, K extends keyof T>({
 }: TableProps<T, K>) => {
   const [selectedRow, setSelectedRow] = useState<string | null>(null);
   return (
-    <ZendeskTable>
-      <Head>
-        <HeaderRow>
-          {columns.map((column) => (
-            <HeaderCell width={column.width}>{column.header}</HeaderCell>
-          ))}
-        </HeaderRow>
-      </Head>
-      <Body>
-        {data.map((row) => (
-          <StyledRow
-            onClick={() => setSelectedRow(row.id)}
-            isSelected={row.id === selectedRow}
-            isHighlighted={row.isHighlighted}
-            borderColor={row.borderColor}
-          >
+    <StyledZendeskTable>
+      <ZendeskTable>
+        <Head>
+          <HeaderRow>
             {columns.map((column) => (
-              <Cell>{row[column.key]}</Cell>
+              <HeaderCell width={column.width}>{column.header}</HeaderCell>
             ))}
-          </StyledRow>
-        ))}
-      </Body>
-    </ZendeskTable>
+          </HeaderRow>
+        </Head>
+        <Body>
+          {data.map((row) => (
+            <StyledRow
+              onClick={() => setSelectedRow(row.id)}
+              isSelected={row.id === selectedRow}
+              isHighlighted={row.isHighlighted}
+              borderColor={row.borderColor}
+            >
+              {columns.map((column) => (
+                <Cell>{row[column.key]}</Cell>
+              ))}
+            </StyledRow>
+          ))}
+        </Body>
+      </ZendeskTable>
+    </StyledZendeskTable>
   );
 };
 
