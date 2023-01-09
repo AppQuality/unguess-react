@@ -12,13 +12,16 @@
     "@zendeskgarden/react-forms": "^8.49.0",
     "@zendeskgarden/react-theming": "^8.48.2",
     "@zendeskgarden/svg-icons": "^6.31.1",
-    "async": "^3.2.3",
     "date-fns": "^2.28.0",
     "formik": "^2.2.9",
-    "history": "^5.3.0",
     "i18n-iso-countries": "^7.3.0",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.3",
+    "prosemirror-commands": "^1.5.0",
+    "prosemirror-dropcursor": "^1.6.1",
+    "prosemirror-gapcursor": "^1.3.1",
+    "prosemirror-history": "^1.3.0",
+    "prosemirror-schema-list": "^1.2.2",
     "qs": "^6.10.3",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
@@ -33,13 +36,12 @@
     "react-transition-group": "^4.4.5",
     "styled-components": "^5.3.3",
     "typescript": "^4.6.2",
-    "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
   "scripts": {
     "start": "craco start",
-    "build": "react-scripts build",
+    "build": "craco build",
     "test": "react-scripts test",
     "recover": "yarn install --check-files",
     "eject": "react-scripts eject",
@@ -55,22 +57,6 @@
     "validate": "run-p lint type:check format:check",
     "prepare": "husky install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -84,14 +70,9 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.13.0",
     "@craco/craco": "6.4.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/async": "^3.2.13",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^16.11.26",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
@@ -117,8 +98,7 @@
     "lint-staged": ">=10",
     "npm-run-all": "^4.1.5",
     "openapi-typescript": "^5.1.0",
-    "prettier": "^2.6.2",
-    "ts-node": "^10.7.0"
+    "prettier": "^2.6.2"
   },
   "config": {
     "commitizen": {
