@@ -1,21 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  TypeFilter,
-  setTypesFilter,
-  filterByTypes,
-  getSelectedTypesIds,
-} from './typeFilters';
-import {
-  SeverityFilter,
-  setSeverityFilter,
-  filterBySeverities,
-  getSelectedSeveritiesIds,
-} from './severityFilters';
+import { TypeFilterType, TypeFilter } from './typeFilters';
+import { SeverityFilter, SeverityFilterType } from './severityFilters';
 
 type CampaignType = {
   selectedBugId?: number;
-} & TypeFilter &
-  SeverityFilter;
+} & TypeFilterType &
+  SeverityFilterType;
 
 interface initialSimpleState {
   currentCampaign?: number;
@@ -36,8 +26,11 @@ const bugPageSlice = createSlice({
       const { cp_id, filters } = action.payload;
       if (!(cp_id in state.campaigns)) {
         state.campaigns[cp_id as number] = {
-          ...setTypesFilter(state.campaigns[cp_id as number], filters.types),
-          ...setSeverityFilter(
+          ...TypeFilter.setAvailable(
+            state.campaigns[cp_id as number],
+            filters.types
+          ),
+          ...SeverityFilter.setAvailable(
             state.campaigns[cp_id as number],
             filters.severities
           ),
@@ -49,12 +42,12 @@ const bugPageSlice = createSlice({
       const { filters } = action.payload;
       if (!state.currentCampaign) return;
       state.campaigns[state.currentCampaign] = {
-        ...filterByTypes(
-          state.campaigns[state.currentCampaign as number],
+        ...TypeFilter.filter(
+          state.campaigns[state.currentCampaign],
           filters.types
         ),
-        ...filterBySeverities(
-          state.campaigns[state.currentCampaign as number],
+        ...SeverityFilter.filter(
+          state.campaigns[state.currentCampaign],
           filters.severities
         ),
       };
@@ -65,8 +58,8 @@ const bugPageSlice = createSlice({
 export default bugPageSlice.reducer;
 
 export const getSelectedFiltersIds = () => ({
-  types: getSelectedTypesIds(),
-  severities: getSelectedSeveritiesIds(),
+  types: TypeFilter.getIds(),
+  severities: SeverityFilter.getIds(),
 });
 
 export const { selectCampaign, updateFilters } = bugPageSlice.actions;
