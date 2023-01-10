@@ -4,11 +4,17 @@ import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 interface BugsDetailProps {
   isDetailOpen: boolean;
   setIsDetailOpen: (open: boolean) => void;
+  currentBugId: string | null;
 }
 
-const BugsDetail = ({ isDetailOpen, setIsDetailOpen }: BugsDetailProps) => (
+const BugsDetail = ({
+  isDetailOpen,
+  setIsDetailOpen,
+  currentBugId,
+}: BugsDetailProps) => (
   <>
-    BugsDetail {isDetailOpen ? 'open' : 'closed'}
+    BugsDetail. Current bug id: {currentBugId}{' '}
+    {isDetailOpen ? 'open' : 'closed'}
     <IconButton
       onClick={() => {
         setIsDetailOpen(false);
