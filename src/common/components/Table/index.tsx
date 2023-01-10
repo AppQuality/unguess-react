@@ -8,6 +8,8 @@ import {
   Cell,
 } from '@zendeskgarden/react-tables';
 import styled from 'styled-components';
+import { SM } from '@appquality/unguess-design-system';
+import { theme as appTheme } from 'src/app/theme';
 import { TableRow } from './TableRow';
 
 interface TableData {
@@ -47,7 +49,11 @@ const Table = <T extends TableData, K extends keyof T>({
       <Head>
         <HeaderRow>
           {columns.map((column) => (
-            <HeaderCell width={column.width}>{column.header}</HeaderCell>
+            <HeaderCell width={column.width}>
+              <SM isBold color={appTheme.palette.grey[800]}>
+                {column.header}
+              </SM>
+            </HeaderCell>
           ))}
         </HeaderRow>
       </Head>
