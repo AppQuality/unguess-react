@@ -27,7 +27,7 @@ type TableProps<T extends TableData, K extends keyof T> = {
   selectedRow?: string | null;
 };
 
-const StyledZendeskTable = styled(ZendeskTable)`
+const TableWrapper = styled.div`
   width: 100%;
   background-color: white;
   border-radius: ${({ theme }) => theme.borderRadii.lg};
@@ -42,30 +42,32 @@ const Table = <T extends TableData, K extends keyof T>({
   selectedRow,
   onRowClick,
 }: TableProps<T, K>) => (
-  <StyledZendeskTable>
-    <Head>
-      <HeaderRow>
-        {columns.map((column) => (
-          <HeaderCell width={column.width}>{column.header}</HeaderCell>
-        ))}
-      </HeaderRow>
-    </Head>
-    <Body>
-      {data.map((row) => (
-        <TableRow
-          id={row.id}
-          onClick={onRowClick}
-          isSelected={row.id === selectedRow}
-          isHighlighted={row.isHighlighted}
-          borderColor={row.borderColor}
-        >
+  <TableWrapper>
+    <ZendeskTable>
+      <Head>
+        <HeaderRow>
           {columns.map((column) => (
-            <Cell>{row[column.key]}</Cell>
+            <HeaderCell width={column.width}>{column.header}</HeaderCell>
           ))}
-        </TableRow>
-      ))}
-    </Body>
-  </StyledZendeskTable>
+        </HeaderRow>
+      </Head>
+      <Body>
+        {data.map((row) => (
+          <TableRow
+            id={row.id}
+            onClick={onRowClick}
+            isSelected={row.id === selectedRow}
+            isHighlighted={row.isHighlighted}
+            borderColor={row.borderColor}
+          >
+            {columns.map((column) => (
+              <Cell>{row[column.key]}</Cell>
+            ))}
+          </TableRow>
+        ))}
+      </Body>
+    </ZendeskTable>
+  </TableWrapper>
 );
 
 export default Table;
