@@ -39,7 +39,7 @@ const Campaign = () => {
     isError: isErrorCampaign,
     data: campaign,
   } = useGetCampaignsByCidQuery({
-    cid: Number(campaignId),
+    cid: campaignId?.toString() ?? '0',
   });
 
   const {
@@ -48,7 +48,7 @@ const Campaign = () => {
     isError: isErrorReports,
     data: reports,
   } = useGetCampaignsByCidReportsQuery({
-    cid: Number(campaignId),
+    cid: campaignId?.toString() ?? '0',
   });
 
   if (isErrorCampaign || isErrorReports) {

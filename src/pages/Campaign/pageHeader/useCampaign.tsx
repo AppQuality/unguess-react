@@ -14,7 +14,7 @@ export const useCampaign = (campaignId: number) => {
     isError: isCampaignError,
     data: campaign,
   } = useGetCampaignsByCidQuery({
-    cid: campaignId,
+    cid: campaignId?.toString() ?? '0',
   });
 
   const {

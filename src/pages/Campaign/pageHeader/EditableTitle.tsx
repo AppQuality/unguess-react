@@ -10,7 +10,7 @@ import {
 export const EditableTitle = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const { data: campaign } = useGetCampaignsByCidQuery({
-    cid: campaignId,
+    cid: campaignId?.toString() ?? '0',
   });
   const [itemTitle, setItemTitle] = useState<string>(
     campaign?.customer_title ?? ''
@@ -33,7 +33,7 @@ export const EditableTitle = ({ campaignId }: { campaignId: number }) => {
                 e.currentTarget.value !== campaign?.customer_title
               ) {
                 await patchCampaign({
-                  cid: campaignId,
+                  cid: campaignId?.toString() ?? '0',
                   body: { customer_title: e.currentTarget.value },
                 }).unwrap();
               }

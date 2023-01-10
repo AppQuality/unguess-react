@@ -27,7 +27,7 @@ const Bugs = () => {
     isError: isErrorCampaign,
     data: campaign,
   } = useGetCampaignsByCidQuery({
-    cid: Number(campaignId),
+    cid: campaignId?.toString() ?? '0',
   });
 
   useEffect(() => {
