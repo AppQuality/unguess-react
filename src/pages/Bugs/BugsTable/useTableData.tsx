@@ -19,6 +19,7 @@ type Bug = {
 
 type TableDatum = {
   id: string;
+  bugId: ReactNode;
   title: ReactNode;
   severity: ReactNode;
   created: string;
@@ -29,6 +30,9 @@ type TableDatum = {
 const BugTitle = styled.div<{ isUnread?: boolean }>`
   font-weight: ${({ isUnread }) =>
     isUnread ? theme.fontWeights.medium : theme.fontWeights.regular};
+  color: ${({ isUnread }) =>
+    isUnread ? theme.palette.blue[600] : theme.palette.grey[800]};
+  margin-bottom: ${theme.space.xs};
 `;
 
 // todo: move to theme in a way or another
@@ -39,10 +43,14 @@ const severitiesBackground = {
   low: '#EEFFFE',
 };
 
-const Pill = styled(Tag)`
+const Pill = styled(Tag)<{ isBold?: boolean }>`
   pointer-events: none;
   margin-right: ${(p) => p.theme.space.xs};
   border-radius: ${theme.borderRadii.lg};
+  color: ${theme.palette.grey[700]};
+  font-weight: ${theme.fontWeights.regular};
+  background-color: ${theme.palette.grey[100]};
+  ${({ isBold }) => isBold && `font-weight: ${theme.fontWeights.medium};`}
 `;
 const SeverityPill = styled(Pill)<{ severity: Severity }>`
   ${({ severity }) => `color: ${theme.colors.bySeverity[severity]};`}
@@ -95,7 +103,7 @@ export const useTableData = () => {
         width: '85px',
       },
       {
-        key: 'id',
+        key: 'bugId',
         header: 'Bug ID',
         width: '80px',
       },
@@ -107,6 +115,11 @@ export const useTableData = () => {
     () =>
       bugs.map((bug) => ({
         id: bug.id.toString(),
+        bugId: (
+          <span style={{ color: theme.palette.grey[700] }}>
+            {bug.id.toString()}
+          </span>
+        ),
         severity: (
           <SeverityPill severity={bug.severity}>
             {capitalizeFirstLetter(bug.severity)}
@@ -116,7 +129,7 @@ export const useTableData = () => {
           <div>
             <BugTitle isUnread={bug.isUnread}>{bug.title}</BugTitle>
             {bug.tags?.map((tag) => (
-              <Pill>{tag}</Pill>
+              <Pill isBold={bug.isUnread}>{tag}</Pill>
             ))}
           </div>
         ),

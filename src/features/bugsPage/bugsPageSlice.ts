@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { useAppSelector } from 'src/app/hooks';
 import { TypeFilterType, TypeFilter } from './typeFilters';
 import { SeverityFilter, SeverityFilterType } from './severityFilters';
 
@@ -38,6 +39,12 @@ const bugPageSlice = createSlice({
       }
       state.currentCampaign = cp_id;
     },
+    selectBug: (state, action) => {
+      const { bug_id } = action.payload;
+      if (!state.currentCampaign) return;
+      if (!(state.currentCampaign in state.campaigns)) return;
+      state.campaigns[state.currentCampaign].selectedBugId = bug_id;
+    },
     updateFilters: (state, action) => {
       const { filters } = action.payload;
       if (!state.currentCampaign) return;
@@ -62,4 +69,16 @@ export const getSelectedFiltersIds = () => ({
   severities: SeverityFilter.getIds(),
 });
 
-export const { selectCampaign, updateFilters } = bugPageSlice.actions;
+export const getSelectedBugId = () => {
+  const { currentCampaign, campaigns } = useAppSelector(
+    (state) => state.bugsPage
+  );
+  if (!currentCampaign || !campaigns[currentCampaign as number]) return null;
+
+  const campaign = campaigns[currentCampaign as number];
+  if (!campaign.selectedBugId) return null;
+  return campaign.selectedBugId;
+};
+
+export const { selectCampaign, updateFilters, selectBug } =
+  bugPageSlice.actions;
