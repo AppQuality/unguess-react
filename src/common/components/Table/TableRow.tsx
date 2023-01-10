@@ -16,13 +16,11 @@ const StyledRow = styled(Row)<{
   borderColor?: string;
 }>`
   cursor: pointer;
+  position: relative;
   border-left: ${({ borderColor }) =>
     borderColor ? `2px solid ${borderColor}` : 'none'};
   border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
   border-top: 1px solid ${({ theme }) => theme.palette.grey[100]};
-  &:hover {
-    box-shadow: 0px 4px 8px rgba(47, 57, 65, 0.15);
-  }
   background-color: ${({ theme }) => theme.palette.grey[100]};
   ${({ isHighlighted, theme }) =>
     isHighlighted && `background-color: ${theme.palette.white};`}
@@ -30,6 +28,16 @@ const StyledRow = styled(Row)<{
     isSelected && `background-color: ${theme.palette.blue[100]};`}
   > td {
     box-shadow: none !important;
+  }
+  &:hover {
+    z-index: 1;
+    border-bottom-color: ${({ theme }) => theme.palette.grey[200]};
+    box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+    background-color: ${({ theme }) => theme.palette.grey[100]};
+    ${({ isHighlighted, theme }) =>
+      isHighlighted && `background-color: ${theme.palette.white};`}
+    ${({ isSelected, theme }) =>
+      isSelected && `background-color: ${theme.palette.blue[100]};`}
   }
 `;
 
