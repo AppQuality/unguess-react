@@ -91,8 +91,10 @@ BugCard.Footer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  padding-top: ${(p) => p.theme.space.xs};
   margin-bottom: ${({ theme }) => theme.space.xxs};
+  > * {
+    margin-top: ${({ theme }) => theme.space.xs};
+  }
 `;
 BugCard.Separator = styled.div`
   height: 16px;
