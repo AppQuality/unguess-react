@@ -1,4 +1,4 @@
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { Span } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
@@ -10,7 +10,6 @@ const CounterContainer = styled.div`
 `;
 
 export const UniqueBugsCounter = ({ campaignId }: { campaignId: number }) => {
-  const { t } = useTranslation();
   const { totalBugs, uniqueBugs } = useUniqueBugs(campaignId);
 
   return (
