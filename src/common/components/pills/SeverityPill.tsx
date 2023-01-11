@@ -11,7 +11,7 @@ interface SeverityPillProps {
 export const SeverityPill = ({ severity, counter }: SeverityPillProps) => (
   <Pill
     color={theme.colors.bySeverity[severity]}
-    backgroundColor={theme.colors.severitiesBackground[severity]}
+    backgroundColor={`${theme.colors.bySeverity[severity]}14`}
   >
     {capitalizeFirstLetter(severity)}
     {counter && (
