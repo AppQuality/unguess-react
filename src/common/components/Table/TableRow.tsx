@@ -1,8 +1,8 @@
 import { Row } from '@zendeskgarden/react-tables';
-import { FC } from 'react';
 import styled from 'styled-components';
 
 interface TableRowProps {
+  children: React.ReactNode;
   id: string;
   isSelected?: boolean;
   isHighlighted?: boolean;
@@ -41,14 +41,14 @@ const StyledRow = styled(Row)<{
   }
 `;
 
-export const TableRow: FC<TableRowProps> = ({
+export const TableRow = ({
   children,
   isSelected,
   isHighlighted,
   onClick,
   borderColor,
   id,
-}) => {
+}: TableRowProps) => {
   const clickAction = () => {
     if (onClick) {
       onClick(id);
