@@ -56,7 +56,7 @@ export const Tools = ({ campaign }: { campaign: CampaignWithOutput }) => {
   return (
     <FooterContainer>
       <PillsWrapper>
-        <UniqueBugsCounter uniqueBugs="70" totalBugs="100" />
+        <UniqueBugsCounter campaignId={campaign.id} />
         {meta ? (
           <>
             <Pill

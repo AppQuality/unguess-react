@@ -23,7 +23,7 @@
   "__BUG_SEVERITY_HIGH": "high",
   "__BUG_SEVERITY_LOW": "low",
   "__BUG_SEVERITY_MEDIUM": "medium",
-  "__BUGS_PAGE_HEADER_UNIQUE_BUGS_ON_TOTAL": "<0>{{numerator}}</0> unique bugs <3>/{{denominator}} tot.</3><4> of which</4>",
+  "__BUGS_PAGE_HEADER_UNIQUE_BUGS_ON_TOTAL": "<0>{{numerator}}</0> unique bugs<2>/{{denominator}} tot.</2><3> of which</3>",
   "__BUGS_PAGE_TITLE": "Bugs List",
   "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Untitled",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG": "Go to bug list",

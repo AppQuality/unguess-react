@@ -2,20 +2,16 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Span } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
+import { useUniqueBugs } from 'src/pages/Campaign/widgets/UniqueBugs/useUniqueBugs';
 
 const CounterContainer = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   margin-right: ${({ theme }) => theme.space.xs};
 `;
 
-export const UniqueBugsCounter = ({
-  uniqueBugs,
-  totalBugs,
-}: {
-  uniqueBugs: string;
-  totalBugs: string;
-}) => {
+export const UniqueBugsCounter = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
+  const { totalBugs, uniqueBugs } = useUniqueBugs(campaignId);
 
   return (
     <CounterContainer>
