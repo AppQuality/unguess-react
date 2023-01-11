@@ -35,7 +35,7 @@ export const bugs: Bug[] = [
     updated: '2021-01-01',
   },
   {
-    id: 263408,
+    id: 263407,
     title: 'Non funzionano i link del footer ',
     tags: ['Boutiques ACME', 'Footer', 'Malfunction'],
     severity: 'low',

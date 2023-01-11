@@ -35,6 +35,7 @@ const TableWrapper = styled.div<{ maxHeight?: string }>`
   width: 100%;
   background-color: white;
   border-radius: ${({ theme }) => theme.borderRadii.lg};
+  border: 1px solid ${({ theme }) => theme.palette.grey[300]};
   padding-bottom: ${({ theme }) => theme.space.sm};
   padding-left: ${({ theme }) => theme.space.xxs};
   padding-right: ${({ theme }) => theme.space.xxs};
