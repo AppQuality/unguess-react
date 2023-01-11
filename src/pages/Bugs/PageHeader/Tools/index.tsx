@@ -1,9 +1,6 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import {
-  CampaignWithOutput,
-  useGetCampaignsByCidMetaQuery,
-} from 'src/features/api';
+import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { Pipe } from 'src/common/components/Pipe';
@@ -18,14 +15,19 @@ const ToolsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Tools = ({ campaign }: { campaign: CampaignWithOutput }) => {
-  const { isLoading, isFetching } = useGetCampaignsByCidMetaQuery({
-    cid: campaign.id,
+export const Tools = ({ campaignId }: { campaignId: number }) => {
+  const {
+    isLoading,
+    isFetching,
+    data: campaign,
+  } = useGetCampaignsByCidQuery({
+    cid: campaignId?.toString() ?? '0',
   });
 
-  const { status } = campaign;
+  if (isLoading || isFetching || !campaign)
+    return <Skeleton width="200px" height="20px" />;
 
-  if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
+  const { status } = campaign;
 
   return (
     <ToolsWrapper>
