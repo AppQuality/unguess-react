@@ -305,6 +305,10 @@ export type GetCampaignsByCidBugsAndBidApiResponse =
     media?: BugMedia[];
     tags?: BugTag[];
     additional_fields?: BugAdditionalField[];
+    reporter: {
+      tester_id: number;
+      name: string;
+    };
   };
 export type GetCampaignsByCidBugsAndBidApiArg = {
   /** Campaign id */
