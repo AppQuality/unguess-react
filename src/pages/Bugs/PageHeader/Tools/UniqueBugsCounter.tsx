@@ -19,7 +19,12 @@ export const UniqueBugsCounter = ({ campaignId }: { campaignId: number }) => {
         <Span style={{ color: globalTheme.palette.grey['700'] }}>
           /{{ denominator: totalBugs }} tot.
         </Span>
-        <Span style={{ color: globalTheme.palette.grey['600'] }}>
+        <Span
+          style={{
+            color: globalTheme.palette.grey['600'],
+            marginLeft: globalTheme.space.xs,
+          }}
+        >
           {' '}
           of which
         </Span>

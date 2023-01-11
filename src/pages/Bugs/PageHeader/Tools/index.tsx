@@ -1,6 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
   CampaignWithOutput,
@@ -9,6 +8,7 @@ import {
 import { Pill } from 'src/common/components/Pill';
 import { StatusPill } from 'src/pages/Campaign/pageHeader/Pills/StatusPill';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
+import { DotsMenu } from './DotsMenu';
 
 const Pipe = styled.span`
   /** Vertical Separator */
@@ -24,16 +24,7 @@ const Pipe = styled.span`
   }
 `;
 
-const FooterContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const PillsWrapper = styled.div`
+const ToolsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -42,50 +33,43 @@ const PillsWrapper = styled.div`
 `;
 
 export const Tools = ({ campaign }: { campaign: CampaignWithOutput }) => {
-  const {
-    data: meta,
-    isLoading,
-    isFetching,
-  } = useGetCampaignsByCidMetaQuery({ cid: campaign.id });
+  const { isLoading, isFetching } = useGetCampaignsByCidMetaQuery({
+    cid: campaign.id,
+  });
 
-  const { t } = useTranslation();
   const { status } = campaign;
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
 
   return (
-    <FooterContainer>
-      <PillsWrapper>
-        <UniqueBugsCounter campaignId={campaign.id} />
-        {meta ? (
-          <>
-            <Pill
-              id="pill-severity-critical"
-              title="CRITICAL 69"
-              color={globalTheme.colors.bySeverity.critical}
-            />
+    <ToolsWrapper>
+      <UniqueBugsCounter campaignId={campaign.id} />
 
-            <Pill
-              id="pill-severity-high"
-              title="HIGH 11"
-              color={globalTheme.colors.bySeverity.high}
-            />
+      <Pill
+        id="pill-severity-critical"
+        title="CRITICAL 69"
+        color={globalTheme.colors.bySeverity.critical}
+      />
 
-            <Pill
-              id="pill-severity-medium"
-              title="MEDIUM 7"
-              color={globalTheme.colors.bySeverity.medium}
-            />
-            <Pill
-              id="pill-severity-low"
-              title="LOW 0"
-              color={globalTheme.colors.bySeverity.low}
-            />
-            <Pipe style={{ marginRight: globalTheme.space.md }} />
-            <StatusPill status={status.name} />
-          </>
-        ) : null}
-      </PillsWrapper>
-    </FooterContainer>
+      <Pill
+        id="pill-severity-high"
+        title="HIGH 11"
+        color={globalTheme.colors.bySeverity.high}
+      />
+
+      <Pill
+        id="pill-severity-medium"
+        title="MEDIUM 7"
+        color={globalTheme.colors.bySeverity.medium}
+      />
+      <Pill
+        id="pill-severity-low"
+        title="LOW 0"
+        color={globalTheme.colors.bySeverity.low}
+      />
+      <Pipe style={{ marginRight: globalTheme.space.md }} />
+      <StatusPill status={status.name} />
+      <DotsMenu />
+    </ToolsWrapper>
   );
 };

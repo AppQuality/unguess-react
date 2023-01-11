@@ -33,7 +33,7 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>
-          <HeaderWrapper className="suca">
+          <HeaderWrapper>
             <HeaderItemWrapper>
               <XXXL isBold>{t('__PAGE_TITLE_BUGS_COLLECTION')}</XXXL>
             </HeaderItemWrapper>
