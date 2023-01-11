@@ -1,12 +1,11 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
 } from 'src/features/api';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
-import { StatusPill } from 'src/pages/Campaign/pageHeader/Pills/StatusPill';
+import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { DotsMenu } from './DotsMenu';

@@ -13,10 +13,10 @@ import {
 import i18n from 'src/i18n';
 import { openUrl } from 'src/common/openUrl';
 import { Pipe } from 'src/common/components/Pipe';
+import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { DesktopPill } from './devicePills/DesktopPill';
 import { SmartphonePill } from './devicePills/SmartphonePill';
 import { TabletPill } from './devicePills/TabletPill';
-import { StatusPill } from './StatusPill';
 import { CampaignTypePill } from './CampaignTypePill';
 import { CampaignDurationPill } from './CampaignDurationPill';
 
