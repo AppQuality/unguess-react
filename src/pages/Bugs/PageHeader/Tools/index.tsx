@@ -18,7 +18,6 @@ const ToolsWrapper = styled.div`
 export const Tools = ({ campaignId }: { campaignId: number }) => {
   const { isLoading, status, severities } = useCampaign(campaignId);
 
-  console.log(severities);
   if (isLoading || !status || !severities)
     return <Skeleton width="200px" height="20px" />;
 
