@@ -57,7 +57,7 @@ const Bugs = () => {
         isLoadingCampaign || isFetchingCampaign ? (
           <BugsPageHeaderLoader />
         ) : (
-          <BugsPageHeader />
+          campaign && <BugsPageHeader campaignId={campaign.id} />
         )
       }
       route="bugs"
