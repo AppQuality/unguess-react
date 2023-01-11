@@ -2,10 +2,11 @@ import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useBugDetail } from './useBugDetail';
 import BugHeader from './Header';
-import BugDescription from './Description';
+import BugMeta from './Meta';
 import BugTags from './Tags';
+import BugDescription from './Description';
 import BugAttachments from './Attachments';
-import BugCustomFields from './CustomFields';
+import BugDetails from './Details';
 
 const DetailContainer = styled.div`
   background-color: white;
@@ -24,13 +25,16 @@ const BugsDetail = ({ campaignId }: { campaignId: number; }) => {
 
   if (isLoading || isFetching || isError || !bug) return <Skeleton />;
 
+  const { media } = bug;
+
   return (
     <DetailContainer>
       <BugHeader bug={bug} />
-      <BugDescription />
-      <BugTags />
-      <BugAttachments />
-      <BugCustomFields />
+      <BugMeta bug={bug} />
+      <BugTags bug={bug} />
+      <BugDescription bug={bug} />
+      {media && media.length ? <BugAttachments bug={bug} /> : null}
+      <BugDetails bug={bug} />
     </DetailContainer>
   );
 };

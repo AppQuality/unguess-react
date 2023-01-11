@@ -23,7 +23,7 @@ export default ({
 
   return (
     <Container>
-      <MD isBold>{t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}</MD>
+      <MD isBold>{t('__BUGS_PAGE_BUG_DETAIL_CUSTOM_FIELDS_LABEL')}</MD>
     </Container>
   );
 };
