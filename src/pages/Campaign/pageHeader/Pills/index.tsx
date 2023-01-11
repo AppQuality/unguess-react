@@ -12,6 +12,7 @@ import {
 } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import { openUrl } from 'src/common/openUrl';
+import { Pipe } from 'src/common/components/Pipe';
 import { DesktopPill } from './devicePills/DesktopPill';
 import { SmartphonePill } from './devicePills/SmartphonePill';
 import { TabletPill } from './devicePills/TabletPill';
@@ -19,19 +20,6 @@ import { StatusPill } from './StatusPill';
 import { CampaignTypePill } from './CampaignTypePill';
 import { CampaignDurationPill } from './CampaignDurationPill';
 
-const Pipe = styled.span`
-  /** Vertical Separator */
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: ${({ theme }) => theme.space.lg};
-  margin: 0 ${({ theme }) => theme.space.sm};
-  display: inline;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
-  }
-`;
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;

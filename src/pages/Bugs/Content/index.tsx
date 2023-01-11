@@ -1,32 +1,25 @@
 import { Button, Col, Grid, Row } from '@appquality/unguess-design-system';
-import { useAppDispatch } from 'src/app/hooks';
-import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import {
+  updateFilters,
+  getSelectedBugId,
+} from 'src/features/bugsPage/bugsPageSlice';
 import { BugsDetail } from '../Detail';
 import { BugsFilters } from '../Filters';
-import { BugsTable } from '../Table/mock';
+import BugsTable from '../BugsTable';
 import BugsPageContentLoader from './ContentLoader';
 
-interface BugsPageContentProps {
-  isDetailOpen: boolean;
-  setIsDetailOpen: (open: boolean) => void;
-}
-
-const BugsPageContent = ({
-  isDetailOpen,
-  setIsDetailOpen,
-}: BugsPageContentProps) => {
+const BugsPageContent = () => {
   const dispatch = useAppDispatch();
+  const currentBugId = getSelectedBugId();
+  const data = useAppSelector((state) => state.bugsPage);
 
   return (
     <Grid>
       <Row>
         <Col xs={12}>
           <BugsFilters />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} md={isDetailOpen ? 8 : 12}>
-          <BugsTable />
+          {JSON.stringify(data)}
           <Button
             onClick={() => {
               dispatch(
@@ -54,12 +47,14 @@ const BugsPageContent = ({
             Medium only
           </Button>
         </Col>
-        {isDetailOpen && (
+      </Row>
+      <Row>
+        <Col xs={12} md={currentBugId ? 8 : 12}>
+          <BugsTable />
+        </Col>
+        {currentBugId && (
           <Col xs={12} md={4}>
-            <BugsDetail
-              isDetailOpen={isDetailOpen}
-              setIsDetailOpen={setIsDetailOpen}
-            />
+            <BugsDetail />
           </Col>
         )}
       </Row>

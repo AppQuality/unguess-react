@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
@@ -15,7 +15,6 @@ const Bugs = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-  const [isDetailOpen, setIsDetailOpen] = useState(true);
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute);
@@ -66,10 +65,7 @@ const Bugs = () => {
       {isLoadingCampaign || isFetchingCampaign ? (
         <BugsPageContentLoader />
       ) : (
-        <BugsPageContent
-          isDetailOpen={isDetailOpen}
-          setIsDetailOpen={setIsDetailOpen}
-        />
+        <BugsPageContent />
       )}
     </Page>
   );

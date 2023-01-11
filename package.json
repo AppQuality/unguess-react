@@ -10,6 +10,7 @@
     "@zendeskgarden/react-datepickers": "^8.49.4",
     "@zendeskgarden/react-dropdowns": "^8.49.0",
     "@zendeskgarden/react-forms": "^8.49.0",
+    "@zendeskgarden/react-tables": "^8.62.0",
     "@zendeskgarden/react-theming": "^8.48.2",
     "@zendeskgarden/svg-icons": "^6.31.1",
     "date-fns": "^2.28.0",
