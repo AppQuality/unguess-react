@@ -16,6 +16,16 @@ const theme = {
     bySeverity: SEVERITY_COLORS,
     darkPine: CHARTS_COLOR_PALETTE.darkPine,
   },
+  components: {
+    ...baseTheme.components,
+    'tables.header_row': {
+      height: 'auto',
+    },
+    'tables.header_cell': {
+      paddingTop: baseTheme.space.sm,
+      paddingBottom: baseTheme.space.sm,
+    },
+  },
 };
 
 export { theme };
