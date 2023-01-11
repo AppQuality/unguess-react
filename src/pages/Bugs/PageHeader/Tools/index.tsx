@@ -7,22 +7,9 @@ import {
 } from 'src/features/api';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { StatusPill } from 'src/pages/Campaign/pageHeader/Pills/StatusPill';
+import { Pipe } from 'src/common/components/Pipe';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { DotsMenu } from './DotsMenu';
-
-const Pipe = styled.span`
-  /** Vertical Separator */
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: ${({ theme }) => theme.space.lg};
-  margin: 0 ${({ theme }) => theme.space.sm};
-  display: inline;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
-  }
-`;
 
 const ToolsWrapper = styled.div`
   display: flex;
@@ -44,13 +31,13 @@ export const Tools = ({ campaign }: { campaign: CampaignWithOutput }) => {
   return (
     <ToolsWrapper>
       <UniqueBugsCounter campaignId={campaign.id} />
-
-      <SeverityPill counter={100} severity="critical" />
-      <SeverityPill counter={100} severity="high" />
-      <SeverityPill counter={100} severity="medium" />
-      <SeverityPill counter={100} severity="low" />
-
-      <Pipe style={{ marginRight: globalTheme.space.md }} />
+      <div>
+        <SeverityPill counter={100} severity="critical" />
+        <SeverityPill counter={100} severity="high" />
+        <SeverityPill counter={100} severity="medium" />
+        <SeverityPill counter={100} severity="low" />
+      </div>
+      <Pipe />
       <StatusPill status={status.name} />
       <DotsMenu />
     </ToolsWrapper>
