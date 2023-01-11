@@ -1,5 +1,4 @@
 import { IconButton } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
 import { ReactComponent as DotsmenuIcon } from 'src/assets/icons/dots-menu.svg';
 import { theme } from 'src/app/theme';
 
