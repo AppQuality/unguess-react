@@ -13,9 +13,13 @@ export const SeverityPill = ({ severity, counter }: SeverityPillProps) => (
     color={theme.colors.bySeverity[severity]}
     backgroundColor={`${theme.colors.bySeverity[severity]}14`}
   >
-    {capitalizeFirstLetter(severity)}
-    {counter && (
-      <span style={{ fontWeight: theme.fontWeights.extrabold }}>{counter}</span>
-    )}
+    <span>
+      {capitalizeFirstLetter(severity)}
+      {counter && (
+        <span style={{ fontWeight: theme.fontWeights.extrabold }}>
+          {` ${counter}`}
+        </span>
+      )}
+    </span>
   </Pill>
 );
