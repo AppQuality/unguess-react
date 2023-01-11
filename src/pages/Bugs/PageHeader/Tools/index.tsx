@@ -5,7 +5,7 @@ import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
 } from 'src/features/api';
-import { Pill } from 'src/common/components/Pill';
+import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { StatusPill } from 'src/pages/Campaign/pageHeader/Pills/StatusPill';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { DotsMenu } from './DotsMenu';
@@ -45,28 +45,11 @@ export const Tools = ({ campaign }: { campaign: CampaignWithOutput }) => {
     <ToolsWrapper>
       <UniqueBugsCounter campaignId={campaign.id} />
 
-      <Pill
-        id="pill-severity-critical"
-        title="CRITICAL 69"
-        color={globalTheme.colors.bySeverity.critical}
-      />
+      <SeverityPill counter={100} severity="critical" />
+      <SeverityPill counter={100} severity="high" />
+      <SeverityPill counter={100} severity="medium" />
+      <SeverityPill counter={100} severity="low" />
 
-      <Pill
-        id="pill-severity-high"
-        title="HIGH 11"
-        color={globalTheme.colors.bySeverity.high}
-      />
-
-      <Pill
-        id="pill-severity-medium"
-        title="MEDIUM 7"
-        color={globalTheme.colors.bySeverity.medium}
-      />
-      <Pill
-        id="pill-severity-low"
-        title="LOW 0"
-        color={globalTheme.colors.bySeverity.low}
-      />
       <Pipe style={{ marginRight: globalTheme.space.md }} />
       <StatusPill status={status.name} />
       <DotsMenu />
