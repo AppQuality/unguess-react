@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { Pill } from 'src/common/components/Pill';
+import { IconPill } from 'src/common/components/pills/IconPill';
 import { theme } from 'src/app/theme';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 
 export const SmartphonePill = () => {
   const { t } = useTranslation();
   return (
-    <Pill
+    <IconPill
       id="pill-smartphone-header"
       icon={<SmartphoneIcon />}
       title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}

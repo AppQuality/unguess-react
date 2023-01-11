@@ -1,9 +1,9 @@
 import { theme } from 'src/app/theme';
-import { Pill } from 'src/common/components/Pill';
+import { IconPill } from 'src/common/components/pills/IconPill';
 import { ReactComponent as GearIcon } from 'src/assets/icons/pill-icon-gear.svg';
 
 export const CampaignTypePill = ({ type }: { type: string }) => (
-  <Pill
+  <IconPill
     className="campaign-type-pill"
     icon={<GearIcon />}
     title={type}

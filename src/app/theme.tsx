@@ -10,11 +10,19 @@ export const SEVERITY_COLORS: Record<Severities, string> = {
   low: CHARTS_COLOR_PALETTE.darkPine,
 };
 
+export const SEVERITY_BACKGROUNDS: Record<Severities, string> = {
+  critical: '#FFEEEE',
+  high: '#FFF7EE',
+  medium: '#EEF7FF',
+  low: '#EEFFFE',
+};
+
 const theme = {
   ...baseTheme,
   colors: {
     ...baseTheme.colors,
     bySeverity: SEVERITY_COLORS,
+    severitiesBackground: SEVERITY_BACKGROUNDS,
     darkPine: CHARTS_COLOR_PALETTE.darkPine,
   },
 };

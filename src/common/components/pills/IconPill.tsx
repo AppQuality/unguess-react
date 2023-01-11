@@ -30,7 +30,7 @@ interface PillProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export const Pill = ({
+export const IconPill = ({
   background,
   color,
   icon,
