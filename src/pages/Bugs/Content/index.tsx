@@ -9,7 +9,7 @@ import { BugsFilters } from '../Filters';
 import BugsTable from '../BugsTable';
 import BugsPageContentLoader from './ContentLoader';
 
-const BugsPageContent = () => {
+const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
   const dispatch = useAppDispatch();
   const currentBugId = getSelectedBugId();
   const data = useAppSelector((state) => state.bugsPage);
@@ -50,7 +50,7 @@ const BugsPageContent = () => {
       </Row>
       <Row>
         <Col xs={12} md={currentBugId ? 8 : 12}>
-          <BugsTable />
+          <BugsTable campaignId={campaignId} />
         </Col>
         {currentBugId && (
           <Col xs={12} md={4}>

@@ -6,10 +6,11 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTableData } from './useTableData';
 
-const BugsTable = () => {
-  const { columns, data } = useTableData();
+const BugsTable = ({ campaignId }: { campaignId: number }) => {
+  const { columns, data, isLoading } = useTableData(campaignId);
   const dispatch = useAppDispatch();
   const currentBugId = getSelectedBugId();
+  if (isLoading) return <div>Loading...</div>;
   return (
     <Table
       columns={columns}
