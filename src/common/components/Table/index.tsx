@@ -27,15 +27,23 @@ type TableProps<T extends TableData, K extends keyof T> = {
   columns: Array<ColumnDefinitionType<T, K>>;
   onRowClick?: (id: string) => void;
   selectedRow?: string | null;
+  isSticky?: boolean;
+  maxHeight?: string;
 };
 
-const TableWrapper = styled.div`
+const TableWrapper = styled.div<{ maxHeight?: string }>`
   width: 100%;
   background-color: white;
   border-radius: ${({ theme }) => theme.borderRadii.lg};
   padding-bottom: ${({ theme }) => theme.space.sm};
   padding-left: ${({ theme }) => theme.space.xxs};
   padding-right: ${({ theme }) => theme.space.xxs};
+  ${({ maxHeight }) =>
+    maxHeight && `max-height: ${maxHeight}; overflow-y: auto;`}
+`;
+
+const StyledHead = styled(Head)<{ isSticky?: boolean }>`
+  ${({ isSticky }) => isSticky && 'z-index: 2;'}
 `;
 
 const Table = <T extends TableData, K extends keyof T>({
@@ -43,10 +51,12 @@ const Table = <T extends TableData, K extends keyof T>({
   data,
   selectedRow,
   onRowClick,
+  isSticky,
+  maxHeight,
 }: TableProps<T, K>) => (
-  <TableWrapper>
+  <TableWrapper maxHeight={maxHeight}>
     <ZendeskTable>
-      <Head>
+      <StyledHead isSticky={isSticky}>
         <HeaderRow>
           {columns.map((column) => (
             <HeaderCell width={column.width}>
@@ -56,7 +66,7 @@ const Table = <T extends TableData, K extends keyof T>({
             </HeaderCell>
           ))}
         </HeaderRow>
-      </Head>
+      </StyledHead>
       <Body>
         {data.map((row) => (
           <TableRow

@@ -16,6 +16,7 @@ const BugsTable = () => {
       data={data}
       selectedRow={currentBugId ? currentBugId.toString() : null}
       onRowClick={(bug_id) => dispatch(selectBug({ bug_id }))}
+      isSticky
     />
   );
 };
