@@ -14,4 +14,7 @@ export const Pill = styled(Tag)<{
   color: ${(p) => p.color || theme.palette.grey[700]};
   background-color: ${(p) => p.backgroundColor || theme.palette.grey[100]};
   ${({ isBold }) => isBold && `font-weight: ${theme.fontWeights.medium};`}
+  &:last-of-type {
+    margin-right: 0;
+  }
 `;

@@ -1,13 +1,12 @@
 import { useMemo } from 'react';
-import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
+import { Pill } from 'src/common/components/pills/Pill';
+import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { theme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
 import { useTranslation } from 'react-i18next';
 import { bugs } from './mockData';
 import { TableDatum } from './types';
-import { SeverityPill } from './SeverityPill';
-import { Pill } from './Pill';
 import { BugTitle } from './BugTitle';
 
 const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
@@ -40,11 +39,7 @@ export const useTableData = () => {
             {bug.id.toString()}
           </span>
         ),
-        severity: (
-          <SeverityPill severity={bug.severity}>
-            {capitalizeFirstLetter(bug.severity)}
-          </SeverityPill>
-        ),
+        severity: <SeverityPill severity={bug.severity} />,
         title: (
           <div>
             <BugTitle isUnread={bug.isUnread}>{bug.title}</BugTitle>
