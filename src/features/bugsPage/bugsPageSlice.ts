@@ -80,5 +80,16 @@ export const getSelectedBugId = () => {
   return campaign.selectedBugId;
 };
 
+export const getCurrentCampaignData = () => {
+  const { currentCampaign, campaigns } = useAppSelector(
+    (state) => state.bugsPage
+  );
+  if (!currentCampaign || !campaigns[currentCampaign as number]) return null;
+
+  const campaign = campaigns[currentCampaign as number];
+  if (!campaign) return false;
+  return campaign;
+};
+
 export const { selectCampaign, updateFilters, selectBug } =
   bugPageSlice.actions;
