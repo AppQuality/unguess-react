@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { BugMedia as BugMediaType } from 'src/features/api';
 import { theme as globalTheme } from 'src/app/theme';
-import { SM, Span } from '@appquality/unguess-design-system';
+import { Ellipsis, SM, Span } from '@appquality/unguess-design-system';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
 import { BugCard } from 'src/pages/Campaign/widgets/BugCard';
 import styled from 'styled-components';
@@ -10,12 +10,26 @@ const StyledBugCard = styled(BugCard)`
   margin-bottom: ${({ theme }) => theme.space.base * 4}px;
 `;
 
-function getFileIcon(extension: string) {
-  return <AttachmentsIcon />;
+const BugCardContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`;
+
+// TODO: Set the correct icon for each extension
+function getFileIcon(extension: string, size: number) {
+  return (
+    <AttachmentsIcon
+      style={{ width: size, marginRight: globalTheme.space.xs }}
+    />
+  );
 }
 
 export default ({ items }: { items: BugMediaType[] }) => {
   const { t } = useTranslation();
+  const iconSize = 12;
 
   // Create an array with keys with types and values with counts
   const counts = items.reduce((acc, item) => {
@@ -52,10 +66,12 @@ export default ({ items }: { items: BugMediaType[] }) => {
         <StyledBugCard severity="low">
           {() => (
             <BugCard.Title url={item.url}>
-              {getFileIcon(item.mime_type.type)}
-              <Span style={{ marginLeft: globalTheme.space.sm }}>
-                Item extra {index + 1} {/* TODO: Change this hardcoded text */}
-              </Span>
+              <BugCardContent>
+                {getFileIcon(item.mime_type.type, iconSize)}
+                <Ellipsis style={{ width: `calc(100% - ${iconSize * 2}px)` }}>
+                  {item.url}
+                </Ellipsis>
+              </BugCardContent>
             </BugCard.Title>
           )}
         </StyledBugCard>
