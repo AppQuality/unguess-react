@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Bug as BugType, BugMedia as BugMediaType } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
+import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
 import BugMedia from './Media';
 import BugExtra from './Extra';
 
@@ -10,6 +11,16 @@ const Container = styled.div`
   display: inline-block;
   width: 100%;
   margin: ${({ theme }) => theme.space.lg} 0;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  > svg {
+    fill: ${({ theme }) => theme.palette.grey[600]};
+  }
 `;
 
 const StyledTabs = styled(Tabs)`
@@ -47,9 +58,16 @@ export default ({
 
   return (
     <Container>
-      <LG isBold style={{ margin: `${globalTheme.space.md} 0` }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LABEL')}
-      </LG>
+      <Title>
+        <AttachmentsIcon
+          style={{
+            marginRight: globalTheme.space.base * 3,
+          }}
+        />
+        <LG isBold style={{ margin: `${globalTheme.space.md} 0` }}>
+          {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LABEL')}
+        </LG>
+      </Title>
       <StyledTabs>
         {mediaItems.length ? (
           <Tabs.Panel
