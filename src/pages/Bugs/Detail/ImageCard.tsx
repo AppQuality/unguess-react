@@ -31,9 +31,9 @@ export default ({ index, url }: { index: number; url: string }) => {
       <Preview>
         <img
           src={url}
-          alt={`${t(
-            '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_ALT_LABEL'
-          )} ${index}`}
+          alt={`${t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
+            count: 1,
+          })} ${index}`}
         />
       </Preview>
       <MD isBold style={{ textAlign: 'center' }}>

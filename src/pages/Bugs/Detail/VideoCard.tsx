@@ -54,9 +54,9 @@ export default ({ index, url }: { index: number; url: string }) => {
       <Preview>
         <video
           src={url}
-          title={`${t(
-            '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_TITLE_LABEL'
-          )} ${index}`}
+          title={`${t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_LABEL', {
+            count: 1,
+          })} ${index}`}
         >
           <track kind="captions" />
         </video>
