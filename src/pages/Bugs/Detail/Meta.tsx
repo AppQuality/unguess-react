@@ -84,6 +84,7 @@ export default ({
       </MD>
       <BugInfo>
         <StyledPill title={bug.type.name} />
+        {/* TODO: Replace this Divider with common divider component */}
         <Divider />
         <StyledPill
           title={bug.device.type}

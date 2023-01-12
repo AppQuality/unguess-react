@@ -1,6 +1,6 @@
 import { LG, Tabs } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Bug } from 'src/features/api';
+import { Bug as BugType, BugMedia as BugMediaType } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import BugMedia from './Media';
@@ -23,14 +23,25 @@ const StyledTabs = styled(Tabs)`
 export default ({
   bug,
 }: {
-  bug: Bug & {
+  bug: BugType & {
     reporter: {
       tester_id: number;
       name: string;
     };
+    media?: BugMediaType[];
   };
 }) => {
   const { t } = useTranslation();
+
+  const { media } = bug;
+
+  if (!media || media.length === 0) return null;
+
+  // Get all the media that are not of type "other"
+  const mediaItems = media?.filter((m) => m.type.type !== 'other');
+
+  // Get all the media that are of type "other"
+  const extraItems = media?.filter((m) => m.type.type === 'other');
 
   return (
     <Container>
@@ -38,18 +49,24 @@ export default ({
         {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LABEL')}
       </LG>
       <StyledTabs>
-        <Tabs.Panel
-          title={t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_MEDIA_TAB_TITLE')}
-          style={{ width: '50%' }}
-        >
-          <BugMedia bug={bug} />
-        </Tabs.Panel>
-        <Tabs.Panel
-          title={t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_TITLE')}
-          style={{ width: '50%' }}
-        >
-          <BugExtra bug={bug} />
-        </Tabs.Panel>
+        {mediaItems.length ? (
+          <Tabs.Panel
+            title={`${t(
+              '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_MEDIA_TAB_TITLE'
+            )} (${mediaItems.length})`}
+          >
+            <BugMedia items={mediaItems} />
+          </Tabs.Panel>
+        ) : null}
+        {extraItems.length ? (
+          <Tabs.Panel
+            title={`${t(
+              '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_TITLE'
+            )} (${extraItems.length})`}
+          >
+            <BugExtra items={extraItems} />
+          </Tabs.Panel>
+        ) : null}
       </StyledTabs>
     </Container>
   );
