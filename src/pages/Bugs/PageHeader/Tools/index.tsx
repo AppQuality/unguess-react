@@ -1,15 +1,11 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
 import styled from 'styled-components';
-import {
-  CampaignWithOutput,
-  useGetCampaignsByCidMetaQuery,
-} from 'src/features/api';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
-import { StatusPill } from 'src/pages/Campaign/pageHeader/Pills/StatusPill';
+import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { DotsMenu } from './DotsMenu';
+import { useCampaign } from './useCampaign';
 
 const ToolsWrapper = styled.div`
   display: flex;
@@ -19,23 +15,25 @@ const ToolsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Tools = ({ campaign }: { campaign: CampaignWithOutput }) => {
-  const { isLoading, isFetching } = useGetCampaignsByCidMetaQuery({
-    cid: campaign.id,
-  });
+export const Tools = ({ campaignId }: { campaignId: number }) => {
+  const { isLoading, status, severities } = useCampaign(campaignId);
 
-  const { status } = campaign;
-
-  if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
+  if (isLoading || !status || !severities)
+    return <Skeleton width="200px" height="20px" />;
 
   return (
     <ToolsWrapper>
-      <UniqueBugsCounter campaignId={campaign.id} />
+      <UniqueBugsCounter campaignId={campaignId} />
       <div>
-        <SeverityPill counter={100} severity="critical" />
-        <SeverityPill counter={100} severity="high" />
-        <SeverityPill counter={100} severity="medium" />
-        <SeverityPill counter={100} severity="low" />
+        {Object.keys(severities).map((severity) =>
+          severities[severity as Severities] > 0 ? (
+            <SeverityPill
+              key={severity}
+              counter={severities[severity as Severities]}
+              severity={severity as Severities}
+            />
+          ) : null
+        )}
       </div>
       <Pipe />
       <StatusPill status={status.name} />

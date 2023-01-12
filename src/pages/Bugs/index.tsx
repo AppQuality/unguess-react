@@ -65,7 +65,7 @@ const Bugs = () => {
       {isLoadingCampaign || isFetchingCampaign ? (
         <BugsPageContentLoader />
       ) : (
-        <BugsPageContent />
+        <BugsPageContent campaignId={campaign?.id || 0} />
       )}
     </Page>
   );

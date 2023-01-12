@@ -38,7 +38,7 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
               <XXXL isBold>{t('__PAGE_TITLE_BUGS_COLLECTION')}</XXXL>
             </HeaderItemWrapper>
             <HeaderItemWrapper>
-              <Tools campaign={campaign} />
+              <Tools campaignId={campaignId} />
             </HeaderItemWrapper>
           </HeaderWrapper>
         </PageHeader.Title>
