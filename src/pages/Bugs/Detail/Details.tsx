@@ -107,25 +107,16 @@ export default ({
                 {bug.device.os} {bug.device.os_version}
               </MD>
             </DetailsItem>
-            {bug.additional_fields && bug.additional_fields.length ? (
-              <DetailsItem>
-                <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
-                  {t(
-                    '__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_DEVICE_CUSTOM_FIELD_LABEL'
-                  )}
-                </MD>
-                {bug.additional_fields.map((field) => (
-                  <div
-                    key={field.id}
-                    style={{ marginBottom: globalTheme.space.xs }}
-                  >
-                    <MD>
-                      <Span isBold>{field.name}</Span>: {field.value}
+            {bug.additional_fields && bug.additional_fields.length
+              ? bug.additional_fields.map((field) => (
+                  <DetailsItem>
+                    <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
+                      {field.name}
                     </MD>
-                  </div>
-                ))}
-              </DetailsItem>
-            ) : null}
+                    <MD>{field.value}</MD>
+                  </DetailsItem>
+                ))
+              : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>
