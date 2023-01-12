@@ -14,8 +14,12 @@ const Container = styled.div`
 export default ({ items }: { items: BugMediaType[] }) => {
   const { t } = useTranslation();
 
-  const imagesCount = items.filter((item) => item.type.type === 'image').length;
-  const videosCount = items.filter((item) => item.type.type === 'video').length;
+  const imagesCount = items.filter(
+    (item) => item.mime_type.type === 'image'
+  ).length;
+  const videosCount = items.filter(
+    (item) => item.mime_type.type === 'video'
+  ).length;
 
   return (
     <Container>
@@ -38,13 +42,13 @@ export default ({ items }: { items: BugMediaType[] }) => {
         <Row>
           {items.map((item, index) => {
             // Check if item is an image or a video
-            if (item.type.type === 'image')
+            if (item.mime_type.type === 'image')
               return (
                 <Col xs={12} sm={6}>
                   <ImageCard index={index + 1} url={item.url} />
                 </Col>
               );
-            if (item.type.type === 'video')
+            if (item.mime_type.type === 'video')
               return (
                 <Col xs={12} sm={6}>
                   <VideoCard index={index + 1} url={item.url} />

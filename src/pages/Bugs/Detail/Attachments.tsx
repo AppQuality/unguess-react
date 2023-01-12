@@ -38,10 +38,12 @@ export default ({
   if (!media || media.length === 0) return null;
 
   // Get all the media that are not of type "other"
-  const mediaItems = media?.filter((m) => m.type.type !== 'other');
+  const mediaItems = media?.filter(
+    (m) => m.mime_type.type === 'image' || m.mime_type.type === 'video'
+  );
 
   // Get all the media that are of type "other"
-  const extraItems = media?.filter((m) => m.type.type === 'other');
+  const extraItems = media?.filter((m) => m.mime_type.type === 'other');
 
   return (
     <Container>
