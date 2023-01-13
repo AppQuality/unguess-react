@@ -6,12 +6,12 @@ import { Pipe } from 'src/common/components/Pipe';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { DotsMenu } from './DotsMenu';
 import { useCampaign } from './useCampaign';
+import { FlexWrapper } from '../FlexWrapper';
 
 const ToolsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  flex-direction: row;
   flex-wrap: wrap;
 `;
 
@@ -30,7 +30,7 @@ export const Tools = ({
   return (
     <ToolsWrapper>
       <UniqueBugsCounter campaignId={campaignId} />
-      <div>
+      <FlexWrapper>
         {Object.keys(severities).map((severity) =>
           severities[severity as Severities] > 0 ? (
             <SeverityPill
@@ -40,7 +40,7 @@ export const Tools = ({
             />
           ) : null
         )}
-      </div>
+      </FlexWrapper>
       <Pipe />
       <StatusPill status={status.name} />
       <DotsMenu campaignId={campaignId} customerTitle={customerTitle} />

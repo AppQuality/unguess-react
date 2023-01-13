@@ -6,14 +6,10 @@ import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import BugsPageHeaderLoader from './PageHeaderLoader';
+import { FlexWrapper } from './FlexWrapper';
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
 const HeaderItemWrapper = styled.div``;
+
 const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -33,7 +29,7 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <PageHeader.Title>
-          <HeaderWrapper>
+          <FlexWrapper>
             <HeaderItemWrapper>
               <XXXL isBold>{t('__PAGE_TITLE_BUGS_COLLECTION')}</XXXL>
             </HeaderItemWrapper>
@@ -43,7 +39,7 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
                 customerTitle={campaign.customer_title}
               />
             </HeaderItemWrapper>
-          </HeaderWrapper>
+          </FlexWrapper>
         </PageHeader.Title>
       </PageHeader.Main>
     </PageHeader>
