@@ -19,12 +19,12 @@ const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
   {
     key: 'severity',
     header: 'Severity',
-    width: '85px',
+    width: '90px',
   },
   {
     key: 'bugId',
     header: 'Bug ID',
-    width: '80px',
+    width: '90px',
   },
 ];
 
@@ -95,7 +95,8 @@ export const useTableData = (campaignId: number) => {
       isHighlighted: !bug.read,
       created: bug.created,
       updated: bug.updated,
-      borderColor: theme.colors.bySeverity[bug.severity.name as Severities],
+      borderColor:
+        theme.colors.bySeverity[bug.severity.name.toLowerCase() as Severities],
     }));
   }, [bugs]);
 
