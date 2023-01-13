@@ -43,6 +43,9 @@ export const useTableData = (campaignId: number) => {
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
+      ...(filterBy?.read && filterBy.read === 'unread'
+        ? { read: 'false' }
+        : {}),
     },
   });
 

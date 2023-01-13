@@ -2,11 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { useAppSelector } from 'src/app/hooks';
 import { TypeFilterType, TypeFilter } from './typeFilters';
 import { SeverityFilter, SeverityFilterType } from './severityFilters';
+import { ReadFilter, ReadFilterType } from './readFilter';
 
 type CampaignType = {
   selectedBugId?: number;
 } & TypeFilterType &
-  SeverityFilterType;
+  SeverityFilterType &
+  ReadFilterType;
 
 interface initialSimpleState {
   currentCampaign?: number;
@@ -35,6 +37,7 @@ const bugPageSlice = createSlice({
             state.campaigns[cp_id as number],
             filters.severities
           ),
+          ...ReadFilter.setAvailable(state.campaigns[cp_id as number]),
         };
       }
       state.currentCampaign = cp_id;
@@ -57,6 +60,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.severities
         ),
+        ...ReadFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.read
+        ),
       };
     },
   },
@@ -67,6 +74,7 @@ export default bugPageSlice.reducer;
 export const getSelectedFiltersIds = () => ({
   types: TypeFilter.getIds(),
   severities: SeverityFilter.getIds(),
+  read: ReadFilter.getValue(),
 });
 
 export const getSelectedBugId = () => {
