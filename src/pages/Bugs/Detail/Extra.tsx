@@ -1,13 +1,20 @@
 import { useTranslation } from 'react-i18next';
 import { BugMedia as BugMediaType } from 'src/features/api';
 import { theme as globalTheme } from 'src/app/theme';
-import { Ellipsis, SM, Span } from '@appquality/unguess-design-system';
-import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
+import { SM, Span } from '@appquality/unguess-design-system';
+import { ReactComponent as ArchiveIcon } from 'src/assets/icons/extra-icon-archive.svg';
+import { ReactComponent as FileIcon } from 'src/assets/icons/extra-icon-file.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/extra-icon-link.svg';
+import { ReactComponent as PdfIcon } from 'src/assets/icons/extra-icon-pdf.svg';
+import { ReactComponent as VideoIcon } from 'src/assets/icons/extra-icon-video.svg';
 import { BugCard } from 'src/pages/Campaign/widgets/BugCard';
 import styled from 'styled-components';
 
 const StyledBugCard = styled(BugCard)`
   margin-bottom: ${({ theme }) => theme.space.base * 4}px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 const BugCardContent = styled.div`
@@ -26,20 +33,62 @@ const BugCardInfo = styled.div`
   flex-wrap: wrap;
 `;
 
-// TODO: Set the correct icon for each extension
-function getFileIcon(extension: string, size: number) {
-  return (
-    <AttachmentsIcon
-      style={{ width: size, marginRight: globalTheme.space.xs }}
-    />
-  );
+function getFileSpecs(extension: string): {
+  icon: React.ReactNode;
+  color: string;
+} {
+  switch (extension.toLowerCase()) {
+    case 'pdf':
+      return {
+        icon: <PdfIcon />,
+        color: globalTheme.palette.red[400],
+      };
+    case 'doc':
+    case 'docx':
+    case 'xls':
+    case 'xlsx':
+    case 'ppt':
+    case 'pptx':
+    case 'txt':
+    case 'csv':
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+    case 'gif':
+    case 'webp':
+    case 'svg':
+      return {
+        icon: <FileIcon />,
+        color: globalTheme.palette.green[600],
+      };
+    case 'zip':
+    case 'rar':
+    case 'tar':
+    case 'gz':
+      return {
+        icon: <ArchiveIcon />,
+        color: globalTheme.palette.fuschia[600],
+      };
+    case 'mp4':
+    case 'mov':
+    case 'avi':
+    case 'wmv':
+      return {
+        icon: <VideoIcon />,
+        color: globalTheme.palette.yellow[600],
+      };
+    default:
+      return {
+        icon: <LinkIcon />,
+        color: globalTheme.palette.azure[400],
+      };
+  }
 }
 
 export default ({ items }: { items: BugMediaType[] }) => {
   const { t } = useTranslation();
-  const iconSize = 12;
 
-  // Create an array with keys with types and values with counts
+  // Array with keys with types and values with counts
   const counts = items.reduce((acc, item) => {
     const { extension } = item.mime_type;
     if (acc[extension as string]) {
@@ -65,32 +114,25 @@ export default ({ items }: { items: BugMediaType[] }) => {
           </span>
         ))}
       </SM>
-      {/* 
-        TODO: 
-        - handle new color from common component BugCard for "severity"
-        - handle icon from common component BugCard
-      */}
       {items.map((item, index) => (
-        <StyledBugCard borderColor="red">
+        <StyledBugCard
+          borderColor={getFileSpecs(item.mime_type.extension).color}
+        >
           {() => (
             <>
-              {getFileIcon(item.mime_type.type, iconSize)}
-              <BugCardInfo>
+              {getFileSpecs(item.mime_type.extension).icon}
+              <BugCardInfo style={{ marginLeft: globalTheme.space.sm }}>
                 <BugCard.TopTitle>
                   {item.mime_type.extension.toUpperCase()}
                 </BugCard.TopTitle>
                 <BugCard.Title url={item.url}>
                   <BugCardContent>
-                    <Ellipsis
-                      style={{ width: `calc(100% - ${iconSize * 2}px)` }}
-                    >
-                      <Span>
-                        {t(
-                          '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_ITEM_LABEL'
-                        )}{' '}
-                        {index + 1}
-                      </Span>
-                    </Ellipsis>
+                    <Span>
+                      {t(
+                        '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_ITEM_LABEL'
+                      )}{' '}
+                      {index + 1}
+                    </Span>
                   </BugCardContent>
                 </BugCard.Title>
               </BugCardInfo>

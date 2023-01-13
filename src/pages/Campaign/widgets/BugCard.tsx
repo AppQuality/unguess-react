@@ -21,6 +21,11 @@ const BugCardContainer = styled(ContainerCard)<
   flex-direction: column;
   justify-content: space-between;
   height: auto;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  }
 `;
 
 type BugCardArgs = {
