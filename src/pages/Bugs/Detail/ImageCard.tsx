@@ -1,12 +1,8 @@
-import { MD } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { MD, SpecialCard } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
-const ImageCard = styled.div`
-  border-radius: ${({ theme }) => theme.borderRadii.lg};
-  border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: 200px;
-  cursor: pointer;
+const ImageCard = styled(SpecialCard)`
+  padding: 0;
 `;
 
 const Preview = styled.div<{
@@ -25,15 +21,11 @@ const Preview = styled.div<{
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
-export default ({ index, url }: { index: number; url: string }) => {
-  const { t } = useTranslation();
-
-  return (
-    <ImageCard onClick={() => console.log('> media index', index)}>
-      <Preview url={url} />
-      <MD isBold style={{ textAlign: 'center' }}>
-        {index}
-      </MD>
-    </ImageCard>
-  );
-};
+export default ({ index, url }: { index: number; url: string }) => (
+  <ImageCard onClick={() => console.log('> media index', index)}>
+    <Preview url={url} />
+    <MD isBold style={{ textAlign: 'center' }}>
+      {index}
+    </MD>
+  </ImageCard>
+);

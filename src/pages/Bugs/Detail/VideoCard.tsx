@@ -1,13 +1,10 @@
-import { MD } from '@appquality/unguess-design-system';
+import { MD, SpecialCard } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
 
-const VideoCard = styled.div`
-  border-radius: ${({ theme }) => theme.borderRadii.lg};
-  border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: 200px;
-  cursor: pointer;
+const VideoCard = styled(SpecialCard)`
+  padding: 0;
   position: relative;
   overflow: hidden;
 
