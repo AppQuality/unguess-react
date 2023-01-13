@@ -1,10 +1,4 @@
-import {
-  Accordion,
-  LG,
-  MD,
-  Span,
-  Tag,
-} from '@appquality/unguess-design-system';
+import { Accordion, LG, MD, Span } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import styled from 'styled-components';

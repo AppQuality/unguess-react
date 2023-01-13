@@ -9,14 +9,20 @@ import BugAttachments from './Attachments';
 import BugDetails from './Details';
 
 const DetailContainer = styled.div`
+  position: sticky;
+  display: block;
+  top: -${({ theme }) => theme.space.sm};
+  width: 100%;
   background-color: white;
   border: ${({ theme }) => theme.palette.grey[300]} 1px solid;
   border-top-left-radius: ${({ theme }) => theme.space.xs};
   border-bottom-left-radius: ${({ theme }) => theme.space.xs};
   padding: ${({ theme }) => `${theme.space.lg} ${theme.space.lg}`};
+  max-height: 100vh;
+  overflow-y: auto;
 `;
 
-const BugsDetail = ({ campaignId }: { campaignId: number; }) => {
+const BugsDetail = ({ campaignId }: { campaignId: number }) => {
   const result = useBugDetail({
     cid: campaignId,
   });

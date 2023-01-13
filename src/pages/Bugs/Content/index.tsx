@@ -1,15 +1,11 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import {
-  getSelectedBugId,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { BugsDetail } from '../Detail';
 import { BugsFilters } from '../Filters';
 import BugsTable from '../BugsTable';
 import BugsPageContentLoader from './ContentLoader';
 
-const BugsPageContent = ({ campaignId }: { campaignId: number; }) => {
-  const dispatch = useAppDispatch();
+const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
   const currentBugId = getSelectedBugId();
 
   return (

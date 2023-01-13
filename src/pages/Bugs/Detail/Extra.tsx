@@ -18,6 +18,14 @@ const BugCardContent = styled.div`
   flex-wrap: wrap;
 `;
 
+const BugCardInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`;
+
 // TODO: Set the correct icon for each extension
 function getFileIcon(extension: string, size: number) {
   return (
@@ -63,26 +71,29 @@ export default ({ items }: { items: BugMediaType[] }) => {
         - handle icon from common component BugCard
       */}
       {items.map((item, index) => (
-        <StyledBugCard severity="low">
+        <StyledBugCard borderColor="red">
           {() => (
             <>
-              <BugCard.TopTitle>
-                {item.mime_type.extension.toUpperCase()}
-              </BugCard.TopTitle>
-              <BugCard.Title url={item.url}>
-                <BugCardContent>
-                  {getFileIcon(item.mime_type.type, iconSize)}
-                  <Ellipsis style={{ width: `calc(100% - ${iconSize * 2}px)` }}>
-                    {/* {item.url} */}
-                    <Span>
-                      {t(
-                        '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_ITEM_LABEL'
-                      )}{' '}
-                      {index + 1}
-                    </Span>
-                  </Ellipsis>
-                </BugCardContent>
-              </BugCard.Title>
+              {getFileIcon(item.mime_type.type, iconSize)}
+              <BugCardInfo>
+                <BugCard.TopTitle>
+                  {item.mime_type.extension.toUpperCase()}
+                </BugCard.TopTitle>
+                <BugCard.Title url={item.url}>
+                  <BugCardContent>
+                    <Ellipsis
+                      style={{ width: `calc(100% - ${iconSize * 2}px)` }}
+                    >
+                      <Span>
+                        {t(
+                          '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_ITEM_LABEL'
+                        )}{' '}
+                        {index + 1}
+                      </Span>
+                    </Ellipsis>
+                  </BugCardContent>
+                </BugCard.Title>
+              </BugCardInfo>
             </>
           )}
         </StyledBugCard>
