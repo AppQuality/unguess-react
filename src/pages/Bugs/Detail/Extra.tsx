@@ -65,14 +65,20 @@ export default ({ items }: { items: BugMediaType[] }) => {
       {items.map((item, index) => (
         <StyledBugCard severity="low">
           {() => (
-            <BugCard.Title url={item.url}>
-              <BugCardContent>
-                {getFileIcon(item.mime_type.type, iconSize)}
-                <Ellipsis style={{ width: `calc(100% - ${iconSize * 2}px)` }}>
-                  {item.url}
-                </Ellipsis>
-              </BugCardContent>
-            </BugCard.Title>
+            <>
+              <BugCard.TopTitle>
+                {item.mime_type.extension.toUpperCase()}
+              </BugCard.TopTitle>
+              <BugCard.Title url={item.url}>
+                <BugCardContent>
+                  {getFileIcon(item.mime_type.type, iconSize)}
+                  <Ellipsis style={{ width: `calc(100% - ${iconSize * 2}px)` }}>
+                    {/* {item.url} */}
+                    <Span>File Extra {index + 1}</Span>
+                  </Ellipsis>
+                </BugCardContent>
+              </BugCard.Title>
+            </>
           )}
         </StyledBugCard>
       ))}

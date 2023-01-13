@@ -48,13 +48,14 @@ export default ({
           <Accordion.Header>
             <Accordion.Label style={{ padding: 0 }}>
               <LG isBold>{t('__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL')}</LG>
-              <SM
-                style={{
-                  color: globalTheme.palette.grey[700],
-                  marginTop: globalTheme.space.md,
-                  marginBottom: globalTheme.space.md,
-                }}
-              >
+            </Accordion.Label>
+          </Accordion.Header>
+          <Accordion.Panel style={{ padding: 0 }}>
+            <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
+              <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
+                {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_BUG_TIME_LABEL')}
+              </MD>
+              <MD>
                 <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME">
                   Bug founded on{' '}
                   <Span>
@@ -63,11 +64,9 @@ export default ({
                     }}
                   </Span>
                 </Trans>
-              </SM>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: 0 }}>
-            <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
+              </MD>
+            </DetailsItem>
+            <DetailsItem>
               <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
                 {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_USE_CASE_LABEL')}
               </MD>

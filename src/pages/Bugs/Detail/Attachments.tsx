@@ -68,8 +68,8 @@ export default ({
           {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LABEL')}
         </LG>
       </Title>
-      <StyledTabs>
-        {mediaItems.length ? (
+      {mediaItems.length && extraItems.length ? (
+        <StyledTabs>
           <Tabs.Panel
             title={`${t(
               '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_MEDIA_TAB_TITLE'
@@ -77,8 +77,6 @@ export default ({
           >
             <BugMedia items={mediaItems} />
           </Tabs.Panel>
-        ) : null}
-        {extraItems.length ? (
           <Tabs.Panel
             title={`${t(
               '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_TITLE'
@@ -86,8 +84,10 @@ export default ({
           >
             <BugExtra items={extraItems} />
           </Tabs.Panel>
-        ) : null}
-      </StyledTabs>
+        </StyledTabs>
+      ) : (
+        <BugMedia items={mediaItems} />
+      )}
     </Container>
   );
 };

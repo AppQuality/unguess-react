@@ -23,14 +23,22 @@ export default ({ items }: { items: BugMediaType[] }) => {
           marginBottom: globalTheme.space.md,
         }}
       >
-        {imagesCount}{' '}
-        {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
-          count: imagesCount,
-        })}{' '}
-        - {videosCount}{' '}
-        {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_LABEL', {
-          count: videosCount,
-        })}
+        {imagesCount > 0 && (
+          <>
+            {imagesCount}{' '}
+            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
+              count: imagesCount,
+            })}{' '}
+          </>
+        )}
+        {videosCount > 0 && (
+          <>
+            {videosCount}{' '}
+            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_LABEL', {
+              count: videosCount,
+            })}{' '}
+          </>
+        )}
       </SM>
       <Grid>
         <Row>

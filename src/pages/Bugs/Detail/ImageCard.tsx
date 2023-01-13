@@ -9,18 +9,20 @@ const ImageCard = styled.div`
   cursor: pointer;
 `;
 
-const Preview = styled.div`
-  padding: ${({ theme }) => theme.space.md};
+const Preview = styled.div<{
+  url: string;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 150px;
   width: 100%;
-
-  > img {
-    width: 100%;
-    height: auto;
-  }
+  background-image: url(${(props) => props.url});
+  background-color: ${({ theme }) => theme.palette.grey[100]};
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 export default ({ index, url }: { index: number; url: string }) => {
@@ -28,14 +30,7 @@ export default ({ index, url }: { index: number; url: string }) => {
 
   return (
     <ImageCard onClick={() => console.log('> media index', index)}>
-      <Preview>
-        <img
-          src={url}
-          alt={`${t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
-            count: 1,
-          })} ${index}`}
-        />
-      </Preview>
+      <Preview url={url} />
       <MD isBold style={{ textAlign: 'center' }}>
         {index}
       </MD>
