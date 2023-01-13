@@ -39,12 +39,14 @@ export const ReadFilter = () => {
     >
       <Field>
         <Select>
-          {data.read.selected === 'unread' ? t('All') : t('Unread')}
+          {data.read.selected === 'all' ? t('All') : null}
+          {data.read.selected === 'unread' ? t('Unread') : null}
+          {!data.read.selected ? t('Placeholder') : null}
         </Select>
       </Field>
       <Menu>
         {data.read.available.map((item) => (
-          <Item value={item}>{item === 'unread' ? t('All') : t('Unread')}</Item>
+          <Item value={item}>{item === 'unread' ? t('Unread') : t('All')}</Item>
         ))}
       </Menu>
     </Dropdown>
