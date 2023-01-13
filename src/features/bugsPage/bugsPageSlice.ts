@@ -93,6 +93,14 @@ export const getSelectedFiltersIds = () => ({
   search: SearchFilter.getValue(),
 });
 
+export const getSelectedFilters = () => ({
+  types: TypeFilter.getValues(),
+  severities: SeverityFilter.getValues(),
+  read: ReadFilter.getValue(),
+  unique: UniqueFilter.getValue(),
+  search: SearchFilter.getValue(),
+});
+
 export const getSelectedBugId = () => {
   const { currentCampaign, campaigns } = useAppSelector(
     (state) => state.bugsPage

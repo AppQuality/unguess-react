@@ -3,7 +3,7 @@ import { useAppSelector } from 'src/app/hooks';
 export type ReadFilterType = {
   read: {
     available: ('all' | 'unread')[];
-    selected?: 'all' | 'unread';
+    selected?: 'all' | 'unread' | false;
   };
 };
 
@@ -23,7 +23,7 @@ export const ReadFilter = {
   ) => ({
     read: {
       ...ReadFilter.getCurrent(state),
-      ...(read ? { selected: read } : {}),
+      ...(read || read === false ? { selected: read ?? undefined } : {}),
     },
   }),
   getValue: () => {

@@ -27,7 +27,7 @@ export const TypeFilter = {
       ...(types ? { selected: types } : {}),
     },
   }),
-  getIds: () => {
+  getValues: () => {
     const bugsPageSlice = useAppSelector((state) => state.bugsPage);
 
     if (!bugsPageSlice.currentCampaign) return undefined;
@@ -39,14 +39,11 @@ export const TypeFilter = {
       bugsPageSlice.campaigns[bugsPageSlice.currentCampaign];
 
     if (!campaign.types.selected) return undefined;
-    return campaign.types.selected.map((t) => t.id);
+    return campaign.types.selected;
+  },
+  getIds: () => {
+    const values = TypeFilter.getValues();
+    if (!values) return undefined;
+    return values.map((t) => t.id);
   },
 };
-
-export const getCurrentTypesFilter = TypeFilter.getCurrent;
-
-export const setTypesFilter = TypeFilter.setAvailable;
-
-export const filterByTypes = TypeFilter.filter;
-
-export const getSelectedTypesIds = TypeFilter.getIds;

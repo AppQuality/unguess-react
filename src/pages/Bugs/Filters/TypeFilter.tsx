@@ -40,6 +40,7 @@ export const TypeFilter = () => {
         options={data.types.available.map((item) => ({
           id: item.id,
           label: item.name,
+          selected: data.types.selected.map((i) => i.id).includes(item.id),
         }))}
       />
     </div>

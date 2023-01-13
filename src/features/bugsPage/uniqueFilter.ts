@@ -3,7 +3,7 @@ import { useAppSelector } from 'src/app/hooks';
 export type UniqueFilterType = {
   unique: {
     available: ('all' | 'unique')[];
-    selected?: 'all' | 'unique';
+    selected?: 'all' | 'unique' | false;
   };
 };
 
@@ -23,7 +23,7 @@ export const UniqueFilter = {
   ) => ({
     unique: {
       ...UniqueFilter.getCurrent(state),
-      ...(unique ? { selected: unique } : {}),
+      ...(unique || unique === false ? { selected: unique ?? undefined } : {}),
     },
   }),
   getValue: () => {
