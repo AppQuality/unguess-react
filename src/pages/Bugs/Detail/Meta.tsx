@@ -53,7 +53,8 @@ export default ({
     <LG
       isBold
       style={{
-        margin: `${globalTheme.space.base}px 0`,
+        marginTop: globalTheme.space.sm,
+        marginBottom: `${globalTheme.space.base}px`,
       }}
     >
       {bug.title.compact}
@@ -67,12 +68,24 @@ export default ({
       )}
     </MD>
     <BugInfo>
-      <SM style={{ color: globalTheme.palette.grey[600] }}>{bug.type.name}</SM>
+      <SM
+        style={{
+          color: globalTheme.palette.grey[600],
+          textTransform: 'capitalize',
+        }}
+      >
+        {bug.type.name}
+      </SM>
       <Pipe />
-      <IconPill title={bug.device.type} icon={getDeviceIcon(bug.device.type)} />
+      <IconPill
+        title={bug.device.type}
+        icon={getDeviceIcon(bug.device.type)}
+        style={{ textTransform: 'capitalize' }}
+      />
       <IconPill
         title={`${bug.device.os} ${bug.device.os_version}`}
         icon={<OSIcon />}
+        style={{ textTransform: 'capitalize' }}
       />
     </BugInfo>
   </Container>
