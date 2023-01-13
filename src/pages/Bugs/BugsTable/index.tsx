@@ -4,8 +4,7 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { BasicEmptyState } from './emptyStates/BasicEmptyState';
-import { SearchEmptyState } from './emptyStates/SearchEmptyState';
+import { SearchEmptyState } from './SearchEmptyState';
 import { useTableData } from './useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
@@ -13,14 +12,8 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
     useTableData(campaignId);
   const dispatch = useAppDispatch();
   const currentBugId = getSelectedBugId();
-  if (isLoading) return <div>Loading...</div>;
-  if (data.length !== 0) {
-    return filterBy || searchBy ? (
-      <SearchEmptyState searchTerm={searchBy} />
-    ) : (
-      <BasicEmptyState />
-    );
-  }
+  const isSearch = filterBy || searchBy;
+
   return (
     <Table
       columns={columns}
@@ -28,6 +21,9 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
       selectedRow={currentBugId ? currentBugId.toString() : null}
       onRowClick={(bug_id) => dispatch(selectBug({ bug_id }))}
       isSticky
+      isLoading={isLoading}
+      loadingRowHeight="70px"
+      emptyState={isSearch && <SearchEmptyState searchTerm={searchBy} />}
     />
   );
 };

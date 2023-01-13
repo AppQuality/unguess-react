@@ -1,16 +1,11 @@
 import { Button, LG, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
-import { BasicEmptyState } from './BasicEmptyState';
 
-export const SearchEmptyState = ({
-  searchTerm = 'link bellissimi',
-}: {
-  searchTerm?: string;
-}) => {
+export const SearchEmptyState = ({ searchTerm }: { searchTerm?: string }) => {
   const { t } = useTranslation();
   return (
-    <BasicEmptyState>
+    <>
       <LG
         isBold
         style={{ color: theme.palette.blue[600], marginBottom: theme.space.xs }}
@@ -19,7 +14,7 @@ export const SearchEmptyState = ({
           ? `${t(
               '__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_SEARCHTERM',
               "we couldn't fint anything for"
-            )} &quot${searchTerm}&quot`
+            )} "${searchTerm}"`
           : t(
               '__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC',
               "we couldn't fint anything with the selected criteria"
@@ -33,7 +28,14 @@ export const SearchEmptyState = ({
           'Try looking for something different'
         )}
       </MD>
-      <Button>{t('__PAGE_BUG_EMPTY_STATE_CTA', 'Reset')}</Button>
-    </BasicEmptyState>
+      <Button
+        isPrimary
+        isPill
+        themeColor={theme.palette.water[600]}
+        type="reset"
+      >
+        {t('__PAGE_BUG_EMPTY_STATE_CTA', 'Reset')}
+      </Button>
+    </>
   );
 };
