@@ -2,7 +2,6 @@ import {
   Accordion,
   LG,
   MD,
-  SM,
   Span,
   Tag,
 } from '@appquality/unguess-design-system';
@@ -11,7 +10,7 @@ import { Bug, BugAdditionalField } from 'src/features/api';
 import styled from 'styled-components';
 import { format } from 'date-fns';
 import { theme as globalTheme } from 'src/app/theme';
-import { Pill } from 'src/common/components/Pill';
+import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 
 const Container = styled.div`
   display: inline-block;
@@ -76,9 +75,9 @@ export default ({
               <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
                 {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
               </MD>
-              <Tag isPill size="small">
-                {bug.severity.name}
-              </Tag>
+              <SeverityPill
+                severity={bug.severity.name.toLowerCase() as Severities}
+              />
             </DetailsItem>
             <DetailsItem>
               <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
