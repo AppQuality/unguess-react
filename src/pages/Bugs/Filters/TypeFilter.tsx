@@ -20,26 +20,28 @@ export const TypeFilter = () => {
     return null;
 
   return (
-    <CounterMultiselect
-      i18n={{
-        counterText: (count) => t(`Typology ({{count}})`, { count }),
-      }}
-      onChange={(selected) => {
-        dispatch(
-          updateFilters({
-            filters: {
-              types: selected.map((item) => ({
-                id: item.id,
-                name: item.label,
-              })),
-            },
-          })
-        );
-      }}
-      options={data.types.available.map((item) => ({
-        id: item.id,
-        label: item.name,
-      }))}
-    />
+    <div style={{ width: '165px' }}>
+      <CounterMultiselect
+        i18n={{
+          counterText: (count) => t(`Typology ({{count}})`, { count }),
+        }}
+        onChange={(selected) => {
+          dispatch(
+            updateFilters({
+              filters: {
+                types: selected.map((item) => ({
+                  id: item.id,
+                  name: item.label,
+                })),
+              },
+            })
+          );
+        }}
+        options={data.types.available.map((item) => ({
+          id: item.id,
+          label: item.name,
+        }))}
+      />
+    </div>
   );
 };

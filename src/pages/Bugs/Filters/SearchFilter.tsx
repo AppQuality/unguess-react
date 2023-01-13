@@ -15,20 +15,22 @@ export const SearchFilter = () => {
   if (!data) return null;
 
   return (
-    <MediaInput
-      key="search-input"
-      onChange={(e) =>
-        dispatch(
-          updateFilters({
-            filters: {
-              search: e.target.value !== '' ? e.target.value : undefined,
-            },
-          })
-        )
-      }
-      start={<SearchIcon />}
-      value={data.search || ''}
-      placeholder={t('__DASHBOARD_SEARCH_INPUT_PLACEHOLDER')}
-    />
+    <div style={{ maxWidth: '180px' }}>
+      <MediaInput
+        key="search-input"
+        onChange={(e) =>
+          dispatch(
+            updateFilters({
+              filters: {
+                search: e.target.value !== '' ? e.target.value : undefined,
+              },
+            })
+          )
+        }
+        start={<SearchIcon />}
+        value={data.search || ''}
+        placeholder={t('__BUGS_SEARCH_INPUT_PLACEHOLDER')}
+      />
+    </div>
   );
 };
