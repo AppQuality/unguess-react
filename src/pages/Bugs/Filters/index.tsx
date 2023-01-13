@@ -1,15 +1,15 @@
-import { useAppSelector } from 'src/app/hooks';
 import { TypeFilter } from './TypeFilter';
 import { SeverityFilter } from './SeverityFilter';
 import { ReadFilter } from './ReadFilter';
 import { UniqueFilter } from './UniqueFilter';
+import { SearchFilter } from './SearchFilter';
 
 const BugsFilters = () => {
-  const data = useAppSelector((state) => state.bugsPage);
+  const data = null;
 
   return (
     <>
-      {JSON.stringify(data)}
+      <SearchFilter />
       <UniqueFilter />
       <ReadFilter />
       <TypeFilter />

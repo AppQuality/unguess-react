@@ -4,13 +4,15 @@ import { TypeFilterType, TypeFilter } from './typeFilters';
 import { SeverityFilter, SeverityFilterType } from './severityFilters';
 import { ReadFilter, ReadFilterType } from './readFilter';
 import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
+import { SearchFilter, SearchFilterType } from './searchFilter';
 
 type CampaignType = {
   selectedBugId?: number;
 } & TypeFilterType &
   SeverityFilterType &
   ReadFilterType &
-  UniqueFilterType;
+  UniqueFilterType &
+  SearchFilterType;
 
 interface initialSimpleState {
   currentCampaign?: number;
@@ -41,6 +43,7 @@ const bugPageSlice = createSlice({
           ),
           ...ReadFilter.setAvailable(state.campaigns[cp_id as number]),
           ...UniqueFilter.setAvailable(state.campaigns[cp_id as number]),
+          ...SearchFilter.setAvailable(state.campaigns[cp_id as number]),
         };
       }
       state.currentCampaign = cp_id;
@@ -71,6 +74,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.unique
         ),
+        ...SearchFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.search
+        ),
       };
     },
   },
@@ -83,6 +90,7 @@ export const getSelectedFiltersIds = () => ({
   severities: SeverityFilter.getIds(),
   read: ReadFilter.getValue(),
   unique: UniqueFilter.getValue(),
+  search: SearchFilter.getValue(),
 });
 
 export const getSelectedBugId = () => {

@@ -50,6 +50,7 @@ export const useTableData = (campaignId: number) => {
         ? { is_duplicated: '0' }
         : {}),
     },
+    ...(filterBy?.search ? { search: filterBy.search } : {}),
   });
 
   const mapBugsToTableData = useMemo<TableDatum[]>(() => {
