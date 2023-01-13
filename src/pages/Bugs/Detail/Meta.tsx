@@ -1,4 +1,4 @@
-import { LG, MD, Span } from '@appquality/unguess-design-system';
+import { LG, MD, SM } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
 import { IconPill } from 'src/common/components/pills/IconPill';
+import { Pipe } from 'src/common/components/Pipe';
 
 const Container = styled.div`
   display: inline-block;
@@ -22,14 +23,6 @@ const BugInfo = styled.div`
   flex-wrap: wrap;
   margin-top: ${({ theme }) => theme.space.sm};
   margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
-const Divider = styled.div`
-  display: inline-block;
-  width: 1px;
-  height: ${({ theme }) => theme.space.md};
-  background-color: ${({ theme }) => theme.palette.grey[300]};
-  margin-right: ${({ theme }) => theme.space.sm};
 `;
 
 function getDeviceIcon(device: string) {
@@ -56,7 +49,6 @@ export default ({
   };
 }) => (
   <Container>
-    {/* TODO: Replace this Tag with new severity pill component */}
     <SeverityPill severity={bug.severity.name.toLowerCase() as Severities} />
     <LG
       isBold
@@ -75,13 +67,9 @@ export default ({
       )}
     </MD>
     <BugInfo>
-      <Span>{bug.type.name}</Span>
-      {/* TODO: Replace this Divider with common divider component */}
-      <Divider />
-      <IconPill
-        title={bug.device.type}
-        icon={getDeviceIcon(bug.device.type)}
-      />{' '}
+      <SM style={{ color: globalTheme.palette.grey[600] }}>{bug.type.name}</SM>
+      <Pipe />
+      <IconPill title={bug.device.type} icon={getDeviceIcon(bug.device.type)} />
       <IconPill
         title={`${bug.device.os} ${bug.device.os_version}`}
         icon={<OSIcon />}
