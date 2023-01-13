@@ -34,10 +34,10 @@ export default ({ items }: { items: BugMediaType[] }) => {
   // Create an array with keys with types and values with counts
   const counts = items.reduce((acc, item) => {
     const { extension } = item.mime_type;
-    if (acc[extension]) {
-      acc[extension] += 1;
+    if (acc[extension as string]) {
+      acc[extension as string] += 1;
     } else {
-      acc[extension] = 1;
+      acc[extension as string] = 1;
     }
     return acc;
   }, {} as { [key: string]: number });
@@ -53,7 +53,7 @@ export default ({ items }: { items: BugMediaType[] }) => {
         {Object.keys(counts).map((type, index) => (
           <span key={type}>
             {Object.keys(counts).length - 1 !== index && ' - '}
-            {counts[type]} {type}
+            {counts[type as string]} {type}
           </span>
         ))}
       </SM>
@@ -74,7 +74,12 @@ export default ({ items }: { items: BugMediaType[] }) => {
                   {getFileIcon(item.mime_type.type, iconSize)}
                   <Ellipsis style={{ width: `calc(100% - ${iconSize * 2}px)` }}>
                     {/* {item.url} */}
-                    <Span>File Extra {index + 1}</Span>
+                    <Span>
+                      {t(
+                        '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_ITEM_LABEL'
+                      )}{' '}
+                      {index + 1}
+                    </Span>
                   </Ellipsis>
                 </BugCardContent>
               </BugCard.Title>
