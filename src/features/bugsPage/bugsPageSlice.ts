@@ -3,12 +3,14 @@ import { useAppSelector } from 'src/app/hooks';
 import { TypeFilterType, TypeFilter } from './typeFilters';
 import { SeverityFilter, SeverityFilterType } from './severityFilters';
 import { ReadFilter, ReadFilterType } from './readFilter';
+import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 
 type CampaignType = {
   selectedBugId?: number;
 } & TypeFilterType &
   SeverityFilterType &
-  ReadFilterType;
+  ReadFilterType &
+  UniqueFilterType;
 
 interface initialSimpleState {
   currentCampaign?: number;
@@ -38,6 +40,7 @@ const bugPageSlice = createSlice({
             filters.severities
           ),
           ...ReadFilter.setAvailable(state.campaigns[cp_id as number]),
+          ...UniqueFilter.setAvailable(state.campaigns[cp_id as number]),
         };
       }
       state.currentCampaign = cp_id;
@@ -64,6 +67,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.read
         ),
+        ...UniqueFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.unique
+        ),
       };
     },
   },
@@ -75,6 +82,7 @@ export const getSelectedFiltersIds = () => ({
   types: TypeFilter.getIds(),
   severities: SeverityFilter.getIds(),
   read: ReadFilter.getValue(),
+  unique: UniqueFilter.getValue(),
 });
 
 export const getSelectedBugId = () => {

@@ -46,6 +46,9 @@ export const useTableData = (campaignId: number) => {
       ...(filterBy?.read && filterBy.read === 'unread'
         ? { read: 'false' }
         : {}),
+      ...(filterBy?.unique && filterBy.unique === 'unique'
+        ? { is_duplicated: '0' }
+        : {}),
     },
   });
 
