@@ -15,7 +15,13 @@ const ToolsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Tools = ({ campaignId }: { campaignId: number }) => {
+export const Tools = ({
+  campaignId,
+  customerTitle,
+}: {
+  campaignId: number;
+  customerTitle: string;
+}) => {
   const { isLoading, status, severities } = useCampaign(campaignId);
 
   if (isLoading || !status || !severities)
@@ -37,7 +43,7 @@ export const Tools = ({ campaignId }: { campaignId: number }) => {
       </div>
       <Pipe />
       <StatusPill status={status.name} />
-      <DotsMenu />
+      <DotsMenu campaignId={campaignId} customerTitle={customerTitle} />
     </ToolsWrapper>
   );
 };

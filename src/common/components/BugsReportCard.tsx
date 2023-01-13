@@ -3,7 +3,7 @@ import { theme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ExcelIcon } from 'src/assets/icons/file-icon-excel.svg';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
-import queryString from 'query-string';
+import WPAPI from 'src/common/wpapi';
 
 export const BugsReportCard = ({
   campaignId,
@@ -13,34 +13,6 @@ export const BugsReportCard = ({
   title: string;
 }) => {
   const { t } = useTranslation();
-  const getReport = () => {
-    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
-      body: queryString.stringify({
-        action: 'bugs_excel',
-        project: campaignId,
-        type: 'campaign',
-        title,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          window.location.href = `${process.env.REACT_APP_CROWD_WP_URL}/wp-content/themes/unguess/report/temp/${data.file}`;
-        } else {
-          // eslint-disable-next-line no-console
-          console.error(data);
-        }
-      })
-      .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error('error', error);
-      });
-  };
 
   return (
     <SpecialCard>
@@ -67,7 +39,7 @@ export const BugsReportCard = ({
           className="report-btn report-btn-download report-btn-bugs-report"
           isPill
           isStretched
-          onClick={getReport}
+          onClick={() => WPAPI.getReport({ campaignId, title })}
         >
           <Button.StartIcon>
             <DownloadIcon />
