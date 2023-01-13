@@ -37,7 +37,7 @@ const StyledPill = styled(Pill)`
 
 function getDeviceIcon(device: string) {
   switch (device) {
-    case 'mobile':
+    case 'smartphone':
       return <SmartphoneIcon />;
     case 'tablet':
       return <TabletIcon />;
