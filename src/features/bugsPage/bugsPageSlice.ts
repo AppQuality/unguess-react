@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { useAppSelector } from 'src/app/hooks';
 import { TypeFilterType, TypeFilter } from './typeFilters';
-import { SeverityFilter, SeverityFilterType } from './severityFilters';
+import { SeverityFilter, SeverityFilterType } from './severityFilter';
 import { ReadFilter, ReadFilterType } from './readFilter';
 import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
