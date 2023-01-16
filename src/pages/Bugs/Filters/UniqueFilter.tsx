@@ -39,16 +39,10 @@ export const UniqueFilter = () => {
       }}
     >
       <Field>
-        <Select isPrimary={!!data.unique.selected}>
-          {data.unique.selected === 'all'
-            ? t('__BUGS_UNIQUE_FILTER_ITEM_ALL')
-            : null}
+        <Select isPrimary={data.unique.selected === 'unique'}>
           {data.unique.selected === 'unique'
             ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
-            : null}
-          {!data.unique.selected
-            ? t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')
-            : null}
+            : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
         </Select>
       </Field>
       <Menu>
