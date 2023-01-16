@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
-import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { selectCampaign } from 'src/features/bugsPage/bugsPageSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { BugsPageContent, BugsPageContentLoader } from './Content';
 import { BugsPageHeader, BugsPageHeaderLoader } from './PageHeader';
+import { useCampaign } from './useCampaign';
 
 const Bugs = () => {
   const { campaignId } = useParams();
@@ -20,33 +20,20 @@ const Bugs = () => {
     navigate(notFoundRoute);
   }
 
-  const {
-    isLoading: isLoadingCampaign,
-    isFetching: isFetchingCampaign,
-    isError: isErrorCampaign,
-    data: campaign,
-  } = useGetCampaignsByCidQuery({
-    cid: campaignId?.toString() ?? '0',
-  });
+  const { isLoading, isError, campaign } = useCampaign(Number(campaignId));
 
   useEffect(() => {
     if (campaign) {
       dispatch(
         selectCampaign({
-          cp_id: campaign.id,
-          filters: {
-            types: [
-              { id: 1, name: 'Crash' },
-              { id: 2, name: 'Malfunction' },
-              { id: 3, name: 'Typo' },
-            ],
-          },
+          cp_id: campaign.cp_id,
+          filters: campaign.filters,
         })
       );
     }
   }, [campaign]);
 
-  if (isErrorCampaign) {
+  if (isError) {
     navigate(notFoundRoute);
   }
 
@@ -54,18 +41,18 @@ const Bugs = () => {
     <Page
       title={t('__BUGS_PAGE_TITLE')}
       pageHeader={
-        isLoadingCampaign || isFetchingCampaign ? (
+        isLoading ? (
           <BugsPageHeaderLoader />
         ) : (
-          campaign && <BugsPageHeader campaignId={campaign.id} />
+          campaign && <BugsPageHeader campaignId={campaign.cp_id} />
         )
       }
       route="bugs"
     >
-      {isLoadingCampaign || isFetchingCampaign ? (
+      {isLoading ? (
         <BugsPageContentLoader />
       ) : (
-        <BugsPageContent campaignId={campaign?.id || 0} />
+        <BugsPageContent campaignId={campaign?.cp_id || 0} />
       )}
     </Page>
   );

@@ -43,7 +43,14 @@ export const useTableData = (campaignId: number) => {
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
+      ...(filterBy?.read && filterBy.read === 'unread'
+        ? { read: 'false' }
+        : {}),
+      ...(filterBy?.unique && filterBy.unique === 'unique'
+        ? { is_duplicated: '0' }
+        : {}),
     },
+    ...(filterBy?.search ? { search: filterBy.search } : {}),
   });
 
   const mapBugsToTableData = useMemo<TableDatum[]>(() => {
