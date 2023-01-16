@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { selectCampaign } from 'src/features/bugsPage/bugsPageSlice';
 import { Page } from 'src/features/templates/Page';
-import { campaignHasBugs } from 'src/hooks/campaignHasBugs';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { BugsPageContent, BugsPageContentLoader } from './Content';
 import { BugsPageHeader, BugsPageHeaderLoader } from './PageHeader';
@@ -39,7 +38,11 @@ const Bugs = () => {
   }
 
   // Check if the campaign has bugs
-  if (campaign && !campaignHasBugs(campaign)) {
+  if (
+    !isLoading &&
+    campaign &&
+    (!campaign.outputs?.length || !campaign.outputs.includes('bugs'))
+  ) {
     navigate(notFoundRoute);
   }
 

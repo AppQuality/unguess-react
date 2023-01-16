@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  Output,
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidSeveritiesQuery,
@@ -14,6 +15,7 @@ export const useCampaign = (cid: number) => {
       types?: TypeFilterType['types']['available'];
       severities?: SeverityFilterType['severities']['available'];
     };
+    outputs?: Output[];
   }>();
   const {
     isLoading: isLoadingCampaign,
@@ -39,6 +41,7 @@ export const useCampaign = (cid: number) => {
           types: campaignTypes,
           severities: campaignSeverities,
         },
+        outputs: campaign.outputs,
       });
     }
   }, [campaign, campaignTypes, campaignSeverities]);
