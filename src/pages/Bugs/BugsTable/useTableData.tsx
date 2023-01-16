@@ -53,6 +53,9 @@ export const useTableData = (campaignId: number) => {
         : {}),
     },
     ...(filterBy?.search ? { search: filterBy.search } : {}),
+
+    orderBy: 'severity_id',
+    order: 'DESC',
   });
 
   const mapBugsToTableData = useMemo<TableDatum[]>(() => {
