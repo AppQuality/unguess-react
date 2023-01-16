@@ -13,11 +13,11 @@ export const SearchEmptyState = ({ searchTerm }: { searchTerm?: string }) => {
         {searchTerm
           ? `${t(
               '__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_SEARCHTERM',
-              "we couldn't fint anything for"
+              "we couldn't find anything for"
             )} "${searchTerm}"`
           : t(
               '__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC',
-              "we couldn't fint anything with the selected criteria"
+              "we couldn't find anything with the selected criteria"
             )}
       </LG>
       <MD

@@ -86,7 +86,7 @@ const Table = <T extends TableData, K extends keyof T>({
         />
       ) : (
         <Body>
-          {!data ? (
+          {!data || !data.length ? (
             <EmptyState colCount={columns.length}>{emptyState}</EmptyState>
           ) : (
             data.map((row) => (
