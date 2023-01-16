@@ -37,7 +37,7 @@ const BugsDetail = ({ campaignId }: { campaignId: number }) => {
     <DetailContainer>
       <BugHeader bug={bug} />
       <BugMeta bug={bug} />
-      <BugTags bug={bug} />
+      <BugTags bug={bug} campaignId={campaignId} />
       <BugDescription bug={bug} />
       {media && media.length ? <BugAttachments bug={bug} /> : null}
       <BugDetails bug={bug} />
