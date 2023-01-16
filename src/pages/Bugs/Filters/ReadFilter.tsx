@@ -39,14 +39,24 @@ export const ReadFilter = () => {
     >
       <Field>
         <Select isPrimary={!!data.read.selected}>
-          {data.read.selected === 'all' ? t('All') : null}
-          {data.read.selected === 'unread' ? t('Unread') : null}
-          {!data.read.selected ? t('Placeholder') : null}
+          {data.read.selected === 'all'
+            ? t('__BUGS_READ_FILTER_ITEM_ALL')
+            : null}
+          {data.read.selected === 'unread'
+            ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
+            : null}
+          {!data.read.selected
+            ? t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')
+            : null}
         </Select>
       </Field>
       <Menu>
         {data.read.available.map((item) => (
-          <Item value={item}>{item === 'unread' ? t('Unread') : t('All')}</Item>
+          <Item value={item}>
+            {item === 'unread'
+              ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
+              : t('__BUGS_READ_FILTER_ITEM_ALL')}
+          </Item>
         ))}
       </Menu>
     </Dropdown>

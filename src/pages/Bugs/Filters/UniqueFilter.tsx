@@ -39,14 +39,24 @@ export const UniqueFilter = () => {
     >
       <Field>
         <Select isPrimary={!!data.unique.selected}>
-          {data.unique.selected === 'all' ? t('All') : null}
-          {data.unique.selected === 'unique' ? t('Unique') : null}
-          {!data.unique.selected ? t('Placeholder') : null}
+          {data.unique.selected === 'all'
+            ? t('__BUGS_UNIQUE_FILTER_ITEM_ALL')
+            : null}
+          {data.unique.selected === 'unique'
+            ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+            : null}
+          {!data.unique.selected
+            ? t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')
+            : null}
         </Select>
       </Field>
       <Menu>
         {data.unique.available.map((item) => (
-          <Item value={item}>{item === 'unique' ? t('Unique') : t('All')}</Item>
+          <Item value={item}>
+            {item === 'unique'
+              ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+              : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')}
+          </Item>
         ))}
       </Menu>
     </Dropdown>
