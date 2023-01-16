@@ -23,7 +23,7 @@
   "__BUG_SEVERITY_HIGH": "alti",
   "__BUG_SEVERITY_LOW": "bassi",
   "__BUG_SEVERITY_MEDIUM": "medi",
-  "__BUGS_PAGE_HEADER_UNIQUE_BUGS_ON_TOTAL": "<0><0>{{numerator}} </0><1>unique bugs</1><2>/{{denominator}} tot.</2><3> of which</3></0>",
+  "__BUGS_PAGE_HEADER_UNIQUE_BUGS_ON_TOTAL": "<0><0>{{numerator}} </0><1>bug unici</1><2>/{{denominator}} tot.</2><3> di cui</3></0>",
   "__BUGS_PAGE_TITLE": "Lista Bug",
   "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Senza Titolo",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG": "Vai alla lista bug",
