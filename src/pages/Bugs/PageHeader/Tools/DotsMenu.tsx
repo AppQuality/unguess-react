@@ -16,6 +16,7 @@ import WPAPI from 'src/common/wpapi';
 export const DotsMenu = ({
   campaignId,
   customerTitle,
+  ...props
 }: {
   campaignId: number;
   customerTitle: string;
@@ -34,22 +35,20 @@ export const DotsMenu = ({
       onStateChange={(options) => Object.hasOwn(options, 'isOpen')}
     >
       <Trigger>
-        <IconButton
-          style={{
-            color: theme.palette.grey['600'],
-            marginLeft: theme.space.sm,
-          }}
-          onClick={() => {}}
-        >
-          <DotsmenuIcon style={{ height: '40px', width: '40px' }} />
+        <IconButton {...props}>
+          <DotsmenuIcon
+            style={{
+              height: `${theme.space.base * 10}px`,
+              width: `${theme.space.base * 10}px`,
+            }}
+          />
         </IconButton>
       </Trigger>
       <Menu placement="bottom-end">
         <Item value="download-report">
           <ArrowDowloadIcon
             style={{
-              height: '20px',
-              width: '16px',
+              width: `${theme.space.base * 4}px`,
               marginRight: `${theme.space.base * 3}px`,
             }}
           />

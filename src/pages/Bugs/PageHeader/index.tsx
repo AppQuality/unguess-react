@@ -1,14 +1,34 @@
-import { Anchor, PageHeader, XXXL } from '@appquality/unguess-design-system';
+import { Anchor, PageHeader, Span } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import { HeaderSkeleton } from 'src/pages/Campaign/pageHeader/HeaderSkeleton';
 import { Tools } from 'src/pages/Bugs/PageHeader/Tools';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 import BugsPageHeaderLoader from './PageHeaderLoader';
-import { FlexWrapper } from './FlexWrapper';
 
-const HeaderItemWrapper = styled.div``;
+const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+`;
+
+const StyledTitle = styled(PageHeader.Title)`
+  width: auto;
+  white-space: nowrap;
+  margin-right: ${({ theme }) => theme.space.md};
+  font-size: ${({ theme }) => theme.fontSizes.xxxl};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: ${({ theme }) => theme.fontSizes.xxl};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    order: 1;
+  }
+`;
 
 const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
   const navigate = useNavigate();
@@ -28,19 +48,15 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
         </Anchor>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
-        <PageHeader.Title>
-          <FlexWrapper>
-            <HeaderItemWrapper>
-              <XXXL isBold>{t('__PAGE_TITLE_BUGS_COLLECTION')}</XXXL>
-            </HeaderItemWrapper>
-            <HeaderItemWrapper>
-              <Tools
-                campaignId={campaignId}
-                customerTitle={campaign.customer_title}
-              />
-            </HeaderItemWrapper>
-          </FlexWrapper>
-        </PageHeader.Title>
+        <FlexWrapper>
+          <StyledTitle>
+            <Span isBold>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Span>
+          </StyledTitle>
+          <Tools
+            campaignId={campaignId}
+            customerTitle={campaign.customer_title}
+          />
+        </FlexWrapper>
       </PageHeader.Main>
     </PageHeader>
   );
