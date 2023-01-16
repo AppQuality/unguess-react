@@ -66,7 +66,7 @@ const Table = <T extends TableData, K extends keyof T>({
   emptyState,
 }: TableProps<T, K>) => {
   if (!data || !data.length) {
-    return emptyState;
+    return emptyState || null;
   }
   return (
     <TableWrapper maxHeight={maxHeight}>
