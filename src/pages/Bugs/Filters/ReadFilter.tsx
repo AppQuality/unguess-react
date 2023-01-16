@@ -39,9 +39,7 @@ export const ReadFilter = () => {
       }}
     >
       <Field>
-        <Select
-          isPrimary={!!data.read.selected && data.read.selected !== 'all'}
-        >
+        <Select isPrimary={data.read.selected === 'unread'}>
           {data.read.selected === 'unread'
             ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
             : t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')}
