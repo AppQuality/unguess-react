@@ -22,10 +22,10 @@ const Preview = styled.div<{
 `;
 
 export default ({ index, url }: { index: number; url: string }) => (
-  <ImageCard onClick={() => console.log('> media index', index)}>
+  <ImageCard>
     <Preview url={url} />
     <MD isBold style={{ textAlign: 'center' }}>
-      {index}
+      {index + 1}
     </MD>
   </ImageCard>
 );

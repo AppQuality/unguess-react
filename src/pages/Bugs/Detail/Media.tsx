@@ -47,13 +47,13 @@ export default ({ items }: { items: BugMediaType[] }) => {
             if (item.mime_type.type === 'image')
               return (
                 <Col xs={12} sm={6}>
-                  <ImageCard index={index + 1} url={item.url} />
+                  <ImageCard index={index} url={item.url} />
                 </Col>
               );
             if (item.mime_type.type === 'video')
               return (
                 <Col xs={12} sm={6}>
-                  <VideoCard index={index + 1} url={item.url} />
+                  <VideoCard index={index} url={item.url} />
                 </Col>
               );
             return null;

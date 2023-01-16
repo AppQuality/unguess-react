@@ -47,19 +47,19 @@ export default ({ index, url }: { index: number; url: string }) => {
   const { t } = useTranslation();
 
   return (
-    <VideoCard onClick={() => console.log('> media index', index)}>
+    <VideoCard>
       <Preview>
         <video
           src={url}
           title={`${t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_LABEL', {
             count: 1,
-          })} ${index}`}
+          })} ${index + 1}`}
         >
           <track kind="captions" />
         </video>
       </Preview>
       <MD isBold style={{ textAlign: 'center' }}>
-        {index}
+        {index + 1}
       </MD>
       <VideoPlayIcon />
     </VideoCard>

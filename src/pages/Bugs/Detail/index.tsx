@@ -33,8 +33,6 @@ const BugsDetail = ({ campaignId }: { campaignId: number }) => {
 
   const { media } = bug;
 
-  console.log('>>> bug', bug);
-
   return (
     <DetailContainer>
       <BugHeader bug={bug} />
