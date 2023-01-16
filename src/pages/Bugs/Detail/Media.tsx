@@ -152,7 +152,6 @@ export default ({
             </Lightbox.Body.Main>
             <Lightbox.Body.Details>
               <BugMeta bug={bug} />
-              <BugTags bug={bug} />
               <BugDescription bug={bug} />
               <BugDetails bug={bug} />
             </Lightbox.Body.Details>
