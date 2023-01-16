@@ -78,6 +78,16 @@ const bugPageSlice = createSlice({
         ),
       };
     },
+    resetFilters: (state) => {
+      if (!state.currentCampaign) return;
+      state.campaigns[state.currentCampaign] = {
+        ...TypeFilter.reset(state.campaigns[state.currentCampaign]),
+        ...SeverityFilter.reset(state.campaigns[state.currentCampaign]),
+        ...ReadFilter.reset(state.campaigns[state.currentCampaign]),
+        ...UniqueFilter.reset(state.campaigns[state.currentCampaign]),
+        ...SearchFilter.reset(),
+      };
+    },
   },
 });
 
@@ -121,5 +131,5 @@ export const getCurrentCampaignData = () => {
   return campaign;
 };
 
-export const { selectCampaign, updateFilters, selectBug } =
+export const { selectCampaign, updateFilters, selectBug, resetFilters } =
   bugPageSlice.actions;

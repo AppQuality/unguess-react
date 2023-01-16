@@ -8,6 +8,12 @@ export type ReadFilterType = {
 };
 
 export const ReadFilter = {
+  reset: (state: ReadFilterType) => ({
+    read: {
+      ...ReadFilter.getCurrent(state),
+      selected: undefined,
+    },
+  }),
   getCurrent: (state?: ReadFilterType) => ({
     available: state
       ? state.read.available

@@ -8,6 +8,12 @@ export type SeverityFilterType = {
 };
 
 export const SeverityFilter = {
+  reset: (state: SeverityFilterType) => ({
+    severities: {
+      ...SeverityFilter.getCurrent(state),
+      selected: [],
+    },
+  }),
   getCurrent: (state?: SeverityFilterType) => ({
     available: state ? state.severities.available : [],
     selected: state ? state.severities.selected : [],

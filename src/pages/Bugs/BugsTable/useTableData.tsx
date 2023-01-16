@@ -19,12 +19,12 @@ const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
   {
     key: 'severity',
     header: 'Severity',
-    width: '85px',
+    width: '90px',
   },
   {
     key: 'bugId',
     header: 'Bug ID',
-    width: '80px',
+    width: '90px',
   },
 ];
 
@@ -32,6 +32,7 @@ export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
 
   const filterBy = getSelectedFiltersIds();
+
   const {
     isLoading,
     isFetching,
@@ -51,6 +52,9 @@ export const useTableData = (campaignId: number) => {
         : {}),
     },
     ...(filterBy?.search ? { search: filterBy.search } : {}),
+
+    orderBy: 'severity_id',
+    order: 'DESC',
   });
 
   const mapBugsToTableData = useMemo<TableDatum[]>(() => {
@@ -93,11 +97,17 @@ export const useTableData = (campaignId: number) => {
       isHighlighted: !bug.read,
       created: bug.created,
       updated: bug.updated,
-      borderColor: theme.colors.bySeverity[bug.severity.name as Severities],
+      borderColor:
+        theme.colors.bySeverity[bug.severity.name.toLowerCase() as Severities],
     }));
   }, [bugs]);
 
   if (isLoading || isFetching || !bugs || !bugs.items)
     return { columns, data: [], isLoading: true };
-  return { columns, data: mapBugsToTableData, isLoading: false };
+  return {
+    columns,
+    data: mapBugsToTableData,
+    isLoading: false,
+    filterBy,
+  };
 };

@@ -11,6 +11,8 @@ import styled from 'styled-components';
 import { SM } from '@appquality/unguess-design-system';
 import { theme as appTheme } from 'src/app/theme';
 import { TableRow } from './TableRow';
+import { LoadingState } from './LoadingState';
+import { EmptyState } from './EmptyState';
 
 interface TableData {
   id: string;
@@ -29,6 +31,10 @@ type TableProps<T extends TableData, K extends keyof T> = {
   selectedRow?: string | null;
   isSticky?: boolean;
   maxHeight?: string;
+  isLoading?: boolean;
+  loadingRowHeight?: string;
+  loadingRowCount?: number;
+  emptyState?: ReactNode;
 };
 
 const TableWrapper = styled.div<{ maxHeight?: string }>`
@@ -54,6 +60,10 @@ const Table = <T extends TableData, K extends keyof T>({
   onRowClick,
   isSticky,
   maxHeight,
+  isLoading,
+  loadingRowHeight,
+  loadingRowCount,
+  emptyState,
 }: TableProps<T, K>) => (
   <TableWrapper maxHeight={maxHeight}>
     <ZendeskTable>
@@ -68,21 +78,33 @@ const Table = <T extends TableData, K extends keyof T>({
           ))}
         </HeaderRow>
       </StyledHead>
-      <Body>
-        {data.map((row) => (
-          <TableRow
-            id={row.id}
-            onClick={onRowClick}
-            isSelected={row.id === selectedRow}
-            isHighlighted={row.isHighlighted}
-            borderColor={row.borderColor}
-          >
-            {columns.map((column) => (
-              <Cell>{row[column.key]}</Cell>
-            ))}
-          </TableRow>
-        ))}
-      </Body>
+      {isLoading ? (
+        <LoadingState
+          colCount={columns.length}
+          rowCount={loadingRowCount}
+          rowHeight={loadingRowHeight}
+        />
+      ) : (
+        <Body>
+          {!data || !data.length ? (
+            <EmptyState colCount={columns.length}>{emptyState}</EmptyState>
+          ) : (
+            data.map((row) => (
+              <TableRow
+                id={row.id}
+                onClick={onRowClick}
+                isSelected={row.id === selectedRow}
+                isHighlighted={row.isHighlighted}
+                borderColor={row.borderColor}
+              >
+                {columns.map((column) => (
+                  <Cell>{row[column.key]}</Cell>
+                ))}
+              </TableRow>
+            ))
+          )}
+        </Body>
+      )}
     </ZendeskTable>
   </TableWrapper>
 );

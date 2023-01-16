@@ -8,6 +8,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as XIcon } from 'src/assets/icons/close-icon.svg';
+import useDebounce from 'src/hooks/useDebounce';
+import { useEffect, useState } from 'react';
 
 const ClickableXIcon = styled(XIcon)`
   cursor: pointer;
@@ -16,7 +18,25 @@ const ClickableXIcon = styled(XIcon)`
 export const SearchFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
+  const search = data && data?.search ? data.search : '';
+  const [searchInput, setSearchInput] = useState<string>(search);
   const { t } = useTranslation();
+
+  const searchValue = useDebounce<string>(searchInput || '', 300);
+
+  useEffect(() => {
+    setSearchInput(search);
+  }, [search]);
+
+  useEffect(() => {
+    dispatch(
+      updateFilters({
+        filters: {
+          search: searchValue,
+        },
+      })
+    );
+  }, [searchValue]);
 
   if (!data) return null;
 
@@ -25,31 +45,13 @@ export const SearchFilter = () => {
       <MediaInput
         end={
           data.search ? (
-            <ClickableXIcon
-              onClick={() => {
-                dispatch(
-                  updateFilters({
-                    filters: {
-                      search: undefined,
-                    },
-                  })
-                );
-              }}
-            />
+            <ClickableXIcon onClick={() => setSearchInput('')} />
           ) : undefined
         }
         key="search-input"
-        onChange={(e) =>
-          dispatch(
-            updateFilters({
-              filters: {
-                search: e.target.value !== '' ? e.target.value : undefined,
-              },
-            })
-          )
-        }
+        onChange={(e) => setSearchInput(e.target.value)}
         start={<SearchIcon />}
-        value={data.search || ''}
+        value={searchInput}
         placeholder={t('__BUGS_SEARCH_INPUT_PLACEHOLDER')}
       />
     </div>

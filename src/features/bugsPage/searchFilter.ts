@@ -5,12 +5,15 @@ export type SearchFilterType = {
 };
 
 export const SearchFilter = {
+  reset: () => ({
+    search: '',
+  }),
   getCurrent: (state?: SearchFilterType) => state?.search,
   setAvailable: (state: SearchFilterType) => ({
     search: SearchFilter.getCurrent(state),
   }),
   filter: (state: SearchFilterType, search?: SearchFilterType['search']) => ({
-    search,
+    search: typeof search === 'undefined' ? state.search : search,
   }),
   getValue: () => {
     const bugsPageSlice = useAppSelector((state) => state.bugsPage);
