@@ -21,6 +21,8 @@ const StyledAvatar = styled(StyledTag.Avatar)`
 const PillContainer = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.sm};
   margin-right: ${({ theme }) => theme.space.xs};
+  display: flex;
+  align-items: center;
 `;
 interface PillProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
