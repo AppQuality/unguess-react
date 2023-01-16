@@ -8,6 +8,12 @@ export type UniqueFilterType = {
 };
 
 export const UniqueFilter = {
+  reset: (state: UniqueFilterType) => ({
+    unique: {
+      ...UniqueFilter.getCurrent(state),
+      selected: 'unique' as const,
+    },
+  }),
   getCurrent: (state?: UniqueFilterType) => ({
     available: state
       ? state.unique.available

@@ -1,8 +1,11 @@
 import { Button, LG, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
 import { theme } from 'src/app/theme';
+import { resetFilters } from 'src/features/bugsPage/bugsPageSlice';
 
 export const SearchEmptyState = ({ searchTerm }: { searchTerm?: string }) => {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   return (
     <>
@@ -33,6 +36,9 @@ export const SearchEmptyState = ({ searchTerm }: { searchTerm?: string }) => {
         isPill
         themeColor={theme.palette.water[600]}
         type="reset"
+        onClick={() => {
+          dispatch(resetFilters());
+        }}
       >
         {t('__PAGE_BUG_EMPTY_STATE_CTA', 'Reset')}
       </Button>

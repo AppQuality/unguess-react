@@ -5,6 +5,9 @@ export type SearchFilterType = {
 };
 
 export const SearchFilter = {
+  reset: () => ({
+    search: '',
+  }),
   getCurrent: (state?: SearchFilterType) => state?.search,
   setAvailable: (state: SearchFilterType) => ({
     search: SearchFilter.getCurrent(state),

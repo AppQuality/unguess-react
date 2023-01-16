@@ -8,6 +8,12 @@ export type TypeFilterType = {
 };
 
 export const TypeFilter = {
+  reset: (state: TypeFilterType) => ({
+    types: {
+      ...TypeFilter.getCurrent(state),
+      selected: [],
+    },
+  }),
   getCurrent: (state?: TypeFilterType) => ({
     available: state?.types?.available ? state.types.available : [],
     selected: state?.types?.selected ? state.types.selected : [],
