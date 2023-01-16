@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import {
   getSelectedFilters,
   updateFilters,
@@ -6,41 +7,31 @@ import { Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as XIcon } from 'src/assets/icons/close-icon.svg';
 
+const XIconStyled = styled(XIcon)``;
+const StyledTag = styled(Tag)`
+  background-color: ${({ theme }) => theme.palette.blue[100]};
+  ${XIconStyled} {
+    cursor: pointer;
+  }
+`;
+
 const FilterRecapItem = ({
   type,
   value,
   name,
 }: {
-  type: 'search' | 'unique' | 'severities' | 'types' | 'read';
+  type: 'severities' | 'types';
   value: string;
   name: string;
 }) => {
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <Tag size="large" isPill>
+    <StyledTag size="large" isPill>
       {name}
-      <XIcon
+      <XIconStyled
         onClick={() => {
           switch (type) {
-            case 'search':
-              dispatch(
-                updateFilters({
-                  filters: {
-                    search: undefined,
-                  },
-                })
-              );
-              break;
-            case 'unique':
-              dispatch(
-                updateFilters({
-                  filters: {
-                    unique: false,
-                  },
-                })
-              );
-              break;
             case 'severities':
               dispatch(
                 updateFilters({
@@ -63,20 +54,11 @@ const FilterRecapItem = ({
                 })
               );
               break;
-            case 'read':
-              dispatch(
-                updateFilters({
-                  filters: {
-                    read: false,
-                  },
-                })
-              );
-              break;
             default:
           }
         }}
       />
-    </Tag>
+    </StyledTag>
   );
 };
 
@@ -84,20 +66,6 @@ export const FilterRecap = () => {
   const filters = getSelectedFilters();
   return (
     <>
-      {filters.search ? (
-        <FilterRecapItem
-          type="search"
-          value={filters.search}
-          name={filters.search}
-        />
-      ) : null}
-      {filters.unique ? (
-        <FilterRecapItem
-          type="unique"
-          value={filters.unique}
-          name={filters.unique}
-        />
-      ) : null}
       {filters.severities && filters.severities.length
         ? filters.severities.map((severity) => (
             <FilterRecapItem
@@ -116,9 +84,6 @@ export const FilterRecap = () => {
             />
           ))
         : null}
-      {filters.read ? (
-        <FilterRecapItem type="read" value={filters.read} name={filters.read} />
-      ) : null}
     </>
   );
 };
