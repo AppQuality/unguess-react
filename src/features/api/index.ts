@@ -383,7 +383,8 @@ export type GetCampaignsByCidSeveritiesApiArg = {
   /** Campaign id */
   cid: string;
 };
-export type GetCampaignsByCidWidgetsApiResponse = /** status 200 OK */
+export type GetCampaignsByCidWidgetsApiResponse =
+  /** status 200 OK */
   | WidgetBugsByUseCase
   | WidgetBugsByDevice
   | WidgetCampaignProgress

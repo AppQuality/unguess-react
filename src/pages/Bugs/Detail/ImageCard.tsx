@@ -21,8 +21,16 @@ const Preview = styled.div<{
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
-export default ({ index, url }: { index: number; url: string }) => (
-  <ImageCard>
+export default ({
+  index,
+  url,
+  onClick,
+}: {
+  index: number;
+  url: string;
+  onClick?: () => void;
+}) => (
+  <ImageCard onClick={onClick}>
     <Preview url={url} />
     <MD isBold style={{ textAlign: 'center' }}>
       {index + 1}

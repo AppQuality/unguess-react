@@ -1,7 +1,7 @@
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 
-const useBugDetail = ({ cid }: { cid: number; }) => {
+const useBugDetail = ({ cid }: { cid: number }) => {
   const currentBugId = getSelectedBugId();
 
   const { data, isLoading, isFetching, isError } =
