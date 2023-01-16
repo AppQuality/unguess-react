@@ -1,6 +1,6 @@
 import { LG, Tabs } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Bug as BugType, BugMedia as BugMediaType } from 'src/features/api';
+import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
@@ -31,17 +31,7 @@ const StyledTabs = styled(Tabs)`
   }
 `;
 
-export default ({
-  bug,
-}: {
-  bug: BugType & {
-    reporter: {
-      tester_id: number;
-      name: string;
-    };
-    media?: BugMediaType[];
-  };
-}) => {
+export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
   const { t } = useTranslation();
 
   const { media } = bug;
@@ -75,7 +65,7 @@ export default ({
               '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_MEDIA_TAB_TITLE'
             )} (${mediaItems.length})`}
           >
-            <BugMedia items={mediaItems} />
+            <BugMedia items={mediaItems} bug={bug} />
           </Tabs.Panel>
           <Tabs.Panel
             title={`${t(
@@ -86,7 +76,7 @@ export default ({
           </Tabs.Panel>
         </StyledTabs>
       ) : (
-        <BugMedia items={mediaItems} />
+        <BugMedia items={mediaItems} bug={bug} />
       )}
     </Container>
   );

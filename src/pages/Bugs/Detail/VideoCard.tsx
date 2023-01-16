@@ -43,11 +43,19 @@ const Preview = styled.div`
   }
 `;
 
-export default ({ index, url }: { index: number; url: string }) => {
+export default ({
+  index,
+  url,
+  onClick,
+}: {
+  index: number;
+  url: string;
+  onClick?: () => void;
+}) => {
   const { t } = useTranslation();
 
   return (
-    <VideoCard>
+    <VideoCard onClick={onClick}>
       <Preview>
         <video
           src={url}
