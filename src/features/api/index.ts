@@ -70,6 +70,16 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}`,
       }),
     }),
+    patchCampaignsByCidBugsAndBid: build.mutation<
+      PatchCampaignsByCidBugsAndBidApiResponse,
+      PatchCampaignsByCidBugsAndBidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidMeta: build.query<
       GetCampaignsByCidMetaApiResponse,
       GetCampaignsByCidMetaApiArg
@@ -87,6 +97,12 @@ const injectedRtkApi = api.injectEndpoints({
       GetCampaignsByCidTagsApiArg
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/tags` }),
+    }),
+    getCampaignsByCidSeverities: build.query<
+      GetCampaignsByCidSeveritiesApiResponse,
+      GetCampaignsByCidSeveritiesApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/severities` }),
     }),
     getCampaignsByCidWidgets: build.query<
       GetCampaignsByCidWidgetsApiResponse,
@@ -316,6 +332,28 @@ export type GetCampaignsByCidBugsAndBidApiArg = {
   /** Defines an identifier for the bug object (BUG ID) */
   bid: string;
 };
+export type PatchCampaignsByCidBugsAndBidApiResponse = /** status 200 OK */ {
+  tags?: {
+    tag_id: number;
+    tag_name: string;
+  }[];
+};
+export type PatchCampaignsByCidBugsAndBidApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+  body: {
+    tags?: (
+      | {
+          tag_id: number;
+        }
+      | {
+          tag_name: string;
+        }
+    )[];
+  };
+};
 export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
   selected_testers: number;
   allowed_devices: string[];
@@ -336,6 +374,12 @@ export type GetCampaignsByCidTagsApiResponse = /** status 200 OK */ {
   is_public?: number;
 }[];
 export type GetCampaignsByCidTagsApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidSeveritiesApiResponse =
+  /** status 200 OK */ BugSeverity[];
+export type GetCampaignsByCidSeveritiesApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -657,7 +701,7 @@ export type Bug = {
   read?: boolean;
 };
 export type BugMedia = {
-  type: {
+  mime_type: {
     type: 'video' | 'image' | 'other';
     extension: string;
   };
@@ -819,9 +863,11 @@ export const {
   useGetCampaignsByCidBugsQuery,
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidBugsAndBidQuery,
+  usePatchCampaignsByCidBugsAndBidMutation,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidTagsQuery,
+  useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidWidgetsQuery,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,

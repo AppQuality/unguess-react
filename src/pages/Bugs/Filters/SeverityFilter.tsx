@@ -20,7 +20,7 @@ export const SeverityFilter = () => {
     return null;
 
   return (
-    <div style={{ width: '110px' }}>
+    <div style={{ maxWidth: '150px' }}>
       <CounterMultiselect
         i18n={{
           counterText: (count) => t(`Severity ({{count}})`, { count }),
@@ -40,6 +40,7 @@ export const SeverityFilter = () => {
         options={data.severities.available.map((item) => ({
           id: item.id,
           label: item.name,
+          selected: data.severities.selected.map((i) => i.id).includes(item.id),
         }))}
       />
     </div>

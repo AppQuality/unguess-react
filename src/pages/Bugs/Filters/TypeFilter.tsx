@@ -20,7 +20,7 @@ export const TypeFilter = () => {
     return null;
 
   return (
-    <div style={{ width: '165px' }}>
+    <div style={{ maxWidth: '165px' }}>
       <CounterMultiselect
         i18n={{
           counterText: (count) => t(`Typology ({{count}})`, { count }),

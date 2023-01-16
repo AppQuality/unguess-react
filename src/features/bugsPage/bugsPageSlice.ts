@@ -31,21 +31,19 @@ const bugPageSlice = createSlice({
   reducers: {
     selectCampaign: (state, action) => {
       const { cp_id, filters } = action.payload;
-      if (!(cp_id in state.campaigns)) {
-        state.campaigns[cp_id as number] = {
-          ...TypeFilter.setAvailable(
-            state.campaigns[cp_id as number],
-            filters.types
-          ),
-          ...SeverityFilter.setAvailable(
-            state.campaigns[cp_id as number],
-            filters.severities
-          ),
-          ...ReadFilter.setAvailable(state.campaigns[cp_id as number]),
-          ...UniqueFilter.setAvailable(state.campaigns[cp_id as number]),
-          ...SearchFilter.setAvailable(state.campaigns[cp_id as number]),
-        };
-      }
+      state.campaigns[cp_id as number] = {
+        ...TypeFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.types
+        ),
+        ...SeverityFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.severities
+        ),
+        ...ReadFilter.setAvailable(state.campaigns[cp_id as number]),
+        ...UniqueFilter.setAvailable(state.campaigns[cp_id as number]),
+        ...SearchFilter.setAvailable(state.campaigns[cp_id as number]),
+      };
       state.currentCampaign = cp_id;
     },
     selectBug: (state, action) => {
