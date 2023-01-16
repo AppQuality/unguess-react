@@ -24,6 +24,7 @@ export const SeverityFilter = () => {
       <CounterMultiselect
         i18n={{
           counterText: (count) => t(`Severity ({{count}})`, { count }),
+          noItems: t('__BUGS_SEVERITY_FILTER_ITEM_NO_ITEMS'),
         }}
         onChange={(selected) => {
           dispatch(

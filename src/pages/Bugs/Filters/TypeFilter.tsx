@@ -24,6 +24,7 @@ export const TypeFilter = () => {
       <CounterMultiselect
         i18n={{
           counterText: (count) => t(`Typology ({{count}})`, { count }),
+          noItems: t('__BUGS_TYPES_FILTER_ITEM_NO_ITEMS'),
         }}
         onChange={(selected) => {
           dispatch(
