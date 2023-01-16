@@ -10,28 +10,28 @@ import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import { TableDatum } from './types';
 import { BugTitle } from './BugTitle';
 
-const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
-  {
-    key: 'title',
-    header: 'Title',
-    width: 'auto',
-  },
-  {
-    key: 'severity',
-    header: 'Severity',
-    width: '90px',
-  },
-  {
-    key: 'bugId',
-    header: 'Bug ID',
-    width: '90px',
-  },
-];
-
 export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
 
   const filterBy = getSelectedFiltersIds();
+
+  const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
+    {
+      key: 'title',
+      header: t('__BUGS_TABLE_TITLE_HEADER_COLUMN'),
+      width: 'auto',
+    },
+    {
+      key: 'severity',
+      header: t('__BUGS_TABLE_SEVERITY_HEADER_COLUMN'),
+      width: '90px',
+    },
+    {
+      key: 'bugId',
+      header: t('__BUGS_TABLE_BUG_ID_HEADER_COLUMN'),
+      width: '90px',
+    },
+  ];
 
   const {
     isLoading,
