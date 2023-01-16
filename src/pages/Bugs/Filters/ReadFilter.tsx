@@ -27,6 +27,7 @@ export const ReadFilter = () => {
 
   return (
     <Dropdown
+      selectedItem={data.read.selected ?? 'all'}
       onSelect={(item) => {
         dispatch(
           updateFilters({
@@ -38,16 +39,12 @@ export const ReadFilter = () => {
       }}
     >
       <Field>
-        <Select isPrimary={!!data.read.selected}>
-          {data.read.selected === 'all'
-            ? t('__BUGS_READ_FILTER_ITEM_ALL')
-            : null}
+        <Select
+          isPrimary={!!data.read.selected && data.read.selected !== 'all'}
+        >
           {data.read.selected === 'unread'
             ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-            : null}
-          {!data.read.selected
-            ? t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')
-            : null}
+            : t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')}
         </Select>
       </Field>
       <Menu>

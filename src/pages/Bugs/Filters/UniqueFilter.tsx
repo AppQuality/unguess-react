@@ -27,6 +27,7 @@ export const UniqueFilter = () => {
 
   return (
     <Dropdown
+      selectedItem={data.unique.selected ?? 'all'}
       onSelect={(item) => {
         dispatch(
           updateFilters({
