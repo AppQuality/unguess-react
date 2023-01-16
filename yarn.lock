@@ -47,10 +47,10 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/unguess-design-system@2.12.52":
-  version "2.12.52"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.52.tgz#61cf7ea00b85fec5ef0715b18b723fae9dcff046"
-  integrity sha512-vBR3de12hwNlNWNhN5oXdVfPgTXFOm8FhfvuP/XsGqyZJ5uH81fG7IyDfkM2G8tSqcHV5lyD7SIYmtDdbVXMqg==
+"@appquality/unguess-design-system@2.12.54":
+  version "2.12.54"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.54.tgz#3a7b45ca32d1fc2db6a23bea5974b3d39bbe87a4"
+  integrity sha512-AQRhS7BFbej/PTwMAqPnXn1b7nkivM78d3uitTYbnuFVYnsADw6G68P6SIwcj78l5uVv6pEaxbKiSj+B3Eti2Q==
   dependencies:
     "@nivo/bar" "^0.80.0"
     "@nivo/bullet" "^0.80.0"
@@ -3565,17 +3565,7 @@
     polished "^4.0.0"
     prop-types "^15.5.7"
 
-"@zendeskgarden/react-tables@^8.49.0":
-  version "8.62.0"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-tables/-/react-tables-8.62.0.tgz#f1ee15b7b984d096ed7a0df087db59c3da679c64"
-  integrity sha512-lO2S4ZX+iKgQm/3P1g+ogs1mC9rmu6Lik4XRYgv20NL6q7JOpC6uqXeyl0bLYQZM7htEtezzByumpWQ0PEJYUg==
-  dependencies:
-    "@zendeskgarden/container-utilities" "^0.7.0"
-    dom-helpers "^5.1.0"
-    polished "^4.0.0"
-    prop-types "^15.5.7"
-
-"@zendeskgarden/react-tables@^8.62.0":
+"@zendeskgarden/react-tables@^8.49.0", "@zendeskgarden/react-tables@^8.62.0":
   version "8.62.0"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-tables/-/react-tables-8.62.0.tgz#f1ee15b7b984d096ed7a0df087db59c3da679c64"
   integrity sha512-lO2S4ZX+iKgQm/3P1g+ogs1mC9rmu6Lik4XRYgv20NL6q7JOpC6uqXeyl0bLYQZM7htEtezzByumpWQ0PEJYUg==

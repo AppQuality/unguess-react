@@ -10,28 +10,29 @@ import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import { TableDatum } from './types';
 import { BugTitle } from './BugTitle';
 
-const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
-  {
-    key: 'title',
-    header: 'Title',
-    width: 'auto',
-  },
-  {
-    key: 'severity',
-    header: 'Severity',
-    width: '85px',
-  },
-  {
-    key: 'bugId',
-    header: 'Bug ID',
-    width: '80px',
-  },
-];
-
 export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
 
   const filterBy = getSelectedFiltersIds();
+
+  const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
+    {
+      key: 'title',
+      header: t('__BUGS_TABLE_TITLE_HEADER_COLUMN'),
+      width: 'auto',
+    },
+    {
+      key: 'severity',
+      header: t('__BUGS_TABLE_SEVERITY_HEADER_COLUMN'),
+      width: '90px',
+    },
+    {
+      key: 'bugId',
+      header: t('__BUGS_TABLE_BUG_ID_HEADER_COLUMN'),
+      width: '90px',
+    },
+  ];
+
   const {
     isLoading,
     isFetching,
@@ -43,7 +44,17 @@ export const useTableData = (campaignId: number) => {
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
+      ...(filterBy?.read && filterBy.read === 'unread'
+        ? { read: 'false' }
+        : {}),
+      ...(filterBy?.unique && filterBy.unique === 'unique'
+        ? { is_duplicated: '0' }
+        : {}),
     },
+    ...(filterBy?.search ? { search: filterBy.search } : {}),
+
+    orderBy: 'severity_id',
+    order: 'DESC',
   });
 
   const mapBugsToTableData = useMemo<TableDatum[]>(() => {
@@ -86,11 +97,17 @@ export const useTableData = (campaignId: number) => {
       isHighlighted: !bug.read,
       created: bug.created,
       updated: bug.updated,
-      borderColor: theme.colors.bySeverity[bug.severity.name as Severities],
+      borderColor:
+        theme.colors.bySeverity[bug.severity.name.toLowerCase() as Severities],
     }));
   }, [bugs]);
 
   if (isLoading || isFetching || !bugs || !bugs.items)
     return { columns, data: [], isLoading: true };
-  return { columns, data: mapBugsToTableData, isLoading: false };
+  return {
+    columns,
+    data: mapBugsToTableData,
+    isLoading: false,
+    filterBy,
+  };
 };

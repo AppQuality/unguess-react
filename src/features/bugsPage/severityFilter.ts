@@ -8,6 +8,12 @@ export type SeverityFilterType = {
 };
 
 export const SeverityFilter = {
+  reset: (state: SeverityFilterType) => ({
+    severities: {
+      ...SeverityFilter.getCurrent(state),
+      selected: [],
+    },
+  }),
   getCurrent: (state?: SeverityFilterType) => ({
     available: state ? state.severities.available : [],
     selected: state ? state.severities.selected : [],
@@ -30,7 +36,7 @@ export const SeverityFilter = {
       ...(severities ? { selected: severities } : {}),
     },
   }),
-  getIds: () => {
+  getValues: () => {
     const bugsPageSlice = useAppSelector((state) => state.bugsPage);
 
     if (!bugsPageSlice.currentCampaign) return undefined;
@@ -41,6 +47,11 @@ export const SeverityFilter = {
     const campaign: SeverityFilterType =
       bugsPageSlice.campaigns[bugsPageSlice.currentCampaign];
 
-    return campaign.severities.selected.map((t) => t.id);
+    return campaign.severities.selected;
+  },
+  getIds: () => {
+    const values = SeverityFilter.getValues();
+    if (!values) return undefined;
+    return values.map((t) => t.id);
   },
 };
