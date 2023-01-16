@@ -32,7 +32,6 @@ export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
 
   const filterBy = getSelectedFiltersIds();
-  const searchBy = '';
 
   const {
     isLoading,
@@ -110,6 +109,5 @@ export const useTableData = (campaignId: number) => {
     data: mapBugsToTableData,
     isLoading: false,
     filterBy,
-    searchBy,
   };
 };

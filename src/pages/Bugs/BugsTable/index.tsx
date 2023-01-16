@@ -8,11 +8,9 @@ import { SearchEmptyState } from './SearchEmptyState';
 import { useTableData } from './useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
-  const { columns, data, isLoading, filterBy, searchBy } =
-    useTableData(campaignId);
+  const { columns, data, isLoading, filterBy } = useTableData(campaignId);
   const dispatch = useAppDispatch();
   const currentBugId = getSelectedBugId();
-  const isSearch = filterBy || searchBy;
 
   return (
     <Table
@@ -23,7 +21,9 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
       isSticky
       isLoading={isLoading}
       loadingRowHeight="70px"
-      emptyState={isSearch && <SearchEmptyState searchTerm={searchBy} />}
+      emptyState={
+        filterBy && <SearchEmptyState searchTerm={filterBy?.search} />
+      }
     />
   );
 };

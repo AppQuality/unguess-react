@@ -18,10 +18,15 @@ const ClickableXIcon = styled(XIcon)`
 export const SearchFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
-  const [searchInput, setSearchInput] = useState<string>('');
+  const search = data && data?.search ? data.search : '';
+  const [searchInput, setSearchInput] = useState<string>(search);
   const { t } = useTranslation();
 
   const searchValue = useDebounce<string>(searchInput || '', 300);
+
+  useEffect(() => {
+    setSearchInput(search);
+  }, [search]);
 
   useEffect(() => {
     dispatch(
