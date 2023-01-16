@@ -30,7 +30,7 @@ export const SearchFilter = () => {
                 dispatch(
                   updateFilters({
                     filters: {
-                      search: undefined,
+                      search: '',
                     },
                   })
                 );
@@ -43,7 +43,7 @@ export const SearchFilter = () => {
           dispatch(
             updateFilters({
               filters: {
-                search: e.target.value !== '' ? e.target.value : undefined,
+                search: e.target.value,
               },
             })
           )
