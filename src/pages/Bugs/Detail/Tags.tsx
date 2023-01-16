@@ -34,20 +34,20 @@ export default ({
   const currentBugId = getSelectedBugId();
   const { tags: bugTags } = bug;
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
-  const [selectedTags, setSelectedTags] = useState(
-    bugTags?.map((tag) => ({
-      id: tag.tag_id,
-      label: tag.name,
-    }))
-  );
+
+  const [selectedTags, setSelectedTags] = useState<
+    { id: number; label: string }[]
+  >([]);
 
   useEffect(() => {
-    setSelectedTags(
-      bugTags?.map((tag) => ({
-        id: tag.tag_id,
-        label: tag.name,
-      }))
-    );
+    if (bugTags) {
+      setSelectedTags(
+        bugTags.map((tag) => ({
+          id: tag.tag_id,
+          label: tag.name,
+        }))
+      );
+    }
   }, [bugTags]);
 
   const {
@@ -78,39 +78,34 @@ export default ({
           size="small"
           i18n={{}}
           onChange={async (selectedItems, newItem) => {
-            console.log('selectedItems', selectedItems);
-
-            const tags = [
-              ...selectedItems.map((item) => ({ tag_id: Number(item.id) })),
-              ...(newItem ? [{ tag_name: newItem }] : []),
-            ];
-
-            console.log('tags', tags);
-
-            // Patch bug
-            const resultItems = await patchBug({
-              cid: campaignId?.toString() ?? '0',
-              bid: currentBugId?.toString() ?? '0',
+            const { tags } = await patchBug({
+              cid: campaignId.toString(),
+              bid: currentBugId ? currentBugId.toString() : '0',
               body: {
-                tags,
+                tags: [
+                  ...selectedItems.map((item) => ({
+                    tag_id: Number(item.id),
+                  })),
+                  ...(newItem
+                    ? [
+                        {
+                          tag_name: newItem,
+                        },
+                      ]
+                    : []),
+                ],
               },
             }).unwrap();
 
-            setSelectedTags(
-              resultItems.tags
-                ? resultItems.tags.map((tag) => ({
-                    id: tag.tag_id,
-                    label: tag.tag_name,
-                  }))
-                : []
-            );
-
-            return resultItems.tags
-              ? resultItems.tags.map((tag) => ({
+            const results = tags
+              ? tags.map((tag) => ({
                   id: tag.tag_id,
                   label: tag.tag_name,
                 }))
               : [];
+
+            setSelectedTags(results);
+            return results;
           }}
           options={
             cpTags
