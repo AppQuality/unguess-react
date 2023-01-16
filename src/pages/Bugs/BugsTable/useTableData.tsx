@@ -80,9 +80,17 @@ export const useTableData = (campaignId: number) => {
           {bug.tags?.map((tag) => (
             <Pill isBold={!bug.read}>{tag.tag_name}</Pill>
           ))}
+          {bug.type.name && (
+            <>
+              <Pipe size="small" />
+              <Pill isBold style={{ marginLeft: theme.space.xs }}>
+                {bug.type.name}
+              </Pill>
+            </>
+          )}
           {!bug.read && (
             <>
-              <Pipe />
+              <Pipe size="small" />
               <Pill
                 isBold
                 backgroundColor="transparent"
