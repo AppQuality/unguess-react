@@ -13,7 +13,7 @@ export const SearchFilter = {
     search: SearchFilter.getCurrent(state),
   }),
   filter: (state: SearchFilterType, search?: SearchFilterType['search']) => ({
-    search,
+    search: search || state.search,
   }),
   getValue: () => {
     const bugsPageSlice = useAppSelector((state) => state.bugsPage);
