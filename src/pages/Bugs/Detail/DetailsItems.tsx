@@ -16,6 +16,10 @@ const DetailsItem = styled.div`
   }
 `;
 
+const StyledSpan = styled(Span)`
+  text-transform: capitalize;
+`;
+
 export default ({
   bug,
 }: {
@@ -28,9 +32,11 @@ export default ({
   };
 }) => {
   const { t } = useTranslation();
-  const { created } = bug;
+  const { created, device } = bug;
   const createdDate = new Date(created);
   const formattedDate = format(createdDate, 'dd/MM/yyyy hh:mma z');
+
+  console.log('bug', bug);
 
   return (
     <>
@@ -79,14 +85,20 @@ export default ({
         <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_DEVICE_TYPE_LABEL')}
         </MD>
-        <MD style={{ textTransform: 'capitalize' }}>{bug.device.type}</MD>
+        <MD style={{ textTransform: 'capitalize' }}>
+          {device.type === 'desktop'
+            ? device.desktop_type
+            : `${device.manufacturer} ${device.model}`}
+        </MD>
       </DetailsItem>
       <DetailsItem>
         <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_DEVICE_OS_LABEL')}
         </MD>
         <MD>
-          {bug.device.os} {bug.device.os_version}
+          <StyledSpan>
+            {device.os} {device.os_version}
+          </StyledSpan>
         </MD>
       </DetailsItem>
       {bug.additional_fields && bug.additional_fields.length
