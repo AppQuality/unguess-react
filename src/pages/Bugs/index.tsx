@@ -37,6 +37,15 @@ const Bugs = () => {
     navigate(notFoundRoute);
   }
 
+  // Check if the campaign has bugs
+  if (
+    !isLoading &&
+    campaign &&
+    (!campaign.outputs?.length || !campaign.outputs.includes('bugs'))
+  ) {
+    navigate(notFoundRoute);
+  }
+
   return (
     <Page
       title={t('__BUGS_PAGE_TITLE')}

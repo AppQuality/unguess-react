@@ -21,7 +21,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
         </Col>
         {currentBugId && (
           <Col xs={12} md={4}>
-            <BugsDetail />
+            <BugsDetail campaignId={campaignId} />
           </Col>
         )}
       </Row>

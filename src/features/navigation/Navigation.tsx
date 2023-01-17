@@ -48,7 +48,7 @@ export const Navigation = ({
 
   // Set isSidebarOpen to false if the route is "campaigns"
   useEffect(() => {
-    if (route === 'campaigns') {
+    if (route === 'campaigns' || route === 'bugs') {
       dispatch(setSidebarOpen(false));
     } else {
       dispatch(setSidebarOpen(true));

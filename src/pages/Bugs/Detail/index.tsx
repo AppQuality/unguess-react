@@ -1,22 +1,47 @@
-import { IconButton } from '@appquality/unguess-design-system';
-import { useAppDispatch } from 'src/app/hooks';
-import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
-import {
-  getSelectedBugId,
-  selectBug,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { Skeleton } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+import { useBugDetail } from './useBugDetail';
+import BugHeader from './Header';
+import BugMeta from './Meta';
+import BugTags from './Tags';
+import BugDescription from './Description';
+import BugAttachments from './Attachments';
+import BugDetails from './Details';
 
-const BugsDetail = () => {
-  const dispatch = useAppDispatch();
-  const currentBugId = getSelectedBugId();
+const DetailContainer = styled.div`
+  position: sticky;
+  display: block;
+  top: -${({ theme }) => theme.space.sm};
+  width: 100%;
+  background-color: white;
+  border: ${({ theme }) => theme.palette.grey[300]} 1px solid;
+  border-top-left-radius: ${({ theme }) => theme.space.xs};
+  border-bottom-left-radius: ${({ theme }) => theme.space.xs};
+  padding: ${({ theme }) => `${theme.space.lg} ${theme.space.lg}`};
+  max-height: 100vh;
+  overflow-y: auto;
+`;
+
+const BugsDetail = ({ campaignId }: { campaignId: number }) => {
+  const result = useBugDetail({
+    cid: campaignId,
+  });
+
+  const { data: bug, isLoading, isFetching, isError } = result;
+
+  if (isLoading || isFetching || isError || !bug) return <Skeleton />;
+
+  const { media } = bug;
+
   return (
-    <>
-      BugsDetail. Current bug id: {currentBugId}{' '}
-      {currentBugId ? 'open' : 'closed'}
-      <IconButton onClick={() => dispatch(selectBug({ bug_id: null }))}>
-        <CloseIcon />
-      </IconButton>
-    </>
+    <DetailContainer>
+      <BugHeader bug={bug} />
+      <BugMeta bug={bug} />
+      <BugTags bug={bug} campaignId={campaignId} />
+      <BugDescription bug={bug} />
+      {media && media.length ? <BugAttachments bug={bug} /> : null}
+      <BugDetails bug={bug} />
+    </DetailContainer>
   );
 };
 

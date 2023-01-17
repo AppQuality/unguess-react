@@ -21,13 +21,22 @@ const BugCardContainer = styled(ContainerCard)<
   flex-direction: column;
   justify-content: space-between;
   height: auto;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  }
 `;
 
 type BugCardArgs = {
-  severity: Severities;
-  children: (severity: Severities) => React.ReactNode | React.ReactElement;
+  children: (severity?: Severities) => React.ReactNode | React.ReactElement;
   className?: string;
-};
+} & (
+  | {
+      severity: Severities;
+    }
+  | { borderColor: string }
+);
 
 /**
  * Example:
@@ -56,12 +65,16 @@ type BugCardArgs = {
  *   </BugCard>
  * ```
  */
-const BugCard = ({ children, severity, className }: BugCardArgs) => (
+const BugCard = ({ children, className, ...props }: BugCardArgs) => (
   <BugCardContainer
     className={className}
-    borderColor={globalTheme.colors.bySeverity[severity as Severities]}
+    borderColor={
+      'severity' in props
+        ? globalTheme.colors.bySeverity[props.severity as Severities]
+        : props.borderColor
+    }
   >
-    {children(severity)}
+    {'severity' in props ? children(props.severity) : children()}
   </BugCardContainer>
 );
 
