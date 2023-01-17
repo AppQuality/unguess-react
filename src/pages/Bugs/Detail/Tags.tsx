@@ -1,4 +1,4 @@
-import { MD, MultiSelect, Skeleton } from '@appquality/unguess-design-system';
+import { MD, Skeleton, MultiSelect } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
   Bug,
@@ -31,24 +31,10 @@ export default ({
   campaignId: number;
 }) => {
   const { t } = useTranslation();
+  const [options, setOptions] = useState<{ id: number; label: string }[]>([]);
   const currentBugId = getSelectedBugId();
   const { tags: bugTags } = bug;
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
-
-  const [selectedTags, setSelectedTags] = useState<
-    { id: number; label: string }[]
-  >([]);
-
-  useEffect(() => {
-    if (bugTags) {
-      setSelectedTags(
-        bugTags.map((tag) => ({
-          id: tag.tag_id,
-          label: tag.name,
-        }))
-      );
-    }
-  }, [bugTags]);
 
   const {
     isLoading: isLoadingCampaign,
@@ -58,6 +44,20 @@ export default ({
   } = useGetCampaignsByCidTagsQuery({
     cid: campaignId?.toString() ?? '0',
   });
+
+  useEffect(() => {
+    if (cpTags) {
+      setOptions(
+        cpTags.map((tag) => ({
+          id: tag.tag_id,
+          label: tag.display_name,
+          selected: bugTags
+            ? bugTags.some((selectedTag) => selectedTag.tag_id === tag.tag_id)
+            : false,
+        }))
+      );
+    }
+  }, [cpTags, bugTags]);
 
   if (isErrorCampaign) return null;
 
@@ -77,19 +77,21 @@ export default ({
           maxItems={4}
           size="small"
           i18n={{}}
-          onChange={async (selectedItems, newItem) => {
+          onChange={async (selectedItems, newLabel) => {
             const { tags } = await patchBug({
               cid: campaignId.toString(),
               bid: currentBugId ? currentBugId.toString() : '0',
               body: {
                 tags: [
-                  ...selectedItems.map((item) => ({
-                    tag_id: Number(item.id),
-                  })),
-                  ...(newItem
+                  ...selectedItems
+                    .filter((o) => o.selected)
+                    .map((item) => ({
+                      tag_id: Number(item.id),
+                    })),
+                  ...(newLabel
                     ? [
                         {
-                          tag_name: newItem,
+                          tag_name: newLabel,
                         },
                       ]
                     : []),
@@ -103,19 +105,15 @@ export default ({
                   label: tag.tag_name,
                 }))
               : [];
-
-            setSelectedTags(results);
-            return results;
+            const unselectedItems = options.filter(
+              (o) => !results.find((r) => r.id === o.id)
+            );
+            setOptions([
+              ...unselectedItems,
+              ...results.map((r) => ({ ...r, selected: true })),
+            ]);
           }}
-          options={
-            cpTags
-              ? cpTags.map((tag) => ({
-                  id: tag.tag_id,
-                  label: tag.display_name,
-                }))
-              : []
-          }
-          selectedItems={selectedTags}
+          options={options}
         />
       )}
     </Container>
