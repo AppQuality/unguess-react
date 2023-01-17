@@ -22,6 +22,7 @@ import VideoCard from './VideoCard';
 import BugMeta from './Meta';
 import BugDescription from './Description';
 import BugDetails from './Details';
+import DetailsItems from './DetailsItems';
 
 const Grey600Span = styled.span`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -151,7 +152,7 @@ export default ({
             <Lightbox.Body.Details>
               <BugMeta bug={bug} />
               <BugDescription bug={bug} />
-              <BugDetails bug={bug} />
+              <DetailsItems bug={bug} />
             </Lightbox.Body.Details>
           </Lightbox.Body>
           <Lightbox.Footer>

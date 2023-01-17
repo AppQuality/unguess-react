@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 const Container = styled.div`
   display: inline-block;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.space.lg};
+  margin: ${({ theme }) => theme.space.lg} 0;
   white-space: pre-wrap;
 `;
 
