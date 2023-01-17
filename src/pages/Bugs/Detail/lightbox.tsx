@@ -4,6 +4,7 @@ import {
   MD,
   Slider,
 } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import {
   BugMedia,
@@ -12,6 +13,7 @@ import {
 import { useCallback, useRef } from 'react';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import styled from 'styled-components';
+import useWindowSize from 'src/hooks/useWindowSize';
 import BugMeta from './Meta';
 import BugDescription from './Description';
 import BugDetails from './Details';
@@ -38,6 +40,9 @@ export const LightboxContainer = ({
   onSlideChange?: (index: number) => void;
 }) => {
   const { t } = useTranslation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(globalTheme.breakpoints.sm, 10);
+  const hideDetails = width < breakpointSm;
 
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
 
@@ -72,7 +77,7 @@ export const LightboxContainer = ({
         </MD>
       </Lightbox.Header>
       <Lightbox.Body>
-        <Lightbox.Body.Main>
+        <Lightbox.Body.Main style={{ flex: 2 }}>
           <Slider
             arrows
             onSlideChange={slideChange}
@@ -98,11 +103,13 @@ export const LightboxContainer = ({
             ))}
           </Slider>
         </Lightbox.Body.Main>
-        <Lightbox.Body.Details>
-          <BugMeta bug={bug} />
-          <BugDescription bug={bug} />
-          <BugDetails bug={bug} />
-        </Lightbox.Body.Details>
+        {hideDetails === false && (
+          <Lightbox.Body.Details style={{ flex: 1 }}>
+            <BugMeta bug={bug} />
+            <BugDescription bug={bug} />
+            <BugDetails bug={bug} />
+          </Lightbox.Body.Details>
+        )}
       </Lightbox.Body>
       <Lightbox.Footer>
         <Button
