@@ -73,7 +73,7 @@ const Table = <T extends TableData, K extends keyof T>({
         <StyledHead isSticky={isSticky}>
           <HeaderRow>
             {columns.map((column) => (
-              <HeaderCell width={column.width}>
+              <HeaderCell width={column.width} key={column.key.toString()}>
                 <SM isBold color={appTheme.palette.grey[800]}>
                   {column.header}
                 </SM>
@@ -99,7 +99,9 @@ const Table = <T extends TableData, K extends keyof T>({
                 borderColor={row.borderColor}
               >
                 {columns.map((column) => (
-                  <Cell>{row[column.key]}</Cell>
+                  <Cell key={`${row.id}-${column.key.toString()}`}>
+                    {row[column.key]}
+                  </Cell>
                 ))}
               </TableRow>
             ))}
