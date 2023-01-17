@@ -107,7 +107,7 @@ export default ({
               <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
                 {field.name}
               </MD>
-              <MD>{field.value}</MD>
+              <MD style={{ wordBreak: 'break-all' }}>{field.value}</MD>
             </DetailsItem>
           ))
         : null}
