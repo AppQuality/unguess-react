@@ -10,7 +10,7 @@ import {
   BugMedia,
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import styled from 'styled-components';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -83,7 +83,7 @@ export const LightboxContainer = ({
             onSlideChange={slideChange}
             initialSlide={currentIndex}
           >
-            {items.map((item, index) => (
+            {items.map((item) => (
               <Slider.Slide>
                 {item.mime_type.type === 'image' && (
                   <img src={item.url} alt={`bug ${item.mime_type}`} />
@@ -116,7 +116,9 @@ export const LightboxContainer = ({
           isBasic
           onClick={() => {
             if (currentIndex in items) {
-              const media = items[currentIndex];
+              const media = items[currentIndex as number];
+
+              // eslint-disable-next-line
               window.open(media.url, '_blank');
             }
           }}
