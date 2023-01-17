@@ -55,10 +55,6 @@ export const LightboxContainer = ({
     [videoRefs]
   );
 
-  useEffect(() => {
-    console.log(videoRefs.current);
-  }, [videoRefs]);
-
   return (
     <Lightbox onClose={onClose}>
       <Lightbox.Header>
@@ -90,7 +86,7 @@ export const LightboxContainer = ({
                 {item.mime_type.type === 'video' && (
                   <video
                     ref={(ref) => {
-                      videoRefs.current[index] = ref;
+                      videoRefs.current.push(ref);
                     }}
                     src={item.url}
                     controls
