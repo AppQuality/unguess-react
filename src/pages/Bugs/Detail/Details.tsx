@@ -9,13 +9,16 @@ import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 const Container = styled.div`
   display: inline-block;
   width: 100%;
-  margin: ${({ theme }) => theme.space.lg} 0;
 `;
 
 const DetailsItem = styled.div`
   display: inline-block;
   width: 100%;
   margin-bottom: ${({ theme }) => theme.space.md};
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 `;
 
 export default ({

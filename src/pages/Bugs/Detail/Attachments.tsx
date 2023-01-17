@@ -10,7 +10,6 @@ import BugExtra from './Extra';
 const Container = styled.div`
   display: inline-block;
   width: 100%;
-  margin: ${({ theme }) => theme.space.lg} 0;
 `;
 
 const Title = styled.div`

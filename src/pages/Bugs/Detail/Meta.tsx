@@ -22,7 +22,6 @@ const BugInfo = styled.div`
   align-items: center;
   flex-wrap: wrap;
   margin-top: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 function getDeviceIcon(device: string) {
