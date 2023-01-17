@@ -12,7 +12,6 @@ import { SM } from '@appquality/unguess-design-system';
 import { theme as appTheme } from 'src/app/theme';
 import { TableRow } from './TableRow';
 import { LoadingState } from './LoadingState';
-import { EmptyState } from './EmptyState';
 
 interface TableData {
   id: string;
