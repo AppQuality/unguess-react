@@ -8,6 +8,7 @@ const Container = styled.div`
   display: inline-block;
   width: 100%;
   margin-top: ${({ theme }) => theme.space.lg};
+  white-space: pre-wrap;
 `;
 
 export default ({
