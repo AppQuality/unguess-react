@@ -19,9 +19,7 @@ import {
 import { theme as globalTheme } from 'src/app/theme';
 import ImageCard from './ImageCard';
 import VideoCard from './VideoCard';
-import BugHeader from './Header';
 import BugMeta from './Meta';
-import BugTags from './Tags';
 import BugDescription from './Description';
 import BugDetails from './Details';
 
@@ -161,7 +159,8 @@ export default ({
               isBasic
               onClick={() => {
                 if (currentIndex in items) {
-                  const media = items[currentIndex];
+                  const media = items[currentIndex as number];
+                  // eslint-disable-next-line security/detect-non-literal-fs-filename
                   window.open(media.url, '_blank');
                 }
               }}
