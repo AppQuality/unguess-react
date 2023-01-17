@@ -117,8 +117,7 @@ export const LightboxContainer = ({
           onClick={() => {
             if (currentIndex in items) {
               const media = items[currentIndex as number];
-
-              // eslint-disable-next-line
+              // eslint-disable-next-line security/detect-non-literal-fs-filename
               window.open(media.url, '_blank');
             }
           }}
