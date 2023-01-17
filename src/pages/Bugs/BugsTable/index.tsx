@@ -4,11 +4,11 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { SearchEmptyState } from './SearchEmptyState';
+import { EmptyState } from './EmptyState';
 import { useTableData } from './useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
-  const { columns, data, isLoading, filterBy } = useTableData(campaignId);
+  const { columns, data, isLoading } = useTableData(campaignId);
   const dispatch = useAppDispatch();
   const currentBugId = getSelectedBugId();
 
@@ -21,9 +21,7 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
       isSticky
       isLoading={isLoading}
       loadingRowHeight="70px"
-      emptyState={
-        filterBy && <SearchEmptyState searchTerm={filterBy?.search} />
-      }
+      emptyState={<EmptyState />}
     />
   );
 };

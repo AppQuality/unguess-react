@@ -12,7 +12,6 @@ import { SM } from '@appquality/unguess-design-system';
 import { theme as appTheme } from 'src/app/theme';
 import { TableRow } from './TableRow';
 import { LoadingState } from './LoadingState';
-import { EmptyState } from './EmptyState';
 
 interface TableData {
   id: string;
@@ -34,7 +33,7 @@ type TableProps<T extends TableData, K extends keyof T> = {
   isLoading?: boolean;
   loadingRowHeight?: string;
   loadingRowCount?: number;
-  emptyState?: ReactNode;
+  emptyState?: JSX.Element;
 };
 
 const TableWrapper = styled.div<{ maxHeight?: string }>`
@@ -64,33 +63,35 @@ const Table = <T extends TableData, K extends keyof T>({
   loadingRowHeight,
   loadingRowCount,
   emptyState,
-}: TableProps<T, K>) => (
-  <TableWrapper maxHeight={maxHeight}>
-    <ZendeskTable>
-      <StyledHead isSticky={isSticky}>
-        <HeaderRow>
-          {columns.map((column) => (
-            <HeaderCell width={column.width}>
-              <SM isBold color={appTheme.palette.grey[800]}>
-                {column.header}
-              </SM>
-            </HeaderCell>
-          ))}
-        </HeaderRow>
-      </StyledHead>
-      {isLoading ? (
-        <LoadingState
-          colCount={columns.length}
-          rowCount={loadingRowCount}
-          rowHeight={loadingRowHeight}
-        />
-      ) : (
-        <Body>
-          {!data || !data.length ? (
-            <EmptyState colCount={columns.length}>{emptyState}</EmptyState>
-          ) : (
-            data.map((row) => (
+}: TableProps<T, K>) => {
+  if (!data || !data.length) {
+    return emptyState || null;
+  }
+  return (
+    <TableWrapper maxHeight={maxHeight}>
+      <ZendeskTable>
+        <StyledHead isSticky={isSticky}>
+          <HeaderRow>
+            {columns.map((column) => (
+              <HeaderCell width={column.width}>
+                <SM isBold color={appTheme.palette.grey[800]}>
+                  {column.header}
+                </SM>
+              </HeaderCell>
+            ))}
+          </HeaderRow>
+        </StyledHead>
+        {isLoading ? (
+          <LoadingState
+            colCount={columns.length}
+            rowCount={loadingRowCount}
+            rowHeight={loadingRowHeight}
+          />
+        ) : (
+          <Body>
+            {data.map((row) => (
               <TableRow
+                key={row.id}
                 id={row.id}
                 onClick={onRowClick}
                 isSelected={row.id === selectedRow}
@@ -101,12 +102,12 @@ const Table = <T extends TableData, K extends keyof T>({
                   <Cell>{row[column.key]}</Cell>
                 ))}
               </TableRow>
-            ))
-          )}
-        </Body>
-      )}
-    </ZendeskTable>
-  </TableWrapper>
-);
+            ))}
+          </Body>
+        )}
+      </ZendeskTable>
+    </TableWrapper>
+  );
+};
 
 export default Table;
