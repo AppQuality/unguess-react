@@ -36,8 +36,6 @@ export default ({
   const createdDate = new Date(created);
   const formattedDate = format(createdDate, 'dd/MM/yyyy hh:mma z');
 
-  console.log('bug', bug);
-
   return (
     <>
       <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
