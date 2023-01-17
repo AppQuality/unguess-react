@@ -25,15 +25,23 @@ export const getLocalizedUXDashboardUrl = (
         process.env.REACT_APP_CROWD_WP_URL ?? ''
       }/it/dashboard-campagne-esperienziali/?cid=${aCampaignId}`;
 
+export function getLocalizeoFirstLevelDashboardRoute(
+  campaignId: number
+): string {
+  const currentLang = i18n.language || 'en';
+
+  return `${
+    currentLang === 'en' ? '' : `/${currentLang}`
+  }/campaigns/${campaignId}/`;
+}
+
 export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   const { campaignId, outputs } = props;
 
   const currentLang = i18n.language || 'en';
 
   if (outputs.length === 0 || outputs.some((o) => o === 'bugs')) {
-    return `${
-      currentLang === 'en' ? '' : `/${currentLang}`
-    }/campaigns/${campaignId}/`;
+    return getLocalizeoFirstLevelDashboardRoute(campaignId);
   }
 
   return getLocalizedUXDashboardUrl(campaignId, currentLang);
