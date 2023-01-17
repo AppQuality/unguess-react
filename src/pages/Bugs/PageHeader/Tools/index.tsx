@@ -89,7 +89,7 @@ export const Tools = ({
         <StyledCounter campaignId={campaignId} />
         <SeveritiesWrapper>
           {Object.keys(severities).map((severity) =>
-            severities[severity as Severities] > 0 ? (
+            severities[severity as Severities] >= 0 ? (
               <SeverityPill
                 key={severity}
                 counter={severities[severity as Severities]}
