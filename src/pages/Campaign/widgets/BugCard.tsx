@@ -1,6 +1,5 @@
 import {
   ContainerCard,
-  Tag,
   MD,
   SM,
   Anchor,
@@ -22,13 +21,22 @@ const BugCardContainer = styled(ContainerCard)<
   flex-direction: column;
   justify-content: space-between;
   height: auto;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  }
 `;
 
 type BugCardArgs = {
-  severity: Severities;
-  children: (severity: Severities) => React.ReactNode | React.ReactElement;
+  children: (severity?: Severities) => React.ReactNode | React.ReactElement;
   className?: string;
-};
+} & (
+  | {
+      severity: Severities;
+    }
+  | { borderColor: string }
+);
 
 /**
  * Example:
@@ -57,12 +65,16 @@ type BugCardArgs = {
  *   </BugCard>
  * ```
  */
-const BugCard = ({ children, severity, className }: BugCardArgs) => (
+const BugCard = ({ children, className, ...props }: BugCardArgs) => (
   <BugCardContainer
     className={className}
-    borderColor={globalTheme.colors.bySeverity[severity as Severities]}
+    borderColor={
+      'severity' in props
+        ? globalTheme.colors.bySeverity[props.severity as Severities]
+        : props.borderColor
+    }
   >
-    {children(severity)}
+    {'severity' in props ? children(props.severity) : children()}
   </BugCardContainer>
 );
 
@@ -88,61 +100,14 @@ const BugCardTitle = ({
 );
 BugCard.Title = BugCardTitle;
 
-const StyledPill = styled(Tag)<
-  React.ComponentProps<typeof Tag> & {
-    background?: string;
-    isTextWhite?: boolean;
-    textTransform?: string;
-    theme: Theme;
-  }
->`
-  margin-top: ${({ theme }) => theme.space.xs};
-  margin-right: ${({ theme }) => theme.space.xs};
-  &:last-child {
-    margin-right: 0;
-  }
-  ${({ background }) => background && `background-color: ${background};`}
-  ${({ isTextWhite, theme }) =>
-    isTextWhite
-      ? `
-    color: ${theme.palette.white};
-    &:hover {
-      color: ${theme.palette.white};
-    }`
-      : ``}
-  ${({ textTransform }) => textTransform && `text-transform: ${textTransform};`}
-`;
-
-const BugCardPill = ({
-  children,
-  severity,
-}: {
-  children: React.ReactNode;
-  severity?: Severities;
-}) => {
-  let props = {};
-  if (severity) {
-    props = {
-      ...props,
-      background: globalTheme.colors.bySeverity[severity as Severities],
-      isTextWhite: true,
-      textTransform: 'capitalize',
-    };
-  }
-
-  return (
-    <StyledPill isPill {...props}>
-      {children}
-    </StyledPill>
-  );
-};
-BugCard.Pill = BugCardPill;
-
 BugCard.Footer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.space.xxs};
+  > * {
+    margin-top: ${({ theme }) => theme.space.xs};
+  }
 `;
 BugCard.Separator = styled.div`
   height: 16px;

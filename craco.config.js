@@ -1,11 +1,9 @@
-const webpack = require('webpack');
 const path = require(`path`);
 
-const alias = (prefix = `src`) => ({
+const alias = () => ({
   react: `./node_modules/react`,
   'styled-components': `./node_modules/styled-components`,
   '@zendeskgarden/react-theming': `./node_modules/@zendeskgarden/react-theming`,
-  //   formik: `./node_modules/formik`,
 });
 
 const SRC = `./src`;

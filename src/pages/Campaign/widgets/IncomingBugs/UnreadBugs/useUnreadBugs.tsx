@@ -58,9 +58,9 @@ const useUnreadBugs = (
     isLoading: unreadBugsIsLoading,
     isFetching: unreadBugsIsFetching,
   } = useGetCampaignsByCidBugsQuery({
-    cid: campaignId,
+    cid: campaignId?.toString() ?? '0',
     filterBy: {
-      unread: true,
+      read: false,
     },
   });
   const {
@@ -68,7 +68,7 @@ const useUnreadBugs = (
     isLoading: totalBugsIsLoading,
     isFetching: totalBugsIsFetching,
   } = useGetCampaignsByCidBugsQuery({
-    cid: campaignId,
+    cid: campaignId?.toString() ?? '0',
   });
 
   if (

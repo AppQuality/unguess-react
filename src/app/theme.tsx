@@ -9,13 +9,22 @@ export const SEVERITY_COLORS: Record<Severities, string> = {
   medium: CHARTS_COLOR_PALETTE.blueRoyal,
   low: CHARTS_COLOR_PALETTE.darkPine,
 };
-
 const theme = {
   ...baseTheme,
   colors: {
     ...baseTheme.colors,
     bySeverity: SEVERITY_COLORS,
     darkPine: CHARTS_COLOR_PALETTE.darkPine,
+  },
+  components: {
+    ...baseTheme.components,
+    'tables.header_row': {
+      height: 'auto',
+    },
+    'tables.header_cell': {
+      paddingTop: baseTheme.space.sm,
+      paddingBottom: baseTheme.space.sm,
+    },
   },
 };
 

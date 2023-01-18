@@ -26,6 +26,7 @@ import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
 import { selectWorkspaces } from '../workspaces/selectors';
+import { usePathWithoutLocale } from './usePathWithoutLocale';
 
 const cachedWorkspace = getWorkspaceFromLS();
 
@@ -39,6 +40,7 @@ export const Navigation = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const pathWithoutLocale = usePathWithoutLocale();
   const { userData: user } = useAppSelector((state) => state.user);
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
   const workspaces = useAppSelector(selectWorkspaces);
@@ -48,7 +50,7 @@ export const Navigation = ({
 
   // Set isSidebarOpen to false if the route is "campaigns"
   useEffect(() => {
-    if (route === 'campaigns') {
+    if (route === 'campaigns' || route === 'bugs') {
       dispatch(setSidebarOpen(false));
     } else {
       dispatch(setSidebarOpen(true));
@@ -152,23 +154,12 @@ export const Navigation = ({
     copyLabel: t('__PROFILE_MODAL_COPY_LABEL'),
     chatSupportLabel: t('__PROFILE_MODAL_CHAT_SUPPORT_LABEL'),
     onSelectLanguage: (lang: string) => {
-      let translatedRoute = route;
-
-      if (route === '') {
-        translatedRoute = lang === 'en' ? '/' : `/${lang}`;
+      if (!pathWithoutLocale) return;
+      if (lang === 'en') {
+        document.location.href = pathWithoutLocale;
       } else {
-        const localizedRoute =
-          lang === 'en'
-            ? `/${route}/${parameter}`
-            : `/${lang}/${route}/${parameter}`;
-        // in case of base route ("") we already have a forward slash
-        const re = /\/$/;
-        translatedRoute = re.test(localizedRoute)
-          ? localizedRoute
-          : `${localizedRoute}/`;
+        document.location.href = `/${lang}/${pathWithoutLocale}`;
       }
-
-      document.location.href = translatedRoute;
     },
     onToggleChat: () => {
       if (

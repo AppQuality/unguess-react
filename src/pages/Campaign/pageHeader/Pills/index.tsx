@@ -12,26 +12,14 @@ import {
 } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import { openUrl } from 'src/common/openUrl';
+import { Pipe } from 'src/common/components/Pipe';
+import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { DesktopPill } from './devicePills/DesktopPill';
 import { SmartphonePill } from './devicePills/SmartphonePill';
 import { TabletPill } from './devicePills/TabletPill';
-import { StatusPill } from './StatusPill';
 import { CampaignTypePill } from './CampaignTypePill';
 import { CampaignDurationPill } from './CampaignDurationPill';
 
-const Pipe = styled.span`
-  /** Vertical Separator */
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: ${({ theme }) => theme.space.lg};
-  margin: 0 ${({ theme }) => theme.space.sm};
-  display: inline;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
-  }
-`;
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -96,6 +84,20 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
         ) : null}
       </PillsWrapper>
       <ButtonWrapper>
+        {outputs?.includes('media') && (
+          <Button
+            id="button-media-list-header"
+            isPill
+            onClick={() =>
+              openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
+                newTab: true,
+              })
+            }
+            style={{ marginLeft: globalTheme.space.xs }}
+          >
+            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
+          </Button>
+        )}
         {outputs?.includes('bugs') && (
           <Button
             id="button-bugs-list-header"
@@ -112,22 +114,6 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
             }
           >
             {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
-          </Button>
-        )}
-        {outputs?.includes('media') && (
-          <Button
-            id="button-media-list-header"
-            isPrimary
-            isPill
-            themeColor={globalTheme.palette.water[600]}
-            onClick={() =>
-              openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
-                newTab: true,
-              })
-            }
-            style={{ marginLeft: globalTheme.space.xs }}
-          >
-            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
           </Button>
         )}
       </ButtonWrapper>

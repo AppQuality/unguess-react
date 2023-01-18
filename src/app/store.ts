@@ -7,6 +7,7 @@ import workspaceReducer from '../features/workspaces/workspaceSlice';
 import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
 import expressReducer from '../features/express/expressSlice';
 import { strapiSlice } from '../features/backoffice/strapi';
+import bugsPageReducer from '../features/bugsPage/bugsPageSlice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     workspaces: workspaceReducer,
     filters: filterReducer,
     express: expressReducer,
+    bugsPage: bugsPageReducer,
     [unguessApiSlice.reducerPath]: unguessApiSlice.reducer,
     [strapiSlice.reducerPath]: strapiSlice.reducer,
   },

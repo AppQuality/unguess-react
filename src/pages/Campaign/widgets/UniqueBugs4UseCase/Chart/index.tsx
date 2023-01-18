@@ -44,6 +44,12 @@ export const ChartUniqueBugs4UseCase = ({
           ),
           value: total.toString(),
         }}
+        labelFormatter={({ labelPosition, data, id, label }) => {
+          if (labelPosition === 'arclink' && label) return label.toString();
+          if (labelPosition === 'legend' && data?.fullName)
+            return data.fullName.toString();
+          return id.toString();
+        }}
         data={newItems}
         theme={{ labels: { text: { fontSize: 10 } } }}
         tooltip={({ label, value }) => (

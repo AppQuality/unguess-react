@@ -20,7 +20,7 @@ export const useBugsByType = (campaignId: number) => {
   );
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidBugsQuery({
-      cid: campaignId,
+      cid: campaignId?.toString() ?? '0',
     });
 
   // update acceptedTypes when bugTypes change and add fallback category

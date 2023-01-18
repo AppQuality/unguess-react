@@ -84,6 +84,23 @@ const useBugsByDevices = (campaignId: number) => {
     }
   }, [data]);
 
+  // If there is only one type of device, remove the first level
+  if (
+    chartData.children &&
+    chartData.children.length === 1 &&
+    chartData.children[0].children
+  ) {
+    chartData.children = chartData.children[0].children;
+    // If there is only one OS, remove the second level
+    if (
+      chartData.children &&
+      chartData.children.length === 1 &&
+      chartData.children[0].children
+    ) {
+      chartData.children = chartData.children[0].children;
+    }
+  }
+
   return { chartData, isLoading: isLoading || isFetching || isError };
 };
 

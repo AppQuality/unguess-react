@@ -70,6 +70,34 @@ const WPAPI = {
         // eslint-disable-next-line no-console
         console.error(e.message);
       }),
+  getReport: ({ campaignId, title }: { campaignId: number; title: string }) => {
+    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
+      },
+      body: queryString.stringify({
+        action: 'bugs_excel',
+        project: campaignId,
+        type: 'campaign',
+        title,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          window.location.href = `${process.env.REACT_APP_CROWD_WP_URL}/wp-content/themes/unguess/report/temp/${data.file}`;
+        } else {
+          // eslint-disable-next-line no-console
+          console.error(data);
+        }
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error('error', error);
+      });
+  },
 };
 
 export default WPAPI;
