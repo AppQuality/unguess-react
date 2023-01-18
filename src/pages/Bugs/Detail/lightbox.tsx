@@ -16,7 +16,7 @@ import styled from 'styled-components';
 import useWindowSize from 'src/hooks/useWindowSize';
 import BugMeta from './Meta';
 import BugDescription from './Description';
-import BugDetails from './Details';
+import DetailsItems from './DetailsItems';
 
 const Grey600Span = styled.span`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -107,7 +107,7 @@ export const LightboxContainer = ({
           <Lightbox.Body.Details style={{ flex: 1 }}>
             <BugMeta bug={bug} />
             <BugDescription bug={bug} />
-            <BugDetails bug={bug} />
+            <DetailsItems bug={bug} />
           </Lightbox.Body.Details>
         )}
       </Lightbox.Body>

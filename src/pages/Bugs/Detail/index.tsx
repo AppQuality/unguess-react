@@ -11,14 +11,16 @@ import BugDetails from './Details';
 const DetailContainer = styled.div`
   position: sticky;
   display: block;
-  top: -${({ theme }) => theme.space.sm};
+  top: 0;
   width: 100%;
   background-color: white;
   border: ${({ theme }) => theme.palette.grey[300]} 1px solid;
   border-top-left-radius: ${({ theme }) => theme.space.xs};
   border-bottom-left-radius: ${({ theme }) => theme.space.xs};
   padding: ${({ theme }) => `${theme.space.lg} ${theme.space.lg}`};
-  max-height: 100vh;
+  max-height: calc(
+    100vh - ${({ theme }) => theme.components.chrome.header.height}
+  );
   overflow-y: auto;
 `;
 
