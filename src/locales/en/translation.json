@@ -485,7 +485,6 @@
   "__LOGIN_FORM_TITLE": "Log in to UNGUESS",
   "__PAGE_BUG_EMPTY_STATE_CTA": "Reset",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC": "we couldn't find anything with the selected criteria",
-  "__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_SEARCHTERM": "we couldn't find anything for",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_SUB": "Try looking for something different",
   "__PAGE_BUGS_UNREAD_PILL": "Unread",
   "__PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_BOTTOM_LABEL_one": "Bug",
