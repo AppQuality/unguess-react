@@ -88,15 +88,13 @@ export const Tools = ({
       <ToolsWrapper>
         <StyledCounter campaignId={campaignId} />
         <SeveritiesWrapper>
-          {Object.keys(severities).map((severity) =>
-            severities[severity as Severities] > 0 ? (
-              <SeverityPill
-                key={severity}
-                counter={severities[severity as Severities]}
-                severity={severity as Severities}
-              />
-            ) : null
-          )}
+          {Object.keys(severities).map((severity) => (
+            <SeverityPill
+              key={severity}
+              counter={severities[severity as Severities]}
+              severity={severity as Severities}
+            />
+          ))}
         </SeveritiesWrapper>
         <Pipe />
         <StyledStatus status={status.name} />

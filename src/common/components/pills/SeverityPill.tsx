@@ -15,7 +15,7 @@ export const SeverityPill = ({ severity, counter }: SeverityPillProps) => (
   >
     <span>
       {capitalizeFirstLetter(severity)}
-      {counter && (
+      {typeof counter !== 'undefined' && (
         <span style={{ fontWeight: theme.fontWeights.extrabold }}>
           {` ${counter}`}
         </span>

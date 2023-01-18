@@ -5,6 +5,7 @@ import { Tools } from 'src/pages/Bugs/PageHeader/Tools';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { getLocalizeoFirstLevelDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import BugsPageHeaderLoader from './PageHeaderLoader';
 
 const FlexWrapper = styled.div`
@@ -45,6 +46,14 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
       <PageHeader.Breadcrumb>
         <Anchor id="breadcrumb-parent" onClick={() => navigate(project.route)}>
           {project.name}
+        </Anchor>
+        <Anchor
+          onClick={() => {
+            window.location.href =
+              getLocalizeoFirstLevelDashboardRoute(campaignId);
+          }}
+        >
+          {campaign.title}
         </Anchor>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
