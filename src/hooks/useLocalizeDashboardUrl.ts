@@ -38,12 +38,11 @@ export function getLocalizeoFirstLevelDashboardRoute(
 export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   const { campaignId, outputs } = props;
 
-  const currentLang = i18n.language || 'en';
-
   if (outputs.length === 0 || outputs.some((o) => o === 'bugs')) {
     return getLocalizeoFirstLevelDashboardRoute(campaignId);
   }
 
+  const currentLang = i18n.language || 'en';
   return getLocalizedUXDashboardUrl(campaignId, currentLang);
 }
 
