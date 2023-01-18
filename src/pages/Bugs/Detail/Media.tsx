@@ -10,7 +10,6 @@ import ImageCard from './ImageCard';
 import VideoCard from './VideoCard';
 import { LightboxContainer } from './lightbox';
 
-
 export default ({
   items,
   bug,
