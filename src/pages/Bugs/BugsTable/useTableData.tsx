@@ -5,14 +5,17 @@ import { ColumnDefinitionType } from 'src/common/components/Table';
 import { theme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
 import { useTranslation } from 'react-i18next';
-import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  getSelectedBugId,
+  getSelectedFiltersIds,
+} from 'src/features/bugsPage/bugsPageSlice';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import { TableDatum } from './types';
 import { BugTitle } from './BugTitle';
 
 export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
-
+  const currentBugId = getSelectedBugId();
   const filterBy = getSelectedFiltersIds();
 
   const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
@@ -59,56 +62,64 @@ export const useTableData = (campaignId: number) => {
 
   const mapBugsToTableData = useMemo<TableDatum[]>(() => {
     if (!bugs || !bugs.items) return [];
-    return bugs.items.map((bug) => ({
-      id: bug.id.toString(),
-      bugId: (
-        <span style={{ color: theme.palette.grey[700] }}>
-          {bug.id.toString()}
-        </span>
-      ),
-      severity: (
-        <SeverityPill
-          severity={bug.severity.name.toLowerCase() as Severities}
-        />
-      ),
-      title: (
-        <div>
-          <BugTitle isUnread={!bug.read}>{bug.title.compact}</BugTitle>
-          {bug.title.context && (
-            <Pill isBold={!bug.read}>{bug.title.context}</Pill>
-          )}
-          {bug.tags?.map((tag) => (
-            <Pill isBold={!bug.read}>{tag.tag_name}</Pill>
-          ))}
-          {bug.type.name && (
-            <>
-              <Pipe size="small" />
-              <Pill isBold style={{ marginLeft: theme.space.xs }}>
-                {bug.type.name}
-              </Pill>
-            </>
-          )}
-          {!bug.read && (
-            <>
-              <Pipe size="small" />
-              <Pill
-                isBold
-                backgroundColor="transparent"
-                color={theme.palette.blue[600]}
-              >
-                {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
-              </Pill>
-            </>
-          )}
-        </div>
-      ),
-      isHighlighted: !bug.read,
-      created: bug.created,
-      updated: bug.updated,
-      borderColor:
-        theme.colors.bySeverity[bug.severity.name.toLowerCase() as Severities],
-    }));
-  }, [bugs]);
+    return bugs.items.map((bug) => {
+      const isPillBold = (currentBugId && currentBugId === bug.id) || !bug.read;
+      return {
+        id: bug.id.toString(),
+        bugId: (
+          <span style={{ color: theme.palette.grey[700] }}>
+            {bug.id.toString()}
+          </span>
+        ),
+        severity: (
+          <SeverityPill
+            severity={bug.severity.name.toLowerCase() as Severities}
+          />
+        ),
+        title: (
+          <div>
+            <BugTitle isUnread={!bug.read}>{bug.title.compact}</BugTitle>
+            {bug.title.context && (
+              <Pill isBold={isPillBold}>{bug.title.context}</Pill>
+            )}
+            {bug.tags?.map((tag) => (
+              <Pill isBold={isPillBold}>{tag.tag_name}</Pill>
+            ))}
+            {bug.type.name && (
+              <>
+                <Pipe size="small" />
+                <Pill
+                  isBold={isPillBold}
+                  style={{ marginLeft: theme.space.xs }}
+                >
+                  {bug.type.name}
+                </Pill>
+              </>
+            )}
+            {!bug.read && (
+              <>
+                <Pipe size="small" />
+                <Pill
+                  isBold
+                  backgroundColor="transparent"
+                  color={theme.palette.blue[600]}
+                >
+                  {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
+                </Pill>
+              </>
+            )}
+          </div>
+        ),
+        isHighlighted: !bug.read,
+        created: bug.created,
+        updated: bug.updated,
+        borderColor:
+          theme.colors.bySeverity[
+            bug.severity.name.toLowerCase() as Severities
+          ],
+      };
+    });
+  }, [bugs, currentBugId]);
 
   if (isLoading || isFetching || !bugs || !bugs.items)
     return { columns, data: [], isLoading: true };

@@ -17,7 +17,7 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
       columns={columns}
       data={data}
       selectedRow={currentBugId ? currentBugId.toString() : null}
-      onRowClick={(bug_id) => dispatch(selectBug({ bug_id }))}
+      onRowClick={(bug_id) => dispatch(selectBug({ bug_id: Number(bug_id) }))}
       isSticky
       isLoading={isLoading}
       loadingRowHeight="70px"
