@@ -43,6 +43,7 @@ export const SearchFilter = () => {
   return (
     <div style={{ maxWidth: '180px' }}>
       <MediaInput
+        isCompact
         end={
           data.search ? (
             <ClickableXIcon onClick={() => setSearchInput('')} />

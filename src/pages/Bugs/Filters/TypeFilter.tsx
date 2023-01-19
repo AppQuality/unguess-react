@@ -22,6 +22,7 @@ export const TypeFilter = () => {
   return (
     <div style={{ maxWidth: '165px' }}>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`Typology ({{count}})`, { count }),
           noItems: t('__BUGS_TYPES_FILTER_ITEM_NO_ITEMS'),
