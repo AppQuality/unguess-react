@@ -78,7 +78,9 @@ export const useTableData = (campaignId: number) => {
         ),
         title: (
           <div>
-            <BugTitle isUnread={!bug.read}>{bug.title.compact}</BugTitle>
+            <BugTitle isUnread={!bug.read} isBold={isPillBold}>
+              {bug.title.compact}
+            </BugTitle>
             {bug.title.context && (
               <Pill isBold={isPillBold}>{bug.title.context}</Pill>
             )}
