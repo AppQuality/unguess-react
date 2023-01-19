@@ -39,7 +39,6 @@ interface PillProps {
 
 export const IconPill = ({
   background,
-  color,
   icon,
   title,
   children,
