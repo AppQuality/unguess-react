@@ -46,7 +46,7 @@ const bugPageSlice = createSlice({
       };
       state.currentCampaign = cp_id;
     },
-    selectBug: (state, action) => {
+    selectBug: (state, action: { payload: { bug_id?: number } }) => {
       const { bug_id } = action.payload;
       if (!state.currentCampaign) return;
       if (!(state.currentCampaign in state.campaigns)) return;
