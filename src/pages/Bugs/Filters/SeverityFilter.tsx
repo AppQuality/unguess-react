@@ -22,6 +22,7 @@ export const SeverityFilter = () => {
   return (
     <div style={{ maxWidth: '150px' }}>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`Severity ({{count}})`, { count }),
           noItems: t('__BUGS_SEVERITY_FILTER_ITEM_NO_ITEMS'),
