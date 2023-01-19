@@ -1,4 +1,4 @@
-import { MD, SM } from '@appquality/unguess-design-system';
+import { MD, Skeleton, SM } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import styled from 'styled-components';
@@ -36,10 +36,7 @@ export const InfoBugRow = ({ campaignId }: { campaignId: number }) => {
     },
   });
 
-  console.log('bugs', bugs);
-
   if (isError) return null;
-  if (isLoading || isFetching) return <>Loading...</>;
 
   // Count bugs with read = false
   const totalBugs = bugs?.total ?? 0;
@@ -47,17 +44,23 @@ export const InfoBugRow = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <StyledDiv>
-      <StyledMD isBold>
-        <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
-          {{ uniqueBugs: totalBugs }} unique bugs
-        </Trans>
-      </StyledMD>
-      <StyledSM>
-        <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER">
-          (Unread: <span>{{ unreadBugs: unreadBugs.length }}</span>/
-          {{ uniqueBugs: totalBugs }})
-        </Trans>
-      </StyledSM>
+      {isLoading || isFetching ? (
+        <Skeleton height="18px" />
+      ) : (
+        <>
+          <StyledMD isBold>
+            <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
+              {{ uniqueBugs: totalBugs }} unique bugs
+            </Trans>
+          </StyledMD>
+          <StyledSM>
+            <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER">
+              (Unread: <span>{{ unreadBugs: unreadBugs.length }}</span>/
+              {{ uniqueBugs: totalBugs }})
+            </Trans>
+          </StyledSM>
+        </>
+      )}
     </StyledDiv>
   );
 };
