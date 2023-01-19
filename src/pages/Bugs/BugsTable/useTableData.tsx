@@ -1,7 +1,11 @@
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { useTranslation } from 'react-i18next';
 import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
-import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
+import {
+  Bug,
+  GetCampaignsByCidBugsApiResponse,
+  useGetCampaignsByCidBugsQuery,
+} from 'src/features/api';
 import { TableDatum } from './types';
 import { mapBugsToTableData } from './mapBugsToTableData';
 
@@ -62,22 +66,35 @@ export const useTableData = (campaignId: number) => {
     };
   }
 
+  type BugByUsecaseType = {
+    useCase: Bug['application_section'];
+    bugs: Exclude<GetCampaignsByCidBugsApiResponse['items'], undefined>;
+  };
+  const bugsByUsecase: BugByUsecaseType[] = [];
+
+  // sort bugs
+  bugs.items.forEach((bug) => {
+    if (typeof bug.application_section.title === 'undefined') return;
+    const useCase = bugsByUsecase.find(
+      (item) => item.useCase.title === bug.application_section.title
+    );
+
+    if (useCase) {
+      useCase.bugs.push(bug);
+    } else {
+      bugsByUsecase.push({
+        useCase: bug.application_section,
+        bugs: [bug],
+      });
+    }
+  });
   /* got the data */
   return {
     columns,
     data: {
       useCases: [],
       allBugs: [],
-      bugsByUseCases: [
-        {
-          useCase: { id: '1', name: 'useCase1' },
-          bugs: mapBugsToTableData(bugs, t),
-        },
-        {
-          useCase: { id: '2', name: 'useCase2' },
-          bugs: mapBugsToTableData(bugs, t),
-        },
-      ],
+      bugsByUseCases: bugsByUsecase,
     },
     isLoading: false,
     filterBy,

@@ -7,11 +7,11 @@ import { GetCampaignsByCidBugsApiResponse } from 'src/features/api';
 import { BugTitle } from './BugTitle';
 
 export const mapBugsToTableData = (
-  bugs: GetCampaignsByCidBugsApiResponse,
+  bugs: GetCampaignsByCidBugsApiResponse['items'],
   t: TFunction
 ) => {
-  if (!bugs || !bugs.items) return [];
-  return bugs.items.slice(0, 3).map((bug) => ({
+  if (!bugs) return [];
+  return bugs.map((bug) => ({
     id: bug.id.toString(),
     bugId: (
       <span style={{ color: theme.palette.grey[700] }}>
