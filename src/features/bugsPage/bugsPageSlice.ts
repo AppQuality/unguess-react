@@ -22,11 +22,13 @@ interface initialSimpleState {
     [campaign_id: string]: CampaignType;
   };
   pageView: PageView;
+  isFilterDrawerOpen: boolean;
 }
 
 const initialStateSimple: initialSimpleState = {
   campaigns: {},
   pageView: 'byUsecase',
+  isFilterDrawerOpen: false,
 };
 
 const bugPageSlice = createSlice({
@@ -93,7 +95,10 @@ const bugPageSlice = createSlice({
       };
     },
     setPageView: (state, action: PayloadAction<PageView>) => {
-      state.pageView = action.payload;
+      state.pageView = action.payload
+    },
+    setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
+      state.isFilterDrawerOpen = action.payload;
     },
   },
 });
@@ -144,4 +149,5 @@ export const {
   selectBug,
   resetFilters,
   setPageView,
+  setFilterDrawerOpen,
 } = bugPageSlice.actions;

@@ -1,6 +1,8 @@
+import { Anchor, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { SM } from '@appquality/unguess-design-system';
+import { useAppDispatch } from 'src/app/hooks';
+import { setFilterDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { TypeFilter } from './TypeFilter';
 import { SeverityFilter } from './SeverityFilter';
 import { ReadFilter } from './ReadFilter';
@@ -8,12 +10,20 @@ import { UniqueFilter } from './UniqueFilter';
 import { SearchFilter } from './SearchFilter';
 import { FilterRecap } from './FilterRecap';
 import { GroupBy } from './GroupBy';
+import { BugsFilterDrawer } from '../Drawer';
 
 const FilterContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: ${({ theme }) => theme.space.base * 4}px;
   margin-bottom: ${({ theme }) => theme.space.md};
+`;
+
+const RecapContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.space.sm};
 `;
 
 const StyledSM = styled(SM)`
@@ -32,6 +42,8 @@ const OrderInfo = styled.div`
 
 const BugsFilters = () => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <FilterContainer>
@@ -46,8 +58,18 @@ const BugsFilters = () => {
           </StyledSM>
         </OrderInfo>
         <GroupBy />
+        <Anchor
+          onClick={() => {
+            dispatch(setFilterDrawerOpen(true));
+          }}
+        >
+          {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
+        </Anchor>
       </FilterContainer>
-      <FilterRecap />
+      <RecapContainer>
+        <FilterRecap />
+      </RecapContainer>
+      <BugsFilterDrawer />
     </>
   );
 };
