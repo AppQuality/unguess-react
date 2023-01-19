@@ -82,7 +82,11 @@ export default ({
         style={{ textTransform: 'capitalize' }}
       />
       <IconPill
-        title={`${bug.device.os} ${bug.device.os_version}`}
+        title={`${
+          bug.device.type === 'desktop'
+            ? bug.device.desktop_type
+            : `${bug.device.manufacturer} ${bug.device.model}`
+        }`}
         icon={<OSIcon />}
         style={{ textTransform: 'capitalize' }}
       />
