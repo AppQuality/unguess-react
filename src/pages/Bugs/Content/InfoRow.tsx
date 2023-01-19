@@ -1,5 +1,5 @@
 import { MD, Skeleton, SM } from '@appquality/unguess-design-system';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import styled from 'styled-components';
 
@@ -22,8 +22,6 @@ const StyledDiv = styled.div`
 `;
 
 export const InfoBugRow = ({ campaignId }: { campaignId: number }) => {
-  const { t } = useTranslation();
-
   const {
     isLoading,
     isFetching,
