@@ -58,8 +58,6 @@ export const useTableData = (campaignId: number) => {
     return {
       columns,
       data: {
-        useCases: [],
-        allBugs: [],
         bugsByUseCases: [],
       },
       isLoading: true,
@@ -92,9 +90,17 @@ export const useTableData = (campaignId: number) => {
   return {
     columns,
     data: {
-      useCases: [],
-      allBugs: [],
-      bugsByUseCases: bugsByUsecase,
+      bugsByUseCases: bugsByUsecase.sort((a, b) => {
+        if (a.useCase.id && b.useCase.id) {
+          if (a.useCase.id > b.useCase.id) {
+            return 1;
+          }
+          if (a.useCase.id < b.useCase.id) {
+            return -1;
+          }
+        }
+        return 0;
+      }),
     },
     isLoading: false,
     filterBy,
