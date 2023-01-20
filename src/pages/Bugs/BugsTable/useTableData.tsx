@@ -7,7 +7,6 @@ import {
   useGetCampaignsByCidBugsQuery,
 } from 'src/features/api';
 import { TableDatum } from './types';
-import { mapBugsToTableData } from './mapBugsToTableData';
 
 export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
