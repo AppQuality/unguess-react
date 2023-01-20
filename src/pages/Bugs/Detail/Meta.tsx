@@ -84,16 +84,20 @@ export default ({
       <Pipe style={{ height: '20px' }} />
       <IconPill
         size="medium"
-        title={<InfoTitle>{bug.device.type}</InfoTitle>}
+        title={
+          <InfoTitle>
+            {bug.device.type === 'desktop'
+              ? bug.device.desktop_type
+              : `${bug.device.manufacturer} ${bug.device.model}`}
+          </InfoTitle>
+        }
         icon={getDeviceIcon(bug.device.type)}
         style={{ textTransform: 'capitalize' }}
       />
       <IconPill
         title={
           <InfoTitle>
-            {bug.device.type === 'desktop'
-              ? bug.device.desktop_type
-              : `${bug.device.manufacturer} ${bug.device.model}`}
+            {bug.device.os} {bug.device.os_version}
           </InfoTitle>
         }
         icon={<OSIcon />}
