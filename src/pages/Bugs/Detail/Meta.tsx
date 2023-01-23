@@ -89,6 +89,7 @@ export default ({
         style={{ textTransform: 'capitalize' }}
       />
       <IconPill
+        size="medium"
         title={
           <InfoTitle>
             {bug.device.type === 'desktop'
