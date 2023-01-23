@@ -1,6 +1,6 @@
 import { Accordion, Skeleton } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
-import UsecaseTable from './UsecaseTable';
+import UsecaseTable from './SingleGroupTable';
 
 const loadingTables = [1, 3];
 export const LoadingState = () => (

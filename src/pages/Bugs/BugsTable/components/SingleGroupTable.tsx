@@ -10,15 +10,15 @@ import { Accordion, Button, theme } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { mapBugsToTableData } from '../mapBugsToTableData';
 import { TableDatum } from '../types';
-import { EmptyState } from '../EmptyState';
+import { EmptyState } from './EmptyState';
 
 interface UsecaseTableProps {
   bugs: Bug[];
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
-const UsecaseTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
+const SingleGroupTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
   const { t } = useTranslation();
   const currentBugId = getSelectedBugId();
   const [isPreview, setIsPreview] = useState(true);
@@ -53,4 +53,4 @@ const UsecaseTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
   );
 };
 
-export default UsecaseTable;
+export default SingleGroupTable;

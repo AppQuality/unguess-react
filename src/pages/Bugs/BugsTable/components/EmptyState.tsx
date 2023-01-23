@@ -4,7 +4,7 @@ import { useAppDispatch } from 'src/app/hooks';
 import { theme } from 'src/app/theme';
 import { resetFilters } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import Background from './assets/bg_empty_state.png';
+import Background from '../assets/bg_empty_state.png';
 
 const StyledEmptyState = styled.div`
   display: flex;

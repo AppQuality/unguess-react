@@ -1,12 +1,8 @@
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { useTranslation } from 'react-i18next';
 import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
-import {
-  Bug,
-  GetCampaignsByCidBugsApiResponse,
-  useGetCampaignsByCidBugsQuery,
-} from 'src/features/api';
-import { TableDatum } from './types';
+import { Bug, useGetCampaignsByCidBugsQuery } from 'src/features/api';
+import { BugBySeverityType, BugByUsecaseType, TableDatum } from './types';
 
 export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
@@ -53,24 +49,22 @@ export const useTableData = (campaignId: number) => {
     order: 'DESC',
   });
 
+  const bugsByUsecase: BugByUsecaseType[] = [];
+  const bugsBySeverity: BugBySeverityType[] = [];
+
   if (isLoading || isFetching || !bugs || !bugs.items) {
     return {
       columns,
       data: {
+        allBugs: [],
         bugsByUseCases: [],
+        bugsBySeverity: [],
       },
       isLoading: true,
     };
   }
 
-  type BugByUsecaseType = {
-    useCase: Bug['application_section'];
-    bugs: Exclude<GetCampaignsByCidBugsApiResponse['items'], undefined>;
-  };
-  const bugsByUsecase: BugByUsecaseType[] = [];
-
-  // sort bugs
-  bugs.items.forEach((bug) => {
+  const sortByUsecase = (bug: Bug) => {
     if (typeof bug.application_section.title === 'undefined') return;
     const useCase = bugsByUsecase.find(
       (item) => item.useCase.title === bug.application_section.title
@@ -84,11 +78,33 @@ export const useTableData = (campaignId: number) => {
         bugs: [bug],
       });
     }
+  };
+
+  const sortBySeverity = (bug: Bug) => {
+    const severity = bugsBySeverity.find(
+      (item) => item.severity.id === bug.severity.id
+    );
+
+    if (severity) {
+      severity.bugs.push(bug);
+    } else {
+      bugsBySeverity.push({
+        severity: bug.severity,
+        bugs: [bug],
+      });
+    }
+  };
+
+  // sort bugs
+  bugs.items.forEach((bug) => {
+    sortBySeverity(bug);
+    sortByUsecase(bug);
   });
   /* got the data */
   return {
     columns,
     data: {
+      allBugs: bugs.items,
       bugsByUseCases: bugsByUsecase.sort((a, b) => {
         if (a.useCase.id && b.useCase.id) {
           if (a.useCase.id > b.useCase.id) {
@@ -96,6 +112,17 @@ export const useTableData = (campaignId: number) => {
           }
           if (a.useCase.id < b.useCase.id) {
             return -1;
+          }
+        }
+        return 0;
+      }),
+      bugsBySeverity: bugsBySeverity.sort((a, b) => {
+        if (a.severity.id && b.severity.id) {
+          if (a.severity.id > b.severity.id) {
+            return -1;
+          }
+          if (a.severity.id < b.severity.id) {
+            return 1;
           }
         }
         return 0;
