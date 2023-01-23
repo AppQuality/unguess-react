@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Table, { ColumnDefinitionType } from 'src/common/components/Table';
 import { Bug } from 'src/features/api';
@@ -6,7 +6,7 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { Accordion, Button } from '@appquality/unguess-design-system';
+import { Accordion, Button, theme } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { mapBugsToTableData } from '../mapBugsToTableData';
 import { TableDatum } from '../types';
@@ -31,19 +31,23 @@ const UsecaseTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
 
   return (
     <Accordion.Panel>
-      {bugs && bugs.length > 0 && (
-        <Table
-          columns={columns}
-          data={getDisplayedBugs()}
-          selectedRow={currentBugId ? currentBugId.toString() : null}
-          onRowClick={(bug_id) => dispatch(selectBug({ bug_id }))}
-          isSticky
-          isLoading={isLoading}
-          loadingRowHeight="70px"
-          emptyState={<EmptyState />}
-        />
-      )}
-      <Button onClick={() => setIsPreview(!isPreview)}>vedi tutti</Button>
+      <Table
+        style={{ marginBottom: theme.space.sm }}
+        columns={columns}
+        data={getDisplayedBugs()}
+        selectedRow={currentBugId ? currentBugId.toString() : null}
+        onRowClick={(bug_id) => dispatch(selectBug({ bug_id }))}
+        isSticky
+        isLoading={isLoading}
+        loadingRowHeight="70px"
+        emptyState={<EmptyState />}
+      />
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
+          {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
+          {` (${bugs.length})`}
+        </Button>
+      </div>
     </Accordion.Panel>
   );
 };
