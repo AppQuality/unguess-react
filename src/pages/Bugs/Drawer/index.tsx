@@ -1,5 +1,6 @@
 import {
   Accordion,
+  Anchor,
   Button,
   Checkbox,
   Drawer,
@@ -8,9 +9,11 @@ import {
   Radio,
   Skeleton,
   SM,
+  Span,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
@@ -31,12 +34,25 @@ const AccordionLabel = styled(MD)`
   margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
 
+const ShowMore = styled(Anchor)`
+  display: block;
+  margin-top: ${({ theme }) => theme.space.base * 4}px;
+  color: ${({ theme }) => theme.colors.primaryHue};
+  padding-left: ${({ theme }) => theme.space.base * 6}px;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+`;
+
 const BugsFilterDrawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { isFilterDrawerOpen } = useAppSelector((state) => state.bugsPage);
   const bugsCount = 99;
   const campaignData = getCurrentCampaignData();
+  const [showMore, setShowMore] = useState({
+    types: false,
+    severities: false,
+  });
+  const maxItemsToShow = 3;
 
   console.log('campaignData', campaignData);
 
@@ -142,10 +158,17 @@ const BugsFilterDrawer = () => {
                         }}
                       >
                         {severities.selected && severities.selected.length
-                          ? severities.selected
+                          ? `${severities.selected
+                              .slice(0, maxItemsToShow)
                               .map((item) => item.name)
                               .join(', ')
-                              .toLowerCase()
+                              .toLowerCase()} ${
+                              severities.selected.length > maxItemsToShow
+                                ? `+${
+                                    severities.selected.length - maxItemsToShow
+                                  }`
+                                : ''
+                            }`
                           : t(
                               '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_ALL_LABEL'
                             )}
@@ -153,47 +176,79 @@ const BugsFilterDrawer = () => {
                     </Accordion.Label>
                   </Accordion.Header>
                   <Accordion.Panel>
-                    {severities.available.map((item) => (
-                      <Field style={{ marginBottom: globalTheme.space.xs }}>
-                        <Checkbox
-                          value={item.name}
-                          name="filter-severity"
-                          checked={severities.selected
-                            .map((i) => i.id)
-                            .includes(item.id)}
-                          onChange={() => {
-                            dispatch(
-                              updateFilters({
-                                filters: {
-                                  severities: [
-                                    ...(severities.selected
-                                      .map((i) => i.id)
-                                      .includes(item.id)
-                                      ? severities.selected.filter(
-                                          (i) => i.id !== item.id
-                                        )
-                                      : [...severities.selected, item]),
-                                  ],
-                                },
-                              })
-                            );
-                          }}
-                        >
-                          <Label
-                            isRegular
-                            style={{
-                              color:
-                                globalTheme.colors.bySeverity[
-                                  item.name.toLowerCase() as Severities
-                                ],
-                              textTransform: 'capitalize',
+                    {severities.available
+                      .slice(
+                        0,
+                        showMore.severities ? undefined : maxItemsToShow
+                      )
+                      .map((item) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={item.name}
+                            name="filter-severity"
+                            checked={severities.selected
+                              .map((i) => i.id)
+                              .includes(item.id)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    severities: [
+                                      ...(severities.selected
+                                        .map((i) => i.id)
+                                        .includes(item.id)
+                                        ? severities.selected.filter(
+                                            (i) => i.id !== item.id
+                                          )
+                                        : [...severities.selected, item]),
+                                    ],
+                                  },
+                                })
+                              );
                             }}
                           >
-                            {item.name.toLowerCase()}
-                          </Label>
-                        </Checkbox>
-                      </Field>
-                    ))}
+                            <Label
+                              isRegular
+                              style={{
+                                color:
+                                  globalTheme.colors.bySeverity[
+                                    item.name.toLowerCase() as Severities
+                                  ],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {item.name.toLowerCase()}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
+                    {severities.available.length > maxItemsToShow && (
+                      <ShowMore
+                        onClick={() => {
+                          setShowMore({
+                            ...showMore,
+                            severities: !showMore.severities,
+                          });
+                        }}
+                      >
+                        {!showMore.severities ? (
+                          <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITIES_SHOW_MORE_LABEL">
+                            Show{' '}
+                            <Span isBold>
+                              {{
+                                severities:
+                                  severities.available.length - maxItemsToShow,
+                              }}
+                            </Span>{' '}
+                            more severities
+                          </Trans>
+                        ) : (
+                          t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITIES_SHOW_LESS_LABEL'
+                          )
+                        )}
+                      </ShowMore>
+                    )}
                   </Accordion.Panel>
                 </Accordion.Section>
               </Accordion>
@@ -219,10 +274,15 @@ const BugsFilterDrawer = () => {
                         }}
                       >
                         {types.selected && types.selected.length
-                          ? types.selected
+                          ? `${types.selected
+                              .slice(0, maxItemsToShow)
                               .map((item) => item.name)
                               .join(', ')
-                              .toLowerCase()
+                              .toLowerCase()} ${
+                              types.selected.length > maxItemsToShow
+                                ? `+${types.selected.length - maxItemsToShow}`
+                                : ''
+                            }`
                           : t(
                               '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_ALL_LABEL'
                             )}
@@ -230,44 +290,73 @@ const BugsFilterDrawer = () => {
                     </Accordion.Label>
                   </Accordion.Header>
                   <Accordion.Panel>
-                    {types.available.map((item) => (
-                      <Field style={{ marginBottom: globalTheme.space.xs }}>
-                        <Checkbox
-                          value={item.name}
-                          name="filter-typology"
-                          checked={types.selected
-                            .map((i) => i.id)
-                            .includes(item.id)}
-                          onChange={() => {
-                            dispatch(
-                              updateFilters({
-                                filters: {
-                                  types: [
-                                    ...(types.selected
-                                      .map((i) => i.id)
-                                      .includes(item.id)
-                                      ? types.selected.filter(
-                                          (i) => i.id !== item.id
-                                        )
-                                      : [...types.selected, item]),
-                                  ],
-                                },
-                              })
-                            );
-                          }}
-                        >
-                          <Label
-                            isRegular
-                            style={{
-                              color: globalTheme.palette.grey[600],
-                              textTransform: 'capitalize',
+                    {types.available
+                      .slice(0, showMore.types ? undefined : maxItemsToShow)
+                      .map((item) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={item.name}
+                            name="filter-typology"
+                            checked={types.selected
+                              .map((i) => i.id)
+                              .includes(item.id)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    types: [
+                                      ...(types.selected
+                                        .map((i) => i.id)
+                                        .includes(item.id)
+                                        ? types.selected.filter(
+                                            (i) => i.id !== item.id
+                                          )
+                                        : [...types.selected, item]),
+                                    ],
+                                  },
+                                })
+                              );
                             }}
                           >
-                            {item.name.toLowerCase()}
-                          </Label>
-                        </Checkbox>
-                      </Field>
-                    ))}
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {item.name.toLowerCase()}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
+                    {types.available.length > maxItemsToShow && (
+                      <ShowMore
+                        onClick={() => {
+                          setShowMore({
+                            ...showMore,
+                            types: !showMore.types,
+                          });
+                        }}
+                      >
+                        {!showMore.types ? (
+                          <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_MORE_LABEL">
+                            Show{' '}
+                            <Span isBold>
+                              {{
+                                typologies:
+                                  types.available.length - maxItemsToShow,
+                              }}
+                            </Span>{' '}
+                            more typologies
+                          </Trans>
+                        ) : (
+                          t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_LESS_LABEL'
+                          )
+                        )}
+                      </ShowMore>
+                    )}
                   </Accordion.Panel>
                 </Accordion.Section>
               </Accordion>
