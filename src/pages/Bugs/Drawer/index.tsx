@@ -54,7 +54,7 @@ const BugsFilterDrawer = () => {
     console.log('reset filters');
   };
 
-  const { types, severities, read, unique, search } = campaignData;
+  const { types, severities, unique } = campaignData;
 
   return (
     <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
@@ -84,7 +84,12 @@ const BugsFilterDrawer = () => {
                           '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DUPLICATES_TITLE'
                         )}
                       </AccordionLabel>
-                      <SM style={{ color: globalTheme.palette.grey[600] }}>
+                      <SM
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
                         {unique.selected === 'unique'
                           ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
                           : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
@@ -130,11 +135,17 @@ const BugsFilterDrawer = () => {
                           '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_TITLE'
                         )}
                       </AccordionLabel>
-                      <SM style={{ color: globalTheme.palette.grey[600] }}>
+                      <SM
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
                         {severities.selected && severities.selected.length
                           ? severities.selected
                               .map((item) => item.name)
                               .join(', ')
+                              .toLowerCase()
                           : t(
                               '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_ALL_LABEL'
                             )}
@@ -143,7 +154,7 @@ const BugsFilterDrawer = () => {
                   </Accordion.Header>
                   <Accordion.Panel>
                     {severities.available.map((item) => (
-                      <Field>
+                      <Field style={{ marginBottom: globalTheme.space.xs }}>
                         <Checkbox
                           value={item.name}
                           name="filter-severity"
@@ -168,7 +179,18 @@ const BugsFilterDrawer = () => {
                             );
                           }}
                         >
-                          <Label>{item.name}</Label>
+                          <Label
+                            isRegular
+                            style={{
+                              color:
+                                globalTheme.colors.bySeverity[
+                                  item.name.toLowerCase() as Severities
+                                ],
+                              textTransform: 'capitalize',
+                            }}
+                          >
+                            {item.name.toLowerCase()}
+                          </Label>
                         </Checkbox>
                       </Field>
                     ))}
@@ -176,6 +198,11 @@ const BugsFilterDrawer = () => {
                 </Accordion.Section>
               </Accordion>
               <Divider />
+            </>
+          )}
+
+          {types.available.length && (
+            <>
               <Accordion level={3}>
                 <Accordion.Section>
                   <Accordion.Header>
@@ -185,36 +212,89 @@ const BugsFilterDrawer = () => {
                           '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_TITLE'
                         )}
                       </AccordionLabel>
-                      <SM style={{ color: globalTheme.palette.grey[600] }}>
-                        Value
+                      <SM
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {types.selected && types.selected.length
+                          ? types.selected
+                              .map((item) => item.name)
+                              .join(', ')
+                              .toLowerCase()
+                          : t(
+                              '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_ALL_LABEL'
+                            )}
                       </SM>
                     </Accordion.Label>
                   </Accordion.Header>
-                  <Accordion.Panel>Options</Accordion.Panel>
-                </Accordion.Section>
-              </Accordion>
-              <Divider />
-              <Accordion level={3}>
-                <Accordion.Section>
-                  <Accordion.Header>
-                    <Accordion.Label>
-                      <AccordionLabel isBold>
-                        {t(
-                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE'
-                        )}
-                      </AccordionLabel>
-                      <SM style={{ color: globalTheme.palette.grey[600] }}>
-                        Value
-                      </SM>
-                    </Accordion.Label>
-                  </Accordion.Header>
-                  <Accordion.Panel>Options</Accordion.Panel>
+                  <Accordion.Panel>
+                    {types.available.map((item) => (
+                      <Field style={{ marginBottom: globalTheme.space.xs }}>
+                        <Checkbox
+                          value={item.name}
+                          name="filter-typology"
+                          checked={types.selected
+                            .map((i) => i.id)
+                            .includes(item.id)}
+                          onChange={() => {
+                            dispatch(
+                              updateFilters({
+                                filters: {
+                                  types: [
+                                    ...(types.selected
+                                      .map((i) => i.id)
+                                      .includes(item.id)
+                                      ? types.selected.filter(
+                                          (i) => i.id !== item.id
+                                        )
+                                      : [...types.selected, item]),
+                                  ],
+                                },
+                              })
+                            );
+                          }}
+                        >
+                          <Label
+                            isRegular
+                            style={{
+                              color: globalTheme.palette.grey[600],
+                              textTransform: 'capitalize',
+                            }}
+                          >
+                            {item.name.toLowerCase()}
+                          </Label>
+                        </Checkbox>
+                      </Field>
+                    ))}
+                  </Accordion.Panel>
                 </Accordion.Section>
               </Accordion>
               <Divider />
             </>
           )}
+
+          <>
+            <Accordion level={3}>
+              <Accordion.Section>
+                <Accordion.Header>
+                  <Accordion.Label>
+                    <AccordionLabel isBold>
+                      {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE')}
+                    </AccordionLabel>
+                    <SM style={{ color: globalTheme.palette.grey[600] }}>
+                      Value
+                    </SM>
+                  </Accordion.Label>
+                </Accordion.Header>
+                <Accordion.Panel>Options</Accordion.Panel>
+              </Accordion.Section>
+            </Accordion>
+            <Divider />
+          </>
         </>
+
         <>
           <MD
             isBold
@@ -226,22 +306,25 @@ const BugsFilterDrawer = () => {
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_BODY_ACTIONS_LABEL')}
           </MD>
-          <Accordion level={3}>
-            <Accordion.Section>
-              <Accordion.Header>
-                <Accordion.Label>
-                  <AccordionLabel isBold>
-                    {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE')}
-                  </AccordionLabel>
-                  <SM style={{ color: globalTheme.palette.grey[600] }}>
-                    Value
-                  </SM>
-                </Accordion.Label>
-              </Accordion.Header>
-              <Accordion.Panel>Options</Accordion.Panel>
-            </Accordion.Section>
-          </Accordion>
-          <Divider />
+
+          <>
+            <Accordion level={3}>
+              <Accordion.Section>
+                <Accordion.Header>
+                  <Accordion.Label>
+                    <AccordionLabel isBold>
+                      {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE')}
+                    </AccordionLabel>
+                    <SM style={{ color: globalTheme.palette.grey[600] }}>
+                      Value
+                    </SM>
+                  </Accordion.Label>
+                </Accordion.Header>
+                <Accordion.Panel>Options</Accordion.Panel>
+              </Accordion.Section>
+            </Accordion>
+            <Divider />
+          </>
         </>
         <>
           <MD
@@ -254,72 +337,65 @@ const BugsFilterDrawer = () => {
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_BODY_BUG_LABEL')}
           </MD>
-          <Accordion level={3}>
-            <Accordion.Section>
-              <Accordion.Header>
-                <Accordion.Label>
-                  <AccordionLabel isBold>
-                    {t(
-                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_TITLE'
-                    )}
-                  </AccordionLabel>
-                  <SM style={{ color: globalTheme.palette.grey[600] }}>
-                    Value
-                  </SM>
-                </Accordion.Label>
-              </Accordion.Header>
-              <Accordion.Panel>Options</Accordion.Panel>
-            </Accordion.Section>
-          </Accordion>
-          <Divider />
-          <Accordion level={3}>
-            <Accordion.Section>
-              <Accordion.Header>
-                <Accordion.Label>
-                  <AccordionLabel isBold>
-                    {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_TITLE')}
-                  </AccordionLabel>
-                  <SM style={{ color: globalTheme.palette.grey[600] }}>
-                    Value
-                  </SM>
-                </Accordion.Label>
-              </Accordion.Header>
-              <Accordion.Panel>Options</Accordion.Panel>
-            </Accordion.Section>
-          </Accordion>
-          <Divider />
-          <Accordion level={3}>
-            <Accordion.Section>
-              <Accordion.Header>
-                <Accordion.Label>
-                  <AccordionLabel isBold>
-                    {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_TITLE')}
-                  </AccordionLabel>
-                  <SM style={{ color: globalTheme.palette.grey[600] }}>
-                    Value
-                  </SM>
-                </Accordion.Label>
-              </Accordion.Header>
-              <Accordion.Panel>Options</Accordion.Panel>
-            </Accordion.Section>
-          </Accordion>
-          <Divider />
-          <Accordion level={3}>
-            <Accordion.Section>
-              <Accordion.Header>
-                <Accordion.Label>
-                  <AccordionLabel isBold>
-                    {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE')}
-                  </AccordionLabel>
-                  <SM style={{ color: globalTheme.palette.grey[600] }}>
-                    Value
-                  </SM>
-                </Accordion.Label>
-              </Accordion.Header>
-              <Accordion.Panel>Options</Accordion.Panel>
-            </Accordion.Section>
-          </Accordion>
-          <Divider />
+
+          <>
+            <Accordion level={3}>
+              <Accordion.Section>
+                <Accordion.Header>
+                  <Accordion.Label>
+                    <AccordionLabel isBold>
+                      {t(
+                        '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_TITLE'
+                      )}
+                    </AccordionLabel>
+                    <SM style={{ color: globalTheme.palette.grey[600] }}>
+                      Value
+                    </SM>
+                  </Accordion.Label>
+                </Accordion.Header>
+                <Accordion.Panel>Options</Accordion.Panel>
+              </Accordion.Section>
+            </Accordion>
+            <Divider />
+          </>
+
+          <>
+            <Accordion level={3}>
+              <Accordion.Section>
+                <Accordion.Header>
+                  <Accordion.Label>
+                    <AccordionLabel isBold>
+                      {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_TITLE')}
+                    </AccordionLabel>
+                    <SM style={{ color: globalTheme.palette.grey[600] }}>
+                      Value
+                    </SM>
+                  </Accordion.Label>
+                </Accordion.Header>
+                <Accordion.Panel>Options</Accordion.Panel>
+              </Accordion.Section>
+            </Accordion>
+            <Divider />
+          </>
+
+          <>
+            <Accordion level={3}>
+              <Accordion.Section>
+                <Accordion.Header>
+                  <Accordion.Label>
+                    <AccordionLabel isBold>
+                      {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_TITLE')}
+                    </AccordionLabel>
+                    <SM style={{ color: globalTheme.palette.grey[600] }}>
+                      Value
+                    </SM>
+                  </Accordion.Label>
+                </Accordion.Header>
+                <Accordion.Panel>Options</Accordion.Panel>
+              </Accordion.Section>
+            </Accordion>
+            <Divider />
+          </>
         </>
       </Drawer.Body>
       <Drawer.Footer>
