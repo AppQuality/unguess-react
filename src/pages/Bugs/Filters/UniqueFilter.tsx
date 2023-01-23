@@ -39,7 +39,7 @@ export const UniqueFilter = () => {
       }}
     >
       <Field>
-        <Select isPrimary={data.unique.selected === 'unique'}>
+        <Select isCompact isPrimary={data.unique.selected === 'unique'}>
           {data.unique.selected === 'unique'
             ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
             : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}

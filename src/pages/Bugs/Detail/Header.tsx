@@ -43,7 +43,7 @@ export default ({
         onClick={() => {
           dispatch(
             selectBug({
-              bug_id: null,
+              bug_id: undefined,
             })
           );
         }}

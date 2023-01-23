@@ -36,7 +36,9 @@ const SingleGroupTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
         columns={columns}
         data={getDisplayedBugs()}
         selectedRow={currentBugId ? currentBugId.toString() : null}
-        onRowClick={(bug_id) => dispatch(selectBug({ bug_id }))}
+        onRowClick={(bug_id) =>
+          dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
+        }
         isSticky
         isLoading={isLoading}
         loadingRowHeight="70px"

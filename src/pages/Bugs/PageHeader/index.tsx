@@ -53,7 +53,7 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
               getLocalizeoFirstLevelDashboardRoute(campaignId);
           }}
         >
-          {campaign.title}
+          {campaign.customer_title}
         </Anchor>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>

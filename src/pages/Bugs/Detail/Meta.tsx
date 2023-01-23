@@ -1,4 +1,4 @@
-import { LG, MD, SM } from '@appquality/unguess-design-system';
+import { LG, MD, SM, Span } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -21,7 +21,12 @@ const BugInfo = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  margin-top: ${({ theme }) => theme.space.sm};
+  margin: ${({ theme }) => theme.space.xxs} 0;
+`;
+
+const InfoTitle = styled(Span)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
 function getDeviceIcon(device: string) {
@@ -71,22 +76,31 @@ export default ({
         style={{
           color: globalTheme.palette.grey[600],
           textTransform: 'capitalize',
+          fontWeight: globalTheme.fontWeights.regular,
         }}
       >
         {bug.type.name}
       </SM>
-      <Pipe />
+      <Pipe style={{ height: '20px' }} />
       <IconPill
-        title={bug.device.type}
+        size="medium"
+        title={
+          <InfoTitle>
+            {bug.device.type === 'desktop'
+              ? bug.device.desktop_type
+              : `${bug.device.manufacturer} ${bug.device.model}`}
+          </InfoTitle>
+        }
         icon={getDeviceIcon(bug.device.type)}
         style={{ textTransform: 'capitalize' }}
       />
       <IconPill
-        title={`${
-          bug.device.type === 'desktop'
-            ? bug.device.desktop_type
-            : `${bug.device.manufacturer} ${bug.device.model}`
-        }`}
+        size="medium"
+        title={
+          <InfoTitle>
+            {bug.device.os} {bug.device.os_version}
+          </InfoTitle>
+        }
         icon={<OSIcon />}
         style={{ textTransform: 'capitalize' }}
       />

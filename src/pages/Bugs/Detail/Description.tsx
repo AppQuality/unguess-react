@@ -1,7 +1,6 @@
 import { MD } from '@appquality/unguess-design-system';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
@@ -9,6 +8,18 @@ const Container = styled.div`
   width: 100%;
   margin: ${({ theme }) => theme.space.lg} 0;
   white-space: pre-wrap;
+`;
+
+const Label = styled(({ children, className, style }) => (
+  <MD className={className} style={style} isBold>
+    {children}
+  </MD>
+))`
+  margin: ${({ theme }) => `${theme.space.sm} 0 ${theme.space.xs} 0 `};
+`;
+
+const Text = styled(MD)`
+  color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
 export default ({
@@ -25,24 +36,18 @@ export default ({
 
   return (
     <Container>
-      <MD isBold style={{ marginBottom: globalTheme.space.sm }}>
+      <Label style={{ marginTop: 0 }}>
         {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
-      </MD>
-      <MD>{bug.step_by_step}</MD>
-      <MD isBold style={{ margin: `${globalTheme.space.sm} 0` }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
-      </MD>
-      <MD>{bug.expected_result}</MD>
-      <MD isBold style={{ margin: `${globalTheme.space.sm} 0` }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
-      </MD>
-      <MD>{bug.current_result}</MD>
+      </Label>
+      <Text>{bug.step_by_step}</Text>
+      <Label>{t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}</Label>
+      <Text>{bug.expected_result}</Text>
+      <Label>{t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}</Label>
+      <Text>{bug.current_result}</Text>
       {bug.note && (
         <>
-          <MD isBold style={{ margin: `${globalTheme.space.sm} 0` }}>
-            {t('__BUGS_PAGE_BUG_DETAIL_ADDITIONAL_NOTES_LABEL')}
-          </MD>
-          <MD>{bug.note}</MD>
+          <Label>{t('__BUGS_PAGE_BUG_DETAIL_ADDITIONAL_NOTES_LABEL')}</Label>
+          <Text>{bug.note}</Text>
         </>
       )}
     </Container>
