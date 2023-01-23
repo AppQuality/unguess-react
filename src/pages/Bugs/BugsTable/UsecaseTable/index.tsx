@@ -40,6 +40,7 @@ const UsecaseTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
         isSticky
         isLoading={isLoading}
         loadingRowHeight="70px"
+        loadingRowCount={3}
         emptyState={<EmptyState />}
       />
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>

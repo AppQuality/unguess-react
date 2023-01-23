@@ -1,5 +1,7 @@
 import { MD, Accordion } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { EmptyState } from './EmptyState';
+import { LoadingState } from './LoadingState';
 import UsecaseTable from './UsecaseTable';
 import { useTableData } from './useTableData';
 
@@ -12,7 +14,13 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
     data.bugsByUseCases,
     (_, i) => i + (i + 1)
   );
-  if (isLoading) return null;
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
+  if (!data.bugsByUseCases.length) {
+    return <EmptyState />;
+  }
   return (
     <Accordion
       level={3}

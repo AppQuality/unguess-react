@@ -66,7 +66,7 @@ const Table = <T extends TableData, K extends keyof T>({
   emptyState,
   style,
 }: TableProps<T, K>) => {
-  if (!data || !data.length) {
+  if (!isLoading && (!data || !data.length)) {
     return emptyState || null;
   }
   return (
