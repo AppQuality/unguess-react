@@ -1,12 +1,12 @@
-import { usePageView } from '../usePageView';
+import { useAppSelector } from 'src/app/hooks';
 import { BugsBySeverity } from './BugsBySeverity';
 import { BugsByUsecase } from './BugsByUsecase';
 import { LoadingState } from './components/LoadingState';
 import { useTableData } from './useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
+  const { pageView } = useAppSelector((state) => state.bugsPage);
   const { columns, data, isLoading } = useTableData(campaignId);
-  const { pageView } = usePageView();
 
   if (isLoading) {
     return <LoadingState />;

@@ -5,6 +5,7 @@ import { ReadFilter } from './ReadFilter';
 import { UniqueFilter } from './UniqueFilter';
 import { SearchFilter } from './SearchFilter';
 import { FilterRecap } from './FilterRecap';
+import { GroupBy } from './GroupBy';
 
 const FilterContainer = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ const BugsFilters = () => (
       <ReadFilter />
       <SeverityFilter />
       <TypeFilter />
+      <GroupBy />
     </FilterContainer>
     <RecapContainer>
       <FilterRecap />

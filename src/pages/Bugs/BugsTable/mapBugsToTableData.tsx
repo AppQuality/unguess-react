@@ -12,6 +12,7 @@ export const mapBugsToTableData = (
 ) => {
   if (!bugs) return [];
   return bugs.map((bug) => ({
+    key: bug.id.toString(),
     id: bug.id.toString(),
     bugId: (
       <span style={{ color: theme.palette.grey[700] }}>

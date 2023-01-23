@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppSelector } from 'src/app/hooks';
 import { TypeFilterType, TypeFilter } from './typeFilters';
 import { SeverityFilter, SeverityFilterType } from './severityFilter';
@@ -14,15 +14,19 @@ type CampaignType = {
   UniqueFilterType &
   SearchFilterType;
 
+type PageView = 'byUsecase' | 'bySeverity';
+
 interface initialSimpleState {
   currentCampaign?: number;
   campaigns: {
     [campaign_id: string]: CampaignType;
   };
+  pageView: PageView;
 }
 
 const initialStateSimple: initialSimpleState = {
   campaigns: {},
+  pageView: 'byUsecase',
 };
 
 const bugPageSlice = createSlice({
@@ -88,6 +92,9 @@ const bugPageSlice = createSlice({
         ...SearchFilter.reset(),
       };
     },
+    setPageView: (state, action: PayloadAction<PageView>) => {
+      state.pageView = action.payload;
+    },
   },
 });
 
@@ -131,5 +138,10 @@ export const getCurrentCampaignData = () => {
   return campaign;
 };
 
-export const { selectCampaign, updateFilters, selectBug, resetFilters } =
-  bugPageSlice.actions;
+export const {
+  selectCampaign,
+  updateFilters,
+  selectBug,
+  resetFilters,
+  setPageView,
+} = bugPageSlice.actions;
