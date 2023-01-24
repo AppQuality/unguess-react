@@ -8,6 +8,7 @@ import {
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { EmptyState } from './components/EmptyState';
+import { InfoRow } from './components/InfoRow';
 import { mapBugsToTableData } from './mapBugsToTableData';
 import { TableDatum } from './types';
 
@@ -28,6 +29,7 @@ export const AllBugs = ({
   }
   return (
     <div>
+      <InfoRow bugs={bugs} />
       <Table
         style={{ marginBottom: theme.space.sm }}
         columns={columns}

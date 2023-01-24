@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Table, { ColumnDefinitionType } from 'src/common/components/Table';
-import { Bug } from 'src/features/api';
 import {
   getSelectedBugId,
   selectBug,
@@ -13,10 +12,12 @@ import {
   SM,
   theme,
 } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import { mapBugsToTableData } from '../mapBugsToTableData';
 import { BugBySeverityType, BugByUsecaseType, TableDatum } from '../types';
 import { EmptyState } from './EmptyState';
+import { InfoRow } from './InfoRow';
 
 interface UsecaseTableProps {
   title?: string;
@@ -42,28 +43,22 @@ const SingleGroupTable = ({
     return mapBugsToTableData(displayBugs, t);
   }, [isPreview, item.bugs]);
 
-  const unread = item.bugs.filter((bug) => !bug.read).length;
+  const StyledAccordionLabel = styled(Accordion.Label)`
+    padding: 0;
+  `;
+  const StyledAccordionHeader = styled(Accordion.Header)`
+    svg {
+      padding: ${theme.space.xs};
+    }
+  `;
 
   return (
     <Accordion.Section>
-      <Accordion.Header>
-        <Accordion.Label>
-          <MD isBold style={{ color: theme.palette.grey[800] }}>
-            {title}{' '}
-            <span style={{ color: theme.palette.grey[600] }}>
-              ({item.bugs.length})
-            </span>
-          </MD>
-        </Accordion.Label>
-        <SM style={{ flex: '0 0 auto', color: theme.palette.grey[600] }}>
-          {t('__BUGS_PAGE_ACCORDION_LABEL_UNREAD_FRACTION', {
-            count: unread,
-            defaultValue: 'unread',
-          })}{' '}
-          (<span style={{ color: theme.palette.blue[600] }}>{unread}</span>/
-          {item.bugs.length})
-        </SM>
-      </Accordion.Header>
+      <StyledAccordionHeader>
+        <StyledAccordionLabel>
+          <InfoRow bugs={item.bugs} />
+        </StyledAccordionLabel>
+      </StyledAccordionHeader>
       <Accordion.Panel style={{ padding: 0 }}>
         <Table
           style={{ marginBottom: theme.space.sm }}
