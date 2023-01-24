@@ -48,22 +48,11 @@ export const TagFilter = () => {
         }}
         onChange={(selected) => {
           // Check if no tags or all tags is included in selected
-          if (selected.map((item) => item.id).includes(0)) {
+          if (selected.map((item) => item.id).includes(-1)) {
             dispatch(
               updateFilters({
                 filters: {
                   tags: [],
-                },
-              })
-            );
-          } else if (selected.map((item) => item.id).includes(-1)) {
-            dispatch(
-              updateFilters({
-                filters: {
-                  tags: data.tags.available.map((item) => ({
-                    tag_id: item.tag_id,
-                    display_name: item.display_name,
-                  })),
                 },
               })
             );

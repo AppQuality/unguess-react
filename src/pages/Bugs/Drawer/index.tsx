@@ -61,7 +61,7 @@ const BugsFilterDrawer = () => {
     tags: false,
     useCases: false,
   });
-  const maxItemsToShow = 1;
+  const maxItemsToShow = 5;
 
   console.log('campaignData', campaignData);
 
@@ -90,16 +90,12 @@ const BugsFilterDrawer = () => {
   const [radioTags, setRadioTags] = useState('all');
 
   useEffect(() => {
-    if (radioTags === 'all') {
-      dispatch(
-        updateFilters({
-          filters: {
-            tags: tags.available,
-          },
-        })
-      );
+    if (tags.selected.length) {
+      setRadioTags('contains');
+    } else {
+      setRadioTags('all');
     }
-  }, []);
+  }, [tags.selected]);
 
   return (
     <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
@@ -143,7 +139,11 @@ const BugsFilterDrawer = () => {
                   </Accordion.Header>
                   <Accordion.Panel>
                     {unique.available.map((item) => (
-                      <Field>
+                      <Field
+                        style={{
+                          marginBottom: globalTheme.space.xxs,
+                        }}
+                      >
                         <Radio
                           value={item}
                           name="filter-duplicates"
@@ -159,7 +159,7 @@ const BugsFilterDrawer = () => {
                           }}
                         >
                           <Label>
-                            {unique.selected === 'unique'
+                            {item === 'unique'
                               ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
                               : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
                           </Label>
@@ -561,7 +561,7 @@ const BugsFilterDrawer = () => {
                         dispatch(
                           updateFilters({
                             filters: {
-                              tags: tags.available,
+                              tags: [],
                             },
                           })
                         );
@@ -594,7 +594,11 @@ const BugsFilterDrawer = () => {
                         )}
                       </Label>
                     </Radio>
-                    <TagsContainer>
+                    <TagsContainer
+                      {...(radioTags !== 'contains' && {
+                        hidden: true,
+                      })}
+                    >
                       {tags.available.length &&
                         radioTags === 'contains' &&
                         tags.available
@@ -639,6 +643,50 @@ const BugsFilterDrawer = () => {
                               </Checkbox>
                             </Field>
                           ))}
+                      <Field>
+                        <Checkbox
+                          value={0}
+                          name="filter-tags"
+                          checked={tags.selected
+                            .map((i) => i.tag_id)
+                            .includes(0)}
+                          onChange={() => {
+                            dispatch(
+                              updateFilters({
+                                filters: {
+                                  tags: [
+                                    ...(tags.selected
+                                      .map((i) => i.tag_id)
+                                      .includes(0)
+                                      ? tags.selected.filter(
+                                          (i) => i.tag_id !== 0
+                                        )
+                                      : [
+                                          ...tags.selected,
+                                          {
+                                            tag_id: 0,
+                                            display_name: t(
+                                              '__BUGS_TAGS_FILTER_ITEM_NO_TAGS'
+                                            ),
+                                          },
+                                        ]),
+                                  ],
+                                },
+                              })
+                            );
+                          }}
+                        >
+                          <Label
+                            isRegular
+                            style={{
+                              color: globalTheme.palette.grey[600],
+                              textTransform: 'capitalize',
+                            }}
+                          >
+                            {t('__BUGS_TAGS_FILTER_ITEM_NO_TAGS')}
+                          </Label>
+                        </Checkbox>
+                      </Field>
                       {tags.available.length > maxItemsToShow &&
                         radioTags === 'contains' && (
                           <ShowMore
@@ -668,29 +716,6 @@ const BugsFilterDrawer = () => {
                           </ShowMore>
                         )}
                     </TagsContainer>
-                  </Field>
-                  <Field>
-                    <Radio
-                      value="empty"
-                      name="filter-tags"
-                      checked={radioTags === 'empty'}
-                      onChange={() => {
-                        setRadioTags('empty');
-                        dispatch(
-                          updateFilters({
-                            filters: {
-                              tags: [],
-                            },
-                          })
-                        );
-                      }}
-                    >
-                      <Label>
-                        {t(
-                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_EMPTY_LABEL'
-                        )}
-                      </Label>
-                    </Radio>
                   </Field>
                 </Accordion.Panel>
               </Accordion.Section>
