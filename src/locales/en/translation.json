@@ -72,6 +72,7 @@
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_TITLE": "Severity",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL": "Show less",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL": "Show <2>{{tags}}</2> more tags",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_ALL_LABEL": "Is empty",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_CONTAINS_LABEL": "Contains",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_EMPTY_LABEL": "Is empty",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE": "Tags",
@@ -79,6 +80,9 @@
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_LESS_LABEL": "Show less",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_MORE_LABEL": "Show <2>{{typologies}}</2> more typologies",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_TITLE": "Typology",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_ALL_LABEL": "All use cases",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_LESS_LABEL": "Show less",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_MORE_LABEL": "Show <2>{{useCases}}</2> more use cases",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE": "Use Case",
   "__BUGS_PAGE_FILTER_DRAWER_CANCEL_BUTTON": "Reset filters",
   "__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON": "See results",
@@ -106,6 +110,8 @@
   "__BUGS_UNIQUE_FILTER_ITEM_ALL": "With duplicated",
   "__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER": "Unique/duplicated",
   "__BUGS_UNIQUE_FILTER_ITEM_UNIQUE": "Only unique bugs",
+  "__BUGS_USECASES_FILTER_ITEM_NO_ITEMS": "Use Case",
+  "__BUGS_USECASES_FILTER_ITEM_NO_USECASE": "Not a specific use case",
   "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Untitled",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG": "Go to bug list",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA": "Go to media list",
@@ -571,5 +577,7 @@
   "Tags ({{count}})_one": "Tags ({{count}})",
   "Tags ({{count}})_other": "Tags ({{count}})",
   "Typology ({{count}})_one": "Typology ({{count}})",
-  "Typology ({{count}})_other": "Typologies ({{count}})"
+  "Typology ({{count}})_other": "Typologies ({{count}})",
+  "Use Cases ({{count}})_one": "",
+  "Use Cases ({{count}})_other": ""
 }

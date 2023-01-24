@@ -74,6 +74,7 @@
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_TITLE": "",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL": "",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL": "Show <2>{{tags}}</2> more tags",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_ALL_LABEL": "",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_CONTAINS_LABEL": "",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_EMPTY_LABEL": "",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE": "",
@@ -81,6 +82,9 @@
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_LESS_LABEL": "",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_MORE_LABEL": "Show <2>{{typologies}}</2> more typologies",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_TITLE": "",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_ALL_LABEL": "",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_LESS_LABEL": "",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_MORE_LABEL": "Show <2>{{useCases}}</2> more Use Cases",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE": "",
   "__BUGS_PAGE_FILTER_DRAWER_CANCEL_BUTTON": "",
   "__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON": "",
@@ -108,6 +112,8 @@
   "__BUGS_UNIQUE_FILTER_ITEM_ALL": "Con duplicati",
   "__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER": "Unici/duplicati",
   "__BUGS_UNIQUE_FILTER_ITEM_UNIQUE": "Solo bug unici",
+  "__BUGS_USECASES_FILTER_ITEM_NO_ITEMS": "",
+  "__BUGS_USECASES_FILTER_ITEM_NO_USECASE": "",
   "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Senza Titolo",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG": "Vai alla lista bug",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA": "Vai al dettaglio media",
@@ -577,5 +583,8 @@
   "Tags ({{count}})_other": "",
   "Typology ({{count}})_one": "Tipologia ({{count}})",
   "Typology ({{count}})_many": "Tipologia ({{count}})",
-  "Typology ({{count}})_other": "Tipologie ({{count}})"
+  "Typology ({{count}})_other": "Tipologie ({{count}})",
+  "Use Cases ({{count}})_one": "",
+  "Use Cases ({{count}})_many": "",
+  "Use Cases ({{count}})_other": ""
 }

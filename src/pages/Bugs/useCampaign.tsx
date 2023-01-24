@@ -5,10 +5,12 @@ import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidTagsQuery,
+  useGetCampaignsByCidUsecasesQuery,
 } from 'src/features/api';
 import { TypeFilterType } from 'src/features/bugsPage/typeFilter';
 import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
 import { TagFilterType } from 'src/features/bugsPage/tagFilter';
+import { UseCaseFilterType } from 'src/features/bugsPage/useCaseFilter';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{
@@ -17,6 +19,7 @@ export const useCampaign = (cid: number) => {
       types?: TypeFilterType['types']['available'];
       severities?: SeverityFilterType['severities']['available'];
       tags?: TagFilterType['tags']['available'];
+      useCases?: UseCaseFilterType['useCases']['available'];
       // TODO: add new filter
     };
     outputs?: Output[];
@@ -41,6 +44,10 @@ export const useCampaign = (cid: number) => {
     cid: cid.toString(),
   });
 
+  const { data: campaignUseCases } = useGetCampaignsByCidUsecasesQuery({
+    cid: cid.toString(),
+  });
+
   useEffect(() => {
     if (campaign) {
       setCampaignData({
@@ -49,6 +56,7 @@ export const useCampaign = (cid: number) => {
           types: campaignTypes,
           severities: campaignSeverities,
           tags: campaignTags,
+          useCases: campaignUseCases,
           // TODO: add new filter
         },
         outputs: campaign.outputs,
@@ -59,6 +67,7 @@ export const useCampaign = (cid: number) => {
     campaignTypes,
     campaignSeverities,
     campaignTags,
+    campaignUseCases,
     // TODO: add new filter
   ]);
 

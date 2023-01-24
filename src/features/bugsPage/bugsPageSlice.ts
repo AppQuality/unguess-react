@@ -6,6 +6,7 @@ import { ReadFilter, ReadFilterType } from './readFilter';
 import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
 import { TagFilterType, TagFilter } from './tagFilter';
+import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
 
 type CampaignType = {
   selectedBugId?: number;
@@ -14,7 +15,8 @@ type CampaignType = {
   ReadFilterType &
   UniqueFilterType &
   SearchFilterType &
-  TagFilterType;
+  TagFilterType &
+  UseCaseFilterType;
 // TODO: add new filter
 
 type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
@@ -56,6 +58,10 @@ const bugPageSlice = createSlice({
           state.campaigns[cp_id as number],
           filters.tags
         ),
+        ...UseCaseFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.useCases
+        ),
         // TODO: add new filter
       };
       state.currentCampaign = cp_id;
@@ -94,6 +100,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.tags
         ),
+        ...UseCaseFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.useCases
+        ),
         // TODO: add new filter
       };
     },
@@ -106,6 +116,7 @@ const bugPageSlice = createSlice({
         ...UniqueFilter.reset(state.campaigns[state.currentCampaign]),
         ...SearchFilter.reset(),
         ...TagFilter.reset(state.campaigns[state.currentCampaign]),
+        ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
         // TODO: add new filter
       };
     },
@@ -127,6 +138,7 @@ export const getSelectedFiltersIds = () => ({
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
   tags: TagFilter.getIds(),
+  useCases: UseCaseFilter.getIds(),
   // TODO: add new filter
 });
 
@@ -137,6 +149,7 @@ export const getSelectedFilters = () => ({
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
   tags: TagFilter.getValues(),
+  useCases: UseCaseFilter.getValues(),
   // TODO: add new filter
 });
 

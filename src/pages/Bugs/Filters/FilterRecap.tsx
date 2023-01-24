@@ -20,7 +20,7 @@ const FilterRecapItem = ({
   value,
   name,
 }: {
-  type: 'severities' | 'types' | 'tags'; // TODO: add new filter
+  type: 'severities' | 'types' | 'tags' | 'useCases'; // TODO: add new filter
   value: string;
   name: string;
 }) => {
@@ -60,6 +60,17 @@ const FilterRecapItem = ({
                   filters: {
                     tags: filters.tags
                       ? filters.tags.filter((t) => t.tag_id !== Number(value))
+                      : [],
+                  },
+                })
+              );
+              break;
+            case 'useCases':
+              dispatch(
+                updateFilters({
+                  filters: {
+                    useCases: filters.useCases
+                      ? filters.useCases.filter((t) => t.id !== Number(value))
                       : [],
                   },
                 })
@@ -115,6 +126,15 @@ export const FilterRecap = () => {
               type="tags"
               value={tag.tag_id.toString()}
               name={tag.display_name}
+            />
+          ))
+        : null}
+      {filters.useCases && filters.useCases.length
+        ? filters.useCases.map((useCase) => (
+            <FilterRecapItem
+              type="useCases"
+              value={useCase.id.toString()}
+              name={useCase.title.full}
             />
           ))
         : null}

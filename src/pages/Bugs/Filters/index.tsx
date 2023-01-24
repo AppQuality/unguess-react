@@ -12,6 +12,7 @@ import { FilterRecap } from './FilterRecap';
 import { GroupBy } from './GroupBy';
 import { BugsFilterDrawer } from '../Drawer';
 import { TagFilter } from './TagFilter';
+import { UseCaseFilter } from './UseCaseFilter';
 
 const FilterContainer = styled.div`
   display: flex;
@@ -54,6 +55,7 @@ const BugsFilters = () => {
         <SeverityFilter />
         <TypeFilter />
         <TagFilter />
+        <UseCaseFilter />
         <OrderInfo>
           <StyledSM isBold>
             {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}

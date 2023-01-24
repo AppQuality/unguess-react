@@ -59,8 +59,9 @@ const BugsFilterDrawer = () => {
     types: false,
     severities: false,
     tags: false,
+    useCases: false,
   });
-  const maxItemsToShow = 2;
+  const maxItemsToShow = 1;
 
   console.log('campaignData', campaignData);
 
@@ -78,7 +79,14 @@ const BugsFilterDrawer = () => {
     dispatch(resetFilters());
   };
 
-  const { types, severities, unique, tags } = campaignData;
+  const { types, severities, unique, tags, useCases } = campaignData;
+
+  // TODO: remove this, API bug - Filter only unique ids useCases
+  const availableUseCases = useCases.available.filter(
+    (useCase, index, self) =>
+      index === self.findIndex((u) => u.id === useCase.id)
+  );
+
   const [emptyTags, setEmptyTags] = useState(tags.selected.length === 0);
 
   useEffect(() => {
@@ -381,24 +389,115 @@ const BugsFilterDrawer = () => {
             </>
           )}
 
-          <>
-            <Accordion level={3}>
-              <Accordion.Section>
-                <Accordion.Header>
-                  <Accordion.Label>
-                    <AccordionLabel isBold>
-                      {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE')}
-                    </AccordionLabel>
-                    <SM style={{ color: globalTheme.palette.grey[600] }}>
-                      Value
-                    </SM>
-                  </Accordion.Label>
-                </Accordion.Header>
-                <Accordion.Panel>Options</Accordion.Panel>
-              </Accordion.Section>
-            </Accordion>
-            <Divider />
-          </>
+          {availableUseCases.length && (
+            <>
+              <Accordion level={3}>
+                <Accordion.Section>
+                  <Accordion.Header>
+                    <Accordion.Label>
+                      <AccordionLabel isBold>
+                        {t(
+                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE'
+                        )}
+                      </AccordionLabel>
+                      <SM
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {useCases.selected && useCases.selected.length
+                          ? `${useCases.selected
+                              .slice(0, maxItemsToShow)
+                              .map((item) => item.title.full)
+                              .join(', ')
+                              .toLowerCase()} ${
+                              useCases.selected.length > maxItemsToShow
+                                ? `+${
+                                    useCases.selected.length - maxItemsToShow
+                                  }`
+                                : ''
+                            }`
+                          : t(
+                              '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_ALL_LABEL'
+                            )}
+                      </SM>
+                    </Accordion.Label>
+                  </Accordion.Header>
+                  <Accordion.Panel>
+                    {availableUseCases
+                      .slice(0, showMore.useCases ? undefined : maxItemsToShow)
+                      .map((item) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={item.id}
+                            name="filter-usecase"
+                            checked={useCases.selected
+                              .map((i) => i.id)
+                              .includes(item.id)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    useCases: [
+                                      ...(useCases.selected
+                                        .map((i) => i.id)
+                                        .includes(item.id)
+                                        ? useCases.selected.filter(
+                                            (i) => i.id !== item.id
+                                          )
+                                        : [...useCases.selected, item]),
+                                    ],
+                                  },
+                                })
+                              );
+                            }}
+                          >
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {item.title.full.toLowerCase()}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
+                    {availableUseCases.length > maxItemsToShow && (
+                      <ShowMore
+                        onClick={() => {
+                          setShowMore({
+                            ...showMore,
+                            useCases: !showMore.useCases,
+                          });
+                        }}
+                      >
+                        {!showMore.useCases ? (
+                          <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_MORE_LABEL">
+                            Show{' '}
+                            <Span isBold>
+                              {{
+                                useCases:
+                                  availableUseCases.length - maxItemsToShow,
+                              }}
+                            </Span>{' '}
+                            more Use Cases
+                          </Trans>
+                        ) : (
+                          t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_LESS_LABEL'
+                          )
+                        )}
+                      </ShowMore>
+                    )}
+                  </Accordion.Panel>
+                </Accordion.Section>
+              </Accordion>
+              <Divider />
+            </>
+          )}
         </>
 
         <>
@@ -438,7 +537,7 @@ const BugsFilterDrawer = () => {
                               : ''
                           }`
                         : t(
-                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_ALL_LABEL'
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_ALL_LABEL'
                           )}
                     </SM>
                   </Accordion.Label>
@@ -509,7 +608,7 @@ const BugsFilterDrawer = () => {
                               </Checkbox>
                             </Field>
                           ))}
-                      {tags.available.length > maxItemsToShow && (
+                      {tags.available.length > maxItemsToShow && !emptyTags && (
                         <ShowMore
                           onClick={() => {
                             setShowMore({
