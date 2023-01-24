@@ -1,6 +1,6 @@
 import { theme as globalTheme } from 'src/app/theme';
 import styled from 'styled-components';
-
+import { Trans, useTranslation } from 'react-i18next';
 import { MD, Paragraph } from '@appquality/unguess-design-system';
 import { useSiblings } from './useSiblings';
 import { ReactComponent as SiblingIconSmall } from './icons/siblings-small.svg';
@@ -19,6 +19,7 @@ export const BugDuplicatesList = ({
   isOpen: boolean;
   maxSiblingSize?: number;
 }) => {
+  const { t } = useTranslation();
   const { data, isLoading, isFetching, isError } = useSiblings({ cid });
   if (isLoading || isFetching || isError || !data || !data.siblings.length)
     return null;
@@ -32,11 +33,13 @@ export const BugDuplicatesList = ({
             marginRight: globalTheme.space.xxs,
             color: globalTheme.palette.grey[600],
           }}
-        />{' '}
-        Title ({data.siblings.length})
+        />
+        <Trans key="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_TITLE">
+          Duplicates ({{ number: data.siblings.length }})
+        </Trans>
       </MD>
       <StyledParagraph style={{ marginBottom: globalTheme.space.xxs }}>
-        subtitle
+        {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_SUBTITLE')}
       </StyledParagraph>
       {data.siblings
         .slice(0, isOpen ? data.siblings.length : maxSiblingSize)
