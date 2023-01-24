@@ -19,6 +19,7 @@ import { theme as globalTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import {
   getCurrentCampaignData,
+  resetFilters,
   setFilterDrawerOpen,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
@@ -42,6 +43,12 @@ const ShowMore = styled(Anchor)`
   font-size: ${({ theme }) => theme.fontSizes.sm};
 `;
 
+const TagsContainer = styled.div`
+  padding-left: ${({ theme }) => theme.space.base * 6}px;
+  margin-top: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
 const BugsFilterDrawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -53,6 +60,7 @@ const BugsFilterDrawer = () => {
     severities: false,
   });
   const maxItemsToShow = 3;
+  const [emptyTags, setEmptyTags] = useState(true);
 
   console.log('campaignData', campaignData);
 
@@ -66,8 +74,8 @@ const BugsFilterDrawer = () => {
     dispatch(setFilterDrawerOpen(false));
   };
 
-  const onCancelClick = () => {
-    console.log('reset filters');
+  const onResetClick = () => {
+    dispatch(resetFilters());
   };
 
   const { types, severities, unique } = campaignData;
@@ -405,16 +413,78 @@ const BugsFilterDrawer = () => {
                       {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE')}
                     </AccordionLabel>
                     <SM style={{ color: globalTheme.palette.grey[600] }}>
-                      Value
+                      {emptyTags
+                        ? t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_EMPTY_LABEL'
+                          )
+                        : t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_CONTAINS_LABEL'
+                          )}
                     </SM>
                   </Accordion.Label>
                 </Accordion.Header>
-                <Accordion.Panel>Options</Accordion.Panel>
+                <Accordion.Panel>
+                  <Field style={{ marginBottom: globalTheme.space.xxs }}>
+                    <Radio
+                      value="contains"
+                      name="filter-tags"
+                      checked={!emptyTags}
+                      onChange={() => {
+                        setEmptyTags(false);
+                      }}
+                    >
+                      <Label>
+                        {t(
+                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_CONTAINS_LABEL'
+                        )}
+                      </Label>
+                    </Radio>
+                    {!emptyTags && (
+                      <TagsContainer>
+                        <Field>
+                          <Checkbox
+                            value="contains1"
+                            name="filter-tags"
+                            checked={false}
+                            onChange={() => {}}
+                          >
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              tag1
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      </TagsContainer>
+                    )}
+                  </Field>
+                  <Field>
+                    <Radio
+                      value="empty"
+                      name="filter-tags"
+                      checked={emptyTags}
+                      onChange={() => {
+                        setEmptyTags(true);
+                      }}
+                    >
+                      <Label>
+                        {t(
+                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_EMPTY_LABEL'
+                        )}
+                      </Label>
+                    </Radio>
+                  </Field>
+                </Accordion.Panel>
               </Accordion.Section>
             </Accordion>
             <Divider />
           </>
         </>
+
         <>
           <MD
             isBold
@@ -489,7 +559,7 @@ const BugsFilterDrawer = () => {
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
-          <Button id="" isPill onClick={onCancelClick}>
+          <Button id="" isPill onClick={onResetClick}>
             {t('__BUGS_PAGE_FILTER_DRAWER_CANCEL_BUTTON')}
           </Button>
         </Drawer.FooterItem>
