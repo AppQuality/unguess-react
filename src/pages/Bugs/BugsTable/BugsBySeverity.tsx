@@ -30,26 +30,14 @@ export const BugsBySeverity = ({
       isExpandable
       isBare
     >
-      {bugsBySeverity.map((item) => {
-        const unread = item.bugs.filter((bug) => !bug.read).length;
-        return (
-          <Accordion.Section key={item.severity.id}>
-            <Accordion.Header>
-              <Accordion.Label>
-                <MD isBold>{item.severity.name}</MD>
-              </Accordion.Label>
-              <div style={{ flex: '0 0 auto' }}>
-                {t('__BUGS_PAGE_ACCORDION_LABEL_UNREAD_FRACTION', {
-                  count: unread,
-                  defaultValue: 'unread',
-                })}{' '}
-                ({unread}/{item.bugs.length})
-              </div>
-            </Accordion.Header>
-            <SingleGroupTable bugs={item.bugs} columns={columns} />
-          </Accordion.Section>
-        );
-      })}
+      {bugsBySeverity.map((item) => (
+        <SingleGroupTable
+          title={item.severity.name}
+          key={item.severity.id}
+          item={item}
+          columns={columns}
+        />
+      ))}
     </Accordion>
   );
 };

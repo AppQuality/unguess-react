@@ -31,28 +31,14 @@ export const BugsByUsecase = ({
       isExpandable
       isBare
     >
-      {bugsByUseCases.map((item) => {
-        const unread = item.bugs.filter((bug) => !bug.read).length;
-        return (
-          <Accordion.Section key={item.useCase.id}>
-            <Accordion.Header>
-              <Accordion.Label>
-                <MD isBold>{item.useCase.title}</MD>
-              </Accordion.Label>
-              <div style={{ flex: '0 0 auto', color: theme.palette.grey[600] }}>
-                {t('__BUGS_PAGE_ACCORDION_LABEL_UNREAD_FRACTION', {
-                  count: unread,
-                  defaultValue: 'unread',
-                })}{' '}
-                (
-                <span style={{ color: theme.palette.blue[600] }}>{unread}</span>
-                /{item.bugs.length})
-              </div>
-            </Accordion.Header>
-            <SingleGroupTable bugs={item.bugs} columns={columns} />
-          </Accordion.Section>
-        );
-      })}
+      {bugsByUseCases.map((item) => (
+        <SingleGroupTable
+          key={item.useCase.id}
+          title={item.useCase.title}
+          item={item}
+          columns={columns}
+        />
+      ))}
     </Accordion>
   );
 };

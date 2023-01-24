@@ -6,58 +6,93 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { Accordion, Button, theme } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  Button,
+  MD,
+  SM,
+  theme,
+} from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { mapBugsToTableData } from '../mapBugsToTableData';
-import { TableDatum } from '../types';
+import { BugBySeverityType, BugByUsecaseType, TableDatum } from '../types';
 import { EmptyState } from './EmptyState';
 
 interface UsecaseTableProps {
-  bugs: Bug[];
+  title?: string;
+  item: BugBySeverityType | BugByUsecaseType;
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
   isLoading?: boolean;
 }
 
-const SingleGroupTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
+const SingleGroupTable = ({
+  title,
+  item,
+  columns,
+  isLoading,
+}: UsecaseTableProps) => {
   const { t } = useTranslation();
   const currentBugId = getSelectedBugId();
   const [isPreview, setIsPreview] = useState(true);
   const dispatch = useAppDispatch();
 
+  if (!item) return null; // todo check
   const getDisplayedBugs = useCallback(() => {
-    const displayBugs = isPreview ? bugs.slice(0, 3) : bugs;
+    const displayBugs = isPreview ? item.bugs.slice(0, 3) : item.bugs;
     return mapBugsToTableData(displayBugs, t);
-  }, [isPreview, bugs]);
+  }, [isPreview, item.bugs]);
+
+  const unread = item.bugs.filter((bug) => !bug.read).length;
 
   return (
-    <Accordion.Panel>
-      <Table
-        style={{ marginBottom: theme.space.sm }}
-        columns={columns}
-        data={getDisplayedBugs()}
-        selectedRow={currentBugId ? currentBugId.toString() : null}
-        onRowClick={(bug_id) =>
-          dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
-        }
-        isSticky
-        isLoading={isLoading}
-        loadingRowHeight="70px"
-        loadingRowCount={3}
-        emptyState={<EmptyState />}
-      />
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
-          {isPreview ? (
-            <>
-              {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
-              {` (${bugs.length})`}
-            </>
-          ) : (
-            t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
-          )}
-        </Button>
-      </div>
-    </Accordion.Panel>
+    <Accordion.Section>
+      <Accordion.Header>
+        <Accordion.Label>
+          <MD isBold style={{ color: theme.palette.grey[800] }}>
+            {title}{' '}
+            <span style={{ color: theme.palette.grey[600] }}>
+              ({item.bugs.length})
+            </span>
+          </MD>
+        </Accordion.Label>
+        <SM style={{ flex: '0 0 auto', color: theme.palette.grey[600] }}>
+          {t('__BUGS_PAGE_ACCORDION_LABEL_UNREAD_FRACTION', {
+            count: unread,
+            defaultValue: 'unread',
+          })}{' '}
+          (<span style={{ color: theme.palette.blue[600] }}>{unread}</span>/
+          {item.bugs.length})
+        </SM>
+      </Accordion.Header>
+      <Accordion.Panel style={{ padding: 0 }}>
+        <Table
+          style={{ marginBottom: theme.space.sm }}
+          columns={columns}
+          data={getDisplayedBugs()}
+          selectedRow={currentBugId ? currentBugId.toString() : null}
+          onRowClick={(bug_id) =>
+            dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
+          }
+          isSticky
+          isLoading={isLoading}
+          loadingRowHeight="70px"
+          loadingRowCount={3}
+          emptyState={<EmptyState />}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
+            {isPreview ? (
+              <>
+                {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
+                {` (${item.bugs.length})`}
+              </>
+            ) : (
+              t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
+            )}
+          </Button>
+        </div>
+      </Accordion.Panel>
+    </Accordion.Section>
   );
 };
 
