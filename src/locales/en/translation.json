@@ -59,6 +59,7 @@
   "__BUGS_PAGE_LIGHTBOX_TITLE_ATTACHMENTS_COUNT": "| Images and video attached ({{attachments}})",
   "__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER": "{{uniqueBugs}} unique bugs",
   "__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER": "(Unread: <1>{{unreadBugs}}</1>/{{uniqueBugs}})",
+  "__BUGS_PAGE_TABLE_HEADER_WITH_DUPLICATED_BUGS_COUNTER": "{{uniqueBugs}} bugs",
   "__BUGS_PAGE_TITLE": "Bugs List",
   "__BUGS_READ_FILTER_ITEM_ALL": "All bugs",
   "__BUGS_READ_FILTER_ITEM_PLACEHOLDER": "Read/unread",
