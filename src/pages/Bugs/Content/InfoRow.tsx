@@ -1,6 +1,7 @@
 import { MD, Skeleton, SM } from '@appquality/unguess-design-system';
 import { Trans } from 'react-i18next';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
+import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 
 const StyledMD = styled(MD)`
@@ -22,6 +23,8 @@ const StyledDiv = styled.div`
 `;
 
 export const InfoBugRow = ({ campaignId }: { campaignId: number }) => {
+  const filterBy = getSelectedFiltersIds();
+
   const {
     isLoading,
     isFetching,
@@ -30,8 +33,18 @@ export const InfoBugRow = ({ campaignId }: { campaignId: number }) => {
   } = useGetCampaignsByCidBugsQuery({
     cid: campaignId.toString() ?? '0',
     filterBy: {
-      is_duplicated: '0',
+      ...(filterBy?.types ? { types: filterBy.types.join(',') } : {}),
+      ...(filterBy?.severities
+        ? { severities: filterBy.severities.join(',') }
+        : {}),
+      ...(filterBy?.read && filterBy.read === 'unread'
+        ? { read: 'false' }
+        : {}),
+      ...(filterBy?.unique && filterBy.unique === 'unique'
+        ? { is_duplicated: '0' }
+        : {}),
     },
+    ...(filterBy?.search ? { search: filterBy.search } : {}),
   });
 
   if (isError) return null;
@@ -47,9 +60,15 @@ export const InfoBugRow = ({ campaignId }: { campaignId: number }) => {
       ) : (
         <>
           <StyledMD isBold>
-            <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
-              {{ uniqueBugs: totalBugs }} unique bugs
-            </Trans>
+            {filterBy?.unique && filterBy.unique === 'unique' ? (
+              <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
+                {{ uniqueBugs: totalBugs }} unique bugs
+              </Trans>
+            ) : (
+              <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_WITH_DUPLICATED_BUGS_COUNTER">
+                {{ uniqueBugs: totalBugs }} bugs
+              </Trans>
+            )}
           </StyledMD>
           <StyledSM>
             <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER">
