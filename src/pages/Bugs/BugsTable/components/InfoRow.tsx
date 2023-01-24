@@ -20,7 +20,7 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${(p) => p.theme.space.sm} 0;
+  padding: ${(p) => p.theme.space.xs} 0 ${(p) => p.theme.space.sm};
 `;
 
 export const InfoRow = ({
