@@ -7,6 +7,7 @@ import BugTags from './Tags';
 import BugDescription from './Description';
 import BugAttachments from './Attachments';
 import BugDetails from './Details';
+import { BugDuplicates } from './BugDuplicates';
 
 const DetailContainer = styled.div`
   position: sticky;
@@ -43,6 +44,7 @@ const BugsDetail = ({ campaignId }: { campaignId: number }) => {
       <BugDescription bug={bug} />
       {media && media.length ? <BugAttachments bug={bug} /> : null}
       <BugDetails bug={bug} />
+      <BugDuplicates cid={campaignId} />
     </DetailContainer>
   );
 };

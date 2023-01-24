@@ -80,6 +80,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCampaignsByCidBugsAndBidSiblings: build.query<
+      GetCampaignsByCidBugsAndBidSiblingsApiResponse,
+      GetCampaignsByCidBugsAndBidSiblingsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/siblings`,
+      }),
+    }),
     getCampaignsByCidMeta: build.query<
       GetCampaignsByCidMetaApiResponse,
       GetCampaignsByCidMetaApiArg
@@ -98,11 +106,29 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/tags` }),
     }),
+    getCampaignsByCidDevices: build.query<
+      GetCampaignsByCidDevicesApiResponse,
+      GetCampaignsByCidDevicesApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/devices` }),
+    }),
+    getCampaignsByCidOs: build.query<
+      GetCampaignsByCidOsApiResponse,
+      GetCampaignsByCidOsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/os` }),
+    }),
     getCampaignsByCidSeverities: build.query<
       GetCampaignsByCidSeveritiesApiResponse,
       GetCampaignsByCidSeveritiesApiArg
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/severities` }),
+    }),
+    getCampaignsByCidUsecases: build.query<
+      GetCampaignsByCidUsecasesApiResponse,
+      GetCampaignsByCidUsecasesApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/usecases` }),
     }),
     getCampaignsByCidWidgets: build.query<
       GetCampaignsByCidWidgetsApiResponse,
@@ -288,6 +314,7 @@ export type GetCampaignsByCidBugsApiResponse = /** status 200 OK */ {
       tag_id: number;
       tag_name: string;
     }[];
+    siblings: number;
   })[];
   start?: number;
   limit?: number;
@@ -354,6 +381,43 @@ export type PatchCampaignsByCidBugsAndBidApiArg = {
     )[];
   };
 };
+export type GetCampaignsByCidBugsAndBidSiblingsApiResponse =
+  /** status 200 OK */ {
+    father?: {
+      id: number;
+      title: {
+        full: string;
+        compact: string;
+        context?: string[];
+      };
+      context?: string;
+      device: string;
+      os: {
+        name: string;
+        version: string;
+      };
+    };
+    siblings: {
+      id: number;
+      title: {
+        full: string;
+        compact: string;
+        context?: string[];
+      };
+      context?: string;
+      device: string;
+      os: {
+        name: string;
+        version: string;
+      };
+    }[];
+  };
+export type GetCampaignsByCidBugsAndBidSiblingsApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+};
 export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
   selected_testers: number;
   allowed_devices: string[];
@@ -377,9 +441,37 @@ export type GetCampaignsByCidTagsApiArg = {
   /** Campaign id */
   cid: string;
 };
+export type GetCampaignsByCidDevicesApiResponse = /** status 200 OK */ {
+  device?: string;
+}[];
+export type GetCampaignsByCidDevicesApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidOsApiResponse = /** status 200 OK */ {
+  os?: string;
+}[];
+export type GetCampaignsByCidOsApiArg = {
+  /** Campaign id */
+  cid: string;
+};
 export type GetCampaignsByCidSeveritiesApiResponse =
   /** status 200 OK */ BugSeverity[];
 export type GetCampaignsByCidSeveritiesApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidUsecasesApiResponse = /** status 200 OK */ {
+  id: number;
+  title: {
+    full: string;
+    simple?: string;
+    prefix?: string;
+    info?: string;
+  };
+  completion: number;
+}[];
+export type GetCampaignsByCidUsecasesApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -864,10 +956,14 @@ export const {
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
+  useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidTagsQuery,
+  useGetCampaignsByCidDevicesQuery,
+  useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidSeveritiesQuery,
+  useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidWidgetsQuery,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,

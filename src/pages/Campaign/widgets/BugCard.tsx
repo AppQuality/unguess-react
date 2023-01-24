@@ -92,12 +92,17 @@ const BugCardTitle = ({
   url,
 }: {
   children: React.ReactNode;
-  url: string;
-}) => (
-  <Anchor className="anchor-bug-card-title" href={url} target="_blank">
-    <MD isBold>{children}</MD>
-  </Anchor>
-);
+  url?: string;
+}) => {
+  if (url) {
+    return (
+      <Anchor className="anchor-bug-card-title" href={url} target="_blank">
+        <MD isBold>{children}</MD>
+      </Anchor>
+    );
+  }
+  return <MD isBold>{children}</MD>;
+};
 BugCard.Title = BugCardTitle;
 
 BugCard.Footer = styled.div`
