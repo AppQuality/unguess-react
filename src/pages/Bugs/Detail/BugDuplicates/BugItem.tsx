@@ -1,41 +1,13 @@
-import { BugCard } from 'src/pages/Campaign/widgets/BugCard';
-import styled from 'styled-components';
+import { BugCard } from 'src/common/components/BugCard/BugCardWithIcon';
 import { theme as globalTheme } from 'src/app/theme';
 import { Pill } from 'src/common/components/pills/Pill';
 import { Span } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
 import { ReactComponent as FatherIcon } from './icons/father.svg';
 import { ReactComponent as SiblingIcon } from './icons/sibling.svg';
 
 const StyledBugCard = styled(BugCard)`
-  margin-bottom: ${({ theme }) => theme.space.base * 4}px;
-  flex-direction: row;
-  align-items: center;
   cursor: default;
-`;
-const BugCardContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
-
-const BugCardInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
-
-const IconBox = styled.div`
-  min-width: 6.5%;
-  align-self: flex-start;
-  margin-top: 3%;
-
-  svg {
-    max-width: 100%;
-  }
 `;
 
 export const BugItem = ({
@@ -52,13 +24,15 @@ export const BugItem = ({
   <StyledBugCard borderColor={globalTheme.palette.grey[500]}>
     {() => (
       <>
-        <IconBox>{isFather ? <FatherIcon /> : <SiblingIcon />}</IconBox>
-        <BugCardInfo style={{ marginLeft: globalTheme.space.sm }}>
+        <BugCard.IconBox>
+          {isFather ? <FatherIcon /> : <SiblingIcon />}
+        </BugCard.IconBox>
+        <BugCard.Info style={{ marginLeft: globalTheme.space.sm }}>
           <BugCard.TopTitle>ID {bugId}</BugCard.TopTitle>
           <BugCard.Title>
-            <BugCardContent>
+            <BugCard.Content>
               <Span>{title}</Span>
-            </BugCardContent>
+            </BugCard.Content>
           </BugCard.Title>
           {pills ? (
             <BugCard.Footer>
@@ -67,7 +41,7 @@ export const BugItem = ({
               ))}
             </BugCard.Footer>
           ) : null}
-        </BugCardInfo>
+        </BugCard.Info>
       </>
     )}
   </StyledBugCard>

@@ -7,31 +7,7 @@ import { ReactComponent as FileIcon } from 'src/assets/icons/extra-icon-file.svg
 import { ReactComponent as LinkIcon } from 'src/assets/icons/extra-icon-link.svg';
 import { ReactComponent as PdfIcon } from 'src/assets/icons/extra-icon-pdf.svg';
 import { ReactComponent as VideoIcon } from 'src/assets/icons/extra-icon-video.svg';
-import { BugCard } from 'src/pages/Campaign/widgets/BugCard';
-import styled from 'styled-components';
-
-const StyledBugCard = styled(BugCard)`
-  margin-bottom: ${({ theme }) => theme.space.base * 4}px;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const BugCardContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
-
-const BugCardInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
+import { BugCard } from 'src/common/components/BugCard/BugCardWithIcon';
 
 function getFileSpecs(extension: string): {
   icon: React.ReactNode;
@@ -115,30 +91,28 @@ export default ({ items }: { items: BugMediaType[] }) => {
         ))}
       </SM>
       {items.map((item, index) => (
-        <StyledBugCard
-          borderColor={getFileSpecs(item.mime_type.extension).color}
-        >
+        <BugCard borderColor={getFileSpecs(item.mime_type.extension).color}>
           {() => (
             <>
               {getFileSpecs(item.mime_type.extension).icon}
-              <BugCardInfo style={{ marginLeft: globalTheme.space.sm }}>
+              <BugCard.Info style={{ marginLeft: globalTheme.space.sm }}>
                 <BugCard.TopTitle>
                   {item.mime_type.extension.toUpperCase()}
                 </BugCard.TopTitle>
                 <BugCard.Title url={item.url}>
-                  <BugCardContent>
+                  <BugCard.Content>
                     <Span>
                       {t(
                         '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_EXTRA_TAB_ITEM_LABEL'
                       )}{' '}
                       {index + 1}
                     </Span>
-                  </BugCardContent>
+                  </BugCard.Content>
                 </BugCard.Title>
-              </BugCardInfo>
+              </BugCard.Info>
             </>
           )}
-        </StyledBugCard>
+        </BugCard>
       ))}
     </>
   );

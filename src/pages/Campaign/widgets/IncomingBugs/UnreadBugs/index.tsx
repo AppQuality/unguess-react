@@ -8,9 +8,9 @@ import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import { Pill } from 'src/common/components/pills/Pill';
+import { BugCard } from 'src/common/components/BugCard';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
-import { BugCard } from '../../BugCard';
 import { EmptyState } from './EmptyState';
 import { useUnreadBugs } from './useUnreadBugs';
 
