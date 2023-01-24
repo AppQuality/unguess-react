@@ -1,4 +1,11 @@
-import { Button } from '@appquality/unguess-design-system';
+import {
+  Button,
+  Dropdown,
+  Item,
+  Menu,
+  Select,
+} from '@appquality/unguess-design-system';
+import { Field } from '@zendeskgarden/react-dropdowns';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { setPageView } from 'src/features/bugsPage/bugsPageSlice';
@@ -11,27 +18,23 @@ export const GroupBy = () => {
 
   return (
     <div>
-      <Button
-        onClick={() => {
-          dispatch(setPageView('bySeverity'));
+      <Dropdown
+        selectedItem={pageView}
+        onSelect={(view) => {
+          dispatch(setPageView(view));
         }}
       >
-        {t('By severity')}
-      </Button>
-      <Button
-        onClick={() => {
-          dispatch(setPageView('byUsecase'));
-        }}
-      >
-        {t('By use case')}
-      </Button>
-      <Button
-        onClick={() => {
-          dispatch(setPageView('ungrouped'));
-        }}
-      >
-        {t('ungrouped')}
-      </Button>
+        <Field>
+          <Select isCompact isPrimary>
+            {pageView}
+          </Select>
+        </Field>
+        <Menu>
+          <Item value="byUsecase">{t('By use case')}</Item>
+          <Item value="bySeverity">{t('By severity')}</Item>
+          <Item value="ungrouped">{t('Ungrouped')}</Item>
+        </Menu>
+      </Dropdown>
     </div>
   );
 };
