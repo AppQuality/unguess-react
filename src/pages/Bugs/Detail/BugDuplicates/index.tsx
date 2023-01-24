@@ -1,10 +1,11 @@
 import { Accordion, LG, Button } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-
+import { theme as globalTheme } from 'src/app/theme';
 import { useSiblings } from './useSiblings';
 import { BugDuplicatesList } from './BugDuplicatesList';
 import { BugFather } from './BugFather';
+import { ReactComponent as LinkIcon } from './icons/linked.svg';
 
 export const BugDuplicates = ({ cid }: { cid: number }) => {
   const MAX_SIBLING_SIZE = 3;
@@ -20,6 +21,12 @@ export const BugDuplicates = ({ cid }: { cid: number }) => {
         <Accordion.Header>
           <Accordion.Label style={{ padding: 0 }}>
             <LG isBold>
+              <LinkIcon
+                style={{
+                  color: globalTheme.palette.grey[600],
+                  marginRight: globalTheme.space.xs,
+                }}
+              />
               {t('__BUGS_PAGE_BUG_DETAIL_DUPLICATES_ACCORDION_TITLE')}
             </LG>
           </Accordion.Label>
