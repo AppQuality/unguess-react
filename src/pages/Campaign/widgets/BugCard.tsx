@@ -101,7 +101,11 @@ const BugCardTitle = ({
       </Anchor>
     );
   }
-  return <MD isBold>{children}</MD>;
+  return (
+    <MD style={{ color: globalTheme.palette.blue[600] }} isBold>
+      {children}
+    </MD>
+  );
 };
 BugCard.Title = BugCardTitle;
 

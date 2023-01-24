@@ -10,7 +10,6 @@ const StyledBugCard = styled(BugCard)`
   margin-bottom: ${({ theme }) => theme.space.base * 4}px;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
   cursor: default;
 `;
 const BugCardContent = styled.div`
@@ -29,6 +28,16 @@ const BugCardInfo = styled.div`
   flex-wrap: wrap;
 `;
 
+const IconBox = styled.div`
+  min-width: 6.5%;
+  align-self: flex-start;
+  margin-top: 3%;
+
+  svg {
+    max-width: 100%;
+  }
+`;
+
 export const BugItem = ({
   isFather,
   bugId,
@@ -43,7 +52,7 @@ export const BugItem = ({
   <StyledBugCard borderColor={globalTheme.palette.grey[500]}>
     {() => (
       <>
-        {isFather ? <FatherIcon /> : <SiblingIcon />}
+        <IconBox>{isFather ? <FatherIcon /> : <SiblingIcon />}</IconBox>
         <BugCardInfo style={{ marginLeft: globalTheme.space.sm }}>
           <BugCard.TopTitle>ID {bugId}</BugCard.TopTitle>
           <BugCard.Title>
