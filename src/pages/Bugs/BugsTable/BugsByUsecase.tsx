@@ -1,5 +1,6 @@
 import { Accordion, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { theme } from 'src/app/theme';
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
@@ -38,12 +39,14 @@ export const BugsByUsecase = ({
               <Accordion.Label>
                 <MD isBold>{item.useCase.title}</MD>
               </Accordion.Label>
-              <div style={{ flex: '0 0 auto' }}>
+              <div style={{ flex: '0 0 auto', color: theme.palette.grey[600] }}>
                 {t('__BUGS_PAGE_ACCORDION_LABEL_UNREAD_FRACTION', {
                   count: unread,
                   defaultValue: 'unread',
                 })}{' '}
-                ({unread}/{item.bugs.length})
+                (
+                <span style={{ color: theme.palette.blue[600] }}>{unread}</span>
+                /{item.bugs.length})
               </div>
             </Accordion.Header>
             <SingleGroupTable bugs={item.bugs} columns={columns} />
