@@ -47,8 +47,14 @@ const SingleGroupTable = ({ bugs, columns, isLoading }: UsecaseTableProps) => {
       />
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
-          {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
-          {` (${bugs.length})`}
+          {isPreview ? (
+            <>
+              {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
+              {` (${bugs.length})`}
+            </>
+          ) : (
+            t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
+          )}
         </Button>
       </div>
     </Accordion.Panel>
