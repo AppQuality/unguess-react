@@ -14,7 +14,7 @@ type CampaignType = {
   UniqueFilterType &
   SearchFilterType;
 
-type PageView = 'byUsecase' | 'bySeverity';
+type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
 
 interface initialSimpleState {
   currentCampaign?: number;

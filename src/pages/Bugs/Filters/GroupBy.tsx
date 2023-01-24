@@ -11,23 +11,27 @@ export const GroupBy = () => {
 
   return (
     <div>
-      {pageView === 'byUsecase' ? (
-        <Button
-          onClick={() => {
-            dispatch(setPageView('bySeverity'));
-          }}
-        >
-          {t('By severity')}
-        </Button>
-      ) : (
-        <Button
-          onClick={() => {
-            dispatch(setPageView('byUsecase'));
-          }}
-        >
-          {t('By use case')}
-        </Button>
-      )}
+      <Button
+        onClick={() => {
+          dispatch(setPageView('bySeverity'));
+        }}
+      >
+        {t('By severity')}
+      </Button>
+      <Button
+        onClick={() => {
+          dispatch(setPageView('byUsecase'));
+        }}
+      >
+        {t('By use case')}
+      </Button>
+      <Button
+        onClick={() => {
+          dispatch(setPageView('ungrouped'));
+        }}
+      >
+        {t('ungrouped')}
+      </Button>
     </div>
   );
 };
