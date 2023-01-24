@@ -70,6 +70,8 @@
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITIES_SHOW_MORE_LABEL": "Show <2>{{severities}}</2> more severities",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_ALL_LABEL": "All severities",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_TITLE": "Severity",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL": "Show less",
+  "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL": "Show <2>{{tags}}</2> more tags",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_CONTAINS_LABEL": "Contains",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_EMPTY_LABEL": "Is empty",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE": "Tags",
@@ -98,6 +100,8 @@
   "__BUGS_TABLE_BUG_ID_HEADER_COLUMN": "Bug id",
   "__BUGS_TABLE_SEVERITY_HEADER_COLUMN": "Severity",
   "__BUGS_TABLE_TITLE_HEADER_COLUMN": "Bug",
+  "__BUGS_TAGS_FILTER_ITEM_NO_ITEMS": "Tag",
+  "__BUGS_TAGS_FILTER_ITEM_NO_TAGS": "No tags",
   "__BUGS_TYPES_FILTER_ITEM_NO_ITEMS": "Typology",
   "__BUGS_UNIQUE_FILTER_ITEM_ALL": "With duplicated",
   "__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER": "Unique/duplicated",
@@ -564,6 +568,8 @@
   "Severity": "",
   "Severity ({{count}})_one": "Severity ({{count}})",
   "Severity ({{count}})_other": "Severities ({{count}})",
+  "Tags ({{count}})_one": "Tags ({{count}})",
+  "Tags ({{count}})_other": "Tags ({{count}})",
   "Typology ({{count}})_one": "Typology ({{count}})",
   "Typology ({{count}})_other": "Typologies ({{count}})"
 }

@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppSelector } from 'src/app/hooks';
-import { TypeFilterType, TypeFilter } from './typeFilters';
+import { TypeFilterType, TypeFilter } from './typeFilter';
 import { SeverityFilter, SeverityFilterType } from './severityFilter';
 import { ReadFilter, ReadFilterType } from './readFilter';
 import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
+import { TagFilterType, TagFilter } from './tagFilter';
 
 type CampaignType = {
   selectedBugId?: number;
@@ -12,7 +13,9 @@ type CampaignType = {
   SeverityFilterType &
   ReadFilterType &
   UniqueFilterType &
-  SearchFilterType;
+  SearchFilterType &
+  TagFilterType;
+// TODO: add new filter
 
 type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
 
@@ -49,6 +52,11 @@ const bugPageSlice = createSlice({
         ...ReadFilter.setAvailable(state.campaigns[cp_id as number]),
         ...UniqueFilter.setAvailable(state.campaigns[cp_id as number]),
         ...SearchFilter.setAvailable(state.campaigns[cp_id as number]),
+        ...TagFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.tags
+        ),
+        // TODO: add new filter
       };
       state.currentCampaign = cp_id;
     },
@@ -82,6 +90,11 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.search
         ),
+        ...TagFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.tags
+        ),
+        // TODO: add new filter
       };
     },
     resetFilters: (state) => {
@@ -92,6 +105,8 @@ const bugPageSlice = createSlice({
         ...ReadFilter.reset(state.campaigns[state.currentCampaign]),
         ...UniqueFilter.reset(state.campaigns[state.currentCampaign]),
         ...SearchFilter.reset(),
+        ...TagFilter.reset(state.campaigns[state.currentCampaign]),
+        // TODO: add new filter
       };
     },
     setPageView: (state, action: PayloadAction<PageView>) => {
@@ -111,6 +126,8 @@ export const getSelectedFiltersIds = () => ({
   read: ReadFilter.getValue(),
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
+  tags: TagFilter.getIds(),
+  // TODO: add new filter
 });
 
 export const getSelectedFilters = () => ({
@@ -119,6 +136,8 @@ export const getSelectedFilters = () => ({
   read: ReadFilter.getValue(),
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
+  tags: TagFilter.getValues(),
+  // TODO: add new filter
 });
 
 export const getSelectedBugId = () => {

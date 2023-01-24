@@ -12,7 +12,7 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
@@ -58,9 +58,9 @@ const BugsFilterDrawer = () => {
   const [showMore, setShowMore] = useState({
     types: false,
     severities: false,
+    tags: false,
   });
-  const maxItemsToShow = 3;
-  const [emptyTags, setEmptyTags] = useState(true);
+  const maxItemsToShow = 2;
 
   console.log('campaignData', campaignData);
 
@@ -78,7 +78,12 @@ const BugsFilterDrawer = () => {
     dispatch(resetFilters());
   };
 
-  const { types, severities, unique } = campaignData;
+  const { types, severities, unique, tags } = campaignData;
+  const [emptyTags, setEmptyTags] = useState(tags.selected.length === 0);
+
+  useEffect(() => {
+    setEmptyTags(tags.selected.length === 0);
+  }, [tags.selected]);
 
   return (
     <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
@@ -137,7 +142,11 @@ const BugsFilterDrawer = () => {
                             );
                           }}
                         >
-                          <Label>{item}</Label>
+                          <Label>
+                            {unique.selected === 'unique'
+                              ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+                              : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
+                          </Label>
                         </Radio>
                       </Field>
                     ))}
@@ -412,13 +421,24 @@ const BugsFilterDrawer = () => {
                     <AccordionLabel isBold>
                       {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE')}
                     </AccordionLabel>
-                    <SM style={{ color: globalTheme.palette.grey[600] }}>
-                      {emptyTags
-                        ? t(
-                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_EMPTY_LABEL'
-                          )
+                    <SM
+                      style={{
+                        color: globalTheme.palette.grey[600],
+                        textTransform: 'capitalize',
+                      }}
+                    >
+                      {tags.selected && tags.selected.length
+                        ? `${tags.selected
+                            .slice(0, maxItemsToShow)
+                            .map((item) => item.display_name)
+                            .join(', ')
+                            .toLowerCase()} ${
+                            tags.selected.length > maxItemsToShow
+                              ? `+${tags.selected.length - maxItemsToShow}`
+                              : ''
+                          }`
                         : t(
-                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_CONTAINS_LABEL'
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_ALL_LABEL'
                           )}
                     </SM>
                   </Accordion.Label>
@@ -431,6 +451,11 @@ const BugsFilterDrawer = () => {
                       checked={!emptyTags}
                       onChange={() => {
                         setEmptyTags(false);
+                        updateFilters({
+                          filters: {
+                            tags: tags.selected.map((i) => i.tag_id),
+                          },
+                        });
                       }}
                     >
                       <Label>
@@ -439,28 +464,78 @@ const BugsFilterDrawer = () => {
                         )}
                       </Label>
                     </Radio>
-                    {!emptyTags && (
-                      <TagsContainer>
-                        <Field>
-                          <Checkbox
-                            value="contains1"
-                            name="filter-tags"
-                            checked={false}
-                            onChange={() => {}}
-                          >
-                            <Label
-                              isRegular
-                              style={{
-                                color: globalTheme.palette.grey[600],
-                                textTransform: 'capitalize',
-                              }}
+                    <TagsContainer>
+                      {tags.available.length &&
+                        !emptyTags &&
+                        tags.available
+                          .slice(0, showMore.tags ? undefined : maxItemsToShow)
+                          .map((tag) => (
+                            <Field
+                              style={{ marginBottom: globalTheme.space.xs }}
                             >
-                              tag1
-                            </Label>
-                          </Checkbox>
-                        </Field>
-                      </TagsContainer>
-                    )}
+                              <Checkbox
+                                value={tag.tag_id}
+                                name="filter-tags"
+                                checked={tags.selected
+                                  .map((i) => i.tag_id)
+                                  .includes(tag.tag_id)}
+                                onChange={() => {
+                                  dispatch(
+                                    updateFilters({
+                                      filters: {
+                                        tags: [
+                                          ...(tags.selected
+                                            .map((i) => i.tag_id)
+                                            .includes(tag.tag_id)
+                                            ? tags.selected.filter(
+                                                (i) => i.tag_id !== tag.tag_id
+                                              )
+                                            : [...tags.selected, tag]),
+                                        ],
+                                      },
+                                    })
+                                  );
+                                }}
+                              >
+                                <Label
+                                  isRegular
+                                  style={{
+                                    color: globalTheme.palette.grey[600],
+                                    textTransform: 'capitalize',
+                                  }}
+                                >
+                                  {tag.display_name.toLowerCase()}
+                                </Label>
+                              </Checkbox>
+                            </Field>
+                          ))}
+                      {tags.available.length > maxItemsToShow && (
+                        <ShowMore
+                          onClick={() => {
+                            setShowMore({
+                              ...showMore,
+                              tags: !showMore.tags,
+                            });
+                          }}
+                        >
+                          {!showMore.tags ? (
+                            <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL">
+                              Show{' '}
+                              <Span isBold>
+                                {{
+                                  tags: tags.available.length - maxItemsToShow,
+                                }}
+                              </Span>{' '}
+                              more tags
+                            </Trans>
+                          ) : (
+                            t(
+                              '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL'
+                            )
+                          )}
+                        </ShowMore>
+                      )}
+                    </TagsContainer>
                   </Field>
                   <Field>
                     <Radio
@@ -469,6 +544,13 @@ const BugsFilterDrawer = () => {
                       checked={emptyTags}
                       onChange={() => {
                         setEmptyTags(true);
+                        dispatch(
+                          updateFilters({
+                            filters: {
+                              tags: [],
+                            },
+                          })
+                        );
                       }}
                     >
                       <Label>

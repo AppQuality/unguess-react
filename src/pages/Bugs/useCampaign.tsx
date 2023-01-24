@@ -4,9 +4,11 @@ import {
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidSeveritiesQuery,
+  useGetCampaignsByCidTagsQuery,
 } from 'src/features/api';
-import { TypeFilterType } from 'src/features/bugsPage/typeFilters';
+import { TypeFilterType } from 'src/features/bugsPage/typeFilter';
 import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
+import { TagFilterType } from 'src/features/bugsPage/tagFilter';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{
@@ -14,6 +16,8 @@ export const useCampaign = (cid: number) => {
     filters: {
       types?: TypeFilterType['types']['available'];
       severities?: SeverityFilterType['severities']['available'];
+      tags?: TagFilterType['tags']['available'];
+      // TODO: add new filter
     };
     outputs?: Output[];
   }>();
@@ -33,6 +37,10 @@ export const useCampaign = (cid: number) => {
     cid: cid.toString(),
   });
 
+  const { data: campaignTags } = useGetCampaignsByCidTagsQuery({
+    cid: cid.toString(),
+  });
+
   useEffect(() => {
     if (campaign) {
       setCampaignData({
@@ -40,11 +48,19 @@ export const useCampaign = (cid: number) => {
         filters: {
           types: campaignTypes,
           severities: campaignSeverities,
+          tags: campaignTags,
+          // TODO: add new filter
         },
         outputs: campaign.outputs,
       });
     }
-  }, [campaign, campaignTypes, campaignSeverities]);
+  }, [
+    campaign,
+    campaignTypes,
+    campaignSeverities,
+    campaignTags,
+    // TODO: add new filter
+  ]);
 
   return {
     isLoading: isLoadingCampaign || isFetchingCampaign,

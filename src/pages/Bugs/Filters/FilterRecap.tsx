@@ -20,7 +20,7 @@ const FilterRecapItem = ({
   value,
   name,
 }: {
-  type: 'severities' | 'types';
+  type: 'severities' | 'types' | 'tags'; // TODO: add new filter
   value: string;
   name: string;
 }) => {
@@ -54,6 +54,18 @@ const FilterRecapItem = ({
                 })
               );
               break;
+            case 'tags':
+              dispatch(
+                updateFilters({
+                  filters: {
+                    tags: filters.tags
+                      ? filters.tags.filter((t) => t.tag_id !== Number(value))
+                      : [],
+                  },
+                })
+              );
+              break;
+            // TODO: add new filter
             default:
           }
         }}
@@ -78,21 +90,35 @@ export const FilterRecap = () => {
     return null;
   }
   return (
-    <RecapContainer>
-      {filters.severities?.map((severity) => (
-        <FilterRecapItem
-          type="severities"
-          value={severity.id.toString()}
-          name={severity.name}
-        />
-      ))}
-      {filters.types?.map((type) => (
-        <FilterRecapItem
-          type="types"
-          value={type.id.toString()}
-          name={type.name}
-        />
-      ))}
-    </RecapContainer>
+    <>
+      {filters.severities && filters.severities.length
+        ? filters.severities.map((severity) => (
+            <FilterRecapItem
+              type="severities"
+              value={severity.id.toString()}
+              name={severity.name}
+            />
+          ))
+        : null}
+      {filters.types && filters.types.length
+        ? filters.types.map((type) => (
+            <FilterRecapItem
+              type="types"
+              value={type.id.toString()}
+              name={type.name}
+            />
+          ))
+        : null}
+      {filters.tags && filters.tags.length
+        ? filters.tags.map((tag) => (
+            <FilterRecapItem
+              type="tags"
+              value={tag.tag_id.toString()}
+              name={tag.display_name}
+            />
+          ))
+        : null}
+      {/* TODO: add new filter */}
+    </>
   );
 };
