@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Table, { ColumnDefinitionType } from 'src/common/components/Table';
 import {
@@ -20,7 +20,7 @@ import { EmptyState } from './EmptyState';
 import { InfoRow } from './InfoRow';
 
 interface UsecaseTableProps {
-  title?: string;
+  title?: ReactNode;
   item: BugBySeverityType | BugByUsecaseType;
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
   isLoading?: boolean;

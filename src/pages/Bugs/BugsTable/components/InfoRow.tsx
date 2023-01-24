@@ -6,6 +6,9 @@ import styled from 'styled-components';
 
 const StyledMD = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[800]};
+  span {
+    color: ${({ theme }) => theme.palette.grey[600]};
+  }
 `;
 
 const StyledSM = styled(SM)`

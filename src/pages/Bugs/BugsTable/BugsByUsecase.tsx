@@ -34,7 +34,12 @@ export const BugsByUsecase = ({
       {bugsByUseCases.map((item) => (
         <SingleGroupTable
           key={item.useCase.id}
-          title={item.useCase.title}
+          title={
+            <>
+              {item.useCase.title}
+              <MD tag="span">{` (${item.bugs.length})`}</MD>
+            </>
+          }
           item={item}
           columns={columns}
         />

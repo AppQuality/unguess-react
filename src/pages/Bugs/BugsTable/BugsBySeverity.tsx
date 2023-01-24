@@ -1,5 +1,6 @@
 import { Accordion, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
@@ -32,7 +33,12 @@ export const BugsBySeverity = ({
     >
       {bugsBySeverity.map((item) => (
         <SingleGroupTable
-          title={item.severity.name}
+          title={
+            <>
+              {t('Severity')}: {capitalizeFirstLetter(item.severity.name)}
+              <MD tag="span">{` (${item.bugs.length})`}</MD>
+            </>
+          }
           key={item.severity.id}
           item={item}
           columns={columns}
