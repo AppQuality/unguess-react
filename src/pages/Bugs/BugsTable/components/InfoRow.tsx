@@ -1,4 +1,5 @@
-import { MD, SM } from '@appquality/unguess-design-system';
+import { MD, SM, Title } from '@appquality/unguess-design-system';
+import { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
@@ -22,7 +23,13 @@ const StyledDiv = styled.div`
   padding: ${(p) => p.theme.space.sm} 0;
 `;
 
-export const InfoRow = ({ bugs }: { bugs: Bug[] }) => {
+export const InfoRow = ({
+  bugs,
+  title,
+}: {
+  bugs: Bug[];
+  title?: ReactNode;
+}) => {
   // Count bugs with read = false
   const totalBugs = bugs.length ?? 0;
   const unreadBugs = bugs.filter((bug) => bug.read === false) ?? [];
@@ -30,9 +37,11 @@ export const InfoRow = ({ bugs }: { bugs: Bug[] }) => {
   return (
     <StyledDiv>
       <StyledMD isBold>
-        <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
-          {{ uniqueBugs: totalBugs }} unique bugs
-        </Trans>
+        {title || (
+          <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
+            {{ uniqueBugs: totalBugs }} unique bugs
+          </Trans>
+        )}
       </StyledMD>
       <StyledSM>
         <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER">

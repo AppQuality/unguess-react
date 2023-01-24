@@ -1,24 +1,17 @@
 import { Accordion, Skeleton } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
-import UsecaseTable from './SingleGroupTable';
+import Table from 'src/common/components/Table';
 
-const loadingTables = [1, 3];
 export const LoadingState = () => (
-  <Accordion
-    level={3}
-    defaultExpandedSections={loadingTables}
-    isExpandable
-    isBare
-  >
-    {loadingTables.map((item) => (
-      <Accordion.Section key={item}>
-        <Accordion.Header>
-          <Accordion.Label>
-            <Skeleton height="20px" style={{ marginBottom: theme.space.md }} />
-          </Accordion.Label>
-        </Accordion.Header>
-        <UsecaseTable isLoading bugs={[]} columns={[]} />
-      </Accordion.Section>
-    ))}
-  </Accordion>
+  <div>
+    <Skeleton height="20px" style={{ margin: `${theme.space.md} 0` }} />
+    <Table
+      style={{ marginBottom: theme.space.sm }}
+      columns={[]}
+      data={[]}
+      isLoading
+      loadingRowHeight="70px"
+      loadingRowCount={3}
+    />
+  </div>
 );

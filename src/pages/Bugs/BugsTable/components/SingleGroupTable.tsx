@@ -56,7 +56,7 @@ const SingleGroupTable = ({
     <Accordion.Section>
       <StyledAccordionHeader>
         <StyledAccordionLabel>
-          <InfoRow bugs={item.bugs} />
+          <InfoRow title={title} bugs={item.bugs} />
         </StyledAccordionLabel>
       </StyledAccordionHeader>
       <Accordion.Panel style={{ padding: 0 }}>

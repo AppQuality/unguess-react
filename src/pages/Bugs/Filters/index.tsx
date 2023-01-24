@@ -13,6 +13,7 @@ const FilterContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.space.base * 4}px;
+  margin-bottom: ${({ theme }) => theme.space.lg};
 `;
 
 const StyledSM = styled(SM)`
