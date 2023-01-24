@@ -87,11 +87,19 @@ const BugsFilterDrawer = () => {
       index === self.findIndex((u) => u.id === useCase.id)
   );
 
-  const [emptyTags, setEmptyTags] = useState(tags.selected.length === 0);
+  const [radioTags, setRadioTags] = useState('all');
 
   useEffect(() => {
-    setEmptyTags(tags.selected.length === 0);
-  }, [tags.selected]);
+    if (radioTags === 'all') {
+      dispatch(
+        updateFilters({
+          filters: {
+            tags: tags.available,
+          },
+        })
+      );
+    }
+  }, []);
 
   return (
     <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
@@ -545,11 +553,34 @@ const BugsFilterDrawer = () => {
                 <Accordion.Panel>
                   <Field style={{ marginBottom: globalTheme.space.xxs }}>
                     <Radio
+                      value="all"
+                      name="filter-tags"
+                      checked={radioTags === 'all'}
+                      onChange={() => {
+                        setRadioTags('all');
+                        dispatch(
+                          updateFilters({
+                            filters: {
+                              tags: tags.available,
+                            },
+                          })
+                        );
+                      }}
+                    >
+                      <Label>
+                        {t(
+                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_ALL_LABEL'
+                        )}
+                      </Label>
+                    </Radio>
+                  </Field>
+                  <Field style={{ marginBottom: globalTheme.space.xxs }}>
+                    <Radio
                       value="contains"
                       name="filter-tags"
-                      checked={!emptyTags}
+                      checked={radioTags === 'contains'}
                       onChange={() => {
-                        setEmptyTags(false);
+                        setRadioTags('contains');
                         updateFilters({
                           filters: {
                             tags: tags.selected.map((i) => i.tag_id),
@@ -565,7 +596,7 @@ const BugsFilterDrawer = () => {
                     </Radio>
                     <TagsContainer>
                       {tags.available.length &&
-                        !emptyTags &&
+                        radioTags === 'contains' &&
                         tags.available
                           .slice(0, showMore.tags ? undefined : maxItemsToShow)
                           .map((tag) => (
@@ -608,41 +639,43 @@ const BugsFilterDrawer = () => {
                               </Checkbox>
                             </Field>
                           ))}
-                      {tags.available.length > maxItemsToShow && !emptyTags && (
-                        <ShowMore
-                          onClick={() => {
-                            setShowMore({
-                              ...showMore,
-                              tags: !showMore.tags,
-                            });
-                          }}
-                        >
-                          {!showMore.tags ? (
-                            <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL">
-                              Show{' '}
-                              <Span isBold>
-                                {{
-                                  tags: tags.available.length - maxItemsToShow,
-                                }}
-                              </Span>{' '}
-                              more tags
-                            </Trans>
-                          ) : (
-                            t(
-                              '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL'
-                            )
-                          )}
-                        </ShowMore>
-                      )}
+                      {tags.available.length > maxItemsToShow &&
+                        radioTags === 'contains' && (
+                          <ShowMore
+                            onClick={() => {
+                              setShowMore({
+                                ...showMore,
+                                tags: !showMore.tags,
+                              });
+                            }}
+                          >
+                            {!showMore.tags ? (
+                              <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL">
+                                Show{' '}
+                                <Span isBold>
+                                  {{
+                                    tags:
+                                      tags.available.length - maxItemsToShow,
+                                  }}
+                                </Span>{' '}
+                                more tags
+                              </Trans>
+                            ) : (
+                              t(
+                                '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL'
+                              )
+                            )}
+                          </ShowMore>
+                        )}
                     </TagsContainer>
                   </Field>
                   <Field>
                     <Radio
                       value="empty"
                       name="filter-tags"
-                      checked={emptyTags}
+                      checked={radioTags === 'empty'}
                       onChange={() => {
-                        setEmptyTags(true);
+                        setRadioTags('empty');
                         dispatch(
                           updateFilters({
                             filters: {
