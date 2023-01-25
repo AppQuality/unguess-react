@@ -4,13 +4,23 @@ import styled from 'styled-components';
 
 const StyledAvatar = styled(Tag.Avatar)``;
 
-const StyledTag = styled(Tag)`
+const StyledTag = styled(Tag)<{ iconPosition: 'left' | 'right' }>`
   pointer-events: none;
   padding: 0;
   margin-right: ${({ theme }) => theme.space.xs};
   ${StyledAvatar} {
-    margin-left: 0;
-    margin-right: ${({ theme }) => theme.space.xxs};
+    ${({ iconPosition, theme }) => {
+      if (iconPosition === 'left') {
+        return `
+          margin-left: 0;
+          margin-right: ${theme.space.xxs};
+      `;
+      }
+      return `
+        margin-right: 0;
+        margin-left: ${theme.space.xxs};
+    `;
+    }}
   }
 `;
 
@@ -35,6 +45,7 @@ interface PillProps {
   icon?: ReactNode;
   children?: ReactNode;
   size?: Parameters<typeof Tag>[0]['size'];
+  iconPosition?: 'left' | 'right';
 }
 
 export const IconPill = ({
@@ -43,12 +54,19 @@ export const IconPill = ({
   title,
   children,
   size,
+  iconPosition = 'left',
   ...props
 }: PillProps) => (
   <PillContainer {...props}>
-    <StyledTag isPill hue={background ?? 'white'} size={size || 'large'}>
+    <StyledTag
+      iconPosition={iconPosition}
+      isPill
+      hue={background ?? 'white'}
+      size={size || 'large'}
+    >
+      {iconPosition === 'right' ? title : null}
       {icon && <StyledAvatar>{icon}</StyledAvatar>}
-      {title}
+      {iconPosition === 'left' ? title : null}
     </StyledTag>
     {children && <StyledChild>{children}</StyledChild>}
   </PillContainer>
