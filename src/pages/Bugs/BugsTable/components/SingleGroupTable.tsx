@@ -48,6 +48,12 @@ const SingleGroupTable = ({
     }
   `;
 
+  const AccordionFooter = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `;
+
   return (
     <Accordion.Section style={{ marginBottom: theme.space.lg }}>
       <StyledAccordionHeader>
@@ -70,13 +76,8 @@ const SingleGroupTable = ({
           loadingRowCount={3}
           emptyState={<EmptyState />}
         />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: `${footer ? 'space-between' : 'flex-end'}`,
-          }}
-        >
-          {footer}
+        <AccordionFooter>
+          {footer || <div />}
           <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
             {isPreview ? (
               <>
@@ -87,7 +88,7 @@ const SingleGroupTable = ({
               t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
             )}
           </Button>
-        </div>
+        </AccordionFooter>
       </Accordion.Panel>
     </Accordion.Section>
   );
