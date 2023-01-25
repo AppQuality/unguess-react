@@ -2,11 +2,11 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme } from 'src/app/theme';
 import Table, { ColumnDefinitionType } from 'src/common/components/Table';
-import { Bug } from 'src/features/api';
 import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
+import { TableBugType } from '../types';
 import { EmptyState } from './components/EmptyState';
 import { InfoRow } from './components/InfoRow';
 import { mapBugsToTableData } from './mapBugsToTableData';
@@ -17,7 +17,7 @@ export const AllBugs = ({
   columns,
   isLoading,
 }: {
-  bugs: Bug[];
+  bugs: TableBugType[];
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
   isLoading?: boolean;
 }) => {
