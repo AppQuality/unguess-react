@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   Output,
   useGetCampaignsByCidBugTypesQuery,
+  useGetCampaignsByCidDevicesQuery,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidTagsQuery,
@@ -11,6 +12,7 @@ import { TypeFilterType } from 'src/features/bugsPage/typeFilter';
 import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
 import { TagFilterType } from 'src/features/bugsPage/tagFilter';
 import { UseCaseFilterType } from 'src/features/bugsPage/useCaseFilter';
+import { DeviceFilterType } from 'src/features/bugsPage/deviceFilter';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{
@@ -20,6 +22,7 @@ export const useCampaign = (cid: number) => {
       severities?: SeverityFilterType['severities']['available'];
       tags?: TagFilterType['tags']['available'];
       useCases?: UseCaseFilterType['useCases']['available'];
+      devices?: DeviceFilterType['devices']['available'];
       // TODO: add new filter
     };
     outputs?: Output[];
@@ -48,6 +51,10 @@ export const useCampaign = (cid: number) => {
     cid: cid.toString(),
   });
 
+  const { data: campaignDevices } = useGetCampaignsByCidDevicesQuery({
+    cid: cid.toString(),
+  });
+
   useEffect(() => {
     if (campaign) {
       setCampaignData({
@@ -57,6 +64,7 @@ export const useCampaign = (cid: number) => {
           severities: campaignSeverities,
           tags: campaignTags,
           useCases: campaignUseCases,
+          devices: campaignDevices,
           // TODO: add new filter
         },
         outputs: campaign.outputs,
@@ -68,6 +76,7 @@ export const useCampaign = (cid: number) => {
     campaignSeverities,
     campaignTags,
     campaignUseCases,
+    campaignDevices,
     // TODO: add new filter
   ]);
 

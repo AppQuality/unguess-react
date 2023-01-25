@@ -13,6 +13,7 @@ import { GroupBy } from './GroupBy';
 import { BugsFilterDrawer } from '../Drawer';
 import { TagFilter } from './TagFilter';
 import { UseCaseFilter } from './UseCaseFilter';
+import { DeviceFilter } from './DeviceFilter';
 
 const FilterContainer = styled.div`
   display: flex;
@@ -56,6 +57,7 @@ const BugsFilters = () => {
         <TypeFilter />
         <TagFilter />
         <UseCaseFilter />
+        <DeviceFilter />
         <OrderInfo>
           <StyledSM isBold>
             {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}

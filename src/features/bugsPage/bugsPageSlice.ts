@@ -7,6 +7,7 @@ import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
 import { TagFilterType, TagFilter } from './tagFilter';
 import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
+import { DeviceFilterType, DeviceFilter } from './deviceFilter';
 
 type CampaignType = {
   selectedBugId?: number;
@@ -16,7 +17,8 @@ type CampaignType = {
   UniqueFilterType &
   SearchFilterType &
   TagFilterType &
-  UseCaseFilterType;
+  UseCaseFilterType &
+  DeviceFilterType;
 // TODO: add new filter
 
 type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
@@ -62,6 +64,10 @@ const bugPageSlice = createSlice({
           state.campaigns[cp_id as number],
           filters.useCases
         ),
+        ...DeviceFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.devices
+        ),
         // TODO: add new filter
       };
       state.currentCampaign = cp_id;
@@ -104,6 +110,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.useCases
         ),
+        ...DeviceFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.devices
+        ),
         // TODO: add new filter
       };
     },
@@ -117,6 +127,7 @@ const bugPageSlice = createSlice({
         ...SearchFilter.reset(),
         ...TagFilter.reset(state.campaigns[state.currentCampaign]),
         ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
+        ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
         // TODO: add new filter
       };
     },
@@ -139,6 +150,7 @@ export const getSelectedFiltersIds = () => ({
   search: SearchFilter.getValue(),
   tags: TagFilter.getIds(),
   useCases: UseCaseFilter.getIds(),
+  devices: DeviceFilter.getIds(),
   // TODO: add new filter
 });
 
@@ -150,6 +162,7 @@ export const getSelectedFilters = () => ({
   search: SearchFilter.getValue(),
   tags: TagFilter.getValues(),
   useCases: UseCaseFilter.getValues(),
+  devices: DeviceFilter.getValues(),
   // TODO: add new filter
 });
 

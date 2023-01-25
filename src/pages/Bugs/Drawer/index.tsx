@@ -60,6 +60,7 @@ const BugsFilterDrawer = () => {
     severities: false,
     tags: false,
     useCases: false,
+    devices: false,
   });
   const maxItemsToShow = 5;
 
@@ -79,7 +80,7 @@ const BugsFilterDrawer = () => {
     dispatch(resetFilters());
   };
 
-  const { types, severities, unique, tags, useCases } = campaignData;
+  const { types, severities, unique, tags, useCases, devices } = campaignData;
 
   // TODO: remove this, API bug - Filter only unique ids useCases
   const availableUseCases = useCases.available.filter(
@@ -693,24 +694,118 @@ const BugsFilterDrawer = () => {
             <Divider />
           </>
 
-          <>
-            <Accordion level={3}>
-              <Accordion.Section>
-                <Accordion.Header>
-                  <Accordion.Label>
-                    <AccordionLabel isBold>
-                      {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_TITLE')}
-                    </AccordionLabel>
-                    <SM style={{ color: globalTheme.palette.grey[600] }}>
-                      Value
-                    </SM>
-                  </Accordion.Label>
-                </Accordion.Header>
-                <Accordion.Panel>Options</Accordion.Panel>
-              </Accordion.Section>
-            </Accordion>
-            <Divider />
-          </>
+          {devices.available.length && (
+            <>
+              <Accordion level={3}>
+                <Accordion.Section>
+                  <Accordion.Header>
+                    <Accordion.Label>
+                      <AccordionLabel isBold>
+                        {t(
+                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_TITLE'
+                        )}
+                      </AccordionLabel>
+                      <SM
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {devices.selected && devices.selected.length
+                          ? `${devices.selected
+                              .slice(0, maxItemsToShow)
+                              .map((item) => item.device)
+                              .join(', ')
+                              .toLowerCase()} ${
+                              devices.selected.length > maxItemsToShow
+                                ? `+${devices.selected.length - maxItemsToShow}`
+                                : ''
+                            }`
+                          : t(
+                              '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_ALL_LABEL'
+                            )}
+                      </SM>
+                    </Accordion.Label>
+                  </Accordion.Header>
+                  <Accordion.Panel>
+                    {devices.available
+                      .slice(0, showMore.devices ? undefined : maxItemsToShow)
+                      .map((device) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={device.device}
+                            name="filter-devices"
+                            checked={devices.selected
+                              .map((i) => i.device)
+                              .includes(device.device)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    devices: [
+                                      ...(devices.selected
+                                        .map((i) => i.device)
+                                        .includes(device.device)
+                                        ? devices.selected.filter(
+                                            (i) => i.device !== device.device
+                                          )
+                                        : [
+                                            ...devices.selected,
+                                            {
+                                              device: device.device,
+                                            },
+                                          ]),
+                                    ],
+                                  },
+                                })
+                              );
+                            }}
+                          >
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {device.device}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
+                    {devices.available.length > maxItemsToShow && (
+                      <ShowMore
+                        onClick={() => {
+                          setShowMore({
+                            ...showMore,
+                            devices: !showMore.devices,
+                          });
+                        }}
+                      >
+                        {!showMore.devices ? (
+                          <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_SHOW_MORE_LABEL">
+                            Show{' '}
+                            <Span isBold>
+                              {{
+                                devices:
+                                  devices.available.length - maxItemsToShow,
+                              }}
+                            </Span>{' '}
+                            more devices
+                          </Trans>
+                        ) : (
+                          t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_SHOW_LESS_LABEL'
+                          )
+                        )}
+                      </ShowMore>
+                    )}
+                  </Accordion.Panel>
+                </Accordion.Section>
+              </Accordion>
+              <Divider />
+            </>
+          )}
 
           <>
             <Accordion level={3}>
