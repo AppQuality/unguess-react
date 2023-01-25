@@ -87,16 +87,6 @@ const BugsFilterDrawer = () => {
       index === self.findIndex((u) => u.id === useCase.id)
   );
 
-  const [radioTags, setRadioTags] = useState('all');
-
-  useEffect(() => {
-    if (tags.selected.length) {
-      setRadioTags('contains');
-    } else {
-      setRadioTags('all');
-    }
-  }, [tags.selected]);
-
   return (
     <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
       <Drawer.Header>
@@ -158,7 +148,12 @@ const BugsFilterDrawer = () => {
                             );
                           }}
                         >
-                          <Label>
+                          <Label
+                            isRegular
+                            style={{
+                              textTransform: 'capitalize',
+                            }}
+                          >
                             {item === 'unique'
                               ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
                               : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
@@ -551,172 +546,113 @@ const BugsFilterDrawer = () => {
                   </Accordion.Label>
                 </Accordion.Header>
                 <Accordion.Panel>
-                  <Field style={{ marginBottom: globalTheme.space.xxs }}>
-                    <Radio
-                      value="all"
+                  {tags.available.length &&
+                    tags.available
+                      .slice(0, showMore.tags ? undefined : maxItemsToShow)
+                      .map((tag) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={tag.tag_id}
+                            name="filter-tags"
+                            checked={tags.selected
+                              .map((i) => i.tag_id)
+                              .includes(tag.tag_id)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    tags: [
+                                      ...(tags.selected
+                                        .map((i) => i.tag_id)
+                                        .includes(tag.tag_id)
+                                        ? tags.selected.filter(
+                                            (i) => i.tag_id !== tag.tag_id
+                                          )
+                                        : [...tags.selected, tag]),
+                                    ],
+                                  },
+                                })
+                              );
+                            }}
+                          >
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {tag.display_name.toLowerCase()}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
+                  <Field>
+                    <Checkbox
+                      value={0}
                       name="filter-tags"
-                      checked={radioTags === 'all'}
+                      checked={tags.selected.map((i) => i.tag_id).includes(0)}
                       onChange={() => {
-                        setRadioTags('all');
                         dispatch(
                           updateFilters({
                             filters: {
-                              tags: [],
+                              tags: [
+                                ...(tags.selected
+                                  .map((i) => i.tag_id)
+                                  .includes(0)
+                                  ? tags.selected.filter((i) => i.tag_id !== 0)
+                                  : [
+                                      ...tags.selected,
+                                      {
+                                        tag_id: 0,
+                                        display_name: t(
+                                          '__BUGS_TAGS_FILTER_ITEM_NO_TAGS'
+                                        ),
+                                      },
+                                    ]),
+                              ],
                             },
                           })
                         );
                       }}
                     >
-                      <Label>
-                        {t(
-                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_ALL_LABEL'
-                        )}
+                      <Label
+                        isRegular
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {t('__BUGS_TAGS_FILTER_ITEM_NO_TAGS')}
                       </Label>
-                    </Radio>
+                    </Checkbox>
                   </Field>
-                  <Field style={{ marginBottom: globalTheme.space.xxs }}>
-                    <Radio
-                      value="contains"
-                      name="filter-tags"
-                      checked={radioTags === 'contains'}
-                      onChange={() => {
-                        setRadioTags('contains');
-                        updateFilters({
-                          filters: {
-                            tags: tags.selected.map((i) => i.tag_id),
-                          },
+                  {tags.available.length > maxItemsToShow && (
+                    <ShowMore
+                      onClick={() => {
+                        setShowMore({
+                          ...showMore,
+                          tags: !showMore.tags,
                         });
                       }}
                     >
-                      <Label>
-                        {t(
-                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_CONTAINS_LABEL'
-                        )}
-                      </Label>
-                    </Radio>
-                    <TagsContainer
-                      {...(radioTags !== 'contains' && {
-                        hidden: true,
-                      })}
-                    >
-                      {tags.available.length &&
-                        radioTags === 'contains' &&
-                        tags.available
-                          .slice(0, showMore.tags ? undefined : maxItemsToShow)
-                          .map((tag) => (
-                            <Field
-                              style={{ marginBottom: globalTheme.space.xs }}
-                            >
-                              <Checkbox
-                                value={tag.tag_id}
-                                name="filter-tags"
-                                checked={tags.selected
-                                  .map((i) => i.tag_id)
-                                  .includes(tag.tag_id)}
-                                onChange={() => {
-                                  dispatch(
-                                    updateFilters({
-                                      filters: {
-                                        tags: [
-                                          ...(tags.selected
-                                            .map((i) => i.tag_id)
-                                            .includes(tag.tag_id)
-                                            ? tags.selected.filter(
-                                                (i) => i.tag_id !== tag.tag_id
-                                              )
-                                            : [...tags.selected, tag]),
-                                        ],
-                                      },
-                                    })
-                                  );
-                                }}
-                              >
-                                <Label
-                                  isRegular
-                                  style={{
-                                    color: globalTheme.palette.grey[600],
-                                    textTransform: 'capitalize',
-                                  }}
-                                >
-                                  {tag.display_name.toLowerCase()}
-                                </Label>
-                              </Checkbox>
-                            </Field>
-                          ))}
-                      <Field>
-                        <Checkbox
-                          value={0}
-                          name="filter-tags"
-                          checked={tags.selected
-                            .map((i) => i.tag_id)
-                            .includes(0)}
-                          onChange={() => {
-                            dispatch(
-                              updateFilters({
-                                filters: {
-                                  tags: [
-                                    ...(tags.selected
-                                      .map((i) => i.tag_id)
-                                      .includes(0)
-                                      ? tags.selected.filter(
-                                          (i) => i.tag_id !== 0
-                                        )
-                                      : [
-                                          ...tags.selected,
-                                          {
-                                            tag_id: 0,
-                                            display_name: t(
-                                              '__BUGS_TAGS_FILTER_ITEM_NO_TAGS'
-                                            ),
-                                          },
-                                        ]),
-                                  ],
-                                },
-                              })
-                            );
-                          }}
-                        >
-                          <Label
-                            isRegular
-                            style={{
-                              color: globalTheme.palette.grey[600],
-                              textTransform: 'capitalize',
+                      {!showMore.tags ? (
+                        <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL">
+                          Show{' '}
+                          <Span isBold>
+                            {{
+                              tags: tags.available.length - maxItemsToShow,
                             }}
-                          >
-                            {t('__BUGS_TAGS_FILTER_ITEM_NO_TAGS')}
-                          </Label>
-                        </Checkbox>
-                      </Field>
-                      {tags.available.length > maxItemsToShow &&
-                        radioTags === 'contains' && (
-                          <ShowMore
-                            onClick={() => {
-                              setShowMore({
-                                ...showMore,
-                                tags: !showMore.tags,
-                              });
-                            }}
-                          >
-                            {!showMore.tags ? (
-                              <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL">
-                                Show{' '}
-                                <Span isBold>
-                                  {{
-                                    tags:
-                                      tags.available.length - maxItemsToShow,
-                                  }}
-                                </Span>{' '}
-                                more tags
-                              </Trans>
-                            ) : (
-                              t(
-                                '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL'
-                              )
-                            )}
-                          </ShowMore>
-                        )}
-                    </TagsContainer>
-                  </Field>
+                          </Span>{' '}
+                          more tags
+                        </Trans>
+                      ) : (
+                        t(
+                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL'
+                        )
+                      )}
+                    </ShowMore>
+                  )}
                 </Accordion.Panel>
               </Accordion.Section>
             </Accordion>
