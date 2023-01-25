@@ -3,6 +3,7 @@ import {
   Output,
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidDevicesQuery,
+  useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidTagsQuery,
@@ -13,6 +14,7 @@ import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
 import { TagFilterType } from 'src/features/bugsPage/tagFilter';
 import { UseCaseFilterType } from 'src/features/bugsPage/useCaseFilter';
 import { DeviceFilterType } from 'src/features/bugsPage/deviceFilter';
+import { OsFilterType } from 'src/features/bugsPage/osFilter';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{
@@ -23,6 +25,7 @@ export const useCampaign = (cid: number) => {
       tags?: TagFilterType['tags']['available'];
       useCases?: UseCaseFilterType['useCases']['available'];
       devices?: DeviceFilterType['devices']['available'];
+      os?: OsFilterType['os']['available'];
       // TODO: add new filter
     };
     outputs?: Output[];
@@ -55,6 +58,10 @@ export const useCampaign = (cid: number) => {
     cid: cid.toString(),
   });
 
+  const { data: campaignOs } = useGetCampaignsByCidOsQuery({
+    cid: cid.toString(),
+  });
+
   useEffect(() => {
     if (campaign) {
       setCampaignData({
@@ -65,6 +72,7 @@ export const useCampaign = (cid: number) => {
           tags: campaignTags,
           useCases: campaignUseCases,
           devices: campaignDevices,
+          os: campaignOs,
           // TODO: add new filter
         },
         outputs: campaign.outputs,
@@ -77,6 +85,7 @@ export const useCampaign = (cid: number) => {
     campaignTags,
     campaignUseCases,
     campaignDevices,
+    campaignOs,
     // TODO: add new filter
   ]);
 

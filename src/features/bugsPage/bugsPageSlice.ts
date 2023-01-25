@@ -8,6 +8,7 @@ import { SearchFilter, SearchFilterType } from './searchFilter';
 import { TagFilterType, TagFilter } from './tagFilter';
 import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
 import { DeviceFilterType, DeviceFilter } from './deviceFilter';
+import { OsFilterType, OsFilter } from './osFilter';
 
 type CampaignType = {
   selectedBugId?: number;
@@ -18,7 +19,8 @@ type CampaignType = {
   SearchFilterType &
   TagFilterType &
   UseCaseFilterType &
-  DeviceFilterType;
+  DeviceFilterType &
+  OsFilterType;
 // TODO: add new filter
 
 type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
@@ -68,6 +70,7 @@ const bugPageSlice = createSlice({
           state.campaigns[cp_id as number],
           filters.devices
         ),
+        ...OsFilter.setAvailable(state.campaigns[cp_id as number], filters.os),
         // TODO: add new filter
       };
       state.currentCampaign = cp_id;
@@ -114,6 +117,7 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.devices
         ),
+        ...OsFilter.filter(state.campaigns[state.currentCampaign], filters.os),
         // TODO: add new filter
       };
     },
@@ -128,6 +132,7 @@ const bugPageSlice = createSlice({
         ...TagFilter.reset(state.campaigns[state.currentCampaign]),
         ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
         ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
+        ...OsFilter.reset(state.campaigns[state.currentCampaign]),
         // TODO: add new filter
       };
     },
@@ -151,6 +156,7 @@ export const getSelectedFiltersIds = () => ({
   tags: TagFilter.getIds(),
   useCases: UseCaseFilter.getIds(),
   devices: DeviceFilter.getIds(),
+  os: OsFilter.getIds(),
   // TODO: add new filter
 });
 
@@ -163,6 +169,7 @@ export const getSelectedFilters = () => ({
   tags: TagFilter.getValues(),
   useCases: UseCaseFilter.getValues(),
   devices: DeviceFilter.getValues(),
+  os: OsFilter.getValues(),
   // TODO: add new filter
 });
 

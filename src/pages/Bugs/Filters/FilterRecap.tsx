@@ -20,7 +20,7 @@ const FilterRecapItem = ({
   value,
   name,
 }: {
-  type: 'severities' | 'types' | 'tags' | 'useCases' | 'devices'; // TODO: add new filter
+  type: 'severities' | 'types' | 'tags' | 'useCases' | 'devices' | 'os'; // TODO: add new filter
   value: string;
   name: string;
 }) => {
@@ -87,6 +87,17 @@ const FilterRecapItem = ({
                 })
               );
               break;
+            case 'os':
+              dispatch(
+                updateFilters({
+                  filters: {
+                    os: filters.os
+                      ? filters.os.filter((t) => t.os !== value)
+                      : [],
+                  },
+                })
+              );
+              break;
             // TODO: add new filter
             default:
           }
@@ -105,12 +116,7 @@ const RecapContainer = styled.div`
 
 export const FilterRecap = () => {
   const filters = getSelectedFilters();
-  const haveFilters =
-    (filters.severities && filters.severities.length) ||
-    (filters.types && filters.types.length);
-  if (!haveFilters) {
-    return null;
-  }
+  
   return (
     <>
       {filters.severities && filters.severities.length
@@ -156,6 +162,11 @@ export const FilterRecap = () => {
               value={device.device}
               name={device.device}
             />
+          ))
+        : null}
+      {filters.os && filters.os.length
+        ? filters.os.map((os) => (
+            <FilterRecapItem type="os" value={os.os} name={os.os} />
           ))
         : null}
       {/* TODO: add new filter */}

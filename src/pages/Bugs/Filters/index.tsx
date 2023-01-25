@@ -14,6 +14,7 @@ import { BugsFilterDrawer } from '../Drawer';
 import { TagFilter } from './TagFilter';
 import { UseCaseFilter } from './UseCaseFilter';
 import { DeviceFilter } from './DeviceFilter';
+import { OsFilter } from './OsFilter';
 
 const FilterContainer = styled.div`
   display: flex;
@@ -58,6 +59,7 @@ const BugsFilters = () => {
         <TagFilter />
         <UseCaseFilter />
         <DeviceFilter />
+        <OsFilter />
         <OrderInfo>
           <StyledSM isBold>
             {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}

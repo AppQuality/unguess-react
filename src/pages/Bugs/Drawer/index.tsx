@@ -61,6 +61,7 @@ const BugsFilterDrawer = () => {
     tags: false,
     useCases: false,
     devices: false,
+    os: false,
   });
   const maxItemsToShow = 5;
 
@@ -80,7 +81,8 @@ const BugsFilterDrawer = () => {
     dispatch(resetFilters());
   };
 
-  const { types, severities, unique, tags, useCases, devices } = campaignData;
+  const { types, severities, unique, tags, useCases, devices, os } =
+    campaignData;
 
   // TODO: remove this, API bug - Filter only unique ids useCases
   const availableUseCases = useCases.available.filter(
@@ -807,24 +809,114 @@ const BugsFilterDrawer = () => {
             </>
           )}
 
-          <>
-            <Accordion level={3}>
-              <Accordion.Section>
-                <Accordion.Header>
-                  <Accordion.Label>
-                    <AccordionLabel isBold>
-                      {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_TITLE')}
-                    </AccordionLabel>
-                    <SM style={{ color: globalTheme.palette.grey[600] }}>
-                      Value
-                    </SM>
-                  </Accordion.Label>
-                </Accordion.Header>
-                <Accordion.Panel>Options</Accordion.Panel>
-              </Accordion.Section>
-            </Accordion>
-            <Divider />
-          </>
+          {os.available.length && (
+            <>
+              <Accordion level={3}>
+                <Accordion.Section>
+                  <Accordion.Header>
+                    <Accordion.Label>
+                      <AccordionLabel isBold>
+                        {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_TITLE')}
+                      </AccordionLabel>
+                      <SM
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {os.selected && os.selected.length
+                          ? `${os.selected
+                              .slice(0, maxItemsToShow)
+                              .map((item) => item.os)
+                              .join(', ')
+                              .toLowerCase()} ${
+                              os.selected.length > maxItemsToShow
+                                ? `+${os.selected.length - maxItemsToShow}`
+                                : ''
+                            }`
+                          : t(
+                              '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_ALL_LABEL'
+                            )}
+                      </SM>
+                    </Accordion.Label>
+                  </Accordion.Header>
+                  <Accordion.Panel>
+                    {os.available
+                      .slice(0, showMore.os ? undefined : maxItemsToShow)
+                      .map((item) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={item.os}
+                            name="filter-os"
+                            checked={os.selected
+                              .map((i) => i.os)
+                              .includes(item.os)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    os: [
+                                      ...(os.selected
+                                        .map((i) => i.os)
+                                        .includes(item.os)
+                                        ? os.selected.filter(
+                                            (i) => i.os !== item.os
+                                          )
+                                        : [
+                                            ...os.selected,
+                                            {
+                                              os: item.os,
+                                            },
+                                          ]),
+                                    ],
+                                  },
+                                })
+                              );
+                            }}
+                          >
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                              }}
+                            >
+                              {item.os}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
+                    {os.available.length > maxItemsToShow && (
+                      <ShowMore
+                        onClick={() => {
+                          setShowMore({
+                            ...showMore,
+                            os: !showMore.os,
+                          });
+                        }}
+                      >
+                        {!showMore.os ? (
+                          <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_SHOW_MORE_LABEL">
+                            Show{' '}
+                            <Span isBold>
+                              {{
+                                os: os.available.length - maxItemsToShow,
+                              }}
+                            </Span>{' '}
+                            more OS
+                          </Trans>
+                        ) : (
+                          t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_SHOW_LESS_LABEL'
+                          )
+                        )}
+                      </ShowMore>
+                    )}
+                  </Accordion.Panel>
+                </Accordion.Section>
+              </Accordion>
+              <Divider />
+            </>
+          )}
         </>
       </Drawer.Body>
       <Drawer.Footer>
