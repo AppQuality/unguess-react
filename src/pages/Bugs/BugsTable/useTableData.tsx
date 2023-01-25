@@ -7,6 +7,12 @@ import { BugBySeverityType, BugByUsecaseType, TableDatum } from './types';
 export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
   const filterBy = getSelectedFiltersIds();
+  const severities = [
+    { id: 4, name: 'CRITICAL' },
+    { id: 3, name: 'HIGH' },
+    { id: 2, name: 'MEDIUM' },
+    { id: 1, name: 'LOW' },
+  ];
   const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
     {
       key: 'title',
@@ -50,7 +56,10 @@ export const useTableData = (campaignId: number) => {
   });
 
   const bugsByUsecase: BugByUsecaseType[] = [];
-  const bugsBySeverity: BugBySeverityType[] = [];
+  const bugsBySeverity: BugBySeverityType[] = severities.map((severity) => ({
+    severity,
+    bugs: [],
+  }));
 
   if (isLoading || isFetching || !bugs || !bugs.items) {
     return {
@@ -82,17 +91,11 @@ export const useTableData = (campaignId: number) => {
 
   const sortBySeverity = (bug: Bug) => {
     const severity = bugsBySeverity.find(
-      (item) => item.severity.id === bug.severity.id
+      (item) =>
+        item.severity.id === bug.severity.id ||
+        item.severity.name.toLowerCase() === bug.severity.name.toLowerCase()
     );
-
-    if (severity) {
-      severity.bugs.push(bug);
-    } else {
-      bugsBySeverity.push({
-        severity: bug.severity,
-        bugs: [bug],
-      });
-    }
+    severity?.bugs.push(bug);
   };
 
   // sort bugs

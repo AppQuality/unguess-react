@@ -2,6 +2,7 @@ import { MD, SM } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
 import { Bug } from 'src/features/api';
+import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 
 const StyledMD = styled(MD)`
@@ -36,15 +37,21 @@ export const InfoRow = ({
   // Count bugs with read = false
   const totalBugs = bugs.length ?? 0;
   const unreadBugs = bugs.filter((bug) => bug.read === false) ?? [];
+  const filterBy = getSelectedFiltersIds();
 
   return (
     <StyledDiv>
       <StyledMD isBold>
-        {title || (
-          <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
-            {{ uniqueBugs: totalBugs }} unique bugs
-          </Trans>
-        )}
+        {title ||
+          (filterBy?.unique && filterBy.unique === 'unique' ? (
+            <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER">
+              {{ uniqueBugs: totalBugs }} unique bugs
+            </Trans>
+          ) : (
+            <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_WITH_DUPLICATED_BUGS_COUNTER">
+              {{ uniqueBugs: totalBugs }} bugs
+            </Trans>
+          ))}
       </StyledMD>
       <StyledSM>
         <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER">
