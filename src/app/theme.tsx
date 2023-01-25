@@ -15,6 +15,8 @@ const theme = {
     ...baseTheme.colors,
     bySeverity: SEVERITY_COLORS,
     darkPine: CHARTS_COLOR_PALETTE.darkPine,
+    gubbioLight: CHARTS_COLOR_PALETTE.gubbioLight,
+    blueRoyal: CHARTS_COLOR_PALETTE.blueRoyal,
   },
   components: {
     ...baseTheme.components,
