@@ -1,11 +1,22 @@
 import { TFunction } from 'react-i18next';
-import { theme } from 'src/app/theme';
+import { SM } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { Pill } from 'src/common/components/pills/Pill';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { TableBugType } from '../../types';
+import styled from 'styled-components';
 import { BugTitle } from '../components/BugTitle';
+import { TableBugType } from '../../types';
+import { ReactComponent as FatherIcon } from './assets/father-icon.svg';
+
+const DuplicateContainer = styled((props) => <SM isBold {...props} />)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${({ theme }) => theme.space.xxs};
+  line-height: ${({ theme }) => theme.lineHeights.md};
+`;
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
@@ -15,8 +26,17 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
     return {
       key: bug.id.toString(),
       id: bug.id.toString(),
+      siblings:
+        bug.siblings > 0 ? (
+          <DuplicateContainer>
+            {!bug.duplicated_of_id ? (
+              <FatherIcon style={{ color: globalTheme.palette.grey[500] }} />
+            ) : null}
+            +{bug.siblings}
+          </DuplicateContainer>
+        ) : null,
       bugId: (
-        <span style={{ color: theme.palette.grey[700] }}>
+        <span style={{ color: globalTheme.palette.grey[700] }}>
           {bug.id.toString()}
         </span>
       ),
@@ -37,7 +57,10 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
           {bug.type.name && (
             <>
               <Pipe size="small" />
-              <Pill isBold={isPillBold} style={{ marginLeft: theme.space.xs }}>
+              <Pill
+                isBold={isPillBold}
+                style={{ marginLeft: globalTheme.space.xs }}
+              >
                 {bug.type.name}
               </Pill>
             </>
@@ -48,7 +71,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
               <Pill
                 isBold
                 backgroundColor="transparent"
-                color={theme.palette.blue[600]}
+                color={globalTheme.palette.blue[600]}
               >
                 {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
               </Pill>
@@ -60,7 +83,9 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       created: bug.created,
       updated: bug.updated,
       borderColor:
-        theme.colors.bySeverity[bug.severity.name.toLowerCase() as Severities],
+        globalTheme.colors.bySeverity[
+          bug.severity.name.toLowerCase() as Severities
+        ],
     };
   });
 };

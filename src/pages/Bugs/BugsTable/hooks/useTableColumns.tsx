@@ -16,6 +16,11 @@ export const useTableColumns = () => {
       width: '90px',
     },
     {
+      key: 'siblings',
+      header: '',
+      width: '90px',
+    },
+    {
       key: 'bugId',
       header: t('__BUGS_TABLE_BUG_ID_HEADER_COLUMN'),
       width: '90px',
