@@ -39,7 +39,11 @@ export const ReadFilter = () => {
       }}
     >
       <Field>
-        <Select isCompact isPrimary={data.read.selected === 'unread'}>
+        <Select
+          style={{ minWidth: '160px' }}
+          isCompact
+          isPrimary={data.read.selected === 'unread'}
+        >
           {data.read.selected === 'unread'
             ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
             : t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')}
