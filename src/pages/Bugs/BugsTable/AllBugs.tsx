@@ -9,7 +9,7 @@ import {
 import { TableBugType } from '../types';
 import { EmptyState } from './components/EmptyState';
 import { InfoRow } from './components/InfoRow';
-import { mapBugsToTableData } from './mapBugsToTableData';
+import { mapBugsToTableData } from './utils/mapBugsToTableData';
 import { TableDatum } from './types';
 
 export const AllBugs = ({

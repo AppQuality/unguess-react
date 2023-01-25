@@ -3,7 +3,7 @@ import { AllBugs } from './AllBugs';
 import { BugsBySeverity } from './BugsBySeverity';
 import { BugsByUsecase } from './BugsByUsecase';
 import { LoadingState } from './components/LoadingState';
-import { useTableData } from './useTableData';
+import { useTableData } from './hooks/useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
   const { pageView } = useAppSelector((state) => state.bugsPage);

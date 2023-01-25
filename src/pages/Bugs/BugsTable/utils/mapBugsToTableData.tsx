@@ -4,8 +4,8 @@ import { Pill } from 'src/common/components/pills/Pill';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { TableBugType } from '../types';
-import { BugTitle } from './components/BugTitle';
+import { TableBugType } from '../../types';
+import { BugTitle } from '../components/BugTitle';
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();

@@ -8,7 +8,7 @@ import {
 import { Accordion, Button, theme } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
-import { mapBugsToTableData } from '../mapBugsToTableData';
+import { mapBugsToTableData } from '../utils/mapBugsToTableData';
 import { BugBySeverityType, BugByUsecaseType, TableDatum } from '../types';
 import { EmptyState } from './EmptyState';
 import { InfoRow } from './InfoRow';

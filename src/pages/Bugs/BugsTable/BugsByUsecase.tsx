@@ -33,7 +33,7 @@ export const BugsByUsecase = ({
           key={item.useCase.id}
           title={
             <>
-              {item.useCase.title}
+              {item.useCase.title.full}
               <MD tag="span">{` (${item.bugs.length})`}</MD>
             </>
           }
