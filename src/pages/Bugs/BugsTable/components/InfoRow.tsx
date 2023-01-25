@@ -1,4 +1,4 @@
-import { MD, SM, Title } from '@appquality/unguess-design-system';
+import { MD, SM } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
 import { Bug } from 'src/features/api';
@@ -23,7 +23,7 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: ${(p) => p.theme.space.xs} 0 ${(p) => p.theme.space.sm};
+  padding: ${(p) => p.theme.space.xs} 0;
 `;
 
 export const InfoRow = ({

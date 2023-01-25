@@ -5,13 +5,7 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import {
-  Accordion,
-  Button,
-  MD,
-  SM,
-  theme,
-} from '@appquality/unguess-design-system';
+import { Accordion, Button, theme } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import { mapBugsToTableData } from '../mapBugsToTableData';
@@ -19,7 +13,7 @@ import { BugBySeverityType, BugByUsecaseType, TableDatum } from '../types';
 import { EmptyState } from './EmptyState';
 import { InfoRow } from './InfoRow';
 
-interface UsecaseTableProps {
+interface SingleGroupTableProps {
   title?: ReactNode;
   item: BugBySeverityType | BugByUsecaseType;
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
@@ -31,7 +25,7 @@ const SingleGroupTable = ({
   item,
   columns,
   isLoading,
-}: UsecaseTableProps) => {
+}: SingleGroupTableProps) => {
   const { t } = useTranslation();
   const currentBugId = getSelectedBugId();
   const [isPreview, setIsPreview] = useState(true);
@@ -53,7 +47,7 @@ const SingleGroupTable = ({
   `;
 
   return (
-    <Accordion.Section>
+    <Accordion.Section style={{ marginBottom: theme.space.lg }}>
       <StyledAccordionHeader>
         <StyledAccordionLabel>
           <InfoRow title={title} bugs={item.bugs} />
@@ -61,7 +55,7 @@ const SingleGroupTable = ({
       </StyledAccordionHeader>
       <Accordion.Panel style={{ padding: 0 }}>
         <Table
-          style={{ marginBottom: theme.space.sm }}
+          style={{ marginBottom: theme.space.sm, marginTop: theme.space.xs }}
           columns={columns}
           data={getDisplayedBugs()}
           selectedRow={currentBugId ? currentBugId.toString() : null}

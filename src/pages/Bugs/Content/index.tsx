@@ -1,4 +1,4 @@
-import { Col, Grid, Row, theme } from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { BugsDetail } from '../Detail';
 import { BugsFilters } from '../Filters';

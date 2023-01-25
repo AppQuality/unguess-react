@@ -31,7 +31,7 @@ export const AllBugs = ({
     <div>
       <InfoRow bugs={bugs} />
       <Table
-        style={{ marginBottom: theme.space.sm }}
+        style={{ marginBottom: theme.space.sm, marginTop: theme.space.xs }}
         columns={columns}
         data={mapBugsToTableData(bugs, t)}
         selectedRow={currentBugId ? currentBugId.toString() : null}

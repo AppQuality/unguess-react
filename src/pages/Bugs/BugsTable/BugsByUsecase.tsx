@@ -1,6 +1,4 @@
 import { Accordion, MD } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
@@ -13,7 +11,6 @@ export const BugsByUsecase = ({
   bugsByUseCases: BugByUsecaseType[];
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
 }) => {
-  const { t } = useTranslation();
   // seems that sections index are only odd numbers ¯\_(ツ)_/¯
   // i.e. [1, 3, 5, 7]
   const defaultExpandedSections = Array.from(

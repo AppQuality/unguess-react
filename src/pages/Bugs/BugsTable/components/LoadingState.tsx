@@ -1,4 +1,4 @@
-import { Accordion, Skeleton } from '@appquality/unguess-design-system';
+import { Skeleton } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import Table from 'src/common/components/Table';
 
