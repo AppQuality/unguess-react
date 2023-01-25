@@ -18,6 +18,7 @@ interface SingleGroupTableProps {
   item: BugBySeverityType | BugByUsecaseType;
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
   isLoading?: boolean;
+  footer?: ReactNode;
 }
 
 const SingleGroupTable = ({
@@ -25,6 +26,7 @@ const SingleGroupTable = ({
   item,
   columns,
   isLoading,
+  footer,
 }: SingleGroupTableProps) => {
   const { t } = useTranslation();
   const currentBugId = getSelectedBugId();
@@ -55,7 +57,7 @@ const SingleGroupTable = ({
       </StyledAccordionHeader>
       <Accordion.Panel style={{ padding: 0 }}>
         <Table
-          style={{ marginBottom: theme.space.sm, marginTop: theme.space.xs }}
+          style={{ margin: `${theme.space.xs} 0` }}
           columns={columns}
           data={getDisplayedBugs()}
           selectedRow={currentBugId ? currentBugId.toString() : null}
@@ -68,7 +70,13 @@ const SingleGroupTable = ({
           loadingRowCount={3}
           emptyState={<EmptyState />}
         />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: `${footer ? 'space-between' : 'flex-end'}`,
+          }}
+        >
+          {footer}
           <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
             {isPreview ? (
               <>

@@ -22,6 +22,7 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
         <BugsBySeverity
           columns={columns}
           bugsBySeverity={data.bugsBySeverity}
+          allBugs={data.allBugs}
         />
       )}
       {pageView === 'ungrouped' && (
