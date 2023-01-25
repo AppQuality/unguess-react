@@ -62,28 +62,37 @@ const FilterRecapItem = ({
   );
 };
 
+const RecapContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.md};
+`;
+
 export const FilterRecap = () => {
   const filters = getSelectedFilters();
+  const haveFilters =
+    (filters.severities && filters.severities.length) ||
+    (filters.types && filters.types.length);
+  if (!haveFilters) {
+    return null;
+  }
   return (
-    <>
-      {filters.severities && filters.severities.length
-        ? filters.severities.map((severity) => (
-            <FilterRecapItem
-              type="severities"
-              value={severity.id.toString()}
-              name={severity.name}
-            />
-          ))
-        : null}
-      {filters.types && filters.types.length
-        ? filters.types.map((type) => (
-            <FilterRecapItem
-              type="types"
-              value={type.id.toString()}
-              name={type.name}
-            />
-          ))
-        : null}
-    </>
+    <RecapContainer>
+      {filters.severities?.map((severity) => (
+        <FilterRecapItem
+          type="severities"
+          value={severity.id.toString()}
+          name={severity.name}
+        />
+      ))}
+      {filters.types?.map((type) => (
+        <FilterRecapItem
+          type="types"
+          value={type.id.toString()}
+          name={type.name}
+        />
+      ))}
+    </RecapContainer>
   );
 };

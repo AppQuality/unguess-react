@@ -7,12 +7,13 @@ import { ReadFilter } from './ReadFilter';
 import { UniqueFilter } from './UniqueFilter';
 import { SearchFilter } from './SearchFilter';
 import { FilterRecap } from './FilterRecap';
+import { GroupBy } from './GroupBy';
 
 const FilterContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.space.base * 4}px;
-  margin-bottom: ${({ theme }) => theme.space.lg};
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const StyledSM = styled(SM)`
@@ -27,10 +28,6 @@ const OrderInfo = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
   }
-`;
-const RecapContainer = styled.div`
-  display: flex;
-  gap: ${({ theme }) => theme.space.sm};
 `;
 
 const BugsFilters = () => {
@@ -48,10 +45,9 @@ const BugsFilters = () => {
             {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}
           </StyledSM>
         </OrderInfo>
+        <GroupBy />
       </FilterContainer>
-      <RecapContainer>
-        <FilterRecap />
-      </RecapContainer>
+      <FilterRecap />
     </>
   );
 };

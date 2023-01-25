@@ -1,28 +1,34 @@
-import { useAppDispatch } from 'src/app/hooks';
-import Table from 'src/common/components/Table';
-import {
-  getSelectedBugId,
-  selectBug,
-} from 'src/features/bugsPage/bugsPageSlice';
-import { EmptyState } from './EmptyState';
+import { useAppSelector } from 'src/app/hooks';
+import { AllBugs } from './AllBugs';
+import { BugsBySeverity } from './BugsBySeverity';
+import { BugsByUsecase } from './BugsByUsecase';
+import { LoadingState } from './components/LoadingState';
 import { useTableData } from './useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
+  const { pageView } = useAppSelector((state) => state.bugsPage);
   const { columns, data, isLoading } = useTableData(campaignId);
-  const dispatch = useAppDispatch();
-  const currentBugId = getSelectedBugId();
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
 
   return (
-    <Table
-      columns={columns}
-      data={data}
-      selectedRow={currentBugId ? currentBugId.toString() : null}
-      onRowClick={(bug_id) => dispatch(selectBug({ bug_id: Number(bug_id) }))}
-      isSticky
-      isLoading={isLoading}
-      loadingRowHeight="70px"
-      emptyState={<EmptyState />}
-    />
+    <div>
+      {pageView === 'byUsecase' && (
+        <BugsByUsecase columns={columns} bugsByUseCases={data.bugsByUseCases} />
+      )}
+      {pageView === 'bySeverity' && (
+        <BugsBySeverity
+          columns={columns}
+          bugsBySeverity={data.bugsBySeverity}
+          allBugs={data.allBugs}
+        />
+      )}
+      {pageView === 'ungrouped' && (
+        <AllBugs columns={columns} bugs={data.allBugs} />
+      )}
+    </div>
   );
 };
 

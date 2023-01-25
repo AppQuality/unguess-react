@@ -1,23 +1,18 @@
-import { useMemo } from 'react';
-import { Pill } from 'src/common/components/pills/Pill';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { ColumnDefinitionType } from 'src/common/components/Table';
-import { theme } from 'src/app/theme';
-import { Pipe } from 'src/common/components/Pipe';
 import { useTranslation } from 'react-i18next';
-import {
-  getSelectedBugId,
-  getSelectedFiltersIds,
-} from 'src/features/bugsPage/bugsPageSlice';
-import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
-import { TableDatum } from './types';
-import { BugTitle } from './BugTitle';
+import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
+import { Bug, useGetCampaignsByCidBugsQuery } from 'src/features/api';
+import { BugBySeverityType, BugByUsecaseType, TableDatum } from './types';
 
 export const useTableData = (campaignId: number) => {
   const { t } = useTranslation();
-  const currentBugId = getSelectedBugId();
   const filterBy = getSelectedFiltersIds();
-
+  const severities = [
+    { id: 4, name: 'CRITICAL' },
+    { id: 3, name: 'HIGH' },
+    { id: 2, name: 'MEDIUM' },
+    { id: 1, name: 'LOW' },
+  ];
   const columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[] = [
     {
       key: 'title',
@@ -60,74 +55,82 @@ export const useTableData = (campaignId: number) => {
     order: 'DESC',
   });
 
-  const mapBugsToTableData = useMemo<TableDatum[]>(() => {
-    if (!bugs || !bugs.items) return [];
-    return bugs.items.map((bug) => {
-      const isPillBold = (currentBugId && currentBugId === bug.id) || !bug.read;
-      return {
-        id: bug.id.toString(),
-        bugId: (
-          <span style={{ color: theme.palette.grey[700] }}>
-            {bug.id.toString()}
-          </span>
-        ),
-        severity: (
-          <SeverityPill
-            severity={bug.severity.name.toLowerCase() as Severities}
-          />
-        ),
-        title: (
-          <div>
-            <BugTitle isUnread={!bug.read} isBold={isPillBold}>
-              {bug.title.compact}
-            </BugTitle>
-            {bug.title.context && (
-              <Pill isBold={isPillBold}>{bug.title.context}</Pill>
-            )}
-            {bug.tags?.map((tag) => (
-              <Pill isBold={isPillBold}>{tag.tag_name}</Pill>
-            ))}
-            {bug.type.name && (
-              <>
-                <Pipe size="small" />
-                <Pill
-                  isBold={isPillBold}
-                  style={{ marginLeft: theme.space.xs }}
-                >
-                  {bug.type.name}
-                </Pill>
-              </>
-            )}
-            {!bug.read && (
-              <>
-                <Pipe size="small" />
-                <Pill
-                  isBold
-                  backgroundColor="transparent"
-                  color={theme.palette.blue[600]}
-                >
-                  {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
-                </Pill>
-              </>
-            )}
-          </div>
-        ),
-        isHighlighted: !bug.read,
-        created: bug.created,
-        updated: bug.updated,
-        borderColor:
-          theme.colors.bySeverity[
-            bug.severity.name.toLowerCase() as Severities
-          ],
-      };
-    });
-  }, [bugs, currentBugId]);
+  const bugsByUsecase: BugByUsecaseType[] = [];
+  const bugsBySeverity: BugBySeverityType[] = severities.map((severity) => ({
+    severity,
+    bugs: [],
+  }));
 
-  if (isLoading || isFetching || !bugs || !bugs.items)
-    return { columns, data: [], isLoading: true };
+  if (isLoading || isFetching || !bugs || !bugs.items) {
+    return {
+      columns,
+      data: {
+        allBugs: [],
+        bugsByUseCases: [],
+        bugsBySeverity: [],
+      },
+      isLoading: true,
+    };
+  }
+
+  const sortByUsecase = (bug: Bug) => {
+    if (typeof bug.application_section.title === 'undefined') return;
+    const useCase = bugsByUsecase.find(
+      (item) => item.useCase.title === bug.application_section.title
+    );
+
+    if (useCase) {
+      useCase.bugs.push(bug);
+    } else {
+      bugsByUsecase.push({
+        useCase: bug.application_section,
+        bugs: [bug],
+      });
+    }
+  };
+
+  const sortBySeverity = (bug: Bug) => {
+    const severity = bugsBySeverity.find(
+      (item) =>
+        item.severity.id === bug.severity.id ||
+        item.severity.name.toLowerCase() === bug.severity.name.toLowerCase()
+    );
+    severity?.bugs.push(bug);
+  };
+
+  // sort bugs
+  bugs.items.forEach((bug) => {
+    sortBySeverity(bug);
+    sortByUsecase(bug);
+  });
+  /* got the data */
   return {
     columns,
-    data: mapBugsToTableData,
+    data: {
+      allBugs: bugs.items,
+      bugsByUseCases: bugsByUsecase.sort((a, b) => {
+        if (a.useCase.id && b.useCase.id) {
+          if (a.useCase.id > b.useCase.id) {
+            return 1;
+          }
+          if (a.useCase.id < b.useCase.id) {
+            return -1;
+          }
+        }
+        return 0;
+      }),
+      bugsBySeverity: bugsBySeverity.sort((a, b) => {
+        if (a.severity.id && b.severity.id) {
+          if (a.severity.id > b.severity.id) {
+            return -1;
+          }
+          if (a.severity.id < b.severity.id) {
+            return 1;
+          }
+        }
+        return 0;
+      }),
+    },
     isLoading: false,
     filterBy,
   };
