@@ -57,6 +57,27 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/replicabilities': {
+    /** Return all accepted replicabilities of a specific campaign */
+    get: operations['get-campaigns-replicabilities'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/bugs/{bid}/siblings': {
+    get: operations['get-campaigns-bug-siblings'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/meta': {
     /** Used to extra info about a selected campaign */
     get: operations['get-campaigns-cid-meta'];
@@ -86,8 +107,35 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/devices': {
+    get: operations['get-campaigns-cid-devices'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/os': {
+    get: operations['get-campaigns-cid-os'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/severities': {
     get: operations['get-campaigns-cid-severities'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/campaigns/{cid}/usecases': {
+    get: operations['get-campaigns-cid-usecases'];
     parameters: {
       path: {
         /** Campaign id */
@@ -872,6 +920,7 @@ export interface operations {
                 tag_id: number;
                 tag_name: string;
               }[];
+              siblings: number;
             })[];
             start?: number;
             limit?: number;
@@ -972,6 +1021,78 @@ export interface operations {
       };
     };
   };
+  /** Return all accepted replicabilities of a specific campaign */
+  'get-campaigns-replicabilities': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugReplicability'][];
+        };
+      };
+      /** Bad Request */
+      400: unknown;
+      /** Forbidden */
+      403: unknown;
+    };
+  };
+  'get-campaigns-bug-siblings': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            father?: {
+              id: number;
+              title: {
+                full: string;
+                compact: string;
+                context?: string[];
+              };
+              context?: string;
+              device: string;
+              os: {
+                name: string;
+                version: string;
+              };
+            };
+            siblings: {
+              id: number;
+              title: {
+                full: string;
+                compact: string;
+                context?: string[];
+              };
+              context?: string;
+              device: string;
+              os: {
+                name: string;
+                version: string;
+              };
+            }[];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      401: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
   /** Used to extra info about a selected campaign */
   'get-campaigns-cid-meta': {
     parameters: {
@@ -1038,6 +1159,48 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  'get-campaigns-cid-devices': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            device: string;
+          }[];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-campaigns-cid-os': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            os: string;
+          }[];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
   'get-campaigns-cid-severities': {
     parameters: {
       path: {
@@ -1050,6 +1213,34 @@ export interface operations {
       200: {
         content: {
           'application/json': components['schemas']['BugSeverity'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-campaigns-cid-usecases': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            title: {
+              full: string;
+              simple?: string;
+              prefix?: string;
+              info?: string;
+            };
+            completion: number;
+          }[];
         };
       };
       400: components['responses']['Error'];
