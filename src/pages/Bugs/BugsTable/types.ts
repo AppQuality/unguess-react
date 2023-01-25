@@ -1,9 +1,6 @@
 import { ReactNode } from 'react';
-import {
-  Bug,
-  BugSeverity,
-  GetCampaignsByCidBugsApiResponse,
-} from 'src/features/api';
+import { Bug, BugSeverity } from 'src/features/api';
+import { TableBugType } from '../types';
 
 export interface TableDatum {
   id: string;
@@ -17,10 +14,10 @@ export interface TableDatum {
 
 export type BugByUsecaseType = {
   useCase: Bug['application_section'];
-  bugs: Exclude<GetCampaignsByCidBugsApiResponse['items'], undefined>;
+  bugs: TableBugType[];
 };
 
 export type BugBySeverityType = {
   severity: BugSeverity;
-  bugs: Exclude<GetCampaignsByCidBugsApiResponse['items'], undefined>;
+  bugs: TableBugType[];
 };

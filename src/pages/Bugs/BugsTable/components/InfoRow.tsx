@@ -1,9 +1,9 @@
 import { MD, SM } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
-import { Bug } from 'src/features/api';
 import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { TableBugType } from '../../types';
 
 const StyledMD = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[800]};
@@ -31,7 +31,7 @@ export const InfoRow = ({
   bugs,
   title,
 }: {
-  bugs: Bug[];
+  bugs: TableBugType[];
   title?: ReactNode;
 }) => {
   // Count bugs with read = false

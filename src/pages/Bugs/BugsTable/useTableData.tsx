@@ -1,7 +1,8 @@
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { useTranslation } from 'react-i18next';
 import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
-import { Bug, useGetCampaignsByCidBugsQuery } from 'src/features/api';
+import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
+import { TableBugType } from 'src/pages/Bugs/types';
 import { BugBySeverityType, BugByUsecaseType, TableDatum } from './types';
 
 export const useTableData = (campaignId: number) => {
@@ -72,8 +73,7 @@ export const useTableData = (campaignId: number) => {
       isLoading: true,
     };
   }
-
-  const sortByUsecase = (bug: Bug) => {
+  const sortByUsecase = (bug: TableBugType) => {
     if (typeof bug.application_section.title === 'undefined') return;
     const useCase = bugsByUsecase.find(
       (item) => item.useCase.title === bug.application_section.title
@@ -89,7 +89,7 @@ export const useTableData = (campaignId: number) => {
     }
   };
 
-  const sortBySeverity = (bug: Bug) => {
+  const sortBySeverity = (bug: TableBugType) => {
     const severity = bugsBySeverity.find(
       (item) =>
         item.severity.id === bug.severity.id ||
