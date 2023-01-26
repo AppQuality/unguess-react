@@ -12,7 +12,7 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
@@ -41,12 +41,6 @@ const ShowMore = styled(Anchor)`
   color: ${({ theme }) => theme.colors.primaryHue};
   padding-left: ${({ theme }) => theme.space.base * 6}px;
   font-size: ${({ theme }) => theme.fontSizes.sm};
-`;
-
-const TagsContainer = styled.div`
-  padding-left: ${({ theme }) => theme.space.base * 6}px;
-  margin-top: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 const BugsFilterDrawer = () => {
@@ -92,12 +86,6 @@ const BugsFilterDrawer = () => {
     os,
     replicabilities,
   } = campaignData;
-
-  // TODO: remove this, API bug - Filter only unique ids useCases
-  const availableUseCases = useCases.available.filter(
-    (useCase, index, self) =>
-      index === self.findIndex((u) => u.id === useCase.id)
-  );
 
   return (
     <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
@@ -404,7 +392,7 @@ const BugsFilterDrawer = () => {
             </>
           )}
 
-          {availableUseCases.length && (
+          {useCases.available.length && (
             <>
               <Accordion level={3}>
                 <Accordion.Section>
@@ -440,8 +428,55 @@ const BugsFilterDrawer = () => {
                     </Accordion.Label>
                   </Accordion.Header>
                   <Accordion.Panel>
-                    {availableUseCases
-                      .slice(0, showMore.useCases ? undefined : maxItemsToShow)
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={0}
+                        name="filter-usecase"
+                        checked={useCases.selected.map((i) => i.id).includes(0)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                useCases: [
+                                  ...(useCases.selected
+                                    .map((i) => i.id)
+                                    .includes(0)
+                                    ? useCases.selected.filter(
+                                        (i) => i.id !== 0
+                                      )
+                                    : [
+                                        ...useCases.selected,
+                                        {
+                                          id: 0,
+                                          title: {
+                                            full: t(
+                                              '__BUGS_USECASES_FILTER_ITEM_NO_USECASE'
+                                            ),
+                                          },
+                                        },
+                                      ]),
+                                ],
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        <Label
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {t('__BUGS_USECASES_FILTER_ITEM_NO_USECASE')}
+                        </Label>
+                      </Checkbox>
+                    </Field>
+                    {useCases.available
+                      .slice(
+                        0,
+                        showMore.useCases ? undefined : maxItemsToShow - 1
+                      )
                       .map((item) => (
                         <Field style={{ marginBottom: globalTheme.space.xs }}>
                           <Checkbox
@@ -480,7 +515,7 @@ const BugsFilterDrawer = () => {
                           </Checkbox>
                         </Field>
                       ))}
-                    {availableUseCases.length > maxItemsToShow && (
+                    {useCases.available.length > maxItemsToShow && (
                       <ShowMore
                         onClick={() => {
                           setShowMore({
@@ -495,7 +530,9 @@ const BugsFilterDrawer = () => {
                             <Span isBold>
                               {{
                                 useCases:
-                                  availableUseCases.length - maxItemsToShow,
+                                  useCases.available.length -
+                                  maxItemsToShow +
+                                  1,
                               }}
                             </Span>{' '}
                             more Use Cases
@@ -558,48 +595,7 @@ const BugsFilterDrawer = () => {
                   </Accordion.Label>
                 </Accordion.Header>
                 <Accordion.Panel>
-                  {tags.available.length &&
-                    tags.available
-                      .slice(0, showMore.tags ? undefined : maxItemsToShow)
-                      .map((tag) => (
-                        <Field style={{ marginBottom: globalTheme.space.xs }}>
-                          <Checkbox
-                            value={tag.tag_id}
-                            name="filter-tags"
-                            checked={tags.selected
-                              .map((i) => i.tag_id)
-                              .includes(tag.tag_id)}
-                            onChange={() => {
-                              dispatch(
-                                updateFilters({
-                                  filters: {
-                                    tags: [
-                                      ...(tags.selected
-                                        .map((i) => i.tag_id)
-                                        .includes(tag.tag_id)
-                                        ? tags.selected.filter(
-                                            (i) => i.tag_id !== tag.tag_id
-                                          )
-                                        : [...tags.selected, tag]),
-                                    ],
-                                  },
-                                })
-                              );
-                            }}
-                          >
-                            <Label
-                              isRegular
-                              style={{
-                                color: globalTheme.palette.grey[600],
-                                textTransform: 'capitalize',
-                              }}
-                            >
-                              {tag.display_name.toLowerCase()}
-                            </Label>
-                          </Checkbox>
-                        </Field>
-                      ))}
-                  <Field>
+                  <Field style={{ marginBottom: globalTheme.space.xs }}>
                     <Checkbox
                       value={0}
                       name="filter-tags"
@@ -639,6 +635,47 @@ const BugsFilterDrawer = () => {
                       </Label>
                     </Checkbox>
                   </Field>
+                  {tags.available.length &&
+                    tags.available
+                      .slice(0, showMore.tags ? undefined : maxItemsToShow - 1)
+                      .map((tag) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={tag.tag_id}
+                            name="filter-tags"
+                            checked={tags.selected
+                              .map((i) => i.tag_id)
+                              .includes(tag.tag_id)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    tags: [
+                                      ...(tags.selected
+                                        .map((i) => i.tag_id)
+                                        .includes(tag.tag_id)
+                                        ? tags.selected.filter(
+                                            (i) => i.tag_id !== tag.tag_id
+                                          )
+                                        : [...tags.selected, tag]),
+                                    ],
+                                  },
+                                })
+                              );
+                            }}
+                          >
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {tag.display_name.toLowerCase()}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
                   {tags.available.length > maxItemsToShow && (
                     <ShowMore
                       onClick={() => {
@@ -653,7 +690,7 @@ const BugsFilterDrawer = () => {
                           Show{' '}
                           <Span isBold>
                             {{
-                              tags: tags.available.length - maxItemsToShow,
+                              tags: tags.available.length - maxItemsToShow + 1,
                             }}
                           </Span>{' '}
                           more tags

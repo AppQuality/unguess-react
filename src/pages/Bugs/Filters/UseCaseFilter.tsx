@@ -19,13 +19,7 @@ export const UseCaseFilter = () => {
   )
     return null;
 
-  // TODO: remove this, API bug - Filter only unique ids useCases
-  const availableUseCases = data.useCases.available.filter(
-    (useCase, index, self) =>
-      index === self.findIndex((u) => u.id === useCase.id)
-  );
-
-  const options = availableUseCases.map((item) => ({
+  const options = data.useCases.available.map((item) => ({
     id: item.id,
     label: item.title.full,
     selected: data.useCases.selected.map((i) => i.id).includes(item.id),
@@ -46,29 +40,18 @@ export const UseCaseFilter = () => {
           noItems: t('__BUGS_USECASES_FILTER_ITEM_NO_ITEMS'),
         }}
         onChange={(selected) => {
-          // Check if no use cases is included in selected
-          if (selected.map((item) => item.id).includes(0)) {
-            dispatch(
-              updateFilters({
-                filters: {
-                  useCases: [],
-                },
-              })
-            );
-          } else {
-            dispatch(
-              updateFilters({
-                filters: {
-                  useCases: selected.map((item) => ({
-                    id: item.id,
-                    title: {
-                      full: item.label,
-                    },
-                  })),
-                },
-              })
-            );
-          }
+          dispatch(
+            updateFilters({
+              filters: {
+                useCases: selected.map((item) => ({
+                  id: item.id,
+                  title: {
+                    full: item.label,
+                  },
+                })),
+              },
+            })
+          );
         }}
         options={options}
       />
