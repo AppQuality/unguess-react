@@ -20,7 +20,14 @@ const FilterRecapItem = ({
   value,
   name,
 }: {
-  type: 'severities' | 'types' | 'tags' | 'useCases' | 'devices' | 'os'; // TODO: add new filter
+  type:
+    | 'severities'
+    | 'types'
+    | 'tags'
+    | 'useCases'
+    | 'devices'
+    | 'os'
+    | 'replicabilities'; // TODO: add new filter
   value: string;
   name: string;
 }) => {
@@ -98,6 +105,19 @@ const FilterRecapItem = ({
                 })
               );
               break;
+            case 'replicabilities':
+              dispatch(
+                updateFilters({
+                  filters: {
+                    replicabilities: filters.replicabilities
+                      ? filters.replicabilities.filter(
+                          (t) => t.id !== Number(value)
+                        )
+                      : [],
+                  },
+                })
+              );
+              break;
             // TODO: add new filter
             default:
           }
@@ -167,6 +187,15 @@ export const FilterRecap = () => {
       {filters.os && filters.os.length
         ? filters.os.map((os) => (
             <FilterRecapItem type="os" value={os.os} name={os.os} />
+          ))
+        : null}
+      {filters.replicabilities && filters.replicabilities.length
+        ? filters.replicabilities.map((replicability) => (
+            <FilterRecapItem
+              type="replicabilities"
+              value={replicability.id.toString()}
+              name={replicability.name}
+            />
           ))
         : null}
       {/* TODO: add new filter */}

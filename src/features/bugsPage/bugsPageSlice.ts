@@ -9,6 +9,10 @@ import { TagFilterType, TagFilter } from './tagFilter';
 import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
 import { DeviceFilterType, DeviceFilter } from './deviceFilter';
 import { OsFilterType, OsFilter } from './osFilter';
+import {
+  ReplicabilityFilter,
+  ReplicabilityFilterType,
+} from './replicabilityFilter';
 
 type CampaignType = {
   selectedBugId?: number;
@@ -20,7 +24,8 @@ type CampaignType = {
   TagFilterType &
   UseCaseFilterType &
   DeviceFilterType &
-  OsFilterType;
+  OsFilterType &
+  ReplicabilityFilterType;
 // TODO: add new filter
 
 type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
@@ -71,6 +76,10 @@ const bugPageSlice = createSlice({
           filters.devices
         ),
         ...OsFilter.setAvailable(state.campaigns[cp_id as number], filters.os),
+        ...ReplicabilityFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.replicabilities
+        ),
         // TODO: add new filter
       };
       state.currentCampaign = cp_id;
@@ -118,6 +127,10 @@ const bugPageSlice = createSlice({
           filters.devices
         ),
         ...OsFilter.filter(state.campaigns[state.currentCampaign], filters.os),
+        ...ReplicabilityFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.replicabilities
+        ),
         // TODO: add new filter
       };
     },
@@ -133,6 +146,7 @@ const bugPageSlice = createSlice({
         ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
         ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
         ...OsFilter.reset(state.campaigns[state.currentCampaign]),
+        ...ReplicabilityFilter.reset(state.campaigns[state.currentCampaign]),
         // TODO: add new filter
       };
     },
@@ -157,6 +171,7 @@ export const getSelectedFiltersIds = () => ({
   useCases: UseCaseFilter.getIds(),
   devices: DeviceFilter.getIds(),
   os: OsFilter.getIds(),
+  replicabilities: ReplicabilityFilter.getIds(),
   // TODO: add new filter
 });
 
@@ -170,6 +185,7 @@ export const getSelectedFilters = () => ({
   useCases: UseCaseFilter.getValues(),
   devices: DeviceFilter.getValues(),
   os: OsFilter.getValues(),
+  replicabilities: ReplicabilityFilter.getValues(),
   // TODO: add new filter
 });
 

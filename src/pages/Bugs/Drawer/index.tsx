@@ -62,6 +62,7 @@ const BugsFilterDrawer = () => {
     useCases: false,
     devices: false,
     os: false,
+    replicabilities: false,
   });
   const maxItemsToShow = 5;
 
@@ -81,8 +82,16 @@ const BugsFilterDrawer = () => {
     dispatch(resetFilters());
   };
 
-  const { types, severities, unique, tags, useCases, devices, os } =
-    campaignData;
+  const {
+    types,
+    severities,
+    unique,
+    tags,
+    useCases,
+    devices,
+    os,
+    replicabilities,
+  } = campaignData;
 
   // TODO: remove this, API bug - Filter only unique ids useCases
   const availableUseCases = useCases.available.filter(
@@ -675,26 +684,121 @@ const BugsFilterDrawer = () => {
             {t('__BUGS_PAGE_FILTER_DRAWER_BODY_BUG_LABEL')}
           </MD>
 
-          <>
-            <Accordion level={3}>
-              <Accordion.Section>
-                <Accordion.Header>
-                  <Accordion.Label>
-                    <AccordionLabel isBold>
-                      {t(
-                        '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_TITLE'
-                      )}
-                    </AccordionLabel>
-                    <SM style={{ color: globalTheme.palette.grey[600] }}>
-                      Value
-                    </SM>
-                  </Accordion.Label>
-                </Accordion.Header>
-                <Accordion.Panel>Options</Accordion.Panel>
-              </Accordion.Section>
-            </Accordion>
-            <Divider />
-          </>
+          {replicabilities.available.length && (
+            <>
+              <Accordion level={3}>
+                <Accordion.Section>
+                  <Accordion.Header>
+                    <Accordion.Label>
+                      <AccordionLabel isBold>
+                        {t(
+                          '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_TITLE'
+                        )}
+                      </AccordionLabel>
+                      <SM
+                        style={{
+                          color: globalTheme.palette.grey[600],
+                          textTransform: 'capitalize',
+                        }}
+                      >
+                        {replicabilities.selected &&
+                        replicabilities.selected.length
+                          ? `${replicabilities.selected
+                              .slice(0, maxItemsToShow)
+                              .map((item) => item.name)
+                              .join(', ')
+                              .toLowerCase()} ${
+                              replicabilities.selected.length > maxItemsToShow
+                                ? `+${
+                                    replicabilities.selected.length -
+                                    maxItemsToShow
+                                  }`
+                                : ''
+                            }`
+                          : t(
+                              '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_ALL_LABEL'
+                            )}
+                      </SM>
+                    </Accordion.Label>
+                  </Accordion.Header>
+                  <Accordion.Panel>
+                    {replicabilities.available
+                      .slice(0, showMore.devices ? undefined : maxItemsToShow)
+                      .map((replicability) => (
+                        <Field style={{ marginBottom: globalTheme.space.xs }}>
+                          <Checkbox
+                            value={replicability.id}
+                            name="filter-replicability"
+                            checked={replicabilities.selected
+                              .map((i) => i.id)
+                              .includes(replicability.id)}
+                            onChange={() => {
+                              dispatch(
+                                updateFilters({
+                                  filters: {
+                                    replicabilities: [
+                                      ...(replicabilities.selected
+                                        .map((i) => i.id)
+                                        .includes(replicability.id)
+                                        ? replicabilities.selected.filter(
+                                            (i) => i.id !== replicability.id
+                                          )
+                                        : [
+                                            ...replicabilities.selected,
+                                            replicability,
+                                          ]),
+                                    ],
+                                  },
+                                })
+                              );
+                            }}
+                          >
+                            <Label
+                              isRegular
+                              style={{
+                                color: globalTheme.palette.grey[600],
+                                textTransform: 'capitalize',
+                              }}
+                            >
+                              {replicability.name.toLowerCase()}
+                            </Label>
+                          </Checkbox>
+                        </Field>
+                      ))}
+                    {replicabilities.available.length > maxItemsToShow && (
+                      <ShowMore
+                        onClick={() => {
+                          setShowMore({
+                            ...showMore,
+                            replicabilities: !showMore.replicabilities,
+                          });
+                        }}
+                      >
+                        {!showMore.replicabilities ? (
+                          <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_SHOW_MORE_LABEL">
+                            Show{' '}
+                            <Span isBold>
+                              {{
+                                replicabilities:
+                                  replicabilities.available.length -
+                                  maxItemsToShow,
+                              }}
+                            </Span>{' '}
+                            more replicabilities
+                          </Trans>
+                        ) : (
+                          t(
+                            '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_SHOW_LESS_LABEL'
+                          )
+                        )}
+                      </ShowMore>
+                    )}
+                  </Accordion.Panel>
+                </Accordion.Section>
+              </Accordion>
+              <Divider />
+            </>
+          )}
 
           {devices.available.length && (
             <>
