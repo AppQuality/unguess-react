@@ -1,12 +1,13 @@
-import { Accordion, MD, SM } from '@appquality/unguess-design-system';
+import { Accordion, MD } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { theme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { Bug } from 'src/features/api';
-import styled from 'styled-components';
 import { EmptyGroup } from './components/EmptyGroup';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
+import { StyledSM } from './components/StyledSM';
 import { BugBySeverityType } from './types';
 
 export const BugsBySeverity = ({
@@ -36,20 +37,13 @@ export const BugsBySeverity = ({
     return <EmptyState />;
   }
 
-  const StyledSM = styled(SM)`
-    color: ${(p) => p.theme.palette.grey[600]}};
-    span {
-      color: ${(p) => p.theme.palette.blue[600]};
-    }
-  `;
-
   const getTableFooter = (item: BugBySeverityType) => {
     const total = allBugs.length;
     const totalSeverity = item.bugs.length;
     const percentage = (totalSeverity / total) * 100;
     return (
       <Trans i18nKey="__BUGS_PAGE_GROUPED_BY_SEVERITY_PERCENTAGE_OF_TOTAL">
-        <StyledSM isBold>
+        <StyledSM isBold accent={theme.palette.blue[600]}>
           <span>{{ percentage: percentage.toFixed(0) }}%</span> of total bugs
         </StyledSM>
       </Trans>

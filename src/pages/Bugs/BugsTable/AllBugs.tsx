@@ -12,20 +12,16 @@ import { InfoRow } from './components/InfoRow';
 import { mapBugsToTableData } from './utils/mapBugsToTableData';
 import { useTableColumns } from './hooks/useTableColumns';
 
-export const AllBugs = ({
-  bugs,
-  isLoading,
-}: {
-  bugs: TableBugType[];
-  isLoading?: boolean;
-}) => {
+export const AllBugs = ({ bugs }: { bugs: TableBugType[] }) => {
   const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
   const { columns } = useTableColumns();
   const dispatch = useAppDispatch();
+
   if (!bugs.length) {
     return <EmptyState />;
   }
+
   return (
     <div>
       <InfoRow bugs={bugs} />
@@ -38,10 +34,6 @@ export const AllBugs = ({
           dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
         }
         isSticky
-        isLoading={isLoading}
-        loadingRowHeight="70px"
-        loadingRowCount={3}
-        emptyState={<EmptyState />}
       />
     </div>
   );

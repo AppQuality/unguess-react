@@ -10,23 +10,16 @@ import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import { mapBugsToTableData } from '../utils/mapBugsToTableData';
 import { BugBySeverityType, BugByUsecaseType } from '../types';
-import { EmptyState } from './EmptyState';
 import { InfoRow } from './InfoRow';
 import { useTableColumns } from '../hooks/useTableColumns';
 
 interface SingleGroupTableProps {
   title?: ReactNode;
   item: BugBySeverityType | BugByUsecaseType;
-  isLoading?: boolean;
   footer?: ReactNode;
 }
 
-const SingleGroupTable = ({
-  title,
-  item,
-  isLoading,
-  footer,
-}: SingleGroupTableProps) => {
+const SingleGroupTable = ({ title, item, footer }: SingleGroupTableProps) => {
   const { t } = useTranslation();
   const { columns } = useTableColumns();
   const currentBugId = getSelectedBugId();
@@ -71,10 +64,6 @@ const SingleGroupTable = ({
             dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
           }
           isSticky
-          isLoading={isLoading}
-          loadingRowHeight="70px"
-          loadingRowCount={3}
-          emptyState={<EmptyState />}
         />
         <AccordionFooter>
           {footer || <div />}
