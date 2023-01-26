@@ -5,6 +5,7 @@ import {
   Select,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { setPageView } from 'src/features/bugsPage/bugsPageSlice';
@@ -17,13 +18,14 @@ export const GroupBy = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { pageView } = bugsPageSlice;
-  const broupByOptions: Array<typeof pageView> = [
+  const groupByOptions: Array<typeof pageView> = [
     'byUsecase',
     'bySeverity',
     'ungrouped',
   ];
+  const [label, setLabel] = useState<string>(groupByOptions[0]);
 
-  const label = (view: typeof pageView) => {
+  const getTranslatedLabel = (view: string) => {
     switch (view) {
       case 'byUsecase':
         return t('__BUGS_GROUP_BY_USE_CASE', 'By use case');
@@ -32,7 +34,7 @@ export const GroupBy = () => {
       case 'ungrouped':
         return t('__BUGS_GROUP_BY_UNGROUPED', 'Ungrouped');
       default:
-        return null;
+        return t('__BUGS_GROUP_BY_OPEN_MENU', 'Group by');
     }
   };
 
@@ -47,21 +49,30 @@ export const GroupBy = () => {
     <div>
       <Dropdown
         selectedItem={pageView}
-        onSelect={(view) => {
-          dispatch(setPageView(view));
+        onStateChange={(state) => {
+          if (state.isOpen) {
+            setLabel('groupBy');
+          }
+          if (state.isOpen === false && !state.selectedItem) {
+            setLabel(pageView);
+          }
+          if (state.isOpen === false && state.selectedItem) {
+            setLabel(state.selectedItem);
+            dispatch(setPageView(state.selectedItem));
+          }
         }}
       >
         <Field>
           <Select isCompact isPrimary>
             <SelectLabel>
-              <Icon /> {label(pageView)}
+              <Icon /> {getTranslatedLabel(label)}
             </SelectLabel>
           </Select>
         </Field>
         <Menu>
-          {broupByOptions.map((item) => (
+          {groupByOptions.map((item) => (
             <Item key={item} value={item}>
-              {label(item)}
+              {getTranslatedLabel(item)}
             </Item>
           ))}
         </Menu>
