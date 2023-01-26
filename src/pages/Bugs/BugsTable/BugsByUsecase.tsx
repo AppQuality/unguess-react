@@ -8,6 +8,7 @@ import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
 import { BugByUsecaseType, TableDatum } from './types';
 import { CompletionTooltip } from './components/CompletionTooltip';
+import { EmptyGroup } from './components/EmptyGroup';
 
 export const BugsByUsecase = ({
   bugsByUseCases,
@@ -31,10 +32,6 @@ export const BugsByUsecase = ({
     bugsByUseCases,
     (_, i) => i + (i + 1)
   );
-
-  const EmptyUsecase = styled(MD)`
-    color: ${theme.palette.grey[500]};
-  `;
 
   if (!useCases.length) {
     return <EmptyState />;
@@ -62,14 +59,14 @@ export const BugsByUsecase = ({
         />
       ))}
       {emptyUseCases.length > 1 && (
-        <EmptyUsecase isBold>
+        <EmptyGroup isBold>
           {t('other use cases')} <MD tag="span">(0)</MD>
-        </EmptyUsecase>
+        </EmptyGroup>
       )}
       {emptyUseCases.length === 1 && (
-        <EmptyUsecase isBold>
+        <EmptyGroup isBold>
           {emptyUseCases[0].useCase.title.full} <MD tag="span">(0)</MD>
-        </EmptyUsecase>
+        </EmptyGroup>
       )}
     </Accordion>
   );

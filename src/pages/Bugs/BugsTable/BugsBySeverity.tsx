@@ -1,9 +1,11 @@
 import { Accordion, MD, SM } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { ColumnDefinitionType } from 'src/common/components/Table';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
+import { EmptyGroup } from './components/EmptyGroup';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
 import { BugBySeverityType, TableDatum } from './types';
@@ -17,6 +19,14 @@ export const BugsBySeverity = ({
   allBugs: Bug[];
   columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
 }) => {
+  const emptySeverities = useMemo(
+    () => bugsBySeverity.filter((item) => item.bugs.length === 0),
+    [bugsBySeverity]
+  );
+  const severities = useMemo(
+    () => bugsBySeverity.filter((item) => item.bugs.length > 0),
+    [bugsBySeverity]
+  );
   const { t } = useTranslation();
   // seems that sections index are only odd numbers ¯\_(ツ)_/¯
   // i.e. [1, 3, 5, 7]
@@ -25,7 +35,7 @@ export const BugsBySeverity = ({
     (_, i) => i + (i + 1)
   );
 
-  if (!bugsBySeverity.length) {
+  if (!severities.length) {
     return <EmptyState />;
   }
 
@@ -56,7 +66,7 @@ export const BugsBySeverity = ({
       isExpandable
       isBare
     >
-      {bugsBySeverity.map((item) => (
+      {severities.map((item) => (
         <SingleGroupTable
           title={
             <>
@@ -70,6 +80,18 @@ export const BugsBySeverity = ({
           footer={getTableFooter(item)}
         />
       ))}
+      {emptySeverities.length > 1 && (
+        <EmptyGroup isBold>
+          {t('other use cases')} <MD tag="span">(0)</MD>
+        </EmptyGroup>
+      )}
+      {emptySeverities.length === 1 && (
+        <EmptyGroup isBold>
+          {t('Severity:')}{' '}
+          {capitalizeFirstLetter(emptySeverities[0].severity.name)}{' '}
+          <MD tag="span">(0)</MD>
+        </EmptyGroup>
+      )}
     </Accordion>
   );
 };
