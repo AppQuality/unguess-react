@@ -1,21 +1,16 @@
 import { Accordion, MD } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
-import { ColumnDefinitionType } from 'src/common/components/Table';
-import { theme } from 'src/app/theme';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
-import { BugByUsecaseType, TableDatum } from './types';
+import { BugByUsecaseType } from './types';
 import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';
 
 export const BugsByUsecase = ({
   bugsByUseCases,
-  columns,
 }: {
   bugsByUseCases: BugByUsecaseType[];
-  columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
 }) => {
   const { t } = useTranslation();
   const emptyUseCases = useMemo(
@@ -54,7 +49,6 @@ export const BugsByUsecase = ({
             </>
           }
           item={item}
-          columns={columns}
           footer={<CompletionTooltip percentage={item.useCase.completion} />}
         />
       ))}

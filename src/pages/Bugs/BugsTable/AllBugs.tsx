@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme } from 'src/app/theme';
-import Table, { ColumnDefinitionType } from 'src/common/components/Table';
+import Table from 'src/common/components/Table';
 import {
   getSelectedBugId,
   selectBug,
@@ -10,19 +10,18 @@ import { TableBugType } from '../types';
 import { EmptyState } from './components/EmptyState';
 import { InfoRow } from './components/InfoRow';
 import { mapBugsToTableData } from './utils/mapBugsToTableData';
-import { TableDatum } from './types';
+import { useTableColumns } from './hooks/useTableColumns';
 
 export const AllBugs = ({
   bugs,
-  columns,
   isLoading,
 }: {
   bugs: TableBugType[];
-  columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
   isLoading?: boolean;
 }) => {
   const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
+  const { columns } = useTableColumns();
   const dispatch = useAppDispatch();
   if (!bugs.length) {
     return <EmptyState />;

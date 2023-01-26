@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Table, { ColumnDefinitionType } from 'src/common/components/Table';
+import Table from 'src/common/components/Table';
 import {
   getSelectedBugId,
   selectBug,
@@ -9,14 +9,14 @@ import { Accordion, Button, theme } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import { mapBugsToTableData } from '../utils/mapBugsToTableData';
-import { BugBySeverityType, BugByUsecaseType, TableDatum } from '../types';
+import { BugBySeverityType, BugByUsecaseType } from '../types';
 import { EmptyState } from './EmptyState';
 import { InfoRow } from './InfoRow';
+import { useTableColumns } from '../hooks/useTableColumns';
 
 interface SingleGroupTableProps {
   title?: ReactNode;
   item: BugBySeverityType | BugByUsecaseType;
-  columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
   isLoading?: boolean;
   footer?: ReactNode;
 }
@@ -24,11 +24,11 @@ interface SingleGroupTableProps {
 const SingleGroupTable = ({
   title,
   item,
-  columns,
   isLoading,
   footer,
 }: SingleGroupTableProps) => {
   const { t } = useTranslation();
+  const { columns } = useTableColumns();
   const currentBugId = getSelectedBugId();
   const [isPreview, setIsPreview] = useState(true);
   const dispatch = useAppDispatch();

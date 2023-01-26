@@ -7,27 +7,24 @@ import { useTableData } from './hooks/useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
   const { pageView } = useAppSelector((state) => state.bugsPage);
-  const { columns, data, isLoading } = useTableData(campaignId);
+  const { data, isLoading, error } = useTableData(campaignId);
 
-  if (isLoading) {
+  if (isLoading || error) {
     return <LoadingState />;
   }
 
   return (
     <div>
       {pageView === 'byUsecase' && (
-        <BugsByUsecase columns={columns} bugsByUseCases={data.bugsByUseCases} />
+        <BugsByUsecase bugsByUseCases={data.bugsByUseCases} />
       )}
       {pageView === 'bySeverity' && (
         <BugsBySeverity
-          columns={columns}
           bugsBySeverity={data.bugsBySeverity}
           allBugs={data.allBugs}
         />
       )}
-      {pageView === 'ungrouped' && (
-        <AllBugs columns={columns} bugs={data.allBugs} />
-      )}
+      {pageView === 'ungrouped' && <AllBugs bugs={data.allBugs} />}
     </div>
   );
 };

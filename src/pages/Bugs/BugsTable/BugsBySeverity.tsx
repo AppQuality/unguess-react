@@ -2,22 +2,19 @@ import { Accordion, MD, SM } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
-import { ColumnDefinitionType } from 'src/common/components/Table';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
 import { EmptyGroup } from './components/EmptyGroup';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
-import { BugBySeverityType, TableDatum } from './types';
+import { BugBySeverityType } from './types';
 
 export const BugsBySeverity = ({
   bugsBySeverity,
   allBugs,
-  columns,
 }: {
   bugsBySeverity: BugBySeverityType[];
   allBugs: Bug[];
-  columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
 }) => {
   const emptySeverities = useMemo(
     () => bugsBySeverity.filter((item) => item.bugs.length === 0),
@@ -76,7 +73,6 @@ export const BugsBySeverity = ({
           }
           key={item.severity.id}
           item={item}
-          columns={columns}
           footer={getTableFooter(item)}
         />
       ))}
