@@ -1,11 +1,20 @@
 import styled from 'styled-components';
 import {
   getSelectedFilters,
+  resetFilters,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { Tag } from '@appquality/unguess-design-system';
+import { Anchor, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as XIcon } from 'src/assets/icons/close-icon.svg';
+import { useTranslation } from 'react-i18next';
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
+`;
 
 const XIconStyled = styled(XIcon)``;
 const StyledTag = styled(Tag)`
@@ -128,10 +137,21 @@ const FilterRecapItem = ({
 };
 
 export const FilterRecap = () => {
+  const { t } = useTranslation();
   const filters = getSelectedFilters();
+  const dispatch = useAppDispatch();
+
+  const hasFilters =
+    filters.severities?.length ||
+    filters.types?.length ||
+    filters.tags?.length ||
+    filters.useCases?.length ||
+    filters.devices?.length ||
+    filters.os?.length ||
+    filters.replicabilities?.length;
 
   return (
-    <>
+    <Container>
       {filters.severities && filters.severities.length
         ? filters.severities.map((severity) => (
             <FilterRecapItem
@@ -191,7 +211,16 @@ export const FilterRecap = () => {
             />
           ))
         : null}
+      {hasFilters ? (
+        <Anchor
+          onClick={() => {
+            dispatch(resetFilters());
+          }}
+        >
+          {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
+        </Anchor>
+      ) : null}
       {/* TODO: add new filter */}
-    </>
+    </Container>
   );
 };

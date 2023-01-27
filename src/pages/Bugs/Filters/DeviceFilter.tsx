@@ -26,7 +26,7 @@ export const DeviceFilter = () => {
   }));
 
   return (
-    <div style={{ maxWidth: '165px' }}>
+    <div>
       <CounterMultiselect
         isCompact
         i18n={{
