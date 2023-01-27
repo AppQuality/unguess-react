@@ -26,7 +26,6 @@ type CampaignType = {
   DeviceFilterType &
   OsFilterType &
   ReplicabilityFilterType;
-// TODO: add new filter
 
 type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
 
@@ -80,7 +79,6 @@ const bugPageSlice = createSlice({
           state.campaigns[cp_id as number],
           filters.replicabilities
         ),
-        // TODO: add new filter
       };
       state.currentCampaign = cp_id;
     },
@@ -131,7 +129,6 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.replicabilities
         ),
-        // TODO: add new filter
       };
     },
     resetFilters: (state) => {
@@ -147,11 +144,10 @@ const bugPageSlice = createSlice({
         ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
         ...OsFilter.reset(state.campaigns[state.currentCampaign]),
         ...ReplicabilityFilter.reset(state.campaigns[state.currentCampaign]),
-        // TODO: add new filter
       };
     },
     setPageView: (state, action: PayloadAction<PageView>) => {
-      state.pageView = action.payload
+      state.pageView = action.payload;
     },
     setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isFilterDrawerOpen = action.payload;
@@ -172,7 +168,6 @@ export const getSelectedFiltersIds = () => ({
   devices: DeviceFilter.getIds(),
   os: OsFilter.getIds(),
   replicabilities: ReplicabilityFilter.getIds(),
-  // TODO: add new filter
 });
 
 export const getSelectedFilters = () => ({
@@ -186,7 +181,6 @@ export const getSelectedFilters = () => ({
   devices: DeviceFilter.getValues(),
   os: OsFilter.getValues(),
   replicabilities: ReplicabilityFilter.getValues(),
-  // TODO: add new filter
 });
 
 export const getSelectedBugId = () => {

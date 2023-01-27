@@ -29,7 +29,6 @@ export const useCampaign = (cid: number) => {
       devices?: DeviceFilterType['devices']['available'];
       os?: OsFilterType['os']['available'];
       replicabilities?: ReplicabilityFilterType['replicabilities']['available'];
-      // TODO: add new filter
     };
     outputs?: Output[];
   }>();
@@ -82,7 +81,6 @@ export const useCampaign = (cid: number) => {
           devices: campaignDevices,
           os: campaignOs,
           replicabilities: campaignReplicabilities,
-          // TODO: add new filter
         },
         outputs: campaign.outputs,
       });
@@ -96,7 +94,6 @@ export const useCampaign = (cid: number) => {
     campaignDevices,
     campaignOs,
     campaignReplicabilities,
-    // TODO: add new filter
   ]);
 
   return {

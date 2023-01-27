@@ -37,7 +37,7 @@ const FilterRecapItem = ({
     | 'useCases'
     | 'devices'
     | 'os'
-    | 'replicabilities'; // TODO: add new filter
+    | 'replicabilities';
   value: string;
   name: string;
 }) => {
@@ -128,7 +128,6 @@ const FilterRecapItem = ({
                 })
               );
               break;
-            // TODO: add new filter
             default:
           }
         }}
