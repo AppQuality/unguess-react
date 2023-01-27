@@ -3,11 +3,7 @@
   "version": "1.4.0",
   "private": true,
   "dependencies": {
-<<<<<<< UN-337-filters-drawer
-    "@appquality/unguess-design-system": "2.12.60",
-=======
     "@appquality/unguess-design-system": "2.12.61",
->>>>>>> develop
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
