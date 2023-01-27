@@ -8,6 +8,7 @@ export const useShareBug = ({ bid }: { bid: number }) => {
 
   const createLink = useCallback(() => {
     setisLoading(true);
+    setError(undefined);
     fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
       method: 'POST',
       headers: {
@@ -21,13 +22,12 @@ export const useShareBug = ({ bid }: { bid: number }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('results', data);
         if (!data.success || !data.link) {
           throw new Error('Could not create link');
         }
 
         setLink(data.link as string);
-        console.log('link', data.link);
+        navigator.clipboard.writeText(data.link);
       })
       .catch(setError)
       .finally(() => setisLoading(false));

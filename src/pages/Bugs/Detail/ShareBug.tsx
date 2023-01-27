@@ -38,7 +38,7 @@ export const ShareButton = ({ bug }: { bug: Bug }) => {
     return link
       ? t('__BUGS_PAGE_SHARE_BUG_MODAL_CTA_SUCCESS_TEXT')
       : t('__BUGS_PAGE_SHARE_BUG_MODAL_CTA_TEXT');
-  }, [isLoading, link]);
+  }, [isLoading, link, isError]);
 
   return (
     <>
