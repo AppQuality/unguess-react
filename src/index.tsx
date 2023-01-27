@@ -10,12 +10,7 @@ const main = () => {
   store.dispatch(fetchUser());
   store.dispatch(getWorkspaces());
 
-  ReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    document.getElementById('root')
-  );
+  ReactDOM.render(<App />, document.getElementById('root'));
 };
 
 main();

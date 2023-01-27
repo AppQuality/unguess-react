@@ -26,12 +26,6 @@ export const BugsBySeverity = ({
     [bugsBySeverity]
   );
   const { t } = useTranslation();
-  // seems that sections index are only odd numbers ¯\_(ツ)_/¯
-  // i.e. [1, 3, 5, 7]
-  const defaultExpandedSections = Array.from(
-    bugsBySeverity,
-    (_, i) => i + (i + 1)
-  );
 
   if (!severities.length) {
     return <EmptyState />;
@@ -53,7 +47,7 @@ export const BugsBySeverity = ({
   return (
     <Accordion
       level={3}
-      defaultExpandedSections={defaultExpandedSections}
+      defaultExpandedSections={Array.from(bugsBySeverity, (_, i) => i)}
       isExpandable
       isBare
     >
