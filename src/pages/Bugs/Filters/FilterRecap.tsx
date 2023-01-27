@@ -14,6 +14,7 @@ const Container = styled.div`
   flex-wrap: wrap;
   align-items: center;
   gap: ${({ theme }) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const XIconStyled = styled(XIcon)``;
@@ -150,7 +151,7 @@ export const FilterRecap = () => {
     filters.os?.length ||
     filters.replicabilities?.length;
 
-  return (
+  return hasFilters ? (
     <Container>
       {filters.severities && filters.severities.length
         ? filters.severities.map((severity) => (
@@ -211,16 +212,13 @@ export const FilterRecap = () => {
             />
           ))
         : null}
-      {hasFilters ? (
-        <Anchor
-          onClick={() => {
-            dispatch(resetFilters());
-          }}
-        >
-          {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
-        </Anchor>
-      ) : null}
-      {/* TODO: add new filter */}
+      <Anchor
+        onClick={() => {
+          dispatch(resetFilters());
+        }}
+      >
+        {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
+      </Anchor>
     </Container>
-  );
+  ) : null;
 };

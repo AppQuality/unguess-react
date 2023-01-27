@@ -94,7 +94,7 @@ const BugsFilters = () => {
             xl={12}
             orderXs={2}
             orderXl={3}
-            style={{ marginBottom: globalTheme.space.md }}
+            style={{ marginBottom: 0 }}
           >
             <RecapContainer>
               <FilterRecap />
