@@ -17,7 +17,7 @@ export const useTableColumns = () => {
     },
     {
       key: 'siblings',
-      header: '',
+      header: t('__BUGS_TABLE_DUPLICATE_HEADER_COLUMN'),
       width: '90px',
     },
     {
