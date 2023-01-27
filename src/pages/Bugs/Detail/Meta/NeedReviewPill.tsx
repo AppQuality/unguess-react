@@ -7,7 +7,11 @@ import { InfoTitle } from './InfoTitle';
 export const NeedReviewPill = () => {
   const { t } = useTranslation();
   return (
-    <Tooltip content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}>
+    <Tooltip
+      appendToNode={document.body}
+      type="light"
+      content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
+    >
       <span>
         <IconPill
           size="medium"
