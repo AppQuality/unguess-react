@@ -21,11 +21,13 @@ export const useShareBug = ({ bid }: { bid: number }) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('results', data);
         if (!data.success || !data.link) {
           throw new Error('Could not create link');
         }
 
         setLink(data.link as string);
+        console.log('link', data.link);
       })
       .catch(setError)
       .finally(() => setisLoading(false));
