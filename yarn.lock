@@ -47,17 +47,10 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-<<<<<<< UN-337-filters-drawer
-"@appquality/unguess-design-system@2.12.60":
-  version "2.12.60"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.60.tgz#d27f0b6188773f58d02ce9172eebc56f3677f8f2"
-  integrity sha512-31tdPUy9fY8k3CNpXUj7BGg7myuakbVp3S7bwzoKFdi1cFi6vkPi1k7D6mv9mgxRZQGCFVjWC2kdGWZfRaW3vA==
-=======
 "@appquality/unguess-design-system@2.12.61":
   version "2.12.61"
   resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.61.tgz#5716c2b10a83d0555e15ae6693dd54f5590b800b"
   integrity sha512-GpX89kDxDeVRIFVa85kxPVTXRbnzf8kCTDu+WQxu+SIL6gsqTBvx+nrYsTcONNURDBMqG77XqcGr2sxup3+Qpw==
->>>>>>> develop
   dependencies:
     "@nivo/bar" "^0.80.0"
     "@nivo/bullet" "^0.80.0"
