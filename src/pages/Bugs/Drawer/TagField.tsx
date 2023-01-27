@@ -1,6 +1,5 @@
 import {
   Accordion,
-  Anchor,
   Checkbox,
   Label,
   MD,
@@ -14,16 +13,8 @@ import { theme as globalTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
-import styled from 'styled-components';
 import { TagFilterType } from 'src/features/bugsPage/tagFilter';
-
-const ShowMore = styled(Anchor)`
-  display: block;
-  margin-top: ${({ theme }) => theme.space.base * 4}px;
-  color: ${({ theme }) => theme.colors.primaryHue};
-  padding-left: ${({ theme }) => theme.space.base * 6}px;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-`;
+import { ShowMore } from './ShowMore';
 
 export const TagField = ({
   tags,

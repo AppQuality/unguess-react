@@ -1,6 +1,5 @@
 import {
   Accordion,
-  Anchor,
   Checkbox,
   Label,
   MD,
@@ -15,15 +14,7 @@ import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
-import styled from 'styled-components';
-
-const ShowMore = styled(Anchor)`
-  display: block;
-  margin-top: ${({ theme }) => theme.space.base * 4}px;
-  color: ${({ theme }) => theme.colors.primaryHue};
-  padding-left: ${({ theme }) => theme.space.base * 6}px;
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-`;
+import { ShowMore } from './ShowMore';
 
 export const SeverityField = ({
   severities,
