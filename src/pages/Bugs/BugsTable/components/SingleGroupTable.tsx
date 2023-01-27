@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Table, { ColumnDefinitionType } from 'src/common/components/Table';
+import Table from 'src/common/components/Table';
 import {
   getSelectedBugId,
   selectBug,
@@ -8,27 +8,20 @@ import {
 import { Accordion, Button, theme } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
-import { mapBugsToTableData } from '../mapBugsToTableData';
-import { BugBySeverityType, BugByUsecaseType, TableDatum } from '../types';
-import { EmptyState } from './EmptyState';
+import { mapBugsToTableData } from '../utils/mapBugsToTableData';
+import { BugBySeverityType, BugByUsecaseType } from '../types';
 import { InfoRow } from './InfoRow';
+import { useTableColumns } from '../hooks/useTableColumns';
 
 interface SingleGroupTableProps {
   title?: ReactNode;
   item: BugBySeverityType | BugByUsecaseType;
-  columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
-  isLoading?: boolean;
   footer?: ReactNode;
 }
 
-const SingleGroupTable = ({
-  title,
-  item,
-  columns,
-  isLoading,
-  footer,
-}: SingleGroupTableProps) => {
+const SingleGroupTable = ({ title, item, footer }: SingleGroupTableProps) => {
   const { t } = useTranslation();
+  const { columns } = useTableColumns();
   const currentBugId = getSelectedBugId();
   const [isPreview, setIsPreview] = useState(true);
   const dispatch = useAppDispatch();
@@ -48,6 +41,12 @@ const SingleGroupTable = ({
     }
   `;
 
+  const AccordionFooter = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  `;
+
   return (
     <Accordion.Section style={{ marginBottom: theme.space.lg }}>
       <StyledAccordionHeader>
@@ -65,18 +64,9 @@ const SingleGroupTable = ({
             dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
           }
           isSticky
-          isLoading={isLoading}
-          loadingRowHeight="70px"
-          loadingRowCount={3}
-          emptyState={<EmptyState />}
         />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: `${footer ? 'space-between' : 'flex-end'}`,
-          }}
-        >
-          {footer}
+        <AccordionFooter>
+          {footer || <div />}
           <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
             {isPreview ? (
               <>
@@ -87,7 +77,7 @@ const SingleGroupTable = ({
               t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
             )}
           </Button>
-        </div>
+        </AccordionFooter>
       </Accordion.Panel>
     </Accordion.Section>
   );

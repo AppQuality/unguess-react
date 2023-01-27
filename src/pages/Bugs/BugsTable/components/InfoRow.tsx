@@ -1,22 +1,16 @@
-import { MD, SM } from '@appquality/unguess-design-system';
+import { MD } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
+import { theme as globalTheme } from 'src/app/theme';
 import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { TableBugType } from '../../types';
+import { StyledSM } from './StyledSM';
 
 const StyledMD = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[800]};
   span {
     color: ${({ theme }) => theme.palette.grey[600]};
-  }
-`;
-
-const StyledSM = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-
-  span {
-    color: ${({ theme }) => theme.colors.primaryHue};
   }
 `;
 
@@ -53,7 +47,7 @@ export const InfoRow = ({
             </Trans>
           ))}
       </StyledMD>
-      <StyledSM>
+      <StyledSM accent={globalTheme.palette.blue[600]}>
         <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER">
           (Unread: <span>{{ unreadBugs: unreadBugs.length }}</span>/
           {{ uniqueBugs: totalBugs }})

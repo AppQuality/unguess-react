@@ -80,6 +80,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCampaignsByCidReplicabilities: build.query<
+      GetCampaignsByCidReplicabilitiesApiResponse,
+      GetCampaignsByCidReplicabilitiesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/replicabilities`,
+      }),
+    }),
     getCampaignsByCidBugsAndBidSiblings: build.query<
       GetCampaignsByCidBugsAndBidSiblingsApiResponse,
       GetCampaignsByCidBugsAndBidSiblingsApiArg
@@ -381,6 +389,12 @@ export type PatchCampaignsByCidBugsAndBidApiArg = {
     )[];
   };
 };
+export type GetCampaignsByCidReplicabilitiesApiResponse =
+  /** status 200 OK */ BugReplicability[];
+export type GetCampaignsByCidReplicabilitiesApiArg = {
+  /** Campaign id */
+  cid: string;
+};
 export type GetCampaignsByCidBugsAndBidSiblingsApiResponse =
   /** status 200 OK */ {
     father?: {
@@ -442,14 +456,14 @@ export type GetCampaignsByCidTagsApiArg = {
   cid: string;
 };
 export type GetCampaignsByCidDevicesApiResponse = /** status 200 OK */ {
-  device?: string;
+  device: string;
 }[];
 export type GetCampaignsByCidDevicesApiArg = {
   /** Campaign id */
   cid: string;
 };
 export type GetCampaignsByCidOsApiResponse = /** status 200 OK */ {
-  os?: string;
+  os: string;
 }[];
 export type GetCampaignsByCidOsApiArg = {
   /** Campaign id */
@@ -956,6 +970,7 @@ export const {
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
+  useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidReportsQuery,

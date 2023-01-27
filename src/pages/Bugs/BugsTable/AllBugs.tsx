@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme } from 'src/app/theme';
-import Table, { ColumnDefinitionType } from 'src/common/components/Table';
+import Table from 'src/common/components/Table';
 import {
   getSelectedBugId,
   selectBug,
@@ -9,24 +9,19 @@ import {
 import { TableBugType } from '../types';
 import { EmptyState } from './components/EmptyState';
 import { InfoRow } from './components/InfoRow';
-import { mapBugsToTableData } from './mapBugsToTableData';
-import { TableDatum } from './types';
+import { mapBugsToTableData } from './utils/mapBugsToTableData';
+import { useTableColumns } from './hooks/useTableColumns';
 
-export const AllBugs = ({
-  bugs,
-  columns,
-  isLoading,
-}: {
-  bugs: TableBugType[];
-  columns: ColumnDefinitionType<TableDatum, keyof TableDatum>[];
-  isLoading?: boolean;
-}) => {
+export const AllBugs = ({ bugs }: { bugs: TableBugType[] }) => {
   const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
+  const { columns } = useTableColumns();
   const dispatch = useAppDispatch();
+
   if (!bugs.length) {
     return <EmptyState />;
   }
+
   return (
     <div>
       <InfoRow bugs={bugs} />
@@ -39,10 +34,6 @@ export const AllBugs = ({
           dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
         }
         isSticky
-        isLoading={isLoading}
-        loadingRowHeight="70px"
-        loadingRowCount={3}
-        emptyState={<EmptyState />}
       />
     </div>
   );
