@@ -9,7 +9,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
   const currentBugId = getSelectedBugId();
 
   return (
-    <div>
+    <>
       <BugsFilters />
       <Grid>
         <Row>
@@ -23,7 +23,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
           )}
         </Row>
       </Grid>
-    </div>
+    </>
   );
 };
 

@@ -23,6 +23,7 @@ export const OsFilter = () => {
   return (
     <div style={{ maxWidth: '165px' }}>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`OS ({{count}})`, { count }),
           noItems: t('__BUGS_OS_FILTER_ITEM_NO_ITEMS'),

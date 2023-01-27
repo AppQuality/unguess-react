@@ -28,6 +28,7 @@ export const DeviceFilter = () => {
   return (
     <div style={{ maxWidth: '165px' }}>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`Devices ({{count}})`, { count }),
           noItems: t('__BUGS_DEVICES_FILTER_ITEM_NO_ITEMS'),

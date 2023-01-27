@@ -22,6 +22,7 @@ export const ReplicabilityFilter = () => {
   return (
     <div style={{ maxWidth: '165px' }}>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`Replicability ({{count}})`, { count }),
           noItems: t('__BUGS_REPLICABILITY_FILTER_ITEM_NO_ITEMS'),

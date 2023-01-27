@@ -29,6 +29,7 @@ const RecapContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const StyledSM = styled(SM)`
@@ -62,12 +63,6 @@ const BugsFilters = () => {
         <DeviceFilter />
         <OsFilter />
         <ReplicabilityFilter />
-        <OrderInfo>
-          <StyledSM isBold>
-            {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}
-          </StyledSM>
-        </OrderInfo>
-        <GroupBy />
         <Anchor
           onClick={() => {
             dispatch(setFilterDrawerOpen(true));
@@ -75,6 +70,12 @@ const BugsFilters = () => {
         >
           {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
         </Anchor>
+        <OrderInfo>
+          <StyledSM isBold>
+            {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}
+          </StyledSM>
+        </OrderInfo>
+        <GroupBy />
       </FilterContainer>
       <RecapContainer>
         <FilterRecap />

@@ -127,16 +127,9 @@ const FilterRecapItem = ({
   );
 };
 
-const RecapContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
 export const FilterRecap = () => {
   const filters = getSelectedFilters();
-  
+
   return (
     <>
       {filters.severities && filters.severities.length

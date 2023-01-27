@@ -42,6 +42,7 @@ export const TagFilter = () => {
   return (
     <div style={{ maxWidth: '165px' }}>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`Tags ({{count}})`, { count }),
           noItems: t('__BUGS_TAGS_FILTER_ITEM_NO_ITEMS'),
