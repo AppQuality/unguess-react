@@ -19,7 +19,7 @@ export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
     if (percentage < completionBreakpoints[0]) {
       return (
         <Trans i18nKey="__BUGS_PAGE_USECASE_COMPLETION_1">
-          <StyledSM accent={theme.palette.red[800]} isBold>
+          <StyledSM accent={theme.palette.red[700]} isBold>
             Use case <span>starting tests</span>
           </StyledSM>
         </Trans>
@@ -31,7 +31,7 @@ export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
     ) {
       return (
         <Trans i18nKey="__BUGS_PAGE_USECASE_COMPLETION_2">
-          <StyledSM accent={theme.colors.gubbioLight} isBold>
+          <StyledSM accent={theme.palette.yellow[700]} isBold>
             Use case <span>in progress</span>
           </StyledSM>
         </Trans>
@@ -43,7 +43,7 @@ export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
     ) {
       return (
         <Trans i18nKey="__BUGS_PAGE_USECASE_COMPLETION_3">
-          <StyledSM accent={theme.colors.blueRoyal} isBold>
+          <StyledSM accent={theme.palette.blue[700]} isBold>
             Use case <span>almost ready</span>
           </StyledSM>
         </Trans>
@@ -52,7 +52,7 @@ export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
     // last case
     return (
       <Trans i18nKey="__BUGS_PAGE_USECASE_COMPLETION_4">
-        <StyledSM accent={theme.colors.darkPine} isBold>
+        <StyledSM accent={theme.palette.water[700]} isBold>
           Use case <span>completed</span>
         </StyledSM>
       </Trans>
