@@ -30,7 +30,10 @@ const StyledChild = styled(Span)`
 
 const PillContainer = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  margin-right: ${({ theme }) => theme.space.xs};
+
+  &:not(:last-child) {
+    margin-right: ${({ theme }) => theme.space.xs};
+  }
   display: flex;
   align-items: center;
 `;
