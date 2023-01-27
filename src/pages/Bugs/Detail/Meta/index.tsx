@@ -1,4 +1,4 @@
-import { LG, MD, SM, Span } from '@appquality/unguess-design-system';
+import { LG, MD } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -9,10 +9,10 @@ import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
 import { IconPill } from 'src/common/components/pills/IconPill';
 import { Pipe } from 'src/common/components/Pipe';
+import { InfoTitle } from './InfoTitle';
+import { NeedReviewPill } from './NeedReviewPill';
 
 const Container = styled.div`
-  display: inline-block;
-  width: 100%;
   margin-top: ${({ theme }) => theme.space.sm};
 `;
 
@@ -22,11 +22,6 @@ const BugInfo = styled.div`
   align-items: center;
   flex-wrap: wrap;
   margin: ${({ theme }) => theme.space.xxs} 0;
-`;
-
-const InfoTitle = styled(Span)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
 function getDeviceIcon(device: string) {
@@ -53,7 +48,10 @@ export default ({
   };
 }) => (
   <Container>
-    <SeverityPill severity={bug.severity.name.toLowerCase() as Severities} />
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <SeverityPill severity={bug.severity.name.toLowerCase() as Severities} />
+      {bug.status.id === 4 && <NeedReviewPill />}
+    </div>
     <LG
       isBold
       style={{
@@ -64,24 +62,13 @@ export default ({
       {bug.title.compact}
     </LG>
     <MD style={{ color: globalTheme.palette.grey[600] }}>
-      {bug.title.context?.map(
-        (context) =>
-          `${context}${
-            bug.title.context && bug.title.context.length > 1 ? ', ' : ''
-          }`
-      )}
+      {bug.title.context ? bug.title.context.join(', ') : null}
     </MD>
     <BugInfo>
-      <SM
-        style={{
-          color: globalTheme.palette.grey[600],
-          textTransform: 'capitalize',
-          fontWeight: globalTheme.fontWeights.regular,
-        }}
-      >
+      <InfoTitle style={{ textTransform: 'capitalize' }}>
         {bug.type.name}
-      </SM>
-      <Pipe style={{ height: '20px' }} />
+      </InfoTitle>
+      <Pipe style={{ height: globalTheme.lineHeights.md }} />
       <IconPill
         size="medium"
         title={
