@@ -9,6 +9,7 @@ export interface TableDatum {
   id: string;
   bugId: ReactNode;
   title: ReactNode;
+  siblings: number;
   severity: ReactNode;
   created: string;
   updated?: string;

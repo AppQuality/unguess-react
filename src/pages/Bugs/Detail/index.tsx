@@ -1,6 +1,6 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { useBugDetail } from './useBugDetail';
+import { useBugDetail } from './hooks/useBugDetail';
 import BugHeader from './Header';
 import BugMeta from './Meta';
 import BugTags from './Tags';
