@@ -11,13 +11,13 @@ export const useTableColumns = () => {
       width: 'auto',
     },
     {
-      key: 'severity',
-      header: t('__BUGS_TABLE_SEVERITY_HEADER_COLUMN'),
+      key: 'siblings',
+      header: t('__BUGS_TABLE_DUPLICATE_HEADER_COLUMN'),
       width: '90px',
     },
     {
-      key: 'siblings',
-      header: t('__BUGS_TABLE_DUPLICATE_HEADER_COLUMN'),
+      key: 'severity',
+      header: t('__BUGS_TABLE_SEVERITY_HEADER_COLUMN'),
       width: '90px',
     },
     {

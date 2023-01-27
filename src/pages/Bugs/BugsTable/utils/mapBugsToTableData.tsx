@@ -8,7 +8,7 @@ import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../types';
-import { ReactComponent as FatherIcon } from './assets/father-icon.svg';
+import { ReactComponent as FatherIcon } from '../assets/father-icon.svg';
 
 const DuplicateContainer = styled((props) => <SM isBold {...props} />)`
   display: flex;
