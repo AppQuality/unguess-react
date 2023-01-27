@@ -70,7 +70,7 @@ export const ShareButton = ({ bug }: { bug: Bug }) => {
               disabled={isLoading}
               onClick={createLink}
             >
-              {link && (
+              {link && !isLoading && (
                 <WaterButton.StartIcon>
                   <CheckIcon />
                 </WaterButton.StartIcon>
