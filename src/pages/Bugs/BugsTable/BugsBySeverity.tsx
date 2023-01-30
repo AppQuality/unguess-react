@@ -1,9 +1,11 @@
 import { Accordion, MD } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { Bug } from 'src/features/api';
+import { isFirstView, selectBug } from 'src/features/bugsPage/bugsPageSlice';
+import { useAppDispatch } from 'src/app/hooks';
 import { EmptyGroup } from './components/EmptyGroup';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
@@ -17,6 +19,9 @@ export const BugsBySeverity = ({
   bugsBySeverity: BugBySeverityType[];
   allBugs: Bug[];
 }) => {
+  const firstView = isFirstView();
+  const dispatch = useAppDispatch();
+
   const emptySeverities = useMemo(
     () => bugsBySeverity.filter((item) => item.bugs.length === 0),
     [bugsBySeverity]
@@ -30,6 +35,12 @@ export const BugsBySeverity = ({
   if (!severities.length) {
     return <EmptyState />;
   }
+
+  useEffect(() => {
+    if (firstView) {
+      dispatch(selectBug({ bug_id: severities[0].bugs[0].id }));
+    }
+  }, [firstView]);
 
   const getTableFooter = (item: BugBySeverityType) => {
     const total = allBugs.length;

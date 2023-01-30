@@ -20,6 +20,7 @@ export const SearchFilter = () => {
   const data = getCurrentCampaignData();
   const search = data && data?.search ? data.search : '';
   const [searchInput, setSearchInput] = useState<string>(search);
+  const [searching, setSearching] = useState<boolean>(false);
   const { t } = useTranslation();
 
   const searchValue = useDebounce<string>(searchInput || '', 300);
@@ -29,14 +30,15 @@ export const SearchFilter = () => {
   }, [search]);
 
   useEffect(() => {
-    dispatch(
-      updateFilters({
-        filters: {
-          search: searchValue,
-        },
-      })
-    );
-  }, [searchValue]);
+    if (searching)
+      dispatch(
+        updateFilters({
+          filters: {
+            search: searchValue,
+          },
+        })
+      );
+  }, [searchValue, searching]);
 
   if (!data) return null;
 
@@ -46,11 +48,19 @@ export const SearchFilter = () => {
         isCompact
         end={
           data.search ? (
-            <ClickableXIcon onClick={() => setSearchInput('')} />
+            <ClickableXIcon
+              onClick={() => {
+                setSearching(true);
+                setSearchInput('');
+              }}
+            />
           ) : undefined
         }
         key="search-input"
-        onChange={(e) => setSearchInput(e.target.value)}
+        onChange={(e) => {
+          setSearching(true);
+          setSearchInput(e.target.value);
+        }}
         start={<SearchIcon />}
         value={searchInput}
         placeholder={t('__BUGS_SEARCH_INPUT_PLACEHOLDER')}

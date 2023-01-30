@@ -16,6 +16,7 @@ import {
 
 type CampaignType = {
   selectedBugId?: number;
+  isFirstView: boolean;
 } & TypeFilterType &
   SeverityFilterType &
   ReadFilterType &
@@ -51,6 +52,7 @@ const bugPageSlice = createSlice({
     selectCampaign: (state, action) => {
       const { cp_id, filters } = action.payload;
       state.campaigns[cp_id as number] = {
+        isFirstView: true,
         ...TypeFilter.setAvailable(
           state.campaigns[cp_id as number],
           filters.types
@@ -92,6 +94,7 @@ const bugPageSlice = createSlice({
       const { filters } = action.payload;
       if (!state.currentCampaign) return;
       state.campaigns[state.currentCampaign] = {
+        isFirstView: false,
         ...TypeFilter.filter(
           state.campaigns[state.currentCampaign],
           filters.types
@@ -134,6 +137,7 @@ const bugPageSlice = createSlice({
     resetFilters: (state) => {
       if (!state.currentCampaign) return;
       state.campaigns[state.currentCampaign] = {
+        isFirstView: false,
         ...TypeFilter.reset(state.campaigns[state.currentCampaign]),
         ...SeverityFilter.reset(state.campaigns[state.currentCampaign]),
         ...ReadFilter.reset(state.campaigns[state.currentCampaign]),
@@ -148,6 +152,11 @@ const bugPageSlice = createSlice({
     },
     setPageView: (state, action: PayloadAction<PageView>) => {
       state.pageView = action.payload;
+      if (!state.currentCampaign) return;
+      state.campaigns[state.currentCampaign] = {
+        ...state.campaigns[state.currentCampaign],
+        isFirstView: true,
+      };
     },
     setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isFilterDrawerOpen = action.payload;
@@ -203,6 +212,16 @@ export const getCurrentCampaignData = () => {
   const campaign = campaigns[currentCampaign as number];
   if (!campaign) return false;
   return campaign;
+};
+export const isFirstView = () => {
+  const { currentCampaign, campaigns } = useAppSelector(
+    (state) => state.bugsPage
+  );
+  if (!currentCampaign || !campaigns[currentCampaign as number]) return null;
+
+  const campaign = campaigns[currentCampaign as number];
+  if (!campaign) return false;
+  return campaign.isFirstView;
 };
 
 export const {

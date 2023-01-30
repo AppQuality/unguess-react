@@ -1,7 +1,12 @@
 import { Accordion, MD } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
-import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { useEffect, useMemo } from 'react';
+import {
+  getSelectedFilters,
+  isFirstView,
+  selectBug,
+} from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
 import { EmptyState } from './components/EmptyState';
 import SingleGroupTable from './components/SingleGroupTable';
 import { BugByUsecaseType } from './types';
@@ -15,6 +20,8 @@ export const BugsByUsecase = ({
 }) => {
   const { t } = useTranslation();
   const selectedFilters = getSelectedFilters();
+  const firstView = isFirstView();
+  const dispatch = useAppDispatch();
 
   const isDefaultView = useMemo(
     () =>
@@ -36,6 +43,12 @@ export const BugsByUsecase = ({
   if (!useCases.length) {
     return <EmptyState />;
   }
+
+  useEffect(() => {
+    if (firstView) {
+      dispatch(selectBug({ bug_id: useCases[0].bugs[0].id }));
+    }
+  }, [firstView]);
 
   return (
     <Accordion
