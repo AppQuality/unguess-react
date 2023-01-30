@@ -23,6 +23,7 @@ const DetailContainer = styled.div`
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
+  overflow: hidden;
 `;
 
 const ScrollingContainer = styled.div`
