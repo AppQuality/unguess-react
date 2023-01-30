@@ -25,13 +25,6 @@ export const UseCaseFilter = () => {
     selected: data.useCases.selected.map((i) => i.id).includes(item.id),
   }));
 
-  // Add not a specific use case option
-  options.push({
-    id: 0,
-    label: t('__BUGS_USECASES_FILTER_ITEM_NO_USECASE'),
-    selected: data.useCases.selected.map((i) => i.id).includes(0),
-  });
-
   return (
     <div>
       <CounterMultiselect
