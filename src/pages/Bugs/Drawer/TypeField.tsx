@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -15,6 +14,8 @@ import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { TypeFilterType } from 'src/features/bugsPage/typeFilter';
 import { ShowMore } from './ShowMore';
+import { useFilterData } from './useFilterData';
+import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
 
 export const TypeField = ({
   types,
@@ -24,6 +25,7 @@ export const TypeField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
+  const { counters, loading } = useFilterData('types');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = types;
@@ -67,6 +69,7 @@ export const TypeField = ({
                   <Checkbox
                     value={item.name}
                     name="filter-typology"
+                    disabled={!counters[item.id]}
                     checked={selected.map((i) => i.id).includes(item.id)}
                     onChange={() => {
                       dispatch(
@@ -82,15 +85,17 @@ export const TypeField = ({
                       );
                     }}
                   >
-                    <Label
+                    <LabelSpaceBetween
                       isRegular
                       style={{
                         color: globalTheme.palette.grey[600],
                         textTransform: 'capitalize',
+                        ...(!counters[item.id] && disabledStyle),
                       }}
                     >
                       {item.name.toLowerCase()}
-                    </Label>
+                      <MD>{counters[item.id] || 0}</MD>
+                    </LabelSpaceBetween>
                   </Checkbox>
                 </Field>
               ))}
