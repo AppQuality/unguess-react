@@ -27,7 +27,7 @@ export const useShareBug = ({ bid }: { bid: number }) => {
         }
 
         setLink(data.link as string);
-        navigator.clipboard.writeText(data.link);
+        navigator.clipboard.writeText(data.link as string);
       })
       .catch(setError)
       .finally(() => setisLoading(false));

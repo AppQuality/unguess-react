@@ -28,7 +28,8 @@ const SingleGroupTable = ({ title, item, footer }: SingleGroupTableProps) => {
 
   if (!item) return null; // todo check
   const getDisplayedBugs = useCallback(() => {
-    const displayBugs = isPreview ? item.bugs.slice(0, 3) : item.bugs;
+    const displayBugs =
+      isPreview && item.bugs.length > 3 ? item.bugs.slice(0, 3) : item.bugs;
     return mapBugsToTableData(displayBugs, t);
   }, [isPreview, item.bugs]);
 
@@ -67,16 +68,22 @@ const SingleGroupTable = ({ title, item, footer }: SingleGroupTableProps) => {
         />
         <AccordionFooter>
           {footer || <div />}
-          <Button isBasic size="small" onClick={() => setIsPreview(!isPreview)}>
-            {isPreview ? (
-              <>
-                {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
-                {` (${item.bugs.length})`}
-              </>
-            ) : (
-              t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
-            )}
-          </Button>
+          {item.bugs.length > 3 && (
+            <Button
+              isBasic
+              size="small"
+              onClick={() => setIsPreview(!isPreview)}
+            >
+              {isPreview ? (
+                <>
+                  {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
+                  {` (${item.bugs.length})`}
+                </>
+              ) : (
+                t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
+              )}
+            </Button>
+          )}
         </AccordionFooter>
       </Accordion.Panel>
     </Accordion.Section>

@@ -2,6 +2,7 @@ import {
   Button,
   Lightbox,
   MD,
+  Player,
   Slider,
 } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
@@ -89,15 +90,14 @@ export const LightboxContainer = ({
                   <img src={item.url} alt={`bug ${item.mime_type}`} />
                 )}
                 {item.mime_type.type === 'video' && (
-                  <video
+                  <Player
                     ref={(ref) => {
                       videoRefs.current.push(ref);
                     }}
-                    src={item.url}
-                    controls
                   >
+                    <source src={item.url} type="video/mp4" />
                     <track kind="captions" />
-                  </video>
+                  </Player>
                 )}
               </Slider.Slide>
             ))}
