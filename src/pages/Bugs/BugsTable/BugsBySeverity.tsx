@@ -55,7 +55,8 @@ export const BugsBySeverity = ({
         <SingleGroupTable
           title={
             <>
-              {t('Severity')}: {capitalizeFirstLetter(item.severity.name)}
+              {t('__BUGS_PAGE_SEVERITY', 'Severity')}:{' '}
+              {capitalizeFirstLetter(item.severity.name)}
               <MD tag="span">{` (${item.bugs.length})`}</MD>
             </>
           }
@@ -72,7 +73,7 @@ export const BugsBySeverity = ({
       )}
       {emptySeverities.length === 1 && (
         <EmptyGroup isBold>
-          {t('Severity:')}{' '}
+          {t('__BUGS_PAGE_SEVERITY', 'Severity')}:{' '}
           {capitalizeFirstLetter(emptySeverities[0].severity.name)}{' '}
           <MD tag="span">(0)</MD>
         </EmptyGroup>
