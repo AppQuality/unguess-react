@@ -66,7 +66,8 @@ export const BugsBySeverity = ({
       ))}
       {emptySeverities.length > 1 && (
         <EmptyGroup isBold>
-          {t('other use cases')} <MD tag="span">(0)</MD>
+          {t('__BUGS_PAGE_OTHER_SEVERITIES', 'other severities')}{' '}
+          <MD tag="span">(0)</MD>
         </EmptyGroup>
       )}
       {emptySeverities.length === 1 && (
