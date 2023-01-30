@@ -1,0 +1,86 @@
+import {
+  Accordion,
+  Label,
+  MD,
+  Radio,
+  SM,
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
+import { UniqueFilterType } from 'src/features/bugsPage/uniqueFilter';
+import { theme as globalTheme } from 'src/app/theme';
+import { Field } from '@zendeskgarden/react-forms';
+import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { Divider } from 'src/common/components/divider';
+
+export const UniqueField = ({
+  unique,
+}: {
+  unique: UniqueFilterType['unique'];
+}) => {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { available, selected } = unique;
+
+  return (
+    <>
+      <Accordion level={3}>
+        <Accordion.Section>
+          <Accordion.Header>
+            <Accordion.Label>
+              <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DUPLICATES_TITLE')}
+              </MD>
+              <SM
+                style={{
+                  color: globalTheme.palette.grey[600],
+                  textTransform: 'capitalize',
+                }}
+              >
+                {selected === 'unique'
+                  ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+                  : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
+              </SM>
+            </Accordion.Label>
+          </Accordion.Header>
+          <Accordion.Panel>
+            {available.map((item) => (
+              <Field
+                style={{
+                  marginBottom: globalTheme.space.xxs,
+                }}
+              >
+                <Radio
+                  value={item}
+                  name="filter-duplicates"
+                  checked={selected && selected === item}
+                  onChange={() => {
+                    dispatch(
+                      updateFilters({
+                        filters: {
+                          unique: item,
+                        },
+                      })
+                    );
+                  }}
+                >
+                  <Label
+                    isRegular
+                    style={{
+                      textTransform: 'capitalize',
+                    }}
+                  >
+                    {item === 'unique'
+                      ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+                      : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
+                  </Label>
+                </Radio>
+              </Field>
+            ))}
+          </Accordion.Panel>
+        </Accordion.Section>
+      </Accordion>
+      <Divider />
+    </>
+  );
+};
