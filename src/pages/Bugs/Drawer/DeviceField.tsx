@@ -58,52 +58,54 @@ export const DeviceField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            {available
-              .slice(0, showMore ? undefined : maxItemsToShow)
-              .map((device) => (
-                <Field style={{ marginBottom: globalTheme.space.xs }}>
-                  <Checkbox
-                    value={device.device}
-                    name="filter-devices"
-                    checked={selected
-                      .map((i) => i.device)
-                      .includes(device.device)}
-                    onChange={() => {
-                      dispatch(
-                        updateFilters({
-                          filters: {
-                            devices: [
-                              ...(selected
-                                .map((i) => i.device)
-                                .includes(device.device)
-                                ? selected.filter(
-                                    (i) => i.device !== device.device
-                                  )
-                                : [
-                                    ...selected,
-                                    {
-                                      device: device.device,
-                                    },
-                                  ]),
-                            ],
-                          },
-                        })
-                      );
-                    }}
-                  >
-                    <Label
-                      isRegular
-                      style={{
-                        color: globalTheme.palette.grey[600],
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {device.device}
-                    </Label>
-                  </Checkbox>
-                </Field>
-              ))}
-            {available.length > maxItemsToShow && (
+            {available.length
+              ? available
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((device) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={device.device}
+                        name="filter-devices"
+                        checked={selected
+                          .map((i) => i.device)
+                          .includes(device.device)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                devices: [
+                                  ...(selected
+                                    .map((i) => i.device)
+                                    .includes(device.device)
+                                    ? selected.filter(
+                                        (i) => i.device !== device.device
+                                      )
+                                    : [
+                                        ...selected,
+                                        {
+                                          device: device.device,
+                                        },
+                                      ]),
+                                ],
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        <Label
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {device.device}
+                        </Label>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);
@@ -125,7 +127,7 @@ export const DeviceField = ({
                   )
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>

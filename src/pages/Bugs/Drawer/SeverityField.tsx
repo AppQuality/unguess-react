@@ -60,44 +60,48 @@ export const SeverityField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            {available
-              .slice(0, showMore ? undefined : maxItemsToShow)
-              .map((item) => (
-                <Field style={{ marginBottom: globalTheme.space.xs }}>
-                  <Checkbox
-                    value={item.name}
-                    name="filter-severity"
-                    checked={selected.map((i) => i.id).includes(item.id)}
-                    onChange={() => {
-                      dispatch(
-                        updateFilters({
-                          filters: {
-                            severities: [
-                              ...(selected.map((i) => i.id).includes(item.id)
-                                ? selected.filter((i) => i.id !== item.id)
-                                : [...selected, item]),
-                            ],
-                          },
-                        })
-                      );
-                    }}
-                  >
-                    <Label
-                      isRegular
-                      style={{
-                        color:
-                          globalTheme.colors.bySeverity[
-                            item.name.toLowerCase() as Severities
-                          ],
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {item.name.toLowerCase()}
-                    </Label>
-                  </Checkbox>
-                </Field>
-              ))}
-            {available.length > maxItemsToShow && (
+            {available.length
+              ? available
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((item) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={item.name}
+                        name="filter-severity"
+                        checked={selected.map((i) => i.id).includes(item.id)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                severities: [
+                                  ...(selected
+                                    .map((i) => i.id)
+                                    .includes(item.id)
+                                    ? selected.filter((i) => i.id !== item.id)
+                                    : [...selected, item]),
+                                ],
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        <Label
+                          isRegular
+                          style={{
+                            color:
+                              globalTheme.colors.bySeverity[
+                                item.name.toLowerCase() as Severities
+                              ],
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {item.name.toLowerCase()}
+                        </Label>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);
@@ -119,7 +123,7 @@ export const SeverityField = ({
                   )
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>

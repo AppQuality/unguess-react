@@ -96,48 +96,49 @@ export const TagField = ({
                 </Label>
               </Checkbox>
             </Field>
-            {available.length &&
-              available
-                .slice(0, showMore ? undefined : maxItemsToShow - 1)
-                .map((tag) => (
-                  <Field style={{ marginBottom: globalTheme.space.xs }}>
-                    <Checkbox
-                      value={tag.tag_id}
-                      name="filter-tags"
-                      checked={selected
-                        .map((i) => i.tag_id)
-                        .includes(tag.tag_id)}
-                      onChange={() => {
-                        dispatch(
-                          updateFilters({
-                            filters: {
-                              tags: [
-                                ...(selected
-                                  .map((i) => i.tag_id)
-                                  .includes(tag.tag_id)
-                                  ? selected.filter(
-                                      (i) => i.tag_id !== tag.tag_id
-                                    )
-                                  : [...selected, tag]),
-                              ],
-                            },
-                          })
-                        );
-                      }}
-                    >
-                      <Label
-                        isRegular
-                        style={{
-                          color: globalTheme.palette.grey[600],
-                          textTransform: 'capitalize',
+            {available.length
+              ? available
+                  .slice(0, showMore ? undefined : maxItemsToShow - 1)
+                  .map((tag) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={tag.tag_id}
+                        name="filter-tags"
+                        checked={selected
+                          .map((i) => i.tag_id)
+                          .includes(tag.tag_id)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                tags: [
+                                  ...(selected
+                                    .map((i) => i.tag_id)
+                                    .includes(tag.tag_id)
+                                    ? selected.filter(
+                                        (i) => i.tag_id !== tag.tag_id
+                                      )
+                                    : [...selected, tag]),
+                                ],
+                              },
+                            })
+                          );
                         }}
                       >
-                        {tag.display_name.toLowerCase()}
-                      </Label>
-                    </Checkbox>
-                  </Field>
-                ))}
-            {available.length > maxItemsToShow && (
+                        <Label
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {tag.display_name.toLowerCase()}
+                        </Label>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);
@@ -157,7 +158,7 @@ export const TagField = ({
                   t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL')
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>
