@@ -26,34 +26,36 @@ export const UniqueFilter = () => {
     return null;
 
   return (
-    <Dropdown
-      selectedItem={data.unique.selected ?? 'all'}
-      onSelect={(item) => {
-        dispatch(
-          updateFilters({
-            filters: {
-              unique: item,
-            },
-          })
-        );
-      }}
-    >
-      <Field>
-        <Select isCompact isPrimary={data.unique.selected === 'unique'}>
-          {data.unique.selected === 'unique'
-            ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
-            : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
-        </Select>
-      </Field>
-      <Menu>
-        {data.unique.available.map((item) => (
-          <Item value={item}>
-            {item === 'unique'
+    <div style={{ width: '200px' }}>
+      <Dropdown
+        selectedItem={data.unique.selected ?? 'all'}
+        onSelect={(item) => {
+          dispatch(
+            updateFilters({
+              filters: {
+                unique: item,
+              },
+            })
+          );
+        }}
+      >
+        <Field>
+          <Select isCompact isPrimary={data.unique.selected === 'unique'}>
+            {data.unique.selected === 'unique'
               ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
-              : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')}
-          </Item>
-        ))}
-      </Menu>
-    </Dropdown>
+              : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
+          </Select>
+        </Field>
+        <Menu>
+          {data.unique.available.map((item) => (
+            <Item value={item}>
+              {item === 'unique'
+                ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+                : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')}
+            </Item>
+          ))}
+        </Menu>
+      </Dropdown>
+    </div>
   );
 };

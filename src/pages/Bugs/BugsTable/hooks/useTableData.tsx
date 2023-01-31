@@ -3,7 +3,6 @@ import { useCampaignSeverities } from './useCampaignSeverities';
 import { useCampaignUseCases } from './useCampaignUseCases';
 import { sortBySeverity } from '../utils/sortBySeverity';
 import { sortByUseCase } from '../utils/sortByUseCase';
-import { sortById } from '../utils/sortById';
 
 export const useTableData = (campaignId: number) => {
   // get  bugs accepted severities and usecases
@@ -35,18 +34,14 @@ export const useTableData = (campaignId: number) => {
   }
 
   const bugsBySeverity = sortBySeverity(bugs.items, severities);
-  const bugsByUsecase = sortByUseCase(bugs.items, useCases);
+  const bugsByUseCases = sortByUseCase(bugs.items, useCases);
 
   /* got the data */
   return {
     data: {
       allBugs: bugs.items,
-      bugsByUseCases: bugsByUsecase.sort((a, b) =>
-        sortById(a.useCase.id, b.useCase.id)
-      ),
-      bugsBySeverity: bugsBySeverity.sort((a, b) =>
-        sortById(a.severity.id, b.severity.id, 'DESC')
-      ),
+      bugsByUseCases,
+      bugsBySeverity,
     },
     isLoading: false,
     error: bugsError || severitiesError || useCasesError,

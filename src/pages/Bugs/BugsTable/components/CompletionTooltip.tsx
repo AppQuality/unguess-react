@@ -86,10 +86,10 @@ export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
         content={getCompletionTooltip()}
         size="large"
         type="light"
-        placement="bottom-end"
+        placement="bottom-start"
         hasArrow={false}
       >
-        <IconButton size="small" style={{ backgroundColor: 'transparent' }}>
+        <IconButton size="small" style={{ background: 'transparent' }}>
           <InfoStrokeIcon />
         </IconButton>
       </Tooltip>

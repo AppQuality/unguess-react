@@ -1,10 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { useAppSelector } from 'src/app/hooks';
-import { TypeFilterType, TypeFilter } from './typeFilters';
+import { TypeFilterType, TypeFilter } from './typeFilter';
 import { SeverityFilter, SeverityFilterType } from './severityFilter';
 import { ReadFilter, ReadFilterType } from './readFilter';
 import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
+import { TagFilterType, TagFilter } from './tagFilter';
+import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
+import { DeviceFilterType, DeviceFilter } from './deviceFilter';
+import { OsFilterType, OsFilter } from './osFilter';
+import {
+  ReplicabilityFilter,
+  ReplicabilityFilterType,
+} from './replicabilityFilter';
 
 type CampaignType = {
   selectedBugId?: number;
@@ -12,7 +20,12 @@ type CampaignType = {
   SeverityFilterType &
   ReadFilterType &
   UniqueFilterType &
-  SearchFilterType;
+  SearchFilterType &
+  TagFilterType &
+  UseCaseFilterType &
+  DeviceFilterType &
+  OsFilterType &
+  ReplicabilityFilterType;
 
 type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
 
@@ -22,11 +35,13 @@ interface initialSimpleState {
     [campaign_id: string]: CampaignType;
   };
   pageView: PageView;
+  isFilterDrawerOpen: boolean;
 }
 
 const initialStateSimple: initialSimpleState = {
   campaigns: {},
   pageView: 'byUsecase',
+  isFilterDrawerOpen: false,
 };
 
 const bugPageSlice = createSlice({
@@ -47,6 +62,23 @@ const bugPageSlice = createSlice({
         ...ReadFilter.setAvailable(state.campaigns[cp_id as number]),
         ...UniqueFilter.setAvailable(state.campaigns[cp_id as number]),
         ...SearchFilter.setAvailable(state.campaigns[cp_id as number]),
+        ...TagFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.tags
+        ),
+        ...UseCaseFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.useCases
+        ),
+        ...DeviceFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.devices
+        ),
+        ...OsFilter.setAvailable(state.campaigns[cp_id as number], filters.os),
+        ...ReplicabilityFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.replicabilities
+        ),
       };
       state.currentCampaign = cp_id;
     },
@@ -80,6 +112,23 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.search
         ),
+        ...TagFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.tags
+        ),
+        ...UseCaseFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.useCases
+        ),
+        ...DeviceFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.devices
+        ),
+        ...OsFilter.filter(state.campaigns[state.currentCampaign], filters.os),
+        ...ReplicabilityFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.replicabilities
+        ),
       };
     },
     resetFilters: (state) => {
@@ -90,10 +139,18 @@ const bugPageSlice = createSlice({
         ...ReadFilter.reset(state.campaigns[state.currentCampaign]),
         ...UniqueFilter.reset(state.campaigns[state.currentCampaign]),
         ...SearchFilter.reset(),
+        ...TagFilter.reset(state.campaigns[state.currentCampaign]),
+        ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
+        ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
+        ...OsFilter.reset(state.campaigns[state.currentCampaign]),
+        ...ReplicabilityFilter.reset(state.campaigns[state.currentCampaign]),
       };
     },
     setPageView: (state, action: PayloadAction<PageView>) => {
       state.pageView = action.payload;
+    },
+    setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
+      state.isFilterDrawerOpen = action.payload;
     },
   },
 });
@@ -106,6 +163,11 @@ export const getSelectedFiltersIds = () => ({
   read: ReadFilter.getValue(),
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
+  tags: TagFilter.getIds(),
+  useCases: UseCaseFilter.getIds(),
+  devices: DeviceFilter.getIds(),
+  os: OsFilter.getIds(),
+  replicabilities: ReplicabilityFilter.getIds(),
 });
 
 export const getSelectedFilters = () => ({
@@ -114,6 +176,11 @@ export const getSelectedFilters = () => ({
   read: ReadFilter.getValue(),
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
+  tags: TagFilter.getValues(),
+  useCases: UseCaseFilter.getValues(),
+  devices: DeviceFilter.getValues(),
+  os: OsFilter.getValues(),
+  replicabilities: ReplicabilityFilter.getValues(),
 });
 
 export const getSelectedBugId = () => {
@@ -144,4 +211,5 @@ export const {
   selectBug,
   resetFilters,
   setPageView,
+  setFilterDrawerOpen,
 } = bugPageSlice.actions;

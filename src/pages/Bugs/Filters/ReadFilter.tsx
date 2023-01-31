@@ -26,38 +26,36 @@ export const ReadFilter = () => {
     return null;
 
   return (
-    <Dropdown
-      selectedItem={data.read.selected ?? 'all'}
-      onSelect={(item) => {
-        dispatch(
-          updateFilters({
-            filters: {
-              read: item,
-            },
-          })
-        );
-      }}
-    >
-      <Field>
-        <Select
-          style={{ minWidth: '160px' }}
-          isCompact
-          isPrimary={data.read.selected === 'unread'}
-        >
-          {data.read.selected === 'unread'
-            ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-            : t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')}
-        </Select>
-      </Field>
-      <Menu>
-        {data.read.available.map((item) => (
-          <Item value={item}>
-            {item === 'unread'
+    <div style={{ width: '150px' }}>
+      <Dropdown
+        selectedItem={data.read.selected ?? 'all'}
+        onSelect={(item) => {
+          dispatch(
+            updateFilters({
+              filters: {
+                read: item,
+              },
+            })
+          );
+        }}
+      >
+        <Field>
+          <Select isCompact isPrimary={data.read.selected === 'unread'}>
+            {data.read.selected === 'unread'
               ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-              : t('__BUGS_READ_FILTER_ITEM_ALL')}
-          </Item>
-        ))}
-      </Menu>
-    </Dropdown>
+              : t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')}
+          </Select>
+        </Field>
+        <Menu>
+          {data.read.available.map((item) => (
+            <Item value={item}>
+              {item === 'unread'
+                ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
+                : t('__BUGS_READ_FILTER_ITEM_ALL')}
+            </Item>
+          ))}
+        </Menu>
+      </Dropdown>
+    </div>
   );
 };

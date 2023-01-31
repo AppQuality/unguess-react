@@ -3,6 +3,7 @@ import {
   Item,
   Menu,
   Select,
+  Span,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useState } from 'react';
@@ -38,15 +39,18 @@ export const GroupBy = () => {
     }
   };
 
-  const SelectLabel = styled.span`
+  const SelectLabel = styled.div`
     display: flex;
     align-items: center;
+    gap: ${({ theme }) => theme.space.xs};
+
     svg {
-      margin-right: 8px;
+      flex-shrink: 0;
     }
   `;
+
   return (
-    <div>
+    <div style={{ width: '160px' }}>
       <Dropdown
         selectedItem={pageView}
         onStateChange={(state) => {
@@ -65,7 +69,8 @@ export const GroupBy = () => {
         <Field>
           <Select isCompact isPrimary>
             <SelectLabel>
-              <Icon /> {getTranslatedLabel(label)}
+              <Icon />
+              <Span>{getTranslatedLabel(label)}</Span>
             </SelectLabel>
           </Select>
         </Field>

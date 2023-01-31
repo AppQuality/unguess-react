@@ -41,7 +41,7 @@ export const SearchFilter = () => {
   if (!data) return null;
 
   return (
-    <div style={{ maxWidth: '180px' }}>
+    <div>
       <MediaInput
         isCompact
         end={

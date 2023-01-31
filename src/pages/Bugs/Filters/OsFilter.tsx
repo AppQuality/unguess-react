@@ -6,44 +6,41 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 
-export const TypeFilter = () => {
+export const OsFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
   const { t } = useTranslation();
 
-  if (
-    !data ||
-    !data.types ||
-    !data.types.available ||
-    !data.types.available.length
-  )
+  if (!data || !data.os || !data.os.available || !data.os.available.length)
     return null;
+
+  const options = data.os.available.map((item) => ({
+    id: item.os,
+    label: item.os,
+    selected: data.os.selected.map((i) => i.os).includes(item.os),
+  }));
 
   return (
     <div>
       <CounterMultiselect
         isCompact
         i18n={{
-          counterText: (count) => t(`Typology ({{count}})`, { count }),
-          noItems: t('__BUGS_TYPES_FILTER_ITEM_NO_ITEMS'),
+          counterText: (count) => t(`OS ({{count}})`, { count }),
+          noItems: t('__BUGS_OS_FILTER_ITEM_NO_ITEMS'),
         }}
         onChange={(selected) => {
           dispatch(
             updateFilters({
               filters: {
-                types: selected.map((item) => ({
+                os: selected.map((item) => ({
                   id: item.id,
-                  name: item.label,
+                  os: item.label,
                 })),
               },
             })
           );
         }}
-        options={data.types.available.map((item) => ({
-          id: item.id,
-          label: item.name,
-          selected: data.types.selected.map((i) => i.id).includes(item.id),
-        }))}
+        options={options}
       />
     </div>
   );
