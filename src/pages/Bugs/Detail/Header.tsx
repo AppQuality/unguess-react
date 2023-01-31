@@ -12,7 +12,13 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.space.sm};
+  padding: 0 ${({ theme }) => theme.space.lg};
+  padding-top: ${({ theme }) => theme.space.lg};
+  position: sticky;
+  top: 0;
+  background-color: white;
+  width: 100%;
+  z-index: ${({ theme }) => theme.levels.front};
 `;
 
 const Tester = styled(SM)`
