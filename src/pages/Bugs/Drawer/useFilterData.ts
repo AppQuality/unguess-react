@@ -83,8 +83,8 @@ export const useFilterData = (filter: Filter) => {
           //     acc[device.id] = (acc[device.id] || 0) + 1;
           //   });
         } else if (filter === 'os') {
-          acc[`${bug.device.os}_${bug.device.os_version}`] =
-            (acc[`${bug.device.os}_${bug.device.os_version}`] || 0) + 1;
+          acc[`${bug.device.os} ${bug.device.os_version}`] =
+            (acc[`${bug.device.os} ${bug.device.os_version}`] || 0) + 1;
         } else if (filter === 'replicabilities') {
           acc[bug.replicability.id] = (acc[bug.replicability.id] || 0) + 1;
         }
