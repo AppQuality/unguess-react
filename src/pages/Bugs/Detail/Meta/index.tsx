@@ -1,4 +1,4 @@
-import { LG, MD } from '@appquality/unguess-design-system';
+import { LG, MD, SM } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -66,7 +66,7 @@ export default ({
     </MD>
     <BugInfo>
       <InfoTitle style={{ textTransform: 'capitalize' }}>
-        {bug.type.name}
+        <SM>{bug.type.name}</SM>
       </InfoTitle>
       <Pipe style={{ height: globalTheme.lineHeights.md }} />
       <IconPill
