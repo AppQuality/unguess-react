@@ -62,7 +62,7 @@ export const TagField = ({
               <Checkbox
                 value={0}
                 name="filter-tags"
-                checked={selected.map((i) => i.tag_id).includes(0)}
+                checked={selected.map((i) => i.tag_id).includes('none')}
                 onChange={() => {
                   dispatch(
                     updateFilters({
@@ -73,7 +73,7 @@ export const TagField = ({
                             : [
                                 ...selected,
                                 {
-                                  tag_id: 0,
+                                  tag_id: 'none',
                                   display_name: t(
                                     '__BUGS_TAGS_FILTER_ITEM_NO_TAGS'
                                   ),

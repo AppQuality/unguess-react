@@ -12,6 +12,12 @@ export const useCampaignBugs = (campaignId: number) => {
     cid: campaignId.toString() ?? '0',
     filterBy: {
       ...(filterBy?.types ? { types: filterBy.types.join(',') } : {}),
+      ...(filterBy?.replicabilities
+        ? { replicabilities: filterBy.replicabilities.join(',') }
+        : {}),
+      ...(filterBy?.os ? { os: filterBy.os.join(',') } : {}),
+      ...(filterBy?.devices ? { devices: filterBy.devices.join(',') } : {}),
+      ...(filterBy?.tags ? { tags: filterBy.tags.join(',') } : {}),
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
