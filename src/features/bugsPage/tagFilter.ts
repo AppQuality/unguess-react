@@ -3,13 +3,13 @@ import { useAppSelector } from 'src/app/hooks';
 export type TagFilterType = {
   tags: {
     available: {
-      tag_id: number;
+      tag_id: number | 'none';
       display_name: string;
       slug: string;
       is_public?: number;
     }[];
     selected: {
-      tag_id: number;
+      tag_id: number | 'none';
       display_name: string;
       slug: string;
       is_public?: number;

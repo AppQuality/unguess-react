@@ -17,6 +17,7 @@ export const useCampaignBugs = (campaignId: number) => {
         : {}),
       ...(filterBy?.os ? { os: filterBy.os.join(',') } : {}),
       ...(filterBy?.devices ? { devices: filterBy.devices.join(',') } : {}),
+      ...(filterBy?.tags ? { tags: filterBy.tags.join(',') } : {}),
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
