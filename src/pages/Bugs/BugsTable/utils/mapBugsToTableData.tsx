@@ -26,15 +26,14 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
     return {
       key: bug.id.toString(),
       id: bug.id.toString(),
-      siblings:
-        bug.siblings > 0 ? (
-          <DuplicateContainer>
-            {!bug.duplicated_of_id ? (
-              <FatherIcon style={{ color: globalTheme.palette.grey[500] }} />
-            ) : null}
-            +{bug.siblings}
-          </DuplicateContainer>
-        ) : null,
+      siblings: (
+        <DuplicateContainer>
+          {!bug.duplicated_of_id ? (
+            <FatherIcon style={{ color: globalTheme.palette.grey[500] }} />
+          ) : null}
+          {bug.siblings > 0 ? <>+{bug.siblings}</> : null}
+        </DuplicateContainer>
+      ),
       bugId: (
         <span style={{ color: globalTheme.palette.grey[700] }}>
           {bug.id.toString()}
