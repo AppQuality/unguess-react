@@ -7,7 +7,6 @@ import {
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { TableBugType } from '../types';
-import { EmptyState } from './components/EmptyState';
 import { InfoRow } from './components/InfoRow';
 import { mapBugsToTableData } from './utils/mapBugsToTableData';
 import { useTableColumns } from './hooks/useTableColumns';
@@ -17,10 +16,6 @@ export const AllBugs = ({ bugs }: { bugs: TableBugType[] }) => {
   const { t } = useTranslation();
   const { columns } = useTableColumns();
   const dispatch = useAppDispatch();
-
-  if (!bugs.length) {
-    return <EmptyState />;
-  }
 
   return (
     <div>
