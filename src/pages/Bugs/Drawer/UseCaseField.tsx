@@ -60,48 +60,8 @@ export const UseCaseField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            <Field style={{ marginBottom: globalTheme.space.xs }}>
-              <Checkbox
-                value={0}
-                name="filter-usecase"
-                checked={selected.map((i) => i.id).includes(0)}
-                onChange={() => {
-                  dispatch(
-                    updateFilters({
-                      filters: {
-                        useCases: [
-                          ...(selected.map((i) => i.id).includes(0)
-                            ? selected.filter((i) => i.id !== 0)
-                            : [
-                                ...selected,
-                                {
-                                  id: 0,
-                                  title: {
-                                    full: t(
-                                      '__BUGS_USECASES_FILTER_ITEM_NO_USECASE'
-                                    ),
-                                  },
-                                },
-                              ]),
-                        ],
-                      },
-                    })
-                  );
-                }}
-              >
-                <Label
-                  isRegular
-                  style={{
-                    color: globalTheme.palette.grey[600],
-                    textTransform: 'capitalize',
-                  }}
-                >
-                  {t('__BUGS_USECASES_FILTER_ITEM_NO_USECASE')}
-                </Label>
-              </Checkbox>
-            </Field>
             {available
-              .slice(0, showMore ? undefined : maxItemsToShow - 1)
+              .slice(0, showMore ? undefined : maxItemsToShow)
               .map((item) => (
                 <Field style={{ marginBottom: globalTheme.space.xs }}>
                   <Checkbox
@@ -145,7 +105,7 @@ export const UseCaseField = ({
                     Show{' '}
                     <Span isBold>
                       {{
-                        useCases: available.length - maxItemsToShow + 1,
+                        useCases: available.length - maxItemsToShow,
                       }}
                     </Span>{' '}
                     more Use Cases
