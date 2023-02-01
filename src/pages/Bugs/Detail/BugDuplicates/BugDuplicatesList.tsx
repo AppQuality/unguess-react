@@ -50,8 +50,8 @@ export const BugDuplicatesList = ({
             title={item.title.compact}
             pills={[
               ...(item.title.context ? item.title.context : []),
-              `${item.os.name} ${item.os.version}`,
               item.device,
+              `${item.os.name} ${item.os.version}`,
             ]}
           />
         ))}
