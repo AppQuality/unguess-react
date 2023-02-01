@@ -14,6 +14,7 @@ import Service from 'src/pages/Service';
 import Campaign from 'src/pages/Campaign';
 import Bugs from 'src/pages/Bugs';
 import { useTranslation } from 'react-i18next';
+import { Redirect } from './Redirect';
 
 const Pages = () => {
   const { i18n } = useTranslation();
@@ -51,6 +52,39 @@ const Pages = () => {
                 <Route index element={<Dashboard />} />
               </Route>
             ))}
+
+            <Route
+              path="/it/dashboard-campagne-funzionali"
+              element={
+                <Redirect
+                  url={({ searchParams }) => {
+                    if (!searchParams || !searchParams.get('cid'))
+                      return '/it/oops';
+                    if (!searchParams.get('bid'))
+                      return `/it/campaigns/${searchParams.get('cid')}`;
+                    return `/it/campaigns/${searchParams.get(
+                      'cid'
+                    )}/bugs/${searchParams.get('bid')}`;
+                  }}
+                />
+              }
+            />
+            <Route
+              path="/functional-customer-dashboard"
+              element={
+                <Redirect
+                  url={({ searchParams }) => {
+                    if (!searchParams || !searchParams.get('cid'))
+                      return '/oops';
+                    if (!searchParams.get('bid'))
+                      return `/campaigns/${searchParams.get('cid')}`;
+                    return `/campaigns/${searchParams.get(
+                      'cid'
+                    )}/bugs/${searchParams.get('bid')}`;
+                  }}
+                />
+              }
+            />
             <Route path="*" element={<Navigate replace to="/oops" />} />
           </>
         )
