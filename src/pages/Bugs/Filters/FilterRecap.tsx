@@ -170,6 +170,15 @@ export const FilterRecap = () => {
             />
           ))
         : null}
+      {filters.useCases && filters.useCases.length
+        ? filters.useCases.map((useCase) => (
+            <FilterRecapItem
+              type="useCases"
+              value={useCase.id.toString()}
+              name={useCase.title.full}
+            />
+          ))
+        : null}
       {filters.tags && filters.tags.length
         ? filters.tags.map((tag) => (
             <FilterRecapItem
@@ -179,12 +188,12 @@ export const FilterRecap = () => {
             />
           ))
         : null}
-      {filters.useCases && filters.useCases.length
-        ? filters.useCases.map((useCase) => (
+      {filters.replicabilities && filters.replicabilities.length
+        ? filters.replicabilities.map((replicability) => (
             <FilterRecapItem
-              type="useCases"
-              value={useCase.id.toString()}
-              name={useCase.title.full}
+              type="replicabilities"
+              value={replicability.id.toString()}
+              name={replicability.name}
             />
           ))
         : null}
@@ -200,15 +209,6 @@ export const FilterRecap = () => {
       {filters.os && filters.os.length
         ? filters.os.map((os) => (
             <FilterRecapItem type="os" value={os.os} name={os.os} />
-          ))
-        : null}
-      {filters.replicabilities && filters.replicabilities.length
-        ? filters.replicabilities.map((replicability) => (
-            <FilterRecapItem
-              type="replicabilities"
-              value={replicability.id.toString()}
-              name={replicability.name}
-            />
           ))
         : null}
       <Anchor
