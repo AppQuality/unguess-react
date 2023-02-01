@@ -11,6 +11,7 @@ export const useCampaignBugs = (campaignId: number) => {
   } = useGetCampaignsByCidBugsQuery({
     cid: campaignId.toString() ?? '0',
     filterBy: {
+      ...(filterBy?.useCases ? { usecases: filterBy.useCases.join(',') } : {}),
       ...(filterBy?.types ? { types: filterBy.types.join(',') } : {}),
       ...(filterBy?.replicabilities
         ? { replicabilities: filterBy.replicabilities.join(',') }
