@@ -14,6 +14,7 @@ import Service from 'src/pages/Service';
 import Campaign from 'src/pages/Campaign';
 import Bugs from 'src/pages/Bugs';
 import { useTranslation } from 'react-i18next';
+import Bug from 'src/pages/Bug';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -40,6 +41,10 @@ const Pages = () => {
                 <Route
                   path={`/${langPrefix}/campaigns/:campaignId/bugs`}
                   element={<Bugs />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
+                  element={<Bug />}
                 />
                 <Route path={`/${langPrefix}/services`} element={<Catalog />} />
                 <Route
