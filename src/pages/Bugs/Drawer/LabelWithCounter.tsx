@@ -8,5 +8,4 @@ export const LabelSpaceBetween = styled(Label)`
 
 export const disabledStyle = {
   opacity: 0.5,
-  cursor: 'not-allowed',
 };

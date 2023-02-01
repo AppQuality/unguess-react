@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -15,6 +14,8 @@ import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { TagFilterType } from 'src/features/bugsPage/tagFilter';
 import { ShowMore } from './ShowMore';
+import { useFilterData } from './useFilterData';
+import { LabelSpaceBetween } from './LabelWithCounter';
 
 export const TagField = ({
   tags,
@@ -24,9 +25,12 @@ export const TagField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
+  const { counters, loading } = useFilterData('tags');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = tags;
+
+  if (loading || !counters) return null;
 
   return (
     <>
@@ -62,6 +66,7 @@ export const TagField = ({
               <Checkbox
                 value={0}
                 name="filter-tags"
+                disabled={!counters.none}
                 checked={selected.map((i) => i.tag_id).includes('none')}
                 onChange={() => {
                   dispatch(
@@ -85,7 +90,7 @@ export const TagField = ({
                   );
                 }}
               >
-                <Label
+                <LabelSpaceBetween
                   isRegular
                   style={{
                     color: globalTheme.palette.grey[600],
@@ -93,7 +98,8 @@ export const TagField = ({
                   }}
                 >
                   {t('__BUGS_TAGS_FILTER_ITEM_NO_TAGS')}
-                </Label>
+                  <MD>{counters.none || 0}</MD>
+                </LabelSpaceBetween>
               </Checkbox>
             </Field>
             {available.length &&
@@ -104,6 +110,7 @@ export const TagField = ({
                     <Checkbox
                       value={tag.tag_id}
                       name="filter-tags"
+                      disabled={!counters[tag.tag_id]}
                       checked={selected
                         .map((i) => i.tag_id)
                         .includes(tag.tag_id)}
@@ -125,7 +132,7 @@ export const TagField = ({
                         );
                       }}
                     >
-                      <Label
+                      <LabelSpaceBetween
                         isRegular
                         style={{
                           color: globalTheme.palette.grey[600],
@@ -133,7 +140,8 @@ export const TagField = ({
                         }}
                       >
                         {tag.display_name.toLowerCase()}
-                      </Label>
+                        <MD>{counters[tag.tag_id] || 0}</MD>
+                      </LabelSpaceBetween>
                     </Checkbox>
                   </Field>
                 ))}

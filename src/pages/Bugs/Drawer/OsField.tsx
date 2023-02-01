@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -16,7 +15,7 @@ import { Divider } from 'src/common/components/divider';
 import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
+import { LabelSpaceBetween } from './LabelWithCounter';
 
 export const OsField = ({
   os,

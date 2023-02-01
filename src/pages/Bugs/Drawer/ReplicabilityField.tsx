@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -15,6 +14,8 @@ import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { ReplicabilityFilterType } from 'src/features/bugsPage/replicabilityFilter';
 import { ShowMore } from './ShowMore';
+import { useFilterData } from './useFilterData';
+import { LabelSpaceBetween } from './LabelWithCounter';
 
 export const ReplicabilityField = ({
   replicabilities,
@@ -24,9 +25,12 @@ export const ReplicabilityField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
+  const { counters, loading } = useFilterData('replicabilities');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = replicabilities;
+
+  if (loading || !counters) return null;
 
   return (
     <>
@@ -67,6 +71,7 @@ export const ReplicabilityField = ({
                   <Checkbox
                     value={replicability.id}
                     name="filter-replicability"
+                    disabled={!counters[replicability.id]}
                     checked={selected
                       .map((i) => i.id)
                       .includes(replicability.id)}
@@ -88,7 +93,7 @@ export const ReplicabilityField = ({
                       );
                     }}
                   >
-                    <Label
+                    <LabelSpaceBetween
                       isRegular
                       style={{
                         color: globalTheme.palette.grey[600],
@@ -96,7 +101,8 @@ export const ReplicabilityField = ({
                       }}
                     >
                       {replicability.name.toLowerCase()}
-                    </Label>
+                      <MD>{counters[replicability.id] || 0}</MD>
+                    </LabelSpaceBetween>
                   </Checkbox>
                 </Field>
               ))}

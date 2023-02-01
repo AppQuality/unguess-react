@@ -30,6 +30,8 @@ export const TypeField = ({
   const { t } = useTranslation();
   const { available, selected } = types;
 
+  if (loading || !counters) return null;
+
   return (
     <>
       <Accordion level={3}>

@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -15,6 +14,8 @@ import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { UseCaseFilterType } from 'src/features/bugsPage/useCaseFilter';
 import { ShowMore } from './ShowMore';
+import { useFilterData } from './useFilterData';
+import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
 
 export const UseCaseField = ({
   useCases,
@@ -24,9 +25,12 @@ export const UseCaseField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
+  const { counters, loading } = useFilterData('useCases');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = useCases;
+
+  if (loading || !counters) return null;
 
   return (
     <>
@@ -67,6 +71,7 @@ export const UseCaseField = ({
                   <Checkbox
                     value={item.id}
                     name="filter-usecase"
+                    disabled={!counters[item.id]}
                     checked={selected.map((i) => i.id).includes(item.id)}
                     onChange={() => {
                       dispatch(
@@ -82,15 +87,17 @@ export const UseCaseField = ({
                       );
                     }}
                   >
-                    <Label
+                    <LabelSpaceBetween
                       isRegular
                       style={{
                         color: globalTheme.palette.grey[600],
                         textTransform: 'capitalize',
+                        ...(!counters[item.id] && disabledStyle),
                       }}
                     >
                       {item.title.full.toLowerCase()}
-                    </Label>
+                      <MD>{counters[item.id] || 0}</MD>
+                    </LabelSpaceBetween>
                   </Checkbox>
                 </Field>
               ))}

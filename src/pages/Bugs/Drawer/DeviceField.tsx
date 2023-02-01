@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -15,6 +14,8 @@ import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { DeviceFilterType } from 'src/features/bugsPage/deviceFilter';
 import { ShowMore } from './ShowMore';
+import { useFilterData } from './useFilterData';
+import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
 
 export const DeviceField = ({
   devices,
@@ -24,9 +25,12 @@ export const DeviceField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
+  const { counters, loading } = useFilterData('devices');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = devices;
+
+  if (loading || !counters) return null;
 
   return (
     <>
@@ -65,6 +69,7 @@ export const DeviceField = ({
                   <Checkbox
                     value={device.device}
                     name="filter-devices"
+                    disabled={!counters[device.device]}
                     checked={selected
                       .map((i) => i.device)
                       .includes(device.device)}
@@ -91,15 +96,17 @@ export const DeviceField = ({
                       );
                     }}
                   >
-                    <Label
+                    <LabelSpaceBetween
                       isRegular
                       style={{
                         color: globalTheme.palette.grey[600],
                         textTransform: 'capitalize',
+                        ...(!counters[device.device] && disabledStyle),
                       }}
                     >
                       {device.device}
-                    </Label>
+                      <MD>{counters[device.device] || 0}</MD>
+                    </LabelSpaceBetween>
                   </Checkbox>
                 </Field>
               ))}

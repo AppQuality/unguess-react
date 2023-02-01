@@ -41,7 +41,14 @@ export const useFilterData = (filter: Filter) => {
   } = useGetCampaignsByCidBugsQuery({
     cid: currentCampaign.toString() ?? '0',
     filterBy: {
+      ...(filterBy?.useCases ? { usecases: filterBy.useCases.join(',') } : {}),
       ...(filterBy?.types ? { types: filterBy.types.join(',') } : {}),
+      ...(filterBy?.replicabilities
+        ? { replicabilities: filterBy.replicabilities.join(',') }
+        : {}),
+      ...(filterBy?.os ? { os: filterBy.os.join(',') } : {}),
+      ...(filterBy?.devices ? { devices: filterBy.devices.join(',') } : {}),
+      ...(filterBy?.tags ? { tags: filterBy.tags.join(',') } : {}),
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
@@ -74,14 +81,20 @@ export const useFilterData = (filter: Filter) => {
             bug.tags.forEach((tag) => {
               acc[tag.tag_id] = (acc[tag.tag_id] || 0) + 1;
             });
+          } else {
+            acc.none = (acc.none || 0) + 1;
           }
         } else if (filter === 'useCases') {
           acc[bug.application_section.id || -1] =
             (acc[bug.application_section.id || -1] || 0) + 1;
-          // } else if (filter === 'devices') {
-          //   bug.devices.forEach((device) => {
-          //     acc[device.id] = (acc[device.id] || 0) + 1;
-          //   });
+        } else if (filter === 'devices') {
+          if (bug.device.type === 'desktop') {
+            acc[bug.device.desktop_type] =
+              (acc[bug.device.desktop_type] || 0) + 1;
+          } else {
+            acc[`${bug.device.manufacturer} ${bug.device.model}`] =
+              (acc[`${bug.device.manufacturer} ${bug.device.model}`] || 0) + 1;
+          }
         } else if (filter === 'os') {
           acc[`${bug.device.os} ${bug.device.os_version}`] =
             (acc[`${bug.device.os} ${bug.device.os_version}`] || 0) + 1;
