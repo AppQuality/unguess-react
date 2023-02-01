@@ -62,7 +62,7 @@ export const UseCaseField = ({
           <Accordion.Panel>
             {available.length
               ? available
-                  .slice(0, showMore ? undefined : maxItemsToShow - 1)
+                  .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
                     <Field style={{ marginBottom: globalTheme.space.xs }}>
                       <Checkbox
