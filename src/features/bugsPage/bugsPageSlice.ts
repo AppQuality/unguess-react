@@ -51,6 +51,9 @@ const bugPageSlice = createSlice({
     selectCampaign: (state, action) => {
       const { cp_id, filters } = action.payload;
       state.campaigns[cp_id as number] = {
+        ...(state.campaigns[cp_id as number]
+          ? state.campaigns[cp_id as number]
+          : {}),
         ...TypeFilter.setAvailable(
           state.campaigns[cp_id as number],
           filters.types
