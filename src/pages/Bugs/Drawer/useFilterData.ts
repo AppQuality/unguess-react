@@ -73,9 +73,13 @@ export const useFilterData = (filter: Filter) => {
         } else if (filter === 'severities') {
           acc[bug.severity.id] = (acc[bug.severity.id] || 0) + 1;
         } else if (filter === 'read') {
-          acc.read = (acc.read || 0) + 1;
+          acc[bug.read ? 'read' : 'unread'] =
+            (acc[bug.read ? 'read' : 'unread'] || 0) + 1;
         } else if (filter === 'unique') {
-          acc.unique = (acc.unique || 0) + 1;
+          if (!bug.duplicated_of_id) {
+            acc.unique = (acc.unique || 0) + 1;
+          }
+          acc.all = (acc.all || 0) + 1;
         } else if (filter === 'tags') {
           if (bug?.tags?.length) {
             bug.tags.forEach((tag) => {
