@@ -14,6 +14,7 @@ import {
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { useCampaignBugs } from '../BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
 import { ReplicabilityField } from './ReplicabilityField';
@@ -32,12 +33,16 @@ WaterButton.defaultProps = {
 const BugsFilterDrawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const isFilterDrawerOpen = useAppSelector(
-    (state) => state.bugsPage.isFilterDrawerOpen
-  );
+  const { isFilterDrawerOpen, currentCampaign } = useAppSelector((state) => ({
+    isFilterDrawerOpen: state.bugsPage.isFilterDrawerOpen,
+    currentCampaign: state.bugsPage.currentCampaign,
+  }));
+
   const campaignData = getCurrentCampaignData();
 
-  if (!campaignData) return <Skeleton />;
+  if (!campaignData || !currentCampaign) return <Skeleton />;
+
+  const { bugs } = useCampaignBugs(currentCampaign);
 
   const onClose = () => {
     dispatch(setFilterDrawerOpen(false));
@@ -131,6 +136,10 @@ const BugsFilterDrawer = () => {
             onClick={onCtaClick}
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON')}
+            {bugs &&
+              bugs.items &&
+              bugs.items?.length > 0 &&
+              ` (${bugs?.items?.length})`}
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
