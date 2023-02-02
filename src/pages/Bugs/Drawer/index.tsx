@@ -74,12 +74,14 @@ const BugsFilterDrawer = () => {
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_COMMON_LABEL')}
         </MD>
-        {unique.available.length && <UniqueField unique={unique} />}
-        {severities.available.length && (
+        {unique.available.length ? <UniqueField unique={unique} /> : null}
+        {severities.available.length ? (
           <SeverityField severities={severities} />
-        )}
-        {types.available.length && <TypeField types={types} />}
-        {useCases.available.length && <UseCaseField useCases={useCases} />}
+        ) : null}
+        {types.available.length ? <TypeField types={types} /> : null}
+        {useCases.available.length ? (
+          <UseCaseField useCases={useCases} />
+        ) : null}
         <MD
           isBold
           style={{
@@ -101,11 +103,11 @@ const BugsFilterDrawer = () => {
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_BUG_LABEL')}
         </MD>
-        {replicabilities.available.length && (
+        {replicabilities.available.length ? (
           <ReplicabilityField replicabilities={replicabilities} />
-        )}
-        {devices.available.length && <DeviceField devices={devices} />}
-        {os.available.length && <OsField os={os} />}
+        ) : null}
+        {devices.available.length ? <DeviceField devices={devices} /> : null}
+        {os.available.length ? <OsField os={os} /> : null}
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>

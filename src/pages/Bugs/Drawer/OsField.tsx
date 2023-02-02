@@ -58,45 +58,49 @@ export const OsField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            {available
-              .slice(0, showMore ? undefined : maxItemsToShow)
-              .map((item) => (
-                <Field style={{ marginBottom: globalTheme.space.xs }}>
-                  <Checkbox
-                    value={item.os}
-                    name="filter-os"
-                    checked={selected.map((i) => i.os).includes(item.os)}
-                    onChange={() => {
-                      dispatch(
-                        updateFilters({
-                          filters: {
-                            os: [
-                              ...(selected.map((i) => i.os).includes(item.os)
-                                ? selected.filter((i) => i.os !== item.os)
-                                : [
-                                    ...selected,
-                                    {
-                                      os: item.os,
-                                    },
-                                  ]),
-                            ],
-                          },
-                        })
-                      );
-                    }}
-                  >
-                    <Label
-                      isRegular
-                      style={{
-                        color: globalTheme.palette.grey[600],
-                      }}
-                    >
-                      {item.os}
-                    </Label>
-                  </Checkbox>
-                </Field>
-              ))}
-            {available.length > maxItemsToShow && (
+            {available.length
+              ? available
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((item) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={item.os}
+                        name="filter-os"
+                        checked={selected.map((i) => i.os).includes(item.os)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                os: [
+                                  ...(selected
+                                    .map((i) => i.os)
+                                    .includes(item.os)
+                                    ? selected.filter((i) => i.os !== item.os)
+                                    : [
+                                        ...selected,
+                                        {
+                                          os: item.os,
+                                        },
+                                      ]),
+                                ],
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        <Label
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                          }}
+                        >
+                          {item.os}
+                        </Label>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);
@@ -116,7 +120,7 @@ export const OsField = ({
                   t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_SHOW_LESS_LABEL')
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>
