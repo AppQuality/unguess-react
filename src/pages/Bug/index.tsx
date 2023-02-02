@@ -1,9 +1,6 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch } from 'src/app/hooks';
 import { BugsDetail } from 'src/common/components/BugDetail';
-import { selectCampaign } from 'src/features/bugsPage/bugsPageSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useCampaign } from '../Bugs/useCampaign';
