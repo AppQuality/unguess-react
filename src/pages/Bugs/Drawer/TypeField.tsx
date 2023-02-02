@@ -30,7 +30,7 @@ export const TypeField = ({
   const { t } = useTranslation();
   const { available, selected } = types;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>

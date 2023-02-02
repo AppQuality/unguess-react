@@ -4,6 +4,7 @@ import {
   MD,
   Skeleton,
 } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
@@ -31,7 +32,9 @@ WaterButton.defaultProps = {
 const BugsFilterDrawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isFilterDrawerOpen } = useAppSelector((state) => state.bugsPage);
+  const isFilterDrawerOpen = useAppSelector(
+    (state) => state.bugsPage.isFilterDrawerOpen
+  );
   const campaignData = getCurrentCampaignData();
 
   if (!campaignData) return <Skeleton />;
@@ -59,12 +62,9 @@ const BugsFilterDrawer = () => {
     replicabilities,
   } = campaignData;
 
-  return (
-    <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
-      <Drawer.Header>
-        {t('__BUGS_PAGE_FILTER_DRAWER_HEADER_TITLE')}
-      </Drawer.Header>
-      <Drawer.Body>
+  const memoizedFilters = useMemo(
+    () => (
+      <>
         <MD
           isBold
           style={{
@@ -106,7 +106,17 @@ const BugsFilterDrawer = () => {
         )}
         {devices.available.length && <DeviceField devices={devices} />}
         {os.available.length && <OsField os={os} />}
-      </Drawer.Body>
+      </>
+    ),
+    [campaignData]
+  );
+
+  return (
+    <Drawer isOpen={isFilterDrawerOpen} onClose={onClose}>
+      <Drawer.Header>
+        {t('__BUGS_PAGE_FILTER_DRAWER_HEADER_TITLE')}
+      </Drawer.Header>
+      <Drawer.Body>{memoizedFilters}</Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
           <Button id="filters-drawer-reset" isPill onClick={onResetClick}>

@@ -30,7 +30,7 @@ export const TagField = ({
   const { t } = useTranslation();
   const { available, selected } = tags;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>

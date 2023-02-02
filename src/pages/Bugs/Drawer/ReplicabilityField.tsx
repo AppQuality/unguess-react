@@ -30,7 +30,7 @@ export const ReplicabilityField = ({
   const { t } = useTranslation();
   const { available, selected } = replicabilities;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>

@@ -30,7 +30,7 @@ export const OsField = ({
   const { t } = useTranslation();
   const { available, selected } = os;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>

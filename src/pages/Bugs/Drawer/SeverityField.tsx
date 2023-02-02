@@ -30,7 +30,7 @@ export const SeverityField = ({
   const { t } = useTranslation();
   const { available, selected } = severities;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>

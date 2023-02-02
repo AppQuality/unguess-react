@@ -30,7 +30,7 @@ export const DeviceField = ({
   const { t } = useTranslation();
   const { available, selected } = devices;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>

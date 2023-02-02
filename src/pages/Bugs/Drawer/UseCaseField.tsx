@@ -30,7 +30,7 @@ export const UseCaseField = ({
   const { t } = useTranslation();
   const { available, selected } = useCases;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>

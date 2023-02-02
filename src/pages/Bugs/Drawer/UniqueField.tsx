@@ -19,7 +19,7 @@ export const UniqueField = ({
   const { counters, loading } = useFilterData('unique');
   const { available, selected } = unique;
 
-  if (loading || !counters) return null;
+  if (!counters) return null;
 
   return (
     <>
