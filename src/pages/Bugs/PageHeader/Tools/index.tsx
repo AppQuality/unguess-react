@@ -25,33 +25,24 @@ const StyledCounter = styled(UniqueBugsCounter)``;
 
 const StyledStatus = styled(StatusPill)``;
 
-const StyledMenu = styled(DotsMenu)`
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    order: 2;
-  }
-`;
+const StyledMenu = styled(DotsMenu)``;
 
 const ToolsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin-left: auto;
+  width: 100%;
+  margin-top: ${({ theme }) => theme.space.md};
+  order: 1;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.xxl}) {
     flex-wrap: nowrap;
-    width: 100%;
-    justify-content: flex-start;
-    margin-left: 0;
-    order: 3;
-    margin-top: ${({ theme }) => theme.space.md};
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    width: 100%;
     flex-direction: column;
     align-items: flex-start;
-    order: 3;
 
     ${Pipe} {
       display: none;
