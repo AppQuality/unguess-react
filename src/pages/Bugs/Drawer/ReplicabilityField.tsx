@@ -25,7 +25,7 @@ export const ReplicabilityField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters, loading } = useFilterData('replicabilities');
+  const { counters } = useFilterData('replicabilities');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = replicabilities;

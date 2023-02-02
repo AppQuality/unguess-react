@@ -25,7 +25,7 @@ export const DeviceField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters, loading } = useFilterData('devices');
+  const { counters } = useFilterData('devices');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = devices;

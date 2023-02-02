@@ -25,7 +25,7 @@ export const SeverityField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters, loading } = useFilterData('severities');
+  const { counters } = useFilterData('severities');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = severities;

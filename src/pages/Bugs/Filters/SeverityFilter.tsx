@@ -5,15 +5,11 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { useFilterData } from '../Drawer/useFilterData';
 
 export const SeverityFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
-  const { counters, loading } = useFilterData('severities');
   const { t } = useTranslation();
-
-  if (!counters) return null;
 
   if (
     !data ||
@@ -45,7 +41,7 @@ export const SeverityFilter = () => {
         }}
         options={data.severities.available.map((item) => ({
           id: item.id,
-          label: `${item.name} (${counters[item.id] || 0})`,
+          label: item.name,
           selected: data.severities.selected.map((i) => i.id).includes(item.id),
         }))}
       />

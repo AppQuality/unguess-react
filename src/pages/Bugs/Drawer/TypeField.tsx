@@ -25,7 +25,7 @@ export const TypeField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters, loading } = useFilterData('types');
+  const { counters } = useFilterData('types');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = types;

@@ -16,7 +16,7 @@ export const UniqueField = ({
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { counters, loading } = useFilterData('unique');
+  const { counters } = useFilterData('unique');
   const { available, selected } = unique;
 
   if (!counters) return null;

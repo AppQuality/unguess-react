@@ -25,7 +25,7 @@ export const UseCaseField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters, loading } = useFilterData('useCases');
+  const { counters } = useFilterData('useCases');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = useCases;

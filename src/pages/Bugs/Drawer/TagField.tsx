@@ -25,7 +25,7 @@ export const TagField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters, loading } = useFilterData('tags');
+  const { counters } = useFilterData('tags');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = tags;

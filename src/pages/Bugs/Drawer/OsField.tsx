@@ -25,7 +25,7 @@ export const OsField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters, loading } = useFilterData('os');
+  const { counters } = useFilterData('os');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = os;
