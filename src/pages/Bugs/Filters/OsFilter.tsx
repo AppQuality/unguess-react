@@ -15,7 +15,7 @@ export const OsFilter = () => {
     return null;
 
   const options = data.os.available.map((item) => ({
-    id: item.os,
+    itemId: item.os,
     label: item.os,
     selected: data.os.selected.map((i) => i.os).includes(item.os),
   }));
@@ -33,7 +33,7 @@ export const OsFilter = () => {
             updateFilters({
               filters: {
                 os: selected.map((item) => ({
-                  id: item.id,
+                  id: item.itemId,
                   os: item.label,
                 })),
               },

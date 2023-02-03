@@ -32,7 +32,7 @@ export const SeverityFilter = () => {
             updateFilters({
               filters: {
                 severities: selected.map((item) => ({
-                  id: item.id,
+                  id: item.itemId,
                   name: item.label,
                 })),
               },
@@ -40,7 +40,7 @@ export const SeverityFilter = () => {
           );
         }}
         options={data.severities.available.map((item) => ({
-          id: item.id,
+          itemId: item.id,
           label: item.name,
           selected: data.severities.selected.map((i) => i.id).includes(item.id),
         }))}

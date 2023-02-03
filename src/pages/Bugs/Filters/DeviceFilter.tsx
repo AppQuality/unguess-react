@@ -20,7 +20,7 @@ export const DeviceFilter = () => {
     return null;
 
   const options = data.devices.available.map((item) => ({
-    id: item.device,
+    itemId: item.device,
     label: item.device,
     selected: data.devices.selected.map((i) => i.device).includes(item.device),
   }));
@@ -38,7 +38,7 @@ export const DeviceFilter = () => {
             updateFilters({
               filters: {
                 devices: selected.map((item) => ({
-                  id: item.id,
+                  id: item.itemId,
                   device: item.label,
                 })),
               },

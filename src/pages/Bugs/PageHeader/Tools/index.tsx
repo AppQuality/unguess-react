@@ -1,4 +1,4 @@
-import { Skeleton } from '@appquality/unguess-design-system';
+import { Anchor, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { StatusPill } from 'src/common/components/pills/StatusPill';
@@ -89,6 +89,16 @@ export const Tools = ({
         </SeveritiesWrapper>
         <Pipe />
         <StyledStatus status={status.name} />
+        <Anchor
+          onClick={() =>
+            window.open(
+              'https://www.iubenda.com/privacy-policy/833252/full-legal'
+            )
+          }
+          className="iubenda-cs-preferences-link"
+        >
+          Privacy
+        </Anchor>
       </ToolsWrapper>
       <StyledMenu campaignId={campaignId} customerTitle={customerTitle} />
     </>
