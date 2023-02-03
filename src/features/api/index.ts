@@ -14,6 +14,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postAnalyticsViewsCampaignsByCid: build.mutation<
+      PostAnalyticsViewsCampaignsByCidApiResponse,
+      PostAnalyticsViewsCampaignsByCidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/analytics/views/campaigns/${queryArg.cid}`,
+        method: 'POST',
+      }),
+    }),
     postCampaigns: build.mutation<
       PostCampaignsApiResponse,
       PostCampaignsApiArg
@@ -276,6 +285,13 @@ export type PostAuthenticateApiArg = {
     username: string;
     password: string;
   };
+};
+export type PostAnalyticsViewsCampaignsByCidApiResponse = /** status 200 OK */ {
+  success?: boolean;
+};
+export type PostAnalyticsViewsCampaignsByCidApiArg = {
+  /** Campaign id */
+  cid: string;
 };
 export type PostCampaignsApiResponse = /** status 200 OK */ Campaign;
 export type PostCampaignsApiArg = {
@@ -963,6 +979,7 @@ export type Coin = {
 export const {
   useGetQuery,
   usePostAuthenticateMutation,
+  usePostAnalyticsViewsCampaignsByCidMutation,
   usePostCampaignsMutation,
   usePatchCampaignsByCidMutation,
   useGetCampaignsByCidQuery,
