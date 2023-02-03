@@ -14,7 +14,7 @@ import {
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import { useCampaignBugs } from '../BugsTable/hooks/useCampaignBugs';
+import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
 import { ReplicabilityField } from './ReplicabilityField';
