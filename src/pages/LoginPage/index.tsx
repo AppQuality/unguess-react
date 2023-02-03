@@ -39,7 +39,8 @@ const LoginPage = () => {
   const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const { state: locationState } = useLocation();
-  const { from } = locationState as NavigationState;
+
+  const from = (locationState as NavigationState)?.from || '/';
 
   useEffect(() => {
     if (status === 'logged') {
