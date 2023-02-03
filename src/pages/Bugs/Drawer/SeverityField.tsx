@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -15,6 +14,8 @@ import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
 import { ShowMore } from './ShowMore';
+import { useFilterData } from './useFilterData';
+import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
 
 export const SeverityField = ({
   severities,
@@ -24,9 +25,12 @@ export const SeverityField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
+  const { counters } = useFilterData('severities');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = severities;
+
+  if (!counters) return null;
 
   return (
     <>
@@ -68,6 +72,7 @@ export const SeverityField = ({
                       <Checkbox
                         value={item.name}
                         name="filter-severity"
+                        disabled={!counters[item.id]}
                         checked={selected.map((i) => i.id).includes(item.id)}
                         onChange={() => {
                           dispatch(
@@ -85,7 +90,7 @@ export const SeverityField = ({
                           );
                         }}
                       >
-                        <Label
+                        <LabelSpaceBetween
                           isRegular
                           style={{
                             color:
@@ -93,14 +98,17 @@ export const SeverityField = ({
                                 item.name.toLowerCase() as Severities
                               ],
                             textTransform: 'capitalize',
+                            ...(!counters[item.id] && disabledStyle),
                           }}
                         >
                           {item.name.toLowerCase()}
-                        </Label>
+                          <MD>{counters[item.id] || 0}</MD>
+                        </LabelSpaceBetween>
                       </Checkbox>
                     </Field>
                   ))
               : null}
+
             {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {

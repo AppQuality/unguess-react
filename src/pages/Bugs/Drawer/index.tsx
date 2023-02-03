@@ -4,6 +4,7 @@ import {
   MD,
   Skeleton,
 } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
@@ -13,6 +14,7 @@ import {
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { useCampaignBugs } from '../BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
 import { ReplicabilityField } from './ReplicabilityField';
@@ -31,10 +33,16 @@ WaterButton.defaultProps = {
 const BugsFilterDrawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { isFilterDrawerOpen } = useAppSelector((state) => state.bugsPage);
+  const { isFilterDrawerOpen, currentCampaign } = useAppSelector((state) => ({
+    isFilterDrawerOpen: state.bugsPage.isFilterDrawerOpen,
+    currentCampaign: state.bugsPage.currentCampaign,
+  }));
+
   const campaignData = getCurrentCampaignData();
 
-  if (!campaignData) return <Skeleton />;
+  if (!campaignData || !currentCampaign) return <Skeleton />;
+
+  const { bugs } = useCampaignBugs(currentCampaign);
 
   const onClose = () => {
     dispatch(setFilterDrawerOpen(false));
@@ -59,12 +67,9 @@ const BugsFilterDrawer = () => {
     replicabilities,
   } = campaignData;
 
-  return (
-    <Drawer isOpen={isFilterDrawerOpen} onClose={onClose} restoreFocus={false}>
-      <Drawer.Header>
-        {t('__BUGS_PAGE_FILTER_DRAWER_HEADER_TITLE')}
-      </Drawer.Header>
-      <Drawer.Body>
+  const memoizedFilters = useMemo(
+    () => (
+      <>
         <MD
           isBold
           style={{
@@ -108,7 +113,17 @@ const BugsFilterDrawer = () => {
         ) : null}
         {devices.available.length ? <DeviceField devices={devices} /> : null}
         {os.available.length ? <OsField os={os} /> : null}
-      </Drawer.Body>
+      </>
+    ),
+    [campaignData]
+  );
+
+  return (
+    <Drawer isOpen={isFilterDrawerOpen} onClose={onClose}>
+      <Drawer.Header>
+        {t('__BUGS_PAGE_FILTER_DRAWER_HEADER_TITLE')}
+      </Drawer.Header>
+      <Drawer.Body>{memoizedFilters}</Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
           <Button id="filters-drawer-reset" isPill onClick={onResetClick}>
@@ -123,6 +138,10 @@ const BugsFilterDrawer = () => {
             onClick={onCtaClick}
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON')}
+            {bugs &&
+              bugs.items &&
+              bugs.items?.length > 0 &&
+              ` (${bugs?.items?.length})`}
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>

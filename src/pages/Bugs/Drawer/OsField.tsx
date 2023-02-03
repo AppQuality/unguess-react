@@ -1,7 +1,6 @@
 import {
   Accordion,
   Checkbox,
-  Label,
   MD,
   SM,
   Span,
@@ -15,6 +14,8 @@ import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ShowMore } from './ShowMore';
+import { useFilterData } from './useFilterData';
+import { LabelSpaceBetween } from './LabelWithCounter';
 
 export const OsField = ({
   os,
@@ -24,9 +25,12 @@ export const OsField = ({
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
+  const { counters } = useFilterData('os');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { available, selected } = os;
+
+  if (!counters) return null;
 
   return (
     <>
@@ -66,6 +70,7 @@ export const OsField = ({
                       <Checkbox
                         value={item.os}
                         name="filter-os"
+                        disabled={!counters[item.os]}
                         checked={selected.map((i) => i.os).includes(item.os)}
                         onChange={() => {
                           dispatch(
@@ -88,14 +93,15 @@ export const OsField = ({
                           );
                         }}
                       >
-                        <Label
+                        <LabelSpaceBetween
                           isRegular
                           style={{
                             color: globalTheme.palette.grey[600],
                           }}
                         >
                           {item.os}
-                        </Label>
+                          <MD>{counters[item.os] || 0}</MD>
+                        </LabelSpaceBetween>
                       </Checkbox>
                     </Field>
                   ))
