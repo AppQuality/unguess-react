@@ -110,7 +110,7 @@ const BugsFilterDrawer = () => {
         </MD>
         {replicabilities.available.length ? (
           <ReplicabilityField replicabilities={replicabilities} />
-          ) : null}
+        ) : null}
         {devices.available.length ? <DeviceField devices={devices} /> : null}
         {os.available.length ? <OsField os={os} /> : null}
       </>
@@ -123,7 +123,7 @@ const BugsFilterDrawer = () => {
       <Drawer.Header>
         {t('__BUGS_PAGE_FILTER_DRAWER_HEADER_TITLE')}
       </Drawer.Header>
-      <Drawer.Body>{memoizedFilters}</Drawer.Body>  
+      <Drawer.Body>{memoizedFilters}</Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
           <Button id="filters-drawer-reset" isPill onClick={onResetClick}>

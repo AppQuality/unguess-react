@@ -97,17 +97,17 @@ export const DeviceField = ({
                           );
                         }}
                       >
-                       <LabelSpaceBetween
-                      isRegular
-                      style={{
-                        color: globalTheme.palette.grey[600],
-                        textTransform: 'capitalize',
-                        ...(!counters[device.device] && disabledStyle),
-                      }}
-                    >
-                      {device.device}
-                      <MD>{counters[device.device] || 0}</MD>
-                    </LabelSpaceBetween>
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            textTransform: 'capitalize',
+                            ...(!counters[device.device] && disabledStyle),
+                          }}
+                        >
+                          {device.device}
+                          <MD>{counters[device.device] || 0}</MD>
+                        </LabelSpaceBetween>
                       </Checkbox>
                     </Field>
                   ))
