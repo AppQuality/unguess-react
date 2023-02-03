@@ -76,7 +76,11 @@ const FilterRecapItem = ({
                 updateFilters({
                   filters: {
                     tags: filters.tags
-                      ? filters.tags.filter((t) => t.tag_id !== Number(value))
+                      ? filters.tags.filter((t) =>
+                          value === 'none'
+                            ? t.tag_id !== value
+                            : t.tag_id !== Number(value)
+                        )
                       : [],
                   },
                 })
