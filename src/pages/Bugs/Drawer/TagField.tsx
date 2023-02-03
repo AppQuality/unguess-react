@@ -103,50 +103,50 @@ export const TagField = ({
               </Checkbox>
             </Field>
             {available.length
-              ? available.length &&
-              available
-                .slice(0, showMore ? undefined : maxItemsToShow - 1)
-                .map((tag) => (
-                  <Field style={{ marginBottom: globalTheme.space.xs }}>
-                    <Checkbox
-                      value={tag.tag_id}
-                      name="filter-tags"
-                      disabled={!counters[tag.tag_id]}
-                      checked={selected
-                        .map((i) => i.tag_id)
-                        .includes(tag.tag_id)}
-                      onChange={() => {
-                        dispatch(
-                          updateFilters({
-                            filters: {
-                              tags: [
-                                ...(selected
-                                  .map((i) => i.tag_id)
-                                  .includes(tag.tag_id)
-                                  ? selected.filter(
-                                      (i) => i.tag_id !== tag.tag_id
-                                    )
-                                  : [...selected, tag]),
-                              ],
-                            },
-                          })
-                        );
-                      }}
-                    >
-                      <LabelSpaceBetween
-                        isRegular
-                        style={{
-                          color: globalTheme.palette.grey[600],
-                          textTransform: 'capitalize',
+              ? available
+                  .slice(0, showMore ? undefined : maxItemsToShow - 1)
+                  .map((tag) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={tag.tag_id}
+                        name="filter-tags"
+                        disabled={!counters[tag.tag_id]}
+                        checked={selected
+                          .map((i) => i.tag_id)
+                          .includes(tag.tag_id)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                tags: [
+                                  ...(selected
+                                    .map((i) => i.tag_id)
+                                    .includes(tag.tag_id)
+                                    ? selected.filter(
+                                        (i) => i.tag_id !== tag.tag_id
+                                      )
+                                    : [...selected, tag]),
+                                ],
+                              },
+                            })
+                          );
                         }}
                       >
-                        {tag.display_name.toLowerCase()}
-                        <MD>{counters[tag.tag_id] || 0}</MD>
-                      </LabelSpaceBetween>
-                    </Checkbox>
-                  </Field>
-                )) : null}
-            {available.length > maxItemsToShow && (
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {tag.display_name.toLowerCase()}
+                          <MD>{counters[tag.tag_id] || 0}</MD>
+                        </LabelSpaceBetween>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);

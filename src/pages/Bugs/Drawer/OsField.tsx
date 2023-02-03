@@ -63,46 +63,50 @@ export const OsField = ({
           </Accordion.Header>
           <Accordion.Panel>
             {available.length
-              ? available.slice(0, showMore ? undefined : maxItemsToShow)
-              .map((item) => (
-                <Field style={{ marginBottom: globalTheme.space.xs }}>
-                  <Checkbox
-                    value={item.os}
-                    name="filter-os"
-                    disabled={!counters[item.os]}
-                    checked={selected.map((i) => i.os).includes(item.os)}
-                    onChange={() => {
-                      dispatch(
-                        updateFilters({
-                          filters: {
-                            os: [
-                              ...(selected.map((i) => i.os).includes(item.os)
-                                ? selected.filter((i) => i.os !== item.os)
-                                : [
-                                    ...selected,
-                                    {
-                                      os: item.os,
-                                    },
-                                  ]),
-                            ],
-                          },
-                        })
-                      );
-                    }}
-                  >
-                    <LabelSpaceBetween
-                      isRegular
-                      style={{
-                        color: globalTheme.palette.grey[600],
-                      }}
-                    >
-                      {item.os}
-                      <MD>{counters[item.os] || 0}</MD>
-                    </LabelSpaceBetween>
-                  </Checkbox>
-                </Field>
-              )) : null}
-            {available.length > maxItemsToShow && (
+              ? available
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((item) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={item.os}
+                        name="filter-os"
+                        disabled={!counters[item.os]}
+                        checked={selected.map((i) => i.os).includes(item.os)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                os: [
+                                  ...(selected
+                                    .map((i) => i.os)
+                                    .includes(item.os)
+                                    ? selected.filter((i) => i.os !== item.os)
+                                    : [
+                                        ...selected,
+                                        {
+                                          os: item.os,
+                                        },
+                                      ]),
+                                ],
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                          }}
+                        >
+                          {item.os}
+                          <MD>{counters[item.os] || 0}</MD>
+                        </LabelSpaceBetween>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);

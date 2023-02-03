@@ -66,48 +66,50 @@ export const ReplicabilityField = ({
           <Accordion.Panel>
             {available.length
               ? available
-              .slice(0, showMore ? undefined : maxItemsToShow)
-              .map((replicability) => (
-                <Field style={{ marginBottom: globalTheme.space.xs }}>
-                  <Checkbox
-                    value={replicability.id}
-                    name="filter-replicability"
-                    disabled={!counters[replicability.id]}
-                    checked={selected
-                      .map((i) => i.id)
-                      .includes(replicability.id)}
-                    onChange={() => {
-                      dispatch(
-                        updateFilters({
-                          filters: {
-                            replicabilities: [
-                              ...(selected
-                                .map((i) => i.id)
-                                .includes(replicability.id)
-                                ? selected.filter(
-                                    (i) => i.id !== replicability.id
-                                  )
-                                : [...selected, replicability]),
-                            ],
-                          },
-                        })
-                      );
-                    }}
-                  >
-                    <LabelSpaceBetween
-                      isRegular
-                      style={{
-                        color: globalTheme.palette.grey[600],
-                        textTransform: 'capitalize',
-                      }}
-                    >
-                      {replicability.name.toLowerCase()}
-                      <MD>{counters[replicability.id] || 0}</MD>
-                    </LabelSpaceBetween>
-                  </Checkbox>
-                </Field>
-              )) : null}
-            {available.length > maxItemsToShow && (
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((replicability) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={replicability.id}
+                        name="filter-replicability"
+                        disabled={!counters[replicability.id]}
+                        checked={selected
+                          .map((i) => i.id)
+                          .includes(replicability.id)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                replicabilities: [
+                                  ...(selected
+                                    .map((i) => i.id)
+                                    .includes(replicability.id)
+                                    ? selected.filter(
+                                        (i) => i.id !== replicability.id
+                                      )
+                                    : [...selected, replicability]),
+                                ],
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            textTransform: 'capitalize',
+                          }}
+                        >
+                          {replicability.name.toLowerCase()}
+                          <MD>{counters[replicability.id] || 0}</MD>
+                        </LabelSpaceBetween>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);

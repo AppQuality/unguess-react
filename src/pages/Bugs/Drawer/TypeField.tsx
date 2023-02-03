@@ -66,43 +66,46 @@ export const TypeField = ({
           <Accordion.Panel>
             {available.length
               ? available
-              .slice(0, showMore ? undefined : maxItemsToShow)
-              .map((item) => (
-                <Field style={{ marginBottom: globalTheme.space.xs }}>
-                  <Checkbox
-                    value={item.name}
-                    name="filter-typology"
-                    disabled={!counters[item.id]}
-                    checked={selected.map((i) => i.id).includes(item.id)}
-                    onChange={() => {
-                      dispatch(
-                        updateFilters({
-                          filters: {
-                            types: [
-                              ...(selected.map((i) => i.id).includes(item.id)
-                                ? selected.filter((i) => i.id !== item.id)
-                                : [...selected, item]),
-                            ],
-                          },
-                        })
-                      );
-                    }}
-                  >
-                    <LabelSpaceBetween
-                      isRegular
-                      style={{
-                        color: globalTheme.palette.grey[600],
-                        textTransform: 'capitalize',
-                        ...(!counters[item.id] && disabledStyle),
-                      }}
-                    >
-                      {item.name.toLowerCase()}
-                      <MD>{counters[item.id] || 0}</MD>
-                    </LabelSpaceBetween>
-                  </Checkbox>
-                </Field>
-              )) : null}
-            {available.length > maxItemsToShow && (
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((item) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={item.name}
+                        name="filter-typology"
+                        disabled={!counters[item.id]}
+                        checked={selected.map((i) => i.id).includes(item.id)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                types: [
+                                  ...(selected
+                                    .map((i) => i.id)
+                                    .includes(item.id)
+                                    ? selected.filter((i) => i.id !== item.id)
+                                    : [...selected, item]),
+                                ],
+                              },
+                            })
+                          );
+                        }}
+                      >
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            textTransform: 'capitalize',
+                            ...(!counters[item.id] && disabledStyle),
+                          }}
+                        >
+                          {item.name.toLowerCase()}
+                          <MD>{counters[item.id] || 0}</MD>
+                        </LabelSpaceBetween>
+                      </Checkbox>
+                    </Field>
+                  ))
+              : null}
+            {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
                   setShowMore(!showMore);
