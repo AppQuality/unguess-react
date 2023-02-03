@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
+import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { selectCampaign } from 'src/features/bugsPage/bugsPageSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -19,6 +20,7 @@ const Bugs = () => {
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute);
   }
+  useCampaignAnalytics(campaignId);
 
   const { isLoading, isError, campaign } = useCampaign(Number(campaignId));
 

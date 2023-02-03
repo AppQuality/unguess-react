@@ -8,10 +8,10 @@ export const getLocalizedFunctionalDashboardUrl = (
   aLanguage === 'en'
     ? `${
         process.env.REACT_APP_CROWD_WP_URL ?? ''
-      }/functional-customer-dashboard/?cid=${aCampaignId}`
+      }/campaigns/${aCampaignId}/bugs`
     : `${
         process.env.REACT_APP_CROWD_WP_URL ?? ''
-      }/it/dashboard-campagne-funzionali/?cid=${aCampaignId}`;
+      }/it/campaigns/${aCampaignId}/bugs`;
 
 export const getLocalizedUXDashboardUrl = (
   aCampaignId: number,
@@ -54,7 +54,7 @@ export const getLocalizedBugUrl = (
   aLanguage === 'en'
     ? `${
         process.env.REACT_APP_CROWD_WP_URL ?? ''
-      }/functional-customer-dashboard/?cid=${aCampaignId}&bug_id=${aBugId}`
+      }/campaigns/${aCampaignId}/bugs/${aBugId}`
     : `${
         process.env.REACT_APP_CROWD_WP_URL ?? ''
-      }/it/dashboard-campagne-funzionali/?cid=${aCampaignId}&bug_id=${aBugId}`;
+      }/it/campaigns/${aCampaignId}/bugs/${aBugId}`;

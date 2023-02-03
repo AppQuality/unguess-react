@@ -102,7 +102,8 @@ export const TagField = ({
                 </LabelSpaceBetween>
               </Checkbox>
             </Field>
-            {available.length &&
+            {available.length
+              ? available.length &&
               available
                 .slice(0, showMore ? undefined : maxItemsToShow - 1)
                 .map((tag) => (
@@ -144,7 +145,7 @@ export const TagField = ({
                       </LabelSpaceBetween>
                     </Checkbox>
                   </Field>
-                ))}
+                )) : null}
             {available.length > maxItemsToShow && (
               <ShowMore
                 onClick={() => {
@@ -165,7 +166,7 @@ export const TagField = ({
                   t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL')
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>

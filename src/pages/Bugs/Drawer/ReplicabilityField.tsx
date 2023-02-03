@@ -64,7 +64,8 @@ export const ReplicabilityField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            {available
+            {available.length
+              ? available
               .slice(0, showMore ? undefined : maxItemsToShow)
               .map((replicability) => (
                 <Field style={{ marginBottom: globalTheme.space.xs }}>
@@ -105,7 +106,7 @@ export const ReplicabilityField = ({
                     </LabelSpaceBetween>
                   </Checkbox>
                 </Field>
-              ))}
+              )) : null}
             {available.length > maxItemsToShow && (
               <ShowMore
                 onClick={() => {
@@ -128,7 +129,7 @@ export const ReplicabilityField = ({
                   )
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>

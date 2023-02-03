@@ -64,7 +64,8 @@ export const SeverityField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            {available
+            {available.length
+              ? available
               .slice(0, showMore ? undefined : maxItemsToShow)
               .map((item) => (
                 <Field style={{ marginBottom: globalTheme.space.xs }}>
@@ -103,7 +104,7 @@ export const SeverityField = ({
                     </LabelSpaceBetween>
                   </Checkbox>
                 </Field>
-              ))}
+              )) : null}
             {available.length > maxItemsToShow && (
               <ShowMore
                 onClick={() => {
@@ -126,7 +127,7 @@ export const SeverityField = ({
                   )
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>

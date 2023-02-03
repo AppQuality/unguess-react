@@ -62,8 +62,8 @@ export const OsField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            {available
-              .slice(0, showMore ? undefined : maxItemsToShow)
+            {available.length
+              ? available.slice(0, showMore ? undefined : maxItemsToShow)
               .map((item) => (
                 <Field style={{ marginBottom: globalTheme.space.xs }}>
                   <Checkbox
@@ -101,7 +101,7 @@ export const OsField = ({
                     </LabelSpaceBetween>
                   </Checkbox>
                 </Field>
-              ))}
+              )) : null}
             {available.length > maxItemsToShow && (
               <ShowMore
                 onClick={() => {
@@ -122,7 +122,7 @@ export const OsField = ({
                   t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_SHOW_LESS_LABEL')
                 )}
               </ShowMore>
-            )}
+            ) : null}
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>

@@ -6,6 +6,7 @@ import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
+import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useTranslation } from 'react-i18next';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
@@ -32,6 +33,8 @@ const Campaign = () => {
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute);
   }
+
+  useCampaignAnalytics(campaignId);
 
   const {
     isLoading: isLoadingCampaign,

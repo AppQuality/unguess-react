@@ -7,9 +7,9 @@ export const TabletPill = () => {
   const { t } = useTranslation();
   return (
     <IconPill
-      id="pill-smartphone-header"
+      id="pill-tablet-header"
       icon={<TabletIcon />}
-      title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}
+      title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_TABLET')}
       color={theme.palette.azure[600]}
     />
   );
