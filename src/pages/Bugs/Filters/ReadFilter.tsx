@@ -11,14 +11,17 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
+import { useFilterData } from '../Drawer/useFilterData';
 
 export const ReadFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
+  const { counters } = useFilterData('read');
   const { t } = useTranslation();
 
   if (
     !data ||
+    !counters ||
     !data.read ||
     !data.read.available ||
     !data.read.available.length
@@ -48,7 +51,7 @@ export const ReadFilter = () => {
         </Field>
         <Menu>
           {data.read.available.map((item) => (
-            <Item value={item}>
+            <Item value={item} disabled={!counters[item as string]}>
               {item === 'unread'
                 ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
                 : t('__BUGS_READ_FILTER_ITEM_ALL')}

@@ -11,14 +11,17 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
+import { useFilterData } from '../Drawer/useFilterData';
 
 export const UniqueFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
+  const { counters } = useFilterData('unique');
   const { t } = useTranslation();
 
   if (
     !data ||
+    !counters ||
     !data.unique ||
     !data.unique.available ||
     !data.unique.available.length
@@ -48,7 +51,7 @@ export const UniqueFilter = () => {
         </Field>
         <Menu>
           {data.unique.available.map((item) => (
-            <Item value={item}>
+            <Item value={item} disabled={!counters[item as string]}>
               {item === 'unique'
                 ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
                 : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')}
