@@ -17,17 +17,15 @@ const FlexWrapper = styled.div`
 `;
 
 const StyledTitle = styled(PageHeader.Title)`
+  display: flex;
   width: auto;
   white-space: nowrap;
   margin-right: ${({ theme }) => theme.space.md};
   font-size: ${({ theme }) => theme.fontSizes.xxxl};
+  order: 0;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     font-size: ${({ theme }) => theme.fontSizes.xxl};
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    order: 1;
   }
 `;
 
