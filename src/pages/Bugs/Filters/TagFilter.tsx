@@ -51,7 +51,6 @@ export const TagFilter = () => {
               },
             })
           );
-
         }}
         options={options}
       />
