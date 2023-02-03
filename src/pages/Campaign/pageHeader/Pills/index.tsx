@@ -64,14 +64,15 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id });
 
   const { t } = useTranslation();
-  const { start_date, end_date, type, status, outputs } = campaign;
+  const { start_date, end_date, type, status, outputs, family } = campaign;
+  const isFunctional = family.name.toLowerCase() === 'functional';
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
 
   return (
     <FooterContainer>
       <PillsWrapper>
-        <CampaignTypePill type={type.name} />
+        <CampaignTypePill type={type.name} isFunctional={isFunctional} />
         <StatusPill status={status.name} />
         <CampaignDurationPill start={start_date} end={end_date} />
         {meta ? (
