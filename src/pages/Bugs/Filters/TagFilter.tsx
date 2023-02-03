@@ -27,16 +27,9 @@ export const TagFilter = () => {
 
   // Add no tags option
   options.push({
-    id: 0,
+    id: 'none',
     label: t('__BUGS_TAGS_FILTER_ITEM_NO_TAGS'),
-    selected: data.tags.selected.map((i) => i.tag_id).includes(0),
-  });
-
-  // Add all tags option
-  options.push({
-    id: -1,
-    label: t('__BUGS_TAGS_FILTER_ITEM_ALL_TAGS'),
-    selected: data.tags.selected.map((i) => i.tag_id).includes(-1),
+    selected: data.tags.selected.map((i) => i.tag_id).includes('none'),
   });
 
   return (
@@ -48,27 +41,16 @@ export const TagFilter = () => {
           noItems: t('__BUGS_TAGS_FILTER_ITEM_NO_ITEMS'),
         }}
         onChange={(selected) => {
-          // Check if no tags or all tags is included in selected
-          if (selected.map((item) => item.id).includes(-1)) {
-            dispatch(
-              updateFilters({
-                filters: {
-                  tags: [],
-                },
-              })
-            );
-          } else {
-            dispatch(
-              updateFilters({
-                filters: {
-                  tags: selected.map((item) => ({
-                    tag_id: item.id,
-                    display_name: item.label,
-                  })),
-                },
-              })
-            );
-          }
+          dispatch(
+            updateFilters({
+              filters: {
+                tags: selected.map((item) => ({
+                  tag_id: item.id,
+                  display_name: item.label,
+                })),
+              },
+            })
+          );
         }}
         options={options}
       />

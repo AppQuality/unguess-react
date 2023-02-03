@@ -73,8 +73,8 @@ export const TagField = ({
                     updateFilters({
                       filters: {
                         tags: [
-                          ...(selected.map((i) => i.tag_id).includes(0)
-                            ? selected.filter((i) => i.tag_id !== 0)
+                          ...(selected.map((i) => i.tag_id).includes('none')
+                            ? selected.filter((i) => i.tag_id !== 'none')
                             : [
                                 ...selected,
                                 {
