@@ -1,8 +1,8 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { BugsDetail } from 'src/common/components/BugDetail';
 import { BugsFilters } from '../Filters';
-import BugsTable from '../BugsTable';
+import { BugPreview } from './BugPreview';
+import BugsTable from './BugsTable';
 import BugsPageContentLoader from './ContentLoader';
 
 const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
@@ -18,7 +18,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
           </Col>
           {currentBugId && (
             <Col xs={12} md={4}>
-              <BugsDetail bugId={currentBugId} campaignId={campaignId} />
+              <BugPreview bugId={currentBugId} campaignId={campaignId} />
             </Col>
           )}
         </Row>

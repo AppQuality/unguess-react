@@ -1,5 +1,5 @@
 import { GetCampaignsByCidSeveritiesApiResponse } from 'src/features/api';
-import { TableBugType } from '../../types';
+import { TableBugType } from '../../../types';
 import { BugBySeverityType } from '../types';
 
 export const sortBySeverity = (

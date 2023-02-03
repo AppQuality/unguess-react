@@ -1,13 +1,13 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { useBugDetail } from './hooks/useBugDetail';
-import BugHeader from './Header';
-import BugMeta from './Meta';
-import BugTags from './Tags';
-import BugDescription from './Description';
-import BugAttachments from './Attachments';
-import BugDetails from './Details';
-import { BugDuplicates } from './BugDuplicates';
+import BugHeader from 'src/common/components/BugDetail/Header';
+import BugMeta from 'src/common/components/BugDetail/Meta';
+import BugTags from 'src/common/components/BugDetail/Tags';
+import BugDescription from 'src/common/components/BugDetail/Description';
+import BugAttachments from 'src/common/components/BugDetail/Attachments';
+import BugDetails from 'src/common/components/BugDetail/Details';
+import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
+import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 
 const DetailContainer = styled.div`
   position: sticky;
@@ -25,19 +25,22 @@ const DetailContainer = styled.div`
   overflow-y: auto;
 `;
 
-const BugsDetail = ({
+export const BugPreview = ({
   campaignId,
   bugId,
 }: {
   campaignId: number;
   bugId: number;
 }) => {
-  const result = useBugDetail({
-    cid: campaignId,
-    bugId,
+  const {
+    data: bug,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId.toString(),
+    bid: bugId.toString(),
   });
-
-  const { data: bug, isLoading, isFetching, isError } = result;
 
   if (isLoading || isFetching || isError || !bug) return <Skeleton />;
 
@@ -55,5 +58,3 @@ const BugsDetail = ({
     </DetailContainer>
   );
 };
-
-export { BugsDetail };
