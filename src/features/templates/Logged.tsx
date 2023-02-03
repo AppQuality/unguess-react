@@ -5,6 +5,7 @@ import {
   theme as globalTheme,
   PageLoader,
   Main,
+  Anchor,
 } from '@appquality/unguess-design-system';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -72,15 +73,21 @@ export const Logged = ({
   return status === 'idle' || status === 'loading' ? (
     <PageLoader />
   ) : (
-    <Chrome isFluid hue={globalTheme.palette.white}>
-      <Body style={{ backgroundColor: globalTheme.palette.grey[100] }}>
-        <Navigation route={route}>
-          <StyledMain id="main">
-            {pageHeader && pageHeader}
-            <Container>{children}</Container>
-          </StyledMain>
-        </Navigation>
-      </Body>
-    </Chrome>
+    <>
+      <Anchor
+        href="https://www.iubenda.com/privacy-policy/833252/full-legal"
+        className="iubenda-cs-preferences-link"
+      />
+      <Chrome isFluid hue={globalTheme.palette.white}>
+        <Body style={{ backgroundColor: globalTheme.palette.grey[100] }}>
+          <Navigation route={route}>
+            <StyledMain id="main">
+              {pageHeader && pageHeader}
+              <Container>{children}</Container>
+            </StyledMain>
+          </Navigation>
+        </Body>
+      </Chrome>
+    </>
   );
 };
