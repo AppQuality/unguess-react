@@ -4,7 +4,7 @@ import { Trans } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import { TableBugType } from '../../types';
+import { TableBugType } from '../../../types';
 import { StyledSM } from './StyledSM';
 
 const StyledMD = styled(MD)`

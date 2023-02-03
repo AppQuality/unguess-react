@@ -6,7 +6,7 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { TableBugType } from '../types';
+import { TableBugType } from '../../types';
 import { InfoRow } from './components/InfoRow';
 import { mapBugsToTableData } from './utils/mapBugsToTableData';
 import { useTableColumns } from './hooks/useTableColumns';

@@ -1,5 +1,5 @@
 import { GetCampaignsByCidUsecasesApiResponse } from 'src/features/api';
-import { TableBugType } from '../../types';
+import { TableBugType } from '../../../types';
 import { BugByUsecaseType } from '../types';
 
 export const sortByUseCase = (
