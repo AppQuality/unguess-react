@@ -32,7 +32,7 @@ export const ReplicabilityFilter = () => {
             updateFilters({
               filters: {
                 replicabilities: selected.map((item) => ({
-                  id: item.id,
+                  id: item.itemId,
                   name: item.label,
                 })),
               },
@@ -40,7 +40,7 @@ export const ReplicabilityFilter = () => {
           );
         }}
         options={data.replicabilities.available.map((item) => ({
-          id: item.id,
+          itemId: item.id,
           label: item.name,
           selected: data.replicabilities.selected
             .map((i) => i.id)

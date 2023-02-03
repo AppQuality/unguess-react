@@ -20,7 +20,7 @@ export const UseCaseFilter = () => {
     return null;
 
   const options = data.useCases.available.map((item) => ({
-    id: item.id,
+    itemId: item.id,
     label: item.title.full,
     selected: data.useCases.selected.map((i) => i.id).includes(item.id),
   }));
@@ -38,7 +38,7 @@ export const UseCaseFilter = () => {
             updateFilters({
               filters: {
                 useCases: selected.map((item) => ({
-                  id: item.id,
+                  id: item.itemId,
                   title: {
                     full: item.label,
                   },

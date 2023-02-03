@@ -153,6 +153,10 @@ export const Navigation = ({
     currentLanguageLabel: t('__PROFILE_MODAL_CURRENT_LANGUAGE_LABEL'),
     copyLabel: t('__PROFILE_MODAL_COPY_LABEL'),
     chatSupportLabel: t('__PROFILE_MODAL_CHAT_SUPPORT_LABEL'),
+    privacy: {
+      title: t('__PROFILE_MODAL_PRIVACY_ITEM_LABEL'),
+      url: 'https://www.iubenda.com/privacy-policy/833252/full-legal',
+    },
     onSelectLanguage: (lang: string) => {
       if (!pathWithoutLocale) return;
       if (lang === 'en') {
