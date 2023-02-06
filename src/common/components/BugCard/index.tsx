@@ -28,15 +28,14 @@ const BugCardContainer = styled(ContainerCard)<
   }
 `;
 
-type BugCardArgs = {
+type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
   children: (severity?: Severities) => React.ReactNode | React.ReactElement;
-  className?: string;
 } & (
-  | {
-      severity: Severities;
-    }
-  | { borderColor: string }
-);
+    | {
+        severity: Severities;
+      }
+    | { borderColor: string }
+  );
 
 /**
  * Example:
@@ -65,9 +64,9 @@ type BugCardArgs = {
  *   </BugCard>
  * ```
  */
-const BugCard = ({ children, className, ...props }: BugCardArgs) => (
+const BugCard = ({ children, ...props }: BugCardArgs) => (
   <BugCardContainer
-    className={className}
+    {...props}
     borderColor={
       'severity' in props
         ? globalTheme.colors.bySeverity[props.severity as Severities]
