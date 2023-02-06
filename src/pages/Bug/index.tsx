@@ -2,15 +2,10 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
-import BugHeader from 'src/common/components/BugDetail/Header';
-import BugMeta from 'src/common/components/BugDetail/Meta';
-import BugTags from 'src/common/components/BugDetail/Tags';
-import BugDescription from 'src/common/components/BugDetail/Description';
-import BugAttachments from 'src/common/components/BugDetail/Attachments';
-import BugDetails from 'src/common/components/BugDetail/Details';
-import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { Card } from '@appquality/unguess-design-system';
+import { Header } from './Header';
+import { Content } from './Content';
+import { LoadingSkeleton } from './LoadingSkeleton';
 
 const Bugs = () => {
   const { campaignId, bugId } = useParams();
@@ -18,14 +13,10 @@ const Bugs = () => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
 
-  if (!campaignId || Number.isNaN(Number(campaignId))) {
-    navigate(notFoundRoute);
+  if (!campaignId || !bugId) {
     return null;
   }
-  if (!bugId || Number.isNaN(Number(bugId))) {
-    navigate(notFoundRoute);
-    return null;
-  }
+
   const {
     data: bug,
     isLoading,
@@ -36,7 +27,11 @@ const Bugs = () => {
     bid: bugId,
   });
 
-  if (!isLoading && !isFetching && (isError || typeof bug === 'undefined')) {
+  if (isLoading || isFetching) {
+    return <LoadingSkeleton />;
+  }
+
+  if (isError || typeof bug === 'undefined') {
     navigate(notFoundRoute);
     return null;
   }
@@ -44,34 +39,10 @@ const Bugs = () => {
   return (
     <Page
       title={t('__BUG_PAGE_TITLE')}
-      pageHeader={
-        isLoading || isFetching ? (
-          <div>Loading...</div>
-        ) : (
-          bug && <div>{bug.title.full}</div>
-        )
-      }
+      pageHeader={<Header campaignId={campaignId} title={bug.title} />}
       route="bug"
     >
-      <div>
-        {isLoading || isFetching ? (
-          <div>Loading...</div>
-        ) : (
-          bug && (
-            <Card>
-              <BugHeader bug={bug} />
-              <BugMeta bug={bug} />
-              <BugTags bug={bug} campaignId={parseInt(campaignId, 10)} />
-              <BugDescription bug={bug} />
-              {bug.media && bug.media.length ? (
-                <BugAttachments bug={bug} />
-              ) : null}
-              <BugDetails bug={bug} />
-              <BugDuplicates cid={parseInt(campaignId, 10)} />
-            </Card>
-          )
-        )}
-      </div>
+      <Content bug={bug} campaignId={campaignId} />
     </Page>
   );
 };
