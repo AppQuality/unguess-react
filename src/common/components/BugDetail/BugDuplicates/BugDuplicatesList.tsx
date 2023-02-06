@@ -46,6 +46,7 @@ export const BugDuplicatesList = ({
         .map((item) => (
           <BugItem
             key={item.id}
+            campaignId={cid}
             bugId={item.id}
             title={item.title.compact}
             pills={[
