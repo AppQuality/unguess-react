@@ -7,7 +7,7 @@ import { Header } from './Header';
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
 
-const Bugs = () => {
+const Bug = () => {
   const { campaignId, bugId } = useParams();
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -47,4 +47,4 @@ const Bugs = () => {
   );
 };
 
-export default Bugs;
+export default Bug;
