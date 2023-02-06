@@ -21,6 +21,7 @@ const Tester = styled(SM)`
 
 export default ({
   bug,
+  isPreview,
 }: {
   bug: Bug & {
     reporter: {
@@ -28,6 +29,7 @@ export default ({
       name: string;
     };
   };
+  isPreview?: boolean;
 }) => {
   const dispatch = useAppDispatch();
 
@@ -40,20 +42,22 @@ export default ({
           {{ reporter_id: bug.reporter.tester_id }})
         </Trans>
       </Tester>
-      <div>
-        <ShareButton bug={bug} />
-        <IconButton
-          onClick={() => {
-            dispatch(
-              selectBug({
-                bug_id: undefined,
-              })
-            );
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </div>
+      {isPreview && (
+        <div>
+          <ShareButton bug={bug} />
+          <IconButton
+            onClick={() => {
+              dispatch(
+                selectBug({
+                  bug_id: undefined,
+                })
+              );
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </div>
+      )}
     </Container>
   );
 };
