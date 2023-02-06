@@ -6,9 +6,10 @@ import {
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
 import { theme as globalTheme } from 'src/app/theme';
-import ImageCard from './ImageCard';
-import VideoCard from './VideoCard';
-import { LightboxContainer } from './lightbox';
+import ImageCard from '../ImageCard';
+import VideoCard from '../VideoCard';
+import './style.css';
+import { LightboxContainer } from '../lightbox';
 
 export default ({
   items,
@@ -63,12 +64,12 @@ export default ({
         )}
       </SM>
       <Grid>
-        <Row>
+        <Row className="media-container">
           {items.map((item, index) => {
             // Check if item is an image or a video
             if (item.mime_type.type === 'image')
               return (
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={6} className="media">
                   <ImageCard
                     index={index}
                     url={item.url}
@@ -78,7 +79,7 @@ export default ({
               );
             if (item.mime_type.type === 'video')
               return (
-                <Col xs={12} sm={6}>
+                <Col xs={12} sm={6} className="media">
                   <VideoCard
                     index={index}
                     url={item.url}
