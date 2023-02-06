@@ -38,7 +38,7 @@ const Bugs = () => {
 
   return (
     <Page
-      title={t('__BUG_PAGE_TITLE')}
+      title={bug.title.compact}
       pageHeader={<Header campaignId={campaignId} title={bug.title} />}
       route="bug"
     >
