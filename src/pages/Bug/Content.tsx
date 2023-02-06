@@ -17,7 +17,9 @@ export const Content = ({ bug, campaignId }: Props) => (
   <Card>
     <BugHeader bug={bug} />
     <BugMeta bug={bug} />
-    <BugTags bug={bug} campaignId={parseInt(campaignId, 10)} />
+    <div style={{ width: '50%' }}>
+      <BugTags bug={bug} campaignId={parseInt(campaignId, 10)} />
+    </div>
     <BugDescription bug={bug} />
     {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
     <BugDetails bug={bug} />
