@@ -31,6 +31,7 @@ export const BugFather = ({ cid }: { cid: number }) => {
       </StyledParagraph>
       <BugItem
         isFather
+        campaignId={cid}
         bugId={data.father.id}
         title={data.father.title.compact}
         pills={[
