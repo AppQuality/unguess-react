@@ -15,7 +15,7 @@ interface Props {
 
 export const Content = ({ bug, campaignId }: Props) => (
   <ContainerCard>
-    <BugHeader bug={bug} />
+    <BugHeader bug={bug} campaignId={Number(campaignId)} />
     <BugMeta bug={bug} />
     <div style={{ width: '50%' }}>
       <BugTags bug={bug} campaignId={parseInt(campaignId, 10)} />
