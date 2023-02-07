@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Header } from './Header';
@@ -42,7 +43,13 @@ const Bug = () => {
       pageHeader={<Header campaignId={campaignId} title={bug.title} />}
       route="bug"
     >
-      <Content bug={bug} campaignId={campaignId} />
+      <Grid>
+        <Row>
+          <Col lg={8} offsetLg={2}>
+            <Content bug={bug} campaignId={campaignId} />
+          </Col>
+        </Row>
+      </Grid>
     </Page>
   );
 };
