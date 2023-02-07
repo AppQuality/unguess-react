@@ -1,4 +1,4 @@
-import { Card, ContainerCard } from '@appquality/unguess-design-system';
+import { ContainerCard } from '@appquality/unguess-design-system';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import BugHeader from 'src/common/components/BugDetail/Header';
 import BugMeta from 'src/common/components/BugDetail/Meta';
