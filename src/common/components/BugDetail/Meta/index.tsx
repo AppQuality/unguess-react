@@ -13,7 +13,13 @@ import { InfoTitle } from './InfoTitle';
 import { NeedReviewPill } from './NeedReviewPill';
 
 const Container = styled.div`
-  margin-top: ${({ theme }) => theme.space.sm};
+  margin-top: ${({ theme }) => theme.space.xs};
+`;
+
+const SeverityContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.space.xxs} 0;
 `;
 
 const BugInfo = styled.div`
@@ -48,14 +54,14 @@ export default ({
   };
 }) => (
   <Container>
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <SeverityContainer>
       <SeverityPill severity={bug.severity.name.toLowerCase() as Severities} />
       {bug.status.id === 4 && <NeedReviewPill />}
-    </div>
+    </SeverityContainer>
     <LG
       isBold
       style={{
-        marginTop: globalTheme.space.sm,
+        marginTop: globalTheme.space.xxs,
         marginBottom: `${globalTheme.space.base}px`,
       }}
     >
