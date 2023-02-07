@@ -1,5 +1,6 @@
 import { IconButton, SM, Span } from '@appquality/unguess-design-system';
 import { Trans } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.svg';
@@ -35,15 +36,6 @@ export default ({
   isPreview?: boolean;
 }) => {
   const dispatch = useAppDispatch();
-
-  const goToBug = () => {
-    window.location.href = getLocalizedBugUrl(
-      bug.campaign_id,
-      bug.id,
-      i18n.language
-    );
-  };
-
   return (
     <Container>
       <Tester>
@@ -55,9 +47,15 @@ export default ({
       </Tester>
       {isPreview && (
         <div>
-          <IconButton onClick={goToBug}>
-            <LinkIcon />
-          </IconButton>
+          <Link
+            to={`${i18n.language === 'it' ? '/it/' : '/'}campaigns/${
+              bug.campaign_id
+            }/bugs/${bug.id}`}
+          >
+            <IconButton>
+              <LinkIcon />
+            </IconButton>
+          </Link>
           <ShareButton bug={bug} />
           <IconButton
             onClick={() => {
