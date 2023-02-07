@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 const Container = styled.div`
   display: inline-block;
   width: 100%;
-  margin-top: ${({ theme }) => theme.space.lg};
+  margin-top: ${({ theme }) => theme.space.md};
 `;
 
 export default ({

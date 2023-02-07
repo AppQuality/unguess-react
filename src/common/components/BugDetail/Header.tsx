@@ -15,7 +15,6 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 const Tester = styled(SM)`
@@ -51,12 +50,13 @@ export default ({
               bug.campaign_id
             }/bugs/${bug.id}`}
           >
-            <IconButton>
+            <IconButton size="small">
               <LinkIcon />
             </IconButton>
           </Link>
           <ShareButton bug={bug} />
           <IconButton
+            size="small"
             onClick={() => {
               dispatch(
                 selectBug({

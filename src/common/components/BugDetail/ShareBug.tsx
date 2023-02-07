@@ -42,7 +42,7 @@ export const ShareButton = ({ bug }: { bug: Bug }) => {
 
   return (
     <>
-      <IconButton onClick={() => setModalIsOpen(true)}>
+      <IconButton size="small" onClick={() => setModalIsOpen(true)}>
         <ShareIcon />
       </IconButton>
       {modalIsOpen && (
