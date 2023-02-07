@@ -7,6 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
+  GetCampaignsByCidApiResponse,
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
@@ -17,8 +18,27 @@ interface Props {
   title: GetCampaignsByCidBugsAndBidApiResponse['title'];
 }
 
-export const Header = ({ campaignId, title }: Props) => {
+const BreadCrumb = ({
+  campaign,
+}: {
+  campaign: GetCampaignsByCidApiResponse;
+}) => {
   const { t } = useTranslation();
+  return (
+    <PageHeader.Breadcrumb>
+      <Link to={useLocalizeRoute(`projects/${campaign.project.id}`)}>
+        <Anchor id="breadcrumb-parent">{campaign.project.name}</Anchor>
+      </Link>
+      <Link to={useLocalizeRoute(`campaigns/${campaign.id}`)}>
+        <Anchor>{campaign.customer_title}</Anchor>
+      </Link>
+      <Link to={useLocalizeRoute(`campaigns/${campaign.id}/bugs`)}>
+        <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
+      </Link>
+    </PageHeader.Breadcrumb>
+  );
+};
+export const Header = ({ campaignId, title }: Props) => {
   const {
     isLoading: isCampaignLoading,
     isFetching: isCampaignFetching,
@@ -28,28 +48,20 @@ export const Header = ({ campaignId, title }: Props) => {
     cid: campaignId,
   });
 
+  if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
+    return (
+      <PageHeader>
+        <Skeleton height="50px" />
+        <PageHeader.Main infoTitle={title.full}>
+          <XXXL isBold>{title.full}</XXXL>
+        </PageHeader.Main>
+      </PageHeader>
+    );
+  }
+
   return (
     <PageHeader>
-      {isCampaignLoading ||
-      isCampaignFetching ||
-      isCampaignError ||
-      !campaign ? (
-        <Skeleton height="50px" />
-      ) : (
-        <PageHeader.Breadcrumb>
-          <Link to={useLocalizeRoute(`projects/${campaign.project.id}`)}>
-            <Anchor id="breadcrumb-parent">{campaign.project.name}</Anchor>
-          </Link>
-          <Link to={useLocalizeRoute(`campaigns/${parseInt(campaignId, 10)}`)}>
-            <Anchor>{campaign.customer_title}</Anchor>
-          </Link>
-          <Link
-            to={useLocalizeRoute(`campaigns/${parseInt(campaignId, 10)}/bugs`)}
-          >
-            <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
-          </Link>
-        </PageHeader.Breadcrumb>
-      )}
+      <BreadCrumb campaign={campaign} />
       <PageHeader.Main infoTitle={title.full}>
         <XXXL isBold>{title.full}</XXXL>
       </PageHeader.Main>
