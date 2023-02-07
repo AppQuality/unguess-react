@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
@@ -9,7 +8,6 @@ import { LoadingSkeleton } from './LoadingSkeleton';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
 
