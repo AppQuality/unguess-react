@@ -13,6 +13,7 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.
 import { ReactComponent as FatherIcon } from 'src/assets/icons/father-icon.svg';
 import { Bug } from 'src/features/api';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
+import { getLocalizedBugUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { useSiblings } from './BugDuplicates/useSiblings';
@@ -23,7 +24,6 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 const Tester = styled(SM)`
@@ -89,6 +89,7 @@ export default ({
           </IconButton>
           <ShareButton bug={bug} />
           <IconButton
+            size="small"
             onClick={() => {
               dispatch(
                 selectBug({
