@@ -60,8 +60,6 @@ export default ({
       i18n.language
     );
   };
-  // console.log(siblings, isLoading, isFetching, isError)
-
   if (isLoading || isFetching) return <Skeleton height="20px" />;
   return (
     <Container>
