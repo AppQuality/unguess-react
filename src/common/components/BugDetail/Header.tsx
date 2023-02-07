@@ -18,19 +18,35 @@ import styled from 'styled-components';
 import { useSiblings } from './BugDuplicates/useSiblings';
 import { ShareButton } from './ShareBug';
 
-const Container = styled.div`
+const Container = styled.div<{
+  isPreview?: boolean;
+}>`
   display: flex;
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+
+  ${({ isPreview }) =>
+    isPreview &&
+    `
+    padding: 0 ${globalTheme.space.lg};
+    padding-top: ${globalTheme.space.lg};
+    position: sticky;
+    top: 0;
+    background-color: white;
+    width: 100%;
+    z-index: ${globalTheme.levels.front};
+    `};
 `;
 
 const Tester = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[600]};
 `;
+
 const ActionDetailPreview = styled.div`
   margin-left: auto;
 `;
+
 export default ({
   campaignId,
   bug,
@@ -64,7 +80,7 @@ export default ({
   if (isLoading || isFetching) return <Skeleton height="20px" />;
 
   return (
-    <Container>
+    <Container isPreview={isPreview}>
       {!siblings?.father && (
         <FatherIcon
           style={{
