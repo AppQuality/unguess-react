@@ -1,5 +1,6 @@
 import {
   Anchor,
+  Button,
   PageHeader,
   Skeleton,
   XXXL,
@@ -11,11 +12,14 @@ import {
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
+import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
+import { theme } from 'src/app/theme';
 
 interface Props {
   campaignId: string;
-  title: GetCampaignsByCidBugsAndBidApiResponse['title'];
+  bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
 }
 
 const BreadCrumb = ({
@@ -38,7 +42,7 @@ const BreadCrumb = ({
     </PageHeader.Breadcrumb>
   );
 };
-export const Header = ({ campaignId, title }: Props) => {
+export const Header = ({ campaignId, bug }: Props) => {
   const {
     isLoading: isCampaignLoading,
     isFetching: isCampaignFetching,
@@ -47,13 +51,14 @@ export const Header = ({ campaignId, title }: Props) => {
   } = useGetCampaignsByCidQuery({
     cid: campaignId,
   });
+  const { t } = useTranslation();
 
   if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
     return (
       <PageHeader>
         <Skeleton height="50px" />
-        <PageHeader.Main infoTitle={title.full}>
-          <XXXL isBold>{title.full}</XXXL>
+        <PageHeader.Main infoTitle={bug.title.full}>
+          <XXXL isBold>{bug.title.full}</XXXL>
         </PageHeader.Main>
       </PageHeader>
     );
@@ -62,9 +67,21 @@ export const Header = ({ campaignId, title }: Props) => {
   return (
     <PageHeader>
       <BreadCrumb campaign={campaign} />
-      <PageHeader.Main infoTitle={title.full}>
-        <XXXL isBold>{title.full}</XXXL>
+      <PageHeader.Main infoTitle={bug.title.full}>
+        <XXXL isBold>{bug.title.full}</XXXL>
       </PageHeader.Main>
+      <PageHeader.Buttons>
+        <ShareButton bug={bug}>
+          {(setModalOpen) => (
+            <Button isPill hasStartIcon onClick={() => setModalOpen(true)}>
+              <Button.StartIcon>
+                <ShareIcon />
+              </Button.StartIcon>
+              {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
+            </Button>
+          )}
+        </ShareButton>
+      </PageHeader.Buttons>
     </PageHeader>
   );
 };

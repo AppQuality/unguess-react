@@ -64,7 +64,7 @@ const Bug = () => {
   return (
     <Page
       title={bug.title.compact}
-      pageHeader={<Header campaignId={campaignId} title={bug.title} />}
+      pageHeader={<Header campaignId={campaignId} bug={bug} />}
       route="bug"
     >
       <Grid>

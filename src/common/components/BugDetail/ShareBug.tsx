@@ -6,7 +6,13 @@ import {
   Span,
   Dots,
 } from '@appquality/unguess-design-system';
-import { useCallback, useState } from 'react';
+import {
+  Dispatch,
+  ReactElement,
+  SetStateAction,
+  useCallback,
+  useState,
+} from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { Bug } from 'src/features/api';
@@ -20,7 +26,13 @@ const StyledMd = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
-export const ShareButton = ({ bug }: { bug: Bug }) => {
+export const ShareButton = ({
+  bug,
+  children,
+}: {
+  bug: Bug;
+  children?: (action: Dispatch<SetStateAction<boolean>>) => ReactElement;
+}) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const { t } = useTranslation();
 
@@ -42,9 +54,13 @@ export const ShareButton = ({ bug }: { bug: Bug }) => {
 
   return (
     <>
-      <IconButton size="small" onClick={() => setModalIsOpen(true)}>
-        <ShareIcon />
-      </IconButton>
+      {children ? (
+        children(setModalIsOpen)
+      ) : (
+        <IconButton size="small" onClick={() => setModalIsOpen(true)}>
+          <ShareIcon />
+        </IconButton>
+      )}
       {modalIsOpen && (
         <Modal onClose={() => setModalIsOpen(false)}>
           <Modal.Header>{t('__BUGS_PAGE_SHARE_BUG_MODAL_TITLE')}</Modal.Header>
