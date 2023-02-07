@@ -1,8 +1,7 @@
-import { Tooltip } from '@appquality/unguess-design-system';
+import { SM, Tooltip } from '@appquality/unguess-design-system';
 import { IconPill } from 'src/common/components/pills/IconPill';
 import { ReactComponent as NeedReviewIcon } from 'src/assets/icons/pill-icon-need-review.svg';
 import { useTranslation } from 'react-i18next';
-import { InfoTitle } from './InfoTitle';
 
 export const NeedReviewPill = () => {
   const { t } = useTranslation();
@@ -16,9 +15,7 @@ export const NeedReviewPill = () => {
         <IconPill
           size="medium"
           iconPosition="right"
-          title={
-            <InfoTitle>{t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}</InfoTitle>
-          }
+          title={<SM>{t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}</SM>}
           icon={<NeedReviewIcon />}
         />
       </span>

@@ -1,4 +1,4 @@
-import { LG, MD } from '@appquality/unguess-design-system';
+import { LG, MD, SM } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -9,7 +9,6 @@ import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
 import { IconPill } from 'src/common/components/pills/IconPill';
 import { Pipe } from 'src/common/components/Pipe';
-import { InfoTitle } from './InfoTitle';
 import { NeedReviewPill } from './NeedReviewPill';
 
 const Container = styled.div`
@@ -67,22 +66,25 @@ export default ({
     >
       {bug.title.compact}
     </LG>
-    <MD style={{ color: globalTheme.palette.grey[600] }}>
+    <MD
+      style={{
+        color: globalTheme.palette.grey[600],
+        marginBottom: globalTheme.space.md,
+      }}
+    >
       {bug.title.context ? bug.title.context.join(', ') : null}
     </MD>
     <BugInfo>
-      <InfoTitle style={{ textTransform: 'capitalize' }}>
-        {bug.type.name}
-      </InfoTitle>
+      <SM style={{ textTransform: 'capitalize' }}>{bug.type.name}</SM>
       <Pipe style={{ height: globalTheme.lineHeights.md }} />
       <IconPill
         size="medium"
         title={
-          <InfoTitle>
+          <SM>
             {bug.device.type === 'desktop'
               ? bug.device.desktop_type
               : `${bug.device.manufacturer} ${bug.device.model}`}
-          </InfoTitle>
+          </SM>
         }
         icon={getDeviceIcon(bug.device.type)}
         style={{ textTransform: 'capitalize' }}
@@ -90,9 +92,9 @@ export default ({
       <IconPill
         size="medium"
         title={
-          <InfoTitle>
+          <SM>
             {bug.device.os} {bug.device.os_version}
-          </InfoTitle>
+          </SM>
         }
         icon={<OSIcon />}
         style={{ textTransform: 'capitalize' }}
