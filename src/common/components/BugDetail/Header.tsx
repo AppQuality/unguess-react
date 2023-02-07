@@ -1,12 +1,11 @@
 import { IconButton, SM, Span } from '@appquality/unguess-design-system';
 import { Trans } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.svg';
 import { Bug } from 'src/features/api';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
-import { getLocalizedBugUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { ShareButton } from './ShareBug';
@@ -16,7 +15,6 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 const Tester = styled(SM)`
@@ -52,12 +50,13 @@ export default ({
               bug.campaign_id
             }/bugs/${bug.id}`}
           >
-            <IconButton>
+            <IconButton size="small">
               <LinkIcon />
             </IconButton>
           </Link>
           <ShareButton bug={bug} />
           <IconButton
+            size="small"
             onClick={() => {
               dispatch(
                 selectBug({
