@@ -20,14 +20,14 @@ export const TagFilter = () => {
     return null;
 
   const options = data.tags.available.map((item) => ({
-    id: item.tag_id,
+    itemId: item.tag_id,
     label: item.display_name,
     selected: data.tags.selected.map((i) => i.tag_id).includes(item.tag_id),
   }));
 
   // Add no tags option
   options.push({
-    id: 'none',
+    itemId: 'none',
     label: t('__BUGS_TAGS_FILTER_ITEM_NO_TAGS'),
     selected: data.tags.selected.map((i) => i.tag_id).includes('none'),
   });
@@ -45,7 +45,7 @@ export const TagFilter = () => {
             updateFilters({
               filters: {
                 tags: selected.map((item) => ({
-                  tag_id: item.id,
+                  tag_id: item.itemId,
                   display_name: item.label,
                 })),
               },

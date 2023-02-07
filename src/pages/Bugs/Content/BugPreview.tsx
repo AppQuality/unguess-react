@@ -48,7 +48,7 @@ export const BugPreview = ({
 
   return (
     <DetailContainer>
-      <BugHeader bug={bug} isPreview />
+      <BugHeader bug={bug} campaignId={campaignId} isPreview />
       <BugMeta bug={bug} />
       <BugTags bug={bug} campaignId={campaignId} />
       <BugDescription bug={bug} />

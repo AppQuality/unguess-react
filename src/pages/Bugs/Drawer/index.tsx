@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
+import { ReadField } from './ReadField';
 import { ReplicabilityField } from './ReplicabilityField';
 import { SeverityField } from './SeverityField';
 import { TagField } from './TagField';
@@ -65,6 +66,7 @@ const BugsFilterDrawer = () => {
     devices,
     os,
     replicabilities,
+    read,
   } = campaignData;
 
   const memoizedFilters = useMemo(
@@ -79,7 +81,8 @@ const BugsFilterDrawer = () => {
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_COMMON_LABEL')}
         </MD>
-        {unique.available.length ? <UniqueField unique={unique} /> : null}
+        <UniqueField unique={unique} />
+        <ReadField read={read} />
         {severities.available.length ? (
           <SeverityField severities={severities} />
         ) : null}

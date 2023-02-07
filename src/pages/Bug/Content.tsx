@@ -1,4 +1,4 @@
-import { Card } from '@appquality/unguess-design-system';
+import { ContainerCard } from '@appquality/unguess-design-system';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import BugHeader from 'src/common/components/BugDetail/Header';
 import BugMeta from 'src/common/components/BugDetail/Meta';
@@ -14,8 +14,8 @@ interface Props {
 }
 
 export const Content = ({ bug, campaignId }: Props) => (
-  <Card>
-    <BugHeader bug={bug} />
+  <ContainerCard>
+    <BugHeader bug={bug} campaignId={Number(campaignId)} />
     <BugMeta bug={bug} />
     <div style={{ width: '50%' }}>
       <BugTags bug={bug} campaignId={parseInt(campaignId, 10)} />
@@ -24,5 +24,5 @@ export const Content = ({ bug, campaignId }: Props) => (
     {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
     <BugDetails bug={bug} />
     <BugDuplicates cid={parseInt(campaignId, 10)} />
-  </Card>
+  </ContainerCard>
 );

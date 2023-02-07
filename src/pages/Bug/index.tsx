@@ -1,6 +1,6 @@
-import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Header } from './Header';
@@ -9,7 +9,6 @@ import { LoadingSkeleton } from './LoadingSkeleton';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
 
@@ -42,7 +41,13 @@ const Bug = () => {
       pageHeader={<Header campaignId={campaignId} title={bug.title} />}
       route="bug"
     >
-      <Content bug={bug} campaignId={campaignId} />
+      <Grid>
+        <Row>
+          <Col xl={8} offsetXl={2}>
+            <Content bug={bug} campaignId={campaignId} />
+          </Col>
+        </Row>
+      </Grid>
     </Page>
   );
 };
