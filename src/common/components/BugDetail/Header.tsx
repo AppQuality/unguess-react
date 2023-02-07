@@ -6,7 +6,6 @@ import {
   theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { Trans } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.svg';
