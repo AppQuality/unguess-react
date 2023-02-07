@@ -53,7 +53,13 @@ export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
             marginRight: globalTheme.space.base * 3,
           }}
         />
-        <LG isBold style={{ margin: `${globalTheme.space.md} 0` }}>
+        <LG
+          isBold
+          style={{
+            margin: `${globalTheme.space.md} 0`,
+            color: globalTheme.palette.grey[800],
+          }}
+        >
           {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LABEL')}
         </LG>
       </Title>
