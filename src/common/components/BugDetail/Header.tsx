@@ -52,7 +52,6 @@ export default ({
     data: siblings,
     isLoading,
     isFetching,
-    isError,
   } = useSiblings({ cid: campaignId });
 
   const goToBug = () => {
