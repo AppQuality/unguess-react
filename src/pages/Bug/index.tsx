@@ -43,7 +43,7 @@ const Bug = () => {
     >
       <Grid>
         <Row>
-          <Col lg={8} offsetLg={2}>
+          <Col xl={8} offsetXl={2}>
             <Content bug={bug} campaignId={campaignId} />
           </Col>
         </Row>
