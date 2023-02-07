@@ -15,7 +15,6 @@ import {
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
-import { theme } from 'src/app/theme';
 
 interface Props {
   campaignId: string;
