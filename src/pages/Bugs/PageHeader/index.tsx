@@ -1,5 +1,5 @@
 import { Anchor, PageHeader, Span } from '@appquality/unguess-design-system';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HeaderSkeleton } from 'src/pages/Campaign/pageHeader/HeaderSkeleton';
 import { Tools } from 'src/pages/Bugs/PageHeader/Tools';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
@@ -42,17 +42,12 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
   return isUserLoading || isError ? null : (
     <PageHeader>
       <PageHeader.Breadcrumb>
-        <Anchor id="breadcrumb-parent" onClick={() => navigate(project.route)}>
-          {project.name}
-        </Anchor>
-        <Anchor
-          onClick={() => {
-            window.location.href =
-              getLocalizeoFirstLevelDashboardRoute(campaignId);
-          }}
-        >
-          {campaign.customer_title}
-        </Anchor>
+        <Link to={project.route}>
+          <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+        </Link>
+        <Link to={getLocalizeoFirstLevelDashboardRoute(campaignId)}>
+          <Anchor>{campaign.customer_title}</Anchor>
+        </Link>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <FlexWrapper>
