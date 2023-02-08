@@ -70,7 +70,7 @@ export default ({
       />
 
       <ActionDetailPreview>
-        <IconButton onClick={goToBug}>
+        <IconButton size="small" onClick={goToBug}>
           <LinkIcon />
         </IconButton>
         <ShareButton bug={bug} />
