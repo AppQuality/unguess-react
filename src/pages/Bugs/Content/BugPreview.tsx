@@ -1,6 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import BugHeader from 'src/common/components/BugDetail/Header';
 import BugMeta from 'src/common/components/BugDetail/Meta';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import BugDescription from 'src/common/components/BugDetail/Description';
@@ -8,6 +7,8 @@ import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import BugDetails from 'src/common/components/BugDetail/Details';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
+import BugHeader from './components/BugHeader';
 
 const DetailContainer = styled.div`
   display: flex;
@@ -49,6 +50,7 @@ export const BugPreview = ({
     cid: campaignId.toString(),
     bid: bugId.toString(),
   });
+  const currentBugId = getSelectedBugId();
 
   if (isLoading || isFetching || isError || !bug) return <Skeleton />;
 
@@ -56,10 +58,10 @@ export const BugPreview = ({
 
   return (
     <DetailContainer>
-      <BugHeader bug={bug} campaignId={campaignId} isPreview />
+      <BugHeader bug={bug} />
       <ScrollingContainer>
         <BugMeta bug={bug} />
-        <BugTags bug={bug} campaignId={campaignId} />
+        <BugTags bug={bug} campaignId={campaignId} bugId={currentBugId ?? 0} />
         <BugDescription bug={bug} />
         {media && media.length ? <BugAttachments bug={bug} /> : null}
         <BugDetails bug={bug} />

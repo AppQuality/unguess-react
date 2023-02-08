@@ -8,7 +8,6 @@ import {
 } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
-import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useState } from 'react';
 
 const Container = styled.div`
@@ -20,6 +19,7 @@ const Container = styled.div`
 export default ({
   bug,
   campaignId,
+  bugId,
 }: {
   bug: Bug & {
     reporter: {
@@ -29,10 +29,11 @@ export default ({
     tags?: BugTag[];
   };
   campaignId: number;
+  bugId: number;
 }) => {
   const { t } = useTranslation();
   const [options, setOptions] = useState<{ id: number; label: string }[]>([]);
-  const currentBugId = getSelectedBugId();
+
   const { tags: bugTags } = bug;
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
 
@@ -80,7 +81,7 @@ export default ({
           onChange={async (selectedItems, newLabel) => {
             const { tags } = await patchBug({
               cid: campaignId.toString(),
-              bid: currentBugId ? currentBugId.toString() : '0',
+              bid: bugId.toString(),
               body: {
                 tags: [
                   ...selectedItems
