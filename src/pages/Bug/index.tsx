@@ -3,34 +3,14 @@ import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useEffect } from 'react';
-import { useAppDispatch } from 'src/app/hooks';
-import { selectBug, selectCampaign } from 'src/features/bugsPage/bugsPageSlice';
 import { Header } from './Header';
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
 
 const Bug = () => {
-  const dispatch = useAppDispatch();
   const { campaignId, bugId } = useParams();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-
-  // Update currentCampaign and selectedBug for future hook calls
-  useEffect(() => {
-    dispatch(
-      selectCampaign({
-        cp_id: Number(campaignId),
-        filters: {},
-      })
-    );
-
-    dispatch(
-      selectBug({
-        bug_id: Number(bugId),
-      })
-    );
-  }, []);
 
   if (
     !campaignId ||

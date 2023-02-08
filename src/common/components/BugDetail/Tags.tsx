@@ -20,6 +20,7 @@ const Container = styled.div`
 export default ({
   bug,
   campaignId,
+  bugId,
 }: {
   bug: Bug & {
     reporter: {
@@ -29,10 +30,11 @@ export default ({
     tags?: BugTag[];
   };
   campaignId: number;
+  bugId: number;
 }) => {
   const { t } = useTranslation();
   const [options, setOptions] = useState<{ id: number; label: string }[]>([]);
-  const currentBugId = getSelectedBugId();
+
   const { tags: bugTags } = bug;
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
 
@@ -80,7 +82,7 @@ export default ({
           onChange={async (selectedItems, newLabel) => {
             const { tags } = await patchBug({
               cid: campaignId.toString(),
-              bid: currentBugId ? currentBugId.toString() : '0',
+              bid: bugId.toString(),
               body: {
                 tags: [
                   ...selectedItems
