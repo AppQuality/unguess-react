@@ -63,6 +63,9 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id });
 
   const { t } = useTranslation();
+  const functionalDashboardLink = useLocalizeRoute(
+    `/campaigns/${campaign.id}/bugs`
+  );
   const { start_date, end_date, type, status, outputs, family } = campaign;
   const isFunctional = family.name.toLowerCase() === 'functional';
 
@@ -99,7 +102,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
           </Button>
         )}
         {outputs?.includes('bugs') && (
-          <Link to={useLocalizeRoute(`/campaigns/${campaign.id}/bugs`)}>
+          <Link to={functionalDashboardLink}>
             <Button
               id="button-bugs-list-header"
               isPrimary
