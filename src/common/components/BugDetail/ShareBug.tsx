@@ -36,7 +36,10 @@ export const ShareButton = ({
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const { t } = useTranslation();
 
-  const { createLink, link, isLoading, isError } = useShareBug({ bid: bug.id });
+  const { createLink, link, isLoading, isError } = useShareBug({
+    bid: bug.id,
+    reset: modalIsOpen,
+  });
 
   const getButtonContent = useCallback(() => {
     if (isError) {
@@ -72,9 +75,9 @@ export const ShareButton = ({
               </Trans>
             </StyledMd>
             <StyledMd>
-              ID {bug.id} -
+              ID {bug.id}{' '}
               <Span isBold>
-                &quot;{bug.title.compact}
+                &quot;{bug.title.full}
                 &quot;
               </Span>
             </StyledMd>

@@ -1,10 +1,24 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import queryString from 'query-string';
 
-export const useShareBug = ({ bid }: { bid: number }) => {
+export const useShareBug = ({
+  bid,
+  reset,
+}: {
+  bid: number;
+  reset: boolean;
+}) => {
   const [link, setLink] = useState<string | undefined>(undefined);
   const [isLoading, setisLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | undefined>(undefined);
+
+  useEffect(() => {
+    if (reset) {
+      setLink(undefined);
+      setError(undefined);
+      setisLoading(false);
+    }
+  }, [reset]);
 
   const createLink = useCallback(() => {
     setisLoading(true);
