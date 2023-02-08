@@ -4,7 +4,7 @@ import { useAppDispatch } from 'src/app/hooks';
 import { theme } from 'src/app/theme';
 import { resetFilters } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import Background from '../assets/bg_empty_state.png';
+import EmptyStateImg from '../assets/bugs_empty_state.svg';
 
 const StyledEmptyState = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ export const EmptyState = () => {
   return (
     <StyledEmptyState>
       <img
-        src={Background}
+        src={EmptyStateImg}
         alt="table empty"
         style={{ marginBottom: theme.space.lg }}
       />
