@@ -42,6 +42,13 @@ export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
     (m) => m.mime_type.type === 'image' || m.mime_type.type === 'video'
   );
 
+  // Order the media by mime_type.type "video" first and then all the rest
+  mediaItems.sort((a, b) => {
+    if (a.mime_type.type === 'video') return -1;
+    if (b.mime_type.type !== 'video') return 1;
+    return 0;
+  });
+
   // Get all the media that are of type "other"
   const extraItems = media?.filter((m) => m.mime_type.type === 'other');
 

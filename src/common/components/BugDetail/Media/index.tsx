@@ -46,20 +46,20 @@ export default ({
           marginBottom: globalTheme.space.md,
         }}
       >
-        {imagesCount > 0 && (
-          <>
-            {imagesCount}{' '}
-            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
-              count: imagesCount,
-            })}{' '}
-          </>
-        )}
         {videosCount > 0 && (
           <>
             {videosCount}{' '}
             {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_LABEL', {
               count: videosCount,
             })}{' '}
+          </>
+        )}
+        {imagesCount > 0 && (
+          <>
+            {imagesCount}{' '}
+            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
+              count: imagesCount,
+            })}
           </>
         )}
       </SM>
