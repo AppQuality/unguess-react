@@ -12,6 +12,7 @@ import {
 } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import { openUrl } from 'src/common/openUrl';
+import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { DesktopPill } from './devicePills/DesktopPill';
@@ -100,22 +101,18 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
           </Button>
         )}
         {outputs?.includes('bugs') && (
-          <Button
-            id="button-bugs-list-header"
-            isPrimary
-            isPill
-            themeColor={globalTheme.palette.water[600]}
-            onClick={() =>
-              openUrl(
-                getLocalizedFunctionalDashboardUrl(campaign.id, i18n.language),
-                {
-                  newTab: true,
-                }
-              )
-            }
+          <Link
+            to={getLocalizedFunctionalDashboardUrl(campaign.id, i18n.language)}
           >
-            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
-          </Button>
+            <Button
+              id="button-bugs-list-header"
+              isPrimary
+              isPill
+              themeColor={globalTheme.palette.water[600]}
+            >
+              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
+            </Button>
+          </Link>
         )}
       </ButtonWrapper>
     </FooterContainer>
