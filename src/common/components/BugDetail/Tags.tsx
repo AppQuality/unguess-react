@@ -8,7 +8,6 @@ import {
 } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
-import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useState } from 'react';
 
 const Container = styled.div`
