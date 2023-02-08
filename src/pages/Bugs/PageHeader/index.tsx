@@ -1,5 +1,5 @@
 import { Anchor, PageHeader, Span } from '@appquality/unguess-design-system';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HeaderSkeleton } from 'src/pages/Campaign/pageHeader/HeaderSkeleton';
 import { Tools } from 'src/pages/Bugs/PageHeader/Tools';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
@@ -30,7 +30,6 @@ const StyledTitle = styled(PageHeader.Title)`
 `;
 
 const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const { isUserLoading, isLoading, isError, campaign, project } =
     useCampaign(campaignId);
