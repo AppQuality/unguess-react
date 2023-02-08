@@ -6,9 +6,9 @@ import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { ReactComponent as FatherIcon } from 'src/assets/icons/father-icon.svg';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
-import { ReactComponent as FatherIcon } from '../assets/father-icon.svg';
 
 const DuplicateContainer = styled((props) => <SM isBold {...props} />)`
   display: flex;
