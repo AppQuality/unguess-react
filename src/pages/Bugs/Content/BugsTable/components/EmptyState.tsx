@@ -4,7 +4,7 @@ import { useAppDispatch } from 'src/app/hooks';
 import { theme } from 'src/app/theme';
 import { resetFilters } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import EmptyStateImg from '../assets/bugs_empty_state.svg';
+import { ReactComponent as EmptyStateImg } from '../assets/bugs_empty_state.svg';
 
 const StyledEmptyState = styled.div`
   display: flex;
@@ -21,9 +21,8 @@ export const EmptyState = () => {
   const { t } = useTranslation();
   return (
     <StyledEmptyState>
-      <img
-        src={EmptyStateImg}
-        alt="table empty"
+      <EmptyStateImg
+        title="Table is empty"
         style={{ marginBottom: theme.space.lg }}
       />
       <LG
