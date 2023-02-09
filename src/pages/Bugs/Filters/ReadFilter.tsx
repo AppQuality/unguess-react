@@ -29,7 +29,7 @@ export const ReadFilter = () => {
     return null;
 
   return (
-    <div style={{ width: '150px' }}>
+    <div style={{ maxWidth: '150px' }}>
       <Dropdown
         selectedItem={data.read.selected ?? 'all'}
         onSelect={(item) => {
