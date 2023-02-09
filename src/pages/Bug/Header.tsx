@@ -57,7 +57,7 @@ export const Header = ({ campaignId, bug }: Props) => {
       <PageHeader>
         <Skeleton height="50px" />
         <PageHeader.Main infoTitle={bug.title.full}>
-          <XXXL isBold>{bug.title.full}</XXXL>
+          <XXXL isBold>{bug.title.compact}</XXXL>
         </PageHeader.Main>
       </PageHeader>
     );
@@ -67,7 +67,7 @@ export const Header = ({ campaignId, bug }: Props) => {
     <PageHeader>
       <BreadCrumb campaign={campaign} />
       <PageHeader.Main infoTitle={bug.title.full}>
-        <XXXL isBold>{bug.title.full}</XXXL>
+        <XXXL isBold>{bug.title.compact}</XXXL>
       </PageHeader.Main>
       <PageHeader.Buttons>
         <ShareButton bug={bug}>
