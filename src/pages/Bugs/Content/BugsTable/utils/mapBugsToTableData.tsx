@@ -78,8 +78,6 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </div>
       ),
       isHighlighted: !bug.read,
-      created: bug.created,
-      updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
           bug.severity.name.toLowerCase() as Severities

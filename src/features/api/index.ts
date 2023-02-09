@@ -809,14 +809,15 @@ export type Bug = {
   type: BugType;
   replicability: BugReplicability;
   created: string;
+  occurred_date: string;
   updated?: string;
   note?: string;
   device: Smartphone | Tablet | Desktop;
   application_section: {
     id?: number;
-    title?: string;
     simple_title?: string;
     prefix_title?: string;
+    title?: string;
   };
   duplicated_of_id?: number;
   is_favorite?: number;
