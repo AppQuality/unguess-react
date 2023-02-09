@@ -11,19 +11,14 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { setPageView } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-
 import { ReactComponent as Icon } from './assets/layers_icon.svg';
 
 export const GroupBy = () => {
-  const bugsPageSlice = useAppSelector((state) => state.bugsPage);
+  const pageView = useAppSelector((state) => state.bugsPage.pageView);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { pageView } = bugsPageSlice;
-  const groupByOptions: Array<typeof pageView> = [
-    'byUsecase',
-    'bySeverity',
-    'ungrouped',
-  ];
+
+  const groupByOptions: Array<typeof pageView> = ['byUsecase', 'bySeverity'];
   const [label, setLabel] = useState<string>(groupByOptions[0]);
 
   const getTranslatedLabel = (view: string) => {
@@ -50,20 +45,12 @@ export const GroupBy = () => {
   `;
 
   return (
-    <div style={{ width: '160px' }}>
+    <div style={{ maxWidth: '180px' }}>
       <Dropdown
         selectedItem={pageView}
-        onStateChange={(state) => {
-          if (state.isOpen) {
-            setLabel('groupBy');
-          }
-          if (state.isOpen === false && !state.selectedItem) {
-            setLabel(pageView);
-          }
-          if (state.isOpen === false && state.selectedItem) {
-            setLabel(state.selectedItem);
-            dispatch(setPageView(state.selectedItem));
-          }
+        onSelect={(item) => {
+          setLabel(item);
+          dispatch(setPageView(item));
         }}
       >
         <Field>
@@ -75,11 +62,19 @@ export const GroupBy = () => {
           </Select>
         </Field>
         <Menu>
+          <Dropdown.HeaderItem>
+            {t('__BUGS_GROUP_BY_OPEN_MENU')}:
+          </Dropdown.HeaderItem>
+          <Dropdown.Separator />
           {groupByOptions.map((item) => (
             <Item key={item} value={item}>
               {getTranslatedLabel(item)}
             </Item>
           ))}
+          <Dropdown.Separator />
+          <Item key="ungrouped" value="ungrouped">
+            {getTranslatedLabel('ungrouped')}
+          </Item>
         </Menu>
       </Dropdown>
     </div>

@@ -59,18 +59,21 @@ export const IconPill = ({
   size,
   iconPosition = 'left',
   ...props
-}: PillProps) => (
-  <PillContainer {...props}>
-    <StyledTag
-      iconPosition={iconPosition}
-      isPill
-      hue={background ?? 'white'}
-      size={size || 'large'}
-    >
-      {iconPosition === 'right' ? title : null}
-      {icon && <StyledAvatar>{icon}</StyledAvatar>}
-      {iconPosition === 'left' ? title : null}
-    </StyledTag>
-    {children && <StyledChild>{children}</StyledChild>}
-  </PillContainer>
-);
+}: PillProps) => {
+  const pillTitle = <Span style={{ color: props.color }}>{title}</Span>;
+  return (
+    <PillContainer {...props}>
+      <StyledTag
+        iconPosition={iconPosition}
+        isPill
+        hue={background ?? 'white'}
+        size={size || 'large'}
+      >
+        {iconPosition === 'right' ? pillTitle : null}
+        {icon && <StyledAvatar>{icon}</StyledAvatar>}
+        {iconPosition === 'left' ? pillTitle : null}
+      </StyledTag>
+      {children && <StyledChild>{children}</StyledChild>}
+    </PillContainer>
+  );
+};

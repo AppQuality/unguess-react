@@ -112,7 +112,10 @@ export const UseCaseField = ({
                 }}
               >
                 {!showMore ? (
-                  <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_MORE_LABEL">
+                  <Trans
+                    count={available.length - maxItemsToShow}
+                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_MORE_LABEL"
+                  >
                     Show{' '}
                     <Span isBold>
                       {{

@@ -23,7 +23,7 @@ export const SeverityFilter = () => {
     return null;
 
   return (
-    <div style={{ width: '150px' }}>
+    <div style={{ maxWidth: '150px' }}>
       <CounterMultiselect
         isCompact
         i18n={{
