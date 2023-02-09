@@ -15,6 +15,7 @@ env:
 jobs:
   push-to-ecr:
     name: Push Image
+    environment: production
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,7 +35,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
-          
+
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
@@ -75,7 +76,7 @@ jobs:
           echo "##[set-output name=ASG_NAME;]$ASG_NAME"
           echo "##[set-output name=PIPELINE;]$PIPELINE"
         id: extract_tag
-      - name: "Generate dist zip"
+      - name: 'Generate dist zip'
         run: |
           cd deployment
           echo -n "${{ steps.extract_tag.outputs.ECR_REPOSITORY }}:${{steps.extract_tag.outputs.tag}}" > docker-image.txt
@@ -85,7 +86,7 @@ jobs:
           S3_BUCKET: ${{ steps.extract_tag.outputs.DEPLOY_PROD_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "eu-west-1"
+          AWS_REGION: 'eu-west-1'
           FILE: ./deployment/dist.zip
           S3_KEY: ${{ steps.extract_tag.outputs.DEPLOY_PROD_KEY }}
       - name: configure AWS creds
@@ -100,7 +101,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "eu-west-1"
+          AWS_REGION: 'eu-west-1'
           ASG_NAME: ${{ steps.extract_tag.outputs.ASG_NAME }}
           DESIRED_INSTANCES: 2
           MAX_INSTANCES: 2
@@ -114,7 +115,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "eu-west-1"
+          AWS_REGION: 'eu-west-1'
           ASG_NAME: ${{ steps.extract_tag.outputs.ASG_NAME }}
           DESIRED_INSTANCES: ${{ steps.update-asg.outputs.original_desired }}
           MAX_INSTANCES: ${{ steps.update-asg.outputs.original_max }}
@@ -124,12 +125,12 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "eu-west-1"
+          AWS_REGION: 'eu-west-1'
           PIPELINE_NAME: ${{ steps.extract_tag.outputs.PIPELINE }}
       - name: Update release with deployment url
         uses: tubone24/update_release@v1.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          body: "[![](https://img.shields.io/badge/AWS-Redeploy-blueviolet)](${{ steps.codedeploy.outputs.codedeploy_url }})"
+          body: '[![](https://img.shields.io/badge/AWS-Redeploy-blueviolet)](${{ steps.codedeploy.outputs.codedeploy_url }})'
           isAppendBody: true

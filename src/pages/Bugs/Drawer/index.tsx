@@ -14,7 +14,7 @@ import {
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import { useCampaignBugs } from '../BugsTable/hooks/useCampaignBugs';
+import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
 import { ReadField } from './ReadField';
@@ -41,36 +41,22 @@ const BugsFilterDrawer = () => {
 
   const campaignData = getCurrentCampaignData();
 
-  if (!campaignData || !currentCampaign) return <Skeleton />;
+  const memoizedFilters = useMemo(() => {
+    if (!campaignData) return <Skeleton />;
 
-  const { bugs } = useCampaignBugs(currentCampaign);
+    const {
+      types,
+      severities,
+      unique,
+      tags,
+      useCases,
+      devices,
+      os,
+      replicabilities,
+      read,
+    } = campaignData;
 
-  const onClose = () => {
-    dispatch(setFilterDrawerOpen(false));
-  };
-
-  const onCtaClick = () => {
-    dispatch(setFilterDrawerOpen(false));
-  };
-
-  const onResetClick = () => {
-    dispatch(resetFilters());
-  };
-
-  const {
-    types,
-    severities,
-    unique,
-    tags,
-    useCases,
-    devices,
-    os,
-    replicabilities,
-    read,
-  } = campaignData;
-
-  const memoizedFilters = useMemo(
-    () => (
+    return (
       <>
         <MD
           isBold
@@ -117,9 +103,24 @@ const BugsFilterDrawer = () => {
         {devices.available.length ? <DeviceField devices={devices} /> : null}
         {os.available.length ? <OsField os={os} /> : null}
       </>
-    ),
-    [campaignData]
-  );
+    );
+  }, [campaignData]);
+
+  const { bugs } = useCampaignBugs(currentCampaign ?? 0);
+
+  if (!campaignData || !currentCampaign) return <Skeleton />;
+
+  const onClose = () => {
+    dispatch(setFilterDrawerOpen(false));
+  };
+
+  const onCtaClick = () => {
+    dispatch(setFilterDrawerOpen(false));
+  };
+
+  const onResetClick = () => {
+    dispatch(resetFilters());
+  };
 
   return (
     <Drawer isOpen={isFilterDrawerOpen} onClose={onClose}>
