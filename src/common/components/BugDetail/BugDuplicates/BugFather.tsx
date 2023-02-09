@@ -10,9 +10,9 @@ const StyledParagraph = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
-export const BugFather = ({ cid }: { cid: number }) => {
+export const BugFather = ({ cid, bugId }: { cid: number; bugId: number }) => {
   const { t } = useTranslation();
-  const { data, isLoading, isFetching, isError } = useSiblings({ cid });
+  const { data, isLoading, isFetching, isError } = useSiblings({ cid, bugId });
   if (isLoading || isFetching || isError || !data || !data.father) return null;
   return (
     <>

@@ -7,11 +7,17 @@ import { BugDuplicatesList } from './BugDuplicatesList';
 import { BugFather } from './BugFather';
 import { ReactComponent as LinkIcon } from './icons/linked.svg';
 
-export const BugDuplicates = ({ cid }: { cid: number }) => {
+export const BugDuplicates = ({
+  cid,
+  bugId,
+}: {
+  cid: number;
+  bugId: number;
+}) => {
   const MAX_SIBLING_SIZE = 3;
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const { data, isLoading, isFetching, isError } = useSiblings({ cid });
+  const { data, isLoading, isFetching, isError } = useSiblings({ cid, bugId });
 
   if (isLoading || isFetching || isError || !data) return null;
 
@@ -32,11 +38,12 @@ export const BugDuplicates = ({ cid }: { cid: number }) => {
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
-          <BugFather cid={cid} />
+          <BugFather cid={cid} bugId={bugId} />
           <BugDuplicatesList
             maxSiblingSize={MAX_SIBLING_SIZE}
             isOpen={isOpen}
             cid={cid}
+            bugId={bugId}
           />
           {!isOpen && data.siblings.length > MAX_SIBLING_SIZE ? (
             <Button isBasic onClick={() => setIsOpen(!isOpen)}>
