@@ -1,4 +1,4 @@
-import { LG, MD, SM } from '@appquality/unguess-design-system';
+import { XL, MD, SM } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -57,15 +57,16 @@ export default ({
       <SeverityPill severity={bug.severity.name.toLowerCase() as Severities} />
       {bug.status.id === 4 && <NeedReviewPill />}
     </SeverityContainer>
-    <LG
+    <XL
       isBold
       style={{
         marginTop: globalTheme.space.xxs,
         marginBottom: `${globalTheme.space.base}px`,
+        color: globalTheme.palette.grey[800],
       }}
     >
       {bug.title.compact}
-    </LG>
+    </XL>
     <MD
       style={{
         color: globalTheme.palette.grey[600],
