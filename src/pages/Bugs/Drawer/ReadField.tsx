@@ -34,7 +34,7 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
               >
                 {selected === 'unread'
                   ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-                  : t('__BUGS_READ_FILTER_ITEM_ALL')}
+                  : t('__BUGS_READ_FILTER_ITEM_DRAWER_ALL')}
               </SM>
             </Accordion.Label>
           </Accordion.Header>
@@ -69,7 +69,7 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
                   >
                     {item === 'unread'
                       ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-                      : t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')}
+                      : t('__BUGS_READ_FILTER_ITEM_ALL')}
                     <MD>{counters[item as string] || 0}</MD>
                   </LabelSpaceBetween>
                 </Radio>

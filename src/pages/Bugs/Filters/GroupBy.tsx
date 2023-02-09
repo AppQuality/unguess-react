@@ -45,7 +45,7 @@ export const GroupBy = () => {
   `;
 
   return (
-    <div style={{ width: '180px' }}>
+    <div style={{ maxWidth: '180px' }}>
       <Dropdown
         selectedItem={pageView}
         onSelect={(item) => {

@@ -77,7 +77,13 @@ export default ({
           creatable
           maxItems={4}
           size="small"
-          i18n={{}}
+          i18n={{
+            placeholder: t('__BUGS_PAGE_BUG_DETAIL_TAGS_PLACEHOLDER'),
+            showMore: (count) =>
+              t('__BUGS_PAGE_BUG_DETAIL_TAGS_SHOW_MORE', { count }),
+            addNew: (value) =>
+              `${t('__BUGS_PAGE_BUG_DETAIL_TAGS_ADD_NEW')} "${value}"`,
+          }}
           onChange={async (selectedItems, newLabel) => {
             const { tags } = await patchBug({
               cid: campaignId.toString(),
