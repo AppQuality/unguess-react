@@ -64,7 +64,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
 
   const { t } = useTranslation();
   const functionalDashboardLink = useLocalizeRoute(
-    `/campaigns/${campaign.id}/bugs`
+    `campaigns/${campaign.id}/bugs`
   );
   const { start_date, end_date, type, status, outputs, family } = campaign;
   const isFunctional = family.name.toLowerCase() === 'functional';

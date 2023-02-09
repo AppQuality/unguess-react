@@ -28,18 +28,12 @@ export const useFilterData = (filter: Filter) => {
   // Remove current filter
   filterBy[filter as Filter] = undefined;
 
-  if (!currentCampaign)
-    return {
-      counters: {},
-      loading: true,
-    };
-
   const {
     isLoading,
     isFetching,
     data: bugs,
   } = useGetCampaignsByCidBugsQuery({
-    cid: currentCampaign.toString() ?? '0',
+    cid: currentCampaign ? currentCampaign.toString() : '0',
     filterBy: {
       ...(filterBy?.useCases ? { usecases: filterBy.useCases.join(',') } : {}),
       ...(filterBy?.types ? { types: filterBy.types.join(',') } : {}),
