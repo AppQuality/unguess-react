@@ -8,11 +8,11 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.
 import { ReactComponent as FatherIcon } from 'src/assets/icons/father-icon.svg';
 import { Bug } from 'src/features/api';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
-import { getLocalizedBugUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import TesterDetail from 'src/common/components/BugDetail/TesterDetail';
+import { Link } from 'react-router-dom';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 
 const Container = styled.div`
   display: flex;
@@ -45,14 +45,6 @@ export default ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const goToBug = () => {
-    window.location.href = getLocalizedBugUrl(
-      bug.campaign_id,
-      bug.id,
-      i18n.language
-    );
-  };
-
   return (
     <Container>
       {!bug.duplicated_of_id && (
@@ -70,9 +62,13 @@ export default ({
       />
 
       <ActionDetailPreview>
-        <IconButton size="small" onClick={goToBug}>
-          <LinkIcon />
-        </IconButton>
+        <Link
+          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+        >
+          <IconButton size="small">
+            <LinkIcon />
+          </IconButton>
+        </Link>
         <ShareButton bug={bug} />
         <IconButton
           size="small"
