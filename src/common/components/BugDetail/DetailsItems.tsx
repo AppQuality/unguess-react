@@ -43,7 +43,7 @@ export default ({
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_REPORTER_LABEL')}
         </MD>
         <MD>
-          {bug.reporter.name} (T{bug.reporter.tester_id})
+          {reporter.name} (T{reporter.tester_id})
         </MD>
       </DetailsItem>
       <DetailsItem>
