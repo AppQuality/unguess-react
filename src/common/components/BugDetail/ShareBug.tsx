@@ -5,6 +5,7 @@ import {
   MD,
   Span,
   Dots,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import {
   Dispatch,
@@ -60,9 +61,17 @@ export const ShareButton = ({
       {children ? (
         children(setModalIsOpen)
       ) : (
-        <IconButton size="small" onClick={() => setModalIsOpen(true)}>
-          <ShareIcon />
-        </IconButton>
+        <Tooltip
+          content={t('__BUGS_PAGE_SHARE_BUG_MODAL_CTA_TOOLTIP')}
+          size="large"
+          type="light"
+          placement="bottom-end"
+          hasArrow={false}
+        >
+          <IconButton size="small" onClick={() => setModalIsOpen(true)}>
+            <ShareIcon />
+          </IconButton>
+        </Tooltip>
       )}
       {modalIsOpen && (
         <Modal onClose={() => setModalIsOpen(false)}>

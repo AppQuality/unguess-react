@@ -119,11 +119,14 @@ export const DeviceField = ({
                 }}
               >
                 {!showMore ? (
-                  <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_SHOW_MORE_LABEL">
+                  <Trans
+                    count={available.length - maxItemsToShow}
+                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DEVICE_SHOW_MORE_LABEL"
+                  >
                     Show{' '}
                     <Span isBold>
                       {{
-                        devices: available.length - maxItemsToShow,
+                        count: available.length - maxItemsToShow,
                       }}
                     </Span>{' '}
                     more devices

@@ -29,7 +29,7 @@ export const UniqueFilter = () => {
     return null;
 
   return (
-    <div style={{ width: '200px' }}>
+    <div style={{ maxWidth: '200px' }}>
       <Dropdown
         selectedItem={data.unique.selected ?? 'all'}
         onSelect={(item) => {
