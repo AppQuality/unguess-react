@@ -32,8 +32,8 @@ export default ({
   };
 }) => {
   const { t } = useTranslation();
-  const { created, device, reporter } = bug;
-  const createdDate = new Date(created);
+  const { occurred_date, device, reporter } = bug;
+  const createdDate = new Date(occurred_date);
   const formattedDate = format(createdDate, 'dd/MM/yyyy hh:mma z');
 
   return (
