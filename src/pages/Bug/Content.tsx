@@ -23,6 +23,6 @@ export const Content = ({ bug, campaignId }: Props) => (
     <BugDescription bug={bug} />
     {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
     <BugDetails bug={bug} />
-    <BugDuplicates cid={parseInt(campaignId, 10)} />
+    <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />
   </ContainerCard>
 );

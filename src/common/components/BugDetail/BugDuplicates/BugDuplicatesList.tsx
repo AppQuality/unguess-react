@@ -12,15 +12,17 @@ const StyledParagraph = styled(Paragraph)`
 
 export const BugDuplicatesList = ({
   cid,
+  bugId,
   isOpen,
   maxSiblingSize,
 }: {
   cid: number;
+  bugId: number;
   isOpen: boolean;
   maxSiblingSize?: number;
 }) => {
   const { t } = useTranslation();
-  const { data, isLoading, isFetching, isError } = useSiblings({ cid });
+  const { data, isLoading, isFetching, isError } = useSiblings({ cid, bugId });
   if (isLoading || isFetching || isError || !data || !data.siblings.length)
     return null;
 

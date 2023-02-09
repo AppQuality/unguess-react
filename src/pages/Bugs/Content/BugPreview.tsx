@@ -65,7 +65,9 @@ export const BugPreview = ({
         <BugDescription bug={bug} />
         {media && media.length ? <BugAttachments bug={bug} /> : null}
         <BugDetails bug={bug} />
-        <BugDuplicates cid={campaignId} />
+        {currentBugId && (
+          <BugDuplicates cid={campaignId} bugId={currentBugId} />
+        )}
       </ScrollingContainer>
     </DetailContainer>
   );

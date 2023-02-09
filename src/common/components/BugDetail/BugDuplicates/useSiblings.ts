@@ -1,13 +1,10 @@
 import { useGetCampaignsByCidBugsAndBidSiblingsQuery } from 'src/features/api';
-import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 
-const useSiblings = ({ cid }: { cid: number }) => {
-  const currentBugId = getSelectedBugId();
-
+const useSiblings = ({ cid, bugId }: { cid: number; bugId: number }) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidBugsAndBidSiblingsQuery({
       cid: cid.toString(),
-      bid: currentBugId ? currentBugId.toString() : '',
+      bid: bugId.toString(),
     });
 
   return {
