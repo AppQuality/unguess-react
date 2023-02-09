@@ -32,7 +32,7 @@ export default ({
   };
 }) => {
   const { t } = useTranslation();
-  const { created, device } = bug;
+  const { created, device, reporter } = bug;
   const createdDate = new Date(created);
   const formattedDate = format(createdDate, 'dd/MM/yyyy hh:mma z');
 
@@ -40,11 +40,19 @@ export default ({
     <>
       <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
         <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
-          {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_BUG_TIME_LABEL')}
+          {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_REPORTER_LABEL')}
+        </MD>
+        <MD>
+          {reporter.name} (T{reporter.tester_id})
+        </MD>
+      </DetailsItem>
+      <DetailsItem>
+        <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
+          {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
         </MD>
         <MD>
           <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME">
-            Bug founded on{' '}
+            Bug found on{' '}
             <Span>
               {{
                 bug_created: formattedDate,

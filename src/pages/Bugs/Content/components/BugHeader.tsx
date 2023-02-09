@@ -1,5 +1,7 @@
 import {
   IconButton,
+  SM,
+  Span,
   theme as globalTheme,
 } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
@@ -10,7 +12,6 @@ import { Bug } from 'src/features/api';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
-import TesterDetail from 'src/common/components/BugDetail/TesterDetail';
 import { Link } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 
@@ -31,6 +32,10 @@ const Container = styled.div`
 
 const ActionDetailPreview = styled.div`
   margin-left: auto;
+`;
+
+const Info = styled(SM)`
+  color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
 export default ({
@@ -55,12 +60,9 @@ export default ({
           }}
         />
       )}
-      <TesterDetail
-        bugId={bug.id}
-        testerName={bug.reporter.name}
-        testerId={bug.reporter.tester_id}
-      />
-
+      <Info>
+        ID <Span isBold>{bug.id}</Span>
+      </Info>
       <ActionDetailPreview>
         <Link
           to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
