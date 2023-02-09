@@ -116,11 +116,14 @@ export const ReplicabilityField = ({
                 }}
               >
                 {!showMore ? (
-                  <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_SHOW_MORE_LABEL">
+                  <Trans
+                    count={available.length - maxItemsToShow}
+                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_SHOW_MORE_LABEL"
+                  >
                     Show{' '}
                     <Span isBold>
                       {{
-                        replicabilities: available.length - maxItemsToShow,
+                        count: available.length - maxItemsToShow,
                       }}
                     </Span>{' '}
                     more replicabilities

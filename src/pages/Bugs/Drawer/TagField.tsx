@@ -153,11 +153,14 @@ export const TagField = ({
                 }}
               >
                 {!showMore ? (
-                  <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL">
+                  <Trans
+                    count={available.length - maxItemsToShow + 1}
+                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL"
+                  >
                     Show{' '}
                     <Span isBold>
                       {{
-                        tags: available.length - maxItemsToShow + 1,
+                        count: available.length - maxItemsToShow + 1,
                       }}
                     </Span>{' '}
                     more tags

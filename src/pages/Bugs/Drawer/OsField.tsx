@@ -113,11 +113,14 @@ export const OsField = ({
                 }}
               >
                 {!showMore ? (
-                  <Trans i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_SHOW_MORE_LABEL">
+                  <Trans
+                    count={available.length - maxItemsToShow}
+                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_SHOW_MORE_LABEL"
+                  >
                     Show{' '}
                     <Span isBold>
                       {{
-                        os: available.length - maxItemsToShow,
+                        count: available.length - maxItemsToShow,
                       }}
                     </Span>{' '}
                     more OS
