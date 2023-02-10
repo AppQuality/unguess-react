@@ -14,6 +14,11 @@ const Container = styled.div`
 
 const Text = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[700]};
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
+const StyledLabel = styled(Label)`
+  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 export default ({
@@ -30,23 +35,23 @@ export default ({
 
   return (
     <Container>
-      <Label style={{ margin: `${globalTheme.space.sm} 0`, marginTop: 0 }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
-      </Label>
-      <Text>{bug.step_by_step}</Text>
-      <Label style={{ margin: `${globalTheme.space.sm} 0` }}>
+      <StyledLabel>
+        label: {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
+      </StyledLabel>
+      <Text>text: {bug.step_by_step}</Text>
+      <StyledLabel style={{ margin: `${globalTheme.space.sm} 0` }}>
         {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
-      </Label>
+      </StyledLabel>
       <Text>{bug.expected_result}</Text>
-      <Label style={{ margin: `${globalTheme.space.sm} 0` }}>
+      <StyledLabel style={{ margin: `${globalTheme.space.sm} 0` }}>
         {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
-      </Label>
+      </StyledLabel>
       <Text>{bug.current_result}</Text>
       {bug.note && (
         <>
-          <Label style={{ margin: `${globalTheme.space.sm} 0` }}>
+          <StyledLabel style={{ margin: `${globalTheme.space.sm} 0` }}>
             {t('__BUGS_PAGE_BUG_DETAIL_ADDITIONAL_NOTES_LABEL')}
-          </Label>
+          </StyledLabel>
           <Text>{bug.note}</Text>
         </>
       )}
