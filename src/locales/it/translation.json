@@ -71,7 +71,6 @@
   "__BUGS_PAGE_BUG_DETAIL_TAGS_SHOW_MORE_one": "+ {{count}} altro",
   "__BUGS_PAGE_BUG_DETAIL_TAGS_SHOW_MORE_other": "+ altri {{count}}",
   "__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL": "Bug ordinati per gravità",
-  "__BUGS_PAGE_DETAIL_HEADER": "ID <1>{{bug_id}}</1> da {{reporter_name}} (T{{reporter_id}})",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_ACTIONS_LABEL": "AZIONI FATTE DA TE",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_BUG_LABEL": "ALTRI DETTAGLI DEL BUG",
   "__BUGS_PAGE_FILTER_DRAWER_BODY_COMMON_LABEL": "PIÙ COMUNI",
