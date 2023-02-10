@@ -28,10 +28,15 @@ export const BugDuplicatesList = ({
 
   return (
     <>
-      <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+      <MD
+        isBold
+        style={{
+          marginBottom: globalTheme.space.xxs,
+        }}
+      >
         <SiblingIconSmall
           style={{
-            width: globalTheme.fontSizes.sm,
+            width: globalTheme.fontSizes.md,
             marginRight: globalTheme.space.xxs,
             color: globalTheme.palette.grey[600],
           }}
@@ -40,7 +45,7 @@ export const BugDuplicatesList = ({
           Duplicates ({{ number: data.siblings.length }})
         </Trans>
       </MD>
-      <StyledParagraph style={{ marginBottom: globalTheme.space.xxs }}>
+      <StyledParagraph style={{ marginBottom: globalTheme.space.md }}>
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_SUBTITLE')}
       </StyledParagraph>
       {data.siblings
