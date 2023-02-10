@@ -8,6 +8,7 @@ import BugDetails from 'src/common/components/BugDetail/Details';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
+import { useEffect, useRef } from 'react';
 import BugHeader from './components/BugHeader';
 
 const DetailContainer = styled.div`
@@ -41,6 +42,8 @@ export const BugPreview = ({
   campaignId: number;
   bugId: number;
 }) => {
+  const refScroll = useRef<HTMLDivElement>(null);
+
   const {
     data: bug,
     isLoading,
@@ -52,6 +55,13 @@ export const BugPreview = ({
   });
   const currentBugId = getSelectedBugId();
 
+  // Reset container scroll position when bug changes
+  useEffect(() => {
+    if (refScroll.current) {
+      refScroll.current.scrollTop = 0;
+    }
+  }, [currentBugId]);
+
   if (isLoading || isFetching || isError || !bug) return <Skeleton />;
 
   const { media } = bug;
@@ -59,7 +69,7 @@ export const BugPreview = ({
   return (
     <DetailContainer>
       <BugHeader bug={bug} />
-      <ScrollingContainer>
+      <ScrollingContainer ref={refScroll}>
         <BugMeta bug={bug} />
         <BugTags bug={bug} campaignId={campaignId} bugId={currentBugId ?? 0} />
         <BugDescription bug={bug} />
