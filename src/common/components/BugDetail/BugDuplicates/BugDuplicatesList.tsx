@@ -22,9 +22,8 @@ export const BugDuplicatesList = ({
   maxSiblingSize?: number;
 }) => {
   const { t } = useTranslation();
-  const { data, isLoading, isFetching, isError } = useSiblings({ cid, bugId });
-  if (isLoading || isFetching || isError || !data || !data.siblings.length)
-    return null;
+  const { data, isLoading, isFetching } = useSiblings({ cid, bugId });
+  if (isLoading || isFetching) return null;
 
   return (
     <>
@@ -43,13 +42,13 @@ export const BugDuplicatesList = ({
           }}
         />
         <Trans key="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_TITLE">
-          Duplicates ({{ number: data.siblings.length }})
+          Duplicates ({{ number: data?.siblings.length || 0 }})
         </Trans>
       </MD>
       <StyledParagraph style={{ marginBottom: globalTheme.space.md }}>
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_SUBTITLE')}
       </StyledParagraph>
-      {data.siblings
+      {data?.siblings
         .slice(0, isOpen ? data.siblings.length : maxSiblingSize)
         .map((item) => (
           <BugItem
