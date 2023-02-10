@@ -38,7 +38,7 @@ export default ({
 
   return (
     <>
-      <DetailsItem>
+      <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
         <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
         </MD>
@@ -53,7 +53,7 @@ export default ({
           </Trans>
         </MD>
       </DetailsItem>
-      <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
+      <DetailsItem>
         <MD isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_REPORTER_LABEL')}
         </MD>
