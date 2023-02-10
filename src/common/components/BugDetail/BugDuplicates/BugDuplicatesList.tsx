@@ -31,6 +31,7 @@ export const BugDuplicatesList = ({
       <MD
         isBold
         style={{
+          color: globalTheme.palette.grey[800],
           marginBottom: globalTheme.space.xxs,
         }}
       >
