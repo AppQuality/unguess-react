@@ -59,6 +59,15 @@ unguessApi.enhanceEndpoints({
     getCampaignsByCidWidgets: {
       providesTags: ['Bugs'],
     },
+    patchCampaignsByCidBugsAndBid: {
+      invalidatesTags: ['Tags'],
+    },
+    getCampaignsByCidTags: {
+      providesTags: ['Tags'],
+    },
+    getCampaignsByCidBugsAndBid: {
+      providesTags: ['Tags'],
+    },
   },
 });
 

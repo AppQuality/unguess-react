@@ -6,32 +6,19 @@ import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
 } from 'src/features/api';
-import {
-  getLocalizedFunctionalDashboardUrl,
-  getLocalizedUXDashboardUrl,
-} from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizedUXDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import { openUrl } from 'src/common/openUrl';
+import { Link } from 'react-router-dom';
+import { Pipe } from 'src/common/components/Pipe';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { DesktopPill } from './devicePills/DesktopPill';
 import { SmartphonePill } from './devicePills/SmartphonePill';
 import { TabletPill } from './devicePills/TabletPill';
-import { StatusPill } from './StatusPill';
 import { CampaignTypePill } from './CampaignTypePill';
 import { CampaignDurationPill } from './CampaignDurationPill';
 
-const Pipe = styled.span`
-  /** Vertical Separator */
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: ${({ theme }) => theme.space.lg};
-  margin: 0 ${({ theme }) => theme.space.sm};
-  display: inline;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
-  }
-`;
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -76,14 +63,18 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id });
 
   const { t } = useTranslation();
-  const { start_date, end_date, type, status, outputs } = campaign;
+  const functionalDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/bugs`
+  );
+  const { start_date, end_date, type, status, outputs, family } = campaign;
+  const isFunctional = family.name.toLowerCase() === 'functional';
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
 
   return (
     <FooterContainer>
       <PillsWrapper>
-        <CampaignTypePill type={type.name} />
+        <CampaignTypePill type={type.name} isFunctional={isFunctional} />
         <StatusPill status={status.name} />
         <CampaignDurationPill start={start_date} end={end_date} />
         {meta ? (
@@ -96,30 +87,10 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
         ) : null}
       </PillsWrapper>
       <ButtonWrapper>
-        {outputs?.includes('bugs') && (
-          <Button
-            id="button-bugs-list-header"
-            isPrimary
-            isPill
-            themeColor={globalTheme.palette.water[600]}
-            onClick={() =>
-              openUrl(
-                getLocalizedFunctionalDashboardUrl(campaign.id, i18n.language),
-                {
-                  newTab: true,
-                }
-              )
-            }
-          >
-            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
-          </Button>
-        )}
         {outputs?.includes('media') && (
           <Button
             id="button-media-list-header"
-            isPrimary
             isPill
-            themeColor={globalTheme.palette.water[600]}
             onClick={() =>
               openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
                 newTab: true,
@@ -129,6 +100,18 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
           >
             {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
           </Button>
+        )}
+        {outputs?.includes('bugs') && (
+          <Link to={functionalDashboardLink}>
+            <Button
+              id="button-bugs-list-header"
+              isPrimary
+              isPill
+              themeColor={globalTheme.palette.water[600]}
+            >
+              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
+            </Button>
+          </Link>
         )}
       </ButtonWrapper>
     </FooterContainer>

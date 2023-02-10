@@ -6,6 +6,7 @@ import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
+import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useTranslation } from 'react-i18next';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
@@ -33,13 +34,15 @@ const Campaign = () => {
     navigate(notFoundRoute);
   }
 
+  useCampaignAnalytics(campaignId);
+
   const {
     isLoading: isLoadingCampaign,
     isFetching: isFetchingCampaign,
     isError: isErrorCampaign,
     data: campaign,
   } = useGetCampaignsByCidQuery({
-    cid: Number(campaignId),
+    cid: campaignId?.toString() ?? '0',
   });
 
   const {
@@ -48,7 +51,7 @@ const Campaign = () => {
     isError: isErrorReports,
     data: reports,
   } = useGetCampaignsByCidReportsQuery({
-    cid: Number(campaignId),
+    cid: campaignId?.toString() ?? '0',
   });
 
   if (isErrorCampaign || isErrorReports) {

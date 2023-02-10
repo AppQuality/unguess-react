@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { Pill } from 'src/common/components/Pill';
+import { IconPill } from 'src/common/components/pills/IconPill';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { theme } from 'src/app/theme';
 import { useTranslation, Trans } from 'react-i18next';
@@ -23,7 +23,7 @@ export const CampaignDurationPill = ({
   const formattedEndDate = format(endDate, 'dd/MM/yyyy');
 
   return (
-    <Pill
+    <IconPill
       className="campaign-duration-pill"
       icon={<ClockIcon />}
       title={t('__CAMPAIGN_PAGE_INFO_HEADER_TEST_TIMING')}
@@ -33,6 +33,6 @@ export const CampaignDurationPill = ({
         <Span>{{ start_date: formattedStartDate }}</Span> to{' '}
         <Span>{{ end_date: formattedEndDate }}</Span>
       </Trans>
-    </Pill>
+    </IconPill>
   );
 };

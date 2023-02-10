@@ -17,6 +17,9 @@ export type UnguessRoutes =
   | '';
 
 declare global {
+  let react_env: {
+    REACT_APP_ENV: string;
+  };
   type Theme = typeof theme;
   type UserData = GetUsersMeApiResponse;
   type ApiOperations = operations;
@@ -27,4 +30,5 @@ declare global {
     [P in K]?: T;
   };
   type Severities = 'critical' | 'high' | 'medium' | 'low';
+  type ItemOfArray<T> = NonNullable<T>[number];
 }

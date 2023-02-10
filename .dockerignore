@@ -5,4 +5,6 @@ node_modules
 generate-devel-token.json
 build
 Dockerfile
+.env.production.local
+.env.development.local
 .env.local

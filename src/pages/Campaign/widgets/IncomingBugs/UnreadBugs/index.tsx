@@ -7,10 +7,12 @@ import {
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
-import { useUnreadBugs } from './useUnreadBugs';
-import { EmptyState } from './EmptyState';
-import { BugCard } from '../../BugCard';
+import { Pill } from 'src/common/components/pills/Pill';
+import { BugCard } from 'src/common/components/BugCard';
+import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
+import { EmptyState } from './EmptyState';
+import { useUnreadBugs } from './useUnreadBugs';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
   padding-right: 0;
@@ -95,12 +97,10 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                       <BugCard.Footer>
                         {bug.titleContext &&
                           bug.titleContext.map((context) => (
-                            <BugCard.Pill>{context}</BugCard.Pill>
+                            <Pill>{context}</Pill>
                           ))}
-                        <BugCard.Pill>{bug.type}</BugCard.Pill>
-                        <BugCard.Pill severity={severity}>
-                          {severity}
-                        </BugCard.Pill>
+                        <Pill>{bug.type}</Pill>
+                        {severity && <SeverityPill severity={severity} />}
                       </BugCard.Footer>
                     </>
                   )}

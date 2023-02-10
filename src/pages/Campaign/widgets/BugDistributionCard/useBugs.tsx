@@ -2,7 +2,7 @@ import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 
 const useBugs = (cid: number) => {
   const { data, isLoading } = useGetCampaignsByCidBugsQuery({
-    cid,
+    cid: cid?.toString() ?? '0',
     filterBy: { is_duplicated: 0 },
   });
 
