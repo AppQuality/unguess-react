@@ -3,6 +3,7 @@ import {
   SM,
   Span,
   theme as globalTheme,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
@@ -14,6 +15,7 @@ import styled from 'styled-components';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { Link } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
   display: flex;
@@ -49,6 +51,7 @@ export default ({
   };
 }) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   return (
     <Container>
@@ -67,23 +70,41 @@ export default ({
         <Link
           to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
         >
-          <IconButton size="small">
-            <LinkIcon />
-          </IconButton>
+          <Tooltip
+            content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
+            size="large"
+            type="light"
+            placement="bottom-end"
+            hasArrow={false}
+          >
+            <IconButton size="small">
+              <LinkIcon />
+            </IconButton>
+          </Tooltip>
         </Link>
+
         <ShareButton bug={bug} />
-        <IconButton
-          size="small"
-          onClick={() => {
-            dispatch(
-              selectBug({
-                bug_id: undefined,
-              })
-            );
-          }}
+
+        <Tooltip
+          content={t('__BUGS_PAGE_CLOSE_DETAILS_TOOLTIP')}
+          size="large"
+          type="light"
+          placement="bottom-end"
+          hasArrow={false}
         >
-          <CloseIcon />
-        </IconButton>
+          <IconButton
+            size="small"
+            onClick={() => {
+              dispatch(
+                selectBug({
+                  bug_id: undefined,
+                })
+              );
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Tooltip>
       </ActionDetailPreview>
     </Container>
   );
