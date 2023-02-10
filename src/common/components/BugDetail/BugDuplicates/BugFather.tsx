@@ -36,8 +36,8 @@ export const BugFather = ({ cid, bugId }: { cid: number; bugId: number }) => {
         title={data.father.title.compact}
         pills={[
           ...(data.father.title.context ? data.father.title.context : []),
-          `${data.father.os.name} ${data.father.os.version}`,
           data.father.device,
+          `${data.father.os.name} ${data.father.os.version}`,
         ]}
       />
     </>
