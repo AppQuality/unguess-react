@@ -1,4 +1,4 @@
-import { MD, Skeleton, MultiSelect } from '@appquality/unguess-design-system';
+import { Skeleton, MultiSelect } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
   Bug,
@@ -9,6 +9,7 @@ import {
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
+import { Label } from './Label';
 
 const Container = styled.div`
   display: inline-block;
@@ -64,9 +65,9 @@ export default ({
 
   return (
     <Container>
-      <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+      <Label style={{ marginBottom: globalTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
-      </MD>
+      </Label>
       {isLoadingCampaign || isFetchingCampaign ? (
         <Skeleton
           height="30px"

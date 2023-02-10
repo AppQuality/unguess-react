@@ -20,6 +20,7 @@ export const BugFather = ({ cid, bugId }: { cid: number; bugId: number }) => {
         isBold
         style={{
           marginBottom: globalTheme.space.xxs,
+          color: globalTheme.palette.grey[800],
         }}
       >
         <FatherIconSmall
