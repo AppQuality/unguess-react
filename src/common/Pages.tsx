@@ -65,11 +65,11 @@ const Pages = () => {
                   url={({ searchParams }) => {
                     if (!searchParams || !searchParams.get('cid'))
                       return '/it/oops';
-                    if (!searchParams.get('bid'))
+                    if (!searchParams.get('bug_id'))
                       return `/it/campaigns/${searchParams.get('cid')}`;
                     return `/it/campaigns/${searchParams.get(
                       'cid'
-                    )}/bugs/${searchParams.get('bid')}`;
+                    )}/bugs/${searchParams.get('bug_id')}`;
                   }}
                 />
               }
