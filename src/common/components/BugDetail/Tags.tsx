@@ -1,4 +1,4 @@
-import { MD, Skeleton, MultiSelect } from '@appquality/unguess-design-system';
+import { Skeleton, MultiSelect } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
   Bug,
