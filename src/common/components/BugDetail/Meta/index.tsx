@@ -61,7 +61,7 @@ export default ({
       isBold
       style={{
         marginTop: globalTheme.space.xxs,
-        marginBottom: `${globalTheme.space.base}px`,
+        marginBottom: globalTheme.space.xs,
         color: globalTheme.palette.grey[800],
       }}
     >

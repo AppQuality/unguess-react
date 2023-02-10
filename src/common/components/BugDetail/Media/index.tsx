@@ -56,6 +56,7 @@ export default ({
         )}
         {imagesCount > 0 && (
           <>
+            {videosCount > 0 && '- '}
             {imagesCount}{' '}
             {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
               count: imagesCount,

@@ -41,8 +41,8 @@ export const BugDuplicatesList = ({
             color: globalTheme.palette.grey[600],
           }}
         />
-        <Trans key="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_TITLE">
-          Duplicates ({{ number: data?.siblings.length || 0 }})
+        <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_TITLE">
+          Duplicates ({{ number: data.siblings.length }})
         </Trans>
       </MD>
       <StyledParagraph style={{ marginBottom: globalTheme.space.md }}>

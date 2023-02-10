@@ -47,7 +47,7 @@ export const BugDuplicates = ({
           />
           {!isOpen && data && data.siblings.length > MAX_SIBLING_SIZE ? (
             <Button isBasic onClick={() => setIsOpen(!isOpen)}>
-              <Trans key="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_SHOW_MORE">
+              <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_SHOW_MORE">
                 Show more +{{ number: data.siblings.length - MAX_SIBLING_SIZE }}
               </Trans>
             </Button>

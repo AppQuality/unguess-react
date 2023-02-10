@@ -9,6 +9,7 @@ import DetailsItems from './DetailsItems';
 const Container = styled.div`
   display: inline-block;
   width: 100%;
+  margin-bottom: ${({ theme }) => theme.space.lg};
 `;
 const Title = styled.div`
   display: flex;

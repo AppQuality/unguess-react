@@ -33,11 +33,10 @@ export const UniqueField = ({
               <SM
                 style={{
                   color: globalTheme.palette.grey[600],
-                  textTransform: 'capitalize',
                 }}
               >
                 {selected === 'unique'
-                  ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+                  ? t('__BUGS_UNIQUE_FILTER_DROWPDOWN_ITEM_UNIQUE')
                   : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
               </SM>
             </Accordion.Label>

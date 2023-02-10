@@ -2,7 +2,6 @@ import { MD } from '@appquality/unguess-design-system';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { theme as globalTheme } from 'src/app/theme';
 import { Label } from './Label';
 
 const Container = styled.div`
@@ -12,8 +11,16 @@ const Container = styled.div`
   white-space: pre-wrap;
 `;
 
+const TextBlock = styled.div`
+  padding: ${({ theme }) => theme.space.xxs} 0;
+`;
 const Text = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[700]};
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
+const StyledLabel = styled(Label)`
+  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 export default ({
@@ -30,25 +37,31 @@ export default ({
 
   return (
     <Container>
-      <Label style={{ margin: `${globalTheme.space.sm} 0`, marginTop: 0 }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
-      </Label>
-      <Text>{bug.step_by_step}</Text>
-      <Label style={{ margin: `${globalTheme.space.sm} 0` }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
-      </Label>
-      <Text>{bug.expected_result}</Text>
-      <Label style={{ margin: `${globalTheme.space.sm} 0` }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
-      </Label>
-      <Text>{bug.current_result}</Text>
+      <TextBlock>
+        <StyledLabel>
+          label: {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
+        </StyledLabel>
+        <Text>text: {bug.step_by_step}</Text>
+      </TextBlock>
+      <TextBlock>
+        <StyledLabel>
+          {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
+        </StyledLabel>
+        <Text>{bug.expected_result}</Text>
+      </TextBlock>
+      <TextBlock>
+        <StyledLabel>
+          {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
+        </StyledLabel>
+        <Text>{bug.current_result}</Text>
+      </TextBlock>
       {bug.note && (
-        <>
-          <Label style={{ margin: `${globalTheme.space.sm} 0` }}>
+        <TextBlock>
+          <StyledLabel>
             {t('__BUGS_PAGE_BUG_DETAIL_ADDITIONAL_NOTES_LABEL')}
-          </Label>
+          </StyledLabel>
           <Text>{bug.note}</Text>
-        </>
+        </TextBlock>
       )}
     </Container>
   );
