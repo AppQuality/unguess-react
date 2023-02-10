@@ -65,13 +65,18 @@ export const GroupBy = () => {
           <Dropdown.HeaderItem>
             {t('__BUGS_GROUP_BY_OPEN_MENU')}:
           </Dropdown.HeaderItem>
+
           <Dropdown.Separator />
-          {groupByOptions.map((item) => (
-            <Item key={item} value={item}>
-              {getTranslatedLabel(item)}
-            </Item>
-          ))}
+
+          <Item key="byUsecase" value="byUsecase">
+            {t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
+          </Item>
+          <Item key="bySeverity" value="bySeverity">
+            {t('__BUGS_GROUP_BY_SEVERITY_ITEM')}
+          </Item>
+
           <Dropdown.Separator />
+
           <Item key="ungrouped" value="ungrouped">
             {getTranslatedLabel('ungrouped')}
           </Item>
