@@ -17,9 +17,7 @@ export const BugDuplicates = ({
   const MAX_SIBLING_SIZE = 3;
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const { data, isLoading, isFetching, isError } = useSiblings({ cid, bugId });
-
-  if (isLoading || isFetching || isError || !data) return null;
+  const { data } = useSiblings({ cid, bugId });
 
   return (
     <Accordion level={3} style={{ padding: 0 }}>
@@ -47,7 +45,7 @@ export const BugDuplicates = ({
             cid={cid}
             bugId={bugId}
           />
-          {!isOpen && data.siblings.length > MAX_SIBLING_SIZE ? (
+          {!isOpen && data && data.siblings.length > MAX_SIBLING_SIZE ? (
             <Button isBasic onClick={() => setIsOpen(!isOpen)}>
               <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_SHOW_MORE">
                 Show more +{{ number: data.siblings.length - MAX_SIBLING_SIZE }}
