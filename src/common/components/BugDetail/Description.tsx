@@ -39,9 +39,9 @@ export default ({
     <Container>
       <TextBlock>
         <StyledLabel>
-          label: {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
+          {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
         </StyledLabel>
-        <Text>text: {bug.step_by_step}</Text>
+        <Text>{bug.step_by_step}</Text>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
@@ -55,14 +55,13 @@ export default ({
         </StyledLabel>
         <Text>{bug.current_result}</Text>
       </TextBlock>
-      {bug.note && (
-        <TextBlock>
-          <StyledLabel>
-            {t('__BUGS_PAGE_BUG_DETAIL_ADDITIONAL_NOTES_LABEL')}
-          </StyledLabel>
-          <Text>{bug.note}</Text>
-        </TextBlock>
-      )}
+
+      <TextBlock>
+        <StyledLabel>
+          {t('__BUGS_PAGE_BUG_DETAIL_ADDITIONAL_NOTES_LABEL')}
+        </StyledLabel>
+        <Text>{bug?.note || '--'}</Text>
+      </TextBlock>
     </Container>
   );
 };
