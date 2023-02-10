@@ -34,8 +34,24 @@ export const BugItem = ({
     <BugCard borderColor={globalTheme.palette.grey[500]}>
       {() => (
         <>
-          <BugCard.IconBox>
-            {isFather ? <FatherIcon /> : <SiblingIcon />}
+          <BugCard.IconBox style={{ marginTop: 0, minWidth: 0 }}>
+            {isFather ? (
+              <FatherIcon
+                style={{
+                  width: globalTheme.fontSizes.xl,
+                  marginRight: globalTheme.space.xxs,
+                  color: globalTheme.palette.grey[600],
+                }}
+              />
+            ) : (
+              <SiblingIcon
+                style={{
+                  width: globalTheme.fontSizes.xl,
+                  marginRight: globalTheme.space.xxs,
+                  color: globalTheme.palette.grey[600],
+                }}
+              />
+            )}
           </BugCard.IconBox>
           <BugCard.Info style={{ marginLeft: globalTheme.space.sm }}>
             <BugCard.TopTitle>ID {bugId}</BugCard.TopTitle>

@@ -16,17 +16,22 @@ export const BugFather = ({ cid, bugId }: { cid: number; bugId: number }) => {
   if (isLoading || isFetching || isError || !data || !data.father) return null;
   return (
     <>
-      <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+      <MD
+        isBold
+        style={{
+          marginBottom: globalTheme.space.xxs,
+        }}
+      >
         <FatherIconSmall
           style={{
-            width: globalTheme.fontSizes.sm,
+            width: globalTheme.fontSizes.md,
             marginRight: globalTheme.space.xxs,
             color: globalTheme.palette.grey[600],
           }}
         />
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_TITLE')}
       </MD>
-      <StyledParagraph style={{ marginBottom: globalTheme.space.xxs }}>
+      <StyledParagraph style={{ marginBottom: globalTheme.space.md }}>
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_SUBTITLE')}
       </StyledParagraph>
       <BugItem

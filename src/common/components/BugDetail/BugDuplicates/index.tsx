@@ -37,7 +37,9 @@ export const BugDuplicates = ({
             </LG>
           </Accordion.Label>
         </Accordion.Header>
-        <Accordion.Panel style={{ padding: 0 }}>
+        <Accordion.Panel
+          style={{ padding: 0, paddingTop: globalTheme.space.sm }}
+        >
           <BugFather cid={cid} bugId={bugId} />
           <BugDuplicatesList
             maxSiblingSize={MAX_SIBLING_SIZE}
