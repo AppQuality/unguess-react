@@ -8,7 +8,7 @@ const Container = styled.div`
   display: inline-block;
   width: 100%;
   margin: ${({ theme }) => theme.space.lg} 0;
-  white-space: pre-wrap;
+  overflow-wrap: break-word;
 `;
 
 const TextBlock = styled.div`
@@ -35,25 +35,36 @@ export default ({
 }) => {
   const { t } = useTranslation();
 
+  const wrapText = (text: string) => {
+    const wrapped = text.split('\n').map((item) => (
+      <>
+        {item}
+        <br />
+      </>
+    ));
+
+    return wrapped;
+  };
+
   return (
     <Container>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
         </StyledLabel>
-        <Text>{bug.step_by_step}</Text>
+        <Text>{wrapText(bug.step_by_step)}</Text>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
         </StyledLabel>
-        <Text>{bug.expected_result}</Text>
+        <Text>{wrapText(bug.expected_result)}</Text>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
         </StyledLabel>
-        <Text>{bug.current_result}</Text>
+        <Text>{wrapText(bug.current_result)}</Text>
       </TextBlock>
 
       <TextBlock>
