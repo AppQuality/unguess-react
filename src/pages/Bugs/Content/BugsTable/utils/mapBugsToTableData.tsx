@@ -49,9 +49,10 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
           <BugTitle isUnread={!bug.read} isBold={isPillBold}>
             {bug.title.compact}
           </BugTitle>
-          {bug.title.context && (
-            <Pill isBold={isPillBold}>{bug.title.context}</Pill>
-          )}
+          {bug.title.context &&
+            bug.title.context.map((context) => (
+              <Pill isBold={isPillBold}>{context}</Pill>
+            ))}
           {bug.type.name && (
             <>
               <Pipe size="small" />
