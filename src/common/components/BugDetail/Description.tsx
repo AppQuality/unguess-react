@@ -2,6 +2,7 @@ import { MD } from '@appquality/unguess-design-system';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { WrappedText } from 'src/common/components/WrappedText';
 import { Label } from './Label';
 
 const Container = styled.div`
@@ -35,36 +36,31 @@ export default ({
 }) => {
   const { t } = useTranslation();
 
-  const wrapText = (text: string) => {
-    const wrapped = text.split('\n').map((item) => (
-      <>
-        {item}
-        <br />
-      </>
-    ));
-
-    return wrapped;
-  };
-
   return (
     <Container>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
         </StyledLabel>
-        <Text>{wrapText(bug.step_by_step)}</Text>
+        <Text>
+          <WrappedText>{bug.step_by_step}</WrappedText>
+        </Text>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
         </StyledLabel>
-        <Text>{wrapText(bug.expected_result)}</Text>
+        <Text>
+          <WrappedText>{bug.expected_result}</WrappedText>
+        </Text>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
         </StyledLabel>
-        <Text>{wrapText(bug.current_result)}</Text>
+        <Text>
+          <WrappedText>{bug.current_result}</WrappedText>
+        </Text>
       </TextBlock>
 
       <TextBlock>

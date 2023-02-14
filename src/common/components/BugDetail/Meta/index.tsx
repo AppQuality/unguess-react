@@ -9,6 +9,7 @@ import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
 import { IconPill } from 'src/common/components/pills/IconPill';
 import { Pipe } from 'src/common/components/Pipe';
+import { WrappedText } from 'src/common/components/WrappedText';
 import { NeedReviewPill } from './NeedReviewPill';
 
 const Container = styled.div`
@@ -65,7 +66,7 @@ export default ({
         color: globalTheme.palette.grey[800],
       }}
     >
-      {bug.title.compact}
+      <WrappedText>{bug.title.compact}</WrappedText>
     </XL>
     <MD
       style={{
