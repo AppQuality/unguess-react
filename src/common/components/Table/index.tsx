@@ -24,6 +24,7 @@ export type ColumnDefinitionType<T, K extends keyof T> = {
   width?: string;
 };
 type TableProps<T extends TableData, K extends keyof T> = {
+  style?: React.CSSProperties;
   data: Array<T>;
   columns: Array<ColumnDefinitionType<T, K>>;
   onRowClick?: (id: string) => void;
@@ -63,12 +64,13 @@ const Table = <T extends TableData, K extends keyof T>({
   loadingRowHeight,
   loadingRowCount,
   emptyState,
+  style,
 }: TableProps<T, K>) => {
-  if (!data || !data.length) {
+  if (!isLoading && (!data || !data.length)) {
     return emptyState || null;
   }
   return (
-    <TableWrapper maxHeight={maxHeight}>
+    <TableWrapper maxHeight={maxHeight} style={style}>
       <ZendeskTable>
         <StyledHead isSticky={isSticky}>
           <HeaderRow>

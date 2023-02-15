@@ -1,0 +1,61 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import { Grid, Row, Col } from '@appquality/unguess-design-system';
+import { Page } from 'src/features/templates/Page';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { Header } from './Header';
+import { Content } from './Content';
+import { LoadingSkeleton } from './LoadingSkeleton';
+
+const Bug = () => {
+  const { campaignId, bugId } = useParams();
+  const navigate = useNavigate();
+  const notFoundRoute = useLocalizeRoute('oops');
+
+  if (
+    !campaignId ||
+    Number.isNaN(Number(campaignId)) ||
+    !bugId ||
+    Number.isNaN(Number(bugId))
+  ) {
+    navigate(notFoundRoute);
+    return null;
+  }
+
+  const {
+    data: bug,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId,
+    bid: bugId,
+  });
+
+  if (isLoading || isFetching) {
+    return <LoadingSkeleton />;
+  }
+
+  if (isError || typeof bug === 'undefined') {
+    navigate(notFoundRoute);
+    return null;
+  }
+
+  return (
+    <Page
+      title={bug.title.compact}
+      pageHeader={<Header campaignId={campaignId} bug={bug} />}
+      route="bug"
+    >
+      <Grid>
+        <Row>
+          <Col xl={8} offsetXl={2}>
+            <Content bug={bug} campaignId={campaignId} />
+          </Col>
+        </Row>
+      </Grid>
+    </Page>
+  );
+};
+
+export default Bug;

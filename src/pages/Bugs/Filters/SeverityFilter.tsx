@@ -5,14 +5,17 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
+import { useFilterData } from '../Drawer/useFilterData';
 
 export const SeverityFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
+  const { counters } = useFilterData('severities');
   const { t } = useTranslation();
 
   if (
     !data ||
+    !counters ||
     !data.severities ||
     !data.severities.available ||
     !data.severities.available.length
@@ -20,8 +23,9 @@ export const SeverityFilter = () => {
     return null;
 
   return (
-    <div style={{ maxWidth: '150px' }}>
+    <div style={{ maxWidth: '170px' }}>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`Severity ({{count}})`, { count }),
           noItems: t('__BUGS_SEVERITY_FILTER_ITEM_NO_ITEMS'),
@@ -31,7 +35,7 @@ export const SeverityFilter = () => {
             updateFilters({
               filters: {
                 severities: selected.map((item) => ({
-                  id: item.id,
+                  id: item.itemId,
                   name: item.label,
                 })),
               },
@@ -39,8 +43,9 @@ export const SeverityFilter = () => {
           );
         }}
         options={data.severities.available.map((item) => ({
-          id: item.id,
+          itemId: item.id,
           label: item.name,
+          disabled: !counters[item.id],
           selected: data.severities.selected.map((i) => i.id).includes(item.id),
         }))}
       />

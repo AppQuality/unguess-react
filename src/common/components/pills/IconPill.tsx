@@ -1,52 +1,79 @@
 import { Span, Tag } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-const StyledTag = styled(Tag)`
+const StyledAvatar = styled(Tag.Avatar)``;
+
+const StyledTag = styled(Tag)<{ iconPosition: 'left' | 'right' }>`
   pointer-events: none;
   padding: 0;
   margin-right: ${({ theme }) => theme.space.xs};
+  ${StyledAvatar} {
+    ${({ iconPosition, theme }) => {
+      if (iconPosition === 'left') {
+        return `
+          margin-left: 0;
+          margin-right: ${theme.space.xxs};
+      `;
+      }
+      return `
+        margin-right: 0;
+        margin-left: ${theme.space.xxs};
+    `;
+    }}
+  }
 `;
 
 const StyledChild = styled(Span)`
   color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
-const StyledAvatar = styled(StyledTag.Avatar)`
-  margin-left: 0 !important;
-  margin-right: ${({ theme }) => theme.space.xxs} !important;
-`;
-
 const PillContainer = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.sm};
-  margin-right: ${({ theme }) => theme.space.xs};
+
+  &:not(:last-child) {
+    margin-right: ${({ theme }) => theme.space.xs};
+  }
   display: flex;
   align-items: center;
 `;
-interface PillProps extends React.HTMLAttributes<HTMLDivElement> {
-  title: string;
+
+interface PillProps {
+  title: ReactNode;
+  id?: string;
+  className?: string;
+  style?: React.CSSProperties;
   background?: string;
   color?: string;
   icon?: ReactNode;
   children?: ReactNode;
+  size?: Parameters<typeof Tag>[0]['size'];
+  iconPosition?: 'left' | 'right';
 }
 
 export const IconPill = ({
   background,
-  color,
   icon,
   title,
   children,
+  size,
+  iconPosition = 'left',
   ...props
-}: PillProps) => (
-  <PillContainer {...props}>
-    <StyledTag isPill hue={background ?? 'white'} size="large">
-      {icon && <StyledAvatar>{icon}</StyledAvatar>}
-      <Span isBold style={{ color: color ?? globalTheme.palette.grey[700] }}>
-        {title}
-      </Span>
-    </StyledTag>
-    {children && <StyledChild>{children}</StyledChild>}
-  </PillContainer>
-);
+}: PillProps) => {
+  const pillTitle = <Span style={{ color: props.color }}>{title}</Span>;
+  return (
+    <PillContainer {...props}>
+      <StyledTag
+        iconPosition={iconPosition}
+        isPill
+        hue={background ?? 'white'}
+        size={size || 'large'}
+      >
+        {iconPosition === 'right' ? pillTitle : null}
+        {icon && <StyledAvatar>{icon}</StyledAvatar>}
+        {iconPosition === 'left' ? pillTitle : null}
+      </StyledTag>
+      {children && <StyledChild>{children}</StyledChild>}
+    </PillContainer>
+  );
+};

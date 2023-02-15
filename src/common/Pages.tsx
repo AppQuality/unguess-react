@@ -14,6 +14,8 @@ import Service from 'src/pages/Service';
 import Campaign from 'src/pages/Campaign';
 import Bugs from 'src/pages/Bugs';
 import { useTranslation } from 'react-i18next';
+import Bug from 'src/pages/Bug';
+import { Redirect } from './Redirect';
 
 const Pages = () => {
   const { i18n } = useTranslation();
@@ -40,6 +42,10 @@ const Pages = () => {
                   path={`/${langPrefix}/campaigns/:campaignId/bugs`}
                   element={<Bugs />}
                 />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
+                  element={<Bug />}
+                />
                 <Route path={`/${langPrefix}/services`} element={<Catalog />} />
                 <Route
                   path={`/${langPrefix}/services/:templateId`}
@@ -51,6 +57,39 @@ const Pages = () => {
                 <Route index element={<Dashboard />} />
               </Route>
             ))}
+
+            <Route
+              path="/it/dashboard-campagne-funzionali"
+              element={
+                <Redirect
+                  url={({ searchParams }) => {
+                    if (!searchParams || !searchParams.get('cid'))
+                      return '/it/oops';
+                    if (!searchParams.get('bug_id'))
+                      return `/it/campaigns/${searchParams.get('cid')}`;
+                    return `/it/campaigns/${searchParams.get(
+                      'cid'
+                    )}/bugs/${searchParams.get('bug_id')}`;
+                  }}
+                />
+              }
+            />
+            <Route
+              path="/functional-customer-dashboard"
+              element={
+                <Redirect
+                  url={({ searchParams }) => {
+                    if (!searchParams || !searchParams.get('cid'))
+                      return '/oops';
+                    if (!searchParams.get('bug_id'))
+                      return `/campaigns/${searchParams.get('cid')}`;
+                    return `/campaigns/${searchParams.get(
+                      'cid'
+                    )}/bugs/${searchParams.get('bug_id')}`;
+                  }}
+                />
+              }
+            />
             <Route path="*" element={<Navigate replace to="/oops" />} />
           </>
         )

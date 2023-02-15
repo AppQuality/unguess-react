@@ -1,5 +1,5 @@
 import { Anchor, PageHeader, Span } from '@appquality/unguess-design-system';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HeaderSkeleton } from 'src/pages/Campaign/pageHeader/HeaderSkeleton';
 import { Tools } from 'src/pages/Bugs/PageHeader/Tools';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
@@ -17,22 +17,19 @@ const FlexWrapper = styled.div`
 `;
 
 const StyledTitle = styled(PageHeader.Title)`
+  display: flex;
   width: auto;
   white-space: nowrap;
   margin-right: ${({ theme }) => theme.space.md};
   font-size: ${({ theme }) => theme.fontSizes.xxxl};
+  order: 0;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     font-size: ${({ theme }) => theme.fontSizes.xxl};
   }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    order: 1;
-  }
 `;
 
 const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const { isUserLoading, isLoading, isError, campaign, project } =
     useCampaign(campaignId);
@@ -44,17 +41,12 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
   return isUserLoading || isError ? null : (
     <PageHeader>
       <PageHeader.Breadcrumb>
-        <Anchor id="breadcrumb-parent" onClick={() => navigate(project.route)}>
-          {project.name}
-        </Anchor>
-        <Anchor
-          onClick={() => {
-            window.location.href =
-              getLocalizeoFirstLevelDashboardRoute(campaignId);
-          }}
-        >
-          {campaign.title}
-        </Anchor>
+        <Link to={project.route}>
+          <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+        </Link>
+        <Link to={getLocalizeoFirstLevelDashboardRoute(campaignId)}>
+          <Anchor>{campaign.customer_title}</Anchor>
+        </Link>
       </PageHeader.Breadcrumb>
       <PageHeader.Main infoTitle={campaign.customer_title}>
         <FlexWrapper>

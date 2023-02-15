@@ -30,4 +30,5 @@ declare global {
     [P in K]?: T;
   };
   type Severities = 'critical' | 'high' | 'medium' | 'low';
+  type ItemOfArray<T> = NonNullable<T>[number];
 }

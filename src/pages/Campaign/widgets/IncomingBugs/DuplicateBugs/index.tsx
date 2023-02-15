@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Pill } from 'src/common/components/pills/Pill';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import styled from 'styled-components';
-import { BugCard } from '../../BugCard';
+import { BugCard } from 'src/common/components/BugCard';
 import { useBugsByDuplicates } from './useBugsByDuplicates';
 
 const BugsWrapper = styled.div`

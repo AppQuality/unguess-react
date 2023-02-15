@@ -18,6 +18,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    environment: Staging
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -43,7 +44,7 @@ jobs:
           fi
           echo "##[set-output name=tag;]$TAG"
         id: extract_branch
-      - name: "Generate dist zip"
+      - name: 'Generate dist zip'
         run: |
           cd deployment
           echo -n "${{steps.environment.outputs.ECR_REPOSITORY}}:${{steps.extract_branch.outputs.tag}}" > docker-image.txt
@@ -53,7 +54,7 @@ jobs:
           S3_BUCKET: ${{steps.environment.outputs.DEPLOY_BUCKET}}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "eu-west-1" # optional: defaults to us-east-1
+          AWS_REGION: 'eu-west-1' # optional: defaults to us-east-1
           FILE: ./deployment/dist.zip
           S3_KEY: ${{steps.environment.outputs.DEPLOY_KEY}}
       - name: configure AWS creds

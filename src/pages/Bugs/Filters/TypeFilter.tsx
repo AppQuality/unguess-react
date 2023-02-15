@@ -20,8 +20,9 @@ export const TypeFilter = () => {
     return null;
 
   return (
-    <div style={{ maxWidth: '165px' }}>
+    <div>
       <CounterMultiselect
+        isCompact
         i18n={{
           counterText: (count) => t(`Typology ({{count}})`, { count }),
           noItems: t('__BUGS_TYPES_FILTER_ITEM_NO_ITEMS'),
@@ -31,7 +32,7 @@ export const TypeFilter = () => {
             updateFilters({
               filters: {
                 types: selected.map((item) => ({
-                  id: item.id,
+                  id: item.itemId,
                   name: item.label,
                 })),
               },
@@ -39,7 +40,7 @@ export const TypeFilter = () => {
           );
         }}
         options={data.types.available.map((item) => ({
-          id: item.id,
+          itemId: item.id,
           label: item.name,
           selected: data.types.selected.map((i) => i.id).includes(item.id),
         }))}
