@@ -42,7 +42,7 @@ export default ({
 
   return (
     <Container id="bug-preview-details">
-      <Accordion level={3} style={{ padding: 0 }}>
+      <Accordion level={3} style={{ padding: 0 }} defaultExpandedSections={[]}>
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label style={{ padding: 0 }}>

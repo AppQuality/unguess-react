@@ -34,7 +34,7 @@ export const OsField = ({
 
   return (
     <>
-      <Accordion level={3}>
+      <Accordion level={3} defaultExpandedSections={[]}>
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
