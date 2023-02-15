@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { LG, Tabs } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
@@ -30,6 +31,11 @@ const StyledTabs = styled(Tabs)`
   }
 `;
 
+type Open = {
+  details: boolean;
+  duplicate: boolean;
+};
+
 export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
   const { t } = useTranslation();
 
@@ -53,7 +59,7 @@ export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
   const extraItems = media?.filter((m) => m.mime_type.type === 'other');
 
   return (
-    <Container>
+    <Container id="bug-preview-attachments">
       <Title>
         <AttachmentsIcon
           style={{

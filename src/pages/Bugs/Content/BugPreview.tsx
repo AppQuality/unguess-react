@@ -8,7 +8,8 @@ import BugDetails from 'src/common/components/BugDetail/Details';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { useEffect, useRef } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import AnchorButtons from 'src/common/components/AnchorButtons';
 import BugHeader from './components/BugHeader';
 
 const DetailContainer = styled.div`
@@ -69,8 +70,9 @@ export const BugPreview = ({
   return (
     <DetailContainer>
       <BugHeader bug={bug} />
-      <ScrollingContainer ref={refScroll}>
+      <ScrollingContainer ref={refScroll} id="bug-preview-container">
         <BugMeta bug={bug} />
+        <AnchorButtons />
         <BugTags bug={bug} campaignId={campaignId} bugId={currentBugId ?? 0} />
         <BugDescription bug={bug} />
         {media && media.length ? <BugAttachments bug={bug} /> : null}

@@ -20,7 +20,7 @@ export const BugDuplicates = ({
   const { data } = useSiblings({ cid, bugId });
 
   return (
-    <Accordion level={3} style={{ padding: 0 }}>
+    <Accordion level={3} style={{ padding: 0 }} id="bug-preview-duplicates">
       <Accordion.Section>
         <Accordion.Header>
           <Accordion.Label style={{ padding: 0 }}>
