@@ -5,6 +5,7 @@ import { ReactComponent as BugDetailsIcon } from 'src/assets/icons/details-bulle
 import { ReactComponent as BugDuplicatesIcon } from 'src/assets/icons/link-icon.svg';
 import { IconButton } from '@appquality/unguess-design-system';
 import { Link } from 'react-scroll';
+import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 
 const FlexComponent = styled.div`
   width: 100%;
@@ -15,44 +16,56 @@ const FlexComponent = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-const AnchorButtons = (): ReactElement => (
-  <FlexComponent>
-    <Link
-      to="bug-preview-attachments"
-      containerId="bug-preview-container"
-      smooth
-      duration={500}
-      offset={-50}
-    >
-      <IconButton size="small">
-        <AttachmentIcon />
-      </IconButton>
-    </Link>
+const AnchorButtons = ({
+  bug,
+  scrollerBoxId,
+}: {
+  bug: GetCampaignsByCidBugsAndBidApiResponse;
+  scrollerBoxId?: string;
+}): ReactElement => {
+  const { media } = bug;
 
-    <Link
-      to="bug-preview-details"
-      containerId="bug-preview-container"
-      smooth
-      duration={500}
-      offset={-50}
-    >
-      <IconButton size="small">
-        <BugDetailsIcon />
-      </IconButton>
-    </Link>
+  return (
+    <FlexComponent>
+      {media && media.length && (
+        <Link
+          to="bug-preview-attachments"
+          containerId={scrollerBoxId || 'main'}
+          smooth
+          duration={500}
+          offset={-50}
+        >
+          <IconButton size="small">
+            <AttachmentIcon />
+          </IconButton>
+        </Link>
+      )}
 
-    <Link
-      to="bug-preview-duplicates"
-      containerId="bug-preview-container"
-      smooth
-      duration={500}
-      offset={-50}
-    >
-      <IconButton size="small">
-        <BugDuplicatesIcon />
-      </IconButton>
-    </Link>
-  </FlexComponent>
-);
+      <Link
+        to="bug-preview-details"
+        containerId={scrollerBoxId || 'main'}
+        smooth
+        duration={500}
+        offset={-50}
+      >
+        <IconButton size="small">
+          <BugDetailsIcon />
+        </IconButton>
+      </Link>
+
+      <Link
+        to="bug-preview-duplicates"
+        containerId={scrollerBoxId || 'main'}
+        smooth
+        duration={500}
+        offset={-50}
+      >
+        <IconButton size="small">
+          <BugDuplicatesIcon />
+        </IconButton>
+      </Link>
+    </FlexComponent>
+  );
+};
 
 export default AnchorButtons;

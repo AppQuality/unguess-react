@@ -8,7 +8,7 @@ import BugDetails from 'src/common/components/BugDetail/Details';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import AnchorButtons from 'src/common/components/AnchorButtons';
 import BugHeader from './components/BugHeader';
 
@@ -66,13 +66,14 @@ export const BugPreview = ({
   if (isLoading || isFetching || isError || !bug) return <Skeleton />;
 
   const { media } = bug;
+  const scrollerBoxId = 'bug-preview-container';
 
   return (
     <DetailContainer>
       <BugHeader bug={bug} />
-      <ScrollingContainer ref={refScroll} id="bug-preview-container">
+      <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugMeta bug={bug} />
-        <AnchorButtons />
+        <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
         <BugTags bug={bug} campaignId={campaignId} bugId={currentBugId ?? 0} />
         <BugDescription bug={bug} />
         {media && media.length ? <BugAttachments bug={bug} /> : null}

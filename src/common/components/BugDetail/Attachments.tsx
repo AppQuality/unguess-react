@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react';
 import { LG, Tabs } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
@@ -30,11 +29,6 @@ const StyledTabs = styled(Tabs)`
     width: 50%;
   }
 `;
-
-type Open = {
-  details: boolean;
-  duplicate: boolean;
-};
 
 export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
   const { t } = useTranslation();

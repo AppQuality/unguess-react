@@ -4,7 +4,6 @@ import { Bug, BugAdditionalField } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
-import { Dispatch, SetStateAction } from 'react';
 import DetailsItems from './DetailsItems';
 
 const Container = styled.div`
