@@ -21,11 +21,6 @@ const Title = styled.div`
   }
 `;
 
-export type Open = {
-  details: boolean;
-  duplicate: boolean;
-};
-
 export default ({
   bug,
 }: {
