@@ -9,7 +9,7 @@ import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useRef } from 'react';
-import AnchorButtons from 'src/common/components/AnchorButtons';
+import AnchorButtons from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
 
 const DetailContainer = styled.div`

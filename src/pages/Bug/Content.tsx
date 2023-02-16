@@ -6,7 +6,7 @@ import BugDescription from 'src/common/components/BugDetail/Description';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import BugDetails from 'src/common/components/BugDetail/Details';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
-import AnchorButtons from 'src/common/components/AnchorButtons';
+import AnchorButtons from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
 
 interface Props {
