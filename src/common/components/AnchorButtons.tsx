@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as AttachmentIcon } from 'src/assets/icons/media-icon.svg';
-import { ReactComponent as BugDetailsIcon } from 'src/assets/icons/details-bullets-icon.svg';
-import { ReactComponent as BugDuplicatesIcon } from 'src/assets/icons/link-icon.svg';
-import { IconButton } from '@appquality/unguess-design-system';
 import { Link } from 'react-scroll';
+import { IconButton } from '@appquality/unguess-design-system';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
+import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
+import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/linked.svg';
 
 const FlexComponent = styled.div`
   width: 100%;
@@ -36,7 +36,7 @@ const AnchorButtons = ({
           offset={-50}
         >
           <IconButton size="small">
-            <AttachmentIcon />
+            <AttachmentsIcon />
           </IconButton>
         </Link>
       )}
@@ -49,7 +49,7 @@ const AnchorButtons = ({
         offset={-50}
       >
         <IconButton size="small">
-          <BugDetailsIcon />
+          <DetailsIcon />
         </IconButton>
       </Link>
 
@@ -61,7 +61,7 @@ const AnchorButtons = ({
         offset={-50}
       >
         <IconButton size="small">
-          <BugDuplicatesIcon />
+          <LinkIcon />
         </IconButton>
       </Link>
     </FlexComponent>

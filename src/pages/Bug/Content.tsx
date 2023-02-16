@@ -14,25 +14,17 @@ interface Props {
   campaignId: string;
 }
 
-export const Content = ({ bug, campaignId }: Props) => {
-  const scrollerBoxId = 'specific-bug-page';
-
-  return (
-    <ContainerCard>
-      <BugHeader bug={bug} />
-      <BugMeta bug={bug} />
-      <AnchorButtons bug={bug} />
-      <div style={{ width: '50%' }}>
-        <BugTags
-          bug={bug}
-          campaignId={parseInt(campaignId, 10)}
-          bugId={bug.id}
-        />
-      </div>
-      <BugDescription bug={bug} />
-      {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
-      <BugDetails bug={bug} />
-      <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />
-    </ContainerCard>
-  );
-};
+export const Content = ({ bug, campaignId }: Props) => (
+  <ContainerCard>
+    <BugHeader bug={bug} />
+    <BugMeta bug={bug} />
+    <AnchorButtons bug={bug} />
+    <div style={{ width: '50%' }}>
+      <BugTags bug={bug} campaignId={parseInt(campaignId, 10)} bugId={bug.id} />
+    </div>
+    <BugDescription bug={bug} />
+    {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
+    <BugDetails bug={bug} />
+    <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />
+  </ContainerCard>
+);
