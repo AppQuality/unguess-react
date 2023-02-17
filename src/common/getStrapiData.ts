@@ -7,6 +7,7 @@ import {
   ServiceResponse,
 } from 'src/features/backoffice';
 import { StrapiIcon } from 'src/features/backoffice/strapi';
+import { isDev } from './isDevEnvironment';
 
 export type StrapiResponse =
   | CategoryListResponse
@@ -26,7 +27,6 @@ export type StrapiResponse =
  * @returns {object | false}
  */
 export const extractStrapiData = (item: StrapiResponse) => {
-  const isDev = ['staging', 'local'].includes(react_env.REACT_APP_ENV);
   if (item !== undefined && item.data !== null) {
     if (item.data !== undefined && item.data !== null) {
       if (Array.isArray(item.data)) {
@@ -34,7 +34,7 @@ export const extractStrapiData = (item: StrapiResponse) => {
         item.data.forEach((listItem) => {
           const newListItem = extractStrapiData({ data: listItem });
           if (newListItem) {
-            if (isDev || newListItem.publishedAt !== null) {
+            if (isDev() || newListItem.publishedAt !== null) {
               items.push(newListItem);
             }
           }

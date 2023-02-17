@@ -21,6 +21,7 @@ import { prepareGravatar, isMaxMedia } from 'src/common/utils';
 import { useEffect } from 'react';
 import API from 'src/common/api';
 import TagManager from 'react-gtm-module';
+import { isDev } from 'src/common/isDevEnvironment';
 import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
@@ -142,6 +143,7 @@ export const Navigation = ({
         key: 'it',
         label: t('__APP_LANGUANGE_IT_TEXT'),
       },
+      ...(isDev() && { ach: { key: 'ach', label: 'Acholi' } }),
     },
     currentLanguage: i18n.language,
     feedbackTitle: t('__PROFILE_MODAL_FEEDBACK_TITLE'),
@@ -158,11 +160,13 @@ export const Navigation = ({
       url: 'https://www.iubenda.com/privacy-policy/833252/full-legal',
     },
     onSelectLanguage: (lang: string) => {
-      if (!pathWithoutLocale) return;
+      if (pathWithoutLocale === false) return;
+      if (lang === i18n.language) return;
+
       if (lang === 'en') {
         document.location.href = pathWithoutLocale;
       } else {
-        document.location.href = `/${lang}/${pathWithoutLocale}`;
+        document.location.href = `/${lang}${pathWithoutLocale}`;
       }
     },
     onToggleChat: () => {
