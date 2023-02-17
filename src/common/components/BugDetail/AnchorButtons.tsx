@@ -47,7 +47,7 @@ export const AnchorButtons = ({
         containerId={scrollerBoxId || 'main'}
         smooth
         duration={500}
-        offset={-50}
+        offset={0}
         onClick={() => {
           setOpenAccordions([...openAccordions, 'details']);
         }}
@@ -62,7 +62,7 @@ export const AnchorButtons = ({
         containerId={scrollerBoxId || 'main'}
         smooth
         duration={500}
-        offset={-50}
+        offset={0}
         onClick={() => {
           setOpenAccordions([...openAccordions, 'duplicates']);
         }}
