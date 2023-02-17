@@ -1,4 +1,3 @@
-import { ReactElement } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-scroll';
 import { IconButton } from '@appquality/unguess-design-system';
@@ -6,6 +5,7 @@ import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
 import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/linked.svg';
+import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
 
 const FlexComponent = styled.div`
   width: 100%;
@@ -16,14 +16,15 @@ const FlexComponent = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-const AnchorButtons = ({
+export const AnchorButtons = ({
   bug,
   scrollerBoxId,
 }: {
   bug: GetCampaignsByCidBugsAndBidApiResponse;
   scrollerBoxId?: string;
-}): ReactElement => {
+}) => {
   const { media } = bug;
+  const { openAccordions, setOpenAccordions } = useBugPreviewContext();
 
   return (
     <FlexComponent>
@@ -47,6 +48,9 @@ const AnchorButtons = ({
         smooth
         duration={500}
         offset={-50}
+        onClick={() => {
+          setOpenAccordions([...openAccordions, 'details']);
+        }}
       >
         <IconButton size="small">
           <DetailsIcon />
@@ -59,6 +63,9 @@ const AnchorButtons = ({
         smooth
         duration={500}
         offset={-50}
+        onClick={() => {
+          setOpenAccordions([...openAccordions, 'duplicates']);
+        }}
       >
         <IconButton size="small">
           <LinkIcon />
@@ -67,5 +74,3 @@ const AnchorButtons = ({
     </FlexComponent>
   );
 };
-
-export default AnchorButtons;

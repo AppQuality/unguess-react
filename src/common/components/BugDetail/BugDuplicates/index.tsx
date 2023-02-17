@@ -2,6 +2,7 @@ import { Accordion, LG, Button } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
+import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
 import { useSiblings } from './useSiblings';
 import { BugDuplicatesList } from './BugDuplicatesList';
 import { BugFather } from './BugFather';
@@ -18,13 +19,25 @@ export const BugDuplicates = ({
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const { data } = useSiblings({ cid, bugId });
+  const { openAccordions, setOpenAccordions } = useBugPreviewContext();
+  const isAccordionOpen = openAccordions.includes('details');
+
+  const handleAccordionChange = () => {
+    if (isAccordionOpen) {
+      setOpenAccordions(openAccordions.filter((item) => item !== 'details'));
+    } else {
+      setOpenAccordions([...openAccordions, 'details']);
+    }
+  };
 
   return (
     <Accordion
       level={3}
       style={{ padding: 0 }}
-      defaultExpandedSections={[]}
+      key={`duplicates_accordion_${isAccordionOpen}`}
+      defaultExpandedSections={isAccordionOpen ? [0, 1] : []}
       id="bug-preview-duplicates"
+      onChange={handleAccordionChange}
     >
       <Accordion.Section>
         <Accordion.Header>

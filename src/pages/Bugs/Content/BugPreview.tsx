@@ -9,8 +9,9 @@ import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useRef } from 'react';
-import AnchorButtons from 'src/common/components/BugDetail/AnchorButtons';
+import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
+import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
 const DetailContainer = styled.div`
   display: flex;
@@ -72,15 +73,21 @@ export const BugPreview = ({
     <DetailContainer>
       <BugHeader bug={bug} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
-        <BugMeta bug={bug} />
-        <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
-        <BugTags bug={bug} campaignId={campaignId} bugId={currentBugId ?? 0} />
-        <BugDescription bug={bug} />
-        {media && media.length ? <BugAttachments bug={bug} /> : null}
-        <BugDetails bug={bug} />
-        {currentBugId && (
-          <BugDuplicates cid={campaignId} bugId={currentBugId} />
-        )}
+        <BugPreviewContextProvider>
+          <BugMeta bug={bug} />
+          <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
+          <BugTags
+            bug={bug}
+            campaignId={campaignId}
+            bugId={currentBugId ?? 0}
+          />
+          <BugDescription bug={bug} />
+          {media && media.length ? <BugAttachments bug={bug} /> : null}
+          <BugDetails bug={bug} />
+          {currentBugId && (
+            <BugDuplicates cid={campaignId} bugId={currentBugId} />
+          )}
+        </BugPreviewContextProvider>
       </ScrollingContainer>
     </DetailContainer>
   );
