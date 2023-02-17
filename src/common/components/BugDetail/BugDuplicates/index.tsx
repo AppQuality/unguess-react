@@ -20,13 +20,13 @@ export const BugDuplicates = ({
   const [isOpen, setIsOpen] = useState(false);
   const { data } = useSiblings({ cid, bugId });
   const { openAccordions, setOpenAccordions } = useBugPreviewContext();
-  const isAccordionOpen = openAccordions.includes('details');
+  const isAccordionOpen = openAccordions.includes('duplicates');
 
   const handleAccordionChange = () => {
     if (isAccordionOpen) {
-      setOpenAccordions(openAccordions.filter((item) => item !== 'details'));
+      setOpenAccordions(openAccordions.filter((item) => item !== 'duplicates'));
     } else {
-      setOpenAccordions([...openAccordions, 'details']);
+      setOpenAccordions([...openAccordions, 'duplicates']);
     }
   };
 
