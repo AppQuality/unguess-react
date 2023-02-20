@@ -10,6 +10,7 @@ export const SmartphonePill = () => {
       id="pill-smartphone-header"
       color={theme.palette.azure[600]}
       hue="white"
+      size="large"
     >
       <Tag.Avatar>
         <SmartphoneIcon />
