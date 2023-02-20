@@ -1,6 +1,6 @@
 import { Skeleton, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Pill } from 'src/common/components/pills/Pill';
+import { Tag } from 'src/common/Tag';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import styled from 'styled-components';
 import { BugCard } from 'src/common/components/BugCard';
@@ -53,15 +53,17 @@ const DuplicateBugs = ({ campaignId }: { campaignId: number }) => {
                       {bug.title.context &&
                         bug.title.context.length > 0 &&
                         bug.title.context.map((context) => (
-                          <Pill key={`${bug.id}_${context}`}>{context}</Pill>
+                          <Tag isRegular key={`${bug.id}_${context}`}>
+                            {context}
+                          </Tag>
                         ))}
-                      <Pill>
+                      <Tag isRegular>
                         {t(
                           '__CAMPAIGN_WIDGET_INCOMING_BUGS_MOST_SUBMITTED_DUPLICATES_LABEL'
                         )}
                         : {bug.duplicates}
-                      </Pill>
-                      <Pill>{bug.type.name}</Pill>
+                      </Tag>
+                      <Tag isRegular>{bug.type.name}</Tag>
                       {severity && <SeverityPill severity={severity} />}
                     </BugCard.Footer>
                   </>

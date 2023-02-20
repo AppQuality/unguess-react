@@ -1,7 +1,6 @@
 import { BugCard } from 'src/common/components/BugCard/BugCardWithIcon';
 import { theme as globalTheme } from 'src/app/theme';
-import { Pill } from 'src/common/components/pills/Pill';
-import { Span } from '@appquality/unguess-design-system';
+import { Span, Tag } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -63,7 +62,7 @@ export const BugItem = ({
             {pills ? (
               <BugCard.Footer>
                 {pills.map((pill) => (
-                  <Pill>{pill}</Pill>
+                  <Tag>{pill}</Tag>
                 ))}
               </BugCard.Footer>
             ) : null}

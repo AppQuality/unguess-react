@@ -7,7 +7,7 @@ import {
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
-import { Pill } from 'src/common/components/pills/Pill';
+import { Tag } from 'src/common/Tag';
 import { BugCard } from 'src/common/components/BugCard';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
@@ -97,9 +97,9 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                       <BugCard.Footer>
                         {bug.titleContext &&
                           bug.titleContext.map((context) => (
-                            <Pill>{context}</Pill>
+                            <Tag isRegular>{context}</Tag>
                           ))}
-                        <Pill>{bug.type}</Pill>
+                        <Tag isRegular>{bug.type}</Tag>
                         {severity && <SeverityPill severity={severity} />}
                       </BugCard.Footer>
                     </>

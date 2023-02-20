@@ -1,7 +1,7 @@
 import { TFunction } from 'react-i18next';
 import { SM } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
-import { Pill } from 'src/common/components/pills/Pill';
+import { Tag } from 'src/common/Tag';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
@@ -51,29 +51,25 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
           </BugTitle>
           {bug.title.context &&
             bug.title.context.map((context) => (
-              <Pill isBold={isPillBold}>{context}</Pill>
+              <Tag isRegular={!isPillBold}>{context}</Tag>
             ))}
           {bug.type.name && (
             <>
               <Pipe size="small" />
-              <Pill
-                isBold={isPillBold}
+              <Tag
+                isRegular={!isPillBold}
                 style={{ marginLeft: globalTheme.space.xs }}
               >
                 {bug.type.name}
-              </Pill>
+              </Tag>
             </>
           )}
           {!bug.read && (
             <>
               <Pipe size="small" />
-              <Pill
-                isBold
-                backgroundColor="transparent"
-                color={globalTheme.palette.blue[600]}
-              >
+              <Tag hue="rgba(0, 0, 0, 0)" color={globalTheme.palette.blue[600]}>
                 {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
-              </Pill>
+              </Tag>
             </>
           )}
         </div>
