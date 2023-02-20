@@ -6,7 +6,12 @@ import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-deskto
 export const DesktopPill = () => {
   const { t } = useTranslation();
   return (
-    <Tag id="pill-desktop-header" color={theme.palette.azure[600]} hue="white">
+    <Tag
+      id="pill-desktop-header"
+      size="large"
+      color={theme.palette.azure[600]}
+      hue="white"
+    >
       <Tag.Avatar>
         <DesktopIcon />
       </Tag.Avatar>

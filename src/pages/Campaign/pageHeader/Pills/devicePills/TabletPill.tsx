@@ -6,7 +6,12 @@ import { Tag } from 'src/common/Tag';
 export const TabletPill = () => {
   const { t } = useTranslation();
   return (
-    <Tag id="pill-tablet-header" hue="white" color={theme.palette.azure[600]}>
+    <Tag
+      id="pill-tablet-header"
+      hue="white"
+      color={theme.palette.azure[600]}
+      size="large"
+    >
       <Tag.Avatar>
         <TabletIcon />
       </Tag.Avatar>
