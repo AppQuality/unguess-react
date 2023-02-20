@@ -1,16 +1,20 @@
 import { useTranslation } from 'react-i18next';
-import { IconPill } from 'src/common/components/pills/IconPill';
 import { theme } from 'src/app/theme';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
+import { Tag } from 'src/common/Tag';
 
 export const SmartphonePill = () => {
   const { t } = useTranslation();
   return (
-    <IconPill
+    <Tag
       id="pill-smartphone-header"
-      icon={<SmartphoneIcon />}
-      title={t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}
       color={theme.palette.azure[600]}
-    />
+      hue="white"
+    >
+      <Tag.Avatar>
+        <SmartphoneIcon />
+      </Tag.Avatar>
+      {t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}
+    </Tag>
   );
 };
