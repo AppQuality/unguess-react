@@ -1,7 +1,7 @@
 /* eslint-disable security/detect-object-injection */
 import { theme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
-import { Pill } from 'src/common/components/pills/Pill';
+import { Tag } from 'src/common/Tag';
 
 interface SeverityPillProps {
   severity: Severities;
@@ -9,9 +9,10 @@ interface SeverityPillProps {
 }
 
 export const SeverityPill = ({ severity, counter }: SeverityPillProps) => (
-  <Pill
+  <Tag
+    isRegular
     color={theme.colors.bySeverity[severity]}
-    backgroundColor={`${theme.colors.bySeverity[severity]}14`}
+    hue={`${theme.colors.bySeverity[severity]}14`}
   >
     <span>
       {capitalizeFirstLetter(severity)}
@@ -21,5 +22,5 @@ export const SeverityPill = ({ severity, counter }: SeverityPillProps) => (
         </span>
       )}
     </span>
-  </Pill>
+  </Tag>
 );
