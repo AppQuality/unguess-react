@@ -7,7 +7,7 @@ import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
-import { IconPill } from 'src/common/components/pills/IconPill';
+import { Tag } from 'src/common/Tag';
 import { Pipe } from 'src/common/components/Pipe';
 import { WrappedText } from 'src/common/components/WrappedText';
 import { NeedReviewPill } from './NeedReviewPill';
@@ -39,7 +39,7 @@ function getDeviceIcon(device: string) {
     case 'desktop':
       return <DesktopIcon />;
     default:
-      return null;
+      return <TabletIcon />;
   }
 }
 
@@ -79,28 +79,22 @@ export default ({
     <BugInfo>
       <SM style={{ textTransform: 'capitalize' }}>{bug.type.name}</SM>
       <Pipe style={{ height: globalTheme.lineHeights.md }} />
-      <IconPill
-        size="medium"
-        title={
-          <SM>
-            {bug.device.type === 'desktop'
-              ? bug.device.desktop_type
-              : `${bug.device.manufacturer} ${bug.device.model}`}
-          </SM>
-        }
-        icon={getDeviceIcon(bug.device.type)}
-        style={{ textTransform: 'capitalize' }}
-      />
-      <IconPill
-        size="medium"
-        title={
-          <SM>
-            {bug.device.os} {bug.device.os_version}
-          </SM>
-        }
-        icon={<OSIcon />}
-        style={{ textTransform: 'capitalize' }}
-      />
+      <Tag hue="white">
+        <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>
+        <SM style={{ textTransform: 'capitalize' }}>
+          {bug.device.type === 'desktop'
+            ? bug.device.desktop_type
+            : `${bug.device.manufacturer} ${bug.device.model}`}
+        </SM>
+      </Tag>
+      <Tag hue="white">
+        <Tag.Avatar>
+          <OSIcon />
+        </Tag.Avatar>
+        <SM style={{ textTransform: 'capitalize' }}>
+          {bug.device.os} {bug.device.os_version}
+        </SM>
+      </Tag>
     </BugInfo>
   </Container>
 );
