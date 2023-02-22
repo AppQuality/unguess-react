@@ -1,7 +1,10 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
+import {
+  CampaignStatus,
+  StatusPill,
+} from 'src/common/components/pills/StatusPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { DotsMenu } from './DotsMenu';
@@ -97,7 +100,7 @@ export const Tools = ({
           ))}
         </SeveritiesWrapper>
         <Pipe />
-        <StyledStatus status={status.name} />
+        <StyledStatus status={status.name as CampaignStatus} />
       </ToolsWrapper>
       <StyledMenu campaignId={campaignId} customerTitle={customerTitle} />
     </>

@@ -10,7 +10,7 @@ export const DesktopPill = () => {
       id="pill-desktop-header"
       size="large"
       color={theme.palette.azure[600]}
-      hue="white"
+      hue="rgba(0,0,0,0)"
     >
       <Tag.Avatar>
         <DesktopIcon />
