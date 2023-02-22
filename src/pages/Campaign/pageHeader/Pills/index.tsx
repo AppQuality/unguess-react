@@ -12,7 +12,10 @@ import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
+import {
+  CampaignStatus,
+  StatusPill,
+} from 'src/common/components/pills/StatusPill';
 import { DesktopPill } from './devicePills/DesktopPill';
 import { SmartphonePill } from './devicePills/SmartphonePill';
 import { TabletPill } from './devicePills/TabletPill';
@@ -75,7 +78,7 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
     <FooterContainer>
       <PillsWrapper>
         <CampaignTypePill type={type.name} isFunctional={isFunctional} />
-        <StatusPill status={status.name} />
+        <StatusPill status={status.name as CampaignStatus} />
         <CampaignDurationPill start={start_date} end={end_date} />
         {meta ? (
           <>

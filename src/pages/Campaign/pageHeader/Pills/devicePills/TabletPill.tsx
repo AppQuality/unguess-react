@@ -8,9 +8,9 @@ export const TabletPill = () => {
   return (
     <Tag
       id="pill-tablet-header"
-      hue="white"
       color={theme.palette.azure[600]}
       size="large"
+      hue="rgba(0,0,0,0)"
     >
       <Tag.Avatar>
         <TabletIcon />
