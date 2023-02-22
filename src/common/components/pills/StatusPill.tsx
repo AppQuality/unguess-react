@@ -15,7 +15,7 @@ export type CampaignStatus =
   | 'functional'
   | 'experiential';
 
-interface StatusPillArgs {
+interface StatusPillArgs extends React.HTMLAttributes<HTMLDivElement> {
   status: CampaignStatus;
   children?: React.ReactNode;
   counter?: number;
@@ -78,6 +78,7 @@ export const StatusPill = ({
   children,
   counter,
   isRound,
+  ...props
 }: StatusPillArgs) => {
   const { t } = useTranslation();
   return (
@@ -87,6 +88,7 @@ export const StatusPill = ({
       color={getColorByStatus(status)}
       hue="rgba(0,0,0,0)"
       isRound={isRound}
+      {...props}
     >
       {typeof getIconByStatus(status) !== 'undefined' && (
         <Tag.Avatar>{getIconByStatus(status)}</Tag.Avatar>

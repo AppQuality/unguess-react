@@ -19,7 +19,6 @@ import {
 import { DesktopPill } from './devicePills/DesktopPill';
 import { SmartphonePill } from './devicePills/SmartphonePill';
 import { TabletPill } from './devicePills/TabletPill';
-import { CampaignTypePill } from './CampaignTypePill';
 import { CampaignDurationPill } from './CampaignDurationPill';
 
 const ButtonWrapper = styled.div`
@@ -70,14 +69,15 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
     `campaigns/${campaign.id}/bugs`
   );
   const { start_date, end_date, type, status, outputs, family } = campaign;
-  const isFunctional = family.name.toLowerCase() === 'functional';
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
 
   return (
     <FooterContainer>
       <PillsWrapper>
-        <CampaignTypePill type={type.name} isFunctional={isFunctional} />
+        <StatusPill status={family.name.toLowerCase() as CampaignStatus}>
+          {type.name}
+        </StatusPill>
         <StatusPill status={status.name as CampaignStatus} />
         <CampaignDurationPill start={start_date} end={end_date} />
         {meta ? (
