@@ -5,7 +5,6 @@ import {
   Paragraph,
   SM,
   Span,
-  Tag,
   Textarea,
   theme as globalTheme,
   XL,
@@ -15,6 +14,7 @@ import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
+import { Tag } from 'src/common/Tag';
 import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
 import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
 import { ReactComponent as SuccessIcon } from 'src/assets/icons/success-icon.svg';
@@ -163,12 +163,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
         <StyledFormField>
           <TagsContainer>
-            <Tag
-              size="large"
-              isPill
-              isRegular
-              hue={globalTheme.palette.grey[100]}
-            >
+            <Tag size="large" isRegular hue={globalTheme.palette.grey[100]}>
               <Tag.Avatar>
                 <UserTaskIcon />
               </Tag.Avatar>
@@ -181,12 +176,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 </Span>
               </Trans>
             </Tag>
-            <Tag
-              size="large"
-              isPill
-              isRegular
-              hue={globalTheme.palette.grey[100]}
-            >
+            <Tag size="large" isRegular hue={globalTheme.palette.grey[100]}>
               <Tag.Avatar>
                 <ChatIcon />
               </Tag.Avatar>
