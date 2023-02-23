@@ -5,10 +5,10 @@ import {
   Anchor,
   Paragraph,
   Span,
-  Tag,
   theme as globalTheme,
   PageHeader,
 } from '@appquality/unguess-design-system';
+import { Tag } from 'src/common/Tag';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -87,7 +87,6 @@ export const SingleServicePageHeader = ({
             {expressType && expressType.id ? (
               <StyledTag
                 size="large"
-                isPill
                 isRegular
                 hue={globalTheme.palette.grey[100]}
               >
@@ -99,7 +98,6 @@ export const SingleServicePageHeader = ({
             ) : (
               <StyledTag
                 size="large"
-                isPill
                 isRegular
                 hue={globalTheme.palette.grey[100]}
               >
@@ -112,7 +110,6 @@ export const SingleServicePageHeader = ({
             {service.is_functional ? (
               <StyledTag
                 size="large"
-                isPill
                 isRegular
                 hue={globalTheme.palette.grey[100]}
               >
@@ -124,7 +121,6 @@ export const SingleServicePageHeader = ({
             ) : (
               <StyledTag
                 size="large"
-                isPill
                 isRegular
                 hue={globalTheme.palette.grey[100]}
               >
@@ -136,7 +132,6 @@ export const SingleServicePageHeader = ({
             )}
             <StyledTag
               size="large"
-              isPill
               isRegular
               hue={globalTheme.palette.grey[100]}
             >
@@ -152,7 +147,6 @@ export const SingleServicePageHeader = ({
             {service.environment && (
               <StyledTag
                 size="large"
-                isPill
                 isRegular
                 hue={globalTheme.palette.grey[100]}
               >

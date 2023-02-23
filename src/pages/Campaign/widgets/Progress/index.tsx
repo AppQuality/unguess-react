@@ -1,13 +1,8 @@
-import {
-  XL,
-  BulletChart,
-  Span,
-  Tag,
-  SM,
-} from '@appquality/unguess-design-system';
+import { XL, BulletChart, Span, SM } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import styled from 'styled-components';
 import { FC } from 'react';
+import { Tag } from 'src/common/Tag';
 import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { BasicWidget } from '../widgetCards/BasicWidget';
@@ -99,7 +94,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
             }
           />
           <BasicWidget.Footer>
-            <Tag isPill>
+            <Tag>
               {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
                 defaultValue: 'Test duration: {{startDate}} to {{endDate}}',
                 startDate: widgetData.startDate,
