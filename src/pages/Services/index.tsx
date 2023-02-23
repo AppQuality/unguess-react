@@ -8,16 +8,12 @@ import { openWizard } from 'src/features/express/expressSlice';
 import PageLoader from 'src/features/templates/PageLoader';
 import { HubspotModal } from 'src/common/components/HubspotModal';
 import { checkHubspotURL } from 'src/common/utils';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Featured } from './Featured';
 import { Categories } from './Categories';
 import { CategoriesNav } from './CategoriesNav';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
 import { ExpressWizardContainer } from '../ExpressWizard';
-
-const PageContent = styled.div`
-  width: 100%;
-  padding-top: ${({ theme }) => theme.space.xl};
-`;
 
 const StyledGrid = styled(Grid)`
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -49,45 +45,47 @@ const Catalog = () => {
   ) : (
     <Page
       pageHeader={
-        <PageHeader>
-          <PageHeader.Main
-            infoTitle={t('__CATALOG_PAGE_TITLE')}
-            infoDescription={t('__CATALOG_PAGE_DESCRIPTION')}
-          >
-            <PageHeader.Title>{t('__CATALOG_PAGE_TITLE')}</PageHeader.Title>
-            <PageHeader.Description>
-              {t('__CATALOG_PAGE_DESCRIPTION')}
-            </PageHeader.Description>
-          </PageHeader.Main>
-        </PageHeader>
+        <LayoutWrapper isBoxed>
+          <PageHeader>
+            <PageHeader.Main
+              infoTitle={t('__CATALOG_PAGE_TITLE')}
+              infoDescription={t('__CATALOG_PAGE_DESCRIPTION')}
+            >
+              <PageHeader.Title>{t('__CATALOG_PAGE_TITLE')}</PageHeader.Title>
+              <PageHeader.Description>
+                {t('__CATALOG_PAGE_DESCRIPTION')}
+              </PageHeader.Description>
+            </PageHeader.Main>
+          </PageHeader>
+        </LayoutWrapper>
       }
       title={t('__PAGE_TITLE_CATALOG')}
       route="services"
     >
-      <StyledGrid gutters="lg">
-        <HubspotModal
-          isOpen={isModalOpen}
-          meetingUrl={memoCsm?.url}
-          onClose={() => setIsModalOpen(false)}
-        />
-        <Row>
-          <Col xs={12} lg={3}>
-            <CategoriesNav />
-          </Col>
-          <Col xs={12} lg={9}>
-            <PageContent>
+      <LayoutWrapper isBoxed>
+        <StyledGrid gutters="lg">
+          <HubspotModal
+            isOpen={isModalOpen}
+            meetingUrl={memoCsm?.url}
+            onClose={() => setIsModalOpen(false)}
+          />
+          <Row>
+            <Col xs={12} lg={3}>
+              <CategoriesNav />
+            </Col>
+            <Col xs={12} lg={9}>
               <Featured handleHubspot={handleOpenHubspot} />
               <Categories handleHubspot={handleOpenHubspot} />
-            </PageContent>
-            <ExpressDrawer
-              onCtaClick={() => {
-                dispatch(openWizard());
-              }}
-            />
-            <ExpressWizardContainer />
-          </Col>
-        </Row>
-      </StyledGrid>
+              <ExpressDrawer
+                onCtaClick={() => {
+                  dispatch(openWizard());
+                }}
+              />
+              <ExpressWizardContainer />
+            </Col>
+          </Row>
+        </StyledGrid>
+      </LayoutWrapper>
     </Page>
   );
 };

@@ -20,31 +20,27 @@ const Container = styled.div`
   }
 
   /* Hide scrollbar for IE, Edge and Firefox */
-
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: ${({ theme }) => theme.palette.grey[100]};
-  margin: ${({ theme }) => theme.space.xxl};
+  margin: ${({ theme }) => theme.space.xxl} auto;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    margin: ${({ theme }) => theme.space.md};
-  }
-
-  max-width: ${({ theme }) => theme.breakpoints.xxl};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
-    margin: ${({ theme }) => theme.space.xxl} auto;
-    padding-left: ${({ theme }) => theme.space.xxl};
-    padding-right: ${({ theme }) => theme.space.xxl};
+    margin: ${({ theme }) => theme.space.md} auto;
   }
 `;
 
 const StyledMain = styled(Main)`
   background-color: transparent;
   margin: 0;
+`;
+
+const HeaderContainer = styled.div`
+  width: 100%;
+  background-color: ${({ theme }) => theme.palette.white};
 `;
 
 export const Logged = ({
@@ -79,11 +75,14 @@ export const Logged = ({
         className="iubenda-cs-preferences-link"
       />
       <Chrome isFluid hue={globalTheme.palette.white}>
-        <Body style={{ backgroundColor: globalTheme.palette.grey[100] }}>
+        <Body
+          id="body"
+          style={{ backgroundColor: globalTheme.palette.grey[100] }}
+        >
           <Navigation route={route}>
             <StyledMain id="main">
-              {pageHeader && pageHeader}
-              <Container>{children}</Container>
+              {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
+              <Container id="container">{children}</Container>
             </StyledMain>
           </Navigation>
         </Body>

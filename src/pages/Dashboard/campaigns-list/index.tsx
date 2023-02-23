@@ -98,6 +98,7 @@ export const CampaignsList = () => {
                 isPill
                 {...(viewType === 'list' && { isPrimary: true })}
                 onClick={() => setViewType('list')}
+                style={{ marginRight: theme.space.xs }}
               >
                 <ListIcon />
               </IconButton>

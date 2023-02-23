@@ -18,6 +18,7 @@ import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FieldArray, FormikProps } from 'formik';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
@@ -165,98 +166,102 @@ export const ModalUseCase = ({
       <StyledModal.Header
         style={{ backgroundColor: globalTheme.palette.white }}
       >
-        <ModalUseCaseHeader onClose={closeModal} />
+        <LayoutWrapper>
+          <ModalUseCaseHeader onClose={closeModal} />
+        </LayoutWrapper>
       </StyledModal.Header>
       <Body>
-        <Grid style={{ height: '100%' }}>
-          <Row style={{ height: '100%' }}>
-            <ContentCol xs={12} lg={8}>
-              <TextCasesTabs>
-                <ModalUseCaseTabLayout
-                  formikProps={formikProps}
-                  handleCurrentUseCase={setUseCase}
-                  currentUseCase={currentUseCase}
-                />
-              </TextCasesTabs>
-              <BodyScrollingContainer>
-                <StyledContainerCard>
-                  {use_cases && currentUseCase && use_cases.length ? (
-                    <>
-                      <UseCaseDetails
-                        key={`useCaseDetails_k${currentUseCase.id}`}
-                        formikProps={formikProps}
-                        useCase={currentUseCase}
-                        useCaseIndex={useCaseIndex}
-                      />
-                      <PullLeft style={{ marginTop: globalTheme.space.xxl }}>
-                        <FieldArray name="use_cases">
-                          {({ remove }) => (
-                            <Button
-                              themeColor={globalTheme.palette.red[600]}
-                              isBasic
-                              onClick={() => {
-                                if (
-                                  // eslint-disable-next-line no-alert
-                                  window.confirm(
-                                    t(
-                                      '__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE'
+        <LayoutWrapper>
+          <Grid style={{ height: '100%' }}>
+            <Row style={{ height: '100%' }}>
+              <ContentCol xs={12} lg={8}>
+                <TextCasesTabs>
+                  <ModalUseCaseTabLayout
+                    formikProps={formikProps}
+                    handleCurrentUseCase={setUseCase}
+                    currentUseCase={currentUseCase}
+                  />
+                </TextCasesTabs>
+                <BodyScrollingContainer>
+                  <StyledContainerCard>
+                    {use_cases && currentUseCase && use_cases.length ? (
+                      <>
+                        <UseCaseDetails
+                          key={`useCaseDetails_k${currentUseCase.id}`}
+                          formikProps={formikProps}
+                          useCase={currentUseCase}
+                          useCaseIndex={useCaseIndex}
+                        />
+                        <PullLeft style={{ marginTop: globalTheme.space.xxl }}>
+                          <FieldArray name="use_cases">
+                            {({ remove }) => (
+                              <Button
+                                themeColor={globalTheme.palette.red[600]}
+                                isBasic
+                                onClick={() => {
+                                  if (
+                                    // eslint-disable-next-line no-alert
+                                    window.confirm(
+                                      t(
+                                        '__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE'
+                                      )
                                     )
-                                  )
-                                ) {
-                                  remove(useCaseIndex);
+                                  ) {
+                                    remove(useCaseIndex);
 
-                                  // Set current use case
-                                  if (useCaseIndex === 0) {
-                                    // If there is at least an other use case next, set it
-                                    if (use_cases[useCaseIndex + 1]) {
-                                      setUseCase(use_cases[useCaseIndex + 1]);
-                                    } else {
-                                      // Clear current use case
-                                      setUseCase();
+                                    // Set current use case
+                                    if (useCaseIndex === 0) {
+                                      // If there is at least an other use case next, set it
+                                      if (use_cases[useCaseIndex + 1]) {
+                                        setUseCase(use_cases[useCaseIndex + 1]);
+                                      } else {
+                                        // Clear current use case
+                                        setUseCase();
+                                      }
+                                    } else if (useCaseIndex > 0) {
+                                      // Set the previous one
+                                      setUseCase(use_cases[useCaseIndex - 1]);
                                     }
-                                  } else if (useCaseIndex > 0) {
-                                    // Set the previous one
-                                    setUseCase(use_cases[useCaseIndex - 1]);
                                   }
-                                }
-                              }}
-                            >
-                              <Button.StartIcon>
-                                <TrashIcon />
-                              </Button.StartIcon>
-                              {t(
-                                '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
-                              )}
-                            </Button>
+                                }}
+                              >
+                                <Button.StartIcon>
+                                  <TrashIcon />
+                                </Button.StartIcon>
+                                {t(
+                                  '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                                )}
+                              </Button>
+                            )}
+                          </FieldArray>
+                        </PullLeft>
+                      </>
+                    ) : (
+                      <CenteredContainer>
+                        <EmptyImg
+                          style={{ marginBottom: globalTheme.space.lg }}
+                        />
+                        <EmptyStateTitle>
+                          {t(
+                            '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'
                           )}
-                        </FieldArray>
-                      </PullLeft>
-                    </>
-                  ) : (
-                    <CenteredContainer>
-                      <EmptyImg
-                        style={{ marginBottom: globalTheme.space.lg }}
-                      />
-                      <EmptyStateTitle>
-                        {t(
-                          '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'
-                        )}
-                      </EmptyStateTitle>
-                      <EmptyStateText>
-                        {t(
-                          '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_DESCRIPTION'
-                        )}
-                      </EmptyStateText>
-                    </CenteredContainer>
-                  )}
-                </StyledContainerCard>
-              </BodyScrollingContainer>
-            </ContentCol>
-            <HelpCol xs={12} lg={4}>
-              <ModalUseCaseHelp />
-            </HelpCol>
-          </Row>
-        </Grid>
+                        </EmptyStateTitle>
+                        <EmptyStateText>
+                          {t(
+                            '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_DESCRIPTION'
+                          )}
+                        </EmptyStateText>
+                      </CenteredContainer>
+                    )}
+                  </StyledContainerCard>
+                </BodyScrollingContainer>
+              </ContentCol>
+              <HelpCol xs={12} lg={4}>
+                <ModalUseCaseHelp />
+              </HelpCol>
+            </Row>
+          </Grid>
+        </LayoutWrapper>
       </Body>
     </StyledModal>
   ) : null;

@@ -10,9 +10,9 @@ import {
   projectFilterChanged,
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
-
 import { CardRowLoading } from './CardRowLoading';
 
 const Project = () => {
@@ -47,7 +47,9 @@ const Project = () => {
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
     >
-      <Grid>{project.isSuccess ? <ProjectItems /> : <CardRowLoading />}</Grid>
+      <LayoutWrapper isBoxed>
+        <Grid>{project.isSuccess ? <ProjectItems /> : <CardRowLoading />}</Grid>
+      </LayoutWrapper>
     </Page>
   );
 };

@@ -11,6 +11,7 @@ import PageLoader from 'src/features/templates/PageLoader';
 import { HubspotModal } from 'src/common/components/HubspotModal';
 import { checkHubspotURL, getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ServiceTimeline } from './ServiceTimeline';
 import { SingleServicePageHeader } from './SingleServicePageHeader';
 import { strapiParams } from './strapi';
@@ -82,7 +83,7 @@ const Service = () => {
       route="services"
     >
       {data && (
-        <>
+        <LayoutWrapper isBoxed>
           <HubspotModal
             isOpen={isModalOpen}
             meetingUrl={memoCsm?.url}
@@ -98,7 +99,7 @@ const Service = () => {
             }}
           />
           <ExpressWizardContainer />
-        </>
+        </LayoutWrapper>
       )}
     </Page>
   );
