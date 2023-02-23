@@ -1,6 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import { StatusPill } from 'src/common/components/pills/StatusPill';
-import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {
@@ -57,7 +56,6 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
-  const { t } = useTranslation();
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
