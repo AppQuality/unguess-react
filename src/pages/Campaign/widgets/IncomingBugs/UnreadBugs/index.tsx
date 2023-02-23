@@ -100,7 +100,9 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                             <Tag isRegular>{context}</Tag>
                           ))}
                         <Tag isRegular>{bug.type}</Tag>
-                        {severity && <SeverityPill severity={severity} />}
+                        {severity && (
+                          <SeverityPill hasBackground severity={severity} />
+                        )}
                       </BugCard.Footer>
                     </>
                   )}

@@ -41,6 +41,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       ),
       severity: (
         <SeverityPill
+          hasBackground
           severity={bug.severity.name.toLowerCase() as Severities}
         />
       ),

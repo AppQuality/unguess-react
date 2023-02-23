@@ -64,7 +64,9 @@ const DuplicateBugs = ({ campaignId }: { campaignId: number }) => {
                         : {bug.duplicates}
                       </Tag>
                       <Tag isRegular>{bug.type.name}</Tag>
-                      {severity && <SeverityPill severity={severity} />}
+                      {severity && (
+                        <SeverityPill hasBackground severity={severity} />
+                      )}
                     </BugCard.Footer>
                   </>
                 )}
