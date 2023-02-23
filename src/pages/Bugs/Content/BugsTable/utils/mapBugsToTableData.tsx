@@ -4,7 +4,7 @@ import { Tag } from 'src/common/Tag';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { ReactComponent as StarIcon } from 'src/assets/icons/star-fill.svg';
+import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
@@ -20,7 +20,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         <Tag hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
           {!bug.duplicated_of_id && (
             <Tag.Avatar>
-              <StarIcon />
+              <FatherIcon />
             </Tag.Avatar>
           )}
           {bug.siblings > 0 && `+${bug.siblings}`}
