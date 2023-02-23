@@ -5,7 +5,6 @@ import { ReactComponent as CompletedIcon } from 'src/assets/icons/campaign-compl
 import { ReactComponent as FunctionalIcon } from 'src/assets/icons/campaign-functional.svg';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/campaign-experiential.svg';
 import { Tag } from 'src/common/Tag';
-import { Span } from '@appquality/unguess-design-system';
 import { TFunction, useTranslation } from 'react-i18next';
 
 export type CampaignStatus =
@@ -18,7 +17,7 @@ export type CampaignStatus =
 interface StatusPillArgs extends React.HTMLAttributes<HTMLDivElement> {
   status: CampaignStatus;
   children?: React.ReactNode;
-  counter?: number;
+  counter?: number | string;
   isRound?: boolean;
 }
 
@@ -94,10 +93,17 @@ export const StatusPill = ({
         <Tag.Avatar>{getIconByStatus(status)}</Tag.Avatar>
       )}
       {
-        // children if passed, otherwise default text for normal pills and nothing for round pills (just icon)
-        children || (!isRound && getDefaultTextByStatus(status, t))
+        // children if passed, otherwise default text for normal pills and icon for round pills
+        children ||
+          (isRound
+            ? getIconByStatus(status)
+            : getDefaultTextByStatus(status, t))
       }
-      {counter && <Span>{counter}</Span>}
+      {typeof counter !== 'undefined' && (
+        <Tag.SecondaryText color={theme.palette.grey[700]}>
+          {counter.toString()}
+        </Tag.SecondaryText>
+      )}
     </Tag>
   );
 };

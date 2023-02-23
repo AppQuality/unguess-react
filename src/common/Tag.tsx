@@ -11,7 +11,7 @@ const StyledClose = styled(ZendeskTag.Close)``;
 const StyledSpan = styled(Span)<{ color?: string; isRegular?: boolean }>`
   margin-left: ${(p) => p.theme.space.xxs};
   font-weight: ${(p) =>
-    p.isRegular ? p.theme.fontWeights.regular : p.theme.fontWeights.bold};
+    p.isRegular ? p.theme.fontWeights.regular : p.theme.fontWeights.medium};
   ${(p) => p.color && `color: ${p.color};`}
 `;
 
