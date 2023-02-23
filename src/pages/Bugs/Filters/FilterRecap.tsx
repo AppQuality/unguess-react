@@ -4,9 +4,9 @@ import {
   resetFilters,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { Anchor, Tag } from '@appquality/unguess-design-system';
+import { Anchor } from '@appquality/unguess-design-system';
+import { Tag } from 'src/common/Tag';
 import { useAppDispatch } from 'src/app/hooks';
-import { ReactComponent as XIcon } from 'src/assets/icons/close-icon.svg';
 import { useTranslation } from 'react-i18next';
 
 const Container = styled.div`
@@ -17,12 +17,8 @@ const Container = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const XIconStyled = styled(XIcon)``;
 const StyledTag = styled(Tag)`
   background-color: ${({ theme }) => theme.palette.blue[100]};
-  ${XIconStyled} {
-    cursor: pointer;
-  }
 `;
 
 const FilterRecapItem = ({
@@ -44,9 +40,9 @@ const FilterRecapItem = ({
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <StyledTag size="large" isPill>
+    <StyledTag size="large">
       {name}
-      <XIconStyled
+      <Tag.Close
         onClick={() => {
           switch (type) {
             case 'severities':
