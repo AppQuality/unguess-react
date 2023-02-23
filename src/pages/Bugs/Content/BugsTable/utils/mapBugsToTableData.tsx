@@ -1,22 +1,12 @@
 import { TFunction } from 'react-i18next';
-import { SM } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
 import { Tag } from 'src/common/Tag';
 import { SeverityPill } from 'src/common/components/pills/SeverityPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import styled from 'styled-components';
-import { ReactComponent as FatherIcon } from 'src/assets/icons/father-icon.svg';
+import { ReactComponent as StarIcon } from 'src/assets/icons/star-fill.svg';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
-
-const DuplicateContainer = styled((props) => <SM isBold {...props} />)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: ${({ theme }) => theme.space.xxs};
-  line-height: ${({ theme }) => theme.lineHeights.md};
-`;
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
@@ -27,12 +17,14 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       key: bug.id.toString(),
       id: bug.id.toString(),
       siblings: (
-        <DuplicateContainer>
-          {!bug.duplicated_of_id ? (
-            <FatherIcon style={{ color: globalTheme.palette.grey[500] }} />
-          ) : null}
-          {bug.siblings > 0 ? <>+{bug.siblings}</> : null}
-        </DuplicateContainer>
+        <Tag hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
+          {!bug.duplicated_of_id && (
+            <Tag.Avatar>
+              <StarIcon />
+            </Tag.Avatar>
+          )}
+          {bug.siblings > 0 && `+${bug.siblings}`}
+        </Tag>
       ),
       bugId: (
         <span style={{ color: globalTheme.palette.grey[700] }}>

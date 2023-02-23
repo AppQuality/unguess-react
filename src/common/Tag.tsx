@@ -37,6 +37,27 @@ const StyledTag = styled(ZendeskTag)<TagArgs>`
    `}
   ${StyledAvatar} {
     border-radius: 0;
+
+    /* align avatar with no text */
+
+    ${(p) =>
+      typeof p.children === 'undefined' &&
+      p.size === 'medium' &&
+      `
+      margin-right: 0;
+      margin-left: 0;
+      padding-left: 2px;
+      padding-right: 2px;
+    `}
+    ${(p) =>
+      typeof p.children === 'undefined' &&
+      p.size === 'large' &&
+      `
+      margin-right: 0;
+      margin-left: 0;
+      padding-left: 4px;
+      padding-right: 4px;
+    `}
   }
 
   /* Large */
