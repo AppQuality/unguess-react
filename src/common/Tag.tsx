@@ -35,10 +35,24 @@ const StyledTag = styled(ZendeskTag)<TagArgs>`
       }
    `}
   ${StyledAvatar} {
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
+  /* Large */
+  ${(p) =>
+    p.size === 'large' &&
+    `
+    font-size: ${p.theme.fontSizes.md};
+
+    ${StyledClose} svg {
+      width: 16px;
+      height: 16px;
+    }
+
+  `}
 `;
 
 const Tag = ({
