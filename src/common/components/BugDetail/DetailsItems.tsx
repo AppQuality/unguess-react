@@ -73,6 +73,7 @@ export default ({
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
         </Label>
         <SeverityPill
+          hasBackground
           severity={bug.severity.name.toLowerCase() as Severities}
         />
       </DetailsItem>

@@ -55,7 +55,10 @@ export default ({
 }) => (
   <Container>
     <SeverityContainer>
-      <SeverityPill severity={bug.severity.name.toLowerCase() as Severities} />
+      <SeverityPill
+        hasBackground
+        severity={bug.severity.name.toLowerCase() as Severities}
+      />
       {bug.status.id !== 4 && <NeedReviewPill />}
     </SeverityContainer>
     <XL

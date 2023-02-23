@@ -96,6 +96,7 @@ export const Tools = ({
               key={severity}
               counter={severities[severity as Severities]}
               severity={severity as Severities}
+              size="large"
             />
           ))}
         </SeveritiesWrapper>
