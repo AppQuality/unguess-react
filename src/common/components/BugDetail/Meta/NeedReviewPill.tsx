@@ -13,13 +13,9 @@ export const NeedReviewPill = () => {
       content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
     >
       <div>
-        <SM tag="span" style={{ marginRight: theme.space.xxs }}>
-          {t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}
-        </SM>
-        <Tag isRound hue="rgba(0,0,0,0)">
-          <Tag.Avatar>
-            <NeedReviewIcon />
-          </Tag.Avatar>
+        <SM tag="span">{t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}</SM>
+        <Tag hue="rgba(0,0,0,0)">
+          <NeedReviewIcon />
         </Tag>
       </div>
     </Tooltip>
