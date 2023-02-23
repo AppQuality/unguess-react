@@ -54,7 +54,7 @@ const StyledTag = styled(ZendeskTag)<TagArgs>`
 
 const Tag = ({
   isPill = true,
-  hue = theme.palette.grey[200],
+  hue = theme.palette.grey[100],
   color = theme.palette.grey[700],
   ...props
 }: TagArgs) => (
