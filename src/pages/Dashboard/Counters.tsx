@@ -1,4 +1,5 @@
-import { Counter, Skeleton } from '@appquality/unguess-design-system';
+import { Skeleton } from '@appquality/unguess-design-system';
+import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -76,23 +77,13 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <>
-      <Counter counter={completed} status="completed">
-        {t('__DASHABOARD_COUNTER_LABEL_COMPLETED')}
-      </Counter>
-      <Counter counter={running} status="progress">
-        {t('__DASHABOARD_COUNTER_LABEL_PROGRESS')}
-      </Counter>
-      <Counter counter={inComing} status="incoming">
-        {t('__DASHABOARD_COUNTER_LABEL_INCOMING')}
-      </Counter>
+    <div>
+      <StatusPill counter={completed} status="completed" />
+      <StatusPill counter={running} status="running" />
+      <StatusPill counter={inComing} status="incoming" />
       <Pipe />
-      <Counter counter={functional} status="functional">
-        {t('__DASHABOARD_COUNTER_LABEL_FUNCTIONAL')}
-      </Counter>
-      <Counter counter={experiential} status="experiential">
-        {t('__DASHABOARD_COUNTER_LABEL_EXPERIENTIAL')}
-      </Counter>
-    </>
+      <StatusPill counter={functional} status="functional" />
+      <StatusPill counter={experiential} status="experiential" />
+    </div>
   );
 };

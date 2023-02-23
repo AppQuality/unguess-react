@@ -1,10 +1,10 @@
 import {
   Anchor,
-  Counter,
   GroupedTable,
   Span,
   theme,
 } from '@appquality/unguess-design-system';
+import { StatusPill } from 'src/common/components/pills/StatusPill';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
@@ -37,25 +37,13 @@ export const TableList = ({
       let translatedStatus = null;
       switch (getCampaignStatus(campaign)) {
         case 'INCOMING':
-          translatedStatus = (
-            <Counter status="incoming">
-              {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING')}
-            </Counter>
-          );
+          translatedStatus = <StatusPill status="incoming" />;
           break;
         case 'COMPLETED':
-          translatedStatus = (
-            <Counter status="completed">
-              {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED')}
-            </Counter>
-          );
+          translatedStatus = <StatusPill status="completed" />;
           break;
         case 'PROGRESS':
-          translatedStatus = (
-            <Counter status="progress">
-              {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS')}
-            </Counter>
-          );
+          translatedStatus = <StatusPill status="running" />;
           break;
         default:
           translatedStatus = null;
