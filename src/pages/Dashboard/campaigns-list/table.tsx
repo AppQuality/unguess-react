@@ -4,7 +4,7 @@ import {
   Span,
   theme,
 } from '@appquality/unguess-design-system';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
+import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
@@ -37,13 +37,13 @@ export const TableList = ({
       let translatedStatus = null;
       switch (getCampaignStatus(campaign)) {
         case 'INCOMING':
-          translatedStatus = <StatusPill status="incoming" />;
+          translatedStatus = <StatusTag status="incoming" />;
           break;
         case 'COMPLETED':
-          translatedStatus = <StatusPill status="completed" />;
+          translatedStatus = <StatusTag status="completed" />;
           break;
         case 'PROGRESS':
-          translatedStatus = <StatusPill status="running" />;
+          translatedStatus = <StatusTag status="running" />;
           break;
         default:
           translatedStatus = null;

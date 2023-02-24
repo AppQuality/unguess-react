@@ -1,21 +1,21 @@
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
-import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
+import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { Tag } from 'src/common/Tag';
 
-export const TabletPill = () => {
+export const SmartphoneTag = () => {
   const { t } = useTranslation();
   return (
     <Tag
-      id="pill-tablet-header"
+      id="pill-smartphone-header"
       color={theme.palette.azure[600]}
       size="large"
       hue="rgba(0,0,0,0)"
     >
       <Tag.Avatar>
-        <TabletIcon />
+        <SmartphoneIcon />
       </Tag.Avatar>
-      {t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_TABLET')}
+      {t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}
     </Tag>
   );
 };

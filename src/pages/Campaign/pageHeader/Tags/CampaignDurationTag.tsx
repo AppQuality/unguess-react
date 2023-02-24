@@ -5,7 +5,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Span } from '@appquality/unguess-design-system';
 import { Tag } from 'src/common/Tag';
 
-export const CampaignDurationPill = ({
+export const CampaignDurationTag = ({
   start,
   end,
 }: {

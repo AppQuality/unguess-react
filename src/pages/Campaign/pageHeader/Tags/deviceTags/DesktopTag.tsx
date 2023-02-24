@@ -3,7 +3,7 @@ import { Tag } from 'src/common/Tag';
 import { theme } from 'src/app/theme';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 
-export const DesktopPill = () => {
+export const DesktopTag = () => {
   const { t } = useTranslation();
   return (
     <Tag

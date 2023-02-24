@@ -1,5 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
+import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {
@@ -76,12 +76,12 @@ export const Counters = () => {
     <Skeleton width="30%" height="32px" />
   ) : (
     <div>
-      <StatusPill counter={completed} status="completed" />
-      <StatusPill counter={running} status="running" />
-      <StatusPill counter={inComing} status="incoming" />
+      <StatusTag counter={completed} status="completed" />
+      <StatusTag counter={running} status="running" />
+      <StatusTag counter={inComing} status="incoming" />
       <Pipe />
-      <StatusPill counter={functional} status="functional" />
-      <StatusPill counter={experiential} status="experiential" />
+      <StatusTag counter={functional} status="functional" />
+      <StatusTag counter={experiential} status="experiential" />
     </div>
   );
 };

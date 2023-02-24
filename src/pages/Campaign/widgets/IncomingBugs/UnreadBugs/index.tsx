@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import { Tag } from 'src/common/Tag';
 import { BugCard } from 'src/common/components/BugCard';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
 import { EmptyState } from './EmptyState';
 import { useUnreadBugs } from './useUnreadBugs';
@@ -101,7 +101,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                           ))}
                         <Tag isRegular>{bug.type}</Tag>
                         {severity && (
-                          <SeverityPill hasBackground severity={severity} />
+                          <SeverityTag hasBackground severity={severity} />
                         )}
                       </BugCard.Footer>
                     </>

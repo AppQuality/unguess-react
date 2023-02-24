@@ -3,19 +3,19 @@ import { theme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { Tag } from 'src/common/Tag';
 
-interface SeverityPillProps {
+interface SeverityTagProps {
   severity: Severities;
   counter?: number;
   hasBackground?: boolean;
   size?: 'small' | 'medium' | 'large';
 }
 
-export const SeverityPill = ({
+export const SeverityTag = ({
   severity,
   counter,
   hasBackground,
   size,
-}: SeverityPillProps) => (
+}: SeverityTagProps) => (
   <Tag
     size={size}
     color={theme.colors.bySeverity[severity]}

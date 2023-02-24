@@ -1,7 +1,7 @@
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import { Tag } from 'src/common/Tag';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
@@ -32,7 +32,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </span>
       ),
       severity: (
-        <SeverityPill
+        <SeverityTag
           hasBackground
           severity={bug.severity.name.toLowerCase() as Severities}
         />
