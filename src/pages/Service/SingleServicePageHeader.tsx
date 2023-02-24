@@ -85,22 +85,14 @@ export const SingleServicePageHeader = ({
         <PageHeader.Counters>
           <TagsContainer>
             {expressType && expressType.id ? (
-              <StyledTag
-                size="large"
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
+              <StyledTag size="large" isRegular>
                 <StyledTag.Avatar>
                   <ExpressIcon />
                 </StyledTag.Avatar>
                 <Span>{t('__EXPRESS_LABEL')}</Span>
               </StyledTag>
             ) : (
-              <StyledTag
-                size="large"
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
+              <StyledTag size="large" isRegular>
                 <StyledTag.Avatar>
                   <TailoredIcon />
                 </StyledTag.Avatar>
@@ -108,33 +100,21 @@ export const SingleServicePageHeader = ({
               </StyledTag>
             )}
             {service.is_functional ? (
-              <StyledTag
-                size="large"
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
+              <StyledTag size="large" isRegular>
                 <StyledTag.Avatar>
                   <FunctionalIcon />
                 </StyledTag.Avatar>
                 <Span>{t('__FUNCTIONAL_LABEL')}</Span>
               </StyledTag>
             ) : (
-              <StyledTag
-                size="large"
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
+              <StyledTag size="large" isRegular>
                 <StyledTag.Avatar>
                   <ExperientialIcon />
                 </StyledTag.Avatar>
                 <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
               </StyledTag>
             )}
-            <StyledTag
-              size="large"
-              isRegular
-              hue={globalTheme.palette.grey[100]}
-            >
+            <StyledTag size="large" isRegular>
               <StyledTag.Avatar>
                 <TimeIcon />
               </StyledTag.Avatar>
@@ -145,11 +125,7 @@ export const SingleServicePageHeader = ({
               </Paragraph>
             </StyledTag>
             {service.environment && (
-              <StyledTag
-                size="large"
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
+              <StyledTag size="large" isRegular>
                 <StyledTag.Avatar>
                   <EnvironmentIcon />
                 </StyledTag.Avatar>
