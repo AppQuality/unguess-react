@@ -1,12 +1,12 @@
 import { Anchor, PageHeader } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Pills } from './Pills';
+import { Tags } from './Tags';
 import { HeaderSkeleton } from './HeaderSkeleton';
 import { EditableTitle } from './EditableTitle';
 import { useCampaign } from './useCampaign';
 
-const StyledPillsWrapper = styled(PageHeader.Counters)`
+const StyledTagsWrapper = styled(PageHeader.Counters)`
   width: 100%;
 `;
 
@@ -30,9 +30,9 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
         <PageHeader.Title>
           <EditableTitle campaignId={campaignId} />
         </PageHeader.Title>
-        <StyledPillsWrapper>
-          <Pills campaign={campaign} />
-        </StyledPillsWrapper>
+        <StyledTagsWrapper>
+          <Tags campaign={campaign} />
+        </StyledTagsWrapper>
       </PageHeader.Main>
     </PageHeader>
   );

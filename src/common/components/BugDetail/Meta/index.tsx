@@ -3,7 +3,7 @@ import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg'
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
@@ -55,7 +55,7 @@ export default ({
 }) => (
   <Container>
     <SeverityContainer>
-      <SeverityPill
+      <SeverityTag
         hasBackground
         severity={bug.severity.name.toLowerCase() as Severities}
       />

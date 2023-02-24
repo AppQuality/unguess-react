@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import { MD, Span } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
@@ -72,7 +72,7 @@ export default ({
         <Label style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
         </Label>
-        <SeverityPill
+        <SeverityTag
           hasBackground
           severity={bug.severity.name.toLowerCase() as Severities}
         />

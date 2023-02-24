@@ -14,7 +14,7 @@ export type CampaignStatus =
   | 'functional'
   | 'experiential';
 
-interface StatusPillArgs extends React.HTMLAttributes<HTMLDivElement> {
+interface StatusTagArgs extends React.HTMLAttributes<HTMLDivElement> {
   status: CampaignStatus;
   children?: React.ReactNode;
   counter?: number | string;
@@ -72,13 +72,13 @@ const getDefaultTextByStatus = (status: CampaignStatus, t: TFunction) => {
   }
 };
 
-export const StatusPill = ({
+export const StatusTag = ({
   status,
   children,
   counter,
   isRound,
   ...props
-}: StatusPillArgs) => {
+}: StatusTagArgs) => {
   const { t } = useTranslation();
   return (
     <Tag

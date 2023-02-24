@@ -12,14 +12,11 @@ import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import {
-  CampaignStatus,
-  StatusPill,
-} from 'src/common/components/pills/StatusPill';
-import { DesktopPill } from './devicePills/DesktopPill';
-import { SmartphonePill } from './devicePills/SmartphonePill';
-import { TabletPill } from './devicePills/TabletPill';
-import { CampaignDurationPill } from './CampaignDurationPill';
+import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
+import { DesktopTag } from './deviceTags/DesktopTag';
+import { SmartphoneTag } from './deviceTags/SmartphoneTag';
+import { TabletTag } from './deviceTags/TabletTag';
+import { CampaignDurationTag } from './CampaignDurationTag';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -49,7 +46,7 @@ const FooterContainer = styled.div`
   }
 `;
 
-const PillsWrapper = styled.div`
+const TagsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -57,7 +54,7 @@ const PillsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
+export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const {
     data: meta,
     isLoading,
@@ -74,21 +71,21 @@ export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
 
   return (
     <FooterContainer>
-      <PillsWrapper>
-        <StatusPill status={family.name.toLowerCase() as CampaignStatus}>
+      <TagsWrapper>
+        <StatusTag status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
-        </StatusPill>
-        <StatusPill status={status.name as CampaignStatus} />
-        <CampaignDurationPill start={start_date} end={end_date} />
+        </StatusTag>
+        <StatusTag status={status.name as CampaignStatus} />
+        <CampaignDurationTag start={start_date} end={end_date} />
         {meta ? (
           <>
             <Pipe style={{ marginRight: globalTheme.space.md }} />
-            {meta.allowed_devices.includes('desktop') && <DesktopPill />}
-            {meta.allowed_devices.includes('smartphone') && <SmartphonePill />}
-            {meta.allowed_devices.includes('tablet') && <TabletPill />}
+            {meta.allowed_devices.includes('desktop') && <DesktopTag />}
+            {meta.allowed_devices.includes('smartphone') && <SmartphoneTag />}
+            {meta.allowed_devices.includes('tablet') && <TabletTag />}
           </>
         ) : null}
-      </PillsWrapper>
+      </TagsWrapper>
       <ButtonWrapper>
         {outputs?.includes('media') && (
           <Button

@@ -10,7 +10,7 @@ import {
   TableCell,
   theme,
 } from '@appquality/unguess-design-system';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
+import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
@@ -36,13 +36,13 @@ export const TableList = ({
 
     switch (status) {
       case 'INCOMING':
-        return <StatusPill status="incoming" />;
+        return <StatusTag status="incoming" />;
 
       case 'COMPLETED':
-        return <StatusPill status="completed" />;
+        return <StatusTag status="completed" />;
 
       case 'PROGRESS':
-        return <StatusPill status="running" />;
+        return <StatusTag status="running" />;
       default:
         return null;
     }
