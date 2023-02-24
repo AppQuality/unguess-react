@@ -59,7 +59,7 @@ export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
     data: meta,
     isLoading,
     isFetching,
-  } = useGetCampaignsByCidMetaQuery({ cid: campaign.id });
+  } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
 
   const { t } = useTranslation();
   const functionalDashboardLink = useLocalizeRoute(
