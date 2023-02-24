@@ -30,9 +30,9 @@ const getColorByStatus = (status: CampaignStatus) => {
     case 'incoming':
       return theme.palette.azure[600];
     case 'functional':
-      return theme.palette.blue[600];
+      return theme.palette.blue[700];
     case 'experiential':
-      return theme.palette.purple[600];
+      return theme.palette.green[700];
     default:
       return theme.palette.grey[700];
   }
