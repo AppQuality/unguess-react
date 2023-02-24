@@ -163,7 +163,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
         <StyledFormField>
           <TagsContainer>
-            <Tag size="large" isRegular hue={globalTheme.palette.grey[100]}>
+            <Tag size="large" isRegular>
               <Tag.Avatar>
                 <UserTaskIcon />
               </Tag.Avatar>
@@ -176,7 +176,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 </Span>
               </Trans>
             </Tag>
-            <Tag size="large" isRegular hue={globalTheme.palette.grey[100]}>
+            <Tag size="large" isRegular>
               <Tag.Avatar>
                 <ChatIcon />
               </Tag.Avatar>
