@@ -48,7 +48,7 @@ const Bug = () => {
       pageHeader={<Header campaignId={campaignId} bug={bug} />}
       route="bug"
     >
-      <LayoutWrapper isBoxed>
+      <LayoutWrapper>
         <Grid>
           <Row>
             <Col xl={8} offsetXl={2}>

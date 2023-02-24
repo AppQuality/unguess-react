@@ -77,7 +77,7 @@ const Campaign = () => {
       }
       route="campaigns"
     >
-      <LayoutWrapper isBoxed>
+      <LayoutWrapper>
         <Grid>
           <Row>
             {!campaign?.outputs?.includes('bugs') &&

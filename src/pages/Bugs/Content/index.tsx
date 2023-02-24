@@ -22,10 +22,10 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <>
-      <LayoutWrapper>
+      <LayoutWrapper isNotBoxed>
         <BugsFilters />
       </LayoutWrapper>
-      <LayoutWrapperBugs isPreviewOpen={!!currentBugId}>
+      <LayoutWrapperBugs isNotBoxed isPreviewOpen={!!currentBugId}>
         <Grid gutters="xxl">
           <Row>
             <Col xs={12} md={currentBugId ? 8 : 12}>

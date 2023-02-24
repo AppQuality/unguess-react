@@ -83,7 +83,7 @@ const Service = () => {
       route="services"
     >
       {data && (
-        <LayoutWrapper isBoxed>
+        <LayoutWrapper>
           <HubspotModal
             isOpen={isModalOpen}
             meetingUrl={memoCsm?.url}

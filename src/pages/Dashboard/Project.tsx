@@ -47,7 +47,7 @@ const Project = () => {
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
     >
-      <LayoutWrapper isBoxed>
+      <LayoutWrapper>
         <Grid>{project.isSuccess ? <ProjectItems /> : <CardRowLoading />}</Grid>
       </LayoutWrapper>
     </Page>

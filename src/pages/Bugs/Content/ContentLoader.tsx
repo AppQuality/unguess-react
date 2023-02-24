@@ -3,7 +3,7 @@ import { theme as globalTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 
 const BugsPageContentLoader = () => (
-  <LayoutWrapper>
+  <LayoutWrapper isNotBoxed>
     <Skeleton
       height="50px"
       width="100%"

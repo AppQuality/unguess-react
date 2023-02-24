@@ -55,7 +55,7 @@ export const Header = ({ campaignId, bug }: Props) => {
 
   if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
     return (
-      <LayoutWrapper isBoxed>
+      <LayoutWrapper>
         <PageHeader>
           <Skeleton height="50px" />
           <PageHeader.Main infoTitle={bug.title.full}>
@@ -67,7 +67,7 @@ export const Header = ({ campaignId, bug }: Props) => {
   }
 
   return (
-    <LayoutWrapper isBoxed>
+    <LayoutWrapper>
       <PageHeader>
         <BreadCrumb campaign={campaign} />
         <PageHeader.Main infoTitle={bug.title.full}>

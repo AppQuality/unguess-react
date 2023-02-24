@@ -3,7 +3,7 @@ import { theme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 
 export const HeaderLoader = () => (
-  <LayoutWrapper isBoxed>
+  <LayoutWrapper>
     <PageHeader>
       <PageHeader.Main infoTitle="My Campaign">
         <Skeleton

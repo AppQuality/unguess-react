@@ -374,7 +374,7 @@ export const ExpressWizardContainer = () => {
               <StyledModal.Header
                 style={{ backgroundColor: globalTheme.palette.white }}
               >
-                <LayoutWrapper>
+                <LayoutWrapper isNotBoxed>
                   <ModalHeaderContent>
                     <WizardHeader {...formProps} onClose={closeExpressWizard} />
                     <StyledModal.Close
@@ -385,7 +385,7 @@ export const ExpressWizardContainer = () => {
                 </LayoutWrapper>
               </StyledModal.Header>
               <ModalFullScreen.Body>
-                <LayoutWrapper>
+                <LayoutWrapper isNotBoxed>
                   <Form onSubmit={formProps.handleSubmit}>
                     <Grid>
                       <Row>
@@ -415,7 +415,7 @@ export const ExpressWizardContainer = () => {
                 </LayoutWrapper>
               </ModalFullScreen.Body>
               <ModalFooter>
-                <LayoutWrapper>
+                <LayoutWrapper isNotBoxed>
                   <Grid>
                     <Row>
                       <Col

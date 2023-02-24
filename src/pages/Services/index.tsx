@@ -45,7 +45,7 @@ const Catalog = () => {
   ) : (
     <Page
       pageHeader={
-        <LayoutWrapper isBoxed>
+        <LayoutWrapper>
           <PageHeader>
             <PageHeader.Main
               infoTitle={t('__CATALOG_PAGE_TITLE')}
@@ -62,7 +62,7 @@ const Catalog = () => {
       title={t('__PAGE_TITLE_CATALOG')}
       route="services"
     >
-      <LayoutWrapper isBoxed>
+      <LayoutWrapper>
         <StyledGrid gutters="lg">
           <HubspotModal
             isOpen={isModalOpen}

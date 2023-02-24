@@ -62,7 +62,7 @@ export const SingleServicePageHeader = ({
   const expressType = extractStrapiData(express.express_type);
 
   return (
-    <LayoutWrapper isBoxed>
+    <LayoutWrapper>
       <PageHeader>
         <PageHeader.Breadcrumb>
           <Anchor onClick={() => navigate(servicesRoute)}>

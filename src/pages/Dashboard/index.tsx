@@ -27,7 +27,7 @@ const Dashboard = () => {
       }
       route=""
     >
-      <LayoutWrapper isBoxed>
+      <LayoutWrapper>
         <Grid>
           <SuggestedCampaigns />
           <CampaignsList />

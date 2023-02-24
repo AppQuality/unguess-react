@@ -87,7 +87,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   );
 
   return (
-    <LayoutWrapper isBoxed>
+    <LayoutWrapper>
       <PageHeader>
         <PageHeader.Main infoTitle={itemTitle || ''}>
           <PageHeader.Title style={{ minHeight: '66px' }}>

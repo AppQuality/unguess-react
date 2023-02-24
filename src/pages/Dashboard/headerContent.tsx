@@ -23,7 +23,7 @@ export const DashboardHeaderContent = ({
     );
 
   return status === 'idle' || status === 'loading' ? null : (
-    <LayoutWrapper isBoxed>
+    <LayoutWrapper>
       <PageHeader>
         <PageHeader.Main infoTitle={pageTitle || 'My Dashboard'}>
           <PageHeader.Title>{pageTitle || 'My Dashboard'}</PageHeader.Title>

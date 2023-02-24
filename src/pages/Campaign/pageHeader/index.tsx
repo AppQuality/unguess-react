@@ -21,7 +21,7 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
   }
 
   return isUserLoading || isError ? null : (
-    <LayoutWrapper isBoxed>
+    <LayoutWrapper>
       <PageHeader>
         <PageHeader.Breadcrumb>
           <Anchor

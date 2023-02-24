@@ -166,12 +166,12 @@ export const ModalUseCase = ({
       <StyledModal.Header
         style={{ backgroundColor: globalTheme.palette.white }}
       >
-        <LayoutWrapper>
+        <LayoutWrapper isNotBoxed>
           <ModalUseCaseHeader onClose={closeModal} />
         </LayoutWrapper>
       </StyledModal.Header>
       <Body>
-        <LayoutWrapper>
+        <LayoutWrapper isNotBoxed>
           <Grid style={{ height: '100%' }}>
             <Row style={{ height: '100%' }}>
               <ContentCol xs={12} lg={8}>

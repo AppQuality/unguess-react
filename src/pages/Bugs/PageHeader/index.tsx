@@ -40,7 +40,7 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
   }
 
   return isUserLoading || isError ? null : (
-    <LayoutWrapper>
+    <LayoutWrapper isNotBoxed>
       <PageHeader>
         <PageHeader.Breadcrumb>
           <Link to={project.route}>

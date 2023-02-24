@@ -11,7 +11,7 @@ export const LoadingSkeleton = () => (
     }
     route="bug"
   >
-    <LayoutWrapper isBoxed>
+    <LayoutWrapper>
       <Card>
         <Skeleton
           height="50px"
