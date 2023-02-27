@@ -25,7 +25,8 @@ import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { UseCaseDetails } from './useCaseDetails';
 
 const Body = styled(ModalFullScreen.Body)`
-  padding: 0;
+  padding-top: 0;
+  padding-right: 0;
   overflow: hidden;
 
   ::-webkit-scrollbar {
@@ -34,7 +35,6 @@ const Body = styled(ModalFullScreen.Body)`
 `;
 
 const ContentCol = styled(Col)`
-  padding: 0;
   margin-bottom: 0;
   flex-wrap: nowrap;
   align-items: stretch;
@@ -49,7 +49,6 @@ const HelpCol = styled(Col)`
   border-right: 1px solid ${({ theme }) => theme.palette.grey[300]};
   background-color: white;
   margin-bottom: 0;
-  padding: 0;
   height: 100%;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -62,7 +61,7 @@ const TextCasesTabs = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding: ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.space.md} 0;
   width: 100%;
   position: sticky;
   top: 0;
@@ -89,7 +88,6 @@ const PullLeft = styled.div`
 `;
 
 const BodyScrollingContainer = styled(ScrollingContainer)`
-  padding: 0 ${({ theme }) => theme.space.xl};
   padding-bottom: ${({ theme }) => theme.space.xl};
 
   ::-webkit-scrollbar {
@@ -126,6 +124,10 @@ const StyledContainerCard = styled(ContainerCard)`
 
 const StyledModal = styled(ModalFullScreen)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
+`;
+
+const ModalBodyLayout = styled(LayoutWrapper)`
+  padding-right: 0;
 `;
 
 export const ModalUseCase = ({
@@ -168,7 +170,7 @@ export const ModalUseCase = ({
         </LayoutWrapper>
       </StyledModal.Header>
       <Body>
-        <LayoutWrapper isNotBoxed>
+        <ModalBodyLayout isNotBoxed>
           <Grid style={{ height: '100%' }}>
             <Row style={{ height: '100%' }}>
               <ContentCol xs={12} lg={8}>
@@ -258,7 +260,7 @@ export const ModalUseCase = ({
               </HelpCol>
             </Row>
           </Grid>
-        </LayoutWrapper>
+        </ModalBodyLayout>
       </Body>
     </StyledModal>
   ) : null;

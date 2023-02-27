@@ -98,6 +98,10 @@ const PullRight = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 0 ${({ theme }) => theme.space.lg};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
+  }
 `;
 
 const getValidationSchema = (step: number, steps: StepItem[]) => {
@@ -374,7 +378,7 @@ export const ExpressWizardContainer = () => {
               <StyledModal.Header
                 style={{ backgroundColor: globalTheme.palette.white }}
               >
-                <LayoutWrapper isNotBoxed>
+                <LayoutWrapper>
                   <ModalHeaderContent>
                     <WizardHeader {...formProps} onClose={closeExpressWizard} />
                     <StyledModal.Close
@@ -385,7 +389,7 @@ export const ExpressWizardContainer = () => {
                 </LayoutWrapper>
               </StyledModal.Header>
               <ModalFullScreen.Body>
-                <LayoutWrapper isNotBoxed>
+                <LayoutWrapper>
                   <Form onSubmit={formProps.handleSubmit}>
                     <Grid>
                       <Row>
@@ -422,7 +426,7 @@ export const ExpressWizardContainer = () => {
                         xs={12}
                         lg={9}
                         xl={7}
-                        offsetXl={3}
+                        offsetLg={3}
                         style={{ marginBottom: 0 }}
                       >
                         <PullRight>
