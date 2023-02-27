@@ -1,4 +1,3 @@
-import { useAppSelector } from 'src/app/hooks';
 import { ServiceResponse } from 'src/features/backoffice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
@@ -44,9 +43,7 @@ export const SingleServicePageHeader = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const servicesRoute = useLocalizeRoute('services');
-  const homeRoute = useLocalizeRoute('');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const service = getLocalizedStrapiData({
     item: response,
@@ -66,9 +63,6 @@ export const SingleServicePageHeader = ({
   return (
     <PageHeader>
       <PageHeader.Breadcrumb>
-        <Anchor onClick={() => navigate(homeRoute)}>
-          {activeWorkspace?.company || t('__BREADCRUMB_ITEM_DASHBOARD')}
-        </Anchor>
         <Anchor onClick={() => navigate(servicesRoute)}>
           {t('__BREADCRUMB_ITEM_SERVICES')}
         </Anchor>
