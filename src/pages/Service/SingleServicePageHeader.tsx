@@ -5,7 +5,6 @@ import {
   Anchor,
   Paragraph,
   Span,
-  theme as globalTheme,
   PageHeader,
 } from '@appquality/unguess-design-system';
 import { Tag } from 'src/common/Tag';
