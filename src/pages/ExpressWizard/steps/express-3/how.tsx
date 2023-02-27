@@ -9,12 +9,12 @@ import {
   theme as globalTheme,
   XL,
   XXL,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
-import { Tag } from '@appquality/unguess-design-system';
 import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
 import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
 import { ReactComponent as SuccessIcon } from 'src/assets/icons/success-icon.svg';

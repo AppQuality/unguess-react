@@ -6,8 +6,8 @@ import {
   Paragraph,
   MD,
   UnorderedList,
+  Tag,
 } from '@appquality/unguess-design-system';
-import { Tag } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
