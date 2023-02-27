@@ -1,17 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { Tag } from '@appquality/unguess-design-system';
 
 export const SmartphoneTag = () => {
   const { t } = useTranslation();
   return (
-    <Tag
-      id="pill-smartphone-header"
-      color={theme.palette.azure[600]}
-      size="large"
-      hue="rgba(0,0,0,0)"
-    >
+    <Tag id="pill-smartphone-header" size="large" hue="rgba(0,0,0,0)">
       <Tag.Avatar>
         <SmartphoneIcon />
       </Tag.Avatar>

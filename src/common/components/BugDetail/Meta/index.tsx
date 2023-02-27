@@ -72,30 +72,34 @@ export default ({
     </XL>
     <MD
       style={{
-        color: globalTheme.palette.grey[600],
+        color: globalTheme.palette.grey[700],
         marginBottom: globalTheme.space.md,
       }}
     >
       {bug.title.context ? bug.title.context.join(', ') : null}
     </MD>
     <BugInfo>
-      <SM style={{ textTransform: 'capitalize' }}>{bug.type.name}</SM>
-      <Pipe style={{ height: globalTheme.lineHeights.md }} />
-      <Tag hue="white">
+      <SM
+        isBold
+        style={{
+          textTransform: 'capitalize',
+          color: globalTheme.palette.grey[700],
+        }}
+      >
+        {bug.type.name}
+      </SM>
+      <Pipe size="regular" style={{ height: globalTheme.lineHeights.md }} />
+      <Tag hue="white" style={{ textTransform: 'capitalize' }}>
         <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>
-        <SM style={{ textTransform: 'capitalize' }}>
-          {bug.device.type === 'desktop'
-            ? bug.device.desktop_type
-            : `${bug.device.manufacturer} ${bug.device.model}`}
-        </SM>
+        {bug.device.type === 'desktop'
+          ? bug.device.desktop_type
+          : `${bug.device.manufacturer} ${bug.device.model}`}
       </Tag>
-      <Tag hue="white">
+      <Tag hue="white" style={{ textTransform: 'capitalize' }}>
         <Tag.Avatar>
           <OSIcon />
         </Tag.Avatar>
-        <SM style={{ textTransform: 'capitalize' }}>
-          {bug.device.os} {bug.device.os_version}
-        </SM>
+        {bug.device.os} {bug.device.os_version}
       </Tag>
     </BugInfo>
   </Container>

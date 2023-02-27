@@ -53,19 +53,19 @@ const StyledTag = styled(Tag)`
 
 const UsersTags = () => (
   <>
-    <StyledTag size="large" isRegular>
+    <StyledTag size="large">
       <StyledTag.Avatar>
         <UsersIcon />
       </StyledTag.Avatar>
       <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS')}</Span>
     </StyledTag>
-    <StyledTag size="large" isRegular>
+    <StyledTag size="large">
       <StyledTag.Avatar>
         <TranslationIcon />
       </StyledTag.Avatar>
       <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS_LOCATION')}</Span>
     </StyledTag>
-    <StyledTag size="large" isRegular>
+    <StyledTag size="large">
       <StyledTag.Avatar>
         <WorldIcon />
       </StyledTag.Avatar>

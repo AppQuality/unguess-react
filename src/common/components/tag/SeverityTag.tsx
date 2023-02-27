@@ -8,6 +8,7 @@ interface SeverityTagProps {
   counter?: number;
   hasBackground?: boolean;
   size?: 'small' | 'medium' | 'large';
+  isRegular?: boolean;
 }
 
 export const SeverityTag = ({
@@ -15,6 +16,7 @@ export const SeverityTag = ({
   counter,
   hasBackground,
   size,
+  isRegular,
 }: SeverityTagProps) => (
   <Tag
     size={size}
@@ -22,6 +24,7 @@ export const SeverityTag = ({
     hue={
       hasBackground ? `${theme.colors.bySeverity[severity]}14` : 'rgba(0,0,0,0)'
     }
+    isRegular={isRegular}
   >
     {capitalizeFirstLetter(severity)}
     {typeof counter !== 'undefined' && (

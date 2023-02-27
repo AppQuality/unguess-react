@@ -52,17 +52,15 @@ const DuplicateBugs = ({ campaignId }: { campaignId: number }) => {
                       {bug.title.context &&
                         bug.title.context.length > 0 &&
                         bug.title.context.map((context) => (
-                          <Tag isRegular key={`${bug.id}_${context}`}>
-                            {context}
-                          </Tag>
+                          <Tag key={`${bug.id}_${context}`}>{context}</Tag>
                         ))}
-                      <Tag isRegular>
+                      <Tag>
                         {t(
                           '__CAMPAIGN_WIDGET_INCOMING_BUGS_MOST_SUBMITTED_DUPLICATES_LABEL'
                         )}
                         : {bug.duplicates}
                       </Tag>
-                      <Tag isRegular>{bug.type.name}</Tag>
+                      <Tag>{bug.type.name}</Tag>
                       {severity && (
                         <SeverityTag hasBackground severity={severity} />
                       )}

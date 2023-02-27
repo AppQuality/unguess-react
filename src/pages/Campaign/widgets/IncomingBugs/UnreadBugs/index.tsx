@@ -97,9 +97,9 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                       <BugCard.Footer>
                         {bug.titleContext &&
                           bug.titleContext.map((context) => (
-                            <Tag isRegular>{context}</Tag>
+                            <Tag>{context}</Tag>
                           ))}
-                        <Tag isRegular>{bug.type}</Tag>
+                        <Tag>{bug.type}</Tag>
                         {severity && (
                           <SeverityTag hasBackground severity={severity} />
                         )}

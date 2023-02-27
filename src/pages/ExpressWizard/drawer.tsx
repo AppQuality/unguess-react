@@ -114,7 +114,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           {expressData.tags.map((tag: TagItem) => {
             const icon = extractStrapiData(tag.icon);
             return (
-              <StyledTag hue={theme.palette.grey[100]} size="large">
+              <StyledTag hue="rgba(0,0,0,0)">
                 <StyledTag.Avatar>
                   <img
                     key={`tag_${tag.id}`}
