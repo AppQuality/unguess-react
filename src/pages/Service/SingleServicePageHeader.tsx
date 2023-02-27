@@ -5,8 +5,8 @@ import {
   Paragraph,
   Span,
   PageHeader,
+  Tag,
 } from '@appquality/unguess-design-system';
-import { Tag } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';

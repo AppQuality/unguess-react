@@ -9,8 +9,8 @@ import {
   theme as globalTheme,
   XL,
   XXL,
+  Tag,
 } from '@appquality/unguess-design-system';
-import { Tag } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';
