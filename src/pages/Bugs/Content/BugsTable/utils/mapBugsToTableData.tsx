@@ -1,4 +1,4 @@
-import { Tag } from '@appquality/unguess-design-system';
+import { SM, Tag } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
@@ -27,9 +27,9 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </Tag>
       ),
       bugId: (
-        <span style={{ color: globalTheme.palette.grey[700] }}>
+        <SM tag="span" isBold={isPillBold}>
           {bug.id.toString()}
-        </span>
+        </SM>
       ),
       severity: (
         <SeverityTag
