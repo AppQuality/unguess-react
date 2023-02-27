@@ -47,10 +47,10 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/unguess-design-system@2.12.76":
-  version "2.12.76"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.76.tgz#4d771a7fda025f581410423fc779fa305cfaf694"
-  integrity sha512-XS1ZgnvbRxMpMMrqeiS6KR0hGKHeRlXhQG5/e126MAT3sH7eY5eWOtoUxb5GcEQp80yfs7bXnlmOoSFzp6vuUg==
+"@appquality/unguess-design-system@2.12.77":
+  version "2.12.77"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-2.12.77.tgz#eb44e7ea1c581b9bcd7693c4f8ec97826db83ddc"
+  integrity sha512-U1FxGjRNt/f5WB0oJc3bGSpc6jG7/8vkzkcYxzdb6qaKIixVK4t76k7yBY2Uw2vRWzYX54/vQpWATnJfm86iXg==
   dependencies:
     "@nivo/bar" "^0.80.0"
     "@nivo/bullet" "^0.80.0"

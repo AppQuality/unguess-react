@@ -1,10 +1,12 @@
+import {
+  Tag,
+  StatusCompletedIcon,
+  StatusIncomingIcon,
+  StatusRunningIcon,
+  CampaignExperientialIcon,
+  CampaignFunctionalIcon,
+} from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
-import { ReactComponent as ProgressIcon } from 'src/assets/icons/campaign-progress.svg';
-import { ReactComponent as IncomingIcon } from 'src/assets/icons/campaign-incoming.svg';
-import { ReactComponent as CompletedIcon } from 'src/assets/icons/campaign-completed.svg';
-import { ReactComponent as FunctionalIcon } from 'src/assets/icons/campaign-functional.svg';
-import { ReactComponent as ExperientialIcon } from 'src/assets/icons/campaign-experiential.svg';
-import { Tag } from 'src/common/Tag';
 import { TFunction, useTranslation } from 'react-i18next';
 
 export type CampaignStatus =
@@ -41,15 +43,15 @@ const getColorByStatus = (status: CampaignStatus) => {
 const getIconByStatus = (status: CampaignStatus) => {
   switch (status) {
     case 'running':
-      return <ProgressIcon />;
+      return <StatusRunningIcon />;
     case 'completed':
-      return <CompletedIcon />;
+      return <StatusCompletedIcon />;
     case 'incoming':
-      return <IncomingIcon />;
+      return <StatusIncomingIcon />;
     case 'functional':
-      return <FunctionalIcon />;
+      return <CampaignFunctionalIcon />;
     case 'experiential':
-      return <ExperientialIcon />;
+      return <CampaignExperientialIcon />;
     default:
       return undefined;
   }
