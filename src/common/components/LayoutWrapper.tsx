@@ -7,14 +7,9 @@ const Container = styled.div<{
   width: 100%;
   box-sizing: border-box;
   padding: 0 ${({ theme }) => theme.space.xxl};
-  max-width: ${globalTheme.breakpoints.xxl};
   margin: 0 auto;
-
   ${({ isNotBoxed }) =>
-    isNotBoxed &&
-    `
-      max-width: 100%;
-  `}
+    isNotBoxed && `max-width: ${globalTheme.breakpoints.xxl};`}
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     padding: 0 ${({ theme }) => theme.space.md};
