@@ -1,8 +1,4 @@
-import {
-  SM,
-  Tag,
-  theme as globalTheme,
-} from '@appquality/unguess-design-system';
+import { Tag, theme as globalTheme } from '@appquality/unguess-design-system';
 import { Bug } from 'src/features/api';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import styled from 'styled-components';
