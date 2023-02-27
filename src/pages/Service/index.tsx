@@ -80,7 +80,7 @@ const Service = () => {
         )
       }
       title={service.title}
-      route="services"
+      route="service"
     >
       {data && (
         <LayoutWrapper>
