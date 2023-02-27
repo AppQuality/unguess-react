@@ -7,7 +7,7 @@ import {
   MD,
   UnorderedList,
 } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
+import { Tag } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {

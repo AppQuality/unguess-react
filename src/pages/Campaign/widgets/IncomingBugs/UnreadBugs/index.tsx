@@ -3,11 +3,11 @@ import {
   Skeleton,
   SM,
   Span,
+  Tag,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
-import { Tag } from 'src/common/Tag';
 import { BugCard } from 'src/common/components/BugCard';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';

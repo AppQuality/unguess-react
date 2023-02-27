@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Tag } from 'src/common/Tag';
+import { Tag } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 

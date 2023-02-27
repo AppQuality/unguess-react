@@ -2,8 +2,7 @@ import { format } from 'date-fns';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/pill-icon-clock.svg';
 import { theme } from 'src/app/theme';
 import { useTranslation, Trans } from 'react-i18next';
-import { Span } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
+import { Span, Tag } from '@appquality/unguess-design-system';
 
 export const CampaignDurationTag = ({
   start,
@@ -33,7 +32,7 @@ export const CampaignDurationTag = ({
         <ClockIcon />
       </Tag.Avatar>
       {t('__CAMPAIGN_PAGE_INFO_HEADER_TEST_TIMING')}
-      <Tag.SecondaryText isRegular color={theme.palette.grey[700]}>
+      <Tag.SecondaryText isBold color={theme.palette.grey[700]}>
         <Trans i18nKey="__CAMPAIGN_PAGE_INFO_HEADER_FROM_DATE_TO_DATE">
           <Span>{{ start_date: formattedStartDate }}</Span> to{' '}
           <Span>{{ end_date: formattedEndDate }}</Span>

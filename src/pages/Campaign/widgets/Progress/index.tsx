@@ -1,8 +1,13 @@
-import { XL, BulletChart, Span, SM } from '@appquality/unguess-design-system';
+import {
+  XL,
+  BulletChart,
+  Span,
+  SM,
+  Tag,
+} from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import styled from 'styled-components';
 import { FC } from 'react';
-import { Tag } from 'src/common/Tag';
 import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { BasicWidget } from '../widgetCards/BasicWidget';

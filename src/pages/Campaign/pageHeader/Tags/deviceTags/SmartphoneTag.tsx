@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
-import { Tag } from 'src/common/Tag';
+import { Tag } from '@appquality/unguess-design-system';
 
 export const SmartphoneTag = () => {
   const { t } = useTranslation();

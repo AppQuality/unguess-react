@@ -1,7 +1,6 @@
-import { SM, Tooltip } from '@appquality/unguess-design-system';
+import { SM, Tooltip, Tag } from '@appquality/unguess-design-system';
 import { ReactComponent as NeedReviewIcon } from 'src/assets/icons/pill-icon-need-review.svg';
 import { useTranslation } from 'react-i18next';
-import { Tag } from 'src/common/Tag';
 import { theme } from 'src/app/theme';
 
 export const NeedReviewPill = () => {

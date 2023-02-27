@@ -1,4 +1,4 @@
-import { XL, MD, SM } from '@appquality/unguess-design-system';
+import { XL, MD, SM, Tag } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -7,7 +7,6 @@ import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
-import { Tag } from 'src/common/Tag';
 import { Pipe } from 'src/common/components/Pipe';
 import { WrappedText } from 'src/common/components/WrappedText';
 import { NeedReviewPill } from './NeedReviewPill';

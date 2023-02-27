@@ -4,8 +4,7 @@ import {
   resetFilters,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { Anchor } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
+import { Anchor, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 
