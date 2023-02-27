@@ -6,6 +6,7 @@ import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { getLocalizeoFirstLevelDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import BugsPageHeaderLoader from './PageHeaderLoader';
 
 const FlexWrapper = styled.div`
@@ -39,27 +40,29 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
   }
 
   return isUserLoading || isError ? null : (
-    <PageHeader>
-      <PageHeader.Breadcrumb>
-        <Link to={project.route}>
-          <Anchor id="breadcrumb-parent">{project.name}</Anchor>
-        </Link>
-        <Link to={getLocalizeoFirstLevelDashboardRoute(campaignId)}>
-          <Anchor>{campaign.customer_title}</Anchor>
-        </Link>
-      </PageHeader.Breadcrumb>
-      <PageHeader.Main infoTitle={campaign.customer_title}>
-        <FlexWrapper>
-          <StyledTitle>
-            <Span isBold>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Span>
-          </StyledTitle>
-          <Tools
-            campaignId={campaignId}
-            customerTitle={campaign.customer_title}
-          />
-        </FlexWrapper>
-      </PageHeader.Main>
-    </PageHeader>
+    <LayoutWrapper isNotBoxed>
+      <PageHeader>
+        <PageHeader.Breadcrumb>
+          <Link to={project.route}>
+            <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+          </Link>
+          <Link to={getLocalizeoFirstLevelDashboardRoute(campaignId)}>
+            <Anchor>{campaign.customer_title}</Anchor>
+          </Link>
+        </PageHeader.Breadcrumb>
+        <PageHeader.Main infoTitle={campaign.customer_title}>
+          <FlexWrapper>
+            <StyledTitle>
+              <Span isBold>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Span>
+            </StyledTitle>
+            <Tools
+              campaignId={campaignId}
+              customerTitle={campaign.customer_title}
+            />
+          </FlexWrapper>
+        </PageHeader.Main>
+      </PageHeader>
+    </LayoutWrapper>
   );
 };
 export { BugsPageHeader, BugsPageHeaderLoader };

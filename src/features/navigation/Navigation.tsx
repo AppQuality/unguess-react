@@ -52,7 +52,7 @@ export const Navigation = ({
   // Set isSidebarOpen to false for specific routes
   useEffect(() => {
     switch (route) {
-      case 'services':
+      case 'service':
       case 'campaigns':
       case 'bugs':
       case 'bug':
