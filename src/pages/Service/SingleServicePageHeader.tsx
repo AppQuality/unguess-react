@@ -6,7 +6,7 @@ import {
   Span,
   PageHeader,
 } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
+import { Tag } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';

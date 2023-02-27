@@ -102,7 +102,7 @@ export const StatusTag = ({
             : getDefaultTextByStatus(status, t))
       }
       {typeof counter !== 'undefined' && (
-        <Tag.SecondaryText color={theme.palette.grey[700]}>
+        <Tag.SecondaryText isBold color={theme.palette.grey[700]}>
           {counter.toString()}
         </Tag.SecondaryText>
       )}

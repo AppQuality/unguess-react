@@ -1,6 +1,6 @@
+import { Tag } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
-import { Tag } from 'src/common/Tag';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';

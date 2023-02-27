@@ -10,7 +10,7 @@ import {
   XL,
   XXL,
 } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
+import { Tag } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
 import * as Yup from 'yup';

@@ -10,7 +10,7 @@ import {
   XL,
   XXL,
 } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
+import { Tag } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';

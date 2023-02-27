@@ -1,6 +1,5 @@
-import { Skeleton, SM } from '@appquality/unguess-design-system';
+import { Skeleton, SM, Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Tag } from 'src/common/Tag';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
 import { BugCard } from 'src/common/components/BugCard';

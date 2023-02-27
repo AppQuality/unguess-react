@@ -1,5 +1,5 @@
-import { Span, theme as globalTheme } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
+import { Span, Tag } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as TrendIcon } from 'src/assets/icons/trend-icon.svg';
 

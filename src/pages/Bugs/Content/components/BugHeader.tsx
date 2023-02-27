@@ -2,8 +2,8 @@ import {
   IconButton,
   theme as globalTheme,
   Tooltip,
+  Tag,
 } from '@appquality/unguess-design-system';
-import { Tag } from 'src/common/Tag';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.svg';
@@ -62,7 +62,7 @@ export default ({
           </Tag.Avatar>
         )}
         ID
-        <Tag.SecondaryText>{bug.id}</Tag.SecondaryText>
+        <Tag.SecondaryText isBold>{bug.id}</Tag.SecondaryText>
       </Tag>
       <ActionDetailPreview>
         <Link
