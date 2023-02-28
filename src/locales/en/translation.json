@@ -558,7 +558,7 @@
   "__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_PLACEHOLDER": "The exploratory test doesn't cover all the...",
   "__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE": "Test scopes",
   "__EXPRESS_WIZARD_STEP_WHERE_SUBTITLE": "Choose what kind of <1>devices</1> do you want to test on",
-  "__EXPRESS_WIZARD_STEP_WHERE_TITLE": "<0>Where</0>do we test?",
+  "__EXPRESS_WIZARD_STEP_WHERE_TITLE": "<0>Where</0> do we test?",
   "__EXPRESS_WIZARD_STEP_WHO_DESCRIPTION": "Define the campaign's target",
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_CAMPAIGN_LANGUAGE_REQUIRED": "Campaing language is required",
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_DESCRIPTION": "Select the testers' spoken language, it will be the same used for the campaign's results.",
