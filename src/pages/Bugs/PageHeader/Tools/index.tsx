@@ -1,7 +1,7 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
+import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { DotsMenu } from './DotsMenu';
@@ -23,7 +23,7 @@ const SeveritiesWrapper = styled.div`
 
 const StyledCounter = styled(UniqueBugsCounter)``;
 
-const StyledStatus = styled(StatusPill)``;
+const StyledStatus = styled(StatusTag)``;
 
 const StyledMenu = styled(DotsMenu)`
   display: flex;
@@ -89,15 +89,16 @@ export const Tools = ({
         <StyledCounter campaignId={campaignId} />
         <SeveritiesWrapper>
           {Object.keys(severities).map((severity) => (
-            <SeverityPill
+            <SeverityTag
               key={severity}
               counter={severities[severity as Severities]}
               severity={severity as Severities}
+              size="large"
             />
           ))}
         </SeveritiesWrapper>
         <Pipe />
-        <StyledStatus status={status.name} />
+        <StyledStatus status={status.name as CampaignStatus} />
       </ToolsWrapper>
       <StyledMenu campaignId={campaignId} customerTitle={customerTitle} />
     </>

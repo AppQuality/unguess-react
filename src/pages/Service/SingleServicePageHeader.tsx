@@ -4,9 +4,8 @@ import {
   Anchor,
   Paragraph,
   Span,
-  Tag,
-  theme as globalTheme,
   PageHeader,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
@@ -81,24 +80,14 @@ export const SingleServicePageHeader = ({
           <PageHeader.Counters>
             <TagsContainer>
               {expressType && expressType.id ? (
-                <StyledTag
-                  size="large"
-                  isPill
-                  isRegular
-                  hue={globalTheme.palette.grey[100]}
-                >
+                <StyledTag size="large">
                   <StyledTag.Avatar>
                     <ExpressIcon />
                   </StyledTag.Avatar>
                   <Span>{t('__EXPRESS_LABEL')}</Span>
                 </StyledTag>
               ) : (
-                <StyledTag
-                  size="large"
-                  isPill
-                  isRegular
-                  hue={globalTheme.palette.grey[100]}
-                >
+                <StyledTag size="large">
                   <StyledTag.Avatar>
                     <TailoredIcon />
                   </StyledTag.Avatar>
@@ -106,36 +95,21 @@ export const SingleServicePageHeader = ({
                 </StyledTag>
               )}
               {service.is_functional ? (
-                <StyledTag
-                  size="large"
-                  isPill
-                  isRegular
-                  hue={globalTheme.palette.grey[100]}
-                >
+                <StyledTag size="large">
                   <StyledTag.Avatar>
                     <FunctionalIcon />
                   </StyledTag.Avatar>
                   <Span>{t('__FUNCTIONAL_LABEL')}</Span>
                 </StyledTag>
               ) : (
-                <StyledTag
-                  size="large"
-                  isPill
-                  isRegular
-                  hue={globalTheme.palette.grey[100]}
-                >
+                <StyledTag size="large">
                   <StyledTag.Avatar>
                     <ExperientialIcon />
                   </StyledTag.Avatar>
                   <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
                 </StyledTag>
               )}
-              <StyledTag
-                size="large"
-                isPill
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
+              <StyledTag size="large">
                 <StyledTag.Avatar>
                   <TimeIcon />
                 </StyledTag.Avatar>
@@ -146,12 +120,7 @@ export const SingleServicePageHeader = ({
                 </Paragraph>
               </StyledTag>
               {service.environment && (
-                <StyledTag
-                  size="large"
-                  isPill
-                  isRegular
-                  hue={globalTheme.palette.grey[100]}
-                >
+                <StyledTag size="large">
                   <StyledTag.Avatar>
                     <EnvironmentIcon />
                   </StyledTag.Avatar>

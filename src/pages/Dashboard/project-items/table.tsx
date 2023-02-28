@@ -1,6 +1,5 @@
 import {
   Anchor,
-  Counter,
   Span,
   Table,
   TableHead,
@@ -11,6 +10,7 @@ import {
   TableCell,
   theme,
 } from '@appquality/unguess-design-system';
+import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
@@ -36,25 +36,13 @@ export const TableList = ({
 
     switch (status) {
       case 'INCOMING':
-        return (
-          <Counter status="incoming">
-            {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_INCOMING')}
-          </Counter>
-        );
+        return <StatusTag status="incoming" />;
 
       case 'COMPLETED':
-        return (
-          <Counter status="completed">
-            {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_COMPLETED')}
-          </Counter>
-        );
+        return <StatusTag status="completed" />;
 
       case 'PROGRESS':
-        return (
-          <Counter status="progress">
-            {t('__CAMPAIGNS_TABLE_COLUMN_STATUS_PROGRESS')}
-          </Counter>
-        );
+        return <StatusTag status="running" />;
       default:
         return null;
     }

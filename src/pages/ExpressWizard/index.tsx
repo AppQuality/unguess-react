@@ -419,7 +419,7 @@ export const ExpressWizardContainer = () => {
                 </LayoutWrapper>
               </ModalFullScreen.Body>
               <ModalFooter>
-                <LayoutWrapper isNotBoxed>
+                <LayoutWrapper>
                   <Grid>
                     <Row>
                       <Col

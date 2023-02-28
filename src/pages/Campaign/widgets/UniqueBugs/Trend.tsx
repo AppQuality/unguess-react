@@ -1,13 +1,10 @@
-import {
-  Span,
-  Tag,
-  theme as globalTheme,
-} from '@appquality/unguess-design-system';
+import { Span, Tag } from '@appquality/unguess-design-system';
+import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as TrendIcon } from 'src/assets/icons/trend-icon.svg';
 
 const BasicTrendPill = ({ color, text }: { color: string; text: string }) => (
-  <Tag isPill id="pill-trend-unique-bugs-widget">
+  <Tag id="pill-trend-unique-bugs-widget">
     <Tag.Avatar>
       <TrendIcon color={color} />
     </Tag.Avatar>

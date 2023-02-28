@@ -1,5 +1,5 @@
-import { Counter, Skeleton } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Skeleton } from '@appquality/unguess-design-system';
+import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {
@@ -16,9 +16,7 @@ const Pipe = styled.span`
   display: inline;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
+    display: none;
   }
 `;
 
@@ -56,7 +54,6 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
-  const { t } = useTranslation();
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
@@ -76,23 +73,13 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <>
-      <Counter counter={completed} status="completed">
-        {t('__DASHABOARD_COUNTER_LABEL_COMPLETED')}
-      </Counter>
-      <Counter counter={running} status="progress">
-        {t('__DASHABOARD_COUNTER_LABEL_PROGRESS')}
-      </Counter>
-      <Counter counter={inComing} status="incoming">
-        {t('__DASHABOARD_COUNTER_LABEL_INCOMING')}
-      </Counter>
+    <div>
+      <StatusTag counter={completed} status="completed" />
+      <StatusTag counter={running} status="running" />
+      <StatusTag counter={inComing} status="incoming" />
       <Pipe />
-      <Counter counter={functional} status="functional">
-        {t('__DASHABOARD_COUNTER_LABEL_FUNCTIONAL')}
-      </Counter>
-      <Counter counter={experiential} status="experiential">
-        {t('__DASHABOARD_COUNTER_LABEL_EXPERIENTIAL')}
-      </Counter>
-    </>
+      <StatusTag counter={functional} status="functional" />
+      <StatusTag counter={experiential} status="experiential" />
+    </div>
   );
 };
