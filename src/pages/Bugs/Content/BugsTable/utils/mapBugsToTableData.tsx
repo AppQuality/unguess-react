@@ -17,7 +17,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       key: bug.id.toString(),
       id: bug.id.toString(),
       siblings: (
-        <Tag hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
+        <Tag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
           {!bug.duplicated_of_id && (
             <Tag.Avatar>
               <FatherIcon />
