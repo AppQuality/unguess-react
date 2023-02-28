@@ -50,7 +50,7 @@ export default ({
 
   return (
     <Container>
-      <Tag isRegular hue="rgba(0,0,0,0)">
+      <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
         {!bug.duplicated_of_id && (
           <Tag.Avatar>
             <FatherIcon
