@@ -16,9 +16,7 @@ const Pipe = styled.span`
   display: inline;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
+    display: none;
   }
 `;
 
