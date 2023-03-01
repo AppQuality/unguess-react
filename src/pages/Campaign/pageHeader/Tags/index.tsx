@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DesktopTag } from './deviceTags/DesktopTag';
 import { SmartphoneTag } from './deviceTags/SmartphoneTag';
 import { TabletTag } from './deviceTags/TabletTag';
@@ -29,9 +30,10 @@ const FooterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-
   flex-direction: column;
   align-items: flex-start;
+  margin-top: ${({ theme }) => theme.space.xxs};
+
   ${ButtonWrapper} {
     margin-top: ${({ theme }) => theme.space.base * 5}px;
     margin-bottom: ${({ theme }) => theme.space.base * 6}px;
@@ -54,7 +56,31 @@ const TagsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
+const StyledStatusTag = styled(StatusTag)`
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+`;
+
+const StyledCampaignDurationTag = styled(CampaignDurationTag)`
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+`;
+
+const StyledDesktopTag = styled(DesktopTag)`
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+`;
+
+const StyledSmartphoneTag = styled(SmartphoneTag)`
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+`;
+
+const StyledTabletTag = styled(TabletTag)`
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+`;
+
 export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
+  const { width } = useWindowSize();
+  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
+  const hide = width < breakpoint;
+
   const {
     data: meta,
     isLoading,
@@ -72,17 +98,19 @@ export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
   return (
     <FooterContainer>
       <TagsWrapper>
-        <StatusTag status={family.name.toLowerCase() as CampaignStatus}>
+        <StyledStatusTag status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
-        </StatusTag>
-        <StatusTag status={status.name as CampaignStatus} />
-        <CampaignDurationTag start={start_date} end={end_date} />
+        </StyledStatusTag>
+        <StyledStatusTag status={status.name as CampaignStatus} />
+        <StyledCampaignDurationTag start={start_date} end={end_date} />
         {meta ? (
           <>
-            <Pipe style={{ marginRight: globalTheme.space.md }} />
-            {meta.allowed_devices.includes('desktop') && <DesktopTag />}
-            {meta.allowed_devices.includes('smartphone') && <SmartphoneTag />}
-            {meta.allowed_devices.includes('tablet') && <TabletTag />}
+            {!hide && <Pipe style={{ marginRight: globalTheme.space.lg }} />}
+            {meta.allowed_devices.includes('desktop') && <StyledDesktopTag />}
+            {meta.allowed_devices.includes('smartphone') && (
+              <StyledSmartphoneTag />
+            )}
+            {meta.allowed_devices.includes('tablet') && <StyledTabletTag />}
           </>
         ) : null}
       </TagsWrapper>
