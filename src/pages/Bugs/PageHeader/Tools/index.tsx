@@ -1,13 +1,15 @@
-import { Anchor, Skeleton } from '@appquality/unguess-design-system';
+import { Button, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
 import { Pipe } from 'src/common/components/Pipe';
-import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/dowload-arrow.svg';
+import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import { useTranslation } from 'react-i18next';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
 import WPAPI from 'src/common/wpapi';
+import useWindowSize from 'src/hooks/useWindowSize';
+import { theme as globalTheme } from 'src/app/theme';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaign } from './useCampaign';
 
@@ -16,26 +18,35 @@ const SeveritiesWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
+`;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    > div {
-      margin-right: ${({ theme }) => theme.space.xxs};
-      margin-bottom: ${({ theme }) => theme.space.xxs};
-    }
-  }
+const ToolsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+`;
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+`;
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 `;
 
 const StyledCounter = styled(UniqueBugsCounter)``;
 
 const StyledStatus = styled(StatusTag)``;
 
-const ToolsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-left: auto;
-`;
+const StyledSeverityTag = styled(SeverityTag)``;
 
 export const Tools = ({
   campaignId,
@@ -44,6 +55,9 @@ export const Tools = ({
   campaignId: number;
   customerTitle: string;
 }) => {
+  const { width } = useWindowSize();
+  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
+  const hide = width < breakpoint;
   const { t } = useTranslation();
   const integrationCenterUrl = getLocalizeIntegrationCenterRoute(campaignId);
   const { isLoading, status, severities } = useCampaign(campaignId);
@@ -52,34 +66,49 @@ export const Tools = ({
     return <Skeleton width="200px" height="20px" />;
 
   return (
-    <>
+    <Container>
       <ToolsWrapper>
-        <StyledCounter campaignId={campaignId} />
+        {!hide && <StyledCounter campaignId={campaignId} />}
         <SeveritiesWrapper>
           {Object.keys(severities).map((severity) => (
-            <SeverityTag
+            <StyledSeverityTag
               key={severity}
               counter={severities[severity as Severities]}
               severity={severity as Severities}
               size="large"
             />
           ))}
+          {!hide && <Pipe />}
+          <StyledStatus status={status.name as CampaignStatus} />
         </SeveritiesWrapper>
-        <Pipe />
-        <StyledStatus status={status.name as CampaignStatus} />
       </ToolsWrapper>
-      <>
-        <Anchor href={integrationCenterUrl}>
-          <ArrowDowloadIcon />
-          {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT')}
-        </Anchor>
-        <Anchor
-          onClick={() => WPAPI.getReport({ campaignId, title: customerTitle })}
+      <ButtonsWrapper>
+        <Button
+          isBasic
+          onClick={() =>
+            WPAPI.getReport({
+              campaignId,
+              title: customerTitle,
+            })
+          }
         >
-          <GearIcon />
+          <Button.StartIcon>
+            <ArrowDowloadIcon />
+          </Button.StartIcon>
+          {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT')}
+        </Button>
+        <Button
+          isBasic
+          onClick={() => {
+            window.location.href = integrationCenterUrl;
+          }}
+        >
+          <Button.StartIcon>
+            <GearIcon />
+          </Button.StartIcon>
           {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER')}
-        </Anchor>
-      </>
-    </>
+        </Button>
+      </ButtonsWrapper>
+    </Container>
   );
 };

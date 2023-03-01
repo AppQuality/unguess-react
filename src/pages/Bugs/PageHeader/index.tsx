@@ -32,13 +32,13 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
           <PageHeader.Title>
             {t('__PAGE_TITLE_BUGS_COLLECTION')}
           </PageHeader.Title>
+          <PageHeader.Meta>
+            <Tools
+              campaignId={campaignId}
+              customerTitle={campaign.customer_title}
+            />
+          </PageHeader.Meta>
         </PageHeader.Main>
-        <PageHeader.Footer>
-          <Tools
-            campaignId={campaignId}
-            customerTitle={campaign.customer_title}
-          />
-        </PageHeader.Footer>
       </PageHeader>
     </LayoutWrapper>
   );
