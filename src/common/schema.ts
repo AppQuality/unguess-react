@@ -13,6 +13,15 @@ export interface paths {
     /** A request to login with your username and password */
     post: operations['post-authenticate'];
   };
+  '/analytics/views/campaigns/{cid}': {
+    post: operations['post-analytics-views-campaigns-cid'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
   '/campaigns': {
     post: operations['post-campaigns'];
     parameters: {};
@@ -84,7 +93,7 @@ export interface paths {
     parameters: {
       path: {
         /** Campaign id */
-        cid: number;
+        cid: components['parameters']['cid'];
       };
     };
   };
@@ -274,6 +283,7 @@ export interface components {
       type: components['schemas']['BugType'];
       replicability: components['schemas']['BugReplicability'];
       created: string;
+      occurred_date: string;
       updated?: string;
       note?: string;
       device:
@@ -282,9 +292,9 @@ export interface components {
         | components['schemas']['Desktop'];
       application_section: {
         id?: number;
-        title?: string;
         simple_title?: string;
         prefix_title?: string;
+        title?: string;
       };
       duplicated_of_id?: number;
       is_favorite?: number;
@@ -834,6 +844,25 @@ export interface operations {
     };
     requestBody: components['requestBodies']['Credentials'];
   };
+  'post-analytics-views-campaigns-cid': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            success?: boolean;
+          };
+        };
+      };
+      500: components['responses']['Error'];
+    };
+  };
   'post-campaigns': {
     parameters: {};
     responses: {
@@ -1098,7 +1127,7 @@ export interface operations {
     parameters: {
       path: {
         /** Campaign id */
-        cid: number;
+        cid: components['parameters']['cid'];
       };
     };
     responses: {
