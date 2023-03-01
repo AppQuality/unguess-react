@@ -24,14 +24,11 @@ import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
 
 const TagsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: ${({ theme }) => theme.space.base * 4}px;
+  margin-top: ${({ theme }) => theme.space.xxs};
 `;
 
 const StyledTag = styled(Tag)`
-  margin-right: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
 
 export const SingleServicePageHeader = ({
