@@ -48,8 +48,8 @@ const Catalog = () => {
         <LayoutWrapper>
           <PageHeader>
             <PageHeader.Main
-              infoTitle={t('__CATALOG_PAGE_TITLE')}
-              infoDescription={t('__CATALOG_PAGE_DESCRIPTION')}
+              mainTitle={t('__CATALOG_PAGE_TITLE')}
+              mainDescription={t('__CATALOG_PAGE_DESCRIPTION')}
             >
               <PageHeader.Title>{t('__CATALOG_PAGE_TITLE')}</PageHeader.Title>
               <PageHeader.Description>

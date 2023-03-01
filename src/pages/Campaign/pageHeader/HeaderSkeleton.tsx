@@ -3,7 +3,7 @@ import { theme } from 'src/app/theme';
 
 export const HeaderSkeleton = () => (
   <PageHeader>
-    <PageHeader.Main infoTitle="My Campaign">
+    <PageHeader.Main mainTitle="My Campaign">
       <Skeleton
         width="60%"
         height="20px"

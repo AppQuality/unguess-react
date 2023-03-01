@@ -7,7 +7,7 @@ import { HeaderSkeleton } from './HeaderSkeleton';
 import { EditableTitle } from './EditableTitle';
 import { useCampaign } from './useCampaign';
 
-const StyledTagsWrapper = styled(PageHeader.Counters)`
+const StyledTagsWrapper = styled(PageHeader.Meta)`
   width: 100%;
 `;
 
@@ -23,15 +23,15 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
   return isUserLoading || isError ? null : (
     <LayoutWrapper>
       <PageHeader>
-        <PageHeader.Breadcrumb>
+        <PageHeader.Breadcrumbs>
           <Anchor
             id="breadcrumb-parent"
             onClick={() => navigate(project.route)}
           >
             {project.name}
           </Anchor>
-        </PageHeader.Breadcrumb>
-        <PageHeader.Main infoTitle={campaign.customer_title}>
+        </PageHeader.Breadcrumbs>
+        <PageHeader.Main mainTitle={campaign.customer_title}>
           <PageHeader.Title>
             <EditableTitle campaignId={campaignId} />
           </PageHeader.Title>

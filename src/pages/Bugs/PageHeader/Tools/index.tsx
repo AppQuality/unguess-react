@@ -1,10 +1,14 @@
-import { Skeleton } from '@appquality/unguess-design-system';
+import { Anchor, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
 import { Pipe } from 'src/common/components/Pipe';
+import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/dowload-arrow.svg';
+import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
+import { useTranslation } from 'react-i18next';
+import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
+import WPAPI from 'src/common/wpapi';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
-import { DotsMenu } from './DotsMenu';
 import { useCampaign } from './useCampaign';
 
 const SeveritiesWrapper = styled.div`
@@ -25,50 +29,12 @@ const StyledCounter = styled(UniqueBugsCounter)``;
 
 const StyledStatus = styled(StatusTag)``;
 
-const StyledMenu = styled(DotsMenu)`
-  display: flex;
-  margin-left: ${({ theme }) => theme.space.md};
-`;
-
 const ToolsWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-wrap: wrap;
   margin-left: auto;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.xxl}) {
-    flex-wrap: nowrap;
-    order: 0;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    order: 1;
-    width: 100%;
-    margin-top: ${({ theme }) => theme.space.md};
-    margin-left: 0;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    flex-direction: column;
-    align-items: flex-start;
-
-    ${Pipe} {
-      display: none;
-    }
-
-    ${StyledCounter} {
-      margin-bottom: ${({ theme }) => theme.space.sm};
-    }
-
-    ${SeveritiesWrapper} {
-      margin-bottom: ${({ theme }) => theme.space.xxs};
-    }
-
-    ${StyledStatus} {
-      margin-bottom: ${({ theme }) => theme.space.xs};
-    }
-  }
 `;
 
 export const Tools = ({
@@ -78,6 +44,8 @@ export const Tools = ({
   campaignId: number;
   customerTitle: string;
 }) => {
+  const { t } = useTranslation();
+  const integrationCenterUrl = getLocalizeIntegrationCenterRoute(campaignId);
   const { isLoading, status, severities } = useCampaign(campaignId);
 
   if (isLoading || !status || !severities)
@@ -100,7 +68,18 @@ export const Tools = ({
         <Pipe />
         <StyledStatus status={status.name as CampaignStatus} />
       </ToolsWrapper>
-      <StyledMenu campaignId={campaignId} customerTitle={customerTitle} />
+      <>
+        <Anchor href={integrationCenterUrl}>
+          <ArrowDowloadIcon />
+          {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT')}
+        </Anchor>
+        <Anchor
+          onClick={() => WPAPI.getReport({ campaignId, title: customerTitle })}
+        >
+          <GearIcon />
+          {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER')}
+        </Anchor>
+      </>
     </>
   );
 };

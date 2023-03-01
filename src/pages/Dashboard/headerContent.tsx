@@ -25,14 +25,14 @@ export const DashboardHeaderContent = ({
   return status === 'idle' || status === 'loading' ? null : (
     <LayoutWrapper>
       <PageHeader>
-        <PageHeader.Main infoTitle={pageTitle || 'My Dashboard'}>
+        <PageHeader.Main mainTitle={pageTitle || 'My Dashboard'}>
           <PageHeader.Title>{pageTitle || 'My Dashboard'}</PageHeader.Title>
-          <PageHeader.Counters>
+          <PageHeader.Meta>
             <Counters />
-          </PageHeader.Counters>
+          </PageHeader.Meta>
         </PageHeader.Main>
         {hasButton && (
-          <PageHeader.Buttons>
+          <PageHeader.Footer>
             <Button
               isPrimary
               isPill
@@ -43,7 +43,7 @@ export const DashboardHeaderContent = ({
             >
               {t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON')}
             </Button>
-          </PageHeader.Buttons>
+          </PageHeader.Footer>
         )}
       </PageHeader>
     </LayoutWrapper>
