@@ -7,6 +7,8 @@ import {
   useGetWorkspacesByWidCampaignsQuery,
 } from 'src/features/api';
 import styled from 'styled-components';
+import { theme as globalTheme } from 'src/app/theme';
+import useWindowSize from 'src/hooks/useWindowSize';
 
 const Pipe = styled.span`
   /** Vertical Separator */
@@ -18,6 +20,10 @@ const Pipe = styled.span`
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     display: none;
   }
+`;
+
+const StyledStatusTag = styled(StatusTag)`
+  margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
@@ -54,6 +60,10 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
+  const { width } = useWindowSize();
+  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
+  const hide = width < breakpoint;
+
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
@@ -73,13 +83,13 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <div>
-      <StatusTag counter={completed} status="completed" />
-      <StatusTag counter={running} status="running" />
-      <StatusTag counter={inComing} status="incoming" />
-      <Pipe />
-      <StatusTag counter={functional} status="functional" />
-      <StatusTag counter={experiential} status="experiential" />
+    <div style={{ marginTop: globalTheme.space.xxs }}>
+      <StyledStatusTag counter={completed} status="completed" />
+      <StyledStatusTag counter={running} status="running" />
+      <StyledStatusTag counter={inComing} status="incoming" />
+      {!hide && <Pipe />}
+      <StyledStatusTag counter={functional} status="functional" />
+      <StyledStatusTag counter={experiential} status="experiential" />
     </div>
   );
 };
