@@ -1,18 +1,21 @@
-import { SM, Tag } from '@appquality/unguess-design-system';
+import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
+import { PriorityIcon } from 'src/common/components/PriorityIcon';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
   if (!bugs) return [];
-  return bugs.map((bug) => {
-    const isPillBold = (currentBugId && currentBugId === bug.id) || !bug.read;
+  return bugs.map((oldBug) => {
+    const isPillBold =
+      (currentBugId && currentBugId === oldBug.id) || !oldBug.read;
+    const bug = { ...oldBug, priority: { name: 'whatever', id: 2 } };
     return {
       key: bug.id.toString(),
       id: bug.id.toString(),
@@ -30,6 +33,13 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         <SM tag="span" isBold={isPillBold}>
           {bug.id.toString()}
         </SM>
+      ),
+      priority: (
+        <Tooltip content={bug.priority.name} placement="auto" type="light">
+          <span>
+            <PriorityIcon priority={bug.priority.name} />
+          </span>
+        </Tooltip>
       ),
       severity: (
         <SeverityTag
