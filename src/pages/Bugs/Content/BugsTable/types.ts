@@ -11,6 +11,7 @@ export interface TableDatum {
   title: ReactNode;
   siblings: number;
   severity: ReactNode;
+  priority: ReactNode;
   created: string;
   updated?: string;
   isHighlighted?: boolean;
