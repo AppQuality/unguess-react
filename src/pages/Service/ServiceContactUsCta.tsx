@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { ServiceCta } from './ServiceCta';
+import { WaterButton } from 'src/common/components/waterButton';
 
 export const ServiceContactUsCta = ({
   onCtaClick,
@@ -9,8 +9,8 @@ export const ServiceContactUsCta = ({
   const { t } = useTranslation();
 
   return (
-    <ServiceCta size="medium" isPrimary isPill onClick={onCtaClick}>
+    <WaterButton size="medium" isPrimary isPill onClick={onCtaClick}>
       {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
-    </ServiceCta>
+    </WaterButton>
   );
 };

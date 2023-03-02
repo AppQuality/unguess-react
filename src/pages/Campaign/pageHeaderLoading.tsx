@@ -5,7 +5,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 export const HeaderLoader = () => (
   <LayoutWrapper>
     <PageHeader>
-      <PageHeader.Main infoTitle="My Campaign">
+      <PageHeader.Main mainTitle="My Campaign">
         <Skeleton
           width="30%"
           height="20px"

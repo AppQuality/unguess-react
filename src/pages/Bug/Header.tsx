@@ -22,14 +22,14 @@ interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
 }
 
-const BreadCrumb = ({
+const BreadCrumbs = ({
   campaign,
 }: {
   campaign: GetCampaignsByCidApiResponse;
 }) => {
   const { t } = useTranslation();
   return (
-    <PageHeader.Breadcrumb>
+    <PageHeader.Breadcrumbs>
       <Link to={useLocalizeRoute(`projects/${campaign.project.id}`)}>
         <Anchor id="breadcrumb-parent">{campaign.project.name}</Anchor>
       </Link>
@@ -39,9 +39,10 @@ const BreadCrumb = ({
       <Link to={useLocalizeRoute(`campaigns/${campaign.id}/bugs`)}>
         <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
       </Link>
-    </PageHeader.Breadcrumb>
+    </PageHeader.Breadcrumbs>
   );
 };
+
 export const Header = ({ campaignId, bug }: Props) => {
   const {
     isLoading: isCampaignLoading,
@@ -58,7 +59,7 @@ export const Header = ({ campaignId, bug }: Props) => {
       <LayoutWrapper>
         <PageHeader>
           <Skeleton height="50px" />
-          <PageHeader.Main infoTitle={bug.title.full}>
+          <PageHeader.Main mainTitle={bug.title.full}>
             <XXXL isBold>{bug.title.compact}</XXXL>
           </PageHeader.Main>
         </PageHeader>
@@ -69,11 +70,11 @@ export const Header = ({ campaignId, bug }: Props) => {
   return (
     <LayoutWrapper>
       <PageHeader>
-        <BreadCrumb campaign={campaign} />
-        <PageHeader.Main infoTitle={bug.title.full}>
+        <BreadCrumbs campaign={campaign} />
+        <PageHeader.Main mainTitle={bug.title.full}>
           <XXXL isBold>{bug.title.compact}</XXXL>
         </PageHeader.Main>
-        <PageHeader.Buttons>
+        <PageHeader.Footer>
           <ShareButton bug={bug}>
             {(setModalOpen) => (
               <Button isPill hasStartIcon onClick={() => setModalOpen(true)}>
@@ -84,7 +85,7 @@ export const Header = ({ campaignId, bug }: Props) => {
               </Button>
             )}
           </ShareButton>
-        </PageHeader.Buttons>
+        </PageHeader.Footer>
       </PageHeader>
     </LayoutWrapper>
   );

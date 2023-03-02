@@ -5,7 +5,7 @@ import {
   openDrawer,
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
-import { ServiceCta } from './ServiceCta';
+import { WaterButton } from 'src/common/components/waterButton';
 
 export const ServiceExpressCta = ({
   expressTypeId,
@@ -20,7 +20,7 @@ export const ServiceExpressCta = ({
   }
 
   return (
-    <ServiceCta
+    <WaterButton
       className="service-details-express-button"
       size="medium"
       isPrimary
@@ -32,6 +32,6 @@ export const ServiceExpressCta = ({
       }}
     >
       {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
-    </ServiceCta>
+    </WaterButton>
   );
 };

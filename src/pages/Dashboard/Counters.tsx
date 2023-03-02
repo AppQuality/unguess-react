@@ -7,6 +7,8 @@ import {
   useGetWorkspacesByWidCampaignsQuery,
 } from 'src/features/api';
 import styled from 'styled-components';
+import { theme as globalTheme } from 'src/app/theme';
+import useWindowSize from 'src/hooks/useWindowSize';
 
 const Pipe = styled.span`
   /** Vertical Separator */
@@ -54,6 +56,10 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
+  const { width } = useWindowSize();
+  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
+  const hide = width < breakpoint;
+
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
@@ -73,11 +79,11 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <div>
+    <div style={{ marginTop: globalTheme.space.xxs }}>
       <StatusTag counter={completed} status="completed" />
       <StatusTag counter={running} status="running" />
       <StatusTag counter={inComing} status="incoming" />
-      <Pipe />
+      {!hide && <Pipe />}
       <StatusTag counter={functional} status="functional" />
       <StatusTag counter={experiential} status="experiential" />
     </div>

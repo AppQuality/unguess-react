@@ -24,14 +24,11 @@ import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
 
 const TagsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: ${({ theme }) => theme.space.base * 4}px;
+  margin-top: ${({ theme }) => theme.space.xxs};
 `;
 
 const StyledTag = styled(Tag)`
-  margin-right: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
 
 export const SingleServicePageHeader = ({
@@ -63,21 +60,21 @@ export const SingleServicePageHeader = ({
   return (
     <LayoutWrapper>
       <PageHeader>
-        <PageHeader.Breadcrumb>
+        <PageHeader.Breadcrumbs>
           <Anchor onClick={() => navigate(servicesRoute)}>
             {t('__BREADCRUMB_ITEM_SERVICES')}
           </Anchor>
-        </PageHeader.Breadcrumb>
+        </PageHeader.Breadcrumbs>
         <PageHeader.Main
-          infoTitle={service.title}
-          {...(bannerImg && { metaImage: bannerImgUrl })}
+          mainTitle={service.title}
+          {...(bannerImg && { mainImageUrl: bannerImgUrl })}
         >
           <PageHeader.Overline>
             {service.campaign_type.toUpperCase()}
           </PageHeader.Overline>
           <PageHeader.Title>{service.title}</PageHeader.Title>
           <PageHeader.Description>{service.description}</PageHeader.Description>
-          <PageHeader.Counters>
+          <PageHeader.Meta>
             <TagsContainer>
               {expressType && expressType.id ? (
                 <StyledTag size="large">
@@ -128,15 +125,15 @@ export const SingleServicePageHeader = ({
                 </StyledTag>
               )}
             </TagsContainer>
-          </PageHeader.Counters>
+          </PageHeader.Meta>
         </PageHeader.Main>
-        <PageHeader.Buttons>
+        <PageHeader.Footer>
           {expressType && expressType.id ? (
             <ServiceExpressCta expressTypeId={expressType.id} />
           ) : (
             <ServiceContactUsCta onCtaClick={onContactClick} />
           )}
-        </PageHeader.Buttons>
+        </PageHeader.Footer>
       </PageHeader>
     </LayoutWrapper>
   );

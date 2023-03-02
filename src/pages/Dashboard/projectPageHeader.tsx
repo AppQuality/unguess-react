@@ -89,7 +89,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   return (
     <LayoutWrapper>
       <PageHeader>
-        <PageHeader.Main infoTitle={itemTitle || ''}>
+        <PageHeader.Main mainTitle={itemTitle || ''}>
           <PageHeader.Title style={{ minHeight: '66px' }}>
             {isLoading || isFetching || status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
@@ -97,12 +97,12 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               InputToggleMemo
             )}
           </PageHeader.Title>
-          <PageHeader.Counters>
+          <PageHeader.Meta>
             <Counters />
-          </PageHeader.Counters>
+          </PageHeader.Meta>
         </PageHeader.Main>
         {hasButton && (
-          <PageHeader.Buttons>
+          <PageHeader.Footer>
             <Button
               isPrimary
               isPill
@@ -113,7 +113,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             >
               {t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON')}
             </Button>
-          </PageHeader.Buttons>
+          </PageHeader.Footer>
         )}
       </PageHeader>
     </LayoutWrapper>

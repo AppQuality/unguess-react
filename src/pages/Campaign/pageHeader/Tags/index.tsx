@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DesktopTag } from './deviceTags/DesktopTag';
 import { SmartphoneTag } from './deviceTags/SmartphoneTag';
 import { TabletTag } from './deviceTags/TabletTag';
@@ -29,9 +30,10 @@ const FooterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-
   flex-direction: column;
   align-items: flex-start;
+  margin-top: ${({ theme }) => theme.space.xxs};
+
   ${ButtonWrapper} {
     margin-top: ${({ theme }) => theme.space.base * 5}px;
     margin-bottom: ${({ theme }) => theme.space.base * 6}px;
@@ -55,6 +57,10 @@ const TagsWrapper = styled.div`
 `;
 
 export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
+  const { width } = useWindowSize();
+  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
+  const hide = width < breakpoint;
+
   const {
     data: meta,
     isLoading,
@@ -79,7 +85,7 @@ export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
         <CampaignDurationTag start={start_date} end={end_date} />
         {meta ? (
           <>
-            <Pipe style={{ marginRight: globalTheme.space.md }} />
+            {!hide && <Pipe style={{ marginRight: globalTheme.space.lg }} />}
             {meta.allowed_devices.includes('desktop') && <DesktopTag />}
             {meta.allowed_devices.includes('smartphone') && <SmartphoneTag />}
             {meta.allowed_devices.includes('tablet') && <TabletTag />}
