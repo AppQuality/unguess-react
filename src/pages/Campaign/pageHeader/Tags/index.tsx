@@ -56,26 +56,6 @@ const TagsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const StyledStatusTag = styled(StatusTag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
-
-const StyledCampaignDurationTag = styled(CampaignDurationTag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
-
-const StyledDesktopTag = styled(DesktopTag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
-
-const StyledSmartphoneTag = styled(SmartphoneTag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
-
-const StyledTabletTag = styled(TabletTag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
-
 export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { width } = useWindowSize();
   const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
@@ -98,19 +78,17 @@ export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
   return (
     <FooterContainer>
       <TagsWrapper>
-        <StyledStatusTag status={family.name.toLowerCase() as CampaignStatus}>
+        <StatusTag status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
-        </StyledStatusTag>
-        <StyledStatusTag status={status.name as CampaignStatus} />
-        <StyledCampaignDurationTag start={start_date} end={end_date} />
+        </StatusTag>
+        <StatusTag status={status.name as CampaignStatus} />
+        <CampaignDurationTag start={start_date} end={end_date} />
         {meta ? (
           <>
             {!hide && <Pipe style={{ marginRight: globalTheme.space.lg }} />}
-            {meta.allowed_devices.includes('desktop') && <StyledDesktopTag />}
-            {meta.allowed_devices.includes('smartphone') && (
-              <StyledSmartphoneTag />
-            )}
-            {meta.allowed_devices.includes('tablet') && <StyledTabletTag />}
+            {meta.allowed_devices.includes('desktop') && <DesktopTag />}
+            {meta.allowed_devices.includes('smartphone') && <SmartphoneTag />}
+            {meta.allowed_devices.includes('tablet') && <TabletTag />}
           </>
         ) : null}
       </TagsWrapper>

@@ -22,10 +22,6 @@ const Pipe = styled.span`
   }
 `;
 
-const StyledStatusTag = styled(StatusTag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
-
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const prjId =
     projectId && !Number.isNaN(Number(projectId))
@@ -84,12 +80,12 @@ export const Counters = () => {
     <Skeleton width="30%" height="32px" />
   ) : (
     <div style={{ marginTop: globalTheme.space.xxs }}>
-      <StyledStatusTag counter={completed} status="completed" />
-      <StyledStatusTag counter={running} status="running" />
-      <StyledStatusTag counter={inComing} status="incoming" />
+      <StatusTag counter={completed} status="completed" />
+      <StatusTag counter={running} status="running" />
+      <StatusTag counter={inComing} status="incoming" />
       {!hide && <Pipe />}
-      <StyledStatusTag counter={functional} status="functional" />
-      <StyledStatusTag counter={experiential} status="experiential" />
+      <StatusTag counter={functional} status="functional" />
+      <StatusTag counter={experiential} status="experiential" />
     </div>
   );
 };

@@ -42,12 +42,6 @@ const ButtonsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const StyledCounter = styled(UniqueBugsCounter)``;
-
-const StyledStatus = styled(StatusTag)``;
-
-const StyledSeverityTag = styled(SeverityTag)``;
-
 export const Tools = ({
   campaignId,
   customerTitle,
@@ -68,10 +62,10 @@ export const Tools = ({
   return (
     <Container>
       <ToolsWrapper>
-        {!hide && <StyledCounter campaignId={campaignId} />}
+        {!hide && <UniqueBugsCounter campaignId={campaignId} />}
         <SeveritiesWrapper>
           {Object.keys(severities).map((severity) => (
-            <StyledSeverityTag
+            <SeverityTag
               key={severity}
               counter={severities[severity as Severities]}
               severity={severity as Severities}
@@ -79,7 +73,7 @@ export const Tools = ({
             />
           ))}
           {!hide && <Pipe />}
-          <StyledStatus status={status.name as CampaignStatus} />
+          <StatusTag status={status.name as CampaignStatus} />
         </SeveritiesWrapper>
       </ToolsWrapper>
       <ButtonsWrapper>
