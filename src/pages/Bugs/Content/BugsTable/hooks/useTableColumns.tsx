@@ -30,6 +30,11 @@ export const useTableColumns = () => {
       textAlign: 'center',
     },
     {
+      key: 'priority',
+      header: t('__BUGS_TABLE_PRIORITY_HEADER_COLUMN'),
+      width: '90px',
+    },
+    {
       key: 'bugId',
       header: t('__BUGS_TABLE_BUG_ID_HEADER_COLUMN'),
       width: '80px',
