@@ -454,7 +454,7 @@ export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
 };
 export type GetCampaignsByCidMetaApiArg = {
   /** Campaign id */
-  cid: number;
+  cid: string;
 };
 export type GetCampaignsByCidReportsApiResponse = /** status 200 OK */ Report[];
 export type GetCampaignsByCidReportsApiArg = {

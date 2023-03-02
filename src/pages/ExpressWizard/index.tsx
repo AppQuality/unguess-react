@@ -1,6 +1,7 @@
 import {
   Col,
   ContainerCard,
+  Grid,
   Message,
   ModalFullScreen,
   Row,
@@ -51,6 +52,7 @@ import i18n from 'src/i18n';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
@@ -77,29 +79,28 @@ const StyledFooterItem = styled(ModalFullScreen.FooterItem)`
   align-items: center;
 `;
 
-const StyledModalContent = styled.div`
-  margin: 0 auto;
-`;
-
-const ModalFooter = styled.div`
+const ModalFooter = styled(ModalFullScreen.Footer)`
   background-color: ${({ theme }) => theme.palette.white};
-`;
-
-const StyledModalNav = styled.div`
-  margin-left: 0;
-  margin-right: 0;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
-    width: ${({ theme }) => theme.breakpoints.xxl};
-    margin: 0 auto;
-  }
 `;
 
 const StyledModal = styled(ModalFullScreen)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
+`;
 
-  ${StyledModalContent}, ${StyledModalNav} {
-    max-width: ${({ theme }) => theme.breakpoints.xxl};
+const ModalHeaderContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const PullRight = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 ${({ theme }) => theme.space.lg};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0;
   }
 `;
 
@@ -377,69 +378,78 @@ export const ExpressWizardContainer = () => {
               <StyledModal.Header
                 style={{ backgroundColor: globalTheme.palette.white }}
               >
-                <WizardHeader {...formProps} onClose={closeExpressWizard} />
-                <StyledModal.Close
-                  id="express-wizard-close-button"
-                  aria-label="Close modal"
-                />
+                <LayoutWrapper>
+                  <ModalHeaderContent>
+                    <WizardHeader {...formProps} onClose={closeExpressWizard} />
+                    <StyledModal.Close
+                      id="express-wizard-close-button"
+                      aria-label="Close modal"
+                    />
+                  </ModalHeaderContent>
+                </LayoutWrapper>
               </StyledModal.Header>
               <ModalFullScreen.Body>
-                <StyledModalContent>
+                <LayoutWrapper>
                   <Form onSubmit={formProps.handleSubmit}>
-                    <Row>
-                      <Col xs={12} lg={3}>
-                        <StyledContainer>
-                          <Stepper
-                            activeIndex={activeStep}
-                            accordionTitle={stepperTitle}
-                          >
-                            {steps.map((item) => (
-                              <Stepper.Step key={item.label}>
-                                <Stepper.Label>{item.label}</Stepper.Label>
-                                <Stepper.Content>
-                                  {item.content}
-                                </Stepper.Content>
-                              </Stepper.Step>
-                            ))}
-                          </Stepper>
-                        </StyledContainer>
-                      </Col>
-                      <Col xs={12} lg={9} xl={7}>
-                        {steps[activeStep as number].form(formProps)}
-                      </Col>
-                    </Row>
+                    <Grid>
+                      <Row>
+                        <Col xs={12} lg={3}>
+                          <StyledContainer>
+                            <Stepper
+                              activeIndex={activeStep}
+                              accordionTitle={stepperTitle}
+                            >
+                              {steps.map((item) => (
+                                <Stepper.Step key={item.label}>
+                                  <Stepper.Label>{item.label}</Stepper.Label>
+                                  <Stepper.Content>
+                                    {item.content}
+                                  </Stepper.Content>
+                                </Stepper.Step>
+                              ))}
+                            </Stepper>
+                          </StyledContainer>
+                        </Col>
+                        <Col xs={12} lg={9} xl={7}>
+                          {steps[activeStep as number].form(formProps)}
+                        </Col>
+                      </Row>
+                    </Grid>
                   </Form>
-                </StyledModalContent>
+                </LayoutWrapper>
               </ModalFullScreen.Body>
               <ModalFooter>
-                <StyledModalNav style={{ position: 'relative' }}>
-                  <Row>
-                    <Col
-                      xs={12}
-                      lg={9}
-                      xl={7}
-                      offsetLg={3}
-                      style={{ marginBottom: 0 }}
-                    >
-                      <ModalFullScreen.Footer>
-                        <StyledFooterItem>
-                          {formProps.status && formProps.status.submitError && (
-                            <Message validation="error">
-                              {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
-                            </Message>
-                          )}
-                        </StyledFooterItem>
-                        <StyledFooterItem>
-                          {steps[activeStep as number].buttons({
-                            formikArgs: formProps,
-                            onBackClick: onBack,
-                            onNextClick: onNext,
-                          })}
-                        </StyledFooterItem>
-                      </ModalFullScreen.Footer>
-                    </Col>
-                  </Row>
-                </StyledModalNav>
+                <LayoutWrapper>
+                  <Grid>
+                    <Row>
+                      <Col
+                        xs={12}
+                        lg={9}
+                        xl={7}
+                        offsetLg={3}
+                        style={{ marginBottom: 0 }}
+                      >
+                        <PullRight>
+                          <StyledFooterItem>
+                            {formProps.status &&
+                              formProps.status.submitError && (
+                                <Message validation="error">
+                                  {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
+                                </Message>
+                              )}
+                          </StyledFooterItem>
+                          <StyledFooterItem>
+                            {steps[activeStep as number].buttons({
+                              formikArgs: formProps,
+                              onBackClick: onBack,
+                              onNextClick: onNext,
+                            })}
+                          </StyledFooterItem>
+                        </PullRight>
+                      </Col>
+                    </Row>
+                  </Grid>
+                </LayoutWrapper>
               </ModalFooter>
             </>
           )}

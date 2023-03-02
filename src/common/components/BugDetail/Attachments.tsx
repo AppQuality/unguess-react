@@ -53,7 +53,7 @@ export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
   const extraItems = media?.filter((m) => m.mime_type.type === 'other');
 
   return (
-    <Container>
+    <Container id="bug-preview-attachments">
       <Title>
         <AttachmentsIcon
           style={{

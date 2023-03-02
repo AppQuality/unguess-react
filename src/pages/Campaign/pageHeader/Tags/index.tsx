@@ -12,12 +12,12 @@ import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
-import { DesktopPill } from './devicePills/DesktopPill';
-import { SmartphonePill } from './devicePills/SmartphonePill';
-import { TabletPill } from './devicePills/TabletPill';
-import { CampaignTypePill } from './CampaignTypePill';
-import { CampaignDurationPill } from './CampaignDurationPill';
+import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
+import useWindowSize from 'src/hooks/useWindowSize';
+import { DesktopTag } from './deviceTags/DesktopTag';
+import { SmartphoneTag } from './deviceTags/SmartphoneTag';
+import { TabletTag } from './deviceTags/TabletTag';
+import { CampaignDurationTag } from './CampaignDurationTag';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -30,9 +30,10 @@ const FooterContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-
   flex-direction: column;
   align-items: flex-start;
+  margin-top: ${({ theme }) => theme.space.xxs};
+
   ${ButtonWrapper} {
     margin-top: ${({ theme }) => theme.space.base * 5}px;
     margin-bottom: ${({ theme }) => theme.space.base * 6}px;
@@ -47,7 +48,7 @@ const FooterContainer = styled.div`
   }
 `;
 
-const PillsWrapper = styled.div`
+const TagsWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -55,37 +56,42 @@ const PillsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Pills = ({ campaign }: { campaign: CampaignWithOutput }) => {
+export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
+  const { width } = useWindowSize();
+  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
+  const hide = width < breakpoint;
+
   const {
     data: meta,
     isLoading,
     isFetching,
-  } = useGetCampaignsByCidMetaQuery({ cid: campaign.id });
+  } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
 
   const { t } = useTranslation();
   const functionalDashboardLink = useLocalizeRoute(
     `campaigns/${campaign.id}/bugs`
   );
   const { start_date, end_date, type, status, outputs, family } = campaign;
-  const isFunctional = family.name.toLowerCase() === 'functional';
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
 
   return (
     <FooterContainer>
-      <PillsWrapper>
-        <CampaignTypePill type={type.name} isFunctional={isFunctional} />
-        <StatusPill status={status.name} />
-        <CampaignDurationPill start={start_date} end={end_date} />
+      <TagsWrapper>
+        <StatusTag status={family.name.toLowerCase() as CampaignStatus}>
+          {type.name}
+        </StatusTag>
+        <StatusTag status={status.name as CampaignStatus} />
+        <CampaignDurationTag start={start_date} end={end_date} />
         {meta ? (
           <>
-            <Pipe style={{ marginRight: globalTheme.space.md }} />
-            {meta.allowed_devices.includes('desktop') && <DesktopPill />}
-            {meta.allowed_devices.includes('smartphone') && <SmartphonePill />}
-            {meta.allowed_devices.includes('tablet') && <TabletPill />}
+            {!hide && <Pipe style={{ marginRight: globalTheme.space.lg }} />}
+            {meta.allowed_devices.includes('desktop') && <DesktopTag />}
+            {meta.allowed_devices.includes('smartphone') && <SmartphoneTag />}
+            {meta.allowed_devices.includes('tablet') && <TabletTag />}
           </>
         ) : null}
-      </PillsWrapper>
+      </TagsWrapper>
       <ButtonWrapper>
         {outputs?.includes('media') && (
           <Button

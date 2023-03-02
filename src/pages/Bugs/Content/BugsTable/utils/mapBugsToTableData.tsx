@@ -1,22 +1,12 @@
+import { SM, Tag } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
-import { SM } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
-import { Pill } from 'src/common/components/pills/Pill';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import styled from 'styled-components';
-import { ReactComponent as FatherIcon } from 'src/assets/icons/father-icon.svg';
+import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
-
-const DuplicateContainer = styled((props) => <SM isBold {...props} />)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: ${({ theme }) => theme.space.xxs};
-  line-height: ${({ theme }) => theme.lineHeights.md};
-`;
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
@@ -27,20 +17,24 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       key: bug.id.toString(),
       id: bug.id.toString(),
       siblings: (
-        <DuplicateContainer>
-          {!bug.duplicated_of_id ? (
-            <FatherIcon style={{ color: globalTheme.palette.grey[500] }} />
-          ) : null}
-          {bug.siblings > 0 ? <>+{bug.siblings}</> : null}
-        </DuplicateContainer>
+        <Tag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
+          {!bug.duplicated_of_id && (
+            <Tag.Avatar>
+              <FatherIcon />
+            </Tag.Avatar>
+          )}
+          {bug.siblings > 0 && `+${bug.siblings}`}
+        </Tag>
       ),
       bugId: (
-        <span style={{ color: globalTheme.palette.grey[700] }}>
+        <SM tag="span" isBold={isPillBold}>
           {bug.id.toString()}
-        </span>
+        </SM>
       ),
       severity: (
-        <SeverityPill
+        <SeverityTag
+          hasBackground
+          isRegular={!isPillBold}
           severity={bug.severity.name.toLowerCase() as Severities}
         />
       ),
@@ -51,29 +45,25 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
           </BugTitle>
           {bug.title.context &&
             bug.title.context.map((context) => (
-              <Pill isBold={isPillBold}>{context}</Pill>
+              <Tag isRegular={!isPillBold}>{context}</Tag>
             ))}
           {bug.type.name && (
             <>
               <Pipe size="small" />
-              <Pill
-                isBold={isPillBold}
+              <Tag
+                isRegular={!isPillBold}
                 style={{ marginLeft: globalTheme.space.xs }}
               >
                 {bug.type.name}
-              </Pill>
+              </Tag>
             </>
           )}
           {!bug.read && (
             <>
               <Pipe size="small" />
-              <Pill
-                isBold
-                backgroundColor="transparent"
-                color={globalTheme.palette.blue[600]}
-              >
+              <Tag hue="rgba(0, 0, 0, 0)" color={globalTheme.palette.blue[600]}>
                 {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
-              </Pill>
+              </Tag>
             </>
           )}
         </div>

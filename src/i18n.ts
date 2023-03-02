@@ -6,6 +6,8 @@ import enLinks from './locales/en/links.json';
 import en from './locales/en/translation.json';
 import itLinks from './locales/it/links.json';
 import it from './locales/it/translation.json';
+import ach from './locales/ach/translation.json';
+import { isDev } from './common/isDevEnvironment';
 
 // the translations
 // (tip move them in a JSON file and import them)
@@ -16,6 +18,7 @@ countries.registerLocale(require('i18n-iso-countries/langs/es.json'));
 const resources = {
   en: { translation: en, links: enLinks },
   it: { translation: it, links: itLinks },
+  ...(isDev() && { ach: { translation: ach, links: {} } }),
 };
 
 i18n
@@ -31,7 +34,7 @@ i18n
     returnEmptyString: false,
     nsSeparator: false,
     resources,
-    supportedLngs: ['it', 'en'],
+    supportedLngs: ['it', 'en', ...(isDev() ? ['ach'] : [])],
     fallbackLng: 'en',
     keySeparator: ':::',
     interpolation: {

@@ -49,12 +49,18 @@ export const BugsByUsecase = ({
           key={item.useCase.id}
           title={
             <>
-              {item.useCase.title.full}
+              {item.useCase?.id === -1
+                ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
+                : item.useCase.title.full}
               <MD tag="span">{` (${item.bugs.length})`}</MD>
             </>
           }
           item={item}
-          footer={<CompletionTooltip percentage={item.useCase.completion} />}
+          footer={
+            item.useCase?.id !== -1 && (
+              <CompletionTooltip percentage={item.useCase.completion} />
+            )
+          }
         />
       ))}
       {isDefaultView ? (

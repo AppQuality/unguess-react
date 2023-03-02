@@ -5,11 +5,11 @@ import {
   Paragraph,
   SM,
   Span,
-  Tag,
   Textarea,
   theme as globalTheme,
   XL,
   XXL,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
@@ -163,12 +163,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
         <StyledFormField>
           <TagsContainer>
-            <Tag
-              size="large"
-              isPill
-              isRegular
-              hue={globalTheme.palette.grey[100]}
-            >
+            <Tag size="large">
               <Tag.Avatar>
                 <UserTaskIcon />
               </Tag.Avatar>
@@ -181,12 +176,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 </Span>
               </Trans>
             </Tag>
-            <Tag
-              size="large"
-              isPill
-              isRegular
-              hue={globalTheme.palette.grey[100]}
-            >
+            <Tag size="large">
               <Tag.Avatar>
                 <ChatIcon />
               </Tag.Avatar>

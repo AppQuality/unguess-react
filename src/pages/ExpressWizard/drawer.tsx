@@ -4,9 +4,9 @@ import {
   Drawer,
   XXL,
   Paragraph,
-  Tag,
   MD,
   UnorderedList,
+  Tag,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -114,7 +114,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           {expressData.tags.map((tag: TagItem) => {
             const icon = extractStrapiData(tag.icon);
             return (
-              <StyledTag hue={theme.palette.grey[100]} isPill size="large">
+              <StyledTag hue="rgba(0,0,0,0)">
                 <StyledTag.Avatar>
                   <img
                     key={`tag_${tag.id}`}
