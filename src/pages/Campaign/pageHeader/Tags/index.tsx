@@ -12,7 +12,10 @@ import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
+import {
+  CampaignStatus,
+  StatusMeta,
+} from 'src/common/components/tag/StatusTag';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { DesktopTag } from './deviceTags/DesktopTag';
 import { SmartphoneTag } from './deviceTags/SmartphoneTag';
@@ -78,10 +81,10 @@ export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
   return (
     <FooterContainer>
       <TagsWrapper>
-        <StatusTag status={family.name.toLowerCase() as CampaignStatus}>
+        <StatusMeta status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
-        </StatusTag>
-        <StatusTag status={status.name as CampaignStatus} />
+        </StatusMeta>
+        <StatusMeta status={status.name as CampaignStatus} />
         <CampaignDurationTag start={start_date} end={end_date} />
         {meta ? (
           <>

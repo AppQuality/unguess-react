@@ -1,15 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
-import { Tag } from '@appquality/unguess-design-system';
+import { Meta } from 'src/common/components/Meta';
 
 export const SmartphoneTag = () => {
   const { t } = useTranslation();
   return (
-    <Tag id="pill-smartphone-header" size="large" hue="rgba(0,0,0,0)">
-      <Tag.Avatar>
-        <SmartphoneIcon />
-      </Tag.Avatar>
+    <Meta id="pill-smartphone-header" size="large" icon={<SmartphoneIcon />}>
       {t('__CAMPAIGN_PAGE_INFO_HEADER_PLATFORM_SMARTPHONE')}
-    </Tag>
+    </Meta>
   );
 };

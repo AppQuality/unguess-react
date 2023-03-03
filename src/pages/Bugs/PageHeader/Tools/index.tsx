@@ -1,7 +1,10 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { SeverityTag } from 'src/common/components/tag/SeverityTag';
-import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
+import { SeverityMeta } from 'src/common/components/tag/SeverityTag';
+import {
+  CampaignStatus,
+  StatusMeta,
+} from 'src/common/components/tag/StatusTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
@@ -65,7 +68,7 @@ export const Tools = ({
         {!hide && <UniqueBugsCounter campaignId={campaignId} />}
         <SeveritiesWrapper>
           {Object.keys(severities).map((severity) => (
-            <SeverityTag
+            <SeverityMeta
               key={severity}
               counter={severities[severity as Severities]}
               severity={severity as Severities}
@@ -73,7 +76,7 @@ export const Tools = ({
             />
           ))}
           {!hide && <Pipe />}
-          <StatusTag status={status.name as CampaignStatus} />
+          <StatusMeta status={status.name as CampaignStatus} />
         </SeveritiesWrapper>
       </ToolsWrapper>
       <ButtonsWrapper>

@@ -1,15 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { Tag } from '@appquality/unguess-design-system';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
+import { Meta } from 'src/common/components/Meta';
 
 export const DesktopTag = () => {
   const { t } = useTranslation();
   return (
-    <Tag id="pill-desktop-header" size="large" hue="rgba(0,0,0,0)">
-      <Tag.Avatar>
-        <DesktopIcon />
-      </Tag.Avatar>
+    <Meta id="pill-desktop-header" size="large" icon={<DesktopIcon />}>
       {t('__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP')}
-    </Tag>
+    </Meta>
   );
 };
