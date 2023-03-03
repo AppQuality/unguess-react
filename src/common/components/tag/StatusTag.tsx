@@ -8,6 +8,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import { TFunction, useTranslation } from 'react-i18next';
+import { Meta } from '../Meta';
 
 export type CampaignStatus =
   | 'running'
@@ -107,5 +108,21 @@ export const StatusTag = ({
         </Tag.SecondaryText>
       )}
     </Tag>
+  );
+};
+
+export const StatusMeta = ({ status, counter, ...props }: StatusTagArgs) => {
+  const { t } = useTranslation();
+  return (
+    <Meta
+      size="large"
+      className={`campaign-status-pill ${status}`}
+      color={getColorByStatus(status)}
+      icon={getIconByStatus(status)}
+      secondaryText={counter}
+      {...props}
+    >
+      {getDefaultTextByStatus(status, t)}
+    </Meta>
   );
 };
