@@ -64,7 +64,9 @@ const Meta = ({
         {children}
       </MD>
     )}
-    {secondaryText && <StyledSpan>{secondaryText}</StyledSpan>}
+    {typeof secondaryText !== 'undefined' && (
+      <StyledSpan>{secondaryText}</StyledSpan>
+    )}
   </StyledMeta>
 );
 
