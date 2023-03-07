@@ -1,22 +1,32 @@
 import styled from 'styled-components';
 
 export const Pipe = styled.span<{ size?: 'small' | 'regular' | 'large' }>`
-  /** Vertical Separator */
   border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  display: inline;
+  display: none;
+
   /* regular */
-  height: ${({ theme }) => theme.space.lg};
-  margin: 0 ${({ theme }) => theme.space.sm};
+  height: ${({ theme }) => theme.space.md};
+  margin-right: ${({ theme }) => theme.space.sm};
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: inline;
+  }
+
   /* small */
   ${(p) =>
     p.size === 'small' &&
     `
-    margin: 0 0;
+      height: ${p.theme.space.sm};
+      margin-right: ${p.theme.space.xs};
+      @media (min-width: ${p.theme.breakpoints.md}) {
+        display: inline;
+      }
   `}
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
-  }
+  /* large */
+  ${(p) =>
+    p.size === 'large' &&
+    `
+      height: ${p.theme.space.lg};
+      margin-right: ${p.theme.space.md};
+  `}
 `;

@@ -21,16 +21,9 @@ import { PageTitle } from 'src/common/components/PageTitle';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { PageMeta } from 'src/common/components/PageMeta';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
-
-const TagsContainer = styled.div`
-  margin-top: ${({ theme }) => theme.space.xxs};
-`;
-
-const StyledTag = styled(Tag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
 
 export const SingleServicePageHeader = ({
   response,
@@ -78,56 +71,56 @@ export const SingleServicePageHeader = ({
           </PageHeader.Title>
           <PageHeader.Description>{service.description}</PageHeader.Description>
           <PageHeader.Meta>
-            <TagsContainer>
+            <PageMeta>
               {expressType && expressType.id ? (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
+                <Tag size="large">
+                  <Tag.Avatar>
                     <ExpressIcon />
-                  </StyledTag.Avatar>
+                  </Tag.Avatar>
                   <Span>{t('__EXPRESS_LABEL')}</Span>
-                </StyledTag>
+                </Tag>
               ) : (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
+                <Tag size="large">
+                  <Tag.Avatar>
                     <TailoredIcon />
-                  </StyledTag.Avatar>
+                  </Tag.Avatar>
                   <Span>{t('__TAILORED_LABEL')}</Span>
-                </StyledTag>
+                </Tag>
               )}
               {service.is_functional ? (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
+                <Tag size="large">
+                  <Tag.Avatar>
                     <FunctionalIcon />
-                  </StyledTag.Avatar>
+                  </Tag.Avatar>
                   <Span>{t('__FUNCTIONAL_LABEL')}</Span>
-                </StyledTag>
+                </Tag>
               ) : (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
+                <Tag size="large">
+                  <Tag.Avatar>
                     <ExperientialIcon />
-                  </StyledTag.Avatar>
+                  </Tag.Avatar>
                   <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
-                </StyledTag>
+                </Tag>
               )}
-              <StyledTag size="large">
-                <StyledTag.Avatar>
+              <Tag size="large">
+                <Tag.Avatar>
                   <TimeIcon />
-                </StyledTag.Avatar>
+                </Tag.Avatar>
                 <Paragraph>
                   <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
                     First results in <Span isBold>{{ hours }}</Span>h
                   </Trans>
                 </Paragraph>
-              </StyledTag>
+              </Tag>
               {service.environment && (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
+                <Tag size="large">
+                  <Tag.Avatar>
                     <EnvironmentIcon />
-                  </StyledTag.Avatar>
+                  </Tag.Avatar>
                   <Paragraph>{service.environment}</Paragraph>
-                </StyledTag>
+                </Tag>
               )}
-            </TagsContainer>
+            </PageMeta>
           </PageHeader.Meta>
         </PageHeader.Main>
         <PageHeader.Footer>

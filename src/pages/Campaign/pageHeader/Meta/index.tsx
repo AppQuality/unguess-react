@@ -14,7 +14,7 @@ import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { CampaignStatus } from 'src/types';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
-import useWindowSize from 'src/hooks/useWindowSize';
+import { PageMeta } from 'src/common/components/PageMeta';
 import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
@@ -33,7 +33,6 @@ const FooterContainer = styled.div`
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: ${({ theme }) => theme.space.xxs};
 
   ${ButtonWrapper} {
     margin-top: ${({ theme }) => theme.space.base * 5}px;
@@ -49,19 +48,7 @@ const FooterContainer = styled.div`
   }
 `;
 
-const MetasWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
 export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
-  const { width } = useWindowSize();
-  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
-  const hide = width < breakpoint;
-
   const {
     data: meta,
     isLoading,
@@ -78,7 +65,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
 
   return (
     <FooterContainer>
-      <MetasWrapper>
+      <PageMeta>
         <StatusMeta status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
         </StatusMeta>
@@ -86,13 +73,13 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         <CampaignDurationMeta start={start_date} end={end_date} />
         {meta ? (
           <>
-            {!hide && <Pipe style={{ marginRight: globalTheme.space.lg }} />}
+            <Pipe />
             {meta.allowed_devices.includes('desktop') && <DesktopMeta />}
             {meta.allowed_devices.includes('smartphone') && <SmartphoneMeta />}
             {meta.allowed_devices.includes('tablet') && <TabletMeta />}
           </>
         ) : null}
-      </MetasWrapper>
+      </PageMeta>
       <ButtonWrapper>
         {outputs?.includes('media') && (
           <Button

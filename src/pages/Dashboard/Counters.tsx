@@ -79,13 +79,13 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <div style={{ marginTop: globalTheme.space.xxs }}>
+    <>
       <StatusMeta counter={completed} status="completed" />
       <StatusMeta counter={running} status="running" />
       <StatusMeta counter={inComing} status="incoming" />
       {!hide && <Pipe />}
       <StatusMeta counter={functional} status="functional" />
       <StatusMeta counter={experiential} status="experiential" />
-    </div>
+    </>
   );
 };
