@@ -17,6 +17,7 @@ import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-ic
 import { ReactComponent as EnvironmentIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as TimeIcon } from 'src/assets/icons/time-icon.svg';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { PageTitle } from 'src/common/components/PageTitle';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -72,7 +73,9 @@ export const SingleServicePageHeader = ({
           <PageHeader.Overline>
             {service.campaign_type.toUpperCase()}
           </PageHeader.Overline>
-          <PageHeader.Title>{service.title}</PageHeader.Title>
+          <PageHeader.Title>
+            <PageTitle>{service.title}</PageTitle>
+          </PageHeader.Title>
           <PageHeader.Description>{service.description}</PageHeader.Description>
           <PageHeader.Meta>
             <TagsContainer>

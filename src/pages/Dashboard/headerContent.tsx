@@ -2,6 +2,7 @@ import { Button, PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { PageTitle } from 'src/common/components/PageTitle';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
 import { Feature } from 'src/features/api';
 import { Counters } from './Counters';
@@ -26,7 +27,9 @@ export const DashboardHeaderContent = ({
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Main mainTitle={pageTitle || 'My Dashboard'}>
-          <PageHeader.Title>{pageTitle || 'My Dashboard'}</PageHeader.Title>
+          <PageHeader.Title>
+            <PageTitle>{pageTitle || 'My Dashboard'}</PageTitle>
+          </PageHeader.Title>
           <PageHeader.Meta>
             <Counters />
           </PageHeader.Meta>

@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { openWizard } from 'src/features/express/expressSlice';
 import PageLoader from 'src/features/templates/PageLoader';
 import { HubspotModal } from 'src/common/components/HubspotModal';
+import { PageTitle } from 'src/common/components/PageTitle';
 import { checkHubspotURL } from 'src/common/utils';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Featured } from './Featured';
@@ -51,7 +52,9 @@ const Catalog = () => {
               mainTitle={t('__CATALOG_PAGE_TITLE')}
               mainDescription={t('__CATALOG_PAGE_DESCRIPTION')}
             >
-              <PageHeader.Title>{t('__CATALOG_PAGE_TITLE')}</PageHeader.Title>
+              <PageHeader.Title>
+                <PageTitle>{t('__CATALOG_PAGE_TITLE')}</PageTitle>
+              </PageHeader.Title>
               <PageHeader.Description>
                 {t('__CATALOG_PAGE_DESCRIPTION')}
               </PageHeader.Description>
