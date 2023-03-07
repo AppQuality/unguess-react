@@ -2,7 +2,6 @@
 import { Tag } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
-import { Meta, MetaSize } from '../Meta';
 
 interface SeverityTagProps {
   severity: Severities;
@@ -34,23 +33,4 @@ export const SeverityTag = ({
       </Tag.SecondaryText>
     )}
   </Tag>
-);
-
-interface SeverityMetaProps {
-  severity: Severities;
-  counter?: number;
-  size?: MetaSize;
-}
-export const SeverityMeta = ({
-  severity,
-  counter,
-  size,
-}: SeverityMetaProps) => (
-  <Meta
-    size={size}
-    color={theme.colors.bySeverity[severity]}
-    secondaryText={counter}
-  >
-    {capitalizeFirstLetter(severity)}
-  </Meta>
 );
