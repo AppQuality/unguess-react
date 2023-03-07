@@ -1,5 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import { StatusTag } from 'src/common/components/tag/StatusTag';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {
@@ -80,12 +80,12 @@ export const Counters = () => {
     <Skeleton width="30%" height="32px" />
   ) : (
     <div style={{ marginTop: globalTheme.space.xxs }}>
-      <StatusTag counter={completed} status="completed" />
-      <StatusTag counter={running} status="running" />
-      <StatusTag counter={inComing} status="incoming" />
+      <StatusMeta counter={completed} status="completed" />
+      <StatusMeta counter={running} status="running" />
+      <StatusMeta counter={inComing} status="incoming" />
       {!hide && <Pipe />}
-      <StatusTag counter={functional} status="functional" />
-      <StatusTag counter={experiential} status="experiential" />
+      <StatusMeta counter={functional} status="functional" />
+      <StatusMeta counter={experiential} status="experiential" />
     </div>
   );
 };
