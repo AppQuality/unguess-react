@@ -1,21 +1,10 @@
-import {
-  Tag,
-  StatusCompletedIcon,
-  StatusIncomingIcon,
-  StatusRunningIcon,
-  CampaignExperientialIcon,
-  CampaignFunctionalIcon,
-} from '@appquality/unguess-design-system';
+import { Tag } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
-import { TFunction, useTranslation } from 'react-i18next';
-import { Meta } from '../Meta';
-
-export type CampaignStatus =
-  | 'running'
-  | 'completed'
-  | 'incoming'
-  | 'functional'
-  | 'experiential';
+import { useTranslation } from 'react-i18next';
+import { CampaignStatus } from 'src/types';
+import { getColorByStatus } from '../utils/getColorByStatus';
+import { getIconByStatus } from '../utils/getIconByStatus';
+import { getDefaultTextByStatus } from '../utils/getDefaultTextByStatus';
 
 interface StatusTagArgs extends React.HTMLAttributes<HTMLDivElement> {
   status: CampaignStatus;
@@ -23,57 +12,6 @@ interface StatusTagArgs extends React.HTMLAttributes<HTMLDivElement> {
   counter?: number | string;
   isRound?: boolean;
 }
-
-const getColorByStatus = (status: CampaignStatus) => {
-  switch (status) {
-    case 'running':
-      return theme.palette.yellow[700];
-    case 'completed':
-      return theme.palette.green[800];
-    case 'incoming':
-      return theme.palette.azure[600];
-    case 'functional':
-      return theme.palette.blue[700];
-    case 'experiential':
-      return theme.palette.green[700];
-    default:
-      return theme.palette.grey[700];
-  }
-};
-
-const getIconByStatus = (status: CampaignStatus) => {
-  switch (status) {
-    case 'running':
-      return <StatusRunningIcon />;
-    case 'completed':
-      return <StatusCompletedIcon />;
-    case 'incoming':
-      return <StatusIncomingIcon />;
-    case 'functional':
-      return <CampaignFunctionalIcon />;
-    case 'experiential':
-      return <CampaignExperientialIcon />;
-    default:
-      return undefined;
-  }
-};
-
-const getDefaultTextByStatus = (status: CampaignStatus, t: TFunction) => {
-  switch (status) {
-    case 'running':
-      return t('__CAMPAIGN_STATUS_RUNNING__');
-    case 'completed':
-      return t('__CAMPAIGN_STATUS_COMPLETED__');
-    case 'incoming':
-      return t('__CAMPAIGN_STATUS_INCOMING__');
-    case 'functional':
-      return t('__CAMPAIGN_TYPE_FUNCTIONAL__');
-    case 'experiential':
-      return t('__CAMPAIGN_TYPE_EXPERIENTIAL__');
-    default:
-      return undefined;
-  }
-};
 
 export const StatusTag = ({
   status,
@@ -108,21 +46,5 @@ export const StatusTag = ({
         </Tag.SecondaryText>
       )}
     </Tag>
-  );
-};
-
-export const StatusMeta = ({ status, counter, ...props }: StatusTagArgs) => {
-  const { t } = useTranslation();
-  return (
-    <Meta
-      size="large"
-      className={`campaign-status-pill ${status}`}
-      color={getColorByStatus(status)}
-      icon={getIconByStatus(status)}
-      secondaryText={counter}
-      {...props}
-    >
-      {getDefaultTextByStatus(status, t)}
-    </Meta>
   );
 };

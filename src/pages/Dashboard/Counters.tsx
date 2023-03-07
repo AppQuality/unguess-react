@@ -1,5 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import { StatusMeta } from 'src/common/components/tag/StatusTag';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {

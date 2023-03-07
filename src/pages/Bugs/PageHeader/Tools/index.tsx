@@ -1,10 +1,6 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { SeverityMeta } from 'src/common/components/tag/SeverityTag';
-import {
-  CampaignStatus,
-  StatusMeta,
-} from 'src/common/components/tag/StatusTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
@@ -13,6 +9,8 @@ import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrat
 import WPAPI from 'src/common/wpapi';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { theme as globalTheme } from 'src/app/theme';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { CampaignStatus } from 'src/types';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaign } from './useCampaign';
 

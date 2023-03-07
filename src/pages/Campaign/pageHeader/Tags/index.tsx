@@ -12,10 +12,8 @@ import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import {
-  CampaignStatus,
-  StatusMeta,
-} from 'src/common/components/tag/StatusTag';
+import { CampaignStatus } from 'src/types';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { DesktopTag } from './deviceTags/DesktopTag';
 import { SmartphoneTag } from './deviceTags/SmartphoneTag';

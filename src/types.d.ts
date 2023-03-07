@@ -16,6 +16,13 @@ export type UnguessRoutes =
   | 'integration-center'
   | '';
 
+export type CampaignStatus =
+  | 'running'
+  | 'completed'
+  | 'incoming'
+  | 'functional'
+  | 'experiential';
+
 declare global {
   let react_env: {
     REACT_APP_ENV: string;
