@@ -1,10 +1,7 @@
 import { Tag } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
 import { CampaignStatus } from 'src/types';
-import { getColorByStatus } from '../utils/getColorByStatus';
-import { getIconByStatus } from '../utils/getIconByStatus';
-import { getDefaultTextByStatus } from '../utils/getDefaultTextByStatus';
+import { getStatusInfo } from '../utils/getStatusInfo';
 
 interface StatusTagArgs extends React.HTMLAttributes<HTMLDivElement> {
   status: CampaignStatus;
@@ -20,25 +17,23 @@ export const StatusTag = ({
   isRound,
   ...props
 }: StatusTagArgs) => {
-  const { t } = useTranslation();
+  const statusInfo = getStatusInfo(status);
+
   return (
     <Tag
       size="large"
       className={`campaign-status-pill ${status}`}
-      color={getColorByStatus(status)}
+      color={statusInfo.color}
       hue="rgba(0,0,0,0)"
       isRound={isRound}
       {...props}
     >
-      {typeof getIconByStatus(status) !== 'undefined' && (
-        <Tag.Avatar>{getIconByStatus(status)}</Tag.Avatar>
+      {typeof statusInfo.icon !== 'undefined' && (
+        <Tag.Avatar>{statusInfo.icon}</Tag.Avatar>
       )}
       {
         // children if passed, otherwise default text for normal pills and icon for round pills
-        children ||
-          (isRound
-            ? getIconByStatus(status)
-            : getDefaultTextByStatus(status, t))
+        children || (isRound ? statusInfo.icon : statusInfo.text)
       }
       {typeof counter !== 'undefined' && (
         <Tag.SecondaryText isBold color={theme.palette.grey[700]}>

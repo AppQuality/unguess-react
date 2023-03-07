@@ -1,9 +1,6 @@
-import { useTranslation } from 'react-i18next';
 import { CampaignStatus } from 'src/types';
 import { Meta } from '../Meta';
-import { getColorByStatus } from '../utils/getColorByStatus';
-import { getDefaultTextByStatus } from '../utils/getDefaultTextByStatus';
-import { getIconByStatus } from '../utils/getIconByStatus';
+import { getStatusInfo } from '../utils/getStatusInfo';
 
 interface StatusMetaArgs extends React.HTMLAttributes<HTMLDivElement> {
   status: CampaignStatus;
@@ -13,17 +10,18 @@ interface StatusMetaArgs extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const StatusMeta = ({ status, counter, ...props }: StatusMetaArgs) => {
-  const { t } = useTranslation();
+  const statusInfo = getStatusInfo(status);
+
   return (
     <Meta
       size="large"
       className={`campaign-status-pill ${status}`}
-      color={getColorByStatus(status)}
-      icon={getIconByStatus(status)}
+      color={statusInfo.color}
+      icon={statusInfo.icon}
       secondaryText={counter}
       {...props}
     >
-      {getDefaultTextByStatus(status, t)}
+      {statusInfo.text}
     </Meta>
   );
 };
