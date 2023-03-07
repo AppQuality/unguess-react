@@ -7,7 +7,6 @@ import {
   CampaignFunctionalIcon,
 } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 type StatusInfo = {

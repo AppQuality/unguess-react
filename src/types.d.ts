@@ -38,4 +38,5 @@ declare global {
   };
   type Severities = 'critical' | 'high' | 'medium' | 'low';
   type ItemOfArray<T> = NonNullable<T>[number];
+  type Priority = 'highest' | 'high' | 'medium' | 'low' | 'lowest';
 }
