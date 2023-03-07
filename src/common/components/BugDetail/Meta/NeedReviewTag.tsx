@@ -3,7 +3,7 @@ import { ReactComponent as NeedReviewIcon } from 'src/assets/icons/pill-icon-nee
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 
-export const NeedReviewPill = () => {
+export const NeedReviewTag = () => {
   const { t } = useTranslation();
   return (
     <Tooltip

@@ -9,7 +9,7 @@ import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
 import { Pipe } from 'src/common/components/Pipe';
 import { WrappedText } from 'src/common/components/WrappedText';
-import { NeedReviewPill } from './NeedReviewPill';
+import { NeedReviewTag } from './NeedReviewTag';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.xs};
@@ -58,7 +58,7 @@ export default ({
         hasBackground
         severity={bug.severity.name.toLowerCase() as Severities}
       />
-      {bug.status.id === 4 && <NeedReviewPill />}
+      {bug.status.id === 4 && <NeedReviewTag />}
     </SeverityContainer>
     <XL
       isBold
