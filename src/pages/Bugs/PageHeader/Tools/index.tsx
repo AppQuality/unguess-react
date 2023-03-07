@@ -1,6 +1,6 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { SeverityMeta } from 'src/common/components/tag/SeverityTag';
+import { SeverityMeta } from 'src/common/components/meta/SeverityMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
