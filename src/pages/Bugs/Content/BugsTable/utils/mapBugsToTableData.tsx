@@ -6,8 +6,16 @@ import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { Meta } from 'src/common/components/Meta';
+import styled from 'styled-components';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+`;
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
@@ -40,7 +48,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         />
       ),
       title: (
-        <div>
+        <TitleWrapper>
           <BugTitle isUnread={!bug.read} isBold={isPillBold}>
             {bug.title.compact}
           </BugTitle>
@@ -62,7 +70,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
               </Meta>
             </>
           )}
-        </div>
+        </TitleWrapper>
       ),
       isHighlighted: !bug.read,
       created: bug.created,
