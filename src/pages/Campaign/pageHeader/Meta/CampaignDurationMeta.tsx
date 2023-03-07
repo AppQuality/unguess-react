@@ -5,7 +5,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Span } from '@appquality/unguess-design-system';
 import { Meta } from 'src/common/components/Meta';
 
-export const CampaignDurationTag = ({
+export const CampaignDurationMeta = ({
   start,
   end,
 }: {

@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { Meta } from 'src/common/components/Meta';
 
-export const DesktopTag = () => {
+export const DesktopMeta = () => {
   const { t } = useTranslation();
   return (
     <Meta id="pill-desktop-header" size="large" icon={<DesktopIcon />}>

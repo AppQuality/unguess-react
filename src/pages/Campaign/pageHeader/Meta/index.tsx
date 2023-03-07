@@ -15,10 +15,10 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { CampaignStatus } from 'src/types';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import useWindowSize from 'src/hooks/useWindowSize';
-import { DesktopTag } from './deviceTags/DesktopTag';
-import { SmartphoneTag } from './deviceTags/SmartphoneTag';
-import { TabletTag } from './deviceTags/TabletTag';
-import { CampaignDurationTag } from './CampaignDurationTag';
+import { DesktopMeta } from './DesktopMeta';
+import { SmartphoneMeta } from './SmartphoneMeta';
+import { TabletMeta } from './TabletMeta';
+import { CampaignDurationMeta } from './CampaignDurationMeta';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -49,7 +49,7 @@ const FooterContainer = styled.div`
   }
 `;
 
-const TagsWrapper = styled.div`
+const MetasWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -57,7 +57,7 @@ const TagsWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
+export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { width } = useWindowSize();
   const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
   const hide = width < breakpoint;
@@ -78,21 +78,21 @@ export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
 
   return (
     <FooterContainer>
-      <TagsWrapper>
+      <MetasWrapper>
         <StatusMeta status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
         </StatusMeta>
         <StatusMeta status={status.name as CampaignStatus} />
-        <CampaignDurationTag start={start_date} end={end_date} />
+        <CampaignDurationMeta start={start_date} end={end_date} />
         {meta ? (
           <>
             {!hide && <Pipe style={{ marginRight: globalTheme.space.lg }} />}
-            {meta.allowed_devices.includes('desktop') && <DesktopTag />}
-            {meta.allowed_devices.includes('smartphone') && <SmartphoneTag />}
-            {meta.allowed_devices.includes('tablet') && <TabletTag />}
+            {meta.allowed_devices.includes('desktop') && <DesktopMeta />}
+            {meta.allowed_devices.includes('smartphone') && <SmartphoneMeta />}
+            {meta.allowed_devices.includes('tablet') && <TabletMeta />}
           </>
         ) : null}
-      </TagsWrapper>
+      </MetasWrapper>
       <ButtonWrapper>
         {outputs?.includes('media') && (
           <Button
