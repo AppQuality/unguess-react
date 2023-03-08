@@ -111,7 +111,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-        bug.severity.name.toLowerCase() as Severities
+          bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
