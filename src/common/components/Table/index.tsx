@@ -19,11 +19,13 @@ interface TableData {
   borderColor?: string;
 };
 
+export type TextAlign = 'left' | 'right' | 'justify' | 'center' | undefined;
+
 export type ColumnDefinitionType<T, K extends keyof T> = {
   key: K;
   header: ReactNode;
   width?: string;
-  textAlign?: 'left' | 'right' | 'justify' | 'center' | undefined;
+  textAlign?: TextAlign;
 };
 
 type TableProps<T extends TableData, K extends keyof T> = {
