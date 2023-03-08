@@ -29,11 +29,11 @@ const AlignmentDiv = ({
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
+
   if (!bugs) return [];
-  return bugs.map((oldBug) => {
-    const isPillBold =
-      (currentBugId && currentBugId === oldBug.id) || !oldBug.read;
-    const bug = { ...oldBug, priority: { name: 'whatever', id: 2 } };
+  return bugs.map((bug) => {
+    const isPillBold = (currentBugId && currentBugId === bug.id) || !bug.read;
+
     return {
       key: bug.id.toString(),
       id: bug.id.toString(),
@@ -58,9 +58,9 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       ),
       priority: (
         <AlignmentDiv alignment="center">
-          <Tooltip content={bug.priority.name} placement="bottom" type="light">
+          <Tooltip content={bug.priority?.name || 'medium'} placement="bottom" type="light">
             <span style={{ height: '1em' }}>
-              <PriorityIcon priority={bug.priority.name} />
+              <PriorityIcon priority={bug.priority?.name} />
             </span>
           </Tooltip>
         </AlignmentDiv>
@@ -111,7 +111,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-          bug.severity.name.toLowerCase() as Severities
+        bug.severity.name.toLowerCase() as Severities
         ],
     };
   });

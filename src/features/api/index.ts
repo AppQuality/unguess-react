@@ -141,6 +141,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/severities` }),
     }),
+    getCampaignsByCidPriorities: build.query<
+      GetCampaignsByCidPrioritiesApiResponse,
+      GetCampaignsByCidPrioritiesApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/priorities` }),
+    }),
     getCampaignsByCidUsecases: build.query<
       GetCampaignsByCidUsecasesApiResponse,
       GetCampaignsByCidUsecasesApiArg
@@ -388,6 +394,7 @@ export type PatchCampaignsByCidBugsAndBidApiResponse = /** status 200 OK */ {
     tag_id: number;
     tag_name: string;
   }[];
+  priority?: BugPriority;
 };
 export type PatchCampaignsByCidBugsAndBidApiArg = {
   /** Campaign id */
@@ -403,6 +410,7 @@ export type PatchCampaignsByCidBugsAndBidApiArg = {
           tag_name: string;
         }
     )[];
+    priority_id?: number;
   };
 };
 export type GetCampaignsByCidReplicabilitiesApiResponse =
@@ -488,6 +496,12 @@ export type GetCampaignsByCidOsApiArg = {
 export type GetCampaignsByCidSeveritiesApiResponse =
   /** status 200 OK */ BugSeverity[];
 export type GetCampaignsByCidSeveritiesApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidPrioritiesApiResponse =
+  /** status 200 OK */ BugPriority[];
+export type GetCampaignsByCidPrioritiesApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -771,6 +785,10 @@ export type BugReplicability = {
   id: number;
   name: string;
 };
+export type BugPriority = {
+  id: number;
+  name: string;
+};
 export type Smartphone = {
   manufacturer: string;
   model: string;
@@ -808,6 +826,7 @@ export type Bug = {
   severity: BugSeverity;
   type: BugType;
   replicability: BugReplicability;
+  priority?: BugPriority;
   created: string;
   occurred_date: string;
   updated?: string;
@@ -996,6 +1015,7 @@ export const {
   useGetCampaignsByCidDevicesQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidSeveritiesQuery,
+  useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidWidgetsQuery,
   usePostProjectsMutation,
