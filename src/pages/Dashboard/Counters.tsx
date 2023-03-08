@@ -9,6 +9,7 @@ import {
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { PageMeta } from 'src/common/components/PageMeta';
 
 const Pipe = styled.span`
   /** Vertical Separator */
@@ -79,13 +80,13 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <>
+    <PageMeta>
       <StatusMeta counter={completed} status="completed" />
       <StatusMeta counter={running} status="running" />
       <StatusMeta counter={inComing} status="incoming" />
       {!hide && <Pipe />}
       <StatusMeta counter={functional} status="functional" />
       <StatusMeta counter={experiential} status="experiential" />
-    </>
+    </PageMeta>
   );
 };
