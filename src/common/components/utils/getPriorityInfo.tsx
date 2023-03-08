@@ -17,27 +17,27 @@ export const getPriorityInfo = (priority: Priority): PriorityInfo => {
     case 'highest':
       return {
         icon: <PriorityHighest />,
-        text: t('__PRIORITY_HIGHEST__'),
+        text: t('__BUG_PRIORITY_HIGHEST'),
       };
     case 'high':
       return {
         icon: <PriorityHigh />,
-        text: t('__PRIORITY_HIGH__'),
+        text: t('__BUG_PRIORITY_HIGH'),
       };
     case 'medium':
       return {
         icon: <PriorityMedium />,
-        text: t('__PRIORITY_MEDIUM__'),
+        text: t('__BUG_PRIORITY_MEDIUM'),
       };
     case 'low':
       return {
         icon: <PriorityLow />,
-        text: t('__PRIORITY_LOW__'),
+        text: t('__BUG_PRIORITY_LOW'),
       };
     case 'lowest':
       return {
         icon: <PriorityLowest />,
-        text: t('__PRIORITY_LOWEST__'),
+        text: t('__BUG_PRIORITY_LOWEST'),
       };
     default:
       return {};
