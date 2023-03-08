@@ -58,7 +58,11 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       ),
       priority: (
         <AlignmentDiv alignment="center">
-          <Tooltip content={bug.priority?.name || 'medium'} placement="bottom" type="light">
+          <Tooltip
+            content={bug.priority?.name || 'medium'}
+            placement="bottom"
+            type="light"
+          >
             <span style={{ height: '1em' }}>
               <PriorityIcon priority={bug.priority?.name} />
             </span>
@@ -111,7 +115,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-        bug.severity.name.toLowerCase() as Severities
+          bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
