@@ -24,7 +24,6 @@ const StyledMeta = styled.div<{ size: MetaSize }>`
   align-items: center;
   flex-wrap: nowrap;
   white-space: nowrap;
-  padding: ${(p) => p.theme.space.xxs} 0;
   min-width: 24px;
   background: transparent;
   text-decoration: none;
