@@ -54,19 +54,10 @@ const Priority = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
   const { priority: bugPriority } = bug;
   const [selectedItem, setSelectedItem] = useState<DropdownItem>({
-    id: bugPriority ? bugPriority.id : DEFAULT_BUG_PRIORITY.id,
-    slug: bugPriority ? bugPriority.name : DEFAULT_BUG_PRIORITY.name,
-    text:
-      getPriorityInfo(
-        (bugPriority
-          ? bugPriority.name
-          : DEFAULT_BUG_PRIORITY.name) as Priority,
-        t
-      ).text ?? '',
-    icon: getPriorityInfo(
-      (bugPriority ? bugPriority.name : DEFAULT_BUG_PRIORITY.name) as Priority,
-      t
-    ).icon,
+    id: DEFAULT_BUG_PRIORITY.id,
+    slug: DEFAULT_BUG_PRIORITY.name,
+    text: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).text ?? '',
+    icon: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).icon,
   });
   const [options, setOptions] = useState<DropdownItem[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
@@ -91,6 +82,17 @@ const Priority = ({ bug }: { bug: Bug }) => {
       );
     }
   }, [cpPriorities]);
+
+  useEffect(() => {
+    if (bugPriority) {
+      setSelectedItem({
+        id: bugPriority.id,
+        slug: bugPriority.name,
+        text: getPriorityInfo(bugPriority.name as Priority, t).text ?? '',
+        icon: getPriorityInfo(bugPriority.name as Priority, t).icon,
+      });
+    }
+  }, [bugPriority]);
 
   if (isError) return null;
 
