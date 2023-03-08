@@ -1,3 +1,4 @@
+import { ReactChild } from 'react';
 import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
@@ -6,8 +7,31 @@ import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { PriorityIcon } from 'src/common/components/PriorityIcon';
+import styled from 'styled-components';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
+
+const AlignmentDiv = (
+  {
+    alignment,
+    children
+  }: {
+    alignment?: string,
+    children: ReactChild
+  }) => {
+  const AlignedDiv = styled.div
+    `
+      height: 2em;
+      display: flex;
+      justify-content: ${alignment};
+      align-items: center;
+    `
+  return (
+    <AlignedDiv>
+      {children}
+    </AlignedDiv>
+  )
+};
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
@@ -20,39 +44,49 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       key: bug.id.toString(),
       id: bug.id.toString(),
       siblings: (
-        <Tag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
-          {!bug.duplicated_of_id && (
-            <Tag.Avatar>
-              <FatherIcon />
-            </Tag.Avatar>
-          )}
-          {bug.siblings > 0 && `+${bug.siblings}`}
-        </Tag>
+        <AlignmentDiv alignment='center'>
+          <Tag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
+            {!bug.duplicated_of_id && (
+              <Tag.Avatar>
+                <FatherIcon />
+              </Tag.Avatar>
+            )}
+            {bug.siblings > 0 && `+${bug.siblings}`}
+          </Tag>
+        </AlignmentDiv>
       ),
       bugId: (
-        <SM tag="span" isBold={isPillBold}>
-          {bug.id.toString()}
-        </SM>
+        <AlignmentDiv alignment='end'>
+          <SM tag="span" isBold={isPillBold}>
+            {bug.id.toString()}
+          </SM>
+        </AlignmentDiv>
       ),
       priority: (
-        <Tooltip content={bug.priority.name} placement="auto" type="light">
-          <span>
-            <PriorityIcon priority={bug.priority.name} />
-          </span>
+        <Tooltip content={bug.priority.name} placement="bottom" type="light">
+          <AlignmentDiv alignment='center'>
+            <span style={{ height: '1em' }}>
+              <PriorityIcon priority={bug.priority.name} />
+            </span>
+          </AlignmentDiv>
         </Tooltip>
       ),
       severity: (
-        <SeverityTag
-          hasBackground
-          isRegular={!isPillBold}
-          severity={bug.severity.name.toLowerCase() as Severities}
-        />
+        <AlignmentDiv alignment='center'>
+          <SeverityTag
+            hasBackground
+            isRegular={!isPillBold}
+            severity={bug.severity.name.toLowerCase() as Severities}
+          />
+        </AlignmentDiv>
       ),
       title: (
         <div>
-          <BugTitle isUnread={!bug.read} isBold={isPillBold}>
-            {bug.title.compact}
-          </BugTitle>
+          <AlignmentDiv alignment='start'>
+            <BugTitle isUnread={!bug.read} isBold={isPillBold}>
+              {bug.title.compact}
+            </BugTitle>
+          </AlignmentDiv>
           {bug.title.context &&
             bug.title.context.map((context) => (
               <Tag isRegular={!isPillBold}>{context}</Tag>
@@ -83,7 +117,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-          bug.severity.name.toLowerCase() as Severities
+        bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
