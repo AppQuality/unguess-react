@@ -16,7 +16,6 @@ import {
   usePatchProjectsByPidMutation,
 } from 'src/features/api';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { PageMeta } from 'src/common/components/PageMeta';
 import { Counters } from './Counters';
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
@@ -99,9 +98,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             )}
           </PageHeader.Title>
           <PageHeader.Meta>
-            <PageMeta>
-              <Counters />
-            </PageMeta>
+            <Counters />
           </PageHeader.Meta>
         </PageHeader.Main>
         {hasButton && (
