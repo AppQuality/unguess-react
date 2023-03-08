@@ -21,8 +21,6 @@ interface TableData {
 
 export type TextAlign = 'left' | 'right' | 'justify' | 'center' | undefined;
 
-export type TextAlign = 'left' | 'right' | 'justify' | 'center' | undefined;
-
 export type ColumnDefinitionType<T, K extends keyof T> = {
   key: K;
   header: ReactNode;
