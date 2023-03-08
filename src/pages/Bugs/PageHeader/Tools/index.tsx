@@ -17,14 +17,14 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   width: 100%;
 `;
 
 const ButtonsWrapper = styled.div`
   display: none;
-  @media screen and (min-width: ${(p) => p.theme.breakpoints.md}) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.lg}) {
     display: block;
+    flex: 1 0 auto;
   }
 `;
 
