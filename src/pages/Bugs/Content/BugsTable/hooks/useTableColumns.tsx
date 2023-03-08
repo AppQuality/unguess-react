@@ -9,31 +9,31 @@ export const useTableColumns = () => {
       key: 'title',
       header: t('__BUGS_TABLE_TITLE_HEADER_COLUMN'),
       width: 'auto',
-      textAlign: 'left'
+      textAlign: 'left',
     },
     {
       key: 'siblings',
       header: t('__BUGS_TABLE_DUPLICATE_HEADER_COLUMN'),
       width: '90px',
-      textAlign: 'center'
+      textAlign: 'center',
     },
     {
       key: 'severity',
       header: t('__BUGS_TABLE_SEVERITY_HEADER_COLUMN'),
       width: '90px',
-      textAlign: 'center'
+      textAlign: 'center',
     },
     {
       key: 'priority',
       header: t('__BUGS_TABLE_PRIORITY_HEADER_COLUMN'),
       width: '90px',
-      textAlign: 'center'
+      textAlign: 'center',
     },
     {
       key: 'bugId',
       header: t('__BUGS_TABLE_BUG_ID_HEADER_COLUMN'),
       width: '80px',
-      textAlign: 'right'
+      textAlign: 'right',
     },
   ];
 
