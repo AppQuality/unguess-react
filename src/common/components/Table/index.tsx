@@ -54,7 +54,7 @@ const TableWrapper = styled.div<{ maxHeight?: string }>`
     maxHeight && `max-height: ${maxHeight}; overflow-y: auto;`}
 `;
 
-const StyledHead = styled(Head) <{ isSticky?: boolean }>`
+const StyledHead = styled(Head)<{ isSticky?: boolean }>`
   ${({ isSticky }) => isSticky && 'z-index: 2;'}
 `;
 
