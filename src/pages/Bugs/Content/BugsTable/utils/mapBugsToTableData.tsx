@@ -11,26 +11,20 @@ import styled from 'styled-components';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
-const AlignmentDiv = (
-  {
-    alignment,
-    children
-  }: {
-    alignment?: string,
-    children: ReactChild
-  }) => {
-  const AlignedDiv = styled.div
-    `
-      height: 2em;
-      display: flex;
-      justify-content: ${alignment};
-      align-items: center;
-    `
-  return (
-    <AlignedDiv>
-      {children}
-    </AlignedDiv>
-  )
+const AlignmentDiv = ({
+  alignment,
+  children,
+}: {
+  alignment?: string;
+  children: ReactChild;
+}) => {
+  const AlignedDiv = styled.div`
+    height: 2em;
+    display: flex;
+    justify-content: ${alignment};
+    align-items: center;
+  `;
+  return <AlignedDiv>{children}</AlignedDiv>;
 };
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
@@ -44,7 +38,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       key: bug.id.toString(),
       id: bug.id.toString(),
       siblings: (
-        <AlignmentDiv alignment='center'>
+        <AlignmentDiv alignment="center">
           <Tag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
             {!bug.duplicated_of_id && (
               <Tag.Avatar>
@@ -56,7 +50,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </AlignmentDiv>
       ),
       bugId: (
-        <AlignmentDiv alignment='end'>
+        <AlignmentDiv alignment="end">
           <SM tag="span" isBold={isPillBold}>
             {bug.id.toString()}
           </SM>
@@ -64,7 +58,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       ),
       priority: (
         <Tooltip content={bug.priority.name} placement="bottom" type="light">
-          <AlignmentDiv alignment='center'>
+          <AlignmentDiv alignment="center">
             <span style={{ height: '1em' }}>
               <PriorityIcon priority={bug.priority.name} />
             </span>
@@ -72,7 +66,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </Tooltip>
       ),
       severity: (
-        <AlignmentDiv alignment='center'>
+        <AlignmentDiv alignment="center">
           <SeverityTag
             hasBackground
             isRegular={!isPillBold}
@@ -82,7 +76,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       ),
       title: (
         <div>
-          <AlignmentDiv alignment='start'>
+          <AlignmentDiv alignment="start">
             <BugTitle isUnread={!bug.read} isBold={isPillBold}>
               {bug.title.compact}
             </BugTitle>
@@ -117,7 +111,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-        bug.severity.name.toLowerCase() as Severities
+          bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
