@@ -90,8 +90,8 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </AlignmentDiv>
       ),
       title: (
-        <>
-          <AlignmentDiv alignment="start">
+        <div>
+          <AlignmentDiv alignment='start'>
             <BugTitle isUnread={!bug.read} isBold={isPillBold}>
               {bug.title.compact}
             </BugTitle>
@@ -114,14 +114,14 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
               </Meta>
             </>
           )}
-        </>
+        </div>
       ),
       isHighlighted: !bug.read,
       created: bug.created,
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-          bug.severity.name.toLowerCase() as Severities
+        bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
