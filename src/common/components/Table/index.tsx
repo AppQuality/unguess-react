@@ -17,12 +17,15 @@ interface TableData {
   id: string;
   isHighlighted?: boolean;
   borderColor?: string;
-}
+};
+
 export type ColumnDefinitionType<T, K extends keyof T> = {
   key: K;
   header: ReactNode;
   width?: string;
+  textAlign?: 'left' | 'right' | 'justify' | 'center' | undefined;
 };
+
 type TableProps<T extends TableData, K extends keyof T> = {
   style?: React.CSSProperties;
   data: Array<T>;
@@ -49,7 +52,7 @@ const TableWrapper = styled.div<{ maxHeight?: string }>`
     maxHeight && `max-height: ${maxHeight}; overflow-y: auto;`}
 `;
 
-const StyledHead = styled(Head)<{ isSticky?: boolean }>`
+const StyledHead = styled(Head) <{ isSticky?: boolean }>`
   ${({ isSticky }) => isSticky && 'z-index: 2;'}
 `;
 
@@ -75,7 +78,11 @@ const Table = <T extends TableData, K extends keyof T>({
         <StyledHead isSticky={isSticky}>
           <HeaderRow>
             {columns.map((column) => (
-              <HeaderCell width={column.width} key={column.key.toString()}>
+              <HeaderCell
+                width={column.width}
+                key={column.key.toString()}
+                style={{ textAlign: column.textAlign }}
+              >
                 <SM isBold color={appTheme.palette.grey[800]}>
                   {column.header}
                 </SM>
