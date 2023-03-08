@@ -6,7 +6,7 @@ export const PageMeta = styled.div`
   align-items: flex-start;
   flex-flow: column;
 
-  @media screen and (min-width: ${(p) => p.theme.breakpoints.lg}) {
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.sm}) {
     flex-flow: row wrap;
   }
   > * {
