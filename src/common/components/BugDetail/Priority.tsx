@@ -3,16 +3,20 @@ import {
   Select,
   Item,
   Menu,
+  Skeleton,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DEFAULT_BUG_PRIORITY } from 'src/constants';
-import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
+import {
+  Bug,
+  useGetCampaignsByCidPrioritiesQuery,
+  usePatchCampaignsByCidBugsAndBidMutation,
+} from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
-import { usePriority } from './hooks/usePriority';
 import { Label } from './Label';
 
 const StyledItem = styled(Item)`
@@ -46,69 +50,97 @@ type DropdownItem = {
   icon: React.ReactNode;
 };
 
-export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
+const Priority = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
-
-  const { data } = usePriority({
-    cid: bug.campaign_id,
-  });
-
-  const priorities = data?.items || [];
-
-  const items: DropdownItem[] = priorities.map((priority) => {
-    const { icon, text } = getPriorityInfo(priority.name as Priority);
-
-    return {
-      id: priority.id,
-      slug: priority.name,
-      text: text ?? '',
-      icon,
-    };
-  });
-
-  const defaultPriorityInfo = getPriorityInfo(
-    DEFAULT_BUG_PRIORITY.name as Priority
-  );
-
+  const { priority: bugPriority } = bug;
   const [selectedItem, setSelectedItem] = useState<DropdownItem>({
-    id: DEFAULT_BUG_PRIORITY.id,
-    slug: DEFAULT_BUG_PRIORITY.name,
-    text: defaultPriorityInfo.text ?? '',
-    icon: defaultPriorityInfo.icon,
+    id: bugPriority ? bugPriority.id : DEFAULT_BUG_PRIORITY.id,
+    slug: bugPriority ? bugPriority.name : DEFAULT_BUG_PRIORITY.name,
+    text:
+      getPriorityInfo(
+        (bugPriority
+          ? bugPriority.name
+          : DEFAULT_BUG_PRIORITY.name) as Priority,
+        t
+      ).text ?? '',
+    icon: getPriorityInfo(
+      (bugPriority ? bugPriority.name : DEFAULT_BUG_PRIORITY.name) as Priority,
+      t
+    ).icon,
+  });
+  const [options, setOptions] = useState<DropdownItem[]>([]);
+  const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
+  const {
+    data: cpPriorities,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetCampaignsByCidPrioritiesQuery({
+    cid: bug.campaign_id.toString(),
   });
 
-  const onSelectItem = (item: DropdownItem) => {
-    const selected = items.find((i) => i.slug === item.slug);
-    if (selected) setSelectedItem(selected);
-  };
+  useEffect(() => {
+    if (cpPriorities) {
+      setOptions(
+        cpPriorities.map((priority) => ({
+          id: priority.id,
+          slug: priority.name,
+          text: getPriorityInfo(priority.name as Priority, t).text ?? '',
+          icon: getPriorityInfo(priority.name as Priority, t).icon,
+        }))
+      );
+    }
+  }, [cpPriorities]);
+
+  if (isError) return null;
 
   return (
     <Container>
       <Label style={{ marginBottom: globalTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
       </Label>
-      <Dropdown
-        selectedItem={selectedItem}
-        onSelect={onSelectItem}
-        downshiftProps={{
-          itemToString: (item: DropdownItem) => item && item.slug,
-        }}
-      >
-        <Field>
-          <Select isCompact>
-            <SelectedItem>
-              {selectedItem.icon} {selectedItem.text}
-            </SelectedItem>
-          </Select>
-        </Field>
-        <Menu hasArrow>
-          {items.map((item) => (
-            <StyledItem key={item.slug} value={item}>
-              {item.icon} {item.text}
-            </StyledItem>
-          ))}
-        </Menu>
-      </Dropdown>
+      {isLoading || isFetching ? (
+        <Skeleton
+          height="30px"
+          style={{ borderRadius: globalTheme.borderRadii.md }}
+        />
+      ) : (
+        <Dropdown
+          selectedItem={selectedItem}
+          onSelect={async (item: DropdownItem) => {
+            await patchBug({
+              cid: bug.campaign_id.toString(),
+              bid: bug.id.toString(),
+              body: {
+                priority_id: item.id,
+              },
+            });
+
+            setSelectedItem(item);
+          }}
+          downshiftProps={{
+            itemToString: (item: DropdownItem) => item && item.slug,
+          }}
+        >
+          <Field>
+            <Select isCompact>
+              <SelectedItem>
+                {selectedItem.icon} {selectedItem.text}
+              </SelectedItem>
+            </Select>
+          </Field>
+          <Menu hasArrow>
+            {options &&
+              options.map((item) => (
+                <StyledItem key={item.slug} value={item}>
+                  {item.icon} {item.text}
+                </StyledItem>
+              ))}
+          </Menu>
+        </Dropdown>
+      )}
     </Container>
   );
 };
+
+export default Priority;
