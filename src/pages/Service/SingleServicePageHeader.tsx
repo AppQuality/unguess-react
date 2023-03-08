@@ -5,7 +5,6 @@ import {
   Paragraph,
   Span,
   PageHeader,
-  Tag,
 } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
@@ -20,6 +19,7 @@ import { PageTitle } from 'src/common/components/PageTitle';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
@@ -72,52 +72,34 @@ export const SingleServicePageHeader = ({
           <PageHeader.Meta>
             <PageMeta>
               {expressType && expressType.id ? (
-                <Tag size="large">
-                  <Tag.Avatar>
-                    <ExpressIcon />
-                  </Tag.Avatar>
+                <Meta size="large" icon={<ExpressIcon />}>
                   <Span>{t('__EXPRESS_LABEL')}</Span>
-                </Tag>
+                </Meta>
               ) : (
-                <Tag size="large">
-                  <Tag.Avatar>
-                    <TailoredIcon />
-                  </Tag.Avatar>
+                <Meta size="large" icon={<TailoredIcon />}>
                   <Span>{t('__TAILORED_LABEL')}</Span>
-                </Tag>
+                </Meta>
               )}
               {service.is_functional ? (
-                <Tag size="large">
-                  <Tag.Avatar>
-                    <FunctionalIcon />
-                  </Tag.Avatar>
+                <Meta size="large" icon={<FunctionalIcon />}>
                   <Span>{t('__FUNCTIONAL_LABEL')}</Span>
-                </Tag>
+                </Meta>
               ) : (
-                <Tag size="large">
-                  <Tag.Avatar>
-                    <ExperientialIcon />
-                  </Tag.Avatar>
+                <Meta size="large" icon={<ExperientialIcon />}>
                   <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
-                </Tag>
+                </Meta>
               )}
-              <Tag size="large">
-                <Tag.Avatar>
-                  <TimeIcon />
-                </Tag.Avatar>
+              <Meta size="large" icon={<TimeIcon />}>
                 <Paragraph>
                   <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
                     First results in <Span isBold>{{ hours }}</Span>h
                   </Trans>
                 </Paragraph>
-              </Tag>
+              </Meta>
               {service.environment && (
-                <Tag size="large">
-                  <Tag.Avatar>
-                    <EnvironmentIcon />
-                  </Tag.Avatar>
+                <Meta size="large" icon={<EnvironmentIcon />}>
                   <Paragraph>{service.environment}</Paragraph>
-                </Tag>
+                </Meta>
               )}
             </PageMeta>
           </PageHeader.Meta>
