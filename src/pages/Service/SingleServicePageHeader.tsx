@@ -5,11 +5,9 @@ import {
   Paragraph,
   Span,
   PageHeader,
-  Tag,
 } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
@@ -17,19 +15,14 @@ import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-ic
 import { ReactComponent as EnvironmentIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as TimeIcon } from 'src/assets/icons/time-icon.svg';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { PageTitle } from 'src/common/components/PageTitle';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { Meta } from 'src/common/components/Meta';
+import { PageMeta } from 'src/common/components/PageMeta';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
-
-const TagsContainer = styled.div`
-  margin-top: ${({ theme }) => theme.space.xxs};
-`;
-
-const StyledTag = styled(Tag)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
 
 export const SingleServicePageHeader = ({
   response,
@@ -72,59 +65,43 @@ export const SingleServicePageHeader = ({
           <PageHeader.Overline>
             {service.campaign_type.toUpperCase()}
           </PageHeader.Overline>
-          <PageHeader.Title>{service.title}</PageHeader.Title>
+          <PageHeader.Title>
+            <PageTitle>{service.title}</PageTitle>
+          </PageHeader.Title>
           <PageHeader.Description>{service.description}</PageHeader.Description>
           <PageHeader.Meta>
-            <TagsContainer>
+            <PageMeta>
               {expressType && expressType.id ? (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
-                    <ExpressIcon />
-                  </StyledTag.Avatar>
+                <Meta size="large" icon={<ExpressIcon />}>
                   <Span>{t('__EXPRESS_LABEL')}</Span>
-                </StyledTag>
+                </Meta>
               ) : (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
-                    <TailoredIcon />
-                  </StyledTag.Avatar>
+                <Meta size="large" icon={<TailoredIcon />}>
                   <Span>{t('__TAILORED_LABEL')}</Span>
-                </StyledTag>
+                </Meta>
               )}
               {service.is_functional ? (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
-                    <FunctionalIcon />
-                  </StyledTag.Avatar>
+                <Meta size="large" icon={<FunctionalIcon />}>
                   <Span>{t('__FUNCTIONAL_LABEL')}</Span>
-                </StyledTag>
+                </Meta>
               ) : (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
-                    <ExperientialIcon />
-                  </StyledTag.Avatar>
+                <Meta size="large" icon={<ExperientialIcon />}>
                   <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
-                </StyledTag>
+                </Meta>
               )}
-              <StyledTag size="large">
-                <StyledTag.Avatar>
-                  <TimeIcon />
-                </StyledTag.Avatar>
+              <Meta size="large" icon={<TimeIcon />}>
                 <Paragraph>
                   <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
                     First results in <Span isBold>{{ hours }}</Span>h
                   </Trans>
                 </Paragraph>
-              </StyledTag>
+              </Meta>
               {service.environment && (
-                <StyledTag size="large">
-                  <StyledTag.Avatar>
-                    <EnvironmentIcon />
-                  </StyledTag.Avatar>
+                <Meta size="large" icon={<EnvironmentIcon />}>
                   <Paragraph>{service.environment}</Paragraph>
-                </StyledTag>
+                </Meta>
               )}
-            </TagsContainer>
+            </PageMeta>
           </PageHeader.Meta>
         </PageHeader.Main>
         <PageHeader.Footer>

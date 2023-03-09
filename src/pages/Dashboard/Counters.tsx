@@ -6,21 +6,8 @@ import {
   Campaign,
   useGetWorkspacesByWidCampaignsQuery,
 } from 'src/features/api';
-import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
-import useWindowSize from 'src/hooks/useWindowSize';
-
-const Pipe = styled.span`
-  /** Vertical Separator */
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: ${({ theme }) => theme.space.lg};
-  margin-right: ${({ theme }) => theme.space.sm};
-  display: inline;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    display: none;
-  }
-`;
+import { PageMeta } from 'src/common/components/PageMeta';
+import { Pipe } from 'src/common/components/Pipe';
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const prjId =
@@ -56,10 +43,6 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
-  const { width } = useWindowSize();
-  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
-  const hide = width < breakpoint;
-
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
@@ -79,13 +62,13 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <div style={{ marginTop: globalTheme.space.xxs }}>
+    <PageMeta>
       <StatusMeta counter={completed} status="completed" />
       <StatusMeta counter={running} status="running" />
       <StatusMeta counter={inComing} status="incoming" />
-      {!hide && <Pipe />}
+      <Pipe />
       <StatusMeta counter={functional} status="functional" />
       <StatusMeta counter={experiential} status="experiential" />
-    </div>
+    </PageMeta>
   );
 };

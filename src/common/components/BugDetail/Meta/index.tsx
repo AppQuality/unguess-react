@@ -84,11 +84,12 @@ export default ({
         style={{
           textTransform: 'capitalize',
           color: globalTheme.palette.grey[700],
+          marginRight: globalTheme.space.sm,
         }}
       >
         {bug.type.name}
       </SM>
-      <Pipe size="regular" style={{ height: globalTheme.lineHeights.md }} />
+      <Pipe size="regular" />
       <Tag hue="white" style={{ textTransform: 'capitalize' }}>
         <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>
         {bug.device.type === 'desktop'

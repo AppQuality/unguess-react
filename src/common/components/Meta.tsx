@@ -20,11 +20,10 @@ const StyledMeta = styled.div<{ size: MetaSize }>`
   &:last-of-type {
     margin-right: 0;
   }
-  display: inline-flex;
+  display: flex;
   align-items: center;
   flex-wrap: nowrap;
   white-space: nowrap;
-  padding: 0;
   min-width: 24px;
   background: transparent;
   text-decoration: none;

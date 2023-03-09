@@ -5,8 +5,17 @@ import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
+import { Meta } from 'src/common/components/Meta';
+import styled from 'styled-components';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+`;
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
@@ -39,7 +48,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         />
       ),
       title: (
-        <div>
+        <TitleWrapper>
           <BugTitle isUnread={!bug.read} isBold={isPillBold}>
             {bug.title.compact}
           </BugTitle>
@@ -50,23 +59,18 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
           {bug.type.name && (
             <>
               <Pipe size="small" />
-              <Tag
-                isRegular={!isPillBold}
-                style={{ marginLeft: globalTheme.space.xs }}
-              >
-                {bug.type.name}
-              </Tag>
+              <Tag isRegular={!isPillBold}>{bug.type.name}</Tag>
             </>
           )}
           {!bug.read && (
             <>
               <Pipe size="small" />
-              <Tag hue="rgba(0, 0, 0, 0)" color={globalTheme.palette.blue[600]}>
+              <Meta color={globalTheme.palette.blue[600]}>
                 {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
-              </Tag>
+              </Meta>
             </>
           )}
-        </div>
+        </TitleWrapper>
       ),
       isHighlighted: !bug.read,
       created: bug.created,
