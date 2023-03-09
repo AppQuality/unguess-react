@@ -134,7 +134,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
           <Menu>
             {options &&
               options.map((item) => (
-                <StyledItem className="cipolla" key={item.slug} value={item}>
+                <StyledItem key={item.slug} value={item}>
                   {item.icon} {item.text}
                 </StyledItem>
               ))}
