@@ -16,16 +16,41 @@ const AlignmentDiv = ({
   children,
 }: {
   alignment?: string;
-  children: ReactChild;
+  children: ReactChild | ReactChild[] | undefined;
 }) => {
   const AlignedDiv = styled.div`
     height: 2em;
     display: flex;
     justify-content: ${alignment};
     align-items: center;
+
+    bug_duplicates_badge {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    };
+
+    bug_duplicates_badge {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
   `;
   return <AlignedDiv>{children}</AlignedDiv>;
 };
+
+
+const CustomTag = styled(Tag)`
+  height: max-content;
+  display: grid;
+  grid-template-columns: repeat(2, 16px);
+  grid-template-rows: 16px;
+  grid-gap: calc(16px / 4);
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    margin: 0 !important;
+  }
+`;
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   const currentBugId = getSelectedBugId();
@@ -39,14 +64,14 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       id: bug.id.toString(),
       siblings: (
         <AlignmentDiv alignment="center">
-          <Tag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
-            {!bug.duplicated_of_id && (
-              <Tag.Avatar>
+          <CustomTag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
+            <Tag.Avatar>
+              {!bug.duplicated_of_id && (
                 <FatherIcon />
-              </Tag.Avatar>
-            )}
+              )}
+            </Tag.Avatar>
             {bug.siblings > 0 && `+${bug.siblings}`}
-          </Tag>
+          </CustomTag>
         </AlignmentDiv>
       ),
       bugId: (
@@ -115,7 +140,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-          bug.severity.name.toLowerCase() as Severities
+        bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
