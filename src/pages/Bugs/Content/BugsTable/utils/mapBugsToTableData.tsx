@@ -40,11 +40,6 @@ const CustomTag = styled(Tag)`
   svg {
     margin: 0 !important;
   }
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
 `;
 
 export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
@@ -95,7 +90,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </AlignmentDiv>
       ),
       title: (
-        <div>
+        <>
           <AlignmentDiv alignment="start">
             <BugTitle isUnread={!bug.read} isBold={isPillBold}>
               {bug.title.compact}
@@ -119,7 +114,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
               </Meta>
             </>
           )}
-        </TitleWrapper>
+        </>
       ),
       isHighlighted: !bug.read,
       created: bug.created,
