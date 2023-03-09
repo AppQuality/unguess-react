@@ -23,20 +23,9 @@ const AlignmentDiv = ({
     display: flex;
     justify-content: ${alignment};
     align-items: center;
-
-    bug_duplicates_badge {
-      grid-column: 1 / 2;
-      grid-row: 1 / 2;
-    };
-
-    bug_duplicates_badge {
-      grid-column: 1 / 2;
-      grid-row: 1 / 2;
-    }
   `;
   return <AlignedDiv>{children}</AlignedDiv>;
 };
-
 
 const CustomTag = styled(Tag)`
   height: max-content;
@@ -65,11 +54,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       siblings: (
         <AlignmentDiv alignment="center">
           <CustomTag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
-            <Tag.Avatar>
-              {!bug.duplicated_of_id && (
-                <FatherIcon />
-              )}
-            </Tag.Avatar>
+            <Tag.Avatar>{!bug.duplicated_of_id && <FatherIcon />}</Tag.Avatar>
             {bug.siblings > 0 && `+${bug.siblings}`}
           </CustomTag>
         </AlignmentDiv>
@@ -140,7 +125,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-        bug.severity.name.toLowerCase() as Severities
+          bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
