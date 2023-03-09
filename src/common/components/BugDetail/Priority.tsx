@@ -131,7 +131,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
               </SelectedItem>
             </Select>
           </Field>
-          <Menu hasArrow>
+          <Menu>
             {options &&
               options.map((item) => (
                 <StyledItem key={item.slug} value={item}>
