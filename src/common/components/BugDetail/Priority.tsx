@@ -23,7 +23,7 @@ const StyledItem = styled(Item)`
   display: flex;
   align-items: center;
 
-  svg {
+  > svg {
     margin-right: ${({ theme }) => theme.space.xs};
   }
 `;
@@ -38,7 +38,7 @@ const SelectedItem = styled.div`
   display: flex;
   align-items: center;
 
-  svg {
+  > svg {
     margin-right: ${({ theme }) => theme.space.xs};
   }
 `;
@@ -134,7 +134,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
           <Menu>
             {options &&
               options.map((item) => (
-                <StyledItem key={item.slug} value={item}>
+                <StyledItem className="cipolla" key={item.slug} value={item}>
                   {item.icon} {item.text}
                 </StyledItem>
               ))}
