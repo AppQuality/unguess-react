@@ -5,7 +5,9 @@ import { theme as globalTheme } from 'src/app/theme';
 import { useUniqueBugs } from 'src/pages/Campaign/widgets/UniqueBugs/useUniqueBugs';
 
 const CounterContainer = styled.div`
+  display: inline-block;
   margin-right: ${({ theme }) => theme.space.xs};
+}
 `;
 
 export const UniqueBugsCounter = ({
