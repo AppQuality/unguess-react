@@ -24,6 +24,16 @@ const AlignmentDiv = ({
     display: flex;
     justify-content: ${alignment};
     align-items: center;
+
+    bug_duplicates_badge {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    };
+
+    bug_duplicates_badge {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
   `;
   return <AlignedDiv>{children}</AlignedDiv>;
 };
@@ -121,7 +131,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-          bug.severity.name.toLowerCase() as Severities
+        bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
