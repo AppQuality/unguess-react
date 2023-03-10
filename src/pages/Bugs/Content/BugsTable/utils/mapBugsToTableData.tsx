@@ -75,7 +75,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
             type="light"
           >
             <span style={{ height: '1em' }}>
-              <PriorityIcon priority={bug.priority?.name || 'medium'} />
+              <PriorityIcon priority={bug.priority?.name} />
             </span>
           </Tooltip>
         </AlignmentDiv>
