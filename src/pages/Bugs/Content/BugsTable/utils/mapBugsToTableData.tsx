@@ -28,7 +28,7 @@ const AlignmentDiv = ({
   return <AlignedDiv>{children}</AlignedDiv>;
 };
 
-const CustomTag = styled(Tag)`
+const SiblingTag = styled.div<{ isBold?: boolean }>`
   height: max-content;
   display: grid;
   grid-template-columns: repeat(2, 16px);
@@ -36,6 +36,10 @@ const CustomTag = styled(Tag)`
   grid-gap: calc(16px / 4);
   justify-content: center;
   align-items: center;
+
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  font-weight: ${({ isBold, theme }) =>
+    isBold ? theme.fontWeights.semibold : theme.fontWeights.regular};
 
   svg {
     margin: 0 !important;
@@ -55,15 +59,10 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       id: bug.id.toString(),
       siblings: (
         <AlignmentDiv alignment="center">
-          <CustomTag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
-            {
-              !bug.duplicated_of_id &&
-              <Tag.Avatar>
-                <FatherIcon />
-              </Tag.Avatar>
-            }
+          <SiblingTag isBold={isPillBold}>
+            {!bug.duplicated_of_id && <FatherIcon />}
             {bug.siblings > 0 && `+${bug.siblings}`}
-          </CustomTag>
+          </SiblingTag>
         </AlignmentDiv>
       ),
       bugId: (
@@ -128,7 +127,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-        bug.severity.name.toLowerCase() as Severities
+          bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
