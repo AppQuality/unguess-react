@@ -10,6 +10,7 @@ import { UniqueFilter } from './UniqueFilter';
 import { SearchFilter } from './SearchFilter';
 import { FilterRecap } from './FilterRecap';
 import { GroupBy } from './GroupBy';
+import { SortBy } from './SortBy';
 import { BugsFilterDrawer } from '../Drawer';
 
 const FilterContainer = styled.div`
@@ -83,9 +84,7 @@ const BugsFilters = () => {
             style={{ marginBottom: globalTheme.space.md }}
           >
             <OrderInfo>
-              <StyledSM isBold>
-                {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}
-              </StyledSM>
+              <SortBy />
               <GroupBy />
             </OrderInfo>
           </Col>
