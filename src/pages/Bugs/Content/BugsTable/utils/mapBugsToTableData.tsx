@@ -1,4 +1,4 @@
-import { ReactChild } from 'react';
+import { ReactNode } from 'react';
 import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
@@ -17,7 +17,7 @@ const AlignmentDiv = ({
   children,
 }: {
   alignment?: string;
-  children: ReactChild | ReactChild[] | undefined;
+  children?: ReactNode | ReactNode[];
 }) => {
   const AlignedDiv = styled.div`
     height: 2em;
@@ -56,7 +56,12 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       siblings: (
         <AlignmentDiv alignment="center">
           <CustomTag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
-            <Tag.Avatar>{!bug.duplicated_of_id && <FatherIcon />}</Tag.Avatar>
+            {
+              !bug.duplicated_of_id &&
+              <Tag.Avatar>
+                <FatherIcon />
+              </Tag.Avatar>
+            }
             {bug.siblings > 0 && `+${bug.siblings}`}
           </CustomTag>
         </AlignmentDiv>
@@ -123,7 +128,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-          bug.severity.name.toLowerCase() as Severities
+        bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
