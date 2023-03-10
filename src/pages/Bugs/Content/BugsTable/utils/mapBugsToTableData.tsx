@@ -9,6 +9,7 @@ import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.s
 import { PriorityIcon } from 'src/common/components/PriorityIcon';
 import { Meta } from 'src/common/components/Meta';
 import styled from 'styled-components';
+import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
@@ -48,6 +49,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
   if (!bugs) return [];
   return bugs.map((bug) => {
     const isPillBold = (currentBugId && currentBugId === bug.id) || !bug.read;
+    const { priority: bugPriority } = bug;
 
     return {
       key: bug.id.toString(),
@@ -70,12 +72,12 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       priority: (
         <AlignmentDiv alignment="center">
           <Tooltip
-            content={bug.priority?.name || 'medium'}
+            content={getPriorityInfo(bugPriority?.name as Priority, t).text}
             placement="bottom"
             type="light"
           >
             <span style={{ height: '1em' }}>
-              <PriorityIcon priority={bug.priority?.name} />
+              {getPriorityInfo(bugPriority?.name as Priority, t).icon}
             </span>
           </Tooltip>
         </AlignmentDiv>
