@@ -22,6 +22,11 @@ export const DEFAULT_EXPRESS_REQUIRED_COINS = 1;
 export const SERVICES_SHOW_TIPS = true;
 export const EXPRESS_USE_CASES_LIMIT = 5;
 
+export const DEFAULT_BUG_PRIORITY = {
+  id: 3,
+  name: 'medium',
+};
+
 export const EXPRESS_START_DATE_MAX_VALUE = 30;
 export const EXPRESS_BUSINESS_DAYS_TO_ADD = 2;
 export const EXPRESS_3_BUSINESS_DAYS_TO_ADD = 3;
