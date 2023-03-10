@@ -56,7 +56,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
   const [selectedItem, setSelectedItem] = useState<DropdownItem>({
     id: DEFAULT_BUG_PRIORITY.id,
     slug: DEFAULT_BUG_PRIORITY.name,
-    text: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).text ?? '',
+    text: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).text,
     icon: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).icon,
   });
   const [options, setOptions] = useState<DropdownItem[]>([]);
@@ -76,7 +76,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
         cpPriorities.map((priority) => ({
           id: priority.id,
           slug: priority.name,
-          text: getPriorityInfo(priority.name as Priority, t).text ?? '',
+          text: getPriorityInfo(priority.name as Priority, t).text,
           icon: getPriorityInfo(priority.name as Priority, t).icon,
         }))
       );
@@ -88,7 +88,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
       setSelectedItem({
         id: bugPriority.id,
         slug: bugPriority.name,
-        text: getPriorityInfo(bugPriority.name as Priority, t).text ?? '',
+        text: getPriorityInfo(bugPriority.name as Priority, t).text,
         icon: getPriorityInfo(bugPriority.name as Priority, t).icon,
       });
     }

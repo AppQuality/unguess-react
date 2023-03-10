@@ -6,8 +6,8 @@ import { ReactComponent as PriorityLow } from 'src/assets/icons/priority-low.svg
 import { ReactComponent as PriorityLowest } from 'src/assets/icons/priority-lowest.svg';
 
 type PriorityInfo = {
-  icon?: React.ReactNode;
-  text?: string;
+  icon: React.ReactNode;
+  text: string;
 };
 
 export const getPriorityInfo = (
@@ -41,6 +41,9 @@ export const getPriorityInfo = (
         text: t('__BUG_PRIORITY_LOWEST'),
       };
     default:
-      return {};
+      return {
+        icon: <PriorityMedium />,
+        text: t('__BUG_PRIORITY_MEDIUM'),
+      };
   }
 };
