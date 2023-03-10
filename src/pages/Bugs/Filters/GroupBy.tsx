@@ -9,28 +9,26 @@ import { Field } from '@zendeskgarden/react-dropdowns';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { setPageView } from 'src/features/bugsPage/bugsPageSlice';
+import { setGroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { ReactComponent as Icon } from './assets/layers_icon.svg';
 
 export const GroupBy = () => {
-  const pageView = useAppSelector((state) => state.bugsPage.pageView);
+  const groupBy = useAppSelector((state) => state.bugsPage.groupBy);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const groupByOptions: Array<typeof pageView> = ['byUsecase', 'bySeverity'];
+  const groupByOptions: Array<typeof groupBy> = ['usecase'];
   const [label, setLabel] = useState<string>(groupByOptions[0]);
 
   const getTranslatedLabel = (view: string) => {
     switch (view) {
-      case 'byUsecase':
-        return t('__BUGS_GROUP_BY_USE_CASE', 'By use case');
-      case 'bySeverity':
-        return t('__BUGS_GROUP_BY_SEVERITY', 'By severity');
+      case 'usecase':
+        return t('__BUGS_GROUP_BY_USE_CASE');
       case 'ungrouped':
-        return t('__BUGS_GROUP_BY_UNGROUPED', 'Ungrouped');
+        return t('__BUGS_GROUP_BY_UNGROUPED');
       default:
-        return t('__BUGS_GROUP_BY_OPEN_MENU', 'Group by');
+        return t('__BUGS_GROUP_BY_OPEN_MENU');
     }
   };
 
@@ -47,10 +45,10 @@ export const GroupBy = () => {
   return (
     <div style={{ maxWidth: '180px' }}>
       <Dropdown
-        selectedItem={pageView}
+        selectedItem={groupBy}
         onSelect={(item) => {
           setLabel(item);
-          dispatch(setPageView(item));
+          dispatch(setGroupBy(item));
         }}
       >
         <Field>
@@ -68,14 +66,9 @@ export const GroupBy = () => {
 
           <Dropdown.Separator />
 
-          <Item key="byUsecase" value="byUsecase">
+          <Item key="usecase" value="usecase">
             {t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
           </Item>
-          <Item key="bySeverity" value="bySeverity">
-            {t('__BUGS_GROUP_BY_SEVERITY_ITEM')}
-          </Item>
-
-          <Dropdown.Separator />
 
           <Item key="ungrouped" value="ungrouped">
             {getTranslatedLabel('ungrouped')}

@@ -1,4 +1,4 @@
-import { Anchor, Col, Grid, Row, SM } from '@appquality/unguess-design-system';
+import { Anchor, Col, Grid, Row } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
@@ -36,14 +36,6 @@ const OrderInfo = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
     justify-content: flex-start;
-  }
-`;
-
-const StyledSM = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none;
   }
 `;
 
