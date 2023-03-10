@@ -6,7 +6,6 @@ import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
-import { PriorityIcon } from 'src/common/components/PriorityIcon';
 import { Meta } from 'src/common/components/Meta';
 import styled from 'styled-components';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
@@ -75,6 +74,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
             content={getPriorityInfo(bugPriority?.name as Priority, t).text}
             placement="bottom"
             type="light"
+            size="medium"
           >
             <span style={{ height: '1em' }}>
               {getPriorityInfo(bugPriority?.name as Priority, t).icon}
