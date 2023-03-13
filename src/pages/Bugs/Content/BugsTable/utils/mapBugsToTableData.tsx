@@ -9,26 +9,18 @@ import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.s
 import { Meta } from 'src/common/components/Meta';
 import styled from 'styled-components';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
+import { TextAlign } from 'src/common/components/Table';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
-const AlignmentDiv = ({
-  alignment,
-  children,
-}: {
-  alignment?: string;
-  children?: ReactNode | ReactNode[];
-}) => {
-  const AlignedDiv = styled.div`
-    height: 2em;
-    display: flex;
-    justify-content: ${alignment};
-    align-items: center;
-  `;
-  return <AlignedDiv>{children}</AlignedDiv>;
-};
+const AlignmentDiv = styled.div`
+height: 2em;
+display: flex;
+justify-content: ${(props: {alignment?: TextAlign}) => props.alignment || 'center'};
+align-items: center;
+`;
 
-const SiblingTag = styled.div<{ isBold?: boolean }>`
+const CustomTag = styled(Tag)`
   height: max-content;
   display: grid;
   grid-template-columns: repeat(2, 16px);
@@ -36,10 +28,6 @@ const SiblingTag = styled.div<{ isBold?: boolean }>`
   grid-gap: calc(16px / 4);
   justify-content: center;
   align-items: center;
-
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-  font-weight: ${({ isBold, theme }) =>
-    isBold ? theme.fontWeights.semibold : theme.fontWeights.regular};
 
   svg {
     margin: 0 !important;
@@ -59,10 +47,15 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       id: bug.id.toString(),
       siblings: (
         <AlignmentDiv alignment="center">
-          <SiblingTag isBold={isPillBold}>
-            {!bug.duplicated_of_id && <FatherIcon />}
+          <CustomTag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
+            {
+              !bug.duplicated_of_id &&
+              <Tag.Avatar>
+                <FatherIcon />
+              </Tag.Avatar>
+            }
             {bug.siblings > 0 && `+${bug.siblings}`}
-          </SiblingTag>
+          </CustomTag>
         </AlignmentDiv>
       ),
       bugId: (
@@ -127,7 +120,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-          bug.severity.name.toLowerCase() as Severities
+        bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
