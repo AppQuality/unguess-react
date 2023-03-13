@@ -14,10 +14,11 @@ import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
 const AlignmentDiv = styled.div`
-height: 2em;
-display: flex;
-justify-content: ${(props: {alignment?: TextAlign}) => props.alignment || 'center'};
-align-items: center;
+  height: 2em;
+  display: flex;
+  justify-content: ${(props: { alignment?: TextAlign }) =>
+    props.alignment || 'center'};
+  align-items: center;
 `;
 
 const CustomTag = styled(Tag)`
@@ -48,12 +49,11 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       siblings: (
         <AlignmentDiv alignment="center">
           <CustomTag isPill={false} hue="rgba(0,0,0,0)" isRegular={!isPillBold}>
-            {
-              !bug.duplicated_of_id &&
+            {!bug.duplicated_of_id && (
               <Tag.Avatar>
                 <FatherIcon />
               </Tag.Avatar>
-            }
+            )}
             {bug.siblings > 0 && `+${bug.siblings}`}
           </CustomTag>
         </AlignmentDiv>
@@ -120,7 +120,7 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-        bug.severity.name.toLowerCase() as Severities
+          bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
