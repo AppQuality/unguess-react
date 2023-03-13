@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
@@ -89,31 +88,31 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
         </AlignmentDiv>
       ),
       title: (
-        <>
-          <AlignmentDiv alignment="start">
-            <BugTitle isUnread={!bug.read} isBold={isPillBold}>
-              {bug.title.compact}
-            </BugTitle>
-          </AlignmentDiv>
-          {bug.title.context &&
-            bug.title.context.map((context) => (
-              <Tag isRegular={!isPillBold}>{context}</Tag>
-            ))}
-          {bug.type.name && (
-            <>
-              <Pipe size="small" />
-              <Tag isRegular={!isPillBold}>{bug.type.name}</Tag>
-            </>
-          )}
-          {!bug.read && (
-            <>
-              <Pipe size="small" />
-              <Meta color={globalTheme.palette.blue[600]}>
-                {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
-              </Meta>
-            </>
-          )}
-        </>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <BugTitle isUnread={!bug.read} isBold={isPillBold}>
+            {bug.title.compact}
+          </BugTitle>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {bug.title.context &&
+              bug.title.context.map((context) => (
+                <Tag isRegular={!isPillBold}>{context}</Tag>
+              ))}
+            {bug.type.name && (
+              <>
+                <Pipe size="small" />
+                <Tag isRegular={!isPillBold}>{bug.type.name}</Tag>
+              </>
+            )}
+            {!bug.read && (
+              <>
+                <Pipe size="small" />
+                <Meta color={globalTheme.palette.blue[600]}>
+                  {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
+                </Meta>
+              </>
+            )}
+          </div>
+        </div>
       ),
       isHighlighted: !bug.read,
       created: bug.created,
