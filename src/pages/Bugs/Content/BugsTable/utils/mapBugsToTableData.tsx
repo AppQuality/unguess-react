@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
