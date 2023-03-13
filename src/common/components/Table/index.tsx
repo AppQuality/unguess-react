@@ -19,7 +19,7 @@ interface TableData {
   borderColor?: string;
 }
 
-export type TextAlign = 'left' | 'right' | 'justify' | 'center' | undefined;
+export type TextAlign = 'start' | 'center' | 'end' | undefined;
 
 export type ColumnDefinitionType<T, K extends keyof T> = {
   key: K;

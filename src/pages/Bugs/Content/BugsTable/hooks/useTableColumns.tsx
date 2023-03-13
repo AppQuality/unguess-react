@@ -9,7 +9,7 @@ export const useTableColumns = () => {
       key: 'title',
       header: t('__BUGS_TABLE_TITLE_HEADER_COLUMN'),
       width: 'auto',
-      textAlign: 'left',
+      textAlign: 'start',
     },
     {
       key: 'siblings',
@@ -33,7 +33,7 @@ export const useTableColumns = () => {
       key: 'bugId',
       header: t('__BUGS_TABLE_BUG_ID_HEADER_COLUMN'),
       width: '80px',
-      textAlign: 'right',
+      textAlign: 'end',
     },
   ];
 
