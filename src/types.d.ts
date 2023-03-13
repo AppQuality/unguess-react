@@ -16,6 +16,13 @@ export type UnguessRoutes =
   | 'integration-center'
   | '';
 
+export type CampaignStatus =
+  | 'running'
+  | 'completed'
+  | 'incoming'
+  | 'functional'
+  | 'experiential';
+
 declare global {
   let react_env: {
     REACT_APP_ENV: string;
@@ -31,4 +38,5 @@ declare global {
   };
   type Severities = 'critical' | 'high' | 'medium' | 'low';
   type ItemOfArray<T> = NonNullable<T>[number];
+  type Priority = 'highest' | 'high' | 'medium' | 'low' | 'lowest';
 }

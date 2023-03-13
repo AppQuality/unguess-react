@@ -90,7 +90,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Main mainTitle={itemTitle || ''}>
-          <PageHeader.Title style={{ minHeight: '66px' }}>
+          <PageHeader.Title style={{ minHeight: '62px' }}>
             {isLoading || isFetching || status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (

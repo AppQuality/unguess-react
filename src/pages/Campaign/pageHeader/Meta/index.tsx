@@ -12,12 +12,13 @@ import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
-import useWindowSize from 'src/hooks/useWindowSize';
-import { DesktopTag } from './deviceTags/DesktopTag';
-import { SmartphoneTag } from './deviceTags/SmartphoneTag';
-import { TabletTag } from './deviceTags/TabletTag';
-import { CampaignDurationTag } from './CampaignDurationTag';
+import { CampaignStatus } from 'src/types';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { PageMeta } from 'src/common/components/PageMeta';
+import { DesktopMeta } from './DesktopMeta';
+import { SmartphoneMeta } from './SmartphoneMeta';
+import { TabletMeta } from './TabletMeta';
+import { CampaignDurationMeta } from './CampaignDurationMeta';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -32,7 +33,6 @@ const FooterContainer = styled.div`
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: ${({ theme }) => theme.space.xxs};
 
   ${ButtonWrapper} {
     margin-top: ${({ theme }) => theme.space.base * 5}px;
@@ -48,19 +48,7 @@ const FooterContainer = styled.div`
   }
 `;
 
-const TagsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
-export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
-  const { width } = useWindowSize();
-  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
-  const hide = width < breakpoint;
-
+export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const {
     data: meta,
     isLoading,
@@ -77,21 +65,21 @@ export const Tags = ({ campaign }: { campaign: CampaignWithOutput }) => {
 
   return (
     <FooterContainer>
-      <TagsWrapper>
-        <StatusTag status={family.name.toLowerCase() as CampaignStatus}>
+      <PageMeta>
+        <StatusMeta status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
-        </StatusTag>
-        <StatusTag status={status.name as CampaignStatus} />
-        <CampaignDurationTag start={start_date} end={end_date} />
+        </StatusMeta>
+        <StatusMeta status={status.name as CampaignStatus} />
+        <CampaignDurationMeta start={start_date} end={end_date} />
         {meta ? (
           <>
-            {!hide && <Pipe style={{ marginRight: globalTheme.space.lg }} />}
-            {meta.allowed_devices.includes('desktop') && <DesktopTag />}
-            {meta.allowed_devices.includes('smartphone') && <SmartphoneTag />}
-            {meta.allowed_devices.includes('tablet') && <TabletTag />}
+            <Pipe />
+            {meta.allowed_devices.includes('desktop') && <DesktopMeta />}
+            {meta.allowed_devices.includes('smartphone') && <SmartphoneMeta />}
+            {meta.allowed_devices.includes('tablet') && <TabletMeta />}
           </>
         ) : null}
-      </TagsWrapper>
+      </PageMeta>
       <ButtonWrapper>
         {outputs?.includes('media') && (
           <Button

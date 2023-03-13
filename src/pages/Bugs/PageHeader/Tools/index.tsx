@@ -1,45 +1,31 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { SeverityTag } from 'src/common/components/tag/SeverityTag';
-import { CampaignStatus, StatusTag } from 'src/common/components/tag/StatusTag';
+import { SeverityMeta } from 'src/common/components/meta/SeverityMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import { useTranslation } from 'react-i18next';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
 import WPAPI from 'src/common/wpapi';
-import useWindowSize from 'src/hooks/useWindowSize';
-import { theme as globalTheme } from 'src/app/theme';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { CampaignStatus } from 'src/types';
+import { PageMeta } from 'src/common/components/PageMeta';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaign } from './useCampaign';
-
-const SeveritiesWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
-
-const ToolsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
   width: 100%;
 `;
 
 const ButtonsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  display: none;
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.lg}) {
+    display: block;
+    flex: 1 0 auto;
+  }
 `;
 
 export const Tools = ({
@@ -49,9 +35,6 @@ export const Tools = ({
   campaignId: number;
   customerTitle: string;
 }) => {
-  const { width } = useWindowSize();
-  const breakpoint = parseInt(globalTheme.breakpoints.lg, 10);
-  const hide = width < breakpoint;
   const { t } = useTranslation();
   const integrationCenterUrl = getLocalizeIntegrationCenterRoute(campaignId);
   const { isLoading, status, severities } = useCampaign(campaignId);
@@ -61,21 +44,19 @@ export const Tools = ({
 
   return (
     <Container>
-      <ToolsWrapper>
-        {!hide && <UniqueBugsCounter campaignId={campaignId} />}
-        <SeveritiesWrapper>
-          {Object.keys(severities).map((severity) => (
-            <SeverityTag
-              key={severity}
-              counter={severities[severity as Severities]}
-              severity={severity as Severities}
-              size="large"
-            />
-          ))}
-          {!hide && <Pipe />}
-          <StatusTag status={status.name as CampaignStatus} />
-        </SeveritiesWrapper>
-      </ToolsWrapper>
+      <PageMeta>
+        <UniqueBugsCounter campaignId={campaignId} />
+        {Object.keys(severities).map((severity) => (
+          <SeverityMeta
+            key={severity}
+            counter={severities[severity as Severities]}
+            severity={severity as Severities}
+            size="large"
+          />
+        ))}
+        <Pipe />
+        <StatusMeta status={status.name as CampaignStatus} />
+      </PageMeta>
       <ButtonsWrapper>
         <Button
           isBasic
