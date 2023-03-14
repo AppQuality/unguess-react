@@ -30,19 +30,18 @@ const GridArea = styled.div<{ area: string }>`
 `;
 
 const SearchContainer = styled.div`
-  @media (min-width: ${globalTheme.breakpoints.md}) {
-    margin-right: 16px;
+  flex-basis: 100%;
+  @media (min-width: ${globalTheme.breakpoints.sm}) {
+    flex-basis: 178px;
+    margin-right: 8px;
+    max-width: 178px;
   }
 `;
-const FiltersContainer = styled.div`
+const FiltersContainer = styled(GridArea)`
   display: flex;
   flex-wrap: wrap;
   column-gap: 8px;
-  row-gap: 12px;
   align-items: center;
-  @media (min-width: ${globalTheme.breakpoints.md}) {
-    margin-right: 16px;
-  }
 `;
 
 const BugsFilters = () => {
@@ -52,25 +51,23 @@ const BugsFilters = () => {
   return (
     <>
       <Grid>
-        <GridArea area="filters">
+        <FiltersContainer area="filters">
           <SearchContainer>
             <SearchFilter />
           </SearchContainer>
-          <FiltersContainer>
-            <UniqueFilter />
-            <ReadFilter />
-            <SeverityFilter />
-            <Button
-              size="small"
-              isBasic
-              onClick={() => {
-                dispatch(setFilterDrawerOpen(true));
-              }}
-            >
-              {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
-            </Button>
-          </FiltersContainer>
-        </GridArea>
+          <UniqueFilter />
+          <ReadFilter />
+          <SeverityFilter />
+          <Button
+            size="small"
+            isBasic
+            onClick={() => {
+              dispatch(setFilterDrawerOpen(true));
+            }}
+          >
+            {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
+          </Button>
+        </FiltersContainer>
         <GridArea area="group-sort">
           <SortBy />
           <GroupBy />
