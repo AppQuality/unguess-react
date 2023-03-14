@@ -43,7 +43,7 @@ export const GroupBy = () => {
   `;
 
   return (
-    <div style={{ maxWidth: '180px' }}>
+    <div style={{ maxWidth: 'fit-content' }}>
       <Dropdown
         selectedItem={groupBy}
         onSelect={(item) => {

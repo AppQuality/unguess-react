@@ -9,13 +9,15 @@ import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import styled from 'styled-components';
 
-const DropdownLabel = styled.span`
+const DropdownLabel = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.space.xs};
+  max-width: 180px;
+  overflow: hidden;
 `;
 export const SortBy = () => (
-  <div style={{ maxWidth: '180px' }}>
+  <div style={{ maxWidth: 'fit-content' }}>
     <Dropdown
       selectedItem="severity"
       onSelect={(sorting) => {
@@ -27,7 +29,7 @@ export const SortBy = () => (
         <Select isCompact isPrimary>
           <DropdownLabel>
             <SortIcon />
-            <Span>by severity</Span>
+            <Span>By Highest Severity</Span>
           </DropdownLabel>
         </Select>
       </Field>

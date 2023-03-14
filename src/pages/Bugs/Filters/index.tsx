@@ -1,4 +1,4 @@
-import { Anchor, Col, Grid, Row } from '@appquality/unguess-design-system';
+import { Button } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
@@ -13,29 +13,35 @@ import { GroupBy } from './GroupBy';
 import { SortBy } from './SortBy';
 import { BugsFilterDrawer } from '../Drawer';
 
-const FilterContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.base * 4}px;
+const Grid = styled.div`
+  display: grid;
+  grid-template-areas:
+    'filters'
+    'group-sort'
+    'filter-recap';
+  grid-template-columns: 1fr;
 `;
 
-const RecapContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.space.sm};
+const GridArea = styled.div<{ area: string }>`
+  grid-area: ${({ area }) => area};
+  > * {
+    margin-bottom: 12px;
+  }
 `;
 
-const OrderInfo = styled.div`
+const SearchContainer = styled.div`
+  @media (min-width: ${globalTheme.breakpoints.md}) {
+    margin-right: 16px;
+  }
+`;
+const FiltersContainer = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: ${({ theme }) => theme.space.sm};
   flex-wrap: wrap;
-  flex-direction: row;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    justify-content: flex-start;
+  column-gap: 8px;
+  row-gap: 12px;
+  align-items: center;
+  @media (min-width: ${globalTheme.breakpoints.md}) {
+    margin-right: 16px;
   }
 `;
 
@@ -46,52 +52,32 @@ const BugsFilters = () => {
   return (
     <>
       <Grid>
-        <Row>
-          <Col
-            lg={12}
-            xl={8}
-            orderXs={1}
-            orderXl={1}
-            style={{ marginBottom: globalTheme.space.md }}
-          >
-            <FilterContainer>
-              <SearchFilter />
-              <UniqueFilter />
-              <ReadFilter />
-              <SeverityFilter />
-              <Anchor
-                onClick={() => {
-                  dispatch(setFilterDrawerOpen(true));
-                }}
-              >
-                {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
-              </Anchor>
-            </FilterContainer>
-          </Col>
-          <Col
-            lg={12}
-            xl={4}
-            orderXs={3}
-            orderXl={2}
-            style={{ marginBottom: globalTheme.space.md }}
-          >
-            <OrderInfo>
-              <SortBy />
-              <GroupBy />
-            </OrderInfo>
-          </Col>
-          <Col
-            lg={12}
-            xl={12}
-            orderXs={2}
-            orderXl={3}
-            style={{ marginBottom: 0 }}
-          >
-            <RecapContainer>
-              <FilterRecap />
-            </RecapContainer>
-          </Col>
-        </Row>
+        <GridArea area="filters">
+          <SearchContainer>
+            <SearchFilter />
+          </SearchContainer>
+          <FiltersContainer>
+            <UniqueFilter />
+            <ReadFilter />
+            <SeverityFilter />
+            <Button
+              size="small"
+              isBasic
+              onClick={() => {
+                dispatch(setFilterDrawerOpen(true));
+              }}
+            >
+              {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
+            </Button>
+          </FiltersContainer>
+        </GridArea>
+        <GridArea area="group-sort">
+          <SortBy />
+          <GroupBy />
+        </GridArea>
+        <GridArea area="filter-recap">
+          <FilterRecap />
+        </GridArea>
       </Grid>
       <BugsFilterDrawer />
     </>
