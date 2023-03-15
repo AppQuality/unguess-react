@@ -55,7 +55,7 @@ const TableWrapper = styled.div<{ maxHeight?: string }>`
 `;
 
 const StyledHead = styled(Head)<{ isSticky?: boolean }>`
-  ${({ isSticky }) => isSticky && 'z-index: 2;'}
+  ${({ isSticky }) => isSticky && 'z-index: 1;'}
 `;
 
 const Table = <T extends TableData, K extends keyof T>({
