@@ -8,6 +8,7 @@ export const PageMeta = styled.div`
 
   @media screen and (min-width: ${(p) => p.theme.breakpoints.sm}) {
     flex-flow: row wrap;
+    align-items: center;
   }
   > * {
     margin-top: ${(p) => p.theme.space.xxs};
