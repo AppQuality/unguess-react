@@ -13,23 +13,6 @@ import { GroupBy } from './GroupBy';
 import { SortBy } from './SortBy';
 import { BugsFilterDrawer } from '../Drawer';
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-areas:
-    'filters'
-    'group-sort'
-    'filter-recap';
-  grid-template-columns: 1fr;
-`;
-
-const GridArea = styled.div<{ area: string }>`
-  grid-area: ${({ area }) => area};
-  > * {
-    margin-bottom: 12px;
-    margin-right: 8px;
-  }
-`;
-
 const SearchContainer = styled.div`
   flex-basis: 100%;
   @media (min-width: ${globalTheme.breakpoints.sm}) {
@@ -38,22 +21,27 @@ const SearchContainer = styled.div`
     max-width: 178px;
   }
 `;
-const FiltersContainer = styled(GridArea)`
+const TableToolsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  @media (min-width: ${globalTheme.breakpoints.lg}) {
+    justify-content: space-between;
+  }
 `;
 
-const GroupSortContainer = styled(GridArea)`
+const FlexWrapper = styled.div`
+  > * {
+    margin-bottom: 12px;
+    margin-right: 8px;
+  }
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-`;
-
-const FilterRecapContainer = styled(GridArea)`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-basis: 100%;
+  @media (min-width: ${globalTheme.breakpoints.lg}) {
+    flex-basis: auto;
+  }
 `;
 
 const BugsFilters = () => {
@@ -62,32 +50,34 @@ const BugsFilters = () => {
 
   return (
     <>
-      <Grid>
-        <FiltersContainer area="filters">
-          <SearchContainer>
-            <SearchFilter />
-          </SearchContainer>
-          <UniqueFilter />
-          <ReadFilter />
-          <SeverityFilter />
-          <Button
-            size="small"
-            isBasic
-            onClick={() => {
-              dispatch(setFilterDrawerOpen(true));
-            }}
-          >
-            {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
-          </Button>
-        </FiltersContainer>
-        <GroupSortContainer area="group-sort">
-          <SortBy />
-          <GroupBy />
-        </GroupSortContainer>
-        <FilterRecapContainer area="filter-recap">
+      <div>
+        <TableToolsContainer>
+          <FlexWrapper>
+            <SearchContainer>
+              <SearchFilter />
+            </SearchContainer>
+            <UniqueFilter />
+            <ReadFilter />
+            <SeverityFilter />
+            <Button
+              size="small"
+              isBasic
+              onClick={() => {
+                dispatch(setFilterDrawerOpen(true));
+              }}
+            >
+              {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
+            </Button>
+          </FlexWrapper>
+          <FlexWrapper>
+            <SortBy />
+            <GroupBy />
+          </FlexWrapper>
+        </TableToolsContainer>
+        <FlexWrapper>
           <FilterRecap />
-        </FilterRecapContainer>
-      </Grid>
+        </FlexWrapper>
+      </div>
       <BugsFilterDrawer />
     </>
   );
