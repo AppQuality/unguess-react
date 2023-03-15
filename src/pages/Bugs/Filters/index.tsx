@@ -26,6 +26,7 @@ const GridArea = styled.div<{ area: string }>`
   grid-area: ${({ area }) => area};
   > * {
     margin-bottom: 12px;
+    margin-right: 8px;
   }
 `;
 
@@ -40,7 +41,18 @@ const SearchContainer = styled.div`
 const FiltersContainer = styled(GridArea)`
   display: flex;
   flex-wrap: wrap;
-  column-gap: 8px;
+  align-items: center;
+`;
+
+const GroupSortContainer = styled(GridArea)`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+`;
+
+const FilterRecapContainer = styled(GridArea)`
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
 `;
 
@@ -68,13 +80,13 @@ const BugsFilters = () => {
             {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
           </Button>
         </FiltersContainer>
-        <GridArea area="group-sort">
+        <GroupSortContainer area="group-sort">
           <SortBy />
           <GroupBy />
-        </GridArea>
-        <GridArea area="filter-recap">
+        </GroupSortContainer>
+        <FilterRecapContainer area="filter-recap">
           <FilterRecap />
-        </GridArea>
+        </FilterRecapContainer>
       </Grid>
       <BugsFilterDrawer />
     </>

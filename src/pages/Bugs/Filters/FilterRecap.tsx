@@ -1,24 +1,12 @@
-import styled from 'styled-components';
 import {
   getSelectedFilters,
   resetFilters,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { Anchor, Tag } from '@appquality/unguess-design-system';
+import { Button, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
-const StyledTag = styled(Tag)`
-  background-color: ${({ theme }) => theme.palette.blue[100]};
-`;
+import { theme } from 'src/app/theme';
 
 const FilterRecapItem = ({
   type,
@@ -39,7 +27,7 @@ const FilterRecapItem = ({
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <StyledTag size="large">
+    <Tag hue={theme.palette.blue[100]} size="large">
       {name}
       <Tag.Close
         onClick={() => {
@@ -131,7 +119,7 @@ const FilterRecapItem = ({
           }
         }}
       />
-    </StyledTag>
+    </Tag>
   );
 };
 
@@ -150,7 +138,7 @@ export const FilterRecap = () => {
     filters.replicabilities?.length;
 
   return hasFilters ? (
-    <Container>
+    <>
       {filters.severities && filters.severities.length
         ? filters.severities.map((severity) => (
             <FilterRecapItem
@@ -210,13 +198,16 @@ export const FilterRecap = () => {
             <FilterRecapItem type="os" value={os.os} name={os.os} />
           ))
         : null}
-      <Anchor
+      <Button
+        isBasic
+        size="small"
         onClick={() => {
           dispatch(resetFilters());
         }}
+        style={{ marginLeft: '8px' }}
       >
         {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
-      </Anchor>
-    </Container>
+      </Button>
+    </>
   ) : null;
 };
