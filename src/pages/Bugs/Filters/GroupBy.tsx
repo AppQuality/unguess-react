@@ -33,38 +33,36 @@ export const GroupBy = () => {
   };
 
   return (
-    <div style={{ maxWidth: 'fit-content' }}>
-      <Dropdown
-        selectedItem={groupBy}
-        onSelect={(item) => {
-          setLabel(item);
-          dispatch(setGroupBy(item));
-        }}
-      >
-        <Field>
-          <Select isCompact isPrimary>
-            <DropdownLabel>
-              <Icon />
-              <Span>{getTranslatedLabel(label)}</Span>
-            </DropdownLabel>
-          </Select>
-        </Field>
-        <Menu>
-          <Dropdown.HeaderItem>
-            {t('__BUGS_GROUP_BY_OPEN_MENU')}:
-          </Dropdown.HeaderItem>
+    <Dropdown
+      selectedItem={groupBy}
+      onSelect={(item) => {
+        setLabel(item);
+        dispatch(setGroupBy(item));
+      }}
+    >
+      <Field>
+        <Select isCompact isPrimary>
+          <DropdownLabel>
+            <Icon />
+            <Span>{getTranslatedLabel(label)}</Span>
+          </DropdownLabel>
+        </Select>
+      </Field>
+      <Menu>
+        <Dropdown.HeaderItem>
+          {t('__BUGS_GROUP_BY_OPEN_MENU')}:
+        </Dropdown.HeaderItem>
 
-          <Dropdown.Separator />
+        <Dropdown.Separator />
 
-          <Item key="usecase" value="usecase">
-            {t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
-          </Item>
+        <Item key="usecase" value="usecase">
+          {t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
+        </Item>
 
-          <Item key="ungrouped" value="ungrouped">
-            {getTranslatedLabel('ungrouped')}
-          </Item>
-        </Menu>
-      </Dropdown>
-    </div>
+        <Item key="ungrouped" value="ungrouped">
+          {getTranslatedLabel('ungrouped')}
+        </Item>
+      </Menu>
+    </Dropdown>
   );
 };
