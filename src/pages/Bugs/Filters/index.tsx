@@ -1,5 +1,5 @@
 import { Button } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { setFilterDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
@@ -15,12 +15,14 @@ import { BugsFilterDrawer } from '../Drawer';
 
 const SearchContainer = styled.div`
   flex-basis: 100%;
-  @media (min-width: ${globalTheme.breakpoints.sm}) {
+
+  @media (min-width: ${globalTheme.breakpoints.md}) {
     flex-basis: 178px;
     margin-right: 8px;
     max-width: 178px;
   }
 `;
+
 const TableToolsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -30,18 +32,34 @@ const TableToolsContainer = styled.div`
   }
 `;
 
-const FlexWrapper = styled.div`
-  > * {
-    margin-bottom: 12px;
-    margin-right: 8px;
+const hideOnMobile = css`
+  display: none;
+  @media (min-width: ${globalTheme.breakpoints.md}) {
+    display: inherit;
   }
+`;
+
+const HideOnMobile = styled.div`
+  ${hideOnMobile}
+`;
+
+const FlexWrapper = styled.div<{ orderXl?: number; hideOnMobile?: boolean }>`
+  column-gap: 8px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   flex-basis: 100%;
+
+  > * {
+    margin-bottom: 12px;
+  }
   @media (min-width: ${globalTheme.breakpoints.lg}) {
     flex-basis: auto;
   }
+  @media (min-width: ${globalTheme.breakpoints.xl}) {
+    order: ${(p) => p.orderXl};
+  }
+  ${(p) => p.hideOnMobile && hideOnMobile}
 `;
 
 const BugsFilters = () => {
@@ -52,13 +70,21 @@ const BugsFilters = () => {
     <>
       <div>
         <TableToolsContainer>
-          <FlexWrapper>
+          <FlexWrapper orderXl={2} hideOnMobile>
+            <SortBy />
+            <GroupBy />
+          </FlexWrapper>
+          <FlexWrapper orderXl={1}>
             <SearchContainer>
               <SearchFilter />
             </SearchContainer>
             <UniqueFilter />
-            <ReadFilter />
-            <SeverityFilter />
+            <HideOnMobile>
+              <ReadFilter />
+            </HideOnMobile>
+            <HideOnMobile>
+              <SeverityFilter />
+            </HideOnMobile>
             <Button
               size="small"
               isBasic
@@ -68,10 +94,6 @@ const BugsFilters = () => {
             >
               {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
             </Button>
-          </FlexWrapper>
-          <FlexWrapper>
-            <SortBy />
-            <GroupBy />
           </FlexWrapper>
         </TableToolsContainer>
         <FlexWrapper>
