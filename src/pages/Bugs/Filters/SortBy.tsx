@@ -7,15 +7,8 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
 import { Field } from '@zendeskgarden/react-dropdowns';
-import styled from 'styled-components';
+import { DropdownLabel } from './DropdownLabel';
 
-const DropdownLabel = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.xs};
-  max-width: 180px;
-  overflow: hidden;
-`;
 export const SortBy = () => (
   <div style={{ maxWidth: 'fit-content' }}>
     <Dropdown

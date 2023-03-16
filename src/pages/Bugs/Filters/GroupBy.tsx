@@ -10,8 +10,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { setGroupBy } from 'src/features/bugsPage/bugsPageSlice';
-import styled from 'styled-components';
 import { ReactComponent as Icon } from './assets/layers_icon.svg';
+import { DropdownLabel } from './DropdownLabel';
 
 export const GroupBy = () => {
   const groupBy = useAppSelector((state) => state.bugsPage.groupBy);
@@ -32,16 +32,6 @@ export const GroupBy = () => {
     }
   };
 
-  const SelectLabel = styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.space.xs};
-
-    svg {
-      flex-shrink: 0;
-    }
-  `;
-
   return (
     <div style={{ maxWidth: 'fit-content' }}>
       <Dropdown
@@ -53,10 +43,10 @@ export const GroupBy = () => {
       >
         <Field>
           <Select isCompact isPrimary>
-            <SelectLabel>
+            <DropdownLabel>
               <Icon />
               <Span>{getTranslatedLabel(label)}</Span>
-            </SelectLabel>
+            </DropdownLabel>
           </Select>
         </Field>
         <Menu>
