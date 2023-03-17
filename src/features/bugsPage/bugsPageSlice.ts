@@ -27,20 +27,23 @@ type CampaignType = {
   OsFilterType &
   ReplicabilityFilterType;
 
-type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
+type GroupBy = 'usecase' | 'ungrouped';
+type OrderBy = 'severity' | 'priority';
 
 interface initialSimpleState {
   currentCampaign?: number;
   campaigns: {
     [campaign_id: string]: CampaignType;
   };
-  pageView: PageView;
+  groupBy: GroupBy;
+  orderBy: OrderBy;
   isFilterDrawerOpen: boolean;
 }
 
 const initialStateSimple: initialSimpleState = {
   campaigns: {},
-  pageView: 'byUsecase',
+  groupBy: 'usecase',
+  orderBy: 'severity',
   isFilterDrawerOpen: false,
 };
 
@@ -149,8 +152,11 @@ const bugPageSlice = createSlice({
         ...ReplicabilityFilter.reset(state.campaigns[state.currentCampaign]),
       };
     },
-    setPageView: (state, action: PayloadAction<PageView>) => {
-      state.pageView = action.payload;
+    setOrderBy: (state, action: PayloadAction<OrderBy>) => {
+      state.orderBy = action.payload;
+    },
+    setGroupBy: (state, action: PayloadAction<GroupBy>) => {
+      state.groupBy = action.payload;
     },
     setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isFilterDrawerOpen = action.payload;
@@ -213,6 +219,7 @@ export const {
   updateFilters,
   selectBug,
   resetFilters,
-  setPageView,
+  setGroupBy,
+  setOrderBy,
   setFilterDrawerOpen,
 } = bugPageSlice.actions;
