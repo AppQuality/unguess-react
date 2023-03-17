@@ -17,12 +17,12 @@ const Container = styled.div<{ excludeMarginTop?: boolean }>`
   -moz-osx-font-smoothing: grayscale;
   background-color: ${({ theme }) => theme.palette.grey[100]};
   margin: ${({ theme }) => theme.space.xxl} auto;
+  ${({ excludeMarginTop }) => excludeMarginTop && `margin-top: 0;`}
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     margin: ${({ theme }) => theme.space.md} auto;
+    ${({ excludeMarginTop }) => excludeMarginTop && `margin-top: 0;`}
   }
-
-  ${({ excludeMarginTop }) => excludeMarginTop && `margin-top: 0;`}
 `;
 
 export const Page = ({
