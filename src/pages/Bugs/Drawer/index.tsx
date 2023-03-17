@@ -24,6 +24,7 @@ import { TagField } from './TagField';
 import { TypeField } from './TypeField';
 import { UniqueField } from './UniqueField';
 import { UseCaseField } from './UseCaseField';
+import { PriorityField } from './PriorityField';
 
 export const WaterButton = styled(Button)``;
 
@@ -49,12 +50,15 @@ const BugsFilterDrawer = () => {
       severities,
       unique,
       tags,
+      priorities,
       useCases,
       devices,
       os,
       replicabilities,
       read,
     } = campaignData;
+
+    console.log(campaignData)
 
     return (
       <>
@@ -87,6 +91,9 @@ const BugsFilterDrawer = () => {
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_ACTIONS_LABEL')}
         </MD>
         <TagField tags={tags} />
+        {priorities.available.length ? (
+          <PriorityField priorities={priorities} />
+        ) : null}
         <MD
           isBold
           style={{
