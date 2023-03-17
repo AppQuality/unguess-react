@@ -13,9 +13,18 @@ import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
+import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
+import styled from 'styled-components';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
+import { LabelSpaceBetween } from './LabelWithCounter';
+
+const CenterAlignedDiv = styled.div`
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 0.5em
+`
 
 export const PriorityField = ({
     priorities,
@@ -53,8 +62,8 @@ export const PriorityField = ({
                                         .map((item) => item.name)
                                         .join(', ')
                                         .toLowerCase()} ${selected.length > maxItemsToShow
-                                        ? `+${selected.length - maxItemsToShow}`
-                                        : ''
+                                            ? `+${selected.length - maxItemsToShow}`
+                                            : ''
                                     }`
                                     : t(
                                         '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITY_ALL_LABEL'
@@ -89,18 +98,11 @@ export const PriorityField = ({
                                                 );
                                             }}
                                         >
-                                            <LabelSpaceBetween
-                                                isRegular
-                                                /* style={{
-                                                    color:
-                                                        globalTheme.colors.byPriority[
-                                                        item.name.toLowerCase() as Severities
-                                                        ],
-                                                    textTransform: 'capitalize',
-                                                    ...(!counters[item.id] && disabledStyle),
-                                                }} */
-                                            >
-                                                {item.name.toLowerCase()}
+                                            <LabelSpaceBetween isRegular>
+                                                <CenterAlignedDiv>
+                                                    {getPriorityInfo(item?.name as Priority, t).icon}
+                                                    {getPriorityInfo(item?.name as Priority, t).text}
+                                                </CenterAlignedDiv>
                                                 <MD>{counters[item.id] || 0}</MD>
                                             </LabelSpaceBetween>
                                         </Checkbox>
