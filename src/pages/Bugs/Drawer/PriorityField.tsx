@@ -39,7 +39,7 @@ export const PriorityField = ({
                     <Accordion.Header>
                         <Accordion.Label>
                             <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
-                                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_TITLE')}
+                                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITY_TITLE')}
                             </MD>
                             <SM
                                 style={{
@@ -57,7 +57,7 @@ export const PriorityField = ({
                                         : ''
                                     }`
                                     : t(
-                                        '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITY_ALL_LABEL'
+                                        '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITY_ALL_LABEL'
                                     )}
                             </SM>
                         </Accordion.Label>
@@ -77,7 +77,7 @@ export const PriorityField = ({
                                                 dispatch(
                                                     updateFilters({
                                                         filters: {
-                                                            severities: [
+                                                            priorities: [
                                                                 ...(selected
                                                                     .map((i) => i.id)
                                                                     .includes(item.id)
