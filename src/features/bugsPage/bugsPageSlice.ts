@@ -103,7 +103,7 @@ const bugPageSlice = createSlice({
     updateFilters: (state, action) => {
       const { filters } = action.payload;
       if (!state.currentCampaign) return;
-      
+
       state.campaigns[state.currentCampaign] = {
         ...TypeFilter.filter(
           state.campaigns[state.currentCampaign],

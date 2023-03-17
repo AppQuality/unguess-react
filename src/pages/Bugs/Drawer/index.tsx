@@ -58,8 +58,6 @@ const BugsFilterDrawer = () => {
       read,
     } = campaignData;
 
-    console.log(campaignData)
-
     return (
       <>
         <MD
