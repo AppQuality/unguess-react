@@ -8,7 +8,6 @@ import { SeverityFilter } from './SeverityFilter';
 import { ReadFilter } from './ReadFilter';
 import { UniqueFilter } from './UniqueFilter';
 import { SearchFilter } from './SearchFilter';
-import { FilterRecap } from './FilterRecap';
 import { GroupBy } from './GroupBy';
 import { SortBy } from './SortBy';
 import { BugsFilterDrawer } from '../Drawer';
@@ -42,7 +41,10 @@ const HideOnMobile = styled.div`
   ${hideOnMobile}
 `;
 
-const FlexWrapper = styled.div<{ orderXl?: number; hideOnMobile?: boolean }>`
+export const FlexWrapper = styled.div<{
+  orderXl?: number;
+  hideOnMobile?: boolean;
+}>`
   column-gap: 8px;
   display: flex;
   flex-wrap: wrap;
@@ -60,13 +62,17 @@ const FlexWrapper = styled.div<{ orderXl?: number; hideOnMobile?: boolean }>`
   ${(p) => p.hideOnMobile && hideOnMobile}
 `;
 
+const Wrapper = styled.div`
+  padding-top: ${(p) => p.theme.space.sm};
+`;
+
 const BugsFilters = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   return (
     <>
-      <div>
+      <Wrapper>
         <TableToolsContainer>
           <FlexWrapper orderXl={2} hideOnMobile>
             <SortBy />
@@ -94,10 +100,7 @@ const BugsFilters = () => {
             </Button>
           </FlexWrapper>
         </TableToolsContainer>
-        <FlexWrapper>
-          <FilterRecap />
-        </FlexWrapper>
-      </div>
+      </Wrapper>
       <BugsFilterDrawer />
     </>
   );

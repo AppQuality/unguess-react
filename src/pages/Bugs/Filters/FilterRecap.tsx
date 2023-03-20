@@ -8,6 +8,7 @@ import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
+import styled from 'styled-components';
 
 const FilterRecapItem = ({
   type,
@@ -136,6 +137,13 @@ const FilterRecapItem = ({
   );
 };
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: ${(p) => p.theme.space.sm};
+  padding-top: ${(p) => p.theme.space.md};
+`;
+
 export const FilterRecap = () => {
   const { t } = useTranslation();
   const filters = getSelectedFilters();
@@ -152,7 +160,7 @@ export const FilterRecap = () => {
     filters.replicabilities?.length;
 
   return hasFilters ? (
-    <>
+    <Wrapper>
       {filters.severities && filters.severities.length
         ? filters.severities.map((severity) => (
             <FilterRecapItem
@@ -231,6 +239,6 @@ export const FilterRecap = () => {
       >
         {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
       </Button>
-    </>
+    </Wrapper>
   ) : null;
 };

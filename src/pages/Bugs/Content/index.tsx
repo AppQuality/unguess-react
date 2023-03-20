@@ -3,6 +3,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { BugsFilters } from '../Filters';
+import { FilterRecap } from '../Filters/FilterRecap';
 import { BugPreview } from './BugPreview';
 import BugsTable from './BugsTable';
 import BugsPageContentLoader from './ContentLoader';
@@ -22,13 +23,14 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <>
-      <LayoutWrapper isNotBoxed>
+      <LayoutWrapper isNotBoxed style={{ background: 'white' }}>
         <BugsFilters />
       </LayoutWrapper>
       <LayoutWrapperBugs isNotBoxed isPreviewOpen={!!currentBugId}>
         <Grid gutters="xxl">
           <Row>
             <Col xs={12} md={currentBugId ? 8 : 12}>
+              <FilterRecap />
               <BugsTable campaignId={campaignId} />
             </Col>
             {currentBugId && (

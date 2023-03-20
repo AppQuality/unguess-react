@@ -1,4 +1,5 @@
 import { useAppSelector } from 'src/app/hooks';
+import styled from 'styled-components';
 import { AllBugs } from './AllBugs';
 import { BugsByUsecase } from './BugsByUsecase';
 import { EmptyState } from './components/EmptyState';
@@ -17,13 +18,17 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
     return <EmptyState />;
   }
 
+  const Wrapper = styled.div`
+    padding-top: ${(p) => p.theme.space.md}};
+  `;
+
   return (
-    <div>
+    <Wrapper>
       {groupBy === 'usecase' && (
         <BugsByUsecase bugsByUseCases={data.bugsByUseCases} />
       )}
       {groupBy === 'ungrouped' && <AllBugs bugs={data.allBugs} />}
-    </div>
+    </Wrapper>
   );
 };
 
