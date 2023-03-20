@@ -120,7 +120,7 @@ export const PriorityField = ({
                 {!showMore ? (
                   <Trans
                     count={available.length - maxItemsToShow}
-                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITIES_SHOW_MORE_LABEL"
+                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITIES_SHOW_MORE_LABEL"
                   >
                     Show{' '}
                     <Span isBold>
@@ -132,7 +132,7 @@ export const PriorityField = ({
                   </Trans>
                 ) : (
                   t(
-                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITIES_SHOW_LESS_LABEL'
+                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITIES_SHOW_LESS_LABEL'
                   )
                 )}
               </ShowMore>
