@@ -15,14 +15,14 @@ const FilterRecapItem = ({
   name,
 }: {
   type:
-  | 'severities'
-  | 'priorities'
-  | 'types'
-  | 'tags'
-  | 'useCases'
-  | 'devices'
-  | 'os'
-  | 'replicabilities';
+    | 'severities'
+    | 'priorities'
+    | 'types'
+    | 'tags'
+    | 'useCases'
+    | 'devices'
+    | 'os'
+    | 'replicabilities';
   value: string;
   name: string;
 }) => {
@@ -73,10 +73,10 @@ const FilterRecapItem = ({
                   filters: {
                     tags: filters.tags
                       ? filters.tags.filter((t) =>
-                        value === 'none'
-                          ? t.tag_id !== value
-                          : t.tag_id !== Number(value)
-                      )
+                          value === 'none'
+                            ? t.tag_id !== value
+                            : t.tag_id !== Number(value)
+                        )
                       : [],
                   },
                 })
@@ -121,8 +121,8 @@ const FilterRecapItem = ({
                   filters: {
                     replicabilities: filters.replicabilities
                       ? filters.replicabilities.filter(
-                        (t) => t.id !== Number(value)
-                      )
+                          (t) => t.id !== Number(value)
+                        )
                       : [],
                   },
                 })
@@ -155,71 +155,71 @@ export const FilterRecap = () => {
     <>
       {filters.severities && filters.severities.length
         ? filters.severities.map((severity) => (
-          <FilterRecapItem
-            type="severities"
-            value={severity.id.toString()}
-            name={severity.name}
-          />
-        ))
+            <FilterRecapItem
+              type="severities"
+              value={severity.id.toString()}
+              name={severity.name}
+            />
+          ))
         : null}
       {filters.priorities && filters.priorities.length
         ? filters.priorities.map((priorities) => (
-          <FilterRecapItem
-            type="priorities"
-            value={priorities.id.toString()}
-            name={getPriorityInfo(priorities.name as Priority, t).text}
-          />
-        ))
+            <FilterRecapItem
+              type="priorities"
+              value={priorities.id.toString()}
+              name={getPriorityInfo(priorities.name as Priority, t).text}
+            />
+          ))
         : null}
       {filters.types && filters.types.length
         ? filters.types.map((type) => (
-          <FilterRecapItem
-            type="types"
-            value={type.id.toString()}
-            name={type.name}
-          />
-        ))
+            <FilterRecapItem
+              type="types"
+              value={type.id.toString()}
+              name={type.name}
+            />
+          ))
         : null}
       {filters.useCases && filters.useCases.length
         ? filters.useCases.map((useCase) => (
-          <FilterRecapItem
-            type="useCases"
-            value={useCase.id.toString()}
-            name={useCase.title.full}
-          />
-        ))
+            <FilterRecapItem
+              type="useCases"
+              value={useCase.id.toString()}
+              name={useCase.title.full}
+            />
+          ))
         : null}
       {filters.tags && filters.tags.length
         ? filters.tags.map((tag) => (
-          <FilterRecapItem
-            type="tags"
-            value={tag.tag_id.toString()}
-            name={tag.display_name}
-          />
-        ))
+            <FilterRecapItem
+              type="tags"
+              value={tag.tag_id.toString()}
+              name={tag.display_name}
+            />
+          ))
         : null}
       {filters.replicabilities && filters.replicabilities.length
         ? filters.replicabilities.map((replicability) => (
-          <FilterRecapItem
-            type="replicabilities"
-            value={replicability.id.toString()}
-            name={replicability.name}
-          />
-        ))
+            <FilterRecapItem
+              type="replicabilities"
+              value={replicability.id.toString()}
+              name={replicability.name}
+            />
+          ))
         : null}
       {filters.devices && filters.devices.length
         ? filters.devices.map((device) => (
-          <FilterRecapItem
-            type="devices"
-            value={device.device}
-            name={device.device}
-          />
-        ))
+            <FilterRecapItem
+              type="devices"
+              value={device.device}
+              name={device.device}
+            />
+          ))
         : null}
       {filters.os && filters.os.length
         ? filters.os.map((os) => (
-          <FilterRecapItem type="os" value={os.os} name={os.os} />
-        ))
+            <FilterRecapItem type="os" value={os.os} name={os.os} />
+          ))
         : null}
       <Button
         isBasic
