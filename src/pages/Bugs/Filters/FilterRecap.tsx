@@ -7,6 +7,7 @@ import { Button, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
+import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 
 const FilterRecapItem = ({
   type,
@@ -162,11 +163,11 @@ export const FilterRecap = () => {
           ))
         : null}
       {filters.priorities && filters.priorities.length
-        ? filters.priorities.map((severity) => (
+        ? filters.priorities.map((priorities) => (
             <FilterRecapItem
               type="priorities"
-              value={severity.id.toString()}
-              name={severity.name}
+              value={priorities.id.toString()}
+              name={getPriorityInfo(priorities.name as Priority, t).text}
             />
           ))
         : null}
