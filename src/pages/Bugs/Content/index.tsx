@@ -4,7 +4,7 @@ import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { BugsFilters } from '../Filters';
 import { FilterRecap } from '../Filters/FilterRecap';
-import { BugPreview } from './BugPreview';
+import { BugPreview, filtersHeight } from './BugPreview';
 import BugsTable from './BugsTable';
 import BugsPageContentLoader from './ContentLoader';
 
@@ -18,14 +18,24 @@ const LayoutWrapperBugs = styled(LayoutWrapper)<{
     `}
 `;
 
+const LayoutWrapperFilters = styled(LayoutWrapper)`
+  background: white;
+  @media (min-width: ${(p) => p.theme.breakpoints.xl}) {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    max-height: ${filtersHeight}px;
+  }
+`;
+
 const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
   const currentBugId = getSelectedBugId();
 
   return (
     <>
-      <LayoutWrapper isNotBoxed style={{ background: 'white' }}>
+      <LayoutWrapperFilters isNotBoxed>
         <BugsFilters />
-      </LayoutWrapper>
+      </LayoutWrapperFilters>
       <LayoutWrapperBugs isNotBoxed isPreviewOpen={!!currentBugId}>
         <Grid gutters="xxl">
           <Row>

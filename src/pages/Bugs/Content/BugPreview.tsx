@@ -14,6 +14,8 @@ import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
+export const filtersHeight = 56;
+
 const DetailContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,14 +23,14 @@ const DetailContainer = styled.div`
   top: 0;
   width: 100%;
   background-color: white;
-  border: ${({ theme }) => theme.palette.grey[300]} 1px solid;
-  border-top-left-radius: ${({ theme }) => theme.space.xs};
-  border-bottom-left-radius: ${({ theme }) => theme.space.xs};
   padding: 0;
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
   overflow: hidden;
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    top: ${filtersHeight}px;
+  }
 `;
 
 const ScrollingContainer = styled.div`
