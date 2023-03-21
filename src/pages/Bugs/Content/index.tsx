@@ -40,7 +40,11 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
       <LayoutWrapperBugs isNotBoxed isPreviewOpen={!!currentBugId}>
         <Grid gutters="xxl">
           <Row>
-            <Col xs={12} md={currentBugId ? 8 : 12}>
+            <Col
+              xs={12}
+              md={currentBugId ? 8 : 12}
+              style={{ paddingBottom: globalTheme.space.lg }}
+            >
               <FilterRecap />
               <BugsTable campaignId={campaignId} />
             </Col>
