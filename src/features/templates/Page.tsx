@@ -3,7 +3,10 @@ import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import styled from 'styled-components';
 import { Logged } from './Logged';
 
-const Container = styled.div<{ excludeMarginTop?: boolean }>`
+const Container = styled.div<{
+  excludeMarginTop?: boolean;
+  excludeMarginBottom?: boolean;
+}>`
   /* Hide scrollbar for Chrome, Safari and Opera */
   ::-webkit-scrollbar {
     display: none;
@@ -18,10 +21,12 @@ const Container = styled.div<{ excludeMarginTop?: boolean }>`
   background-color: ${({ theme }) => theme.palette.grey[100]};
   margin: ${({ theme }) => theme.space.xxl} auto;
   ${({ excludeMarginTop }) => excludeMarginTop && `margin-top: 0;`}
+  ${({ excludeMarginBottom }) => excludeMarginBottom && `margin-bottom: 0;`}
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     margin: ${({ theme }) => theme.space.md} auto;
     ${({ excludeMarginTop }) => excludeMarginTop && `margin-top: 0;`}
+    ${({ excludeMarginBottom }) => excludeMarginBottom && `margin-bottom: 0;`}
   }
 `;
 
@@ -31,16 +36,22 @@ export const Page = ({
   pageHeader,
   route,
   excludeMarginTop,
+  excludeMarginBottom,
 }: {
   children: React.ReactNode;
   title?: string;
   pageHeader?: React.ReactNode;
   route: string;
   excludeMarginTop?: boolean;
+  excludeMarginBottom?: boolean;
 }) => (
   <GoogleTagManager title={title}>
     <Logged route={route} pageHeader={pageHeader}>
-      <Container id="container" excludeMarginTop={excludeMarginTop}>
+      <Container
+        id="container"
+        excludeMarginTop={excludeMarginTop}
+        excludeMarginBottom={excludeMarginBottom}
+      >
         {children}
       </Container>
     </Logged>
