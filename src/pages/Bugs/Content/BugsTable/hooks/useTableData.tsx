@@ -6,7 +6,8 @@ import { sortByUseCase } from '../utils/sortByUseCase';
 
 export const useTableData = (campaignId: number) => {
   // get  bugs accepted severities and usecases
-  const { bugs, bugsError, bugsLoading } = useCampaignBugs(campaignId);
+  const { bugs, bugsError, bugsLoading, bugsFetching } =
+    useCampaignBugs(campaignId);
   const { severities, severitiesError, severitiesLoading } =
     useCampaignSeverities(campaignId);
   const { useCases, useCasesError, useCasesLoading } =
@@ -28,8 +29,9 @@ export const useTableData = (campaignId: number) => {
         bugsByUseCases: [],
         bugsBySeverity: [],
       },
-      isLoading: true,
-      error: bugsError || severitiesError || useCasesError,
+      isLoading: bugsLoading,
+      isFetching: bugsFetching,
+      isError: bugsError || severitiesError || useCasesError,
     };
   }
 
@@ -43,7 +45,8 @@ export const useTableData = (campaignId: number) => {
       bugsByUseCases,
       bugsBySeverity,
     },
-    isLoading: false,
-    error: bugsError || severitiesError || useCasesError,
+    isLoading: bugsLoading,
+    isFetching: bugsFetching,
+    isError: bugsError || severitiesError || useCasesError,
   };
 };

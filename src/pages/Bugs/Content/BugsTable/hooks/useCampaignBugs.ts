@@ -41,6 +41,7 @@ export const useCampaignBugs = (campaignId: number) => {
   return {
     bugs,
     bugsError: error,
-    bugsLoading: isLoading || isFetching,
+    bugsLoading: isLoading,
+    bugsFetching: isFetching,
   };
 };

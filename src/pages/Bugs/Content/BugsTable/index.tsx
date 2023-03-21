@@ -8,9 +8,9 @@ import { useTableData } from './hooks/useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
   const { groupBy } = useAppSelector((state) => state.bugsPage);
-  const { data, isLoading, error } = useTableData(campaignId);
+  const { data, isLoading, isFetching, isError } = useTableData(campaignId);
 
-  if (isLoading || error) {
+  if (isLoading || isError) {
     return <LoadingState />;
   }
 
@@ -18,12 +18,21 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
     return <EmptyState />;
   }
 
-  const Wrapper = styled.div`
+  const Wrapper = styled.div<{
+    isFetching?: boolean;
+  }>`
     padding-top: ${(p) => p.theme.space.md}};
+
+    ${(p) =>
+      p.isFetching &&
+      `
+      opacity: 0.5;
+      pointer-events: none;
+    `}
   `;
 
   return (
-    <Wrapper>
+    <Wrapper isFetching={isFetching}>
       {groupBy === 'usecase' && (
         <BugsByUsecase bugsByUseCases={data.bugsByUseCases} />
       )}
