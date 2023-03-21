@@ -7,7 +7,14 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
 import { Field } from '@zendeskgarden/react-dropdowns';
+import {
+  ORDER__HIGH__TO__LOW,
+  ORDER__LOW__TO__HIGH
+} from 'src/constants';
 import { DropdownLabel } from './DropdownLabel';
+import ItemGroup from './ItemGroup';
+
+
 
 export const SortBy = () => (
   <Dropdown
@@ -26,14 +33,38 @@ export const SortBy = () => (
       </Select>
     </Field>
     <Menu>
-      <Dropdown.HeaderItem>Sort By</Dropdown.HeaderItem>
+      <Dropdown.HeaderItem>Sort By:</Dropdown.HeaderItem>
       <Dropdown.Separator />
-      <Item key="severity" value="severity">
-        Severity
-      </Item>
-      <Item key="priority" value="priority">
-        Priority
-      </Item>
+
+      <ItemGroup title='Severity'>
+        <Item
+          key={`severity.${ORDER__HIGH__TO__LOW.key}`}
+          value={ORDER__HIGH__TO__LOW.key}
+        >
+          {ORDER__HIGH__TO__LOW.displayName}
+        </Item>
+        <Item
+          key={`severity.${ORDER__LOW__TO__HIGH.key}`}
+          value={ORDER__LOW__TO__HIGH.key}
+        >
+          {ORDER__LOW__TO__HIGH.displayName}
+        </Item>
+      </ItemGroup>
+      <ItemGroup title='Priority'>
+        <Item
+          key={`priority.${ORDER__HIGH__TO__LOW.key}`}
+          value={ORDER__HIGH__TO__LOW.key}
+        >
+          {ORDER__HIGH__TO__LOW.displayName}
+        </Item>
+
+        <Item
+          key={`priority.${ORDER__LOW__TO__HIGH.key}`}
+          value={ORDER__LOW__TO__HIGH.key}
+        >
+          {ORDER__LOW__TO__HIGH.displayName}
+        </Item>
+      </ItemGroup>
     </Menu>
   </Dropdown>
 );

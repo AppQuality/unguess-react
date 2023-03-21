@@ -52,3 +52,13 @@ export const RELATIVE_DATE_FORMAT_OPTS: {
     other: "EEEE',' d MMMM Y",
   },
 };
+
+export const ORDER__HIGH__TO__LOW = {
+  key: 'ORDER__HIGH__TO__LOW',
+  displayName: 'By highest to lowest'
+};
+
+export const ORDER__LOW__TO__HIGH = {
+  key: 'ORDER__LOW__TO__HIGH',
+  displayName: 'By lowest to highest'
+};
