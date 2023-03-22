@@ -21,7 +21,7 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
   const Wrapper = styled.div<{
     isFetching?: boolean;
   }>`
-    padding-top: ${(p) => p.theme.space.md}};
+    padding-top: ${(p) => p.theme.space.lg}};
 
     ${(p) =>
       p.isFetching &&
