@@ -6,6 +6,7 @@ import { ReadFilter, ReadFilterType } from './readFilter';
 import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
 import { TagFilterType, TagFilter } from './tagFilter';
+import { PriorityFilter, PriorityFilterType } from './priorityFilter';
 import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
 import { DeviceFilterType, DeviceFilter } from './deviceFilter';
 import { OsFilterType, OsFilter } from './osFilter';
@@ -22,6 +23,7 @@ type CampaignType = {
   UniqueFilterType &
   SearchFilterType &
   TagFilterType &
+  PriorityFilterType &
   UseCaseFilterType &
   DeviceFilterType &
   OsFilterType &
@@ -72,6 +74,10 @@ const bugPageSlice = createSlice({
           state.campaigns[cp_id as number],
           filters.tags
         ),
+        ...PriorityFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.priorities
+        ),
         ...UseCaseFilter.setAvailable(
           state.campaigns[cp_id as number],
           filters.useCases
@@ -97,6 +103,7 @@ const bugPageSlice = createSlice({
     updateFilters: (state, action) => {
       const { filters } = action.payload;
       if (!state.currentCampaign) return;
+
       state.campaigns[state.currentCampaign] = {
         ...TypeFilter.filter(
           state.campaigns[state.currentCampaign],
@@ -122,6 +129,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.tags
         ),
+        ...PriorityFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.priorities
+        ),
         ...UseCaseFilter.filter(
           state.campaigns[state.currentCampaign],
           filters.useCases
@@ -146,6 +157,7 @@ const bugPageSlice = createSlice({
         ...UniqueFilter.reset(state.campaigns[state.currentCampaign]),
         ...SearchFilter.reset(),
         ...TagFilter.reset(state.campaigns[state.currentCampaign]),
+        ...PriorityFilter.reset(state.campaigns[state.currentCampaign]),
         ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
         ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
         ...OsFilter.reset(state.campaigns[state.currentCampaign]),
@@ -173,6 +185,7 @@ export const getSelectedFiltersIds = () => ({
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
   tags: TagFilter.getIds(),
+  priorities: PriorityFilter.getIds(),
   useCases: UseCaseFilter.getIds(),
   devices: DeviceFilter.getIds(),
   os: OsFilter.getIds(),
@@ -186,6 +199,7 @@ export const getSelectedFilters = () => ({
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
   tags: TagFilter.getValues(),
+  priorities: PriorityFilter.getValues(),
   useCases: UseCaseFilter.getValues(),
   devices: DeviceFilter.getValues(),
   os: OsFilter.getValues(),

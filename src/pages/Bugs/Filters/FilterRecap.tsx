@@ -7,6 +7,7 @@ import { Button, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
+import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 
 const FilterRecapItem = ({
   type,
@@ -15,6 +16,7 @@ const FilterRecapItem = ({
 }: {
   type:
     | 'severities'
+    | 'priorities'
     | 'types'
     | 'tags'
     | 'useCases'
@@ -38,6 +40,17 @@ const FilterRecapItem = ({
                   filters: {
                     severities: filters.severities
                       ? filters.severities.filter((s) => s.id !== Number(value))
+                      : [],
+                  },
+                })
+              );
+              break;
+            case 'priorities':
+              dispatch(
+                updateFilters({
+                  filters: {
+                    priorities: filters.priorities
+                      ? filters.priorities.filter((p) => p.id !== Number(value))
                       : [],
                   },
                 })
@@ -130,6 +143,7 @@ export const FilterRecap = () => {
 
   const hasFilters =
     filters.severities?.length ||
+    filters.priorities?.length ||
     filters.types?.length ||
     filters.tags?.length ||
     filters.useCases?.length ||
@@ -145,6 +159,15 @@ export const FilterRecap = () => {
               type="severities"
               value={severity.id.toString()}
               name={severity.name}
+            />
+          ))
+        : null}
+      {filters.priorities && filters.priorities.length
+        ? filters.priorities.map((priorities) => (
+            <FilterRecapItem
+              type="priorities"
+              value={priorities.id.toString()}
+              name={getPriorityInfo(priorities.name as Priority, t).text}
             />
           ))
         : null}

@@ -18,7 +18,7 @@ type StatusInfo = {
 export const getStatusInfo = (status: CampaignStatus): StatusInfo => {
   const { t } = useTranslation();
 
-  switch (status) {
+  switch (status.toLowerCase()) {
     case 'running':
       return {
         icon: <StatusRunningIcon />,

@@ -15,7 +15,6 @@ import { BugsFilterDrawer } from '../Drawer';
 
 const SearchContainer = styled.div`
   flex-basis: 100%;
-
   @media (min-width: ${globalTheme.breakpoints.md}) {
     flex-basis: 178px;
     margin-right: 8px;
@@ -49,7 +48,6 @@ const FlexWrapper = styled.div<{ orderXl?: number; hideOnMobile?: boolean }>`
   flex-wrap: wrap;
   align-items: center;
   flex-basis: 100%;
-
   > * {
     margin-bottom: 12px;
   }

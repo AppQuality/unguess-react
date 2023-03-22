@@ -14,7 +14,7 @@ export const getPriorityInfo = (
   priority: Priority,
   t: TFunction
 ): PriorityInfo => {
-  switch (priority) {
+  switch (priority.toLowerCase()) {
     case 'highest':
       return {
         icon: <PriorityHighest />,

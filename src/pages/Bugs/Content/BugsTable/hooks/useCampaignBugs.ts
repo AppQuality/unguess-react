@@ -22,6 +22,9 @@ export const useCampaignBugs = (campaignId: number) => {
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
+      ...(filterBy?.priorities
+        ? { priorities: filterBy.priorities.join(',') }
+        : {}),
       ...(filterBy?.read && filterBy.read === 'unread'
         ? { read: 'false' }
         : {}),
