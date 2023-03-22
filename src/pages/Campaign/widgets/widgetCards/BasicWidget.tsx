@@ -38,8 +38,8 @@ const BasicWidgetHeader = ({
           content={tooltipContent}
           size="large"
           type="light"
-          placement="bottom-end"
-          hasArrow={false}
+          placement="auto"
+          appendToNode={document.body}
         >
           <IconButton className="button-basic-widget-tooltip" size="small">
             <InfoStrokeIcon />

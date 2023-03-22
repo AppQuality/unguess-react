@@ -65,8 +65,7 @@ export const ShareButton = ({
           content={t('__BUGS_PAGE_SHARE_BUG_MODAL_CTA_TOOLTIP')}
           size="large"
           type="light"
-          placement="bottom-end"
-          hasArrow={false}
+          placement="auto"
         >
           <IconButton size="small" onClick={() => setModalIsOpen(true)}>
             <ShareIcon />
