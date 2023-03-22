@@ -23,7 +23,7 @@ const CenterAlignedDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5em;
+  gap: ${({ theme }) => theme.space.xs};
 `;
 
 export const PriorityField = ({
@@ -128,7 +128,7 @@ export const PriorityField = ({
                         count: available.length - maxItemsToShow,
                       }}
                     </Span>{' '}
-                    more severities
+                    more priorities
                   </Trans>
                 ) : (
                   t(
