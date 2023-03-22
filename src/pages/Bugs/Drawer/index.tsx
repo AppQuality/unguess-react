@@ -88,10 +88,10 @@ const BugsFilterDrawer = () => {
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_ACTIONS_LABEL')}
         </MD>
-        <TagField tags={tags} />
         {priorities.available.length ? (
           <PriorityField priorities={priorities} />
         ) : null}
+        <TagField tags={tags} />
         <MD
           isBold
           style={{
