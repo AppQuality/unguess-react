@@ -77,8 +77,7 @@ export default ({
             content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
             size="large"
             type="light"
-            placement="bottom-end"
-            hasArrow={false}
+            placement="auto"
           >
             <IconButton size="small">
               <LinkIcon />
@@ -92,8 +91,7 @@ export default ({
           content={t('__BUGS_PAGE_CLOSE_DETAILS_TOOLTIP')}
           size="large"
           type="light"
-          placement="bottom-end"
-          hasArrow={false}
+          placement="auto"
         >
           <IconButton
             size="small"
