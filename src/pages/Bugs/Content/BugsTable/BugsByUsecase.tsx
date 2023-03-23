@@ -9,8 +9,10 @@ import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';
 
 export const BugsByUsecase = ({
+  campaignId,
   bugsByUseCases,
 }: {
+  campaignId: number;
   bugsByUseCases: BugByUsecaseType[];
 }) => {
   const { t } = useTranslation();
@@ -46,6 +48,7 @@ export const BugsByUsecase = ({
     >
       {useCases.map((item) => (
         <SingleGroupTable
+          campaignId={campaignId}
           key={item.useCase.id}
           title={
             <>
