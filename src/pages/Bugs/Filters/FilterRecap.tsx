@@ -14,6 +14,7 @@ const FilterRecapItem = ({
   type,
   value,
   name,
+  className,
 }: {
   type:
     | 'severities'
@@ -26,11 +27,12 @@ const FilterRecapItem = ({
     | 'replicabilities';
   value: string;
   name: string;
+  className?: string;
 }) => {
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <Tag hue={theme.palette.blue[100]} size="large">
+    <Tag hue={theme.palette.blue[100]} size="large" className={className}>
       {name}
       <Tag.Close
         onClick={() => {
@@ -138,10 +140,57 @@ const FilterRecapItem = ({
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: ${(p) => p.theme.space.sm};
+  position: relative;
+  min-height: 96px;
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    min-height: 0;
+  }
+`;
+const Inner = styled.div`
+  overflow-x: auto;
+  overflow-y: visible;
   padding-top: ${(p) => p.theme.space.md};
+  padding-right: ${(p) => p.theme.space.sm};
+  margin-right: -24px;
+
+  @media (min-width: ${(p) => p.theme.breakpoints.sm}) {
+    margin-right: -48px;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    padding-right: 0;
+    margin-right: 0;
+    overflow-x: initial;
+  }
+`;
+
+const ScrollingContainer = styled.div`
+  display: flex;
+  row-gap: ${(p) => p.theme.space.sm};
+  width: max-content;
+
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    flex-wrap: wrap;
+    width: auto;
+    .filter-recap-item {
+      margin-right: ${(p) => p.theme.space.xs};
+    }
+  }
+`;
+
+const StyledButton = styled(Button)`
+  position: absolute;
+  top: 64px;
+  left: 0;
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    position: static;
+  }
 `;
 
 export const FilterRecap = () => {
@@ -161,84 +210,100 @@ export const FilterRecap = () => {
 
   return hasFilters ? (
     <Wrapper>
-      {filters.severities && filters.severities.length
-        ? filters.severities.map((severity) => (
-            <FilterRecapItem
-              type="severities"
-              value={severity.id.toString()}
-              name={severity.name}
-            />
-          ))
-        : null}
-      {filters.priorities && filters.priorities.length
-        ? filters.priorities.map((priorities) => (
-            <FilterRecapItem
-              type="priorities"
-              value={priorities.id.toString()}
-              name={getPriorityInfo(priorities.name as Priority, t).text}
-            />
-          ))
-        : null}
-      {filters.types && filters.types.length
-        ? filters.types.map((type) => (
-            <FilterRecapItem
-              type="types"
-              value={type.id.toString()}
-              name={type.name}
-            />
-          ))
-        : null}
-      {filters.useCases && filters.useCases.length
-        ? filters.useCases.map((useCase) => (
-            <FilterRecapItem
-              type="useCases"
-              value={useCase.id.toString()}
-              name={useCase.title.full}
-            />
-          ))
-        : null}
-      {filters.tags && filters.tags.length
-        ? filters.tags.map((tag) => (
-            <FilterRecapItem
-              type="tags"
-              value={tag.tag_id.toString()}
-              name={tag.display_name}
-            />
-          ))
-        : null}
-      {filters.replicabilities && filters.replicabilities.length
-        ? filters.replicabilities.map((replicability) => (
-            <FilterRecapItem
-              type="replicabilities"
-              value={replicability.id.toString()}
-              name={replicability.name}
-            />
-          ))
-        : null}
-      {filters.devices && filters.devices.length
-        ? filters.devices.map((device) => (
-            <FilterRecapItem
-              type="devices"
-              value={device.device}
-              name={device.device}
-            />
-          ))
-        : null}
-      {filters.os && filters.os.length
-        ? filters.os.map((os) => (
-            <FilterRecapItem type="os" value={os.os} name={os.os} />
-          ))
-        : null}
-      <Button
-        isBasic
-        size="small"
-        onClick={() => {
-          dispatch(resetFilters());
-        }}
-        style={{ marginLeft: '8px' }}
-      >
-        {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
-      </Button>
+      <Inner>
+        <ScrollingContainer>
+          {filters.severities && filters.severities.length
+            ? filters.severities.map((severity) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="severities"
+                  value={severity.id.toString()}
+                  name={severity.name}
+                />
+              ))
+            : null}
+          {filters.priorities && filters.priorities.length
+            ? filters.priorities.map((priorities) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="priorities"
+                  value={priorities.id.toString()}
+                  name={getPriorityInfo(priorities.name as Priority, t).text}
+                />
+              ))
+            : null}
+          {filters.types && filters.types.length
+            ? filters.types.map((type) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="types"
+                  value={type.id.toString()}
+                  name={type.name}
+                />
+              ))
+            : null}
+          {filters.useCases && filters.useCases.length
+            ? filters.useCases.map((useCase) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="useCases"
+                  value={useCase.id.toString()}
+                  name={useCase.title.full}
+                />
+              ))
+            : null}
+          {filters.tags && filters.tags.length
+            ? filters.tags.map((tag) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="tags"
+                  value={tag.tag_id.toString()}
+                  name={tag.display_name}
+                />
+              ))
+            : null}
+          {filters.replicabilities && filters.replicabilities.length
+            ? filters.replicabilities.map((replicability) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="replicabilities"
+                  value={replicability.id.toString()}
+                  name={replicability.name}
+                />
+              ))
+            : null}
+          {filters.devices && filters.devices.length
+            ? filters.devices.map((device) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="devices"
+                  value={device.device}
+                  name={device.device}
+                />
+              ))
+            : null}
+          {filters.os && filters.os.length
+            ? filters.os.map((os) => (
+                <FilterRecapItem
+                  className="filter-recap-item"
+                  type="os"
+                  value={os.os}
+                  name={os.os}
+                />
+              ))
+            : null}
+
+          <StyledButton
+            isBasic
+            size="small"
+            onClick={() => {
+              dispatch(resetFilters());
+            }}
+          >
+            {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
+          </StyledButton>
+        </ScrollingContainer>
+      </Inner>
     </Wrapper>
   ) : null;
 };
