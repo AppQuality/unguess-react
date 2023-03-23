@@ -1,4 +1,5 @@
 import { useAppSelector } from 'src/app/hooks';
+import styled from 'styled-components';
 import { AllBugs } from './AllBugs';
 import { BugsByUsecase } from './BugsByUsecase';
 import { EmptyState } from './components/EmptyState';
@@ -7,9 +8,9 @@ import { useTableData } from './hooks/useTableData';
 
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
   const { groupBy } = useAppSelector((state) => state.bugsPage);
-  const { data, isLoading, error } = useTableData(campaignId);
+  const { data, isLoading, isFetching, isError } = useTableData(campaignId);
 
-  if (isLoading || error) {
+  if (isLoading || isError) {
     return <LoadingState />;
   }
 
@@ -17,13 +18,26 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
     return <EmptyState />;
   }
 
+  const Wrapper = styled.div<{
+    isFetching?: boolean;
+  }>`
+    padding-top: ${(p) => p.theme.space.lg}};
+
+    ${(p) =>
+      p.isFetching &&
+      `
+      opacity: 0.5;
+      pointer-events: none;
+    `}
+  `;
+
   return (
-    <div>
+    <Wrapper isFetching={isFetching}>
       {groupBy === 'usecase' && (
         <BugsByUsecase bugsByUseCases={data.bugsByUseCases} />
       )}
       {groupBy === 'ungrouped' && <AllBugs bugs={data.allBugs} />}
-    </div>
+    </Wrapper>
   );
 };
 

@@ -50,7 +50,12 @@ export default ({
 
   return (
     <Container>
-      <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
+      <Tag
+        isPill={false}
+        isRegular
+        hue="rgba(0,0,0,0)"
+        style={{ paddingTop: `${globalTheme.space.base}px` }}
+      >
         {!bug.duplicated_of_id && (
           <Tag.Avatar>
             <FatherIcon
