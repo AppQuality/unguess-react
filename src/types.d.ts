@@ -26,6 +26,7 @@ export type CampaignStatus =
 
 export type OrderSelection = {
   key: string;
+  title: string;
   orderBy: OrderBy;
   displayName: string;
   order: Order;

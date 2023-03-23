@@ -30,12 +30,6 @@ export const availableSelections = [
 
 export const SortBy = () => {
   const { t } = useTranslation();
-  const makeTitle = (fieldName: string): string => {
-    const t_fieldName = t(fieldName);
-    return `${t('__BUGS_ORDER_BY')} ${
-      t_fieldName.charAt(0).toUpperCase() + t_fieldName.slice(1)
-    }`;
-  };
   const [selected, setSelected] = useState(DEFAULT_ORDER_BY);
   const dispatch = useDispatch();
 
@@ -58,7 +52,7 @@ export const SortBy = () => {
         <Select isCompact isPrimary>
           <DropdownLabel>
             <SortIcon />
-            <Span>{makeTitle(selected.displayName)}</Span>
+            <Span>{t(selected.title)}</Span>
           </DropdownLabel>
         </Select>
       </Field>

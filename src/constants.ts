@@ -57,6 +57,7 @@ export const RELATIVE_DATE_FORMAT_OPTS: {
 
 export const SEVERITY_ORDER__HIGH__TO__LOW: OrderSelection = {
   key: 'severity-desc',
+  title: '__BUGS_PAGE_BUG_DETAIL_SEVERITY_TITLE_H_TO_L',
   orderBy: 'severity_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL',
   order: 'DESC',
@@ -65,6 +66,7 @@ export const SEVERITY_ORDER__HIGH__TO__LOW: OrderSelection = {
 
 export const SEVERITY_ORDER__LOW__TO__HIGH: OrderSelection = {
   key: 'severity-asc',
+  title: '__BUGS_PAGE_BUG_DETAIL_SEVERITY_TITLE_L_TO_H',
   orderBy: 'severity_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL',
   order: 'ASC',
@@ -73,6 +75,7 @@ export const SEVERITY_ORDER__LOW__TO__HIGH: OrderSelection = {
 
 export const PRIORITY_ORDER__HIGH__TO__LOW: OrderSelection = {
   key: 'priority-desc',
+  title: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_TITLE_H_TO_L',
   orderBy: 'priority_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL',
   order: 'DESC',
@@ -81,6 +84,7 @@ export const PRIORITY_ORDER__HIGH__TO__LOW: OrderSelection = {
 
 export const PRIORITY_ORDER__LOW__TO__HIGH: OrderSelection = {
   key: 'priority-asc',
+  title: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_TITLE_L_TO_H',
   orderBy: 'priority_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL',
   order: 'ASC',
