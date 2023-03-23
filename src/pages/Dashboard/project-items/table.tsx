@@ -9,12 +9,15 @@ import {
   TableRow,
   TableCell,
   theme,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getStatusInfo } from 'src/common/components/utils/getStatusInfo';
+import { CampaignStatus } from 'src/types';
 
 export const TableList = ({
   campaigns,
@@ -36,20 +39,53 @@ export const TableList = ({
 
     switch (status) {
       case 'INCOMING':
-        return <StatusTag status="incoming" />;
+        return (
+          <Tooltip
+            type="light"
+            placement="auto"
+            size="medium"
+            content={getStatusInfo('incoming' as CampaignStatus).text}
+          >
+            <span style={{ height: '1em' }}>
+              <StatusTag isRound status="incoming" />
+            </span>
+          </Tooltip>
+        );
 
       case 'COMPLETED':
-        return <StatusTag status="completed" />;
+        return (
+          <Tooltip
+            type="light"
+            placement="auto"
+            size="medium"
+            content={getStatusInfo('completed' as CampaignStatus).text}
+          >
+            <span style={{ height: '1em' }}>
+              <StatusTag isRound status="completed" />
+            </span>
+          </Tooltip>
+        );
 
       case 'PROGRESS':
-        return <StatusTag status="running" />;
+        return (
+          <Tooltip
+            type="light"
+            placement="auto"
+            size="medium"
+            content={getStatusInfo('running' as CampaignStatus).text}
+          >
+            <span style={{ height: '1em' }}>
+              <StatusTag isRound status="running" />
+            </span>
+          </Tooltip>
+        );
       default:
         return null;
     }
   };
 
   return (
-    <Table style={{ backgroundColor: 'white' }}>
+    <Table isReadOnly style={{ backgroundColor: 'white' }}>
       <TableHead>
         <HeaderRow>
           {columns.map((column) => (

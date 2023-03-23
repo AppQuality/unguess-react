@@ -3,12 +3,15 @@ import {
   GroupedTable,
   Span,
   theme,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
 import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getStatusInfo } from 'src/common/components/utils/getStatusInfo';
+import { CampaignStatus } from 'src/types';
 
 export const TableList = ({
   campaigns,
@@ -34,19 +37,52 @@ export const TableList = ({
     const groupedCampaigns: any = [];
     campaignGroup.forEach((campaign) => {
       // Get translated status label
-      let translatedStatus = null;
+      let status = null;
       switch (getCampaignStatus(campaign)) {
         case 'INCOMING':
-          translatedStatus = <StatusTag status="incoming" />;
+          status = (
+            <Tooltip
+              type="light"
+              placement="auto"
+              size="medium"
+              content={getStatusInfo('incoming' as CampaignStatus).text}
+            >
+              <span style={{ height: '1em' }}>
+                <StatusTag isRound status="incoming" />
+              </span>
+            </Tooltip>
+          );
           break;
         case 'COMPLETED':
-          translatedStatus = <StatusTag status="completed" />;
+          status = (
+            <Tooltip
+              type="light"
+              placement="auto"
+              size="medium"
+              content={getStatusInfo('completed' as CampaignStatus).text}
+            >
+              <span style={{ height: '1em' }}>
+                <StatusTag isRound status="completed" />
+              </span>
+            </Tooltip>
+          );
           break;
         case 'PROGRESS':
-          translatedStatus = <StatusTag status="running" />;
+          status = (
+            <Tooltip
+              type="light"
+              placement="auto"
+              size="medium"
+              content={getStatusInfo('running' as CampaignStatus).text}
+            >
+              <span style={{ height: '1em' }}>
+                <StatusTag isRound status="running" />
+              </span>
+            </Tooltip>
+          );
           break;
         default:
-          translatedStatus = null;
+          status = null;
       }
 
       groupedCampaigns.push({
@@ -66,7 +102,7 @@ export const TableList = ({
         type: campaign.family.name,
         testType: campaign.type.name,
         startDate: new Date(campaign.start_date).toLocaleDateString(),
-        status: translatedStatus,
+        status,
       });
     });
 
@@ -78,6 +114,7 @@ export const TableList = ({
 
   return (
     <GroupedTable
+      isReadOnly
       groups={groups}
       columns={columns}
       style={{ backgroundColor: 'white' }}
