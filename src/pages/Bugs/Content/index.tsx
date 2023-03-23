@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { BugsFilters } from '../Filters';
 import { FilterRecap } from '../Filters/FilterRecap';
-import { BugPreview, filtersHeight } from './BugPreview';
+import { BugPreview } from './BugPreview';
 import BugsTable from './BugsTable';
 import BugsPageContentLoader from './ContentLoader';
 
@@ -25,7 +25,6 @@ const LayoutWrapperFilters = styled(LayoutWrapper)`
     position: sticky;
     top: 0;
     z-index: 2;
-    max-height: ${filtersHeight}px;
   }
 `;
 

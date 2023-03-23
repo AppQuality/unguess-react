@@ -23,9 +23,9 @@ const DetailContainer = styled.div`
   top: 0;
   width: 100%;
   background-color: white;
-  padding-bottom: ${({ theme }) => theme.space.md};
   max-height: calc(
-    100vh - ${({ theme }) => theme.components.chrome.header.height}
+    100vh - ${({ theme }) => theme.components.chrome.header.height} -
+      ${filtersHeight}px
   );
   overflow: hidden;
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
