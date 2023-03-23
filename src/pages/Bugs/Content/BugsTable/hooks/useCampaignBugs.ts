@@ -2,7 +2,7 @@ import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import {
   getSelectedFiltersIds,
   getSelectedOrder,
-  getSelectedOrderBy
+  getSelectedOrderBy,
 } from 'src/features/bugsPage/bugsPageSlice';
 
 export const useCampaignBugs = (campaignId: number) => {

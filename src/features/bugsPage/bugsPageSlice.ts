@@ -220,8 +220,10 @@ export const getCurrentCampaignData = () => {
   return campaign;
 };
 
-export const getSelectedOrderBy = (): OrderBy => useAppSelector((state) => state.bugsPage).orderBy;
-export const getSelectedOrder = (): Order => useAppSelector((state) => state.bugsPage).order;
+export const getSelectedOrderBy = (): OrderBy =>
+  useAppSelector((state) => state.bugsPage).orderBy;
+export const getSelectedOrder = (): Order =>
+  useAppSelector((state) => state.bugsPage).order;
 
 export const {
   selectCampaign,

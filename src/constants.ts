@@ -1,4 +1,4 @@
-import { OrderSelection } from "./types";
+import { OrderSelection } from './types';
 
 export const FEATURE_FLAG_EXPRESS = 'exploratory-express';
 export const FEATURE_FLAG_SKY_JOTFORM = 'sky-custom-jotform';
@@ -60,7 +60,7 @@ export const SEVERITY_ORDER__HIGH__TO__LOW: OrderSelection = {
   orderBy: 'severity_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL',
   order: 'DESC',
-  orderName: '__BUGS_ORDER_HIGHEST_TO_LOWEST'
+  orderName: '__BUGS_ORDER_HIGHEST_TO_LOWEST',
 };
 
 export const SEVERITY_ORDER__LOW__TO__HIGH: OrderSelection = {
@@ -68,7 +68,7 @@ export const SEVERITY_ORDER__LOW__TO__HIGH: OrderSelection = {
   orderBy: 'severity_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL',
   order: 'ASC',
-  orderName: '__BUGS_ORDER_LOWEST_TO_HIGHEST'
+  orderName: '__BUGS_ORDER_LOWEST_TO_HIGHEST',
 };
 
 export const PRIORITY_ORDER__HIGH__TO__LOW: OrderSelection = {
@@ -76,7 +76,7 @@ export const PRIORITY_ORDER__HIGH__TO__LOW: OrderSelection = {
   orderBy: 'priority_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL',
   order: 'DESC',
-  orderName: '__BUGS_ORDER_HIGHEST_TO_LOWEST'
+  orderName: '__BUGS_ORDER_HIGHEST_TO_LOWEST',
 };
 
 export const PRIORITY_ORDER__LOW__TO__HIGH: OrderSelection = {
@@ -84,7 +84,7 @@ export const PRIORITY_ORDER__LOW__TO__HIGH: OrderSelection = {
   orderBy: 'priority_id',
   displayName: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL',
   order: 'ASC',
-  orderName: '__BUGS_ORDER_LOWEST_TO_HIGHEST'
+  orderName: '__BUGS_ORDER_LOWEST_TO_HIGHEST',
 };
 
 export const DEFAULT_ORDER_BY = SEVERITY_ORDER__HIGH__TO__LOW;

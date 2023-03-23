@@ -29,7 +29,7 @@ export type OrderSelection = {
   orderBy: OrderBy;
   displayName: string;
   order: Order;
-  orderName: string
+  orderName: string;
 };
 
 declare global {
