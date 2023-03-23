@@ -28,7 +28,8 @@ type CampaignType = {
   ReplicabilityFilterType;
 
 type GroupBy = 'usecase' | 'ungrouped';
-type OrderBy = 'severity' | 'priority';
+export type OrderBy = 'severity_id' | 'priority_id';
+export type Order = 'DESC' | 'ASC';
 
 interface initialSimpleState {
   currentCampaign?: number;
@@ -37,13 +38,15 @@ interface initialSimpleState {
   };
   groupBy: GroupBy;
   orderBy: OrderBy;
+  order: Order;
   isFilterDrawerOpen: boolean;
 }
 
 const initialStateSimple: initialSimpleState = {
   campaigns: {},
   groupBy: 'usecase',
-  orderBy: 'severity',
+  orderBy: 'severity_id',
+  order: 'DESC',
   isFilterDrawerOpen: false,
 };
 
@@ -155,6 +158,9 @@ const bugPageSlice = createSlice({
     setOrderBy: (state, action: PayloadAction<OrderBy>) => {
       state.orderBy = action.payload;
     },
+    setOrder: (state, action: PayloadAction<Order>) => {
+      state.order = action.payload;
+    },
     setGroupBy: (state, action: PayloadAction<GroupBy>) => {
       state.groupBy = action.payload;
     },
@@ -214,6 +220,9 @@ export const getCurrentCampaignData = () => {
   return campaign;
 };
 
+export const getSelectedOrderBy = (): OrderBy => useAppSelector((state) => state.bugsPage).orderBy;
+export const getSelectedOrder = (): Order => useAppSelector((state) => state.bugsPage).order;
+
 export const {
   selectCampaign,
   updateFilters,
@@ -221,5 +230,6 @@ export const {
   resetFilters,
   setGroupBy,
   setOrderBy,
+  setOrder,
   setFilterDrawerOpen,
 } = bugPageSlice.actions;

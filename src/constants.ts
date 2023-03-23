@@ -1,3 +1,5 @@
+import { OrderSelection } from "./types";
+
 export const FEATURE_FLAG_EXPRESS = 'exploratory-express';
 export const FEATURE_FLAG_SKY_JOTFORM = 'sky-custom-jotform';
 export const FEATURE_FLAG_CATALOG = 'catalog-pages';
@@ -53,12 +55,36 @@ export const RELATIVE_DATE_FORMAT_OPTS: {
   },
 };
 
-export const ORDER__HIGH__TO__LOW = {
-  key: 'ORDER__HIGH__TO__LOW',
-  displayName: 'By highest to lowest'
+export const SEVERITY_ORDER__HIGH__TO__LOW: OrderSelection = {
+  key: 'severity-desc',
+  orderBy: 'severity_id',
+  displayName: '__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL',
+  order: 'DESC',
+  orderName: '__BUGS_ORDER_HIGHEST_TO_LOWEST'
 };
 
-export const ORDER__LOW__TO__HIGH = {
-  key: 'ORDER__LOW__TO__HIGH',
-  displayName: 'By lowest to highest'
+export const SEVERITY_ORDER__LOW__TO__HIGH: OrderSelection = {
+  key: 'severity-asc',
+  orderBy: 'severity_id',
+  displayName: '__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL',
+  order: 'ASC',
+  orderName: '__BUGS_ORDER_LOWEST_TO_HIGHEST'
 };
+
+export const PRIORITY_ORDER__HIGH__TO__LOW: OrderSelection = {
+  key: 'priority-desc',
+  orderBy: 'priority_id',
+  displayName: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL',
+  order: 'DESC',
+  orderName: '__BUGS_ORDER_HIGHEST_TO_LOWEST'
+};
+
+export const PRIORITY_ORDER__LOW__TO__HIGH: OrderSelection = {
+  key: 'priority-asc',
+  orderBy: 'priority_id',
+  displayName: '__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL',
+  order: 'ASC',
+  orderName: '__BUGS_ORDER_LOWEST_TO_HIGHEST'
+};
+
+export const DEFAULT_ORDER_BY = SEVERITY_ORDER__HIGH__TO__LOW;

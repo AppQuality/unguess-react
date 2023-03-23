@@ -3,15 +3,16 @@ import styled from 'styled-components';
 
 const ItemGroupWrapper = styled.div`
   height: max-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: start;
-  justify-content: center;
+  justify-content: start;
 `;
 
 const TitleSpan = styled.span`
-  padding: 1.25em 0.9em;
-  font-weight: 500
+  padding: ${({ theme }) => `${theme.space.md} ${theme.space.sm}`};
+  font-weight:  ${({ theme }) => theme.fontWeights.semibold};
 `;
 
 const ItemGroup = ({
