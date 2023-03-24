@@ -1,6 +1,7 @@
 import { theme } from 'src/app/theme';
 import { operations, components } from 'src/common/schema';
 import { GetUsersMeApiResponse } from './features/api';
+import { Order, OrderBy } from './features/bugsPage/bugsPageSlice';
 
 export interface UserLoginData {
   username: string;
@@ -22,6 +23,15 @@ export type CampaignStatus =
   | 'incoming'
   | 'functional'
   | 'experiential';
+
+export type OrderSelection = {
+  key: string;
+  title: string;
+  orderBy: OrderBy;
+  displayName: string;
+  order: Order;
+  orderName: string;
+};
 
 declare global {
   let react_env: {
