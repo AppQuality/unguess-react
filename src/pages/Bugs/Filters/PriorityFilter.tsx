@@ -46,6 +46,7 @@ export const PriorityFilter = () => {
         options={data.priorities.available.map((item) => ({
           itemId: item.id,
           label: getPriorityInfo(item.name as Priority, t).text,
+          icon: getPriorityInfo(item.name as Priority, t).icon,
           disabled: !counters[item.id],
           selected: data.priorities.selected.map((i) => i.id).includes(item.id),
         }))}

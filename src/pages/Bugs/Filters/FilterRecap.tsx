@@ -3,13 +3,20 @@ import {
   resetFilters,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
+import { ReactNode } from 'react';
 import { Button, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
+
+const PillWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
+`;
 
 const FilterRecapItem = ({
   type,
@@ -17,26 +24,39 @@ const FilterRecapItem = ({
   hue,
   color,
   name,
+  icon,
 }: {
   type:
-  | 'severities'
-  | 'priorities'
-  | 'types'
-  | 'tags'
-  | 'useCases'
-  | 'devices'
-  | 'os'
-  | 'replicabilities';
-  hue?: string;
+    | 'severities'
+    | 'priorities'
+    | 'types'
+    | 'tags'
+    | 'useCases'
+    | 'devices'
+    | 'os'
+    | 'replicabilities';
+  hue?: boolean;
   color?: string;
   value: string;
   name: string;
+  icon?: ReactNode;
 }) => {
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <Tag hue={hue || theme.palette.blue[100]} color={color || 'inherit'} size="large">
-      {name}
+    <Tag
+      hue={color && hue ? `${color}10` : ''}
+      color={color || 'inherit'}
+      size="large"
+    >
+      {!icon ? (
+        name
+      ) : (
+        <PillWrapper>
+          {icon}
+          {name}
+        </PillWrapper>
+      )}
       <Tag.Close
         onClick={() => {
           switch (type) {
@@ -79,10 +99,10 @@ const FilterRecapItem = ({
                   filters: {
                     tags: filters.tags
                       ? filters.tags.filter((t) =>
-                        value === 'none'
-                          ? t.tag_id !== value
-                          : t.tag_id !== Number(value)
-                      )
+                          value === 'none'
+                            ? t.tag_id !== value
+                            : t.tag_id !== Number(value)
+                        )
                       : [],
                   },
                 })
@@ -127,8 +147,8 @@ const FilterRecapItem = ({
                   filters: {
                     replicabilities: filters.replicabilities
                       ? filters.replicabilities.filter(
-                        (t) => t.id !== Number(value)
-                      )
+                          (t) => t.id !== Number(value)
+                        )
                       : [],
                   },
                 })
@@ -168,72 +188,74 @@ export const FilterRecap = () => {
     <Wrapper>
       {filters.severities && filters.severities.length
         ? filters.severities.map((severity) => (
-          <FilterRecapItem
-            type="severities"
-            value={severity.id.toString()}
-            color={getSeverityInfo(severity.name as Severities, t).color}
-            name={getSeverityInfo(severity.name as Severities, t).text}
-          />
-        ))
+            <FilterRecapItem
+              type="severities"
+              value={severity.id.toString()}
+              color={getSeverityInfo(severity.name as Severities, t).color}
+              hue
+              name={getSeverityInfo(severity.name as Severities, t).text}
+            />
+          ))
         : null}
       {filters.priorities && filters.priorities.length
         ? filters.priorities.map((priorities) => (
-          <FilterRecapItem
-            type="priorities"
-            value={priorities.id.toString()}
-            name={getPriorityInfo(priorities.name as Priority, t).text}
-          />
-        ))
+            <FilterRecapItem
+              type="priorities"
+              value={priorities.id.toString()}
+              icon={getPriorityInfo(priorities.name as Priority, t).icon}
+              name={getPriorityInfo(priorities.name as Priority, t).text}
+            />
+          ))
         : null}
       {filters.types && filters.types.length
         ? filters.types.map((type) => (
-          <FilterRecapItem
-            type="types"
-            value={type.id.toString()}
-            name={type.name}
-          />
-        ))
+            <FilterRecapItem
+              type="types"
+              value={type.id.toString()}
+              name={type.name}
+            />
+          ))
         : null}
       {filters.useCases && filters.useCases.length
         ? filters.useCases.map((useCase) => (
-          <FilterRecapItem
-            type="useCases"
-            value={useCase.id.toString()}
-            name={useCase.title.full}
-          />
-        ))
+            <FilterRecapItem
+              type="useCases"
+              value={useCase.id.toString()}
+              name={useCase.title.full}
+            />
+          ))
         : null}
       {filters.tags && filters.tags.length
         ? filters.tags.map((tag) => (
-          <FilterRecapItem
-            type="tags"
-            value={tag.tag_id.toString()}
-            name={tag.display_name}
-          />
-        ))
+            <FilterRecapItem
+              type="tags"
+              value={tag.tag_id.toString()}
+              name={tag.display_name}
+            />
+          ))
         : null}
       {filters.replicabilities && filters.replicabilities.length
         ? filters.replicabilities.map((replicability) => (
-          <FilterRecapItem
-            type="replicabilities"
-            value={replicability.id.toString()}
-            name={replicability.name}
-          />
-        ))
+            <FilterRecapItem
+              type="replicabilities"
+              value={replicability.id.toString()}
+              name={replicability.name}
+            />
+          ))
         : null}
       {filters.devices && filters.devices.length
         ? filters.devices.map((device) => (
-          <FilterRecapItem
-            type="devices"
-            value={device.device}
-            name={device.device}
-          />
-        ))
+            <FilterRecapItem
+              type="devices"
+              value={device.device}
+              name={device.device}
+            />
+          ))
         : null}
       {filters.os && filters.os.length
         ? filters.os.map((os) => (
-          <FilterRecapItem type="os" value={os.os} name={os.os} />
-        ))
+            <FilterRecapItem type="os" value={os.os} name={os.os} />
+          ))
         : null}
       <Button
         isBasic

@@ -3,7 +3,6 @@ import { TFunction } from 'react-i18next';
 
 type SeverityInfo = {
   color: string;
-  accent: string;
   text: string;
 };
 
@@ -12,8 +11,8 @@ export const getSeverityInfo = (
   t: TFunction
 ): SeverityInfo => {
   const severityInfo: SeverityInfo = {
-    color: globalTheme.colors.bySeverity[severity.toLocaleLowerCase() as Severities],
-    accent: globalTheme.colors.bySeverityHues[severity.toLocaleLowerCase() as Severities],
+    color:
+      globalTheme.colors.bySeverity[severity.toLocaleLowerCase() as Severities],
     text: '',
   };
 
