@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from './components/EmptyState';
-import SingleGroupTable from './components/SingleGroupTable';
+import UseCaseAccordion from './components/UseCaseAccordion';
 import { BugByUsecaseType } from './types';
 import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';
@@ -47,7 +47,7 @@ export const BugsByUsecase = ({
       isBare
     >
       {useCases.map((item) => (
-        <SingleGroupTable
+        <UseCaseAccordion
           campaignId={campaignId}
           key={item.useCase.id}
           title={
