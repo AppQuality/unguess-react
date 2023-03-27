@@ -10,6 +10,11 @@ import { theme } from 'src/app/theme';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
 
+const buttonHeight = theme.space.lg; // 32
+const sectionMargin = theme.space.sm; // 12
+const tagsHeight = theme.space.lg; // 32
+const sectionPaddingTop = theme.space.md; // 20
+
 const FilterRecapItem = ({
   type,
   value,
@@ -141,7 +146,9 @@ const FilterRecapItem = ({
 
 const Wrapper = styled.div`
   position: relative;
-  min-height: 96px;
+  min-height: calc(
+    ${buttonHeight} + ${sectionMargin} + ${tagsHeight} + ${sectionPaddingTop}
+  );
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     min-height: 0;
   }
@@ -186,7 +193,7 @@ const ScrollingContainer = styled.div`
 
 const StyledButton = styled(Button)`
   position: absolute;
-  top: 64px;
+  top: calc(${sectionMargin} + ${tagsHeight} + ${sectionPaddingTop});
   left: 0;
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     position: static;
