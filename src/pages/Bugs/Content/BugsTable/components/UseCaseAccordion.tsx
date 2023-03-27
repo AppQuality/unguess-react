@@ -50,7 +50,7 @@ const UseCaseAccordion = ({
   const isMdBreakpoint = width < breakpointMd;
 
   useEffect(() => {
-    dispatch(selectBug({ bug_id: undefined }));
+    if (isLgBreakpoint) dispatch(selectBug({ bug_id: undefined }));
   }, [isLgBreakpoint]);
 
   return (
