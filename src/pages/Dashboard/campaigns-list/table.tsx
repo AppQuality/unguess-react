@@ -39,17 +39,21 @@ export const TableList = ({
 
       const items = curr.map((campaign) => {
         const statusInfo = getStatusInfo(
-          campaign.status.name as CampaignStatus
+          campaign.status.name as CampaignStatus,
+          t
         );
+
+        const cpUrl = getLocalizeDashboardRoute({
+          campaignId: campaign.id,
+          cpFamily: campaign.family.name,
+          outputs: campaign.outputs || [],
+        });
+
+        const cpStartDate = new Date(campaign.start_date).toLocaleDateString();
+
         return {
           name: (
-            <Anchor
-              href={getLocalizeDashboardRoute({
-                campaignId: campaign.id,
-                cpFamily: campaign.family.name,
-                outputs: campaign.outputs || [],
-              })}
-            >
+            <Anchor href={cpUrl}>
               <Span isBold style={{ color: theme.palette.grey[800] }}>
                 {campaign.customer_title ?? campaign.title}
               </Span>
@@ -57,7 +61,7 @@ export const TableList = ({
           ),
           type: campaign.family.name,
           testType: campaign.type.name,
-          startDate: new Date(campaign.start_date).toLocaleDateString(),
+          startDate: cpStartDate,
           status: (
             <Tooltip
               type="light"
