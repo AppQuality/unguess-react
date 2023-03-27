@@ -19,6 +19,7 @@ const sectionPaddingTop = theme.space.md; // 20
 
 const StyledAvatarTag = styled(Tag.Avatar)`
   transform: scale(0.5);
+  transform-origin: 16px;
 `;
 
 const FilterRecapItem = ({
