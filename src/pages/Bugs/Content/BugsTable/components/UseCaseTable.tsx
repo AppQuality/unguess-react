@@ -36,7 +36,7 @@ const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
   const onRowClick = useCallback(
     (bug_id: string) => {
       if (isLgBreakpoint) {
-        navigate(bugPageUrlWithoutId + bug_id, { replace: true });
+        navigate(bugPageUrlWithoutId + bug_id);
       } else {
         dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }));
       }
