@@ -3,23 +3,32 @@ import {
   resetFilters,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
+import { ReactNode } from 'react';
 import { Button, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
+import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
+import { theme } from 'src/app/theme';
 
 const buttonHeight = theme.space.lg; // 32
 const sectionMargin = theme.space.sm; // 12
 const tagsHeight = theme.space.lg; // 32
 const sectionPaddingTop = theme.space.md; // 20
 
+const StyledAvatarTag = styled(Tag.Avatar)`
+  transform: scale(0.5);
+  transform-origin: 16px;
+`;
+
 const FilterRecapItem = ({
   type,
   value,
+  hasBackground,
+  color,
   name,
-  className,
+  icon,
 }: {
   type:
     | 'severities'
@@ -30,15 +39,28 @@ const FilterRecapItem = ({
     | 'devices'
     | 'os'
     | 'replicabilities';
+  hasBackground?: boolean;
+  color?: string;
   value: string;
   name: string;
-  className?: string;
+  icon?: ReactNode;
 }) => {
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <Tag hue={theme.palette.blue[100]} size="large" className={className}>
-      {name}
+    <Tag
+      hue={color && hasBackground ? `${color}10` : ''}
+      color={color || 'inherit'}
+      size="large"
+    >
+      {!icon ? (
+        name
+      ) : (
+        <>
+          <StyledAvatarTag>{icon}</StyledAvatarTag>
+          {name}
+        </>
+      )}
       <Tag.Close
         onClick={() => {
           switch (type) {
@@ -153,17 +175,16 @@ const Wrapper = styled.div`
     min-height: 0;
   }
 `;
+
 const Inner = styled.div`
   overflow-x: auto;
   overflow-y: visible;
   padding-top: ${(p) => p.theme.space.md};
   padding-right: ${(p) => p.theme.space.sm};
   margin-right: -24px;
-
   @media (min-width: ${(p) => p.theme.breakpoints.sm}) {
     margin-right: -48px;
   }
-
   /* Hide scrollbar for Chrome, Safari and Opera */
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -181,7 +202,6 @@ const ScrollingContainer = styled.div`
   display: flex;
   row-gap: ${(p) => p.theme.space.sm};
   width: max-content;
-
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     flex-wrap: wrap;
     width: auto;
@@ -222,19 +242,20 @@ export const FilterRecap = () => {
           {filters.severities && filters.severities.length
             ? filters.severities.map((severity) => (
                 <FilterRecapItem
-                  className="filter-recap-item"
                   type="severities"
                   value={severity.id.toString()}
-                  name={severity.name}
+                  color={getSeverityInfo(severity.name as Severities, t).color}
+                  hasBackground
+                  name={getSeverityInfo(severity.name as Severities, t).text}
                 />
               ))
             : null}
           {filters.priorities && filters.priorities.length
             ? filters.priorities.map((priorities) => (
                 <FilterRecapItem
-                  className="filter-recap-item"
                   type="priorities"
                   value={priorities.id.toString()}
+                  icon={getPriorityInfo(priorities.name as Priority, t).icon}
                   name={getPriorityInfo(priorities.name as Priority, t).text}
                 />
               ))
@@ -242,7 +263,6 @@ export const FilterRecap = () => {
           {filters.types && filters.types.length
             ? filters.types.map((type) => (
                 <FilterRecapItem
-                  className="filter-recap-item"
                   type="types"
                   value={type.id.toString()}
                   name={type.name}
@@ -252,7 +272,6 @@ export const FilterRecap = () => {
           {filters.useCases && filters.useCases.length
             ? filters.useCases.map((useCase) => (
                 <FilterRecapItem
-                  className="filter-recap-item"
                   type="useCases"
                   value={useCase.id.toString()}
                   name={useCase.title.full}
@@ -262,7 +281,6 @@ export const FilterRecap = () => {
           {filters.tags && filters.tags.length
             ? filters.tags.map((tag) => (
                 <FilterRecapItem
-                  className="filter-recap-item"
                   type="tags"
                   value={tag.tag_id.toString()}
                   name={tag.display_name}
@@ -272,7 +290,6 @@ export const FilterRecap = () => {
           {filters.replicabilities && filters.replicabilities.length
             ? filters.replicabilities.map((replicability) => (
                 <FilterRecapItem
-                  className="filter-recap-item"
                   type="replicabilities"
                   value={replicability.id.toString()}
                   name={replicability.name}
@@ -282,7 +299,6 @@ export const FilterRecap = () => {
           {filters.devices && filters.devices.length
             ? filters.devices.map((device) => (
                 <FilterRecapItem
-                  className="filter-recap-item"
                   type="devices"
                   value={device.device}
                   name={device.device}
@@ -291,21 +307,16 @@ export const FilterRecap = () => {
             : null}
           {filters.os && filters.os.length
             ? filters.os.map((os) => (
-                <FilterRecapItem
-                  className="filter-recap-item"
-                  type="os"
-                  value={os.os}
-                  name={os.os}
-                />
+                <FilterRecapItem type="os" value={os.os} name={os.os} />
               ))
             : null}
-
           <StyledButton
             isBasic
             size="small"
             onClick={() => {
               dispatch(resetFilters());
             }}
+            style={{ marginLeft: '8px' }}
           >
             {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
           </StyledButton>

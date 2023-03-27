@@ -5,6 +5,7 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
+import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import { useFilterData } from '../Drawer/useFilterData';
 
 export const SeverityFilter = () => {
@@ -44,7 +45,8 @@ export const SeverityFilter = () => {
         }}
         options={data.severities.available.map((item) => ({
           itemId: item.id,
-          label: item.name,
+          label: getSeverityInfo(item.name as Severities, t).text,
+          style: { color: getSeverityInfo(item.name as Severities, t).color },
           disabled: !counters[item.id],
           selected: data.severities.selected.map((i) => i.id).includes(item.id),
         }))}
