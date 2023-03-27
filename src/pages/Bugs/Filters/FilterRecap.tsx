@@ -21,7 +21,7 @@ const PillWrapper = styled.div`
 const FilterRecapItem = ({
   type,
   value,
-  hue,
+  hasBackground,
   color,
   name,
   icon,
@@ -35,7 +35,7 @@ const FilterRecapItem = ({
     | 'devices'
     | 'os'
     | 'replicabilities';
-  hue?: boolean;
+    hasBackground?: boolean;
   color?: string;
   value: string;
   name: string;
@@ -45,7 +45,7 @@ const FilterRecapItem = ({
   const filters = getSelectedFilters();
   return (
     <Tag
-      hue={color && hue ? `${color}10` : ''}
+      hue={color && hasBackground ? `${color}10` : ''}
       color={color || 'inherit'}
       size="large"
     >
@@ -192,7 +192,7 @@ export const FilterRecap = () => {
               type="severities"
               value={severity.id.toString()}
               color={getSeverityInfo(severity.name as Severities, t).color}
-              hue
+              hasBackground
               name={getSeverityInfo(severity.name as Severities, t).text}
             />
           ))
