@@ -32,6 +32,8 @@ export const TableList = ({
     { name: t('__CAMPAIGNS_TABLE_COLUMN_STATUS'), field: 'status' },
   ];
 
+  if (!campaigns.length) return null;
+
   return (
     <Table isReadOnly style={{ backgroundColor: 'white' }}>
       <TableHead>
@@ -43,17 +45,18 @@ export const TableList = ({
       </TableHead>
       <TableBody>
         {campaigns.map((cp) => {
-          const statusInfo = getStatusInfo(cp.status.name as CampaignStatus);
+          const statusInfo = getStatusInfo(cp.status.name as CampaignStatus, t);
+          const cpUrl = getLocalizeDashboardRoute({
+            campaignId: cp.id,
+            cpFamily: cp.family.name,
+            outputs: cp.outputs || [],
+          });
+          const cpStartDate = new Date(cp.start_date).toLocaleDateString();
+
           return (
             <TableRow key={cp.id}>
               <TableCell>
-                <Anchor
-                  href={getLocalizeDashboardRoute({
-                    campaignId: cp.id,
-                    cpFamily: cp.family.name,
-                    outputs: cp.outputs || [],
-                  })}
-                >
+                <Anchor href={cpUrl}>
                   <Span isBold style={{ color: theme.palette.grey[800] }}>
                     {cp.customer_title ?? cp.title}
                   </Span>
@@ -61,9 +64,7 @@ export const TableList = ({
               </TableCell>
               <TableCell>{cp.family.name}</TableCell>
               <TableCell>{cp.type.name}</TableCell>
-              <TableCell>
-                {new Date(cp.start_date).toLocaleDateString()}
-              </TableCell>
+              <TableCell>{cpStartDate}</TableCell>
               <TableCell>
                 <Tooltip
                   type="light"

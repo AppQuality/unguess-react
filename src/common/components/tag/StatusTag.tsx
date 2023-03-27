@@ -1,4 +1,5 @@
 import { Tag } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 import { CampaignStatus } from 'src/types';
 import { getStatusInfo } from '../utils/getStatusInfo';
@@ -17,7 +18,8 @@ export const StatusTag = ({
   isRound,
   ...props
 }: StatusTagArgs) => {
-  const statusInfo = getStatusInfo(status);
+  const { t } = useTranslation();
+  const statusInfo = getStatusInfo(status, t);
 
   return (
     <Tag
