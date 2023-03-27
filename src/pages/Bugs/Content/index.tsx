@@ -30,7 +30,7 @@ const LayoutWrapperFilters = styled(LayoutWrapper)`
 
 const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
   const currentBugId = getSelectedBugId();
-
+  const previewOpenStyle = currentBugId ? { marginRight: 0 } : {};
   return (
     <>
       <LayoutWrapperFilters isNotBoxed>
@@ -38,7 +38,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
       </LayoutWrapperFilters>
       <LayoutWrapperBugs isNotBoxed isPreviewOpen={!!currentBugId}>
         <Grid gutters="xxl">
-          <Row>
+          <Row style={{ ...previewOpenStyle }}>
             <Col
               xs={12}
               md={currentBugId ? 8 : 12}
@@ -48,7 +48,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
               <BugsTable campaignId={campaignId} />
             </Col>
             {currentBugId && (
-              <Col xs={12} md={4} style={{ margin: 0 }}>
+              <Col xs={12} md={4} style={{ margin: 0, paddingRight: 0 }}>
                 <BugPreview bugId={currentBugId} campaignId={campaignId} />
               </Col>
             )}
