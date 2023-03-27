@@ -71,6 +71,9 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
             placement="bottom"
             type="light"
             size="medium"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           >
             <span style={{ height: '1em' }}>
               {getPriorityInfo(bugPriority?.name as Priority, t).icon}

@@ -34,9 +34,14 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
   return (
     <Wrapper isFetching={isFetching}>
       {groupBy === 'usecase' && (
-        <BugsByUsecase bugsByUseCases={data.bugsByUseCases} />
+        <BugsByUsecase
+          campaignId={campaignId}
+          bugsByUseCases={data.bugsByUseCases}
+        />
       )}
-      {groupBy === 'ungrouped' && <AllBugs bugs={data.allBugs} />}
+      {groupBy === 'ungrouped' && (
+        <AllBugs campaignId={campaignId} bugs={data.allBugs} />
+      )}
     </Wrapper>
   );
 };

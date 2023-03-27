@@ -9,12 +9,13 @@ import {
   TableRow,
   TableCell,
   theme,
+  Tooltip,
 } from '@appquality/unguess-design-system';
-import { StatusTag } from 'src/common/components/tag/StatusTag';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
-import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getStatusInfo } from 'src/common/components/utils/getStatusInfo';
+import { CampaignStatus } from 'src/types';
 
 export const TableList = ({
   campaigns,
@@ -31,25 +32,8 @@ export const TableList = ({
     { name: t('__CAMPAIGNS_TABLE_COLUMN_STATUS'), field: 'status' },
   ];
 
-  const campaignStatus = (status?: string) => {
-    if (!status) return null;
-
-    switch (status) {
-      case 'INCOMING':
-        return <StatusTag status="incoming" />;
-
-      case 'COMPLETED':
-        return <StatusTag status="completed" />;
-
-      case 'PROGRESS':
-        return <StatusTag status="running" />;
-      default:
-        return null;
-    }
-  };
-
   return (
-    <Table style={{ backgroundColor: 'white' }}>
+    <Table isReadOnly style={{ backgroundColor: 'white' }}>
       <TableHead>
         <HeaderRow>
           {columns.map((column) => (
@@ -58,29 +42,41 @@ export const TableList = ({
         </HeaderRow>
       </TableHead>
       <TableBody>
-        {campaigns.map((cp) => (
-          <TableRow key={cp.id}>
-            <TableCell>
-              <Anchor
-                href={getLocalizeDashboardRoute({
-                  campaignId: cp.id,
-                  cpFamily: cp.family.name,
-                  outputs: cp.outputs || [],
-                })}
-              >
-                <Span isBold style={{ color: theme.palette.grey[800] }}>
-                  {cp.customer_title ?? cp.title}
-                </Span>
-              </Anchor>
-            </TableCell>
-            <TableCell>{cp.family.name}</TableCell>
-            <TableCell>{cp.type.name}</TableCell>
-            <TableCell>
-              {new Date(cp.start_date).toLocaleDateString()}
-            </TableCell>
-            <TableCell>{campaignStatus(getCampaignStatus(cp))}</TableCell>
-          </TableRow>
-        ))}
+        {campaigns.map((cp) => {
+          const statusInfo = getStatusInfo(cp.status.name as CampaignStatus);
+          return (
+            <TableRow key={cp.id}>
+              <TableCell>
+                <Anchor
+                  href={getLocalizeDashboardRoute({
+                    campaignId: cp.id,
+                    cpFamily: cp.family.name,
+                    outputs: cp.outputs || [],
+                  })}
+                >
+                  <Span isBold style={{ color: theme.palette.grey[800] }}>
+                    {cp.customer_title ?? cp.title}
+                  </Span>
+                </Anchor>
+              </TableCell>
+              <TableCell>{cp.family.name}</TableCell>
+              <TableCell>{cp.type.name}</TableCell>
+              <TableCell>
+                {new Date(cp.start_date).toLocaleDateString()}
+              </TableCell>
+              <TableCell>
+                <Tooltip
+                  type="light"
+                  placement="auto"
+                  size="medium"
+                  content={statusInfo.text}
+                >
+                  <span style={{ height: '1em' }}>{statusInfo.icon}</span>
+                </Tooltip>
+              </TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );
