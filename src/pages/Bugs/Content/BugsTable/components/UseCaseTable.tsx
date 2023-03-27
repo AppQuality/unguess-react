@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import Table from 'src/common/components/Table';
 import { TableBugType } from 'src/pages/Bugs/types';
+import { useNavigate } from 'react-router-dom';
 import { BugBySeverityType, BugByUsecaseType } from '../types';
 import { mapBugsToTableData } from '../utils/mapBugsToTableData';
 import { useTableColumns } from '../hooks/useTableColumns';
@@ -26,6 +27,7 @@ const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
   const dispatch = useAppDispatch();
   const { columns } = useTableColumns();
   const currentBugId = getSelectedBugId();
+  const navigate = useNavigate();
 
   const breakpointLg = parseInt(globalTheme.breakpoints.lg, 10);
   const isLgBreakpoint = width < breakpointLg;
@@ -34,7 +36,7 @@ const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
   const onRowClick = useCallback(
     (bug_id: string) => {
       if (isLgBreakpoint) {
-        window.location.href = bugPageUrlWithoutId + bug_id;
+        navigate(bugPageUrlWithoutId + bug_id, { replace: true });
       } else {
         dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }));
       }
