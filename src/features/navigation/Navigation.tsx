@@ -244,6 +244,7 @@ export const Navigation = ({
   return (
     <>
       <AppHeader
+        style={{ zIndex: 4 }}
         isStandalone
         hasChangelog
         changelogItem={<Changelog />}
