@@ -35,7 +35,7 @@ const FilterRecapItem = ({
     | 'devices'
     | 'os'
     | 'replicabilities';
-    hasBackground?: boolean;
+  hasBackground?: boolean;
   color?: string;
   value: string;
   name: string;
