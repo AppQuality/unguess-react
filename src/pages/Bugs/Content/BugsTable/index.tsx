@@ -6,6 +6,19 @@ import { EmptyState } from './components/EmptyState';
 import { LoadingState } from './components/LoadingState';
 import { useTableData } from './hooks/useTableData';
 
+const Wrapper = styled.div<{
+  isFetching?: boolean;
+}>`
+  padding-top: ${(p) => p.theme.space.lg}};
+
+  ${(p) =>
+    p.isFetching &&
+    `
+    opacity: 0.5;
+    pointer-events: none;
+  `}
+`;
+
 const BugsTable = ({ campaignId }: { campaignId: number }) => {
   const { groupBy } = useAppSelector((state) => state.bugsPage);
   const { data, isLoading, isFetching, isError } = useTableData(campaignId);
@@ -17,19 +30,6 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
   if (!data.allBugs.length) {
     return <EmptyState />;
   }
-
-  const Wrapper = styled.div<{
-    isFetching?: boolean;
-  }>`
-    padding-top: ${(p) => p.theme.space.lg}};
-
-    ${(p) =>
-      p.isFetching &&
-      `
-      opacity: 0.5;
-      pointer-events: none;
-    `}
-  `;
 
   return (
     <Wrapper isFetching={isFetching}>
