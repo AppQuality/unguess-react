@@ -44,7 +44,7 @@ export const SeverityField = ({
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: globalTheme.palette.grey[700],
                   textTransform: 'capitalize',
                 }}
               >

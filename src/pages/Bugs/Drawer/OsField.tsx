@@ -15,7 +15,7 @@ import { Divider } from 'src/common/components/divider';
 import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { LabelSpaceBetween } from './LabelWithCounter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 
 export const OsField = ({
   os,
@@ -43,7 +43,7 @@ export const OsField = ({
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: globalTheme.palette.grey[700],
                   textTransform: 'capitalize',
                 }}
               >
@@ -96,7 +96,8 @@ export const OsField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color: globalTheme.palette.grey[600],
+                            color: globalTheme.palette.grey[700],
+                            ...(!counters[item.os] && disabledStyle),
                           }}
                         >
                           {item.os}
