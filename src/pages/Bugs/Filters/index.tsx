@@ -1,5 +1,5 @@
-import { Anchor, Col, Grid, Row, SM } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { Button } from '@appquality/unguess-design-system';
+import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { setFilterDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
@@ -8,42 +8,62 @@ import { SeverityFilter } from './SeverityFilter';
 import { ReadFilter } from './ReadFilter';
 import { UniqueFilter } from './UniqueFilter';
 import { SearchFilter } from './SearchFilter';
-import { FilterRecap } from './FilterRecap';
 import { GroupBy } from './GroupBy';
+import { SortBy } from './SortBy';
 import { BugsFilterDrawer } from '../Drawer';
 
-const FilterContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.base * 4}px;
-`;
-
-const RecapContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.space.sm};
-`;
-
-const OrderInfo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: ${({ theme }) => theme.space.sm};
-  flex-wrap: wrap;
-  flex-direction: row;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    justify-content: flex-start;
+const SearchContainer = styled.div`
+  flex-basis: 100%;
+  @media (min-width: ${globalTheme.breakpoints.md}) {
+    flex-basis: 178px;
+    margin-right: 8px;
+    max-width: 178px;
   }
 `;
 
-const StyledSM = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none;
+const TableToolsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  @media (min-width: ${globalTheme.breakpoints.lg}) {
+    justify-content: space-between;
   }
+`;
+
+const hideOnMobile = css`
+  display: none;
+  @media (min-width: ${globalTheme.breakpoints.md}) {
+    display: inherit;
+  }
+`;
+
+const HideOnMobile = styled.div`
+  ${hideOnMobile}
+`;
+
+export const FlexWrapper = styled.div<{
+  orderXl?: number;
+  hideOnMobile?: boolean;
+}>`
+  column-gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-basis: 100%;
+  > * {
+    margin-bottom: 12px;
+  }
+  @media (min-width: ${globalTheme.breakpoints.lg}) {
+    flex-basis: auto;
+  }
+  @media (min-width: ${globalTheme.breakpoints.xl}) {
+    order: ${(p) => p.orderXl};
+  }
+  ${(p) => p.hideOnMobile && hideOnMobile}
+`;
+
+const Wrapper = styled.div`
+  padding-top: ${(p) => p.theme.space.sm};
 `;
 
 const BugsFilters = () => {
@@ -52,56 +72,35 @@ const BugsFilters = () => {
 
   return (
     <>
-      <Grid>
-        <Row>
-          <Col
-            lg={12}
-            xl={8}
-            orderXs={1}
-            orderXl={1}
-            style={{ marginBottom: globalTheme.space.md }}
-          >
-            <FilterContainer>
+      <Wrapper>
+        <TableToolsContainer>
+          <FlexWrapper orderXl={2} hideOnMobile>
+            <SortBy />
+            <GroupBy />
+          </FlexWrapper>
+          <FlexWrapper orderXl={1}>
+            <SearchContainer>
               <SearchFilter />
-              <UniqueFilter />
+            </SearchContainer>
+            <UniqueFilter />
+            <HideOnMobile>
               <ReadFilter />
+            </HideOnMobile>
+            <HideOnMobile>
               <SeverityFilter />
-              <Anchor
-                onClick={() => {
-                  dispatch(setFilterDrawerOpen(true));
-                }}
-              >
-                {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
-              </Anchor>
-            </FilterContainer>
-          </Col>
-          <Col
-            lg={12}
-            xl={4}
-            orderXs={3}
-            orderXl={2}
-            style={{ marginBottom: globalTheme.space.md }}
-          >
-            <OrderInfo>
-              <StyledSM isBold>
-                {t('__BUGS_PAGE_DEFAULT_SEVERITY_SORT_LABEL')}
-              </StyledSM>
-              <GroupBy />
-            </OrderInfo>
-          </Col>
-          <Col
-            lg={12}
-            xl={12}
-            orderXs={2}
-            orderXl={3}
-            style={{ marginBottom: 0 }}
-          >
-            <RecapContainer>
-              <FilterRecap />
-            </RecapContainer>
-          </Col>
-        </Row>
-      </Grid>
+            </HideOnMobile>
+            <Button
+              size="small"
+              isBasic
+              onClick={() => {
+                dispatch(setFilterDrawerOpen(true));
+              }}
+            >
+              {t('__BUGS_FILTER_VIEW_ALL_LABEL')}
+            </Button>
+          </FlexWrapper>
+        </TableToolsContainer>
+      </Wrapper>
       <BugsFilterDrawer />
     </>
   );

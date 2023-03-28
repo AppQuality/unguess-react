@@ -13,6 +13,7 @@ import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
+import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
 import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
@@ -43,7 +44,7 @@ export const SeverityField = ({
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: globalTheme.palette.grey[700],
                   textTransform: 'capitalize',
                 }}
               >
@@ -93,15 +94,12 @@ export const SeverityField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color:
-                              globalTheme.colors.bySeverity[
-                                item.name.toLowerCase() as Severities
-                              ],
-                            textTransform: 'capitalize',
+                            color: getSeverityInfo(item.name as Severities, t)
+                              .color,
                             ...(!counters[item.id] && disabledStyle),
                           }}
                         >
-                          {item.name.toLowerCase()}
+                          {getSeverityInfo(item.name as Severities, t).text}
                           <MD>{counters[item.id] || 0}</MD>
                         </LabelSpaceBetween>
                       </Checkbox>

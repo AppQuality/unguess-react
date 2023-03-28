@@ -6,6 +6,7 @@ import { ReadFilter, ReadFilterType } from './readFilter';
 import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
 import { TagFilterType, TagFilter } from './tagFilter';
+import { PriorityFilter, PriorityFilterType } from './priorityFilter';
 import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
 import { DeviceFilterType, DeviceFilter } from './deviceFilter';
 import { OsFilterType, OsFilter } from './osFilter';
@@ -22,25 +23,32 @@ type CampaignType = {
   UniqueFilterType &
   SearchFilterType &
   TagFilterType &
+  PriorityFilterType &
   UseCaseFilterType &
   DeviceFilterType &
   OsFilterType &
   ReplicabilityFilterType;
 
-type PageView = 'byUsecase' | 'bySeverity' | 'ungrouped';
+type GroupBy = 'usecase' | 'ungrouped';
+export type OrderBy = 'severity_id' | 'priority_id';
+export type Order = 'DESC' | 'ASC';
 
 interface initialSimpleState {
   currentCampaign?: number;
   campaigns: {
     [campaign_id: string]: CampaignType;
   };
-  pageView: PageView;
+  groupBy: GroupBy;
+  orderBy: OrderBy;
+  order: Order;
   isFilterDrawerOpen: boolean;
 }
 
 const initialStateSimple: initialSimpleState = {
   campaigns: {},
-  pageView: 'byUsecase',
+  groupBy: 'usecase',
+  orderBy: 'severity_id',
+  order: 'DESC',
   isFilterDrawerOpen: false,
 };
 
@@ -69,6 +77,10 @@ const bugPageSlice = createSlice({
           state.campaigns[cp_id as number],
           filters.tags
         ),
+        ...PriorityFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.priorities
+        ),
         ...UseCaseFilter.setAvailable(
           state.campaigns[cp_id as number],
           filters.useCases
@@ -94,6 +106,7 @@ const bugPageSlice = createSlice({
     updateFilters: (state, action) => {
       const { filters } = action.payload;
       if (!state.currentCampaign) return;
+
       state.campaigns[state.currentCampaign] = {
         ...TypeFilter.filter(
           state.campaigns[state.currentCampaign],
@@ -119,6 +132,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.tags
         ),
+        ...PriorityFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.priorities
+        ),
         ...UseCaseFilter.filter(
           state.campaigns[state.currentCampaign],
           filters.useCases
@@ -143,14 +160,21 @@ const bugPageSlice = createSlice({
         ...UniqueFilter.reset(state.campaigns[state.currentCampaign]),
         ...SearchFilter.reset(),
         ...TagFilter.reset(state.campaigns[state.currentCampaign]),
+        ...PriorityFilter.reset(state.campaigns[state.currentCampaign]),
         ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
         ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
         ...OsFilter.reset(state.campaigns[state.currentCampaign]),
         ...ReplicabilityFilter.reset(state.campaigns[state.currentCampaign]),
       };
     },
-    setPageView: (state, action: PayloadAction<PageView>) => {
-      state.pageView = action.payload;
+    setOrderBy: (state, action: PayloadAction<OrderBy>) => {
+      state.orderBy = action.payload;
+    },
+    setOrder: (state, action: PayloadAction<Order>) => {
+      state.order = action.payload;
+    },
+    setGroupBy: (state, action: PayloadAction<GroupBy>) => {
+      state.groupBy = action.payload;
     },
     setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isFilterDrawerOpen = action.payload;
@@ -167,6 +191,7 @@ export const getSelectedFiltersIds = () => ({
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
   tags: TagFilter.getIds(),
+  priorities: PriorityFilter.getIds(),
   useCases: UseCaseFilter.getIds(),
   devices: DeviceFilter.getIds(),
   os: OsFilter.getIds(),
@@ -180,6 +205,7 @@ export const getSelectedFilters = () => ({
   unique: UniqueFilter.getValue(),
   search: SearchFilter.getValue(),
   tags: TagFilter.getValues(),
+  priorities: PriorityFilter.getValues(),
   useCases: UseCaseFilter.getValues(),
   devices: DeviceFilter.getValues(),
   os: OsFilter.getValues(),
@@ -208,11 +234,18 @@ export const getCurrentCampaignData = () => {
   return campaign;
 };
 
+export const getSelectedOrderBy = (): OrderBy =>
+  useAppSelector((state) => state.bugsPage).orderBy;
+export const getSelectedOrder = (): Order =>
+  useAppSelector((state) => state.bugsPage).order;
+
 export const {
   selectCampaign,
   updateFilters,
   selectBug,
   resetFilters,
-  setPageView,
+  setGroupBy,
+  setOrderBy,
+  setOrder,
   setFilterDrawerOpen,
 } = bugPageSlice.actions;

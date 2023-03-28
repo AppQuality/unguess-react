@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { CampaignStatus } from 'src/types';
 import { Meta } from '../Meta';
 import { getStatusInfo } from '../utils/getStatusInfo';
@@ -10,7 +11,8 @@ interface StatusMetaArgs extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const StatusMeta = ({ status, counter, ...props }: StatusMetaArgs) => {
-  const statusInfo = getStatusInfo(status);
+  const { t } = useTranslation();
+  const statusInfo = getStatusInfo(status, t);
 
   return (
     <Meta

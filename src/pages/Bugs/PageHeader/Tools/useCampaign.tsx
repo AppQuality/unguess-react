@@ -17,6 +17,9 @@ export const useCampaign = (id: number) => {
     data: bugs,
   } = useGetCampaignsByCidBugsQuery({
     cid: id?.toString() ?? '0',
+    filterBy: {
+      is_duplicated: '0',
+    },
   });
 
   if (

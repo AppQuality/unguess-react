@@ -7,7 +7,7 @@ import {
   CampaignFunctionalIcon,
 } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 
 type StatusInfo = {
   icon?: React.ReactNode;
@@ -15,10 +15,11 @@ type StatusInfo = {
   color?: string;
 };
 
-export const getStatusInfo = (status: CampaignStatus): StatusInfo => {
-  const { t } = useTranslation();
-
-  switch (status) {
+export const getStatusInfo = (
+  status: CampaignStatus,
+  t: TFunction
+): StatusInfo => {
+  switch (status.toLowerCase()) {
     case 'running':
       return {
         icon: <StatusRunningIcon />,

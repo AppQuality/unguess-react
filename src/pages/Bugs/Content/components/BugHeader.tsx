@@ -50,7 +50,12 @@ export default ({
 
   return (
     <Container>
-      <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
+      <Tag
+        isPill={false}
+        isRegular
+        hue="rgba(0,0,0,0)"
+        style={{ paddingTop: `${globalTheme.space.base}px` }}
+      >
         {!bug.duplicated_of_id && (
           <Tag.Avatar>
             <FatherIcon
@@ -72,8 +77,7 @@ export default ({
             content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
             size="large"
             type="light"
-            placement="bottom-end"
-            hasArrow={false}
+            placement="auto"
           >
             <IconButton size="small">
               <LinkIcon />
@@ -87,8 +91,7 @@ export default ({
           content={t('__BUGS_PAGE_CLOSE_DETAILS_TOOLTIP')}
           size="large"
           type="light"
-          placement="bottom-end"
-          hasArrow={false}
+          placement="auto"
         >
           <IconButton
             size="small"

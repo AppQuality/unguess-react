@@ -5,21 +5,21 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
+import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import { useFilterData } from '../Drawer/useFilterData';
 
-export const SeverityFilter = () => {
+export const PriorityFilter = () => {
   const dispatch = useAppDispatch();
   const data = getCurrentCampaignData();
-  const { counters } = useFilterData('severities');
+  const { counters } = useFilterData('priorities');
   const { t } = useTranslation();
 
   if (
     !data ||
     !counters ||
-    !data.severities ||
-    !data.severities.available ||
-    !data.severities.available.length
+    !data.priorities ||
+    !data.priorities.available ||
+    !data.priorities.available.length
   )
     return null;
 
@@ -28,14 +28,14 @@ export const SeverityFilter = () => {
       <CounterMultiselect
         isCompact
         i18n={{
-          counterText: (count) => t(`Severity ({{count}})`, { count }),
-          noItems: t('__BUGS_SEVERITY_FILTER_ITEM_NO_ITEMS'),
+          counterText: (count) => t(`Priority ({{count}})`, { count }),
+          noItems: t('__BUGS_PRIORITY_FILTER_ITEM_NO_ITEMS'),
         }}
         onChange={(selected) => {
           dispatch(
             updateFilters({
               filters: {
-                severities: selected.map((item) => ({
+                priorities: selected.map((item) => ({
                   id: item.itemId,
                   name: item.label,
                 })),
@@ -43,12 +43,12 @@ export const SeverityFilter = () => {
             })
           );
         }}
-        options={data.severities.available.map((item) => ({
+        options={data.priorities.available.map((item) => ({
           itemId: item.id,
-          label: getSeverityInfo(item.name as Severities, t).text,
-          style: { color: getSeverityInfo(item.name as Severities, t).color },
+          label: getPriorityInfo(item.name as Priority, t).text,
+          icon: getPriorityInfo(item.name as Priority, t).icon,
           disabled: !counters[item.id],
-          selected: data.severities.selected.map((i) => i.id).includes(item.id),
+          selected: data.priorities.selected.map((i) => i.id).includes(item.id),
         }))}
       />
     </div>

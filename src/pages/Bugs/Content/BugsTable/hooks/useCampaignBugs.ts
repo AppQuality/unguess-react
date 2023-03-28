@@ -1,8 +1,14 @@
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
-import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  getSelectedFiltersIds,
+  getSelectedOrder,
+  getSelectedOrderBy,
+} from 'src/features/bugsPage/bugsPageSlice';
 
 export const useCampaignBugs = (campaignId: number) => {
   const filterBy = getSelectedFiltersIds();
+  const orderBy = getSelectedOrderBy() || '';
+  const order = getSelectedOrder() || 'DESC';
   const {
     isLoading,
     isFetching,
@@ -22,6 +28,9 @@ export const useCampaignBugs = (campaignId: number) => {
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
         : {}),
+      ...(filterBy?.priorities
+        ? { priorities: filterBy.priorities.join(',') }
+        : {}),
       ...(filterBy?.read && filterBy.read === 'unread'
         ? { read: 'false' }
         : {}),
@@ -30,14 +39,13 @@ export const useCampaignBugs = (campaignId: number) => {
         : {}),
     },
     ...(filterBy?.search ? { search: filterBy.search } : {}),
-
-    orderBy: 'severity_id',
-    order: 'DESC',
+    orderBy,
+    order,
   });
-
   return {
     bugs,
     bugsError: error,
-    bugsLoading: isLoading || isFetching,
+    bugsLoading: isLoading,
+    bugsFetching: isFetching,
   };
 };

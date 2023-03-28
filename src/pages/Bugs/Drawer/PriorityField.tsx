@@ -12,23 +12,32 @@ import { theme as globalTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
-import { UseCaseFilterType } from 'src/features/bugsPage/useCaseFilter';
+import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
+import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
+import styled from 'styled-components';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 
-export const UseCaseField = ({
-  useCases,
+const CenterAlignedDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
+`;
+
+export const PriorityField = ({
+  priorities,
   maxItemsToShow = 5,
 }: {
-  useCases: UseCaseFilterType['useCases'];
+  priorities: PriorityFilterType['priorities'];
   maxItemsToShow?: number;
 }) => {
   const [showMore, setShowMore] = useState(false);
-  const { counters } = useFilterData('useCases');
+  const { counters } = useFilterData('priorities');
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const { available, selected } = useCases;
+  const { available, selected } = priorities;
 
   if (!counters) return null;
 
@@ -39,7 +48,7 @@ export const UseCaseField = ({
           <Accordion.Header>
             <Accordion.Label>
               <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
-                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE')}
+                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITY_TITLE')}
               </MD>
               <SM
                 style={{
@@ -50,7 +59,7 @@ export const UseCaseField = ({
                 {selected && selected.length
                   ? `${selected
                       .slice(0, maxItemsToShow)
-                      .map((item) => item.title.full)
+                      .map((item) => item.name)
                       .join(', ')
                       .toLowerCase()} ${
                       selected.length > maxItemsToShow
@@ -58,7 +67,7 @@ export const UseCaseField = ({
                         : ''
                     }`
                   : t(
-                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_ALL_LABEL'
+                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITY_ALL_LABEL'
                     )}
               </SM>
             </Accordion.Label>
@@ -70,15 +79,15 @@ export const UseCaseField = ({
                   .map((item) => (
                     <Field style={{ marginBottom: globalTheme.space.xs }}>
                       <Checkbox
-                        value={item.id}
-                        name="filter-usecase"
+                        value={item.name}
+                        name="filter-priority"
                         disabled={!counters[item.id]}
                         checked={selected.map((i) => i.id).includes(item.id)}
                         onChange={() => {
                           dispatch(
                             updateFilters({
                               filters: {
-                                useCases: [
+                                priorities: [
                                   ...(selected
                                     .map((i) => i.id)
                                     .includes(item.id)
@@ -94,17 +103,20 @@ export const UseCaseField = ({
                           isRegular
                           style={{
                             color: globalTheme.palette.grey[700],
-                            textTransform: 'capitalize',
                             ...(!counters[item.id] && disabledStyle),
                           }}
                         >
-                          {item.title.full.toLowerCase()}
+                          <CenterAlignedDiv>
+                            {getPriorityInfo(item?.name as Priority, t).icon}
+                            {getPriorityInfo(item?.name as Priority, t).text}
+                          </CenterAlignedDiv>
                           <MD>{counters[item.id] || 0}</MD>
                         </LabelSpaceBetween>
                       </Checkbox>
                     </Field>
                   ))
               : null}
+
             {available.length > maxItemsToShow ? (
               <ShowMore
                 onClick={() => {
@@ -114,19 +126,19 @@ export const UseCaseField = ({
                 {!showMore ? (
                   <Trans
                     count={available.length - maxItemsToShow}
-                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_MORE_LABEL"
+                    i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITIES_SHOW_MORE_LABEL"
                   >
                     Show{' '}
                     <Span isBold>
                       {{
-                        useCases: available.length - maxItemsToShow,
+                        count: available.length - maxItemsToShow,
                       }}
                     </Span>{' '}
-                    more Use Cases
+                    more priorities
                   </Trans>
                 ) : (
                   t(
-                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_LESS_LABEL'
+                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITIES_SHOW_LESS_LABEL'
                   )
                 )}
               </ShowMore>

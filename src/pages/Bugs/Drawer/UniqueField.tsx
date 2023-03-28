@@ -32,7 +32,7 @@ export const UniqueField = ({
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: globalTheme.palette.grey[700],
                 }}
               >
                 {selected === 'unique'

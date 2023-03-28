@@ -2,7 +2,9 @@ import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { theme as globalTheme } from 'src/app/theme';
 import { BugsFilters } from '../Filters';
+import { FilterRecap } from '../Filters/FilterRecap';
 import { BugPreview } from './BugPreview';
 import BugsTable from './BugsTable';
 import BugsPageContentLoader from './ContentLoader';
@@ -17,22 +19,36 @@ const LayoutWrapperBugs = styled(LayoutWrapper)<{
     `}
 `;
 
+const LayoutWrapperFilters = styled(LayoutWrapper)`
+  background: white;
+  @media (min-width: ${(p) => p.theme.breakpoints.xl}) {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+`;
+
 const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
   const currentBugId = getSelectedBugId();
-
+  const previewOpenStyle = currentBugId ? { marginRight: 0 } : {};
   return (
     <>
-      <LayoutWrapper isNotBoxed>
+      <LayoutWrapperFilters isNotBoxed>
         <BugsFilters />
-      </LayoutWrapper>
+      </LayoutWrapperFilters>
       <LayoutWrapperBugs isNotBoxed isPreviewOpen={!!currentBugId}>
         <Grid gutters="xxl">
-          <Row>
-            <Col xs={12} md={currentBugId ? 8 : 12}>
+          <Row style={{ ...previewOpenStyle }}>
+            <Col
+              xs={12}
+              md={currentBugId ? 8 : 12}
+              style={{ paddingBottom: globalTheme.space.lg }}
+            >
+              <FilterRecap />
               <BugsTable campaignId={campaignId} />
             </Col>
             {currentBugId && (
-              <Col xs={12} md={4} style={{ paddingRight: 0 }}>
+              <Col xs={12} md={4} style={{ margin: 0, paddingRight: 0 }}>
                 <BugPreview bugId={currentBugId} campaignId={campaignId} />
               </Col>
             )}

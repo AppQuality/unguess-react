@@ -4,6 +4,7 @@ import {
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidDevicesQuery,
   useGetCampaignsByCidOsQuery,
+  useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidSeveritiesQuery,
@@ -17,6 +18,7 @@ import { UseCaseFilterType } from 'src/features/bugsPage/useCaseFilter';
 import { DeviceFilterType } from 'src/features/bugsPage/deviceFilter';
 import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ReplicabilityFilterType } from 'src/features/bugsPage/replicabilityFilter';
+import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{
@@ -24,6 +26,7 @@ export const useCampaign = (cid: number) => {
     filters: {
       types?: TypeFilterType['types']['available'];
       severities?: SeverityFilterType['severities']['available'];
+      priorities?: PriorityFilterType['priorities']['available'];
       tags?: TagFilterType['tags']['available'];
       useCases?: UseCaseFilterType['useCases']['available'];
       devices?: DeviceFilterType['devices']['available'];
@@ -45,6 +48,10 @@ export const useCampaign = (cid: number) => {
     cid: cid.toString(),
   });
   const { data: campaignSeverities } = useGetCampaignsByCidSeveritiesQuery({
+    cid: cid.toString(),
+  });
+
+  const { data: campaignPriorities } = useGetCampaignsByCidPrioritiesQuery({
     cid: cid.toString(),
   });
 
@@ -76,6 +83,7 @@ export const useCampaign = (cid: number) => {
         filters: {
           types: campaignTypes,
           severities: campaignSeverities,
+          priorities: campaignPriorities,
           tags: campaignTags,
           useCases: campaignUseCases,
           devices: campaignDevices,
@@ -89,6 +97,7 @@ export const useCampaign = (cid: number) => {
     campaign,
     campaignTypes,
     campaignSeverities,
+    campaignPriorities,
     campaignTags,
     campaignUseCases,
     campaignDevices,

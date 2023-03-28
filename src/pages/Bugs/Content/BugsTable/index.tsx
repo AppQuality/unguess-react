@@ -1,16 +1,29 @@
 import { useAppSelector } from 'src/app/hooks';
+import styled from 'styled-components';
 import { AllBugs } from './AllBugs';
-import { BugsBySeverity } from './BugsBySeverity';
 import { BugsByUsecase } from './BugsByUsecase';
 import { EmptyState } from './components/EmptyState';
 import { LoadingState } from './components/LoadingState';
 import { useTableData } from './hooks/useTableData';
 
-const BugsTable = ({ campaignId }: { campaignId: number }) => {
-  const { pageView } = useAppSelector((state) => state.bugsPage);
-  const { data, isLoading, error } = useTableData(campaignId);
+const Wrapper = styled.div<{
+  isFetching?: boolean;
+}>`
+  padding-top: ${(p) => p.theme.space.lg}};
 
-  if (isLoading || error) {
+  ${(p) =>
+    p.isFetching &&
+    `
+    opacity: 0.5;
+    pointer-events: none;
+  `}
+`;
+
+const BugsTable = ({ campaignId }: { campaignId: number }) => {
+  const { groupBy } = useAppSelector((state) => state.bugsPage);
+  const { data, isLoading, isFetching, isError } = useTableData(campaignId);
+
+  if (isLoading || isError) {
     return <LoadingState />;
   }
 
@@ -19,18 +32,17 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
   }
 
   return (
-    <div>
-      {pageView === 'byUsecase' && (
-        <BugsByUsecase bugsByUseCases={data.bugsByUseCases} />
-      )}
-      {pageView === 'bySeverity' && (
-        <BugsBySeverity
-          bugsBySeverity={data.bugsBySeverity}
-          allBugs={data.allBugs}
+    <Wrapper isFetching={isFetching}>
+      {groupBy === 'usecase' && (
+        <BugsByUsecase
+          campaignId={campaignId}
+          bugsByUseCases={data.bugsByUseCases}
         />
       )}
-      {pageView === 'ungrouped' && <AllBugs bugs={data.allBugs} />}
-    </div>
+      {groupBy === 'ungrouped' && (
+        <AllBugs campaignId={campaignId} bugs={data.allBugs} />
+      )}
+    </Wrapper>
   );
 };
 

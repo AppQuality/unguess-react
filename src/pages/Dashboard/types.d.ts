@@ -5,3 +5,5 @@ export interface CampaignActionProps {
   cpFamily: string;
   outputs: Output[];
 }
+
+export type CAMPAING_STATUSES = 'COMPLETED' | 'PROGRESS' | 'INCOMING';
