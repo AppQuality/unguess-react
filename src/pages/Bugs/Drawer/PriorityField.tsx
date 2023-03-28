@@ -17,7 +17,7 @@ import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { LabelSpaceBetween } from './LabelWithCounter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 
 const CenterAlignedDiv = styled.div`
   display: flex;
@@ -99,7 +99,13 @@ export const PriorityField = ({
                           );
                         }}
                       >
-                        <LabelSpaceBetween isRegular>
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[600],
+                            ...(!counters[item.id] && disabledStyle),
+                          }}
+                        >
                           <CenterAlignedDiv>
                             {getPriorityInfo(item?.name as Priority, t).icon}
                             {getPriorityInfo(item?.name as Priority, t).text}

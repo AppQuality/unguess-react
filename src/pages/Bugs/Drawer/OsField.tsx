@@ -15,7 +15,7 @@ import { Divider } from 'src/common/components/divider';
 import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { LabelSpaceBetween } from './LabelWithCounter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 
 export const OsField = ({
   os,
@@ -97,6 +97,7 @@ export const OsField = ({
                           isRegular
                           style={{
                             color: globalTheme.palette.grey[600],
+                            ...(!counters[item.os] && disabledStyle),
                           }}
                         >
                           {item.os}
