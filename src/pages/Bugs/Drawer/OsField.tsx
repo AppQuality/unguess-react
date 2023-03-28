@@ -43,7 +43,7 @@ export const OsField = ({
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: globalTheme.palette.grey[700],
                   textTransform: 'capitalize',
                 }}
               >
@@ -96,7 +96,7 @@ export const OsField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color: globalTheme.palette.grey[600],
+                            color: globalTheme.palette.grey[700],
                             ...(!counters[item.os] && disabledStyle),
                           }}
                         >

@@ -97,7 +97,7 @@ export const ReplicabilityField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color: globalTheme.palette.grey[600],
+                            color: globalTheme.palette.grey[700],
                             textTransform: 'capitalize',
                             ...(!counters[replicability.id] && disabledStyle),
                           }}
