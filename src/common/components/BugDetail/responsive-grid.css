@@ -1,0 +1,12 @@
+.responsive-container {
+  container: responsive-container / inline-size;
+}
+
+@container responsive-container (width > 576px) {
+  .flex-3-sm {
+    flex-basis: 25% !important;
+  }
+  .max-width-6-sm {
+    max-width: 50% !important;
+  }
+}

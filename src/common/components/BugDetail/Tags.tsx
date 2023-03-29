@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
 import { Label } from './Label';
+import 'src/common/components/BugDetail/responsive-grid.css';
 
 const Container = styled.div`
   display: inline-block;
@@ -64,7 +65,7 @@ export default ({
   if (isErrorCampaign) return null;
 
   return (
-    <Container>
+    <Container className="responsive-container">
       <Label style={{ marginBottom: globalTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
       </Label>
@@ -74,55 +75,57 @@ export default ({
           style={{ borderRadius: globalTheme.borderRadii.md }}
         />
       ) : (
-        <MultiSelect
-          creatable
-          maxItems={4}
-          size="small"
-          i18n={{
-            placeholder: t('__BUGS_PAGE_BUG_DETAIL_TAGS_PLACEHOLDER'),
-            showMore: (count) =>
-              t('__BUGS_PAGE_BUG_DETAIL_TAGS_SHOW_MORE', { count }),
-            addNew: (value) =>
-              `${t('__BUGS_PAGE_BUG_DETAIL_TAGS_ADD_NEW')} "${value}"`,
-          }}
-          onChange={async (selectedItems, newLabel) => {
-            const { tags } = await patchBug({
-              cid: campaignId.toString(),
-              bid: bugId.toString(),
-              body: {
-                tags: [
-                  ...selectedItems
-                    .filter((o) => o.selected)
-                    .map((item) => ({
-                      tag_id: Number(item.id),
-                    })),
-                  ...(newLabel
-                    ? [
-                        {
-                          tag_name: newLabel,
-                        },
-                      ]
-                    : []),
-                ],
-              },
-            }).unwrap();
+        <div className="max-width-6-sm">
+          <MultiSelect
+            creatable
+            maxItems={4}
+            size="small"
+            i18n={{
+              placeholder: t('__BUGS_PAGE_BUG_DETAIL_TAGS_PLACEHOLDER'),
+              showMore: (count) =>
+                t('__BUGS_PAGE_BUG_DETAIL_TAGS_SHOW_MORE', { count }),
+              addNew: (value) =>
+                `${t('__BUGS_PAGE_BUG_DETAIL_TAGS_ADD_NEW')} "${value}"`,
+            }}
+            onChange={async (selectedItems, newLabel) => {
+              const { tags } = await patchBug({
+                cid: campaignId.toString(),
+                bid: bugId.toString(),
+                body: {
+                  tags: [
+                    ...selectedItems
+                      .filter((o) => o.selected)
+                      .map((item) => ({
+                        tag_id: Number(item.id),
+                      })),
+                    ...(newLabel
+                      ? [
+                          {
+                            tag_name: newLabel,
+                          },
+                        ]
+                      : []),
+                  ],
+                },
+              }).unwrap();
 
-            const results = tags
-              ? tags.map((tag) => ({
-                  id: tag.tag_id,
-                  label: tag.tag_name,
-                }))
-              : [];
-            const unselectedItems = options.filter(
-              (o) => !results.find((r) => r.id === o.id)
-            );
-            setOptions([
-              ...unselectedItems,
-              ...results.map((r) => ({ ...r, selected: true })),
-            ]);
-          }}
-          options={options}
-        />
+              const results = tags
+                ? tags.map((tag) => ({
+                    id: tag.tag_id,
+                    label: tag.tag_name,
+                  }))
+                : [];
+              const unselectedItems = options.filter(
+                (o) => !results.find((r) => r.id === o.id)
+              );
+              setOptions([
+                ...unselectedItems,
+                ...results.map((r) => ({ ...r, selected: true })),
+              ]);
+            }}
+            options={options}
+          />
+        </div>
       )}
     </Container>
   );
