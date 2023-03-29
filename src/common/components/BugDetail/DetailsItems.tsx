@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
+import BugTags from 'src/common/components/BugDetail/Tags';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import { MD, Span } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { Label } from './Label';
 
 const DetailsItem = styled.div`
@@ -36,9 +38,17 @@ export default ({
   const { occurred_date, device, reporter } = bug;
   const createdDate = new Date(occurred_date);
   const formattedDate = format(createdDate, 'dd/MM/yyyy hh:mma z');
+  const currentBugId = getSelectedBugId();
 
   return (
     <>
+      <DetailsItem>
+        <BugTags
+          bug={bug}
+          campaignId={bug.campaign_id}
+          bugId={currentBugId ?? 0}
+        />
+      </DetailsItem>
       <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
         <Label isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
