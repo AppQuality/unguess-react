@@ -2,7 +2,6 @@ import { ContainerCard } from '@appquality/unguess-design-system';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import BugMeta from 'src/common/components/BugDetail/Meta';
 import BugPriority from 'src/common/components/BugDetail/Priority';
-import BugTags from 'src/common/components/BugDetail/Tags';
 import BugDescription from 'src/common/components/BugDetail/Description';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import BugDetails from 'src/common/components/BugDetail/Details';
@@ -24,11 +23,6 @@ export const Content = ({ bug, campaignId }: Props) => (
       <AnchorButtons bug={bug} />
       <div style={{ width: '50%' }}>
         <BugPriority bug={bug} />
-        <BugTags
-          bug={bug}
-          campaignId={parseInt(campaignId, 10)}
-          bugId={bug.id}
-        />
       </div>
       <BugDescription bug={bug} />
       {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
