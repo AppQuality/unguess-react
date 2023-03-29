@@ -28,6 +28,7 @@ import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
 import { selectWorkspaces } from '../workspaces/selectors';
 import { usePathWithoutLocale } from './usePathWithoutLocale';
+import { Header } from '../../common/components/navigation/header/header';
 
 const cachedWorkspace = getWorkspaceFromLS();
 
@@ -243,40 +244,7 @@ export const Navigation = ({
 
   return (
     <>
-      <AppHeader
-        isStandalone
-        hasChangelog
-        changelogItem={<Changelog />}
-        brand={{
-          brandName: `${activeWorkspace?.company}'s Workspace`,
-          menuLabel: t('__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5'),
-          activeWorkspace,
-          workspaces,
-          onWorkspaceChange: (workspace: any) => {
-            if (workspace.id !== activeWorkspace?.id) {
-              saveWorkspaceToLs(workspace);
-              API.workspacesById(workspace.id).then((ws) => {
-                dispatch(setWorkspace(ws));
-                toggleGtmWorkspaceChange(ws.company);
-              });
-            }
-            // saveWorkspaceToLs(workspace);
-            // dispatch(setWorkspace(workspace));
-            // window.location.reload();
-          },
-          onClick: () => navigateTo('home'),
-        }}
-        avatar={{
-          avatarType: user.picture ? 'image' : 'text',
-          children: user.picture
-            ? prepareGravatar(user.picture, 32)
-            : getInitials(user.name),
-        }}
-        onSidebarMenuToggle={toggleSidebarState}
-        isProfileModalOpen={isProfileModalOpen}
-        onProfileModalToggle={toggleProfileModalState}
-        onLogoItemClick={() => navigateTo('home')}
-      />
+      <Header />
       {isProfileModalOpen && (
         <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
       )}
