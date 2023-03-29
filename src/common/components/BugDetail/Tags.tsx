@@ -14,7 +14,7 @@ import { Label } from './Label';
 const Container = styled.div`
   display: inline-block;
   width: 100%;
-  margin-top: ${({ theme }) => theme.space.md};
+  margin-top: ${({ theme }) => theme.space.xs};
 `;
 
 export default ({

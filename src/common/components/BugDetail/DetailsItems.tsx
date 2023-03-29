@@ -49,7 +49,7 @@ export default ({
           bugId={currentBugId ?? 0}
         />
       </DetailsItem>
-      <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
+      <DetailsItem>
         <Label isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
         </Label>
