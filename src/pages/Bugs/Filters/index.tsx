@@ -90,7 +90,7 @@ const BugsFilters = () => {
               <SeverityFilter />
             </HideOnMobile>
             <Button
-              size="small"
+              size="medium"
               isBasic
               onClick={() => {
                 dispatch(setFilterDrawerOpen(true));

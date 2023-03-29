@@ -10,12 +10,18 @@ import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
-import { theme } from 'src/app/theme';
+import { theme as globalTheme } from 'src/app/theme';
 
-const buttonHeight = theme.space.lg; // 32
-const sectionMargin = theme.space.sm; // 12
-const tagsHeight = theme.space.lg; // 32
-const sectionPaddingTop = theme.space.md; // 20
+const buttonHeight = globalTheme.space.lg; // 32
+const sectionMargin = globalTheme.space.sm; // 12
+const tagsHeight = globalTheme.space.lg; // 32
+const sectionPaddingTop = globalTheme.space.md; // 20
+
+const StyledTag = styled(Tag)`
+  &:last-of-type {
+    margin-right: ${({ theme }) => theme.space.xs};
+  }
+`;
 
 const StyledAvatarTag = styled(Tag.Avatar)`
   transform: scale(0.5);
@@ -48,7 +54,7 @@ const FilterRecapItem = ({
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <Tag
+    <StyledTag
       hue={color && hasBackground ? `${color}10` : ''}
       color={color || 'inherit'}
       size="large"
@@ -61,7 +67,7 @@ const FilterRecapItem = ({
           {name}
         </>
       )}
-      <Tag.Close
+      <StyledTag.Close
         onClick={() => {
           switch (type) {
             case 'severities':
@@ -162,7 +168,7 @@ const FilterRecapItem = ({
           }
         }}
       />
-    </Tag>
+    </StyledTag>
   );
 };
 
@@ -202,6 +208,7 @@ const ScrollingContainer = styled.div`
   display: flex;
   row-gap: ${(p) => p.theme.space.sm};
   width: max-content;
+  align-items: center;
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     flex-wrap: wrap;
     width: auto;
@@ -312,11 +319,10 @@ export const FilterRecap = () => {
             : null}
           <StyledButton
             isBasic
-            size="small"
+            size="medium"
             onClick={() => {
               dispatch(resetFilters());
             }}
-            style={{ marginLeft: '8px' }}
           >
             {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
           </StyledButton>
