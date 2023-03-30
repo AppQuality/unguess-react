@@ -3,17 +3,20 @@ import {
   useGetCampaignsByCidBugsQuery,
 } from 'src/features/api';
 
-export const useCampaign = (id: number) => {
+export const useCampaignBugs = (id: number) => {
   const {
     isLoading: isCampaignLoading,
     isFetching: isCampaignFetching,
+    isError: isErrorCampaign,
     data: campaign,
   } = useGetCampaignsByCidQuery({
     cid: id?.toString() ?? '0',
   });
+
   const {
     isLoading: isCampaignBugsLoading,
     isFetching: isCampaignBugsFetching,
+    isError: isErrorCampaignBugs,
     data: bugs,
   } = useGetCampaignsByCidBugsQuery({
     cid: id?.toString() ?? '0',
@@ -22,14 +25,15 @@ export const useCampaign = (id: number) => {
     },
   });
 
-  if (
-    isCampaignLoading ||
-    isCampaignFetching ||
-    isCampaignBugsLoading ||
-    isCampaignBugsFetching ||
-    !campaign
-  ) {
-    return { isLoading: true };
+  if (!campaign || isCampaignLoading || isCampaignBugsLoading) {
+    return {
+      isCampaignLoading: true,
+      isCampaignFetching: true,
+      isCampaignBugsLoading: true,
+      isCampaignBugsFetching: true,
+      isCampaignError: isErrorCampaign,
+      isCampaignBugsError: isErrorCampaignBugs,
+    };
   }
 
   const severities: Record<Severities, number> = {
@@ -52,8 +56,13 @@ export const useCampaign = (id: number) => {
   }
 
   return {
-    isLoading: false,
-    status: campaign.status,
+    isCampaignLoading,
+    isCampaignFetching,
+    isCampaignBugsLoading,
+    isCampaignBugsFetching,
+    isCampaignError: isErrorCampaign,
+    isCampaignBugsError: isErrorCampaignBugs,
+    status: (campaign && campaign.status) || { id: 0, name: 'running' },
     severities,
   };
 };
