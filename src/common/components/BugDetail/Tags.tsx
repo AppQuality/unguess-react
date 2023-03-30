@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import {
   Bug,
   BugTag,
-  useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
@@ -149,6 +148,7 @@ export default ({
                   refetchCpTags();
                 })
                 .catch((err) => {
+                  // eslint-disable-next-line no-console
                   console.error(err);
                 });
             }}
