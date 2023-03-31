@@ -1,3 +1,9 @@
+/**
+  * waiting for upocoming supprt for @container in styled components
+  * currently only supported in v6 beta
+  * for the time being, we use css modules
+  */
+
 .responsive-container {
   container: responsive-container / inline-size;
 }
