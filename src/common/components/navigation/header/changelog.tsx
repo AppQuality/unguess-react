@@ -2,6 +2,7 @@ import { ReactComponent as ChangelogIcon } from 'src/assets/icons/megaphone-stro
 import HeadwayWidget from '@headwayapp/react-widget';
 import styled from 'styled-components';
 import { theme } from 'src/app/theme';
+import { HeaderItem } from '@appquality/unguess-design-system';
 
 const StyledWidget = styled.div`
   svg {
@@ -13,9 +14,11 @@ const StyledWidget = styled.div`
 `;
 
 export const Changelog = () => (
-  <StyledWidget>
-    <HeadwayWidget account="Jn0mVx">
-      <ChangelogIcon />
-    </HeadwayWidget>
-  </StyledWidget>
+  <HeaderItem style={{ marginRight: `-${theme.space.xs}` }}>
+    <StyledWidget>
+      <HeadwayWidget account="Jn0mVx">
+        <ChangelogIcon />
+      </HeadwayWidget>
+    </StyledWidget>
+  </HeaderItem>
 );

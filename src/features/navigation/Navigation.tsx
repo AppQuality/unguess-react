@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 import API from 'src/common/api';
 import TagManager from 'react-gtm-module';
 import { isDev } from 'src/common/isDevEnvironment';
-import { Changelog } from './Changelog';
+import { Changelog } from '../../common/components/navigation/header/changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
