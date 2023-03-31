@@ -6,10 +6,15 @@ import {
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
 import { theme as globalTheme } from 'src/app/theme';
+import styled from 'styled-components';
 import ImageCard from '../ImageCard';
 import VideoCard from '../VideoCard';
-import 'src/common/components/BugDetail/responsive-grid.css';
+import { responsiveGridCss } from '../responsive-grid';
 import { LightboxContainer } from '../lightbox';
+
+const StyledRow = styled(Row)`
+  ${responsiveGridCss}
+`;
 
 export default ({
   items,
@@ -65,7 +70,7 @@ export default ({
         )}
       </SM>
       <Grid>
-        <Row className="responsive-container">
+        <StyledRow>
           {items.map((item, index) => {
             // Check if item is an image or a video
             if (item.mime_type.type === 'image')
@@ -90,7 +95,7 @@ export default ({
               );
             return null;
           })}
-        </Row>
+        </StyledRow>
       </Grid>
       {isLightboxOpen && (
         <LightboxContainer
