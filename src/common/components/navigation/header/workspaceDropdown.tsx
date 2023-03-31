@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Dropdown,
   Ellipsis,
   HeaderItem,
@@ -103,7 +104,7 @@ export const WorkspacesDropdown = () => {
         }}
       >
         <Field>
-          <Select isCompact style={{ color: appTheme.colors.primaryHue }}>
+          <Select style={{ color: appTheme.colors.primaryHue }}>
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
             </StyledEllipsis>

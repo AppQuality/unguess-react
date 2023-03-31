@@ -10,12 +10,7 @@ import { prepareGravatar } from 'src/common/utils';
 import { toggleProfileModal } from 'src/features/navigation/navigationSlice';
 import { ReactComponent as ChevronIcon } from 'src/assets/icons/chevron-down-stroke.svg';
 import styled from 'styled-components';
-
-const getInitials = (name: string) => {
-  const names = name.split(' ');
-  const initials = names[0][0] + names[names.length - 1][0];
-  return initials;
-};
+import { getInitials } from './utils';
 
 const ChevronButton = styled(IconButton)`
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
