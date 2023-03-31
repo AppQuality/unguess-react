@@ -1,7 +1,6 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import BugMeta from 'src/common/components/BugDetail/Meta';
-import BugTags from 'src/common/components/BugDetail/Tags';
 import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugDescription from 'src/common/components/BugDetail/Description';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
@@ -80,11 +79,6 @@ export const BugPreview = ({
           <BugMeta bug={bug} />
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
           <BugPriority bug={bug} />
-          <BugTags
-            bug={bug}
-            campaignId={campaignId}
-            bugId={currentBugId ?? 0}
-          />
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
           <BugDetails bug={bug} />

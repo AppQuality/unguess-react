@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
+import BugTags from 'src/common/components/BugDetail/Tags';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import { MD, Span } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
@@ -39,7 +40,10 @@ export default ({
 
   return (
     <>
-      <DetailsItem style={{ marginTop: globalTheme.space.base * 3 }}>
+      <DetailsItem>
+        <BugTags bug={bug} />
+      </DetailsItem>
+      <DetailsItem>
         <Label isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
         </Label>
