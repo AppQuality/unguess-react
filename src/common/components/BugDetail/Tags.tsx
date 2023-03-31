@@ -20,8 +20,6 @@ const Container = styled.div`
 
 export default ({
   bug,
-  campaignId,
-  bugId,
 }: {
   bug: Bug & {
     reporter: {
@@ -30,8 +28,6 @@ export default ({
     };
     tags?: BugTag[];
   };
-  campaignId: number;
-  bugId: number;
 }) => {
   const { t } = useTranslation();
   const [options, setOptions] = useState<{ id: number; label: string }[]>([]);
@@ -45,7 +41,7 @@ export default ({
     isError: isErrorCampaign,
     data: cpTags,
   } = useGetCampaignsByCidTagsQuery({
-    cid: campaignId?.toString() ?? '0',
+    cid: bug.campaign_id.toString() ?? '0',
   });
 
   useEffect(() => {
@@ -89,8 +85,8 @@ export default ({
             }}
             onChange={async (selectedItems, newLabel) => {
               const { tags } = await patchBug({
-                cid: campaignId.toString(),
-                bid: bugId.toString(),
+                cid: bug.campaign_id.toString(),
+                bid: bug.id.toString(),
                 body: {
                   tags: [
                     ...selectedItems

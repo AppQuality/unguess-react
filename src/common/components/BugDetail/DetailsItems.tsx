@@ -41,7 +41,7 @@ export default ({
   return (
     <>
       <DetailsItem>
-        <BugTags bug={bug} campaignId={bug.campaign_id} bugId={bug.id} />
+        <BugTags bug={bug} />
       </DetailsItem>
       <DetailsItem>
         <Label isBold style={{ marginBottom: globalTheme.space.xs }}>
