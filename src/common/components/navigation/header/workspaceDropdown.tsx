@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Dropdown,
   Ellipsis,
   HeaderItem,
@@ -31,6 +30,7 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
     `
     width: ${theme.components.chrome.nav.workspaceDropdownWidth}px; 
   `}
+  text-align: start;
 `;
 
 const DropdownItem = styled(HeaderItem)`
