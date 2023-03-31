@@ -29,6 +29,11 @@ export const DEFAULT_BUG_PRIORITY = {
   name: 'medium',
 };
 
+export const DEFAULT_BUG_STATUS = {
+  id: 3,
+  name: 'to do',
+};
+
 export const EXPRESS_START_DATE_MAX_VALUE = 30;
 export const EXPRESS_BUSINESS_DAYS_TO_ADD = 2;
 export const EXPRESS_3_BUSINESS_DAYS_TO_ADD = 3;
