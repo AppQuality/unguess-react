@@ -6,7 +6,6 @@ import { Bug, BugAdditionalField } from 'src/features/api';
 import { MD, Span } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { Label } from './Label';
 
 const DetailsItem = styled.div`
@@ -38,16 +37,11 @@ export default ({
   const { occurred_date, device, reporter } = bug;
   const createdDate = new Date(occurred_date);
   const formattedDate = format(createdDate, 'dd/MM/yyyy hh:mma z');
-  const currentBugId = getSelectedBugId();
 
   return (
     <>
       <DetailsItem>
-        <BugTags
-          bug={bug}
-          campaignId={bug.campaign_id}
-          bugId={currentBugId ?? 0}
-        />
+        <BugTags bug={bug} campaignId={bug.campaign_id} bugId={bug.id} />
       </DetailsItem>
       <DetailsItem>
         <Label isBold style={{ marginBottom: globalTheme.space.xs }}>
