@@ -1,49 +1,63 @@
 import { TFunction } from 'react-i18next';
-import { ReactComponent as PriorityHighest } from 'src/assets/icons/priority-highest.svg';
-import { ReactComponent as PriorityHigh } from 'src/assets/icons/priority-high.svg';
-import { ReactComponent as PriorityMedium } from 'src/assets/icons/priority-medium.svg';
-import { ReactComponent as PriorityLow } from 'src/assets/icons/priority-low.svg';
-import { ReactComponent as PriorityLowest } from 'src/assets/icons/priority-lowest.svg';
+import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.svg';
+import styled from 'styled-components';
 
-type PriorityInfo = {
+type BugStateInfo = {
   icon: React.ReactNode;
   text: string;
 };
 
-export const getPriorityInfo = (
-  priority: Priority,
+const Circle = styled(CircleFill)`
+  width: auto;
+  height: 100%;
+  max-height: 10px;
+  margin: 0 2px;
+`;
+
+export const getBugStateInfo = (
+  state: BugState,
   t: TFunction
-): PriorityInfo => {
-  switch (priority.toLowerCase()) {
-    case 'highest':
+): BugStateInfo => {
+  switch (state.toLowerCase()) {
+    case 'to do':
       return {
-        icon: <PriorityHighest />,
-        text: t('__BUG_PRIORITY_HIGHEST'),
+        icon: <Circle />,
+        text: t('__BUG_STATE_TO_DO'),
       };
-    case 'high':
+    case 'pending':
       return {
-        icon: <PriorityHigh />,
-        text: t('__BUG_PRIORITY_HIGH'),
+        icon: <Circle />,
+        text: t('__BUG_STATE_PENDING'),
       };
-    case 'medium':
+    case 'to be imported':
       return {
-        icon: <PriorityMedium />,
-        text: t('__BUG_PRIORITY_MEDIUM'),
+        icon: <Circle />,
+        text: t('__BUG_STATE_TO_BE_IMPORTED'),
       };
-    case 'low':
+    case 'open':
       return {
-        icon: <PriorityLow />,
-        text: t('__BUG_PRIORITY_LOW'),
+        icon: <Circle />,
+        text: t('__BUG_STATE_OPEN'),
       };
-    case 'lowest':
+    case 'to be retested':
       return {
-        icon: <PriorityLowest />,
-        text: t('__BUG_PRIORITY_LOWEST'),
+        icon: <Circle />,
+        text: t('__BUG_STATE_TO_BE_RETESTED'),
+      };
+    case 'solved':
+      return {
+        icon: <Circle />,
+        text: t('__BUG_STATE_SOLVED'),
+      };
+    case 'not a bug':
+      return {
+        icon: <Circle />,
+        text: t('__BUG_STATE_NOT_A_BUG'),
       };
     default:
       return {
-        icon: <PriorityMedium />,
-        text: t('__BUG_PRIORITY_MEDIUM'),
+        icon: <Circle />,
+        text: t('__BUG_STATE_MEDIUM'),
       };
   }
 };

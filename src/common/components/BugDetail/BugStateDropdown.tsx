@@ -16,7 +16,7 @@ import {
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
-import { getStatusInfo } from '../utils/getBugStateInfo';
+import { getBugStateInfo } from '../utils/getBugStateInfo';
 import { Label } from './Label';
 
 const StyledItem = styled(Item)`
@@ -52,12 +52,12 @@ type DropdownItem = {
 
 const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
-  const { priority: bugPriority } = bug;
+  const { status } = bug;
   const [selectedItem, setSelectedItem] = useState<DropdownItem>({
     id: DEFAULT_BUG_STATUS.id,
     slug: DEFAULT_BUG_STATUS.name,
-    text: getStatusInfo(DEFAULT_BUG_STATUS.name as Status, t).text,
-    icon: getStatusInfo(DEFAULT_BUG_STATUS.name as Status, t).icon,
+    text: getBugStateInfo(DEFAULT_BUG_STATUS.name as BugState, t).text,
+    icon: getBugStateInfo(DEFAULT_BUG_STATUS.name as BugState, t).icon,
   });
   const [options, setOptions] = useState<DropdownItem[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
@@ -73,26 +73,26 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   useEffect(() => {
     if (cpStatuses) {
       setOptions(
-        cpStatuses.map((status) => ({
-          id: status.id,
-          slug: status.name,
-          text: getStatusInfo(status.name as Status, t).text,
-          icon: getStatusInfo(status.name as Status, t).icon,
+        cpStatuses.map((bugStatus) => ({
+          id: bugStatus.id,
+          slug: bugStatus.name,
+          text: getBugStateInfo(bugStatus.name as BugState, t).text,
+          icon: getBugStateInfo(bugStatus.name as BugState, t).icon,
         }))
       );
     }
   }, [cpStatuses]);
 
   useEffect(() => {
-    if (bugStatus) {
+    if (status) {
       setSelectedItem({
-        id: bugStatus.id,
-        slug: bugStatus.name,
-        text: getStatusInfo(bugStatus.name as Status, t).text,
-        icon: getStatusInfo(bugStatus.name as Status, t).icon,
+        id: status.id,
+        slug: status.name,
+        text: getBugStateInfo(status.name as BugState, t).text,
+        icon: getBugStateInfo(status.name as BugState, t).icon,
       });
     }
-  }, [bugStatus]);
+  }, [status]);
 
   if (isError) return null;
 
@@ -114,10 +114,9 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
               cid: bug.campaign_id.toString(),
               bid: bug.id.toString(),
               body: {
-                status_id: item.id,
+                // status_id: item.id,
               },
             });
-
             setSelectedItem(item);
           }}
           downshiftProps={{
