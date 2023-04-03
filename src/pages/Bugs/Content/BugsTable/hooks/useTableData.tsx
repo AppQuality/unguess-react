@@ -1,28 +1,27 @@
 import { useCampaignBugs } from './useCampaignBugs';
-import { useCampaignSeverities } from './useCampaignSeverities';
+import { useCampaignBugStates } from './useCampaignBugStates';
 import { useCampaignUseCases } from './useCampaignUseCases';
-import { sortBySeverity } from '../utils/sortBySeverity';
 import { sortByUseCase } from '../utils/sortByUseCase';
 
 export const useTableData = (campaignId: number) => {
-  // get  bugs accepted severities and usecases
+  // get  bugs accepted states and usecases
   const { bugs, bugsError, bugsLoading, bugsFetching } =
     useCampaignBugs(campaignId);
-  const { severities, severitiesError, severitiesLoading } =
-    useCampaignSeverities(campaignId);
+  const { bugStates, bugStatesError, bugStatesFetching } =
+    useCampaignBugStates(campaignId);
   const { useCases, useCasesError, useCasesLoading } =
     useCampaignUseCases(campaignId);
 
   // if there is no data, return empty array
   if (
     bugsLoading ||
-    severitiesLoading ||
+    bugStatesFetching ||
     useCasesLoading ||
     !bugs ||
     !bugs.items
   ) {
     return {
-      campaignSeverities: severities,
+      bugStates: bugStates,
       campaignUsecases: useCases,
       data: {
         allBugs: [],
@@ -31,11 +30,11 @@ export const useTableData = (campaignId: number) => {
       },
       isLoading: bugsLoading,
       isFetching: bugsFetching,
-      isError: bugsError || severitiesError || useCasesError,
+      isError: bugsError || bugStatesError || useCasesError,
     };
   }
 
-  const bugsBySeverity = sortBySeverity(bugs.items, severities);
+  const bugsByStates = sortByStates(bugs.items, bugStates);
   const bugsByUseCases = sortByUseCase(bugs.items, useCases);
 
   /* got the data */
@@ -43,10 +42,10 @@ export const useTableData = (campaignId: number) => {
     data: {
       allBugs: bugs.items,
       bugsByUseCases,
-      bugsBySeverity,
+      bugsByStates,
     },
     isLoading: bugsLoading,
     isFetching: bugsFetching,
-    isError: bugsError || severitiesError || useCasesError,
+    isError: bugsError || bugStatesError || useCasesError,
   };
 };
