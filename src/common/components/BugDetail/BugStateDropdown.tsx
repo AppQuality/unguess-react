@@ -125,7 +125,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
           }}
         >
           <Field>
-            {bug.status.id !== 4 ? (
+            {bug.status.id === 4 ? (
               <Tooltip
                 appendToNode={document.body}
                 type="light"
