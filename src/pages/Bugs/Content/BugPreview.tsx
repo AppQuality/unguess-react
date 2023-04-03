@@ -53,10 +53,15 @@ export const BugPreview = ({
     isLoading,
     isFetching,
     isError,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId.toString(),
-    bid: bugId.toString(),
-  });
+  } = useGetCampaignsByCidBugsAndBidQuery(
+    {
+      cid: campaignId.toString(),
+      bid: bugId.toString(),
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
   const currentBugId = getSelectedBugId();
 
   // Reset container scroll position when bug changes

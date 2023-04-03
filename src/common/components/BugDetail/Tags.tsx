@@ -30,16 +30,27 @@ export default ({
   };
 }) => {
   const { t } = useTranslation();
-  const [options, setOptions] = useState<{ id: number; label: string }[]>([]);
-
-  const { tags: bugTags } = bug;
-  const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
+  const [options, setOptions] = useState<
+    { id: number; label: string; selected?: boolean }[]
+  >([]);
+  const [bugTags, setBugTags] = useState<
+    {
+      id: number;
+      label: string;
+    }[]
+  >([
+    ...(bug.tags?.map((tag) => ({
+      id: tag.tag_id,
+      label: tag.name,
+    })) ?? []),
+  ]);
 
   const {
-    isLoading: isLoadingCampaign,
-    isFetching: isFetchingCampaign,
-    isError: isErrorCampaign,
+    isLoading: isLoadingCampaignTags,
+    isFetching: isFetchingCampaignTags,
+    isError: isErrorCampaignTags,
     data: cpTags,
+    refetch: refetchCpTags,
   } = useGetCampaignsByCidTagsQuery({
     cid: bug.campaign_id.toString() ?? '0',
   });
@@ -50,29 +61,34 @@ export default ({
         cpTags.map((tag) => ({
           id: tag.tag_id,
           label: tag.display_name,
-          selected: bugTags
-            ? bugTags.some((selectedTag) => selectedTag.tag_id === tag.tag_id)
-            : false,
+          selected: bugTags.some((bt) => bt.id === tag.tag_id),
         }))
       );
     }
   }, [cpTags, bugTags]);
 
-  if (isErrorCampaign) return null;
+  const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
+
+  if (isErrorCampaignTags) return null;
 
   return (
     <Container className="responsive-container">
       <Label style={{ marginBottom: globalTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
       </Label>
-      {isLoadingCampaign || isFetchingCampaign ? (
+      {!bug || !cpTags || isLoadingCampaignTags ? (
         <Skeleton
           height="30px"
           style={{ borderRadius: globalTheme.borderRadii.md }}
         />
       ) : (
-        <div className="max-width-6-sm">
+        <div
+          className="max-width-6-sm"
+          style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}
+        >
           <MultiSelect
+            options={options}
+            selectedItems={options.filter((o) => o.selected)}
             creatable
             maxItems={4}
             size="small"
@@ -84,7 +100,7 @@ export default ({
                 `${t('__BUGS_PAGE_BUG_DETAIL_TAGS_ADD_NEW')} "${value}"`,
             }}
             onChange={async (selectedItems, newLabel) => {
-              const { tags } = await patchBug({
+              await patchBug({
                 cid: bug.campaign_id.toString(),
                 bid: bug.id.toString(),
                 body: {
@@ -103,23 +119,39 @@ export default ({
                       : []),
                   ],
                 },
-              }).unwrap();
+              })
+                .unwrap()
+                .then(({ tags }) => {
+                  const selectedTags = tags
+                    ? tags.map((tag) => ({
+                        id: tag.tag_id,
+                        label: tag.tag_name,
+                      }))
+                    : [];
 
-              const results = tags
-                ? tags.map((tag) => ({
-                    id: tag.tag_id,
-                    label: tag.tag_name,
-                  }))
-                : [];
-              const unselectedItems = options.filter(
-                (o) => !results.find((r) => r.id === o.id)
-              );
-              setOptions([
-                ...unselectedItems,
-                ...results.map((r) => ({ ...r, selected: true })),
-              ]);
+                  // Update bug tags
+                  setBugTags(selectedTags);
+
+                  const unselectedTags = options.filter(
+                    (o) => !selectedTags.find((r) => r.id === o.id)
+                  );
+
+                  const newOptions = [
+                    ...selectedTags.map((r) => ({ ...r, selected: true })),
+                    ...unselectedTags.map((r) => ({ ...r, selected: false })),
+                  ];
+
+                  // Update options
+                  setOptions(newOptions);
+
+                  // Refetch cp tags to get the new ones
+                  refetchCpTags();
+                })
+                .catch((err) => {
+                  // eslint-disable-next-line no-console
+                  console.error(err);
+                });
             }}
-            options={options}
           />
         </div>
       )}
