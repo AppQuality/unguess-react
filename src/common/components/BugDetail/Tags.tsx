@@ -10,17 +10,16 @@ import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
 import { Label } from './Label';
+import 'src/common/components/BugDetail/responsive-grid.css';
 
 const Container = styled.div`
   display: inline-block;
   width: 100%;
-  margin-top: ${({ theme }) => theme.space.md};
+  margin-top: ${({ theme }) => theme.space.xs};
 `;
 
 export default ({
   bug,
-  campaignId,
-  bugId,
 }: {
   bug: Bug & {
     reporter: {
@@ -29,8 +28,6 @@ export default ({
     };
     tags?: BugTag[];
   };
-  campaignId: number;
-  bugId: number;
 }) => {
   const { t } = useTranslation();
   const [options, setOptions] = useState<
@@ -55,7 +52,7 @@ export default ({
     data: cpTags,
     refetch: refetchCpTags,
   } = useGetCampaignsByCidTagsQuery({
-    cid: campaignId?.toString() ?? '0',
+    cid: bug.campaign_id.toString() ?? '0',
   });
 
   useEffect(() => {
@@ -75,7 +72,7 @@ export default ({
   if (isErrorCampaignTags) return null;
 
   return (
-    <Container>
+    <Container className="responsive-container">
       <Label style={{ marginBottom: globalTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
       </Label>
@@ -85,7 +82,8 @@ export default ({
           style={{ borderRadius: globalTheme.borderRadii.md }}
         />
       ) : (
-        <div style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}>
+
+        <div className="max-width-6-sm" style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}>
           <MultiSelect
             options={options}
             selectedItems={options.filter((o) => o.selected)}
@@ -101,8 +99,8 @@ export default ({
             }}
             onChange={async (selectedItems, newLabel) => {
               await patchBug({
-                cid: campaignId.toString(),
-                bid: bugId.toString(),
+                cid: bug.campaign_id.toString(),
+                bid: bug.id.toString(),
                 body: {
                   tags: [
                     ...selectedItems
