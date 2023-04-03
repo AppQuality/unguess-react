@@ -29,12 +29,6 @@ const StyledItem = styled(Item)`
   }
 `;
 
-const Container = styled.div`
-  display: inline-block;
-  width: 100%;
-  margin-top: ${({ theme }) => theme.space.md};
-`;
-
 const SelectedItem = styled.div`
   display: flex;
   align-items: center;
@@ -98,7 +92,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   if (isError) return null;
 
   return (
-    <Container>
+    <div>
       <Label style={{ marginBottom: globalTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_STATE_LABEL')}
       </Label>
@@ -155,7 +149,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
           </Menu>
         </Dropdown>
       )}
-    </Container>
+    </div>
   );
 };
 

@@ -77,6 +77,12 @@ export const BugPreview = ({
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
 
+  const GridWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: ${({ theme }) => theme.space.sm};
+  `;
+
   return (
     <DetailContainer>
       <BugHeader bug={bug} />
@@ -84,8 +90,10 @@ export const BugPreview = ({
         <BugPreviewContextProvider>
           <BugMeta bug={bug} />
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
-          <BugPriority bug={bug} />
-          <BugStateDropdown bug={bug} />
+          <GridWrapper>
+            <BugPriority bug={bug} />
+            <BugStateDropdown bug={bug} />
+          </GridWrapper>
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
           <BugDetails bug={bug} />
