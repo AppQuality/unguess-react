@@ -62,7 +62,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   const [options, setOptions] = useState<DropdownItem[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const {
-    data: cpStatuses,
+    data: cpBugStatuses,
     isLoading,
     isFetching,
     isError,
@@ -71,9 +71,9 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   });
 
   useEffect(() => {
-    if (cpStatuses) {
+    if (cpBugStatuses) {
       setOptions(
-        cpStatuses.map((bugStatus) => ({
+        cpBugStatuses.map((bugStatus) => ({
           id: bugStatus.id,
           slug: bugStatus.name,
           text: getBugStateInfo(bugStatus.name as BugState, t).text,
@@ -81,7 +81,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
         }))
       );
     }
-  }, [cpStatuses]);
+  }, [cpBugStatuses]);
 
   useEffect(() => {
     if (status) {
@@ -99,7 +99,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   return (
     <Container>
       <Label style={{ marginBottom: globalTheme.space.xxs }}>
-        {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
+        {t('__BUGS_PAGE_BUG_DETAIL_STATE_LABEL')}
       </Label>
       {isLoading || isFetching ? (
         <Skeleton
