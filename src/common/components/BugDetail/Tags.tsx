@@ -82,8 +82,10 @@ export default ({
           style={{ borderRadius: globalTheme.borderRadii.md }}
         />
       ) : (
-
-        <div className="max-width-6-sm" style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}>
+        <div
+          className="max-width-6-sm"
+          style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}
+        >
           <MultiSelect
             options={options}
             selectedItems={options.filter((o) => o.selected)}
