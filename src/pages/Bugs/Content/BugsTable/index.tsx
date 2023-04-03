@@ -39,6 +39,12 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
           bugsByUseCases={data.bugsByUseCases}
         />
       )}
+      {groupBy === 'bugState' && (
+        <BugsByUsecase
+          campaignId={campaignId}
+          bugsByUseCases={data.bugsByUseCases}
+        />
+      )}
       {groupBy === 'ungrouped' && (
         <AllBugs campaignId={campaignId} bugs={data.allBugs} />
       )}
