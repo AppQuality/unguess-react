@@ -62,7 +62,7 @@ export const useCampaignBugs = (id: number) => {
     isCampaignBugsFetching,
     isCampaignError: isErrorCampaign,
     isCampaignBugsError: isErrorCampaignBugs,
-    status: (campaign && campaign.status) || { id: 0, name: 'running' },
+    status: campaign.status,
     severities,
   };
 };
