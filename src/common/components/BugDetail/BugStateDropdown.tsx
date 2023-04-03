@@ -4,6 +4,7 @@ import {
   Item,
   Menu,
   Skeleton,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
@@ -124,11 +125,25 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
           }}
         >
           <Field>
-            <Select isCompact>
-              <SelectedItem>
-                {selectedItem.icon} {selectedItem.text}
-              </SelectedItem>
-            </Select>
+            {bug.status.id !== 4 ? (
+              <Tooltip
+                appendToNode={document.body}
+                type="light"
+                content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
+              >
+                <Select isCompact disabled>
+                  <SelectedItem>
+                    {t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}
+                  </SelectedItem>
+                </Select>
+              </Tooltip>
+            ) : (
+              <Select isCompact>
+                <SelectedItem>
+                  {selectedItem.icon} {selectedItem.text}
+                </SelectedItem>
+              </Select>
+            )}
           </Field>
           <Menu>
             {options &&
