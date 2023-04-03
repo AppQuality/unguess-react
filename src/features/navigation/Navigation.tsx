@@ -1,5 +1,4 @@
 import {
-  AppHeader,
   Content,
   Sidebar,
   ProfileModal,
@@ -10,7 +9,6 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
   toggleSidebar,
   setWorkspace,
-  toggleProfileModal,
   setProfileModalOpen,
   setSidebarOpen,
 } from 'src/features/navigation/navigationSlice';
@@ -22,7 +20,6 @@ import { useEffect } from 'react';
 import API from 'src/common/api';
 import TagManager from 'react-gtm-module';
 import { isDev } from 'src/common/isDevEnvironment';
-import { Changelog } from '../../common/components/navigation/header/changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
@@ -120,13 +117,6 @@ export const Navigation = ({
           return filtered;
         }, []);
 
-  // Get initials from name
-  const getInitials = (name: string) => {
-    const names = name.split(' ');
-    const initials = names[0][0] + names[names.length - 1][0];
-    return initials;
-  };
-
   const profileModal = {
     user: {
       name: user.name,
@@ -213,10 +203,6 @@ export const Navigation = ({
 
   const toggleSidebarState = () => {
     dispatch(toggleSidebar());
-  };
-
-  const toggleProfileModalState = () => {
-    dispatch(toggleProfileModal());
   };
 
   const onProfileModalClose = () => {
