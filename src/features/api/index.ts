@@ -147,6 +147,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/priorities` }),
     }),
+    getCampaignsByCidCustomStatuses: build.query<
+      GetCampaignsByCidCustomStatusesApiResponse,
+      GetCampaignsByCidCustomStatusesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/custom_statuses`,
+      }),
+    }),
     getCampaignsByCidUsecases: build.query<
       GetCampaignsByCidUsecasesApiResponse,
       GetCampaignsByCidUsecasesApiArg
@@ -502,6 +510,12 @@ export type GetCampaignsByCidSeveritiesApiArg = {
 export type GetCampaignsByCidPrioritiesApiResponse =
   /** status 200 OK */ BugPriority[];
 export type GetCampaignsByCidPrioritiesApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidCustomStatusesApiResponse =
+  /** status 200 OK */ BugCustomStatus[];
+export type GetCampaignsByCidCustomStatusesApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -903,6 +917,10 @@ export type Report = {
   creation_date?: string;
   update_date?: string;
 };
+export type BugCustomStatus = {
+  id: number;
+  name: string;
+};
 export type WidgetBugsByUseCase = {
   data: {
     title: {
@@ -1016,6 +1034,7 @@ export const {
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidPrioritiesQuery,
+  useGetCampaignsByCidCustomStatusesQuery,
   useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidWidgetsQuery,
   usePostProjectsMutation,
