@@ -11,13 +11,13 @@ import { useTranslation } from 'react-i18next';
 import Table from 'src/common/components/Table';
 import { TableBugType } from 'src/pages/Bugs/types';
 import { useNavigate } from 'react-router-dom';
-import { BugBySeverityType, BugByUsecaseType } from '../types';
+import { BugByStateType, BugByUsecaseType } from '../types';
 import { mapBugsToTableData } from '../utils/mapBugsToTableData';
 import { useTableColumns } from '../hooks/useTableColumns';
 
 interface UseCaseTableProps {
   campaignId: number;
-  item: BugBySeverityType | BugByUsecaseType | { bugs: TableBugType[] };
+  item: BugByStateType | BugByUsecaseType | { bugs: TableBugType[] };
   isPreview?: boolean;
 }
 

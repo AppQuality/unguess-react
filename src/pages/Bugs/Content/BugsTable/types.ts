@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import {
-  BugState,
+  BugCustomStatus,
   GetCampaignsByCidUsecasesApiResponse,
 } from 'src/features/api';
 import { TableBugType } from '../../types';
@@ -23,7 +23,7 @@ export type BugByUsecaseType = {
 };
 
 export type BugByStateType = {
-  state: BugState;
+  state: BugCustomStatus;
   bugs: TableBugType[];
 };
 

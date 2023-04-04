@@ -2,6 +2,7 @@ import { useCampaignBugs } from './useCampaignBugs';
 import { useCampaignBugStates } from './useCampaignBugStates';
 import { useCampaignUseCases } from './useCampaignUseCases';
 import { sortByUseCase } from '../utils/sortByUseCase';
+import { sortByStates } from '../utils/sortByStates';
 
 export const useTableData = (campaignId: number) => {
   // get  bugs accepted states and usecases
@@ -21,7 +22,7 @@ export const useTableData = (campaignId: number) => {
     !bugs.items
   ) {
     return {
-      bugStates: bugStates,
+      bugStates,
       campaignUsecases: useCases,
       data: {
         allBugs: [],

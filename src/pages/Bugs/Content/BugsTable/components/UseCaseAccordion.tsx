@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { theme as globalTheme } from 'src/app/theme';
-import { BugBySeverityType, BugByUsecaseType } from '../types';
+import { BugByStateType, BugByUsecaseType } from '../types';
 import { InfoRow } from './InfoRow';
 import BugCards from './BugCards';
 import UseCaseTable from './UseCaseTable';
@@ -29,7 +29,7 @@ const AccordionFooter = styled.div`
 interface UseCaseAccordionProps {
   campaignId: number;
   title?: ReactNode;
-  item: BugBySeverityType | BugByUsecaseType;
+  item: BugByStateType | BugByUsecaseType;
   footer?: ReactNode;
 }
 

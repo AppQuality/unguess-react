@@ -1,10 +1,10 @@
-import { GetCampaignsByCidStatesApiResponse } from 'src/features/api';
+import { GetCampaignsByCidCustomStatusesApiResponse } from 'src/features/api';
 import { TableBugType } from '../../../types';
 import { BugByStateType } from '../types';
 
 export const sortByStates = (
   bugs: TableBugType[],
-  states: GetCampaignsByCidStatesApiResponse
+  states: GetCampaignsByCidCustomStatusesApiResponse
 ) => {
   const bugsByStates: BugByStateType[] = states?.map((state) => ({
     state,
@@ -12,7 +12,8 @@ export const sortByStates = (
   }));
   bugs.forEach((bug) => {
     const bugState = bugsByStates.find(
-      (item) => item.state.id === bug.state.id
+      // (item) => item.state.id === bug.custom_status.id // todo: sostituire con custom_status
+      (item) => item.state.id === bug.status.id
     );
     bugState?.bugs.push(bug);
   });
