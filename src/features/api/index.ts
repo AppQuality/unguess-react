@@ -403,6 +403,7 @@ export type PatchCampaignsByCidBugsAndBidApiResponse = /** status 200 OK */ {
     tag_name: string;
   }[];
   priority?: BugPriority;
+  custom_status?: BugCustomStatus;
 };
 export type PatchCampaignsByCidBugsAndBidApiArg = {
   /** Campaign id */
@@ -419,6 +420,7 @@ export type PatchCampaignsByCidBugsAndBidApiArg = {
         }
     )[];
     priority_id?: number;
+    custom_status_id?: number;
   };
 };
 export type GetCampaignsByCidReplicabilitiesApiResponse =
@@ -889,6 +891,10 @@ export type BugAdditionalField = {
   name: string;
   value: string;
 } & (BugAdditionalFieldRegex | BugAdditionalFieldSelect);
+export type BugCustomStatus = {
+  id: number;
+  name: string;
+};
 export type ReportExtensions =
   | 'pdf'
   | 'doc'
@@ -916,10 +922,6 @@ export type Report = {
   };
   creation_date?: string;
   update_date?: string;
-};
-export type BugCustomStatus = {
-  id: number;
-  name: string;
 };
 export type WidgetBugsByUseCase = {
   data: {
