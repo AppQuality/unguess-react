@@ -963,6 +963,10 @@ export type Report = {
   creation_date?: string;
   update_date?: string;
 };
+export type BugCustomStatus = {
+  id: number;
+  name: string;
+};
 export type WidgetBugsByUseCase = {
   data: {
     title: {
