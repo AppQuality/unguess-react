@@ -33,6 +33,8 @@
   "__BUGS_FILTER_VIEW_ALL_LABEL": "All filters",
   "__BUGS_FILTER_VIEW_RESET_LABEL": "Reset filters",
   "__BUGS_GROUP_BY_OPEN_MENU": "Group by",
+  "__BUGS_GROUP_BY_STATE": "By Bug State",
+  "__BUGS_GROUP_BY_STATE_ITEM": "Bug State",
   "__BUGS_GROUP_BY_UNGROUPED": "Single list",
   "__BUGS_GROUP_BY_USE_CASE": "By Use Case",
   "__BUGS_GROUP_BY_USE_CASE_ITEM": "Use Case",
