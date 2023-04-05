@@ -1,82 +1,86 @@
 import { Accordion, MD } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
-import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
-import { Bug } from 'src/features/api';
-import { EmptyGroup } from './components/EmptyGroup';
+import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { useTranslation } from 'react-i18next';
 import { EmptyState } from './components/EmptyState';
-import SingleGroupTable from './components/SingleGroupTable';
-import { StyledSM } from './components/StyledSM';
+import UseCaseAccordion from './components/UseCaseAccordion';
 import { BugByStateType } from './types';
+import { EmptyGroup } from './components/EmptyGroup';
 
-export const BugsBySeverity = ({
-  bugsBySeverity,
-  allBugs,
+export const BugsByState = ({
+  campaignId,
+  bugsByState,
 }: {
-  bugsBySeverity: BugByStateType[];
-  allBugs: Bug[];
+  campaignId: number;
+  bugsByState: BugByStateType[];
 }) => {
-  const emptySeverities = useMemo(
-    () => bugsBySeverity.filter((item) => item.bugs.length === 0),
-    [bugsBySeverity]
-  );
-  const severities = useMemo(
-    () => bugsBySeverity.filter((item) => item.bugs.length > 0),
-    [bugsBySeverity]
-  );
   const { t } = useTranslation();
+  const selectedFilters = getSelectedFilters();
 
-  if (!severities.length) {
+  const isDefaultView = useMemo(
+    () =>
+      !selectedFilters.search &&
+      selectedFilters.severities?.length === 0 &&
+      selectedFilters.types?.length === 0 &&
+      !selectedFilters.read,
+    [selectedFilters]
+  );
+  const emptyBugStates = useMemo(
+    () => bugsByState.filter((item) => item.bugs.length === 0),
+    [bugsByState]
+  );
+  const bugStates = useMemo(
+    () => bugsByState.filter((item) => item.bugs.length > 0),
+    [bugsByState]
+  );
+
+  if (!bugStates.length) {
     return <EmptyState />;
   }
-
-  const getTableFooter = (item: BugByStateType) => {
-    const total = allBugs.length;
-    const totalSeverity = item.bugs.length;
-    const percentage = (totalSeverity / total) * 100;
-    return (
-      <Trans i18nKey="__BUGS_PAGE_GROUPED_BY_SEVERITY_PERCENTAGE_OF_TOTAL">
-        <StyledSM isBold accent={theme.palette.blue[600]}>
-          <span>{{ percentage: percentage.toFixed(0) }}%</span> of total bugs
-        </StyledSM>
-      </Trans>
-    );
-  };
 
   return (
     <Accordion
       level={3}
-      defaultExpandedSections={Array.from(bugsBySeverity, (_, i) => i)}
+      defaultExpandedSections={Array.from(bugsByState, (_, i) => i)}
       isExpandable
       isBare
     >
-      {severities.map((item) => (
-        <SingleGroupTable
+      {bugStates.map((item) => (
+        <UseCaseAccordion
+          campaignId={campaignId}
+          key={item.state.id}
           title={
             <>
-              {t('__BUGS_PAGE_SEVERITY', 'Severity')}:{' '}
-              {capitalizeFirstLetter(item.state.name)}
+              {item.state?.id === -1
+                ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
+                : item.state.name}
               <MD tag="span">{` (${item.bugs.length})`}</MD>
             </>
           }
-          key={item.state.id}
           item={item}
-          footer={getTableFooter(item)}
         />
       ))}
-      {emptySeverities.length > 1 && (
+      {isDefaultView ? (
         <EmptyGroup isBold>
-          {t('__BUGS_PAGE_OTHER_SEVERITIES', 'other severities')}{' '}
-          <MD tag="span">(0)</MD>
+          {t(
+            '__BUGS_PAGE_WARNING_POSSIBLE_EMPTY_CASES',
+            "As of now we couldn't find any more bugs in other use cases"
+          )}
         </EmptyGroup>
-      )}
-      {emptySeverities.length === 1 && (
-        <EmptyGroup isBold>
-          {t('__BUGS_PAGE_SEVERITY', 'Severity')}:{' '}
-          {capitalizeFirstLetter(emptySeverities[0].severity.name)}{' '}
-          <MD tag="span">(0)</MD>
-        </EmptyGroup>
+      ) : (
+        <>
+          {emptyBugStates.length > 1 && (
+            <EmptyGroup isBold>
+              {t('__BUGS_PAGE_OTHER_USE_CASES', 'other use cases')}{' '}
+              <MD tag="span">(0)</MD>
+            </EmptyGroup>
+          )}
+          {emptyBugStates.length === 1 && (
+            <EmptyGroup isBold>
+              {emptyBugStates[0].state.name} <MD tag="span">(0)</MD>
+            </EmptyGroup>
+          )}
+        </>
       )}
     </Accordion>
   );
