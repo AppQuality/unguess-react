@@ -147,6 +147,14 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/priorities` }),
     }),
+    getCampaignsByCidCustomStatuses: build.query<
+      GetCampaignsByCidCustomStatusesApiResponse,
+      GetCampaignsByCidCustomStatusesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/custom_statuses`,
+      }),
+    }),
     getCampaignsByCidUsecases: build.query<
       GetCampaignsByCidUsecasesApiResponse,
       GetCampaignsByCidUsecasesApiArg
@@ -395,6 +403,7 @@ export type PatchCampaignsByCidBugsAndBidApiResponse = /** status 200 OK */ {
     tag_name: string;
   }[];
   priority?: BugPriority;
+  custom_status?: BugCustomStatus;
 };
 export type PatchCampaignsByCidBugsAndBidApiArg = {
   /** Campaign id */
@@ -411,6 +420,7 @@ export type PatchCampaignsByCidBugsAndBidApiArg = {
         }
     )[];
     priority_id?: number;
+    custom_status_id?: number;
   };
 };
 export type GetCampaignsByCidReplicabilitiesApiResponse =
@@ -502,6 +512,12 @@ export type GetCampaignsByCidSeveritiesApiArg = {
 export type GetCampaignsByCidPrioritiesApiResponse =
   /** status 200 OK */ BugPriority[];
 export type GetCampaignsByCidPrioritiesApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidCustomStatusesApiResponse =
+  /** status 200 OK */ BugCustomStatus[];
+export type GetCampaignsByCidCustomStatusesApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -875,6 +891,10 @@ export type BugAdditionalField = {
   name: string;
   value: string;
 } & (BugAdditionalFieldRegex | BugAdditionalFieldSelect);
+export type BugCustomStatus = {
+  id: number;
+  name: string;
+};
 export type ReportExtensions =
   | 'pdf'
   | 'doc'
@@ -1016,6 +1036,7 @@ export const {
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidPrioritiesQuery,
+  useGetCampaignsByCidCustomStatusesQuery,
   useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidWidgetsQuery,
   usePostProjectsMutation,
