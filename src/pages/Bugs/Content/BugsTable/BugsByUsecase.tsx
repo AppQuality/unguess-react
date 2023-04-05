@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from './components/EmptyState';
-import UseCaseAccordion from './components/UseCaseAccordion';
+import UseCaseAccordion from './components/SingleGroupAccordion';
 import { BugByUsecaseType } from './types';
 import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';

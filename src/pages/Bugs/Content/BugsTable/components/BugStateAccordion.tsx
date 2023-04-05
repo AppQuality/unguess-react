@@ -9,7 +9,7 @@ import { theme as globalTheme } from 'src/app/theme';
 import { BugByStateType, BugByUsecaseType } from '../types';
 import { InfoRow } from './InfoRow';
 import BugCards from './BugCards';
-import UseCaseTable from './UseCaseTable';
+import UseCaseTable from './SingleGroupTable';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
   padding: 0;
@@ -26,19 +26,19 @@ const AccordionFooter = styled.div`
   align-items: center;
 `;
 
-interface UseCaseAccordionProps {
+interface BugStateAccordionProps {
   campaignId: number;
   title?: ReactNode;
   item: BugByStateType | BugByUsecaseType;
   footer?: ReactNode;
 }
 
-const UseCaseAccordion = ({
+const BugStateAccordion = ({
   campaignId,
   title,
   item,
   footer,
-}: UseCaseAccordionProps) => {
+}: BugStateAccordionProps) => {
   const { t } = useTranslation();
   const [isPreview, setIsPreview] = useState(true);
   const dispatch = useAppDispatch();
@@ -94,4 +94,4 @@ const UseCaseAccordion = ({
   );
 };
 
-export default UseCaseAccordion;
+export default BugStateAccordion;

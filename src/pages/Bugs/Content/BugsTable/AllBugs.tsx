@@ -2,7 +2,7 @@ import { theme as globalTheme } from 'src/app/theme';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { TableBugType } from '../../types';
 import { InfoRow } from './components/InfoRow';
-import UseCaseTable from './components/UseCaseTable';
+import UseCaseTable from './components/SingleGroupTable';
 import BugCards from './components/BugCards';
 
 export const AllBugs = ({

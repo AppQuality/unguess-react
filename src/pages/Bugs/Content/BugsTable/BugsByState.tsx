@@ -3,16 +3,16 @@ import { useMemo } from 'react';
 import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from './components/EmptyState';
-import UseCaseAccordion from './components/UseCaseAccordion';
+import BugStateAccordion from './components/BugStateAccordion';
 import { BugByStateType } from './types';
 import { EmptyGroup } from './components/EmptyGroup';
 
 export const BugsByState = ({
   campaignId,
-  bugsByState,
+  bugsByStates,
 }: {
   campaignId: number;
-  bugsByState: BugByStateType[];
+  bugsByStates: BugByStateType[];
 }) => {
   const { t } = useTranslation();
   const selectedFilters = getSelectedFilters();
@@ -26,12 +26,12 @@ export const BugsByState = ({
     [selectedFilters]
   );
   const emptyBugStates = useMemo(
-    () => bugsByState.filter((item) => item.bugs.length === 0),
-    [bugsByState]
+    () => bugsByStates.filter((item) => item.bugs.length === 0),
+    [bugsByStates]
   );
   const bugStates = useMemo(
-    () => bugsByState.filter((item) => item.bugs.length > 0),
-    [bugsByState]
+    () => bugsByStates.filter((item) => item.bugs.length > 0),
+    [bugsByStates]
   );
 
   if (!bugStates.length) {
@@ -41,12 +41,12 @@ export const BugsByState = ({
   return (
     <Accordion
       level={3}
-      defaultExpandedSections={Array.from(bugsByState, (_, i) => i)}
+      defaultExpandedSections={Array.from(bugsByStates, (_, i) => i)}
       isExpandable
       isBare
     >
       {bugStates.map((item) => (
-        <UseCaseAccordion
+        <BugStateAccordion
           campaignId={campaignId}
           key={item.state.id}
           title={

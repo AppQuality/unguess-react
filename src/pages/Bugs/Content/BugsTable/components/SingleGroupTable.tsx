@@ -15,13 +15,17 @@ import { BugByStateType, BugByUsecaseType } from '../types';
 import { mapBugsToTableData } from '../utils/mapBugsToTableData';
 import { useTableColumns } from '../hooks/useTableColumns';
 
-interface UseCaseTableProps {
+interface SingleGroupTableProps {
   campaignId: number;
   item: BugByStateType | BugByUsecaseType | { bugs: TableBugType[] };
   isPreview?: boolean;
 }
 
-const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
+const SingleGroupTable = ({
+  campaignId,
+  item,
+  isPreview,
+}: SingleGroupTableProps) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
@@ -64,4 +68,4 @@ const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
   );
 };
 
-export default UseCaseTable;
+export default SingleGroupTable;
