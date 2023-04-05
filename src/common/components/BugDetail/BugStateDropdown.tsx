@@ -109,7 +109,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
               cid: bug.campaign_id.toString(),
               bid: bug.id.toString(),
               body: {
-                // status_id: item.id,
+                custom_status_id: item.id,
               },
             });
             setSelectedItem(item);
