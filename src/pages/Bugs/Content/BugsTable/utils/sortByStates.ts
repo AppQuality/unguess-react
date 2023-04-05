@@ -12,8 +12,7 @@ export const sortByStates = (
   }));
   bugs.forEach((bug) => {
     const bugState = bugsByStates.find(
-      // (item) => item.state.id === bug.custom_status.id // todo: sostituire con custom_status
-      (item) => item.state.id === bug.status.id
+      (item) => item.state.id === bug.custom_status.id
     );
     bugState?.bugs.push(bug);
   });
