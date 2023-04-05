@@ -805,6 +805,10 @@ export type BugPriority = {
   id: number;
   name: string;
 };
+export type BugCustomStatus = {
+  id: number;
+  name: string;
+};
 export type Smartphone = {
   manufacturer: string;
   model: string;
@@ -843,6 +847,7 @@ export type Bug = {
   type: BugType;
   replicability: BugReplicability;
   priority?: BugPriority;
+  custom_status?: BugCustomStatus;
   created: string;
   occurred_date: string;
   updated?: string;
@@ -850,9 +855,9 @@ export type Bug = {
   device: Smartphone | Tablet | Desktop;
   application_section: {
     id?: number;
-    simple_title?: string;
     prefix_title?: string;
     title?: string;
+    simple_title?: string;
   };
   duplicated_of_id?: number;
   is_favorite?: number;
@@ -891,10 +896,6 @@ export type BugAdditionalField = {
   name: string;
   value: string;
 } & (BugAdditionalFieldRegex | BugAdditionalFieldSelect);
-export type BugCustomStatus = {
-  id: number;
-  name: string;
-};
 export type ReportExtensions =
   | 'pdf'
   | 'doc'
