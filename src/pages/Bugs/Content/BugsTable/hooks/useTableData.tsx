@@ -27,7 +27,7 @@ export const useTableData = (campaignId: number) => {
       data: {
         allBugs: [],
         bugsByUseCases: [],
-        bugsBySeverity: [],
+        bugsByStates: [],
       },
       isLoading: bugsLoading,
       isFetching: bugsFetching,

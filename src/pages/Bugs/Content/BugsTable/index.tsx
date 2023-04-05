@@ -1,6 +1,7 @@
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { AllBugs } from './AllBugs';
+import { BugsByState } from './BugsByState';
 import { BugsByUsecase } from './BugsByUsecase';
 import { EmptyState } from './components/EmptyState';
 import { LoadingState } from './components/LoadingState';
@@ -40,10 +41,7 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
         />
       )}
       {groupBy === 'bugState' && (
-        <BugsByUsecase
-          campaignId={campaignId}
-          bugsByUseCases={data.bugsByUseCases}
-        />
+        <BugsByState campaignId={campaignId} bugsByStates={data.bugsByStates} />
       )}
       {groupBy === 'ungrouped' && (
         <AllBugs campaignId={campaignId} bugs={data.allBugs} />
