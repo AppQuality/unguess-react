@@ -846,8 +846,8 @@ export type Bug = {
   severity: BugSeverity;
   type: BugType;
   replicability: BugReplicability;
-  priority?: BugPriority;
-  custom_status?: BugCustomStatus;
+  priority: BugPriority;
+  custom_status: BugCustomStatus;
   created: string;
   occurred_date: string;
   updated?: string;
