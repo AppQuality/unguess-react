@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   Output,
   useGetCampaignsByCidBugTypesQuery,
+  useGetCampaignsByCidCustomStatusesQuery,
   useGetCampaignsByCidDevicesQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
@@ -19,6 +20,7 @@ import { DeviceFilterType } from 'src/features/bugsPage/deviceFilter';
 import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ReplicabilityFilterType } from 'src/features/bugsPage/replicabilityFilter';
 import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
+import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{
@@ -27,6 +29,7 @@ export const useCampaign = (cid: number) => {
       types?: TypeFilterType['types']['available'];
       severities?: SeverityFilterType['severities']['available'];
       priorities?: PriorityFilterType['priorities']['available'];
+      customStatuses?: CustomStatusFilterType['customStatuses']['available'];
       tags?: TagFilterType['tags']['available'];
       useCases?: UseCaseFilterType['useCases']['available'];
       devices?: DeviceFilterType['devices']['available'];
@@ -52,6 +55,10 @@ export const useCampaign = (cid: number) => {
   });
 
   const { data: campaignPriorities } = useGetCampaignsByCidPrioritiesQuery({
+    cid: cid.toString(),
+  });
+
+  const { data: campaignCustomStatuses } = useGetCampaignsByCidCustomStatusesQuery({
     cid: cid.toString(),
   });
 
@@ -84,6 +91,7 @@ export const useCampaign = (cid: number) => {
           types: campaignTypes,
           severities: campaignSeverities,
           priorities: campaignPriorities,
+          customStatuses: campaignCustomStatuses,
           tags: campaignTags,
           useCases: campaignUseCases,
           devices: campaignDevices,
@@ -98,6 +106,7 @@ export const useCampaign = (cid: number) => {
     campaignTypes,
     campaignSeverities,
     campaignPriorities,
+    campaignCustomStatuses,
     campaignTags,
     campaignUseCases,
     campaignDevices,
