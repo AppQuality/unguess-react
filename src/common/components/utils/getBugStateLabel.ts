@@ -1,4 +1,3 @@
-/* eslint-disable security/detect-object-injection */
 import { TFunction } from 'react-i18next';
 
 export const getBugStateLabel = (state: BugState, t: TFunction): string => {

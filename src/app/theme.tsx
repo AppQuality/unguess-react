@@ -16,7 +16,7 @@ export const SEVERITY_HUES: Record<Severities, string> = {
   medium: CHARTS_COLOR_PALETTE.blueRoyal,
   low: CHARTS_COLOR_PALETTE.darkPine,
 };
-
+// temporary fix for the bug state colors
 export const BUG_STATE_COLORS: Record<
   BugState,
   { stroke: string; color: string }
