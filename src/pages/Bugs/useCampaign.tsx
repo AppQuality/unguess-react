@@ -58,9 +58,10 @@ export const useCampaign = (cid: number) => {
     cid: cid.toString(),
   });
 
-  const { data: campaignCustomStatuses } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: cid.toString(),
-  });
+  const { data: campaignCustomStatuses } =
+    useGetCampaignsByCidCustomStatusesQuery({
+      cid: cid.toString(),
+    });
 
   const { data: campaignTags } = useGetCampaignsByCidTagsQuery({
     cid: cid.toString(),

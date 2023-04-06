@@ -7,7 +7,10 @@ import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
 import { TagFilterType, TagFilter } from './tagFilter';
 import { PriorityFilter, PriorityFilterType } from './priorityFilter';
-import { CustomStatusFilter, CustomStatusFilterType } from './customStatusFilter';
+import {
+  CustomStatusFilter,
+  CustomStatusFilterType,
+} from './customStatusFilter';
 import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
 import { DeviceFilterType, DeviceFilter } from './deviceFilter';
 import { OsFilterType, OsFilter } from './osFilter';
