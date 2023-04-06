@@ -6,6 +6,7 @@ import {
   Menu,
   Skeleton,
   Tooltip,
+  Separator,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
@@ -144,10 +145,13 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
           </Field>
           <Menu>
             {options &&
-              options.map((item) => (
-                <StyledItem key={item.slug} value={item}>
-                  {item.icon} {item.text}
-                </StyledItem>
+              options.map((item, i) => (
+                <>
+                  {i === 5 && <Separator />}
+                  <StyledItem key={item.slug} value={item}>
+                    {item.icon} {item.text}
+                  </StyledItem>
+                </>
               ))}
           </Menu>
         </Dropdown>
