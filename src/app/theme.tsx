@@ -30,20 +30,20 @@ export const BUG_STATE_COLORS: Record<
     color: baseTheme.palette.grey[400],
   },
   'to be imported': {
-    stroke: CHARTS_COLOR_PALETTE.blueRoyal,
-    color: CHARTS_COLOR_PALETTE.blueRoyal,
+    stroke: baseTheme.palette.azure[400],
+    color: baseTheme.palette.azure[400],
   },
   open: {
-    stroke: CHARTS_COLOR_PALETTE.blueRoyal,
-    color: CHARTS_COLOR_PALETTE.blueRoyal,
+    stroke: baseTheme.palette.azure[400],
+    color: baseTheme.palette.azure[400],
   },
   'to be retested': {
-    stroke: CHARTS_COLOR_PALETTE.gubbioLight,
-    color: CHARTS_COLOR_PALETTE.gubbioLight,
+    stroke: baseTheme.palette.yellow[400],
+    color: baseTheme.palette.yellow[400],
   },
   solved: {
-    stroke: '#00A56A',
-    color: '#00A56A',
+    stroke: baseTheme.palette.green[600],
+    color: baseTheme.palette.green[600],
   },
   'not a bug': {
     stroke: baseTheme.palette.grey[600],
