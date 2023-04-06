@@ -58,4 +58,3 @@ declare global {
     | 'solved'
     | 'not a bug';
 }
-
