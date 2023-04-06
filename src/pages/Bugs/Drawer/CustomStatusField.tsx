@@ -9,14 +9,20 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-forms';
+import { Field, Toggle } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
+import styled from 'styled-components';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
 import { LabelSpaceBetween } from './LabelWithCounter';
+
+const Spacer = styled.div`
+  width: 100%;
+  height: ${({ theme }) => theme.space.md};
+`;
 
 export const CustomStatusField = ({
   customStatuses,
@@ -31,6 +37,7 @@ export const CustomStatusField = ({
   const { t } = useTranslation();
   const { available: unsorted, selected } = customStatuses;
   const available = [...unsorted].sort((a, b) => a.id - b.id);
+  counters[7] = 5;
 
   if (!counters) return null;
 
@@ -53,57 +60,68 @@ export const CustomStatusField = ({
               >
                 {selected && selected.length
                   ? `${selected
-                      .slice(0, maxItemsToShow)
-                      .map((item) => item.name)
-                      .join(', ')
-                      .toLowerCase()} ${
-                      selected.length > maxItemsToShow
-                        ? `+${selected.length - maxItemsToShow}`
-                        : ''
-                    }`
+                    .slice(0, maxItemsToShow)
+                    .map((item) => item.name)
+                    .join(', ')
+                    .toLowerCase()} ${selected.length > maxItemsToShow
+                      ? `+${selected.length - maxItemsToShow}`
+                      : ''
+                  }`
                   : t(
-                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
-                    )}
+                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
+                  )}
               </SM>
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
+            <Field>
+              <Toggle
+                disabled={!counters[7]}
+                onChange={(e) => console.log(e)}
+              >
+                <LabelSpaceBetween isRegular>
+                  Exclude “Not a bug”
+                  <MD>{counters[7] || 0}</MD>
+                </LabelSpaceBetween>
+              </Toggle>
+            </Field>
+            <Spacer />
             {available.length
               ? available
-                  .slice(0, showMore ? undefined : maxItemsToShow)
-                  .map((item) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
-                      <Checkbox
-                        value={item.name}
-                        name="filter-priority"
-                        disabled={!counters[item.id]}
-                        checked={selected.map((i) => i.id).includes(item.id)}
-                        onChange={() => {
-                          dispatch(
-                            updateFilters({
-                              filters: {
-                                customStatuses: [
-                                  ...(selected
-                                    .map((i) => i.id)
-                                    .includes(item.id)
-                                    ? selected.filter((i) => i.id !== item.id)
-                                    : [...selected, item]),
-                                ],
-                              },
-                            })
-                          );
-                        }}
-                      >
-                        <LabelSpaceBetween isRegular>
-                          {
-                            getCustomStatusInfo(item?.name as CustomStatus, t)
-                              .text
-                          }
-                          <MD>{counters[item.id] || 0}</MD>
-                        </LabelSpaceBetween>
-                      </Checkbox>
-                    </Field>
-                  ))
+                .slice(0, showMore ? undefined : maxItemsToShow)
+                .map((item) => (
+                  <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Checkbox
+                      value={item.name}
+                      name="filter-priority"
+                      disabled={!counters[item.id]}
+                      checked={selected.map((i) => i.id).includes(item.id)}
+                      onChange={() => {
+                        dispatch(
+                          updateFilters({
+                            filters: {
+                              customStatuses: [
+                                ...(selected
+                                  .map((i) => i.id)
+                                  .includes(item.id)
+                                  ? selected.filter((i) => i.id !== item.id)
+                                  : [...selected, item]),
+                              ],
+                            },
+                          })
+                        );
+                      }}
+                    >
+                      <LabelSpaceBetween isRegular>
+                        {
+                          getCustomStatusInfo(item?.name as CustomStatus, t)
+                            .text
+                        }
+                        <MD>{counters[item.id] || 0}</MD>
+                      </LabelSpaceBetween>
+                    </Checkbox>
+                  </Field>
+                ))
               : null}
 
             {available.length > maxItemsToShow ? (

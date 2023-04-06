@@ -92,3 +92,5 @@ export const PRIORITY_ORDER__LOW__TO__HIGH: OrderSelection = {
 };
 
 export const DEFAULT_ORDER_BY = SEVERITY_ORDER__HIGH__TO__LOW;
+
+export const NOT_A_BUG = 'not_a_bug';

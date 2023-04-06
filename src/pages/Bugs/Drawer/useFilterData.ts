@@ -98,7 +98,7 @@ export const useFilterData = (filter: Filter) => {
           filter === 'customStatuses' &&
           bug.custom_status !== undefined
         ) {
-          acc[bug.priority.id] = (acc[bug.priority.id] || 0) + 1;
+          acc[bug.custom_status.id] = (acc[bug.custom_status.id] || 0) + 1;
         } else if (filter === 'useCases') {
           acc[bug.application_section.id || -1] =
             (acc[bug.application_section.id || -1] || 0) + 1;
