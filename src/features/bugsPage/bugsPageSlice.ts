@@ -7,6 +7,7 @@ import { UniqueFilter, UniqueFilterType } from './uniqueFilter';
 import { SearchFilter, SearchFilterType } from './searchFilter';
 import { TagFilterType, TagFilter } from './tagFilter';
 import { PriorityFilter, PriorityFilterType } from './priorityFilter';
+import { CustomStatusFilter, CustomStatusFilterType } from './customStatusFilter';
 import { UseCaseFilterType, UseCaseFilter } from './useCaseFilter';
 import { DeviceFilterType, DeviceFilter } from './deviceFilter';
 import { OsFilterType, OsFilter } from './osFilter';
@@ -24,6 +25,7 @@ type CampaignType = {
   SearchFilterType &
   TagFilterType &
   PriorityFilterType &
+  CustomStatusFilterType &
   UseCaseFilterType &
   DeviceFilterType &
   OsFilterType &
@@ -81,6 +83,10 @@ const bugPageSlice = createSlice({
           state.campaigns[cp_id as number],
           filters.priorities
         ),
+        ...CustomStatusFilter.setAvailable(
+          state.campaigns[cp_id as number],
+          filters.customStatuses
+        ),
         ...UseCaseFilter.setAvailable(
           state.campaigns[cp_id as number],
           filters.useCases
@@ -136,6 +142,10 @@ const bugPageSlice = createSlice({
           state.campaigns[state.currentCampaign],
           filters.priorities
         ),
+        ...CustomStatusFilter.filter(
+          state.campaigns[state.currentCampaign],
+          filters.customStatuses
+        ),
         ...UseCaseFilter.filter(
           state.campaigns[state.currentCampaign],
           filters.useCases
@@ -161,6 +171,7 @@ const bugPageSlice = createSlice({
         ...SearchFilter.reset(),
         ...TagFilter.reset(state.campaigns[state.currentCampaign]),
         ...PriorityFilter.reset(state.campaigns[state.currentCampaign]),
+        ...CustomStatusFilter.reset(state.campaigns[state.currentCampaign]),
         ...UseCaseFilter.reset(state.campaigns[state.currentCampaign]),
         ...DeviceFilter.reset(state.campaigns[state.currentCampaign]),
         ...OsFilter.reset(state.campaigns[state.currentCampaign]),
@@ -192,6 +203,7 @@ export const getSelectedFiltersIds = () => ({
   search: SearchFilter.getValue(),
   tags: TagFilter.getIds(),
   priorities: PriorityFilter.getIds(),
+  customStatuses: CustomStatusFilter.getIds(),
   useCases: UseCaseFilter.getIds(),
   devices: DeviceFilter.getIds(),
   os: OsFilter.getIds(),
@@ -206,6 +218,7 @@ export const getSelectedFilters = () => ({
   search: SearchFilter.getValue(),
   tags: TagFilter.getValues(),
   priorities: PriorityFilter.getValues(),
+  customStatuses: CustomStatusFilter.getValues(),
   useCases: UseCaseFilter.getValues(),
   devices: DeviceFilter.getValues(),
   os: OsFilter.getValues(),
