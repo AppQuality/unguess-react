@@ -79,7 +79,7 @@ export const BugPreview = ({
 
   const GridWrapper = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 50% 50%;
     column-gap: ${({ theme }) => theme.space.sm};
   `;
 
@@ -91,8 +91,8 @@ export const BugPreview = ({
           <BugMeta bug={bug} />
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
           <GridWrapper>
-            <BugPriority bug={bug} />
             <BugStateDropdown bug={bug} />
+            <BugPriority bug={bug} />
           </GridWrapper>
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}

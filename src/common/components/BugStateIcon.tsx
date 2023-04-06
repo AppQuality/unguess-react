@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const BugStateIcon = styled(CircleFill)<{ height?: string }>`
   width: auto;
   height: 100%;
-  max-height: 13px;
+  max-height: 11px;
   margin: 0 2px;
   overflow: visible;
   stroke-width: 2;
