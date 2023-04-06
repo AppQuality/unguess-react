@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import {
   Dropdown,
   Select,
@@ -8,16 +9,16 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
-import { DEFAULT_BUG_STATUS } from 'src/constants';
 import {
   Bug,
-  useGetCampaignsByCidPrioritiesQuery,
+  useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
-import { getBugStateInfo } from '../utils/getBugStateInfo';
+import { BugStateIcon } from 'src/common/components/BugStateIcon';
+import { getBugStateLabel } from 'src/common/components/utils/getBugStateLabel';
 import { Label } from './Label';
 
 const StyledItem = styled(Item)`
@@ -47,47 +48,49 @@ type DropdownItem = {
 
 const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
-  const { status } = bug;
-  const [selectedItem, setSelectedItem] = useState<DropdownItem>({
-    id: DEFAULT_BUG_STATUS.id,
-    slug: DEFAULT_BUG_STATUS.name,
-    text: getBugStateInfo(DEFAULT_BUG_STATUS.name as BugState, t).text,
-    icon: getBugStateInfo(DEFAULT_BUG_STATUS.name as BugState, t).icon,
-  });
+  const { custom_status } = bug;
+  const [selectedItem, setSelectedItem] = useState<DropdownItem | undefined>();
   const [options, setOptions] = useState<DropdownItem[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const {
-    data: cpBugStatuses,
+    data: cpBugStates,
     isLoading,
     isFetching,
     isError,
-  } = useGetCampaignsByCidPrioritiesQuery({
+  } = useGetCampaignsByCidCustomStatusesQuery({
     cid: bug.campaign_id.toString(),
   });
 
-  useEffect(() => {
-    if (cpBugStatuses) {
-      setOptions(
-        cpBugStatuses.map((bugStatus) => ({
-          id: bugStatus.id,
-          slug: bugStatus.name,
-          text: getBugStateInfo(bugStatus.name as BugState, t).text,
-          icon: getBugStateInfo(bugStatus.name as BugState, t).icon,
-        }))
-      );
-    }
-  }, [cpBugStatuses]);
+  const sortStates = (a: DropdownItem, b: DropdownItem) => {
+    if (a.id < b.id) return -1;
+    if (a.id > b.id) return 1;
+    return 0;
+  };
 
   useEffect(() => {
-    if (status) {
-      setSelectedItem({
-        id: status.id,
-        slug: status.name,
-        text: getBugStateInfo(status.name as BugState, t).text,
-        icon: getBugStateInfo(status.name as BugState, t).icon,
-      });
+    if (cpBugStates) {
+      setOptions(
+        cpBugStates
+          .map((bugState) => ({
+            id: bugState.id,
+            slug: bugState.name,
+            text: getBugStateLabel(bugState.name as BugState, t),
+            icon: (
+              <BugStateIcon
+                {...globalTheme.colors.byBugState[bugState.name as BugState]}
+              />
+            ),
+          }))
+          .sort(sortStates)
+      );
     }
-  }, [status]);
+  }, [cpBugStates]);
+
+  useEffect(() => {
+    setSelectedItem(
+      options.find((bugStatus) => bugStatus.id === custom_status.id)
+    );
+  }, [custom_status, options]);
 
   if (isError) return null;
 
@@ -134,7 +137,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
             ) : (
               <Select isCompact>
                 <SelectedItem>
-                  {selectedItem.icon} {selectedItem.text}
+                  {selectedItem?.icon} {selectedItem?.text}
                 </SelectedItem>
               </Select>
             )}
