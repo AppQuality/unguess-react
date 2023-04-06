@@ -4,6 +4,7 @@ export type CustomStatusFilterType = {
   customStatuses: {
     available: { id: number; name: string }[];
     selected: { id: number; name: string }[];
+    IsNaBugExcluded?: boolean;
   };
 };
 
@@ -54,4 +55,6 @@ export const CustomStatusFilter = {
     if (!values) return undefined;
     return values.map((t) => t.id);
   },
+  getIsNaBugExcluded: (state: CustomStatusFilterType) => state.customStatuses.IsNaBugExcluded,
+  setIsNaBugExcluded: (state: CustomStatusFilterType, isExcluded: boolean) => { state.customStatuses.IsNaBugExcluded = isExcluded },
 };
