@@ -19,7 +19,7 @@ export const SuggestedCampaigns = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   const campaigns = useGetWorkspacesByWidCampaignsQuery({
-    wid: activeWorkspace?.id ?? 0,
+    wid: activeWorkspace?.id.toString() || '',
     orderBy: 'start_date',
     order: 'DESC',
     limit: 4,
