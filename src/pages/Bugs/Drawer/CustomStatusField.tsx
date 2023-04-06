@@ -17,12 +17,14 @@ import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatus
 import styled from 'styled-components';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { LabelSpaceBetween } from './LabelWithCounter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 
 const Spacer = styled.div`
   width: 100%;
   height: ${({ theme }) => theme.space.md};
 `;
+
+type CustomStatusItemType = { id: number, name: string };
 
 export const CustomStatusField = ({
   customStatuses,
@@ -37,10 +39,21 @@ export const CustomStatusField = ({
   const { t } = useTranslation();
   const { available: unsorted, selected } = customStatuses;
   const available = [...unsorted].sort((a, b) => a.id - b.id);
-  counters[7] = 5;
+  const [disableNaBug, setDisableNaBug] = useState(false);
+  /* counters[7] = 5; */
 
   if (!counters) return null;
 
+  const shallDisabled = (item: CustomStatusItemType): boolean => {
+    if (item.name !== 'not a bug') return !counters[item.id];
+    if (disableNaBug) return disableNaBug;
+    return !counters[item.id]
+  };
+
+  const findNaBug = (arr: CustomStatusItemType[]) => arr.find((item: CustomStatusItemType) => item.name === 'not a bug');
+  const filterNaBug = (arr: CustomStatusItemType[]) => arr.filter((item: CustomStatusItemType) => item.name === 'not a bug');
+  const shouldDisableToggle = !counters[findNaBug(available)?.id || -1]
+  
   return (
     <>
       <Accordion level={3} defaultExpandedSections={[]}>
@@ -76,10 +89,22 @@ export const CustomStatusField = ({
           <Accordion.Panel>
             <Field>
               <Toggle
-                disabled={!counters[7]}
-                onChange={(e) => console.log(e)}
+                disabled={shouldDisableToggle}
+                defaultValue={String(disableNaBug)}
+                onChange={(event) => {
+                  setDisableNaBug(event.target.checked);
+                  dispatch(updateFilters({
+                    filters: { customStatuses: [...(filterNaBug(selected))] }
+                  }))
+                }}
               >
-                <LabelSpaceBetween isRegular>
+                <LabelSpaceBetween
+                  isRegular
+                  style={{
+                    color: globalTheme.palette.grey[700],
+                    ...(shouldDisableToggle && disabledStyle),
+                  }}
+                >
                   Exclude “Not a bug”
                   <MD>{counters[7] || 0}</MD>
                 </LabelSpaceBetween>
@@ -93,8 +118,8 @@ export const CustomStatusField = ({
                   <Field style={{ marginBottom: globalTheme.space.xs }}>
                     <Checkbox
                       value={item.name}
-                      name="filter-priority"
-                      disabled={!counters[item.id]}
+                      name="filter-custom-status"
+                      disabled={shallDisabled(item)}
                       checked={selected.map((i) => i.id).includes(item.id)}
                       onChange={() => {
                         dispatch(
@@ -112,7 +137,13 @@ export const CustomStatusField = ({
                         );
                       }}
                     >
-                      <LabelSpaceBetween isRegular>
+                      <LabelSpaceBetween
+                        isRegular
+                        style={{
+                          color: globalTheme.palette.grey[700],
+                          ...(shallDisabled(item) && disabledStyle),
+                        }}
+                      >
                         {
                           getCustomStatusInfo(item?.name as CustomStatus, t)
                             .text
