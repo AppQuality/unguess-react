@@ -261,6 +261,20 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getWorkspacesByWidUsers: build.query<
+      GetWorkspacesByWidUsersApiResponse,
+      GetWorkspacesByWidUsersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/users`,
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
+      }),
+    }),
     getWorkspacesByWidProjects: build.query<
       GetWorkspacesByWidProjectsApiResponse,
       GetWorkspacesByWidProjectsApiArg
@@ -623,7 +637,7 @@ export type GetWorkspacesApiArg = {
 export type GetWorkspacesByWidApiResponse = /** status 200 OK */ Workspace;
 export type GetWorkspacesByWidApiArg = {
   /** Workspace (company, customer) id */
-  wid: number;
+  wid: string;
 };
 export type GetWorkspacesByWidCampaignsApiResponse = /** status 200 OK */ {
   items?: CampaignWithOutput[];
@@ -634,7 +648,7 @@ export type GetWorkspacesByWidCampaignsApiResponse = /** status 200 OK */ {
 };
 export type GetWorkspacesByWidCampaignsApiArg = {
   /** Workspace (company, customer) id */
-  wid: number;
+  wid: string;
   /** Limit pagination parameter */
   limit?: number;
   /** Start pagination parameter */
@@ -655,7 +669,32 @@ export type GetWorkspacesByWidCoinsApiResponse = /** status 200 OK */ {
 };
 export type GetWorkspacesByWidCoinsApiArg = {
   /** Workspace (company, customer) id */
-  wid: number;
+  wid: string;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
+};
+export type GetWorkspacesByWidUsersApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+    profile_id: number;
+    name: string;
+    email: string;
+    invitationPending: boolean;
+  }[];
+  start?: number;
+  limit?: number;
+  size?: number;
+  total?: number;
+};
+export type GetWorkspacesByWidUsersApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
   /** Limit pagination parameter */
   limit?: number;
   /** Start pagination parameter */
@@ -674,7 +713,7 @@ export type GetWorkspacesByWidProjectsApiResponse = /** status 200 OK */ {
 };
 export type GetWorkspacesByWidProjectsApiArg = {
   /** Workspace (company, customer) id */
-  wid: number;
+  wid: string;
   /** Limit pagination parameter */
   limit?: number;
   /** Start pagination parameter */
@@ -684,7 +723,7 @@ export type GetWorkspacesByWidProjectsAndPidApiResponse =
   /** status 200 OK */ Project;
 export type GetWorkspacesByWidProjectsAndPidApiArg = {
   /** Workspace (company, customer) id */
-  wid: number;
+  wid: string;
   /** Project id */
   pid: number;
 };
@@ -698,7 +737,7 @@ export type GetWorkspacesByWidProjectsAndPidCampaignsApiResponse =
   };
 export type GetWorkspacesByWidProjectsAndPidCampaignsApiArg = {
   /** Workspace (company, customer) id */
-  wid: number;
+  wid: string;
   /** Project id */
   pid: number;
   /** Limit pagination parameter */
@@ -1050,6 +1089,7 @@ export const {
   useGetWorkspacesByWidQuery,
   useGetWorkspacesByWidCampaignsQuery,
   useGetWorkspacesByWidCoinsQuery,
+  useGetWorkspacesByWidUsersQuery,
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
