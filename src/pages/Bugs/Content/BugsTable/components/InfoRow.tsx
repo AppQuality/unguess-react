@@ -19,6 +19,10 @@ const StyledDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: ${(p) => p.theme.space.xs} 0;
+  column-gap: ${(p) => p.theme.space.xs};
+  ${StyledSM} {
+    flex-shrink: 0;
+  }
 `;
 
 export const InfoRow = ({
