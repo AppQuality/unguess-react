@@ -50,29 +50,23 @@ export const BugsByState = ({
           campaignId={campaignId}
           key={item.state.id}
           title={
-            <>
-              {item.state?.id === -1
-                ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
-                : item.state.name}
+            <div style={{ textTransform: 'capitalize' }}>
+              {t('__BUG_STATUS')}: {item.state.name}
               <MD tag="span">{` (${item.bugs.length})`}</MD>
-            </>
+            </div>
           }
           item={item}
         />
       ))}
       {isDefaultView ? (
         <EmptyGroup isBold>
-          {t(
-            '__BUGS_PAGE_WARNING_POSSIBLE_EMPTY_CASES',
-            "As of now we couldn't find any more bugs in other use cases"
-          )}
+          {t('__BUGS_PAGE_WARNING_POSSIBLE_EMPTY_STATUS')}
         </EmptyGroup>
       ) : (
         <>
           {emptyBugStates.length > 1 && (
             <EmptyGroup isBold>
-              {t('__BUGS_PAGE_OTHER_USE_CASES', 'other use cases')}{' '}
-              <MD tag="span">(0)</MD>
+              {t('__BUGS_PAGE_OTHER_STATUSES')} <MD tag="span">(0)</MD>
             </EmptyGroup>
           )}
           {emptyBugStates.length === 1 && (
