@@ -40,7 +40,6 @@ export const CustomStatusField = ({
   const { available: unsorted, selected } = customStatuses;
   const available = [...unsorted].sort((a, b) => a.id - b.id);
   const [disableNaBug, setDisableNaBug] = useState(false);
-  /* counters[7] = 5; */
 
   if (!counters) return null;
 
