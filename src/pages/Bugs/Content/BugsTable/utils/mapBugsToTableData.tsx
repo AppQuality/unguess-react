@@ -106,13 +106,12 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
                 <Tag isRegular={!isPillBold}>{bug.type.name}</Tag>
               </>
             )}
+            <Pipe size="small" />
+            <Tag isRegular={!isPillBold}>{bug.custom_status.name}</Tag>
             {!bug.read && (
-              <>
-                <Pipe size="small" />
-                <Meta color={globalTheme.palette.blue[600]}>
-                  {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
-                </Meta>
-              </>
+              <Meta color={globalTheme.palette.blue[600]}>
+                {t('__PAGE_BUGS_UNREAD_PILL')}
+              </Meta>
             )}
           </div>
         </div>
