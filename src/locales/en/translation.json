@@ -187,6 +187,7 @@
   "__BUGS_PAGE_WARNING_POSSIBLE_EMPTY_STATUS": "As of now we couldn't find any more bugs in other statuses",
   "__BUGS_PRIORITY_FILTER_ITEM_NO_ITEMS": "All priorities",
   "__BUGS_READ_FILTER_ITEM_ALL": "All bugs",
+  "__BUGS_CUSTOM_STATUS_FILTER_ITEM_NO_ITEMS": "All statuses",
   "__BUGS_READ_FILTER_ITEM_DRAWER_ALL": "All",
   "__BUGS_READ_FILTER_ITEM_PLACEHOLDER": "Read/unread",
   "__BUGS_READ_FILTER_ITEM_UNREAD": "Unread",

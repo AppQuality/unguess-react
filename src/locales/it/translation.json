@@ -199,6 +199,7 @@
   "__BUGS_PAGE_WARNING_POSSIBLE_EMPTY_STATUS": "Al momento non abbiamo trovato bug in altri Stati oppure il test non prevede altri Stati",
   "__BUGS_PRIORITY_FILTER_ITEM_NO_ITEMS": "Tutte le priorità",
   "__BUGS_READ_FILTER_ITEM_ALL": "Tutti i bug",
+  "__BUGS_CUSTOM_STATUS_FILTER_ITEM_NO_ITEMS": "Tutti gli stati",
   "__BUGS_READ_FILTER_ITEM_DRAWER_ALL": "Tutti",
   "__BUGS_READ_FILTER_ITEM_PLACEHOLDER": "Letti/non letti",
   "__BUGS_READ_FILTER_ITEM_UNREAD": "Non letti",
