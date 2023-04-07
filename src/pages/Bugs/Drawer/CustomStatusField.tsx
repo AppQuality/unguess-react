@@ -10,7 +10,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
 import { Field, Toggle } from '@zendeskgarden/react-forms';
-import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { getIsNaBugExcluded, setIsNaBugExcluded, updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
@@ -39,20 +39,20 @@ export const CustomStatusField = ({
   const { t } = useTranslation();
   const { available: unsorted, selected } = customStatuses;
   const available = [...unsorted].sort((a, b) => a.id - b.id);
-  const [disableNaBug, setDisableNaBug] = useState(false);
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
 
   if (!counters) return null;
 
   const shallDisabled = (item: CustomStatusItemType): boolean => {
     if (item.name !== 'not a bug') return !counters[item.id];
-    if (disableNaBug) return disableNaBug;
+    if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
     return !counters[item.id]
   };
 
   const findNaBug = (arr: CustomStatusItemType[]) => arr.find((item: CustomStatusItemType) => item.name === 'not a bug');
-  const filterNaBug = (arr: CustomStatusItemType[]) => arr.filter((item: CustomStatusItemType) => item.name === 'not a bug');
+  const filterNaBug = (arr: CustomStatusItemType[]) => arr.filter((item: CustomStatusItemType) => item.name !== 'not a bug');
   const shouldDisableToggle = !counters[findNaBug(available)?.id || -1]
-  
+
   return (
     <>
       <Accordion level={3} defaultExpandedSections={[]}>
@@ -89,11 +89,11 @@ export const CustomStatusField = ({
             <Field>
               <Toggle
                 disabled={shouldDisableToggle}
-                defaultValue={String(disableNaBug)}
+                defaultValue={String(currentIsNaBugExcluded)}
                 onChange={(event) => {
-                  setDisableNaBug(event.target.checked);
+                  dispatch(setIsNaBugExcluded(event.target.checked));
                   dispatch(updateFilters({
-                    filters: { customStatuses: [...(filterNaBug(selected))] }
+                    filters: { customStatuses: [...filterNaBug(selected)] }
                   }))
                 }}
               >
