@@ -4,7 +4,6 @@ export type CustomStatusFilterType = {
   customStatuses: {
     available: { id: number; name: string }[];
     selected: { id: number; name: string }[];
-    IsNaBugExcluded?: boolean;
   };
 };
 
