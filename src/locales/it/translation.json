@@ -37,6 +37,7 @@
   "__BUG_STATE_TO_BE_IMPORTED": "To be imported",
   "__BUG_STATE_TO_BE_RETESTED": "To be retested",
   "__BUG_STATE_TO_DO": "To do",
+  "__BUG_STATUS": "Stato",
   "__BUGS_DEVICES_FILTER_ITEM_NO_ITEMS": "Dispositivi",
   "__BUGS_FILTER_VIEW_ALL_LABEL": "Tutti i filtri",
   "__BUGS_FILTER_VIEW_RESET_LABEL": "Cancella filtri",

@@ -7,7 +7,6 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { useTranslation } from 'react-i18next';
 import Table from 'src/common/components/Table';
 import { TableBugType } from 'src/pages/Bugs/types';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +25,6 @@ const SingleGroupTable = ({
   item,
   isPreview,
 }: SingleGroupTableProps) => {
-  const { t } = useTranslation();
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
   const { columns } = useTableColumns();
@@ -53,7 +51,7 @@ const SingleGroupTable = ({
       isPreview && item && item.bugs.length > 3
         ? item.bugs.slice(0, 3)
         : item.bugs;
-    return mapBugsToTableData(displayBugs, t);
+    return mapBugsToTableData(displayBugs);
   }, [isPreview, item.bugs]);
 
   return (
