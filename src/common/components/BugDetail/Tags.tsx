@@ -6,17 +6,9 @@ import {
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
-import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
 import { Label } from './Label';
-import 'src/common/components/BugDetail/responsive-grid.css';
-
-const Container = styled.div`
-  display: inline-block;
-  width: 100%;
-  margin-top: ${({ theme }) => theme.space.xs};
-`;
 
 export default ({
   bug,
@@ -72,7 +64,7 @@ export default ({
   if (isErrorCampaignTags) return null;
 
   return (
-    <Container className="responsive-container">
+    <div>
       <Label style={{ marginBottom: globalTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
       </Label>
@@ -155,6 +147,6 @@ export default ({
           />
         </div>
       )}
-    </Container>
+    </div>
   );
 };
