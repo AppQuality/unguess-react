@@ -43,14 +43,17 @@ export const CustomStatusFilter = () => {
             })
           );
         }}
-        options={
-          data.customStatuses.available.slice(0).reverse().map((item) => ({
+        options={data.customStatuses.available
+          .slice(0)
+          .reverse()
+          .map((item) => ({
             itemId: item.id,
             label: getCustomStatusInfo(item.name as CustomStatus, t).text,
             disabled: !counters[item.id],
-            selected: data.customStatuses.selected.map((i) => i.id).includes(item.id),
-          }))
-        }
+            selected: data.customStatuses.selected
+              .map((i) => i.id)
+              .includes(item.id),
+          }))}
       />
     </div>
   );
