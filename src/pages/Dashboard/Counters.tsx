@@ -51,7 +51,7 @@ export const Counters = () => {
 
   const { data, isLoading, isFetching, isError } =
     useGetWorkspacesByWidCampaignsQuery({
-      wid: activeWorkspace?.id ?? 0,
+      wid: activeWorkspace?.id.toString() || '',
     });
 
   if (isError) return null; // TODO: Improve error handling

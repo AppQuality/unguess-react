@@ -49,7 +49,7 @@ export const ProjectItems = () => {
 
   const { filteredCampaigns, isLoading, isFetching } =
     useGetWorkspacesByWidCampaignsQuery(
-      { wid: activeWorkspace?.id || 0, limit: 10000 },
+      { wid: activeWorkspace?.id.toString() || '', limit: 10000 },
       {
         selectFromResult: (result) => ({
           ...result,

@@ -98,7 +98,7 @@ export const Navigation = ({
   }
 
   const projects = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id || 0,
+    wid: activeWorkspace?.id.toString() || '',
   });
 
   const projectsList =

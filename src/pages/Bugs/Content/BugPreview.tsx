@@ -9,6 +9,7 @@ import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useRef } from 'react';
+import BugStateDropdown from 'src/common/components/BugDetail/BugStateDropdown';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
@@ -76,6 +77,12 @@ export const BugPreview = ({
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
 
+  const GridWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: ${({ theme }) => theme.space.sm};
+  `;
+
   return (
     <DetailContainer>
       <BugHeader bug={bug} />
@@ -83,7 +90,10 @@ export const BugPreview = ({
         <BugPreviewContextProvider>
           <BugMeta bug={bug} />
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
-          <BugPriority bug={bug} />
+          <GridWrapper>
+            <BugStateDropdown bug={bug} />
+            <BugPriority bug={bug} />
+          </GridWrapper>
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
           <BugDetails bug={bug} />

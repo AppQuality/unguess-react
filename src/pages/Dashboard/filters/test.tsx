@@ -19,7 +19,7 @@ export const TestTypeDropdown = () => {
   );
 
   const { data } = useGetWorkspacesByWidCampaignsQuery({
-    wid: activeWorkspace?.id || 0,
+    wid: activeWorkspace?.id.toString() || '',
   });
 
   const campaigns = data?.items || [];
