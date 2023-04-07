@@ -1,6 +1,6 @@
 import { TFunction } from 'react-i18next';
 
-export const getBugStateLabel = (state: BugState, t: TFunction): string => {
+export const getBugStateLabel = (state: string, t: TFunction): string => {
   switch (state.toLowerCase()) {
     case 'to do':
       return t('__BUG_STATE_TO_DO');

@@ -1,5 +1,5 @@
 import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
-import { TFunction } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Pipe } from 'src/common/components/Pipe';
@@ -9,6 +9,8 @@ import { Meta } from 'src/common/components/Meta';
 import styled from 'styled-components';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import { TextAlign } from 'src/common/components/Table';
+import { BugStateIcon } from 'src/common/components/BugStateIcon';
+import { getBugStateLabel } from 'src/common/components/utils/getBugStateLabel';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
@@ -34,8 +36,9 @@ const CustomTag = styled(Tag)`
   }
 `;
 
-export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
+export const mapBugsToTableData = (bugs: TableBugType[]) => {
   const currentBugId = getSelectedBugId();
+  const { t } = useTranslation();
 
   if (!bugs) return [];
   return bugs.map((bug) => {
@@ -107,7 +110,17 @@ export const mapBugsToTableData = (bugs: TableBugType[], t: TFunction) => {
               </>
             )}
             <Pipe size="small" />
-            <Tag isRegular={!isPillBold}>{bug.custom_status.name}</Tag>
+            <Tag isRegular={!isPillBold} hue="rgba(0,0,0,0)">
+              <Tag.Avatar>
+                <BugStateIcon
+                  size="small"
+                  {...globalTheme.colors.byBugState[
+                    bug.custom_status.name as BugState
+                  ]}
+                />
+              </Tag.Avatar>
+              {getBugStateLabel(bug.custom_status.name, t)}
+            </Tag>
             {!bug.read && (
               <Meta color={globalTheme.palette.blue[600]}>
                 {t('__PAGE_BUGS_UNREAD_PILL')}
