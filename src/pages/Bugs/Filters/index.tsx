@@ -90,9 +90,6 @@ const BugsFilters = () => {
             <HideOnMobile>
               <SeverityFilter />
             </HideOnMobile>
-            <HideOnMobile>
-              <CustomStatusFilter />
-            </HideOnMobile>
             <Button
               size="medium"
               isBasic
