@@ -53,7 +53,7 @@ const SingleGroupTable = ({
       isPreview && item && item.bugs.length > 3
         ? item.bugs.slice(0, 3)
         : item.bugs;
-    return mapBugsToTableData(displayBugs, t);
+    return mapBugsToTableData(displayBugs);
   }, [isPreview, item.bugs]);
 
   return (
