@@ -18,13 +18,15 @@ export const GroupBy = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
-  const groupByOptions: Array<typeof groupBy> = ['usecase'];
+  const groupByOptions: Array<typeof groupBy> = ['usecase', 'bugState'];
   const [label, setLabel] = useState<string>(groupByOptions[0]);
 
   const getTranslatedLabel = (view: string) => {
     switch (view) {
       case 'usecase':
         return t('__BUGS_GROUP_BY_USE_CASE');
+      case 'bugState':
+        return t('__BUGS_GROUP_BY_STATE');
       case 'ungrouped':
         return t('__BUGS_GROUP_BY_UNGROUPED');
       default:
@@ -55,10 +57,13 @@ export const GroupBy = () => {
 
         <Dropdown.Separator />
 
+        <Item key="bugState" value="bugState">
+          {t('__BUGS_GROUP_BY_STATE_ITEM')}
+        </Item>
         <Item key="usecase" value="usecase">
           {t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
         </Item>
-
+        <Dropdown.Separator />
         <Item key="ungrouped" value="ungrouped">
           {getTranslatedLabel('ungrouped')}
         </Item>
