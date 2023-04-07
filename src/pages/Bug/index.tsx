@@ -28,10 +28,15 @@ const Bug = () => {
     isLoading,
     isFetching,
     isError,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId,
-    bid: bugId,
-  });
+  } = useGetCampaignsByCidBugsAndBidQuery(
+    {
+      cid: campaignId,
+      bid: bugId,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   if (isLoading || isFetching) {
     return <LoadingSkeleton />;
