@@ -935,10 +935,6 @@ export type BugAdditionalField = {
   name: string;
   value: string;
 } & (BugAdditionalFieldRegex | BugAdditionalFieldSelect);
-export type BugCustomStatus = {
-  id: number;
-  name: string;
-};
 export type ReportExtensions =
   | 'pdf'
   | 'doc'
