@@ -48,7 +48,7 @@ export const CustomStatusFilter = () => {
           .reverse()
           .map((item) => ({
             itemId: item.id,
-            label: getCustomStatusInfo(item.name as CustomStatus, t).text,
+            label: getCustomStatusInfo(item.name as BugState, t).text,
             disabled: !counters[item.id],
             selected: data.customStatuses.selected
               .map((i) => i.id)

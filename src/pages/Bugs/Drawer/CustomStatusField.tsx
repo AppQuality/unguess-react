@@ -78,17 +78,16 @@ export const CustomStatusField = ({
               >
                 {selected && selected.length
                   ? `${selected
-                      .slice(0, maxItemsToShow)
-                      .map((item) => item.name)
-                      .join(', ')
-                      .toLowerCase()} ${
-                      selected.length > maxItemsToShow
-                        ? `+${selected.length - maxItemsToShow}`
-                        : ''
-                    }`
+                    .slice(0, maxItemsToShow)
+                    .map((item) => item.name)
+                    .join(', ')
+                    .toLowerCase()} ${selected.length > maxItemsToShow
+                    ? `+${selected.length - maxItemsToShow}`
+                    : ''
+                  }`
                   : t(
-                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
-                    )}
+                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
+                  )}
               </SM>
             </Accordion.Label>
           </Accordion.Header>
@@ -121,46 +120,46 @@ export const CustomStatusField = ({
             <Spacer />
             {available.length
               ? available
-                  .slice(0, showMore ? undefined : maxItemsToShow)
-                  .map((item) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
-                      <Checkbox
-                        value={item.name}
-                        name="filter-custom-status"
-                        disabled={shallDisabled(item)}
-                        checked={selected.map((i) => i.id).includes(item.id)}
-                        onChange={() => {
-                          dispatch(
-                            updateFilters({
-                              filters: {
-                                customStatuses: [
-                                  ...(selected
-                                    .map((i) => i.id)
-                                    .includes(item.id)
-                                    ? selected.filter((i) => i.id !== item.id)
-                                    : [...selected, item]),
-                                ],
-                              },
-                            })
-                          );
+                .slice(0, showMore ? undefined : maxItemsToShow)
+                .map((item) => (
+                  <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Checkbox
+                      value={item.name}
+                      name="filter-custom-status"
+                      disabled={shallDisabled(item)}
+                      checked={selected.map((i) => i.id).includes(item.id)}
+                      onChange={() => {
+                        dispatch(
+                          updateFilters({
+                            filters: {
+                              customStatuses: [
+                                ...(selected
+                                  .map((i) => i.id)
+                                  .includes(item.id)
+                                  ? selected.filter((i) => i.id !== item.id)
+                                  : [...selected, item]),
+                              ],
+                            },
+                          })
+                        );
+                      }}
+                    >
+                      <LabelSpaceBetween
+                        isRegular
+                        style={{
+                          color: globalTheme.palette.grey[700],
+                          ...(shallDisabled(item) && disabledStyle),
                         }}
                       >
-                        <LabelSpaceBetween
-                          isRegular
-                          style={{
-                            color: globalTheme.palette.grey[700],
-                            ...(shallDisabled(item) && disabledStyle),
-                          }}
-                        >
-                          {
-                            getCustomStatusInfo(item?.name as CustomStatus, t)
-                              .text
-                          }
-                          <MD>{counters[item.id] || 0}</MD>
-                        </LabelSpaceBetween>
-                      </Checkbox>
-                    </Field>
-                  ))
+                        {
+                          getCustomStatusInfo(item?.name as BugState, t)
+                            .text
+                        }
+                        <MD>{counters[item.id] || 0}</MD>
+                      </LabelSpaceBetween>
+                    </Checkbox>
+                  </Field>
+                ))
               : null}
 
             {available.length > maxItemsToShow ? (

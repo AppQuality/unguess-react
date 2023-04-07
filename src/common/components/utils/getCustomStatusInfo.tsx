@@ -5,7 +5,7 @@ type CustomStatusInfo = {
 };
 
 export const getCustomStatusInfo = (
-  CustomStatus: CustomStatus,
+  CustomStatus: BugState,
   t: TFunction
 ): CustomStatusInfo => {
   switch (CustomStatus.toLowerCase()) {
