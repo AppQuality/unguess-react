@@ -11,6 +11,7 @@ import { SearchFilter } from './SearchFilter';
 import { GroupBy } from './GroupBy';
 import { SortBy } from './SortBy';
 import { BugsFilterDrawer } from '../Drawer';
+import { CustomStatusFilter } from './CustomStatusFilter';
 
 const SearchContainer = styled.div`
   flex-basis: 100%;
@@ -88,6 +89,9 @@ const BugsFilters = () => {
             </HideOnMobile>
             <HideOnMobile>
               <SeverityFilter />
+            </HideOnMobile>
+            <HideOnMobile>
+              <CustomStatusFilter />
             </HideOnMobile>
             <Button
               size="medium"
