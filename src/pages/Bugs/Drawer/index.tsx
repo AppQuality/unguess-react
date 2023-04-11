@@ -28,6 +28,7 @@ import { UniqueField } from './UniqueField';
 import { UseCaseField } from './UseCaseField';
 import { PriorityField } from './PriorityField';
 import { CustomStatusField } from './CustomStatusField';
+import { BugItem } from '../types';
 
 export const WaterButton = styled(Button)``;
 
@@ -119,9 +120,9 @@ const BugsFilterDrawer = () => {
   }, [campaignData]);
 
   const { bugs } = useCampaignBugs(currentCampaign ?? 0);
-  
+
   const currentIsNaBugExcluded = getIsNaBugExcluded();
-  let bugItems = [];
+  let bugItems: BugItem[] = [];
   if (bugs && bugs.items && bugs.items?.length > 0) {
     if (currentIsNaBugExcluded) {
       bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== 7)

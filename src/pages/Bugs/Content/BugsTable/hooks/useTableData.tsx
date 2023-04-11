@@ -1,5 +1,6 @@
 import { getIsNaBugExcluded } from 'src/features/bugsPage/bugsPageSlice';
 import { Bug } from 'src/features/api';
+import { BugItem } from 'src/pages/Bugs/types';
 import { useCampaignBugs } from './useCampaignBugs';
 import { useCampaignBugStates } from './useCampaignBugStates';
 import { useCampaignUseCases } from './useCampaignUseCases';
@@ -39,7 +40,7 @@ export const useTableData = (campaignId: number) => {
     };
   }
 
-  let bugItems: (Bug & { tags?: { tag_id: number; tag_name: string; }[] | undefined; siblings: number; })[] = [];
+  let bugItems: BugItem[] = [];
   if (bugs && bugs.items && bugs.items?.length > 0) {
     if (currentIsNaBugExcluded) {
       bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== 7)
