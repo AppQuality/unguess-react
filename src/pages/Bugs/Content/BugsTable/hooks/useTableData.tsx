@@ -1,6 +1,7 @@
 import { getIsNaBugExcluded } from 'src/features/bugsPage/bugsPageSlice';
 import { Bug } from 'src/features/api';
 import { BugItem } from 'src/pages/Bugs/types';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useCampaignBugs } from './useCampaignBugs';
 import { useCampaignBugStates } from './useCampaignBugStates';
 import { useCampaignUseCases } from './useCampaignUseCases';
@@ -43,7 +44,9 @@ export const useTableData = (campaignId: number) => {
   let bugItems: BugItem[] = [];
   if (bugs && bugs.items && bugs.items?.length > 0) {
     if (currentIsNaBugExcluded) {
-      bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== 7)
+      bugItems = bugs.items.filter(
+        (item: Bug) => item.custom_status.id !== getExcludeNotABugInfo().customStatusId
+      )
     }
     else {
       bugItems = bugs.items;
