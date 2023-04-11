@@ -11,6 +11,7 @@ import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import { theme as globalTheme } from 'src/app/theme';
+import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 
 const buttonHeight = globalTheme.space.lg; // 32
 const sectionMargin = globalTheme.space.sm; // 12
@@ -44,7 +45,8 @@ const FilterRecapItem = ({
     | 'useCases'
     | 'devices'
     | 'os'
-    | 'replicabilities';
+    | 'replicabilities'
+    | 'customStatuses';
   hasBackground?: boolean;
   color?: string;
   value: string;
@@ -164,6 +166,19 @@ const FilterRecapItem = ({
                 })
               );
               break;
+            case 'customStatuses':
+              dispatch(
+                updateFilters({
+                  filters: {
+                    customStatuses: filters.customStatuses
+                      ? filters.customStatuses.filter(
+                          (p) => p.id !== Number(value)
+                        )
+                      : [],
+                  },
+                })
+              );
+              break;
             default:
           }
         }}
@@ -240,7 +255,8 @@ export const FilterRecap = () => {
     filters.useCases?.length ||
     filters.devices?.length ||
     filters.os?.length ||
-    filters.replicabilities?.length;
+    filters.replicabilities?.length ||
+    filters.customStatuses?.length;
 
   return hasFilters ? (
     <Wrapper>
@@ -315,6 +331,17 @@ export const FilterRecap = () => {
           {filters.os && filters.os.length
             ? filters.os.map((os) => (
                 <FilterRecapItem type="os" value={os.os} name={os.os} />
+              ))
+            : null}
+          {filters.customStatuses && filters.customStatuses.length
+            ? filters.customStatuses.map((customStatus) => (
+                <FilterRecapItem
+                  type="customStatuses"
+                  value={customStatus.id.toString()}
+                  name={
+                    getCustomStatusInfo(customStatus.name as BugState, t).text
+                  }
+                />
               ))
             : null}
           <StyledButton

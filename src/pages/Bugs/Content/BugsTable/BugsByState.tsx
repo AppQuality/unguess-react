@@ -2,7 +2,7 @@ import { Accordion, MD } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
-import { getBugStateLabel } from 'src/common/components/utils/getBugStateLabel';
+import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { EmptyState } from './components/EmptyState';
 import BugStateAccordion from './components/BugStateAccordion';
 import { BugByStateType } from './types';
@@ -52,7 +52,8 @@ export const BugsByState = ({
           key={item.state.id}
           title={
             <>
-              {t('__BUG_STATUS')}: {getBugStateLabel(item.state.name, t)}
+              {t('__BUG_STATUS')}:{' '}
+              {getCustomStatusInfo(item.state.name as BugState, t).text}
               <MD tag="span">{` (${item.bugs.length})`}</MD>
             </>
           }

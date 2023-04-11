@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import { TextAlign } from 'src/common/components/Table';
 import { BugStateIcon } from 'src/common/components/BugStateIcon';
-import { getBugStateLabel } from 'src/common/components/utils/getBugStateLabel';
+import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
@@ -119,7 +119,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                   ]}
                 />
               </Tag.Avatar>
-              {getBugStateLabel(bug.custom_status.name, t)}
+              {getCustomStatusInfo(bug.custom_status.name as BugState, t).text}
             </Tag>
             {!bug.read && (
               <Meta color={globalTheme.palette.blue[600]}>

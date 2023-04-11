@@ -37,6 +37,9 @@ export const useCampaignBugs = (campaignId: number) => {
       ...(filterBy?.unique && filterBy.unique === 'unique'
         ? { is_duplicated: '0' }
         : {}),
+      ...(filterBy?.customStatuses
+        ? { customStatuses: filterBy.customStatuses.join(',') }
+        : {}),
     },
     ...(filterBy?.search ? { search: filterBy.search } : {}),
     orderBy,

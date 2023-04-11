@@ -18,7 +18,7 @@ import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { BugStateIcon } from 'src/common/components/BugStateIcon';
-import { getBugStateLabel } from 'src/common/components/utils/getBugStateLabel';
+import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { Label } from './Label';
 
 const StyledItem = styled(Item)`
@@ -74,7 +74,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
           .map((bugState) => ({
             id: bugState.id,
             slug: bugState.name,
-            text: getBugStateLabel(bugState.name as BugState, t),
+            text: getCustomStatusInfo(bugState.name as BugState, t).text,
             icon: (
               <BugStateIcon
                 {...globalTheme.colors.byBugState[bugState.name as BugState]}

@@ -16,7 +16,9 @@ import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
 export const filtersHeight = 56;
 
-const DetailContainer = styled.div`
+const DetailContainer = styled.div<{
+  isFetching?: boolean;
+}>`
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -28,6 +30,14 @@ const DetailContainer = styled.div`
       ${filtersHeight}px
   );
   overflow: hidden;
+
+  ${(p) =>
+    p.isFetching &&
+    `
+    opacity: 0.5;
+    pointer-events: none;
+  `}
+
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     top: ${filtersHeight}px;
   }
@@ -72,7 +82,7 @@ export const BugPreview = ({
     }
   }, [currentBugId]);
 
-  if (isLoading || isFetching || isError || !bug) return <Skeleton />;
+  if (isLoading || isError || !bug) return <Skeleton />;
 
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
@@ -84,7 +94,7 @@ export const BugPreview = ({
   `;
 
   return (
-    <DetailContainer>
+    <DetailContainer isFetching={isFetching}>
       <BugHeader bug={bug} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
