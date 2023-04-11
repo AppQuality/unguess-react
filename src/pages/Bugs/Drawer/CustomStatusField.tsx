@@ -48,7 +48,8 @@ export const CustomStatusField = ({
   if (!counters) return null;
 
   const shallDisabled = (item: BugCustomStatus): boolean => {
-    if (item.id !== getExcludeNotABugInfo().customStatusId) return !counters[item.id];
+    if (item.id !== getExcludeNotABugInfo().customStatusId)
+      return !counters[item.id];
     if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
     return !counters[item.id];
   };

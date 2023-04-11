@@ -40,12 +40,11 @@ export const useTableData = (campaignId: number) => {
       isError: bugsError || bugStatesError || useCasesError,
     };
   }
-  
+
   let bugItems = [...bugs.items];
   if (currentIsNaBugExcluded) {
     bugItems = bugs.items.filter(
-      item =>
-        item.custom_status.id !== getExcludeNotABugInfo().customStatusId
+      (item) => item.custom_status.id !== getExcludeNotABugInfo().customStatusId
     );
   }
 
