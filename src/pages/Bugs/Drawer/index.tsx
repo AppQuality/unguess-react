@@ -16,6 +16,7 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { Bug } from 'src/features/api';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
@@ -125,7 +126,7 @@ const BugsFilterDrawer = () => {
   let bugItems: BugItem[] = [];
   if (bugs && bugs.items && bugs.items?.length > 0) {
     if (currentIsNaBugExcluded) {
-      bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== 7)
+      bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== getExcludeNotABugInfo().customStatusId)
     }
     else {
       bugItems = bugs.items;
