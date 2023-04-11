@@ -38,6 +38,8 @@
   "__BUG_SEVERITY_MEDIUM": "Medi",
   "__BUG_STATUS": "Stato",
   "__BUGS_CUSTOM_STATUS_FILTER_ITEM_NO_ITEMS": "Tutti gli stati",
+  "__BUGS_EXCLUDED_NOT_A_BUG": "Escluso non un bug",
+  "__BUGS_EXCLUDE_NOT_A_BUG": "Escludi 'Non un bug'",
   "__BUGS_DEVICES_FILTER_ITEM_NO_ITEMS": "Dispositivi",
   "__BUGS_FILTER_VIEW_ALL_LABEL": "Tutti i filtri",
   "__BUGS_FILTER_VIEW_RESET_LABEL": "Cancella filtri",
