@@ -9,7 +9,7 @@ import { ReadFilter } from './ReadFilter';
 import { UniqueFilter } from './UniqueFilter';
 import { SearchFilter } from './SearchFilter';
 import { GroupBy } from './GroupBy';
-import { SortBy } from './SortBy';
+import { SortBy } from './OrderBy';
 import { BugsFilterDrawer } from '../Drawer';
 
 const SearchContainer = styled.div`
