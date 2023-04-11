@@ -47,7 +47,7 @@ export const CustomStatusField = ({
 
   if (!counters) return null;
 
-  const shallDisabled = (item: BugCustomStatus): boolean => {
+  const shallDisable = (item: BugCustomStatus): boolean => {
     if (item.id !== getExcludeNotABugInfo().customStatusId)
       return !counters[item.id];
     if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
@@ -55,7 +55,7 @@ export const CustomStatusField = ({
   };
 
   const filterNaBug = (arr: BugCustomStatus[]) =>
-    arr.filter((item: BugCustomStatus) => item.name !== 'not a bug');
+    arr.filter((item: BugCustomStatus) => item.id !== getExcludeNotABugInfo().customStatusId);
 
   const shouldDisableToggle = !counters[getExcludeNotABugInfo().customStatusId];
 
@@ -127,7 +127,7 @@ export const CustomStatusField = ({
                       <Checkbox
                         value={item.name}
                         name="filter-custom-status"
-                        disabled={shallDisabled(item)}
+                        disabled={shallDisable(item)}
                         checked={selected.map((i) => i.id).includes(item.id)}
                         onChange={() => {
                           dispatch(
@@ -149,7 +149,7 @@ export const CustomStatusField = ({
                           isRegular
                           style={{
                             color: globalTheme.palette.grey[700],
-                            ...(shallDisabled(item) && disabledStyle),
+                            ...(shallDisable(item) && disabledStyle),
                           }}
                         >
                           {getCustomStatusInfo(item?.name as BugState, t).text}
