@@ -10,49 +10,50 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
 import { Field } from '@zendeskgarden/react-dropdowns';
-import {
-  DEFAULT_ORDER_BY,
-  SEVERITY_ORDER__HIGH__TO__LOW,
-  SEVERITY_ORDER__LOW__TO__HIGH,
-  PRIORITY_ORDER__HIGH__TO__LOW,
-  PRIORITY_ORDER__LOW__TO__HIGH,
-} from 'src/constants';
 import { setOrder, setOrderBy } from 'src/features/bugsPage/bugsPageSlice';
+import { useAppSelector } from 'src/app/hooks';
 import { DropdownLabel } from './DropdownLabel';
 import ItemGroup from './ItemGroup';
 
-export const availableSelections = [
-  SEVERITY_ORDER__HIGH__TO__LOW,
-  SEVERITY_ORDER__LOW__TO__HIGH,
-  PRIORITY_ORDER__HIGH__TO__LOW,
-  PRIORITY_ORDER__LOW__TO__HIGH,
-];
-
 export const SortBy = () => {
   const { t } = useTranslation();
-  const [selected, setSelected] = useState(DEFAULT_ORDER_BY);
   const dispatch = useDispatch();
+
+  const orderBy = useAppSelector((state) => state.bugsPage.orderBy);
+  const order = useAppSelector((state) => state.bugsPage.order);
+
+  const [selected, setSelected] = useState<string>(`${orderBy}-${order}`);
+
+  const getTranslatedLabel = (key: string) => {
+    switch (key) {
+      case 'severity_id-DESC':
+        return t('__BUGS_PAGE_BUG_DETAIL_SEVERITY_TITLE_H_TO_L');
+      case 'severity_id-ASC':
+        return t('__BUGS_PAGE_BUG_DETAIL_SEVERITY_TITLE_L_TO_H');
+      case 'priority_id-DESC':
+        return t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_TITLE_H_TO_L');
+      case 'priority_id-ASC':
+        return t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_TITLE_L_TO_H');
+      default:
+        return t('__BUGS_ORDER_BY_OPEN_MENU');
+    }
+  };
 
   return (
     <Dropdown
-      selectedItem={selected.key}
-      onSelect={(selectedKey: string) => {
-        availableSelections.map(
-          (availableSelection) =>
-            availableSelection.key === selectedKey &&
-            (() => {
-              dispatch(setOrderBy(availableSelection.orderBy));
-              dispatch(setOrder(availableSelection.order));
-              return setSelected(availableSelection);
-            })()
-        );
+      selectedItem={selected}
+      onSelect={(item: string) => {
+        const [orderByValue, orderValue] = item.split('-');
+        dispatch(setOrderBy(orderByValue as typeof orderBy));
+        dispatch(setOrder(orderValue as typeof order));
+        setSelected(item);
       }}
     >
       <Field>
         <Select isCompact isPrimary>
           <DropdownLabel>
             <SortIcon />
-            <Span>{t(selected.title)}</Span>
+            <Span>{getTranslatedLabel(selected)}</Span>
           </DropdownLabel>
         </Select>
       </Field>
@@ -60,33 +61,23 @@ export const SortBy = () => {
         <Dropdown.HeaderItem>{t('__BUGS_ORDER_BY')}:</Dropdown.HeaderItem>
         <Dropdown.Separator />
 
-        <ItemGroup title={t(SEVERITY_ORDER__HIGH__TO__LOW.displayName)}>
-          <Item
-            key={SEVERITY_ORDER__HIGH__TO__LOW.key}
-            value={SEVERITY_ORDER__HIGH__TO__LOW.key}
-          >
-            {t(SEVERITY_ORDER__HIGH__TO__LOW.orderName)}
+        <ItemGroup
+          title={t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
+        >
+          <Item key="severity_id-DESC" value="severity_id-DESC">
+            {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
           </Item>
-          <Item
-            key={SEVERITY_ORDER__LOW__TO__HIGH.key}
-            value={SEVERITY_ORDER__LOW__TO__HIGH.key}
-          >
-            {t(SEVERITY_ORDER__LOW__TO__HIGH.orderName)}
+          <Item key="severity_id-ASC" value="severity_id-ASC">
+            {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
           </Item>
         </ItemGroup>
-        <ItemGroup title={t(PRIORITY_ORDER__HIGH__TO__LOW.displayName)}>
-          <Item
-            key={PRIORITY_ORDER__HIGH__TO__LOW.key}
-            value={PRIORITY_ORDER__HIGH__TO__LOW.key}
-          >
-            {t(PRIORITY_ORDER__HIGH__TO__LOW.orderName)}
+        <ItemGroup title={t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}>
+          <Item key="priority_id-DESC" value="priority_id-DESC">
+            {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
           </Item>
 
-          <Item
-            key={PRIORITY_ORDER__LOW__TO__HIGH.key}
-            value={PRIORITY_ORDER__LOW__TO__HIGH.key}
-          >
-            {t(PRIORITY_ORDER__LOW__TO__HIGH.orderName)}
+          <Item key="priority_id-ASC" value="priority_id-ASC">
+            {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
           </Item>
         </ItemGroup>
       </Menu>
