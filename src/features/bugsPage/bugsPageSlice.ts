@@ -195,9 +195,9 @@ const bugPageSlice = createSlice({
     setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isFilterDrawerOpen = action.payload;
     },
-   setIsNaBugExcluded: (state, action: PayloadAction<boolean>) => {
-     state.isNaBugExcluded = action.payload;
-   },
+    setIsNaBugExcluded: (state, action: PayloadAction<boolean>) => {
+      state.isNaBugExcluded = action.payload;
+    },
   },
 });
 
@@ -261,7 +261,7 @@ export const getSelectedOrder = (): Order =>
   useAppSelector((state) => state.bugsPage).order;
 
 export const getIsNaBugExcluded = (): boolean =>
-useAppSelector((state) => state.bugsPage).isNaBugExcluded;
+  useAppSelector((state) => state.bugsPage).isNaBugExcluded;
 
 export const {
   selectCampaign,

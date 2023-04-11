@@ -45,10 +45,10 @@ export const useTableData = (campaignId: number) => {
   if (bugs && bugs.items && bugs.items?.length > 0) {
     if (currentIsNaBugExcluded) {
       bugItems = bugs.items.filter(
-        (item: Bug) => item.custom_status.id !== getExcludeNotABugInfo().customStatusId
-      )
-    }
-    else {
+        (item: Bug) =>
+          item.custom_status.id !== getExcludeNotABugInfo().customStatusId
+      );
+    } else {
       bugItems = bugs.items;
     }
   }

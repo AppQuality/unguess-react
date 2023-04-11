@@ -9,10 +9,7 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
-import {
-  Field,
-  Toggle
-} from '@zendeskgarden/react-forms';
+import { Field, Toggle } from '@zendeskgarden/react-forms';
 import {
   getIsNaBugExcluded,
   setIsNaBugExcluded,
@@ -81,16 +78,17 @@ export const CustomStatusField = ({
               >
                 {selected && selected.length
                   ? `${selected
-                    .slice(0, maxItemsToShow)
-                    .map((item) => item.name)
-                    .join(', ')
-                    .toLowerCase()} ${selected.length > maxItemsToShow
-                    ? `+${selected.length - maxItemsToShow}`
-                    : ''
-                  }`
+                      .slice(0, maxItemsToShow)
+                      .map((item) => item.name)
+                      .join(', ')
+                      .toLowerCase()} ${
+                      selected.length > maxItemsToShow
+                        ? `+${selected.length - maxItemsToShow}`
+                        : ''
+                    }`
                   : t(
-                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
-                  )}
+                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
+                    )}
               </SM>
             </Accordion.Label>
           </Accordion.Header>
@@ -123,44 +121,44 @@ export const CustomStatusField = ({
             <Spacer />
             {available.length
               ? available
-                .slice(0, showMore ? undefined : maxItemsToShow)
-                .map((item) => (
-                  <Field style={{ marginBottom: globalTheme.space.xs }}>
-                    <Checkbox
-                      value={item.name}
-                      name="filter-custom-status"
-                      disabled={shallDisabled(item)}
-                      checked={selected.map((i) => i.id).includes(item.id)}
-                      onChange={() => {
-                        dispatch(
-                          updateFilters({
-                            filters: {
-                              customStatuses: [
-                                ...(selected
-                                  .map((i) => i.id)
-                                  .includes(item.id)
-                                  ? selected.filter((i) => i.id !== item.id)
-                                  : [...selected, item]),
-                              ],
-                            },
-                          })
-                        );
-                      }}
-                    >
-                      <LabelSpaceBetween
-                        isRegular
-                        style={{
-                          color: globalTheme.palette.grey[700],
-                          ...(shallDisabled(item) && disabledStyle),
-                          ...(!counters[item.id] && disabledStyle),
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((item) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={item.name}
+                        name="filter-custom-status"
+                        disabled={shallDisabled(item)}
+                        checked={selected.map((i) => i.id).includes(item.id)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                customStatuses: [
+                                  ...(selected
+                                    .map((i) => i.id)
+                                    .includes(item.id)
+                                    ? selected.filter((i) => i.id !== item.id)
+                                    : [...selected, item]),
+                                ],
+                              },
+                            })
+                          );
                         }}
                       >
-                        {getCustomStatusInfo(item?.name as BugState, t).text}
-                        <MD>{counters[item.id] || 0}</MD>
-                      </LabelSpaceBetween>
-                    </Checkbox>
-                  </Field>
-                ))
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[700],
+                            ...(shallDisabled(item) && disabledStyle),
+                            ...(!counters[item.id] && disabledStyle),
+                          }}
+                        >
+                          {getCustomStatusInfo(item?.name as BugState, t).text}
+                          <MD>{counters[item.id] || 0}</MD>
+                        </LabelSpaceBetween>
+                      </Checkbox>
+                    </Field>
+                  ))
               : null}
 
             {available.length > maxItemsToShow ? (

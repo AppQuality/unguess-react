@@ -126,9 +126,11 @@ const BugsFilterDrawer = () => {
   let bugItems: BugItem[] = [];
   if (bugs && bugs.items && bugs.items?.length > 0) {
     if (currentIsNaBugExcluded) {
-      bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== getExcludeNotABugInfo().customStatusId)
-    }
-    else {
+      bugItems = bugs.items.filter(
+        (item: Bug) =>
+          item.custom_status.id !== getExcludeNotABugInfo().customStatusId
+      );
+    } else {
       bugItems = bugs.items;
     }
   }
@@ -167,10 +169,7 @@ const BugsFilterDrawer = () => {
             onClick={onCtaClick}
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON')}
-            {
-              bugItems.length &&
-              ` (${bugItems.length})`
-            }
+            {bugItems.length && ` (${bugItems.length})`}
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
