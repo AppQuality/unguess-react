@@ -1,6 +1,4 @@
 import { getIsNaBugExcluded } from 'src/features/bugsPage/bugsPageSlice';
-import { Bug } from 'src/features/api';
-import { BugItem } from 'src/pages/Bugs/types';
 import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useCampaignBugs } from './useCampaignBugs';
 import { useCampaignBugStates } from './useCampaignBugStates';
