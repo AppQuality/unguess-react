@@ -40,17 +40,13 @@ export const useTableData = (campaignId: number) => {
       isError: bugsError || bugStatesError || useCasesError,
     };
   }
-
-  let bugItems: BugItem[] = [];
-  if (bugs && bugs.items && bugs.items?.length > 0) {
-    if (currentIsNaBugExcluded) {
-      bugItems = bugs.items.filter(
-        (item: Bug) =>
-          item.custom_status.id !== getExcludeNotABugInfo().customStatusId
-      );
-    } else {
-      bugItems = bugs.items;
-    }
+  
+  let bugItems = [...bugs.items];
+  if (currentIsNaBugExcluded) {
+    bugItems = bugs.items.filter(
+      item =>
+        item.custom_status.id !== getExcludeNotABugInfo().customStatusId
+    );
   }
 
   const bugsByStates = sortByStates(bugItems, bugStates);
