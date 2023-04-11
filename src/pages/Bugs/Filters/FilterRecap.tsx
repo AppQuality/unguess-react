@@ -184,7 +184,7 @@ const FilterRecapItem = ({
               );
               break;
             case 'excludeNotABug':
-              dispatch(setIsNaBugExcluded(false))
+              dispatch(setIsNaBugExcluded(false));
               break;
             default:
           }
@@ -366,6 +366,7 @@ export const FilterRecap = () => {
             isBasic
             size="medium"
             onClick={() => {
+              dispatch(setIsNaBugExcluded(false));
               dispatch(resetFilters());
             }}
           >
