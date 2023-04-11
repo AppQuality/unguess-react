@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { BugCustomStatus } from 'src/features/api';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useFilterData } from '../Drawer/useFilterData';
 
 export const CustomStatusFilter = () => {
@@ -26,8 +27,8 @@ export const CustomStatusFilter = () => {
   )
     return null;
 
-  const shallDisabled = (item: BugCustomStatus): boolean => {
-    if (item.name !== 'not a bug') return !counters[item.id];
+  const shallDisable = (item: BugCustomStatus): boolean => {
+    if (item.id !== getExcludeNotABugInfo().customStatusId) return !counters[item.id];
     if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
     return !counters[item.id];
   };
@@ -58,7 +59,7 @@ export const CustomStatusFilter = () => {
           .map((item) => ({
             itemId: item.id,
             label: getCustomStatusInfo(item.name as BugState, t).text,
-            disabled: shallDisabled(item),
+            disabled: shallDisable(item),
             selected: data.customStatuses.selected
               .map((i) => i.id)
               .includes(item.id),
