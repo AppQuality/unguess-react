@@ -54,11 +54,10 @@ export const CustomStatusField = ({
     return !counters[item.id];
   };
 
-  const findNaBug = (arr: BugCustomStatus[]) =>
-    arr.find((item: BugCustomStatus) => item.name === 'not a bug');
   const filterNaBug = (arr: BugCustomStatus[]) =>
     arr.filter((item: BugCustomStatus) => item.name !== 'not a bug');
-  const shouldDisableToggle = !counters[findNaBug(available)?.id || -1];
+
+  const shouldDisableToggle = !counters[getExcludeNotABugInfo().customStatusId];
 
   return (
     <>
