@@ -150,7 +150,6 @@ export const CustomStatusField = ({
                           style={{
                             color: globalTheme.palette.grey[700],
                             ...(shallDisabled(item) && disabledStyle),
-                            ...(!counters[item.id] && disabledStyle),
                           }}
                         >
                           {getCustomStatusInfo(item?.name as BugState, t).text}
