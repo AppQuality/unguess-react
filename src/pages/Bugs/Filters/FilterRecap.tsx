@@ -1,6 +1,8 @@
 import {
+  getIsNaBugExcluded,
   getSelectedFilters,
   resetFilters,
+  setIsNaBugExcluded,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactNode } from 'react';
@@ -12,6 +14,7 @@ import styled from 'styled-components';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import { theme as globalTheme } from 'src/app/theme';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 
 const buttonHeight = globalTheme.space.lg; // 32
 const sectionMargin = globalTheme.space.sm; // 12
@@ -38,15 +41,16 @@ const FilterRecapItem = ({
   icon,
 }: {
   type:
-    | 'severities'
-    | 'priorities'
-    | 'types'
-    | 'tags'
-    | 'useCases'
-    | 'devices'
-    | 'os'
-    | 'replicabilities'
-    | 'customStatuses';
+  | 'severities'
+  | 'priorities'
+  | 'types'
+  | 'tags'
+  | 'useCases'
+  | 'devices'
+  | 'os'
+  | 'replicabilities'
+  | 'customStatuses'
+  | 'excludeNotABug';
   hasBackground?: boolean;
   color?: string;
   value: string;
@@ -111,10 +115,10 @@ const FilterRecapItem = ({
                   filters: {
                     tags: filters.tags
                       ? filters.tags.filter((t) =>
-                          value === 'none'
-                            ? t.tag_id !== value
-                            : t.tag_id !== Number(value)
-                        )
+                        value === 'none'
+                          ? t.tag_id !== value
+                          : t.tag_id !== Number(value)
+                      )
                       : [],
                   },
                 })
@@ -159,8 +163,8 @@ const FilterRecapItem = ({
                   filters: {
                     replicabilities: filters.replicabilities
                       ? filters.replicabilities.filter(
-                          (t) => t.id !== Number(value)
-                        )
+                        (t) => t.id !== Number(value)
+                      )
                       : [],
                   },
                 })
@@ -172,12 +176,15 @@ const FilterRecapItem = ({
                   filters: {
                     customStatuses: filters.customStatuses
                       ? filters.customStatuses.filter(
-                          (p) => p.id !== Number(value)
-                        )
+                        (p) => p.id !== Number(value)
+                      )
                       : [],
                   },
                 })
               );
+              break;
+            case 'excludeNotABug':
+              dispatch(setIsNaBugExcluded(false))
               break;
             default:
           }
@@ -246,6 +253,7 @@ export const FilterRecap = () => {
   const { t } = useTranslation();
   const filters = getSelectedFilters();
   const dispatch = useAppDispatch();
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
 
   const hasFilters =
     filters.severities?.length ||
@@ -256,7 +264,8 @@ export const FilterRecap = () => {
     filters.devices?.length ||
     filters.os?.length ||
     filters.replicabilities?.length ||
-    filters.customStatuses?.length;
+    filters.customStatuses?.length ||
+    currentIsNaBugExcluded;
 
   return hasFilters ? (
     <Wrapper>
@@ -264,86 +273,95 @@ export const FilterRecap = () => {
         <ScrollingContainer>
           {filters.severities && filters.severities.length
             ? filters.severities.map((severity) => (
-                <FilterRecapItem
-                  type="severities"
-                  value={severity.id.toString()}
-                  color={getSeverityInfo(severity.name as Severities, t).color}
-                  hasBackground
-                  name={getSeverityInfo(severity.name as Severities, t).text}
-                />
-              ))
+              <FilterRecapItem
+                type="severities"
+                value={severity.id.toString()}
+                color={getSeverityInfo(severity.name as Severities, t).color}
+                hasBackground
+                name={getSeverityInfo(severity.name as Severities, t).text}
+              />
+            ))
             : null}
           {filters.priorities && filters.priorities.length
             ? filters.priorities.map((priorities) => (
-                <FilterRecapItem
-                  type="priorities"
-                  value={priorities.id.toString()}
-                  icon={getPriorityInfo(priorities.name as Priority, t).icon}
-                  name={getPriorityInfo(priorities.name as Priority, t).text}
-                />
-              ))
+              <FilterRecapItem
+                type="priorities"
+                value={priorities.id.toString()}
+                icon={getPriorityInfo(priorities.name as Priority, t).icon}
+                name={getPriorityInfo(priorities.name as Priority, t).text}
+              />
+            ))
             : null}
           {filters.types && filters.types.length
             ? filters.types.map((type) => (
-                <FilterRecapItem
-                  type="types"
-                  value={type.id.toString()}
-                  name={type.name}
-                />
-              ))
+              <FilterRecapItem
+                type="types"
+                value={type.id.toString()}
+                name={type.name}
+              />
+            ))
             : null}
           {filters.useCases && filters.useCases.length
             ? filters.useCases.map((useCase) => (
-                <FilterRecapItem
-                  type="useCases"
-                  value={useCase.id.toString()}
-                  name={useCase.title.full}
-                />
-              ))
+              <FilterRecapItem
+                type="useCases"
+                value={useCase.id.toString()}
+                name={useCase.title.full}
+              />
+            ))
             : null}
           {filters.tags && filters.tags.length
             ? filters.tags.map((tag) => (
-                <FilterRecapItem
-                  type="tags"
-                  value={tag.tag_id.toString()}
-                  name={tag.display_name}
-                />
-              ))
+              <FilterRecapItem
+                type="tags"
+                value={tag.tag_id.toString()}
+                name={tag.display_name}
+              />
+            ))
             : null}
           {filters.replicabilities && filters.replicabilities.length
             ? filters.replicabilities.map((replicability) => (
-                <FilterRecapItem
-                  type="replicabilities"
-                  value={replicability.id.toString()}
-                  name={replicability.name}
-                />
-              ))
+              <FilterRecapItem
+                type="replicabilities"
+                value={replicability.id.toString()}
+                name={replicability.name}
+              />
+            ))
             : null}
           {filters.devices && filters.devices.length
             ? filters.devices.map((device) => (
-                <FilterRecapItem
-                  type="devices"
-                  value={device.device}
-                  name={device.device}
-                />
-              ))
+              <FilterRecapItem
+                type="devices"
+                value={device.device}
+                name={device.device}
+              />
+            ))
             : null}
           {filters.os && filters.os.length
             ? filters.os.map((os) => (
-                <FilterRecapItem type="os" value={os.os} name={os.os} />
-              ))
+              <FilterRecapItem type="os" value={os.os} name={os.os} />
+            ))
             : null}
           {filters.customStatuses && filters.customStatuses.length
             ? filters.customStatuses.map((customStatus) => (
-                <FilterRecapItem
-                  type="customStatuses"
-                  value={customStatus.id.toString()}
-                  name={
-                    getCustomStatusInfo(customStatus.name as BugState, t).text
-                  }
-                />
-              ))
+              <FilterRecapItem
+                type="customStatuses"
+                value={customStatus.id.toString()}
+                name={
+                  getCustomStatusInfo(customStatus.name as BugState, t).text
+                }
+              />
+            ))
             : null}
+          {
+            currentIsNaBugExcluded ?
+              <FilterRecapItem
+                type='excludeNotABug'
+                value={getExcludeNotABugInfo().actionIdentifier}
+                name={getExcludeNotABugInfo(t).recapTitle}
+              /> :
+              null
+          }
           <StyledButton
             isBasic
             size="medium"
