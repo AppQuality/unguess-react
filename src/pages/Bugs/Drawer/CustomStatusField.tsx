@@ -19,6 +19,8 @@ import { Divider } from 'src/common/components/divider';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import styled from 'styled-components';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
+import { BugCustomStatus } from 'src/features/api';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
 import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
@@ -27,8 +29,6 @@ const Spacer = styled.div`
   width: 100%;
   height: ${({ theme }) => theme.space.md};
 `;
-
-type CustomStatusItemType = { id: number; name: string };
 
 export const CustomStatusField = ({
   customStatuses,
@@ -47,16 +47,16 @@ export const CustomStatusField = ({
 
   if (!counters) return null;
 
-  const shallDisabled = (item: CustomStatusItemType): boolean => {
-    if (item.name !== 'not a bug') return !counters[item.id];
+  const shallDisabled = (item: BugCustomStatus): boolean => {
+    if (item.id !== getExcludeNotABugInfo().customStatusId) return !counters[item.id];
     if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
     return !counters[item.id];
   };
 
-  const findNaBug = (arr: CustomStatusItemType[]) =>
-    arr.find((item: CustomStatusItemType) => item.name === 'not a bug');
-  const filterNaBug = (arr: CustomStatusItemType[]) =>
-    arr.filter((item: CustomStatusItemType) => item.name !== 'not a bug');
+  const findNaBug = (arr: BugCustomStatus[]) =>
+    arr.find((item: BugCustomStatus) => item.name === 'not a bug');
+  const filterNaBug = (arr: BugCustomStatus[]) =>
+    arr.filter((item: BugCustomStatus) => item.name !== 'not a bug');
   const shouldDisableToggle = !counters[findNaBug(available)?.id || -1];
 
   return (
@@ -113,7 +113,7 @@ export const CustomStatusField = ({
                     ...(shouldDisableToggle && disabledStyle),
                   }}
                 >
-                  {t('__BUGS_EXCLUDE_NOT_A_BUG')}
+                  {getExcludeNotABugInfo(t).drawerTitle}
                   <MD>{counters[7] || 0}</MD>
                 </LabelSpaceBetween>
               </Toggle>

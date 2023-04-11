@@ -7,9 +7,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
+import { BugCustomStatus } from 'src/features/api';
 import { useFilterData } from '../Drawer/useFilterData';
-
-type CustomStatusItemType = { id: number; name: string };
 
 export const CustomStatusFilter = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +26,7 @@ export const CustomStatusFilter = () => {
   )
     return null;
 
-  const shallDisabled = (item: CustomStatusItemType): boolean => {
+  const shallDisabled = (item: BugCustomStatus): boolean => {
     if (item.name !== 'not a bug') return !counters[item.id];
     if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
     return !counters[item.id];
