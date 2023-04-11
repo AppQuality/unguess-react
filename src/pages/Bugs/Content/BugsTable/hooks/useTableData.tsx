@@ -1,3 +1,5 @@
+import { getIsNaBugExcluded } from 'src/features/bugsPage/bugsPageSlice';
+import { Bug } from 'src/features/api';
 import { useCampaignBugs } from './useCampaignBugs';
 import { useCampaignBugStates } from './useCampaignBugStates';
 import { useCampaignUseCases } from './useCampaignUseCases';
@@ -12,6 +14,8 @@ export const useTableData = (campaignId: number) => {
     useCampaignBugStates(campaignId);
   const { useCases, useCasesError, useCasesLoading } =
     useCampaignUseCases(campaignId);
+
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
 
   // if there is no data, return empty array
   if (
@@ -35,13 +39,23 @@ export const useTableData = (campaignId: number) => {
     };
   }
 
-  const bugsByStates = sortByStates(bugs.items, bugStates);
-  const bugsByUseCases = sortByUseCase(bugs.items, useCases);
+  let bugItems: (Bug & { tags?: { tag_id: number; tag_name: string; }[] | undefined; siblings: number; })[] = [];
+  if (bugs && bugs.items && bugs.items?.length > 0) {
+    if (currentIsNaBugExcluded) {
+      bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== 7)
+    }
+    else {
+      bugItems = bugs.items;
+    }
+  }
+
+  const bugsByStates = sortByStates(bugItems, bugStates);
+  const bugsByUseCases = sortByUseCase(bugItems, useCases);
 
   /* got the data */
   return {
     data: {
-      allBugs: bugs.items,
+      allBugs: bugItems,
       bugsByUseCases,
       bugsByStates,
     },
