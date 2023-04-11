@@ -24,6 +24,7 @@ const StyledSpan = styled(Span)`
 
 export default ({
   bug,
+  isLightbox,
 }: {
   bug: Bug & {
     reporter: {
@@ -32,6 +33,7 @@ export default ({
     };
     additional_fields?: BugAdditionalField[];
   };
+  isLightbox?: boolean;
 }) => {
   const { t } = useTranslation();
   const { occurred_date, device, reporter } = bug;
@@ -40,9 +42,11 @@ export default ({
 
   return (
     <>
-      <DetailsItem>
-        <BugTags bug={bug} />
-      </DetailsItem>
+      {!isLightbox && (
+        <DetailsItem>
+          <BugTags bug={bug} />
+        </DetailsItem>
+      )}
       <DetailsItem>
         <Label isBold style={{ marginBottom: globalTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
