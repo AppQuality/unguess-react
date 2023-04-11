@@ -6,7 +6,8 @@ export const sortByStates = (
   bugs: TableBugType[],
   states: GetCampaignsByCidCustomStatusesApiResponse
 ) => {
-  const bugsByStates: BugByStateType[] = states?.map((state) => ({
+  const sortedStates = states.slice().sort((a, b) => a.id - b.id);
+  const bugsByStates: BugByStateType[] = sortedStates.map((state) => ({
     state,
     bugs: [],
   }));
