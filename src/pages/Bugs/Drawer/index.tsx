@@ -10,10 +10,12 @@ import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
 import {
   getCurrentCampaignData,
+  getIsNaBugExcluded,
   resetFilters,
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { Bug } from 'src/features/api';
 import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
@@ -117,6 +119,17 @@ const BugsFilterDrawer = () => {
   }, [campaignData]);
 
   const { bugs } = useCampaignBugs(currentCampaign ?? 0);
+  
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
+  let bugItems = [];
+  if (bugs && bugs.items && bugs.items?.length > 0) {
+    if (currentIsNaBugExcluded) {
+      bugItems = bugs.items.filter((item: Bug) => item.custom_status.id !== 7)
+    }
+    else {
+      bugItems = bugs.items;
+    }
+  }
 
   if (!campaignData || !currentCampaign) return <Skeleton />;
 
@@ -152,10 +165,10 @@ const BugsFilterDrawer = () => {
             onClick={onCtaClick}
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON')}
-            {bugs &&
-              bugs.items &&
-              bugs.items?.length > 0 &&
-              ` (${bugs?.items?.length})`}
+            {
+              bugItems.length &&
+              ` (${bugItems.length})`
+            }
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
