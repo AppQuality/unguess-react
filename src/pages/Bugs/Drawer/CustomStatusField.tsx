@@ -9,29 +9,14 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
-import {
-  Field,
-  // Toggle
-} from '@zendeskgarden/react-forms';
-import {
-  // getIsNaBugExcluded,
-  // setIsNaBugExcluded,
-  updateFilters,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { Field } from '@zendeskgarden/react-forms';
+import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
-// import styled from 'styled-components';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
 import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
-
-// const Spacer = styled.div`
-//   width: 100%;
-//   height: ${({ theme }) => theme.space.md};
-// `;
-
-// type CustomStatusItemType = { id: number; name: string };
 
 export const CustomStatusField = ({
   customStatuses,
@@ -46,21 +31,8 @@ export const CustomStatusField = ({
   const { t } = useTranslation();
   const { available: unsorted, selected } = customStatuses;
   const available = [...unsorted].sort((a, b) => a.id - b.id);
-  // const currentIsNaBugExcluded = getIsNaBugExcluded();
 
   if (!counters) return null;
-
-  // const shallDisabled = (item: CustomStatusItemType): boolean => {
-  //   if (item.name !== 'not a bug') return !counters[item.id];
-  //   if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
-  //   return !counters[item.id];
-  // };
-
-  // const findNaBug = (arr: CustomStatusItemType[]) =>
-  //   arr.find((item: CustomStatusItemType) => item.name === 'not a bug');
-  // const filterNaBug = (arr: CustomStatusItemType[]) =>
-  //   arr.filter((item: CustomStatusItemType) => item.name !== 'not a bug');
-  // const shouldDisableToggle = !counters[findNaBug(available)?.id || -1];
 
   return (
     <>
@@ -96,32 +68,6 @@ export const CustomStatusField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            {/* <Field>
-              <Toggle
-                disabled={shouldDisableToggle}
-                defaultValue={String(currentIsNaBugExcluded)}
-                onChange={(event) => {
-                  dispatch(setIsNaBugExcluded(event.target.checked));
-                  dispatch(
-                    updateFilters({
-                      filters: { customStatuses: [...filterNaBug(selected)] },
-                    })
-                  );
-                }}
-              >
-                <LabelSpaceBetween
-                  isRegular
-                  style={{
-                    color: globalTheme.palette.grey[700],
-                    ...(shouldDisableToggle && disabledStyle),
-                  }}
-                >
-                  Exclude “Not a bug”
-                  <MD>{counters[7] || 0}</MD>
-                </LabelSpaceBetween>
-              </Toggle>
-            </Field>
-            <Spacer /> */}
             {available.length
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
@@ -130,7 +76,6 @@ export const CustomStatusField = ({
                       <Checkbox
                         value={item.name}
                         name="filter-custom-status"
-                        // disabled={shallDisabled(item)}
                         disabled={!counters[item.id]}
                         checked={selected.map((i) => i.id).includes(item.id)}
                         onChange={() => {
@@ -153,7 +98,6 @@ export const CustomStatusField = ({
                           isRegular
                           style={{
                             color: globalTheme.palette.grey[700],
-                            // ...(shallDisabled(item) && disabledStyle),
                             ...(!counters[item.id] && disabledStyle),
                           }}
                         >
