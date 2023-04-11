@@ -47,7 +47,7 @@ interface initialSimpleState {
   orderBy: OrderBy;
   order: Order;
   isFilterDrawerOpen: boolean;
-  // isNaBugExcluded: boolean;
+  isNaBugExcluded: boolean;
 }
 
 const initialStateSimple: initialSimpleState = {
@@ -56,7 +56,7 @@ const initialStateSimple: initialSimpleState = {
   orderBy: 'severity_id',
   order: 'DESC',
   isFilterDrawerOpen: false,
-  // isNaBugExcluded: false,
+  isNaBugExcluded: false,
 };
 
 const bugPageSlice = createSlice({
@@ -195,9 +195,9 @@ const bugPageSlice = createSlice({
     setFilterDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isFilterDrawerOpen = action.payload;
     },
-    // setIsNaBugExcluded: (state, action: PayloadAction<boolean>) => {
-    //   state.isNaBugExcluded = action.payload;
-    // },
+   setIsNaBugExcluded: (state, action: PayloadAction<boolean>) => {
+     state.isNaBugExcluded = action.payload;
+   },
   },
 });
 
@@ -260,8 +260,8 @@ export const getSelectedOrderBy = (): OrderBy =>
 export const getSelectedOrder = (): Order =>
   useAppSelector((state) => state.bugsPage).order;
 
-// export const getIsNaBugExcluded = (): boolean =>
-//   useAppSelector((state) => state.bugsPage).isNaBugExcluded;
+export const getIsNaBugExcluded = (): boolean =>
+useAppSelector((state) => state.bugsPage).isNaBugExcluded;
 
 export const {
   selectCampaign,
@@ -272,5 +272,5 @@ export const {
   setOrderBy,
   setOrder,
   setFilterDrawerOpen,
-  // setIsNaBugExcluded,
+  setIsNaBugExcluded,
 } = bugPageSlice.actions;
