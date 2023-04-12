@@ -1,17 +1,13 @@
-import { useAppSelector } from 'src/app/hooks';
 import { ServiceResponse } from 'src/features/backoffice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   Anchor,
   Paragraph,
   Span,
-  Tag,
-  theme as globalTheme,
   PageHeader,
 } from '@appquality/unguess-design-system';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
@@ -19,21 +15,14 @@ import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-ic
 import { ReactComponent as EnvironmentIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as TimeIcon } from 'src/assets/icons/time-icon.svg';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { PageTitle } from 'src/common/components/PageTitle';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { Meta } from 'src/common/components/Meta';
+import { PageMeta } from 'src/common/components/PageMeta';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
-
-const TagsContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: ${({ theme }) => theme.space.base * 4}px;
-`;
-
-const StyledTag = styled(Tag)`
-  margin-right: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.sm};
-`;
 
 export const SingleServicePageHeader = ({
   response,
@@ -44,9 +33,7 @@ export const SingleServicePageHeader = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const servicesRoute = useLocalizeRoute('services');
-  const homeRoute = useLocalizeRoute('');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const service = getLocalizedStrapiData({
     item: response,
@@ -64,114 +51,67 @@ export const SingleServicePageHeader = ({
   const expressType = extractStrapiData(express.express_type);
 
   return (
-    <PageHeader>
-      <PageHeader.Breadcrumb>
-        <Anchor onClick={() => navigate(homeRoute)}>
-          {activeWorkspace?.company || t('__BREADCRUMB_ITEM_DASHBOARD')}
-        </Anchor>
-        <Anchor onClick={() => navigate(servicesRoute)}>
-          {t('__BREADCRUMB_ITEM_SERVICES')}
-        </Anchor>
-      </PageHeader.Breadcrumb>
-      <PageHeader.Main
-        infoTitle={service.title}
-        {...(bannerImg && { metaImage: bannerImgUrl })}
-      >
-        <PageHeader.Overline>
-          {service.campaign_type.toUpperCase()}
-        </PageHeader.Overline>
-        <PageHeader.Title>{service.title}</PageHeader.Title>
-        <PageHeader.Description>{service.description}</PageHeader.Description>
-        <PageHeader.Counters>
-          <TagsContainer>
-            {expressType && expressType.id ? (
-              <StyledTag
-                size="large"
-                isPill
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
-                <StyledTag.Avatar>
-                  <ExpressIcon />
-                </StyledTag.Avatar>
-                <Span>{t('__EXPRESS_LABEL')}</Span>
-              </StyledTag>
-            ) : (
-              <StyledTag
-                size="large"
-                isPill
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
-                <StyledTag.Avatar>
-                  <TailoredIcon />
-                </StyledTag.Avatar>
-                <Span>{t('__TAILORED_LABEL')}</Span>
-              </StyledTag>
-            )}
-            {service.is_functional ? (
-              <StyledTag
-                size="large"
-                isPill
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
-                <StyledTag.Avatar>
-                  <FunctionalIcon />
-                </StyledTag.Avatar>
-                <Span>{t('__FUNCTIONAL_LABEL')}</Span>
-              </StyledTag>
-            ) : (
-              <StyledTag
-                size="large"
-                isPill
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
-                <StyledTag.Avatar>
-                  <ExperientialIcon />
-                </StyledTag.Avatar>
-                <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
-              </StyledTag>
-            )}
-            <StyledTag
-              size="large"
-              isPill
-              isRegular
-              hue={globalTheme.palette.grey[100]}
-            >
-              <StyledTag.Avatar>
-                <TimeIcon />
-              </StyledTag.Avatar>
-              <Paragraph>
-                <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
-                  First results in <Span isBold>{{ hours }}</Span>h
-                </Trans>
-              </Paragraph>
-            </StyledTag>
-            {service.environment && (
-              <StyledTag
-                size="large"
-                isPill
-                isRegular
-                hue={globalTheme.palette.grey[100]}
-              >
-                <StyledTag.Avatar>
-                  <EnvironmentIcon />
-                </StyledTag.Avatar>
-                <Paragraph>{service.environment}</Paragraph>
-              </StyledTag>
-            )}
-          </TagsContainer>
-        </PageHeader.Counters>
-      </PageHeader.Main>
-      <PageHeader.Buttons>
-        {expressType && expressType.id ? (
-          <ServiceExpressCta expressTypeId={expressType.id} />
-        ) : (
-          <ServiceContactUsCta onCtaClick={onContactClick} />
-        )}
-      </PageHeader.Buttons>
-    </PageHeader>
+    <LayoutWrapper>
+      <PageHeader>
+        <PageHeader.Breadcrumbs>
+          <Anchor onClick={() => navigate(servicesRoute)}>
+            {t('__BREADCRUMB_ITEM_SERVICES')}
+          </Anchor>
+        </PageHeader.Breadcrumbs>
+        <PageHeader.Main
+          mainTitle={service.title}
+          {...(bannerImg && { mainImageUrl: bannerImgUrl })}
+        >
+          <PageHeader.Overline>
+            {service.campaign_type.toUpperCase()}
+          </PageHeader.Overline>
+          <PageHeader.Title>
+            <PageTitle>{service.title}</PageTitle>
+          </PageHeader.Title>
+          <PageHeader.Description>{service.description}</PageHeader.Description>
+          <PageHeader.Meta>
+            <PageMeta>
+              {expressType && expressType.id ? (
+                <Meta size="large" icon={<ExpressIcon />}>
+                  <Span>{t('__EXPRESS_LABEL')}</Span>
+                </Meta>
+              ) : (
+                <Meta size="large" icon={<TailoredIcon />}>
+                  <Span>{t('__TAILORED_LABEL')}</Span>
+                </Meta>
+              )}
+              {service.is_functional ? (
+                <Meta size="large" icon={<FunctionalIcon />}>
+                  <Span>{t('__FUNCTIONAL_LABEL')}</Span>
+                </Meta>
+              ) : (
+                <Meta size="large" icon={<ExperientialIcon />}>
+                  <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
+                </Meta>
+              )}
+              <Meta size="large" icon={<TimeIcon />}>
+                <Paragraph>
+                  <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
+                    First results in <Span isBold>{{ hours }}</Span>h
+                  </Trans>
+                </Paragraph>
+              </Meta>
+              {service.environment && (
+                <Meta size="large" icon={<EnvironmentIcon />}>
+                  <Paragraph>{service.environment}</Paragraph>
+                </Meta>
+              )}
+            </PageMeta>
+          </PageHeader.Meta>
+        </PageHeader.Main>
+        <PageHeader.Footer>
+          {expressType && expressType.id ? (
+            <ServiceExpressCta expressTypeId={expressType.id} />
+          ) : (
+            <ServiceContactUsCta onCtaClick={onContactClick} />
+          )}
+        </PageHeader.Footer>
+      </PageHeader>
+    </LayoutWrapper>
   );
 };

@@ -1,5 +1,4 @@
 import {
-  AppHeader,
   Content,
   Sidebar,
   ProfileModal,
@@ -10,7 +9,6 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
   toggleSidebar,
   setWorkspace,
-  toggleProfileModal,
   setProfileModalOpen,
   setSidebarOpen,
 } from 'src/features/navigation/navigationSlice';
@@ -22,12 +20,12 @@ import { useEffect } from 'react';
 import API from 'src/common/api';
 import TagManager from 'react-gtm-module';
 import { isDev } from 'src/common/isDevEnvironment';
-import { Changelog } from './Changelog';
 import { useGetWorkspacesByWidProjectsQuery } from '../api';
 import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
 import { isValidWorkspace } from './utils';
 import { selectWorkspaces } from '../workspaces/selectors';
 import { usePathWithoutLocale } from './usePathWithoutLocale';
+import { Header } from '../../common/components/navigation/header/header';
 
 const cachedWorkspace = getWorkspaceFromLS();
 
@@ -49,12 +47,18 @@ export const Navigation = ({
     (state) => state.navigation
   );
 
-  // Set isSidebarOpen to false if the route is "campaigns"
+  // Set isSidebarOpen to false for specific routes
   useEffect(() => {
-    if (route === 'campaigns' || route === 'bugs' || route === 'bug') {
-      dispatch(setSidebarOpen(false));
-    } else {
-      dispatch(setSidebarOpen(true));
+    switch (route) {
+      case 'service':
+      case 'campaigns':
+      case 'bugs':
+      case 'bug':
+        dispatch(setSidebarOpen(false));
+        break;
+      default:
+        dispatch(setSidebarOpen(true));
+        break;
     }
   }, [route]);
 
@@ -94,7 +98,7 @@ export const Navigation = ({
   }
 
   const projects = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id || 0,
+    wid: activeWorkspace?.id.toString() || '',
   });
 
   const projectsList =
@@ -112,13 +116,6 @@ export const Navigation = ({
           }
           return filtered;
         }, []);
-
-  // Get initials from name
-  const getInitials = (name: string) => {
-    const names = name.split(' ');
-    const initials = names[0][0] + names[names.length - 1][0];
-    return initials;
-  };
 
   const profileModal = {
     user: {
@@ -208,10 +205,6 @@ export const Navigation = ({
     dispatch(toggleSidebar());
   };
 
-  const toggleProfileModalState = () => {
-    dispatch(toggleProfileModal());
-  };
-
   const onProfileModalClose = () => {
     dispatch(setProfileModalOpen(false));
   };
@@ -237,40 +230,7 @@ export const Navigation = ({
 
   return (
     <>
-      <AppHeader
-        isStandalone
-        hasChangelog
-        changelogItem={<Changelog />}
-        brand={{
-          brandName: `${activeWorkspace?.company}'s Workspace`,
-          menuLabel: t('__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5'),
-          activeWorkspace,
-          workspaces,
-          onWorkspaceChange: (workspace: any) => {
-            if (workspace.id !== activeWorkspace?.id) {
-              saveWorkspaceToLs(workspace);
-              API.workspacesById(workspace.id).then((ws) => {
-                dispatch(setWorkspace(ws));
-                toggleGtmWorkspaceChange(ws.company);
-              });
-            }
-            // saveWorkspaceToLs(workspace);
-            // dispatch(setWorkspace(workspace));
-            // window.location.reload();
-          },
-          onClick: () => navigateTo('home'),
-        }}
-        avatar={{
-          avatarType: user.picture ? 'image' : 'text',
-          children: user.picture
-            ? prepareGravatar(user.picture, 32)
-            : getInitials(user.name),
-        }}
-        onSidebarMenuToggle={toggleSidebarState}
-        isProfileModalOpen={isProfileModalOpen}
-        onProfileModalToggle={toggleProfileModalState}
-        onLogoItemClick={() => navigateTo('home')}
-      />
+      <Header />
       {isProfileModalOpen && (
         <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
       )}

@@ -13,9 +13,9 @@ import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
 
 const Container = styled.div`
-  padding: 0 ${({ theme }) => theme.space.md};
   width: 100%;
 `;
+
 const CardTitle = styled(Span)``;
 
 const UseCaseCard = styled(Card)`

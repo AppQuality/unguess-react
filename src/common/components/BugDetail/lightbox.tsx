@@ -107,7 +107,7 @@ export const LightboxContainer = ({
           <Lightbox.Body.Details style={{ flex: 1 }}>
             <BugMeta bug={bug} />
             <BugDescription bug={bug} />
-            <DetailsItems bug={bug} />
+            <DetailsItems isLightbox bug={bug} />
           </Lightbox.Body.Details>
         )}
       </Lightbox.Body>

@@ -8,7 +8,7 @@ import {
 import { theme as globalTheme } from 'src/app/theme';
 import ImageCard from '../ImageCard';
 import VideoCard from '../VideoCard';
-import './style.css';
+import 'src/common/components/BugDetail/responsive-grid.css';
 import { LightboxContainer } from '../lightbox';
 
 export default ({
@@ -65,12 +65,12 @@ export default ({
         )}
       </SM>
       <Grid>
-        <Row className="media-container">
+        <Row className="responsive-container">
           {items.map((item, index) => {
             // Check if item is an image or a video
             if (item.mime_type.type === 'image')
               return (
-                <Col xs={12} sm={6} className="media">
+                <Col xs={12} sm={6} className="flex-3-sm">
                   <ImageCard
                     index={index}
                     url={item.url}
@@ -80,7 +80,7 @@ export default ({
               );
             if (item.mime_type.type === 'video')
               return (
-                <Col xs={12} sm={6} className="media">
+                <Col xs={12} sm={6} className="flex-3-sm">
                   <VideoCard
                     index={index}
                     url={item.url}

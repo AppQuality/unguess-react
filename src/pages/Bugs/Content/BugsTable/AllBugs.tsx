@@ -1,35 +1,30 @@
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'src/app/hooks';
-import { theme } from 'src/app/theme';
-import Table from 'src/common/components/Table';
-import {
-  getSelectedBugId,
-  selectBug,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { theme as globalTheme } from 'src/app/theme';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { TableBugType } from '../../types';
 import { InfoRow } from './components/InfoRow';
-import { mapBugsToTableData } from './utils/mapBugsToTableData';
-import { useTableColumns } from './hooks/useTableColumns';
+import UseCaseTable from './components/SingleGroupTable';
+import BugCards from './components/BugCards';
 
-export const AllBugs = ({ bugs }: { bugs: TableBugType[] }) => {
-  const currentBugId = getSelectedBugId();
-  const { t } = useTranslation();
-  const { columns } = useTableColumns();
-  const dispatch = useAppDispatch();
+export const AllBugs = ({
+  campaignId,
+  bugs,
+}: {
+  campaignId: number;
+  bugs: TableBugType[];
+}) => {
+  const { width } = useWindowSize();
+
+  const breakpointMd = parseInt(globalTheme.breakpoints.md, 10);
+  const isMdBreakpoint = width < breakpointMd;
 
   return (
-    <div>
+    <>
       <InfoRow bugs={bugs} />
-      <Table
-        style={{ marginBottom: theme.space.sm, marginTop: theme.space.xs }}
-        columns={columns}
-        data={mapBugsToTableData(bugs, t)}
-        selectedRow={currentBugId ? currentBugId.toString() : null}
-        onRowClick={(bug_id) =>
-          dispatch(selectBug({ bug_id: parseInt(bug_id, 10) }))
-        }
-        isSticky
-      />
-    </div>
+      {isMdBreakpoint ? (
+        <BugCards bugs={bugs} />
+      ) : (
+        <UseCaseTable campaignId={campaignId} item={{ bugs }} />
+      )}
+    </>
   );
 };

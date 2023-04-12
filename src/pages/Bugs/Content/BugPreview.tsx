@@ -1,7 +1,7 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import BugMeta from 'src/common/components/BugDetail/Meta';
-import BugTags from 'src/common/components/BugDetail/Tags';
+import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugDescription from 'src/common/components/BugDetail/Description';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import BugDetails from 'src/common/components/BugDetail/Details';
@@ -9,23 +9,38 @@ import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useRef } from 'react';
+import BugStateDropdown from 'src/common/components/BugDetail/BugStateDropdown';
+import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
+import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
-const DetailContainer = styled.div`
+export const filtersHeight = 56;
+
+const DetailContainer = styled.div<{
+  isFetching?: boolean;
+}>`
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
   width: 100%;
   background-color: white;
-  border: ${({ theme }) => theme.palette.grey[300]} 1px solid;
-  border-top-left-radius: ${({ theme }) => theme.space.xs};
-  border-bottom-left-radius: ${({ theme }) => theme.space.xs};
-  padding: 0;
   max-height: calc(
-    100vh - ${({ theme }) => theme.components.chrome.header.height}
+    100vh - ${({ theme }) => theme.components.chrome.header.height} -
+      ${filtersHeight}px
   );
   overflow: hidden;
+
+  ${(p) =>
+    p.isFetching &&
+    `
+    opacity: 0.5;
+    pointer-events: none;
+  `}
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    top: ${filtersHeight}px;
+  }
 `;
 
 const ScrollingContainer = styled.div`
@@ -49,10 +64,15 @@ export const BugPreview = ({
     isLoading,
     isFetching,
     isError,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId.toString(),
-    bid: bugId.toString(),
-  });
+  } = useGetCampaignsByCidBugsAndBidQuery(
+    {
+      cid: campaignId.toString(),
+      bid: bugId.toString(),
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
   const currentBugId = getSelectedBugId();
 
   // Reset container scroll position when bug changes
@@ -62,22 +82,35 @@ export const BugPreview = ({
     }
   }, [currentBugId]);
 
-  if (isLoading || isFetching || isError || !bug) return <Skeleton />;
+  if (isLoading || isError || !bug) return <Skeleton />;
 
   const { media } = bug;
+  const scrollerBoxId = 'bug-preview-container';
+
+  const GridWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: ${({ theme }) => theme.space.sm};
+  `;
 
   return (
-    <DetailContainer>
+    <DetailContainer isFetching={isFetching}>
       <BugHeader bug={bug} />
-      <ScrollingContainer ref={refScroll}>
-        <BugMeta bug={bug} />
-        <BugTags bug={bug} campaignId={campaignId} bugId={currentBugId ?? 0} />
-        <BugDescription bug={bug} />
-        {media && media.length ? <BugAttachments bug={bug} /> : null}
-        <BugDetails bug={bug} />
-        {currentBugId && (
-          <BugDuplicates cid={campaignId} bugId={currentBugId} />
-        )}
+      <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
+        <BugPreviewContextProvider>
+          <BugMeta bug={bug} />
+          <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
+          <GridWrapper>
+            <BugStateDropdown bug={bug} />
+            <BugPriority bug={bug} />
+          </GridWrapper>
+          <BugDescription bug={bug} />
+          {media && media.length ? <BugAttachments bug={bug} /> : null}
+          <BugDetails bug={bug} />
+          {currentBugId && (
+            <BugDuplicates cid={campaignId} bugId={currentBugId} />
+          )}
+        </BugPreviewContextProvider>
       </ScrollingContainer>
     </DetailContainer>
   );

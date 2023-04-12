@@ -1,39 +1,41 @@
 import { useCampaignBugs } from './useCampaignBugs';
-import { useCampaignSeverities } from './useCampaignSeverities';
+import { useCampaignBugStates } from './useCampaignBugStates';
 import { useCampaignUseCases } from './useCampaignUseCases';
-import { sortBySeverity } from '../utils/sortBySeverity';
 import { sortByUseCase } from '../utils/sortByUseCase';
+import { sortByStates } from '../utils/sortByStates';
 
 export const useTableData = (campaignId: number) => {
-  // get  bugs accepted severities and usecases
-  const { bugs, bugsError, bugsLoading } = useCampaignBugs(campaignId);
-  const { severities, severitiesError, severitiesLoading } =
-    useCampaignSeverities(campaignId);
+  // get  bugs accepted states and usecases
+  const { bugs, bugsError, bugsLoading, bugsFetching } =
+    useCampaignBugs(campaignId);
+  const { bugStates, bugStatesError, bugStatesFetching } =
+    useCampaignBugStates(campaignId);
   const { useCases, useCasesError, useCasesLoading } =
     useCampaignUseCases(campaignId);
 
   // if there is no data, return empty array
   if (
     bugsLoading ||
-    severitiesLoading ||
+    bugStatesFetching ||
     useCasesLoading ||
     !bugs ||
     !bugs.items
   ) {
     return {
-      campaignSeverities: severities,
+      bugStates,
       campaignUsecases: useCases,
       data: {
         allBugs: [],
         bugsByUseCases: [],
-        bugsBySeverity: [],
+        bugsByStates: [],
       },
-      isLoading: true,
-      error: bugsError || severitiesError || useCasesError,
+      isLoading: bugsLoading,
+      isFetching: bugsFetching,
+      isError: bugsError || bugStatesError || useCasesError,
     };
   }
 
-  const bugsBySeverity = sortBySeverity(bugs.items, severities);
+  const bugsByStates = sortByStates(bugs.items, bugStates);
   const bugsByUseCases = sortByUseCase(bugs.items, useCases);
 
   /* got the data */
@@ -41,9 +43,10 @@ export const useTableData = (campaignId: number) => {
     data: {
       allBugs: bugs.items,
       bugsByUseCases,
-      bugsBySeverity,
+      bugsByStates,
     },
-    isLoading: false,
-    error: bugsError || severitiesError || useCasesError,
+    isLoading: bugsLoading,
+    isFetching: bugsFetching,
+    isError: bugsError || bugStatesError || useCasesError,
   };
 };

@@ -59,6 +59,8 @@ const Bugs = () => {
         )
       }
       route="bugs"
+      excludeMarginTop
+      excludeMarginBottom
     >
       {isLoading ? (
         <BugsPageContentLoader />

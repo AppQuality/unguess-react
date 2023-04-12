@@ -34,7 +34,7 @@ export const TypeField = ({
 
   return (
     <>
-      <Accordion level={3}>
+      <Accordion level={3} defaultExpandedSections={[]}>
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -43,7 +43,7 @@ export const TypeField = ({
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: globalTheme.palette.grey[700],
                   textTransform: 'capitalize',
                 }}
               >
@@ -93,7 +93,7 @@ export const TypeField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color: globalTheme.palette.grey[600],
+                            color: globalTheme.palette.grey[700],
                             textTransform: 'capitalize',
                             ...(!counters[item.id] && disabledStyle),
                           }}

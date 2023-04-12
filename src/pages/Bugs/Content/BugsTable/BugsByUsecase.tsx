@@ -3,14 +3,16 @@ import { useMemo } from 'react';
 import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { EmptyState } from './components/EmptyState';
-import SingleGroupTable from './components/SingleGroupTable';
+import UseCaseAccordion from './components/SingleGroupAccordion';
 import { BugByUsecaseType } from './types';
 import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';
 
 export const BugsByUsecase = ({
+  campaignId,
   bugsByUseCases,
 }: {
+  campaignId: number;
   bugsByUseCases: BugByUsecaseType[];
 }) => {
   const { t } = useTranslation();
@@ -45,16 +47,23 @@ export const BugsByUsecase = ({
       isBare
     >
       {useCases.map((item) => (
-        <SingleGroupTable
+        <UseCaseAccordion
+          campaignId={campaignId}
           key={item.useCase.id}
           title={
             <>
-              {item.useCase.title.full}
+              {item.useCase?.id === -1
+                ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
+                : item.useCase.title.full}
               <MD tag="span">{` (${item.bugs.length})`}</MD>
             </>
           }
           item={item}
-          footer={<CompletionTooltip percentage={item.useCase.completion} />}
+          footer={
+            item.useCase?.id !== -1 && (
+              <CompletionTooltip percentage={item.useCase.completion} />
+            )
+          }
         />
       ))}
       {isDefaultView ? (

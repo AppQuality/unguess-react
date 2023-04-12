@@ -13,6 +13,8 @@ type Filter =
   | 'read'
   | 'unique'
   | 'tags'
+  | 'priorities'
+  | 'customStatuses'
   | 'useCases'
   | 'devices'
   | 'os'
@@ -45,6 +47,12 @@ export const useFilterData = (filter: Filter) => {
       ...(filterBy?.tags ? { tags: filterBy.tags.join(',') } : {}),
       ...(filterBy?.severities
         ? { severities: filterBy.severities.join(',') }
+        : {}),
+      ...(filterBy?.priorities
+        ? { priorities: filterBy.priorities.join(',') }
+        : {}),
+      ...(filterBy?.customStatuses
+        ? { customStatuses: filterBy.customStatuses.join(',') }
         : {}),
       ...(filterBy?.read && filterBy.read === 'unread'
         ? { read: 'false' }
@@ -84,6 +92,13 @@ export const useFilterData = (filter: Filter) => {
           } else {
             acc.none = (acc.none || 0) + 1;
           }
+        } else if (filter === 'priorities' && bug.priority !== undefined) {
+          acc[bug.priority.id] = (acc[bug.priority.id] || 0) + 1;
+        } else if (
+          filter === 'customStatuses' &&
+          bug.custom_status !== undefined
+        ) {
+          acc[bug.custom_status.id] = (acc[bug.custom_status.id] || 0) + 1;
         } else if (filter === 'useCases') {
           acc[bug.application_section.id || -1] =
             (acc[bug.application_section.id || -1] || 0) + 1;

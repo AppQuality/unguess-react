@@ -1,16 +1,15 @@
-import { XL, MD, SM } from '@appquality/unguess-design-system';
+import { XL, MD, SM, Tag } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
-import { IconPill } from 'src/common/components/pills/IconPill';
 import { Pipe } from 'src/common/components/Pipe';
 import { WrappedText } from 'src/common/components/WrappedText';
-import { NeedReviewPill } from './NeedReviewPill';
+import { NeedReviewTag } from './NeedReviewTag';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.xs};
@@ -39,7 +38,7 @@ function getDeviceIcon(device: string) {
     case 'desktop':
       return <DesktopIcon />;
     default:
-      return null;
+      return <TabletIcon />;
   }
 }
 
@@ -55,8 +54,11 @@ export default ({
 }) => (
   <Container>
     <SeverityContainer>
-      <SeverityPill severity={bug.severity.name.toLowerCase() as Severities} />
-      {bug.status.id === 4 && <NeedReviewPill />}
+      <SeverityTag
+        hasBackground
+        severity={bug.severity.name.toLowerCase() as Severities}
+      />
+      {bug.status.id === 4 && <NeedReviewTag />}
     </SeverityContainer>
     <XL
       isBold
@@ -70,37 +72,36 @@ export default ({
     </XL>
     <MD
       style={{
-        color: globalTheme.palette.grey[600],
+        color: globalTheme.palette.grey[700],
         marginBottom: globalTheme.space.md,
       }}
     >
       {bug.title.context ? bug.title.context.join(', ') : null}
     </MD>
     <BugInfo>
-      <SM style={{ textTransform: 'capitalize' }}>{bug.type.name}</SM>
-      <Pipe style={{ height: globalTheme.lineHeights.md }} />
-      <IconPill
-        size="medium"
-        title={
-          <SM>
-            {bug.device.type === 'desktop'
-              ? bug.device.desktop_type
-              : `${bug.device.manufacturer} ${bug.device.model}`}
-          </SM>
-        }
-        icon={getDeviceIcon(bug.device.type)}
-        style={{ textTransform: 'capitalize' }}
-      />
-      <IconPill
-        size="medium"
-        title={
-          <SM>
-            {bug.device.os} {bug.device.os_version}
-          </SM>
-        }
-        icon={<OSIcon />}
-        style={{ textTransform: 'capitalize' }}
-      />
+      <SM
+        isBold
+        style={{
+          textTransform: 'capitalize',
+          color: globalTheme.palette.grey[700],
+          marginRight: globalTheme.space.sm,
+        }}
+      >
+        {bug.type.name}
+      </SM>
+      <Pipe size="regular" />
+      <Tag hue="white" style={{ textTransform: 'capitalize' }}>
+        <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>
+        {bug.device.type === 'desktop'
+          ? bug.device.desktop_type
+          : `${bug.device.manufacturer} ${bug.device.model}`}
+      </Tag>
+      <Tag hue="white" style={{ textTransform: 'capitalize' }}>
+        <Tag.Avatar>
+          <OSIcon />
+        </Tag.Avatar>
+        {bug.device.os} {bug.device.os_version}
+      </Tag>
     </BugInfo>
   </Container>
 );

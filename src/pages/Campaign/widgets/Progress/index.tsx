@@ -2,8 +2,8 @@ import {
   XL,
   BulletChart,
   Span,
-  Tag,
   SM,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { theme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -99,7 +99,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
             }
           />
           <BasicWidget.Footer>
-            <Tag isPill>
+            <Tag>
               {t('__CAMPAIGN_PAGE_WIDGET_PROGRESS_FOOTER', {
                 defaultValue: 'Test duration: {{startDate}} to {{endDate}}',
                 startDate: widgetData.startDate,

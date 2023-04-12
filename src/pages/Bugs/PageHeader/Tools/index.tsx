@@ -1,73 +1,30 @@
-import { Skeleton } from '@appquality/unguess-design-system';
+import { Button, Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { SeverityPill } from 'src/common/components/pills/SeverityPill';
-import { StatusPill } from 'src/common/components/pills/StatusPill';
+import { SeverityMeta } from 'src/common/components/meta/SeverityMeta';
 import { Pipe } from 'src/common/components/Pipe';
+import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/download-stroke.svg';
+import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
+import { useTranslation } from 'react-i18next';
+import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
+import WPAPI from 'src/common/wpapi';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { CampaignStatus } from 'src/types';
+import { PageMeta } from 'src/common/components/PageMeta';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
-import { DotsMenu } from './DotsMenu';
-import { useCampaign } from './useCampaign';
+import { useCampaignBugs } from './useCampaignBugs';
 
-const SeveritiesWrapper = styled.div`
+const Container = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    > div {
-      margin-right: ${({ theme }) => theme.space.xxs};
-      margin-bottom: ${({ theme }) => theme.space.xxs};
-    }
-  }
+  justify-content: space-between;
+  width: 100%;
 `;
 
-const StyledCounter = styled(UniqueBugsCounter)``;
-
-const StyledStatus = styled(StatusPill)``;
-
-const StyledMenu = styled(DotsMenu)`
-  display: flex;
-  margin-left: ${({ theme }) => theme.space.md};
-`;
-
-const ToolsWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-left: auto;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.xxl}) {
-    flex-wrap: nowrap;
-    order: 0;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    order: 1;
-    width: 100%;
-    margin-top: ${({ theme }) => theme.space.md};
-    margin-left: 0;
-  }
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    flex-direction: column;
-    align-items: flex-start;
-
-    ${Pipe} {
-      display: none;
-    }
-
-    ${StyledCounter} {
-      margin-bottom: ${({ theme }) => theme.space.sm};
-    }
-
-    ${SeveritiesWrapper} {
-      margin-bottom: ${({ theme }) => theme.space.xxs};
-    }
-
-    ${StyledStatus} {
-      margin-bottom: ${({ theme }) => theme.space.xs};
-    }
+const ButtonsWrapper = styled.div`
+  display: none;
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.lg}) {
+    display: block;
+    flex: 1 0 auto;
   }
 `;
 
@@ -78,28 +35,68 @@ export const Tools = ({
   campaignId: number;
   customerTitle: string;
 }) => {
-  const { isLoading, status, severities } = useCampaign(campaignId);
+  const { t } = useTranslation();
+  const integrationCenterUrl = getLocalizeIntegrationCenterRoute(campaignId);
+  const {
+    isCampaignLoading,
+    isCampaignBugsLoading,
+    isCampaignFetching,
+    isCampaignBugsFetching,
+    severities,
+    status,
+  } = useCampaignBugs(campaignId);
 
-  if (isLoading || !status || !severities)
-    return <Skeleton width="200px" height="20px" />;
+  if (isCampaignLoading || isCampaignBugsLoading) {
+    return <Skeleton width="200px" height="30px" />;
+  }
 
   return (
-    <>
-      <ToolsWrapper>
-        <StyledCounter campaignId={campaignId} />
-        <SeveritiesWrapper>
-          {Object.keys(severities).map((severity) => (
-            <SeverityPill
+    <Container
+      style={{
+        opacity: isCampaignFetching || isCampaignBugsFetching ? 0.5 : 1,
+      }}
+    >
+      <PageMeta>
+        <UniqueBugsCounter campaignId={campaignId} />
+        {severities &&
+          Object.keys(severities).map((severity) => (
+            <SeverityMeta
               key={severity}
               counter={severities[severity as Severities]}
               severity={severity as Severities}
+              size="large"
             />
           ))}
-        </SeveritiesWrapper>
         <Pipe />
-        <StyledStatus status={status.name} />
-      </ToolsWrapper>
-      <StyledMenu campaignId={campaignId} customerTitle={customerTitle} />
-    </>
+        {status && <StatusMeta status={status.name as CampaignStatus} />}
+      </PageMeta>
+      <ButtonsWrapper>
+        <Button
+          isBasic
+          onClick={() =>
+            WPAPI.getReport({
+              campaignId,
+              title: customerTitle,
+            })
+          }
+        >
+          <Button.StartIcon>
+            <ArrowDowloadIcon />
+          </Button.StartIcon>
+          {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT')}
+        </Button>
+        <Button
+          isBasic
+          onClick={() => {
+            window.location.href = integrationCenterUrl;
+          }}
+        >
+          <Button.StartIcon>
+            <GearIcon />
+          </Button.StartIcon>
+          {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER')}
+        </Button>
+      </ButtonsWrapper>
+    </Container>
   );
 };

@@ -1,26 +1,13 @@
-import { Counter, Skeleton } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Skeleton } from '@appquality/unguess-design-system';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {
   Campaign,
   useGetWorkspacesByWidCampaignsQuery,
 } from 'src/features/api';
-import styled from 'styled-components';
-
-const Pipe = styled.span`
-  /** Vertical Separator */
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  height: ${({ theme }) => theme.space.lg};
-  margin-right: ${({ theme }) => theme.space.sm};
-  display: inline;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    width: 100%;
-    height: 0;
-    margin: 0;
-  }
-`;
+import { PageMeta } from 'src/common/components/PageMeta';
+import { Pipe } from 'src/common/components/Pipe';
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const prjId =
@@ -56,7 +43,6 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
-  const { t } = useTranslation();
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
@@ -65,7 +51,7 @@ export const Counters = () => {
 
   const { data, isLoading, isFetching, isError } =
     useGetWorkspacesByWidCampaignsQuery({
-      wid: activeWorkspace?.id ?? 0,
+      wid: activeWorkspace?.id.toString() || '',
     });
 
   if (isError) return null; // TODO: Improve error handling
@@ -76,23 +62,13 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <>
-      <Counter counter={completed} status="completed">
-        {t('__DASHABOARD_COUNTER_LABEL_COMPLETED')}
-      </Counter>
-      <Counter counter={running} status="progress">
-        {t('__DASHABOARD_COUNTER_LABEL_PROGRESS')}
-      </Counter>
-      <Counter counter={inComing} status="incoming">
-        {t('__DASHABOARD_COUNTER_LABEL_INCOMING')}
-      </Counter>
+    <PageMeta>
+      <StatusMeta counter={completed} status="completed" />
+      <StatusMeta counter={running} status="running" />
+      <StatusMeta counter={inComing} status="incoming" />
       <Pipe />
-      <Counter counter={functional} status="functional">
-        {t('__DASHABOARD_COUNTER_LABEL_FUNCTIONAL')}
-      </Counter>
-      <Counter counter={experiential} status="experiential">
-        {t('__DASHABOARD_COUNTER_LABEL_EXPERIENTIAL')}
-      </Counter>
-    </>
+      <StatusMeta counter={functional} status="functional" />
+      <StatusMeta counter={experiential} status="experiential" />
+    </PageMeta>
   );
 };

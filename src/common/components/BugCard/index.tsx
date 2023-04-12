@@ -95,7 +95,7 @@ const BugCardTitle = ({
 }) => {
   if (url) {
     return (
-      <Anchor className="anchor-bug-card-title" href={url} target="_blank">
+      <Anchor className="anchor-bug-card-title" href={url}>
         <MD isBold>{children}</MD>
       </Anchor>
     );

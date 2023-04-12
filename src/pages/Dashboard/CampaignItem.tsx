@@ -2,9 +2,8 @@ import { CampaignCard } from '@appquality/unguess-design-system';
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
-import { getCampaignStatus } from 'src/hooks/getCampaignStatus';
 import { format } from 'date-fns';
-import { CampaignActionProps } from './types';
+import { CampaignActionProps, CAMPAING_STATUSES } from './types';
 
 export const CampaignItem = ({
   campaign,
@@ -29,7 +28,7 @@ export const CampaignItem = ({
       campaignTitle={title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
       title={title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
       type={isFunctional ? 'FUNCTIONAL' : 'EXPERIENTIAL'}
-      status={getCampaignStatus(campaign)}
+      status={campaign.status.name.toUpperCase() as CAMPAING_STATUSES}
       pillText={type.name}
       onClick={() =>
         onCampaignClicked({

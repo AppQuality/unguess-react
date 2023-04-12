@@ -4,6 +4,7 @@ import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { projectFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
 import { CampaignsList } from './campaigns-list';
 import { DashboardHeaderContent } from './headerContent';
@@ -26,10 +27,12 @@ const Dashboard = () => {
       }
       route=""
     >
-      <Grid>
-        <SuggestedCampaigns />
-        <CampaignsList />
-      </Grid>
+      <LayoutWrapper>
+        <Grid>
+          <SuggestedCampaigns />
+          <CampaignsList />
+        </Grid>
+      </LayoutWrapper>
     </Page>
   );
 };

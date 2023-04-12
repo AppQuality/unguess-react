@@ -46,18 +46,19 @@ export const CampaignsList = () => {
     []
   );
 
-  const { filteredCampaigns } = useGetWorkspacesByWidCampaignsQuery(
-    { wid: activeWorkspace?.id || 0 },
-    {
-      selectFromResult: (result) => ({
-        ...result,
-        filteredCampaigns: getFilteredCampaigns(
-          result?.data?.items || [],
-          filters
-        ),
-      }),
-    }
-  );
+  const { filteredCampaigns, isLoading, isFetching, isError } =
+    useGetWorkspacesByWidCampaignsQuery(
+      { wid: activeWorkspace?.id.toString() || '' },
+      {
+        selectFromResult: (result) => ({
+          ...result,
+          filteredCampaigns: getFilteredCampaigns(
+            result?.data?.items || [],
+            filters
+          ),
+        }),
+      }
+    );
 
   const campaigns = useMemo(
     () => selectGroupedCampaigns(filteredCampaigns),
@@ -72,6 +73,8 @@ export const CampaignsList = () => {
       setViewType('grid');
     }
   }, [viewType, width]);
+
+  if (isLoading || isError || isFetching) return null;
 
   return (
     <>
@@ -98,6 +101,7 @@ export const CampaignsList = () => {
                 isPill
                 {...(viewType === 'list' && { isPrimary: true })}
                 onClick={() => setViewType('list')}
+                style={{ marginRight: theme.space.xs }}
               >
                 <ListIcon />
               </IconButton>

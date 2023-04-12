@@ -1,14 +1,13 @@
 import {
   IconButton,
-  SM,
-  Span,
   theme as globalTheme,
   Tooltip,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.svg';
-import { ReactComponent as FatherIcon } from 'src/assets/icons/father-icon.svg';
+import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { Bug } from 'src/features/api';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
@@ -36,10 +35,6 @@ const ActionDetailPreview = styled.div`
   margin-left: auto;
 `;
 
-const Info = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-`;
-
 export default ({
   bug,
 }: {
@@ -55,17 +50,25 @@ export default ({
 
   return (
     <Container>
-      {!bug.duplicated_of_id && (
-        <FatherIcon
-          style={{
-            color: globalTheme.palette.grey[500],
-            marginRight: globalTheme.space.xxs,
-          }}
-        />
-      )}
-      <Info>
-        ID <Span isBold>{bug.id}</Span>
-      </Info>
+      <Tag
+        isPill={false}
+        isRegular
+        hue="rgba(0,0,0,0)"
+        style={{ paddingTop: `${globalTheme.space.base}px` }}
+      >
+        {!bug.duplicated_of_id && (
+          <Tag.Avatar>
+            <FatherIcon
+              style={{
+                color: globalTheme.palette.grey[500],
+                marginRight: globalTheme.space.xxs,
+              }}
+            />
+          </Tag.Avatar>
+        )}
+        ID
+        <Tag.SecondaryText isBold>{bug.id}</Tag.SecondaryText>
+      </Tag>
       <ActionDetailPreview>
         <Link
           to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
@@ -74,8 +77,7 @@ export default ({
             content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
             size="large"
             type="light"
-            placement="bottom-end"
-            hasArrow={false}
+            placement="auto"
           >
             <IconButton size="small">
               <LinkIcon />
@@ -89,8 +91,7 @@ export default ({
           content={t('__BUGS_PAGE_CLOSE_DETAILS_TOOLTIP')}
           size="large"
           type="light"
-          placement="bottom-end"
-          hasArrow={false}
+          placement="auto"
         >
           <IconButton
             size="small"

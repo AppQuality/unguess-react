@@ -3,6 +3,7 @@ import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Header } from './Header';
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
@@ -27,10 +28,15 @@ const Bug = () => {
     isLoading,
     isFetching,
     isError,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId,
-    bid: bugId,
-  });
+  } = useGetCampaignsByCidBugsAndBidQuery(
+    {
+      cid: campaignId,
+      bid: bugId,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   if (isLoading || isFetching) {
     return <LoadingSkeleton />;
@@ -47,13 +53,15 @@ const Bug = () => {
       pageHeader={<Header campaignId={campaignId} bug={bug} />}
       route="bug"
     >
-      <Grid>
-        <Row>
-          <Col xl={8} offsetXl={2}>
-            <Content bug={bug} campaignId={campaignId} />
-          </Col>
-        </Row>
-      </Grid>
+      <LayoutWrapper>
+        <Grid>
+          <Row>
+            <Col xl={8} offsetXl={2}>
+              <Content bug={bug} campaignId={campaignId} />
+            </Col>
+          </Row>
+        </Grid>
+      </LayoutWrapper>
     </Page>
   );
 };
