@@ -99,7 +99,7 @@ export const CustomStatusField = ({
             <Field>
               <Toggle
                 disabled={shouldDisableToggle}
-                defaultValue={String(currentIsNaBugExcluded)}
+                checked={currentIsNaBugExcluded}
                 onChange={(event) => {
                   dispatch(setIsNaBugExcluded(event.target.checked));
                   dispatch(
@@ -117,9 +117,7 @@ export const CustomStatusField = ({
                   }}
                 >
                   {getExcludeNotABugInfo(t).drawerTitle}
-                  <MD>
-                    {counters[getExcludeNotABugInfo().customStatusId] || 0}
-                  </MD>
+                  <MD>{counters[getExcludeNotABugInfo().customStatusId] || 0}</MD>
                 </LabelSpaceBetween>
               </Toggle>
             </Field>
