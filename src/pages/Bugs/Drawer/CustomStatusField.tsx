@@ -48,8 +48,14 @@ export const CustomStatusField = ({
   if (!counters) return null;
 
   const selectedWithNaB = currentIsNaBugExcluded
-    ? [...selected, { name: getExcludeNotABugInfo(t).drawerTitle }]
-    : selected;
+    ? [
+        ...selected,
+        {
+          id: getExcludeNotABugInfo().actionIdentifier,
+          name: getExcludeNotABugInfo().drawerTitle,
+        },
+      ]
+    : [...selected];
 
   const shallDisable = (item: BugCustomStatus): boolean => {
     if (item.id !== getExcludeNotABugInfo().customStatusId)
@@ -86,7 +92,11 @@ export const CustomStatusField = ({
                 {selectedWithNaB && selectedWithNaB.length
                   ? `${selectedWithNaB
                       .slice(0, maxItemsToShow)
-                      .map((item) => item.name)
+                      .map((item) =>
+                        item.id === getExcludeNotABugInfo().actionIdentifier
+                          ? getExcludeNotABugInfo(t).drawerTitle
+                          : getCustomStatusInfo(item?.name as BugState, t).text
+                      )
                       .join(', ')
                       .toLowerCase()} ${
                       selectedWithNaB.length > maxItemsToShow
