@@ -117,7 +117,9 @@ export const CustomStatusField = ({
                   }}
                 >
                   {getExcludeNotABugInfo(t).drawerTitle}
-                  <MD>{counters[getExcludeNotABugInfo().customStatusId] || 0}</MD>
+                  <MD>
+                    {counters[getExcludeNotABugInfo().customStatusId] || 0}
+                  </MD>
                 </LabelSpaceBetween>
               </Toggle>
             </Field>
