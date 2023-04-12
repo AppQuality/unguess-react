@@ -48,7 +48,7 @@ export const CustomStatusField = ({
   if (!counters) return null;
 
   const selectedWithNaB = currentIsNaBugExcluded
-    ? [...selected, { name: getExcludeNotABugInfo().drawerTitle }]
+    ? [...selected, { name: getExcludeNotABugInfo(t).drawerTitle }]
     : selected;
 
   const shallDisable = (item: BugCustomStatus): boolean => {
