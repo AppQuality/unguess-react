@@ -145,9 +145,9 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
           </Field>
           <Menu>
             {options &&
-              options.map((item, i) => (
+              options.map((item) => (
                 <>
-                  {i === 5 && <Separator />}
+                  {item.slug === 'solved' && <Separator />}
                   <StyledItem key={item.slug} value={item}>
                     {item.icon} {item.text}
                   </StyledItem>
