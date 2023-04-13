@@ -1,9 +1,0 @@
-.media-container {
-  container: media-container / inline-size;
-}
-
-@container media-container (width > 576px) {
-  .media {
-    flex-basis: 25% !important;
-  }
-}

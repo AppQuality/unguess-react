@@ -10,12 +10,19 @@ import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
-import { theme } from 'src/app/theme';
+import { theme as globalTheme } from 'src/app/theme';
+import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 
-const buttonHeight = theme.space.lg; // 32
-const sectionMargin = theme.space.sm; // 12
-const tagsHeight = theme.space.lg; // 32
-const sectionPaddingTop = theme.space.md; // 20
+const buttonHeight = globalTheme.space.lg; // 32
+const sectionMargin = globalTheme.space.sm; // 12
+const tagsHeight = globalTheme.space.lg; // 32
+const sectionPaddingTop = globalTheme.space.md; // 20
+
+const StyledTag = styled(Tag)`
+  &:last-of-type {
+    margin-right: ${({ theme }) => theme.space.xs};
+  }
+`;
 
 const StyledAvatarTag = styled(Tag.Avatar)`
   transform: scale(0.5);
@@ -38,7 +45,8 @@ const FilterRecapItem = ({
     | 'useCases'
     | 'devices'
     | 'os'
-    | 'replicabilities';
+    | 'replicabilities'
+    | 'customStatuses';
   hasBackground?: boolean;
   color?: string;
   value: string;
@@ -48,7 +56,7 @@ const FilterRecapItem = ({
   const dispatch = useAppDispatch();
   const filters = getSelectedFilters();
   return (
-    <Tag
+    <StyledTag
       hue={color && hasBackground ? `${color}10` : ''}
       color={color || 'inherit'}
       size="large"
@@ -61,7 +69,7 @@ const FilterRecapItem = ({
           {name}
         </>
       )}
-      <Tag.Close
+      <StyledTag.Close
         onClick={() => {
           switch (type) {
             case 'severities':
@@ -158,11 +166,24 @@ const FilterRecapItem = ({
                 })
               );
               break;
+            case 'customStatuses':
+              dispatch(
+                updateFilters({
+                  filters: {
+                    customStatuses: filters.customStatuses
+                      ? filters.customStatuses.filter(
+                          (p) => p.id !== Number(value)
+                        )
+                      : [],
+                  },
+                })
+              );
+              break;
             default:
           }
         }}
       />
-    </Tag>
+    </StyledTag>
   );
 };
 
@@ -202,6 +223,7 @@ const ScrollingContainer = styled.div`
   display: flex;
   row-gap: ${(p) => p.theme.space.sm};
   width: max-content;
+  align-items: center;
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     flex-wrap: wrap;
     width: auto;
@@ -233,7 +255,8 @@ export const FilterRecap = () => {
     filters.useCases?.length ||
     filters.devices?.length ||
     filters.os?.length ||
-    filters.replicabilities?.length;
+    filters.replicabilities?.length ||
+    filters.customStatuses?.length;
 
   return hasFilters ? (
     <Wrapper>
@@ -310,13 +333,23 @@ export const FilterRecap = () => {
                 <FilterRecapItem type="os" value={os.os} name={os.os} />
               ))
             : null}
+          {filters.customStatuses && filters.customStatuses.length
+            ? filters.customStatuses.map((customStatus) => (
+                <FilterRecapItem
+                  type="customStatuses"
+                  value={customStatus.id.toString()}
+                  name={
+                    getCustomStatusInfo(customStatus.name as BugState, t).text
+                  }
+                />
+              ))
+            : null}
           <StyledButton
             isBasic
-            size="small"
+            size="medium"
             onClick={() => {
               dispatch(resetFilters());
             }}
-            style={{ marginLeft: '8px' }}
           >
             {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
           </StyledButton>

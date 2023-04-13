@@ -1,7 +1,6 @@
 import { theme } from 'src/app/theme';
 import { operations, components } from 'src/common/schema';
 import { GetUsersMeApiResponse } from './features/api';
-import { Order, OrderBy } from './features/bugsPage/bugsPageSlice';
 
 export interface UserLoginData {
   username: string;
@@ -24,15 +23,6 @@ export type CampaignStatus =
   | 'functional'
   | 'experiential';
 
-export type OrderSelection = {
-  key: string;
-  title: string;
-  orderBy: OrderBy;
-  displayName: string;
-  order: Order;
-  orderName: string;
-};
-
 declare global {
   let react_env: {
     REACT_APP_ENV: string;
@@ -49,4 +39,12 @@ declare global {
   type Severities = 'critical' | 'high' | 'medium' | 'low';
   type ItemOfArray<T> = NonNullable<T>[number];
   type Priority = 'highest' | 'high' | 'medium' | 'low' | 'lowest';
+  type BugState =
+    | 'to do'
+    | 'pending'
+    | 'to be imported'
+    | 'open'
+    | 'to be retested'
+    | 'solved'
+    | 'not a bug';
 }

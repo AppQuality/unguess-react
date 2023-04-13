@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import {
-  BugSeverity,
+  BugCustomStatus,
   GetCampaignsByCidUsecasesApiResponse,
 } from 'src/features/api';
 import { TableBugType } from '../../types';
@@ -22,8 +22,8 @@ export type BugByUsecaseType = {
   bugs: TableBugType[];
 };
 
-export type BugBySeverityType = {
-  severity: BugSeverity;
+export type BugByStateType = {
+  state: BugCustomStatus;
   bugs: TableBugType[];
 };
 

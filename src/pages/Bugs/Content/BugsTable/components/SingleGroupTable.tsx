@@ -7,22 +7,24 @@ import {
   getSelectedBugId,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { useTranslation } from 'react-i18next';
 import Table from 'src/common/components/Table';
 import { TableBugType } from 'src/pages/Bugs/types';
 import { useNavigate } from 'react-router-dom';
-import { BugBySeverityType, BugByUsecaseType } from '../types';
+import { BugByStateType, BugByUsecaseType } from '../types';
 import { mapBugsToTableData } from '../utils/mapBugsToTableData';
 import { useTableColumns } from '../hooks/useTableColumns';
 
-interface UseCaseTableProps {
+interface SingleGroupTableProps {
   campaignId: number;
-  item: BugBySeverityType | BugByUsecaseType | { bugs: TableBugType[] };
+  item: BugByStateType | BugByUsecaseType | { bugs: TableBugType[] };
   isPreview?: boolean;
 }
 
-const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
-  const { t } = useTranslation();
+const SingleGroupTable = ({
+  campaignId,
+  item,
+  isPreview,
+}: SingleGroupTableProps) => {
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
   const { columns } = useTableColumns();
@@ -49,7 +51,7 @@ const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
       isPreview && item && item.bugs.length > 3
         ? item.bugs.slice(0, 3)
         : item.bugs;
-    return mapBugsToTableData(displayBugs, t);
+    return mapBugsToTableData(displayBugs);
   }, [isPreview, item.bugs]);
 
   return (
@@ -64,4 +66,4 @@ const UseCaseTable = ({ campaignId, item, isPreview }: UseCaseTableProps) => {
   );
 };
 
-export default UseCaseTable;
+export default SingleGroupTable;

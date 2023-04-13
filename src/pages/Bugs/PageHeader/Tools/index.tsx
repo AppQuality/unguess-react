@@ -11,7 +11,7 @@ import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { CampaignStatus } from 'src/types';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
-import { useCampaign } from './useCampaign';
+import { useCampaignBugs } from './useCampaignBugs';
 
 const Container = styled.div`
   display: flex;
@@ -37,25 +37,38 @@ export const Tools = ({
 }) => {
   const { t } = useTranslation();
   const integrationCenterUrl = getLocalizeIntegrationCenterRoute(campaignId);
-  const { isLoading, status, severities } = useCampaign(campaignId);
+  const {
+    isCampaignLoading,
+    isCampaignBugsLoading,
+    isCampaignFetching,
+    isCampaignBugsFetching,
+    severities,
+    status,
+  } = useCampaignBugs(campaignId);
 
-  if (isLoading || !status || !severities)
-    return <Skeleton width="200px" height="20px" />;
+  if (isCampaignLoading || isCampaignBugsLoading) {
+    return <Skeleton width="200px" height="30px" />;
+  }
 
   return (
-    <Container>
+    <Container
+      style={{
+        opacity: isCampaignFetching || isCampaignBugsFetching ? 0.5 : 1,
+      }}
+    >
       <PageMeta>
         <UniqueBugsCounter campaignId={campaignId} />
-        {Object.keys(severities).map((severity) => (
-          <SeverityMeta
-            key={severity}
-            counter={severities[severity as Severities]}
-            severity={severity as Severities}
-            size="large"
-          />
-        ))}
+        {severities &&
+          Object.keys(severities).map((severity) => (
+            <SeverityMeta
+              key={severity}
+              counter={severities[severity as Severities]}
+              severity={severity as Severities}
+              size="large"
+            />
+          ))}
         <Pipe />
-        <StatusMeta status={status.name as CampaignStatus} />
+        {status && <StatusMeta status={status.name as CampaignStatus} />}
       </PageMeta>
       <ButtonsWrapper>
         <Button

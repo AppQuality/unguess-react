@@ -1,7 +1,6 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import BugMeta from 'src/common/components/BugDetail/Meta';
-import BugTags from 'src/common/components/BugDetail/Tags';
 import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugDescription from 'src/common/components/BugDetail/Description';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
@@ -10,13 +9,16 @@ import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useRef } from 'react';
+import BugStateDropdown from 'src/common/components/BugDetail/BugStateDropdown';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
 export const filtersHeight = 56;
 
-const DetailContainer = styled.div`
+const DetailContainer = styled.div<{
+  isFetching?: boolean;
+}>`
   display: flex;
   flex-direction: column;
   position: sticky;
@@ -28,6 +30,14 @@ const DetailContainer = styled.div`
       ${filtersHeight}px
   );
   overflow: hidden;
+
+  ${(p) =>
+    p.isFetching &&
+    `
+    opacity: 0.5;
+    pointer-events: none;
+  `}
+
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     top: ${filtersHeight}px;
   }
@@ -54,10 +64,15 @@ export const BugPreview = ({
     isLoading,
     isFetching,
     isError,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId.toString(),
-    bid: bugId.toString(),
-  });
+  } = useGetCampaignsByCidBugsAndBidQuery(
+    {
+      cid: campaignId.toString(),
+      bid: bugId.toString(),
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
   const currentBugId = getSelectedBugId();
 
   // Reset container scroll position when bug changes
@@ -67,24 +82,28 @@ export const BugPreview = ({
     }
   }, [currentBugId]);
 
-  if (isLoading || isFetching || isError || !bug) return <Skeleton />;
+  if (isLoading || isError || !bug) return <Skeleton />;
 
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
 
+  const GridWrapper = styled.div`
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: ${({ theme }) => theme.space.sm};
+  `;
+
   return (
-    <DetailContainer>
+    <DetailContainer isFetching={isFetching}>
       <BugHeader bug={bug} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
           <BugMeta bug={bug} />
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
-          <BugPriority bug={bug} />
-          <BugTags
-            bug={bug}
-            campaignId={campaignId}
-            bugId={currentBugId ?? 0}
-          />
+          <GridWrapper>
+            <BugStateDropdown bug={bug} />
+            <BugPriority bug={bug} />
+          </GridWrapper>
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
           <BugDetails bug={bug} />
