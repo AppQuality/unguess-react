@@ -38,6 +38,8 @@
   "__BUG_SEVERITY_MEDIUM": "Medium",
   "__BUG_STATUS": "Status",
   "__BUGS_CUSTOM_STATUS_FILTER_ITEM_NO_ITEMS": "All statuses",
+  "__BUGS_EXCLUDED_NOT_A_BUG": "“Not a bug” excluded",
+  "__BUGS_EXCLUDE_NOT_A_BUG": "Exclude “Not a bug”",
   "__BUGS_DEVICES_FILTER_ITEM_NO_ITEMS": "Devices",
   "__BUGS_FILTER_VIEW_ALL_LABEL": "All filters",
   "__BUGS_FILTER_VIEW_RESET_LABEL": "Reset filters",

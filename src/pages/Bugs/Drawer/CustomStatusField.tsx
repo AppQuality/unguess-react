@@ -9,11 +9,17 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-forms';
-import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { Field, Toggle } from '@zendeskgarden/react-forms';
+import {
+  getIsNaBugExcluded,
+  setIsNaBugExcluded,
+  updateFilters,
+} from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
+import { BugCustomStatus } from 'src/features/api';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
 import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
@@ -31,8 +37,36 @@ export const CustomStatusField = ({
   const { t } = useTranslation();
   const { available: unsorted, selected } = customStatuses;
   const available = [...unsorted].sort((a, b) => a.id - b.id);
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
 
   if (!counters) return null;
+
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
+
+  const selectedWithNaB = currentIsNaBugExcluded
+    ? [
+        ...selected,
+        {
+          id: customStatusNotABugInfo.actionIdentifier,
+          name: customStatusNotABugInfo.drawerTitle,
+        },
+      ]
+    : [...selected];
+
+  const shallDisable = (item: BugCustomStatus): boolean => {
+    if (item.id !== customStatusNotABugInfo.customStatusId)
+      return !counters[item.id];
+    if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
+    return !counters[item.id];
+  };
+
+  const filterNaBug = (arr: BugCustomStatus[]) =>
+    arr.filter(
+      (item: BugCustomStatus) =>
+        item.id !== customStatusNotABugInfo.customStatusId
+    );
+
+  const shouldDisableToggle = !counters[customStatusNotABugInfo.customStatusId];
 
   return (
     <>
@@ -51,14 +85,18 @@ export const CustomStatusField = ({
                   textTransform: 'capitalize',
                 }}
               >
-                {selected && selected.length
-                  ? `${selected
+                {selectedWithNaB && selectedWithNaB.length
+                  ? `${selectedWithNaB
                       .slice(0, maxItemsToShow)
-                      .map((item) => item.name)
+                      .map((item) =>
+                        item.id === customStatusNotABugInfo.actionIdentifier
+                          ? customStatusNotABugInfo.drawerTitle
+                          : getCustomStatusInfo(item?.name as BugState, t).text
+                      )
                       .join(', ')
                       .toLowerCase()} ${
-                      selected.length > maxItemsToShow
-                        ? `+${selected.length - maxItemsToShow}`
+                      selectedWithNaB.length > maxItemsToShow
+                        ? `+${selectedWithNaB.length - maxItemsToShow}`
                         : ''
                     }`
                   : t(
@@ -68,6 +106,33 @@ export const CustomStatusField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
+            <Field style={{ marginBottom: globalTheme.space.md }}>
+              <Toggle
+                disabled={shouldDisableToggle}
+                checked={currentIsNaBugExcluded}
+                onChange={(event) => {
+                  dispatch(setIsNaBugExcluded(event.target.checked));
+                  dispatch(
+                    updateFilters({
+                      filters: { customStatuses: [...filterNaBug(selected)] },
+                    })
+                  );
+                }}
+              >
+                <LabelSpaceBetween
+                  isRegular
+                  style={{
+                    color: globalTheme.palette.grey[700],
+                    ...(shouldDisableToggle && disabledStyle),
+                  }}
+                >
+                  {customStatusNotABugInfo.drawerTitle}
+                  <MD>
+                    {counters[customStatusNotABugInfo.customStatusId] || 0}
+                  </MD>
+                </LabelSpaceBetween>
+              </Toggle>
+            </Field>
             {available.length
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
@@ -76,7 +141,7 @@ export const CustomStatusField = ({
                       <Checkbox
                         value={item.name}
                         name="filter-custom-status"
-                        disabled={!counters[item.id]}
+                        disabled={shallDisable(item)}
                         checked={selected.map((i) => i.id).includes(item.id)}
                         onChange={() => {
                           dispatch(
@@ -98,7 +163,7 @@ export const CustomStatusField = ({
                           isRegular
                           style={{
                             color: globalTheme.palette.grey[700],
-                            ...(!counters[item.id] && disabledStyle),
+                            ...(shallDisable(item) && disabledStyle),
                           }}
                         >
                           {getCustomStatusInfo(item?.name as BugState, t).text}
