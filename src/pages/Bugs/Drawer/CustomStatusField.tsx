@@ -45,12 +45,12 @@ export const CustomStatusField = ({
 
   const selectedWithNaB = currentIsNaBugExcluded
     ? [
-      ...selected,
-      {
-        id: customStatusNotABugInfo.actionIdentifier,
-        name: customStatusNotABugInfo.drawerTitle,
-      },
-    ]
+        ...selected,
+        {
+          id: customStatusNotABugInfo.actionIdentifier,
+          name: customStatusNotABugInfo.drawerTitle,
+        },
+      ]
     : [...selected];
 
   const shallDisable = (item: BugCustomStatus): boolean => {
@@ -87,20 +87,21 @@ export const CustomStatusField = ({
               >
                 {selectedWithNaB && selectedWithNaB.length
                   ? `${selectedWithNaB
-                    .slice(0, maxItemsToShow)
-                    .map((item) =>
-                      item.id === customStatusNotABugInfo.actionIdentifier
-                        ? customStatusNotABugInfo.drawerTitle
-                        : getCustomStatusInfo(item?.name as BugState, t).text
-                    )
-                    .join(', ')
-                    .toLowerCase()} ${selectedWithNaB.length > maxItemsToShow
-                    ? `+${selectedWithNaB.length - maxItemsToShow}`
-                    : ''
-                  }`
+                      .slice(0, maxItemsToShow)
+                      .map((item) =>
+                        item.id === customStatusNotABugInfo.actionIdentifier
+                          ? customStatusNotABugInfo.drawerTitle
+                          : getCustomStatusInfo(item?.name as BugState, t).text
+                      )
+                      .join(', ')
+                      .toLowerCase()} ${
+                      selectedWithNaB.length > maxItemsToShow
+                        ? `+${selectedWithNaB.length - maxItemsToShow}`
+                        : ''
+                    }`
                   : t(
-                    '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
-                  )}
+                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
+                    )}
               </SM>
             </Accordion.Label>
           </Accordion.Header>
@@ -134,43 +135,43 @@ export const CustomStatusField = ({
             </Field>
             {available.length
               ? available
-                .slice(0, showMore ? undefined : maxItemsToShow)
-                .map((item) => (
-                  <Field style={{ marginBottom: globalTheme.space.xs }}>
-                    <Checkbox
-                      value={item.name}
-                      name="filter-custom-status"
-                      disabled={shallDisable(item)}
-                      checked={selected.map((i) => i.id).includes(item.id)}
-                      onChange={() => {
-                        dispatch(
-                          updateFilters({
-                            filters: {
-                              customStatuses: [
-                                ...(selected
-                                  .map((i) => i.id)
-                                  .includes(item.id)
-                                  ? selected.filter((i) => i.id !== item.id)
-                                  : [...selected, item]),
-                              ],
-                            },
-                          })
-                        );
-                      }}
-                    >
-                      <LabelSpaceBetween
-                        isRegular
-                        style={{
-                          color: globalTheme.palette.grey[700],
-                          ...(shallDisable(item) && disabledStyle),
+                  .slice(0, showMore ? undefined : maxItemsToShow)
+                  .map((item) => (
+                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                      <Checkbox
+                        value={item.name}
+                        name="filter-custom-status"
+                        disabled={shallDisable(item)}
+                        checked={selected.map((i) => i.id).includes(item.id)}
+                        onChange={() => {
+                          dispatch(
+                            updateFilters({
+                              filters: {
+                                customStatuses: [
+                                  ...(selected
+                                    .map((i) => i.id)
+                                    .includes(item.id)
+                                    ? selected.filter((i) => i.id !== item.id)
+                                    : [...selected, item]),
+                                ],
+                              },
+                            })
+                          );
                         }}
                       >
-                        {getCustomStatusInfo(item?.name as BugState, t).text}
-                        <MD>{counters[item.id] || 0}</MD>
-                      </LabelSpaceBetween>
-                    </Checkbox>
-                  </Field>
-                ))
+                        <LabelSpaceBetween
+                          isRegular
+                          style={{
+                            color: globalTheme.palette.grey[700],
+                            ...(shallDisable(item) && disabledStyle),
+                          }}
+                        >
+                          {getCustomStatusInfo(item?.name as BugState, t).text}
+                          <MD>{counters[item.id] || 0}</MD>
+                        </LabelSpaceBetween>
+                      </Checkbox>
+                    </Field>
+                  ))
               : null}
 
             {available.length > maxItemsToShow ? (
