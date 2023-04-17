@@ -1,5 +1,6 @@
 import { getIsNaBugExcluded } from 'src/features/bugsPage/bugsPageSlice';
 import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
+import { useTranslation } from 'react-i18next';
 import { useCampaignBugs } from './useCampaignBugs';
 import { useCampaignBugStates } from './useCampaignBugStates';
 import { useCampaignUseCases } from './useCampaignUseCases';
@@ -7,6 +8,8 @@ import { sortByUseCase } from '../utils/sortByUseCase';
 import { sortByStates } from '../utils/sortByStates';
 
 export const useTableData = (campaignId: number) => {
+  const { t } = useTranslation();
+
   // get  bugs accepted states and usecases
   const { bugs, bugsError, bugsLoading, bugsFetching } =
     useCampaignBugs(campaignId);
@@ -16,6 +19,8 @@ export const useTableData = (campaignId: number) => {
     useCampaignUseCases(campaignId);
 
   const currentIsNaBugExcluded = getIsNaBugExcluded();
+
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
 
   // if there is no data, return empty array
   if (
@@ -42,7 +47,7 @@ export const useTableData = (campaignId: number) => {
   let bugItems = [...bugs.items];
   if (currentIsNaBugExcluded) {
     bugItems = bugs.items.filter(
-      (item) => item.custom_status.id !== getExcludeNotABugInfo().customStatusId
+      (item) => item.custom_status.id !== customStatusNotABugInfo.customStatusId
     );
   }
 

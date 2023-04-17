@@ -1,9 +1,10 @@
 import { TFunction } from 'i18next';
+import { DEFAULT_NOT_A_BUG_CUSTOM_STATUS } from 'src/constants';
 
-export const getExcludeNotABugInfo = (t?: TFunction) => ({
-  customStatusId: 7,
-  customStatusName: 'not a bug',
+export const getExcludeNotABugInfo = (t: TFunction) => ({
+  customStatusId: DEFAULT_NOT_A_BUG_CUSTOM_STATUS.id,
+  customStatusName: DEFAULT_NOT_A_BUG_CUSTOM_STATUS.name,
   actionIdentifier: 'excludeNotABug',
-  recapTitle: t ? t('__BUGS_EXCLUDED_NOT_A_BUG') : 'Excluded not a Bug',
-  drawerTitle: t ? t('__BUGS_EXCLUDE_NOT_A_BUG') : 'Exclude “Not a bug”',
+  recapTitle: t('__BUGS_EXCLUDED_NOT_A_BUG'),
+  drawerTitle: t('__BUGS_EXCLUDE_NOT_A_BUG'),
 });

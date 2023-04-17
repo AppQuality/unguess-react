@@ -27,8 +27,10 @@ export const CustomStatusFilter = () => {
   )
     return null;
 
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
+
   const shallDisable = (item: BugCustomStatus): boolean => {
-    if (item.id !== getExcludeNotABugInfo().customStatusId)
+    if (item.id !== customStatusNotABugInfo.customStatusId)
       return !counters[item.id];
     if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
     return !counters[item.id];

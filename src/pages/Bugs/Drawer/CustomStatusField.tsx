@@ -47,18 +47,20 @@ export const CustomStatusField = ({
 
   if (!counters) return null;
 
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
+
   const selectedWithNaB = currentIsNaBugExcluded
     ? [
         ...selected,
         {
-          id: getExcludeNotABugInfo().actionIdentifier,
-          name: getExcludeNotABugInfo().drawerTitle,
+          id: customStatusNotABugInfo.actionIdentifier,
+          name: customStatusNotABugInfo.drawerTitle,
         },
       ]
     : [...selected];
 
   const shallDisable = (item: BugCustomStatus): boolean => {
-    if (item.id !== getExcludeNotABugInfo().customStatusId)
+    if (item.id !== customStatusNotABugInfo.customStatusId)
       return !counters[item.id];
     if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
     return !counters[item.id];
@@ -67,10 +69,10 @@ export const CustomStatusField = ({
   const filterNaBug = (arr: BugCustomStatus[]) =>
     arr.filter(
       (item: BugCustomStatus) =>
-        item.id !== getExcludeNotABugInfo().customStatusId
+        item.id !== customStatusNotABugInfo.customStatusId
     );
 
-  const shouldDisableToggle = !counters[getExcludeNotABugInfo().customStatusId];
+  const shouldDisableToggle = !counters[customStatusNotABugInfo.customStatusId];
 
   return (
     <>
@@ -93,8 +95,8 @@ export const CustomStatusField = ({
                   ? `${selectedWithNaB
                       .slice(0, maxItemsToShow)
                       .map((item) =>
-                        item.id === getExcludeNotABugInfo().actionIdentifier
-                          ? getExcludeNotABugInfo(t).drawerTitle
+                        item.id === customStatusNotABugInfo.actionIdentifier
+                          ? customStatusNotABugInfo.drawerTitle
                           : getCustomStatusInfo(item?.name as BugState, t).text
                       )
                       .join(', ')
@@ -130,9 +132,9 @@ export const CustomStatusField = ({
                     ...(shouldDisableToggle && disabledStyle),
                   }}
                 >
-                  {getExcludeNotABugInfo(t).drawerTitle}
+                  {customStatusNotABugInfo.drawerTitle}
                   <MD>
-                    {counters[getExcludeNotABugInfo().customStatusId] || 0}
+                    {counters[customStatusNotABugInfo.customStatusId] || 0}
                   </MD>
                 </LabelSpaceBetween>
               </Toggle>
