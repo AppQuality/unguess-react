@@ -47,6 +47,8 @@ const BugsFilterDrawer = () => {
 
   const campaignData = getCurrentCampaignData();
 
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
+
   const memoizedFilters = useMemo(() => {
     if (!campaignData) return <Skeleton />;
 
@@ -128,7 +130,7 @@ const BugsFilterDrawer = () => {
     if (currentIsNaBugExcluded) {
       bugItems = bugs.items.filter(
         (item: Bug) =>
-          item.custom_status.id !== getExcludeNotABugInfo().customStatusId
+          item.custom_status.id !== customStatusNotABugInfo.customStatusId
       );
     } else {
       bugItems = bugs.items;

@@ -267,6 +267,8 @@ export const FilterRecap = () => {
     filters.customStatuses?.length ||
     currentIsNaBugExcluded;
 
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
+
   return hasFilters ? (
     <Wrapper>
       <Inner>
@@ -356,8 +358,8 @@ export const FilterRecap = () => {
           {currentIsNaBugExcluded ? (
             <FilterRecapItem
               type="excludeNotABug"
-              value={getExcludeNotABugInfo().actionIdentifier}
-              name={getExcludeNotABugInfo(t).recapTitle}
+              value={customStatusNotABugInfo.actionIdentifier}
+              name={customStatusNotABugInfo.recapTitle}
             />
           ) : null}
           <StyledButton
