@@ -3,6 +3,7 @@ import {
   Message,
   Button,
   Label,
+  MediaInput,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
 import { Form, Formik, FormikProps, FormikValues } from 'formik';
@@ -10,6 +11,8 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
 import * as Yup from 'yup';
+import { usePostWorkspacesByWidUsersMutation } from 'src/features/api';
+import { useAppSelector } from 'src/app/hooks';
 
 const formInitialValues = {
   email: '',
@@ -22,6 +25,10 @@ const EmailTextField = styled(Field)`
 
 export const AddNewMemberInput = () => {
   const { t } = useTranslation();
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const [addNewMember] = usePostWorkspacesByWidUsersMutation();
+
+  if (!activeWorkspace) return null;
 
   const handleValidation = (values: FormikValues) => {
     const errors: { email?: string } = {};
@@ -47,8 +54,19 @@ export const AddNewMemberInput = () => {
       validationSchema={validationSchema}
       onSubmit={(values, actions) => {
         console.log('submit', values);
-        alert('Not implemented yet');
-        actions.setSubmitting(false);
+        addNewMember({
+          wid: activeWorkspace?.id.toString() || '',
+          body: {
+            email: values.email,
+          },
+        })
+          .then((res) => {
+            actions.setSubmitting(false);
+          })
+          .catch((err) => {
+            console.error(err);
+            actions.setSubmitting(false);
+          });
       }}
     >
       {({
@@ -67,7 +85,12 @@ export const AddNewMemberInput = () => {
               {...getFieldProps('email')}
               {...(errors.email && { validation: 'error' })}
             />
-            <Button isPrimary type="submit" disabled={formProps.isSubmitting}>
+            <Button
+              isPrimary
+              themeColor={globalTheme.palette.water[600]}
+              type="submit"
+              disabled={formProps.isSubmitting}
+            >
               {t('__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON')}
             </Button>
           </EmailTextField>

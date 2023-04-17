@@ -1,4 +1,5 @@
 import {
+  Button,
   IconButton,
   Modal,
   XL,
@@ -8,7 +9,6 @@ import {
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear-fill.svg';
-import { ReactComponent as VerticalDots } from 'src/assets/icons/overflow-vertical-fill.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { theme as globalTheme } from 'src/app/theme';
@@ -16,6 +16,7 @@ import { Divider } from 'src/common/components/divider';
 import { useGetWorkspacesByWidUsersQuery } from 'src/features/api';
 import { AddNewMemberInput } from './addNewMember';
 import { getInitials } from '../utils';
+import { UserItem } from './userItem';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -43,67 +44,25 @@ const UserListItem = styled.div`
   }
 `;
 
-const exampleAPIResponse = {
-  items: [
-    {
-      id: 26045,
-      profile_id: 25270,
-      name: 'Gianpaolo Sinatra',
-      email: 'gianpaolo.sinatra@app-quality.com',
-      invitationPending: true,
-    },
-    {
-      id: 26354,
-      profile_id: 25584,
-      name: 'Matteo Toto',
-      email: 'it+T25584@unguess.io',
-      invitationPending: true,
-    },
-    {
-      id: 28607,
-      profile_id: 27853,
-      name: 'Raffaella Cantatore',
-      email: 'it+T27853@unguess.io',
-      invitationPending: true,
-    },
-    {
-      id: 28608,
-      profile_id: 27854,
-      name: 'Anna De Angelis',
-      email: 'it+T27854@unguess.io',
-      invitationPending: true,
-    },
-    {
-      id: 58754,
-      profile_id: 58364,
-      name: 'Alessandro Giommi',
-      email: 'it+T58364@unguess.io',
-      invitationPending: true,
-    },
-  ],
-  start: 0,
-  limit: 0,
-  size: 5,
-  total: 5,
-};
-
 export const WorkspaceSettings = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const { isLoading, isFetching, data } = useGetWorkspacesByWidUsersQuery({
-  //   wid: activeWorkspace?.id.toString() || '0',
-  // });
-  const isFetching = false;
+  const { isLoading, isFetching, data } = useGetWorkspacesByWidUsersQuery({
+    wid: activeWorkspace?.id.toString() || '0',
+  });
 
   if (!activeWorkspace) return null;
 
   return (
     <>
-      <IconButton onClick={() => setIsModalOpen(true)}>
-        <GearIcon />
-      </IconButton>
+      <Button isBasic onClick={() => setIsModalOpen(true)}>
+        <Button.StartIcon>
+          <GearIcon />
+        </Button.StartIcon>
+        Manage users
+      </Button>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <Modal.Body style={{ overflow: 'hidden' }}>
@@ -121,16 +80,8 @@ export const WorkspaceSettings = () => {
                     overflowX: 'hidden',
                   }}
                 >
-                  {exampleAPIResponse?.items.map((user) => (
-                    <UserListItem>
-                      <Avatar avatarType="text">
-                        {getInitials(user.name)}
-                      </Avatar>
-                      <div>{user.name}</div>
-                      <IconButton>
-                        <VerticalDots />
-                      </IconButton>
-                    </UserListItem>
+                  {data?.items.map((user) => (
+                    <UserItem user={user} />
                   ))}
                 </Grid>
               </FlexContainer>
