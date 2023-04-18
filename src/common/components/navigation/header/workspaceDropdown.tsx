@@ -45,11 +45,9 @@ const DropdownItem = styled(HeaderItem)`
   }
 `;
 
-const BrandName = styled(HeaderItem)`
-  margin-right: auto;
-  margin-left: -8px;
+const BrandName = styled(HeaderItemText)`
+  margin-right: ${({ theme }) => theme.space.sm}};
   color: ${({ theme }) => theme.colors.primaryHue};
-  pointer-events: none;
   font-family: ${({ theme }) => theme.fonts.system};
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
@@ -95,7 +93,7 @@ export const WorkspacesDropdown = () => {
 
   if (!activeWorkspace || !user) return null;
 
-  return workspaces.length > 1 ? (
+  return workspaces.length > 1999 ? (
     <DropdownItem>
       <Dropdown
         selectedItem={activeWorkspace}
@@ -125,9 +123,11 @@ export const WorkspacesDropdown = () => {
       <WorkspaceSettings />
     </DropdownItem>
   ) : (
-    <BrandName>
-      <HeaderItemText>{`${activeWorkspace?.company}'s Workspace`}</HeaderItemText>
-      <WorkspaceSettings />
-    </BrandName>
+    <>
+      <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
+      <DropdownItem>
+        <WorkspaceSettings />
+      </DropdownItem>
+    </>
   );
 };
