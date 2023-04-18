@@ -93,7 +93,7 @@ export const WorkspacesDropdown = () => {
 
   if (!activeWorkspace || !user) return null;
 
-  return workspaces.length > 1999 ? (
+  return workspaces.length > 1 ? (
     <DropdownItem>
       <Dropdown
         selectedItem={activeWorkspace}
