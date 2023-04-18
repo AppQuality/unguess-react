@@ -1,7 +1,6 @@
 import {
   Avatar,
   Span,
-  SM,
   Trigger,
   Menu,
   Button,

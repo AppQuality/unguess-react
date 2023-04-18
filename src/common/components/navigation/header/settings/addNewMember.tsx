@@ -2,11 +2,10 @@ import {
   Input,
   Message,
   Button,
-  IconButton,
   Label,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
-import { Form, Formik, FormikProps, FormikValues } from 'formik';
+import { Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
@@ -53,10 +52,11 @@ export const AddNewMemberInput = () => {
             email: values.email,
           },
         })
-          .then((res) => {
+          .then(() => {
             actions.setSubmitting(false);
           })
           .catch((err) => {
+            // eslint-disable-next-line no-console
             console.error(err);
             actions.setSubmitting(false);
           });
