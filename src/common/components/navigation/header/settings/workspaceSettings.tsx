@@ -1,47 +1,21 @@
-import {
-  Button,
-  IconButton,
-  Modal,
-  XL,
-  Grid,
-  Avatar,
-} from '@appquality/unguess-design-system';
+import { Button, Modal, ModalClose } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear-fill.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { theme as globalTheme } from 'src/app/theme';
-import { Divider } from 'src/common/components/divider';
 import { useGetWorkspacesByWidUsersQuery } from 'src/features/api';
 import { AddNewMemberInput } from './addNewMember';
-import { getInitials } from '../utils';
 import { UserItem } from './userItem';
+import { WorkspaceSettingsFooter } from './modalFooter';
 
-const FlexContainer = styled.div`
+const FlexContainer = styled.div<{ loading?: boolean }>`
   display: flex;
   flex-direction: column;
   padding-top: ${({ theme }) => theme.space.base * 2}px;
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
-`;
-
-const CompanyHolder = styled(XL)`
-  text-transform: uppercase;
-  margin-top: ${({ theme }) => theme.space.base * 2}px;
-  margin-bottom: ${({ theme }) => theme.space.base * 4}px;
-  color: ${({ theme }) => theme.colors.primaryHue};
-  align-self: center;
-`;
-
-const UserListItem = styled.div`
-  display: flex;
-  padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
-  align-items: center;
-  gap: ${({ theme }) => theme.space.sm};
-
-  button {
-    margin-left: auto;
-  }
+  min-height: 0;
+  opacity: ${({ loading }) => (loading ? 0.5 : 1)};
 `;
 
 export const WorkspaceSettings = () => {
@@ -61,32 +35,23 @@ export const WorkspaceSettings = () => {
         <Button.StartIcon>
           <GearIcon />
         </Button.StartIcon>
-        Manage users
+        {t('__WORKSPACE_SETTINGS_CTA_TEXT')}
       </Button>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          <Modal.Body style={{ overflow: 'hidden' }}>
-            <FlexContainer>
-              <CompanyHolder>{`${activeWorkspace?.company}'s Workspace`}</CompanyHolder>
-              <Divider style={{ marginBottom: globalTheme.space.sm }} />
-              <AddNewMemberInput />
-
-              <FlexContainer>
-                <Grid
-                  style={{
-                    opacity: isFetching ? 0.7 : 1,
-                    height: '400px',
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                  }}
-                >
-                  {data?.items.map((user) => (
-                    <UserItem user={user} />
-                  ))}
-                </Grid>
-              </FlexContainer>
+          <Modal.Header>{t('__WORKSPACE_SETTINGS_MODAL_TITLE')}</Modal.Header>
+          <Modal.Body>
+            <AddNewMemberInput />
+          </Modal.Body>
+          <Modal.Body style={{ paddingTop: 0 }}>
+            <FlexContainer loading={isLoading || isFetching}>
+              {data?.items.map((user) => (
+                <UserItem user={user} />
+              ))}
             </FlexContainer>
           </Modal.Body>
+          <WorkspaceSettingsFooter />
+          <ModalClose />
         </Modal>
       )}
     </>

@@ -25,7 +25,7 @@ import { getInitials } from '../utils';
 const StyledEllipsis = styled(Ellipsis)``;
 const UserListItem = styled.div`
   display: flex;
-  padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
+  padding: ${({ theme }) => `${theme.space.xs} 0`};
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
 
@@ -36,10 +36,6 @@ const UserListItem = styled.div`
   ${StyledEllipsis} {
     width: 300px;
   }
-`;
-
-const StyledSM = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
 export const UserItem = ({
@@ -65,66 +61,64 @@ export const UserItem = ({
       <div>
         <StyledEllipsis>
           {displayName}{' '}
-          {isMe && (
-            <StyledSM>
-              {t('__WORKSPACE_SETTINGS_CURRENT_MEMBER_YOU_LABEL')}
-            </StyledSM>
-          )}
+          {isMe && t('__WORKSPACE_SETTINGS_CURRENT_MEMBER_YOU_LABEL')}
         </StyledEllipsis>
       </div>
       <div className="actions">
-        <Dropdown
-          onStateChange={(options) =>
-            Object.hasOwn(options, 'isOpen') && setRotated(options.isOpen)
-          }
-        >
-          <Trigger>
-            <Button isBasic aria-label="user management actions">
-              {user.invitationPending ? (
-                <Span hue={globalTheme.palette.orange[600]}>
-                  {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
-                </Span>
-              ) : (
-                t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
+        {!isMe && (
+          <Dropdown
+            onStateChange={(options) =>
+              Object.hasOwn(options, 'isOpen') && setRotated(options.isOpen)
+            }
+          >
+            <Trigger>
+              <Button isBasic aria-label="user management actions">
+                {user.invitationPending ? (
+                  <Span hue={globalTheme.palette.orange[600]}>
+                    {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
+                  </Span>
+                ) : (
+                  t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
+                )}
+                <Button.EndIcon isRotated={rotated}>
+                  <ChevronIcon />
+                </Button.EndIcon>
+              </Button>
+            </Trigger>
+            <Menu placement="bottom-end">
+              {user.invitationPending && (
+                <Item
+                  value="invite"
+                  onClick={() =>
+                    addNewMember({
+                      wid: activeWorkspace.id.toString() || '0',
+                      body: {
+                        email: user.email,
+                      },
+                    }).unwrap()
+                  }
+                >
+                  {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
+                </Item>
               )}
-              <Button.EndIcon isRotated={rotated}>
-                <ChevronIcon />
-              </Button.EndIcon>
-            </Button>
-          </Trigger>
-          <Menu placement="bottom-end">
-            {user.invitationPending && (
               <Item
-                value="invite"
+                value="remove"
                 onClick={() =>
-                  addNewMember({
+                  removeUser({
                     wid: activeWorkspace.id.toString() || '0',
                     body: {
-                      email: user.email,
+                      user_id: user.id,
                     },
                   }).unwrap()
                 }
               >
-                {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
+                <Span hue={globalTheme.colors.dangerHue}>
+                  {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
+                </Span>
               </Item>
-            )}
-            <Item
-              value="remove"
-              onClick={() =>
-                removeUser({
-                  wid: activeWorkspace.id.toString() || '0',
-                  body: {
-                    user_id: user.id,
-                  },
-                }).unwrap()
-              }
-            >
-              <Span hue={globalTheme.colors.dangerHue}>
-                {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
-              </Span>
-            </Item>
-          </Menu>
-        </Dropdown>
+            </Menu>
+          </Dropdown>
+        )}
       </div>
     </UserListItem>
   );

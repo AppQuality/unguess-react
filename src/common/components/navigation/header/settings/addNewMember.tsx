@@ -2,8 +2,8 @@ import {
   Input,
   Message,
   Button,
+  IconButton,
   Label,
-  MediaInput,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
 import { Form, Formik, FormikProps, FormikValues } from 'formik';
@@ -21,6 +21,10 @@ const formInitialValues = {
 const EmailTextField = styled(Field)`
   display: flex;
   width: 100%;
+  align-items: first baseline;
+  button {
+    margin-left: ${({ theme }) => theme.space.sm};
+  }
 `;
 
 export const AddNewMemberInput = () => {
@@ -29,16 +33,6 @@ export const AddNewMemberInput = () => {
   const [addNewMember] = usePostWorkspacesByWidUsersMutation();
 
   if (!activeWorkspace) return null;
-
-  const handleValidation = (values: FormikValues) => {
-    const errors: { email?: string } = {};
-    if (!values.email) {
-      errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = 'Invalid email address';
-    }
-    return errors;
-  };
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -53,7 +47,6 @@ export const AddNewMemberInput = () => {
       validateOnBlur
       validationSchema={validationSchema}
       onSubmit={(values, actions) => {
-        console.log('submit', values);
         addNewMember({
           wid: activeWorkspace?.id.toString() || '',
           body: {
@@ -75,7 +68,10 @@ export const AddNewMemberInput = () => {
         handleSubmit,
         ...formProps
       }: FormikProps<{ email: string }>) => (
-        <Form onSubmit={handleSubmit}>
+        <Form
+          onSubmit={handleSubmit}
+          style={{ marginBottom: globalTheme.space.sm }}
+        >
           <Label>{t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_LABEL')}</Label>
           <EmailTextField>
             <Input
@@ -87,6 +83,7 @@ export const AddNewMemberInput = () => {
             />
             <Button
               isPrimary
+              isPill
               themeColor={globalTheme.palette.water[600]}
               type="submit"
               disabled={formProps.isSubmitting}
