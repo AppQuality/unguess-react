@@ -17,7 +17,7 @@ export const apiSlice = createApi({
     paramsSerializer: (params) => stringify(params, { encodeValuesOnly: true }),
   }),
   tagTypes: [
-    'User',
+    'Users',
     'Workspaces',
     'Projects',
     'Campaigns',

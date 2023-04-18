@@ -2,9 +2,6 @@ import { unguessApi } from '.';
 
 unguessApi.enhanceEndpoints({
   endpoints: {
-    getUsersMe: {
-      providesTags: ['User'],
-    },
     getWorkspaces: {
       providesTags: ['Workspaces'],
     },
@@ -67,6 +64,15 @@ unguessApi.enhanceEndpoints({
     },
     getCampaignsByCidBugsAndBid: {
       providesTags: ['Tags'],
+    },
+    getWorkspacesByWidUsers: {
+      providesTags: ['Users'],
+    },
+    postWorkspacesByWidUsers: {
+      invalidatesTags: ['Users'],
+    },
+    deleteWorkspacesByWidUsers: {
+      invalidatesTags: ['Users'],
     },
   },
 });

@@ -275,6 +275,26 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    postWorkspacesByWidUsers: build.mutation<
+      PostWorkspacesByWidUsersApiResponse,
+      PostWorkspacesByWidUsersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/users`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    deleteWorkspacesByWidUsers: build.mutation<
+      DeleteWorkspacesByWidUsersApiResponse,
+      DeleteWorkspacesByWidUsersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/users`,
+        method: 'DELETE',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspacesByWidProjects: build.query<
       GetWorkspacesByWidProjectsApiResponse,
       GetWorkspacesByWidProjectsApiArg
@@ -704,6 +724,37 @@ export type GetWorkspacesByWidUsersApiArg = {
   /** Order by accepted field */
   orderBy?: string;
 };
+export type PostWorkspacesByWidUsersApiResponse = /** status 200 OK */ {
+  profile_id: number;
+  tryber_wp_user_id: number;
+  email: string;
+};
+export type PostWorkspacesByWidUsersApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+  body: {
+    email: string;
+    name?: string;
+    surname?: string;
+    locale?: 'it' | 'en';
+  };
+};
+export type DeleteWorkspacesByWidUsersApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+    email: string;
+    name: string;
+    profile_id: number;
+    invitationPending: boolean;
+  }[];
+};
+export type DeleteWorkspacesByWidUsersApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+  body: {
+    user_id: number;
+  };
+};
 export type GetWorkspacesByWidProjectsApiResponse = /** status 200 OK */ {
   items?: Project[];
   start?: number;
@@ -1090,6 +1141,8 @@ export const {
   useGetWorkspacesByWidCampaignsQuery,
   useGetWorkspacesByWidCoinsQuery,
   useGetWorkspacesByWidUsersQuery,
+  usePostWorkspacesByWidUsersMutation,
+  useDeleteWorkspacesByWidUsersMutation,
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
