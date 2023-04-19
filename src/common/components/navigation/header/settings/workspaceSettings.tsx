@@ -18,6 +18,11 @@ const FlexContainer = styled.div<{ loading?: boolean }>`
   opacity: ${({ loading }) => (loading ? 0.5 : 1)};
 `;
 
+const FixedBody = styled(Modal.Body)`
+  overflow: hidden;
+  padding-bottom: 0;
+`;
+
 export const WorkspaceSettings = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { t } = useTranslation();
@@ -40,9 +45,9 @@ export const WorkspaceSettings = () => {
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <Modal.Header>{t('__WORKSPACE_SETTINGS_MODAL_TITLE')}</Modal.Header>
-          <Modal.Body>
+          <FixedBody>
             <AddNewMemberInput />
-          </Modal.Body>
+          </FixedBody>
           <Modal.Body style={{ paddingTop: 0 }}>
             <FlexContainer loading={isLoading || isFetching}>
               {data?.items.map((user) => (
