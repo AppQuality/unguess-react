@@ -10,10 +10,13 @@ import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import { theme as globalTheme } from 'src/app/theme';
 import {
   getCurrentCampaignData,
+  getIsNaBugExcluded,
   resetFilters,
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { Bug } from 'src/features/api';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
@@ -26,6 +29,7 @@ import { UniqueField } from './UniqueField';
 import { UseCaseField } from './UseCaseField';
 import { PriorityField } from './PriorityField';
 import { CustomStatusField } from './CustomStatusField';
+import { BugItem } from '../types';
 
 export const WaterButton = styled(Button)``;
 
@@ -42,6 +46,8 @@ const BugsFilterDrawer = () => {
   }));
 
   const campaignData = getCurrentCampaignData();
+
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
 
   const memoizedFilters = useMemo(() => {
     if (!campaignData) return <Skeleton />;
@@ -118,6 +124,19 @@ const BugsFilterDrawer = () => {
 
   const { bugs } = useCampaignBugs(currentCampaign ?? 0);
 
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
+  let bugItems: BugItem[] = [];
+  if (bugs && bugs.items && bugs.items?.length > 0) {
+    if (currentIsNaBugExcluded) {
+      bugItems = bugs.items.filter(
+        (item: Bug) =>
+          item.custom_status.id !== customStatusNotABugInfo.customStatusId
+      );
+    } else {
+      bugItems = bugs.items;
+    }
+  }
+
   if (!campaignData || !currentCampaign) return <Skeleton />;
 
   const onClose = () => {
@@ -152,10 +171,7 @@ const BugsFilterDrawer = () => {
             onClick={onCtaClick}
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON')}
-            {bugs &&
-              bugs.items &&
-              bugs.items?.length > 0 &&
-              ` (${bugs?.items?.length})`}
+            {bugItems.length && ` (${bugItems.length})`}
           </WaterButton>
         </Drawer.FooterItem>
       </Drawer.Footer>
