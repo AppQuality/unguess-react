@@ -205,7 +205,7 @@
   "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Senza Titolo",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG": "Vai alla lista bug",
   "__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA": "Vai al dettaglio media",
-  "__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_SUBTITLE": "Visualizza i bug unici divisi per dispositivi e sistemi operativi e le tipologie di tutti i bug segnalati",
+  "__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_SUBTITLE": "Visualizza i bug divisi per dispositivi e sistemi operativi e le tipologie di tutti i bug segnalati",
   "__CAMPAIGN_PAGE_DEVICE_AND_BUG_TYPES_SECTION_TITLE": "Dispositivi e tipologie bug",
   "__CAMPAIGN_PAGE_INFO_HEADER_DESKTOP": "Desktop",
   "__CAMPAIGN_PAGE_INFO_HEADER_FROM_DATE_TO_DATE": "<0><0>{{start_date}}</0></0> → <3><0>{{end_date}}</0></3>",
