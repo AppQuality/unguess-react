@@ -30,7 +30,7 @@
   "__BUG_PRIORITY_HIGH": "Alta",
   "__BUG_PRIORITY_HIGHEST": "Altissima",
   "__BUG_PRIORITY_LOW": "Bassa",
-  "__BUG_PRIORITY_LOWEST": "Bassissima",
+  "__BUG_PRIORITY_LOWEST": "Non urgente",
   "__BUG_PRIORITY_MEDIUM": "Media",
   "__BUG_SEVERITY_CRITICAL": "Critici",
   "__BUG_SEVERITY_HIGH": "Alti",
