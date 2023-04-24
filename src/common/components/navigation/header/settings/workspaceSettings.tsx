@@ -19,6 +19,7 @@ const FlexContainer = styled.div<{ loading?: boolean }>`
 `;
 
 const FixedBody = styled(Modal.Body)`
+  display: inline-table;
   overflow: hidden;
   padding-bottom: 0;
 `;
