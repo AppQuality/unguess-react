@@ -126,7 +126,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                 <BugStateIcon
                   size="small"
                   {...globalTheme.colors.byBugState[
-                  bug.custom_status.name as BugState
+                    bug.custom_status.name as BugState
                   ]}
                 />
               </Tag.Avatar>
@@ -145,7 +145,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
       updated: bug.updated,
       borderColor:
         globalTheme.colors.bySeverity[
-        bug.severity.name.toLowerCase() as Severities
+          bug.severity.name.toLowerCase() as Severities
         ],
     };
   });
