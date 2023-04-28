@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import {
   Col,
   ContainerCard,
@@ -15,7 +16,6 @@ import {
   FormikProps,
   setNestedObjectValues,
 } from 'formik';
-import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
@@ -53,6 +53,7 @@ import { extractStrapiData } from 'src/common/getStrapiData';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import ModalDanger from 'src/common/components/ModalWithActions/ModalDanger';
 import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
@@ -347,116 +348,125 @@ export const ExpressWizardContainer = () => {
     }
   };
 
-  const closeExpressWizard = () => {
-    // eslint-disable-next-line no-alert
-    if (window.confirm(t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE'))) {
-      dispatch(closeDrawer());
-      dispatch(closeWizard());
-      dispatch(resetWizard());
-      setStep(0);
-      setThankyou(false);
-      if (formRef.current) {
-        formRef.current?.resetForm();
-      }
-      toggleChat(true);
-    }
-  };
+  const [showModalDanger, setShowModalDanger] = useState(false);
+  const closeExpressWizard = () => setShowModalDanger(true);
 
   return isWizardOpen ? (
-    <StyledModal onClose={closeExpressWizard} focusOnMount={false}>
-      {!isThankyou ? (
-        <Formik
-          innerRef={formRef}
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validateOnChange={false}
-          validateOnBlur={false}
-          validationSchema={getValidationSchema(activeStep, steps)}
-        >
-          {(formProps: FormikProps<WizardModel>) => (
-            <>
-              <StyledModal.Header
-                style={{ backgroundColor: globalTheme.palette.white }}
-              >
-                <LayoutWrapper>
-                  <ModalHeaderContent>
-                    <WizardHeader {...formProps} onClose={closeExpressWizard} />
-                    <StyledModal.Close
-                      id="express-wizard-close-button"
-                      aria-label="Close modal"
-                    />
-                  </ModalHeaderContent>
-                </LayoutWrapper>
-              </StyledModal.Header>
-              <ModalFullScreen.Body>
-                <LayoutWrapper>
-                  <Form onSubmit={formProps.handleSubmit}>
+    <>
+      <StyledModal onClose={closeExpressWizard} focusOnMount={false}>
+        {!isThankyou ? (
+          <Formik
+            innerRef={formRef}
+            initialValues={initialValues}
+            onSubmit={handleSubmit}
+            validateOnChange={false}
+            validateOnBlur={false}
+            validationSchema={getValidationSchema(activeStep, steps)}
+          >
+            {(formProps: FormikProps<WizardModel>) => (
+              <>
+                <StyledModal.Header
+                  style={{ backgroundColor: globalTheme.palette.white }}
+                >
+                  <LayoutWrapper>
+                    <ModalHeaderContent>
+                      <WizardHeader
+                        {...formProps}
+                        onClose={closeExpressWizard}
+                      />
+                      <StyledModal.Close
+                        id="express-wizard-close-button"
+                        aria-label="Close modal"
+                      />
+                    </ModalHeaderContent>
+                  </LayoutWrapper>
+                </StyledModal.Header>
+                <ModalFullScreen.Body>
+                  <LayoutWrapper>
+                    <Form onSubmit={formProps.handleSubmit}>
+                      <Grid>
+                        <Row>
+                          <Col xs={12} lg={3}>
+                            <StyledContainer>
+                              <Stepper
+                                activeIndex={activeStep}
+                                accordionTitle={stepperTitle}
+                              >
+                                {steps.map((item) => (
+                                  <Stepper.Step key={item.label}>
+                                    <Stepper.Label>{item.label}</Stepper.Label>
+                                    <Stepper.Content>
+                                      {item.content}
+                                    </Stepper.Content>
+                                  </Stepper.Step>
+                                ))}
+                              </Stepper>
+                            </StyledContainer>
+                          </Col>
+                          <Col xs={12} lg={9} xl={7}>
+                            {steps[activeStep as number].form(formProps)}
+                          </Col>
+                        </Row>
+                      </Grid>
+                    </Form>
+                  </LayoutWrapper>
+                </ModalFullScreen.Body>
+                <ModalFooter>
+                  <LayoutWrapper>
                     <Grid>
                       <Row>
-                        <Col xs={12} lg={3}>
-                          <StyledContainer>
-                            <Stepper
-                              activeIndex={activeStep}
-                              accordionTitle={stepperTitle}
-                            >
-                              {steps.map((item) => (
-                                <Stepper.Step key={item.label}>
-                                  <Stepper.Label>{item.label}</Stepper.Label>
-                                  <Stepper.Content>
-                                    {item.content}
-                                  </Stepper.Content>
-                                </Stepper.Step>
-                              ))}
-                            </Stepper>
-                          </StyledContainer>
-                        </Col>
-                        <Col xs={12} lg={9} xl={7}>
-                          {steps[activeStep as number].form(formProps)}
+                        <Col
+                          xs={12}
+                          lg={9}
+                          xl={7}
+                          offsetLg={3}
+                          style={{ marginBottom: 0 }}
+                        >
+                          <PullRight>
+                            <StyledFooterItem>
+                              {formProps.status &&
+                                formProps.status.submitError && (
+                                  <Message validation="error">
+                                    {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
+                                  </Message>
+                                )}
+                            </StyledFooterItem>
+                            <StyledFooterItem>
+                              {steps[activeStep as number].buttons({
+                                formikArgs: formProps,
+                                onBackClick: onBack,
+                                onNextClick: onNext,
+                              })}
+                            </StyledFooterItem>
+                          </PullRight>
                         </Col>
                       </Row>
                     </Grid>
-                  </Form>
-                </LayoutWrapper>
-              </ModalFullScreen.Body>
-              <ModalFooter>
-                <LayoutWrapper>
-                  <Grid>
-                    <Row>
-                      <Col
-                        xs={12}
-                        lg={9}
-                        xl={7}
-                        offsetLg={3}
-                        style={{ marginBottom: 0 }}
-                      >
-                        <PullRight>
-                          <StyledFooterItem>
-                            {formProps.status &&
-                              formProps.status.submitError && (
-                                <Message validation="error">
-                                  {t('__EXPRESS_WIZARD_SUBMIT_ERROR')}
-                                </Message>
-                              )}
-                          </StyledFooterItem>
-                          <StyledFooterItem>
-                            {steps[activeStep as number].buttons({
-                              formikArgs: formProps,
-                              onBackClick: onBack,
-                              onNextClick: onNext,
-                            })}
-                          </StyledFooterItem>
-                        </PullRight>
-                      </Col>
-                    </Row>
-                  </Grid>
-                </LayoutWrapper>
-              </ModalFooter>
-            </>
-          )}
-        </Formik>
-      ) : (
-        <ThankYouStep values={formValues} />
+                  </LayoutWrapper>
+                </ModalFooter>
+              </>
+            )}
+          </Formik>
+        ) : (
+          <ThankYouStep values={formValues} />
+        )}
+      </StyledModal>
+      {showModalDanger && (
+        <ModalDanger
+          handleCancel={() => setShowModalDanger(false)}
+          onClose={() => {
+            dispatch(closeDrawer());
+            dispatch(closeWizard());
+            dispatch(resetWizard());
+            setStep(0);
+            setThankyou(false);
+            if (formRef.current) {
+              formRef.current?.resetForm();
+            }
+            toggleChat(true);
+          }}
+        />
       )}
-    </StyledModal>
+    </>
   ) : null;
 };
