@@ -465,6 +465,7 @@
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE": "Uscendo dalle modifiche la campagna verrà eliminata per sempre.",
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_CANCEL_BUTTON_TEXT": "Esci & Elimina",
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_CONTINUE_BUTTON_TEXT": "Continua a modificare",
+  "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE_HEADER": "Sei sicuro di eliminare?",
   "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE": "Se lo elimini, perderai tutte le informazioni inserite.",
   "__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL": "Pianifica",
   "__EXPRESS_WIZARD_NEXT_BUTTON_LABEL": "Avanti",

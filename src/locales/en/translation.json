@@ -465,6 +465,7 @@
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE": "Exiting the changes will delete the campaign forever.",
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_CANCEL_BUTTON_TEXT": "Quit & Delete",
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_CONTINUE_BUTTON_TEXT": "Continue editing",
+  "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE_HEADER": "Are you sure to delete?",
   "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE": "If you delete it, you will lose all the informations you have entered.",
   "__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL": "Plan",
   "__EXPRESS_WIZARD_NEXT_BUTTON_LABEL": "Next",
