@@ -10,17 +10,16 @@ import { useTranslation } from 'react-i18next';
 import { WaterButton } from 'src/common/components/waterButton';
 
 const DangerHeader = styled(Modal.Header)`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-left: ${({ theme }) => theme.space.xs};
-    padding-left: ${({ theme }) => theme.space.xs};
-    gap: ${({ theme }) => theme.space.xs};
-    color: ${({ theme }) => theme.colors.dangerHue};
-  `;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: ${({ theme }) => theme.space.xs};
+  padding-left: ${({ theme }) => theme.space.xs};
+  gap: ${({ theme }) => theme.space.xs};
+  color: ${({ theme }) => theme.colors.dangerHue};
+`;
 
 const DiscardChangesModal = ({
-
   handleCancel,
   onClose,
 }: {
@@ -52,4 +51,4 @@ const DiscardChangesModal = ({
   );
 };
 
-export default DiscardChangesModal
+export default DiscardChangesModal;

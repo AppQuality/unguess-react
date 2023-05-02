@@ -211,31 +211,32 @@ export const ModalUseCase = ({
                                     '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
                                   )}
                                 </Button>
-                                {
-                                  deleteChangesModal && (
-                                    <ModalDeleteItem
-                                      handleCancel={() => setDeleteChangesModal(false)}
-                                      onClose={() => {
-                                        
-                                        setDeleteChangesModal(false);
-                                        remove(useCaseIndex);
+                                {deleteChangesModal && (
+                                  <ModalDeleteItem
+                                    handleCancel={() =>
+                                      setDeleteChangesModal(false)
+                                    }
+                                    onClose={() => {
+                                      setDeleteChangesModal(false);
+                                      remove(useCaseIndex);
 
-                                        if (useCaseIndex === 0) {
-                                          // If there is at least an other use case next, set it
-                                          if (use_cases[useCaseIndex + 1]) {
-                                            setUseCase(use_cases[useCaseIndex + 1]);
-                                          } else {
-                                            // Clear current use case
-                                            setUseCase();
-                                          }
-                                        } else if (useCaseIndex > 0) {
-                                          // Set the previous one
-                                          setUseCase(use_cases[useCaseIndex - 1]);
+                                      if (useCaseIndex === 0) {
+                                        // If there is at least an other use case next, set it
+                                        if (use_cases[useCaseIndex + 1]) {
+                                          setUseCase(
+                                            use_cases[useCaseIndex + 1]
+                                          );
+                                        } else {
+                                          // Clear current use case
+                                          setUseCase();
                                         }
-                                      }}
-                                    />
-                                  )
-                                }
+                                      } else if (useCaseIndex > 0) {
+                                        // Set the previous one
+                                        setUseCase(use_cases[useCaseIndex - 1]);
+                                      }
+                                    }}
+                                  />
+                                )}
                               </>
                             )}
                           </FieldArray>

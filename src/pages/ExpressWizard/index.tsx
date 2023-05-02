@@ -455,7 +455,7 @@ export const ExpressWizardContainer = () => {
         <DiscardChangesModal
           handleCancel={() => setShowDiscardChangesModal(false)}
           onClose={() => {
-            setShowDiscardChangesModal(false)
+            setShowDiscardChangesModal(false);
             dispatch(closeDrawer());
             dispatch(closeWizard());
             dispatch(resetWizard());
