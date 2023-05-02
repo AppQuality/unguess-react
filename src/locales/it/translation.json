@@ -162,7 +162,7 @@
   "__BUGS_PAGE_SHARE_BUG_MODAL_CTA_SUCCESS_TEXT": "Link copiato",
   "__BUGS_PAGE_SHARE_BUG_MODAL_CTA_TEXT": "Copia link",
   "__BUGS_PAGE_SHARE_BUG_MODAL_CTA_TOOLTIP": "Condividi link pubblico",
-  "__BUGS_PAGE_SHARE_BUG_MODAL_DESCRIPTION": "Questo bug avrà un link pubblico, accessibile per <2>50 days:</2>",
+  "__BUGS_PAGE_SHARE_BUG_MODAL_DESCRIPTION": "Questo bug avrà un link pubblico, accessibile per <2>50 giorni:</2>",
   "__BUGS_PAGE_SHARE_BUG_MODAL_TITLE": "Condividi link pubblico",
   "__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER": "{{uniqueBugs}} bug unici",
   "__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER": "(Non letti: <1>{{unreadBugs}}</1>/{{uniqueBugs}})",
