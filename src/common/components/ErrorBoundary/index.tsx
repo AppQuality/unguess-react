@@ -1,4 +1,5 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import ErrorBoundaryPage from './ErrorBoundaryPage';
 
 interface Props {
   children?: ReactNode;
@@ -30,14 +31,7 @@ class ErrorBoundary extends Component<Props, State> {
 
     if (hasError) {
       // TODO UI
-      return (
-        <div>
-          <h1>Sorry.. there was an error</h1>
-          <button type="button" onClick={() => window.location.reload()}>
-            Refresh
-          </button>
-        </div>
-      );
+      return <ErrorBoundaryPage />;
     }
 
     return children;

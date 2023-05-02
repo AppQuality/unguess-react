@@ -7,7 +7,7 @@ import Pages from 'src/common/Pages';
 import { theme } from 'src/app/theme';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import ErrorBoundary from '../common/ErrorBoundary';
+import ErrorBoundary from '../common/components/ErrorBoundary';
 
 const App = () => {
   const { t } = useTranslation();
