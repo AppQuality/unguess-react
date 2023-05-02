@@ -53,7 +53,7 @@ import { extractStrapiData } from 'src/common/getStrapiData';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import ModalDanger from 'src/common/components/ModalWithActions/ModalDanger';
+import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { ThankYouStep } from './steps/thankYou';
 import { WizardHeader } from './wizardHeader';
 import { WizardModel } from './wizardModel';
@@ -348,8 +348,8 @@ export const ExpressWizardContainer = () => {
     }
   };
 
-  const [showModalDanger, setShowModalDanger] = useState(false);
-  const closeExpressWizard = () => setShowModalDanger(true);
+  const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
+  const closeExpressWizard = () => setShowDiscardChangesModal(true);
 
   return isWizardOpen ? (
     <>
@@ -451,10 +451,11 @@ export const ExpressWizardContainer = () => {
           <ThankYouStep values={formValues} />
         )}
       </StyledModal>
-      {showModalDanger && (
-        <ModalDanger
-          handleCancel={() => setShowModalDanger(false)}
+      {showDiscardChangesModal && (
+        <DiscardChangesModal
+          handleCancel={() => setShowDiscardChangesModal(false)}
           onClose={() => {
+            setShowDiscardChangesModal(false)
             dispatch(closeDrawer());
             dispatch(closeWizard());
             dispatch(resetWizard());
