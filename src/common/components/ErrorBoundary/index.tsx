@@ -30,7 +30,6 @@ class ErrorBoundary extends Component<Props, State> {
     const { children } = this.props;
 
     if (hasError) {
-      // TODO UI
       return <ErrorBoundaryPage />;
     }
 
