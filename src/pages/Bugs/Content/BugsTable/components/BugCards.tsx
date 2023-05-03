@@ -38,15 +38,12 @@ const BugCards = ({ bugs }: BugCardsProps) => {
         <StyledBugCard
           key={bug.id}
           severity={bug.severity.name.toLocaleLowerCase() as Severities}
+          url={getLocalizedBugUrl(bug.campaign_id, bug.id, i18n.language)}
         >
           {(severity) => (
             <>
               <BugCard.TopTitle>ID {bug.id}</BugCard.TopTitle>
-              <BugCard.Title
-                url={getLocalizedBugUrl(bug.campaign_id, bug.id, i18n.language)}
-              >
-                {bug.title.compact}
-              </BugCard.Title>
+              <BugCard.Title>{bug.title.compact}</BugCard.Title>
               <BugCard.Footer>
                 {bug.title.context &&
                   bug.title.context.length > 0 &&

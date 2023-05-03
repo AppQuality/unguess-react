@@ -91,7 +91,10 @@ export default ({ items }: { items: BugMediaType[] }) => {
         ))}
       </SM>
       {items.map((item, index) => (
-        <BugCard borderColor={getFileSpecs(item.mime_type.extension).color}>
+        <BugCard
+          borderColor={getFileSpecs(item.mime_type.extension).color}
+          url={item.url}
+        >
           {() => (
             <>
               {getFileSpecs(item.mime_type.extension).icon}
@@ -99,7 +102,7 @@ export default ({ items }: { items: BugMediaType[] }) => {
                 <BugCard.TopTitle>
                   {item.mime_type.extension.toUpperCase()}
                 </BugCard.TopTitle>
-                <BugCard.Title url={item.url}>
+                <BugCard.Title>
                   <BugCard.Content>
                     <Span>
                       {t(
