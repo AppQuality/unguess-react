@@ -22,31 +22,6 @@ const Dashboard = () => {
 
   if (status === 'logged') dispatch(projectFilterChanged(0)); // Reset filters
 
-  const { addToast } = useToast();
-
-  // TODO: remove this, it's just a test
-  useEffect(() => {
-    if (status === 'logged') {
-      addToast(
-        ({ close }) => (
-          <Notification
-            onClose={() => {
-              console.log('closed');
-              close();
-            }}
-            message="Welcome back!"
-            type="success"
-            closeText="Dismiss"
-            isPrimary
-          />
-        ),
-        {
-          placement: 'top',
-        }
-      );
-    }
-  }, [status]);
-
   return (
     <Page
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
