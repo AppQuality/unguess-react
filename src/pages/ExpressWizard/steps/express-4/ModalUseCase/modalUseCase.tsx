@@ -88,7 +88,8 @@ const PullLeft = styled.div`
 `;
 
 const BodyScrollingContainer = styled(ScrollingContainer)`
-  padding-bottom: ${({ theme }) => theme.space.xl};
+  padding-bottom: calc(2.5 * ${({ theme }) => theme.space.xxl});
+  margin-bottom: auto;
 
   ::-webkit-scrollbar {
     background-color: transparent;
