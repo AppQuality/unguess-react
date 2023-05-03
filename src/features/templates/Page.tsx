@@ -2,6 +2,7 @@ import React from 'react';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import styled from 'styled-components';
 import { Logged } from './Logged';
+import ErrorBoundary from '../../common/components/ErrorBoundary';
 
 const Container = styled.div<{
   excludeMarginTop?: boolean;
@@ -46,14 +47,16 @@ export const Page = ({
   excludeMarginBottom?: boolean;
 }) => (
   <GoogleTagManager title={title}>
-    <Logged route={route} pageHeader={pageHeader}>
-      <Container
-        id="container"
-        excludeMarginTop={excludeMarginTop}
-        excludeMarginBottom={excludeMarginBottom}
-      >
-        {children}
-      </Container>
-    </Logged>
+    <ErrorBoundary>
+      <Logged route={route} pageHeader={pageHeader}>
+        <Container
+          id="container"
+          excludeMarginTop={excludeMarginTop}
+          excludeMarginBottom={excludeMarginBottom}
+        >
+          {children}
+        </Container>
+      </Logged>
+    </ErrorBoundary>
   </GoogleTagManager>
 );

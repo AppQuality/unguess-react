@@ -7,7 +7,6 @@ import Pages from 'src/common/Pages';
 import { theme } from 'src/app/theme';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import ErrorBoundary from '../common/components/ErrorBoundary';
 
 const App = () => {
   const { t } = useTranslation();
@@ -23,9 +22,7 @@ const App = () => {
           <title>UNGUESS - {t('__APP_META_PAYOFF')}</title>
           <meta name="description" content={t('__APP_META_DESCRIPTION')} />
         </Helmet>
-        <ErrorBoundary>
-          <Pages />
-        </ErrorBoundary>
+        <Pages />
       </ThemeProvider>
     </Provider>
   );
