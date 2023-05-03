@@ -70,7 +70,7 @@ const TextCasesTabs = styled.div`
   top: 0;
   z-index: 1;
   background: #f6f6f8;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
   padding-left: calc(
     ${({ theme }) => theme.space.lg} + ${({ theme }) => theme.space.xxl}
   );
