@@ -23,7 +23,7 @@ const App = () => {
           <title>UNGUESS - {t('__APP_META_PAYOFF')}</title>
           <meta name="description" content={t('__APP_META_DESCRIPTION')} />
         </Helmet>
-        {/* TODO: Fix ToastProvider children error */}
+        {/* @ts-ignore TODO: Fix ToastProvider children error */}
         <ToastProvider
           limit={5}
           zIndex={theme.levels.front}
