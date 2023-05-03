@@ -42,6 +42,7 @@ export const SearchFilter = () => {
 
   return (
     <MediaInput
+      className="input-search-bugs"
       isCompact
       end={
         data.search ? (
