@@ -30,7 +30,6 @@ export const UniqueFilter = () => {
 
   return (
     <Dropdown
-      isOpen
       selectedItem={data.unique.selected ?? 'all'}
       onSelect={(item) => {
         dispatch(
