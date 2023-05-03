@@ -27,9 +27,8 @@ import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { UseCaseDetails } from './useCaseDetails';
 
 const Body = styled(ModalFullScreen.Body)`
-  padding-top: 0;
-  padding-right: 0;
-  overflow: hidden;
+  padding: 0;
+  overflow-x: hidden;
 
   ::-webkit-scrollbar {
     display: none;
@@ -37,13 +36,13 @@ const Body = styled(ModalFullScreen.Body)`
 `;
 
 const ContentCol = styled(Col)`
-  margin-bottom: 0;
   flex-wrap: nowrap;
   align-items: stretch;
   align-content: stretch;
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 0;
 `;
 
 const HelpCol = styled(Col)`
@@ -52,6 +51,8 @@ const HelpCol = styled(Col)`
   background-color: white;
   margin-bottom: 0;
   height: 100%;
+  position: sticky;
+  top: 0;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: none;
@@ -67,6 +68,13 @@ const TextCasesTabs = styled.div`
   width: 100%;
   position: sticky;
   top: 0;
+  z-index: 1;
+  background: #f6f6f8;
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  padding-left: calc(
+    ${({ theme }) => theme.space.lg} + ${({ theme }) => theme.space.xxl}
+  );
+  margin-bottom: ${({ theme }) => theme.space.lg};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     padding: ${({ theme }) => theme.space.md} 0;
@@ -90,8 +98,11 @@ const PullLeft = styled.div`
 `;
 
 const BodyScrollingContainer = styled(ScrollingContainer)`
-  padding-bottom: calc(2.5 * ${({ theme }) => theme.space.xxl});
-  margin-bottom: auto;
+  padding-left: calc(
+    ${({ theme }) => theme.space.xxl} + ${({ theme }) => theme.space.xxl}
+  );
+  padding-right: ${({ theme }) => theme.space.lg};
+  overflow: hidden;
 
   ::-webkit-scrollbar {
     background-color: transparent;
@@ -130,7 +141,7 @@ const StyledModal = styled(ModalFullScreen)`
 `;
 
 const ModalBodyLayout = styled(LayoutWrapper)`
-  padding-right: 0;
+  padding: 0;
 `;
 
 export const ModalUseCase = ({
