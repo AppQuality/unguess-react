@@ -71,21 +71,25 @@ export default ({
             if (item.mime_type.type === 'image')
               return (
                 <Col xs={12} sm={6} className="flex-3-sm">
-                  <ImageCard
-                    index={index}
-                    url={item.url}
-                    onClick={() => openLightbox(index)}
-                  />
+                  <div className="bug-preview-media-item bug-preview-media-image">
+                    <ImageCard
+                      index={index}
+                      url={item.url}
+                      onClick={() => openLightbox(index)}
+                    />
+                  </div>
                 </Col>
               );
             if (item.mime_type.type === 'video')
               return (
                 <Col xs={12} sm={6} className="flex-3-sm">
-                  <VideoCard
-                    index={index}
-                    url={item.url}
-                    onClick={() => openLightbox(index)}
-                  />
+                  <div className="bug-preview-media-item bug-preview-media-video">
+                    <VideoCard
+                      index={index}
+                      url={item.url}
+                      onClick={() => openLightbox(index)}
+                    />
+                  </div>
                 </Col>
               );
             return null;
