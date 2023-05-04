@@ -41,7 +41,6 @@ export const SortBy = () => {
 
   return (
     <Dropdown
-      isOpen
       selectedItem={selected}
       onSelect={(item: string) => {
         const [orderByValue, orderValue] = item.split('-');
