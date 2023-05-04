@@ -79,7 +79,7 @@ export default ({
             type="light"
             placement="auto"
           >
-            <IconButton size="small">
+            <IconButton size="small" className="bug-detail-go-to-bug-link">
               <LinkIcon />
             </IconButton>
           </Tooltip>

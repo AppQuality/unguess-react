@@ -67,7 +67,11 @@ export const ShareButton = ({
           type="light"
           placement="auto"
         >
-          <IconButton size="small" onClick={() => setModalIsOpen(true)}>
+          <IconButton
+            size="small"
+            onClick={() => setModalIsOpen(true)}
+            className="bug-detail-sharable-url"
+          >
             <ShareIcon />
           </IconButton>
         </Tooltip>
