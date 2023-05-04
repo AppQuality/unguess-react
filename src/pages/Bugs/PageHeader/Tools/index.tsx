@@ -73,6 +73,7 @@ export const Tools = ({
       <ButtonsWrapper>
         <Button
           isBasic
+          className="header-dowlnoad-report"
           onClick={() =>
             WPAPI.getReport({
               campaignId,
