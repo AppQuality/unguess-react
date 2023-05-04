@@ -49,7 +49,7 @@ export const SortBy = () => {
         setSelected(item);
       }}
     >
-      <Field>
+      <Field className="dropdown-sort-bugs">
         <Select isCompact isPrimary>
           <DropdownLabel>
             <SortIcon />
