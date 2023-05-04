@@ -118,7 +118,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
             itemToString: (item: DropdownItem) => item && item.slug,
           }}
         >
-          <Field>
+          <Field className="bug-dropdown-custom-priority">
             <Select isCompact>
               <SelectedItem>
                 {selectedItem.icon} {selectedItem.text}
@@ -128,7 +128,11 @@ const Priority = ({ bug }: { bug: Bug }) => {
           <Menu>
             {options &&
               options.map((item) => (
-                <StyledItem key={item.slug} value={item}>
+                <StyledItem
+                  key={item.slug}
+                  value={item}
+                  className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
+                >
                   {item.icon} {item.text}
                 </StyledItem>
               ))}
