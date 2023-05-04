@@ -24,7 +24,7 @@ export const SeverityFilter = () => {
     return null;
 
   return (
-    <div style={{ maxWidth: '170px' }}>
+    <div style={{ maxWidth: '170px' }} className="drpodown-severities">
       <CounterMultiselect
         isCompact
         i18n={{
@@ -45,6 +45,7 @@ export const SeverityFilter = () => {
         }}
         options={data.severities.available.map((item) => ({
           itemId: item.id,
+          className: `drpodown-severities-item-${item.name.toLowerCase()}`,
           label: getSeverityInfo(item.name as Severities, t).text,
           style: { color: getSeverityInfo(item.name as Severities, t).color },
           disabled: !counters[item.id],
