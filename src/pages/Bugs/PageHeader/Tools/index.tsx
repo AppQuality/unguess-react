@@ -88,6 +88,7 @@ export const Tools = ({
         </Button>
         <Button
           isBasic
+          className="header-integration-center"
           onClick={() => {
             window.location.href = integrationCenterUrl;
           }}
