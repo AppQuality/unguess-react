@@ -41,6 +41,7 @@ export const SortBy = () => {
 
   return (
     <Dropdown
+      isOpen
       selectedItem={selected}
       onSelect={(item: string) => {
         const [orderByValue, orderValue] = item.split('-');
@@ -49,7 +50,7 @@ export const SortBy = () => {
         setSelected(item);
       }}
     >
-      <Field className="dropdown-sort-bugs">
+      <Field className="dropdown-sort-by">
         <Select isCompact isPrimary>
           <DropdownLabel>
             <SortIcon />
@@ -64,19 +65,35 @@ export const SortBy = () => {
         <ItemGroup
           title={t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
         >
-          <Item key="severity_id-DESC" value="severity_id-DESC">
+          <Item
+            key="severity_id-DESC"
+            value="severity_id-DESC"
+            className="dropdown-sort-by-severity-hight-to-low"
+          >
             {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
           </Item>
-          <Item key="severity_id-ASC" value="severity_id-ASC">
+          <Item
+            key="severity_id-ASC"
+            value="severity_id-ASC"
+            className="dropdown-sort-by-severity-low-to-hight"
+          >
             {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
           </Item>
         </ItemGroup>
         <ItemGroup title={t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}>
-          <Item key="priority_id-DESC" value="priority_id-DESC">
+          <Item
+            key="priority_id-DESC"
+            value="priority_id-DESC"
+            className="dropdown-sort-by-priority-hight-to-low"
+          >
             {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
           </Item>
 
-          <Item key="priority_id-ASC" value="priority_id-ASC">
+          <Item
+            key="priority_id-ASC"
+            value="priority_id-ASC"
+            className="dropdown-sort-by-priority-low-to-hight"
+          >
             {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
           </Item>
         </ItemGroup>
