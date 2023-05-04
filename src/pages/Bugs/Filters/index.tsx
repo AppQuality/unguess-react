@@ -91,6 +91,7 @@ const BugsFilters = () => {
             </HideOnMobile>
             <Button
               size="medium"
+              className="all-filters-button"
               isBasic
               onClick={() => {
                 dispatch(setFilterDrawerOpen(true));
