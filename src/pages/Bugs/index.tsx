@@ -51,6 +51,7 @@ const Bugs = () => {
   return (
     <Page
       title={t('__BUGS_PAGE_TITLE')}
+      className="bugs-list-page"
       pageHeader={
         isLoading ? (
           <BugsPageHeaderLoader />
