@@ -35,7 +35,11 @@ export const SeverityField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-severity"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -69,7 +73,10 @@ export const SeverityField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field
+                      style={{ marginBottom: globalTheme.space.xs }}
+                      className={`bugs-drawer-accordion-severity-item-${item.name.toLocaleLowerCase()}`}
+                    >
                       <Checkbox
                         value={item.name}
                         name="filter-severity"

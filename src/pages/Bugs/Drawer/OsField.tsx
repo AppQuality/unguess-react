@@ -34,7 +34,11 @@ export const OsField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-os"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -66,7 +70,10 @@ export const OsField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field
+                      style={{ marginBottom: globalTheme.space.xs }}
+                      className="bugs-drawer-accordion-os-item"
+                    >
                       <Checkbox
                         value={item.os}
                         name="filter-os"
