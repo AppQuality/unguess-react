@@ -45,7 +45,7 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
           <Accordion.Panel>
             {available.map((item) => (
               <Field
-                className={`bugs-drawer-accordion-read-item-${item.toLocaleLowerCase()}`}
+                className={`bugs-drawer-accordion-read-item-${item.toLowerCase()}`}
                 style={{
                   marginBottom: globalTheme.space.xxs,
                 }}
