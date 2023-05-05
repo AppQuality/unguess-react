@@ -22,14 +22,19 @@ export const BugItem = ({
   bugId,
   title,
   pills,
+  className,
 }: {
   isFather?: boolean;
   campaignId: number;
   bugId: number;
   title: string;
   pills: string[];
+  className?: string;
 }) => (
-  <StyledLink to={useLocalizeRoute(`campaigns/${campaignId}/bugs/${bugId}`)}>
+  <StyledLink
+    to={useLocalizeRoute(`campaigns/${campaignId}/bugs/${bugId}`)}
+    className={className}
+  >
     <BugCard borderColor={globalTheme.palette.grey[500]}>
       {() => (
         <>
