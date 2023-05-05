@@ -83,7 +83,7 @@ export const PriorityField = ({
                   .map((item) => (
                     <Field
                       style={{ marginBottom: globalTheme.space.xs }}
-                      className={`bugs-drawer-accordion-custom-priority-${item.name.toLocaleLowerCase()}`}
+                      className={`bugs-drawer-accordion-custom-priority-${item.name.toLowerCase()}`}
                     >
                       <Checkbox
                         value={item.name}
