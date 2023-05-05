@@ -69,9 +69,6 @@ type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
 const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
   &:hover {
     text-decoration: none;
-    .anchor-bug-card-title {
-      ${(props) => (props.disabled ? '' : 'text-decoration: underline;')}
-    }
   }
 `;
 
