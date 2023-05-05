@@ -38,13 +38,12 @@ const DuplicateBugs = ({ campaignId }: { campaignId: number }) => {
               <StyledBugCard
                 key={bug.id}
                 severity={bug.severity.name.toLocaleLowerCase() as Severities}
+                url={bug.url}
               >
                 {(severity) => (
                   <>
                     <BugCard.TopTitle>ID {bug.id}</BugCard.TopTitle>
-                    <BugCard.Title url={bug.url}>
-                      {bug.title.compact}
-                    </BugCard.Title>
+                    <BugCard.Title>{bug.title.compact}</BugCard.Title>
                     <BugCard.Description>
                       {bug.application_section.title}
                     </BugCard.Description>
