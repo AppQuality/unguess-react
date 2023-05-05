@@ -75,7 +75,7 @@ export const SeverityField = ({
                   .map((item) => (
                     <Field
                       style={{ marginBottom: globalTheme.space.xs }}
-                      className={`bugs-drawer-accordion-severity-item-${item.name.toLocaleLowerCase()}`}
+                      className={`bugs-drawer-accordion-severity-item-${item.name.toLowerCase()}`}
                     >
                       <Checkbox
                         value={item.name}

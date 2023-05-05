@@ -48,7 +48,7 @@ export const UniqueField = ({
           <Accordion.Panel>
             {available.map((item) => (
               <Field
-                className={`bugs-drawer-accordion-unique-item-${item.toLocaleLowerCase()}`}
+                className={`bugs-drawer-accordion-unique-item-${item.toLowerCase()}`}
                 style={{
                   marginBottom: globalTheme.space.xxs,
                 }}

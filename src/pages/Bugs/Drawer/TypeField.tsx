@@ -74,7 +74,7 @@ export const TypeField = ({
                   .map((item) => (
                     <Field
                       style={{ marginBottom: globalTheme.space.xs }}
-                      className={`bugs-drawer-accordion-type-item-${item.name.toLocaleLowerCase()}`}
+                      className={`bugs-drawer-accordion-type-item-${item.name.toLowerCase()}`}
                     >
                       <Checkbox
                         value={item.name}

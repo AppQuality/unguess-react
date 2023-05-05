@@ -74,7 +74,7 @@ export const ReplicabilityField = ({
                   .map((replicability) => (
                     <Field
                       style={{ marginBottom: globalTheme.space.xs }}
-                      className={`bugs-drawer-accordion-replicability-${replicability.name.toLocaleLowerCase()}`}
+                      className={`bugs-drawer-accordion-replicability-${replicability.name.toLowerCase()}`}
                     >
                       <Checkbox
                         value={replicability.id}
