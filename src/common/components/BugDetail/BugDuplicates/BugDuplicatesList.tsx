@@ -51,17 +51,19 @@ export const BugDuplicatesList = ({
       {data?.siblings
         .slice(0, isOpen ? data.siblings.length : maxSiblingSize)
         .map((item) => (
-          <BugItem
-            key={item.id}
-            campaignId={cid}
-            bugId={item.id}
-            title={item.title.compact}
-            pills={[
-              ...(item.title.context ? item.title.context : []),
-              item.device,
-              `${item.os.name} ${item.os.version}`,
-            ]}
-          />
+          <div className="bug-overview-duplicated-bug">
+            <BugItem
+              key={item.id}
+              campaignId={cid}
+              bugId={item.id}
+              title={item.title.compact}
+              pills={[
+                ...(item.title.context ? item.title.context : []),
+                item.device,
+                `${item.os.name} ${item.os.version}`,
+              ]}
+            />
+          </div>
         ))}
     </>
   );
