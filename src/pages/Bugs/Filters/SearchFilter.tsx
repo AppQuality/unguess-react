@@ -41,19 +41,20 @@ export const SearchFilter = () => {
   if (!data) return null;
 
   return (
-    <MediaInput
-      className="input-search-bugs"
-      isCompact
-      end={
-        data.search ? (
-          <ClickableXIcon onClick={() => setSearchInput('')} />
-        ) : undefined
-      }
-      key="search-input"
-      onChange={(e) => setSearchInput(e.target.value)}
-      start={<SearchIcon />}
-      value={searchInput}
-      placeholder={t('__BUGS_SEARCH_INPUT_PLACEHOLDER')}
-    />
+    <div className="input-search-bugs">
+      <MediaInput
+        isCompact
+        end={
+          data.search ? (
+            <ClickableXIcon onClick={() => setSearchInput('')} />
+          ) : undefined
+        }
+        key="search-input"
+        onChange={(e) => setSearchInput(e.target.value)}
+        start={<SearchIcon />}
+        value={searchInput}
+        placeholder={t('__BUGS_SEARCH_INPUT_PLACEHOLDER')}
+      />
+    </div>
   );
 };
