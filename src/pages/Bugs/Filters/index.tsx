@@ -79,7 +79,7 @@ const BugsFilters = () => {
             <GroupBy />
           </FlexWrapper>
           <FlexWrapper orderXl={1}>
-            <SearchContainer>
+            <SearchContainer className="input-search-bugs">
               <SearchFilter />
             </SearchContainer>
             <UniqueFilter />
