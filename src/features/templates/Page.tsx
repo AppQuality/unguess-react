@@ -53,6 +53,7 @@ export const Page = ({
       <Logged route={route} pageHeader={pageHeader}>
         <Container
           id="container"
+          className={className}
           excludeMarginTop={excludeMarginTop}
           excludeMarginBottom={excludeMarginBottom}
         >
