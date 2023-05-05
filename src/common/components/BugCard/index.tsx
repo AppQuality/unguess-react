@@ -67,6 +67,13 @@ type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
  */
 
 const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
+  ${({ disabled }) =>
+    disabled &&
+    ` 
+    pointer-events: none;
+    cursor: default;
+    `}
+
   &:hover {
     text-decoration: none;
   }
