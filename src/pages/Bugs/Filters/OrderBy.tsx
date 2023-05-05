@@ -67,14 +67,14 @@ export const SortBy = () => {
           <Item
             key="severity_id-DESC"
             value="severity_id-DESC"
-            className="dropdown-sort-by-severity-hight-to-low"
+            className="dropdown-sort-by-severity-high-to-low"
           >
             {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
           </Item>
           <Item
             key="severity_id-ASC"
             value="severity_id-ASC"
-            className="dropdown-sort-by-severity-low-to-hight"
+            className="dropdown-sort-by-severity-low-to-high"
           >
             {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
           </Item>
@@ -83,7 +83,7 @@ export const SortBy = () => {
           <Item
             key="priority_id-DESC"
             value="priority_id-DESC"
-            className="dropdown-sort-by-priority-hight-to-low"
+            className="dropdown-sort-by-priority-high-to-low"
           >
             {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
           </Item>
@@ -91,7 +91,7 @@ export const SortBy = () => {
           <Item
             key="priority_id-ASC"
             value="priority_id-ASC"
-            className="dropdown-sort-by-priority-low-to-hight"
+            className="dropdown-sort-by-priority-low-to-high"
           >
             {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
           </Item>
