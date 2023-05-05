@@ -42,7 +42,7 @@ export const ReadFilter = () => {
           );
         }}
       >
-        <Field className="drpodown-un-read-bugs">
+        <Field className="dropdown-un-read-bugs">
           <Select isCompact isPrimary={data.read.selected === 'unread'}>
             {data.read.selected === 'unread'
               ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
@@ -52,7 +52,7 @@ export const ReadFilter = () => {
         <Menu>
           {data.read.available.map((item) => (
             <Item
-              className={`drpodown-un-read-bugs-item-${
+              className={`dropdown-un-read-bugs-item-${
                 item === 'unread' ? 'unread' : 'all'
               }`}
               value={item}
