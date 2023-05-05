@@ -147,7 +147,7 @@ export const CustomStatusField = ({
                     <Field
                       style={{ marginBottom: globalTheme.space.xs }}
                       className={`bugs-drawer-accordion-custom-status-${item.name
-                        .toLocaleLowerCase()
+                        .toLowerCase()
                         .replace(/\s+/g, '-')}`}
                     >
                       <Checkbox
