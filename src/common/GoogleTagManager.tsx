@@ -22,9 +22,11 @@ TagManager.initialize(tagManagerArgs);
 export const GoogleTagManager = ({
   title,
   children,
+  className,
 }: {
   title: string;
   children: React.ReactNode;
+  className?: string;
 }) => {
   const { userData } = useAppSelector((state) => state.user);
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
@@ -56,9 +58,9 @@ export const GoogleTagManager = ({
   }, [userData, activeWorkspace]);
 
   return (
-    <>
+    <div className={className}>
       {helmet()}
       {children}
-    </>
+    </div>
   );
 };

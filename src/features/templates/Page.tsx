@@ -38,6 +38,7 @@ export const Page = ({
   route,
   excludeMarginTop,
   excludeMarginBottom,
+  className,
 }: {
   children: React.ReactNode;
   title?: string;
@@ -45,6 +46,7 @@ export const Page = ({
   route: string;
   excludeMarginTop?: boolean;
   excludeMarginBottom?: boolean;
+  className?: string;
 }) => (
   <GoogleTagManager title={title}>
     <ErrorBoundary>
