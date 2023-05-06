@@ -57,7 +57,7 @@ export const ShareButton = ({
   }, [isLoading, link, isError]);
 
   return (
-    <>
+    <div className="sharable-url-button">
       {children ? (
         children(setModalIsOpen)
       ) : (
@@ -112,6 +112,6 @@ export const ShareButton = ({
           <ModalClose />
         </Modal>
       )}
-    </>
+    </div>
   );
 };
