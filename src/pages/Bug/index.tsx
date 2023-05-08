@@ -50,6 +50,7 @@ const Bug = () => {
   return (
     <Page
       title={bug.title.compact}
+      className="bug-page"
       pageHeader={<Header campaignId={campaignId} bug={bug} />}
       route="bug"
     >

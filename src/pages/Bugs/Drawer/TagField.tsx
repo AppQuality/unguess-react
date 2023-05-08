@@ -34,7 +34,11 @@ export const TagField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-tags"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -62,7 +66,10 @@ export const TagField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            <Field style={{ marginBottom: globalTheme.space.xs }}>
+            <Field
+              style={{ marginBottom: globalTheme.space.xs }}
+              className="bugs-drawer-accordion-no-tags"
+            >
               <Checkbox
                 value={0}
                 name="filter-tags"

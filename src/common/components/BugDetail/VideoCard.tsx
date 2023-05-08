@@ -47,15 +47,17 @@ export default ({
   index,
   url,
   onClick,
+  className,
 }: {
   index: number;
   url: string;
   onClick?: () => void;
+  className?: string;
 }) => {
   const { t } = useTranslation();
 
   return (
-    <VideoCard onClick={onClick}>
+    <VideoCard onClick={onClick} className={className}>
       <Preview>
         <video
           src={url}

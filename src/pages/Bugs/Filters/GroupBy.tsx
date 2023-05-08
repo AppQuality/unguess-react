@@ -42,7 +42,7 @@ export const GroupBy = () => {
         dispatch(setGroupBy(item));
       }}
     >
-      <Field>
+      <Field className="dropdown-group-by">
         <Select isCompact isPrimary>
           <DropdownLabel>
             <Icon />
@@ -57,14 +57,26 @@ export const GroupBy = () => {
 
         <Dropdown.Separator />
 
-        <Item key="bugState" value="bugState">
+        <Item
+          key="bugState"
+          value="bugState"
+          className="dropdown-group-by-item-status"
+        >
           {t('__BUGS_GROUP_BY_STATE_ITEM')}
         </Item>
-        <Item key="usecase" value="usecase">
+        <Item
+          key="usecase"
+          value="usecase"
+          className="dropdown-group-by-item-usecase"
+        >
           {t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
         </Item>
         <Dropdown.Separator />
-        <Item key="ungrouped" value="ungrouped">
+        <Item
+          key="ungrouped"
+          value="ungrouped"
+          className="dropdown-group-by-item-ungroup"
+        >
           {getTranslatedLabel('ungrouped')}
         </Item>
       </Menu>

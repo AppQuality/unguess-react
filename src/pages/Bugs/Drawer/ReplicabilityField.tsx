@@ -34,7 +34,11 @@ export const ReplicabilityField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-replicability"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -68,7 +72,10 @@ export const ReplicabilityField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((replicability) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field
+                      style={{ marginBottom: globalTheme.space.xs }}
+                      className={`bugs-drawer-accordion-replicability-${replicability.name.toLowerCase()}`}
+                    >
                       <Checkbox
                         value={replicability.id}
                         name="filter-replicability"

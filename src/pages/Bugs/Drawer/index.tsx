@@ -67,7 +67,7 @@ const BugsFilterDrawer = () => {
     } = campaignData;
 
     return (
-      <>
+      <div className="bugs-filters-drawer">
         <MD
           isBold
           style={{
@@ -118,7 +118,7 @@ const BugsFilterDrawer = () => {
         ) : null}
         {devices.available.length ? <DeviceField devices={devices} /> : null}
         {os.available.length ? <OsField os={os} /> : null}
-      </>
+      </div>
     );
   }, [campaignData]);
 

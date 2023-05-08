@@ -34,7 +34,11 @@ export const UseCaseField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-usecase"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -68,7 +72,10 @@ export const UseCaseField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field
+                      style={{ marginBottom: globalTheme.space.xs }}
+                      className="bugs-drawer-accordion-usecase-item"
+                    >
                       <Checkbox
                         value={item.id}
                         name="filter-usecase"

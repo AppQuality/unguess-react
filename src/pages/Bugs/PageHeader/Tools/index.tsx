@@ -73,6 +73,7 @@ export const Tools = ({
       <ButtonsWrapper>
         <Button
           isBasic
+          className="header-dowlnoad-report"
           onClick={() =>
             WPAPI.getReport({
               campaignId,
@@ -87,6 +88,7 @@ export const Tools = ({
         </Button>
         <Button
           isBasic
+          className="header-integration-center"
           onClick={() => {
             window.location.href = integrationCenterUrl;
           }}

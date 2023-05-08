@@ -34,7 +34,11 @@ export const DeviceField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-devices"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -66,7 +70,10 @@ export const DeviceField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((device) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field
+                      style={{ marginBottom: globalTheme.space.xs }}
+                      className="bugs-drawer-accordion-device"
+                    >
                       <Checkbox
                         value={device.device}
                         name="filter-devices"
