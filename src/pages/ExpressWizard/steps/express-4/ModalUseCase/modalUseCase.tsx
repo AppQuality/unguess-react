@@ -19,8 +19,6 @@ import { FieldArray, FormikProps } from 'formik';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import ModalDeleteItem from 'src/pages/ExpressWizard/ActionModals/ModalDeleteItem';
-import { useState } from 'react';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
@@ -102,7 +100,6 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
     ${({ theme }) => theme.space.xxl} + ${({ theme }) => theme.space.xxl}
   );
   padding-right: ${({ theme }) => theme.space.lg};
-  overflow: hidden;
 
   ::-webkit-scrollbar {
     background-color: transparent;
@@ -174,8 +171,6 @@ export const ModalUseCase = ({
     });
   };
 
-  const [deleteChangesModal, setDeleteChangesModal] = useState(false);
-
   return isUseCaseModalOpen ? (
     <StyledModal onClose={closeModal} focusOnMount={false}>
       <StyledModal.Header
@@ -210,46 +205,33 @@ export const ModalUseCase = ({
                         <PullLeft style={{ marginTop: globalTheme.space.xxl }}>
                           <FieldArray name="use_cases">
                             {({ remove }) => (
-                              <>
-                                <Button
-                                  themeColor={globalTheme.palette.red[600]}
-                                  isBasic
-                                  onClick={() => setDeleteChangesModal(true)}
-                                >
-                                  <Button.StartIcon>
-                                    <TrashIcon />
-                                  </Button.StartIcon>
-                                  {t(
-                                    '__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
-                                  )}
-                                </Button>
-                                {deleteChangesModal && (
-                                  <ModalDeleteItem
-                                    handleCancel={() =>
-                                      setDeleteChangesModal(false)
-                                    }
-                                    onClose={() => {
-                                      setDeleteChangesModal(false);
-                                      remove(useCaseIndex);
+                              <Button
+                                themeColor={globalTheme.palette.red[600]}
+                                isBasic
+                                onClick={() => {
+                                  remove(useCaseIndex);
 
-                                      if (useCaseIndex === 0) {
-                                        // If there is at least an other use case next, set it
-                                        if (use_cases[useCaseIndex + 1]) {
-                                          setUseCase(
-                                            use_cases[useCaseIndex + 1]
-                                          );
-                                        } else {
-                                          // Clear current use case
-                                          setUseCase();
-                                        }
-                                      } else if (useCaseIndex > 0) {
-                                        // Set the previous one
-                                        setUseCase(use_cases[useCaseIndex - 1]);
-                                      }
-                                    }}
-                                  />
+                                  if (useCaseIndex === 0) {
+                                    // If there is at least an other use case next, set it
+                                    if (use_cases[useCaseIndex + 1]) {
+                                      setUseCase(use_cases[useCaseIndex + 1]);
+                                    } else {
+                                      // Clear current use case
+                                      setUseCase();
+                                    }
+                                  } else if (useCaseIndex > 0) {
+                                    // Set the previous one
+                                    setUseCase(use_cases[useCaseIndex - 1]);
+                                  }
+                                }}
+                              >
+                                <Button.StartIcon>
+                                  <TrashIcon />
+                                </Button.StartIcon>
+                                {t(
+                                  '__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
                                 )}
-                              </>
+                              </Button>
                             )}
                           </FieldArray>
                         </PullLeft>

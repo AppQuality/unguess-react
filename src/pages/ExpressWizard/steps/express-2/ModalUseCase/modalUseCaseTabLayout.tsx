@@ -190,7 +190,7 @@ export const ModalUseCaseTabLayout = ({
                 <CardTitle>
                   {t(
                     '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
-                  )}
+                  )}{' '}
                 </CardTitle>
               </UseCaseCard>
             )}
