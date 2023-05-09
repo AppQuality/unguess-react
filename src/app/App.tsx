@@ -25,7 +25,7 @@ const App = () => {
         </Helmet>
         <ToastProvider
           limit={5}
-          zIndex={theme.levels.front}
+          zIndex={theme.levels.modal}
           placementProps={{
             top: {
               style: {

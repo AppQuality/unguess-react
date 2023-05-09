@@ -186,7 +186,8 @@ export const Navigation = ({
           <Notification
             onClose={close}
             type="success"
-            message={t('__PROFILE_MODAL_COPY_EMAIL_MESSAGE')}
+            message={t('__NOTIFICATION_PROFILE_MODAL_COPY_EMAIL_MESSAGE')}
+            closeText={t('__NOTIFICATION_CLOSE_TEXT')}
             isPrimary
           />
         ),
