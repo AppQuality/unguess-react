@@ -3,6 +3,8 @@ import {
   Sidebar,
   ProfileModal,
   theme,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -46,6 +48,7 @@ export const Navigation = ({
   const { isSidebarOpen, activeWorkspace } = useAppSelector(
     (state) => state.navigation
   );
+  const { addToast } = useToast();
 
   // Set isSidebarOpen to false for specific routes
   useEffect(() => {
@@ -176,6 +179,19 @@ export const Navigation = ({
     },
     onLogout: async () => {
       await WPAPI.logout();
+    },
+    onCopyEmail: () => {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__PROFILE_MODAL_COPY_EMAIL_MESSAGE')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
     },
   };
 
