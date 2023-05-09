@@ -34,7 +34,9 @@ export const selectFilteredCampaigns = (
     // Check Search
     if (
       filters.search &&
-      campaign.title.toLowerCase().indexOf(filters.search.toLowerCase()) === -1
+      campaign.customer_title
+        .toLowerCase()
+        .indexOf(filters.search.toLowerCase()) === -1
     )
       return false;
 
