@@ -467,7 +467,7 @@
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_CANCEL_BUTTON_TEXT": "Quit and discard",
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_CONTINUE_BUTTON_TEXT": "Continue editing",
   "__EXPRESS_WIZARD_CONFIRM_CLOSE_HEADER": "Are you sure you want to quit this campaign?",
-  "__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE": "",
+  "__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE": "If you quit now, your changes will be lost and you’ll have to restart.",
   "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE": "If you delete it, you will lose all the informations you have entered.",
   "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE_BUTTON_CONTINUE": "Continue",
   "__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE_BUTTON_DELETE": "Delete",
