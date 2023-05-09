@@ -33,6 +33,7 @@ const Container = styled.div`
 
 const ActionDetailPreview = styled.div`
   margin-left: auto;
+  display: flex;
 `;
 
 export default ({
