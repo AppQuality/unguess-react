@@ -100,7 +100,6 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
     ${({ theme }) => theme.space.xxl} + ${({ theme }) => theme.space.xxl}
   );
   padding-right: ${({ theme }) => theme.space.lg};
-  overflow: hidden;
 
   ::-webkit-scrollbar {
     background-color: transparent;
