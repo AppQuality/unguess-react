@@ -28,4 +28,7 @@ module.exports = {
       return webpackConfig;
     },
   },
+  babel: {
+    presets: ['@babel/preset-env'],
+  },
 };
