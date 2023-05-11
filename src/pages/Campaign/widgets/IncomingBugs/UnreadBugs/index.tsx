@@ -89,11 +89,11 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
             </Accordion.Header>
             <Accordion.Panel>
               {usecase.bugs.map((bug) => (
-                <StyledBugCard severity={bug.severity}>
+                <StyledBugCard severity={bug.severity} url={bug.url}>
                   {(severity) => (
                     <>
                       <BugCard.TopTitle>ID {bug.id}</BugCard.TopTitle>
-                      <BugCard.Title url={bug.url}>{bug.title}</BugCard.Title>
+                      <BugCard.Title>{bug.title}</BugCard.Title>
                       <BugCard.Footer>
                         {bug.titleContext &&
                           bug.titleContext.map((context) => (

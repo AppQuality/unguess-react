@@ -70,7 +70,11 @@ export const CustomStatusField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-custom-status"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -106,7 +110,10 @@ export const CustomStatusField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            <Field style={{ marginBottom: globalTheme.space.md }}>
+            <Field
+              style={{ marginBottom: globalTheme.space.md }}
+              className="bugs-drawer-toogle-exclude-na-bug"
+            >
               <Toggle
                 disabled={shouldDisableToggle}
                 checked={currentIsNaBugExcluded}
@@ -137,7 +144,12 @@ export const CustomStatusField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field
+                      style={{ marginBottom: globalTheme.space.xs }}
+                      className={`bugs-drawer-accordion-custom-status-${item.name
+                        .toLowerCase()
+                        .replace(/\s+/g, '-')}`}
+                    >
                       <Checkbox
                         value={item.name}
                         name="filter-custom-status"

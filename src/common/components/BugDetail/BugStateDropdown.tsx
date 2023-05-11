@@ -122,7 +122,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
             itemToString: (item: DropdownItem) => item && item.slug,
           }}
         >
-          <Field>
+          <Field className="bug-dropdown-custom-status">
             {bug.status.id === 4 ? (
               <Tooltip
                 appendToNode={document.body}
@@ -148,7 +148,13 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
               options.map((item) => (
                 <>
                   {item.slug === 'solved' && <Separator />}
-                  <StyledItem key={item.slug} value={item}>
+                  <StyledItem
+                    key={item.slug}
+                    value={item}
+                    className={`bug-dropdown-custom-status-${item.slug
+                      .toLowerCase()
+                      .replace(/\s+/g, '-')}`}
+                  >
                     {item.icon} {item.text}
                   </StyledItem>
                 </>

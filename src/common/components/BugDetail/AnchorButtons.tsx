@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { Link } from 'react-scroll';
-import { IconButton } from '@appquality/unguess-design-system';
+import { IconButton, Tooltip } from '@appquality/unguess-design-system';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
 import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/linked.svg';
 import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
+import { useTranslation } from 'react-i18next';
 
 const FlexComponent = styled.div`
   width: 100%;
@@ -25,6 +26,7 @@ export const AnchorButtons = ({
 }) => {
   const { media } = bug;
   const { openAccordions, setOpenAccordions } = useBugPreviewContext();
+  const { t } = useTranslation();
 
   return (
     <FlexComponent>
@@ -36,9 +38,19 @@ export const AnchorButtons = ({
           duration={500}
           offset={-50}
         >
-          <IconButton size="small">
-            <AttachmentsIcon />
-          </IconButton>
+          <Tooltip
+            content={t('__BUGS_PREVIEW_MEDIA_TOOLTIP_TEXT')}
+            placement="bottom"
+            type="light"
+            size="medium"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <IconButton size="small">
+              <AttachmentsIcon />
+            </IconButton>
+          </Tooltip>
         </Link>
       )}
 
@@ -52,9 +64,19 @@ export const AnchorButtons = ({
           setOpenAccordions([...openAccordions, 'details']);
         }}
       >
-        <IconButton size="small">
-          <DetailsIcon />
-        </IconButton>
+        <Tooltip
+          content={t('__BUGS_PREVIEW_TAG_TOOLTIP_TEXT')}
+          placement="bottom"
+          type="light"
+          size="medium"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <IconButton size="small">
+            <DetailsIcon />
+          </IconButton>
+        </Tooltip>
       </Link>
 
       <Link
@@ -67,9 +89,19 @@ export const AnchorButtons = ({
           setOpenAccordions([...openAccordions, 'duplicates']);
         }}
       >
-        <IconButton size="small">
-          <LinkIcon />
-        </IconButton>
+        <Tooltip
+          content={t('__BUGS_PREVIEW_RELATED_BUGS_TOOLTIP_TEXT')}
+          placement="bottom"
+          type="light"
+          size="medium"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <IconButton size="small">
+            <LinkIcon />
+          </IconButton>
+        </Tooltip>
       </Link>
     </FlexComponent>
   );

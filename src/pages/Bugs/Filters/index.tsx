@@ -79,7 +79,7 @@ const BugsFilters = () => {
             <GroupBy />
           </FlexWrapper>
           <FlexWrapper orderXl={1}>
-            <SearchContainer>
+            <SearchContainer className="input-search-bugs">
               <SearchFilter />
             </SearchContainer>
             <UniqueFilter />
@@ -91,6 +91,7 @@ const BugsFilters = () => {
             </HideOnMobile>
             <Button
               size="medium"
+              className="all-filters-button"
               isBasic
               onClick={() => {
                 dispatch(setFilterDrawerOpen(true));

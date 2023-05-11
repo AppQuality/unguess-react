@@ -72,6 +72,7 @@ export default ({
               return (
                 <Col xs={12} sm={6} className="flex-3-sm">
                   <ImageCard
+                    className="bug-preview-media-item bug-preview-media-image"
                     index={index}
                     url={item.url}
                     onClick={() => openLightbox(index)}
@@ -82,6 +83,7 @@ export default ({
               return (
                 <Col xs={12} sm={6} className="flex-3-sm">
                   <VideoCard
+                    className="bug-preview-media-item bug-preview-media-video"
                     index={index}
                     url={item.url}
                     onClick={() => openLightbox(index)}

@@ -75,7 +75,7 @@ export default ({
         />
       ) : (
         <div
-          className="max-width-6-sm"
+          className="max-width-6-sm bug-preview-search-tags"
           style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}
         >
           <MultiSelect

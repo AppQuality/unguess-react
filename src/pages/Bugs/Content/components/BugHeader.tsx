@@ -33,6 +33,7 @@ const Container = styled.div`
 
 const ActionDetailPreview = styled.div`
   margin-left: auto;
+  display: flex;
 `;
 
 export default ({
@@ -79,7 +80,7 @@ export default ({
             type="light"
             placement="auto"
           >
-            <IconButton size="small">
+            <IconButton size="small" className="bug-detail-go-to-bug-link">
               <LinkIcon />
             </IconButton>
           </Tooltip>

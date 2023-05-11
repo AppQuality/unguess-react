@@ -81,9 +81,12 @@ const UseCasesWrapper = styled.div`
   width: 100%;
 
   ${UseCaseCard} {
-    margin: 0 ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
+    margin-right: ${({ theme }) => theme.space.sm};
     &:first-child {
       margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
     }
   }
 
@@ -187,7 +190,7 @@ export const ModalUseCaseTabLayout = ({
                 <CardTitle>
                   {t(
                     '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
-                  )}
+                  )}{' '}
                 </CardTitle>
               </UseCaseCard>
             )}

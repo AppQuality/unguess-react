@@ -29,7 +29,6 @@ const DetailContainer = styled.div<{
     100vh - ${({ theme }) => theme.components.chrome.header.height} -
       ${filtersHeight}px
   );
-  overflow: hidden;
 
   ${(p) =>
     p.isFetching &&

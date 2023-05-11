@@ -23,7 +23,11 @@ export const UniqueField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-unique"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -44,6 +48,7 @@ export const UniqueField = ({
           <Accordion.Panel>
             {available.map((item) => (
               <Field
+                className={`bugs-drawer-accordion-unique-item-${item.toLowerCase()}`}
                 style={{
                   marginBottom: globalTheme.space.xxs,
                 }}

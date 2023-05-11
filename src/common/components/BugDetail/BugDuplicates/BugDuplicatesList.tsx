@@ -52,6 +52,7 @@ export const BugDuplicatesList = ({
         .slice(0, isOpen ? data.siblings.length : maxSiblingSize)
         .map((item) => (
           <BugItem
+            className="bug-overview-duplicated-bug"
             key={item.id}
             campaignId={cid}
             bugId={item.id}

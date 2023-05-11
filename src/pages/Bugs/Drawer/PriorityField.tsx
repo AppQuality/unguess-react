@@ -43,7 +43,11 @@ export const PriorityField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-custom-priority"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
@@ -77,7 +81,10 @@ export const PriorityField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field
+                      style={{ marginBottom: globalTheme.space.xs }}
+                      className={`bugs-drawer-accordion-custom-priority-${item.name.toLowerCase()}`}
+                    >
                       <Checkbox
                         value={item.name}
                         name="filter-priority"
