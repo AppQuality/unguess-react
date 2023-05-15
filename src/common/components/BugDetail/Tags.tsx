@@ -22,20 +22,13 @@ export default ({
   };
 }) => {
   const { t } = useTranslation();
+  const { tags: bugTags } = bug;
   const [options, setOptions] = useState<
     { id: number; label: string; selected?: boolean }[]
   >([]);
-  const [bugTags, setBugTags] = useState<
-    {
-      id: number;
-      label: string;
-    }[]
-  >([
-    ...(bug.tags?.map((tag) => ({
-      id: tag.tag_id,
-      label: tag.name,
-    })) ?? []),
-  ]);
+  const [selectedOptions, setSelectedOptions] = useState<
+    { id: number; label: string }[]
+  >([]);
 
   const {
     isLoading: isLoadingCampaignTags,
@@ -53,11 +46,20 @@ export default ({
         cpTags.map((tag) => ({
           id: tag.tag_id,
           label: tag.display_name,
-          selected: bugTags.some((bt) => bt.id === tag.tag_id),
+          selected: selectedOptions.some((bt) => bt.id === tag.tag_id),
         }))
       );
     }
-  }, [cpTags, bugTags]);
+  }, [cpTags, selectedOptions]);
+
+  useEffect(() => {
+    setSelectedOptions(
+      bug.tags?.map((tag) => ({
+        id: tag.tag_id,
+        label: tag.name,
+      })) ?? []
+    );
+  }, [bugTags]);
 
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
 
@@ -122,7 +124,7 @@ export default ({
                     : [];
 
                   // Update bug tags
-                  setBugTags(selectedTags);
+                  setSelectedOptions(selectedTags);
 
                   const unselectedTags = options.filter(
                     (o) => !selectedTags.find((r) => r.id === o.id)
