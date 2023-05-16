@@ -37,7 +37,7 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
 const DropdownItem = styled(HeaderItem)`
   margin-right: auto;
   margin-left: -8px;
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
   font-family: ${({ theme }) => theme.fonts.system};
   z-index: 2;
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -47,7 +47,7 @@ const DropdownItem = styled(HeaderItem)`
 
 const BrandName = styled(HeaderItemText)`
   margin-right: ${({ theme }) => theme.space.sm}};
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
   font-family: ${({ theme }) => theme.fonts.system};
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const WaffleTooltipContainer = styled.div<{ width: string }>`
   padding: ${({ theme }) => theme.space.xxs} ${({ theme }) => theme.space.xs};
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
   width: ${({ width }) => width};
   text-align: center;
 `;

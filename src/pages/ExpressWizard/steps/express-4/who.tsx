@@ -29,7 +29,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
   color: ${({ theme }) => theme.palette.grey[800]};
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    color: ${({ theme }) => theme.components.colors.primaryTextColor};
   }
 `;
 

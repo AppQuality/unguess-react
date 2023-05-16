@@ -1,4 +1,7 @@
-import { theme as baseTheme } from '@appquality/unguess-design-system';
+import {
+  theme as baseTheme,
+  getColor,
+} from '@appquality/unguess-design-system';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 
 export const SEVERITY_COLORS: Record<Severities, string> = {
@@ -62,6 +65,9 @@ const theme = {
   },
   components: {
     ...baseTheme.components,
+    colors: {
+      primaryTextColor: getColor(baseTheme.colors.primaryHue, 600),
+    },
     'tables.header_row': {
       height: 'auto',
     },

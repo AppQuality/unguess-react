@@ -8,7 +8,7 @@ import { useBugsByUsecase } from '../useBugsByUsecase';
 import { useMaxItems } from '../useMaxItems';
 
 const TooltipSM = styled(SM)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
 `;
 
 const Tooltip = styled.div`

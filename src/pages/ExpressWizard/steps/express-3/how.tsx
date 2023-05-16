@@ -40,7 +40,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
   color: ${({ theme }) => theme.palette.grey[800]};
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    color: ${({ theme }) => theme.components.colors.primaryTextColor};
   }
 `;
 
@@ -81,7 +81,7 @@ const UseCaseEditLabel = styled(Paragraph)`
   svg {
     margin-right: ${({ theme }) => theme.space.sm};
   }
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
   margin-right: ${({ theme }) => theme.space.xs};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;

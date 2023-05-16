@@ -117,7 +117,7 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
 `;
 
 const EmptyStateTitle = styled(LG)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 

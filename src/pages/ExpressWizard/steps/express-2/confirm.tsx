@@ -28,7 +28,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
 
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    color: ${({ theme }) => theme.components.colors.primaryTextColor};
   }
 `;
 

@@ -9,7 +9,7 @@ import { TrendPill } from './Trend';
 import { WidgetLoader } from '../widgetLoader';
 
 const Value = styled(Span)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
 `;
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {

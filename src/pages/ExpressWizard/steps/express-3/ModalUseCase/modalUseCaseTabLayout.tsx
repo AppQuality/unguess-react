@@ -26,7 +26,7 @@ const UseCaseCard = styled(Card)`
   background-color: white;
   text-align: center;
   border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
   padding: 0;
   height: ${({ theme }) => theme.space.base * 15}px;
   width: 20%;
@@ -34,7 +34,8 @@ const UseCaseCard = styled(Card)`
   user-select: none;
 
   &.current-card {
-    background-color: ${({ theme }) => theme.colors.primaryHue};
+    background-color: ${({ theme }) =>
+      theme.components.colors.primaryTextColor};
     border: 2px solid ${({ theme }) => theme.colors.primaryHue};
     color: white;
   }

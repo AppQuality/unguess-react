@@ -55,7 +55,7 @@ const StyledOrderListItem = styled(OrderedList.Item)`
 
   ::marker,
   > a {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    color: ${({ theme }) => theme.components.colors.primaryTextColor};
     cursor: pointer;
   }
 `;
@@ -72,7 +72,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.md};
 
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    color: ${({ theme }) => theme.components.colors.primaryTextColor};
   }
 `;
 

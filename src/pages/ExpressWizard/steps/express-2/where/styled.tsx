@@ -7,7 +7,7 @@ export const StyledRow = styled(Row)`
 `;
 
 export const PrimarySpan = styled(Span)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
 `;
 
 export const SpacedField = styled(Field)`

@@ -32,7 +32,7 @@ const StyledRow = styled(Row)`
 `;
 
 const PrimarySpan = styled(Span)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
 `;
 
 const InnerField = styled(FormField)`

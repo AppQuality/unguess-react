@@ -11,7 +11,7 @@ const EmptyContainer = styled.div`
 `;
 
 const StyledLG = styled(LG)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
 `;
 const EmptyState = () => {
   const { t } = useTranslation();

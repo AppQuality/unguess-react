@@ -7,7 +7,7 @@ import { getChildrenValue } from './getChildrenValue';
 import { WidgetLoader } from '../../widgetLoader';
 
 const StyledSM = styled(SM)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  color: ${({ theme }) => theme.components.colors.primaryTextColor};
 `;
 
 const Tooltip = styled.div`
