@@ -2,17 +2,17 @@ import { theme as baseTheme } from '@appquality/unguess-design-system';
 import { IGardenTheme } from '@zendeskgarden/react-theming';
 
 export const SEVERITY_COLORS: Record<Severities, string> = {
-  critical: baseTheme.palette.red[400],
-  high: baseTheme.palette.yellow[400],
-  medium: baseTheme.palette.azure[400],
-  low: baseTheme.palette.green[400],
+  critical: baseTheme.palette.red[800],
+  high: baseTheme.palette.yellow[700],
+  medium: baseTheme.palette.teal[700],
+  low: baseTheme.palette.blue[600],
 };
 
 export const SEVERITY_HUES: Record<Severities, string> = {
-  critical: baseTheme.palette.red[400],
-  high: baseTheme.palette.yellow[400],
-  medium: baseTheme.palette.azure[400],
-  low: baseTheme.palette.green[400],
+  critical: baseTheme.palette.red[800],
+  high: baseTheme.palette.yellow[700],
+  medium: baseTheme.palette.teal[700],
+  low: baseTheme.palette.blue[600],
 };
 // temporary fix for the bug state colors
 export const BUG_STATE_COLORS: Record<
