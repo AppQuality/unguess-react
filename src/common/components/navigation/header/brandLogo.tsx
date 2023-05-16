@@ -26,7 +26,7 @@ export const LogoIconContainer = styled(HeaderItem)`
 `;
 
 const MenuItem = styled(HeaderItem)`
-  color: ${({ theme }) => theme.components.colors.primaryTextColor};
+  color: ${({ theme }) => theme.components.colors.primaryText};
   position: absolute;
   left: 0;
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {

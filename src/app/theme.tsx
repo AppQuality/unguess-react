@@ -1,8 +1,4 @@
-import {
-  theme as baseTheme,
-  getColor,
-} from '@appquality/unguess-design-system';
-import { IGardenTheme } from '@zendeskgarden/react-theming';
+import { theme as baseTheme } from '@appquality/unguess-design-system';
 
 export const SEVERITY_COLORS: Record<Severities, string> = {
   critical: baseTheme.palette.red[800],
@@ -52,22 +48,24 @@ export const BUG_STATE_COLORS: Record<
   },
 };
 
-type BaseType = IGardenTheme['colors']['base'];
+type UgTheme = typeof baseTheme & {
+  colors: {
+    bySeverity: Record<Severities, string>;
+    byBugState: Record<BugState, { stroke: string; color: string }>;
+    bySeverityHues: Record<Severities, string>;
+  };
+};
 
-const theme = {
+const theme: UgTheme = {
   ...baseTheme,
   colors: {
     ...baseTheme.colors,
-    base: 'light' as BaseType,
     bySeverity: SEVERITY_COLORS,
     byBugState: BUG_STATE_COLORS,
     bySeverityHues: SEVERITY_HUES,
   },
   components: {
     ...baseTheme.components,
-    colors: {
-      primaryTextColor: getColor(baseTheme.colors.primaryHue, 600),
-    },
     'tables.header_row': {
       height: 'auto',
     },

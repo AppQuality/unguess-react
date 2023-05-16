@@ -31,7 +31,8 @@ function translateSeverity(severity: Severities, t: TFunction) {
 }
 
 const Value = styled(Span)`
-  color: ${({ theme: globalTheme }) => globalTheme.colors.primaryHue};
+  color: ${({ theme: globalTheme }) =>
+    globalTheme.components.colors.primaryText};
 `;
 
 const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {

@@ -10,7 +10,6 @@ import { store } from './store';
 
 const App = () => {
   const { t } = useTranslation();
-
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>

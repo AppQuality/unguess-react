@@ -1,4 +1,4 @@
-import { Card, Span } from '@appquality/unguess-design-system';
+import { Card, Span, getColor } from '@appquality/unguess-design-system';
 import { FieldArray, FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -36,7 +36,7 @@ const UseCaseCard = styled(Card)`
   &.current-card {
     background-color: ${({ theme }) =>
       theme.components.colors.primaryTextColor};
-    border: 2px solid ${({ theme }) => theme.colors.primaryHue};
+    border: 2px solid ${({ theme }) => getColor(theme.colors.primaryHue, 600)};
     color: white;
   }
 

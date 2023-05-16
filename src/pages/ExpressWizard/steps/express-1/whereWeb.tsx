@@ -236,7 +236,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withChrome')}
                     checked={values.withChrome}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: theme.components.colors.primaryText }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME')}
                     </Label>
                   </Checkbox>
@@ -246,7 +248,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withEdge')}
                     checked={values.withEdge}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: theme.components.colors.primaryText }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE')}
                     </Label>
                   </Checkbox>
@@ -256,7 +260,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withSafari')}
                     checked={values.withSafari}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: theme.components.colors.primaryText }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI')}
                     </Label>
                   </Checkbox>
@@ -266,7 +272,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withFirefox')}
                     checked={values.withFirefox}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: theme.components.colors.primaryText }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX')}
                     </Label>
                   </Checkbox>

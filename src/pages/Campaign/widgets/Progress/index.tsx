@@ -20,7 +20,8 @@ const ChartContainer = styled.div`
 `;
 
 const Value = styled(Span)`
-  color: ${({ theme: globalTheme }) => globalTheme.colors.primaryHue};
+  color: ${({ theme: globalTheme }) =>
+    globalTheme.components.colors.primaryText};
 `;
 
 export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {

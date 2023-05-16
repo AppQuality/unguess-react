@@ -103,7 +103,7 @@ export const WorkspacesDropdown = () => {
         }}
       >
         <Field>
-          <Select style={{ color: appTheme.colors.primaryHue }}>
+          <Select style={{ color: appTheme.components.colors.primaryText }}>
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
             </StyledEllipsis>
