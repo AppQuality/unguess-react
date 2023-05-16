@@ -1,5 +1,5 @@
+import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { WaterButton } from 'src/common/components/waterButton';
 
 export const ServiceContactUsCta = ({
   onCtaClick,
@@ -9,8 +9,8 @@ export const ServiceContactUsCta = ({
   const { t } = useTranslation();
 
   return (
-    <WaterButton size="medium" isPrimary isPill onClick={onCtaClick}>
+    <Button size="medium" isPrimary onClick={onCtaClick}>
       {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
-    </WaterButton>
+    </Button>
   );
 };

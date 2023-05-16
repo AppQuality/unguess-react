@@ -96,7 +96,6 @@ export const ProjectItems = () => {
           <Col md={4}>
             <FloatRight>
               <IconButton
-                isPill
                 {...(viewType === 'list' && { isPrimary: true })}
                 onClick={() => setViewType('list')}
                 style={{ marginRight: theme.space.xs }}
@@ -104,7 +103,6 @@ export const ProjectItems = () => {
                 <ListIcon />
               </IconButton>
               <IconButton
-                isPill
                 {...(viewType === 'grid' && { isPrimary: true })}
                 onClick={() => setViewType('grid')}
               >

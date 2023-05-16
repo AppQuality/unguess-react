@@ -37,7 +37,6 @@ export const BugsReportCard = ({
       <SpecialCard.Footer direction="column" justifyContent="center">
         <Button
           className="report-btn report-btn-download report-btn-bugs-report"
-          isPill
           isStretched
           onClick={() => WPAPI.getReport({ campaignId, title })}
         >

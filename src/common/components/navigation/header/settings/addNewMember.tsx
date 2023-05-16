@@ -83,8 +83,7 @@ export const AddNewMemberInput = () => {
             />
             <Button
               isPrimary
-              isPill
-              themeColor={globalTheme.palette.water[600]}
+              isAccent
               type="submit"
               disabled={formProps.isSubmitting}
             >

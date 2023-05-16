@@ -45,7 +45,7 @@ const NotFound = () => {
             </Paragraph>
 
             <Paragraph style={{ marginTop: theme.space.lg }}>
-              <Button isPrimary isPill onClick={() => navigate(homeRoute)}>
+              <Button isPrimary onClick={() => navigate(homeRoute)}>
                 {t('__404_PAGE_BUTTON')}
               </Button>
             </Paragraph>

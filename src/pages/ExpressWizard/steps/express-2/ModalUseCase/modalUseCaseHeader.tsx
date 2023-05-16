@@ -58,9 +58,8 @@ export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
       {width > breakpointSm && (
         <Button
           isPrimary
-          isPill
           onClick={onClose}
-          themeColor={globalTheme.colors.accentHue}
+          isAccent
           style={{ marginLeft: 'auto' }}
         >
           <Button.StartIcon>

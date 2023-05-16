@@ -206,7 +206,7 @@ export const ModalUseCase = ({
                           <FieldArray name="use_cases">
                             {({ remove }) => (
                               <Button
-                                themeColor={globalTheme.palette.red[600]}
+                                isDanger
                                 isBasic
                                 onClick={() => {
                                   remove(useCaseIndex);

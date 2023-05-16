@@ -84,7 +84,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         {outputs?.includes('media') && (
           <Button
             id="button-media-list-header"
-            isPill
             onClick={() =>
               openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
                 newTab: true,
@@ -97,12 +96,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         )}
         {outputs?.includes('bugs') && (
           <Link to={functionalDashboardLink}>
-            <Button
-              id="button-bugs-list-header"
-              isPrimary
-              isPill
-              themeColor={globalTheme.palette.water[600]}
-            >
+            <Button id="button-bugs-list-header" isPrimary isAccent>
               {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
             </Button>
           </Link>

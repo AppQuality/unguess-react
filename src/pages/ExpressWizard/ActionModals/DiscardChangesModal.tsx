@@ -7,7 +7,6 @@ import {
 import styled from 'styled-components';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useTranslation } from 'react-i18next';
-import { WaterButton } from 'src/common/components/waterButton';
 
 const DangerHeader = styled(Modal.Header)`
   display: flex;
@@ -36,14 +35,14 @@ const DiscardChangesModal = ({
       <Modal.Body>{t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE')}</Modal.Body>
       <Modal.Footer>
         <FooterItem>
-          <Button isDanger isPill isBasic onClick={onClose}>
+          <Button isDanger isBasic onClick={onClose}>
             {t('__EXPRESS_WIZARD_CONFIRM_CLOSE_CANCEL_BUTTON_TEXT')}
           </Button>
         </FooterItem>
         <FooterItem>
-          <WaterButton isPrimary isPill onClick={handleCancel}>
+          <Button isPrimary onClick={handleCancel}>
             {t('__EXPRESS_WIZARD_CONFIRM_CLOSE_CONTINUE_BUTTON_TEXT')}
-          </WaterButton>
+          </Button>
         </FooterItem>
       </Modal.Footer>
       <ModalClose aria-label="Close modal" />

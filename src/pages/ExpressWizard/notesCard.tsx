@@ -3,7 +3,7 @@ import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 export const NotesTitle = styled(MD)`
-  color: ${({ theme }) => theme.palette.teal.M600};
+  color: ${({ theme }) => theme.palette.teal[600]};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   display: flex;
   align-items: center;
@@ -52,9 +52,9 @@ export const Notes = styled(Card)<NotesProps>`
         `;
       default:
         return `
-          ${NotesTitle} { color: ${theme.palette.teal.M600}; }
+          ${NotesTitle} { color: ${theme.palette.teal[600]}; }
           > svg {
-            fill: ${theme.palette.teal.M600};
+            fill: ${theme.palette.teal[600]};
           }
         `;
     }

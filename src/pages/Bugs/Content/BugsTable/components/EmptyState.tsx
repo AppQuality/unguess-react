@@ -44,8 +44,7 @@ export const EmptyState = () => {
       </MD>
       <Button
         isPrimary
-        isPill
-        themeColor={theme.palette.water[600]}
+        isAccent
         type="reset"
         onClick={() => {
           dispatch(resetFilters());

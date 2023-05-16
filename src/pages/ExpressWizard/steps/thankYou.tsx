@@ -7,6 +7,7 @@ import {
   theme,
   ModalFullScreen,
   Logo,
+  Button,
 } from '@appquality/unguess-design-system';
 import { theme as globalTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +18,6 @@ import {
   resetWizard,
 } from 'src/features/express/expressSlice';
 import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
-import { WaterButton } from 'src/common/components/waterButton';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { Container } from '../wizardHeader';
@@ -75,9 +75,9 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
               </Row>
               <Row style={{ marginTop: theme.space.xl }}>
                 <Col size={12} textAlign="center">
-                  <WaterButton isPill isPrimary onClick={handleClose}>
+                  <Button isPrimary onClick={handleClose}>
                     {t('__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON')}
-                  </WaterButton>
+                  </Button>
                 </Col>
               </Row>
             </ContainerCard>

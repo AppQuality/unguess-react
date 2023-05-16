@@ -1,20 +1,18 @@
-import {
-  theme as baseTheme,
-  CHARTS_COLOR_PALETTE,
-} from '@appquality/unguess-design-system';
+import { theme as baseTheme } from '@appquality/unguess-design-system';
+import { IGardenTheme } from '@zendeskgarden/react-theming';
 
 export const SEVERITY_COLORS: Record<Severities, string> = {
-  critical: CHARTS_COLOR_PALETTE.mattone,
-  high: CHARTS_COLOR_PALETTE.gubbioLight,
-  medium: CHARTS_COLOR_PALETTE.blueRoyal,
-  low: CHARTS_COLOR_PALETTE.darkPine,
+  critical: baseTheme.palette.red[400],
+  high: baseTheme.palette.yellow[400],
+  medium: baseTheme.palette.azure[400],
+  low: baseTheme.palette.green[400],
 };
 
 export const SEVERITY_HUES: Record<Severities, string> = {
-  critical: CHARTS_COLOR_PALETTE.mattone,
-  high: CHARTS_COLOR_PALETTE.gubbioLight,
-  medium: CHARTS_COLOR_PALETTE.blueRoyal,
-  low: CHARTS_COLOR_PALETTE.darkPine,
+  critical: baseTheme.palette.red[400],
+  high: baseTheme.palette.yellow[400],
+  medium: baseTheme.palette.azure[400],
+  low: baseTheme.palette.green[400],
 };
 // temporary fix for the bug state colors
 export const BUG_STATE_COLORS: Record<
@@ -51,14 +49,16 @@ export const BUG_STATE_COLORS: Record<
   },
 };
 
+type BaseType = IGardenTheme['colors']['base'];
+
 const theme = {
   ...baseTheme,
   colors: {
     ...baseTheme.colors,
+    base: 'light' as BaseType,
     bySeverity: SEVERITY_COLORS,
     byBugState: BUG_STATE_COLORS,
     bySeverityHues: SEVERITY_HUES,
-    darkPine: CHARTS_COLOR_PALETTE.darkPine,
   },
   components: {
     ...baseTheme.components,

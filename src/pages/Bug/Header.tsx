@@ -77,7 +77,7 @@ export const Header = ({ campaignId, bug }: Props) => {
         <PageHeader.Footer>
           <ShareButton bug={bug}>
             {(setModalOpen) => (
-              <Button isPill hasStartIcon onClick={() => setModalOpen(true)}>
+              <Button onClick={() => setModalOpen(true)}>
                 <Button.StartIcon>
                   <ShareIcon />
                 </Button.StartIcon>

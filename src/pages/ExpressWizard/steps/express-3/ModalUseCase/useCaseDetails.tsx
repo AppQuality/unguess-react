@@ -139,11 +139,10 @@ export const UseCaseDetails = ({
               {useCase ? useCase.description : ''}
             </Editor>
             <Button
-              themeColor={globalTheme.colors.accentHue}
+              isAccent
               style={{ marginTop: globalTheme.space.md }}
               onClick={() => setIsEditing(true)}
               isPrimary
-              isPill
             >
               <Button.StartIcon>
                 <EditIcon fill={globalTheme.palette.white} />
@@ -192,17 +191,12 @@ export const UseCaseDetails = ({
                 setEditorContent(useCase ? useCase.description : '');
                 setIsEditing(false);
               }}
-              themeColor={globalTheme.colors.accentHue}
+              isAccent
               isBasic
             >
               Cancel
             </Button>
-            <Button
-              onClick={handleSave}
-              themeColor={globalTheme.colors.accentHue}
-              isPill
-              isPrimary
-            >
+            <Button onClick={handleSave} isAccent isPrimary>
               Save
             </Button>
           </Col>

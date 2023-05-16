@@ -6,6 +6,7 @@ import {
   Span,
   Dots,
   Tooltip,
+  Button,
 } from '@appquality/unguess-design-system';
 import {
   Dispatch,
@@ -19,7 +20,6 @@ import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
 import { theme as globalTheme } from 'src/app/theme';
-import { WaterButton } from 'src/common/components/waterButton';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-lg-stroke.svg';
 import { useShareBug } from './hooks/useShareBug';
 
@@ -95,19 +95,19 @@ export const ShareButton = ({
             </StyledMd>
           </Modal.Body>
           <Modal.Footer>
-            <WaterButton
+            <Button
               isPrimary
-              isPill
+              isAccent
               disabled={isLoading}
               onClick={createLink}
             >
               {link && !isLoading && (
-                <WaterButton.StartIcon>
+                <Button.StartIcon>
                   <CheckIcon />
-                </WaterButton.StartIcon>
+                </Button.StartIcon>
               )}
               {getButtonContent()}
-            </WaterButton>
+            </Button>
           </Modal.Footer>
           <ModalClose />
         </Modal>

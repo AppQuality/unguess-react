@@ -52,7 +52,7 @@ export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
     // last case
     return (
       <Trans i18nKey="__BUGS_PAGE_USECASE_COMPLETION_4">
-        <StyledSM accent={theme.palette.water[700]} isBold>
+        <StyledSM accent={theme.palette.kale[700]} isBold>
           Use case <span>completed</span>
         </StyledSM>
       </Trans>

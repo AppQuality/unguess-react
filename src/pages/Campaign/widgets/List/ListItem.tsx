@@ -45,7 +45,7 @@ export const ListItem = ({
     <Progress
       value={Math.round((numerator / denominator) * 100)}
       size="small"
-      color={globalTheme.colors.darkPine}
+      color={globalTheme.palette.green[600]}
       style={{ margin: 0, marginTop: globalTheme.space.xxs }}
     />
   </ListItemWrapper>

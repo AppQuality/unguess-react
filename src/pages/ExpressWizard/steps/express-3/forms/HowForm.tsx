@@ -2,8 +2,8 @@ import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { theme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { WaterButton } from 'src/common/components/waterButton';
 import { WizardButtonsProps } from 'src/pages/ExpressWizard/steps/types';
+import { Button } from '@appquality/unguess-design-system';
 import { HowStep } from '../how';
 
 export const HowForm = (props: FormikProps<WizardModel>) => (
@@ -16,23 +16,21 @@ export const HowFormButtons = (props: WizardButtonsProps) => {
 
   return (
     <>
-      <WaterButton
+      <Button
         id="express-wizard-who-back-button"
-        isPill
         isBasic
         onClick={onBackClick}
         style={{ marginRight: theme.space.sm }}
       >
         {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
-      </WaterButton>
-      <WaterButton
+      </Button>
+      <Button
         id="express-wizard-who-next-button"
-        isPill
         isPrimary
         onClick={onNextClick}
       >
         {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}
-      </WaterButton>
+      </Button>
     </>
   );
 };

@@ -12,6 +12,7 @@ import {
   theme as globalTheme,
   Timeline,
   TooltipModal,
+  Button,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
 import { useCallback, useRef, useState } from 'react';
@@ -23,7 +24,6 @@ import {
   formatRelative,
 } from 'date-fns';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
-import { WaterButton } from '../../common/components/waterButton';
 import { WizardModel } from './wizardModel';
 import { getLanguage } from './getLanguage';
 import { CardDivider } from './cardDivider';
@@ -124,9 +124,8 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   return (
     <StyledDiv>
       <SplitButton>
-        <WaterButton
+        <Button
           id="express-wizard-submit-button"
-          isPill
           isPrimary
           type="submit"
           disabled={Object.keys(errors).length > 0 || isSubmitting}
@@ -135,9 +134,8 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           {isPlanned
             ? t('__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL')
             : t('__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL')}
-        </WaterButton>
-        <WaterButton
-          isPill
+        </Button>
+        <Button
           isPrimary
           ref={triggerRef}
           onClick={() => {
@@ -145,7 +143,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           }}
         >
           <ChevronDownIcon />
-        </WaterButton>
+        </Button>
       </SplitButton>
       {isSubmitting ? (
         <Spinner
