@@ -1,15 +1,15 @@
 import { theme as baseTheme } from '@appquality/unguess-design-system';
 
 export const SEVERITY_COLORS: Record<Severities, string> = {
-  critical: baseTheme.palette.red[800],
-  high: baseTheme.palette.yellow[700],
+  critical: baseTheme.palette.red[900],
+  high: baseTheme.palette.yellow[600],
   medium: baseTheme.palette.teal[700],
   low: baseTheme.palette.blue[600],
 };
 
 export const SEVERITY_HUES: Record<Severities, string> = {
-  critical: baseTheme.palette.red[800],
-  high: baseTheme.palette.yellow[700],
+  critical: baseTheme.palette.red[900],
+  high: baseTheme.palette.yellow[600],
   medium: baseTheme.palette.teal[700],
   low: baseTheme.palette.blue[600],
 };
