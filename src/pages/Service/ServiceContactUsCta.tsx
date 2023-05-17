@@ -9,7 +9,7 @@ export const ServiceContactUsCta = ({
   const { t } = useTranslation();
 
   return (
-    <Button size="medium" isPrimary onClick={onCtaClick}>
+    <Button size="medium" isPrimary isAccent onClick={onCtaClick}>
       {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
     </Button>
   );

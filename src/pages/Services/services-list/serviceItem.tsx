@@ -132,6 +132,7 @@ export const ServiceItem = ({
       <Button
         className="service-card-contact-button"
         isStretched
+        isAccent
         size="small"
         isPrimary
         onClick={() => handleHubspot()}
