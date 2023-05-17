@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
   XL,
-  theme as globalTheme,
   Button,
   Anchor,
   IconButton,
@@ -10,6 +9,7 @@ import {
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-circle.svg';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { appTheme } from 'src/app/theme';
 
 const Container = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ export const ModalUseCaseHeader = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
 
   const { width } = useWindowSize();
-  const breakpointSm = parseInt(globalTheme.breakpoints.md, 10);
+  const breakpointSm = parseInt(appTheme.breakpoints.md, 10);
 
   return (
     <Container>

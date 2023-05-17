@@ -1,7 +1,7 @@
 import { Accordion, MD, Radio, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
@@ -27,12 +27,12 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
-              <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
                 {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_READ_TITLE')}
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: appTheme.palette.grey[600],
                   textTransform: 'capitalize',
                 }}
               >
@@ -47,7 +47,7 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
               <Field
                 className={`bugs-drawer-accordion-read-item-${item.toLowerCase()}`}
                 style={{
-                  marginBottom: globalTheme.space.xxs,
+                  marginBottom: appTheme.space.xxs,
                 }}
               >
                 <Radio

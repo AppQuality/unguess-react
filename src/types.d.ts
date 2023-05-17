@@ -1,4 +1,4 @@
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { operations, components } from 'src/common/schema';
 import { GetUsersMeApiResponse } from './features/api';
 

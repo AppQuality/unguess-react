@@ -9,7 +9,7 @@ import {
 } from '@zendeskgarden/react-tables';
 import styled from 'styled-components';
 import { SM } from '@appquality/unguess-design-system';
-import { theme as appTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { TableRow } from './TableRow';
 import { LoadingState } from './LoadingState';
 

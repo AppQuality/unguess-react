@@ -14,7 +14,7 @@ import {
   XXL,
   ContainerCard,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
@@ -123,7 +123,7 @@ export const WhatStep = ({
           </Menu>
         </Dropdown>
       </StyledFormField>
-      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
+      <StyledFormField style={{ marginTop: appTheme.space.lg }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>

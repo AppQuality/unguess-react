@@ -6,7 +6,7 @@ import {
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
 import { Label } from './Label';
 
@@ -67,13 +67,13 @@ export default ({
 
   return (
     <div>
-      <Label style={{ marginBottom: globalTheme.space.xxs }}>
+      <Label style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
       </Label>
       {!bug || !cpTags || isLoadingCampaignTags ? (
         <Skeleton
           height="30px"
-          style={{ borderRadius: globalTheme.borderRadii.md }}
+          style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
         <div

@@ -8,7 +8,7 @@ import {
   Row,
   Stepper,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import {
   Form,
   Formik,
@@ -366,7 +366,7 @@ export const ExpressWizardContainer = () => {
             {(formProps: FormikProps<WizardModel>) => (
               <>
                 <StyledModal.Header
-                  style={{ backgroundColor: globalTheme.palette.white }}
+                  style={{ backgroundColor: appTheme.palette.white }}
                 >
                   <LayoutWrapper>
                     <ModalHeaderContent>

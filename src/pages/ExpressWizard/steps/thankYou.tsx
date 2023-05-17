@@ -9,7 +9,7 @@ import {
   Logo,
   Button,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import {
@@ -39,7 +39,7 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
   return (
     <>
       <ModalFullScreen.Header
-        style={{ backgroundColor: globalTheme.palette.white }}
+        style={{ backgroundColor: appTheme.palette.white }}
       >
         {width > parseInt(theme.breakpoints.sm, 10) ? (
           <Container>

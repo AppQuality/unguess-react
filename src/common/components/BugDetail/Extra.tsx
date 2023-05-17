@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { BugMedia as BugMediaType } from 'src/features/api';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { SM, Span } from '@appquality/unguess-design-system';
 import { ReactComponent as ArchiveIcon } from 'src/assets/icons/extra-icon-archive.svg';
 import { ReactComponent as FileIcon } from 'src/assets/icons/extra-icon-file.svg';
@@ -17,7 +17,7 @@ function getFileSpecs(extension: string): {
     case 'pdf':
       return {
         icon: <PdfIcon />,
-        color: globalTheme.palette.red[400],
+        color: appTheme.palette.red[400],
       };
     case 'doc':
     case 'docx':
@@ -35,7 +35,7 @@ function getFileSpecs(extension: string): {
     case 'svg':
       return {
         icon: <FileIcon />,
-        color: globalTheme.palette.green[600],
+        color: appTheme.palette.green[600],
       };
     case 'zip':
     case 'rar':
@@ -43,7 +43,7 @@ function getFileSpecs(extension: string): {
     case 'gz':
       return {
         icon: <ArchiveIcon />,
-        color: globalTheme.palette.fuschia[600],
+        color: appTheme.palette.fuschia[600],
       };
     case 'mp4':
     case 'mov':
@@ -51,12 +51,12 @@ function getFileSpecs(extension: string): {
     case 'wmv':
       return {
         icon: <VideoIcon />,
-        color: globalTheme.palette.yellow[600],
+        color: appTheme.palette.yellow[600],
       };
     default:
       return {
         icon: <LinkIcon />,
-        color: globalTheme.palette.azure[400],
+        color: appTheme.palette.azure[400],
       };
   }
 }
@@ -79,8 +79,8 @@ export default ({ items }: { items: BugMediaType[] }) => {
     <>
       <SM
         style={{
-          color: globalTheme.palette.grey[600],
-          marginBottom: globalTheme.space.md,
+          color: appTheme.palette.grey[600],
+          marginBottom: appTheme.space.md,
         }}
       >
         {Object.keys(counts).map((type, index) => (
@@ -98,7 +98,7 @@ export default ({ items }: { items: BugMediaType[] }) => {
           {() => (
             <>
               {getFileSpecs(item.mime_type.extension).icon}
-              <BugCard.Info style={{ marginLeft: globalTheme.space.sm }}>
+              <BugCard.Info style={{ marginLeft: appTheme.space.sm }}>
                 <BugCard.TopTitle>
                   {item.mime_type.extension.toUpperCase()}
                 </BugCard.TopTitle>

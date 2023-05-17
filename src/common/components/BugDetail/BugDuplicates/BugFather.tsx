@@ -1,4 +1,4 @@
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { MD, Paragraph } from '@appquality/unguess-design-system';
@@ -19,20 +19,20 @@ export const BugFather = ({ cid, bugId }: { cid: number; bugId: number }) => {
       <MD
         isBold
         style={{
-          marginBottom: globalTheme.space.xxs,
-          color: globalTheme.palette.grey[800],
+          marginBottom: appTheme.space.xxs,
+          color: appTheme.palette.grey[800],
         }}
       >
         <FatherIconSmall
           style={{
-            width: globalTheme.fontSizes.md,
-            marginRight: globalTheme.space.xxs,
-            color: globalTheme.palette.grey[600],
+            width: appTheme.fontSizes.md,
+            marginRight: appTheme.space.xxs,
+            color: appTheme.palette.grey[600],
           }}
         />
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_TITLE')}
       </MD>
-      <StyledParagraph style={{ marginBottom: globalTheme.space.md }}>
+      <StyledParagraph style={{ marginBottom: appTheme.space.md }}>
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_SUBTITLE')}
       </StyledParagraph>
       <BugItem

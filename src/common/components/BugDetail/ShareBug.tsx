@@ -19,7 +19,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-lg-stroke.svg';
 import { useShareBug } from './hooks/useShareBug';
 
@@ -80,7 +80,7 @@ export const ShareButton = ({
         <Modal onClose={() => setModalIsOpen(false)}>
           <Modal.Header>{t('__BUGS_PAGE_SHARE_BUG_MODAL_TITLE')}</Modal.Header>
           <Modal.Body>
-            <StyledMd style={{ marginBottom: globalTheme.space.sm }}>
+            <StyledMd style={{ marginBottom: appTheme.space.sm }}>
               <Trans i18nKey="__BUGS_PAGE_SHARE_BUG_MODAL_DESCRIPTION">
                 It will be generated a public link to this bug, available for{' '}
                 <Span isBold>50 days:</Span>

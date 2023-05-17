@@ -1,10 +1,10 @@
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { createSlice } from '@reduxjs/toolkit';
 import { isMinMedia } from 'src/common/utils';
 import { NavigationState } from './types';
 
 const initialState: NavigationState = {
-  isSidebarOpen: isMinMedia(theme.breakpoints.sm),
+  isSidebarOpen: isMinMedia(appTheme.breakpoints.sm),
   isProfileModalOpen: false,
 };
 

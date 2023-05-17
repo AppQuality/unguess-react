@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WizardButtonsProps } from 'src/pages/ExpressWizard/steps/types';
 import { Button } from '@appquality/unguess-design-system';
@@ -26,7 +26,7 @@ export const WhereFormButtons = (props: WizardButtonsProps) => {
         id="express-wizard-where-back-button"
         isBasic
         onClick={onBackClick}
-        style={{ marginRight: theme.space.sm }}
+        style={{ marginRight: appTheme.space.sm }}
       >
         {t('__EXPRESS_WIZARD_BACK_BUTTON_LABEL')}
       </Button>

@@ -3,7 +3,6 @@ import {
   XXL,
   MD,
   Span,
-  theme as globalTheme,
   Message,
   Row,
   CheckboxCard,
@@ -26,6 +25,7 @@ import { useEffect, useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { appTheme } from 'src/app/theme';
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
@@ -71,7 +71,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
     <ContainerCard>
       <Row>
         <WizardCol>
-          <XXL style={{ color: globalTheme.palette.grey[800] }}>
+          <XXL style={{ color: appTheme.palette.grey[800] }}>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
@@ -122,7 +122,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
           {(errors.withSmartphone || errors.withTablet) && (
             <Message
               validation="error"
-              style={{ marginTop: globalTheme.space.xs }}
+              style={{ marginTop: appTheme.space.xs }}
             >
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
@@ -131,9 +131,9 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
       </StyledRow>
 
       {/** --- Operating System --- */}
-      <StyledRow style={{ marginTop: globalTheme.space.lg }}>
+      <StyledRow style={{ marginTop: appTheme.space.lg }}>
         <WizardCol>
-          <XL isBold style={{ color: globalTheme.palette.grey[800] }}>
+          <XL isBold style={{ color: appTheme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_TITLE')}
           </XL>
         </WizardCol>
@@ -165,7 +165,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               <InnerField>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_LABEL')}
-                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
                 </Label>
                 <Hint>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_DESCRIPTION')}
@@ -185,7 +185,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
                 </Message>
               </InnerField>
             )}
-            <FormField style={{ marginTop: `${globalTheme.space.base * 4}px` }}>
+            <FormField style={{ marginTop: `${appTheme.space.base * 4}px` }}>
               <Radio
                 name="device-platform"
                 value="android"
@@ -206,7 +206,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               <InnerField>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_LABEL')}
-                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
                 </Label>
                 <Hint>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_DESCRIPTION')}
@@ -232,7 +232,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
           {(errors.isIOS || errors.isAndroid) && (
             <Message
               validation="error"
-              style={{ marginTop: globalTheme.space.sm }}
+              style={{ marginTop: appTheme.space.sm }}
             >
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_OPERATING_SYSTEM_ERROR')}
             </Message>

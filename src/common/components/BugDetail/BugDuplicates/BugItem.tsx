@@ -1,5 +1,5 @@
 import { BugCard } from 'src/common/components/BugCard/BugCardWithIcon';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Span, Tag } from '@appquality/unguess-design-system';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ReactComponent as FatherIcon } from './icons/father.svg';
@@ -22,7 +22,7 @@ export const BugItem = ({
 }) => (
   <BugCard
     url={useLocalizeRoute(`campaigns/${campaignId}/bugs/${bugId}`)}
-    borderColor={globalTheme.palette.grey[500]}
+    borderColor={appTheme.palette.grey[500]}
     className={className}
   >
     {() => (
@@ -31,22 +31,22 @@ export const BugItem = ({
           {isFather ? (
             <FatherIcon
               style={{
-                width: globalTheme.fontSizes.xl,
-                marginRight: globalTheme.space.xxs,
-                color: globalTheme.palette.grey[600],
+                width: appTheme.fontSizes.xl,
+                marginRight: appTheme.space.xxs,
+                color: appTheme.palette.grey[600],
               }}
             />
           ) : (
             <SiblingIcon
               style={{
-                width: globalTheme.fontSizes.xl,
-                marginRight: globalTheme.space.xxs,
-                color: globalTheme.palette.grey[600],
+                width: appTheme.fontSizes.xl,
+                marginRight: appTheme.space.xxs,
+                color: appTheme.palette.grey[600],
               }}
             />
           )}
         </BugCard.IconBox>
-        <BugCard.Info style={{ marginLeft: globalTheme.space.sm }}>
+        <BugCard.Info style={{ marginLeft: appTheme.space.sm }}>
           <BugCard.TopTitle>ID {bugId}</BugCard.TopTitle>
           <BugCard.Title>
             <BugCard.Content>

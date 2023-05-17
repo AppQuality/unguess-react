@@ -12,7 +12,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { theme as appTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Workspace } from 'src/features/api';
 import styled from 'styled-components';
 import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';

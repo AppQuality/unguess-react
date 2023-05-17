@@ -1,6 +1,6 @@
 import { PieChart, SM, Span } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { WidgetLoader } from '../../widgetLoader';
 import { BugsByUseCaseVisualizationProps } from '../types';
@@ -29,7 +29,7 @@ export const ChartUniqueBugs4UseCase = ({
     return <WidgetLoader size="md" align="center" />;
   }
   return (
-    <div style={{ marginBottom: globalTheme.space.lg, width: '100%' }}>
+    <div style={{ marginBottom: appTheme.space.lg, width: '100%' }}>
       <PieChart
         legend={{
           width: '100%',
@@ -64,7 +64,7 @@ export const ChartUniqueBugs4UseCase = ({
               {t(
                 '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_UNIQUE_BUGS_LABEL'
               )}
-              <Span isBold style={{ marginLeft: globalTheme.space.xxs }}>
+              <Span isBold style={{ marginLeft: appTheme.space.xxs }}>
                 {value}
               </Span>
             </TooltipSM>

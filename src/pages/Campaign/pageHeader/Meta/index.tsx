@@ -1,5 +1,5 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
@@ -89,7 +89,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
                 newTab: true,
               })
             }
-            style={{ marginLeft: globalTheme.space.xs }}
+            style={{ marginLeft: appTheme.space.xs }}
           >
             {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
           </Button>

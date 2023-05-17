@@ -5,7 +5,7 @@ import {
   BugMedia as BugMediaType,
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import ImageCard from '../ImageCard';
 import VideoCard from '../VideoCard';
 import 'src/common/components/BugDetail/responsive-grid.css';
@@ -42,8 +42,8 @@ export default ({
     <>
       <SM
         style={{
-          color: globalTheme.palette.grey[600],
-          marginBottom: globalTheme.space.md,
+          color: appTheme.palette.grey[600],
+          marginBottom: appTheme.space.md,
         }}
       >
         {videosCount > 0 && (

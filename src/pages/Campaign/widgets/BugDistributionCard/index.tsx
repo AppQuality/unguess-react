@@ -5,7 +5,7 @@ import {
   Span,
   SM,
 } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
@@ -31,8 +31,7 @@ function translateSeverity(severity: Severities, t: TFunction) {
 }
 
 const Value = styled(Span)`
-  color: ${({ theme: globalTheme }) =>
-    globalTheme.components.colors.primaryText};
+  color: ${(p) => p.theme.components.colors.primaryText};
 `;
 
 const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
@@ -44,7 +43,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
     return null;
 
   const colorScheme = Object.keys(data.bySeverity).map(
-    (key) => theme.colors.bySeverity[key as Severities]
+    (key) => appTheme.colors.bySeverity[key as Severities]
   );
   const maxSeverity = Object.keys(data.bySeverity)[0] as Severities;
 
@@ -81,7 +80,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
             content={
               <span
                 style={{
-                  color: theme.colors.bySeverity[maxSeverity as Severities],
+                  color: appTheme.colors.bySeverity[maxSeverity as Severities],
                 }}
               >
                 {`${data.bySeverity[maxSeverity as Severities] || 0} `}

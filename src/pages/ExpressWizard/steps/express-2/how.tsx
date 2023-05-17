@@ -6,7 +6,6 @@ import {
   SM,
   Span,
   Textarea,
-  theme as globalTheme,
   XL,
   XXL,
 } from '@appquality/unguess-design-system';
@@ -27,6 +26,7 @@ import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
+import { appTheme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
@@ -154,7 +154,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
         <StyledFormField>
           <Label>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_TITLE')}
-            <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+            <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
           </Label>
           <Paragraph>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_DESCRIPTION')}
@@ -165,7 +165,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
               '__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_PLACEHOLDER'
             )}
             isResizable
-            style={{ marginTop: globalTheme.space.xs }}
+            style={{ marginTop: appTheme.space.xs }}
             {...getFieldProps('test_description')}
             {...(errors.test_description &&
               touched.test_description && { validation: 'error' })}
@@ -190,7 +190,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
               setCurrentUseCase(useCase);
               dispatch(openUseCaseModal());
             }}
-            style={{ marginTop: globalTheme.space.md }}
+            style={{ marginTop: appTheme.space.md }}
           >
             {errors && errors.use_cases && errors.use_cases[useCase.id - 1] ? (
               <WarningIcon />
@@ -256,7 +256,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
             dispatch(openUseCaseModal());
           }}
-          style={{ marginTop: globalTheme.space.md }}
+          style={{ marginTop: appTheme.space.md }}
         >
           {errors &&
           touched.use_cases &&
@@ -276,7 +276,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             errors.use_cases &&
             typeof errors.use_cases === 'string' ? (
               <UseCaseCardButtonDescription
-                style={{ color: globalTheme.colors.dangerHue }}
+                style={{ color: appTheme.colors.dangerHue }}
               >
                 {errors.use_cases}
               </UseCaseCardButtonDescription>

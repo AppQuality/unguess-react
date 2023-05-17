@@ -5,7 +5,7 @@ import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
 import { Pipe } from 'src/common/components/Pipe';
 import { WrappedText } from 'src/common/components/WrappedText';
@@ -63,17 +63,17 @@ export default ({
     <XL
       isBold
       style={{
-        marginTop: globalTheme.space.xxs,
-        marginBottom: globalTheme.space.xs,
-        color: globalTheme.palette.grey[800],
+        marginTop: appTheme.space.xxs,
+        marginBottom: appTheme.space.xs,
+        color: appTheme.palette.grey[800],
       }}
     >
       <WrappedText>{bug.title.compact}</WrappedText>
     </XL>
     <MD
       style={{
-        color: globalTheme.palette.grey[700],
-        marginBottom: globalTheme.space.md,
+        color: appTheme.palette.grey[700],
+        marginBottom: appTheme.space.md,
       }}
     >
       {bug.title.context ? bug.title.context.join(', ') : null}
@@ -83,8 +83,8 @@ export default ({
         isBold
         style={{
           textTransform: 'capitalize',
-          color: globalTheme.palette.grey[700],
-          marginRight: globalTheme.space.sm,
+          color: appTheme.palette.grey[700],
+          marginRight: appTheme.space.sm,
         }}
       >
         {bug.type.name}

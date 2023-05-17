@@ -1,4 +1,4 @@
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { Trans, useTranslation } from 'react-i18next';
 import { MD, Paragraph } from '@appquality/unguess-design-system';
@@ -30,22 +30,22 @@ export const BugDuplicatesList = ({
       <MD
         isBold
         style={{
-          color: globalTheme.palette.grey[800],
-          marginBottom: globalTheme.space.xxs,
+          color: appTheme.palette.grey[800],
+          marginBottom: appTheme.space.xxs,
         }}
       >
         <SiblingIconSmall
           style={{
-            width: globalTheme.fontSizes.md,
-            marginRight: globalTheme.space.xxs,
-            color: globalTheme.palette.grey[600],
+            width: appTheme.fontSizes.md,
+            marginRight: appTheme.space.xxs,
+            color: appTheme.palette.grey[600],
           }}
         />
         <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_TITLE">
           Duplicates ({{ number: data?.siblings.length || 0 }})
         </Trans>
       </MD>
-      <StyledParagraph style={{ marginBottom: globalTheme.space.md }}>
+      <StyledParagraph style={{ marginBottom: appTheme.space.md }}>
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_DUPLICATES_SUBTITLE')}
       </StyledParagraph>
       {data?.siblings

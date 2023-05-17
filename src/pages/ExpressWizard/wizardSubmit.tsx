@@ -9,7 +9,6 @@ import {
   SM,
   Spinner,
   SplitButton,
-  theme as globalTheme,
   Timeline,
   TooltipModal,
   Button,
@@ -24,6 +23,7 @@ import {
   formatRelative,
 } from 'date-fns';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
+import { appTheme } from 'src/app/theme';
 import { WizardModel } from './wizardModel';
 import { getLanguage } from './getLanguage';
 import { CardDivider } from './cardDivider';
@@ -148,8 +148,8 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
       {isSubmitting ? (
         <Spinner
           size="24"
-          color={globalTheme.palette.blue[600]}
-          style={{ marginLeft: globalTheme.space.sm }}
+          color={appTheme.palette.blue[600]}
+          style={{ marginLeft: appTheme.space.sm }}
         />
       ) : (
         (!status || !status.submitError) && (
@@ -171,10 +171,10 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
         onClose={() => setRefElement(null)}
         placement="auto"
         hasArrow={false}
-        style={{ padding: globalTheme.space.xxs, width: 'auto' }}
+        style={{ padding: appTheme.space.xxs, width: 'auto' }}
       >
-        <TooltipModal.Title style={{ padding: globalTheme.space.xs }}>
-          <MD isBold style={{ color: globalTheme.palette.grey[800] }}>
+        <TooltipModal.Title style={{ padding: appTheme.space.xs }}>
+          <MD isBold style={{ color: appTheme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}
           </MD>
         </TooltipModal.Title>
@@ -206,7 +206,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
                       },
                     })}
                   </Paragraph>
-                  <MD style={{ color: globalTheme.palette.grey[600] }}>
+                  <MD style={{ color: appTheme.palette.grey[600] }}>
                     {t(
                       '__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_FIRST_RESULTS'
                     )}{' '}

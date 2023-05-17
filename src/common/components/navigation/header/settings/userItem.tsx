@@ -18,7 +18,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { getInitials } from '../utils';
 
 const StyledEllipsis = styled(Ellipsis)``;
@@ -73,7 +73,7 @@ export const UserItem = ({
             <Trigger>
               <Button isBasic aria-label="user management actions">
                 {user.invitationPending ? (
-                  <Span hue={globalTheme.palette.orange[600]}>
+                  <Span hue={appTheme.palette.orange[600]}>
                     {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
                   </Span>
                 ) : (
@@ -111,7 +111,7 @@ export const UserItem = ({
                   }).unwrap()
                 }
               >
-                <Span hue={globalTheme.colors.dangerHue}>
+                <Span hue={appTheme.colors.dangerHue}>
                   {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
                 </Span>
               </Item>

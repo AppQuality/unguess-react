@@ -11,7 +11,7 @@ import {
   XXL,
   Tag,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
@@ -156,7 +156,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_AGE_RANGE_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
         </Label>
         <Row>
           <WizardCol>
@@ -206,7 +206,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_GENDER_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
         </Label>
         <Row>
           <WizardCol>
@@ -255,7 +255,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_LITERACY_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
         </Label>
         <Row>
           <WizardCol>

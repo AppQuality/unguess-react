@@ -9,7 +9,7 @@ import {
   XXL,
   ContainerCard,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
@@ -73,7 +73,7 @@ export const WhatStep = ({
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
+      <StyledFormField style={{ marginTop: appTheme.space.lg }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>

@@ -1,5 +1,5 @@
 import { Span, Tag } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as TrendIcon } from 'src/assets/icons/trend-icon.svg';
 
@@ -16,7 +16,7 @@ const StableTrendPill = () => {
   const { t } = useTranslation();
   return (
     <BasicTrendPill
-      color={globalTheme.palette.blue[600]}
+      color={appTheme.palette.blue[600]}
       text={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_EQUAL_LABEL')}
     />
   );
@@ -26,7 +26,7 @@ const PositiveTrendPill = ({ trend }: { trend: number }) => {
   const { t } = useTranslation();
   return (
     <BasicTrendPill
-      color={globalTheme.palette.green[600]}
+      color={appTheme.palette.green[600]}
       text={`+${trend} ${t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_LABEL', {
         count: trend,
       })}`}
@@ -38,7 +38,7 @@ const NegativeTrendPill = ({ trend }: { trend: number }) => {
   const { t } = useTranslation();
   return (
     <BasicTrendPill
-      color={globalTheme.palette.red[600]}
+      color={appTheme.palette.red[600]}
       text={`${trend} ${t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TREND_LABEL', {
         count: trend,
       })}`}

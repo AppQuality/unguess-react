@@ -9,7 +9,7 @@ import {
   Message,
   Label,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { FormikProps } from 'formik';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { Notes } from 'src/pages/ExpressWizard/notesCard';
@@ -26,20 +26,20 @@ export const OutOfScopeSection = ({
 
   return (
     <>
-      <StyledRow style={{ marginTop: globalTheme.space.lg }}>
+      <StyledRow style={{ marginTop: appTheme.space.lg }}>
         <WizardCol>
-          <XL isBold style={{ color: globalTheme.palette.grey[800] }}>
+          <XL isBold style={{ color: appTheme.palette.grey[800] }}>
             {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE')}
           </XL>
           <MD>{t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_DESCRIPTION')}</MD>
         </WizardCol>
       </StyledRow>
-      <StyledRow style={{ marginTop: globalTheme.space.sm }}>
+      <StyledRow style={{ marginTop: appTheme.space.sm }}>
         <WizardCol>
           <MD
             style={{
-              color: globalTheme.palette.grey[800],
-              fontWeight: globalTheme.fontWeights.medium,
+              color: appTheme.palette.grey[800],
+              fontWeight: appTheme.fontWeights.medium,
             }}
           >
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TOGGLE_LABEL')}
@@ -58,7 +58,7 @@ export const OutOfScopeSection = ({
           </Field>
         </WizardCol>
         <WizardCol size={12}>
-          <CardDivider style={{ marginTop: globalTheme.space.xs }} />
+          <CardDivider style={{ marginTop: appTheme.space.xs }} />
         </WizardCol>
         {values.hasOutOfScope && (
           <WizardCol size={12}>
@@ -66,7 +66,7 @@ export const OutOfScopeSection = ({
               <Field>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_LABEL')}
-                  <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
                 </Label>
                 <Textarea
                   rows={5}
@@ -84,7 +84,7 @@ export const OutOfScopeSection = ({
           <WizardCol size={12}>
             <Message
               validation="error"
-              style={{ marginTop: globalTheme.space.xs }}
+              style={{ marginTop: appTheme.space.xs }}
             >
               {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_ERROR')}
             </Message>

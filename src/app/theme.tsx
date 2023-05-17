@@ -48,7 +48,7 @@ export const BUG_STATE_COLORS: Record<
   },
 };
 
-type UgTheme = typeof baseTheme & {
+type AppTheme = typeof baseTheme & {
   colors: {
     bySeverity: Record<Severities, string>;
     byBugState: Record<BugState, { stroke: string; color: string }>;
@@ -56,7 +56,7 @@ type UgTheme = typeof baseTheme & {
   };
 };
 
-const theme: UgTheme = {
+const appTheme: AppTheme = {
   ...baseTheme,
   colors: {
     ...baseTheme.colors,
@@ -76,4 +76,4 @@ const theme: UgTheme = {
   },
 };
 
-export { theme };
+export { appTheme };

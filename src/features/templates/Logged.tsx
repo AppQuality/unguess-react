@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import {
   Chrome,
   Body,
-  theme as globalTheme,
   PageLoader,
   Main,
   Anchor,
 } from '@appquality/unguess-design-system';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { Navigation } from '../navigation/Navigation';
@@ -54,11 +54,8 @@ export const Logged = ({
         href="https://www.iubenda.com/privacy-policy/833252/full-legal"
         className="iubenda-cs-preferences-link"
       />
-      <Chrome isFluid hue={globalTheme.palette.white}>
-        <Body
-          id="body"
-          style={{ backgroundColor: globalTheme.palette.grey[100] }}
-        >
+      <Chrome isFluid hue={appTheme.palette.white}>
+        <Body id="body" style={{ backgroundColor: appTheme.palette.grey[100] }}>
           <Navigation route={route}>
             <StyledMain id="main">
               {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}

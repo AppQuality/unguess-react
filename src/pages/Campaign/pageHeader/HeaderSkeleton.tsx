@@ -1,5 +1,5 @@
 import { PageHeader, Skeleton } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 
 export const HeaderSkeleton = () => (
   <PageHeader>
@@ -7,7 +7,7 @@ export const HeaderSkeleton = () => (
       <Skeleton
         width="60%"
         height="20px"
-        style={{ marginBottom: theme.space.lg }}
+        style={{ marginBottom: appTheme.space.lg }}
       />
       <Skeleton width="80%" height="40px" />
     </PageHeader.Main>

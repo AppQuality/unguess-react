@@ -2,7 +2,7 @@ import { Accordion, LG } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
 import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
 import DetailsItems from './DetailsItems';
@@ -60,8 +60,8 @@ export default ({
               <Title>
                 <DetailsIcon
                   style={{
-                    marginRight: globalTheme.space.base * 3,
-                    color: globalTheme.palette.grey[600],
+                    marginRight: appTheme.space.base * 3,
+                    color: appTheme.palette.grey[600],
                   }}
                 />
                 <LG isBold>{t('__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL')}</LG>

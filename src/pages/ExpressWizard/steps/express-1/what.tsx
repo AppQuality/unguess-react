@@ -14,7 +14,7 @@ import {
   XXL,
   ContainerCard,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
@@ -91,7 +91,7 @@ export const WhatStep = ({
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
+      <StyledFormField style={{ marginTop: appTheme.space.lg }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>
@@ -152,7 +152,7 @@ export const WhatStep = ({
           }}
           selectedItem={selectedItem}
         >
-          <DropdownField style={{ marginTop: globalTheme.space.lg }}>
+          <DropdownField style={{ marginTop: appTheme.space.lg }}>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
             </Label>

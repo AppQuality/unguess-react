@@ -4,7 +4,6 @@ import {
   Modal,
   ModalClose,
   Row,
-  theme as globalTheme,
   Paragraph,
   MD,
   Button,
@@ -14,6 +13,7 @@ import { Datepicker } from '@zendeskgarden/react-datepickers';
 import { useState } from 'react';
 import i18n from 'src/i18n';
 import { t } from 'i18next';
+import { appTheme } from 'src/app/theme';
 import { addBusinessDays, format, isToday } from 'date-fns';
 import {
   EXPRESS_BUSINESS_DAYS_TO_ADD,
@@ -119,8 +119,8 @@ const PlanningModal = ({
           <Col xs={12}>
             <Paragraph
               style={{
-                marginBottom: globalTheme.space.xl,
-                color: globalTheme.palette.grey[600],
+                marginBottom: appTheme.space.xl,
+                color: appTheme.palette.grey[600],
               }}
             >
               <MD>

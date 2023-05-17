@@ -1,7 +1,8 @@
-import { Tag, theme as globalTheme } from '@appquality/unguess-design-system';
+import { Tag } from '@appquality/unguess-design-system';
 import { Bug } from 'src/features/api';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import styled from 'styled-components';
+import { appTheme } from 'src/app/theme';
 
 const Container = styled.div`
   display: flex;
@@ -26,8 +27,8 @@ export default ({
         <Tag.Avatar>
           <FatherIcon
             style={{
-              color: globalTheme.palette.grey[500],
-              marginRight: globalTheme.space.xxs,
+              color: appTheme.palette.grey[500],
+              marginRight: appTheme.space.xxs,
             }}
           />
         </Tag.Avatar>

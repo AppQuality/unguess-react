@@ -1,6 +1,5 @@
 import {
   Label,
-  theme as globalTheme,
   Span,
   MediaInput,
   Paragraph,
@@ -23,6 +22,7 @@ import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { AnimatedContainer } from 'src/common/components/animatedContainer';
+import { appTheme } from 'src/app/theme';
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
@@ -77,9 +77,9 @@ export const UseCaseDetails = ({
       <StyledFormField style={{ marginTop: 0 }}>
         <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
           {t('__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
         </InputToggle.Label>
-        <InputToggle isFocused style={{ color: globalTheme.palette.grey[800] }}>
+        <InputToggle isFocused style={{ color: appTheme.palette.grey[800] }}>
           <InputToggle.Item
             key={`use_cases[${useCaseIndex}].title`}
             textSize="xxl"
@@ -110,13 +110,13 @@ export const UseCaseDetails = ({
       </StyledFormField>
 
       {/* Editor */}
-      <StyledFormField style={{ marginTop: globalTheme.space.xl }}>
+      <StyledFormField style={{ marginTop: appTheme.space.xl }}>
         <DescriptionTitle>
           {t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_INSTRUCTIONS_FIELD_TITLE'
           )}
         </DescriptionTitle>
-        <Paragraph style={{ marginBottom: globalTheme.space.md }}>
+        <Paragraph style={{ marginBottom: appTheme.space.md }}>
           {t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_INSTRUCTIONS_FIELD_DESCRIPTION'
           )}
@@ -140,12 +140,12 @@ export const UseCaseDetails = ({
             </Editor>
             <Button
               isAccent
-              style={{ marginTop: globalTheme.space.md }}
+              style={{ marginTop: appTheme.space.md }}
               onClick={() => setIsEditing(true)}
               isPrimary
             >
               <Button.StartIcon>
-                <EditIcon fill={globalTheme.palette.white} />
+                <EditIcon fill={appTheme.palette.white} />
               </Button.StartIcon>
               {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
             </Button>
@@ -153,7 +153,7 @@ export const UseCaseDetails = ({
         )}
       </StyledFormField>
       {isEditing && (
-        <Row alignItems="center" style={{ marginTop: globalTheme.space.lg }}>
+        <Row alignItems="center" style={{ marginTop: appTheme.space.lg }}>
           <Col sm="6" md="8" lg="9">
             {!editorChars ? (
               <Notes hasIcon validation="error">
@@ -204,14 +204,14 @@ export const UseCaseDetails = ({
       )}
 
       {/* Link */}
-      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
+      <StyledFormField style={{ marginTop: appTheme.space.lg }}>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE')}
-          <Span style={{ color: globalTheme.palette.grey[600] }}>
+          <Span style={{ color: appTheme.palette.grey[600] }}>
             {t('__FORM_OPTIONAL_LABEL')}
           </Span>
         </Label>
-        <Paragraph style={{ marginBottom: globalTheme.space.xs }}>
+        <Paragraph style={{ marginBottom: appTheme.space.xs }}>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_SUBTITLE')}
         </Paragraph>
         <MediaInput
@@ -235,7 +235,7 @@ export const UseCaseDetails = ({
           </HelpTextMessage>
         ) : (
           <HelpTextMessage>
-            <InfoIcon style={{ marginRight: globalTheme.space.xs }} />
+            <InfoIcon style={{ marginRight: appTheme.space.xs }} />
             {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_MESSAGE')}
           </HelpTextMessage>
         )}

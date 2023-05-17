@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Bug, BugAdditionalField } from 'src/features/api';
@@ -48,7 +48,7 @@ export default ({
         </DetailsItem>
       )}
       <DetailsItem>
-        <Label isBold style={{ marginBottom: globalTheme.space.xs }}>
+        <Label isBold style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
         </Label>
         <MD>
@@ -63,7 +63,7 @@ export default ({
         </MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: globalTheme.space.xs }}>
+        <Label style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_REPORTER_LABEL')}
         </Label>
         <MD>
@@ -71,13 +71,13 @@ export default ({
         </MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: globalTheme.space.xs }}>
+        <Label style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_USE_CASE_LABEL')}
         </Label>
         <MD>{bug.application_section.title}</MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: globalTheme.space.xs }}>
+        <Label style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
         </Label>
         <SeverityTag
@@ -86,19 +86,19 @@ export default ({
         />
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: globalTheme.space.xs }}>
+        <Label style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIPOLOGY_LABEL')}
         </Label>
         <MD>{bug.type.name}</MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: globalTheme.space.xs }}>
+        <Label style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_REPLICABILITY_LABEL')}
         </Label>
         <MD>{bug.replicability.name}</MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: globalTheme.space.xs }}>
+        <Label style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_DEVICE_TYPE_LABEL')}
         </Label>
         <MD style={{ textTransform: 'capitalize' }}>
@@ -108,7 +108,7 @@ export default ({
         </MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: globalTheme.space.xs }}>
+        <Label style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_DEVICE_OS_LABEL')}
         </Label>
         <MD>
@@ -120,7 +120,7 @@ export default ({
       {bug.additional_fields && bug.additional_fields.length
         ? bug.additional_fields.map((field) => (
             <DetailsItem>
-              <Label style={{ marginBottom: globalTheme.space.xs }}>
+              <Label style={{ marginBottom: appTheme.space.xs }}>
                 {field.name}
               </Label>
               <MD style={{ wordBreak: 'break-all' }}>{field.value}</MD>

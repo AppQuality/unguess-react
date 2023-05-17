@@ -2,7 +2,7 @@ import { Accordion, MD, Radio, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { UniqueFilterType } from 'src/features/bugsPage/uniqueFilter';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
@@ -31,12 +31,12 @@ export const UniqueField = ({
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
-              <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
                 {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DUPLICATES_TITLE')}
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[700],
+                  color: appTheme.palette.grey[700],
                 }}
               >
                 {selected === 'unique'
@@ -50,7 +50,7 @@ export const UniqueField = ({
               <Field
                 className={`bugs-drawer-accordion-unique-item-${item.toLowerCase()}`}
                 style={{
-                  marginBottom: globalTheme.space.xxs,
+                  marginBottom: appTheme.space.xxs,
                 }}
               >
                 <Radio

@@ -6,7 +6,7 @@ import {
 } from '@appquality/unguess-design-system';
 import React from 'react';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 
 const BugCardContainer = styled(ContainerCard)<
   React.ComponentProps<typeof ContainerCard> & {
@@ -85,7 +85,7 @@ const BugCard = ({ children, url, ...props }: BugCardArgs) => (
       {...props}
       borderColor={
         'severity' in props
-          ? globalTheme.colors.bySeverity[props.severity as Severities]
+          ? appTheme.colors.bySeverity[props.severity as Severities]
           : props.borderColor
       }
     >
@@ -106,7 +106,7 @@ BugCard.TopTitle = BugCardTopTitle;
 const BugCardTitle = ({ children }: { children: React.ReactNode }) => (
   <MD
     className="anchor-bug-card-title"
-    style={{ color: globalTheme.palette.blue[600] }}
+    style={{ color: appTheme.palette.blue[600] }}
     isBold
   >
     {children}

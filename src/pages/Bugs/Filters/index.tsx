@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { setFilterDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { SeverityFilter } from './SeverityFilter';
 import { ReadFilter } from './ReadFilter';
 import { UniqueFilter } from './UniqueFilter';
@@ -14,7 +14,7 @@ import { BugsFilterDrawer } from '../Drawer';
 
 const SearchContainer = styled.div`
   flex-basis: 100%;
-  @media (min-width: ${globalTheme.breakpoints.md}) {
+  @media (min-width: ${appTheme.breakpoints.md}) {
     flex-basis: 178px;
     margin-right: 8px;
     max-width: 178px;
@@ -25,14 +25,14 @@ const TableToolsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  @media (min-width: ${globalTheme.breakpoints.lg}) {
+  @media (min-width: ${appTheme.breakpoints.lg}) {
     justify-content: space-between;
   }
 `;
 
 const hideOnMobile = css`
   display: none;
-  @media (min-width: ${globalTheme.breakpoints.md}) {
+  @media (min-width: ${appTheme.breakpoints.md}) {
     display: inherit;
   }
 `;
@@ -53,10 +53,10 @@ export const FlexWrapper = styled.div<{
   > * {
     margin-bottom: 12px;
   }
-  @media (min-width: ${globalTheme.breakpoints.lg}) {
+  @media (min-width: ${appTheme.breakpoints.lg}) {
     flex-basis: auto;
   }
-  @media (min-width: ${globalTheme.breakpoints.xl}) {
+  @media (min-width: ${appTheme.breakpoints.xl}) {
     order: ${(p) => p.orderXl};
   }
   ${(p) => p.hideOnMobile && hideOnMobile}

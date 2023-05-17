@@ -1,7 +1,7 @@
 import { Skeleton, XL } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { List } from '../../List';
 import { ListItem } from '../../List/ListItem';
 import { useListBugsByDevice } from './useListBugsByDevice';
@@ -33,7 +33,7 @@ export const ListTotalBugsByDevice = ({
       <>
         <Skeleton
           height="100px"
-          style={{ borderRadius: 0, margin: `${theme.space.md} 0` }}
+          style={{ borderRadius: 0, margin: `${appTheme.space.md} 0` }}
         />
         <Skeleton height="200px" style={{ borderRadius: 0 }} />
       </>

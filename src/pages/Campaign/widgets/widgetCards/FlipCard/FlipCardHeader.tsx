@@ -1,6 +1,6 @@
 import { IconButton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as LineGraphIconFill } from 'src/assets/icons/line-graph-fill.svg';
 import { ReactComponent as ListBulletIconFill } from 'src/assets/icons/list-bullet-fill.svg';
 import { WidgetCardHeader } from '../common/WidgetCardHeader';
@@ -24,7 +24,7 @@ export const FlipButtonContainer = styled.div`
 
 export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
   const { visibleFace, setVisibleFace, width } = useFlipCardContext();
-  const breakpointMd = parseInt(globalTheme.breakpoints.md, 10);
+  const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
 
   return (
     <WidgetCardHeader

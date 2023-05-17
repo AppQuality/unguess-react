@@ -7,7 +7,7 @@ import {
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import {
   getCurrentCampaignData,
   getIsNaBugExcluded,
@@ -64,8 +64,8 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_COMMON_LABEL')}
@@ -82,9 +82,9 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
-            marginTop: globalTheme.space.md,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
+            marginTop: appTheme.space.md,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_ACTIONS_LABEL')}
@@ -99,9 +99,9 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
-            marginTop: globalTheme.space.md,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
+            marginTop: appTheme.space.md,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_BUG_LABEL')}
