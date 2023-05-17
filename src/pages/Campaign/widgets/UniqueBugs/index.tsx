@@ -8,7 +8,7 @@ import { TrendPill } from './Trend';
 import { WidgetLoader } from '../widgetLoader';
 
 const primaryTextColor = {
-  color: appTheme.components.colors.primaryText(),
+  color: appTheme.components.colors.primaryText,
 };
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {

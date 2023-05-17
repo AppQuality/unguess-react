@@ -9,7 +9,6 @@ import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import styled from 'styled-components';
 import { useBugs } from './useBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 import { CapitalizeFirstLetter } from '../widgetCards/common/CapitalizeFirstLetter';
@@ -29,10 +28,6 @@ function translateSeverity(severity: Severities, t: TFunction) {
       return '';
   }
 }
-
-const Value = styled(Span)`
-  color: ${(p) => p.theme.components.colors.primaryText};
-`;
 
 const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const { t, i18n } = useTranslation();
@@ -104,7 +99,12 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
                 defaults="out of <bold>{{total}}</bold> unique"
                 count={data.total || 0}
                 components={{
-                  bold: <Value isBold />,
+                  bold: (
+                    <Span
+                      isBold
+                      style={{ color: appTheme.components.colors.primaryText }}
+                    />
+                  ),
                 }}
                 values={{
                   total: data.total || 0,
