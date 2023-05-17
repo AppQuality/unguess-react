@@ -76,7 +76,11 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
             content={
               <div style={{ color: appTheme.palette.blue['600'] }}>
                 {widgetData.duration.value}{' '}
-                <XL tag="span" isBold>
+                <XL
+                  tag="span"
+                  isBold
+                  color={appTheme.components.colors.primaryText}
+                >
                   {widgetData.duration.unit}
                 </XL>
               </div>
