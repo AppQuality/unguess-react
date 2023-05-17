@@ -88,7 +88,10 @@ export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
           </Tabs.Panel>
         </StyledTabs>
       ) : (
-        <BugMedia items={mediaItems} bug={bug} />
+        <>
+          {mediaItems.length > 0 && <BugMedia items={mediaItems} bug={bug} />}
+          {extraItems.length > 0 && <BugExtra items={extraItems} />}
+        </>
       )}
     </Container>
   );
