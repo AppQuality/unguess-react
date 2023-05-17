@@ -85,7 +85,7 @@ export default ({ items }: { items: BugMediaType[] }) => {
       >
         {Object.keys(counts).map((type, index) => (
           <span key={type}>
-            {Object.keys(counts).length - 1 !== index && ' - '}
+            {index > 0 && ' - '}
             {counts[type as string]} {type}
           </span>
         ))}
