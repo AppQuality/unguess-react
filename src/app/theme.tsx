@@ -30,20 +30,20 @@ export const BUG_STATE_COLORS: Record<
     color: baseTheme.palette.grey[400],
   },
   'to be imported': {
-    stroke: baseTheme.palette.azure[400],
-    color: baseTheme.palette.azure[400],
+    stroke: baseTheme.palette.azure[500],
+    color: baseTheme.palette.azure[500],
   },
   open: {
-    stroke: baseTheme.palette.azure[400],
-    color: baseTheme.palette.azure[400],
+    stroke: baseTheme.palette.azure[500],
+    color: baseTheme.palette.azure[500],
   },
   'to be retested': {
-    stroke: baseTheme.palette.yellow[400],
-    color: baseTheme.palette.yellow[400],
+    stroke: baseTheme.palette.yellow[500],
+    color: baseTheme.palette.yellow[500],
   },
   solved: {
-    stroke: baseTheme.palette.green[600],
-    color: baseTheme.palette.green[600],
+    stroke: baseTheme.palette.green[500],
+    color: baseTheme.palette.green[500],
   },
   'not a bug': {
     stroke: baseTheme.palette.grey[600],
