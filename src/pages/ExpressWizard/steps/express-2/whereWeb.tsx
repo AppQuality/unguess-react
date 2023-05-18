@@ -186,7 +186,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
       </StyledRow>
 
       {/** --- Browsers --- */}
-      <StyledRow style={{ marginTop: theme.space.lg }}>
+      <StyledRow style={{ marginTop: appTheme.space.lg }}>
         {/** LG: 32px */}
         <WizardCol>
           <MD isBold>{t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}</MD>
@@ -204,7 +204,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           </FormField>
         </WizardCol>
         <WizardCol size={12}>
-          <CardDivider style={{ marginTop: theme.space.xs }} />
+          <CardDivider style={{ marginTop: appTheme.space.xs }} />
         </WizardCol>
         <WizardCol size={12}>
           <Notes>
@@ -222,7 +222,11 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 <FormField>
                   <Label>
                     {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_LABEL')}
-                    <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                    <Span
+                      style={{ color: appTheme.components.text.dangerColor }}
+                    >
+                      *
+                    </Span>
                   </Label>
                   <Input
                     type="hidden"
@@ -283,7 +287,10 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
         </WizardCol>
         {values.customBrowser && errors.customBrowserFilled && (
           <WizardCol size={12}>
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.xs }}
+            >
               {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_ERROR')}
             </Message>
           </WizardCol>

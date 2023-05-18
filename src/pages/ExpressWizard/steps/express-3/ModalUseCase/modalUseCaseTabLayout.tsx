@@ -35,7 +35,7 @@ const UseCaseCard = styled(Card)`
   user-select: none;
 
   &.current-card {
-    background-color: ${({ theme }) => appTheme.components.text.primaryColor};
+    background-color: ${({ theme }) => theme.components.text.primaryColor};
     border: 2px solid ${({ theme }) => getColor(theme.colors.primaryHue, 600)};
     color: white;
   }

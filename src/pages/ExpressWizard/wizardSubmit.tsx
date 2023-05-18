@@ -12,6 +12,7 @@ import {
   TooltipModal,
   Button,
   TextLabel,
+  getColor,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
 import { useCallback, useRef, useState } from 'react';
@@ -58,9 +59,9 @@ const InteractiveTimelineItem = styled(Timeline.Item)`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.palette.kale[100]};
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 50)};
     svg {
-      background-color: ${({ theme }) => theme.palette.kale[100]};
+      background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 50)};
     }
   }
 

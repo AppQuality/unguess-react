@@ -2,7 +2,6 @@ import {
   XXL,
   MD,
   Span,
-  theme,
   Message,
   Row,
   Label,
@@ -11,6 +10,7 @@ import {
   ContainerCard,
   RadioCard,
 } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { Field as FormField } from '@zendeskgarden/react-forms';
@@ -104,7 +104,10 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           {(errors.withSmartphone ||
             errors.withTablet ||
             errors.withDesktop) && (
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.xs }}
+            >
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
           )}
@@ -117,7 +120,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           <FormField>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL')}
-              <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+              <Span style={{ color: appTheme.components.text.dangerColor }}>
+                *
+              </Span>
             </Label>
             <Hint>{t('__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION')}</Hint>
             <MediaInput

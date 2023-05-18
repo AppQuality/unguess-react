@@ -1,4 +1,8 @@
-import { IconButton, Tooltip } from '@appquality/unguess-design-system';
+import {
+  IconButton,
+  Tooltip,
+  getColor,
+} from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -52,7 +56,7 @@ export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
     // last case
     return (
       <Trans i18nKey="__BUGS_PAGE_USECASE_COMPLETION_4">
-        <StyledSM accent={appTheme.palette.kale[700]} isBold>
+        <StyledSM accent={getColor(appTheme.colors.accentHue, 700)} isBold>
           Use case <span>completed</span>
         </StyledSM>
       </Trans>

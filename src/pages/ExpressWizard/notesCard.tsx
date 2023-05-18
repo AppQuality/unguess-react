@@ -1,4 +1,5 @@
 import { Card, MD } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
@@ -27,34 +28,34 @@ export const Notes = styled(Card)<NotesProps>`
     top: ${({ theme }) => theme.space.base * 4 + 1}px;
   }
 
-  ${({ validation, theme }) => {
+  ${({ validation }) => {
     switch (validation) {
       case 'error':
         return `
-          ${NotesTitle} { color: ${theme.colors.dangerHue}; }
+          ${NotesTitle} { color: ${appTheme.components.text.dangerColor}; }
           > svg {
-            fill: ${theme.colors.dangerHue};
+            fill: ${appTheme.components.text.dangerColor};
           }
         `;
       case 'warning':
         return `
-          ${NotesTitle} { color: ${theme.colors.warningHue}; }
+          ${NotesTitle} { color: ${appTheme.components.text.warningColor}; }
           > svg {
-            fill: ${theme.colors.warningHue};
+            fill: ${appTheme.components.text.warningColor};
           }
         `;
       case 'success':
         return `
-          ${NotesTitle} { color: ${theme.colors.successHue}; }
+          ${NotesTitle} { color: ${appTheme.components.text.successColor}; }
           > svg {
-            fill: ${theme.colors.successHue};
+            fill: ${appTheme.components.text.successColor};
           }
         `;
       default:
         return `
-          ${NotesTitle} { color: ${theme.palette.teal[600]}; }
+          ${NotesTitle} { color: ${appTheme.palette.teal[600]}; }
           > svg {
-            fill: ${theme.palette.teal[600]};
+            fill: ${appTheme.palette.teal[600]};
           }
         `;
     }

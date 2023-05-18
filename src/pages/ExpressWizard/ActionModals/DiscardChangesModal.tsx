@@ -4,6 +4,7 @@ import {
   Button,
   ModalClose,
 } from '@appquality/unguess-design-system';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +16,7 @@ const DangerHeader = styled(Modal.Header)`
   margin-left: ${({ theme }) => theme.space.xs};
   padding-left: ${({ theme }) => theme.space.xs};
   gap: ${({ theme }) => theme.space.xs};
-  color: ${({ theme }) => theme.colors.dangerHue};
+  ${(props) => retrieveComponentStyles('text.danger', props)};
 `;
 
 const DiscardChangesModal = ({
