@@ -23,7 +23,6 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate } from 'react-router-dom';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useTranslation } from 'react-i18next';
-import { WorkspaceSettings } from './settings/workspaceSettings';
 
 const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${({ theme, isCompact }) =>
@@ -40,6 +39,7 @@ const DropdownItem = styled(HeaderItem)`
   color: ${({ theme }) => theme.colors.primaryHue};
   font-family: ${({ theme }) => theme.fonts.system};
   z-index: 2;
+  order: 0;
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
   }
@@ -120,14 +120,8 @@ export const WorkspacesDropdown = () => {
             workspaces.map((item) => <Item value={item}>{item.company}</Item>)}
         </Menu>
       </Dropdown>
-      <WorkspaceSettings />
     </DropdownItem>
   ) : (
-    <>
-      <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
-      <DropdownItem>
-        <WorkspaceSettings />
-      </DropdownItem>
-    </>
+    <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
   );
 };

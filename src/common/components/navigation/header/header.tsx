@@ -3,10 +3,12 @@ import { theme } from 'src/app/theme';
 import { Changelog } from './changelog';
 import { BrandLogo } from './brandLogo';
 import { ProfileAvatar } from './profileAvatar';
+import { WorkspaceSettings } from './settings/workspaceSettings';
 
 export const Header = () => (
   <UgHeader isStandalone style={{ zIndex: theme.levels.front }}>
     <BrandLogo />
+    <WorkspaceSettings />
     <Changelog />
     <ProfileAvatar />
   </UgHeader>

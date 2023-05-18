@@ -9,6 +9,12 @@ import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
 import { WorkspaceSettingsFooter } from './modalFooter';
 
+const WorkspaceSettingsContainer = styled.div`
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
+`;
+
 const FlexContainer = styled.div<{ loading?: boolean }>`
   display: flex;
   flex-direction: column;
@@ -36,7 +42,7 @@ export const WorkspaceSettings = () => {
   if (!activeWorkspace) return null;
 
   return (
-    <>
+    <WorkspaceSettingsContainer>
       <Button isBasic onClick={() => setIsModalOpen(true)}>
         <Button.StartIcon>
           <GearIcon />
@@ -60,6 +66,6 @@ export const WorkspaceSettings = () => {
           <ModalClose />
         </Modal>
       )}
-    </>
+    </WorkspaceSettingsContainer>
   );
 };
