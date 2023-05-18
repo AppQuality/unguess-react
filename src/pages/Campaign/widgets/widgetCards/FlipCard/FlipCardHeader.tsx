@@ -7,14 +7,7 @@ import { WidgetCardHeader } from '../common/WidgetCardHeader';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardHeaderProps } from './types';
 
-const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
-  background-color: ${(p) =>
-    p.isActive ? p.theme.palette.blue[600] : 'transparent'};
-  &:hover {
-    background-color: ${(p) =>
-      p.isActive ? p.theme.palette.blue[600] : p.theme.palette.grey[100]};
-  }
-  transition: background-color 0.25s ease-in-out;
+const FlipButton = styled(IconButton)`
   margin-left: ${(p) => p.theme.space.xs};
 `;
 
@@ -34,7 +27,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
           <FlipButtonContainer>
             <FlipButton
               className="flip-card-button-chart"
-              isActive={visibleFace === 'front'}
+              isPrimary={visibleFace === 'front'}
               size="small"
               onClick={() => setVisibleFace('front')}
             >
@@ -45,7 +38,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
             <FlipButton
               className="flip-card-button-list"
               size="small"
-              isActive={visibleFace === 'back'}
+              isPrimary={visibleFace === 'back'}
               onClick={() => setVisibleFace('back')}
             >
               <ListBulletIconFill
