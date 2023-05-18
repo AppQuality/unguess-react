@@ -1,9 +1,9 @@
 import {
-  SM,
   Progress,
   MD,
   Span,
   Ellipsis,
+  TextLabel,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -35,12 +35,12 @@ export const ListItem = ({
         <Ellipsis style={{ width: '97%' }}>{children}</Ellipsis>
       </MD>
 
-      <SM style={{ color: appTheme.palette.grey[600], justifySelf: 'end' }}>
+      <TextLabel style={{ justifySelf: 'end' }}>
         <Span isBold style={{ color: appTheme.palette.grey[700] }}>
           {numerator}
         </Span>
         /{denominator}
-      </SM>
+      </TextLabel>
     </ListItemTitle>
     <Progress
       value={Math.round((numerator / denominator) * 100)}

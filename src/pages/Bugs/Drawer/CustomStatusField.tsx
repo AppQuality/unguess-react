@@ -2,8 +2,8 @@ import {
   Accordion,
   Checkbox,
   MD,
-  SM,
   Span,
+  TextLabel,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -83,9 +83,8 @@ export const CustomStatusField = ({
                   '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUSE_TITLE'
                 )}
               </MD>
-              <SM
+              <TextLabel
                 style={{
-                  color: appTheme.palette.grey[600],
                   textTransform: 'capitalize',
                 }}
               >
@@ -106,7 +105,7 @@ export const CustomStatusField = ({
                   : t(
                       '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
                     )}
-              </SM>
+              </TextLabel>
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>

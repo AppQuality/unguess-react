@@ -4,6 +4,7 @@ import {
   Item,
   Menu,
   Skeleton,
+  MD,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
@@ -17,7 +18,6 @@ import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
-import { Label } from './Label';
 
 const StyledItem = styled(Item)`
   display: flex;
@@ -92,9 +92,9 @@ const Priority = ({ bug }: { bug: Bug }) => {
 
   return (
     <div>
-      <Label style={{ marginBottom: appTheme.space.xxs }}>
+      <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
-      </Label>
+      </MD>
       {isLoading || isFetching ? (
         <Skeleton
           height="30px"

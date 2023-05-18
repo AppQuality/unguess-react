@@ -108,7 +108,6 @@ export const ModalUseCaseHelp = () => {
                             style={{
                               marginTop: appTheme.space.xl,
                               marginBottom: appTheme.space.sm,
-                              color: appTheme.palette.grey[800],
                               fontWeight: appTheme.fontWeights.medium,
                             }}
                           >

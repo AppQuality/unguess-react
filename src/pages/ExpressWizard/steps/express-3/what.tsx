@@ -24,12 +24,12 @@ import { useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
-  color: ${({ theme }) => theme.palette.grey[800]};
   span {
-    color: ${({ theme }) => theme.components.colors.primaryTextColor};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -50,7 +50,6 @@ const StyledFormField = styled.div`
 
 const StyledProductTypeTitle = styled(XL)`
   margin-bottom: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
 export const WhatStep = ({

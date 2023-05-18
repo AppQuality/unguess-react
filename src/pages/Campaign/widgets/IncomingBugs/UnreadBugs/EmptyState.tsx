@@ -1,6 +1,7 @@
 import { LG } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { ReactComponent as Empty } from './assets/empty.svg';
 
 const EmptyContainer = styled.div`
@@ -11,7 +12,7 @@ const EmptyContainer = styled.div`
 `;
 
 const StyledLG = styled(LG)`
-  color: ${({ theme }) => theme.components.colors.primaryTextColor};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
 `;
 const EmptyState = () => {
   const { t } = useTranslation();

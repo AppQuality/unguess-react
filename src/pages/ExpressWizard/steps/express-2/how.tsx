@@ -28,6 +28,7 @@ import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { appTheme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { ModalUseCase } from './ModalUseCase/modalUseCase';
@@ -35,9 +36,8 @@ import { HowLoading } from './howLoading';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
-  color: ${({ theme }) => theme.palette.grey[800]};
   span {
-    color: ${({ theme }) => theme.components.colors.primaryTextColor};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -78,7 +78,7 @@ const UseCaseEditLabel = styled(Paragraph)`
   svg {
     margin-right: ${({ theme }) => theme.space.sm};
   }
-  color: ${({ theme }) => theme.components.colors.primaryTextColor};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   margin-right: ${({ theme }) => theme.space.xs};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
@@ -154,7 +154,9 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
         <StyledFormField>
           <Label>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_TITLE')}
-            <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
+            <Span style={{ color: appTheme.components.text.dangerColor }}>
+              *
+            </Span>
           </Label>
           <Paragraph>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_DESCRIPTION_DESCRIPTION')}
@@ -276,7 +278,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             errors.use_cases &&
             typeof errors.use_cases === 'string' ? (
               <UseCaseCardButtonDescription
-                style={{ color: appTheme.colors.dangerHue }}
+                style={{ color: appTheme.components.text.dangerColor }}
               >
                 {errors.use_cases}
               </UseCaseCardButtonDescription>

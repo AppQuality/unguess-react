@@ -4,6 +4,7 @@ import {
   SM,
   Span,
   Tag,
+  TextLabel,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -73,14 +74,14 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
                   <SM isBold style={{ paddingRight: appTheme.space.xs }}>
                     {usecase.title}
                   </SM>
-                  <SM style={{ color: appTheme.palette.grey[600] }}>
+                  <TextLabel>
                     <Span>({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD')}</Span>
                     {': '}
                     <Span isBold style={{ color: appTheme.palette.blue[600] }}>
                       {usecase.unreadCount}
                     </Span>
                     /{usecase.totalCount})
-                  </SM>
+                  </TextLabel>
                 </UseCaseLabel>
               </StyledAccordionLabel>
             </Accordion.Header>

@@ -6,7 +6,6 @@ import { Bug, BugAdditionalField } from 'src/features/api';
 import { MD, Span } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
-import { Label } from './Label';
 
 const DetailsItem = styled.div`
   display: inline-block;
@@ -48,9 +47,9 @@ export default ({
         </DetailsItem>
       )}
       <DetailsItem>
-        <Label isBold style={{ marginBottom: appTheme.space.xs }}>
+        <MD isBold style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
-        </Label>
+        </MD>
         <MD>
           <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME">
             Bug found on{' '}
@@ -63,44 +62,44 @@ export default ({
         </MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: appTheme.space.xs }}>
+        <MD style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_REPORTER_LABEL')}
-        </Label>
+        </MD>
         <MD>
           {reporter.name} (T{reporter.tester_id})
         </MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: appTheme.space.xs }}>
+        <MD style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_USE_CASE_LABEL')}
-        </Label>
+        </MD>
         <MD>{bug.application_section.title}</MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: appTheme.space.xs }}>
+        <MD style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
-        </Label>
+        </MD>
         <SeverityTag
           hasBackground
           severity={bug.severity.name.toLowerCase() as Severities}
         />
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: appTheme.space.xs }}>
+        <MD style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIPOLOGY_LABEL')}
-        </Label>
+        </MD>
         <MD>{bug.type.name}</MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: appTheme.space.xs }}>
+        <MD style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_REPLICABILITY_LABEL')}
-        </Label>
+        </MD>
         <MD>{bug.replicability.name}</MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: appTheme.space.xs }}>
+        <MD style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_DEVICE_TYPE_LABEL')}
-        </Label>
+        </MD>
         <MD style={{ textTransform: 'capitalize' }}>
           {device.type === 'desktop'
             ? device.desktop_type
@@ -108,9 +107,9 @@ export default ({
         </MD>
       </DetailsItem>
       <DetailsItem>
-        <Label style={{ marginBottom: appTheme.space.xs }}>
+        <MD style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_DEVICE_OS_LABEL')}
-        </Label>
+        </MD>
         <MD>
           <StyledSpan>
             {device.os} {device.os_version}
@@ -120,9 +119,7 @@ export default ({
       {bug.additional_fields && bug.additional_fields.length
         ? bug.additional_fields.map((field) => (
             <DetailsItem>
-              <Label style={{ marginBottom: appTheme.space.xs }}>
-                {field.name}
-              </Label>
+              <MD style={{ marginBottom: appTheme.space.xs }}>{field.name}</MD>
               <MD style={{ wordBreak: 'break-all' }}>{field.value}</MD>
             </DetailsItem>
           ))

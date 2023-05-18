@@ -104,11 +104,10 @@ export const ModalUseCaseHelp = () => {
                       {suggestion.group_title && {
                         ...(index === useCaseHelp.suggestions.length - 1 ? (
                           <XL
+                            isBold
                             style={{
                               marginTop: appTheme.space.xl,
                               marginBottom: appTheme.space.sm,
-                              color: appTheme.palette.grey[800],
-                              fontWeight: appTheme.fontWeights.medium,
                             }}
                           >
                             {suggestion.group_title}

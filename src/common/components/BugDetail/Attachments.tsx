@@ -64,7 +64,6 @@ export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
           isBold
           style={{
             margin: `${appTheme.space.md} 0`,
-            color: appTheme.palette.grey[800],
           }}
         >
           {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LABEL')}

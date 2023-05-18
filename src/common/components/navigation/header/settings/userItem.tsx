@@ -111,7 +111,7 @@ export const UserItem = ({
                   }).unwrap()
                 }
               >
-                <Span hue={appTheme.colors.dangerHue}>
+                <Span hue={appTheme.components.text.dangerColor}>
                   {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
                 </Span>
               </Item>

@@ -1,4 +1,4 @@
-import { XL, MD, SM, Tag } from '@appquality/unguess-design-system';
+import { XL, Tag, TextDescription } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
@@ -65,30 +65,28 @@ export default ({
       style={{
         marginTop: appTheme.space.xxs,
         marginBottom: appTheme.space.xs,
-        color: appTheme.palette.grey[800],
       }}
     >
       <WrappedText>{bug.title.compact}</WrappedText>
     </XL>
-    <MD
+    <TextDescription
       style={{
-        color: appTheme.palette.grey[700],
         marginBottom: appTheme.space.md,
       }}
     >
       {bug.title.context ? bug.title.context.join(', ') : null}
-    </MD>
+    </TextDescription>
     <BugInfo>
-      <SM
+      <TextDescription
+        isSmall
         isBold
         style={{
           textTransform: 'capitalize',
-          color: appTheme.palette.grey[700],
           marginRight: appTheme.space.sm,
         }}
       >
         {bug.type.name}
-      </SM>
+      </TextDescription>
       <Pipe size="regular" />
       <Tag hue="white" style={{ textTransform: 'capitalize' }}>
         <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>

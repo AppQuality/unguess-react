@@ -26,13 +26,14 @@ import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { appTheme } from 'src/app/theme';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
 const PrimarySpan = styled(Span)`
-  color: ${({ theme }) => theme.components.colors.primaryTextColor};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
 `;
 
 const InnerField = styled(FormField)`
@@ -71,7 +72,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
     <ContainerCard>
       <Row>
         <WizardCol>
-          <XXL style={{ color: appTheme.palette.grey[800] }}>
+          <XXL>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
@@ -133,9 +134,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
       {/** --- Operating System --- */}
       <StyledRow style={{ marginTop: appTheme.space.lg }}>
         <WizardCol>
-          <XL isBold style={{ color: appTheme.palette.grey[800] }}>
-            {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_TITLE')}
-          </XL>
+          <XL isBold>{t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_TITLE')}</XL>
         </WizardCol>
       </StyledRow>
       <StyledRow>
@@ -165,7 +164,9 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               <InnerField>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_LABEL')}
-                  <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: appTheme.components.text.dangerColor }}>
+                    *
+                  </Span>
                 </Label>
                 <Hint>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_IOS_LINK_DESCRIPTION')}
@@ -206,7 +207,9 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
               <InnerField>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_LABEL')}
-                  <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: appTheme.components.text.dangerColor }}>
+                    *
+                  </Span>
                 </Label>
                 <Hint>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_ANDROID_LINK_DESCRIPTION')}

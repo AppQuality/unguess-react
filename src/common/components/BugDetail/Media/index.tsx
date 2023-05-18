@@ -1,4 +1,4 @@
-import { Col, Grid, Row, SM } from '@appquality/unguess-design-system';
+import { Col, Grid, Row, TextLabel } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -40,9 +40,8 @@ export default ({
 
   return (
     <>
-      <SM
+      <TextLabel
         style={{
-          color: appTheme.palette.grey[600],
           marginBottom: appTheme.space.md,
         }}
       >
@@ -63,7 +62,7 @@ export default ({
             })}
           </>
         )}
-      </SM>
+      </TextLabel>
       <Grid>
         <Row className="responsive-container">
           {items.map((item, index) => {

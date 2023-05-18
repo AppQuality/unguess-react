@@ -13,6 +13,7 @@ import { EXPRESS_4_UX_TAGGING_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { appTheme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
 import { WhatConfirm } from './confirm/whatConfirm';
@@ -22,7 +23,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
 
   span {
-    color: ${({ theme }) => theme.components.colors.primaryTextColor};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 

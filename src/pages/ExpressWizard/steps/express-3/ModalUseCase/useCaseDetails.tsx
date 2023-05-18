@@ -28,10 +28,6 @@ const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-const DescriptionTitle = styled(LG)`
-  color: ${({ theme }) => theme.palette.grey[800]};
-`;
-
 export const UseCaseDetails = ({
   formikProps,
   useCase,
@@ -77,7 +73,7 @@ export const UseCaseDetails = ({
       <StyledFormField style={{ marginTop: 0 }}>
         <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
           {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
-          <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
         </InputToggle.Label>
         <InputToggle isFocused style={{ color: appTheme.palette.grey[800] }}>
           <InputToggle.Item
@@ -111,11 +107,11 @@ export const UseCaseDetails = ({
 
       {/* Editor */}
       <StyledFormField style={{ marginTop: appTheme.space.xl }}>
-        <DescriptionTitle>
+        <LG>
           {t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_INSTRUCTIONS_FIELD_TITLE'
           )}
-        </DescriptionTitle>
+        </LG>
         <Paragraph style={{ marginBottom: appTheme.space.md }}>
           {t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_INSTRUCTIONS_FIELD_DESCRIPTION'

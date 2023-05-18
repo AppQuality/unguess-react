@@ -1,4 +1,9 @@
-import { Accordion, MD, Radio, SM } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  MD,
+  Radio,
+  TextDescription,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { UniqueFilterType } from 'src/features/bugsPage/uniqueFilter';
@@ -34,15 +39,11 @@ export const UniqueField = ({
               <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
                 {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DUPLICATES_TITLE')}
               </MD>
-              <SM
-                style={{
-                  color: appTheme.palette.grey[700],
-                }}
-              >
+              <TextDescription isSmall>
                 {selected === 'unique'
                   ? t('__BUGS_UNIQUE_FILTER_DROWPDOWN_ITEM_UNIQUE')
                   : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
-              </SM>
+              </TextDescription>
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>

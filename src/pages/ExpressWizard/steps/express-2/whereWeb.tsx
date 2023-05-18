@@ -2,7 +2,6 @@ import {
   XXL,
   MD,
   Span,
-  theme,
   Message,
   Row,
   CheckboxCard,
@@ -15,6 +14,7 @@ import {
   Input,
   ContainerCard,
 } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { Field as FormField } from '@zendeskgarden/react-forms';
@@ -76,7 +76,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
     <ContainerCard>
       <Row>
         <WizardCol>
-          <XXL style={{ color: theme.palette.grey[800] }}>
+          <XXL>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
@@ -147,7 +147,10 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           {(errors.withSmartphone ||
             errors.withTablet ||
             errors.withDesktop) && (
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.xs }}
+            >
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
           )}
@@ -160,7 +163,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           <FormField>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL')}
-              <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+              <Span style={{ color: appTheme.components.text.dangerColor }}>
+                *
+              </Span>
             </Label>
             <Hint>{t('__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION')}</Hint>
             <MediaInput
@@ -184,14 +189,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
       <StyledRow style={{ marginTop: theme.space.lg }}>
         {/** LG: 32px */}
         <WizardCol>
-          <MD
-            style={{
-              color: theme.palette.grey[800],
-              fontWeight: theme.fontWeights.medium,
-            }}
-          >
-            {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
-          </MD>
+          <MD isBold>{t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}</MD>
         </WizardCol>
         <WizardCol size={2} textAlign="end">
           <FormField>
@@ -237,7 +235,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     checked={values.withChrome}
                   >
                     <Label
-                      style={{ color: theme.components.colors.primaryText }}
+                      style={{ color: appTheme.components.text.primaryColor }}
                     >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME')}
                     </Label>
@@ -249,7 +247,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     checked={values.withEdge}
                   >
                     <Label
-                      style={{ color: theme.components.colors.primaryText }}
+                      style={{ color: appTheme.components.text.primaryColor }}
                     >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE')}
                     </Label>
@@ -261,7 +259,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     checked={values.withSafari}
                   >
                     <Label
-                      style={{ color: theme.components.colors.primaryText }}
+                      style={{ color: appTheme.components.text.primaryColor }}
                     >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI')}
                     </Label>
@@ -273,7 +271,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     checked={values.withFirefox}
                   >
                     <Label
-                      style={{ color: theme.components.colors.primaryText }}
+                      style={{ color: appTheme.components.text.primaryColor }}
                     >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX')}
                     </Label>

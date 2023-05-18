@@ -19,7 +19,6 @@ const Container = styled.div`
 `;
 
 const ModalTitle = styled(XL)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   margin: ${({ theme }) => theme.space.xxs} 0;
 `;

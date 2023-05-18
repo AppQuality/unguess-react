@@ -2,8 +2,8 @@ import {
   Accordion,
   Checkbox,
   MD,
-  SM,
   Span,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -45,9 +45,9 @@ export const OsField = ({
               <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
                 {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_TITLE')}
               </MD>
-              <SM
+              <TextDescription
+                isSmall
                 style={{
-                  color: appTheme.palette.grey[700],
                   textTransform: 'capitalize',
                 }}
               >
@@ -62,7 +62,7 @@ export const OsField = ({
                         : ''
                     }`
                   : t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_ALL_LABEL')}
-              </SM>
+              </TextDescription>
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>

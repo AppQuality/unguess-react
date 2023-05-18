@@ -7,6 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { ReactComponent as MenuIcon } from 'src/assets/icons/menu-stroke.svg';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +27,7 @@ export const LogoIconContainer = styled(HeaderItem)`
 `;
 
 const MenuItem = styled(HeaderItem)`
-  color: ${({ theme }) => theme.components.colors.primaryText};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   position: absolute;
   left: 0;
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {

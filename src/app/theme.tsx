@@ -1,4 +1,7 @@
-import { theme as baseTheme } from '@appquality/unguess-design-system';
+import {
+  theme as baseTheme,
+  getColor,
+} from '@appquality/unguess-design-system';
 
 export const SEVERITY_COLORS: Record<Severities, string> = {
   critical: baseTheme.palette.red[900],
@@ -48,15 +51,7 @@ export const BUG_STATE_COLORS: Record<
   },
 };
 
-type AppTheme = typeof baseTheme & {
-  colors: {
-    bySeverity: Record<Severities, string>;
-    byBugState: Record<BugState, { stroke: string; color: string }>;
-    bySeverityHues: Record<Severities, string>;
-  };
-};
-
-const appTheme: AppTheme = {
+const appTheme = {
   ...baseTheme,
   colors: {
     ...baseTheme.colors,
@@ -66,6 +61,14 @@ const appTheme: AppTheme = {
   },
   components: {
     ...baseTheme.components,
+    text: {
+      neutralColor: baseTheme.colors.foreground,
+      primaryColor: getColor(baseTheme.colors.primaryHue, 600),
+      successColor: getColor(baseTheme.colors.successHue, 700),
+      warningColor: getColor(baseTheme.colors.warningHue, 700),
+      dangerColor: getColor(baseTheme.colors.dangerHue, 700),
+      infoColor: getColor(baseTheme.colors.infoHue, 700),
+    },
     'tables.header_row': {
       height: 'auto',
     },
@@ -76,4 +79,5 @@ const appTheme: AppTheme = {
   },
 };
 
+export type AppTheme = typeof appTheme;
 export { appTheme };

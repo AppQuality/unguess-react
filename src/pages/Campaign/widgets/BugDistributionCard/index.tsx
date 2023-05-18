@@ -102,7 +102,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
                   bold: (
                     <Span
                       isBold
-                      style={{ color: appTheme.components.colors.primaryText }}
+                      style={{ color: appTheme.components.text.primaryColor }}
                     />
                   ),
                 }}

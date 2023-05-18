@@ -18,6 +18,7 @@ import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { appTheme } from 'src/app/theme';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useEffect } from 'react';
 import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
@@ -27,7 +28,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
 
   span {
-    color: ${({ theme }) => theme.components.colors.primaryTextColor};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -46,7 +47,6 @@ const StyledLabel = styled(Label)`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   margin-top: ${({ theme }) => theme.space.base}px;
 `;
 

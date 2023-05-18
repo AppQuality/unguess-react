@@ -28,9 +28,7 @@ const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-const DescriptionTitle = styled(LG)`
-  color: ${({ theme }) => theme.palette.grey[800]};
-`;
+const DescriptionTitle = styled(LG)``;
 
 export const UseCaseDetails = ({
   formikProps,
@@ -77,9 +75,9 @@ export const UseCaseDetails = ({
       <StyledFormField style={{ marginTop: 0 }}>
         <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
           {t('__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
-          <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
         </InputToggle.Label>
-        <InputToggle isFocused style={{ color: appTheme.palette.grey[800] }}>
+        <InputToggle isFocused>
           <InputToggle.Item
             key={`use_cases[${useCaseIndex}].title`}
             textSize="xxl"

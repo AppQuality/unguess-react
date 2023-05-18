@@ -79,7 +79,7 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
           <ErrorIcon width={20} style={{ marginLeft: appTheme.space.sm }} />
           <Span
             style={{
-              color: appTheme.colors.dangerHue,
+              color: appTheme.components.text.dangerColor,
               marginLeft: appTheme.space.sm,
             }}
           >

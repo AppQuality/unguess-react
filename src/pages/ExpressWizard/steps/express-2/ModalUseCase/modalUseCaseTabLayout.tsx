@@ -11,6 +11,7 @@ import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi'
 import i18n from 'i18next';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 const Container = styled.div`
   width: 100%;
@@ -26,7 +27,7 @@ const UseCaseCard = styled(Card)`
   background-color: white;
   text-align: center;
   border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  color: ${({ theme }) => theme.components.colors.primaryTextColor};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   padding: 0;
   height: ${({ theme }) => theme.space.base * 15}px;
   width: 20%;
@@ -34,8 +35,7 @@ const UseCaseCard = styled(Card)`
   user-select: none;
 
   &.current-card {
-    background-color: ${({ theme }) =>
-      theme.components.colors.primaryTextColor};
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 600)};
     border: 2px solid ${({ theme }) => getColor(theme.colors.primaryHue, 600)};
     color: white;
   }

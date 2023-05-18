@@ -22,16 +22,10 @@ export const UniqueBugsCounter = ({
     <CounterContainer {...props}>
       <Trans i18nKey="__BUGS_PAGE_HEADER_UNIQUE_BUGS_ON_TOTAL">
         <MD>
-          <Span
-            isBold
-            style={{ color: appTheme.components.colors.primaryText }}
-          >
+          <Span isBold style={{ color: appTheme.components.text.primaryColor }}>
             {{ numerator: uniqueBugs }}{' '}
           </Span>
-          <Span
-            isBold
-            style={{ color: appTheme.components.colors.primaryText }}
-          >
+          <Span isBold style={{ color: appTheme.components.text.primaryColor }}>
             unique bugs
           </Span>
           <Span style={{ color: appTheme.palette.grey['700'] }}>

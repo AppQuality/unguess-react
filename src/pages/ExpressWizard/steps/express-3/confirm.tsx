@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import { EXPRESS_3_BUSINESS_DAYS_TO_ADD } from 'src/constants';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { appTheme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
@@ -22,7 +23,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
 
   span {
-    color: ${({ theme }) => theme.components.colors.primaryTextColor};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 

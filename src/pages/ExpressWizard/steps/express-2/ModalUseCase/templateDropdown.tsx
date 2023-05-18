@@ -132,7 +132,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
       <DropdownField>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE')}
-          <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
         </Label>
         <Autocomplete start={<FunctionalityIcon />}>
           {selectedItem?.title ??

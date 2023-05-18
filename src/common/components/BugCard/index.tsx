@@ -3,6 +3,7 @@ import {
   MD,
   SM,
   Anchor,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import React from 'react';
 import styled from 'styled-components';
@@ -130,11 +131,13 @@ BugCard.Separator = styled.div`
   background-color: #e6e6e6;
 `;
 
-const BugCardDescription = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey['700']};
+const BugCardDescription = styled(TextDescription)`
   margin-top: ${({ theme }) => theme.space.xxs};
   margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
+BugCardDescription.defaultProps = {
+  isSmall: true,
+};
 BugCard.Description = BugCardDescription;
 
 export { BugCard };

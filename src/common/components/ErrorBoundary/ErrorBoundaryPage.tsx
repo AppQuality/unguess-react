@@ -28,14 +28,10 @@ const ErrorBoundaryPage = () => {
               </Col>
               <Col alignSelf="center">
                 <Paragraph>
-                  <XXL style={{ color: theme.palette.grey[800] }} isBold>
-                    {t('__ERROR_PAGE_TITLE')}
-                  </XXL>
+                  <XXL isBold>{t('__ERROR_PAGE_TITLE')}</XXL>
                 </Paragraph>
                 <Paragraph style={{ marginTop: theme.space.sm }}>
-                  <MD style={{ color: theme.palette.grey[800] }}>
-                    {t('__ERROR_PAGE_SUBTITLE')}
-                  </MD>
+                  <MD>{t('__ERROR_PAGE_SUBTITLE')}</MD>
                 </Paragraph>
 
                 <Paragraph style={{ marginTop: theme.space.lg }}>

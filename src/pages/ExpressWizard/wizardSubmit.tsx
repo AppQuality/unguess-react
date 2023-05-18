@@ -6,12 +6,12 @@ import { ReactComponent as EmptyIcon } from 'src/assets/icons/empty.svg';
 import {
   MD,
   Paragraph,
-  SM,
   Spinner,
   SplitButton,
   Timeline,
   TooltipModal,
   Button,
+  TextLabel,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
 import { useCallback, useRef, useState } from 'react';
@@ -37,8 +37,7 @@ const StyledDiv = styled.div`
   align-items: center;
 `;
 
-const HelpText = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
+const HelpText = styled(TextLabel)`
   max-width: 250px;
   position: absolute;
 
@@ -174,9 +173,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
         style={{ padding: appTheme.space.xxs, width: 'auto' }}
       >
         <TooltipModal.Title style={{ padding: appTheme.space.xs }}>
-          <MD isBold style={{ color: appTheme.palette.grey[800] }}>
-            {t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}
-          </MD>
+          <MD isBold>{t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}</MD>
         </TooltipModal.Title>
         <TooltipModal.Body>
           <Timeline>
@@ -206,7 +203,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
                       },
                     })}
                   </Paragraph>
-                  <MD style={{ color: appTheme.palette.grey[600] }}>
+                  <MD color={appTheme.palette.grey[600]}>
                     {t(
                       '__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_FIRST_RESULTS'
                     )}{' '}

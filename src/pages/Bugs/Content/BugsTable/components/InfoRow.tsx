@@ -8,7 +8,6 @@ import { TableBugType } from '../../../types';
 import { StyledSM } from './StyledSM';
 
 const StyledMD = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   span {
     color: ${({ theme }) => theme.palette.grey[600]};
   }

@@ -79,7 +79,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
                 <XL
                   tag="span"
                   isBold
-                  color={appTheme.components.colors.primaryText}
+                  color={appTheme.components.text.primaryColor}
                 >
                   {widgetData.duration.unit}
                 </XL>
@@ -92,7 +92,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
                   components={{
                     bold: (
                       <Span
-                        color={appTheme.components.colors.primaryText}
+                        color={appTheme.components.text.primaryColor}
                         isBold
                       />
                     ),

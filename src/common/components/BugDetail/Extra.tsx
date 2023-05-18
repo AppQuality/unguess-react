@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { BugMedia as BugMediaType } from 'src/features/api';
 import { appTheme } from 'src/app/theme';
-import { SM, Span } from '@appquality/unguess-design-system';
+import { Span, TextLabel } from '@appquality/unguess-design-system';
 import { ReactComponent as ArchiveIcon } from 'src/assets/icons/extra-icon-archive.svg';
 import { ReactComponent as FileIcon } from 'src/assets/icons/extra-icon-file.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/extra-icon-link.svg';
@@ -77,9 +77,8 @@ export default ({ items }: { items: BugMediaType[] }) => {
 
   return (
     <>
-      <SM
+      <TextLabel
         style={{
-          color: appTheme.palette.grey[600],
           marginBottom: appTheme.space.md,
         }}
       >
@@ -89,7 +88,7 @@ export default ({ items }: { items: BugMediaType[] }) => {
             {counts[type as string]} {type}
           </span>
         ))}
-      </SM>
+      </TextLabel>
       {items.map((item, index) => (
         <BugCard
           borderColor={getFileSpecs(item.mime_type.extension).color}

@@ -18,6 +18,7 @@ import { FieldArray, FormikProps } from 'formik';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { appTheme } from 'src/app/theme';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
@@ -117,7 +118,7 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
 `;
 
 const EmptyStateTitle = styled(LG)`
-  color: ${({ theme }) => theme.components.colors.primaryTextColor};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 

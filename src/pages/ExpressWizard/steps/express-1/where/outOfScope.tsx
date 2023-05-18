@@ -28,9 +28,7 @@ export const OutOfScopeSection = ({
     <>
       <StyledRow style={{ marginTop: appTheme.space.lg }}>
         <WizardCol>
-          <XL isBold style={{ color: appTheme.palette.grey[800] }}>
-            {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE')}
-          </XL>
+          <XL isBold>{t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_TITLE')}</XL>
           <MD>{t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_DESCRIPTION')}</MD>
         </WizardCol>
       </StyledRow>
@@ -38,7 +36,6 @@ export const OutOfScopeSection = ({
         <WizardCol>
           <MD
             style={{
-              color: appTheme.palette.grey[800],
               fontWeight: appTheme.fontWeights.medium,
             }}
           >
@@ -66,7 +63,9 @@ export const OutOfScopeSection = ({
               <Field>
                 <Label>
                   {t('__EXPRESS_WIZARD_STEP_WHERE_OUT_OF_SCOPE_LABEL')}
-                  <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
+                  <Span style={{ color: appTheme.components.text.dangerColor }}>
+                    *
+                  </Span>
                 </Label>
                 <Textarea
                   rows={5}

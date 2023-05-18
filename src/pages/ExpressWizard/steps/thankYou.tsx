@@ -65,7 +65,7 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
                 <Col size={12} textAlign="center">
                   <XXL
                     isBold
-                    style={{ color: theme.components.colors.primaryText }}
+                    style={{ color: appTheme.components.text.primaryColor }}
                   >
                     {t('__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE')}
                   </XXL>
