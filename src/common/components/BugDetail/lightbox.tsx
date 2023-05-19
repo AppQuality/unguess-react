@@ -80,7 +80,8 @@ export const LightboxContainer = ({
       <Lightbox.Body>
         <Lightbox.Body.Main style={{ flex: 2 }}>
           <Slider
-            arrows
+            prevArrow={<Slider.PrevButton isBright />}
+            nextArrow={<Slider.NextButton isBright />}
             onSlideChange={slideChange}
             initialSlide={currentIndex}
           >
