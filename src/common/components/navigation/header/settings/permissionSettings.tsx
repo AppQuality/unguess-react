@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { useGetWorkspacesByWidUsersQuery } from 'src/features/api';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
-import { WorkspaceSettingsFooter } from './modalFooter';
+import { PermissionSettingsFooter } from './modalFooter';
 
-const WorkspaceSettingsContainer = styled.div`
+const PermissionSettingsContainer = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
   }
@@ -30,7 +30,7 @@ const FixedBody = styled(Modal.Body)`
   padding-bottom: 0;
 `;
 
-export const WorkspaceSettings = () => {
+export const PermissionSettings = () => {
   const { activeWorkspace, permissionSettingsTitle, campaignId, projectId } =
     useAppSelector((state) => state.navigation);
   const { t } = useTranslation();
@@ -59,7 +59,7 @@ export const WorkspaceSettings = () => {
   };
 
   return (
-    <WorkspaceSettingsContainer>
+    <PermissionSettingsContainer>
       <Button isBasic onClick={() => setIsModalOpen(true)}>
         <Button.StartIcon>
           <GearIcon />
@@ -79,10 +79,10 @@ export const WorkspaceSettings = () => {
               ))}
             </FlexContainer>
           </Modal.Body>
-          <WorkspaceSettingsFooter />
+          <PermissionSettingsFooter />
           <ModalClose />
         </Modal>
       )}
-    </WorkspaceSettingsContainer>
+    </PermissionSettingsContainer>
   );
 };
