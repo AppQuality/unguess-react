@@ -11,7 +11,7 @@ const FooterWithBorder = styled(Modal.Footer)`
   justify-content: start;
 `;
 
-export const WorkspaceSettingsFooter = () => {
+export const PermissionSettingsFooter = () => {
   const { t } = useTranslation();
 
   return (
