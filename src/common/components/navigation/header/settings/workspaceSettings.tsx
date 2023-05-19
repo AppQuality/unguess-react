@@ -31,7 +31,8 @@ const FixedBody = styled(Modal.Body)`
 `;
 
 export const WorkspaceSettings = () => {
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace, permissionSettingsTitle, campaignId, projectId } =
+    useAppSelector((state) => state.navigation);
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,6 +41,22 @@ export const WorkspaceSettings = () => {
   });
 
   if (!activeWorkspace) return null;
+
+  const getModalTitle = () => {
+    if (campaignId)
+      return t('__CAMPAIGN_SETTINGS_MODAL_TITLE', {
+        campaign: permissionSettingsTitle,
+      });
+
+    if (projectId)
+      return t('__PROJECT_SETTINGS_MODAL_TITLE', {
+        project: permissionSettingsTitle,
+      });
+
+    return t('__WORKSPACE_SETTINGS_MODAL_TITLE', {
+      company: activeWorkspace.company,
+    });
+  };
 
   return (
     <WorkspaceSettingsContainer>
@@ -51,7 +68,7 @@ export const WorkspaceSettings = () => {
       </Button>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          <Modal.Header>{t('__WORKSPACE_SETTINGS_MODAL_TITLE')}</Modal.Header>
+          <Modal.Header>{getModalTitle()}</Modal.Header>
           <FixedBody>
             <AddNewMemberInput />
           </FixedBody>
