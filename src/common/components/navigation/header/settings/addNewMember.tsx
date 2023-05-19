@@ -5,7 +5,7 @@ import {
   Label,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
-import { Form, Formik, FormikProps } from 'formik';
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
@@ -28,8 +28,12 @@ const EmailTextField = styled(Field)`
 
 export const AddNewMemberInput = () => {
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const [addNewMember] = usePostWorkspacesByWidUsersMutation();
+  const { activeWorkspace, campaignId, projectId } = useAppSelector(
+    (state) => state.navigation
+  );
+  const [addNewWorkspaceMember] = usePostWorkspacesByWidUsersMutation();
+  // const [addNewProjectMember] = usePostProjectByWidUsersMutation();
+  // const [addNewCampaignMember] = usePostCampaignByWidUsersMutation();
 
   if (!activeWorkspace) return null;
 
@@ -39,28 +43,86 @@ export const AddNewMemberInput = () => {
       .required(t('__WORKSPACE_SETTINGS_ADD_MEMBER_REQUIRED_EMAIL_ERROR')),
   });
 
+  const onSubmitNewWorkspaceMember = (
+    values: { email: string },
+    actions: FormikHelpers<{ email: string }>
+  ) => {
+    addNewWorkspaceMember({
+      wid: activeWorkspace?.id.toString() || '',
+      body: {
+        email: values.email,
+      },
+    })
+      .then(() => {
+        actions.setSubmitting(false);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        actions.setSubmitting(false);
+      });
+  };
+
+  const onSubmitNewProjectMember = (
+    values: { email: string },
+    actions: FormikHelpers<{ email: string }>
+  ) => {
+    // addNewProjectMember({
+    //   wid: projectId || '',
+    //   body: {
+    //     email: values.email,
+    //   },
+    // })
+    //   .then(() => {
+    //     actions.setSubmitting(false);
+    //   })
+    //   .catch((err) => {
+    //     // eslint-disable-next-line no-console
+    //     console.error(err);
+    //     actions.setSubmitting(false);
+    //   });
+
+    // eslint-disable-next-line no-console
+    console.log('submit new project member: ', values.email);
+  };
+
+  const onSubmitNewCampaignMember = (
+    values: { email: string },
+    actions: FormikHelpers<{ email: string }>
+  ) => {
+    // addNewCampaignMember({
+    //   wid: campaignId || '',
+    //   body: {
+    //     email: values.email,
+    //   },
+    // })
+    //   .then(() => {
+    //     actions.setSubmitting(false);
+    //   })
+    //   .catch((err) => {
+    //     // eslint-disable-next-line no-console
+    //     console.error(err);
+    //     actions.setSubmitting(false);
+    //   });
+
+    // eslint-disable-next-line no-console
+    console.log('submit new campaign member: ', values.email);
+  };
+
+  const onSubmit = () => {
+    if (projectId) return onSubmitNewProjectMember;
+    if (campaignId) return onSubmitNewCampaignMember;
+
+    return onSubmitNewWorkspaceMember;
+  };
+
   return (
     <Formik
       initialValues={formInitialValues}
       validateOnChange
       validateOnBlur
       validationSchema={validationSchema}
-      onSubmit={(values, actions) => {
-        addNewMember({
-          wid: activeWorkspace?.id.toString() || '',
-          body: {
-            email: values.email,
-          },
-        })
-          .then(() => {
-            actions.setSubmitting(false);
-          })
-          .catch((err) => {
-            // eslint-disable-next-line no-console
-            console.error(err);
-            actions.setSubmitting(false);
-          });
-      }}
+      onSubmit={onSubmit()}
     >
       {({
         errors,

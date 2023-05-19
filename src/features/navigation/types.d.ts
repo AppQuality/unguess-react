@@ -5,6 +5,6 @@ type NavigationState = {
   activeWorkspace?: Workspace;
   isProfileModalOpen: boolean;
   permissionSettingsTitle?: string;
-  campaignId?: string;
-  projectId?: string;
+  campaignId?: number;
+  projectId?: number;
 };
