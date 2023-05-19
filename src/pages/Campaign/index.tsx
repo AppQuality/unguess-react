@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useAppDispatch } from 'src/app/hooks';
 import { Page } from 'src/features/templates/Page';
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,12 +26,17 @@ import IncomingBugs from './widgets/IncomingBugs';
 import BugsByType from './widgets/BugsByType';
 import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
 import { WidgetSection } from './WidgetSection';
+import {
+  setCampaignId,
+  setPermissionSettingsTitle,
+} from '../../features/navigation/navigationSlice';
 
 const Campaign = () => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const { campaignId } = useParams();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute);
@@ -64,6 +71,18 @@ const Campaign = () => {
 
   const firstRowHeight = '540px';
   const secondRowHeight = '465px';
+
+  useEffect(() => {
+    if (campaign) {
+      dispatch(setPermissionSettingsTitle(campaign.customer_title));
+      dispatch(setCampaignId(campaign.id));
+    }
+
+    return () => {
+      dispatch(setPermissionSettingsTitle(undefined));
+      dispatch(setCampaignId(undefined));
+    };
+  }, [campaign]);
 
   return (
     <Page

@@ -14,6 +14,10 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
 import { CardRowLoading } from './CardRowLoading';
+import {
+  setPermissionSettingsTitle,
+  setProjectId,
+} from '../../features/navigation/navigationSlice';
 
 const Project = () => {
   const { t } = useTranslation();
@@ -35,6 +39,16 @@ const Project = () => {
       dispatch(resetFilters());
       dispatch(projectFilterChanged(Number(projectId)));
     }
+
+    if (project) {
+      dispatch(setPermissionSettingsTitle(project.data?.name));
+      dispatch(setProjectId(project.data?.id));
+    }
+
+    return () => {
+      dispatch(setPermissionSettingsTitle(undefined));
+      dispatch(setProjectId(undefined));
+    };
   }, [project]);
 
   if (project.isError) {
