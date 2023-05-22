@@ -1,13 +1,13 @@
 import { Modal, Button } from '@appquality/unguess-design-system';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
-import { getColor } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 
 const FooterWithBorder = styled(Modal.Footer)`
-  border-top: 1px solid ${({ theme }) => getColor(theme.colors.neutralHue, 200)};
   padding: ${({ theme }) =>
-    `${theme.space.base * 4}px ${theme.space.base * 8}px`};
+    `${theme.space.base * 4}px ${theme.space.base * 8}px ${
+      theme.space.base * 6
+    }px`};
   justify-content: end;
 `;
 

@@ -1,4 +1,10 @@
-import { Button, Modal, ModalClose } from '@appquality/unguess-design-system';
+import { getColor } from '@zendeskgarden/react-theming';
+import {
+  Button,
+  Label,
+  Modal,
+  ModalClose,
+} from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear-fill.svg';
@@ -12,8 +18,7 @@ import { PermissionSettingsFooter } from './modalFooter';
 const FlexContainer = styled.div<{ loading?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding-top: ${({ theme }) => theme.space.base * 2}px;
-  margin-bottom: ${({ theme }) => theme.space.base * 6}px;
+  padding-top: ${({ theme }) => theme.space.base * 4}px;
   min-height: 0;
   opacity: ${({ loading }) => (loading ? 0.5 : 1)};
 `;
@@ -21,7 +26,12 @@ const FlexContainer = styled.div<{ loading?: boolean }>`
 const FixedBody = styled(Modal.Body)`
   display: inline-table;
   overflow: hidden;
-  padding-bottom: 0;
+  padding-bottom: ${({ theme }) => theme.space.base * 2}px;
+`;
+
+const Divider = styled.div`
+  border-top: 1px solid ${({ theme }) => getColor(theme.colors.neutralHue, 200)};
+  padding-top: ${({ theme }) => theme.space.base * 6}px;
 `;
 
 export const PermissionSettings = () => {
@@ -66,7 +76,9 @@ export const PermissionSettings = () => {
           <FixedBody>
             <AddNewMemberInput />
           </FixedBody>
-          <Modal.Body style={{ paddingTop: 0 }}>
+          <Divider />
+          <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
+            <Label>{t('__PERMISSION_SETTINGS_BODY_TITLE')}</Label>
             <FlexContainer loading={isLoading || isFetching}>
               {data?.items.map((user) => (
                 <UserItem user={user} />
