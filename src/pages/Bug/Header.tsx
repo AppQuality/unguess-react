@@ -1,3 +1,5 @@
+import { useAppDispatch } from 'src/app/hooks';
+import { useEffect } from 'react';
 import {
   Anchor,
   Button,
@@ -16,6 +18,10 @@ import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import {
+  setCampaignId,
+  setPermissionSettingsTitle,
+} from '../../features/navigation/navigationSlice';
 
 interface Props {
   campaignId: string;
@@ -44,6 +50,7 @@ const BreadCrumbs = ({
 };
 
 export const Header = ({ campaignId, bug }: Props) => {
+  const dispatch = useAppDispatch();
   const {
     isLoading: isCampaignLoading,
     isFetching: isCampaignFetching,
@@ -53,6 +60,18 @@ export const Header = ({ campaignId, bug }: Props) => {
     cid: campaignId,
   });
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (campaign) {
+      dispatch(setPermissionSettingsTitle(campaign.customer_title));
+      dispatch(setCampaignId(campaign.id));
+    }
+
+    return () => {
+      dispatch(setPermissionSettingsTitle(undefined));
+      dispatch(setCampaignId(undefined));
+    };
+  }, [campaign]);
 
   if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
     return (
