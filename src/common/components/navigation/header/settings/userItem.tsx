@@ -44,15 +44,93 @@ export const UserItem = ({
 }) => {
   const { t } = useTranslation();
   const [rotated, setRotated] = useState<boolean>();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace, campaignId, projectId } = useAppSelector(
+    (state) => state.navigation
+  );
   const { userData } = useAppSelector((state) => state.user);
-  const [removeUser] = useDeleteWorkspacesByWidUsersMutation();
-  const [addNewMember] = usePostWorkspacesByWidUsersMutation();
+  const [removeWorkspaceMember] = useDeleteWorkspacesByWidUsersMutation();
+  const [addNewWorkspaceMember] = usePostWorkspacesByWidUsersMutation();
+  // const [removeProjectMember] = useDeleteProjectByWidUsersMutation();
+  // const [addProjectMember] = usePostProjectByWidUsersMutation();
+  // const [removeCampaignMember] = useDeleteCampaignByWidUsersMutation();
+  // const [addCampaignMember] = usePostCampaignByWidUsersMutation();
 
   const isMe = userData?.email === user.email;
   const displayName = user.name.length ? user.name : user.email;
 
   if (!activeWorkspace) return null;
+
+  const onAddNewWorkspaceMember = () => {
+    addNewWorkspaceMember({
+      wid: activeWorkspace.id.toString() || '0',
+      body: {
+        email: user.email,
+      },
+    }).unwrap();
+  };
+
+  const onAddNewProjectMember = () => {
+    // addProjectMember({
+    //   wid: projectId,
+    //   body: {
+    //     email: user.email,
+    //   },
+    // }).unwrap();
+    console.log('New Project Member');
+  };
+
+  const onAddNewCampaignMember = () => {
+    // addCampaignMember({
+    //   wid: campaignId,
+    //   body: {
+    //     email: user.email,
+    //   },
+    // }).unwrap();
+    console.log('New Campaign Member');
+  };
+
+  const onRemoveWorkspaceMember = () => {
+    removeWorkspaceMember({
+      wid: activeWorkspace.id.toString() || '0',
+      body: {
+        user_id: user.id,
+      },
+    }).unwrap();
+  };
+
+  const onRemoveProjectMember = () => {
+    // removeProjectMember({
+    //   wid: projectId,
+    //   body: {
+    //     user_id: user.id,
+    //   },
+    // }).unwrap();
+    console.log('Remove Project Member');
+  };
+
+  const onRemoveCampaignMember = () => {
+    // removeCampaignMember({
+    //   wid: campaignId,
+    //   body: {
+    //     user_id: user.id,
+    //   },
+    // }).unwrap();
+    console.log('Remove Campaign Member');
+  };
+
+  const onAddMember = () => {
+    if (projectId) return onAddNewProjectMember;
+    if (campaignId) return onAddNewCampaignMember;
+
+    return onAddNewWorkspaceMember;
+  };
+
+  const onRemoveMember = () => {
+    if (projectId) return onRemoveProjectMember;
+    if (campaignId) return onRemoveCampaignMember;
+
+    return onRemoveWorkspaceMember;
+  };
 
   return (
     <UserListItem key={`profile_${user.profile_id}`}>
@@ -86,31 +164,11 @@ export const UserItem = ({
             </Trigger>
             <Menu placement="bottom-end">
               {user.invitationPending && (
-                <Item
-                  value="invite"
-                  onClick={() =>
-                    addNewMember({
-                      wid: activeWorkspace.id.toString() || '0',
-                      body: {
-                        email: user.email,
-                      },
-                    }).unwrap()
-                  }
-                >
+                <Item value="invite" onClick={onAddMember()}>
                   {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
                 </Item>
               )}
-              <Item
-                value="remove"
-                onClick={() =>
-                  removeUser({
-                    wid: activeWorkspace.id.toString() || '0',
-                    body: {
-                      user_id: user.id,
-                    },
-                  }).unwrap()
-                }
-              >
+              <Item value="remove" onClick={onRemoveMember()}>
                 <Span hue={globalTheme.colors.dangerHue}>
                   {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
                 </Span>
