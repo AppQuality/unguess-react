@@ -24,6 +24,7 @@ export const ServiceExpressCta = ({
       className="service-details-express-button"
       size="medium"
       isPrimary
+      isAccent
       onClick={() => {
         dispatch(setExpressTypeId(expressTypeId));
         dispatch(openDrawer());

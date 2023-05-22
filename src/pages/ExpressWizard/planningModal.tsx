@@ -131,7 +131,11 @@ const PlanningModal = ({
               <Button isBasic onClick={onClose}>
                 {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CANCEL')}
               </Button>
-              <Button isPrimary onClick={() => onSave(launchDate, endDate)}>
+              <Button
+                isPrimary
+                isAccent
+                onClick={() => onSave(launchDate, endDate)}
+              >
                 {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CONFIRM')}
               </Button>
             </InBodyFooter>

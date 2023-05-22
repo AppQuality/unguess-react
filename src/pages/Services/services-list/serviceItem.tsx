@@ -110,6 +110,7 @@ export const ServiceItem = ({
           isStretched
           size="small"
           isPrimary
+          isAccent
           onClick={() => {
             dispatch(setExpressTypeId(expressType.id));
             dispatch(openDrawer());

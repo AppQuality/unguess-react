@@ -41,7 +41,7 @@ const DiscardChangesModal = ({
           </Button>
         </FooterItem>
         <FooterItem>
-          <Button isPrimary onClick={handleCancel}>
+          <Button isPrimary isAccent onClick={handleCancel}>
             {t('__EXPRESS_WIZARD_CONFIRM_CLOSE_CONTINUE_BUTTON_TEXT')}
           </Button>
         </FooterItem>

@@ -27,6 +27,7 @@ export const HowFormButtons = (props: WizardButtonsProps) => {
       <Button
         id="express-wizard-who-next-button"
         isPrimary
+        isAccent
         onClick={onNextClick}
       >
         {t('__EXPRESS_WIZARD_NEXT_BUTTON_LABEL')}

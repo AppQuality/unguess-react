@@ -127,6 +127,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
         <Button
           id="express-wizard-submit-button"
           isPrimary
+          isAccent
           type="submit"
           disabled={Object.keys(errors).length > 0 || isSubmitting}
           onClick={triggerSubmit}
@@ -137,6 +138,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
         </Button>
         <Button
           isPrimary
+          isAccent
           ref={triggerRef}
           onClick={() => {
             setRefElement(triggerRef.current);
