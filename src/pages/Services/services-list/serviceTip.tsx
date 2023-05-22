@@ -16,6 +16,7 @@ export const ServiceTip = () => {
         <Button
           isPrimary
           size="small"
+          isAccent
           onClick={() => {
             window.location.href = `mailto:${
               activeWorkspace?.csm.email || 'info@unguess.io'
