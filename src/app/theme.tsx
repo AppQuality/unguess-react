@@ -6,15 +6,15 @@ import {
 export const SEVERITY_COLORS: Record<Severities, string> = {
   critical: baseTheme.palette.red[900],
   high: baseTheme.palette.yellow[600],
-  medium: baseTheme.palette.teal[700],
-  low: baseTheme.palette.blue[600],
+  medium: baseTheme.palette.blue[600],
+  low: baseTheme.palette.teal[700],
 };
 
 export const SEVERITY_HUES: Record<Severities, string> = {
   critical: baseTheme.palette.red[900],
   high: baseTheme.palette.yellow[600],
-  medium: baseTheme.palette.teal[700],
-  low: baseTheme.palette.blue[600],
+  medium: baseTheme.palette.blue[600],
+  low: baseTheme.palette.teal[700],
 };
 // temporary fix for the bug state colors
 export const BUG_STATE_COLORS: Record<
