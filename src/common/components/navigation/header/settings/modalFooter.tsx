@@ -8,7 +8,7 @@ const FooterWithBorder = styled(Modal.Footer)`
   border-top: 1px solid ${({ theme }) => getColor(theme.colors.neutralHue, 200)};
   padding: ${({ theme }) =>
     `${theme.space.base * 4}px ${theme.space.base * 8}px`};
-  justify-content: start;
+  justify-content: end;
 `;
 
 export const PermissionSettingsFooter = () => {
