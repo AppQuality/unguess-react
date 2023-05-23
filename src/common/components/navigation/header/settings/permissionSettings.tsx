@@ -1,9 +1,11 @@
 import { getColor } from '@zendeskgarden/react-theming';
+import { theme as globalTheme } from 'src/app/theme';
 import {
   Button,
   Label,
   Modal,
   ModalClose,
+  Span,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
@@ -47,19 +49,10 @@ export const PermissionSettings = () => {
   if (!activeWorkspace) return null;
 
   const getModalTitle = () => {
-    if (campaignId)
-      return t('__CAMPAIGN_SETTINGS_MODAL_TITLE', {
-        campaign: permissionSettingsTitle,
-      });
+    if (!campaignId && !projectId)
+      return `${activeWorkspace.company}'s workspace`;
 
-    if (projectId)
-      return t('__PROJECT_SETTINGS_MODAL_TITLE', {
-        project: permissionSettingsTitle,
-      });
-
-    return t('__WORKSPACE_SETTINGS_MODAL_TITLE', {
-      company: activeWorkspace.company,
-    });
+    return permissionSettingsTitle;
   };
 
   return (
@@ -72,7 +65,12 @@ export const PermissionSettings = () => {
       </Button>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
-          <Modal.Header>{getModalTitle()}</Modal.Header>
+          <Modal.Header>
+            {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
+            <Span style={{ color: globalTheme.palette.blue[600] }}>
+              {getModalTitle()}
+            </Span>
+          </Modal.Header>
           <FixedBody>
             <AddNewMemberInput />
           </FixedBody>
