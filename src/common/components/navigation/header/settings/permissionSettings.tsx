@@ -44,7 +44,33 @@ export const PermissionSettings = () => {
 
   const { isLoading, isFetching, data } = useGetWorkspacesByWidUsersQuery({
     wid: activeWorkspace?.id.toString() || '0',
+    // }, { skip: !!campaignId || !!projectId });
   });
+
+  // const {
+  //   isLoading: isProjectLoading,
+  //   isFetching: isProjectFetching,
+  //   data: projectMember
+  // } = useGetProjectByWidUsersQuery({
+  //   wid: projectId,
+  // }, { skip: !projectId });
+
+  // const {
+  //   isLoading: isCampaignLoading,
+  //   isFetching: isCampaignFetching,
+  //   data: campaignMember
+  // } = useGetCampaignByWidUsersQuery({
+  //   wid: campaignId,
+  // }, { skip: !campaignId });
+
+  // const getMemberList = () => {
+  //   if (projectId)
+  //     return projectMember?.items;
+  //   if (campaignId)
+  //     return campaignMember?.items;
+
+  //   return data?.items;
+  // }
 
   if (!activeWorkspace) return null;
 
@@ -77,7 +103,14 @@ export const PermissionSettings = () => {
           <Divider />
           <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
             <Label>{t('__PERMISSION_SETTINGS_BODY_TITLE')}</Label>
-            <FlexContainer loading={isLoading || isFetching}>
+            <FlexContainer
+              loading={
+                isLoading || isFetching
+                // || isProjectLoading
+                // || isCampaignLoading
+                // || isCampaignFetching
+              }
+            >
               {data?.items.map((user) => (
                 <UserItem user={user} />
               ))}
