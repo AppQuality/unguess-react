@@ -2,12 +2,12 @@ import { Modal } from '@appquality/unguess-design-system';
 import { getColor } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 
-export const FlexContainer = styled.div<{ loading?: boolean }>`
+export const FlexContainer = styled.div<{ isLoading?: boolean }>`
   display: flex;
   flex-direction: column;
   padding-top: ${({ theme }) => theme.space.base * 4}px;
   min-height: 0;
-  opacity: ${({ loading }) => (loading ? 0.5 : 1)};
+  opacity: ${({ isLoading }) => (isLoading ? 0.5 : 1)};
 `;
 
 export const FixedBody = styled(Modal.Body)`
