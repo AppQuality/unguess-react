@@ -1,9 +1,4 @@
-import {
-  HeaderItem,
-  HeaderItemIcon,
-  HeaderItemText,
-  Logo,
-} from '@appquality/unguess-design-system';
+import { HeaderItem, HeaderItemIcon, HeaderItemText, Logo } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
