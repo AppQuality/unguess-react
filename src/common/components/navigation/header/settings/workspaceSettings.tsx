@@ -85,6 +85,7 @@ export const WorkspaceSettings = ({ onClose }: { onClose: () => void }) => {
         <FlexContainer loading={isLoading || isFetching}>
           {data?.items.map((user) => (
             <UserItem
+              key={user.id}
               user={user}
               onResendInvite={() => onResendInvite(user.email)}
               onRemoveUser={() => onRemoveUser(user.id)}
