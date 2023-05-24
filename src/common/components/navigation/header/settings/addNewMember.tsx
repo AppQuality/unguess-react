@@ -25,10 +25,8 @@ const EmailTextField = styled(Field)`
 `;
 
 export const AddNewMemberInput = ({
-  id,
   onSubmit,
 }: {
-  id: string;
   onSubmit: (
     values: { email: string },
     actions: FormikHelpers<{ email: string }>

@@ -23,7 +23,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate } from 'react-router-dom';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useTranslation } from 'react-i18next';
-import { WorkspaceSettings } from './settings/workspaceSettings';
+import { SettingsButton } from './settings/settingsButton';
 
 const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${({ theme, isCompact }) =>
@@ -120,13 +120,13 @@ export const WorkspacesDropdown = () => {
             workspaces.map((item) => <Item value={item}>{item.company}</Item>)}
         </Menu>
       </Dropdown>
-      <WorkspaceSettings />
+      <SettingsButton />
     </DropdownItem>
   ) : (
     <>
       <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
       <DropdownItem>
-        <WorkspaceSettings />
+        <SettingsButton />
       </DropdownItem>
     </>
   );

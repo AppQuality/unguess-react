@@ -9,11 +9,7 @@ import {
   Ellipsis,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as ChevronIcon } from 'src/assets/icons/chevron-down-stroke.svg';
-import {
-  GetWorkspacesByWidUsersApiResponse,
-  useDeleteWorkspacesByWidUsersMutation,
-  usePostWorkspacesByWidUsersMutation,
-} from 'src/features/api';
+import { GetWorkspacesByWidUsersApiResponse } from 'src/features/api';
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
@@ -39,98 +35,19 @@ const UserListItem = styled.div`
 
 export const UserItem = ({
   user,
+  onResendInvite,
+  onRemoveUser,
 }: {
   user: GetWorkspacesByWidUsersApiResponse['items'][number];
+  onResendInvite: () => void;
+  onRemoveUser: () => void;
 }) => {
   const { t } = useTranslation();
   const [rotated, setRotated] = useState<boolean>();
-  const { activeWorkspace, campaignId, projectId } = useAppSelector(
-    (state) => state.navigation
-  );
   const { userData } = useAppSelector((state) => state.user);
-  const [removeWorkspaceMember] = useDeleteWorkspacesByWidUsersMutation();
-  const [addNewWorkspaceMember] = usePostWorkspacesByWidUsersMutation();
-  // const [removeProjectMember] = useDeleteProjectByWidUsersMutation();
-  // const [addProjectMember] = usePostProjectByWidUsersMutation();
-  // const [removeCampaignMember] = useDeleteCampaignByWidUsersMutation();
-  // const [addCampaignMember] = usePostCampaignByWidUsersMutation();
 
   const isMe = userData?.email === user.email;
   const displayName = user.name.length ? user.name : user.email;
-
-  if (!activeWorkspace) return null;
-
-  const onAddNewWorkspaceMember = () => {
-    addNewWorkspaceMember({
-      wid: activeWorkspace.id.toString() || '0',
-      body: {
-        email: user.email,
-      },
-    }).unwrap();
-  };
-
-  const onAddNewProjectMember = () => {
-    // addProjectMember({
-    //   wid: projectId,
-    //   body: {
-    //     email: user.email,
-    //   },
-    // }).unwrap();
-    console.log('New Project Member');
-  };
-
-  const onAddNewCampaignMember = () => {
-    // addCampaignMember({
-    //   wid: campaignId,
-    //   body: {
-    //     email: user.email,
-    //   },
-    // }).unwrap();
-    console.log('New Campaign Member');
-  };
-
-  const onRemoveWorkspaceMember = () => {
-    removeWorkspaceMember({
-      wid: activeWorkspace.id.toString() || '0',
-      body: {
-        user_id: user.id,
-      },
-    }).unwrap();
-  };
-
-  const onRemoveProjectMember = () => {
-    // removeProjectMember({
-    //   wid: projectId,
-    //   body: {
-    //     user_id: user.id,
-    //   },
-    // }).unwrap();
-    console.log('Remove Project Member');
-  };
-
-  const onRemoveCampaignMember = () => {
-    // removeCampaignMember({
-    //   wid: campaignId,
-    //   body: {
-    //     user_id: user.id,
-    //   },
-    // }).unwrap();
-    console.log('Remove Campaign Member');
-  };
-
-  const onAddMember = () => {
-    if (projectId) return onAddNewProjectMember;
-    if (campaignId) return onAddNewCampaignMember;
-
-    return onAddNewWorkspaceMember;
-  };
-
-  const onRemoveMember = () => {
-    if (projectId) return onRemoveProjectMember;
-    if (campaignId) return onRemoveCampaignMember;
-
-    return onRemoveWorkspaceMember;
-  };
 
   return (
     <UserListItem key={`profile_${user.profile_id}`}>
@@ -164,11 +81,11 @@ export const UserItem = ({
             </Trigger>
             <Menu placement="bottom-end">
               {user.invitationPending && (
-                <Item value="invite" onClick={onAddMember()}>
+                <Item value="invite" onClick={onResendInvite}>
                   {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
                 </Item>
               )}
-              <Item value="remove" onClick={onRemoveMember()}>
+              <Item value="remove" onClick={onRemoveUser}>
                 <Span hue={globalTheme.colors.dangerHue}>
                   {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
                 </Span>
