@@ -54,7 +54,7 @@ export const CampaignSettings = ({ onClose }: { onClose: () => void }) => {
       <SettingsDivider />
       <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
         <Label>{t('__PERMISSION_SETTINGS_BODY_TITLE')}</Label>
-        <FlexContainer loading={isLoading || isFetching}>
+        <FlexContainer isLoading={isLoading || isFetching}>
           {data?.items.map((user) => (
             <UserItem
               key={user.id}
