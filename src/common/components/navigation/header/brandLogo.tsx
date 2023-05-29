@@ -9,6 +9,7 @@ import { useAppDispatch } from 'src/app/hooks';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
 import { ReactComponent as MenuIcon } from 'src/assets/icons/menu-stroke.svg';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { WorkspacesDropdown } from './workspaceDropdown';
 
 export const LogoIconContainer = styled(HeaderItem)`
@@ -36,10 +37,16 @@ const MenuItem = styled(HeaderItem)`
 export const BrandLogo = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const toggleSidebarState = () => {
     dispatch(toggleSidebar());
   };
+
+  const handleLogoClick = () => {
+    navigate('/'); // Navigate to the root route
+  };
+
   return (
     <>
       <MenuItem onClick={toggleSidebarState}>
@@ -51,7 +58,7 @@ export const BrandLogo = () => {
         </HeaderItemText>
       </MenuItem>
       <LogoIconContainer hasLogo>
-        <HeaderItemIcon>
+        <HeaderItemIcon onClick={handleLogoClick}>
           <Logo type="icon" size={150} />
         </HeaderItemIcon>
       </LogoIconContainer>
