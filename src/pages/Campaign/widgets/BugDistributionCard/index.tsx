@@ -82,7 +82,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
                 <XL
                   tag="span"
                   isBold
-                  color={appTheme.colors.bySeverity[maxSeverity]}
+                  color={appTheme.colors.bySeverity[maxSeverity as Severities]}
                 >
                   <Trans
                     i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_LABEL"
