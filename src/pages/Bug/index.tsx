@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { Grid, Row, Col } from '@appquality/unguess-design-system';
@@ -12,6 +13,7 @@ const Bug = () => {
   const { campaignId, bugId } = useParams();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
   if (
     !campaignId ||
@@ -28,6 +30,7 @@ const Bug = () => {
     isLoading,
     isFetching,
     isError,
+    refetch,
   } = useGetCampaignsByCidBugsAndBidQuery(
     {
       cid: campaignId,
@@ -38,7 +41,7 @@ const Bug = () => {
     }
   );
 
-  if (isLoading || isFetching) {
+  if (showSkeleton && (isLoading || isFetching)) {
     return <LoadingSkeleton />;
   }
 
@@ -46,6 +49,11 @@ const Bug = () => {
     navigate(notFoundRoute);
     return null;
   }
+
+  const refetchBugTags = () => {
+    setShowSkeleton(false);
+    refetch().then(() => setShowSkeleton(true));
+  };
 
   return (
     <Page
@@ -58,7 +66,11 @@ const Bug = () => {
         <Grid>
           <Row>
             <Col xl={8} offsetXl={2}>
-              <Content bug={bug} campaignId={campaignId} />
+              <Content
+                bug={bug}
+                campaignId={campaignId}
+                refetchBugTags={refetchBugTags}
+              />
             </Col>
           </Row>
         </Grid>
