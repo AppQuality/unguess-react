@@ -2,14 +2,13 @@ import { PieChart, SM, Span } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { WidgetLoader } from '../../widgetLoader';
 import { BugsByUseCaseVisualizationProps } from '../types';
 import { useBugsByUsecase } from '../useBugsByUsecase';
 import { useMaxItems } from '../useMaxItems';
 
 const TooltipSM = styled(SM)`
-  ${(props) => retrieveComponentStyles('text.primary', props)};
+  color: ${({ theme }) => theme.components.text.primaryColor};
 `;
 
 const Tooltip = styled.div`
@@ -55,7 +54,7 @@ export const ChartUniqueBugs4UseCase = ({
         theme={{ labels: { text: { fontSize: 10 } } }}
         tooltip={({ label, value }) => (
           <Tooltip>
-            <TooltipSM color={appTheme.components.text.primaryColor}>
+            <TooltipSM>
               {t(
                 '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_USECASE_LABEL'
               )}

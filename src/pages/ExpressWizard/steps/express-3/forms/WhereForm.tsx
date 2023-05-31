@@ -25,6 +25,7 @@ export const WhereFormButtons = (props: WizardButtonsProps) => {
       <Button
         id="express-wizard-where-back-button"
         isBasic
+        isAccent
         onClick={onBackClick}
         style={{ marginRight: appTheme.space.sm }}
       >

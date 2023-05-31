@@ -1,4 +1,3 @@
-import { ContainerCard } from '@appquality/unguess-design-system';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import BugMeta from 'src/common/components/BugDetail/Meta';
 import BugPriority from 'src/common/components/BugDetail/Priority';
@@ -16,7 +15,7 @@ interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
   campaignId: string;
 }
-
+const Container = styled.div``;
 const GridWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -24,7 +23,7 @@ const GridWrapper = styled.div`
 `;
 
 export const Content = ({ bug, campaignId }: Props) => (
-  <ContainerCard>
+  <div>
     <BugPreviewContextProvider>
       <BugHeader bug={bug} />
       <BugMeta bug={bug} />
@@ -38,5 +37,5 @@ export const Content = ({ bug, campaignId }: Props) => (
       <BugDetails bug={bug} />
       <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />
     </BugPreviewContextProvider>
-  </ContainerCard>
+  </div>
 );

@@ -19,6 +19,7 @@ export const HowFormButtons = (props: WizardButtonsProps) => {
       <Button
         id="express-wizard-who-back-button"
         isBasic
+        isAccent
         onClick={onBackClick}
         style={{ marginRight: appTheme.space.sm }}
       >

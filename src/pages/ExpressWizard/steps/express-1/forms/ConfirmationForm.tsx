@@ -20,6 +20,7 @@ export const ConfirmationFormButtons = (props: WizardButtonsProps) => {
       <Button
         id="express-wizard-confirm-back-button"
         isBasic
+        isAccent
         onClick={onBackClick}
         style={{ marginRight: appTheme.space.sm }}
       >
