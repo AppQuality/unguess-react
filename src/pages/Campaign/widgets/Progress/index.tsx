@@ -65,7 +65,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
               </SM>
               <BulletChart
                 ranges={[25, 50, 75, 100]}
-                values={[widgetData.elapsedTimePercentage]}
+                values={[widgetData.elapsedTimePercentage || 0]}
                 height="15px"
                 width="60%"
               />
