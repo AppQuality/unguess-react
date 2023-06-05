@@ -25,6 +25,7 @@ const StyledSpan = styled(Span)`
 export default ({
   bug,
   isLightbox,
+  refetchBugTags,
 }: {
   bug: Bug & {
     reporter: {
@@ -34,6 +35,7 @@ export default ({
     additional_fields?: BugAdditionalField[];
   };
   isLightbox?: boolean;
+  refetchBugTags?: () => void;
 }) => {
   const { t } = useTranslation();
   const { occurred_date, device, reporter } = bug;
@@ -44,7 +46,7 @@ export default ({
     <>
       {!isLightbox && (
         <DetailsItem>
-          <BugTags bug={bug} />
+          <BugTags bug={bug} refetchBugTags={refetchBugTags} />
         </DetailsItem>
       )}
       <DetailsItem>
