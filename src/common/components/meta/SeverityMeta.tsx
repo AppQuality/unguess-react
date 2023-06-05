@@ -1,5 +1,5 @@
 /* eslint-disable security/detect-object-injection */
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { Meta, MetaSize } from '../Meta';
 
@@ -15,7 +15,7 @@ export const SeverityMeta = ({
 }: SeverityMetaProps) => (
   <Meta
     size={size}
-    color={theme.colors.bySeverity[severity]}
+    color={appTheme.colors.bySeverity[severity]}
     secondaryText={counter}
   >
     {capitalizeFirstLetter(severity)}

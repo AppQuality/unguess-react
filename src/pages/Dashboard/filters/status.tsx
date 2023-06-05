@@ -1,5 +1,5 @@
 import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.svg';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useTranslation } from 'react-i18next';
@@ -47,17 +47,17 @@ export const StatusDropdown = () => {
       value: 'all',
     },
     incoming: {
-      icon: <Circle color={globalTheme.palette.azure[600]} />,
+      icon: <Circle color={appTheme.palette.azure[600]} />,
       label: t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_INCOMING'),
       value: CampaignStatus.Incoming,
     },
     running: {
-      icon: <Circle color={globalTheme.palette.yellow[600]} />,
+      icon: <Circle color={appTheme.palette.yellow[600]} />,
       label: t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_PROGRESS'),
       value: CampaignStatus.Running,
     },
     completed: {
-      icon: <Circle color={globalTheme.palette.green[600]} />,
+      icon: <Circle color={appTheme.palette.green[600]} />,
       label: t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_COMPLETED'),
       value: CampaignStatus.Completed,
     },

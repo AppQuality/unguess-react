@@ -1,4 +1,4 @@
-import { Skeleton, MultiSelect } from '@appquality/unguess-design-system';
+import { Skeleton, MultiSelect, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
   Bug,
@@ -6,9 +6,8 @@ import {
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
-import { Label } from './Label';
 
 export default ({
   bug,
@@ -69,13 +68,13 @@ export default ({
 
   return (
     <div>
-      <Label style={{ marginBottom: globalTheme.space.xxs }}>
+      <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
-      </Label>
+      </MD>
       {!bug || !cpTags || isLoadingCampaignTags ? (
         <Skeleton
           height="30px"
-          style={{ borderRadius: globalTheme.borderRadii.md }}
+          style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
         <div
@@ -95,7 +94,7 @@ export default ({
               addNew: (value) =>
                 `${t('__BUGS_PAGE_BUG_DETAIL_TAGS_ADD_NEW')} "${value}"`,
             }}
-            onChange={async (selectedItems, newLabel) => {
+            onChange={async (selectedItems, newMD) => {
               await patchBug({
                 cid: bug.campaign_id.toString(),
                 bid: bug.id.toString(),
@@ -106,10 +105,10 @@ export default ({
                       .map((item) => ({
                         tag_id: Number(item.id),
                       })),
-                    ...(newLabel
+                    ...(newMD
                       ? [
                           {
-                            tag_name: newLabel,
+                            tag_name: newMD,
                           },
                         ]
                       : []),

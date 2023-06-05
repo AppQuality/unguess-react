@@ -1,5 +1,6 @@
 import { Row, Span } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 
 export const StyledRow = styled(Row)`
@@ -7,7 +8,7 @@ export const StyledRow = styled(Row)`
 `;
 
 export const PrimarySpan = styled(Span)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
 `;
 
 export const SpacedField = styled(Field)`

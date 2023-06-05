@@ -4,10 +4,10 @@ import {
   Button,
   ModalClose,
 } from '@appquality/unguess-design-system';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useTranslation } from 'react-i18next';
-import { WaterButton } from 'src/common/components/waterButton';
 
 const DangerHeader = styled(Modal.Header)`
   display: flex;
@@ -16,7 +16,7 @@ const DangerHeader = styled(Modal.Header)`
   margin-left: ${({ theme }) => theme.space.xs};
   padding-left: ${({ theme }) => theme.space.xs};
   gap: ${({ theme }) => theme.space.xs};
-  color: ${({ theme }) => theme.colors.dangerHue};
+  ${(props) => retrieveComponentStyles('text.danger', props)};
 `;
 
 const DiscardChangesModal = ({
@@ -36,14 +36,14 @@ const DiscardChangesModal = ({
       <Modal.Body>{t('__EXPRESS_WIZARD_CONFIRM_CLOSE_MESSAGE')}</Modal.Body>
       <Modal.Footer>
         <FooterItem>
-          <Button isDanger isPill isBasic onClick={onClose}>
+          <Button isDanger isBasic onClick={onClose}>
             {t('__EXPRESS_WIZARD_CONFIRM_CLOSE_CANCEL_BUTTON_TEXT')}
           </Button>
         </FooterItem>
         <FooterItem>
-          <WaterButton isPrimary isPill onClick={handleCancel}>
+          <Button isPrimary isAccent onClick={handleCancel}>
             {t('__EXPRESS_WIZARD_CONFIRM_CLOSE_CONTINUE_BUTTON_TEXT')}
-          </WaterButton>
+          </Button>
         </FooterItem>
       </Modal.Footer>
       <ModalClose aria-label="Close modal" />

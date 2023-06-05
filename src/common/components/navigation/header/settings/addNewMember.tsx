@@ -8,7 +8,7 @@ import { Field } from '@zendeskgarden/react-forms';
 import { Form, Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import * as Yup from 'yup';
 import { usePostWorkspacesByWidUsersMutation } from 'src/features/api';
 import { useAppSelector } from 'src/app/hooks';
@@ -70,7 +70,7 @@ export const AddNewMemberInput = () => {
       }: FormikProps<{ email: string }>) => (
         <Form
           onSubmit={handleSubmit}
-          style={{ marginBottom: globalTheme.space.sm }}
+          style={{ marginBottom: appTheme.space.sm }}
         >
           <Label>{t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_LABEL')}</Label>
           <EmailTextField>
@@ -83,8 +83,7 @@ export const AddNewMemberInput = () => {
             />
             <Button
               isPrimary
-              isPill
-              themeColor={globalTheme.palette.water[600]}
+              isAccent
               type="submit"
               disabled={formProps.isSubmitting}
             >
@@ -94,7 +93,7 @@ export const AddNewMemberInput = () => {
           {errors.email && (
             <Message
               validation="error"
-              style={{ marginTop: globalTheme.space.xs }}
+              style={{ marginTop: appTheme.space.xs }}
             >
               {errors.email}
             </Message>

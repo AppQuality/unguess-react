@@ -4,21 +4,21 @@ import {
   Modal,
   ModalClose,
   Row,
-  theme as globalTheme,
   Paragraph,
   MD,
+  Button,
 } from '@appquality/unguess-design-system';
 import { Field, Input } from '@zendeskgarden/react-forms';
 import { Datepicker } from '@zendeskgarden/react-datepickers';
 import { useState } from 'react';
 import i18n from 'src/i18n';
 import { t } from 'i18next';
+import { appTheme } from 'src/app/theme';
 import { addBusinessDays, format, isToday } from 'date-fns';
 import {
   EXPRESS_BUSINESS_DAYS_TO_ADD,
   EXPRESS_START_DATE_MAX_VALUE,
 } from 'src/constants';
-import { WaterButton } from 'src/common/components/waterButton';
 import styled from 'styled-components';
 import { getLanguage } from './getLanguage';
 
@@ -119,8 +119,8 @@ const PlanningModal = ({
           <Col xs={12}>
             <Paragraph
               style={{
-                marginBottom: globalTheme.space.xl,
-                color: globalTheme.palette.grey[600],
+                marginBottom: appTheme.space.xl,
+                color: appTheme.palette.grey[600],
               }}
             >
               <MD>
@@ -128,16 +128,16 @@ const PlanningModal = ({
               </MD>
             </Paragraph>
             <InBodyFooter>
-              <WaterButton isBasic onClick={onClose}>
+              <Button isBasic onClick={onClose}>
                 {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CANCEL')}
-              </WaterButton>
-              <WaterButton
-                isPill
+              </Button>
+              <Button
                 isPrimary
+                isAccent
                 onClick={() => onSave(launchDate, endDate)}
               >
                 {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CONFIRM')}
-              </WaterButton>
+              </Button>
             </InBodyFooter>
           </Col>
         </Row>

@@ -1,9 +1,4 @@
-import {
-  IconButton,
-  theme as globalTheme,
-  Tooltip,
-  Tag,
-} from '@appquality/unguess-design-system';
+import { IconButton, Tooltip, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.svg';
@@ -15,6 +10,7 @@ import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { Link } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 
 const Container = styled.div`
   display: flex;
@@ -22,13 +18,13 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 
-  padding: 0 ${globalTheme.space.lg};
-  padding-top: ${globalTheme.space.lg};
+  padding: 0 ${appTheme.space.lg};
+  padding-top: ${appTheme.space.lg};
   position: sticky;
   top: 0;
   background-color: white;
   width: 100%;
-  z-index: ${globalTheme.levels.front};
+  z-index: ${appTheme.levels.front};
 `;
 
 const ActionDetailPreview = styled.div`
@@ -55,14 +51,14 @@ export default ({
         isPill={false}
         isRegular
         hue="rgba(0,0,0,0)"
-        style={{ paddingTop: `${globalTheme.space.base}px` }}
+        style={{ paddingTop: `${appTheme.space.base}px` }}
       >
         {!bug.duplicated_of_id && (
           <Tag.Avatar>
             <FatherIcon
               style={{
-                color: globalTheme.palette.grey[500],
-                marginRight: globalTheme.space.xxs,
+                color: appTheme.palette.grey[500],
+                marginRight: appTheme.space.xxs,
               }}
             />
           </Tag.Avatar>

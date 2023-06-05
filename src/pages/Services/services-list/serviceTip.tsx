@@ -1,8 +1,7 @@
-import { InfoCard } from '@appquality/unguess-design-system';
+import { Button, InfoCard } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
-import { WaterButton } from 'src/common/components/waterButton';
 
 export const ServiceTip = () => {
   const { t } = useTranslation();
@@ -14,10 +13,10 @@ export const ServiceTip = () => {
       infoTitle={t('__CATALOG_PAGE_INFO_SERVICE_TITLE')}
       infoSubtitle={t('__CATALOG_PAGE_INFO_SERVICE_SUBTITLE')}
       infoButtons={[
-        <WaterButton
-          isPill
+        <Button
           isPrimary
           size="small"
+          isAccent
           onClick={() => {
             window.location.href = `mailto:${
               activeWorkspace?.csm.email || 'info@unguess.io'
@@ -25,7 +24,7 @@ export const ServiceTip = () => {
           }}
         >
           {t('__CATALOG_PAGE_INFO_SERVICE_BUTTON_CONTACT_LABEL')}
-        </WaterButton>,
+        </Button>,
       ]}
     />
   );

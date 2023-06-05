@@ -16,6 +16,7 @@ import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
 import { ServiceResponse } from 'src/features/backoffice';
 import { Link } from 'react-scroll';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
 import { StyledDivider } from 'src/common/components/navigation';
@@ -42,7 +43,6 @@ const StickyContainerTitle = styled(MD)`
 `;
 
 const StickyContainerParagraph = styled(Paragraph)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
@@ -55,7 +55,7 @@ const StyledOrderListItem = styled(OrderedList.Item)`
 
   ::marker,
   > a {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
     cursor: pointer;
   }
 `;
@@ -67,12 +67,11 @@ const TimelineCard = styled(StyledCardContainer)`
 `;
 
 const StepTitle = styled(XXL)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   margin-bottom: ${({ theme }) => theme.space.md};
 
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -92,7 +91,6 @@ const AdvantagesContainer = styled.div`
 `;
 
 const SectionTitle = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 

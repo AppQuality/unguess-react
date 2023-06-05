@@ -1,5 +1,5 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
@@ -84,25 +84,19 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         {outputs?.includes('media') && (
           <Button
             id="button-media-list-header"
-            isPill
             onClick={() =>
               openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
                 newTab: true,
               })
             }
-            style={{ marginLeft: globalTheme.space.xs }}
+            style={{ marginLeft: appTheme.space.xs }}
           >
             {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
           </Button>
         )}
         {outputs?.includes('bugs') && (
           <Link to={functionalDashboardLink}>
-            <Button
-              id="button-bugs-list-header"
-              isPrimary
-              isPill
-              themeColor={globalTheme.palette.water[600]}
-            >
+            <Button id="button-bugs-list-header" isPrimary isAccent>
               {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
             </Button>
           </Link>

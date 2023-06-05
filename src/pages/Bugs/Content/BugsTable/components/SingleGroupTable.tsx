@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import {
   getSelectedBugId,
   selectBug,
@@ -31,7 +31,7 @@ const SingleGroupTable = ({
   const currentBugId = getSelectedBugId();
   const navigate = useNavigate();
 
-  const breakpointLg = parseInt(globalTheme.breakpoints.lg, 10);
+  const breakpointLg = parseInt(appTheme.breakpoints.lg, 10);
   const isLgBreakpoint = width < breakpointLg;
   const bugPageUrlWithoutId = useLocalizeRoute(`campaigns/${campaignId}/bugs/`);
 
@@ -56,7 +56,7 @@ const SingleGroupTable = ({
 
   return (
     <Table
-      style={{ margin: `${globalTheme.space.xs} 0` }}
+      style={{ margin: `${appTheme.space.xs} 0` }}
       columns={columns}
       data={getDisplayedBugs()}
       selectedRow={currentBugId ? currentBugId.toString() : null}

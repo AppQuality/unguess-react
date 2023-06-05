@@ -2,8 +2,8 @@ import {
   Tooltip,
   IconButton,
   XXXL,
-  MD,
-  SM,
+  TextDescription,
+  TextLabel,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import React from 'react';
@@ -50,18 +50,13 @@ const BasicWidgetHeader = ({
   />
 );
 
-const WidgetCardDescriptionHeader = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-`;
-
 const WidgetCardDescriptionContent = styled(XXXL)`
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
 `;
 
-const WidgetCardDescriptionFooter = styled(MD)`
+const WidgetCardDescriptionFooter = styled(TextDescription)`
   margin-bottom: ${({ theme }) => theme.space.xxs};
-  color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
 const BasicWidgetDescription = ({
@@ -74,7 +69,7 @@ const BasicWidgetDescription = ({
   footer: React.ReactNode;
 }) => (
   <div>
-    <WidgetCardDescriptionHeader>{header}</WidgetCardDescriptionHeader>
+    <TextLabel>{header}</TextLabel>
     <WidgetCardDescriptionContent isBold>
       {content}
     </WidgetCardDescriptionContent>

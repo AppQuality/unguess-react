@@ -3,8 +3,8 @@ import {
   Row,
   Paragraph,
   theme,
-  MD,
   ProductCard,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -83,9 +83,9 @@ export const ActionCards = () => {
     <Row>
       <Col xs={12} style={{ marginBottom: `${theme.space.base * 4}px` }}>
         <Paragraph>
-          <MD style={{ color: theme.palette.grey[700] }}>
+          <TextDescription>
             {t('__DASHABOARD_NEWS_ACTION_CARDS_TITLE MAX:12').toUpperCase()}
-          </MD>
+          </TextDescription>
         </Paragraph>
       </Col>
       <Col xs={12} md={4} lg={3}>

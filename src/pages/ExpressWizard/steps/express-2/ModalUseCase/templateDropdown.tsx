@@ -1,6 +1,5 @@
 import {
   Label,
-  theme as globalTheme,
   Span,
   Dropdown,
   Menu,
@@ -22,6 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
 import useDebounce from 'src/hooks/useDebounce';
 import styled from 'styled-components';
+import { appTheme } from 'src/app/theme';
 
 const StyledItem = styled(Item)`
   padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.lg};
@@ -132,7 +132,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
       <DropdownField>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
         </Label>
         <Autocomplete start={<FunctionalityIcon />}>
           {selectedItem?.title ??

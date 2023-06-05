@@ -3,10 +3,11 @@ import {
   MD,
   SM,
   Anchor,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import React from 'react';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 
 const BugCardContainer = styled(ContainerCard)<
   React.ComponentProps<typeof ContainerCard> & {
@@ -85,7 +86,7 @@ const BugCard = ({ children, url, ...props }: BugCardArgs) => (
       {...props}
       borderColor={
         'severity' in props
-          ? globalTheme.colors.bySeverity[props.severity as Severities]
+          ? appTheme.colors.bySeverity[props.severity as Severities]
           : props.borderColor
       }
     >
@@ -106,7 +107,7 @@ BugCard.TopTitle = BugCardTopTitle;
 const BugCardTitle = ({ children }: { children: React.ReactNode }) => (
   <MD
     className="anchor-bug-card-title"
-    style={{ color: globalTheme.palette.blue[600] }}
+    style={{ color: appTheme.palette.blue[600] }}
     isBold
   >
     {children}
@@ -130,11 +131,13 @@ BugCard.Separator = styled.div`
   background-color: #e6e6e6;
 `;
 
-const BugCardDescription = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey['700']};
+const BugCardDescription = styled(TextDescription)`
   margin-top: ${({ theme }) => theme.space.xxs};
   margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
+BugCardDescription.defaultProps = {
+  isSmall: true,
+};
 BugCard.Description = BugCardDescription;
 
 export { BugCard };

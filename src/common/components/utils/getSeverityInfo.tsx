@@ -1,4 +1,4 @@
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { TFunction } from 'react-i18next';
 
 type SeverityInfo = {
@@ -12,7 +12,7 @@ export const getSeverityInfo = (
 ): SeverityInfo => {
   const severityInfo: SeverityInfo = {
     color:
-      globalTheme.colors.bySeverity[severity.toLocaleLowerCase() as Severities],
+      appTheme.colors.bySeverity[severity.toLocaleLowerCase() as Severities],
     text: '',
   };
 

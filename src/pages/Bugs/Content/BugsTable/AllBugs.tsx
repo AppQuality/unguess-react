@@ -1,4 +1,4 @@
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { TableBugType } from '../../types';
 import { InfoRow } from './components/InfoRow';
@@ -14,7 +14,7 @@ export const AllBugs = ({
 }) => {
   const { width } = useWindowSize();
 
-  const breakpointMd = parseInt(globalTheme.breakpoints.md, 10);
+  const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
   const isMdBreakpoint = width < breakpointMd;
 
   return (

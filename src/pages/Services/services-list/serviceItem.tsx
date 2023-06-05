@@ -15,7 +15,6 @@ import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.s
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
 import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
-import { WaterButton } from 'src/common/components/waterButton';
 import {
   openDrawer,
   setExpressTypeId,
@@ -75,7 +74,6 @@ export const ServiceItem = ({
   buttons.push(
     <Button
       className="service-card-details-button"
-      isPill
       isStretched
       size="small"
       onClick={() => navigateToService(service.id)}
@@ -107,12 +105,12 @@ export const ServiceItem = ({
       if (!expressType) return null;
 
       buttons.push(
-        <WaterButton
+        <Button
           className="service-card-express-button"
-          isPill
           isStretched
           size="small"
           isPrimary
+          isAccent
           onClick={() => {
             dispatch(setExpressTypeId(expressType.id));
             dispatch(openDrawer());
@@ -120,7 +118,7 @@ export const ServiceItem = ({
           }}
         >
           {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
-        </WaterButton>
+        </Button>
       );
     } else {
       return null;
@@ -132,16 +130,16 @@ export const ServiceItem = ({
     });
 
     buttons.push(
-      <WaterButton
+      <Button
         className="service-card-contact-button"
-        isPill
         isStretched
+        isAccent
         size="small"
         isPrimary
         onClick={() => handleHubspot()}
       >
         {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
-      </WaterButton>
+      </Button>
     );
   }
 

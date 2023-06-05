@@ -3,7 +3,7 @@ import {
   Row,
   Paragraph,
   theme,
-  MD,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
@@ -41,9 +41,9 @@ export const SuggestedCampaigns = () => {
       <Row>
         <Col xs={12} style={{ marginBottom: `${theme.space.base * 4}px` }}>
           <Paragraph>
-            <MD style={{ color: theme.palette.grey[700] }}>
+            <TextDescription>
               {t('__DASHABOARD_SUGGESTED_CAMPAIGN_TITLE MAX:12').toUpperCase()}
-            </MD>
+            </TextDescription>
           </Paragraph>
         </Col>
       </Row>

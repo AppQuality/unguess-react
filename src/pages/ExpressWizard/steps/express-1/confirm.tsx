@@ -8,7 +8,6 @@ import {
   XXL,
   Grid,
   Row,
-  theme as globalTheme,
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
@@ -18,6 +17,8 @@ import { Textarea } from '@zendeskgarden/react-forms';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { appTheme } from 'src/app/theme';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useEffect } from 'react';
 import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
@@ -27,7 +28,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
 
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -46,7 +47,6 @@ const StyledLabel = styled(Label)`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   margin-top: ${({ theme }) => theme.space.base}px;
 `;
 
@@ -85,18 +85,14 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION')}</Paragraph>
       <CardDivider />
 
-      <StyledFormField
-        style={{ marginTop: `${globalTheme.space.base * 10}px` }}
-      >
+      <StyledFormField style={{ marginTop: `${appTheme.space.base * 10}px` }}>
         <StyledCard>
           <WhatConfirm {...props} />
         </StyledCard>
       </StyledFormField>
 
       {hasWhereStep ? (
-        <StyledFormField
-          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
-        >
+        <StyledFormField style={{ marginTop: `${appTheme.space.base * 7}px` }}>
           <StyledCard>
             <WhereConfirm {...props} />
           </StyledCard>
@@ -104,16 +100,14 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       ) : null}
 
       {hasWhoStep ? (
-        <StyledFormField
-          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
-        >
+        <StyledFormField style={{ marginTop: `${appTheme.space.base * 7}px` }}>
           <StyledCard>
             <WhoConfirm {...props} />
           </StyledCard>
         </StyledFormField>
       ) : null}
 
-      <StyledFormField style={{ marginTop: `${globalTheme.space.base * 7}px` }}>
+      <StyledFormField style={{ marginTop: `${appTheme.space.base * 7}px` }}>
         <StyledCard>
           <Grid>
             <Row>

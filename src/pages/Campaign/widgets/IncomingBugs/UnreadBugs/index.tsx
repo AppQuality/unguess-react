@@ -4,10 +4,11 @@ import {
   SM,
   Span,
   Tag,
+  TextLabel,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { BugCard } from 'src/common/components/BugCard';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { UnreadBugsWrapper } from './UnreadBugsWrapper';
@@ -42,13 +43,13 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
 
   if (isLoading)
     return (
-      <div style={{ marginTop: globalTheme.space.sm }}>
+      <div style={{ marginTop: appTheme.space.sm }}>
         <StyledSkeleton width="80%" height="28px" />
         <StyledSkeleton width="60%" height="22px" />
         <StyledSkeleton
           width="60%"
           height="22px"
-          style={{ marginBottom: globalTheme.space.md }}
+          style={{ marginBottom: appTheme.space.md }}
         />
 
         <StyledSkeleton width="80%" height="28px" />
@@ -70,20 +71,17 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
             <Accordion.Header>
               <StyledAccordionLabel>
                 <UseCaseLabel>
-                  <SM isBold style={{ paddingRight: globalTheme.space.xs }}>
+                  <SM isBold style={{ paddingRight: appTheme.space.xs }}>
                     {usecase.title}
                   </SM>
-                  <SM style={{ color: globalTheme.palette.grey[600] }}>
+                  <TextLabel>
                     <Span>({t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD')}</Span>
                     {': '}
-                    <Span
-                      isBold
-                      style={{ color: globalTheme.palette.blue[600] }}
-                    >
+                    <Span isBold style={{ color: appTheme.palette.blue[600] }}>
                       {usecase.unreadCount}
                     </Span>
                     /{usecase.totalCount})
-                  </SM>
+                  </TextLabel>
                 </UseCaseLabel>
               </StyledAccordionLabel>
             </Accordion.Header>

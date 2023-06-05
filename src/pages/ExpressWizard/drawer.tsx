@@ -7,6 +7,7 @@ import {
   MD,
   UnorderedList,
   Tag,
+  Button,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -24,7 +25,6 @@ import { extractStrapiData } from 'src/common/getStrapiData';
 import { STRAPI_URL } from 'src/constants';
 import i18n from 'src/i18n';
 import { ProjectDropdown } from './projectDropdown';
-import { WaterButton } from '../../common/components/waterButton';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
 
@@ -146,15 +146,15 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
-          <WaterButton
+          <Button
             id="express-drawer-start-button"
             isPrimary
-            isPill
+            isAccent
             onClick={onCtaClick}
             {...(!project && { disabled: true })}
           >
             {t('__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON')}
-          </WaterButton>
+          </Button>
         </Drawer.FooterItem>
       </Drawer.Footer>
       <Drawer.Close id="express-drawer-close-button" onClick={onClose} />

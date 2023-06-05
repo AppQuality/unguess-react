@@ -5,7 +5,7 @@ import {
   SM,
   Tag,
 } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -17,10 +17,6 @@ import { WidgetLoader } from '../widgetLoader';
 const ChartContainer = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const Value = styled(Span)`
-  color: ${({ theme: globalTheme }) => globalTheme.colors.primaryHue};
 `;
 
 export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
@@ -44,7 +40,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
         <>
           <ChartContainer style={{ height }}>
             <div style={{ width: '100%' }}>
-              <SM style={{ marginBottom: theme.space.xs }}>
+              <SM style={{ marginBottom: appTheme.space.xs }}>
                 {t(
                   '__CAMPAIGN_PAGE_WIDGET_PROGRESS_USECASE_BULLET_TITLE',
                   'Use Case completion'
@@ -58,8 +54,8 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
               />
               <SM
                 style={{
-                  marginBottom: theme.space.xs,
-                  marginTop: theme.space.md,
+                  marginBottom: appTheme.space.xs,
+                  marginTop: appTheme.space.md,
                 }}
               >
                 {t(
@@ -69,7 +65,7 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
               </SM>
               <BulletChart
                 ranges={[25, 50, 75, 100]}
-                values={[widgetData.elapsedTimePercentage]}
+                values={[widgetData.elapsedTimePercentage || 0]}
                 height="15px"
                 width="60%"
               />
@@ -78,9 +74,13 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
           <BasicWidget.Description
             header={widgetData.durationLabel}
             content={
-              <div style={{ color: theme.palette.blue['600'] }}>
+              <div style={{ color: appTheme.palette.blue['600'] }}>
                 {widgetData.duration.value}{' '}
-                <XL tag="span" isBold>
+                <XL
+                  tag="span"
+                  isBold
+                  color={appTheme.components.text.primaryColor}
+                >
                   {widgetData.duration.unit}
                 </XL>
               </div>
@@ -89,7 +89,14 @@ export const Progress: FC<{ campaign: Campaign }> = ({ campaign }) => {
               widgetData.expectedDuration ? (
                 <Trans
                   i18nKey="__CAMPAIGN_PAGE_WIDGET_PROGRESS_DESCRIPTION_FOOTER"
-                  components={{ bold: <Value isBold /> }}
+                  components={{
+                    bold: (
+                      <Span
+                        color={appTheme.components.text.primaryColor}
+                        isBold
+                      />
+                    ),
+                  }}
                   defaults="over <bold>{{ expectedDuration }}</bold> expected"
                   values={{
                     expectedDuration: `${widgetData.expectedDuration.value} ${widgetData.expectedDuration.unit}`,

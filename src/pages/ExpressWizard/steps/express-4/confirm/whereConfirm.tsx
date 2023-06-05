@@ -14,7 +14,6 @@ const StyledLabel = styled(Label)`
 `;
 
 const StyledParagraph = styled(Paragraph)`
-  color: ${({ theme }) => theme.palette.grey[800]};
   margin-top: ${({ theme }) => theme.space.base}px;
 `;
 

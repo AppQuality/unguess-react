@@ -7,14 +7,13 @@ import {
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import {
   getCurrentCampaignData,
   getIsNaBugExcluded,
   resetFilters,
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
-import styled from 'styled-components';
 import { Bug } from 'src/features/api';
 import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
@@ -30,12 +29,6 @@ import { UseCaseField } from './UseCaseField';
 import { PriorityField } from './PriorityField';
 import { CustomStatusField } from './CustomStatusField';
 import { BugItem } from '../types';
-
-export const WaterButton = styled(Button)``;
-
-WaterButton.defaultProps = {
-  themeColor: globalTheme.palette.water[600],
-};
 
 const BugsFilterDrawer = () => {
   const dispatch = useAppDispatch();
@@ -71,8 +64,8 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_COMMON_LABEL')}
@@ -89,9 +82,9 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
-            marginTop: globalTheme.space.md,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
+            marginTop: appTheme.space.md,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_ACTIONS_LABEL')}
@@ -106,9 +99,9 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
-            marginTop: globalTheme.space.md,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
+            marginTop: appTheme.space.md,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_BUG_LABEL')}
@@ -159,20 +152,20 @@ const BugsFilterDrawer = () => {
       <Drawer.Body>{memoizedFilters}</Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
-          <Button id="filters-drawer-reset" isPill onClick={onResetClick}>
+          <Button id="filters-drawer-reset" onClick={onResetClick}>
             {t('__BUGS_PAGE_FILTER_DRAWER_RESET_BUTTON')}
           </Button>
         </Drawer.FooterItem>
         <Drawer.FooterItem>
-          <WaterButton
+          <Button
             id="filters-drawer-confirm"
             isPrimary
-            isPill
+            isAccent
             onClick={onCtaClick}
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON')}
             {bugItems.length && ` (${bugItems.length})`}
-          </WaterButton>
+          </Button>
         </Drawer.FooterItem>
       </Drawer.Footer>
       <Drawer.Close id="filters-drawer-close" onClick={onClose} />

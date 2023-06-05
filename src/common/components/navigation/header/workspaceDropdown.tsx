@@ -12,10 +12,11 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { theme as appTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Workspace } from 'src/features/api';
 import styled from 'styled-components';
 import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import API from 'src/common/api';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import TagManager from 'react-gtm-module';
@@ -37,7 +38,7 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
 const DropdownItem = styled(HeaderItem)`
   margin-right: auto;
   margin-left: -8px;
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   font-family: ${({ theme }) => theme.fonts.system};
   z-index: 2;
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -47,7 +48,7 @@ const DropdownItem = styled(HeaderItem)`
 
 const BrandName = styled(HeaderItemText)`
   margin-right: ${({ theme }) => theme.space.sm}};
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   font-family: ${({ theme }) => theme.fonts.system};
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
@@ -103,7 +104,7 @@ export const WorkspacesDropdown = () => {
         }}
       >
         <Field>
-          <Select style={{ color: appTheme.colors.primaryHue }}>
+          <Select style={{ color: appTheme.components.text.primaryColor }}>
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
             </StyledEllipsis>
@@ -111,7 +112,7 @@ export const WorkspacesDropdown = () => {
         </Field>
         <Menu>
           <MenuHeaderItem>
-            <MD isBold style={{ color: appTheme.palette.grey[800] }}>
+            <MD isBold>
               {t('__APP_MOBILE_NAVIGATION_WORKSPACES_DROPDOWN_LABEL')}
             </MD>
           </MenuHeaderItem>
