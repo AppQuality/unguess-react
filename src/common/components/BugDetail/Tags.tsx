@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 export default ({
   bug,
+  refetchBugTags,
 }: {
   bug: Bug & {
     reporter: {
@@ -19,6 +20,7 @@ export default ({
     };
     tags?: BugTag[];
   };
+  refetchBugTags?: () => void;
 }) => {
   const { t } = useTranslation();
   const { tags: bugTags } = bug;
@@ -139,6 +141,8 @@ export default ({
 
                   // Refetch cp tags to get the new ones
                   refetchCpTags();
+                  // Refetch bug tags to get the new ones
+                  refetchBugTags?.();
                 })
                 .catch((err) => {
                   // eslint-disable-next-line no-console

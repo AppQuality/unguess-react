@@ -15,6 +15,7 @@ import { BugPreviewContextProvider } from '../Bugs/Content/context/BugPreviewCon
 interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
   campaignId: string;
+  refetchBugTags?: () => void;
 }
 const Container = styled(ContainerCard)`
   color: ${({ theme }) => theme.colors.foreground};
@@ -25,7 +26,7 @@ const GridWrapper = styled.div`
   column-gap: ${({ theme }) => theme.space.sm};
 `;
 
-export const Content = ({ bug, campaignId }: Props) => (
+export const Content = ({ bug, campaignId, refetchBugTags }: Props) => (
   <Container>
     <BugPreviewContextProvider>
       <BugHeader bug={bug} />
@@ -37,7 +38,7 @@ export const Content = ({ bug, campaignId }: Props) => (
       </GridWrapper>
       <BugDescription bug={bug} />
       {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
-      <BugDetails bug={bug} />
+      <BugDetails bug={bug} refetchBugTags={refetchBugTags} />
       <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />
     </BugPreviewContextProvider>
   </Container>
