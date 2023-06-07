@@ -13,10 +13,7 @@ import { ReactComponent as GridIcon } from 'src/assets/icons/grid.svg';
 import { ReactComponent as ListIcon } from 'src/assets/icons/list.svg';
 import { useEffect, useMemo, useState } from 'react';
 import { selectFilteredCampaigns } from 'src/features/campaigns';
-import {
-  Campaign,
-  useGetWorkspacesByWidCampaignsQuery,
-} from 'src/features/api';
+import { Campaign, useGetProjectsByPidCampaignsQuery } from 'src/features/api';
 import { createSelector } from '@reduxjs/toolkit';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { CardList } from './list';
@@ -31,11 +28,8 @@ const FloatRight = styled.div`
   margin-bottom: ${theme.space.xs};
 `;
 
-export const ProjectItems = () => {
+export const ProjectItems = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
   const { width } = useWindowSize();
   const breakpointMd = parseInt(theme.breakpoints.md, 10);
 
@@ -48,8 +42,8 @@ export const ProjectItems = () => {
   );
 
   const { filteredCampaigns, isLoading, isFetching } =
-    useGetWorkspacesByWidCampaignsQuery(
-      { wid: activeWorkspace?.id.toString() || '', limit: 10000 },
+    useGetProjectsByPidCampaignsQuery(
+      { pid: projectId, limit: 10000 },
       {
         selectFromResult: (result) => ({
           ...result,

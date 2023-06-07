@@ -48,7 +48,13 @@ const Project = () => {
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
     >
       <LayoutWrapper>
-        <Grid>{project.isSuccess ? <ProjectItems /> : <CardRowLoading />}</Grid>
+        <Grid>
+          {project.isSuccess ? (
+            <ProjectItems projectId={Number(projectId) || 0} />
+          ) : (
+            <CardRowLoading />
+          )}
+        </Grid>
       </LayoutWrapper>
     </Page>
   );
