@@ -117,7 +117,7 @@ export const CampaignsList = () => {
         )}
       </Row>
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
-      <Filters />
+      <Filters campaigns={filteredCampaigns} />
 
       {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={campaigns} />

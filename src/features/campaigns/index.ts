@@ -64,7 +64,7 @@ export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
   return statuses;
 };
 
-interface TestName {
+export interface TestName {
   label: string;
   value: string;
 }

@@ -1,29 +1,19 @@
 import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
-
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { typeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { selectTypes } from 'src/features/campaigns';
-import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
 import { DropdownItem, DropdownItems, getItemText } from './utils';
 import { UgMenu } from './styledMenu';
 
-export const CampaignTypeDropdown = () => {
+export const CampaignTypeDropdown = ({
+  availableTypes,
+}: {
+  availableTypes: string[];
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { type } = useAppSelector((state) => state.filters);
-
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
-
-  const { data } = useGetWorkspacesByWidCampaignsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
-
-  const campaigns = data?.items || [];
-  const availableTypes = selectTypes(campaigns);
 
   const items: DropdownItems = {
     all: {

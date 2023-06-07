@@ -33,7 +33,7 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
   const { width } = useWindowSize();
   const breakpointMd = parseInt(theme.breakpoints.md, 10);
 
-  // Get workspaces campaigns from rtk query and filter them
+  // Get project campaigns from rtk query and filter them
   const filters = useAppSelector((state) => state.filters);
 
   const getFilteredCampaigns = useMemo(
@@ -107,7 +107,7 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
         )}
       </Row>
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
-      <Filters />
+      <Filters campaigns={filteredCampaigns} />
 
       {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={filteredCampaigns as Campaign[]} />
