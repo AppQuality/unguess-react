@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Button } from '@appquality/unguess-design-system';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
 import { useTranslation } from 'react-i18next';
@@ -17,11 +17,11 @@ export const SettingsButton = () => {
     <>
       <Button
         onClick={() => setIsModalOpen(true)}
-        style={{ marginLeft: globalTheme.space.xs }}
+        style={{ marginLeft: appTheme.space.xs }}
         isBasic
       >
         <Button.StartIcon>
-          <UsersIcon style={{ height: globalTheme.iconSizes.lg }} />
+          <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
         {t('__WORKSPACE_SETTINGS_CTA_TEXT')}
       </Button>

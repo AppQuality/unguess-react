@@ -1,4 +1,4 @@
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import {
   Label,
   Modal,
@@ -44,7 +44,7 @@ export const ProjectSettings = ({ onClose }: { onClose: () => void }) => {
     <Modal onClose={onClose}>
       <Modal.Header>
         {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
-        <Span style={{ color: globalTheme.palette.blue[600] }}>
+        <Span style={{ color: appTheme.palette.blue[600] }}>
           {permissionSettingsTitle}
         </Span>
       </Modal.Header>
