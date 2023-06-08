@@ -7,7 +7,11 @@ import {
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
-import { useGetWorkspacesByWidUsersQuery } from 'src/features/api';
+import {
+  useDeleteProjectsByPidUsersMutation,
+  useGetProjectsByPidUsersQuery,
+  usePostProjectsByPidUsersMutation,
+} from 'src/features/api';
 import { FormikHelpers } from 'formik';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
@@ -19,25 +23,55 @@ export const ProjectSettings = ({ onClose }: { onClose: () => void }) => {
     (state) => state.navigation
   );
   const { t } = useTranslation();
+  const [addNewMember] = usePostProjectsByPidUsersMutation();
+  const [removeUser] = useDeleteProjectsByPidUsersMutation();
 
-  // TODO change hook for get project user
-  const { isLoading, isFetching, data } = useGetWorkspacesByWidUsersQuery({
-    wid: projectId?.toString() || '0',
-  });
+  const { isLoading, isFetching, data, refetch } =
+    useGetProjectsByPidUsersQuery({
+      pid: projectId?.toString() || '0',
+    });
 
   const onSubmitNewMember = (
     values: { email: string },
     actions: FormikHelpers<{ email: string }>
   ) => {
-    console.log('email: ', values.email);
+    addNewMember({
+      pid: projectId?.toString() || '0',
+      body: {
+        email: values.email,
+      },
+    })
+      .then(() => {
+        actions.setSubmitting(false);
+        refetch();
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+        actions.setSubmitting(false);
+      });
   };
 
   const onResendInvite = (email: string) => {
-    console.log('email: ', email);
+    addNewMember({
+      pid: projectId?.toString() || '0',
+      body: {
+        email,
+      },
+    }).unwrap();
   };
 
   const onRemoveUser = (id: number) => {
-    console.log('user id: ', id);
+    removeUser({
+      pid: projectId?.toString() || '0',
+      body: {
+        user_id: id,
+      },
+    })
+      .unwrap()
+      .then(() => {
+        refetch();
+      });
   };
 
   return (
