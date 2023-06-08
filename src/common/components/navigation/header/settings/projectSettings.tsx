@@ -4,6 +4,8 @@ import {
   Modal,
   ModalClose,
   Span,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +25,7 @@ export const ProjectSettings = ({ onClose }: { onClose: () => void }) => {
     (state) => state.navigation
   );
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const [addNewMember] = usePostProjectsByPidUsersMutation();
   const [removeUser] = useDeleteProjectsByPidUsersMutation();
 
@@ -58,7 +61,22 @@ export const ProjectSettings = ({ onClose }: { onClose: () => void }) => {
       body: {
         email,
       },
-    }).unwrap();
+    })
+      .unwrap()
+      .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PERMISSION_SETTINGS_TOAST_RESEND')}
+              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
   };
 
   const onRemoveUser = (id: number) => {

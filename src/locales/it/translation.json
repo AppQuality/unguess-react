@@ -666,6 +666,7 @@
   "__PERMISSION_SETTINGS_HEADER_TITLE": "Condividi",
   "__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT": "Chiudi",
   "__PERMISSION_SETTINGS_TOAST_COPY_MESSAGE": "Hai copiato il link",
+  "__PERMISSION_SETTINGS_TOAST_RESEND": "Hai rimandato l'invito",
   "__PROFILE_MODAL_CHAT_SUPPORT_LABEL": "Riporta un problema tecnico",
   "__PROFILE_MODAL_COPY_LABEL": "Copia",
   "__PROFILE_MODAL_CSM_CONTACT_LABEL": "Contatta il tuo CSM",
