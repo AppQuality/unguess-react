@@ -31,7 +31,7 @@ const Project = () => {
   }
 
   const project = useGetProjectsByPidQuery({
-    pid: Number(projectId),
+    pid: projectId ?? '0',
   });
 
   useEffect(() => {

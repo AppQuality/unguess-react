@@ -33,7 +33,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     isSuccess,
     data: project,
   } = useGetProjectsByPidQuery({
-    pid: projectId,
+    pid: projectId.toString(),
   });
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                 e.currentTarget.value !== project?.name
               ) {
                 await patchProject({
-                  pid: projectId,
+                  pid: projectId.toString(),
                   body: { display_name: e.currentTarget.value },
                 }).unwrap();
               }

@@ -23,7 +23,7 @@ export const useCampaign = (campaignId: number) => {
     isError: isProjectError,
     data: project,
   } = useGetProjectsByPidQuery({
-    pid: campaign?.project.id ?? 0,
+    pid: campaign?.project.id.toString() ?? '0',
   });
 
   const projectRoute = useLocalizeRoute(

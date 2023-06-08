@@ -59,7 +59,7 @@ export const useWidgetData = (cid: number, t: TFunction) => {
     isLoading,
     isError,
   } = useGetCampaignsByCidWidgetsQuery({
-    cid,
+    cid: cid.toString(),
     s: 'cp-progress',
   });
 
