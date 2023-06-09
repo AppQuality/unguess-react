@@ -6,8 +6,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { statusFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { CampaignStatus, selectStatuses } from 'src/features/campaigns';
-import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
+import { CampaignStatus } from 'src/features/campaigns';
 import { DropdownItem, DropdownItems, getItemText } from './utils';
 import { UgMenu } from './styledMenu';
 
@@ -24,20 +23,13 @@ const StyledItem = styled(Item)`
   }
 `;
 
-export const StatusDropdown = () => {
+export const StatusDropdown = ({
+  availableStatuses,
+}: {
+  availableStatuses: string[];
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
-
-  const { data } = useGetWorkspacesByWidCampaignsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
-
-  const campaigns = data?.items || [];
-  const availableStatuses = selectStatuses(campaigns);
 
   const { status } = useAppSelector((state) => state.filters);
 
