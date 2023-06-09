@@ -100,9 +100,12 @@ export const Navigation = ({
     });
   }
 
-  const projects = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
+  const projects = useGetWorkspacesByWidProjectsQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    { skip: !activeWorkspace?.id }
+  );
 
   const projectsList =
     !projects.data || !projects.data.items
