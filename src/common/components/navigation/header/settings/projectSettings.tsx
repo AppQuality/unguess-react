@@ -75,6 +75,18 @@ export const ProjectSettings = () => {
       },
     })
       .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PERMISSION_SETTINGS_TOAST_ADD_NEW')}
+              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         actions.setSubmitting(false);
         refetchProjectUsers();
         refetchWorkspaceUsers();
@@ -107,6 +119,10 @@ export const ProjectSettings = () => {
           ),
           { placement: 'top' }
         );
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
       });
   };
 
@@ -119,8 +135,24 @@ export const ProjectSettings = () => {
     })
       .unwrap()
       .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PERMISSION_SETTINGS_TOAST_REMOVE')}
+              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         refetchProjectUsers();
         refetchWorkspaceUsers();
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
       });
   };
 

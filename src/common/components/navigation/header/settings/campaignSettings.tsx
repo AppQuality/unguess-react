@@ -92,6 +92,18 @@ export const CampaignSettings = () => {
       },
     })
       .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PERMISSION_SETTINGS_TOAST_ADD_NEW')}
+              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         actions.setSubmitting(false);
         refetchCampaignUsers();
         refetchProjectUsers();
@@ -125,6 +137,10 @@ export const CampaignSettings = () => {
           ),
           { placement: 'top' }
         );
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
       });
   };
 
@@ -137,9 +153,25 @@ export const CampaignSettings = () => {
     })
       .unwrap()
       .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PERMISSION_SETTINGS_TOAST_REMOVE')}
+              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         refetchCampaignUsers();
         refetchProjectUsers();
         refetchWorkspaceUsers();
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
       });
   };
 

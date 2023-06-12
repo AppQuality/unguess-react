@@ -62,6 +62,18 @@ export const WorkspaceSettings = () => {
       },
     })
       .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PERMISSION_SETTINGS_TOAST_ADD_NEW')}
+              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         actions.setSubmitting(false);
         refetchWorkspaceUsers();
       })
@@ -106,7 +118,27 @@ export const WorkspaceSettings = () => {
       body: {
         user_id: id,
       },
-    }).unwrap();
+    })
+      .unwrap()
+      .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PERMISSION_SETTINGS_TOAST_REMOVE')}
+              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+        refetchWorkspaceUsers();
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      });
   };
 
   return (
