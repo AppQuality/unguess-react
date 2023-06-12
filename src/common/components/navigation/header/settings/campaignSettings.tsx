@@ -7,6 +7,7 @@ import {
   useToast,
   Notification,
   Button,
+  MD,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +25,12 @@ import { useState } from 'react';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
-import { FixedBody, FlexContainer, SettingsDivider } from './styled';
+import {
+  FixedBody,
+  FlexContainer,
+  SettingsDivider,
+  StyledAccordion,
+} from './styled';
 
 export const CampaignSettings = () => {
   const { permissionSettingsTitle, campaignId, activeWorkspace } =
@@ -73,7 +79,7 @@ export const CampaignSettings = () => {
   const workspaceCount = workspaceUsers?.items.length || 0;
   const projectCount = projectUsers?.items.length || 0;
   const campaignCount = campaignUsers?.items.length || 0;
-  const campaignUsersCount = campaignCount + projectCount + workspaceCount;
+  const usersCount = campaignCount + projectCount + workspaceCount;
 
   const onSubmitNewMember = (
     values: { email: string },
@@ -147,8 +153,8 @@ export const CampaignSettings = () => {
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
-        {campaignUsersCount > 0
-          ? ` +${campaignUsersCount}`
+        {usersCount > 0
+          ? ` +${usersCount}`
           : t('__WORKSPACE_SETTINGS_CTA_TEXT')}
       </Button>
       {isModalOpen && (
@@ -164,7 +170,9 @@ export const CampaignSettings = () => {
           </FixedBody>
           <SettingsDivider />
           <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <Label>{t('__PERMISSION_SETTINGS_BODY_TITLE')}</Label>
+            <Label>
+              {t('__PERMISSION_SETTINGS_BODY_TITLE')} {usersCount}
+            </Label>
             <FlexContainer
               isLoading={
                 isLoadingCampaign ||
@@ -177,20 +185,104 @@ export const CampaignSettings = () => {
                 isFetchingWorkspaceUsers
               }
             >
-              {campaignUsers?.items.map((user) => (
-                <UserItem
-                  key={user.id}
-                  user={user}
-                  onResendInvite={() => onResendInvite(user.email)}
-                  onRemoveUser={() => onRemoveUser(user.id)}
-                />
-              ))}
-              {projectUsers?.items.map((user) => (
-                <UserItem key={user.id} user={user} />
-              ))}
-              {workspaceUsers?.items.map((user) => (
-                <UserItem key={user.id} user={user} />
-              ))}
+              <StyledAccordion
+                level={3}
+                key="campaign_users_accordion"
+                isAnimated
+                isExpandable
+                {...(campaignCount === 0 && { isDisabled: true })}
+              >
+                <StyledAccordion.Section>
+                  <StyledAccordion.Header>
+                    <StyledAccordion.Label style={{ padding: 0 }}>
+                      <MD isBold>
+                        <UsersIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                        {t('__PERMISSION_SETTINGS_CAMPAIGN_USERS')} (
+                        {campaignCount})
+                      </MD>
+                    </StyledAccordion.Label>
+                  </StyledAccordion.Header>
+                  <StyledAccordion.Panel
+                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
+                  >
+                    {campaignUsers?.items.map((user) => (
+                      <UserItem
+                        key={user.id}
+                        user={user}
+                        onResendInvite={() => onResendInvite(user.email)}
+                        onRemoveUser={() => onRemoveUser(user.id)}
+                      />
+                    ))}
+                  </StyledAccordion.Panel>
+                </StyledAccordion.Section>
+              </StyledAccordion>
+              <StyledAccordion
+                level={3}
+                key="project_users_accordion"
+                isAnimated
+                isExpandable
+                {...(projectCount === 0 && { isDisabled: true })}
+              >
+                <StyledAccordion.Section>
+                  <StyledAccordion.Header>
+                    <StyledAccordion.Label style={{ padding: 0 }}>
+                      <MD isBold>
+                        <UsersIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                        {t('__PERMISSION_SETTINGS_PROJECT_USERS')} (
+                        {projectCount})
+                      </MD>
+                    </StyledAccordion.Label>
+                  </StyledAccordion.Header>
+                  <StyledAccordion.Panel
+                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
+                  >
+                    {projectUsers?.items.map((user) => (
+                      <UserItem key={user.id} user={user} />
+                    ))}
+                  </StyledAccordion.Panel>
+                </StyledAccordion.Section>
+              </StyledAccordion>
+              <StyledAccordion
+                level={3}
+                key="workspace_users_accordion"
+                isAnimated
+                isExpandable
+                {...(workspaceCount === 0 && { isDisabled: true })}
+              >
+                <StyledAccordion.Section>
+                  <StyledAccordion.Header>
+                    <StyledAccordion.Label style={{ padding: 0 }}>
+                      <MD isBold>
+                        <UsersIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                        {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} (
+                        {workspaceCount})
+                      </MD>
+                    </StyledAccordion.Label>
+                  </StyledAccordion.Header>
+                  <StyledAccordion.Panel
+                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
+                  >
+                    {workspaceUsers?.items.map((user) => (
+                      <UserItem key={user.id} user={user} />
+                    ))}
+                  </StyledAccordion.Panel>
+                </StyledAccordion.Section>
+              </StyledAccordion>
             </FlexContainer>
           </Modal.Body>
           <PermissionSettingsFooter />

@@ -7,6 +7,7 @@ import {
   useToast,
   Notification,
   Button,
+  MD,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +22,12 @@ import { useState } from 'react';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
-import { FixedBody, FlexContainer, SettingsDivider } from './styled';
+import {
+  FixedBody,
+  FlexContainer,
+  SettingsDivider,
+  StyledAccordion,
+} from './styled';
 
 export const WorkspaceSettings = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
@@ -43,7 +49,7 @@ export const WorkspaceSettings = () => {
   });
 
   const workspaceCount = workspaceUsers?.items.length || 0;
-  const workspaceUsersCount = workspaceCount;
+  const usersCount = workspaceCount;
 
   const onSubmitNewMember = (
     values: { email: string },
@@ -103,7 +109,7 @@ export const WorkspaceSettings = () => {
     }).unwrap();
   };
 
-  return !isLoadingWorkspaceUsers && !isFetchingWorkspaceUsers ? (
+  return (
     <>
       <Button
         onClick={() => setIsModalOpen(true)}
@@ -113,8 +119,8 @@ export const WorkspaceSettings = () => {
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
-        {workspaceUsersCount > 0
-          ? ` +${workspaceUsersCount}`
+        {usersCount > 0
+          ? ` +${usersCount}`
           : t('__WORKSPACE_SETTINGS_CTA_TEXT')}
       </Button>
       {isModalOpen && (
@@ -130,18 +136,48 @@ export const WorkspaceSettings = () => {
           </FixedBody>
           <SettingsDivider />
           <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <Label>{t('__PERMISSION_SETTINGS_BODY_TITLE')}</Label>
+            <Label>
+              {t('__PERMISSION_SETTINGS_BODY_TITLE')} {usersCount}
+            </Label>
             <FlexContainer
               isLoading={isLoadingWorkspaceUsers || isFetchingWorkspaceUsers}
             >
-              {workspaceUsers?.items.map((user) => (
-                <UserItem
-                  key={user.id}
-                  user={user}
-                  onResendInvite={() => onResendInvite(user.email)}
-                  onRemoveUser={() => onRemoveUser(user.id)}
-                />
-              ))}
+              <StyledAccordion
+                level={3}
+                key="workspace_users_accordion"
+                isAnimated
+                isExpandable
+                {...(workspaceCount === 0 && { isDisabled: true })}
+              >
+                <StyledAccordion.Section>
+                  <StyledAccordion.Header>
+                    <StyledAccordion.Label style={{ padding: 0 }}>
+                      <MD isBold>
+                        <UsersIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                        {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} (
+                        {workspaceCount})
+                      </MD>
+                    </StyledAccordion.Label>
+                  </StyledAccordion.Header>
+                  <StyledAccordion.Panel
+                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
+                  >
+                    {workspaceUsers?.items.map((user) => (
+                      <UserItem
+                        key={user.id}
+                        user={user}
+                        onResendInvite={() => onResendInvite(user.email)}
+                        onRemoveUser={() => onRemoveUser(user.id)}
+                      />
+                    ))}
+                  </StyledAccordion.Panel>
+                </StyledAccordion.Section>
+              </StyledAccordion>
             </FlexContainer>
           </Modal.Body>
           <PermissionSettingsFooter />
@@ -149,5 +185,5 @@ export const WorkspaceSettings = () => {
         </Modal>
       )}
     </>
-  ) : null;
+  );
 };
