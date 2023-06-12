@@ -19,6 +19,8 @@ const EmailTextField = styled(Field)`
   display: flex;
   width: 100%;
   align-items: first baseline;
+  margin-top: ${({ theme }) => theme.space.xs};
+
   button {
     margin-left: ${({ theme }) => theme.space.sm};
   }

@@ -24,10 +24,6 @@ const UserListItem = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
 
-  div.actions {
-    margin-left: auto;
-  }
-
   ${StyledEllipsis} {
     width: 300px;
   }
@@ -39,8 +35,8 @@ export const UserItem = ({
   onRemoveUser,
 }: {
   user: GetWorkspacesByWidUsersApiResponse['items'][number];
-  onResendInvite: () => void;
-  onRemoveUser: () => void;
+  onResendInvite?: () => void;
+  onRemoveUser?: () => void;
 }) => {
   const { t } = useTranslation();
   const [rotated, setRotated] = useState<boolean>();
@@ -58,42 +54,65 @@ export const UserItem = ({
           {isMe && t('__WORKSPACE_SETTINGS_CURRENT_MEMBER_YOU_LABEL')}
         </StyledEllipsis>
       </div>
-      <div className="actions">
-        {!isMe && (
-          <Dropdown
-            onStateChange={(options) =>
-              Object.hasOwn(options, 'isOpen') && setRotated(options.isOpen)
-            }
-          >
-            <Trigger>
-              <Button isBasic aria-label="user management actions">
-                {user.invitationPending ? (
-                  <Span hue={appTheme.palette.orange[600]}>
-                    {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
-                  </Span>
-                ) : (
-                  t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
+      {onResendInvite && onRemoveUser ? (
+        <div style={{ marginLeft: 'auto' }}>
+          {!isMe && (
+            <Dropdown
+              onStateChange={(options) =>
+                Object.hasOwn(options, 'isOpen') && setRotated(options.isOpen)
+              }
+            >
+              <Trigger>
+                <Button isBasic aria-label="user management actions">
+                  {user.invitationPending ? (
+                    <Span hue={appTheme.palette.orange[600]}>
+                      {t(
+                        '__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL'
+                      )}
+                    </Span>
+                  ) : (
+                    t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
+                  )}
+                  <Button.EndIcon isRotated={rotated}>
+                    <ChevronIcon />
+                  </Button.EndIcon>
+                </Button>
+              </Trigger>
+              <Menu placement="bottom-end">
+                {user.invitationPending && (
+                  <Item
+                    value="invite"
+                    {...(onResendInvite && {
+                      onClick: onResendInvite,
+                    })}
+                  >
+                    {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
+                  </Item>
                 )}
-                <Button.EndIcon isRotated={rotated}>
-                  <ChevronIcon />
-                </Button.EndIcon>
-              </Button>
-            </Trigger>
-            <Menu placement="bottom-end">
-              {user.invitationPending && (
-                <Item value="invite" onClick={onResendInvite}>
-                  {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
+                <Item
+                  value="remove"
+                  {...(onRemoveUser && {
+                    onClick: onRemoveUser,
+                  })}
+                >
+                  <Span hue={appTheme.components.text.dangerColor}>
+                    {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
+                  </Span>
                 </Item>
-              )}
-              <Item value="remove" onClick={onRemoveUser}>
-                <Span hue={appTheme.components.text.dangerColor}>
-                  {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
-                </Span>
-              </Item>
-            </Menu>
-          </Dropdown>
-        )}
-      </div>
+              </Menu>
+            </Dropdown>
+          )}
+        </div>
+      ) : (
+        user.invitationPending && (
+          <Span
+            style={{ marginLeft: 'auto' }}
+            hue={appTheme.palette.orange[600]}
+          >
+            {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
+          </Span>
+        )
+      )}
     </UserListItem>
   );
 };
