@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Dropdown,
   Ellipsis,
   HeaderItem,
@@ -7,12 +8,12 @@ import {
   MD,
   Menu,
   MenuHeaderItem,
-  Select,
+  SM,
   Separator,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { appTheme } from 'src/app/theme';
+import { useEffect, useState } from 'react';
 import { Workspace } from 'src/features/api';
 import styled from 'styled-components';
 import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
@@ -25,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useTranslation } from 'react-i18next';
 import { SettingsButton } from './settings/settingsButton';
+import useDebounce from 'src/hooks/useDebounce';
 
 const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${({ theme, isCompact }) =>
@@ -33,6 +35,24 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
     width: ${theme.components.chrome.nav.workspaceDropdownWidth}px; 
   `}
   text-align: start;
+  ${(props) => retrieveComponentStyles('text.primary', props)};
+`;
+
+const MenuItem = styled(Item)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  p {
+    ${(props) => retrieveComponentStyles('text.primary', props)};
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  }
+
+  div {
+    color: ${({ theme }) => theme.palette.grey[500]};
+  }
+
+  ${(props) => retrieveComponentStyles('navigation.hoverableItem', props)};
+  border-radius: 0;
 `;
 
 const DropdownItem = styled(HeaderItem)`
@@ -58,14 +78,42 @@ const BrandName = styled(HeaderItemText)`
 export const WorkspacesDropdown = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const homeRoute = useLocalizeRoute('');
 
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { userData: user } = useAppSelector((state) => state.user);
   const workspaces = useAppSelector(selectWorkspaces);
 
-  const navigate = useNavigate();
+  const [selectedItem, setSelectedItem] = useState<Workspace>();
+  const [inputValue, setInputValue] = useState<string>('');
+  const [matchingOptions, setMatchingOptions] = useState(workspaces);
 
-  const homeRoute = useLocalizeRoute('');
+  const debouncedInputValue = useDebounce<string>(inputValue, 300);
+
+  const filterMatchingOptions = (value: string) => {
+    const matchedOptions = workspaces.filter(
+      (ws: Workspace) =>
+        ws.company.trim().toLowerCase().indexOf(value.trim().toLowerCase()) !==
+        -1
+    );
+
+    setMatchingOptions(matchedOptions);
+  };
+
+  useEffect(() => {
+    filterMatchingOptions(debouncedInputValue);
+    if (activeWorkspace && activeWorkspace.id) {
+      const selectedWorkspace = workspaces.find(
+        (ws) => ws.id === activeWorkspace.id
+      );
+      if (selectedWorkspace) {
+        setSelectedItem(selectedWorkspace);
+      }
+    } else {
+      setSelectedItem(undefined);
+    }
+  }, [debouncedInputValue, activeWorkspace, workspaces]);
 
   const toggleGtmWorkspaceChange = (workspaceName: string) => {
     TagManager.dataLayer({
@@ -97,18 +145,28 @@ export const WorkspacesDropdown = () => {
   return workspaces.length > 1 ? (
     <DropdownItem>
       <Dropdown
-        selectedItem={activeWorkspace}
-        onSelect={handleWorkspaceChange}
+        inputValue={inputValue}
+        selectedItem={selectedItem}
+        onSelect={(item: Workspace) => {
+          if (item && item.id) {
+            setInputValue('');
+            setSelectedItem(item);
+            handleWorkspaceChange(item);
+          }
+        }}
+        onInputValueChange={(value) => {
+          setInputValue(value);
+        }}
         downshiftProps={{
           itemToString: (item: Workspace) => item && item.company,
         }}
       >
         <Field>
-          <Select style={{ color: appTheme.components.text.primaryColor }}>
+          <Autocomplete>
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
             </StyledEllipsis>
-          </Select>
+          </Autocomplete>
         </Field>
         <Menu>
           <MenuHeaderItem>
@@ -117,8 +175,22 @@ export const WorkspacesDropdown = () => {
             </MD>
           </MenuHeaderItem>
           <Separator />
-          {workspaces &&
-            workspaces.map((item) => <Item value={item}>{item.company}</Item>)}
+          {matchingOptions.length ? (
+            matchingOptions.map((item) => (
+              <MenuItem key={item.id} value={item}>
+                <MD tag="p">{item.company}</MD>
+                {item.isShared && <SM>{`${item.sharedItems} shared items`}</SM>}
+              </MenuItem>
+            ))
+          ) : (
+            <MenuItem disabled>
+              <span>
+                {t(
+                  '__APP_MOBILE_NAVIGATION_WORKSPACES_DROPDOWN_LABEL_NO_MATCHING_ITEMS'
+                )}
+              </span>
+            </MenuItem>
+          )}
         </Menu>
       </Dropdown>
       <SettingsButton />

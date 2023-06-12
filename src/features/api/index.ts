@@ -1278,6 +1278,8 @@ export type Workspace = {
     url?: string;
   };
   coins?: number;
+  isShared?: boolean;
+  sharedItems?: number;
 };
 export type Coin = {
   id: number;
