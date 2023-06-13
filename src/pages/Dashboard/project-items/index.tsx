@@ -43,7 +43,7 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
 
   const { filteredCampaigns, isLoading, isFetching } =
     useGetProjectsByPidCampaignsQuery(
-      { pid: projectId, limit: 10000 },
+      { pid: projectId.toString(), limit: 10000 },
       {
         selectFromResult: (result) => ({
           ...result,
