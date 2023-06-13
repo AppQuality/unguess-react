@@ -30,6 +30,15 @@ const navigationSlice = createSlice({
     setProfileModalOpen: (state, action) => {
       state.isProfileModalOpen = action.payload;
     },
+    setPermissionSettingsTitle: (state, action) => {
+      state.permissionSettingsTitle = action.payload;
+    },
+    setCampaignId: (state, action) => {
+      state.campaignId = action.payload;
+    },
+    setProjectId: (state, action) => {
+      state.projectId = action.payload;
+    },
   },
 });
 
@@ -40,6 +49,9 @@ export const {
   setProfileModalOpen,
   closeSidebar,
   setSidebarOpen,
+  setPermissionSettingsTitle,
+  setCampaignId,
+  setProjectId,
 } = navigationSlice.actions;
 
 export default navigationSlice.reducer;

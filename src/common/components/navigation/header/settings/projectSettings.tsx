@@ -12,9 +12,10 @@ import {
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import {
-  useDeleteWorkspacesByWidUsersMutation,
+  useDeleteProjectsByPidUsersMutation,
+  useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
-  usePostWorkspacesByWidUsersMutation,
+  usePostProjectsByPidUsersMutation,
 } from 'src/features/api';
 import { FormikHelpers } from 'formik';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
@@ -29,15 +30,26 @@ import {
   StyledAccordion,
 } from './styled';
 
-export const WorkspaceSettings = () => {
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+export const ProjectSettings = () => {
+  const { permissionSettingsTitle, projectId, activeWorkspace } =
+    useAppSelector((state) => state.navigation);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const [addNewMember] = usePostWorkspacesByWidUsersMutation();
-  const [removeUser] = useDeleteWorkspacesByWidUsersMutation();
+  const [addNewMember] = usePostProjectsByPidUsersMutation();
+  const [removeUser] = useDeleteProjectsByPidUsersMutation();
 
+  if (!projectId) return null;
   if (!activeWorkspace) return null;
+
+  const {
+    isLoading: isLoadingProjectUsers,
+    isFetching: isFetchingProjectUsers,
+    data: projectUsers,
+    refetch: refetchProjectUsers,
+  } = useGetProjectsByPidUsersQuery({
+    pid: projectId?.toString() || '0',
+  });
 
   const {
     isLoading: isLoadingWorkspaceUsers,
@@ -49,14 +61,15 @@ export const WorkspaceSettings = () => {
   });
 
   const workspaceCount = workspaceUsers?.items.length || 0;
-  const usersCount = workspaceCount;
+  const projectCount = projectUsers?.items.length || 0;
+  const usersCount = projectCount + workspaceCount;
 
   const onSubmitNewMember = (
     values: { email: string },
     actions: FormikHelpers<{ email: string }>
   ) => {
     addNewMember({
-      wid: activeWorkspace?.id.toString(),
+      pid: projectId?.toString() || '0',
       body: {
         email: values.email,
       },
@@ -75,6 +88,7 @@ export const WorkspaceSettings = () => {
           { placement: 'top' }
         );
         actions.setSubmitting(false);
+        refetchProjectUsers();
         refetchWorkspaceUsers();
       })
       .catch((err) => {
@@ -86,7 +100,7 @@ export const WorkspaceSettings = () => {
 
   const onResendInvite = (email: string) => {
     addNewMember({
-      wid: activeWorkspace.id.toString(),
+      pid: projectId?.toString() || '0',
       body: {
         email,
       },
@@ -114,7 +128,7 @@ export const WorkspaceSettings = () => {
 
   const onRemoveUser = (id: number) => {
     removeUser({
-      wid: activeWorkspace.id.toString(),
+      pid: projectId?.toString() || '0',
       body: {
         user_id: id,
       },
@@ -133,6 +147,7 @@ export const WorkspaceSettings = () => {
           ),
           { placement: 'top' }
         );
+        refetchProjectUsers();
         refetchWorkspaceUsers();
       })
       .catch((err) => {
@@ -160,7 +175,7 @@ export const WorkspaceSettings = () => {
           <Modal.Header>
             {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
             <Span style={{ color: appTheme.palette.blue[600] }}>
-              {`${activeWorkspace.company}'s workspace`}
+              {permissionSettingsTitle}
             </Span>
           </Modal.Header>
           <FixedBody>
@@ -172,8 +187,49 @@ export const WorkspaceSettings = () => {
               {t('__PERMISSION_SETTINGS_BODY_TITLE')} {usersCount}
             </Label>
             <FlexContainer
-              isLoading={isLoadingWorkspaceUsers || isFetchingWorkspaceUsers}
+              isLoading={
+                isLoadingProjectUsers ||
+                isLoadingWorkspaceUsers ||
+                isFetchingProjectUsers ||
+                isFetchingWorkspaceUsers
+              }
             >
+              <StyledAccordion
+                level={3}
+                key="project_users_accordion"
+                isAnimated
+                isExpandable
+                {...(projectCount === 0 && { isDisabled: true })}
+              >
+                <StyledAccordion.Section>
+                  <StyledAccordion.Header>
+                    <StyledAccordion.Label style={{ padding: 0 }}>
+                      <MD isBold>
+                        <UsersIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                        {t('__PERMISSION_SETTINGS_PROJECT_USERS')} (
+                        {projectCount})
+                      </MD>
+                    </StyledAccordion.Label>
+                  </StyledAccordion.Header>
+                  <StyledAccordion.Panel
+                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
+                  >
+                    {projectUsers?.items.map((user) => (
+                      <UserItem
+                        key={user.id}
+                        user={user}
+                        onResendInvite={() => onResendInvite(user.email)}
+                        onRemoveUser={() => onRemoveUser(user.id)}
+                      />
+                    ))}
+                  </StyledAccordion.Panel>
+                </StyledAccordion.Section>
+              </StyledAccordion>
               <StyledAccordion
                 level={3}
                 key="workspace_users_accordion"
@@ -200,12 +256,7 @@ export const WorkspaceSettings = () => {
                     style={{ padding: 0, paddingTop: appTheme.space.sm }}
                   >
                     {workspaceUsers?.items.map((user) => (
-                      <UserItem
-                        key={user.id}
-                        user={user}
-                        onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={() => onRemoveUser(user.id)}
-                      />
+                      <UserItem key={user.id} user={user} />
                     ))}
                   </StyledAccordion.Panel>
                 </StyledAccordion.Section>

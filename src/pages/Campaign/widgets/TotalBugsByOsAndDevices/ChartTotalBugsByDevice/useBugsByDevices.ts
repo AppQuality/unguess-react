@@ -23,7 +23,7 @@ const groupArrayOfObjects = (
 const useBugsByDevices = (campaignId: number) => {
   const { data, isLoading, isError, isFetching } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: campaignId,
+      cid: campaignId.toString(),
       s: 'bugs-by-device',
     });
   const [chartData, setChartData] = useState<SunburstData>({

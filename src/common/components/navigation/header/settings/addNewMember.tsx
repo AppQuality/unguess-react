@@ -5,13 +5,11 @@ import {
   Label,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
-import { Form, Formik, FormikProps } from 'formik';
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import * as Yup from 'yup';
-import { usePostWorkspacesByWidUsersMutation } from 'src/features/api';
-import { useAppSelector } from 'src/app/hooks';
 
 const formInitialValues = {
   email: '',
@@ -21,17 +19,22 @@ const EmailTextField = styled(Field)`
   display: flex;
   width: 100%;
   align-items: first baseline;
+  margin-top: ${({ theme }) => theme.space.xs};
+
   button {
     margin-left: ${({ theme }) => theme.space.sm};
   }
 `;
 
-export const AddNewMemberInput = () => {
+export const AddNewMemberInput = ({
+  onSubmit,
+}: {
+  onSubmit: (
+    values: { email: string },
+    actions: FormikHelpers<{ email: string }>
+  ) => void;
+}) => {
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
-  const [addNewMember] = usePostWorkspacesByWidUsersMutation();
-
-  if (!activeWorkspace) return null;
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -45,22 +48,7 @@ export const AddNewMemberInput = () => {
       validateOnChange
       validateOnBlur
       validationSchema={validationSchema}
-      onSubmit={(values, actions) => {
-        addNewMember({
-          wid: activeWorkspace?.id.toString() || '',
-          body: {
-            email: values.email,
-          },
-        })
-          .then(() => {
-            actions.setSubmitting(false);
-          })
-          .catch((err) => {
-            // eslint-disable-next-line no-console
-            console.error(err);
-            actions.setSubmitting(false);
-          });
-      }}
+      onSubmit={onSubmit}
     >
       {({
         errors,

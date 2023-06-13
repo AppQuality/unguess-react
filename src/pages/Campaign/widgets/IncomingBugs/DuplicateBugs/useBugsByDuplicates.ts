@@ -5,7 +5,7 @@ import i18n from 'src/i18n';
 const useBugsByDuplicates = (campaignId: number) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: campaignId,
+      cid: campaignId.toString(),
       s: 'bugs-by-duplicates',
     });
 

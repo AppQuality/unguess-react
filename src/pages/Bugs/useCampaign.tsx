@@ -37,6 +37,7 @@ export const useCampaign = (cid: number) => {
       replicabilities?: ReplicabilityFilterType['replicabilities']['available'];
     };
     outputs?: Output[];
+    customerTitle?: string;
   }>();
   const {
     isLoading: isLoadingCampaign,
@@ -100,6 +101,7 @@ export const useCampaign = (cid: number) => {
           replicabilities: campaignReplicabilities,
         },
         outputs: campaign.outputs,
+        customerTitle: campaign.customer_title,
       });
     }
   }, [

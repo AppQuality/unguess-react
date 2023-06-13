@@ -4,7 +4,7 @@ import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 const useListBugsByDevice = (campaignId: number) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: campaignId,
+      cid: campaignId.toString(),
       s: 'bugs-by-device',
     });
 

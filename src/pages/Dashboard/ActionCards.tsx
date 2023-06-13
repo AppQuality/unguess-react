@@ -50,7 +50,7 @@ export const ActionCards = () => {
   });
 
   const { data } = useGetProjectsByPidQuery({
-    pid: projectId ?? 0,
+    pid: projectId?.toString() ?? '0',
   });
 
   let selectedProject = { id: projectId, name: 'Project' };
