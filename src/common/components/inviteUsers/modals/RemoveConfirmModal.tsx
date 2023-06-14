@@ -34,7 +34,7 @@ const RemoveConfirmModal = ({
   const { t } = useTranslation();
 
   return (
-    <Modal onClose={handleCancel}>
+    <Modal isLarge onClose={handleCancel}>
       <DangerHeader>
         <AlertIcon />
         {t('__PERMISSION_SETTINGS_REMOVE_CONFIRM_MODAL_HEADER')}
