@@ -12,9 +12,12 @@ import {
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import {
-  useDeleteWorkspacesByWidUsersMutation,
+  useDeleteCampaignsByCidUsersMutation,
+  useGetCampaignsByCidQuery,
+  useGetCampaignsByCidUsersQuery,
+  useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
-  usePostWorkspacesByWidUsersMutation,
+  usePostCampaignsByCidUsersMutation,
 } from 'src/features/api';
 import { FormikHelpers } from 'formik';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
@@ -29,15 +32,40 @@ import {
   StyledAccordion,
 } from './styled';
 
-export const WorkspaceSettings = () => {
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+export const CampaignSettings = () => {
+  const { permissionSettingsTitle, campaignId, activeWorkspace } =
+    useAppSelector((state) => state.navigation);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const [addNewMember] = usePostWorkspacesByWidUsersMutation();
-  const [removeUser] = useDeleteWorkspacesByWidUsersMutation();
+  const [addNewMember] = usePostCampaignsByCidUsersMutation();
+  const [removeUser] = useDeleteCampaignsByCidUsersMutation();
 
-  if (!activeWorkspace) return null;
+  const {
+    isLoading: isLoadingCampaign,
+    isFetching: isFetchingCampaign,
+    data: campaign,
+  } = useGetCampaignsByCidQuery({
+    cid: campaignId?.toString() || '0',
+  });
+
+  const {
+    isLoading: isLoadingCampaignUsers,
+    isFetching: isFetchingCampaignUsers,
+    data: campaignUsers,
+    refetch: refetchCampaignUsers,
+  } = useGetCampaignsByCidUsersQuery({
+    cid: campaignId?.toString() || '0',
+  });
+
+  const {
+    isLoading: isLoadingProjectUsers,
+    isFetching: isFetchingProjectUsers,
+    data: projectUsers,
+    refetch: refetchProjectUsers,
+  } = useGetProjectsByPidUsersQuery({
+    pid: campaign?.project.id.toString() || '0',
+  });
 
   const {
     isLoading: isLoadingWorkspaceUsers,
@@ -49,14 +77,16 @@ export const WorkspaceSettings = () => {
   });
 
   const workspaceCount = workspaceUsers?.items.length || 0;
-  const usersCount = workspaceCount;
+  const projectCount = projectUsers?.items.length || 0;
+  const campaignCount = campaignUsers?.items.length || 0;
+  const usersCount = campaignCount + projectCount + workspaceCount;
 
   const onSubmitNewMember = (
     values: { email: string },
     actions: FormikHelpers<{ email: string }>
   ) => {
     addNewMember({
-      wid: activeWorkspace?.id.toString(),
+      cid: campaignId?.toString() || '0',
       body: {
         email: values.email,
       },
@@ -75,6 +105,8 @@ export const WorkspaceSettings = () => {
           { placement: 'top' }
         );
         actions.setSubmitting(false);
+        refetchCampaignUsers();
+        refetchProjectUsers();
         refetchWorkspaceUsers();
       })
       .catch((err) => {
@@ -86,7 +118,7 @@ export const WorkspaceSettings = () => {
 
   const onResendInvite = (email: string) => {
     addNewMember({
-      wid: activeWorkspace.id.toString(),
+      cid: campaignId?.toString() || '0',
       body: {
         email,
       },
@@ -114,7 +146,7 @@ export const WorkspaceSettings = () => {
 
   const onRemoveUser = (id: number) => {
     removeUser({
-      wid: activeWorkspace.id.toString(),
+      cid: campaignId?.toString() || '0',
       body: {
         user_id: id,
       },
@@ -133,6 +165,8 @@ export const WorkspaceSettings = () => {
           ),
           { placement: 'top' }
         );
+        refetchCampaignUsers();
+        refetchProjectUsers();
         refetchWorkspaceUsers();
       })
       .catch((err) => {
@@ -143,11 +177,7 @@ export const WorkspaceSettings = () => {
 
   return (
     <>
-      <Button
-        onClick={() => setIsModalOpen(true)}
-        style={{ marginLeft: appTheme.space.xs }}
-        isBasic
-      >
+      <Button onClick={() => setIsModalOpen(true)} isBasic>
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
@@ -159,7 +189,7 @@ export const WorkspaceSettings = () => {
           <Modal.Header>
             {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
             <Span style={{ color: appTheme.palette.blue[600] }}>
-              {`${activeWorkspace.company}'s workspace`}
+              {permissionSettingsTitle}
             </Span>
           </Modal.Header>
           <FixedBody>
@@ -171,8 +201,84 @@ export const WorkspaceSettings = () => {
               {t('__PERMISSION_SETTINGS_BODY_TITLE')} {usersCount}
             </Label>
             <FlexContainer
-              isLoading={isLoadingWorkspaceUsers || isFetchingWorkspaceUsers}
+              isLoading={
+                isLoadingCampaign ||
+                isLoadingCampaignUsers ||
+                isLoadingProjectUsers ||
+                isLoadingWorkspaceUsers ||
+                isFetchingCampaign ||
+                isFetchingCampaignUsers ||
+                isFetchingProjectUsers ||
+                isFetchingWorkspaceUsers
+              }
             >
+              <StyledAccordion
+                level={3}
+                key="campaign_users_accordion"
+                isAnimated
+                isExpandable
+                {...(campaignCount === 0 && { isDisabled: true })}
+              >
+                <StyledAccordion.Section>
+                  <StyledAccordion.Header>
+                    <StyledAccordion.Label style={{ padding: 0 }}>
+                      <MD isBold>
+                        <UsersIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                        {t('__PERMISSION_SETTINGS_CAMPAIGN_USERS')} (
+                        {campaignCount})
+                      </MD>
+                    </StyledAccordion.Label>
+                  </StyledAccordion.Header>
+                  <StyledAccordion.Panel
+                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
+                  >
+                    {campaignUsers?.items.map((user) => (
+                      <UserItem
+                        key={user.id}
+                        user={user}
+                        onResendInvite={() => onResendInvite(user.email)}
+                        onRemoveUser={() => onRemoveUser(user.id)}
+                      />
+                    ))}
+                  </StyledAccordion.Panel>
+                </StyledAccordion.Section>
+              </StyledAccordion>
+              <StyledAccordion
+                level={3}
+                key="project_users_accordion"
+                isAnimated
+                isExpandable
+                {...(projectCount === 0 && { isDisabled: true })}
+              >
+                <StyledAccordion.Section>
+                  <StyledAccordion.Header>
+                    <StyledAccordion.Label style={{ padding: 0 }}>
+                      <MD isBold>
+                        <UsersIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                        {t('__PERMISSION_SETTINGS_PROJECT_USERS')} (
+                        {projectCount})
+                      </MD>
+                    </StyledAccordion.Label>
+                  </StyledAccordion.Header>
+                  <StyledAccordion.Panel
+                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
+                  >
+                    {projectUsers?.items.map((user) => (
+                      <UserItem key={user.id} user={user} />
+                    ))}
+                  </StyledAccordion.Panel>
+                </StyledAccordion.Section>
+              </StyledAccordion>
               <StyledAccordion
                 level={3}
                 key="workspace_users_accordion"
@@ -199,12 +305,7 @@ export const WorkspaceSettings = () => {
                     style={{ padding: 0, paddingTop: appTheme.space.sm }}
                   >
                     {workspaceUsers?.items.map((user) => (
-                      <UserItem
-                        key={user.id}
-                        user={user}
-                        onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={() => onRemoveUser(user.id)}
-                      />
+                      <UserItem key={user.id} user={user} />
                     ))}
                   </StyledAccordion.Panel>
                 </StyledAccordion.Section>

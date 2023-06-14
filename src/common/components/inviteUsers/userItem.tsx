@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { getInitials } from '../utils';
+import { getInitials } from '../navigation/header/utils';
 
 const StyledEllipsis = styled(Ellipsis)``;
 const UserListItem = styled.div`

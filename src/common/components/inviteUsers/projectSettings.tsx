@@ -39,9 +39,6 @@ export const ProjectSettings = () => {
   const [addNewMember] = usePostProjectsByPidUsersMutation();
   const [removeUser] = useDeleteProjectsByPidUsersMutation();
 
-  if (!projectId) return null;
-  if (!activeWorkspace) return null;
-
   const {
     isLoading: isLoadingProjectUsers,
     isFetching: isFetchingProjectUsers,
@@ -158,11 +155,7 @@ export const ProjectSettings = () => {
 
   return (
     <>
-      <Button
-        onClick={() => setIsModalOpen(true)}
-        style={{ marginLeft: appTheme.space.xs }}
-        isBasic
-      >
+      <Button onClick={() => setIsModalOpen(true)} isBasic>
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
