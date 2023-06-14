@@ -16,6 +16,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { getInitials } from '../navigation/header/utils';
+import RemoveConfirmModal from './modals/RemoveConfirmModal';
 
 const StyledEllipsis = styled(Ellipsis)``;
 const UserListItem = styled.div`
@@ -41,78 +42,81 @@ export const UserItem = ({
   const { t } = useTranslation();
   const [rotated, setRotated] = useState<boolean>();
   const { userData } = useAppSelector((state) => state.user);
+  const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
+
+  const handleRemoveUser = () => {
+    setShowRemoveConfirmModal(true);
+  };
 
   const isMe = userData?.email === user.email;
   const displayName = user.name.length ? user.name : user.email;
 
   return (
-    <UserListItem key={`profile_${user.profile_id}`}>
-      <Avatar avatarType="text">{getInitials(displayName)}</Avatar>
-      <div>
-        <StyledEllipsis>
-          {displayName}{' '}
-          {isMe && t('__WORKSPACE_SETTINGS_CURRENT_MEMBER_YOU_LABEL')}
-        </StyledEllipsis>
-      </div>
-      {onResendInvite && onRemoveUser ? (
-        <div style={{ marginLeft: 'auto' }}>
-          {!isMe && (
-            <Dropdown
-              onStateChange={(options) =>
-                Object.hasOwn(options, 'isOpen') && setRotated(options.isOpen)
-              }
-            >
-              <Trigger>
-                <Button isBasic aria-label="user management actions">
-                  {user.invitationPending ? (
-                    <Span hue={appTheme.palette.orange[600]}>
-                      {t(
-                        '__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL'
-                      )}
-                    </Span>
-                  ) : (
-                    t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
-                  )}
-                  <Button.EndIcon isRotated={rotated}>
-                    <ChevronIcon />
-                  </Button.EndIcon>
-                </Button>
-              </Trigger>
-              <Menu placement="bottom-end">
-                {user.invitationPending && (
-                  <Item
-                    value="invite"
-                    {...(onResendInvite && {
-                      onClick: onResendInvite,
-                    })}
-                  >
-                    {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
-                  </Item>
-                )}
-                <Item
-                  value="remove"
-                  {...(onRemoveUser && {
-                    onClick: onRemoveUser,
-                  })}
-                >
-                  <Span hue={appTheme.components.text.dangerColor}>
-                    {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
-                  </Span>
-                </Item>
-              </Menu>
-            </Dropdown>
-          )}
+    <>
+      <UserListItem key={`profile_${user.profile_id}`}>
+        <Avatar avatarType="text">{getInitials(displayName)}</Avatar>
+        <div>
+          <StyledEllipsis>
+            {displayName}{' '}
+            {isMe && t('__WORKSPACE_SETTINGS_CURRENT_MEMBER_YOU_LABEL')}
+          </StyledEllipsis>
         </div>
-      ) : (
-        user.invitationPending && (
-          <Span
-            style={{ marginLeft: 'auto' }}
-            hue={appTheme.palette.orange[600]}
-          >
-            {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
-          </Span>
-        )
+        {onResendInvite && onRemoveUser ? (
+          <div style={{ marginLeft: 'auto' }}>
+            {!isMe && (
+              <Dropdown
+                onStateChange={(options) =>
+                  Object.hasOwn(options, 'isOpen') && setRotated(options.isOpen)
+                }
+              >
+                <Trigger>
+                  <Button isBasic aria-label="user management actions">
+                    {user.invitationPending ? (
+                      <Span hue={appTheme.palette.orange[600]}>
+                        {t(
+                          '__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL'
+                        )}
+                      </Span>
+                    ) : (
+                      t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
+                    )}
+                    <Button.EndIcon isRotated={rotated}>
+                      <ChevronIcon />
+                    </Button.EndIcon>
+                  </Button>
+                </Trigger>
+                <Menu placement="bottom-end">
+                  {user.invitationPending && (
+                    <Item value="invite" onClick={onResendInvite}>
+                      {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
+                    </Item>
+                  )}
+                  <Item value="remove" onClick={handleRemoveUser}>
+                    <Span hue={appTheme.components.text.dangerColor}>
+                      {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
+                    </Span>
+                  </Item>
+                </Menu>
+              </Dropdown>
+            )}
+          </div>
+        ) : (
+          user.invitationPending && (
+            <Span
+              style={{ marginLeft: 'auto' }}
+              hue={appTheme.palette.orange[600]}
+            >
+              {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
+            </Span>
+          )
+        )}
+      </UserListItem>
+      {showRemoveConfirmModal && onRemoveUser && (
+        <RemoveConfirmModal
+          onClose={() => onRemoveUser()}
+          handleCancel={() => setShowRemoveConfirmModal(false)}
+        />
       )}
-    </UserListItem>
+    </>
   );
 };
