@@ -1,26 +1,27 @@
 import {
+  Autocomplete,
   Dropdown,
   Ellipsis,
   HeaderItem,
   HeaderItemText,
   Item,
-  MD,
+  ItemContent,
   Menu,
-  MenuHeaderItem,
-  Select,
-  Separator,
 } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { appTheme } from 'src/app/theme';
+import { useEffect, useState } from 'react';
 import { Workspace } from 'src/features/api';
 import styled from 'styled-components';
 import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/panels-fill.svg';
 import API from 'src/common/api';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import TagManager from 'react-gtm-module';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import useDebounce from 'src/hooks/useDebounce';
 import { useNavigate } from 'react-router-dom';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useTranslation } from 'react-i18next';
@@ -33,6 +34,27 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
     width: ${theme.components.chrome.nav.workspaceDropdownWidth}px; 
   `}
   text-align: start;
+  ${(props) => retrieveComponentStyles('text.primary', props)};
+`;
+
+const StyledItem = styled(Item)`
+  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.lg};
+
+  &:first-child {
+    margin-top: 0;
+  }
+`;
+
+const GroupLabel = styled(StyledItem)`
+  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
+  color: ${({ theme }) => theme.palette.grey[600]};
+  text-transform: uppercase;
+
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+
+  &:not(:first-child) {
+    margin-top: ${({ theme }) => theme.space.sm};
+  }
 `;
 
 const DropdownItem = styled(HeaderItem)`
@@ -58,14 +80,38 @@ const BrandName = styled(HeaderItemText)`
 export const WorkspacesDropdown = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const homeRoute = useLocalizeRoute('');
 
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { userData: user } = useAppSelector((state) => state.user);
   const workspaces = useAppSelector(selectWorkspaces);
 
-  const navigate = useNavigate();
+  const [selectedItem, setSelectedItem] = useState<Workspace>();
+  const [inputValue, setInputValue] = useState<string>('');
+  const [matchingPersonal, setMatchingPersonal] = useState(workspaces);
+  const [matchingShared, setMatchingShared] = useState(workspaces);
 
-  const homeRoute = useLocalizeRoute('');
+  const debouncedInputValue = useDebounce<string>(inputValue, 300);
+
+  const filterMatchingOptions = (value: string) => {
+    const matchedOptions = workspaces.filter(
+      (ws: Workspace) =>
+        ws.company.trim().toLowerCase().indexOf(value.trim().toLowerCase()) !==
+        -1
+    );
+
+    // Group workspaces by isShared property (true | false)
+    const sharedWorkspaces = matchedOptions.filter((ws) => ws.isShared);
+    const personalWorkspaces = matchedOptions.filter((ws) => !ws.isShared);
+
+    setMatchingPersonal(personalWorkspaces);
+    setMatchingShared(sharedWorkspaces);
+  };
+
+  useEffect(() => {
+    filterMatchingOptions(debouncedInputValue);
+  }, [debouncedInputValue, activeWorkspace, workspaces]);
 
   const toggleGtmWorkspaceChange = (workspaceName: string) => {
     TagManager.dataLayer({
@@ -97,28 +143,76 @@ export const WorkspacesDropdown = () => {
   return workspaces.length > 1 ? (
     <DropdownItem>
       <Dropdown
-        selectedItem={activeWorkspace}
-        onSelect={handleWorkspaceChange}
+        inputValue={inputValue}
+        selectedItem={selectedItem}
+        onSelect={(item: Workspace) => {
+          if (item && item.id) {
+            setSelectedItem(item);
+            setInputValue('');
+            handleWorkspaceChange(item);
+          }
+        }}
+        onInputValueChange={(value) => {
+          setInputValue(value);
+        }}
         downshiftProps={{
           itemToString: (item: Workspace) => item && item.company,
         }}
       >
         <Field>
-          <Select style={{ color: appTheme.components.text.primaryColor }}>
+          <Autocomplete start={<WorkspacesIcon />}>
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
             </StyledEllipsis>
-          </Select>
+          </Autocomplete>
         </Field>
         <Menu>
-          <MenuHeaderItem>
-            <MD isBold>
-              {t('__APP_MOBILE_NAVIGATION_WORKSPACES_DROPDOWN_LABEL')}
-            </MD>
-          </MenuHeaderItem>
-          <Separator />
-          {workspaces &&
-            workspaces.map((item) => <Item value={item}>{item.company}</Item>)}
+          {matchingPersonal.length > 0 && (
+            <>
+              <GroupLabel disabled>
+                {t(
+                  '__APP_MOBILE_NAVIGATION_PERSONAL_WORKSPACES_DROPDOWN_GROUP_LABEL'
+                )}
+              </GroupLabel>
+              {matchingPersonal.map((item) => (
+                <StyledItem key={`workspace_${item.id}`} value={item}>
+                  <ItemContent label={item.company} />
+                </StyledItem>
+              ))}
+            </>
+          )}
+
+          {matchingShared.length > 0 && (
+            <>
+              <GroupLabel disabled>
+                {t(
+                  '__APP_MOBILE_NAVIGATION_SHARED_WORKSPACES_DROPDOWN_GROUP_LABEL'
+                )}
+              </GroupLabel>
+              {matchingShared.map((item) => (
+                <StyledItem key={`workspace_${item.id}`} value={item}>
+                  <ItemContent
+                    // description={`${item.sharedItems} shared items`}
+                    description={t(
+                      '__APP_MOBILE_NAVIGATION_SHARED_WORKSPACES_COUNTER_LABEL',
+                      { count: item.sharedItems || 0 }
+                    )}
+                    label={item.company}
+                  />
+                </StyledItem>
+              ))}
+            </>
+          )}
+
+          {!matchingPersonal.length && !matchingShared.length && (
+            <StyledItem disabled>
+              <span>
+                {t(
+                  '__APP_MOBILE_NAVIGATION_WORKSPACES_DROPDOWN_LABEL_NO_MATCHING_ITEMS'
+                )}
+              </span>
+            </StyledItem>
+          )}
         </Menu>
       </Dropdown>
       <SettingsButton />
