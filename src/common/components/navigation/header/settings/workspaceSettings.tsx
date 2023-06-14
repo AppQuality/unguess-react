@@ -151,9 +151,8 @@ export const WorkspaceSettings = () => {
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
-        {usersCount > 0
-          ? ` +${usersCount}`
-          : t('__WORKSPACE_SETTINGS_CTA_TEXT')}
+        {t('__WORKSPACE_SETTINGS_CTA_TEXT')}
+        {usersCount > 0 && ` (${usersCount})`}
       </Button>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
