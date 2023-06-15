@@ -123,11 +123,12 @@ export const ProjectSettings = () => {
       });
   };
 
-  const onRemoveUser = (id: number) => {
+  const onRemoveUser = (id: number, includeShared: boolean) => {
     removeUser({
       pid: projectId?.toString() || '0',
       body: {
         user_id: id,
+        ...(includeShared && { include_shared: true }),
       },
     })
       .unwrap()
@@ -216,7 +217,9 @@ export const ProjectSettings = () => {
                         key={user.id}
                         user={user}
                         onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={() => onRemoveUser(user.id)}
+                        onRemoveUser={(includeShared) =>
+                          onRemoveUser(user.id, includeShared)
+                        }
                       />
                     ))}
                   </StyledAccordion.Panel>
