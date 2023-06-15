@@ -8,7 +8,6 @@ import {
   ItemContent,
   Menu,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useEffect, useState } from 'react';
