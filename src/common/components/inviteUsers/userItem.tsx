@@ -34,10 +34,12 @@ export const UserItem = ({
   user,
   onResendInvite,
   onRemoveUser,
+  showRemoveConfirm,
 }: {
   user: GetWorkspacesByWidUsersApiResponse['items'][number];
   onResendInvite?: () => void;
-  onRemoveUser?: (includeShared: boolean) => void;
+  onRemoveUser?: (includeShared?: boolean) => void;
+  showRemoveConfirm?: boolean;
 }) => {
   const { t } = useTranslation();
   const [rotated, setRotated] = useState<boolean>();
@@ -91,7 +93,14 @@ export const UserItem = ({
                       {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
                     </Item>
                   )}
-                  <Item value="remove" onClick={handleRemoveUser}>
+                  <Item
+                    value="remove"
+                    onClick={
+                      showRemoveConfirm
+                        ? handleRemoveUser
+                        : () => onRemoveUser()
+                    }
+                  >
                     <Span hue={appTheme.components.text.dangerColor}>
                       {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
                     </Span>

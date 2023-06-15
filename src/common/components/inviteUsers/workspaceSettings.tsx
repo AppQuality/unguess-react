@@ -201,6 +201,7 @@ export const WorkspaceSettings = () => {
                         onRemoveUser={(includeShared) =>
                           onRemoveUser(user.id, includeShared)
                         }
+                        showRemoveConfirm
                       />
                     ))}
                   </StyledAccordion.Panel>
