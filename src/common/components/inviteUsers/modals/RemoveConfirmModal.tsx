@@ -13,6 +13,7 @@ import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { Field } from '@zendeskgarden/react-forms';
 import { appTheme } from 'src/app/theme';
+import { useState } from 'react';
 
 const DangerHeader = styled(Modal.Header)`
   display: flex;
@@ -29,9 +30,10 @@ const RemoveConfirmModal = ({
   onClose,
 }: {
   handleCancel: () => void;
-  onClose?: () => void;
+  onClose?: (includeShared: boolean) => void;
 }) => {
   const { t } = useTranslation();
+  const [includeShared, setIncludeShared] = useState(false);
 
   return (
     <Modal isLarge onClose={handleCancel}>
@@ -44,7 +46,10 @@ const RemoveConfirmModal = ({
           {t('__PERMISSION_SETTINGS_REMOVE_CONFIRM_MODAL_MESSAGE')}
         </Paragraph>
         <Field style={{ marginTop: appTheme.space.md }}>
-          <Checkbox>
+          <Checkbox
+            checked={includeShared}
+            onChange={() => setIncludeShared(!includeShared)}
+          >
             <Label isRegular>
               {t('__PERMISSION_SETTINGS_REMOVE_CONFIRM_MODAL_DEEP_CLEAN_LABEL')}
             </Label>
@@ -53,11 +58,13 @@ const RemoveConfirmModal = ({
       </Modal.Body>
       <Modal.Footer>
         <FooterItem>
-          <Button isDanger isBasic onClick={onClose}>
-            {t(
-              '__PERMISSION_SETTINGS_REMOVE_CONFIRM_MODAL_CONTINUE_BUTTON_TEXT'
-            )}
-          </Button>
+          {onClose && (
+            <Button isDanger isBasic onClick={() => onClose(includeShared)}>
+              {t(
+                '__PERMISSION_SETTINGS_REMOVE_CONFIRM_MODAL_CONTINUE_BUTTON_TEXT'
+              )}
+            </Button>
+          )}
         </FooterItem>
         <FooterItem>
           <Button isPrimary isAccent onClick={handleCancel}>

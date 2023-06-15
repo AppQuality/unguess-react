@@ -37,7 +37,7 @@ export const UserItem = ({
 }: {
   user: GetWorkspacesByWidUsersApiResponse['items'][number];
   onResendInvite?: () => void;
-  onRemoveUser?: () => void;
+  onRemoveUser?: (includeShared: boolean) => void;
 }) => {
   const { t } = useTranslation();
   const [rotated, setRotated] = useState<boolean>();
@@ -113,7 +113,7 @@ export const UserItem = ({
       </UserListItem>
       {showRemoveConfirmModal && onRemoveUser && (
         <RemoveConfirmModal
-          onClose={() => onRemoveUser()}
+          onClose={(includeShared) => onRemoveUser(includeShared)}
           handleCancel={() => setShowRemoveConfirmModal(false)}
         />
       )}

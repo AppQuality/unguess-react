@@ -110,11 +110,12 @@ export const WorkspaceSettings = () => {
       });
   };
 
-  const onRemoveUser = (id: number) => {
+  const onRemoveUser = (id: number, includeShared?: boolean) => {
     removeUser({
       wid: activeWorkspace?.id.toString() || '',
       body: {
         user_id: id,
+        ...(includeShared && { include_shared: true }),
       },
     })
       .unwrap()
@@ -197,7 +198,9 @@ export const WorkspaceSettings = () => {
                         key={user.id}
                         user={user}
                         onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={() => onRemoveUser(user.id)}
+                        onRemoveUser={(includeShared) =>
+                          onRemoveUser(user.id, includeShared)
+                        }
                       />
                     ))}
                   </StyledAccordion.Panel>
