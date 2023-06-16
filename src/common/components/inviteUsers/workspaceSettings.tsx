@@ -37,8 +37,6 @@ export const WorkspaceSettings = () => {
   const [addNewMember] = usePostWorkspacesByWidUsersMutation();
   const [removeUser] = useDeleteWorkspacesByWidUsersMutation();
 
-  if (!activeWorkspace) return null;
-
   const {
     isLoading: isLoadingWorkspaceUsers,
     isFetching: isFetchingWorkspaceUsers,
@@ -56,7 +54,7 @@ export const WorkspaceSettings = () => {
     actions: FormikHelpers<{ email: string }>
   ) => {
     addNewMember({
-      wid: activeWorkspace?.id.toString(),
+      wid: activeWorkspace?.id.toString() || '',
       body: {
         email: values.email,
       },
@@ -86,7 +84,7 @@ export const WorkspaceSettings = () => {
 
   const onResendInvite = (email: string) => {
     addNewMember({
-      wid: activeWorkspace.id.toString(),
+      wid: activeWorkspace?.id.toString() || '',
       body: {
         email,
       },
@@ -112,11 +110,12 @@ export const WorkspaceSettings = () => {
       });
   };
 
-  const onRemoveUser = (id: number) => {
+  const onRemoveUser = (id: number, includeShared?: boolean) => {
     removeUser({
-      wid: activeWorkspace.id.toString(),
+      wid: activeWorkspace?.id.toString() || '',
       body: {
         user_id: id,
+        ...(includeShared && { include_shared: true }),
       },
     })
       .unwrap()
@@ -143,24 +142,19 @@ export const WorkspaceSettings = () => {
 
   return (
     <>
-      <Button
-        onClick={() => setIsModalOpen(true)}
-        style={{ marginLeft: appTheme.space.xs }}
-        isBasic
-      >
+      <Button onClick={() => setIsModalOpen(true)} isBasic>
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
-        {usersCount > 0
-          ? ` +${usersCount}`
-          : t('__WORKSPACE_SETTINGS_CTA_TEXT')}
+        {t('__WORKSPACE_SETTINGS_CTA_TEXT')}
+        {usersCount > 0 && ` (${usersCount})`}
       </Button>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
           <Modal.Header>
             {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
             <Span style={{ color: appTheme.palette.blue[600] }}>
-              {`${activeWorkspace.company}'s workspace`}
+              {`${activeWorkspace?.company || ''}'s workspace`}
             </Span>
           </Modal.Header>
           <FixedBody>
@@ -204,7 +198,10 @@ export const WorkspaceSettings = () => {
                         key={user.id}
                         user={user}
                         onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={() => onRemoveUser(user.id)}
+                        onRemoveUser={(includeShared) =>
+                          onRemoveUser(user.id, includeShared)
+                        }
+                        showRemoveConfirm
                       />
                     ))}
                   </StyledAccordion.Panel>

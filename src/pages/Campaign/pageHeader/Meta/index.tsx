@@ -15,6 +15,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { CampaignStatus } from 'src/types';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
+import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
@@ -25,25 +26,35 @@ const ButtonWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
+  gap: ${({ theme }) => theme.space.sm};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
 `;
 
 const FooterContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  width: 100%;
   flex-direction: column;
   align-items: flex-start;
 
-  ${ButtonWrapper} {
-    margin-top: ${({ theme }) => theme.space.base * 5}px;
-    margin-bottom: ${({ theme }) => theme.space.base * 6}px;
-  }
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     flex-direction: row;
     align-items: center;
+
     ${ButtonWrapper} {
       margin-top: inherit;
       margin-bottom: inherit;
+    }
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    ${ButtonWrapper} {
+      margin-top: ${({ theme }) => theme.space.md};
     }
   }
 `;
@@ -81,6 +92,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         ) : null}
       </PageMeta>
       <ButtonWrapper>
+        <CampaignSettings />
         {outputs?.includes('media') && (
           <Button
             id="button-media-list-header"

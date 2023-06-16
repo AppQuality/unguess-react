@@ -16,7 +16,20 @@ import {
   usePatchProjectsByPidMutation,
 } from 'src/features/api';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
+import styled from 'styled-components';
 import { Counters } from './Counters';
+
+const StyledPageHeaderMeta = styled(PageHeader.Meta)`
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.space.base * 2}px;
+  }
+`;
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
@@ -97,9 +110,10 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               InputToggleMemo
             )}
           </PageHeader.Title>
-          <PageHeader.Meta>
+          <StyledPageHeaderMeta>
             <Counters />
-          </PageHeader.Meta>
+            <ProjectSettings />
+          </StyledPageHeaderMeta>
         </PageHeader.Main>
         {hasButton && (
           <PageHeader.Footer>

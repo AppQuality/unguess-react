@@ -24,7 +24,8 @@ import useDebounce from 'src/hooks/useDebounce';
 import { useNavigate } from 'react-router-dom';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useTranslation } from 'react-i18next';
-import { SettingsButton } from './settings/settingsButton';
+import { appTheme } from 'src/app/theme';
+import { WorkspaceSettings } from '../../inviteUsers/workspaceSettings';
 
 const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${({ theme, isCompact }) =>
@@ -90,6 +91,7 @@ export const WorkspacesDropdown = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [matchingPersonal, setMatchingPersonal] = useState(workspaces);
   const [matchingShared, setMatchingShared] = useState(workspaces);
+  const [canManageUsers, setCanManageUsers] = useState(false);
 
   const debouncedInputValue = useDebounce<string>(inputValue, 300);
 
@@ -106,6 +108,13 @@ export const WorkspacesDropdown = () => {
 
     setMatchingPersonal(personalWorkspaces);
     setMatchingShared(sharedWorkspaces);
+
+    // Check if current active workspace is in personal or shared workspaces
+    const activeWorkspaceInPersonal = !!personalWorkspaces.find(
+      (ws) => ws.id === activeWorkspace?.id
+    );
+
+    setCanManageUsers(activeWorkspaceInPersonal);
   };
 
   useEffect(() => {
@@ -214,14 +223,20 @@ export const WorkspacesDropdown = () => {
           )}
         </Menu>
       </Dropdown>
-      <SettingsButton />
+      {canManageUsers && (
+        <div style={{ marginLeft: appTheme.space.sm }}>
+          <WorkspaceSettings />
+        </div>
+      )}
     </DropdownItem>
   ) : (
     <>
       <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
-      <DropdownItem>
-        <SettingsButton />
-      </DropdownItem>
+      {canManageUsers && (
+        <DropdownItem>
+          <WorkspaceSettings />
+        </DropdownItem>
+      )}
     </>
   );
 };

@@ -39,9 +39,6 @@ export const ProjectSettings = () => {
   const [addNewMember] = usePostProjectsByPidUsersMutation();
   const [removeUser] = useDeleteProjectsByPidUsersMutation();
 
-  if (!projectId) return null;
-  if (!activeWorkspace) return null;
-
   const {
     isLoading: isLoadingProjectUsers,
     isFetching: isFetchingProjectUsers,
@@ -126,11 +123,12 @@ export const ProjectSettings = () => {
       });
   };
 
-  const onRemoveUser = (id: number) => {
+  const onRemoveUser = (id: number, includeShared?: boolean) => {
     removeUser({
       pid: projectId?.toString() || '0',
       body: {
         user_id: id,
+        ...(includeShared && { include_shared: true }),
       },
     })
       .unwrap()
@@ -158,17 +156,12 @@ export const ProjectSettings = () => {
 
   return (
     <>
-      <Button
-        onClick={() => setIsModalOpen(true)}
-        style={{ marginLeft: appTheme.space.xs }}
-        isBasic
-      >
+      <Button onClick={() => setIsModalOpen(true)} isBasic>
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
-        {usersCount > 0
-          ? ` +${usersCount}`
-          : t('__WORKSPACE_SETTINGS_CTA_TEXT')}
+        {t('__WORKSPACE_SETTINGS_CTA_TEXT')}
+        {usersCount > 0 && ` (${usersCount})`}
       </Button>
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>
@@ -224,7 +217,10 @@ export const ProjectSettings = () => {
                         key={user.id}
                         user={user}
                         onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={() => onRemoveUser(user.id)}
+                        onRemoveUser={(includeShared) =>
+                          onRemoveUser(user.id, includeShared)
+                        }
+                        showRemoveConfirm
                       />
                     ))}
                   </StyledAccordion.Panel>
