@@ -104,22 +104,24 @@ export const ServiceItem = ({
       const expressType = extractStrapiData(express.express_type);
       if (!expressType) return null;
 
-      buttons.push(
-        <Button
-          className="service-card-express-button"
-          isStretched
-          size="small"
-          isPrimary
-          isAccent
-          onClick={() => {
-            dispatch(setExpressTypeId(expressType.id));
-            dispatch(openDrawer());
-            toggleChat(false);
-          }}
-        >
-          {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
-        </Button>
-      );
+      if (!activeWorkspace?.isShared) {
+        buttons.push(
+          <Button
+            className="service-card-express-button"
+            isStretched
+            size="small"
+            isPrimary
+            isAccent
+            onClick={() => {
+              dispatch(setExpressTypeId(expressType.id));
+              dispatch(openDrawer());
+              toggleChat(false);
+            }}
+          >
+            {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
+          </Button>
+        );
+      }
     } else {
       return null;
     }
