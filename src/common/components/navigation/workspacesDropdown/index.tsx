@@ -31,8 +31,8 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${({ theme, isCompact }) =>
     isCompact &&
     `
-    width: ${theme.components.chrome.nav.workspaceDropdownWidth}px; 
-  `}
+      width: ${theme.components.chrome.nav.workspaceDropdownWidth}px; 
+    `}
   text-align: start;
   ${(props) => retrieveComponentStyles('text.primary', props)};
 `;
@@ -69,13 +69,13 @@ const DropdownItem = styled(HeaderItem)`
 `;
 
 const BrandName = styled(HeaderItemText)`
-  margin-right: ${({ theme }) => theme.space.sm}};
-  ${(props) => retrieveComponentStyles('text.primary', props)};
-  font-family: ${({ theme }) => theme.fonts.system};
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none;
-  }
-`;
+    margin-right: ${({ theme }) => theme.space.sm}};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
+    font-family: ${({ theme }) => theme.fonts.system};
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: none;
+    }
+  `;
 
 export const WorkspacesDropdown = () => {
   const dispatch = useAppDispatch();
