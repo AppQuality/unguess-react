@@ -46,7 +46,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const prjRef = useRef<HTMLButtonElement>(null);
 
   const {
-    data: projects,
+    currentData: projects,
     isLoading,
     isFetching,
   } = useGetWorkspacesByWidProjectsQuery(
@@ -58,9 +58,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
 
   const isMobile = isMaxMedia(appTheme.breakpoints.sm);
 
-  const navigateTo = (navRoute: string, parameter?: string) => {
-    const destination = navRoute + (parameter ? `/${parameter}` : '');
-
+  const navigateTo = (destination: string, parameter?: string) => {
     let localizedRoute = '';
     if (destination === 'home') {
       localizedRoute = i18n.language === 'en' ? '/' : `/${i18n.language}`;
@@ -80,8 +78,6 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     }
 
     navigate(localizedRoute, { replace: true });
-
-    // setNav(destination);
   };
 
   useEffect(() => {
@@ -92,6 +88,8 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
       });
     }
   }, [isSidebarOpen]);
+
+  console.log('route', route);
 
   const isLoadingOrFetching = isLoading || isFetching;
 
@@ -127,12 +125,12 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           >
             <NavAccordionItem.Section>
               <NavAccordionItem.Header>
+                <ProjectsIcon />
                 <NavAccordionItem.Label>
-                  <ProjectsIcon />
                   {t('__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL')}{' '}
                 </NavAccordionItem.Label>
               </NavAccordionItem.Header>
-              <NavAccordionItem.Panel>
+              <NavAccordionItem.Panel style={{ padding: 0 }}>
                 {projects.items.map((project) => (
                   <NavItemProject
                     className="sidebar-project-item"
