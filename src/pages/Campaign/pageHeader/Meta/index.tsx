@@ -75,8 +75,8 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
 
   return (
-    <FooterContainer id="footercontainer">
-      <PageMeta id="pagemeta">
+    <FooterContainer>
+      <PageMeta>
         <StatusMeta status={family.name.toLowerCase() as CampaignStatus}>
           {type.name}
         </StatusMeta>
