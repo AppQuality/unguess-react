@@ -15,7 +15,7 @@ import { Workspace } from 'src/features/api';
 import styled from 'styled-components';
 import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/panels-fill.svg';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/shapes-stroke.svg';
 import API from 'src/common/api';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import TagManager from 'react-gtm-module';
@@ -31,8 +31,8 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${({ theme, isCompact }) =>
     isCompact &&
     `
-    width: ${theme.components.chrome.nav.workspaceDropdownWidth}px; 
-  `}
+      width: ${theme.components.chrome.nav.workspaceDropdownWidth}px; 
+    `}
   text-align: start;
   ${(props) => retrieveComponentStyles('text.primary', props)};
 `;
@@ -69,13 +69,13 @@ const DropdownItem = styled(HeaderItem)`
 `;
 
 const BrandName = styled(HeaderItemText)`
-  margin-right: ${({ theme }) => theme.space.sm}};
-  ${(props) => retrieveComponentStyles('text.primary', props)};
-  font-family: ${({ theme }) => theme.fonts.system};
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none;
-  }
-`;
+    margin-right: ${({ theme }) => theme.space.sm}};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
+    font-family: ${({ theme }) => theme.fonts.system};
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: none;
+    }
+  `;
 
 export const WorkspacesDropdown = () => {
   const dispatch = useAppDispatch();

@@ -11,7 +11,7 @@ import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { ReactComponent as MenuIcon } from 'src/assets/icons/menu-stroke.svg';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { WorkspacesDropdown } from './workspaceDropdown';
+import { WorkspacesDropdown } from '../workspacesDropdown';
 
 export const LogoIconContainer = styled(HeaderItem)`
   margin-right: 2px;
