@@ -89,8 +89,6 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     }
   }, [isSidebarOpen]);
 
-  console.log('route', route);
-
   const isLoadingOrFetching = isLoading || isFetching;
 
   return isLoadingOrFetching ? (
