@@ -8,6 +8,7 @@ import {
   Notification,
   Button,
   getColor,
+  MD,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { Trans, useTranslation } from 'react-i18next';
@@ -192,8 +193,15 @@ export const WorkspaceSettings = () => {
                         marginRight: appTheme.space.xs,
                       }}
                     />
-                    {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} (
-                    {workspaceCount})
+                    <MD isBold>
+                      {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')}{' '}
+                      <Span
+                        isBold={false}
+                        style={{ color: appTheme.palette.grey[600] }}
+                      >
+                        ({workspaceCount})
+                      </Span>
+                    </MD>
                   </UsersLabel>
                   <UsersContainer>
                     {workspaceUsers?.items.map((user) => (

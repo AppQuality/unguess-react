@@ -8,6 +8,7 @@ import {
   Notification,
   Button,
   getColor,
+  MD,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { Trans, useTranslation } from 'react-i18next';
@@ -240,8 +241,15 @@ export const CampaignSettings = () => {
                         marginRight: appTheme.space.xs,
                       }}
                     />
-                    {t('__PERMISSION_SETTINGS_CAMPAIGN_USERS')} ({campaignCount}
-                    )
+                    <MD isBold>
+                      {t('__PERMISSION_SETTINGS_CAMPAIGN_USERS')}{' '}
+                      <Span
+                        isBold={false}
+                        style={{ color: appTheme.palette.grey[600] }}
+                      >
+                        ({campaignCount})
+                      </Span>
+                    </MD>
                   </UsersLabel>
                   <UsersContainer>
                     {campaignUsers?.items.map((user) => (
@@ -274,8 +282,15 @@ export const CampaignSettings = () => {
                               marginRight: appTheme.space.xs,
                             }}
                           />
-                          {t('__PERMISSION_SETTINGS_PROJECT_USERS')} (
-                          {projectCount})
+                          <MD isBold>
+                            {t('__PERMISSION_SETTINGS_PROJECT_USERS')}{' '}
+                            <Span
+                              isBold={false}
+                              style={{ color: appTheme.palette.grey[600] }}
+                            >
+                              ({projectCount})
+                            </Span>
+                          </MD>
                         </UsersLabel>
                       </StyledAccordion.Label>
                     </StyledAccordion.Header>
@@ -305,8 +320,15 @@ export const CampaignSettings = () => {
                               marginRight: appTheme.space.xs,
                             }}
                           />
-                          {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} (
-                          {workspaceCount})
+                          <MD isBold>
+                            {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')}{' '}
+                            <Span
+                              isBold={false}
+                              style={{ color: appTheme.palette.grey[600] }}
+                            >
+                              ({workspaceCount})
+                            </Span>
+                          </MD>
                         </UsersLabel>
                       </StyledAccordion.Label>
                     </StyledAccordion.Header>
