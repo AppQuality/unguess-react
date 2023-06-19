@@ -59,6 +59,7 @@ export const ProjectSettings = () => {
     isFetching: isFetchingWorkspaceUsers,
     data: workspaceUsers,
     refetch: refetchWorkspaceUsers,
+    error: workspaceUsersError,
   } = useGetWorkspacesByWidUsersQuery({
     wid: activeWorkspace?.id.toString() || '0',
   });
@@ -239,6 +240,19 @@ export const ProjectSettings = () => {
                     ))}
                   </UsersContainer>
                 </>
+              )}
+              {workspaceUsersError && (
+                <UsersLabel>
+                  <WorkspacesIcon
+                    style={{
+                      color: appTheme.palette.grey[600],
+                      marginRight: appTheme.space.xs,
+                    }}
+                  />
+                  <MD isBold>
+                    {t('__PERMISSION_SETTINGS_WORKSPACE_USERS_ALL')}
+                  </MD>
+                </UsersLabel>
               )}
               {workspaceCount > 0 && (
                 <StyledAccordion

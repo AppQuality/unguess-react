@@ -70,6 +70,7 @@ export const CampaignSettings = () => {
     isFetching: isFetchingProjectUsers,
     data: projectUsers,
     refetch: refetchProjectUsers,
+    error: projectUsersError,
   } = useGetProjectsByPidUsersQuery({
     pid: campaign?.project.id.toString() || '0',
   });
@@ -79,6 +80,7 @@ export const CampaignSettings = () => {
     isFetching: isFetchingWorkspaceUsers,
     data: workspaceUsers,
     refetch: refetchWorkspaceUsers,
+    error: workspaceUsersError,
   } = useGetWorkspacesByWidUsersQuery({
     wid: activeWorkspace?.id.toString() || '0',
   });
@@ -264,6 +266,17 @@ export const CampaignSettings = () => {
                   </UsersContainer>
                 </>
               )}
+              {projectUsersError && (
+                <UsersLabel>
+                  <ProjectsIcon
+                    style={{
+                      color: appTheme.palette.grey[600],
+                      marginRight: appTheme.space.xs,
+                    }}
+                  />
+                  <MD isBold>{t('__PERMISSION_SETTINGS_PROJECT_USERS_ALL')}</MD>
+                </UsersLabel>
+              )}
               {projectCount > 0 && (
                 <StyledAccordion
                   level={3}
@@ -301,6 +314,19 @@ export const CampaignSettings = () => {
                     </StyledAccordionPanel>
                   </StyledAccordion.Section>
                 </StyledAccordion>
+              )}
+              {workspaceUsersError && (
+                <UsersLabel>
+                  <WorkspacesIcon
+                    style={{
+                      color: appTheme.palette.grey[600],
+                      marginRight: appTheme.space.xs,
+                    }}
+                  />
+                  <MD isBold>
+                    {t('__PERMISSION_SETTINGS_WORKSPACE_USERS_ALL')}
+                  </MD>
+                </UsersLabel>
               )}
               {workspaceCount > 0 && (
                 <StyledAccordion
