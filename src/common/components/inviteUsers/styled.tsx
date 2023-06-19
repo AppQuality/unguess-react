@@ -1,4 +1,4 @@
-import { Accordion, Modal } from '@appquality/unguess-design-system';
+import { Accordion, MD, Modal } from '@appquality/unguess-design-system';
 import { getColor } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 
@@ -30,4 +30,20 @@ export const StyledAccordion = styled(Accordion)<{
       opacity: 0.5;
       pointer-events: none;
     `}
+`;
+
+export const StyledAccordionPanel = styled(Accordion.Panel)`
+  padding: 0;
+  padding-left: ${({ theme }) => theme.space.xs};
+`;
+
+export const UsersLabel = styled(MD)`
+  display: flex;
+  align-items: center;
+  padding: ${({ theme }) => theme.space.base * 4}px 0;
+`;
+
+export const UsersContainer = styled.div`
+  padding: 0;
+  padding-left: ${({ theme }) => theme.space.xs};
 `;

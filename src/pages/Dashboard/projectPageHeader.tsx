@@ -23,11 +23,17 @@ import { Counters } from './Counters';
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   justify-content: space-between;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: ${({ theme }) => theme.space.base * 2}px;
+    gap: ${({ theme }) => theme.space.xs};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    button {
+      margin-top: ${({ theme }) => theme.space.md};
+    }
   }
 `;
 
