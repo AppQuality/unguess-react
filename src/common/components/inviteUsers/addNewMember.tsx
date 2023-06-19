@@ -3,6 +3,7 @@ import {
   Message,
   Button,
   Label,
+  Textarea,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-forms';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
@@ -81,11 +82,21 @@ export const AddNewMemberInput = ({
           {errors.email && (
             <Message
               validation="error"
-              style={{ marginTop: appTheme.space.xs }}
+              style={{ marginTop: appTheme.space.sm }}
             >
               {errors.email}
             </Message>
           )}
+          <Textarea
+            style={{
+              marginTop: appTheme.space.sm,
+            }}
+            placeholder={t(
+              '__WORKSPACE_SETTINGS_ADD_MEMBER_MESSAGE_PLACEHOLDER'
+            )}
+            rows={4}
+            {...getFieldProps('message')}
+          />
         </Form>
       )}
     </Formik>
