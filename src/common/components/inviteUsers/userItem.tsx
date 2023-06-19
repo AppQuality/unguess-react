@@ -132,14 +132,24 @@ export const UserItem = ({
             )}
           </div>
         ) : (
-          user.invitationPending && (
-            <Span
-              style={{ marginLeft: 'auto' }}
-              hue={appTheme.palette.orange[600]}
-            >
-              {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
-            </Span>
-          )
+          <>
+            {user.invitationPending && (
+              <Span
+                style={{ marginLeft: 'auto' }}
+                hue={appTheme.palette.orange[600]}
+              >
+                {t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')}
+              </Span>
+            )}
+            {!user.invitationPending && (
+              <Span
+                style={{ marginLeft: 'auto' }}
+                hue={appTheme.palette.grey[700]}
+              >
+                {t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')}
+              </Span>
+            )}
+          </>
         )}
       </UserListItem>
       {showRemoveConfirmModal && onRemoveUser && (
