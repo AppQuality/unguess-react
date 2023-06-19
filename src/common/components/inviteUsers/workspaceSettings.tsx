@@ -7,7 +7,6 @@ import {
   useToast,
   Notification,
   Button,
-  MD,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +17,7 @@ import {
 } from 'src/features/api';
 import { FormikHelpers } from 'formik';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import { useState } from 'react';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
@@ -26,7 +26,8 @@ import {
   FixedBody,
   FlexContainer,
   SettingsDivider,
-  StyledAccordion,
+  UsersLabel,
+  UsersContainer,
 } from './styled';
 
 export const WorkspaceSettings = () => {
@@ -168,45 +169,28 @@ export const WorkspaceSettings = () => {
             <FlexContainer
               isLoading={isLoadingWorkspaceUsers || isFetchingWorkspaceUsers}
             >
-              <StyledAccordion
-                level={3}
-                key="workspace_users_accordion"
-                isAnimated
-                isExpandable
-                {...(workspaceCount === 0 && { isDisabled: true })}
-              >
-                <StyledAccordion.Section>
-                  <StyledAccordion.Header>
-                    <StyledAccordion.Label style={{ padding: 0 }}>
-                      <MD isBold>
-                        <UsersIcon
-                          style={{
-                            color: appTheme.palette.grey[600],
-                            marginRight: appTheme.space.xs,
-                          }}
-                        />
-                        {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} (
-                        {workspaceCount})
-                      </MD>
-                    </StyledAccordion.Label>
-                  </StyledAccordion.Header>
-                  <StyledAccordion.Panel
-                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
-                  >
-                    {workspaceUsers?.items.map((user) => (
-                      <UserItem
-                        key={user.id}
-                        user={user}
-                        onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={(includeShared) =>
-                          onRemoveUser(user.id, includeShared)
-                        }
-                        showRemoveConfirm
-                      />
-                    ))}
-                  </StyledAccordion.Panel>
-                </StyledAccordion.Section>
-              </StyledAccordion>
+              <UsersLabel>
+                <WorkspacesIcon
+                  style={{
+                    fill: appTheme.palette.grey[600],
+                    marginRight: appTheme.space.xs,
+                  }}
+                />
+                {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} ({workspaceCount})
+              </UsersLabel>
+              <UsersContainer>
+                {workspaceUsers?.items.map((user) => (
+                  <UserItem
+                    key={user.id}
+                    user={user}
+                    onResendInvite={() => onResendInvite(user.email)}
+                    onRemoveUser={(includeShared) =>
+                      onRemoveUser(user.id, includeShared)
+                    }
+                    showRemoveConfirm
+                  />
+                ))}
+              </UsersContainer>
             </FlexContainer>
           </Modal.Body>
           <PermissionSettingsFooter />

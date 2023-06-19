@@ -20,6 +20,8 @@ import {
 import { FormikHelpers } from 'formik';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
 import { useState } from 'react';
+import { ReactComponent as ProjectsIcon } from 'src/assets/icons/project-icon.svg';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
@@ -28,6 +30,9 @@ import {
   FlexContainer,
   SettingsDivider,
   StyledAccordion,
+  UsersLabel,
+  UsersContainer,
+  StyledAccordionPanel,
 } from './styled';
 
 export const ProjectSettings = () => {
@@ -187,45 +192,28 @@ export const ProjectSettings = () => {
                 isFetchingWorkspaceUsers
               }
             >
-              <StyledAccordion
-                level={3}
-                key="project_users_accordion"
-                isAnimated
-                isExpandable
-                {...(projectCount === 0 && { isDisabled: true })}
-              >
-                <StyledAccordion.Section>
-                  <StyledAccordion.Header>
-                    <StyledAccordion.Label style={{ padding: 0 }}>
-                      <MD isBold>
-                        <UsersIcon
-                          style={{
-                            color: appTheme.palette.grey[600],
-                            marginRight: appTheme.space.xs,
-                          }}
-                        />
-                        {t('__PERMISSION_SETTINGS_PROJECT_USERS')} (
-                        {projectCount})
-                      </MD>
-                    </StyledAccordion.Label>
-                  </StyledAccordion.Header>
-                  <StyledAccordion.Panel
-                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
-                  >
-                    {projectUsers?.items.map((user) => (
-                      <UserItem
-                        key={user.id}
-                        user={user}
-                        onResendInvite={() => onResendInvite(user.email)}
-                        onRemoveUser={(includeShared) =>
-                          onRemoveUser(user.id, includeShared)
-                        }
-                        showRemoveConfirm
-                      />
-                    ))}
-                  </StyledAccordion.Panel>
-                </StyledAccordion.Section>
-              </StyledAccordion>
+              <UsersLabel>
+                <ProjectsIcon
+                  style={{
+                    color: appTheme.palette.grey[600],
+                    marginRight: appTheme.space.xs,
+                  }}
+                />
+                {t('__PERMISSION_SETTINGS_PROJECT_USERS')} ({projectCount})
+              </UsersLabel>
+              <UsersContainer>
+                {projectUsers?.items.map((user) => (
+                  <UserItem
+                    key={user.id}
+                    user={user}
+                    onResendInvite={() => onResendInvite(user.email)}
+                    onRemoveUser={(includeShared) =>
+                      onRemoveUser(user.id, includeShared)
+                    }
+                    showRemoveConfirm
+                  />
+                ))}
+              </UsersContainer>
               <StyledAccordion
                 level={3}
                 key="workspace_users_accordion"
@@ -236,8 +224,8 @@ export const ProjectSettings = () => {
                 <StyledAccordion.Section>
                   <StyledAccordion.Header>
                     <StyledAccordion.Label style={{ padding: 0 }}>
-                      <MD isBold>
-                        <UsersIcon
+                      <UsersLabel>
+                        <WorkspacesIcon
                           style={{
                             color: appTheme.palette.grey[600],
                             marginRight: appTheme.space.xs,
@@ -245,16 +233,14 @@ export const ProjectSettings = () => {
                         />
                         {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} (
                         {workspaceCount})
-                      </MD>
+                      </UsersLabel>
                     </StyledAccordion.Label>
                   </StyledAccordion.Header>
-                  <StyledAccordion.Panel
-                    style={{ padding: 0, paddingTop: appTheme.space.sm }}
-                  >
+                  <StyledAccordionPanel>
                     {workspaceUsers?.items.map((user) => (
                       <UserItem key={user.id} user={user} />
                     ))}
-                  </StyledAccordion.Panel>
+                  </StyledAccordionPanel>
                 </StyledAccordion.Section>
               </StyledAccordion>
             </FlexContainer>
