@@ -15,7 +15,7 @@ import { Workspace } from 'src/features/api';
 import styled from 'styled-components';
 import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { ReactComponent as WorkspacesIcon } from 'src/common/components/navigation/sidebar/icons/campaigns.svg';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import API from 'src/common/api';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import TagManager from 'react-gtm-module';
