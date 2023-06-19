@@ -654,7 +654,7 @@
   "__PAGE_TITLE_LOGIN": "Log in",
   "__PAGE_TITLE_PRIMARY_DASHBOARD": "My campaigns",
   "__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT": "Projects",
-  "__PERMISSION_SETTINGS_BODY_TITLE": "Already shared with",
+  "__PERMISSION_SETTINGS_BODY_TITLE": "Already shared with <2>{{users_count}} people</2>",
   "__PERMISSION_SETTINGS_CAMPAIGN_USERS": "From the campaign",
   "__PERMISSION_SETTINGS_HEADER_TITLE": "Share",
   "__PERMISSION_SETTINGS_PROJECT_USERS": "From the project",

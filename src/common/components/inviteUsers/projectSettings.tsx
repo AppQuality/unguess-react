@@ -7,9 +7,10 @@ import {
   useToast,
   Notification,
   Button,
+  getColor,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import {
   useDeleteProjectsByPidUsersMutation,
   useGetProjectsByPidUsersQuery,
@@ -181,7 +182,20 @@ export const ProjectSettings = () => {
           <SettingsDivider />
           <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
             <Label>
-              {t('__PERMISSION_SETTINGS_BODY_TITLE')} {usersCount}
+              <Trans i18nKey="__PERMISSION_SETTINGS_BODY_TITLE">
+                Already shared with{' '}
+                <Span
+                  isBold
+                  style={{
+                    color: getColor(appTheme.colors.primaryHue, 600),
+                  }}
+                >
+                  {{
+                    users_count: usersCount,
+                  }}{' '}
+                  people
+                </Span>
+              </Trans>
             </Label>
             <FlexContainer
               isLoading={
