@@ -8,6 +8,7 @@ import {
   NavItemProject,
   NavItemText,
   NavToggle,
+  SM,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import i18n from 'src/i18n';
@@ -32,6 +33,14 @@ const ScrollingContainer = styled.div`
   flex-direction: column;
   order: 1;
   height: 100%;
+`;
+
+const SharedLabel = styled(SM)`
+  margin-top: ${({ theme }) => theme.space.xxs};
+  margin-bottom: ${({ theme }) => theme.space.md};
+  color: ${({ theme }) => theme.palette.grey[600]};
+  padding-left: ${({ theme }) => theme.space.md};
+  text-transform: uppercase;
 `;
 
 export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
@@ -95,6 +104,9 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     <SidebarSkeleton {...props} />
   ) : (
     <Nav {...props} isExpanded={isSidebarOpen}>
+      {activeWorkspace?.isShared && (
+        <SharedLabel>{t('__APP_SIDEBAR_SHARED_WORKSPACE_LABEL')}</SharedLabel>
+      )}
       <ScrollingContainer>
         <NavToggle onClick={onSidebarToggle} isExpanded={isSidebarOpen} />
         {isMobile && <WorkspacesDropdown />}
@@ -109,7 +121,11 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           <NavItemIcon>
             {route === '' ? <CampaignsIconActive /> : <CampaignsIcon />}
           </NavItemIcon>
-          <NavItemText>{t('__APP_SIDEBAR_HOME_ITEM_LABEL')}</NavItemText>
+          <NavItemText>
+            {activeWorkspace?.isShared
+              ? t('__APP_SIDEBAR_SHARED_WORKSPACE_HOME_ITEM_LABEL')
+              : t('__APP_SIDEBAR_HOME_ITEM_LABEL')}
+          </NavItemText>
         </NavItem>
 
         {/** Projects Accordion */}
