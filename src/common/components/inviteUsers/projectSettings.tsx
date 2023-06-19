@@ -181,7 +181,7 @@ export const ProjectSettings = () => {
           </FixedBody>
           <SettingsDivider />
           <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <Label>
+            <Label style={{ color: appTheme.palette.grey[700] }}>
               <Trans i18nKey="__PERMISSION_SETTINGS_BODY_TITLE">
                 Already shared with{' '}
                 <Span
