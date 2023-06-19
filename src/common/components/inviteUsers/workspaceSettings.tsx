@@ -169,28 +169,33 @@ export const WorkspaceSettings = () => {
             <FlexContainer
               isLoading={isLoadingWorkspaceUsers || isFetchingWorkspaceUsers}
             >
-              <UsersLabel>
-                <WorkspacesIcon
-                  style={{
-                    fill: appTheme.palette.grey[600],
-                    marginRight: appTheme.space.xs,
-                  }}
-                />
-                {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} ({workspaceCount})
-              </UsersLabel>
-              <UsersContainer>
-                {workspaceUsers?.items.map((user) => (
-                  <UserItem
-                    key={user.id}
-                    user={user}
-                    onResendInvite={() => onResendInvite(user.email)}
-                    onRemoveUser={(includeShared) =>
-                      onRemoveUser(user.id, includeShared)
-                    }
-                    showRemoveConfirm
-                  />
-                ))}
-              </UsersContainer>
+              {workspaceCount > 0 && (
+                <>
+                  <UsersLabel>
+                    <WorkspacesIcon
+                      style={{
+                        fill: appTheme.palette.grey[600],
+                        marginRight: appTheme.space.xs,
+                      }}
+                    />
+                    {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')} (
+                    {workspaceCount})
+                  </UsersLabel>
+                  <UsersContainer>
+                    {workspaceUsers?.items.map((user) => (
+                      <UserItem
+                        key={user.id}
+                        user={user}
+                        onResendInvite={() => onResendInvite(user.email)}
+                        onRemoveUser={(includeShared) =>
+                          onRemoveUser(user.id, includeShared)
+                        }
+                        showRemoveConfirm
+                      />
+                    ))}
+                  </UsersContainer>
+                </>
+              )}
             </FlexContainer>
           </Modal.Body>
           <PermissionSettingsFooter />
