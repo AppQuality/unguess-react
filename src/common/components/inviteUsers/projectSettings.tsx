@@ -7,7 +7,6 @@ import {
   useToast,
   Notification,
   Button,
-  MD,
 } from '@appquality/unguess-design-system';
 import { useAppSelector } from 'src/app/hooks';
 import { useTranslation } from 'react-i18next';
