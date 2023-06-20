@@ -118,6 +118,12 @@ export const WorkspacesDropdown = () => {
   };
 
   useEffect(() => {
+    if (activeWorkspace) {
+      setSelectedItem(activeWorkspace);
+    }
+  }, [activeWorkspace]);
+
+  useEffect(() => {
     filterMatchingOptions(debouncedInputValue);
   }, [debouncedInputValue, activeWorkspace, workspaces]);
 
