@@ -1,4 +1,4 @@
-import { Skeleton, MultiSelect } from '@appquality/unguess-design-system';
+import { Skeleton, MultiSelect, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
   Bug,
@@ -6,12 +6,12 @@ import {
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
-import { Label } from './Label';
 
 export default ({
   bug,
+  refetchBugTags,
 }: {
   bug: Bug & {
     reporter: {
@@ -20,22 +20,16 @@ export default ({
     };
     tags?: BugTag[];
   };
+  refetchBugTags?: () => void;
 }) => {
   const { t } = useTranslation();
+  const { tags: bugTags } = bug;
   const [options, setOptions] = useState<
     { id: number; label: string; selected?: boolean }[]
   >([]);
-  const [bugTags, setBugTags] = useState<
-    {
-      id: number;
-      label: string;
-    }[]
-  >([
-    ...(bug.tags?.map((tag) => ({
-      id: tag.tag_id,
-      label: tag.name,
-    })) ?? []),
-  ]);
+  const [selectedOptions, setSelectedOptions] = useState<
+    { id: number; label: string }[]
+  >([]);
 
   const {
     isLoading: isLoadingCampaignTags,
@@ -53,11 +47,20 @@ export default ({
         cpTags.map((tag) => ({
           id: tag.tag_id,
           label: tag.display_name,
-          selected: bugTags.some((bt) => bt.id === tag.tag_id),
+          selected: selectedOptions.some((bt) => bt.id === tag.tag_id),
         }))
       );
     }
-  }, [cpTags, bugTags]);
+  }, [cpTags, selectedOptions]);
+
+  useEffect(() => {
+    setSelectedOptions(
+      bug.tags?.map((tag) => ({
+        id: tag.tag_id,
+        label: tag.name,
+      })) ?? []
+    );
+  }, [bugTags]);
 
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
 
@@ -65,17 +68,17 @@ export default ({
 
   return (
     <div>
-      <Label style={{ marginBottom: globalTheme.space.xxs }}>
+      <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
-      </Label>
+      </MD>
       {!bug || !cpTags || isLoadingCampaignTags ? (
         <Skeleton
           height="30px"
-          style={{ borderRadius: globalTheme.borderRadii.md }}
+          style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
         <div
-          className="max-width-6-sm"
+          className="max-width-6-sm bug-preview-search-tags"
           style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}
         >
           <MultiSelect
@@ -91,7 +94,7 @@ export default ({
               addNew: (value) =>
                 `${t('__BUGS_PAGE_BUG_DETAIL_TAGS_ADD_NEW')} "${value}"`,
             }}
-            onChange={async (selectedItems, newLabel) => {
+            onChange={async (selectedItems, newMD) => {
               await patchBug({
                 cid: bug.campaign_id.toString(),
                 bid: bug.id.toString(),
@@ -102,10 +105,10 @@ export default ({
                       .map((item) => ({
                         tag_id: Number(item.id),
                       })),
-                    ...(newLabel
+                    ...(newMD
                       ? [
                           {
-                            tag_name: newLabel,
+                            tag_name: newMD,
                           },
                         ]
                       : []),
@@ -122,7 +125,7 @@ export default ({
                     : [];
 
                   // Update bug tags
-                  setBugTags(selectedTags);
+                  setSelectedOptions(selectedTags);
 
                   const unselectedTags = options.filter(
                     (o) => !selectedTags.find((r) => r.id === o.id)
@@ -138,6 +141,8 @@ export default ({
 
                   // Refetch cp tags to get the new ones
                   refetchCpTags();
+                  // Refetch bug tags to get the new ones
+                  refetchBugTags?.();
                 })
                 .catch((err) => {
                   // eslint-disable-next-line no-console

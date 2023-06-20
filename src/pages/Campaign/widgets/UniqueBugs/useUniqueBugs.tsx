@@ -3,7 +3,7 @@ import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 const useUniqueBugs = (campaignId: number) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: campaignId,
+      cid: campaignId.toString(),
       s: 'unique-bugs',
       updateTrend: true,
     });

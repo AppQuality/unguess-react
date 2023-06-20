@@ -9,6 +9,10 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { BugsPageContent, BugsPageContentLoader } from './Content';
 import { BugsPageHeader, BugsPageHeaderLoader } from './PageHeader';
 import { useCampaign } from './useCampaign';
+import {
+  setCampaignId,
+  setPermissionSettingsTitle,
+} from '../../features/navigation/navigationSlice';
 
 const Bugs = () => {
   const { campaignId } = useParams();
@@ -32,7 +36,13 @@ const Bugs = () => {
           filters: campaign.filters,
         })
       );
+      dispatch(setPermissionSettingsTitle(campaign.customerTitle));
+      dispatch(setCampaignId(campaign.cp_id));
     }
+    return () => {
+      dispatch(setPermissionSettingsTitle(undefined));
+      dispatch(setCampaignId(undefined));
+    };
   }, [campaign]);
 
   if (isError) {
@@ -51,6 +61,7 @@ const Bugs = () => {
   return (
     <Page
       title={t('__BUGS_PAGE_TITLE')}
+      className="bugs-list-page"
       pageHeader={
         isLoading ? (
           <BugsPageHeaderLoader />

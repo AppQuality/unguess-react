@@ -1,11 +1,11 @@
-import { Col, Grid, Row, SM } from '@appquality/unguess-design-system';
+import { Col, Grid, Row, TextLabel } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   BugMedia as BugMediaType,
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import ImageCard from '../ImageCard';
 import VideoCard from '../VideoCard';
 import 'src/common/components/BugDetail/responsive-grid.css';
@@ -40,10 +40,9 @@ export default ({
 
   return (
     <>
-      <SM
+      <TextLabel
         style={{
-          color: globalTheme.palette.grey[600],
-          marginBottom: globalTheme.space.md,
+          marginBottom: appTheme.space.md,
         }}
       >
         {videosCount > 0 && (
@@ -63,7 +62,7 @@ export default ({
             })}
           </>
         )}
-      </SM>
+      </TextLabel>
       <Grid>
         <Row className="responsive-container">
           {items.map((item, index) => {
@@ -72,6 +71,7 @@ export default ({
               return (
                 <Col xs={12} sm={6} className="flex-3-sm">
                   <ImageCard
+                    className="bug-preview-media-item bug-preview-media-image"
                     index={index}
                     url={item.url}
                     onClick={() => openLightbox(index)}
@@ -82,6 +82,7 @@ export default ({
               return (
                 <Col xs={12} sm={6} className="flex-3-sm">
                   <VideoCard
+                    className="bug-preview-media-item bug-preview-media-video"
                     index={index}
                     url={item.url}
                     onClick={() => openLightbox(index)}

@@ -25,12 +25,14 @@ export default ({
   index,
   url,
   onClick,
+  className,
 }: {
   index: number;
   url: string;
   onClick?: () => void;
+  className?: string;
 }) => (
-  <ImageCard onClick={onClick}>
+  <ImageCard onClick={onClick} className={className}>
     <Preview url={url} />
     <MD isBold style={{ textAlign: 'center' }}>
       {index + 1}

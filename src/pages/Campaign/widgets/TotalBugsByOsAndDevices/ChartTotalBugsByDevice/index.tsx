@@ -2,12 +2,13 @@ import { SunburstChart, SM } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useBugsByDevices } from './useBugsByDevices';
 import { getChildrenValue } from './getChildrenValue';
 import { WidgetLoader } from '../../widgetLoader';
 
 const StyledSM = styled(SM)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
 `;
 
 const Tooltip = styled.div`

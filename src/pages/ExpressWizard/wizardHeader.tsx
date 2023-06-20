@@ -1,6 +1,5 @@
 import {
   Logo,
-  theme as globalTheme,
   Span,
   InputToggle,
   Anchor,
@@ -10,6 +9,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
 import { useAppSelector } from 'src/app/hooks';
 import { WizardModel } from './wizardModel';
@@ -41,17 +41,17 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
   const { getFieldProps, errors, validateForm } = props;
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
-  const isDesktop = width > parseInt(globalTheme.breakpoints.sm, 10);
+  const isDesktop = width > parseInt(appTheme.breakpoints.sm, 10);
 
   useEffect(() => {}, []);
 
   return (
     <Container>
-      {width > parseInt(globalTheme.breakpoints.sm, 10) ? (
+      {width > parseInt(appTheme.breakpoints.sm, 10) ? (
         <Logo
           type="icon"
           size={25}
-          style={{ marginRight: globalTheme.space.xs }}
+          style={{ marginRight: appTheme.space.xs }}
         />
       ) : null}
 
@@ -76,11 +76,11 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
       </TitleContainer>
       {isDesktop && errors.campaign_name && (
         <>
-          <ErrorIcon width={20} style={{ marginLeft: globalTheme.space.sm }} />
+          <ErrorIcon width={20} style={{ marginLeft: appTheme.space.sm }} />
           <Span
             style={{
-              color: globalTheme.colors.dangerHue,
-              marginLeft: globalTheme.space.sm,
+              color: appTheme.components.text.dangerColor,
+              marginLeft: appTheme.space.sm,
             }}
           >
             {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_NAME_REQUIRED')}

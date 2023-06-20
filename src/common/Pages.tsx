@@ -15,6 +15,7 @@ import Campaign from 'src/pages/Campaign';
 import Bugs from 'src/pages/Bugs';
 import { useTranslation } from 'react-i18next';
 import Bug from 'src/pages/Bug';
+import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -28,7 +29,11 @@ const Pages = () => {
         createRoutesFromElements(
           <>
             {langPathPrefixes.map((langPrefix) => (
-              <Route path={`/${langPrefix}`} key={`react-router-${langPrefix}`}>
+              <Route
+                path={`/${langPrefix}`}
+                key={`react-router-${langPrefix}`}
+                errorElement={<ErrorBoundaryPage />}
+              >
                 <Route
                   path={`/${langPrefix}/campaigns/:campaignId`}
                   element={<Campaign />}
@@ -73,6 +78,7 @@ const Pages = () => {
                   }}
                 />
               }
+              errorElement={<ErrorBoundaryPage />}
             />
             <Route
               path="/functional-customer-dashboard"
@@ -89,6 +95,7 @@ const Pages = () => {
                   }}
                 />
               }
+              errorElement={<ErrorBoundaryPage />}
             />
             <Route path="*" element={<Navigate replace to="/oops" />} />
           </>

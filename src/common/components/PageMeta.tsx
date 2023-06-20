@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const PageMeta = styled.div`
   display: flex;
-  width: 100%;
   align-items: flex-start;
   flex-flow: column;
 

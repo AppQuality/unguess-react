@@ -7,7 +7,7 @@ export const Pipe = styled.span<{ size?: 'small' | 'regular' | 'large' }>`
   /* regular */
   height: ${({ theme }) => theme.space.md};
   margin-right: ${({ theme }) => theme.space.sm};
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
     display: inline;
   }
 

@@ -1,5 +1,11 @@
 import { Col, Row } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { Campaign } from 'src/features/api';
+import {
+  selectStatuses,
+  selectTestNames,
+  selectTypes,
+} from 'src/features/campaigns';
 import { SearchInput } from './search';
 import { StatusDropdown } from './status';
 import { TestTypeDropdown } from './test';
@@ -37,23 +43,23 @@ const FilterInputContainer = styled.div`
   }
 `;
 
-export const Filters = () => (
+export const Filters = ({ campaigns }: { campaigns: Campaign[] }) => (
   <FiltersRow>
     <FiltersContainer>
       <Row>
         <Col xs={12} md={6} lg={3}>
           <FilterInputContainer>
-            <StatusDropdown />
+            <StatusDropdown availableStatuses={selectStatuses(campaigns)} />
           </FilterInputContainer>
         </Col>
         <Col xs={12} md={6} lg={3}>
           <FilterInputContainer>
-            <CampaignTypeDropdown />
+            <CampaignTypeDropdown availableTypes={selectTypes(campaigns)} />
           </FilterInputContainer>
         </Col>
         <Col xs={12} md={6} lg={3}>
           <FilterInputContainer>
-            <TestTypeDropdown />
+            <TestTypeDropdown availableTests={selectTestNames(campaigns)} />
           </FilterInputContainer>
         </Col>
         <Col xs={12} md={6} lg={3}>

@@ -4,7 +4,7 @@ import {
   Row,
   Skeleton,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 
 export const LoadingServices = () => (
   <>
@@ -13,7 +13,7 @@ export const LoadingServices = () => (
         <Skeleton
           width="100px"
           height="28px"
-          style={{ marginBottom: globalTheme.space.sm }}
+          style={{ marginBottom: appTheme.space.sm }}
         />
       </Col>
     </Row>
@@ -22,7 +22,7 @@ export const LoadingServices = () => (
         <Skeleton
           width="250px"
           height="16px"
-          style={{ marginBottom: globalTheme.space.lg }}
+          style={{ marginBottom: appTheme.space.lg }}
         />
       </Col>
     </Row>

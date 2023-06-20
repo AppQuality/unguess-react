@@ -41,7 +41,7 @@ export const UniqueFilter = () => {
         );
       }}
     >
-      <Field>
+      <Field className="dropdown-unique-bugs">
         <Select isCompact isPrimary={data.unique.selected === 'unique'}>
           {data.unique.selected === 'unique'
             ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
@@ -50,7 +50,13 @@ export const UniqueFilter = () => {
       </Field>
       <Menu>
         {data.unique.available.map((item) => (
-          <Item value={item} disabled={!counters[item as string]}>
+          <Item
+            className={`dropdown-unique-bugs-item-${
+              item === 'unique' ? 'unique' : 'all'
+            }`}
+            value={item}
+            disabled={!counters[item as string]}
+          >
             {item === 'unique'
               ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
               : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')}

@@ -1,5 +1,5 @@
 import { BarChart } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { WidgetLoader } from '../widgetLoader';
 import { useBugsByType } from './useBugsByType';
@@ -14,10 +14,10 @@ const ChartBugsByType = ({ campaignId }: { campaignId: number }) => {
     <div className="chart-bugs-by-type" style={{ width: '100%' }}>
       <BarChart
         colors={[
-          theme.colors.bySeverity.low,
-          theme.colors.bySeverity.medium,
-          theme.colors.bySeverity.high,
-          theme.colors.bySeverity.critical,
+          appTheme.colors.bySeverity.low,
+          appTheme.colors.bySeverity.medium,
+          appTheme.colors.bySeverity.high,
+          appTheme.colors.bySeverity.critical,
         ]}
         width="100%"
         height="279px"

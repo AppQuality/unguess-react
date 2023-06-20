@@ -7,13 +7,15 @@ import {
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import {
   getCurrentCampaignData,
+  getIsNaBugExcluded,
   resetFilters,
   setFilterDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
-import styled from 'styled-components';
+import { Bug } from 'src/features/api';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useCampaignBugs } from '../Content/BugsTable/hooks/useCampaignBugs';
 import { DeviceField } from './DeviceField';
 import { OsField } from './OsField';
@@ -26,12 +28,7 @@ import { UniqueField } from './UniqueField';
 import { UseCaseField } from './UseCaseField';
 import { PriorityField } from './PriorityField';
 import { CustomStatusField } from './CustomStatusField';
-
-export const WaterButton = styled(Button)``;
-
-WaterButton.defaultProps = {
-  themeColor: globalTheme.palette.water[600],
-};
+import { BugItem } from '../types';
 
 const BugsFilterDrawer = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +39,8 @@ const BugsFilterDrawer = () => {
   }));
 
   const campaignData = getCurrentCampaignData();
+
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
 
   const memoizedFilters = useMemo(() => {
     if (!campaignData) return <Skeleton />;
@@ -61,12 +60,12 @@ const BugsFilterDrawer = () => {
     } = campaignData;
 
     return (
-      <>
+      <div className="bugs-filters-drawer">
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_COMMON_LABEL')}
@@ -83,9 +82,9 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
-            marginTop: globalTheme.space.md,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
+            marginTop: appTheme.space.md,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_ACTIONS_LABEL')}
@@ -100,9 +99,9 @@ const BugsFilterDrawer = () => {
         <MD
           isBold
           style={{
-            color: globalTheme.palette.grey[600],
-            marginBottom: globalTheme.space.sm,
-            marginTop: globalTheme.space.md,
+            color: appTheme.palette.grey[600],
+            marginBottom: appTheme.space.sm,
+            marginTop: appTheme.space.md,
           }}
         >
           {t('__BUGS_PAGE_FILTER_DRAWER_BODY_BUG_LABEL')}
@@ -112,11 +111,24 @@ const BugsFilterDrawer = () => {
         ) : null}
         {devices.available.length ? <DeviceField devices={devices} /> : null}
         {os.available.length ? <OsField os={os} /> : null}
-      </>
+      </div>
     );
   }, [campaignData]);
 
   const { bugs } = useCampaignBugs(currentCampaign ?? 0);
+
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
+  let bugItems: BugItem[] = [];
+  if (bugs && bugs.items && bugs.items?.length > 0) {
+    if (currentIsNaBugExcluded) {
+      bugItems = bugs.items.filter(
+        (item: Bug) =>
+          item.custom_status.id !== customStatusNotABugInfo.customStatusId
+      );
+    } else {
+      bugItems = bugs.items;
+    }
+  }
 
   if (!campaignData || !currentCampaign) return <Skeleton />;
 
@@ -140,23 +152,20 @@ const BugsFilterDrawer = () => {
       <Drawer.Body>{memoizedFilters}</Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
-          <Button id="filters-drawer-reset" isPill onClick={onResetClick}>
+          <Button id="filters-drawer-reset" onClick={onResetClick}>
             {t('__BUGS_PAGE_FILTER_DRAWER_RESET_BUTTON')}
           </Button>
         </Drawer.FooterItem>
         <Drawer.FooterItem>
-          <WaterButton
+          <Button
             id="filters-drawer-confirm"
             isPrimary
-            isPill
+            isAccent
             onClick={onCtaClick}
           >
             {t('__BUGS_PAGE_FILTER_DRAWER_CONFIRM_BUTTON')}
-            {bugs &&
-              bugs.items &&
-              bugs.items?.length > 0 &&
-              ` (${bugs?.items?.length})`}
-          </WaterButton>
+            {bugItems.length && ` (${bugItems.length})`}
+          </Button>
         </Drawer.FooterItem>
       </Drawer.Footer>
       <Drawer.Close id="filters-drawer-close" onClick={onClose} />

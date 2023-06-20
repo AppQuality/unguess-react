@@ -4,6 +4,7 @@ import {
   Item,
   Menu,
   Skeleton,
+  MD,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
@@ -14,10 +15,9 @@ import {
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
-import { Label } from './Label';
 
 const StyledItem = styled(Item)`
   display: flex;
@@ -92,13 +92,13 @@ const Priority = ({ bug }: { bug: Bug }) => {
 
   return (
     <div>
-      <Label style={{ marginBottom: globalTheme.space.xxs }}>
+      <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
-      </Label>
+      </MD>
       {isLoading || isFetching ? (
         <Skeleton
           height="30px"
-          style={{ borderRadius: globalTheme.borderRadii.md }}
+          style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
         <Dropdown
@@ -118,7 +118,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
             itemToString: (item: DropdownItem) => item && item.slug,
           }}
         >
-          <Field>
+          <Field className="bug-dropdown-custom-priority">
             <Select isCompact>
               <SelectedItem>
                 {selectedItem.icon} {selectedItem.text}
@@ -128,7 +128,11 @@ const Priority = ({ bug }: { bug: Bug }) => {
           <Menu>
             {options &&
               options.map((item) => (
-                <StyledItem key={item.slug} value={item}>
+                <StyledItem
+                  key={item.slug}
+                  value={item}
+                  className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
+                >
                   {item.icon} {item.text}
                 </StyledItem>
               ))}

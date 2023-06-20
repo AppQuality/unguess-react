@@ -34,7 +34,9 @@ export const selectFilteredCampaigns = (
     // Check Search
     if (
       filters.search &&
-      campaign.title.toLowerCase().indexOf(filters.search.toLowerCase()) === -1
+      campaign.customer_title
+        .toLowerCase()
+        .indexOf(filters.search.toLowerCase()) === -1
     )
       return false;
 
@@ -62,7 +64,7 @@ export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
   return statuses;
 };
 
-interface TestName {
+export interface TestName {
   label: string;
   value: string;
 }

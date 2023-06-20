@@ -1,10 +1,10 @@
 import {
   Col,
   theme,
-  MD,
   Row,
   IconButton,
   Span,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
@@ -87,11 +87,11 @@ export const CampaignsList = () => {
       >
         <Col xs={12} md={8}>
           <Span>
-            <MD style={{ color: theme.palette.grey[700] }}>
+            <TextDescription>
               {`${t(
                 '__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5'
               ).toUpperCase()} (${campaignsCount})`}
-            </MD>
+            </TextDescription>
           </Span>
         </Col>
         {width >= breakpointMd && (
@@ -117,7 +117,7 @@ export const CampaignsList = () => {
         )}
       </Row>
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
-      <Filters />
+      <Filters campaigns={filteredCampaigns} />
 
       {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={campaigns} />

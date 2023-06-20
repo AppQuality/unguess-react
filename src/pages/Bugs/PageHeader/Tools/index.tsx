@@ -10,21 +10,35 @@ import WPAPI from 'src/common/wpapi';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { CampaignStatus } from 'src/types';
 import { PageMeta } from 'src/common/components/PageMeta';
+import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaignBugs } from './useCampaignBugs';
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.space.sm};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-`;
 
-const ButtonsWrapper = styled.div`
-  display: none;
-  @media screen and (min-width: ${(p) => p.theme.breakpoints.lg}) {
-    display: block;
-    flex: 1 0 auto;
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    ${ButtonsWrapper} {
+      margin-top: ${({ theme }) => theme.space.md};
+    }
   }
 `;
 
@@ -71,8 +85,10 @@ export const Tools = ({
         {status && <StatusMeta status={status.name as CampaignStatus} />}
       </PageMeta>
       <ButtonsWrapper>
+        <CampaignSettings />
         <Button
           isBasic
+          className="header-dowlnoad-report"
           onClick={() =>
             WPAPI.getReport({
               campaignId,
@@ -87,6 +103,7 @@ export const Tools = ({
         </Button>
         <Button
           isBasic
+          className="header-integration-center"
           onClick={() => {
             window.location.href = integrationCenterUrl;
           }}

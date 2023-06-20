@@ -5,7 +5,7 @@ import {
   Player,
   Slider,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import {
   BugMedia,
@@ -42,7 +42,7 @@ export const LightboxContainer = ({
 }) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
-  const breakpointSm = parseInt(globalTheme.breakpoints.sm, 10);
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const hideDetails = width < breakpointSm;
 
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
@@ -80,7 +80,8 @@ export const LightboxContainer = ({
       <Lightbox.Body>
         <Lightbox.Body.Main style={{ flex: 2 }}>
           <Slider
-            arrows
+            prevArrow={<Slider.PrevButton isBright />}
+            nextArrow={<Slider.NextButton isBright />}
             onSlideChange={slideChange}
             initialSlide={currentIndex}
           >

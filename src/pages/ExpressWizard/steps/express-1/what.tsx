@@ -14,7 +14,7 @@ import {
   XXL,
   ContainerCard,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
@@ -31,6 +31,7 @@ import { useState } from 'react';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 interface Reasons {
   [key: string]: string;
@@ -44,9 +45,8 @@ export const reasonItems: Reasons = {
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
-  color: ${({ theme }) => theme.palette.grey[800]};
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -67,7 +67,6 @@ const StyledFormField = styled.div`
 
 const StyledProductTypeTitle = styled(XL)`
   margin-bottom: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
 export const WhatStep = ({
@@ -91,7 +90,7 @@ export const WhatStep = ({
       </StepTitle>
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION')}</Paragraph>
       <CardDivider />
-      <StyledFormField style={{ marginTop: globalTheme.space.lg }}>
+      <StyledFormField style={{ marginTop: appTheme.space.lg }}>
         <StyledProductTypeTitle>
           {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_PRODUCT_TYPE_LABEL')}
         </StyledProductTypeTitle>
@@ -152,7 +151,7 @@ export const WhatStep = ({
           }}
           selectedItem={selectedItem}
         >
-          <DropdownField style={{ marginTop: globalTheme.space.lg }}>
+          <DropdownField style={{ marginTop: appTheme.space.lg }}>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
             </Label>

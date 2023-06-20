@@ -1,4 +1,4 @@
-import { Card, Span } from '@appquality/unguess-design-system';
+import { Card, Span, getColor } from '@appquality/unguess-design-system';
 import { FieldArray, FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi'
 import i18n from 'i18next';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 const Container = styled.div`
   width: 100%;
@@ -26,7 +27,7 @@ const UseCaseCard = styled(Card)`
   background-color: white;
   text-align: center;
   border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   padding: 0;
   height: ${({ theme }) => theme.space.base * 15}px;
   width: 20%;
@@ -34,8 +35,8 @@ const UseCaseCard = styled(Card)`
   user-select: none;
 
   &.current-card {
-    background-color: ${({ theme }) => theme.colors.primaryHue};
-    border: 2px solid ${({ theme }) => theme.colors.primaryHue};
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 600)};
+    border: 2px solid ${({ theme }) => getColor(theme.colors.primaryHue, 600)};
     color: white;
   }
 
@@ -81,9 +82,12 @@ const UseCasesWrapper = styled.div`
   width: 100%;
 
   ${UseCaseCard} {
-    margin: 0 ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
+    margin-right: ${({ theme }) => theme.space.sm};
     &:first-child {
       margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
     }
   }
 

@@ -3,10 +3,11 @@ import {
   MD,
   SM,
   Anchor,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import React from 'react';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 
 const BugCardContainer = styled(ContainerCard)<
   React.ComponentProps<typeof ContainerCard> & {
@@ -30,6 +31,7 @@ const BugCardContainer = styled(ContainerCard)<
 
 type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
   children: (severity?: Severities) => React.ReactNode | React.ReactElement;
+  url?: string;
 } & (
     | {
         severity: Severities;
@@ -40,11 +42,11 @@ type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
 /**
  * Example:
  * ```
- *  <BugCard severity="critical">
+ *  <BugCard severity="critical" url="#">
  *    {(severity) => (
  *       <>
  *         <BugCard.TopTitle>ID 123</BugCard.TopTitle>
- *         <BugCard.Title url="#">
+ *         <BugCard.Title>
  *           Title
  *         </BugCard.Title>
  *          <BugCard.Description>
@@ -64,17 +66,33 @@ type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
  *   </BugCard>
  * ```
  */
-const BugCard = ({ children, ...props }: BugCardArgs) => (
-  <BugCardContainer
-    {...props}
-    borderColor={
-      'severity' in props
-        ? globalTheme.colors.bySeverity[props.severity as Severities]
-        : props.borderColor
-    }
-  >
-    {'severity' in props ? children(props.severity) : children()}
-  </BugCardContainer>
+
+const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
+  ${({ disabled }) =>
+    disabled &&
+    ` 
+    pointer-events: none;
+    cursor: default;
+    `}
+
+  &:hover {
+    text-decoration: none;
+  }
+`;
+
+const BugCard = ({ children, url, ...props }: BugCardArgs) => (
+  <StyledAnchor href={url} disabled={!url}>
+    <BugCardContainer
+      {...props}
+      borderColor={
+        'severity' in props
+          ? appTheme.colors.bySeverity[props.severity as Severities]
+          : props.borderColor
+      }
+    >
+      {'severity' in props ? children(props.severity) : children()}
+    </BugCardContainer>
+  </StyledAnchor>
 );
 
 const StyledSM = styled(SM)`
@@ -86,26 +104,16 @@ const BugCardTopTitle = ({ children }: { children: React.ReactNode }) => (
 );
 BugCard.TopTitle = BugCardTopTitle;
 
-const BugCardTitle = ({
-  children,
-  url,
-}: {
-  children: React.ReactNode;
-  url?: string;
-}) => {
-  if (url) {
-    return (
-      <Anchor className="anchor-bug-card-title" href={url}>
-        <MD isBold>{children}</MD>
-      </Anchor>
-    );
-  }
-  return (
-    <MD style={{ color: globalTheme.palette.blue[600] }} isBold>
-      {children}
-    </MD>
-  );
-};
+const BugCardTitle = ({ children }: { children: React.ReactNode }) => (
+  <MD
+    className="anchor-bug-card-title"
+    style={{ color: appTheme.palette.blue[600] }}
+    isBold
+  >
+    {children}
+  </MD>
+);
+
 BugCard.Title = BugCardTitle;
 
 BugCard.Footer = styled.div`
@@ -123,11 +131,13 @@ BugCard.Separator = styled.div`
   background-color: #e6e6e6;
 `;
 
-const BugCardDescription = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey['700']};
+const BugCardDescription = styled(TextDescription)`
   margin-top: ${({ theme }) => theme.space.xxs};
   margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
+BugCardDescription.defaultProps = {
+  isSmall: true,
+};
 BugCard.Description = BugCardDescription;
 
 export { BugCard };

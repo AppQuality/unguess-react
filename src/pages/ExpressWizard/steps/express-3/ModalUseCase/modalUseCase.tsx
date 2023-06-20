@@ -8,7 +8,6 @@ import {
   ModalFullScreen,
   Row,
   ContainerCard,
-  theme as globalTheme,
   Button,
   LG,
   Paragraph,
@@ -18,6 +17,8 @@ import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FieldArray, FormikProps } from 'formik';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { appTheme } from 'src/app/theme';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
@@ -25,9 +26,8 @@ import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { UseCaseDetails } from './useCaseDetails';
 
 const Body = styled(ModalFullScreen.Body)`
-  padding-top: 0;
-  padding-right: 0;
-  overflow: hidden;
+  padding: 0;
+  overflow-x: hidden;
 
   ::-webkit-scrollbar {
     display: none;
@@ -35,13 +35,13 @@ const Body = styled(ModalFullScreen.Body)`
 `;
 
 const ContentCol = styled(Col)`
-  margin-bottom: 0;
   flex-wrap: nowrap;
   align-items: stretch;
   align-content: stretch;
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 0;
 `;
 
 const HelpCol = styled(Col)`
@@ -50,6 +50,8 @@ const HelpCol = styled(Col)`
   background-color: white;
   margin-bottom: 0;
   height: 100%;
+  position: sticky;
+  top: 0;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: none;
@@ -65,6 +67,13 @@ const TextCasesTabs = styled.div`
   width: 100%;
   position: sticky;
   top: 0;
+  z-index: 1;
+  background: #f6f6f8;
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  padding-left: calc(
+    ${({ theme }) => theme.space.lg} + ${({ theme }) => theme.space.xxl}
+  );
+  margin-bottom: ${({ theme }) => theme.space.lg};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     padding: ${({ theme }) => theme.space.md} 0;
@@ -88,7 +97,10 @@ const PullLeft = styled.div`
 `;
 
 const BodyScrollingContainer = styled(ScrollingContainer)`
-  padding-bottom: ${({ theme }) => theme.space.xl};
+  padding-left: calc(
+    ${({ theme }) => theme.space.xxl} + ${({ theme }) => theme.space.xxl}
+  );
+  padding-right: ${({ theme }) => theme.space.lg};
 
   ::-webkit-scrollbar {
     background-color: transparent;
@@ -106,7 +118,7 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
 `;
 
 const EmptyStateTitle = styled(LG)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
@@ -127,7 +139,7 @@ const StyledModal = styled(ModalFullScreen)`
 `;
 
 const ModalBodyLayout = styled(LayoutWrapper)`
-  padding-right: 0;
+  padding: 0;
 `;
 
 export const ModalUseCase = ({
@@ -162,9 +174,7 @@ export const ModalUseCase = ({
 
   return isUseCaseModalOpen ? (
     <StyledModal onClose={closeModal} focusOnMount={false}>
-      <StyledModal.Header
-        style={{ backgroundColor: globalTheme.palette.white }}
-      >
+      <StyledModal.Header style={{ backgroundColor: appTheme.palette.white }}>
         <LayoutWrapper isNotBoxed>
           <ModalUseCaseHeader onClose={closeModal} />
         </LayoutWrapper>
@@ -191,36 +201,26 @@ export const ModalUseCase = ({
                           useCase={currentUseCase}
                           useCaseIndex={useCaseIndex}
                         />
-                        <PullLeft style={{ marginTop: globalTheme.space.xxl }}>
+                        <PullLeft style={{ marginTop: appTheme.space.xxl }}>
                           <FieldArray name="use_cases">
                             {({ remove }) => (
                               <Button
-                                themeColor={globalTheme.palette.red[600]}
+                                isDanger
                                 isBasic
                                 onClick={() => {
-                                  if (
-                                    // eslint-disable-next-line no-alert
-                                    window.confirm(
-                                      t(
-                                        '__EXPRESS_WIZARD_CONFIRM_DELETE_USE_CASE'
-                                      )
-                                    )
-                                  ) {
-                                    remove(useCaseIndex);
+                                  remove(useCaseIndex);
 
-                                    // Set current use case
-                                    if (useCaseIndex === 0) {
-                                      // If there is at least an other use case next, set it
-                                      if (use_cases[useCaseIndex + 1]) {
-                                        setUseCase(use_cases[useCaseIndex + 1]);
-                                      } else {
-                                        // Clear current use case
-                                        setUseCase();
-                                      }
-                                    } else if (useCaseIndex > 0) {
-                                      // Set the previous one
-                                      setUseCase(use_cases[useCaseIndex - 1]);
+                                  if (useCaseIndex === 0) {
+                                    // If there is at least an other use case next, set it
+                                    if (use_cases[useCaseIndex + 1]) {
+                                      setUseCase(use_cases[useCaseIndex + 1]);
+                                    } else {
+                                      // Clear current use case
+                                      setUseCase();
                                     }
+                                  } else if (useCaseIndex > 0) {
+                                    // Set the previous one
+                                    setUseCase(use_cases[useCaseIndex - 1]);
                                   }
                                 }}
                               >
@@ -237,9 +237,7 @@ export const ModalUseCase = ({
                       </>
                     ) : (
                       <CenteredContainer>
-                        <EmptyImg
-                          style={{ marginBottom: globalTheme.space.lg }}
-                        />
+                        <EmptyImg style={{ marginBottom: appTheme.space.lg }} />
                         <EmptyStateTitle>
                           {t(
                             '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'

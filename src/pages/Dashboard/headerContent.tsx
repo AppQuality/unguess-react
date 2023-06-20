@@ -38,7 +38,6 @@ export const DashboardHeaderContent = ({
           <PageHeader.Footer>
             <Button
               isPrimary
-              isPill
               onClick={() => {
                 // eslint-disable-next-line security/detect-non-literal-fs-filename
                 window.open(JOTFORM_URL, '_blank')?.focus(); // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)

@@ -5,11 +5,10 @@ import {
   Span,
   SM,
 } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import styled from 'styled-components';
 import { useBugs } from './useBugs';
 import { BasicWidget } from '../widgetCards/BasicWidget';
 import { CapitalizeFirstLetter } from '../widgetCards/common/CapitalizeFirstLetter';
@@ -30,10 +29,6 @@ function translateSeverity(severity: Severities, t: TFunction) {
   }
 }
 
-const Value = styled(Span)`
-  color: ${({ theme: globalTheme }) => globalTheme.colors.primaryHue};
-`;
-
 const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
   const { t, i18n } = useTranslation();
   const height = '140px';
@@ -43,7 +38,7 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
     return null;
 
   const colorScheme = Object.keys(data.bySeverity).map(
-    (key) => theme.colors.bySeverity[key as Severities]
+    (key) => appTheme.colors.bySeverity[key as Severities]
   );
   const maxSeverity = Object.keys(data.bySeverity)[0] as Severities;
 
@@ -80,11 +75,15 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
             content={
               <span
                 style={{
-                  color: theme.colors.bySeverity[maxSeverity as Severities],
+                  color: appTheme.colors.bySeverity[maxSeverity as Severities],
                 }}
               >
                 {`${data.bySeverity[maxSeverity as Severities] || 0} `}
-                <XL tag="span" isBold>
+                <XL
+                  tag="span"
+                  isBold
+                  color={appTheme.colors.bySeverity[maxSeverity as Severities]}
+                >
                   <Trans
                     i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_LABEL"
                     count={data.bySeverity[maxSeverity as Severities] || 0}
@@ -100,7 +99,12 @@ const BugDistributionCard = ({ campaignId }: { campaignId: number }) => {
                 defaults="out of <bold>{{total}}</bold> unique"
                 count={data.total || 0}
                 components={{
-                  bold: <Value isBold />,
+                  bold: (
+                    <Span
+                      isBold
+                      style={{ color: appTheme.components.text.primaryColor }}
+                    />
+                  ),
                 }}
                 values={{
                   total: data.total || 0,

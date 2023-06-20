@@ -1,8 +1,8 @@
 import {
   Content,
-  Sidebar,
   ProfileModal,
-  theme,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -12,16 +12,15 @@ import {
   setProfileModalOpen,
   setSidebarOpen,
 } from 'src/features/navigation/navigationSlice';
+import { AppSidebar } from 'src/common/components/navigation/sidebar';
 import WPAPI from 'src/common/wpapi';
 import i18n from 'src/i18n';
-import { useNavigate, useParams } from 'react-router-dom';
-import { prepareGravatar, isMaxMedia } from 'src/common/utils';
+import { useParams } from 'react-router-dom';
+import { prepareGravatar } from 'src/common/utils';
 import { useEffect } from 'react';
 import API from 'src/common/api';
-import TagManager from 'react-gtm-module';
 import { isDev } from 'src/common/isDevEnvironment';
-import { useGetWorkspacesByWidProjectsQuery } from '../api';
-import { getWorkspaceFromLS, saveWorkspaceToLs } from './cachedStorage';
+import { getWorkspaceFromLS } from './cachedStorage';
 import { isValidWorkspace } from './utils';
 import { selectWorkspaces } from '../workspaces/selectors';
 import { usePathWithoutLocale } from './usePathWithoutLocale';
@@ -38,14 +37,12 @@ export const Navigation = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const pathWithoutLocale = usePathWithoutLocale();
   const { userData: user } = useAppSelector((state) => state.user);
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
   const workspaces = useAppSelector(selectWorkspaces);
-  const { isSidebarOpen, activeWorkspace } = useAppSelector(
-    (state) => state.navigation
-  );
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { addToast } = useToast();
 
   // Set isSidebarOpen to false for specific routes
   useEffect(() => {
@@ -96,26 +93,6 @@ export const Navigation = ({
       }
     });
   }
-
-  const projects = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
-
-  const projectsList =
-    !projects.data || !projects.data.items
-      ? []
-      : projects.data.items.reduce((filtered: Array<any>, project) => {
-          if (project.campaigns_count) {
-            filtered.push({
-              id: `${project.id}`,
-              title: project.name || '-',
-              campaigns: `${project.campaigns_count} ${t(
-                '__SIDEBAR_CAMPAIGNS_LABEL'
-              )}`,
-            });
-          }
-          return filtered;
-        }, []);
 
   const profileModal = {
     user: {
@@ -177,28 +154,20 @@ export const Navigation = ({
     onLogout: async () => {
       await WPAPI.logout();
     },
-  };
-
-  const navigateTo = (requiredRoute: string, routeParameter?: string) => {
-    let localizedRoute = '';
-    if (requiredRoute === 'home') {
-      localizedRoute = i18n.language === 'en' ? '/' : `/${i18n.language}`;
-    } else {
-      localizedRoute =
-        i18n.language === 'en'
-          ? `/${requiredRoute}`
-          : `/${i18n.language}/${requiredRoute}`;
-
-      if (routeParameter) {
-        localizedRoute += `/${routeParameter}`;
-      }
-    }
-
-    if (isMaxMedia(theme.breakpoints.sm)) {
-      dispatch(toggleSidebar());
-    }
-
-    navigate(localizedRoute, { replace: true });
+    onCopyEmail: () => {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__NOTIFICATION_PROFILE_MODAL_COPY_EMAIL_MESSAGE')}
+            closeText={t('__NOTIFICATION_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    },
   };
 
   const toggleSidebarState = () => {
@@ -207,23 +176,6 @@ export const Navigation = ({
 
   const onProfileModalClose = () => {
     dispatch(setProfileModalOpen(false));
-  };
-
-  const toggleGtmWorkspaceChange = (workspaceName: string) => {
-    TagManager.dataLayer({
-      dataLayer: {
-        event: 'workspace_change',
-        role: user.role,
-        wp_user_id: user.tryber_wp_user_id,
-        tester_id: user.id,
-        name: user.name,
-        email: user.email,
-        company: workspaceName,
-      },
-    });
-
-    // Navigate to home
-    navigateTo('home');
   };
 
   if (!activeWorkspace) return null;
@@ -235,31 +187,13 @@ export const Navigation = ({
         <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
       )}
       <Content>
-        <Sidebar
-          projects={projectsList}
-          isExpanded={isSidebarOpen}
-          onToggleMenu={toggleSidebarState}
-          defaultAccordionPanels={[0]}
-          isLoading={projects.isFetching || projects.isLoading}
-          dividerLabel={t('__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL')}
-          onNavToggle={navigateTo}
-          currentRoute={
+        <AppSidebar
+          route={
             route === 'projects' && parameter !== ''
               ? `${route}/${parameter}`
               : route
           }
-          homeItemLabel={t('__APP_SIDEBAR_HOME_ITEM_LABEL')}
-          servicesItemLabel={t('__APP_SIDEBAR_SERVICES_ITEM_LABEL')}
-          activeWorkspace={activeWorkspace}
-          workspaces={workspaces}
-          features={user.features || []}
-          onWorkspaceChange={(workspace: any) => {
-            saveWorkspaceToLs(workspace);
-            API.workspacesById(workspace.id).then((ws) => {
-              dispatch(setWorkspace(ws));
-              toggleGtmWorkspaceChange(ws.company);
-            });
-          }}
+          onSidebarToggle={toggleSidebarState}
         />
         {children}
       </Content>

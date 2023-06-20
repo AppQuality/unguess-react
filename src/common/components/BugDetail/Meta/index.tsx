@@ -1,11 +1,11 @@
-import { XL, MD, SM, Tag } from '@appquality/unguess-design-system';
+import { XL, Tag, TextDescription } from '@appquality/unguess-design-system';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Bug } from 'src/features/api';
 import { Pipe } from 'src/common/components/Pipe';
 import { WrappedText } from 'src/common/components/WrappedText';
@@ -63,32 +63,30 @@ export default ({
     <XL
       isBold
       style={{
-        marginTop: globalTheme.space.xxs,
-        marginBottom: globalTheme.space.xs,
-        color: globalTheme.palette.grey[800],
+        marginTop: appTheme.space.xxs,
+        marginBottom: appTheme.space.xs,
       }}
     >
       <WrappedText>{bug.title.compact}</WrappedText>
     </XL>
-    <MD
+    <TextDescription
       style={{
-        color: globalTheme.palette.grey[700],
-        marginBottom: globalTheme.space.md,
+        marginBottom: appTheme.space.md,
       }}
     >
       {bug.title.context ? bug.title.context.join(', ') : null}
-    </MD>
+    </TextDescription>
     <BugInfo>
-      <SM
+      <TextDescription
+        isSmall
         isBold
         style={{
           textTransform: 'capitalize',
-          color: globalTheme.palette.grey[700],
-          marginRight: globalTheme.space.sm,
+          marginRight: appTheme.space.sm,
         }}
       >
         {bug.type.name}
-      </SM>
+      </TextDescription>
       <Pipe size="regular" />
       <Tag hue="white" style={{ textTransform: 'capitalize' }}>
         <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>

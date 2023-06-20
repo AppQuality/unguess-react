@@ -1,6 +1,6 @@
 import { Page } from 'src/features/templates/Page';
 import { Card, Skeleton } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 
 export const LoadingSkeleton = () => (
@@ -16,7 +16,7 @@ export const LoadingSkeleton = () => (
         <Skeleton
           height="50px"
           width="100%"
-          style={{ borderRadius: 0, marginBottom: theme.space.xxl }}
+          style={{ borderRadius: 0, marginBottom: appTheme.space.xxl }}
         />
         <Skeleton height="400px" width="100%" style={{ borderRadius: 0 }} />
       </Card>

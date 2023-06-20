@@ -16,7 +16,26 @@ import {
   usePatchProjectsByPidMutation,
 } from 'src/features/api';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
+import styled from 'styled-components';
 import { Counters } from './Counters';
+
+const StyledPageHeaderMeta = styled(PageHeader.Meta)`
+  justify-content: space-between;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.space.xs};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    button {
+      margin-top: ${({ theme }) => theme.space.md};
+    }
+  }
+`;
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
@@ -33,7 +52,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     isSuccess,
     data: project,
   } = useGetProjectsByPidQuery({
-    pid: projectId,
+    pid: projectId.toString(),
   });
 
   useEffect(() => {
@@ -70,7 +89,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                 e.currentTarget.value !== project?.name
               ) {
                 await patchProject({
-                  pid: projectId,
+                  pid: projectId.toString(),
                   body: { display_name: e.currentTarget.value },
                 }).unwrap();
               }
@@ -97,15 +116,15 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               InputToggleMemo
             )}
           </PageHeader.Title>
-          <PageHeader.Meta>
+          <StyledPageHeaderMeta>
             <Counters />
-          </PageHeader.Meta>
+            <ProjectSettings />
+          </StyledPageHeaderMeta>
         </PageHeader.Main>
         {hasButton && (
           <PageHeader.Footer>
             <Button
               isPrimary
-              isPill
               onClick={() => {
                 // eslint-disable-next-line security/detect-non-literal-fs-filename
                 window.open(JOTFORM_URL, '_blank')?.focus(); // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)

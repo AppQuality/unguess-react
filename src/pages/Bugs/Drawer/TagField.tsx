@@ -8,7 +8,7 @@ import {
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
@@ -34,16 +34,20 @@ export const TagField = ({
 
   return (
     <>
-      <Accordion level={3} defaultExpandedSections={[]}>
+      <Accordion
+        level={3}
+        defaultExpandedSections={[]}
+        className="bugs-drawer-accordion-tags"
+      >
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
-              <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
                 {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE')}
               </MD>
               <SM
                 style={{
-                  color: globalTheme.palette.grey[600],
+                  color: appTheme.palette.grey[600],
                   textTransform: 'capitalize',
                 }}
               >
@@ -62,7 +66,10 @@ export const TagField = ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
-            <Field style={{ marginBottom: globalTheme.space.xs }}>
+            <Field
+              style={{ marginBottom: appTheme.space.xs }}
+              className="bugs-drawer-accordion-no-tags"
+            >
               <Checkbox
                 value={0}
                 name="filter-tags"
@@ -93,7 +100,7 @@ export const TagField = ({
                 <LabelSpaceBetween
                   isRegular
                   style={{
-                    color: globalTheme.palette.grey[700],
+                    color: appTheme.palette.grey[700],
                     textTransform: 'capitalize',
                   }}
                 >
@@ -106,7 +113,7 @@ export const TagField = ({
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow - 1)
                   .map((tag) => (
-                    <Field style={{ marginBottom: globalTheme.space.xs }}>
+                    <Field style={{ marginBottom: appTheme.space.xs }}>
                       <Checkbox
                         value={tag.tag_id}
                         name="filter-tags"
@@ -135,7 +142,7 @@ export const TagField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color: globalTheme.palette.grey[700],
+                            color: appTheme.palette.grey[700],
                             textTransform: 'capitalize',
                           }}
                         >

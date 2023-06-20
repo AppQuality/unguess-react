@@ -2,7 +2,6 @@ import {
   XXL,
   MD,
   Span,
-  theme,
   Message,
   Row,
   CheckboxCard,
@@ -15,6 +14,7 @@ import {
   Input,
   ContainerCard,
 } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { Field as FormField } from '@zendeskgarden/react-forms';
@@ -76,7 +76,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
     <ContainerCard>
       <Row>
         <WizardCol>
-          <XXL style={{ color: theme.palette.grey[800] }}>
+          <XXL>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
@@ -147,7 +147,10 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           {(errors.withSmartphone ||
             errors.withTablet ||
             errors.withDesktop) && (
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.xs }}
+            >
               {t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR')}
             </Message>
           )}
@@ -160,7 +163,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           <FormField>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL')}
-              <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+              <Span style={{ color: appTheme.components.text.dangerColor }}>
+                *
+              </Span>
             </Label>
             <Hint>{t('__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION')}</Hint>
             <MediaInput
@@ -181,13 +186,13 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
       </StyledRow>
 
       {/** --- Browsers --- */}
-      <StyledRow style={{ marginTop: theme.space.lg }}>
+      <StyledRow style={{ marginTop: appTheme.space.lg }}>
         {/** LG: 32px */}
         <WizardCol>
           <MD
             style={{
-              color: theme.palette.grey[800],
-              fontWeight: theme.fontWeights.medium,
+              color: appTheme.palette.grey[800],
+              fontWeight: appTheme.fontWeights.medium,
             }}
           >
             {t('__EXPRESS_WIZARD_STEP_WHERE_BROWSER_TITLE')}
@@ -206,7 +211,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           </FormField>
         </WizardCol>
         <WizardCol size={12}>
-          <CardDivider style={{ marginTop: theme.space.xs }} />
+          <CardDivider style={{ marginTop: appTheme.space.xs }} />
         </WizardCol>
         <WizardCol size={12}>
           <Notes>
@@ -224,7 +229,11 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                 <FormField>
                   <Label>
                     {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_LABEL')}
-                    <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+                    <Span
+                      style={{ color: appTheme.components.text.dangerColor }}
+                    >
+                      *
+                    </Span>
                   </Label>
                   <Input
                     type="hidden"
@@ -236,7 +245,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withChrome')}
                     checked={values.withChrome}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: appTheme.components.text.primaryColor }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_CHROME')}
                     </Label>
                   </Checkbox>
@@ -246,7 +257,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withEdge')}
                     checked={values.withEdge}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: appTheme.components.text.primaryColor }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_EDGE')}
                     </Label>
                   </Checkbox>
@@ -256,7 +269,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withSafari')}
                     checked={values.withSafari}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: appTheme.components.text.primaryColor }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_SAFARI')}
                     </Label>
                   </Checkbox>
@@ -266,7 +281,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
                     {...getFieldProps('withFirefox')}
                     checked={values.withFirefox}
                   >
-                    <Label style={{ color: theme.colors.primaryHue }}>
+                    <Label
+                      style={{ color: appTheme.components.text.primaryColor }}
+                    >
                       {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_FIREFOX')}
                     </Label>
                   </Checkbox>
@@ -277,7 +294,10 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
         </WizardCol>
         {values.customBrowser && errors.customBrowserFilled && (
           <WizardCol size={12}>
-            <Message validation="error" style={{ marginTop: theme.space.xs }}>
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.xs }}
+            >
               {t('__EXPRESS_WIZARD_STEP_WHERE_CUSTOM_BROWSER_ERROR')}
             </Message>
           </WizardCol>

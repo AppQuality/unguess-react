@@ -175,7 +175,21 @@ export interface paths {
     parameters: {
       path: {
         /** Campaign id */
-        cid: number;
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/campaigns/{cid}/users': {
+    /** Return a list of users from a specific campaign */
+    get: operations['get-campaign-users'];
+    /** Use this to add a new or existent user into a specific campaign. */
+    post: operations['post-campaign-cid-users'];
+    /** Remove an user from campaign */
+    delete: operations['delete-campaign-cid-users'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
       };
     };
   };
@@ -199,7 +213,7 @@ export interface paths {
     parameters: {
       path: {
         /** Project id */
-        pid: number;
+        pid: components['parameters']['pid'];
       };
     };
   };
@@ -212,6 +226,8 @@ export interface paths {
   };
   '/workspaces': {
     get: operations['get-workspaces'];
+    /** This endpoint is useful to add a new workspace. Only admin can use this. */
+    post: operations['post-workspaces'];
   };
   '/workspaces/{wid}': {
     get: operations['get-workspace'];
@@ -243,10 +259,28 @@ export interface paths {
   '/workspaces/{wid}/users': {
     /** Return a list of users from a specific workspace */
     get: operations['get-workspaces-users'];
+    /** Use this to add a new or existent user into a specific workspace. */
+    post: operations['post-workspaces-wid-users'];
+    /** Remove an user from workspace */
+    delete: operations['delete-workspaces-wid-users'];
     parameters: {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
+      };
+    };
+  };
+  '/projects/{pid}/users': {
+    /** Return a list of users from a specific project */
+    get: operations['get-projects-users'];
+    /** Use this to add a new or existent user into a specific project. */
+    post: operations['post-projects-pid-users'];
+    /** Remove an user from project */
+    delete: operations['delete-projects-pid-users'];
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
       };
     };
   };
@@ -768,6 +802,20 @@ export interface components {
        */
       kind: 'campaignUniqueBugs';
     };
+    /** Tenant */
+    Invitation: {
+      /** @description tryber wp_user_id */
+      id: number;
+      profile_id: number;
+      name: string;
+      email: string;
+      invitationPending: boolean;
+      permissionFrom?: {
+        /** @enum {string} */
+        type?: 'workspace' | 'project';
+        id?: number;
+      };
+    };
   };
   responses: {
     /** Example response */
@@ -781,7 +829,7 @@ export interface components {
     /** @description Workspace (company, customer) id */
     wid: string;
     /** @description Project id */
-    pid: number;
+    pid: string;
     /** @description Limit pagination parameter */
     limit: number;
     /** @description Start pagination parameter */
@@ -1364,7 +1412,7 @@ export interface operations {
     parameters: {
       path: {
         /** Campaign id */
-        cid: number;
+        cid: components['parameters']['cid'];
       };
       query: {
         /** Campaign widget slug */
@@ -1389,6 +1437,113 @@ export interface operations {
       401: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  /** Return a list of users from a specific campaign */
+  'get-campaign-users': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Invitation'][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  /** Use this to add a new or existent user into a specific campaign. */
+  'post-campaign-cid-users': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            profile_id: number;
+            tryber_wp_user_id: number;
+            email: string;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          email: string;
+          name?: string;
+          surname?: string;
+          /**
+           * @description preferred language
+           * @default en
+           * @enum {string}
+           */
+          locale?: 'it' | 'en';
+          event_name?: string;
+          redirect_url?: string;
+        };
+      };
+    };
+  };
+  /** Remove an user from campaign */
+  'delete-campaign-cid-users': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Invitation'][];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Tryber WP USER ID */
+          user_id: number;
+        };
+      };
     };
   };
   'post-projects': {
@@ -1460,7 +1615,7 @@ export interface operations {
     parameters: {
       path: {
         /** Project id */
-        pid: number;
+        pid: components['parameters']['pid'];
       };
       query: {
         /** Limit pagination parameter */
@@ -1567,6 +1722,31 @@ export interface operations {
       403: components['responses']['Error'];
       404: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  /** This endpoint is useful to add a new workspace. Only admin can use this. */
+  'post-workspaces': {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            company: string;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          company: string;
+          pm_id?: number;
+        };
+      };
     };
   };
   'get-workspace': {
@@ -1685,15 +1865,7 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items: {
-              /** @description tryber wp_user_id */
-              id: number;
-              /** @description tester_id */
-              profile_id: number;
-              name: string;
-              email: string;
-              invitationPending: boolean;
-            }[];
+            items: components['schemas']['Invitation'][];
             start?: number;
             limit?: number;
             size?: number;
@@ -1704,6 +1876,184 @@ export interface operations {
       400: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  /** Use this to add a new or existent user into a specific workspace. */
+  'post-workspaces-wid-users': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            profile_id: number;
+            tryber_wp_user_id: number;
+            email: string;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          email: string;
+          name?: string;
+          surname?: string;
+          /**
+           * @description preferred language
+           * @default en
+           * @enum {string}
+           */
+          locale?: 'it' | 'en';
+          event_name?: string;
+          redirect_url?: string;
+        };
+      };
+    };
+  };
+  /** Remove an user from workspace */
+  'delete-workspaces-wid-users': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Invitation'][];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Tryber WP USER ID */
+          user_id: number;
+        };
+      };
+    };
+  };
+  /** Return a list of users from a specific project */
+  'get-projects-users': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Invitation'][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  /** Use this to add a new or existent user into a specific project. */
+  'post-projects-pid-users': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            profile_id: number;
+            tryber_wp_user_id: number;
+            email: string;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          email: string;
+          name?: string;
+          surname?: string;
+          /**
+           * @description preferred language
+           * @default en
+           * @enum {string}
+           */
+          locale?: 'it' | 'en';
+          event_name?: string;
+          redirect_url?: string;
+        };
+      };
+    };
+  };
+  /** Remove an user from project */
+  'delete-projects-pid-users': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Invitation'][];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Tryber WP USER ID */
+          user_id: number;
+        };
+      };
     };
   };
   'get-workspace-projects': {

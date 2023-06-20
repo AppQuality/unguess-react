@@ -2,7 +2,7 @@ import { Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { BugCard } from 'src/common/components/BugCard';
 import { Meta } from 'src/common/components/Meta';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { Bug } from 'src/features/api';
 import { getLocalizedBugUrl } from 'src/hooks/useLocalizeDashboardUrl';
@@ -38,15 +38,12 @@ const BugCards = ({ bugs }: BugCardsProps) => {
         <StyledBugCard
           key={bug.id}
           severity={bug.severity.name.toLocaleLowerCase() as Severities}
+          url={getLocalizedBugUrl(bug.campaign_id, bug.id, i18n.language)}
         >
           {(severity) => (
             <>
               <BugCard.TopTitle>ID {bug.id}</BugCard.TopTitle>
-              <BugCard.Title
-                url={getLocalizedBugUrl(bug.campaign_id, bug.id, i18n.language)}
-              >
-                {bug.title.compact}
-              </BugCard.Title>
+              <BugCard.Title>{bug.title.compact}</BugCard.Title>
               <BugCard.Footer>
                 {bug.title.context &&
                   bug.title.context.length > 0 &&
@@ -59,7 +56,7 @@ const BugCards = ({ bugs }: BugCardsProps) => {
                 <Tag>{bug.type.name}</Tag>
                 {severity && <SeverityTag hasBackground severity={severity} />}
                 {!bug.read && (
-                  <Meta color={globalTheme.palette.blue[600]}>
+                  <Meta color={appTheme.palette.blue[600]}>
                     {t('__PAGE_BUGS_UNREAD_PILL', 'Unread')}
                   </Meta>
                 )}

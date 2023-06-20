@@ -5,14 +5,15 @@ import {
   Paragraph,
   Span,
   XXL,
-  theme as globalTheme,
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import { EXPRESS_4_UX_TAGGING_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { appTheme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
 import { WhatConfirm } from './confirm/whatConfirm';
@@ -22,7 +23,7 @@ const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
 
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -58,18 +59,14 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       <Paragraph>{t('__EXPRESS_WIZARD_STEP_RECAP_DESCRIPTION')}</Paragraph>
       <CardDivider />
 
-      <StyledFormField
-        style={{ marginTop: `${globalTheme.space.base * 10}px` }}
-      >
+      <StyledFormField style={{ marginTop: `${appTheme.space.base * 10}px` }}>
         <StyledCard>
           <WhatConfirm {...props} />
         </StyledCard>
       </StyledFormField>
 
       {hasWhereStep ? (
-        <StyledFormField
-          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
-        >
+        <StyledFormField style={{ marginTop: `${appTheme.space.base * 7}px` }}>
           <StyledCard>
             <WhereConfirm {...props} />
           </StyledCard>
@@ -77,9 +74,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       ) : null}
 
       {hasWhoStep ? (
-        <StyledFormField
-          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
-        >
+        <StyledFormField style={{ marginTop: `${appTheme.space.base * 7}px` }}>
           <StyledCard>
             <WhoConfirm {...props} />
           </StyledCard>
@@ -87,9 +82,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       ) : null}
 
       {hasHowStep ? (
-        <StyledFormField
-          style={{ marginTop: `${globalTheme.space.base * 7}px` }}
-        >
+        <StyledFormField style={{ marginTop: `${appTheme.space.base * 7}px` }}>
           <StyledCard>
             <HowConfirm {...props} />
           </StyledCard>

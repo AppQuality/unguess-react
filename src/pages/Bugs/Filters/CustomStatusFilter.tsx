@@ -1,11 +1,14 @@
 import { CounterMultiselect } from '@appquality/unguess-design-system';
 import {
   getCurrentCampaignData,
+  getIsNaBugExcluded,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
+import { BugCustomStatus } from 'src/features/api';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 import { useFilterData } from '../Drawer/useFilterData';
 
 export const CustomStatusFilter = () => {
@@ -13,6 +16,7 @@ export const CustomStatusFilter = () => {
   const data = getCurrentCampaignData();
   const { counters } = useFilterData('customStatuses');
   const { t } = useTranslation();
+  const currentIsNaBugExcluded = getIsNaBugExcluded();
 
   if (
     !data ||
@@ -22,6 +26,15 @@ export const CustomStatusFilter = () => {
     !data.customStatuses.available.length
   )
     return null;
+
+  const customStatusNotABugInfo = getExcludeNotABugInfo(t);
+
+  const shallDisable = (item: BugCustomStatus): boolean => {
+    if (item.id !== customStatusNotABugInfo.customStatusId)
+      return !counters[item.id];
+    if (currentIsNaBugExcluded) return currentIsNaBugExcluded;
+    return !counters[item.id];
+  };
 
   return (
     <div style={{ maxWidth: '170px' }}>
@@ -49,7 +62,7 @@ export const CustomStatusFilter = () => {
           .map((item) => ({
             itemId: item.id,
             label: getCustomStatusInfo(item.name as BugState, t).text,
-            disabled: !counters[item.id],
+            disabled: shallDisable(item),
             selected: data.customStatuses.selected
               .map((i) => i.id)
               .includes(item.id),
