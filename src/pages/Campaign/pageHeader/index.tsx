@@ -19,12 +19,16 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Breadcrumbs>
-          <Anchor
-            id="breadcrumb-parent"
-            onClick={() => navigate(project.route)}
-          >
-            {project.name}
-          </Anchor>
+          {project.hasAccess ? (
+            <Anchor
+              id="breadcrumb-parent"
+              onClick={() => navigate(project.route)}
+            >
+              {project.name}
+            </Anchor>
+          ) : (
+            project.name
+          )}
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={campaign.customer_title}>
           <PageHeader.Title>
