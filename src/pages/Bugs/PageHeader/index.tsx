@@ -21,9 +21,14 @@ const BugsPageHeader = ({ campaignId }: { campaignId: number }) => {
     <LayoutWrapper isNotBoxed>
       <PageHeader>
         <PageHeader.Breadcrumbs>
-          <Link to={project.route}>
-            <Anchor id="breadcrumb-parent">{project.name}</Anchor>
-          </Link>
+          {project.hasAccess ? (
+            <Link to={project.route}>
+              <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+            </Link>
+          ) : (
+            project.name
+          )}
+
           <Link to={getLocalizeoFirstLevelDashboardRoute(campaignId)}>
             <Anchor>{campaign.customer_title}</Anchor>
           </Link>

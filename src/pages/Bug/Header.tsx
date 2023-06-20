@@ -13,6 +13,7 @@ import {
   GetCampaignsByCidApiResponse,
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
+  useGetProjectsByPidQuery,
 } from 'src/features/api';
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -34,15 +35,36 @@ const BreadCrumbs = ({
   campaign: GetCampaignsByCidApiResponse;
 }) => {
   const { t } = useTranslation();
+
+  const projectRoute = useLocalizeRoute(`projects/${campaign.project.id}`);
+  const campaignRoute = useLocalizeRoute(`campaigns/${campaign.id}`);
+  const bugsRoute = useLocalizeRoute(`campaigns/${campaign.id}/bugs`);
+
+  const {
+    currentData: project,
+    isLoading,
+    isFetching,
+  } = useGetProjectsByPidQuery({
+    pid: campaign.project.id.toString(),
+  });
+
+  if (isLoading || isFetching) {
+    return <Skeleton width="200px" height="12px" />;
+  }
+
   return (
     <PageHeader.Breadcrumbs>
-      <Link to={useLocalizeRoute(`projects/${campaign.project.id}`)}>
-        <Anchor id="breadcrumb-parent">{campaign.project.name}</Anchor>
-      </Link>
-      <Link to={useLocalizeRoute(`campaigns/${campaign.id}`)}>
+      {project ? (
+        <Link to={projectRoute}>
+          <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+        </Link>
+      ) : (
+        campaign.project.name
+      )}
+      <Link to={campaignRoute}>
         <Anchor>{campaign.customer_title}</Anchor>
       </Link>
-      <Link to={useLocalizeRoute(`campaigns/${campaign.id}/bugs`)}>
+      <Link to={bugsRoute}>
         <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
       </Link>
     </PageHeader.Breadcrumbs>
