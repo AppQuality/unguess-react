@@ -91,13 +91,14 @@ export const CampaignSettings = () => {
   const usersCount = campaignCount + projectCount + workspaceCount;
 
   const onSubmitNewMember = (
-    values: { email: string },
+    values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string }>
   ) => {
     addNewMember({
       cid: campaignId?.toString() || '0',
       body: {
         email: values.email,
+        ...(values.message && { message: values.message }),
       },
     })
       .unwrap()

@@ -53,13 +53,14 @@ export const WorkspaceSettings = () => {
   const usersCount = workspaceCount;
 
   const onSubmitNewMember = (
-    values: { email: string },
+    values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string }>
   ) => {
     addNewMember({
       wid: activeWorkspace?.id.toString() || '',
       body: {
         email: values.email,
+        ...(values.message && { message: values.message }),
       },
     })
       .unwrap()

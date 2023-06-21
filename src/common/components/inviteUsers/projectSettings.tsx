@@ -69,13 +69,14 @@ export const ProjectSettings = () => {
   const usersCount = projectCount + workspaceCount;
 
   const onSubmitNewMember = (
-    values: { email: string },
+    values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string }>
   ) => {
     addNewMember({
       pid: projectId?.toString() || '0',
       body: {
         email: values.email,
+        ...(values.message && { message: values.message }),
       },
     })
       .unwrap()
