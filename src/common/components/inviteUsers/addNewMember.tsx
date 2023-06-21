@@ -18,7 +18,7 @@ export const AddNewMemberInput = ({
   onSubmit,
 }: {
   onSubmit: (
-    values: { email: string },
+    values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string }>
   ) => void;
 }) => {
