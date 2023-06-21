@@ -5,27 +5,14 @@ import {
   Label,
   Textarea,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-forms';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import * as Yup from 'yup';
 
 const formInitialValues = {
   email: '',
 };
-
-const EmailTextField = styled(Field)`
-  display: flex;
-  width: 100%;
-  align-items: first baseline;
-  margin-top: ${({ theme }) => theme.space.xs};
-
-  button {
-    margin-left: ${({ theme }) => theme.space.sm};
-  }
-`;
 
 export const AddNewMemberInput = ({
   onSubmit,
@@ -63,9 +50,6 @@ export const AddNewMemberInput = ({
         >
           <Label>{t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_LABEL')}</Label>
           <Input
-            style={{
-              marginBottom: appTheme.space.sm,
-            }}
             placeholder={t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_PLACEHOLDER')}
             {...getFieldProps('email')}
             {...(errors.email && { validation: 'error' })}
@@ -80,7 +64,7 @@ export const AddNewMemberInput = ({
           )}
           <Textarea
             style={{
-              marginBottom: appTheme.space.sm,
+              marginTop: appTheme.space.sm,
             }}
             placeholder={t(
               '__WORKSPACE_SETTINGS_ADD_MEMBER_MESSAGE_PLACEHOLDER'
@@ -89,6 +73,9 @@ export const AddNewMemberInput = ({
             {...getFieldProps('message')}
           />
           <Button
+            style={{
+              marginTop: appTheme.space.sm,
+            }}
             isPrimary
             isAccent
             type="submit"
