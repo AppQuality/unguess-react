@@ -190,7 +190,7 @@ export const CampaignSettings = () => {
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>
-        {t('__WORKSPACE_SETTINGS_CTA_TEXT')}
+        {t('__CAMPAIGN_SETTINGS_CTA_TEXT')}
         {usersCount > 0 && ` (${usersCount})`}
       </Button>
       {isModalOpen && (
