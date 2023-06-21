@@ -342,7 +342,7 @@ export const CampaignSettings = () => {
                   key="project_users_accordion"
                   isAnimated
                   isExpandable
-                  {...(projectCount === 0 && { isDisabled: true })}
+                  defaultExpandedSections={[]}
                 >
                   <StyledAccordion.Section>
                     <StyledAccordion.Header>
@@ -393,7 +393,7 @@ export const CampaignSettings = () => {
                   key="workspace_users_accordion"
                   isAnimated
                   isExpandable
-                  {...(workspaceCount === 0 && { isDisabled: true })}
+                  defaultExpandedSections={[]}
                 >
                   <StyledAccordion.Section>
                     <StyledAccordion.Header>

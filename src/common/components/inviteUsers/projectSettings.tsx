@@ -319,7 +319,7 @@ export const ProjectSettings = () => {
                   key="workspace_users_accordion"
                   isAnimated
                   isExpandable
-                  {...(workspaceCount === 0 && { isDisabled: true })}
+                  defaultExpandedSections={[]}
                 >
                   <StyledAccordion.Section>
                     <StyledAccordion.Header>
