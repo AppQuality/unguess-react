@@ -92,7 +92,7 @@ export const CampaignSettings = () => {
 
   const onSubmitNewMember = (
     values: { email: string; message?: string },
-    actions: FormikHelpers<{ email: string }>
+    actions: FormikHelpers<{ email: string; message?: string }>
   ) => {
     addNewMember({
       cid: campaignId?.toString() || '0',
@@ -116,6 +116,12 @@ export const CampaignSettings = () => {
           { placement: 'top' }
         );
         actions.setSubmitting(false);
+        actions.resetForm({
+          values: {
+            email: '',
+            message: '',
+          },
+        });
         refetchCampaignUsers();
         refetchProjectUsers();
         refetchWorkspaceUsers();

@@ -70,7 +70,7 @@ export const ProjectSettings = () => {
 
   const onSubmitNewMember = (
     values: { email: string; message?: string },
-    actions: FormikHelpers<{ email: string }>
+    actions: FormikHelpers<{ email: string; message?: string }>
   ) => {
     addNewMember({
       pid: projectId?.toString() || '0',
@@ -94,6 +94,12 @@ export const ProjectSettings = () => {
           { placement: 'top' }
         );
         actions.setSubmitting(false);
+        actions.resetForm({
+          values: {
+            email: '',
+            message: '',
+          },
+        });
         refetchProjectUsers();
         refetchWorkspaceUsers();
       })

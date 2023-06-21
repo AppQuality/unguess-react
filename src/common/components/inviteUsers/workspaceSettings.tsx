@@ -54,7 +54,7 @@ export const WorkspaceSettings = () => {
 
   const onSubmitNewMember = (
     values: { email: string; message?: string },
-    actions: FormikHelpers<{ email: string }>
+    actions: FormikHelpers<{ email: string; message?: string }>
   ) => {
     addNewMember({
       wid: activeWorkspace?.id.toString() || '',
@@ -77,8 +77,14 @@ export const WorkspaceSettings = () => {
           ),
           { placement: 'top' }
         );
-        refetchWorkspaceUsers();
         actions.setSubmitting(false);
+        actions.resetForm({
+          values: {
+            email: '',
+            message: '',
+          },
+        });
+        refetchWorkspaceUsers();
       })
       .catch((err) => {
         if (err.status === 400) {
