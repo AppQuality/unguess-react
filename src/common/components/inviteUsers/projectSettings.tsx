@@ -78,6 +78,7 @@ export const ProjectSettings = () => {
         email: values.email,
       },
     })
+      .unwrap()
       .then(() => {
         addToast(
           ({ close }) => (
@@ -85,7 +86,7 @@ export const ProjectSettings = () => {
               onClose={close}
               type="success"
               message={t('__PERMISSION_SETTINGS_TOAST_ADD_NEW')}
-              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />
           ),
@@ -96,8 +97,35 @@ export const ProjectSettings = () => {
         refetchWorkspaceUsers();
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
+        if (err.status === 400) {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="warning"
+                message={t('__PERMISSION_SETTINGS_TOAST_ADD_NEW_EXISTING')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+        } else {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="error"
+                message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }
         actions.setSubmitting(false);
       });
   };
@@ -117,7 +145,7 @@ export const ProjectSettings = () => {
               onClose={close}
               type="success"
               message={t('__PERMISSION_SETTINGS_TOAST_RESEND')}
-              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />
           ),
@@ -125,6 +153,18 @@ export const ProjectSettings = () => {
         );
       })
       .catch((err) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         // eslint-disable-next-line no-console
         console.error(err);
       });
@@ -146,7 +186,7 @@ export const ProjectSettings = () => {
               onClose={close}
               type="success"
               message={t('__PERMISSION_SETTINGS_TOAST_REMOVE')}
-              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />
           ),
@@ -156,6 +196,18 @@ export const ProjectSettings = () => {
         refetchWorkspaceUsers();
       })
       .catch((err) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         // eslint-disable-next-line no-console
         console.error(err);
       });
