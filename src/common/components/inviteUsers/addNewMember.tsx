@@ -62,23 +62,14 @@ export const AddNewMemberInput = ({
           style={{ marginBottom: appTheme.space.sm }}
         >
           <Label>{t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_LABEL')}</Label>
-          <EmailTextField>
-            <Input
-              placeholder={t(
-                '__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_PLACEHOLDER'
-              )}
-              {...getFieldProps('email')}
-              {...(errors.email && { validation: 'error' })}
-            />
-            <Button
-              isPrimary
-              isAccent
-              type="submit"
-              disabled={formProps.isSubmitting}
-            >
-              {t('__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON')}
-            </Button>
-          </EmailTextField>
+          <Input
+            style={{
+              marginBottom: appTheme.space.sm,
+            }}
+            placeholder={t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_PLACEHOLDER')}
+            {...getFieldProps('email')}
+            {...(errors.email && { validation: 'error' })}
+          />
           {errors.email && (
             <Message
               validation="error"
@@ -89,7 +80,7 @@ export const AddNewMemberInput = ({
           )}
           <Textarea
             style={{
-              marginTop: appTheme.space.sm,
+              marginBottom: appTheme.space.sm,
             }}
             placeholder={t(
               '__WORKSPACE_SETTINGS_ADD_MEMBER_MESSAGE_PLACEHOLDER'
@@ -97,6 +88,14 @@ export const AddNewMemberInput = ({
             rows={4}
             {...getFieldProps('message')}
           />
+          <Button
+            isPrimary
+            isAccent
+            type="submit"
+            disabled={formProps.isSubmitting}
+          >
+            {t('__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON')}
+          </Button>
         </Form>
       )}
     </Formik>
