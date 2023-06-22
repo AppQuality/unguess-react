@@ -21,6 +21,7 @@ import { FormikHelpers } from 'formik';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import { useState } from 'react';
+import i18n from 'src/i18n';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
@@ -60,6 +61,7 @@ export const WorkspaceSettings = () => {
       wid: activeWorkspace?.id.toString() || '',
       body: {
         email: values.email,
+        locale: i18n.language,
         ...(values.message && { message: values.message }),
       },
     })
