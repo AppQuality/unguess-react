@@ -1,6 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { stringify } from 'qs';
-import { Template } from '.';
+import {
+  GetProjectsByPidApiArg,
+  GetProjectsByPidApiResponse,
+  GetWorkspacesApiResponse,
+  GetWorkspacesByWidApiArg,
+  GetWorkspacesByWidApiResponse,
+  Template,
+} from '.';
+
+type GetProjectWithWorkspaceResponse = {
+  project: GetProjectsByPidApiResponse;
+  workspace: GetWorkspacesByWidApiResponse;
+};
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -26,8 +39,35 @@ export const apiSlice = createApi({
     'Bugs',
     'Tags',
   ],
-  endpoints: () => ({}),
+  endpoints: (builder) => ({
+    getProjectWithWorkspace: builder.query<
+      GetProjectWithWorkspaceResponse,
+      GetProjectsByPidApiArg
+    >({
+      async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
+        // get a random user
+        const projectResult = await fetchWithBQ(`/projects/${_arg.pid}`);
+        if (projectResult.error)
+          return { error: projectResult.error as FetchBaseQueryError };
+        const project = projectResult.data as GetProjectsByPidApiResponse;
+        const workspaceResult = await fetchWithBQ(
+          `/workspaces/${project.workspaceId}`
+        );
+        return workspaceResult.data
+          ? {
+              data: {
+                project,
+                workspace:
+                  workspaceResult.data as GetWorkspacesByWidApiResponse,
+              },
+            }
+          : { error: workspaceResult.error as FetchBaseQueryError };
+      },
+    }),
+  }),
 });
+
+export const { useGetProjectWithWorkspaceQuery } = apiSlice;
 
 export interface UseCaseTemplate extends Template {
   id?: number;
