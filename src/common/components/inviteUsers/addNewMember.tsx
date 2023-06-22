@@ -69,7 +69,7 @@ export const AddNewMemberInput = ({
             placeholder={t(
               '__WORKSPACE_SETTINGS_ADD_MEMBER_MESSAGE_PLACEHOLDER'
             )}
-            rows={4}
+            rows={3}
             {...getFieldProps('message')}
           />
           <Button
