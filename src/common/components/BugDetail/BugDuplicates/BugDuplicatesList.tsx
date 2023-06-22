@@ -17,8 +17,8 @@ export const BugDuplicatesList = ({
   maxSiblingSize?: number;
 }) => {
   const { t } = useTranslation();
-  const { data, isLoading, isFetching } = useSiblings({ cid, bugId });
-  if (isLoading || isFetching) return null;
+  const { data, isLoading, isFetching, isError } = useSiblings({ cid, bugId });
+  if (isLoading || isFetching || isError) return null;
 
   return (
     <>
