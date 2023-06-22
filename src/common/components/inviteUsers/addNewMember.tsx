@@ -8,7 +8,13 @@ import {
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
 import * as Yup from 'yup';
+
+const PullRight = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 const formInitialValues = {
   email: '',
@@ -72,17 +78,19 @@ export const AddNewMemberInput = ({
             rows={3}
             {...getFieldProps('message')}
           />
-          <Button
-            style={{
-              marginTop: appTheme.space.sm,
-            }}
-            isPrimary
-            isAccent
-            type="submit"
-            disabled={formProps.isSubmitting}
-          >
-            {t('__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON')}
-          </Button>
+          <PullRight>
+            <Button
+              style={{
+                marginTop: appTheme.space.sm,
+              }}
+              isPrimary
+              isAccent
+              type="submit"
+              disabled={formProps.isSubmitting}
+            >
+              {t('__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON')}
+            </Button>
+          </PullRight>
         </Form>
       )}
     </Formik>
