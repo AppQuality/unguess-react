@@ -236,6 +236,40 @@ const injectedRtkApi = api.injectEndpoints({
         params: { limit: queryArg.limit, start: queryArg.start },
       }),
     }),
+    getProjectsByPidUsers: build.query<
+      GetProjectsByPidUsersApiResponse,
+      GetProjectsByPidUsersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}/users`,
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
+      }),
+    }),
+    postProjectsByPidUsers: build.mutation<
+      PostProjectsByPidUsersApiResponse,
+      PostProjectsByPidUsersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}/users`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    deleteProjectsByPidUsers: build.mutation<
+      DeleteProjectsByPidUsersApiResponse,
+      DeleteProjectsByPidUsersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}/users`,
+        method: 'DELETE',
+        body: queryArg.body,
+      }),
+    }),
     getTemplates: build.query<GetTemplatesApiResponse, GetTemplatesApiArg>({
       query: (queryArg) => ({
         url: `/templates`,
@@ -335,40 +369,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/workspaces/${queryArg.wid}/users`,
-        method: 'DELETE',
-        body: queryArg.body,
-      }),
-    }),
-    getProjectsByPidUsers: build.query<
-      GetProjectsByPidUsersApiResponse,
-      GetProjectsByPidUsersApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/projects/${queryArg.pid}/users`,
-        params: {
-          limit: queryArg.limit,
-          start: queryArg.start,
-          order: queryArg.order,
-          orderBy: queryArg.orderBy,
-        },
-      }),
-    }),
-    postProjectsByPidUsers: build.mutation<
-      PostProjectsByPidUsersApiResponse,
-      PostProjectsByPidUsersApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/projects/${queryArg.pid}/users`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
-    deleteProjectsByPidUsers: build.mutation<
-      DeleteProjectsByPidUsersApiResponse,
-      DeleteProjectsByPidUsersApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/projects/${queryArg.pid}/users`,
         method: 'DELETE',
         body: queryArg.body,
       }),
@@ -698,9 +698,10 @@ export type PostCampaignsByCidUsersApiArg = {
     email: string;
     name?: string;
     surname?: string;
-    locale?: 'it' | 'en';
+    locale?: string;
     event_name?: string;
     redirect_url?: string;
+    message?: string;
   };
 };
 export type DeleteCampaignsByCidUsersApiResponse = /** status 200 OK */ {
@@ -747,6 +748,54 @@ export type GetProjectsByPidCampaignsApiArg = {
   limit?: number;
   /** Start pagination parameter */
   start?: number;
+};
+export type GetProjectsByPidUsersApiResponse = /** status 200 OK */ {
+  items: Tenant[];
+  start?: number;
+  limit?: number;
+  size?: number;
+  total?: number;
+};
+export type GetProjectsByPidUsersApiArg = {
+  /** Project id */
+  pid: string;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
+};
+export type PostProjectsByPidUsersApiResponse = /** status 200 OK */ {
+  profile_id: number;
+  tryber_wp_user_id: number;
+  email: string;
+};
+export type PostProjectsByPidUsersApiArg = {
+  /** Project id */
+  pid: string;
+  body: {
+    email: string;
+    name?: string;
+    surname?: string;
+    locale?: string;
+    event_name?: string;
+    redirect_url?: string;
+    message?: string;
+  };
+};
+export type DeleteProjectsByPidUsersApiResponse = /** status 200 OK */ {
+  items: Tenant[];
+};
+export type DeleteProjectsByPidUsersApiArg = {
+  /** Project id */
+  pid: string;
+  body: {
+    user_id: number;
+    include_shared?: boolean;
+  };
 };
 export type GetTemplatesApiResponse = /** status 200 OK */ ({
   id?: number;
@@ -864,9 +913,10 @@ export type PostWorkspacesByWidUsersApiArg = {
     email: string;
     name?: string;
     surname?: string;
-    locale?: 'it' | 'en';
+    locale?: string;
     event_name?: string;
     redirect_url?: string;
+    message?: string;
   };
 };
 export type DeleteWorkspacesByWidUsersApiResponse = /** status 200 OK */ {
@@ -877,52 +927,7 @@ export type DeleteWorkspacesByWidUsersApiArg = {
   wid: string;
   body: {
     user_id: number;
-  };
-};
-export type GetProjectsByPidUsersApiResponse = /** status 200 OK */ {
-  items: Tenant[];
-  start?: number;
-  limit?: number;
-  size?: number;
-  total?: number;
-};
-export type GetProjectsByPidUsersApiArg = {
-  /** Project id */
-  pid: string;
-  /** Limit pagination parameter */
-  limit?: number;
-  /** Start pagination parameter */
-  start?: number;
-  /** Order value (ASC, DESC) */
-  order?: string;
-  /** Order by accepted field */
-  orderBy?: string;
-};
-export type PostProjectsByPidUsersApiResponse = /** status 200 OK */ {
-  profile_id: number;
-  tryber_wp_user_id: number;
-  email: string;
-};
-export type PostProjectsByPidUsersApiArg = {
-  /** Project id */
-  pid: string;
-  body: {
-    email: string;
-    name?: string;
-    surname?: string;
-    locale?: 'it' | 'en';
-    event_name?: string;
-    redirect_url?: string;
-  };
-};
-export type DeleteProjectsByPidUsersApiResponse = /** status 200 OK */ {
-  items: Tenant[];
-};
-export type DeleteProjectsByPidUsersApiArg = {
-  /** Project id */
-  pid: string;
-  body: {
-    user_id: number;
+    include_shared?: boolean;
   };
 };
 export type GetWorkspacesByWidProjectsApiResponse = /** status 200 OK */ {
@@ -1320,6 +1325,9 @@ export const {
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
   useGetProjectsByPidCampaignsQuery,
+  useGetProjectsByPidUsersQuery,
+  usePostProjectsByPidUsersMutation,
+  useDeleteProjectsByPidUsersMutation,
   useGetTemplatesQuery,
   useGetUsersMeQuery,
   useGetWorkspacesQuery,
@@ -1330,9 +1338,6 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
-  useGetProjectsByPidUsersQuery,
-  usePostProjectsByPidUsersMutation,
-  useDeleteProjectsByPidUsersMutation,
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,

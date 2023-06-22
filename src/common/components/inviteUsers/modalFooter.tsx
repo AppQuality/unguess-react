@@ -32,7 +32,7 @@ export const PermissionSettingsFooter = () => {
                 onClose={close}
                 type="success"
                 message={t('__PERMISSION_SETTINGS_TOAST_COPY_MESSAGE')}
-                closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
                 isPrimary
               />
             ),

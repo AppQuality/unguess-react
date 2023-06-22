@@ -5,10 +5,8 @@ import {
   Label,
   Textarea,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-forms';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import * as Yup from 'yup';
 
@@ -16,22 +14,11 @@ const formInitialValues = {
   email: '',
 };
 
-const EmailTextField = styled(Field)`
-  display: flex;
-  width: 100%;
-  align-items: first baseline;
-  margin-top: ${({ theme }) => theme.space.xs};
-
-  button {
-    margin-left: ${({ theme }) => theme.space.sm};
-  }
-`;
-
 export const AddNewMemberInput = ({
   onSubmit,
 }: {
   onSubmit: (
-    values: { email: string },
+    values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string }>
   ) => void;
 }) => {
@@ -62,23 +49,11 @@ export const AddNewMemberInput = ({
           style={{ marginBottom: appTheme.space.sm }}
         >
           <Label>{t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_LABEL')}</Label>
-          <EmailTextField>
-            <Input
-              placeholder={t(
-                '__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_PLACEHOLDER'
-              )}
-              {...getFieldProps('email')}
-              {...(errors.email && { validation: 'error' })}
-            />
-            <Button
-              isPrimary
-              isAccent
-              type="submit"
-              disabled={formProps.isSubmitting}
-            >
-              {t('__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON')}
-            </Button>
-          </EmailTextField>
+          <Input
+            placeholder={t('__WORKSPACE_SETTINGS_ADD_MEMBER_EMAIL_PLACEHOLDER')}
+            {...getFieldProps('email')}
+            {...(errors.email && { validation: 'error' })}
+          />
           {errors.email && (
             <Message
               validation="error"
@@ -97,6 +72,17 @@ export const AddNewMemberInput = ({
             rows={4}
             {...getFieldProps('message')}
           />
+          <Button
+            style={{
+              marginTop: appTheme.space.sm,
+            }}
+            isPrimary
+            isAccent
+            type="submit"
+            disabled={formProps.isSubmitting}
+          >
+            {t('__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON')}
+          </Button>
         </Form>
       )}
     </Formik>
