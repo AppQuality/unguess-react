@@ -23,6 +23,8 @@ import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
 import { useState } from 'react';
 import { ReactComponent as ProjectsIcon } from 'src/assets/icons/project-icon.svg';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
+import { getLocalizedProjectUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import i18n from 'src/i18n';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
@@ -68,6 +70,8 @@ export const ProjectSettings = () => {
   const projectCount = projectUsers?.items.length || 0;
   const usersCount = projectCount + workspaceCount;
 
+  const projectRoute = getLocalizedProjectUrl(projectId ?? 0, i18n.language);
+
   const onSubmitNewMember = (
     values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string; message?: string }>
@@ -76,6 +80,7 @@ export const ProjectSettings = () => {
       pid: projectId?.toString() || '0',
       body: {
         email: values.email,
+        redirect_url: projectRoute,
         ...(values.message && { message: values.message }),
       },
     })

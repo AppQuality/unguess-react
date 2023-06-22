@@ -26,6 +26,8 @@ import { useState } from 'react';
 import { ReactComponent as CampaignsIcon } from 'src/assets/icons/campaign-icon.svg';
 import { ReactComponent as ProjectsIcon } from 'src/assets/icons/project-icon.svg';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
+import { getLocalizedCampaignUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import i18n from 'src/i18n';
 import { AddNewMemberInput } from './addNewMember';
 import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
@@ -90,6 +92,11 @@ export const CampaignSettings = () => {
   const campaignCount = campaignUsers?.items.length || 0;
   const usersCount = campaignCount + projectCount + workspaceCount;
 
+  const campaignRoute = getLocalizedCampaignUrl(
+    campaign ? campaign.id : 0,
+    i18n.language
+  );
+
   const onSubmitNewMember = (
     values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string; message?: string }>
@@ -98,6 +105,7 @@ export const CampaignSettings = () => {
       cid: campaignId?.toString() || '0',
       body: {
         email: values.email,
+        redirect_url: campaignRoute,
         ...(values.message && { message: values.message }),
       },
     })

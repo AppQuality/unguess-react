@@ -58,3 +58,19 @@ export const getLocalizedBugUrl = (
     : `${
         process.env.REACT_APP_CROWD_WP_URL ?? ''
       }/it/campaigns/${aCampaignId}/bugs/${aBugId}`;
+
+export const getLocalizedProjectUrl = (
+  aProjectId: number,
+  aLanguage: string
+): string =>
+  aLanguage === 'en'
+    ? `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/projects/${aProjectId}`
+    : `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/it/projects/${aProjectId}`;
+
+export const getLocalizedCampaignUrl = (
+  aCampaignId: number,
+  aLanguage: string
+): string =>
+  aLanguage === 'en'
+    ? `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/campaigns/${aCampaignId}`
+    : `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/it/campaigns/${aCampaignId}`;
