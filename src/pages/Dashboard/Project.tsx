@@ -31,7 +31,11 @@ const Project = () => {
     navigate(notFoundRoute);
   }
 
-  const { data, isSuccess, isError } = useGetProjectWithWorkspaceQuery({
+  const {
+    data: { project, workspace } = {},
+    isSuccess,
+    isError,
+  } = useGetProjectWithWorkspaceQuery({
     pid: projectId ?? '0',
   });
 
@@ -41,21 +45,25 @@ const Project = () => {
       dispatch(projectFilterChanged(Number(projectId)));
     }
 
-    if (data?.project) {
-      dispatch(setPermissionSettingsTitle(data.project.name));
-      dispatch(setProjectId(data.project.id));
-    }
-
-    if (data?.workspace) {
-      dispatch(setWorkspace(data.workspace));
+    if (project) {
+      dispatch(setPermissionSettingsTitle(project.name));
+      dispatch(setProjectId(project.id));
     }
 
     return () => {
       dispatch(setPermissionSettingsTitle(undefined));
       dispatch(setProjectId(undefined));
+    };
+  }, [project, dispatch, projectId]);
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+    return () => {
       dispatch(setWorkspace(undefined));
     };
-  }, [data, dispatch, projectId]);
+  }, [workspace, dispatch]);
 
   if (isError) {
     navigate(notFoundRoute);
