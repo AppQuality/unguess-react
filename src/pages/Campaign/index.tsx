@@ -8,7 +8,7 @@ import { useGetCampaignsByCidReportsQuery } from 'src/features/api';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useTranslation } from 'react-i18next';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/api';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';

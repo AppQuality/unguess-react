@@ -20,7 +20,7 @@ import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ReplicabilityFilterType } from 'src/features/bugsPage/replicabilityFilter';
 import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
-import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/api';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{

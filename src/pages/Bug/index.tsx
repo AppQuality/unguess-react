@@ -5,7 +5,7 @@ import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/api';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { useAppDispatch } from 'src/app/hooks';
 import { Header } from './Header';

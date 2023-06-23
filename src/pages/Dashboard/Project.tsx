@@ -9,7 +9,7 @@ import {
   projectFilterChanged,
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { useGetProjectWithWorkspaceQuery } from 'src/features/api/api';
+import { useGetProjectWithWorkspaceQuery } from 'src/features/api/customEndpoints/getProjectWithWorkspace';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
