@@ -6,7 +6,6 @@ import {
   useGetCampaignsByCidDevicesQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
-  useGetCampaignsByCidQuery,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidTagsQuery,
@@ -21,6 +20,7 @@ import { OsFilterType } from 'src/features/bugsPage/osFilter';
 import { ReplicabilityFilterType } from 'src/features/bugsPage/replicabilityFilter';
 import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/api';
 
 export const useCampaign = (cid: number) => {
   const [campaignData, setCampaignData] = useState<{
@@ -43,8 +43,8 @@ export const useCampaign = (cid: number) => {
     isLoading: isLoadingCampaign,
     isFetching: isFetchingCampaign,
     isError: isErrorCampaign,
-    data: campaign,
-  } = useGetCampaignsByCidQuery({
+    data: { campaign, workspace } = {},
+  } = useGetCampaignWithWorkspaceQuery({
     cid: cid.toString(),
   });
 
@@ -106,6 +106,7 @@ export const useCampaign = (cid: number) => {
     }
   }, [
     campaign,
+    workspace,
     campaignTypes,
     campaignSeverities,
     campaignPriorities,
@@ -121,5 +122,6 @@ export const useCampaign = (cid: number) => {
     isLoading: isLoadingCampaign || isFetchingCampaign,
     isError: isErrorCampaign,
     campaign: campaignData,
+    workspace,
   };
 };

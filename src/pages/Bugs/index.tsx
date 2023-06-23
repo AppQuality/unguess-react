@@ -12,6 +12,7 @@ import { useCampaign } from './useCampaign';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
+  setWorkspace,
 } from '../../features/navigation/navigationSlice';
 
 const Bugs = () => {
@@ -26,7 +27,9 @@ const Bugs = () => {
   }
   useCampaignAnalytics(campaignId);
 
-  const { isLoading, isError, campaign } = useCampaign(Number(campaignId));
+  const { isLoading, isError, campaign, workspace } = useCampaign(
+    Number(campaignId)
+  );
 
   useEffect(() => {
     if (campaign) {
@@ -44,6 +47,15 @@ const Bugs = () => {
       dispatch(setCampaignId(undefined));
     };
   }, [campaign]);
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+    return () => {
+      dispatch(setWorkspace(undefined));
+    };
+  }, [workspace, dispatch]);
 
   if (isError) {
     navigate(notFoundRoute);
