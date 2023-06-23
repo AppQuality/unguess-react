@@ -104,7 +104,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     <SidebarSkeleton {...props} />
   ) : (
     <Nav {...props} isExpanded={isSidebarOpen}>
-      {activeWorkspace?.isShared && (
+      {activeWorkspace?.isShared && isSidebarOpen && (
         <SharedLabel>{t('__APP_SIDEBAR_SHARED_WORKSPACE_LABEL')}</SharedLabel>
       )}
       <ScrollingContainer>
