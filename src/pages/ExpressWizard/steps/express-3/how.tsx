@@ -6,7 +6,6 @@ import {
   SM,
   Span,
   Textarea,
-  theme as globalTheme,
   XL,
   XXL,
   Tag,
@@ -31,6 +30,8 @@ import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi'
 import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { appTheme } from 'src/app/theme';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { ModalUseCase } from './ModalUseCase/modalUseCase';
@@ -38,9 +39,8 @@ import { HowLoading } from './howLoading';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
-  color: ${({ theme }) => theme.palette.grey[800]};
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -64,7 +64,6 @@ const UseCaseCardButtonText = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   padding: 0 ${({ theme }) => theme.space.base * 4}px;
-  color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
 const UseCaseCardButtonDescription = styled(SM)`
@@ -81,7 +80,7 @@ const UseCaseEditLabel = styled(Paragraph)`
   svg {
     margin-right: ${({ theme }) => theme.space.sm};
   }
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   margin-right: ${({ theme }) => theme.space.xs};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
@@ -190,7 +189,9 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
         <StyledFormField>
           <Label>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_GOAL_TITLE')}
-            <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+            <Span style={{ color: appTheme.components.text.dangerColor }}>
+              *
+            </Span>
           </Label>
           <Paragraph>
             {t('__EXPRESS_WIZARD_STEP_HOW_FIELD_GOAL_DESCRIPTION')}
@@ -199,7 +200,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             rows={5}
             placeholder={t('__EXPRESS_WIZARD_STEP_HOW_FIELD_GOAL_PLACEHOLDER')}
             isResizable
-            style={{ marginTop: globalTheme.space.xs }}
+            style={{ marginTop: appTheme.space.xs }}
             {...getFieldProps('test_description')}
             {...(errors.test_description && { validation: 'error' })}
             onBlur={() => validateForm()}
@@ -220,7 +221,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
               setCurrentUseCase(useCase);
               dispatch(openUseCaseModal());
             }}
-            style={{ marginTop: globalTheme.space.md }}
+            style={{ marginTop: appTheme.space.md }}
           >
             {errors && errors.use_cases && errors.use_cases[useCase.id - 1] ? (
               <WarningIcon />
@@ -286,7 +287,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
 
             dispatch(openUseCaseModal());
           }}
-          style={{ marginTop: globalTheme.space.md }}
+          style={{ marginTop: appTheme.space.md }}
         >
           {errors &&
           touched.use_cases &&
@@ -306,7 +307,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             errors.use_cases &&
             typeof errors.use_cases === 'string' ? (
               <UseCaseCardButtonDescription
-                style={{ color: globalTheme.colors.dangerHue }}
+                style={{ color: appTheme.components.text.dangerColor }}
               >
                 {errors.use_cases}
               </UseCaseCardButtonDescription>

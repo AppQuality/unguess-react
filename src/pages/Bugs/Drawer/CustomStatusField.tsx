@@ -2,13 +2,13 @@ import {
   Accordion,
   Checkbox,
   MD,
-  SM,
   Span,
+  TextLabel,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field, Toggle } from '@zendeskgarden/react-forms';
 import {
   getIsNaBugExcluded,
@@ -78,14 +78,13 @@ export const CustomStatusField = ({
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
-              <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
                 {t(
                   '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUSE_TITLE'
                 )}
               </MD>
-              <SM
+              <TextLabel
                 style={{
-                  color: globalTheme.palette.grey[600],
                   textTransform: 'capitalize',
                 }}
               >
@@ -106,12 +105,12 @@ export const CustomStatusField = ({
                   : t(
                       '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
                     )}
-              </SM>
+              </TextLabel>
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
             <Field
-              style={{ marginBottom: globalTheme.space.md }}
+              style={{ marginBottom: appTheme.space.md }}
               className="bugs-drawer-toogle-exclude-na-bug"
             >
               <Toggle
@@ -129,7 +128,7 @@ export const CustomStatusField = ({
                 <LabelSpaceBetween
                   isRegular
                   style={{
-                    color: globalTheme.palette.grey[700],
+                    color: appTheme.palette.grey[700],
                     ...(shouldDisableToggle && disabledStyle),
                   }}
                 >
@@ -145,7 +144,7 @@ export const CustomStatusField = ({
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
                     <Field
-                      style={{ marginBottom: globalTheme.space.xs }}
+                      style={{ marginBottom: appTheme.space.xs }}
                       className={`bugs-drawer-accordion-custom-status-${item.name
                         .toLowerCase()
                         .replace(/\s+/g, '-')}`}
@@ -174,7 +173,7 @@ export const CustomStatusField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color: globalTheme.palette.grey[700],
+                            color: appTheme.palette.grey[700],
                             ...(shallDisable(item) && disabledStyle),
                           }}
                         >

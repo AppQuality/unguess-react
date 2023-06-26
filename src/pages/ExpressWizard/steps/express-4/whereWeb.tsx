@@ -23,6 +23,7 @@ import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg
 import { ReactComponent as LaptopIconActive } from 'src/assets/icons/device-laptop-active.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { appTheme } from 'src/app/theme';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { PrimarySpan, StyledRow } from './where/styled';
@@ -46,7 +47,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
     <ContainerCard>
       <Row>
         <WizardCol>
-          <XXL style={{ color: theme.palette.grey[800] }}>
+          <XXL>
             <Trans i18nKey="__EXPRESS_WIZARD_STEP_WHERE_TITLE">
               <PrimarySpan isBold>Where</PrimarySpan>
               do we test?
@@ -117,7 +118,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
           <FormField>
             <Label>
               {t('__EXPRESS_WIZARD_STEP_WHERE_LINK_LABEL')}
-              <Span style={{ color: theme.colors.dangerHue }}>*</Span>
+              <Span style={{ color: appTheme.components.text.dangerColor }}>
+                *
+              </Span>
             </Label>
             <Hint>{t('__EXPRESS_WIZARD_STEP_WHERE_LINK_DESCRIPTION')}</Hint>
             <MediaInput

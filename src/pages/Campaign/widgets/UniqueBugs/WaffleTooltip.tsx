@@ -1,9 +1,10 @@
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 
 const WaffleTooltipContainer = styled.div<{ width: string }>`
   padding: ${({ theme }) => theme.space.xxs} ${({ theme }) => theme.space.xs};
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   width: ${({ width }) => width};
   text-align: center;
 `;

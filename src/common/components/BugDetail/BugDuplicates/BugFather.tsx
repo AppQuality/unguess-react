@@ -1,14 +1,9 @@
-import { theme as globalTheme } from 'src/app/theme';
-import styled from 'styled-components';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { MD, Paragraph } from '@appquality/unguess-design-system';
 import { useSiblings } from './useSiblings';
 import { ReactComponent as FatherIconSmall } from './icons/father-small.svg';
 import { BugItem } from './BugItem';
-
-const StyledParagraph = styled(Paragraph)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-`;
 
 export const BugFather = ({ cid, bugId }: { cid: number; bugId: number }) => {
   const { t } = useTranslation();
@@ -19,22 +14,24 @@ export const BugFather = ({ cid, bugId }: { cid: number; bugId: number }) => {
       <MD
         isBold
         style={{
-          marginBottom: globalTheme.space.xxs,
-          color: globalTheme.palette.grey[800],
+          marginBottom: appTheme.space.xxs,
         }}
       >
         <FatherIconSmall
           style={{
-            width: globalTheme.fontSizes.md,
-            marginRight: globalTheme.space.xxs,
-            color: globalTheme.palette.grey[600],
+            width: appTheme.fontSizes.md,
+            marginRight: appTheme.space.xxs,
+            color: appTheme.palette.grey[600],
           }}
         />
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_TITLE')}
       </MD>
-      <StyledParagraph style={{ marginBottom: globalTheme.space.md }}>
+      <Paragraph
+        color={appTheme.palette.grey[600]}
+        style={{ marginBottom: appTheme.space.md }}
+      >
         {t('__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_SUBTITLE')}
-      </StyledParagraph>
+      </Paragraph>
       <BugItem
         isFather
         campaignId={cid}

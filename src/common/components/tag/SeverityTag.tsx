@@ -1,6 +1,6 @@
 /* eslint-disable security/detect-object-injection */
 import { Tag } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 
 interface SeverityTagProps {
@@ -20,15 +20,17 @@ export const SeverityTag = ({
 }: SeverityTagProps) => (
   <Tag
     size={size}
-    color={theme.colors.bySeverity[severity]}
+    color={appTheme.colors.bySeverity[severity]}
     hue={
-      hasBackground ? `${theme.colors.bySeverity[severity]}14` : 'rgba(0,0,0,0)'
+      hasBackground
+        ? `${appTheme.colors.bySeverity[severity]}14`
+        : 'rgba(0,0,0,0)'
     }
     isRegular={isRegular}
   >
     {capitalizeFirstLetter(severity)}
     {typeof counter !== 'undefined' && (
-      <Tag.SecondaryText isBold color={theme.palette.grey[700]}>
+      <Tag.SecondaryText isBold color={appTheme.palette.grey[700]}>
         {counter}
       </Tag.SecondaryText>
     )}

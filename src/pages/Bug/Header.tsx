@@ -1,3 +1,5 @@
+import { useAppDispatch } from 'src/app/hooks';
+import { useEffect } from 'react';
 import {
   Anchor,
   Button,
@@ -11,11 +13,16 @@ import {
   GetCampaignsByCidApiResponse,
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
+  useGetProjectsByPidQuery,
 } from 'src/features/api';
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import {
+  setCampaignId,
+  setPermissionSettingsTitle,
+} from '../../features/navigation/navigationSlice';
 
 interface Props {
   campaignId: string;
@@ -28,15 +35,36 @@ const BreadCrumbs = ({
   campaign: GetCampaignsByCidApiResponse;
 }) => {
   const { t } = useTranslation();
+
+  const projectRoute = useLocalizeRoute(`projects/${campaign.project.id}`);
+  const campaignRoute = useLocalizeRoute(`campaigns/${campaign.id}`);
+  const bugsRoute = useLocalizeRoute(`campaigns/${campaign.id}/bugs`);
+
+  const {
+    currentData: project,
+    isLoading,
+    isFetching,
+  } = useGetProjectsByPidQuery({
+    pid: campaign.project.id.toString(),
+  });
+
+  if (isLoading || isFetching) {
+    return <Skeleton width="200px" height="12px" />;
+  }
+
   return (
     <PageHeader.Breadcrumbs>
-      <Link to={useLocalizeRoute(`projects/${campaign.project.id}`)}>
-        <Anchor id="breadcrumb-parent">{campaign.project.name}</Anchor>
-      </Link>
-      <Link to={useLocalizeRoute(`campaigns/${campaign.id}`)}>
+      {project ? (
+        <Link to={projectRoute}>
+          <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+        </Link>
+      ) : (
+        campaign.project.name
+      )}
+      <Link to={campaignRoute}>
         <Anchor>{campaign.customer_title}</Anchor>
       </Link>
-      <Link to={useLocalizeRoute(`campaigns/${campaign.id}/bugs`)}>
+      <Link to={bugsRoute}>
         <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
       </Link>
     </PageHeader.Breadcrumbs>
@@ -44,6 +72,7 @@ const BreadCrumbs = ({
 };
 
 export const Header = ({ campaignId, bug }: Props) => {
+  const dispatch = useAppDispatch();
   const {
     isLoading: isCampaignLoading,
     isFetching: isCampaignFetching,
@@ -53,6 +82,18 @@ export const Header = ({ campaignId, bug }: Props) => {
     cid: campaignId,
   });
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (campaign) {
+      dispatch(setPermissionSettingsTitle(campaign.customer_title));
+      dispatch(setCampaignId(campaign.id));
+    }
+
+    return () => {
+      dispatch(setPermissionSettingsTitle(undefined));
+      dispatch(setCampaignId(undefined));
+    };
+  }, [campaign]);
 
   if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
     return (
@@ -77,7 +118,7 @@ export const Header = ({ campaignId, bug }: Props) => {
         <PageHeader.Footer>
           <ShareButton bug={bug}>
             {(setModalOpen) => (
-              <Button isPill hasStartIcon onClick={() => setModalOpen(true)}>
+              <Button onClick={() => setModalOpen(true)}>
                 <Button.StartIcon>
                   <ShareIcon />
                 </Button.StartIcon>

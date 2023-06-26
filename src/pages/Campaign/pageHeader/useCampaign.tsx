@@ -20,10 +20,9 @@ export const useCampaign = (campaignId: number) => {
   const {
     isLoading: isProjectLoading,
     isFetching: isProjectFetching,
-    isError: isProjectError,
-    data: project,
+    currentData: project,
   } = useGetProjectsByPidQuery({
-    pid: campaign?.project.id ?? 0,
+    pid: campaign?.project.id.toString() ?? '0',
   });
 
   const projectRoute = useLocalizeRoute(
@@ -35,7 +34,6 @@ export const useCampaign = (campaignId: number) => {
     isProjectLoading ||
     isCampaignFetching ||
     isProjectFetching ||
-    !project ||
     !campaign
   ) {
     return {
@@ -43,7 +41,7 @@ export const useCampaign = (campaignId: number) => {
     };
   }
 
-  if (isCampaignError || isProjectError) {
+  if (isCampaignError) {
     return {
       isError: true as const,
     };
@@ -55,7 +53,8 @@ export const useCampaign = (campaignId: number) => {
     isUserLoading: userStatus === 'idle' || userStatus === 'loading',
     campaign,
     project: {
-      ...project,
+      ...(campaign && { ...campaign.project, hasAccess: false }),
+      ...(project && { ...project, hasAccess: true }),
       route: projectRoute,
     },
   };

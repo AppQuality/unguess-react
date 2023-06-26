@@ -11,7 +11,7 @@ import {
   XXL,
   Tag,
 } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
 import styled from 'styled-components';
@@ -24,12 +24,12 @@ import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-icon.svg';
 import { ReactComponent as WorldIcon } from 'src/assets/icons/world-icon.svg';
 import { ReactComponent as TranslationIcon } from 'src/assets/icons/translation-icon.svg';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
-  color: ${({ theme }) => theme.palette.grey[800]};
   span {
-    color: ${({ theme }) => theme.colors.primaryHue};
+    ${(props) => retrieveComponentStyles('text.primary', props)};
   }
 `;
 
@@ -39,7 +39,6 @@ const StyledFormField = styled.div`
 
 const StyledLanguageTitle = styled(XL)`
   margin-bottom: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
 const StyledRadioField = styled(Field)`
@@ -156,7 +155,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_AGE_RANGE_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
         </Label>
         <Row>
           <WizardCol>
@@ -206,7 +205,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_GENDER_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
         </Label>
         <Row>
           <WizardCol>
@@ -255,7 +254,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_3_WIZARD_STEP_WHO_FIELD_LITERACY_LABEL')}
-          <Span style={{ color: globalTheme.colors.dangerHue }}>*</Span>
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
         </Label>
         <Row>
           <WizardCol>

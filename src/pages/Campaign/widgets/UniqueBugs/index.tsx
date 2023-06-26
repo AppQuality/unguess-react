@@ -1,6 +1,5 @@
 import { WaffleChart, XL, Span } from '@appquality/unguess-design-system';
-import { theme as globalTheme } from 'src/app/theme';
-import styled from 'styled-components';
+import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
@@ -8,9 +7,9 @@ import { BasicWidget } from '../widgetCards/BasicWidget';
 import { TrendPill } from './Trend';
 import { WidgetLoader } from '../widgetLoader';
 
-const Value = styled(Span)`
-  color: ${({ theme }) => theme.colors.primaryHue};
-`;
+const primaryTextColor = {
+  color: appTheme.components.text.primaryColor,
+};
 
 export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
@@ -51,11 +50,13 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
           <BasicWidget.Description
             header={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY')}
             content={
-              <Span style={{ color: globalTheme.palette.blue[600] }}>
+              <Span style={primaryTextColor}>
                 <Trans
                   count={uniqueBugs}
                   i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_COUNT_LABEL"
-                  components={{ bold: <XL isBold tag="span" /> }}
+                  components={{
+                    bold: <XL isBold tag="span" {...primaryTextColor} />,
+                  }}
                   defaults="{{count}} <bold>unique bug</bold>"
                 />
               </Span>
@@ -63,7 +64,7 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
             footer={
               <Trans
                 i18nKey="__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_LABEL"
-                components={{ bold: <Value isBold /> }}
+                components={{ bold: <Span style={primaryTextColor} isBold /> }}
                 defaults="out of <bold>{{ total }}</bold> total"
                 values={{ total: totalBugs }}
               />

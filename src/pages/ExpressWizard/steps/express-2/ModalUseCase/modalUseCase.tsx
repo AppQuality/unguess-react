@@ -8,7 +8,6 @@ import {
   ModalFullScreen,
   Row,
   ContainerCard,
-  theme as globalTheme,
   Button,
   LG,
   Paragraph,
@@ -18,6 +17,8 @@ import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FieldArray, FormikProps } from 'formik';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
@@ -117,7 +118,7 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
 `;
 
 const EmptyStateTitle = styled(LG)`
-  color: ${({ theme }) => theme.colors.primaryHue};
+  ${(props) => retrieveComponentStyles('text.primary', props)};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
 
@@ -173,9 +174,7 @@ export const ModalUseCase = ({
 
   return isUseCaseModalOpen ? (
     <StyledModal onClose={closeModal} focusOnMount={false}>
-      <StyledModal.Header
-        style={{ backgroundColor: globalTheme.palette.white }}
-      >
+      <StyledModal.Header style={{ backgroundColor: appTheme.palette.white }}>
         <LayoutWrapper isNotBoxed>
           <ModalUseCaseHeader onClose={closeModal} />
         </LayoutWrapper>
@@ -202,11 +201,11 @@ export const ModalUseCase = ({
                           useCase={currentUseCase}
                           useCaseIndex={useCaseIndex}
                         />
-                        <PullLeft style={{ marginTop: globalTheme.space.xxl }}>
+                        <PullLeft style={{ marginTop: appTheme.space.xxl }}>
                           <FieldArray name="use_cases">
                             {({ remove }) => (
                               <Button
-                                themeColor={globalTheme.palette.red[600]}
+                                isDanger
                                 isBasic
                                 onClick={() => {
                                   remove(useCaseIndex);
@@ -238,9 +237,7 @@ export const ModalUseCase = ({
                       </>
                     ) : (
                       <CenteredContainer>
-                        <EmptyImg
-                          style={{ marginBottom: globalTheme.space.lg }}
-                        />
+                        <EmptyImg style={{ marginBottom: appTheme.space.lg }} />
                         <EmptyStateTitle>
                           {t(
                             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'

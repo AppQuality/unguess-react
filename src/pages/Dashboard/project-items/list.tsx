@@ -1,5 +1,5 @@
 import { Row, Col } from '@appquality/unguess-design-system';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Campaign } from 'src/features/api';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { CampaignItem } from '../CampaignItem';
@@ -18,7 +18,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
             key={`campaign_${campaign.id}`}
             campaign={campaign}
             onCampaignClicked={clickToggle}
-            style={{ marginBottom: `${theme.space.base * 4}px` }}
+            style={{ marginBottom: `${appTheme.space.base * 4}px` }}
           />
         </Col>
       ))}

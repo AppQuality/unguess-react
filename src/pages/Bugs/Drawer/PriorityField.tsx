@@ -2,13 +2,13 @@ import {
   Accordion,
   Checkbox,
   MD,
-  SM,
   Span,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Field } from '@zendeskgarden/react-forms';
 import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
@@ -51,12 +51,12 @@ export const PriorityField = ({
         <Accordion.Section>
           <Accordion.Header>
             <Accordion.Label>
-              <MD isBold style={{ marginBottom: globalTheme.space.xxs }}>
+              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
                 {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITY_TITLE')}
               </MD>
-              <SM
+              <TextDescription
+                isSmall
                 style={{
-                  color: globalTheme.palette.grey[700],
                   textTransform: 'capitalize',
                 }}
               >
@@ -73,7 +73,7 @@ export const PriorityField = ({
                   : t(
                       '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITY_ALL_LABEL'
                     )}
-              </SM>
+              </TextDescription>
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel>
@@ -82,7 +82,7 @@ export const PriorityField = ({
                   .slice(0, showMore ? undefined : maxItemsToShow)
                   .map((item) => (
                     <Field
-                      style={{ marginBottom: globalTheme.space.xs }}
+                      style={{ marginBottom: appTheme.space.xs }}
                       className={`bugs-drawer-accordion-custom-priority-${item.name.toLowerCase()}`}
                     >
                       <Checkbox
@@ -109,7 +109,7 @@ export const PriorityField = ({
                         <LabelSpaceBetween
                           isRegular
                           style={{
-                            color: globalTheme.palette.grey[700],
+                            color: appTheme.palette.grey[700],
                             ...(!counters[item.id] && disabledStyle),
                           }}
                         >

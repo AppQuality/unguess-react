@@ -1,10 +1,10 @@
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { createSlice } from '@reduxjs/toolkit';
 import { isMinMedia } from 'src/common/utils';
 import { NavigationState } from './types';
 
 const initialState: NavigationState = {
-  isSidebarOpen: isMinMedia(theme.breakpoints.sm),
+  isSidebarOpen: isMinMedia(appTheme.breakpoints.sm),
   isProfileModalOpen: false,
 };
 
@@ -30,6 +30,15 @@ const navigationSlice = createSlice({
     setProfileModalOpen: (state, action) => {
       state.isProfileModalOpen = action.payload;
     },
+    setPermissionSettingsTitle: (state, action) => {
+      state.permissionSettingsTitle = action.payload;
+    },
+    setCampaignId: (state, action) => {
+      state.campaignId = action.payload;
+    },
+    setProjectId: (state, action) => {
+      state.projectId = action.payload;
+    },
   },
 });
 
@@ -40,6 +49,9 @@ export const {
   setProfileModalOpen,
   closeSidebar,
   setSidebarOpen,
+  setPermissionSettingsTitle,
+  setCampaignId,
+  setProjectId,
 } = navigationSlice.actions;
 
 export default navigationSlice.reducer;

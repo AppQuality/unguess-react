@@ -1,6 +1,6 @@
 import { Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { CampaignStatus } from 'src/types';
 import { getStatusInfo } from '../utils/getStatusInfo';
 
@@ -38,7 +38,7 @@ export const StatusTag = ({
         children || (isRound ? statusInfo.icon : statusInfo.text)
       }
       {typeof counter !== 'undefined' && (
-        <Tag.SecondaryText isBold color={theme.palette.grey[700]}>
+        <Tag.SecondaryText isBold color={appTheme.palette.grey[700]}>
           {counter.toString()}
         </Tag.SecondaryText>
       )}

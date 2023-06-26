@@ -2,7 +2,7 @@ import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { BugsFilters } from '../Filters';
 import { FilterRecap } from '../Filters/FilterRecap';
 import { BugPreview } from './BugPreview';
@@ -42,7 +42,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
             <Col
               xs={12}
               md={currentBugId ? 8 : 12}
-              style={{ paddingBottom: globalTheme.space.lg }}
+              style={{ paddingBottom: appTheme.space.lg }}
             >
               <FilterRecap />
               <BugsTable campaignId={campaignId} />

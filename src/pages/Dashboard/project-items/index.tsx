@@ -1,10 +1,10 @@
 import {
   Col,
   theme,
-  MD,
   Row,
   IconButton,
   Span,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
@@ -13,10 +13,7 @@ import { ReactComponent as GridIcon } from 'src/assets/icons/grid.svg';
 import { ReactComponent as ListIcon } from 'src/assets/icons/list.svg';
 import { useEffect, useMemo, useState } from 'react';
 import { selectFilteredCampaigns } from 'src/features/campaigns';
-import {
-  Campaign,
-  useGetWorkspacesByWidCampaignsQuery,
-} from 'src/features/api';
+import { Campaign, useGetProjectsByPidCampaignsQuery } from 'src/features/api';
 import { createSelector } from '@reduxjs/toolkit';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { CardList } from './list';
@@ -31,15 +28,12 @@ const FloatRight = styled.div`
   margin-bottom: ${theme.space.xs};
 `;
 
-export const ProjectItems = () => {
+export const ProjectItems = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
   const { width } = useWindowSize();
   const breakpointMd = parseInt(theme.breakpoints.md, 10);
 
-  // Get workspaces campaigns from rtk query and filter them
+  // Get project campaigns from rtk query and filter them
   const filters = useAppSelector((state) => state.filters);
 
   const getFilteredCampaigns = useMemo(
@@ -48,8 +42,8 @@ export const ProjectItems = () => {
   );
 
   const { filteredCampaigns, isLoading, isFetching } =
-    useGetWorkspacesByWidCampaignsQuery(
-      { wid: activeWorkspace?.id.toString() || '', limit: 10000 },
+    useGetProjectsByPidCampaignsQuery(
+      { pid: projectId.toString(), limit: 10000 },
       {
         selectFromResult: (result) => ({
           ...result,
@@ -85,18 +79,17 @@ export const ProjectItems = () => {
       >
         <Col xs={12} md={8}>
           <Span>
-            <MD style={{ color: theme.palette.grey[700] }}>
+            <TextDescription>
               {`${t(
                 '__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5'
               ).toUpperCase()} (${campaignsCount})`}
-            </MD>
+            </TextDescription>
           </Span>
         </Col>
         {width >= breakpointMd && (
           <Col md={4}>
             <FloatRight>
               <IconButton
-                isPill
                 {...(viewType === 'list' && { isPrimary: true })}
                 onClick={() => setViewType('list')}
                 style={{ marginRight: theme.space.xs }}
@@ -104,7 +97,6 @@ export const ProjectItems = () => {
                 <ListIcon />
               </IconButton>
               <IconButton
-                isPill
                 {...(viewType === 'grid' && { isPrimary: true })}
                 onClick={() => setViewType('grid')}
               >
@@ -115,7 +107,7 @@ export const ProjectItems = () => {
         )}
       </Row>
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
-      <Filters />
+      <Filters campaigns={filteredCampaigns} />
 
       {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={filteredCampaigns as Campaign[]} />

@@ -1,9 +1,8 @@
-import { MD } from '@appquality/unguess-design-system';
+import { MD, TextDescription } from '@appquality/unguess-design-system';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { WrappedText } from 'src/common/components/WrappedText';
-import { Label } from './Label';
 
 const Container = styled.div`
   display: inline-block;
@@ -15,12 +14,11 @@ const Container = styled.div`
 const TextBlock = styled.div`
   padding: ${({ theme }) => theme.space.xxs} 0;
 `;
-const Text = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[700]};
+const Text = styled(TextDescription)`
   margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
-const StyledLabel = styled(Label)`
+const StyledLabel = styled(MD)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 

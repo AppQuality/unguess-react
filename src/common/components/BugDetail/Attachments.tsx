@@ -2,7 +2,7 @@ import { LG, Tabs } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
 import BugMedia from './Media';
 import BugExtra from './Extra';
@@ -57,14 +57,13 @@ export default ({ bug }: { bug: GetCampaignsByCidBugsAndBidApiResponse }) => {
       <Title>
         <AttachmentsIcon
           style={{
-            marginRight: globalTheme.space.base * 3,
+            marginRight: appTheme.space.base * 3,
           }}
         />
         <LG
           isBold
           style={{
-            margin: `${globalTheme.space.md} 0`,
-            color: globalTheme.palette.grey[800],
+            margin: `${appTheme.space.md} 0`,
           }}
         >
           {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LABEL')}

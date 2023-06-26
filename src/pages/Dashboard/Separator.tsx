@@ -1,11 +1,11 @@
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 const StyledHr = styled.hr`
-  margin: ${theme.space.base * 6}px 0 ${theme.space.base * 8}px 0;
+  margin: ${appTheme.space.base * 6}px 0 ${appTheme.space.base * 8}px 0;
   border: none;
-  border-top: 1px solid ${theme.palette.grey[300]};
+  border-top: 1px solid ${appTheme.palette.grey[300]};
 `;
 
 export const Separator = (props: HTMLAttributes<HTMLDivElement>) => (

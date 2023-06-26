@@ -6,6 +6,7 @@ import {
   Skeleton,
   Tooltip,
   Separator,
+  MD,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
@@ -15,11 +16,10 @@ import {
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { BugStateIcon } from 'src/common/components/BugStateIcon';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
-import { Label } from './Label';
 
 const StyledItem = styled(Item)`
   display: flex;
@@ -78,7 +78,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
             text: getCustomStatusInfo(bugState.name as BugState, t).text,
             icon: (
               <BugStateIcon
-                {...globalTheme.colors.byBugState[bugState.name as BugState]}
+                {...appTheme.colors.byBugState[bugState.name as BugState]}
               />
             ),
           }))
@@ -97,13 +97,13 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
 
   return (
     <div>
-      <Label style={{ marginBottom: globalTheme.space.xxs }}>
+      <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_STATE_LABEL')}
-      </Label>
+      </MD>
       {isLoading || isFetching ? (
         <Skeleton
           height="30px"
-          style={{ borderRadius: globalTheme.borderRadii.md }}
+          style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
         <Dropdown

@@ -1,4 +1,4 @@
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { operations, components } from 'src/common/schema';
 import { GetUsersMeApiResponse } from './features/api';
 
@@ -27,7 +27,7 @@ declare global {
   let react_env: {
     REACT_APP_ENV: string;
   };
-  type Theme = typeof theme;
+  type Theme = typeof appTheme;
   type UserData = GetUsersMeApiResponse;
   type ApiOperations = operations;
   type ApiComponents = components;

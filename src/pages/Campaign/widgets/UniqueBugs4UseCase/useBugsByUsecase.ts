@@ -37,7 +37,7 @@ function getLegendLabel(title: WidgetBugsByUseCase['data'][0]['title']) {
 export const useBugsByUsecase = (campaignId: string) => {
   const { data, isFetching, isLoading, isError } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: parseInt(campaignId, 10),
+      cid: campaignId,
       s: 'bugs-by-usecase',
     });
   const [total, setTotal] = useState(0);

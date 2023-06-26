@@ -4,16 +4,15 @@ import { ThemeProvider } from '@zendeskgarden/react-theming';
 import { useTranslation } from 'react-i18next';
 import Helmet from 'react-helmet';
 import Pages from 'src/common/Pages';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
 const App = () => {
   const { t } = useTranslation();
-
   return (
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={appTheme}>
         <GlobalStyle />
         <Helmet>
           <meta
@@ -25,13 +24,13 @@ const App = () => {
         </Helmet>
         <ToastProvider
           limit={5}
-          zIndex={theme.levels.modal}
+          zIndex={500}
           placementProps={{
             top: {
               style: {
                 top:
-                  parseInt(theme.components.chrome.header.height, 10) +
-                  theme.space.base * 4,
+                  parseInt(appTheme.components.chrome.header.height, 10) +
+                  appTheme.space.base * 4,
               },
             },
           }}

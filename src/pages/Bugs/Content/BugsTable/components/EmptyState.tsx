@@ -1,7 +1,7 @@
 import { Button, LG, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { theme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { resetFilters } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { ReactComponent as EmptyStateImg } from '../assets/bugs_empty_state.svg';
@@ -13,7 +13,7 @@ const StyledEmptyState = styled.div`
   justify-content: center;
   height: 100%;
   width: 100%;
-  padding-top: ${theme.space.md};
+  padding-top: ${appTheme.space.md};
 `;
 
 export const EmptyState = () => {
@@ -23,11 +23,14 @@ export const EmptyState = () => {
     <StyledEmptyState>
       <EmptyStateImg
         title="Table is empty"
-        style={{ marginBottom: theme.space.lg }}
+        style={{ marginBottom: appTheme.space.lg }}
       />
       <LG
         isBold
-        style={{ color: theme.palette.blue[600], marginBottom: theme.space.xs }}
+        style={{
+          color: appTheme.palette.blue[600],
+          marginBottom: appTheme.space.xs,
+        }}
       >
         {t(
           '__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC',
@@ -35,7 +38,10 @@ export const EmptyState = () => {
         )}
       </LG>
       <MD
-        style={{ color: theme.palette.grey[500], marginBottom: theme.space.md }}
+        style={{
+          color: appTheme.palette.grey[500],
+          marginBottom: appTheme.space.md,
+        }}
       >
         {t(
           '__PAGE_BUG_SEARCH_EMPTY_STATE_SUB',
@@ -44,8 +50,7 @@ export const EmptyState = () => {
       </MD>
       <Button
         isPrimary
-        isPill
-        themeColor={theme.palette.water[600]}
+        isAccent
         type="reset"
         onClick={() => {
           dispatch(resetFilters());

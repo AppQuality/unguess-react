@@ -5,7 +5,7 @@ import { Accordion, Button, theme } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import useWindowSize from 'src/hooks/useWindowSize';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { BugByStateType, BugByUsecaseType } from '../types';
 import { InfoRow } from './InfoRow';
 import BugCards from './BugCards';
@@ -44,8 +44,8 @@ const BugStateAccordion = ({
   const dispatch = useAppDispatch();
   const { width } = useWindowSize();
 
-  const breakpointLg = parseInt(globalTheme.breakpoints.lg, 10);
-  const breakpointMd = parseInt(globalTheme.breakpoints.md, 10);
+  const breakpointLg = parseInt(appTheme.breakpoints.lg, 10);
+  const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
   const isLgBreakpoint = width < breakpointLg;
   const isMdBreakpoint = width < breakpointMd;
 

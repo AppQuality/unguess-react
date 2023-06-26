@@ -14,6 +14,10 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
 import { CardRowLoading } from './CardRowLoading';
+import {
+  setPermissionSettingsTitle,
+  setProjectId,
+} from '../../features/navigation/navigationSlice';
 
 const Project = () => {
   const { t } = useTranslation();
@@ -27,7 +31,7 @@ const Project = () => {
   }
 
   const project = useGetProjectsByPidQuery({
-    pid: Number(projectId),
+    pid: projectId ?? '0',
   });
 
   useEffect(() => {
@@ -35,6 +39,16 @@ const Project = () => {
       dispatch(resetFilters());
       dispatch(projectFilterChanged(Number(projectId)));
     }
+
+    if (project) {
+      dispatch(setPermissionSettingsTitle(project.data?.name));
+      dispatch(setProjectId(project.data?.id));
+    }
+
+    return () => {
+      dispatch(setPermissionSettingsTitle(undefined));
+      dispatch(setProjectId(undefined));
+    };
   }, [project]);
 
   if (project.isError) {
@@ -48,7 +62,13 @@ const Project = () => {
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
     >
       <LayoutWrapper>
-        <Grid>{project.isSuccess ? <ProjectItems /> : <CardRowLoading />}</Grid>
+        <Grid>
+          {project.isSuccess ? (
+            <ProjectItems projectId={Number(projectId) || 0} />
+          ) : (
+            <CardRowLoading />
+          )}
+        </Grid>
       </LayoutWrapper>
     </Page>
   );

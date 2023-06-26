@@ -1,20 +1,13 @@
 import { IconButton } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as LineGraphIconFill } from 'src/assets/icons/line-graph-fill.svg';
 import { ReactComponent as ListBulletIconFill } from 'src/assets/icons/list-bullet-fill.svg';
 import { WidgetCardHeader } from '../common/WidgetCardHeader';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardHeaderProps } from './types';
 
-const FlipButton = styled(IconButton)<{ isActive?: boolean }>`
-  background-color: ${(p) =>
-    p.isActive ? p.theme.palette.blue[600] : 'transparent'};
-  &:hover {
-    background-color: ${(p) =>
-      p.isActive ? p.theme.palette.blue[600] : p.theme.palette.grey[100]};
-  }
-  transition: background-color 0.25s ease-in-out;
+const FlipButton = styled(IconButton)`
   margin-left: ${(p) => p.theme.space.xs};
 `;
 
@@ -24,7 +17,7 @@ export const FlipButtonContainer = styled.div`
 
 export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
   const { visibleFace, setVisibleFace, width } = useFlipCardContext();
-  const breakpointMd = parseInt(globalTheme.breakpoints.md, 10);
+  const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
 
   return (
     <WidgetCardHeader
@@ -34,7 +27,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
           <FlipButtonContainer>
             <FlipButton
               className="flip-card-button-chart"
-              isActive={visibleFace === 'front'}
+              isPrimary={visibleFace === 'front'}
               size="small"
               onClick={() => setVisibleFace('front')}
             >
@@ -45,7 +38,7 @@ export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
             <FlipButton
               className="flip-card-button-list"
               size="small"
-              isActive={visibleFace === 'back'}
+              isPrimary={visibleFace === 'back'}
               onClick={() => setVisibleFace('back')}
             >
               <ListBulletIconFill

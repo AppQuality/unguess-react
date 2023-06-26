@@ -6,12 +6,13 @@ import { ReactComponent as EmptyIcon } from 'src/assets/icons/empty.svg';
 import {
   MD,
   Paragraph,
-  SM,
   Spinner,
   SplitButton,
-  theme as globalTheme,
   Timeline,
   TooltipModal,
+  Button,
+  TextLabel,
+  getColor,
 } from '@appquality/unguess-design-system';
 import i18n from 'src/i18n';
 import { useCallback, useRef, useState } from 'react';
@@ -23,7 +24,7 @@ import {
   formatRelative,
 } from 'date-fns';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
-import { WaterButton } from '../../common/components/waterButton';
+import { appTheme } from 'src/app/theme';
 import { WizardModel } from './wizardModel';
 import { getLanguage } from './getLanguage';
 import { CardDivider } from './cardDivider';
@@ -37,8 +38,7 @@ const StyledDiv = styled.div`
   align-items: center;
 `;
 
-const HelpText = styled(SM)`
-  color: ${({ theme }) => theme.palette.grey[600]};
+const HelpText = styled(TextLabel)`
   max-width: 250px;
   position: absolute;
 
@@ -59,9 +59,9 @@ const InteractiveTimelineItem = styled(Timeline.Item)`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.palette.kale[100]};
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 50)};
     svg {
-      background-color: ${({ theme }) => theme.palette.kale[100]};
+      background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 50)};
     }
   }
 
@@ -124,10 +124,10 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   return (
     <StyledDiv>
       <SplitButton>
-        <WaterButton
+        <Button
           id="express-wizard-submit-button"
-          isPill
           isPrimary
+          isAccent
           type="submit"
           disabled={Object.keys(errors).length > 0 || isSubmitting}
           onClick={triggerSubmit}
@@ -135,23 +135,23 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           {isPlanned
             ? t('__EXPRESS_WIZARD_CONFIRM_PLANNING_BUTTON_LABEL')
             : t('__EXPRESS_WIZARD_CONFIRM_BUTTON_LABEL')}
-        </WaterButton>
-        <WaterButton
-          isPill
+        </Button>
+        <Button
           isPrimary
+          isAccent
           ref={triggerRef}
           onClick={() => {
             setRefElement(triggerRef.current);
           }}
         >
           <ChevronDownIcon />
-        </WaterButton>
+        </Button>
       </SplitButton>
       {isSubmitting ? (
         <Spinner
           size="24"
-          color={globalTheme.palette.blue[600]}
-          style={{ marginLeft: globalTheme.space.sm }}
+          color={appTheme.palette.blue[600]}
+          style={{ marginLeft: appTheme.space.sm }}
         />
       ) : (
         (!status || !status.submitError) && (
@@ -173,12 +173,10 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
         onClose={() => setRefElement(null)}
         placement="auto"
         hasArrow={false}
-        style={{ padding: globalTheme.space.xxs, width: 'auto' }}
+        style={{ padding: appTheme.space.xxs, width: 'auto' }}
       >
-        <TooltipModal.Title style={{ padding: globalTheme.space.xs }}>
-          <MD isBold style={{ color: globalTheme.palette.grey[800] }}>
-            {t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}
-          </MD>
+        <TooltipModal.Title style={{ padding: appTheme.space.xs }}>
+          <MD isBold>{t('__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE')}</MD>
         </TooltipModal.Title>
         <TooltipModal.Body>
           <Timeline>
@@ -208,7 +206,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
                       },
                     })}
                   </Paragraph>
-                  <MD style={{ color: globalTheme.palette.grey[600] }}>
+                  <MD color={appTheme.palette.grey[600]}>
                     {t(
                       '__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_FIRST_RESULTS'
                     )}{' '}

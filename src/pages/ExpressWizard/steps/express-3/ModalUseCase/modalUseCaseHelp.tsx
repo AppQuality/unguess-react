@@ -3,7 +3,6 @@ import {
   Timeline,
   XL,
   XXL,
-  theme as globalTheme,
   Skeleton,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as HelpImg } from 'src/assets/modal-use-case-help.svg';
@@ -14,6 +13,7 @@ import { getLocalizedStrapiData } from 'src/common/utils';
 import { useAppSelector } from 'src/app/hooks';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import i18n from 'src/i18n';
+import { appTheme } from 'src/app/theme';
 
 export const ScrollingContainer = styled.div`
   overflow-x: hidden;
@@ -88,12 +88,12 @@ export const ModalUseCaseHelp = () => {
         {data && useCaseHelp && !isError && !isFetching && !isLoading ? (
           <>
             {useCaseHelp.title ? (
-              <XXL style={{ marginTop: globalTheme.space.lg }}>
+              <XXL style={{ marginTop: appTheme.space.lg }}>
                 {useCaseHelp.title}
               </XXL>
             ) : null}
             {useCaseHelp.description ? (
-              <Paragraph style={{ marginBottom: globalTheme.space.sm }}>
+              <Paragraph style={{ marginBottom: appTheme.space.sm }}>
                 {useCaseHelp.description}
               </Paragraph>
             ) : null}
@@ -104,11 +104,10 @@ export const ModalUseCaseHelp = () => {
                       {suggestion.group_title && {
                         ...(index === useCaseHelp.suggestions.length - 1 ? (
                           <XL
+                            isBold
                             style={{
-                              marginTop: globalTheme.space.xl,
-                              marginBottom: globalTheme.space.sm,
-                              color: globalTheme.palette.grey[800],
-                              fontWeight: globalTheme.fontWeights.medium,
+                              marginTop: appTheme.space.xl,
+                              marginBottom: appTheme.space.sm,
                             }}
                           >
                             {suggestion.group_title}
@@ -146,18 +145,9 @@ export const ModalUseCaseHelp = () => {
           </>
         ) : (
           <>
-            <Skeleton
-              height="30px"
-              style={{ marginTop: globalTheme.space.md }}
-            />
-            <Skeleton
-              height="30px"
-              style={{ marginTop: globalTheme.space.md }}
-            />
-            <Skeleton
-              height="300px"
-              style={{ marginTop: globalTheme.space.md }}
-            />
+            <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
+            <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
+            <Skeleton height="300px" style={{ marginTop: appTheme.space.md }} />
           </>
         )}
       </HelpContainer>

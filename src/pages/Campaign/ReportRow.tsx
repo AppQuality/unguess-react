@@ -148,7 +148,6 @@ export const ReportRow = ({
                       className={`report-btn report-btn-${
                         report.file_type?.type === 'link' ? 'link' : 'download'
                       } report-btn-${report.file_type?.type ?? ''}`}
-                      isPill
                       isStretched
                       onClick={() => {
                         // eslint-disable-next-line security/detect-non-literal-fs-filename

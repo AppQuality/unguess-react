@@ -12,14 +12,14 @@ import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import styled from 'styled-components';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
-import { theme as globalTheme } from 'src/app/theme';
+import { appTheme } from 'src/app/theme';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
 
-const buttonHeight = globalTheme.space.lg; // 32
-const sectionMargin = globalTheme.space.sm; // 12
-const tagsHeight = globalTheme.space.lg; // 32
-const sectionPaddingTop = globalTheme.space.md; // 20
+const buttonHeight = appTheme.space.lg; // 32
+const sectionMargin = appTheme.space.sm; // 12
+const tagsHeight = appTheme.space.lg; // 32
+const sectionPaddingTop = appTheme.space.md; // 20
 
 const StyledTag = styled(Tag)`
   &:last-of-type {

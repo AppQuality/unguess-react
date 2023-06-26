@@ -21,6 +21,7 @@ import i18n from 'src/i18n';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
+import { useAppSelector } from 'src/app/hooks';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
 
@@ -39,6 +40,7 @@ export const SingleServicePageHeader = ({
     item: response,
     language: i18n.language,
   });
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
 
   // Strapi response
   const days = service.duration_in_days ?? 3;
@@ -105,10 +107,14 @@ export const SingleServicePageHeader = ({
           </PageHeader.Meta>
         </PageHeader.Main>
         <PageHeader.Footer>
-          {expressType && expressType.id ? (
-            <ServiceExpressCta expressTypeId={expressType.id} />
-          ) : (
-            <ServiceContactUsCta onCtaClick={onContactClick} />
+          {!activeWorkspace?.isShared && (
+            <div>
+              {expressType && expressType.id ? (
+                <ServiceExpressCta expressTypeId={expressType.id} />
+              ) : (
+                <ServiceContactUsCta onCtaClick={onContactClick} />
+              )}
+            </div>
           )}
         </PageHeader.Footer>
       </PageHeader>

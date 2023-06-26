@@ -1,11 +1,8 @@
 import styled from 'styled-components';
 import { ReactComponent as EmptyReportsImage } from 'src/assets/emptyReports.svg';
-import {
-  Paragraph,
-  theme as globalTheme,
-  XL,
-} from '@appquality/unguess-design-system';
+import { Paragraph, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 
 const CenteredContent = styled.div`
   display: flex;
@@ -24,9 +21,9 @@ export const EmptyState = () => {
       <EmptyReportsImage />
       <XL
         style={{
-          fontWeight: globalTheme.fontWeights.medium,
-          marginTop: globalTheme.space.xl,
-          marginBottom: globalTheme.space.sm,
+          fontWeight: appTheme.fontWeights.medium,
+          marginTop: appTheme.space.xl,
+          marginBottom: appTheme.space.sm,
         }}
       >
         {t('__CAMPAIGN_PAGE_REPORTS_EMPTY_REPORTS_TITLE')}
