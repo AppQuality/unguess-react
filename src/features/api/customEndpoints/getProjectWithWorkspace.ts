@@ -18,13 +18,18 @@ const extendedApi = apiSlice.injectEndpoints({
       GetProjectsByPidApiArg
     >({
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
+        // get project by pid to retrieve workspace id
         const projectResult = await fetchWithBQ(`/projects/${_arg.pid}`);
         if (projectResult.error)
           return { error: projectResult.error as FetchBaseQueryError };
         const project = projectResult.data as GetProjectsByPidApiResponse;
+
+        // finally get workspace by id
         const workspaceResult = await fetchWithBQ(
           `/workspaces/${project.workspaceId}`
         );
+
+        // return project with its workspace
         return workspaceResult.data
           ? {
               data: {
