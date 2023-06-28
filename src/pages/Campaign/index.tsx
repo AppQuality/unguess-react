@@ -87,9 +87,6 @@ const Campaign = () => {
     if (workspace) {
       dispatch(setWorkspace(workspace));
     }
-    return () => {
-      dispatch(setWorkspace(undefined));
-    };
   }, [workspace, dispatch]);
 
   return (

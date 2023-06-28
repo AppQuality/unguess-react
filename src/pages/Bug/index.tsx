@@ -53,9 +53,6 @@ const Bug = () => {
     if (workspace) {
       dispatch(setWorkspace(workspace));
     }
-    return () => {
-      dispatch(setWorkspace(undefined));
-    };
   }, [workspace]);
 
   if (showSkeleton && (isLoading || isFetching)) {

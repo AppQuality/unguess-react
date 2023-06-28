@@ -60,9 +60,6 @@ const Project = () => {
     if (workspace) {
       dispatch(setWorkspace(workspace));
     }
-    return () => {
-      dispatch(setWorkspace(undefined));
-    };
   }, [workspace, dispatch]);
 
   if (isError) {
