@@ -1,6 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { stringify } from 'qs';
-import { Template } from '.';
+import {
+  GetCampaignsByCidApiResponse,
+  GetProjectsByPidApiResponse,
+  GetWorkspacesByWidApiResponse,
+  Template,
+} from '.';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
