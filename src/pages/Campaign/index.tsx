@@ -4,13 +4,11 @@ import { Page } from 'src/features/templates/Page';
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import {
-  useGetCampaignsByCidQuery,
-  useGetCampaignsByCidReportsQuery,
-} from 'src/features/api';
+import { useGetCampaignsByCidReportsQuery } from 'src/features/api';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useTranslation } from 'react-i18next';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 import { ReportRowLoading } from './ReportRowLoading';
@@ -29,6 +27,7 @@ import { WidgetSection } from './WidgetSection';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
+  setWorkspace,
 } from '../../features/navigation/navigationSlice';
 
 const Campaign = () => {
@@ -48,8 +47,8 @@ const Campaign = () => {
     isLoading: isLoadingCampaign,
     isFetching: isFetchingCampaign,
     isError: isErrorCampaign,
-    data: campaign,
-  } = useGetCampaignsByCidQuery({
+    data: { campaign, workspace } = {},
+  } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId?.toString() ?? '0',
   });
 
@@ -83,6 +82,12 @@ const Campaign = () => {
       dispatch(setCampaignId(undefined));
     };
   }, [campaign]);
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+  }, [workspace, dispatch]);
 
   return (
     <Page
