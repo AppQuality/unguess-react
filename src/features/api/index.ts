@@ -1011,6 +1011,10 @@ export type Campaign = {
     id: number;
     name: string;
   };
+  workspace: {
+    id: number;
+    name: string;
+  };
   description?: string;
   base_bug_internal_id?: string;
 };
