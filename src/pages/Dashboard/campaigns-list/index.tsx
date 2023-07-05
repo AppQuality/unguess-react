@@ -1,29 +1,30 @@
 import {
   Col,
-  theme,
-  Row,
   IconButton,
+  Row,
   Span,
   TextDescription,
+  theme,
 } from '@appquality/unguess-design-system';
+import { createSelector } from '@reduxjs/toolkit';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
-import styled from 'styled-components';
 import { ReactComponent as GridIcon } from 'src/assets/icons/grid.svg';
 import { ReactComponent as ListIcon } from 'src/assets/icons/list.svg';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  selectGroupedCampaigns,
-  selectFilteredCampaigns,
-} from 'src/features/campaigns';
 import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
-import { createSelector } from '@reduxjs/toolkit';
+import {
+  selectFilteredCampaigns,
+  selectGroupedCampaigns,
+} from 'src/features/campaigns';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
+import styled from 'styled-components';
+import { Separator } from '../Separator';
+import { EmptyResults } from '../emptyState';
+import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
-import { Separator } from '../Separator';
-import { Filters } from '../filters';
-import { EmptyResults } from '../emptyState';
 
 const FloatRight = styled.div`
   float: right;
@@ -32,9 +33,7 @@ const FloatRight = styled.div`
 
 export const CampaignsList = () => {
   const { t } = useTranslation();
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
+  const { activeWorkspace } = useActiveWorkspace();
   const { width } = useWindowSize();
   const breakpointMd = parseInt(theme.breakpoints.md, 10);
 

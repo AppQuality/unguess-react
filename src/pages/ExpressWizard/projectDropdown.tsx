@@ -1,31 +1,29 @@
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
-  Dropdown,
   Autocomplete,
-  Menu,
+  Dropdown,
   Item,
-  Separator,
-  MediaFigure,
   MediaBody,
+  MediaFigure,
+  Menu,
+  Separator,
   Skeleton,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 
-import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
-import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useEffect, useState } from 'react';
-import useDebounce from 'src/hooks/useDebounce';
-import { useGetWorkspacesByWidProjectsQuery, Project } from 'src/features/api';
+import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
+import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
+import { Project, useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { setExpressProject } from 'src/features/express/expressSlice';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import useDebounce from 'src/hooks/useDebounce';
 
 export const ProjectDropdown = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
+  const { activeWorkspace } = useActiveWorkspace();
 
   const { project, projectLocked } = useAppSelector((state) => state.express);
 

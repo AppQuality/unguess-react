@@ -1,13 +1,13 @@
 import {
   Col,
-  Row,
   Paragraph,
-  theme,
+  Row,
   TextDescription,
+  theme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'src/app/hooks';
 import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { CampaignItem } from './CampaignItem';
 import { CardsContainer, StyledRow } from './CardContainer';
@@ -16,7 +16,7 @@ import { CampaignActionProps } from './types';
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const campaigns = useGetWorkspacesByWidCampaignsQuery({
     wid: activeWorkspace?.id.toString() || '',

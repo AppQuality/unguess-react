@@ -1,32 +1,26 @@
 import {
   Content,
+  Notification,
   ProfileModal,
   useToast,
-  Notification,
 } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { AppSidebar } from 'src/common/components/navigation/sidebar';
+import { isDev } from 'src/common/isDevEnvironment';
+import { prepareGravatar } from 'src/common/utils';
+import WPAPI from 'src/common/wpapi';
 import {
-  toggleSidebar,
-  setWorkspace,
   setProfileModalOpen,
   setSidebarOpen,
+  toggleSidebar,
 } from 'src/features/navigation/navigationSlice';
-import { AppSidebar } from 'src/common/components/navigation/sidebar';
-import WPAPI from 'src/common/wpapi';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
-import { useParams } from 'react-router-dom';
-import { prepareGravatar } from 'src/common/utils';
-import { useEffect } from 'react';
-import API from 'src/common/api';
-import { isDev } from 'src/common/isDevEnvironment';
-import { getWorkspaceFromLS } from './cachedStorage';
-import { isValidWorkspace } from './utils';
-import { selectWorkspaces } from '../workspaces/selectors';
-import { usePathWithoutLocale } from './usePathWithoutLocale';
 import { Header } from '../../common/components/navigation/header/header';
-
-const cachedWorkspace = getWorkspaceFromLS();
+import { usePathWithoutLocale } from './usePathWithoutLocale';
 
 export const Navigation = ({
   children,
@@ -40,8 +34,7 @@ export const Navigation = ({
   const pathWithoutLocale = usePathWithoutLocale();
   const { userData: user } = useAppSelector((state) => state.user);
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
-  const workspaces = useAppSelector(selectWorkspaces);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
   const { addToast } = useToast();
 
   // Set isSidebarOpen to false for specific routes
@@ -58,28 +51,6 @@ export const Navigation = ({
         break;
     }
   }, [route]);
-
-  useEffect(() => {
-    if (workspaces && !activeWorkspace) {
-      const fetchWS = async () => {
-        try {
-          const verifiedWs = cachedWorkspace
-            ? isValidWorkspace(cachedWorkspace, workspaces)
-            : false;
-
-          API.workspacesById(
-            verifiedWs ? verifiedWs.id : workspaces[0].id
-          ).then((ws) => {
-            dispatch(setWorkspace(ws));
-          });
-        } catch (e) {
-          dispatch(setWorkspace(workspaces[0]));
-        }
-      };
-
-      fetchWS();
-    }
-  }, [workspaces]);
 
   // Set current params
   const params = useParams();

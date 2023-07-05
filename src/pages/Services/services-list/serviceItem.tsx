@@ -5,20 +5,21 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import i18n from 'src/i18n';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppDispatch } from 'src/app/hooks';
+import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
+import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
+import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
+import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { hasEnoughCoins, toggleChat } from 'src/common/utils';
 import { STRAPI_URL } from 'src/constants';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
-import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
-import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
-import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
-import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
 import {
   openDrawer,
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import i18n from 'src/i18n';
 import { ServiceCol } from './ServiceCol';
 
 export const ServiceItem = ({
@@ -31,7 +32,7 @@ export const ServiceItem = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
   const { data, isFetching, isLoading, isError } = useGetFullServicesByIdQuery({
     id: serviceId,
     populate: {

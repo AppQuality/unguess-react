@@ -1,13 +1,13 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
+import { PageMeta } from 'src/common/components/PageMeta';
+import { Pipe } from 'src/common/components/Pipe';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import {
   Campaign,
   useGetWorkspacesByWidCampaignsQuery,
 } from 'src/features/api';
-import { PageMeta } from 'src/common/components/PageMeta';
-import { Pipe } from 'src/common/components/Pipe';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const prjId =
@@ -43,9 +43,7 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
-  const activeWorkspace = useAppSelector(
-    (state) => state.navigation.activeWorkspace
-  );
+  const { activeWorkspace } = useActiveWorkspace();
 
   const { projectId } = useParams();
 

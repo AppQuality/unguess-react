@@ -1,40 +1,40 @@
-import { appTheme } from 'src/app/theme';
 import {
+  Button,
   Label,
+  MD,
   Modal,
   ModalClose,
-  Span,
-  useToast,
   Notification,
-  Button,
+  Span,
   getColor,
-  MD,
+  useToast,
 } from '@appquality/unguess-design-system';
-import { useAppSelector } from 'src/app/hooks';
+import { FormikHelpers } from 'formik';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import {
   useDeleteWorkspacesByWidUsersMutation,
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
 } from 'src/features/api';
-import { FormikHelpers } from 'formik';
-import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
-import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
-import { useState } from 'react';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
 import { AddNewMemberInput } from './addNewMember';
-import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
 import {
   FixedBody,
   FlexContainer,
   SettingsDivider,
-  UsersLabel,
   UsersContainer,
+  UsersLabel,
 } from './styled';
+import { UserItem } from './userItem';
 
 export const WorkspaceSettings = () => {
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation();
   const { addToast } = useToast();

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import TagManager, { TagManagerArgs } from 'react-gtm-module';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from 'src/app/hooks';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
 const tagManagerArgs: TagManagerArgs = {
   gtmId: process.env.REACT_APP_GTM_ID || 'GTM-WVXPS94',
@@ -27,7 +28,7 @@ export const GoogleTagManager = ({
   children: React.ReactNode;
 }) => {
   const { userData } = useAppSelector((state) => state.user);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const helmet = () => (
     <Helmet>
