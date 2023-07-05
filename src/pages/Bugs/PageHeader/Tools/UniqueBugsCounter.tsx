@@ -1,8 +1,8 @@
-import { Trans } from 'react-i18next';
 import { MD, Span } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useUniqueBugs } from 'src/pages/Campaign/widgets/UniqueBugs/useUniqueBugs';
+import styled from 'styled-components';
+import { useUniqueBugs } from './useUniqueBugs';
 
 const CounterContainer = styled.div`
   display: inline-block;
