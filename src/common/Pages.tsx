@@ -1,21 +1,21 @@
+import { useTranslation } from 'react-i18next';
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
-  Navigate,
+  createBrowserRouter,
+  createRoutesFromElements,
 } from 'react-router-dom';
-import LoginPage from 'src/pages/LoginPage';
+import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
+import Bug from 'src/pages/Bug';
+import Bugs from 'src/pages/Bugs';
+import Campaign from 'src/pages/Campaign';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
+import LoginPage from 'src/pages/LoginPage';
 import NotFound from 'src/pages/NotFound';
-import Catalog from 'src/pages/Services';
 import Service from 'src/pages/Service';
-import Campaign from 'src/pages/Campaign';
-import Bugs from 'src/pages/Bugs';
-import { useTranslation } from 'react-i18next';
-import Bug from 'src/pages/Bug';
-import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
+import Catalog from 'src/pages/Services';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
