@@ -1,11 +1,11 @@
 import { Paragraph, Row, XXL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import { Divider } from 'src/common/components/divider';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { hasEnoughCoins } from 'src/common/utils';
 import { useGeti18nServicesFeaturedQuery } from 'src/features/backoffice/strapi';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
@@ -28,7 +28,7 @@ const FeaturedContainer = styled.div`
 export const Featured = ({ handleHubspot }: { handleHubspot: () => void }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
   const notFoundRoute = useLocalizeRoute('oops');
 
   const {
