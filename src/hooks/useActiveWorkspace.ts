@@ -11,12 +11,12 @@ export const useActiveWorkspace = () => {
   );
 
   useEffect(() => {
-    if (result) return;
-
     if (activeWorkspace) {
       setResult(activeWorkspace);
       return;
     }
+
+    if (result) return;
 
     const cachedWorkspace = getWorkspaceFromLS();
     if (cachedWorkspace) {
