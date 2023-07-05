@@ -3,13 +3,15 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetCampaignsByCidQuery } from 'src/features/api';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
+
 import { Page } from 'src/features/templates/Page';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
+  setWorkspace,
 } from '../../features/navigation/navigationSlice';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
@@ -30,14 +32,20 @@ const CampaignPage = ({ children }: { children: React.ReactNode }) => {
     isLoading: isLoadingCampaign,
     isFetching: isFetchingCampaign,
     isError: isErrorCampaign,
-    data: campaign,
-  } = useGetCampaignsByCidQuery({
+    data: { campaign, workspace } = {},
+  } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId?.toString() ?? '0',
   });
 
   if (isErrorCampaign) {
     navigate(notFoundRoute);
   }
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+  }, [workspace, dispatch]);
 
   useEffect(() => {
     if (campaign) {
