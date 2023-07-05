@@ -1,11 +1,14 @@
+/* eslint-disable no-debugger */
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
-import API from 'src/common/api';
-import { Workspace } from 'src/features/api';
+import { Workspace, useGetWorkspacesQuery } from 'src/features/api';
 import { getWorkspaceFromLS } from 'src/features/navigation/cachedStorage';
 
 export const useActiveWorkspace = () => {
   const [result, setResult] = useState<Workspace>();
+  const { data: workspaces, isLoading } = useGetWorkspacesQuery({
+    orderBy: 'company',
+  });
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
@@ -24,12 +27,15 @@ export const useActiveWorkspace = () => {
       return;
     }
 
-    API.workspaces(undefined, { orderBy: 'company' }).then((res) => {
-      if (res?.items && res.items.length > 0) {
-        setResult(res.items[0]);
-      }
-    });
-  }, [activeWorkspace]);
+    if (
+      !isLoading &&
+      workspaces &&
+      workspaces.items &&
+      workspaces.items.length > 0
+    ) {
+      setResult(workspaces.items[0]);
+    }
+  }, [activeWorkspace, workspaces, isLoading]);
 
   return { activeWorkspace: result };
 };
