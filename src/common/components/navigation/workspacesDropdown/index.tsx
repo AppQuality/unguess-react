@@ -236,13 +236,9 @@ export const WorkspacesDropdown = () => {
       )}
     </DropdownItem>
   ) : (
-    <>
+    <DropdownItem>
       <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
-      {canManageUsers && (
-        <DropdownItem>
-          <WorkspaceSettings />
-        </DropdownItem>
-      )}
-    </>
+      {canManageUsers && <WorkspaceSettings />}
+    </DropdownItem>
   );
 };
