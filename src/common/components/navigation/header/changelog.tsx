@@ -1,8 +1,8 @@
-import { ReactComponent as ChangelogIcon } from 'src/assets/icons/megaphone-stroke.svg';
-import HeadwayWidget from '@headwayapp/react-widget';
-import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
 import { HeaderItem } from '@appquality/unguess-design-system';
+import HeadwayWidget from '@headwayapp/react-widget';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as ChangelogIcon } from 'src/assets/icons/megaphone-stroke.svg';
+import styled from 'styled-components';
 
 const StyledWidget = styled.div`
   svg {
@@ -14,7 +14,7 @@ const StyledWidget = styled.div`
 `;
 
 export const Changelog = () => (
-  <HeaderItem style={{ marginRight: `-${appTheme.space.xs}` }}>
+  <HeaderItem>
     <StyledWidget>
       <HeadwayWidget account="Jn0mVx">
         <ChangelogIcon />
