@@ -21,8 +21,19 @@ export const useActiveWorkspace = () => {
 
     if (result) return;
 
+    if (
+      isLoading ||
+      !workspaces ||
+      !workspaces?.items ||
+      workspaces.items.length === 0
+    )
+      return;
+
     const cachedWorkspace = getWorkspaceFromLS();
-    if (cachedWorkspace) {
+    if (
+      cachedWorkspace &&
+      workspaces.items.map((w) => w.id).includes(cachedWorkspace.id)
+    ) {
       setResult(cachedWorkspace);
       return;
     }
