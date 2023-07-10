@@ -4,7 +4,7 @@ import { Header } from 'src/common/components/navigation/header/header';
 
 const BugForm = () => {
   const { campaignId } = useParams<{ campaignId: string }>();
-  const [query, setQuery] = useSearchParams();
+  const [query] = useSearchParams();
   const token = query.get('token') || '';
   return (
     <div>
