@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import {
   Col,
   ContainerCard,
@@ -8,7 +7,7 @@ import {
   Row,
   Stepper,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
+import { format } from 'date-fns';
 import {
   Form,
   Formik,
@@ -16,51 +15,53 @@ import {
   FormikProps,
   setNestedObjectValues,
 } from 'formik';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import {
-  closeDrawer,
-  closeWizard,
-  resetWizard,
-  setExpressProject,
-} from 'src/features/express/expressSlice';
-import * as Yup from 'yup';
-import styled from 'styled-components';
-import {
-  Project,
-  Campaign,
-  usePostCampaignsMutation,
-  usePostProjectsMutation,
-} from 'src/features/api';
-import {
-  BASE_DATE_FORMAT,
-  ZAPIER_WEBHOOK_TRIGGER,
-  EXPRESS_4_CAMPAIGN_TYPE_ID,
-  EXPRESS_3_CAMPAIGN_TYPE_ID,
-  EXPRESS_2_CAMPAIGN_TYPE_ID,
-  EXPRESS_1_CAMPAIGN_TYPE_ID,
-} from 'src/constants';
-import { format } from 'date-fns';
+import { appTheme } from 'src/app/theme';
 import {
   createCrons,
   createPages,
   createTasks,
   createUseCases,
 } from 'src/common/campaigns';
-import { toggleChat } from 'src/common/utils';
-import i18n from 'src/i18n';
-import { extractStrapiData } from 'src/common/getStrapiData';
-import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
-import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { toggleChat } from 'src/common/utils';
+import {
+  BASE_DATE_FORMAT,
+  EXPRESS_1_CAMPAIGN_TYPE_ID,
+  EXPRESS_2_CAMPAIGN_TYPE_ID,
+  EXPRESS_3_CAMPAIGN_TYPE_ID,
+  EXPRESS_4_CAMPAIGN_TYPE_ID,
+  ZAPIER_WEBHOOK_TRIGGER,
+} from 'src/constants';
+import {
+  Campaign,
+  Project,
+  usePostCampaignsMutation,
+  usePostProjectsMutation,
+} from 'src/features/api';
+import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import {
+  closeDrawer,
+  closeWizard,
+  resetWizard,
+  setExpressProject,
+} from 'src/features/express/expressSlice';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import i18n from 'src/i18n';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
-import { ThankYouStep } from './steps/thankYou';
-import { WizardHeader } from './wizardHeader';
-import { WizardModel } from './wizardModel';
-import defaultValues from './wizardInitialValues';
-import { reasonItems } from './steps/express-1/what';
 import { getPlatform } from './getPlatform';
+import { reasonItems } from './steps/express-1/what';
+import { ThankYouStep } from './steps/thankYou';
 import { StepItem, useExpressStep } from './steps/useSteps';
+import { WizardHeader } from './wizardHeader';
+import defaultValues from './wizardInitialValues';
+import { WizardModel } from './wizardModel';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
@@ -132,7 +133,7 @@ export const ExpressWizardContainer = () => {
   const [stepperTitle, setStepperTitle] = useState('');
   const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
   const {
     isWizardOpen,
     steps: draftSteps,

@@ -1,11 +1,11 @@
 import { Button, InfoCard } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'src/app/hooks';
 import { ReactComponent as InfoImg } from 'src/assets/icons/info-image.svg';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
 export const ServiceTip = () => {
   const { t } = useTranslation();
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   return (
     <InfoCard

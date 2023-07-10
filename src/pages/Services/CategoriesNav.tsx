@@ -2,28 +2,29 @@ import { Anchor, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
+import { StickyContainer } from 'src/common/components/StickyContainer';
+import {
+  StickyNavItem,
+  StickyNavItemLabel,
+  StyledDivider,
+} from 'src/common/components/navigation';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { hasEnoughCoins } from 'src/common/utils';
 import { CategoryResponse, ServiceResponse } from 'src/features/backoffice';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import i18n from 'src/i18n';
 import {
   useGeti18nCategoriesQuery,
   useGeti18nServicesFeaturedQuery,
 } from 'src/features/backoffice/strapi';
-import { hasEnoughCoins } from 'src/common/utils';
-import { extractStrapiData } from 'src/common/getStrapiData';
-import { StickyContainer } from 'src/common/components/StickyContainer';
-import {
-  StyledDivider,
-  StickyNavItem,
-  StickyNavItemLabel,
-} from 'src/common/components/navigation';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import i18n from 'src/i18n';
 
 const CategoriesNav = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
 
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const notFoundRoute = useLocalizeRoute('oops');
 

@@ -1,14 +1,19 @@
 import {
   Col,
-  Row,
   Paragraph,
-  theme,
   ProductCard,
+  Row,
   TextDescription,
+  theme,
 } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { hasEnoughCoins, isMinMedia, toggleChat } from 'src/common/utils';
+import { useGetProjectsByPidQuery } from 'src/features/api';
+import { useGeti18nExpressTypesQuery } from 'src/features/backoffice/strapi';
 import {
   lockProject,
   openDrawer,
@@ -16,12 +21,8 @@ import {
   setExpressProject,
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
-import { useGetProjectsByPidQuery } from 'src/features/api';
-import { hasEnoughCoins, isMinMedia, toggleChat } from 'src/common/utils';
-import { useEffect } from 'react';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
-import { useGeti18nExpressTypesQuery } from 'src/features/backoffice/strapi';
-import { extractStrapiData } from 'src/common/getStrapiData';
 import { ExpressWizardContainer } from '../ExpressWizard';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
 import { CardRowLoading } from './CardRowLoading';
@@ -30,7 +31,7 @@ export const ActionCards = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { projectId } = useAppSelector((state) => state.filters);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   // TODO: this is a hack to get the express type id without a service attached
   const {
