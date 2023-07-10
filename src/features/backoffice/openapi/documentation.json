@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2023-07-10T09:42:55.424Z"
+    "x-generation-date": "2023-07-10T12:43:51.251Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -14613,13 +14613,13 @@
       "ManualLocalizationRequest": {
         "type": "object",
         "properties": {
-          "Title": {
+          "title": {
             "type": "string"
           },
-          "Content": {
+          "content": {
             "type": "string"
           },
-          "CampaignId": {
+          "campaignId": {
             "type": "integer"
           }
         }
@@ -14630,13 +14630,13 @@
           "data": {
             "type": "object",
             "properties": {
-              "Title": {
+              "title": {
                 "type": "string"
               },
-              "Content": {
+              "content": {
                 "type": "string"
               },
-              "CampaignId": {
+              "campaignId": {
                 "type": "integer"
               }
             }
@@ -14649,13 +14649,13 @@
           "id": {
             "type": "string"
           },
-          "Title": {
+          "title": {
             "type": "string"
           },
-          "Content": {
+          "content": {
             "type": "string"
           },
-          "CampaignId": {
+          "campaignId": {
             "type": "integer"
           },
           "createdAt": {
@@ -14980,13 +14980,13 @@
                 "attributes": {
                   "type": "object",
                   "properties": {
-                    "Title": {
+                    "title": {
                       "type": "string"
                     },
-                    "Content": {
+                    "content": {
                       "type": "string"
                     },
-                    "CampaignId": {
+                    "campaignId": {
                       "type": "integer"
                     },
                     "createdAt": {
@@ -15337,13 +15337,13 @@
               "attributes": {
                 "type": "object",
                 "properties": {
-                  "Title": {
+                  "title": {
                     "type": "string"
                   },
-                  "Content": {
+                  "content": {
                     "type": "string"
                   },
-                  "CampaignId": {
+                  "campaignId": {
                     "type": "integer"
                   },
                   "createdAt": {

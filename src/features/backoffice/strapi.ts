@@ -11,6 +11,8 @@ import {
   GetExpressesApiArg,
   GetExpressTypesByIdApiResponse,
   GetExpressTypesByIdApiArg,
+  GetManualsApiResponse,
+  GetManualsApiArg,
 } from '.';
 
 interface GetFullServicesByIdArgs {
@@ -50,6 +52,11 @@ interface Geti18nExpressTypesByIdApiArgs extends GetExpressTypesByIdApiArg {
   locale?: string;
   filters?: object;
   populate?: string[] | object;
+}
+
+interface Geti18nManualsApiArgs extends GetManualsApiArg {
+  locale?: string;
+  filters?: object;
 }
 
 export const strapiSlice = createApi({
@@ -167,13 +174,28 @@ export const strapiSlice = createApi({
         let url = `/express-types/${queryArg.id}`;
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
-          ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.populate && { filters: queryArg.populate }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
         return { url };
       },
     }),
+
+    geti18nManuals: builder.query<GetManualsApiResponse, Geti18nManualsApiArgs>(
+      {
+        query: (queryArg) => {
+          let url = '/manuals/';
+          const args = {
+            ...(queryArg.locale && { locale: queryArg.locale }),
+            ...(queryArg.filters && { filters: queryArg.filters }),
+          };
+          const params = stringify(args, { encodeValuesOnly: true });
+          params ? (url += `?${params}`) : null;
+          return { url };
+        },
+      }
+    ),
   }),
 });
 
@@ -210,4 +232,5 @@ export const {
   useGetFullCategoriesByIdQuery,
   useGeti18nExpressTypesQuery,
   useGeti18nExpressTypesByIdQuery,
+  useGeti18nManualsQuery,
 } = strapiSlice;
