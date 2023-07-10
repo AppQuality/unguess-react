@@ -11,7 +11,7 @@ const BugForm = () => {
       <Header logo="full" loggedIn={false} />
       <IframeResizer
         heightCalculationMethod="lowestElement"
-        src={`${process.env.REACT_APP_API_URL}/vdp/${campaignId}/${token}`}
+        src={`${process.env.REACT_APP_TRYBER_URL}/vdp/${campaignId}/${token}`}
         style={{ width: '1px', minWidth: '100%', height: 0 }}
       />
     </div>
