@@ -35,7 +35,7 @@ export const createPages = async (campaignId: number) => {
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 
-  const url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-pages/${campaignId}`;
+  const url = `${process.env.REACT_APP_TRYBER_URL}/wp-json/appq/v1/regenerate-campaign-pages/${campaignId}`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -52,7 +52,7 @@ export const createTasks = async (campaignId: number) => {
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 
-  const url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-tasks/${campaignId}`;
+  const url = `${process.env.REACT_APP_TRYBER_URL}/wp-json/appq/v1/regenerate-campaign-tasks/${campaignId}`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -69,7 +69,7 @@ export const createCrons = async (campaignId: number) => {
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 
-  const url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-crons/${campaignId}`;
+  const url = `${process.env.REACT_APP_TRYBER_URL}/wp-json/appq/v1/regenerate-campaign-crons/${campaignId}`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -86,7 +86,7 @@ export const createUseCases = async (campaignId: number) => {
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 
-  const url = `${process.env.REACT_APP_TRYBER_WP_API_URL}/regenerate-campaign-use-cases/${campaignId}`;
+  const url = `${process.env.REACT_APP_TRYBER_URL}/wp-json/appq/v1/regenerate-campaign-use-cases/${campaignId}`;
 
   const res = await fetch(url, {
     method: 'GET',
