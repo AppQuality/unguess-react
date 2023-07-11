@@ -5462,6 +5462,7 @@ export type ManualListResponse = {
       title?: string;
       content?: string;
       campaignId?: number;
+      token?: string;
       createdAt?: string;
       updatedAt?: string;
       publishedAt?: string;
@@ -5582,6 +5583,7 @@ export type ManualResponse = {
       title?: string;
       content?: string;
       campaignId?: number;
+      token?: string;
       createdAt?: string;
       updatedAt?: string;
       publishedAt?: string;
@@ -5693,6 +5695,7 @@ export type ManualRequest = {
     title?: string;
     content?: string;
     campaignId?: number;
+    token?: string;
   };
 };
 export type ManualLocalizationResponse = {
@@ -5700,6 +5703,7 @@ export type ManualLocalizationResponse = {
   title?: string;
   content?: string;
   campaignId?: number;
+  token?: string;
   createdAt?: string;
   updatedAt?: string;
   publishedAt?: string;
@@ -5807,6 +5811,7 @@ export type ManualLocalizationRequest = {
   title?: string;
   content?: string;
   campaignId?: number;
+  token?: string;
 };
 export type ServiceListResponse = {
   data?: {
