@@ -4,7 +4,8 @@ import {
   Title,
   Editor,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as BugIcon } from 'src/assets/icons/bugs-icon.svg';
+// import { ReactComponent as BugIcon } from 'src/assets/icons/bugs-icon.svg';
+import { ReactComponent as BugIcon } from 'src/assets/icons/edit-icon.svg';
 import styled from 'styled-components';
 import { AnimatedContainer } from 'src/common/components/animatedContainer';
 import { appTheme } from 'src/app/theme';
@@ -29,7 +30,7 @@ export const ManualDetails = ({
 }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/campaigns/${manual.id}/bugform`);
+    navigate(`/campaigns/${manual.campaignId}/bugform`);
   };
   const { t } = useTranslation();
 
@@ -46,24 +47,21 @@ export const ManualDetails = ({
       </Title>
 
       {/* Editor */}
-      <StyledFormField style={{ marginTop: appTheme.space.xl }}>
-        <Paragraph style={{ marginBottom: appTheme.space.md }}>
-          <StyledDiv>
-            <Editor editable={false}>{manual.content}</Editor>
-          </StyledDiv>
-        </Paragraph>
-        <Button
-          isAccent
-          style={{ marginTop: appTheme.space.md }}
-          onClick={handleClick}
-          isPrimary
-        >
-          <Button.StartIcon>
-            <BugIcon fill={appTheme.palette.white} />
-          </Button.StartIcon>
-          {t('__PUBLIC_MANUAL_CTA_GOTO_BUG_FORM')}
-        </Button>
-      </StyledFormField>
+      <StyledDiv>
+        <Editor editable={false}>{manual.content}</Editor>
+      </StyledDiv>
+
+      <Button
+        isAccent
+        style={{ marginTop: appTheme.space.md }}
+        onClick={handleClick}
+        isPrimary
+      >
+        <Button.StartIcon>
+          <BugIcon fill={appTheme.palette.white} />
+        </Button.StartIcon>
+        {t('__PUBLIC_MANUAL_CTA_GOTO_BUG_FORM')}
+      </Button>
     </AnimatedContainer>
   );
 };

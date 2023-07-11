@@ -54,7 +54,7 @@ const BodyScrollingContainer = styled(ScrollingContainer)`
 `;
 
 const StyledContainerCard = styled(ContainerCard)`
-  border: none;
+  // border: none;
   padding: ${({ theme }) => theme.space.xl};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -122,7 +122,14 @@ const Manual = () => {
   }
 
   return (
-    <div>
+    /** grey100 */
+    <div style={{ background: '#f8f9f9' }}>
+      {/* <StyledModal onClose={closeModal} focusOnMount={false}>
+      <StyledModal.Header style={{ backgroundColor: appTheme.palette.white }}>
+        <LayoutWrapper isNotBoxed>
+          <ModalUseCaseHeader onClose={closeModal} />
+        </LayoutWrapper>
+      </StyledModal.Header> */}
       <Header logo="full" loggedIn={false} />
       <Grid style={{ height: '100%' }}>
         <Row style={{ height: '100%' }}>
