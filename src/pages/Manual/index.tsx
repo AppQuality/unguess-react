@@ -111,7 +111,7 @@ const Manual = () => {
   }
   const handleClick = () => {
     if (!manual) return;
-    navigate(`/campaigns/${manual.campaignId}/bugform`);
+    navigate(`/campaigns/${manual.campaignId}/bugform/?token=${manual.token}`);
   };
 
   return (
