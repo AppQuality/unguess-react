@@ -14,25 +14,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import i18n from 'src/i18n';
 import { appTheme } from 'src/app/theme';
-
-export const ScrollingContainer = styled.div`
-  overflow-x: hidden;
-  overflow-y: auto;
-  max-height: calc(
-    100vh - ${({ theme }) => theme.components.chrome.header.height}
-  );
-  padding: 0;
-
-  ::-webkit-scrollbar {
-    background-color: transparent;
-  }
-
-  &:hover {
-    ::-webkit-scrollbar {
-      background-color: inherit;
-    }
-  }
-`;
+import { ScrollingContainer } from './ScrollingContainer';
 
 const HelpContainer = styled.div`
   padding: ${({ theme }) => theme.space.xl};

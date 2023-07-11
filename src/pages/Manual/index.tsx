@@ -6,9 +6,9 @@ import {
   Paragraph,
   LG,
   ContainerCard,
+  Button,
 } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
-import { Header } from 'src/common/components/navigation/header/header';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { ManualResponse } from 'src/features/backoffice';
 import { useGeti18nManualsQuery } from 'src/features/backoffice/strapi';
@@ -16,11 +16,13 @@ import i18n from 'src/i18n';
 import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useTranslation } from 'react-i18next';
-import { RightModalHelp } from './ModalsManual/rightModalHelp';
-import { ManualDetails } from './ModalsManual/manualDetails';
-import { ScrollingContainer } from '../ExpressWizard/steps/express-2/ModalUseCase/modalUseCaseHelp';
+import { RightModalHelp } from './components/RightModalHelp';
+import { ManualDetails } from './components/ManualDetails';
+import { ManualHeader } from './components/ManualHeader';
 
 const ContentCol = styled(Col)`
   flex-wrap: nowrap;
@@ -32,29 +34,15 @@ const ContentCol = styled(Col)`
   padding: 0;
 `;
 
-const BodyScrollingContainer = styled(ScrollingContainer)`
-  padding-left: calc(
-    ${({ theme }) => theme.space.xxl} + ${({ theme }) => theme.space.xxl}
-  );
+const BodyContainer = styled.div`
   padding-right: ${({ theme }) => theme.space.lg};
-
-  ::-webkit-scrollbar {
-    background-color: transparent;
-  }
-
-  &:hover {
-    ::-webkit-scrollbar {
-      background-color: inherit;
-    }
-  }
-
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     padding: 0 ${({ theme }) => theme.space.sm};
   }
 `;
 
 const StyledContainerCard = styled(ContainerCard)`
-  // border: none;
+  margin-top: ${({ theme }) => theme.space.xl};
   padding: ${({ theme }) => theme.space.xl};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -123,40 +111,45 @@ const Manual = () => {
 
   return (
     /** grey100 */
-    <div style={{ background: '#f8f9f9' }}>
-      {/* <StyledModal onClose={closeModal} focusOnMount={false}>
-      <StyledModal.Header style={{ backgroundColor: appTheme.palette.white }}>
-        <LayoutWrapper isNotBoxed>
-          <ModalUseCaseHeader onClose={closeModal} />
+    <div style={{ background: '#f8f9f9', maxWidth: '100%' }}>
+      <ManualHeader>
+        <LayoutWrapper>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <BrandLogo size="full" />
+            <Button isAccent isPrimary>
+              test_description
+            </Button>
+          </div>
         </LayoutWrapper>
-      </StyledModal.Header> */}
-      <Header logo="full" loggedIn={false} />
-      <Grid style={{ height: '100%' }}>
-        <Row style={{ height: '100%' }}>
-          <ContentCol xs={12} lg={8}>
-            <BodyScrollingContainer>
-              <StyledContainerCard>
-                {manual ? (
-                  <ManualDetails manual={manual} />
-                ) : (
-                  <CenteredContainer>
-                    <EmptyImg style={{ marginBottom: appTheme.space.lg }} />
-                    <EmptyStateTitle>
-                      {t('__PUBLIC_MANUAL_NOT_FOUND_TITLE')}
-                    </EmptyStateTitle>
-                    <EmptyStateText>
-                      {t('__PUBLIC_MANUAL_NOT_FOUND_TEXT')}
-                    </EmptyStateText>
-                  </CenteredContainer>
-                )}
-              </StyledContainerCard>
-            </BodyScrollingContainer>
-          </ContentCol>
-          <HelpCol xs={12} lg={4}>
-            <RightModalHelp />
-          </HelpCol>
-        </Row>
-      </Grid>
+      </ManualHeader>
+      <LayoutWrapper>
+        <Grid style={{ height: '100%' }}>
+          <Row style={{ height: '100%' }}>
+            <ContentCol xs={12} lg={8}>
+              <BodyContainer>
+                <StyledContainerCard>
+                  {manual ? (
+                    <ManualDetails manual={manual} />
+                  ) : (
+                    <CenteredContainer>
+                      <EmptyImg style={{ marginBottom: appTheme.space.lg }} />
+                      <EmptyStateTitle>
+                        {t('__PUBLIC_MANUAL_NOT_FOUND_TITLE')}
+                      </EmptyStateTitle>
+                      <EmptyStateText>
+                        {t('__PUBLIC_MANUAL_NOT_FOUND_TEXT')}
+                      </EmptyStateText>
+                    </CenteredContainer>
+                  )}
+                </StyledContainerCard>
+              </BodyContainer>
+            </ContentCol>
+            <HelpCol xs={12} lg={4}>
+              <RightModalHelp />
+            </HelpCol>
+          </Row>
+        </Grid>
+      </LayoutWrapper>
     </div>
   );
 };

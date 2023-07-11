@@ -1,9 +1,4 @@
-import {
-  Paragraph,
-  Button,
-  Title,
-  Editor,
-} from '@appquality/unguess-design-system';
+import { Button, Title, Editor } from '@appquality/unguess-design-system';
 // import { ReactComponent as BugIcon } from 'src/assets/icons/bugs-icon.svg';
 import { ReactComponent as BugIcon } from 'src/assets/icons/edit-icon.svg';
 import styled from 'styled-components';
@@ -13,13 +8,13 @@ import { ManualResponse } from 'src/features/backoffice';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const StyledFormField = styled.div`
-  margin-top: ${({ theme }) => theme.space.md};
-`;
 const StyledDiv = styled.div`
   > div:focus {
     box-shadow: none;
     outline: none;
+  }
+  > div {
+    padding: 0;
   }
 `;
 
