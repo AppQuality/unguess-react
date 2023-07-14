@@ -39,7 +39,7 @@ export const getCustomStatusInfo = (
       };
     default:
       return {
-        text: t('__BUG_CUSTOM_STATUS_TO_DO'),
+        text: CustomStatus,
       };
   }
 };
