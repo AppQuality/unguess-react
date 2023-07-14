@@ -5,6 +5,9 @@ import { appTheme } from 'src/app/theme';
 import { ManualResponse } from 'src/features/backoffice';
 
 const StyledDiv = styled.div`
+  * {
+    color: ${appTheme.palette.grey[800]};
+  }
   > div:focus {
     box-shadow: none;
     outline: none;
@@ -25,6 +28,7 @@ export const ManualDetails = ({
       style={{
         marginBottom: appTheme.space.md,
         fontSize: appTheme.fontSizes.xxl,
+        color: appTheme.palette.blue[600],
       }}
     >
       {manual.title}
