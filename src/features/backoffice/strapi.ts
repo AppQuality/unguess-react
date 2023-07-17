@@ -54,9 +54,10 @@ interface Geti18nExpressTypesByIdApiArgs extends GetExpressTypesByIdApiArg {
   populate?: string[] | object;
 }
 
-interface Geti18nManualsApiArgs extends GetManualsApiArg {
+interface Geti18nManualsApiArgs extends Omit<GetManualsApiArg, 'populate'> {
   locale?: string;
   filters?: object;
+  populate?: string | object;
 }
 
 export const strapiSlice = createApi({

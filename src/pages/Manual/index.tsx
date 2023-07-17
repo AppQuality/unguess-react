@@ -86,6 +86,9 @@ const Manual = () => {
   const { campaignId } = useParams<{ campaignId: string }>();
   const { data, isLoading, isError } = useGeti18nManualsQuery({
     locale: i18n.language,
+    populate: {
+      help_links: { populate: '*' },
+    },
     filters: {
       campaignId: {
         $eq: campaignId,
@@ -108,6 +111,7 @@ const Manual = () => {
   if (data) {
     // eslint-disable-next-line prefer-destructuring
     manual = extractStrapiData(data)[0];
+    console.log(manual);
   }
   const handleClick = () => {
     if (!manual) return;
