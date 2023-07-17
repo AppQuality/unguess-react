@@ -42,7 +42,7 @@ const BodyContainer = styled.div`
   }
 `;
 
-const StyledContainerCard = styled(ContainerCard)`
+export const StyledContainerCard = styled(ContainerCard)`
   margin-top: ${({ theme }) => theme.space.xl};
   padding: ${({ theme }) => theme.space.xl};
 
@@ -69,13 +69,10 @@ const EmptyStateText = styled(Paragraph)`
 `;
 
 const HelpCol = styled(Col)`
-  border-left: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  border-right: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  background-color: white;
   margin-bottom: 0;
   height: 100%;
   position: sticky;
-  top: 0;
+  top: 64px;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: none;
@@ -135,7 +132,7 @@ const Manual = () => {
           </div>
         </LayoutWrapper>
       </ManualHeader>
-      <LayoutWrapper>
+      <LayoutWrapper style={{ minHeight: 'calc(100vh - 64px)' }}>
         <Grid style={{ height: '100%' }}>
           <Row style={{ height: '100%' }}>
             <ContentCol xs={12} lg={8}>

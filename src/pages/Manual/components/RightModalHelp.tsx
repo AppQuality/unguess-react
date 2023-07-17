@@ -1,34 +1,33 @@
 import {
   Paragraph,
-  Timeline,
-  XL,
   XXL,
   Skeleton,
   Anchor,
+  Button,
+  LG,
+  ContainerCard,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as HelpImg } from 'src/assets/modal-use-case-help.svg';
-import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
-import { ReactComponent as CancelIcon } from 'src/assets/icons/cancel-icon.svg';
 import styled from 'styled-components';
-import { getLocalizedStrapiData } from 'src/common/utils';
-import { useAppSelector } from 'src/app/hooks';
 import { useGeti18nManualsQuery } from 'src/features/backoffice/strapi';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import i18n from 'src/i18n';
 import { appTheme } from 'src/app/theme';
-import { ScrollingContainer } from './ScrollingContainer';
+import { ReactComponent as NewWindowIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
+import { redirect } from 'react-router-dom';
+
+export const StyledContainerCard = styled(ContainerCard)`
+  margin-top: ${({ theme }) => theme.space.xl};
+  padding: ${({ theme }) => theme.space.xl};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => `${theme.space.lg} ${theme.space.md}`};
+  }
+`;
 
 const HelpContainer = styled.div`
   padding: ${({ theme }) => theme.space.xl};
   overflow-x: hidden;
-`;
-
-const GroupTitle = styled.div`
-  margin-bottom: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[600]};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
-  margin-top: ${({ theme }) => theme.space.lg};
-  text-transform: uppercase;
 `;
 
 export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
@@ -44,6 +43,9 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
     },
   });
 
+  const goToSupportCenter = () =>
+    window.open('https://docs.unguess.io', '_blank');
+
   const manual = extractStrapiData(data);
   let links;
   if (manual && manual.length) {
@@ -51,11 +53,60 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
   }
 
   return (
-    <ScrollingContainer>
+    <StyledContainerCard>
       <HelpContainer>
         <HelpImg />
-        {links && !isError && !isFetching && !isLoading ? (
+        {isLoading && (
           <>
+            <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
+            <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
+            <Skeleton height="300px" style={{ marginTop: appTheme.space.md }} />
+          </>
+        )}
+        {(isError || !links || links.length === 0) && (
+          <>
+            <XXL
+              isBold
+              style={{ color: appTheme.palette.grey[800], marginTop: 32 }}
+            >
+              Dubbi o Perplessità?
+            </XXL>
+            <Paragraph
+              style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
+            >
+              Se hai delle domande o dubbi su come svolgere la campagna di test
+              puoi consultare il nostro Support Center che contiene guide e
+              tutorial utili.
+            </Paragraph>
+            <Button
+              isPrimary
+              isAccent
+              style={{ marginTop: 36 }}
+              onClick={goToSupportCenter}
+            >
+              <Button.StartIcon>
+                <NewWindowIcon />
+              </Button.StartIcon>
+              Vai al Support Center
+            </Button>
+          </>
+        )}
+        {links && !isError && !isLoading && (
+          <>
+            {' '}
+            <XXL
+              isBold
+              style={{ color: appTheme.palette.grey[800], marginTop: 32 }}
+            >
+              Articoli
+            </XXL>
+            <Paragraph
+              style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
+            >
+              Se hai dubbi su come svolgere la campagna di test puoi consultare
+              il nostro Support Center che contiene guide e tutorial utili. Tra
+              i quali:
+            </Paragraph>
             {links.map((link: any) => (
               <Paragraph>
                 <Anchor
@@ -68,14 +119,8 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
               </Paragraph>
             ))}
           </>
-        ) : (
-          <>
-            <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
-            <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
-            <Skeleton height="300px" style={{ marginTop: appTheme.space.md }} />
-          </>
         )}
       </HelpContainer>
-    </ScrollingContainer>
+    </StyledContainerCard>
   );
 };
