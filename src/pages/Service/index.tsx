@@ -1,17 +1,18 @@
-import { Page } from 'src/features/templates/Page';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { HubspotModal } from 'src/common/components/HubspotModal';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { checkHubspotURL, getLocalizedStrapiData } from 'src/common/utils';
+import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
+import { openWizard } from 'src/features/express/expressSlice';
+import { Page } from 'src/features/templates/Page';
+import PageLoader from 'src/features/templates/PageLoader';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import i18n from 'src/i18n';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { openWizard } from 'src/features/express/expressSlice';
-import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
-import PageLoader from 'src/features/templates/PageLoader';
-import { HubspotModal } from 'src/common/components/HubspotModal';
-import { checkHubspotURL, getLocalizedStrapiData } from 'src/common/utils';
-import i18n from 'src/i18n';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ServiceTimeline } from './ServiceTimeline';
 import { SingleServicePageHeader } from './SingleServicePageHeader';
 import { strapiParams } from './strapi';
@@ -22,7 +23,7 @@ const Service = () => {
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const memoCsm = useMemo(() => activeWorkspace?.csm, [activeWorkspace]);
 

@@ -1,17 +1,11 @@
 import {
   HeaderItem,
   HeaderItemIcon,
-  HeaderItemText,
   Logo,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'src/app/hooks';
-import { toggleSidebar } from 'src/features/navigation/navigationSlice';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { ReactComponent as MenuIcon } from 'src/assets/icons/menu-stroke.svg';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { WorkspacesDropdown } from '../workspacesDropdown';
+import { ReactComponent as LogoFull } from 'src/assets/icons/logo.svg';
+import styled from 'styled-components';
 
 export const LogoIconContainer = styled(HeaderItem)`
   margin-right: 2px;
@@ -26,44 +20,24 @@ export const LogoIconContainer = styled(HeaderItem)`
   }
 `;
 
-const MenuItem = styled(HeaderItem)`
-  ${(props) => retrieveComponentStyles('text.primary', props)};
-  position: absolute;
-  left: 0;
-  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none;
-  }
+const LogoFullComponent = styled(LogoFull)`
+  cursor: pointer;
+  height: 32px;
 `;
 
-export const BrandLogo = () => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
+export const BrandLogo = ({ size }: { size: 'simple' | 'full' }) => {
   const navigate = useNavigate();
-
-  const toggleSidebarState = () => {
-    dispatch(toggleSidebar());
-  };
 
   const handleLogoClick = () => {
     navigate('/'); // Navigate to the root route
   };
 
+  if (size === 'full') return <LogoFullComponent onClick={handleLogoClick} />;
   return (
-    <>
-      <MenuItem onClick={toggleSidebarState}>
-        <HeaderItemIcon>
-          <MenuIcon />
-        </HeaderItemIcon>
-        <HeaderItemText>
-          {t('__APP_MOBILE_NAVIGATION_MENU_LABEL MAX:5')}
-        </HeaderItemText>
-      </MenuItem>
-      <LogoIconContainer hasLogo>
-        <HeaderItemIcon onClick={handleLogoClick}>
-          <Logo type="icon" size={150} />
-        </HeaderItemIcon>
-      </LogoIconContainer>
-      <WorkspacesDropdown />
-    </>
+    <LogoIconContainer hasLogo>
+      <HeaderItemIcon onClick={handleLogoClick}>
+        <Logo type="icon" size={150} />
+      </HeaderItemIcon>
+    </LogoIconContainer>
   );
 };

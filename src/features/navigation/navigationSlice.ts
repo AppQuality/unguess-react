@@ -1,6 +1,7 @@
-import { appTheme } from 'src/app/theme';
 import { createSlice } from '@reduxjs/toolkit';
+import { appTheme } from 'src/app/theme';
 import { isMinMedia } from 'src/common/utils';
+import { saveWorkspaceToLs } from './cachedStorage';
 import { NavigationState } from './types';
 
 const initialState: NavigationState = {
@@ -13,6 +14,7 @@ const navigationSlice = createSlice({
   initialState,
   reducers: {
     setWorkspace: (state, action) => {
+      saveWorkspaceToLs(action.payload);
       state.activeWorkspace = action.payload;
     },
     toggleSidebar: (state) => {

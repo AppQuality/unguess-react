@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import TagManager from 'react-gtm-module';
 import { useAppSelector } from 'src/app/hooks';
+import { useActiveWorkspace } from './useActiveWorkspace';
 
 export interface GTMEventData {
   event: string;
@@ -9,7 +10,7 @@ export interface GTMEventData {
 
 export const useSendGTMevent = () => {
   const { userData: user } = useAppSelector((state) => state.user);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const callback = useCallback(
     (data: GTMEventData) => {

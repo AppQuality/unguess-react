@@ -1,17 +1,17 @@
 import {
+  Anchor,
+  InputToggle,
   Logo,
   Span,
-  InputToggle,
-  Anchor,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import useWindowSize from 'src/hooks/useWindowSize';
-import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
-import { useAppSelector } from 'src/app/hooks';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import useWindowSize from 'src/hooks/useWindowSize';
+import styled from 'styled-components';
 import { WizardModel } from './wizardModel';
 
 export const Container = styled.div`
@@ -39,7 +39,7 @@ export const WizardHeader = ({ onClose, ...props }: WizardHeaderProps) => {
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const { getFieldProps, errors, validateForm } = props;
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const isDesktop = width > parseInt(appTheme.breakpoints.sm, 10);
 

@@ -1,20 +1,21 @@
-import { Page } from 'src/features/templates/Page';
-import { useTranslation } from 'react-i18next';
+import { Col, Grid, PageHeader, Row } from '@appquality/unguess-design-system';
 import { useMemo, useState } from 'react';
-import styled from 'styled-components';
-import { Col, Grid, Row, PageHeader } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { openWizard } from 'src/features/express/expressSlice';
-import PageLoader from 'src/features/templates/PageLoader';
 import { HubspotModal } from 'src/common/components/HubspotModal';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';
 import { checkHubspotURL } from 'src/common/utils';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { Featured } from './Featured';
+import { openWizard } from 'src/features/express/expressSlice';
+import { Page } from 'src/features/templates/Page';
+import PageLoader from 'src/features/templates/PageLoader';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import styled from 'styled-components';
+import { ExpressWizardContainer } from '../ExpressWizard';
+import { ExpressDrawer } from '../ExpressWizard/drawer';
 import { Categories } from './Categories';
 import { CategoriesNav } from './CategoriesNav';
-import { ExpressDrawer } from '../ExpressWizard/drawer';
-import { ExpressWizardContainer } from '../ExpressWizard';
+import { Featured } from './Featured';
 
 const StyledGrid = styled(Grid)`
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
@@ -27,7 +28,7 @@ const Catalog = () => {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { status } = useAppSelector((state) => state.user);
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const memoCsm = useMemo(() => activeWorkspace?.csm, [activeWorkspace]);
 

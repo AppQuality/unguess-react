@@ -10,23 +10,24 @@ import {
   NavToggle,
   SM,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
-import i18n from 'src/i18n';
 import { PropsWithChildren, useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import { isMaxMedia } from 'src/common/utils';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { isMaxMedia } from 'src/common/utils';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
-import { useNavigate } from 'react-router-dom';
-import { SidebarSkeleton } from './skeleton';
-import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import i18n from 'src/i18n';
+import styled from 'styled-components';
+import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
+import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
 import { ReactComponent as ServicesIconActive } from './icons/services-active.svg';
 import { ReactComponent as ServicesIcon } from './icons/services.svg';
-import { WorkspacesDropdown } from '../workspacesDropdown';
+import { SidebarSkeleton } from './skeleton';
 
 const ScrollingContainer = styled.div`
   display: flex;
@@ -48,9 +49,8 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isSidebarOpen, activeWorkspace } = useAppSelector(
-    (state) => state.navigation
-  );
+  const { isSidebarOpen } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
 
   const prjRef = useRef<HTMLButtonElement>(null);
 

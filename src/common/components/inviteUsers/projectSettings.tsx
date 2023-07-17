@@ -1,46 +1,49 @@
-import { appTheme } from 'src/app/theme';
 import {
+  Button,
   Label,
+  MD,
   Modal,
   ModalClose,
-  Span,
-  useToast,
   Notification,
-  Button,
+  Span,
   getColor,
-  MD,
+  useToast,
 } from '@appquality/unguess-design-system';
-import { useAppSelector } from 'src/app/hooks';
+import { FormikHelpers } from 'formik';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as ProjectsIcon } from 'src/assets/icons/project-icon.svg';
+import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import {
   useDeleteProjectsByPidUsersMutation,
   useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
   usePostProjectsByPidUsersMutation,
 } from 'src/features/api';
-import { FormikHelpers } from 'formik';
-import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
-import { useState } from 'react';
-import { ReactComponent as ProjectsIcon } from 'src/assets/icons/project-icon.svg';
-import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { getLocalizedProjectUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import { AddNewMemberInput } from './addNewMember';
-import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
 import {
   FixedBody,
   FlexContainer,
   SettingsDivider,
   StyledAccordion,
-  UsersLabel,
-  UsersContainer,
   StyledAccordionPanel,
+  UsersContainer,
+  UsersLabel,
 } from './styled';
+import { UserItem } from './userItem';
 
 export const ProjectSettings = () => {
-  const { permissionSettingsTitle, projectId, activeWorkspace } =
-    useAppSelector((state) => state.navigation);
+  const { permissionSettingsTitle, projectId } = useAppSelector(
+    (state) => state.navigation
+  );
+  const { activeWorkspace } = useActiveWorkspace();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation();
   const { addToast } = useToast();

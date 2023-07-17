@@ -30,7 +30,7 @@ export const getStatusInfo = (
       return {
         icon: <StatusCompletedIcon />,
         text: t('__CAMPAIGN_STATUS_COMPLETED__'),
-        color: appTheme.palette.green[800],
+        color: appTheme.palette.green[600],
       };
     case 'incoming':
       return {
@@ -48,7 +48,7 @@ export const getStatusInfo = (
       return {
         icon: <CampaignExperientialIcon />,
         text: t('__CAMPAIGN_TYPE_EXPERIENTIAL__'),
-        color: appTheme.palette.green[700],
+        color: appTheme.palette.teal[700],
       };
     default:
       return {};
