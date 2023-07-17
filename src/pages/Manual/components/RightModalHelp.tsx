@@ -4,6 +4,7 @@ import {
   XL,
   XXL,
   Skeleton,
+  Anchor,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as HelpImg } from 'src/assets/modal-use-case-help.svg';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
@@ -11,7 +12,8 @@ import { ReactComponent as CancelIcon } from 'src/assets/icons/cancel-icon.svg';
 import styled from 'styled-components';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import { useAppSelector } from 'src/app/hooks';
-import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import { useGeti18nManualsQuery } from 'src/features/backoffice/strapi';
+import { extractStrapiData } from 'src/common/getStrapiData';
 import i18n from 'src/i18n';
 import { appTheme } from 'src/app/theme';
 import { ScrollingContainer } from './ScrollingContainer';
@@ -29,101 +31,42 @@ const GroupTitle = styled.div`
   text-transform: uppercase;
 `;
 
-export const RightModalHelp = () => {
-  const { expressTypeId } = useAppSelector((state) => state.express);
-
-  const { data, isLoading, isFetching, isError } =
-    useGeti18nExpressTypesByIdQuery({
-      id: expressTypeId.toString(),
-      populate: {
-        use_cases_help: {
-          populate: {
-            suggestions: {
-              populate: '*',
-            },
-          },
-        },
-        localizations: {
-          populate: {
-            use_cases_help: {
-              populate: {
-                suggestions: {
-                  populate: '*',
-                },
-              },
-            },
-          },
-        },
+export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
+  const { data, isLoading, isError, isFetching } = useGeti18nManualsQuery({
+    locale: i18n.language,
+    populate: {
+      help_links: { populate: '*' },
+    },
+    filters: {
+      campaignId: {
+        $eq: campaignId,
       },
-    });
-
-  const expressType = getLocalizedStrapiData({
-    item: data,
-    language: i18n.language,
+    },
   });
-  const { use_cases_help: useCaseHelp } = expressType;
+
+  const manual = extractStrapiData(data);
+  let links;
+  if (manual && manual.length) {
+    links = extractStrapiData(manual[0].help_links);
+  }
 
   return (
     <ScrollingContainer>
       <HelpContainer>
         <HelpImg />
-        {data && useCaseHelp && !isError && !isFetching && !isLoading ? (
+        {links && !isError && !isFetching && !isLoading ? (
           <>
-            {useCaseHelp.title ? (
-              <XXL style={{ marginTop: appTheme.space.lg }}>
-                {useCaseHelp.title}
-              </XXL>
-            ) : null}
-            {useCaseHelp.description ? (
-              <Paragraph style={{ marginBottom: appTheme.space.sm }}>
-                {useCaseHelp.description}
+            {links.map((link: any) => (
+              <Paragraph>
+                <Anchor
+                  href={link.url}
+                  style={{ marginTop: appTheme.space.lg }}
+                  isExternal
+                >
+                  {link.title}
+                </Anchor>
               </Paragraph>
-            ) : null}
-            {useCaseHelp.suggestions && useCaseHelp.suggestions.length > 0
-              ? useCaseHelp.suggestions.map(
-                  (suggestion: any, index: number) => (
-                    <>
-                      {suggestion.group_title && {
-                        ...(index === useCaseHelp.suggestions.length - 1 ? (
-                          <XL
-                            isBold
-                            style={{
-                              marginTop: appTheme.space.xl,
-                              marginBottom: appTheme.space.sm,
-                            }}
-                          >
-                            {suggestion.group_title}
-                          </XL>
-                        ) : (
-                          <GroupTitle>{suggestion.group_title}</GroupTitle>
-                        )),
-                      }}
-
-                      {suggestion.items && suggestion.items.length > 0 && (
-                        <Timeline>
-                          {suggestion.items.map((item: any) => (
-                            <Timeline.Item
-                              icon={
-                                item.is_pros ? <CheckIcon /> : <CancelIcon />
-                              }
-                              hiddenLine
-                            >
-                              <Timeline.Content>
-                                <Paragraph style={{ fontWeight: 500 }}>
-                                  {item.title}
-                                </Paragraph>
-                                <Paragraph style={{ marginTop: 0 }}>
-                                  {item.content}
-                                </Paragraph>
-                              </Timeline.Content>
-                            </Timeline.Item>
-                          ))}
-                        </Timeline>
-                      )}
-                    </>
-                  )
-                )
-              : null}
+            ))}
           </>
         ) : (
           <>

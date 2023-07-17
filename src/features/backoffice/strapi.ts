@@ -190,6 +190,7 @@ export const strapiSlice = createApi({
           const args = {
             ...(queryArg.locale && { locale: queryArg.locale }),
             ...(queryArg.filters && { filters: queryArg.filters }),
+            ...(queryArg.populate && { populate: queryArg.populate }),
           };
           const params = stringify(args, { encodeValuesOnly: true });
           params ? (url += `?${params}`) : null;

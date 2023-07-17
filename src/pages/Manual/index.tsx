@@ -158,7 +158,7 @@ const Manual = () => {
               </BodyContainer>
             </ContentCol>
             <HelpCol xs={12} lg={4}>
-              <RightModalHelp />
+              <RightModalHelp campaignId={campaignId ?? '-1'} />
             </HelpCol>
           </Row>
         </Grid>
