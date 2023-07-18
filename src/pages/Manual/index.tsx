@@ -6,6 +6,7 @@ import i18n from 'src/i18n';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { useParams } from 'react-router-dom';
 import { RightModalHelp } from './components/RightModalHelp';
 import { ManualDetails } from './components/ManualDetails';
 import ManualHeader from './components/ManualHeader';
