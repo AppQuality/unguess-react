@@ -4,7 +4,6 @@ import {
   Skeleton,
   Anchor,
   Button,
-  LG,
   ContainerCard,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as HelpImg } from 'src/assets/modal-use-case-help.svg';
@@ -14,7 +13,6 @@ import { extractStrapiData } from 'src/common/getStrapiData';
 import i18n from 'src/i18n';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as NewWindowIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
-import { redirect } from 'react-router-dom';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin-top: ${({ theme }) => theme.space.xl};
@@ -31,7 +29,7 @@ const HelpContainer = styled.div`
 `;
 
 export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
-  const { data, isLoading, isError, isFetching } = useGeti18nManualsQuery({
+  const { data, isLoading, isError } = useGeti18nManualsQuery({
     locale: i18n.language,
     populate: {
       help_links: { populate: '*' },

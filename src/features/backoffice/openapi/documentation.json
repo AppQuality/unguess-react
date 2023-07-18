@@ -20,11 +20,7 @@
     "path": "/documentation",
     "showGeneratedFiles": true,
     "generateDefaultResponse": true,
-    "plugins": [
-      "email",
-      "upload",
-      "users-permissions"
-    ]
+    "plugins": ["email", "upload", "users-permissions"]
   },
   "servers": [
     {
@@ -52,9 +48,7 @@
     "schemas": {
       "Error": {
         "type": "object",
-        "required": [
-          "error"
-        ],
+        "required": ["error"],
         "properties": {
           "data": {
             "nullable": true,
@@ -28939,10 +28933,7 @@
           },
           "device_type": {
             "type": "string",
-            "enum": [
-              "webapp",
-              "mobileapp"
-            ]
+            "enum": ["webapp", "mobileapp"]
           },
           "image": {
             "type": "object",
@@ -29727,10 +29718,7 @@
                     },
                     "device_type": {
                       "type": "string",
-                      "enum": [
-                        "webapp",
-                        "mobileapp"
-                      ]
+                      "enum": ["webapp", "mobileapp"]
                     },
                     "image": {
                       "type": "object",
@@ -30541,10 +30529,7 @@
                   },
                   "device_type": {
                     "type": "string",
-                    "enum": [
-                      "webapp",
-                      "mobileapp"
-                    ]
+                    "enum": ["webapp", "mobileapp"]
                   },
                   "image": {
                     "type": "object",
@@ -36825,9 +36810,7 @@
             }
           }
         },
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "sort",
@@ -36975,9 +36958,7 @@
             }
           }
         },
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "parameters": [],
         "operationId": "post/categories",
         "requestBody": {
@@ -37056,9 +37037,7 @@
             }
           }
         },
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "id",
@@ -37136,9 +37115,7 @@
             }
           }
         },
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "id",
@@ -37227,9 +37204,7 @@
             }
           }
         },
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "id",
@@ -37309,9 +37284,7 @@
             }
           }
         },
-        "tags": [
-          "Category"
-        ],
+        "tags": ["Category"],
         "parameters": [
           {
             "name": "id",
@@ -37401,9 +37374,7 @@
             }
           }
         },
-        "tags": [
-          "Express"
-        ],
+        "tags": ["Express"],
         "parameters": [
           {
             "name": "sort",
@@ -37551,9 +37522,7 @@
             }
           }
         },
-        "tags": [
-          "Express"
-        ],
+        "tags": ["Express"],
         "parameters": [],
         "operationId": "post/expresses",
         "requestBody": {
@@ -37632,9 +37601,7 @@
             }
           }
         },
-        "tags": [
-          "Express"
-        ],
+        "tags": ["Express"],
         "parameters": [
           {
             "name": "id",
@@ -37712,9 +37679,7 @@
             }
           }
         },
-        "tags": [
-          "Express"
-        ],
+        "tags": ["Express"],
         "parameters": [
           {
             "name": "id",
@@ -37803,9 +37768,7 @@
             }
           }
         },
-        "tags": [
-          "Express"
-        ],
+        "tags": ["Express"],
         "parameters": [
           {
             "name": "id",
@@ -37885,9 +37848,7 @@
             }
           }
         },
-        "tags": [
-          "Express-type"
-        ],
+        "tags": ["Express-type"],
         "parameters": [
           {
             "name": "sort",
@@ -38035,9 +37996,7 @@
             }
           }
         },
-        "tags": [
-          "Express-type"
-        ],
+        "tags": ["Express-type"],
         "parameters": [],
         "operationId": "post/express-types",
         "requestBody": {
@@ -38116,9 +38075,7 @@
             }
           }
         },
-        "tags": [
-          "Express-type"
-        ],
+        "tags": ["Express-type"],
         "parameters": [
           {
             "name": "id",
@@ -38196,9 +38153,7 @@
             }
           }
         },
-        "tags": [
-          "Express-type"
-        ],
+        "tags": ["Express-type"],
         "parameters": [
           {
             "name": "id",
@@ -38287,9 +38242,7 @@
             }
           }
         },
-        "tags": [
-          "Express-type"
-        ],
+        "tags": ["Express-type"],
         "parameters": [
           {
             "name": "id",
@@ -38369,9 +38322,7 @@
             }
           }
         },
-        "tags": [
-          "Express-type"
-        ],
+        "tags": ["Express-type"],
         "parameters": [
           {
             "name": "id",
@@ -38461,9 +38412,7 @@
             }
           }
         },
-        "tags": [
-          "Manual"
-        ],
+        "tags": ["Manual"],
         "parameters": [
           {
             "name": "sort",
@@ -38611,9 +38560,7 @@
             }
           }
         },
-        "tags": [
-          "Manual"
-        ],
+        "tags": ["Manual"],
         "parameters": [],
         "operationId": "post/manuals",
         "requestBody": {
@@ -38692,9 +38639,7 @@
             }
           }
         },
-        "tags": [
-          "Manual"
-        ],
+        "tags": ["Manual"],
         "parameters": [
           {
             "name": "id",
@@ -38772,9 +38717,7 @@
             }
           }
         },
-        "tags": [
-          "Manual"
-        ],
+        "tags": ["Manual"],
         "parameters": [
           {
             "name": "id",
@@ -38863,9 +38806,7 @@
             }
           }
         },
-        "tags": [
-          "Manual"
-        ],
+        "tags": ["Manual"],
         "parameters": [
           {
             "name": "id",
@@ -38945,9 +38886,7 @@
             }
           }
         },
-        "tags": [
-          "Manual"
-        ],
+        "tags": ["Manual"],
         "parameters": [
           {
             "name": "id",
@@ -39037,9 +38976,7 @@
             }
           }
         },
-        "tags": [
-          "Service"
-        ],
+        "tags": ["Service"],
         "parameters": [
           {
             "name": "sort",
@@ -39187,9 +39124,7 @@
             }
           }
         },
-        "tags": [
-          "Service"
-        ],
+        "tags": ["Service"],
         "parameters": [],
         "operationId": "post/services",
         "requestBody": {
@@ -39268,9 +39203,7 @@
             }
           }
         },
-        "tags": [
-          "Service"
-        ],
+        "tags": ["Service"],
         "parameters": [
           {
             "name": "id",
@@ -39348,9 +39281,7 @@
             }
           }
         },
-        "tags": [
-          "Service"
-        ],
+        "tags": ["Service"],
         "parameters": [
           {
             "name": "id",
@@ -39439,9 +39370,7 @@
             }
           }
         },
-        "tags": [
-          "Service"
-        ],
+        "tags": ["Service"],
         "parameters": [
           {
             "name": "id",
@@ -39521,9 +39450,7 @@
             }
           }
         },
-        "tags": [
-          "Service"
-        ],
+        "tags": ["Service"],
         "parameters": [
           {
             "name": "id",
@@ -39613,9 +39540,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template"
-        ],
+        "tags": ["Use-case-template"],
         "parameters": [
           {
             "name": "sort",
@@ -39763,9 +39688,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template"
-        ],
+        "tags": ["Use-case-template"],
         "parameters": [],
         "operationId": "post/use-case-templates",
         "requestBody": {
@@ -39844,9 +39767,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template"
-        ],
+        "tags": ["Use-case-template"],
         "parameters": [
           {
             "name": "id",
@@ -39924,9 +39845,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template"
-        ],
+        "tags": ["Use-case-template"],
         "parameters": [
           {
             "name": "id",
@@ -40015,9 +39934,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template"
-        ],
+        "tags": ["Use-case-template"],
         "parameters": [
           {
             "name": "id",
@@ -40097,9 +40014,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template"
-        ],
+        "tags": ["Use-case-template"],
         "parameters": [
           {
             "name": "id",
@@ -40189,9 +40104,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template-category"
-        ],
+        "tags": ["Use-case-template-category"],
         "parameters": [
           {
             "name": "sort",
@@ -40339,9 +40252,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template-category"
-        ],
+        "tags": ["Use-case-template-category"],
         "parameters": [],
         "operationId": "post/use-case-template-categories",
         "requestBody": {
@@ -40420,9 +40331,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template-category"
-        ],
+        "tags": ["Use-case-template-category"],
         "parameters": [
           {
             "name": "id",
@@ -40500,9 +40409,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template-category"
-        ],
+        "tags": ["Use-case-template-category"],
         "parameters": [
           {
             "name": "id",
@@ -40591,9 +40498,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template-category"
-        ],
+        "tags": ["Use-case-template-category"],
         "parameters": [
           {
             "name": "id",
@@ -40673,9 +40578,7 @@
             }
           }
         },
-        "tags": [
-          "Use-case-template-category"
-        ],
+        "tags": ["Use-case-template-category"],
         "parameters": [
           {
             "name": "id",
@@ -40765,9 +40668,7 @@
             }
           }
         },
-        "tags": [
-          "Upload - File"
-        ],
+        "tags": ["Upload - File"],
         "parameters": [],
         "operationId": "get/upload/files/count"
       }
@@ -40836,9 +40737,7 @@
             }
           }
         },
-        "tags": [
-          "Upload - File"
-        ],
+        "tags": ["Upload - File"],
         "parameters": [
           {
             "name": "sort",
@@ -40988,9 +40887,7 @@
             }
           }
         },
-        "tags": [
-          "Upload - File"
-        ],
+        "tags": ["Upload - File"],
         "parameters": [
           {
             "name": "id",
@@ -41069,9 +40966,7 @@
             }
           }
         },
-        "tags": [
-          "Upload - File"
-        ],
+        "tags": ["Upload - File"],
         "parameters": [
           {
             "name": "id",
@@ -41151,9 +41046,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - Permission"
-        ],
+        "tags": ["Users-permissions - Permission"],
         "parameters": [],
         "operationId": "get/users-permissions/permissions"
       }
@@ -41222,9 +41115,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - Role"
-        ],
+        "tags": ["Users-permissions - Role"],
         "parameters": [
           {
             "name": "id",
@@ -41304,9 +41195,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - Role"
-        ],
+        "tags": ["Users-permissions - Role"],
         "parameters": [
           {
             "name": "sort",
@@ -41454,9 +41343,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - Role"
-        ],
+        "tags": ["Users-permissions - Role"],
         "parameters": [],
         "operationId": "post/users-permissions/roles",
         "requestBody": {
@@ -41535,9 +41422,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - Role"
-        ],
+        "tags": ["Users-permissions - Role"],
         "parameters": [
           {
             "name": "role",
@@ -41626,9 +41511,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - Role"
-        ],
+        "tags": ["Users-permissions - Role"],
         "parameters": [
           {
             "name": "role",
@@ -41708,9 +41591,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - User"
-        ],
+        "tags": ["Users-permissions - User"],
         "parameters": [],
         "operationId": "get/users/count"
       }
@@ -41779,9 +41660,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - User"
-        ],
+        "tags": ["Users-permissions - User"],
         "parameters": [
           {
             "name": "sort",
@@ -41929,9 +41808,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - User"
-        ],
+        "tags": ["Users-permissions - User"],
         "parameters": [],
         "operationId": "post/users",
         "requestBody": {
@@ -42010,9 +41887,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - User"
-        ],
+        "tags": ["Users-permissions - User"],
         "parameters": [],
         "operationId": "get/users/me"
       }
@@ -42081,9 +41956,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - User"
-        ],
+        "tags": ["Users-permissions - User"],
         "parameters": [
           {
             "name": "id",
@@ -42161,9 +42034,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - User"
-        ],
+        "tags": ["Users-permissions - User"],
         "parameters": [
           {
             "name": "id",
@@ -42252,9 +42123,7 @@
             }
           }
         },
-        "tags": [
-          "Users-permissions - User"
-        ],
+        "tags": ["Users-permissions - User"],
         "parameters": [
           {
             "name": "id",

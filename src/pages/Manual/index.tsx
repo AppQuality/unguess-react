@@ -108,7 +108,6 @@ const Manual = () => {
   if (data) {
     // eslint-disable-next-line prefer-destructuring
     manual = extractStrapiData(data)[0];
-    console.log(manual);
   }
   const handleClick = () => {
     if (!manual) return;
