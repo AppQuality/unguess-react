@@ -1,5 +1,4 @@
 import { PageLoader, Grid, Row, Col } from '@appquality/unguess-design-system';
-import { useNavigate, useParams } from 'react-router-dom';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { ManualResponse } from 'src/features/backoffice';
 import { useGeti18nManualsQuery } from 'src/features/backoffice/strapi';
@@ -7,7 +6,6 @@ import i18n from 'src/i18n';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useTranslation } from 'react-i18next';
 import { RightModalHelp } from './components/RightModalHelp';
 import { ManualDetails } from './components/ManualDetails';
 import ManualHeader from './components/ManualHeader';
