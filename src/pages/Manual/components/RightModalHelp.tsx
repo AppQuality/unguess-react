@@ -91,7 +91,7 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
             </Button>
           </>
         )}
-        {links && !isError && !isLoading && (
+        {links && links.length > 0 && !isError && !isLoading && (
           <>
             {' '}
             <XXL
