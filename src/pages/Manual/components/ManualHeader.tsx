@@ -5,6 +5,7 @@ import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 import { appTheme } from 'src/app/theme';
 import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import i18n from 'src/i18n';
 
 const ManualHeaderWrapper = styled.div`
   background-color: ${({ theme }) => theme.palette.white};
@@ -32,12 +33,14 @@ const ManualHeader = ({ manual }: ManualHeaderProps) => {
           <BrandLogo size="full" />
           {manual?.campaignId && manual?.token && (
             <Button
-              onClick={() =>
+              onClick={() => {
                 window.open(
-                  `/campaigns/${manual.campaignId}/bugform/?token=${manual.token}`,
+                  `${i18n.language === 'it' ? '/it' : ''}/campaigns/${
+                    manual.campaignId
+                  }/bugform/?token=${manual.token}`,
                   '_blank'
-                )
-              }
+                );
+              }}
               isPrimary
               isAccent
             >

@@ -28,7 +28,10 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
   });
 
   const goToSupportCenter = () =>
-    window.open('https://docs.unguess.io', '_blank');
+    window.open(
+      `https://docs.unguess.io${i18n.language === 'it' ? '/it' : ''}`,
+      '_blank'
+    );
 
   const manual = extractStrapiData(data);
   let links;
