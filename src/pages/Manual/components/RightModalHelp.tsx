@@ -10,6 +10,7 @@ import { useGeti18nManualsQuery } from 'src/features/backoffice/strapi';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import i18n from 'src/i18n';
 import { appTheme } from 'src/app/theme';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as NewWindowIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
 import StyledCard from './StyledCard';
 
@@ -34,6 +35,7 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
   if (manual && manual.length) {
     links = extractStrapiData(manual[0].help_links);
   }
+  const { t } = useTranslation();
 
   return (
     <StyledCard>
@@ -43,52 +45,34 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
           <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
           <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
           <Skeleton height="300px" style={{ marginTop: appTheme.space.md }} />
+          <XXL
+            isBold
+            style={{ color: appTheme.palette.grey[800], marginTop: 32 }}
+          >
+            {t('__PUBLIC_MANUAL_HELP_MODAL_TITLE')}
+          </XXL>
+          <Paragraph
+            style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
+          >
+            {t('__PUBLIC_MANUAL_HELP_MODAL_CONTENT')}
+          </Paragraph>
         </>
       )}
       {(isError || !links || links.length === 0) && (
-        <>
-          <XXL
-            isBold
-            style={{ color: appTheme.palette.grey[800], marginTop: 32 }}
-          >
-            Dubbi o Perplessità?
-          </XXL>
-          <Paragraph
-            style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
-          >
-            Se hai delle domande o dubbi su come svolgere la campagna di test
-            puoi consultare il nostro Support Center che contiene guide e
-            tutorial utili.
-          </Paragraph>
-          <Button
-            isPrimary
-            isAccent
-            style={{ marginTop: 36 }}
-            onClick={goToSupportCenter}
-          >
-            <Button.StartIcon>
-              <NewWindowIcon />
-            </Button.StartIcon>
-            Vai al Support Center
-          </Button>
-        </>
+        <Button
+          isPrimary
+          isAccent
+          style={{ marginTop: 36 }}
+          onClick={goToSupportCenter}
+        >
+          <Button.StartIcon>
+            <NewWindowIcon />
+          </Button.StartIcon>
+          {t('__PUBLIC_MANUAL_HELP_MODAL_BUTTON_SUPPORT_CENTER')}
+        </Button>
       )}
       {links && links.length > 0 && !isError && !isLoading && (
         <>
-          {' '}
-          <XXL
-            isBold
-            style={{ color: appTheme.palette.grey[800], marginTop: 32 }}
-          >
-            Articoli
-          </XXL>
-          <Paragraph
-            style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
-          >
-            Se hai dubbi su come svolgere la campagna di test puoi consultare il
-            nostro Support Center che contiene guide e tutorial utili. Tra i
-            quali:
-          </Paragraph>
           {links.map((link: any) => (
             <Paragraph>
               <Anchor
