@@ -23,7 +23,6 @@ export const ManualDetails = ({
   manual: NonNullable<ManualResponse['data']>['attributes'] & { id: number };
 }) => (
   <AnimatedContainer>
-    {/* Title */}
     <Title
       style={{
         marginBottom: appTheme.space.md,
@@ -34,7 +33,6 @@ export const ManualDetails = ({
       {manual.title}
     </Title>
 
-    {/* Editor */}
     <StyledDiv>
       <Editor editable={false}>{manual.content}</Editor>
     </StyledDiv>
