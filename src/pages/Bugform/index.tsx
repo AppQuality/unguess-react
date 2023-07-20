@@ -7,7 +7,7 @@ const BugForm = () => {
   const { campaignId } = useParams<{ campaignId: string }>();
   const [query] = useSearchParams();
   const token = query.get('token') || '';
-  const tryberUrl = isDev() ? 'https://dev.tryber.me' : 'https:// tryber.me';
+  const tryberUrl = isDev() ? 'https://dev.tryber.me' : 'https://tryber.me';
   return (
     <div>
       <Header logo="full" loggedIn={false} />
