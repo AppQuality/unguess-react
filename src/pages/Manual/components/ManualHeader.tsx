@@ -5,7 +5,6 @@ import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 import { appTheme } from 'src/app/theme';
 import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 
 const ManualHeaderWrapper = styled.div`
   background-color: ${({ theme }) => theme.palette.white};
@@ -26,7 +25,6 @@ interface ManualHeaderProps {
 
 const ManualHeader = ({ manual }: ManualHeaderProps) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   return (
     <ManualHeaderWrapper>
       <LayoutWrapper>
@@ -35,8 +33,9 @@ const ManualHeader = ({ manual }: ManualHeaderProps) => {
           {manual?.campaignId && manual?.token && (
             <Button
               onClick={() =>
-                navigate(
-                  `/campaigns/${manual.campaignId}/bugform/?token=${manual.token}`
+                window.open(
+                  `/campaigns/${manual.campaignId}/bugform/?token=${manual.token}`,
+                  '_blank'
                 )
               }
               isPrimary
