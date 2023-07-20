@@ -176,6 +176,7 @@ export const strapiSlice = createApi({
         const args: Geti18nCategoriesArgs = {
           ...(queryArg.locale && { locale: queryArg.locale }),
           ...(queryArg.populate && { filters: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
         };
         const params = stringify(args, { encodeValuesOnly: true });
         params ? (url += `?${params}`) : null;
