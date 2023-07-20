@@ -35,9 +35,11 @@ const ManualHeader = ({ manual }: ManualHeaderProps) => {
             <Button
               onClick={() => {
                 window.open(
-                  `${i18n.language === 'it' ? '/it' : ''}/campaigns/${
-                    manual.campaignId
-                  }/bugform/?token=${manual.token}`,
+                  `${
+                    i18n.language !== 'en' ? `/${i18n.language}` : ''
+                  }/campaigns/${manual.campaignId}/bugform/?token=${
+                    manual.token
+                  }`,
                   '_blank'
                 );
               }}
