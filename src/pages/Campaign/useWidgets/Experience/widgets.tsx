@@ -1,10 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
-import { getLocalizedUXDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import { ExternalLink } from '../../ExternalLink';
+import { Insights } from './widgets/Insights';
 
 export const widgets = ({ campaignId }: { campaignId: number }) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { data: campaign } = useGetCampaignsByCidQuery({
     cid: campaignId.toString(),
   });
@@ -15,15 +14,10 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
 
   return [
     {
-      content: (
-        <ExternalLink
-          id="anchor-media-list-navigation"
-          url={getLocalizedUXDashboardUrl(campaignId, i18n.language)}
-        >
-          {t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_EXTERNAL_LINK_LABEL')}
-        </ExternalLink>
-      ),
-      type: 'footer' as const,
+      id: 'campaign-insights',
+      title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_INSIGHTS_LABEL'),
+      content: <Insights id="campaign-insights" campaign={campaign} />,
+      type: 'item' as const,
     },
   ];
 };
