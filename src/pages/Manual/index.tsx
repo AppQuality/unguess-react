@@ -36,7 +36,7 @@ const Manual = () => {
   if (isLoading) return <PageLoader />;
 
   if (isError) {
-    return <div>Error...</div>;
+    return <ManualNotFound />;
   }
 
   let manual:
