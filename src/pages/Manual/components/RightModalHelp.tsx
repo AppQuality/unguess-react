@@ -40,22 +40,18 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
   return (
     <StyledCard>
       <HelpImg />
+      <XXL isBold style={{ color: appTheme.palette.grey[800], marginTop: 32 }}>
+        {t('__PUBLIC_MANUAL_HELP_MODAL_TITLE')}
+      </XXL>
+      <Paragraph style={{ color: appTheme.palette.grey[700], marginTop: 8 }}>
+        {t('__PUBLIC_MANUAL_HELP_MODAL_CONTENT')}
+      </Paragraph>
+
       {isLoading && (
         <>
           <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
           <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
           <Skeleton height="300px" style={{ marginTop: appTheme.space.md }} />
-          <XXL
-            isBold
-            style={{ color: appTheme.palette.grey[800], marginTop: 32 }}
-          >
-            {t('__PUBLIC_MANUAL_HELP_MODAL_TITLE')}
-          </XXL>
-          <Paragraph
-            style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
-          >
-            {t('__PUBLIC_MANUAL_HELP_MODAL_CONTENT')}
-          </Paragraph>
         </>
       )}
       {(isError || !links || links.length === 0) && (
