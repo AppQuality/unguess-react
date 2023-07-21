@@ -48,11 +48,12 @@ export const useCampaignInsights = ({
     insights: [
       {
         id: 1,
-        title: 'My insight',
-        description: 'This is an insight',
+        title: 'Malfunzionamenti sul motore di ricerca',
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
         severity: {
           id: 1,
-          name: 'Minor',
+          name: 'Major issue',
         },
         cluster: 'all',
         videoPart: [
@@ -66,15 +67,36 @@ export const useCampaignInsights = ({
               'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
             description: 'This is a video part',
           },
+          {
+            id: 2,
+            start: 25,
+            end: 50,
+            mediaId: 1,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description: 'This is a video part',
+          },
+          {
+            id: 3,
+            start: 60,
+            end: 70,
+            mediaId: 1,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description: 'This is a video part',
+          },
         ],
       },
       {
         id: 2,
-        title: 'My second insight',
-        description: 'This is another insight',
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
         severity: {
           id: 2,
-          name: 'Positive',
+          name: 'Minor issue',
         },
         cluster: [
           {
