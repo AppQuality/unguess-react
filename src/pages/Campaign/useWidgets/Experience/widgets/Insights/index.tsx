@@ -118,7 +118,6 @@ export const Insights = ({
                     <Row id={`insight-row-${insight.id}`}>
                       <Col xs={12} lg={6}>
                         <SpecialCard title={insight.title}>
-                          {console.log('insight', insight)}
                           <SpecialCard.Thumb>
                             {getSeverityIcon(insight.severity)}
                           </SpecialCard.Thumb>
@@ -132,7 +131,6 @@ export const Insights = ({
                           </SpecialCard.Header>
                           {insight.description}
                           <SpecialCard.Footer justifyContent="start">
-                            {/* check if insight.cluster is "all" or an array of clusters */}
                             {insight.cluster === 'all' ? (
                               <Tag>
                                 {t('__CAMPAIGN_PAGE_INSIGHTS_ALL_CLUSTERS')}
