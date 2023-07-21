@@ -17,6 +17,7 @@ import LoginPage from 'src/pages/LoginPage';
 import NotFound from 'src/pages/NotFound';
 import Service from 'src/pages/Service';
 import Catalog from 'src/pages/Services';
+import Manual from 'src/pages/Manual';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -42,6 +43,10 @@ const Pages = () => {
                 <Route
                   path={`/${langPrefix}/campaigns/:campaignId/bugform`}
                   element={<BugForm />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/manual`}
+                  element={<Manual />}
                 />
 
                 <Route path={`/${langPrefix}/login`} element={<LoginPage />} />
