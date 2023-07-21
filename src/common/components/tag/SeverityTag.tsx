@@ -9,6 +9,7 @@ interface SeverityTagProps {
   hasBackground?: boolean;
   size?: 'small' | 'medium' | 'large';
   isRegular?: boolean;
+  children?: React.ReactNode;
 }
 
 export const SeverityTag = ({
@@ -17,6 +18,7 @@ export const SeverityTag = ({
   hasBackground,
   size,
   isRegular,
+  children,
 }: SeverityTagProps) => (
   <Tag
     size={size}
@@ -28,11 +30,15 @@ export const SeverityTag = ({
     }
     isRegular={isRegular}
   >
-    {capitalizeFirstLetter(severity)}
-    {typeof counter !== 'undefined' && (
-      <Tag.SecondaryText isBold color={appTheme.palette.grey[700]}>
-        {counter}
-      </Tag.SecondaryText>
+    {children ?? (
+      <>
+        {capitalizeFirstLetter(severity)}
+        {typeof counter !== 'undefined' && (
+          <Tag.SecondaryText isBold color={appTheme.palette.grey[700]}>
+            {counter}
+          </Tag.SecondaryText>
+        )}
+      </>
     )}
   </Tag>
 );
