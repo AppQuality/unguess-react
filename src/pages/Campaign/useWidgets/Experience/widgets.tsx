@@ -14,6 +14,10 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
 
   return [
     {
+      title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_GROUP_INSIGHTS_LABEL'),
+      type: 'title' as const,
+    },
+    {
       id: 'campaign-insights',
       title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_INSIGHTS_LABEL'),
       content: <Insights id="campaign-insights" campaign={campaign} />,
