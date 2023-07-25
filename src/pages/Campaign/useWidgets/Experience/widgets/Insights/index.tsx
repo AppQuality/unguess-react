@@ -7,7 +7,7 @@ import {
   Tag,
 } from '@appquality/unguess-design-system';
 import Video from '@appquality/stream-player';
-import { useTranslation } from 'react-i18next';
+import { TFunction, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { WidgetSection } from 'src/pages/Campaign/WidgetSection';
@@ -33,6 +33,7 @@ const CardThumb = styled(SpecialCard.Thumb)`
   position: relative;
   padding: 0;
   border: 1px solid ${({ theme }) => theme.palette.grey[600]};
+  margin-bottom: ${({ theme }) => theme.space.sm};
 
   &:after {
     content: '';
@@ -88,23 +89,37 @@ function getSeverityIcon(severity: InsightSeverity) {
   }
 }
 
-function getSeverityTag(severity: InsightSeverity) {
+function getSeverityTag(severity: InsightSeverity, text?: string) {
   switch (severity.id) {
     case 1:
       return (
         <SeverityTag hasBackground severity="critical">
-          {severity.name}
+          {text ?? severity.name}
         </SeverityTag>
       );
     case 2:
       return (
         <SeverityTag hasBackground severity="high">
-          {severity.name}
+          {text ?? severity.name}
         </SeverityTag>
       );
     default:
       return null;
   }
+}
+
+function getClusterTag(
+  cluster: string | Array<{ id: number; name: string }>,
+  t: TFunction
+) {
+  if (cluster === 'all') {
+    return <Tag>{t('__CAMPAIGN_PAGE_INSIGHTS_ALL_CLUSTERS')}</Tag>;
+  }
+
+  if (Array.isArray(cluster))
+    return cluster.map((c) => <Tag key={c.id}>{c.name}</Tag>);
+
+  return null;
 }
 
 export const Insights = ({
@@ -119,7 +134,7 @@ export const Insights = ({
     campaignId: campaign.id ?? 0,
   });
 
-  if (!data || !data.insights) return null;
+  if (!data || !data.findings) return null;
 
   // Check if url has an anchor and scroll to it
   const url = window.location.href;
@@ -166,58 +181,68 @@ export const Insights = ({
               </Col>
               <Col xs={12} lg={8}>
                 <Grid>
-                  {data.insights.map((insight) => (
-                    <Row id={`insight-row-${insight.id}`}>
-                      <Col xs={12} lg={6}>
-                        <SpecialCard title={insight.title}>
-                          <SpecialCard.Thumb>
-                            {getSeverityIcon(insight.severity)}
-                          </SpecialCard.Thumb>
-                          <SpecialCard.Header>
-                            <SpecialCard.Header.Label>
-                              {insight.severity.name}
-                            </SpecialCard.Header.Label>
-                            <SpecialCard.Header.Title>
-                              {insight.title}
-                            </SpecialCard.Header.Title>
-                          </SpecialCard.Header>
-                          {insight.description}
-                          <SpecialCard.Footer justifyContent="start">
-                            {insight.cluster === 'all' ? (
-                              <Tag>
-                                {t('__CAMPAIGN_PAGE_INSIGHTS_ALL_CLUSTERS')}
-                              </Tag>
-                            ) : (
-                              Array.isArray(insight.cluster) &&
-                              insight.cluster.map((cluster) => (
-                                <Tag key={cluster.id}>{cluster.name}</Tag>
-                              ))
-                            )}
-                            {getSeverityTag(insight.severity)}
-                          </SpecialCard.Footer>
-                        </SpecialCard>
-                      </Col>
-                      {insight.videoPart.map((videoPart) => (
+                  {data.findings.length > 0 &&
+                    data.findings.map((insight) => (
+                      <Row id={`insight-row-${insight.id}`}>
                         <Col xs={12} lg={6}>
-                          <SpecialCard
-                            key={insight.id}
-                            title={videoPart.description}
-                          >
-                            <CardThumb>
-                              <VideoPlayIcon />
-                              <Video
-                                src={videoPart.streamUrl}
-                                start={videoPart.start}
-                                end={videoPart.end}
-                              >
-                                <Player />
-                              </Video>
-                            </CardThumb>
+                          <SpecialCard title={insight.title}>
+                            <SpecialCard.Thumb>
+                              {getSeverityIcon(insight.severity)}
+                            </SpecialCard.Thumb>
+                            <SpecialCard.Header>
+                              <SpecialCard.Header.Label>
+                                {insight.severity.name}
+                              </SpecialCard.Header.Label>
+                              <SpecialCard.Header.Title>
+                                {insight.title}
+                              </SpecialCard.Header.Title>
+                            </SpecialCard.Header>
+                            {insight.description}
+                            <SpecialCard.Footer justifyContent="start">
+                              {getClusterTag(insight.cluster, t)}
+                              {getSeverityTag(insight.severity)}
+                            </SpecialCard.Footer>
                           </SpecialCard>
                         </Col>
-                      ))}
-                    </Row>
-                  ))}
+                        {insight.videoPart.map((videoPart, index) => (
+                          <Col xs={12} lg={6}>
+                            <SpecialCard
+                              key={insight.id}
+                              title={videoPart.description}
+                            >
+                              <SpecialCard.Header>
+                                <CardThumb>
+                                  <VideoPlayIcon />
+                                  <Video
+                                    src={videoPart.streamUrl}
+                                    start={videoPart.start}
+                                    end={videoPart.end}
+                                  >
+                                    <Player />
+                                  </Video>
+                                </CardThumb>
+                                <SpecialCard.Header.Label>
+                                  {t(
+                                    '__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL'
+                                  )}{' '}
+                                  {index + 1}
+                                </SpecialCard.Header.Label>
+                                <SpecialCard.Header.Title>
+                                  {`”${videoPart.description}”`}
+                                </SpecialCard.Header.Title>
+                              </SpecialCard.Header>
+                              <SpecialCard.Footer justifyContent="start">
+                                {getSeverityTag(
+                                  insight.severity,
+                                  insight.title
+                                )}
+                                {getClusterTag(insight.cluster, t)}
+                              </SpecialCard.Footer>
+                            </SpecialCard>
+                          </Col>
+                        ))}
+                      </Row>
+                    ))}
                 </Grid>
               </Col>
             </>
