@@ -62,9 +62,9 @@ export const useCampaignInsights = ({
             start: 10,
             end: 20,
             mediaId: 1,
-            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            url: 'https://mediaconvert-test-bk.s3.eu-west-1.amazonaws.com/db00e97cfb85971e3fa71b7735142e07ab2d1ebf_1605195177.mp4',
             streamUrl:
-              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+              'https://mediaconvert-test-output-bk.s3.eu-west-1.amazonaws.com/db00e97cfb85971e3fa71b7735142e07ab2d1ebf_1605195177-stream.m3u8',
             description: 'This is a video part',
           },
           {
