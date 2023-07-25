@@ -29,23 +29,25 @@ export const useCampaignInsights = ({
   campaignId: number;
 }): {
   data: {
-    insights: Insight[];
+    findings: Insight[];
   };
   isLoading: boolean;
 } => {
+  // getcampaignsbycidux
+
   const isLoading = false;
 
   if (isLoading) {
     return {
       data: {
-        insights: [],
+        findings: [],
       },
       isLoading: true,
     };
   }
 
   const results = {
-    insights: [
+    findings: [
       {
         id: 1,
         title: 'Malfunzionamenti sul motore di ricerca',
@@ -65,7 +67,8 @@ export const useCampaignInsights = ({
             url: 'https://mediaconvert-test-bk.s3.eu-west-1.amazonaws.com/db00e97cfb85971e3fa71b7735142e07ab2d1ebf_1605195177.mp4',
             streamUrl:
               'https://mediaconvert-test-output-bk.s3.eu-west-1.amazonaws.com/db00e97cfb85971e3fa71b7735142e07ab2d1ebf_1605195177-stream.m3u8',
-            description: 'This is a video part',
+            description:
+              "I can't find anything, there are no stores near me that I can visit",
           },
           {
             id: 2,
@@ -75,7 +78,8 @@ export const useCampaignInsights = ({
             url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
             streamUrl:
               'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
-            description: 'This is a video part',
+            description:
+              'I can find something, there are no stores near me that I can visit',
           },
           {
             id: 3,
@@ -85,7 +89,8 @@ export const useCampaignInsights = ({
             url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
             streamUrl:
               'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
-            description: 'This is a video part',
+            description:
+              "I can't find anything, there are no stores near me that I can visit",
           },
         ],
       },
@@ -117,7 +122,8 @@ export const useCampaignInsights = ({
             url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
             streamUrl:
               'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
-            description: 'This is a video part',
+            description:
+              'I can find something, there are no stores near me that I can visit',
           },
         ],
       },
