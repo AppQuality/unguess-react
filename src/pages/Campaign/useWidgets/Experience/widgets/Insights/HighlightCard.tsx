@@ -1,0 +1,109 @@
+import Video from '@appquality/stream-player';
+import { SpecialCard } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
+import { useTranslation } from 'react-i18next';
+import { CardFooter } from './InsightCard';
+import { Insight } from './useCampaignInsights';
+import { getClusterTag, getSeverityTag } from './utils';
+
+const CardThumb = styled(SpecialCard.Thumb)`
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: ${({ theme }) => theme.borderRadii.lg};
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  border: 1px solid ${({ theme }) => theme.palette.grey[600]};
+  margin-bottom: ${({ theme }) => theme.space.sm};
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  > svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    width: ${({ theme }) => theme.space.base * 14}px;
+    height: auto;
+    z-index: 3;
+  }
+`;
+
+const Player = styled(Video.Player)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > video {
+    width: 100%;
+    height: 200px;
+  }
+`;
+
+interface VideoPart {
+  id: number;
+  start: number;
+  end: number;
+  mediaId: number;
+  url: string;
+  streamUrl: string;
+  description: string;
+}
+
+const HighlightCard = ({
+  videoPart,
+  index,
+  insight,
+}: {
+  videoPart: VideoPart;
+  index: number;
+  insight: Insight;
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <SpecialCard key={videoPart.id} title={videoPart.description}>
+      <SpecialCard.Header>
+        <CardThumb>
+          <VideoPlayIcon />
+          <Video
+            src={videoPart.streamUrl}
+            start={videoPart.start}
+            end={videoPart.end}
+          >
+            <Player />
+          </Video>
+        </CardThumb>
+        <SpecialCard.Header.Label>
+          {t('__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL')} {index + 1}
+        </SpecialCard.Header.Label>
+        <SpecialCard.Header.Title>
+          {`”${videoPart.description}”`}
+        </SpecialCard.Header.Title>
+      </SpecialCard.Header>
+      <CardFooter justifyContent="start">
+        {getSeverityTag(insight.severity, insight.title)}
+        {getClusterTag(insight.cluster, t)}
+      </CardFooter>
+    </SpecialCard>
+  );
+};
+
+export { HighlightCard };
