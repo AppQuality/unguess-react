@@ -1,31 +1,20 @@
 import {
   Col,
-  Ellipsis,
   Grid,
   Row,
   Skeleton,
   SpecialCard,
-  Tag,
 } from '@appquality/unguess-design-system';
 import Video from '@appquality/stream-player';
-import { TFunction, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { WidgetSection } from 'src/pages/Campaign/WidgetSection';
-import { StickyContainer } from 'src/common/components/StickyContainer';
-import {
-  StickyNavItem,
-  StickyNavItemLabel,
-  StyledDivider,
-} from 'src/common/components/navigation';
-import { ReactComponent as MajorIssueIcon } from 'src/assets/icons/insight-major-issue.svg';
-import { ReactComponent as MinorIssueIcon } from 'src/assets/icons/insight-minor-issue.svg';
 import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
-import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
-import { BugCard } from 'src/common/components/BugCard';
-import { appTheme } from 'src/app/theme';
 import { useCampaignInsights } from './useCampaignInsights';
+import { Navigation } from './Navigation';
+import { getClusterTag, getSeverityIcon, getSeverityTag } from './utils';
 
 const CardThumb = styled(SpecialCard.Thumb)`
   width: 100%;
@@ -86,96 +75,6 @@ const Player = styled(Video.Player)`
   }
 `;
 
-const StyledBugCard = styled(BugCard)``;
-
-const StyledStickyNavItem = styled(StickyNavItem)`
-  padding: 0;
-
-  &:hover {
-    background-color: transparent;
-  }
-
-  &.isCurrent {
-    background-color: transparent;
-
-    ${StyledBugCard} {
-      background-color: ${({ theme }) => theme.palette.grey[200]};
-    }
-  }
-`;
-
-interface InsightSeverity {
-  id: number;
-  name: string;
-}
-
-function getSeverityIcon(severity: InsightSeverity) {
-  switch (severity.id) {
-    case 1:
-      return <MajorIssueIcon />;
-    case 2:
-      return <MinorIssueIcon />;
-    default:
-      return null;
-  }
-}
-
-function getSeverityTag(severity: InsightSeverity, text?: string) {
-  switch (severity.id) {
-    case 1:
-      return (
-        <SeverityTag hasBackground severity="critical">
-          <Ellipsis>{text ?? severity.name}</Ellipsis>
-        </SeverityTag>
-      );
-    case 2:
-      return (
-        <SeverityTag hasBackground severity="high">
-          <Ellipsis>{text ?? severity.name}</Ellipsis>
-        </SeverityTag>
-      );
-    default:
-      return null;
-  }
-}
-
-function getClusterTag(
-  cluster: string | Array<{ id: number; name: string }>,
-  t: TFunction
-) {
-  if (cluster === 'all') {
-    return (
-      <Tag>
-        <Ellipsis>{t('__CAMPAIGN_PAGE_INSIGHTS_ALL_CLUSTERS')}</Ellipsis>
-      </Tag>
-    );
-  }
-
-  if (Array.isArray(cluster))
-    return cluster.map((c) => (
-      <Tag key={c.id}>
-        <Ellipsis>{c.name}</Ellipsis>
-      </Tag>
-    ));
-
-  return null;
-}
-
-function getSeverity(severity: InsightSeverity) {
-  switch (severity.id) {
-    case 1:
-      return 'critical';
-    case 2:
-      return 'high';
-    case 3:
-      return 'medium';
-    case 4:
-      return 'low';
-    default:
-      return 'medium';
-  }
-}
-
 export const Insights = ({
   id,
   campaign,
@@ -226,46 +125,7 @@ export const Insights = ({
           ) : (
             <>
               <Col xs={12} lg={4}>
-                <StickyContainer>
-                  <StickyNavItemLabel>
-                    {t('__CAMPAIGN_PAGE_INSIGHTS_NAVIGATION_TITLE')}
-                  </StickyNavItemLabel>
-                  <StyledDivider />
-                  {data.findings.length > 0 &&
-                    data.findings.map((insight, index) => (
-                      <StyledStickyNavItem
-                        id={`anchor-insight-row-${insight.id}`}
-                        to={`insight-row-${insight.id}`}
-                        containerId="main"
-                        spy
-                        smooth
-                        duration={500}
-                        offset={-30}
-                      >
-                        <StyledBugCard
-                          severity={getSeverity(insight.severity) as Severities}
-                          url="#"
-                          style={{
-                            marginBottom: appTheme.space.sm,
-                          }}
-                        >
-                          {() => (
-                            <>
-                              <BugCard.TopTitle>
-                                {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')}{' '}
-                                {index + 1}
-                              </BugCard.TopTitle>
-                              <BugCard.Title>{insight.title}</BugCard.Title>
-                              <BugCard.Footer>
-                                {getClusterTag(insight.cluster, t)}
-                                {getSeverityTag(insight.severity)}
-                              </BugCard.Footer>
-                            </>
-                          )}
-                        </StyledBugCard>
-                      </StyledStickyNavItem>
-                    ))}
-                </StickyContainer>
+                <Navigation insights={data.findings} />
               </Col>
               <Col xs={12} lg={8}>
                 <Grid>
