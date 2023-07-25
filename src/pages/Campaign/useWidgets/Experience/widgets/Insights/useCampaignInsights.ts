@@ -33,7 +33,7 @@ export const useCampaignInsights = ({
   };
   isLoading: boolean;
 } => {
-  // getcampaignsbycidux
+  // TODO: Add API request getCampaignsByCidUx
 
   const isLoading = false;
 
