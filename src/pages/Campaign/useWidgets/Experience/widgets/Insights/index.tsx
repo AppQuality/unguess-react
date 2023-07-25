@@ -1,5 +1,6 @@
 import {
   Col,
+  Ellipsis,
   Grid,
   Row,
   Skeleton,
@@ -61,6 +62,15 @@ const CardThumb = styled(SpecialCard.Thumb)`
   }
 `;
 
+const CardFooter = styled(SpecialCard.Footer)`
+  flex-wrap: wrap;
+  margin-bottom: -${({ theme }) => theme.space.xs};
+
+  > * {
+    margin-bottom: ${({ theme }) => theme.space.xs};
+  }
+`;
+
 const Player = styled(Video.Player)`
   width: 100%;
   display: flex;
@@ -94,13 +104,13 @@ function getSeverityTag(severity: InsightSeverity, text?: string) {
     case 1:
       return (
         <SeverityTag hasBackground severity="critical">
-          {text ?? severity.name}
+          <Ellipsis>{text ?? severity.name}</Ellipsis>
         </SeverityTag>
       );
     case 2:
       return (
         <SeverityTag hasBackground severity="high">
-          {text ?? severity.name}
+          <Ellipsis>{text ?? severity.name}</Ellipsis>
         </SeverityTag>
       );
     default:
@@ -113,11 +123,19 @@ function getClusterTag(
   t: TFunction
 ) {
   if (cluster === 'all') {
-    return <Tag>{t('__CAMPAIGN_PAGE_INSIGHTS_ALL_CLUSTERS')}</Tag>;
+    return (
+      <Tag>
+        <Ellipsis>{t('__CAMPAIGN_PAGE_INSIGHTS_ALL_CLUSTERS')}</Ellipsis>
+      </Tag>
+    );
   }
 
   if (Array.isArray(cluster))
-    return cluster.map((c) => <Tag key={c.id}>{c.name}</Tag>);
+    return cluster.map((c) => (
+      <Tag key={c.id}>
+        <Ellipsis>{c.name}</Ellipsis>
+      </Tag>
+    ));
 
   return null;
 }
@@ -198,10 +216,10 @@ export const Insights = ({
                               </SpecialCard.Header.Title>
                             </SpecialCard.Header>
                             {insight.description}
-                            <SpecialCard.Footer justifyContent="start">
+                            <CardFooter justifyContent="start">
                               {getClusterTag(insight.cluster, t)}
                               {getSeverityTag(insight.severity)}
-                            </SpecialCard.Footer>
+                            </CardFooter>
                           </SpecialCard>
                         </Col>
                         {insight.videoPart.map((videoPart, index) => (
@@ -231,13 +249,13 @@ export const Insights = ({
                                   {`”${videoPart.description}”`}
                                 </SpecialCard.Header.Title>
                               </SpecialCard.Header>
-                              <SpecialCard.Footer justifyContent="start">
+                              <CardFooter justifyContent="start">
                                 {getSeverityTag(
                                   insight.severity,
                                   insight.title
                                 )}
                                 {getClusterTag(insight.cluster, t)}
-                              </SpecialCard.Footer>
+                              </CardFooter>
                             </SpecialCard>
                           </Col>
                         ))}
