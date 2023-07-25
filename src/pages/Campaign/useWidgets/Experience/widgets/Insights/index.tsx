@@ -6,6 +6,7 @@ import {
   SpecialCard,
   Tag,
 } from '@appquality/unguess-design-system';
+import Video from '@appquality/stream-player';
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
@@ -17,8 +18,59 @@ import {
 } from 'src/common/components/navigation';
 import { ReactComponent as MajorIssueIcon } from 'src/assets/icons/insight-major-issue.svg';
 import { ReactComponent as MinorIssueIcon } from 'src/assets/icons/insight-minor-issue.svg';
+import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
+import styled from 'styled-components';
 import { useCampaignInsights } from './useCampaignInsights';
+
+const CardThumb = styled(SpecialCard.Thumb)`
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: ${({ theme }) => theme.borderRadii.lg};
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  border: 1px solid ${({ theme }) => theme.palette.grey[600]};
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    overflow: hidden;
+  }
+
+  > svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
+    width: ${({ theme }) => theme.space.base * 14}px;
+    height: auto;
+    z-index: 3;
+  }
+`;
+
+const Player = styled(Video.Player)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > video {
+    width: 100%;
+    height: 200px;
+  }
+`;
 
 interface InsightSeverity {
   id: number;
@@ -151,7 +203,16 @@ export const Insights = ({
                             key={insight.id}
                             title={videoPart.description}
                           >
-                            {console.log('videoPart', videoPart)}
+                            <CardThumb>
+                              <VideoPlayIcon />
+                              <Video
+                                src={videoPart.streamUrl}
+                                start={videoPart.start}
+                                end={videoPart.end}
+                              >
+                                <Player />
+                              </Video>
+                            </CardThumb>
                           </SpecialCard>
                         </Col>
                       ))}
