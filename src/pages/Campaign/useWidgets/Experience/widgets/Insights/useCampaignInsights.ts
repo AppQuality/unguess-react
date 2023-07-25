@@ -127,6 +127,270 @@ export const useCampaignInsights = ({
           },
         ],
       },
+      {
+        id: 3,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
+      {
+        id: 4,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
+      {
+        id: 5,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
+      {
+        id: 6,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
+      {
+        id: 7,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
+      {
+        id: 8,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
+      {
+        id: 9,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
+      {
+        id: 10,
+        title: "Criticità sull'esperienza desktop",
+        description:
+          "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
+        severity: {
+          id: 2,
+          name: 'Minor issue',
+        },
+        cluster: [
+          {
+            id: 1,
+            name: 'UC1: Cart',
+          },
+          {
+            id: 2,
+            name: 'UC2: Login',
+          },
+        ],
+        videoPart: [
+          {
+            id: 2,
+            start: 15,
+            end: 25,
+            mediaId: 2,
+            url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+            streamUrl:
+              'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+            description:
+              'I can find something, there are no stores near me that I can visit',
+          },
+        ],
+      },
     ],
   };
 
