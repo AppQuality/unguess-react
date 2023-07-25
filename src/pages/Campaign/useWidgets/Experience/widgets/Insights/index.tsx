@@ -14,7 +14,8 @@ import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-ico
 import styled from 'styled-components';
 import { useCampaignInsights } from './useCampaignInsights';
 import { Navigation } from './Navigation';
-import { getClusterTag, getSeverityIcon, getSeverityTag } from './utils';
+import { getClusterTag, getSeverityTag } from './utils';
+import { CardFooter, InsightCard } from './InsightCard';
 
 const CardThumb = styled(SpecialCard.Thumb)`
   width: 100%;
@@ -51,15 +52,6 @@ const CardThumb = styled(SpecialCard.Thumb)`
     width: ${({ theme }) => theme.space.base * 14}px;
     height: auto;
     z-index: 3;
-  }
-`;
-
-const CardFooter = styled(SpecialCard.Footer)`
-  flex-wrap: wrap;
-  margin-bottom: -${({ theme }) => theme.space.xs};
-
-  > * {
-    margin-bottom: ${({ theme }) => theme.space.xs};
   }
 `;
 
@@ -132,25 +124,9 @@ export const Insights = ({
                   {data.findings.length > 0 &&
                     data.findings.map((insight) => (
                       <Row id={`insight-row-${insight.id}`}>
+                        {/* TODO: Insert section title and subtitle */}
                         <Col xs={12} lg={6}>
-                          <SpecialCard title={insight.title}>
-                            <SpecialCard.Thumb>
-                              {getSeverityIcon(insight.severity)}
-                            </SpecialCard.Thumb>
-                            <SpecialCard.Header>
-                              <SpecialCard.Header.Label>
-                                {insight.severity.name}
-                              </SpecialCard.Header.Label>
-                              <SpecialCard.Header.Title>
-                                {insight.title}
-                              </SpecialCard.Header.Title>
-                            </SpecialCard.Header>
-                            {insight.description}
-                            <CardFooter justifyContent="start">
-                              {getClusterTag(insight.cluster, t)}
-                              {getSeverityTag(insight.severity)}
-                            </CardFooter>
-                          </SpecialCard>
+                          <InsightCard insight={insight} />
                         </Col>
                         {insight.videoPart.map((videoPart, index) => (
                           <Col xs={12} lg={6}>
