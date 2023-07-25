@@ -29,6 +29,8 @@ const StyledStickyNavItem = styled(StickyNavItem)`
   }
 `;
 
+// TODO: Make this a scrollable container
+
 const Navigation = ({ insights }: { insights: Insight[] }) => {
   const { t } = useTranslation();
 
