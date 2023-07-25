@@ -14,6 +14,7 @@ import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { WidgetSection } from 'src/pages/Campaign/WidgetSection';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 import {
+  StickyNavItem,
   StickyNavItemLabel,
   StyledDivider,
 } from 'src/common/components/navigation';
@@ -22,6 +23,8 @@ import { ReactComponent as MinorIssueIcon } from 'src/assets/icons/insight-minor
 import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
+import { BugCard } from 'src/common/components/BugCard';
+import { appTheme } from 'src/app/theme';
 import { useCampaignInsights } from './useCampaignInsights';
 
 const CardThumb = styled(SpecialCard.Thumb)`
@@ -83,6 +86,24 @@ const Player = styled(Video.Player)`
   }
 `;
 
+const StyledBugCard = styled(BugCard)``;
+
+const StyledStickyNavItem = styled(StickyNavItem)`
+  padding: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  &.isCurrent {
+    background-color: transparent;
+
+    ${StyledBugCard} {
+      background-color: ${({ theme }) => theme.palette.grey[200]};
+    }
+  }
+`;
+
 interface InsightSeverity {
   id: number;
   name: string;
@@ -140,6 +161,21 @@ function getClusterTag(
   return null;
 }
 
+function getSeverity(severity: InsightSeverity) {
+  switch (severity.id) {
+    case 1:
+      return 'critical';
+    case 2:
+      return 'high';
+    case 3:
+      return 'medium';
+    case 4:
+      return 'low';
+    default:
+      return 'medium';
+  }
+}
+
 export const Insights = ({
   id,
   campaign,
@@ -195,6 +231,40 @@ export const Insights = ({
                     {t('__CAMPAIGN_PAGE_INSIGHTS_NAVIGATION_TITLE')}
                   </StickyNavItemLabel>
                   <StyledDivider />
+                  {data.findings.length > 0 &&
+                    data.findings.map((insight, index) => (
+                      <StyledStickyNavItem
+                        id={`anchor-insight-row-${insight.id}`}
+                        to={`insight-row-${insight.id}`}
+                        containerId="main"
+                        spy
+                        smooth
+                        duration={500}
+                        offset={-30}
+                      >
+                        <StyledBugCard
+                          severity={getSeverity(insight.severity) as Severities}
+                          url="#"
+                          style={{
+                            marginBottom: appTheme.space.sm,
+                          }}
+                        >
+                          {() => (
+                            <>
+                              <BugCard.TopTitle>
+                                {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')}{' '}
+                                {index + 1}
+                              </BugCard.TopTitle>
+                              <BugCard.Title>{insight.title}</BugCard.Title>
+                              <BugCard.Footer>
+                                {getClusterTag(insight.cluster, t)}
+                                {getSeverityTag(insight.severity)}
+                              </BugCard.Footer>
+                            </>
+                          )}
+                        </StyledBugCard>
+                      </StyledStickyNavItem>
+                    ))}
                 </StickyContainer>
               </Col>
               <Col xs={12} lg={8}>
