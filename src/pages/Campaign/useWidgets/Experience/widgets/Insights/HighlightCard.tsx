@@ -57,7 +57,7 @@ const Player = styled(Video.Player)`
   }
 `;
 
-interface VideoPart {
+export interface VideoPart {
   id: number;
   start: number;
   end: number;
@@ -71,15 +71,21 @@ const HighlightCard = ({
   videoPart,
   index,
   insight,
+  onClick,
 }: {
   videoPart: VideoPart;
   index: number;
   insight: Insight;
+  onClick?: () => void;
 }) => {
   const { t } = useTranslation();
 
   return (
-    <SpecialCard key={videoPart.id} title={videoPart.description}>
+    <SpecialCard
+      key={videoPart.id}
+      title={videoPart.description}
+      onClick={onClick}
+    >
       <SpecialCard.Header>
         <CardThumb>
           <VideoPlayIcon />
