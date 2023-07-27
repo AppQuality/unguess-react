@@ -1,12 +1,22 @@
-import { Col, Grid, Row, Skeleton } from '@appquality/unguess-design-system';
+import {
+  Col,
+  Grid,
+  Row,
+  Skeleton,
+  XL,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { WidgetSection } from 'src/pages/Campaign/WidgetSection';
+import { useState } from 'react';
+import { Divider } from 'src/common/components/divider';
+import { appTheme } from 'src/app/theme';
 import { useCampaignInsights } from './useCampaignInsights';
 import { Navigation } from './Navigation';
 import { InsightCard } from './InsightCard';
 import { HighlightCard } from './HighlightCard';
+import { InsightLightbox } from './Lightbox';
 
 export const Insights = ({
   id,
@@ -19,6 +29,26 @@ export const Insights = ({
   const { data, isLoading } = useCampaignInsights({
     campaignId: campaign.id ?? 0,
   });
+  const [insightsLightbox, setInsightsLightbox] = useState(
+    data?.findings.reduce(
+      (
+        acc: {
+          [key: number]: {
+            isOpen: boolean;
+            currentIndex: number;
+          };
+        },
+        insight
+      ) => {
+        acc[insight.id] = {
+          isOpen: false,
+          currentIndex: 0,
+        };
+        return acc;
+      },
+      {}
+    ) ?? {}
+  );
 
   if (!data || !data.findings) return null;
 
@@ -31,6 +61,26 @@ export const Insights = ({
       anchor.scrollIntoView();
     }
   }
+
+  const onSlideChange = (insightId: number, index: number) => {
+    setInsightsLightbox({
+      ...insightsLightbox,
+      [insightId]: {
+        isOpen: true,
+        currentIndex: index,
+      },
+    });
+  };
+
+  const openLightbox = (insightId: number, index: number) => {
+    setInsightsLightbox({
+      ...insightsLightbox,
+      [insightId]: {
+        isOpen: true,
+        currentIndex: index,
+      },
+    });
+  };
 
   return (
     <WidgetSection {...(id && { id })}>
@@ -63,17 +113,49 @@ export const Insights = ({
               <Col xs={12} lg={8}>
                 <Grid>
                   {data.findings.length > 0 &&
-                    data.findings.map((insight) => (
+                    data.findings.map((insight, i) => (
                       <Row id={`insight-row-${insight.id}`}>
-                        {/* TODO: Insert section title and subtitle */}
+                        <Col xs={12}>
+                          <XL
+                            style={{
+                              fontWeight: appTheme.fontWeights.semibold,
+                            }}
+                          >
+                            {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
+                          </XL>
+                          <Divider />
+                        </Col>
                         <Col xs={12} lg={6}>
                           <InsightCard insight={insight} />
                         </Col>
                         {insight.videoPart.map((videoPart, index) => (
                           <Col xs={12} lg={6}>
-                            <HighlightCard {...{ videoPart, index, insight }} />
+                            <HighlightCard
+                              onClick={() => openLightbox(insight.id, index)}
+                              {...{ videoPart, index, insight }}
+                            />
                           </Col>
                         ))}
+                        {insightsLightbox[insight.id].isOpen && (
+                          <InsightLightbox
+                            currentIndex={
+                              insightsLightbox[insight.id].currentIndex
+                            }
+                            items={insight.videoPart}
+                            onClose={() =>
+                              setInsightsLightbox({
+                                ...insightsLightbox,
+                                [insight.id]: {
+                                  isOpen: false,
+                                  currentIndex: 0,
+                                },
+                              })
+                            }
+                            onSlideChange={(index) =>
+                              onSlideChange(insight.id, index)
+                            }
+                          />
+                        )}
                       </Row>
                     ))}
                 </Grid>
