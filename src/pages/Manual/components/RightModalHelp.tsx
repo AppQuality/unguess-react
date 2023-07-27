@@ -48,10 +48,6 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
       <XXL isBold style={{ color: appTheme.palette.grey[800], marginTop: 32 }}>
         {t('__PUBLIC_MANUAL_HELP_MODAL_TITLE')}
       </XXL>
-      <Paragraph style={{ color: appTheme.palette.grey[700], marginTop: 8 }}>
-        {t('__PUBLIC_MANUAL_HELP_MODAL_CONTENT')}
-      </Paragraph>
-
       {isLoading && (
         <>
           <Skeleton height="30px" style={{ marginTop: appTheme.space.md }} />
@@ -60,20 +56,32 @@ export const RightModalHelp = ({ campaignId }: { campaignId: string }) => {
         </>
       )}
       {(isError || !links || links.length === 0) && (
-        <Button
-          isPrimary
-          isAccent
-          style={{ marginTop: 36 }}
-          onClick={goToSupportCenter}
-        >
-          <Button.StartIcon>
-            <NewWindowIcon />
-          </Button.StartIcon>
-          {t('__PUBLIC_MANUAL_HELP_MODAL_BUTTON_SUPPORT_CENTER')}
-        </Button>
+        <>
+          <Paragraph
+            style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
+          >
+            {t('__PUBLIC_MANUAL_HELP_MODAL_CONTENT_NO_LINKS')}
+          </Paragraph>
+          <Button
+            isPrimary
+            isAccent
+            style={{ marginTop: 36 }}
+            onClick={goToSupportCenter}
+          >
+            <Button.StartIcon>
+              <NewWindowIcon />
+            </Button.StartIcon>
+            {t('__PUBLIC_MANUAL_HELP_MODAL_BUTTON_SUPPORT_CENTER')}
+          </Button>
+        </>
       )}
       {links && links.length > 0 && !isError && !isLoading && (
         <>
+          <Paragraph
+            style={{ color: appTheme.palette.grey[700], marginTop: 8 }}
+          >
+            {t('__PUBLIC_MANUAL_HELP_MODAL_CONTENT')}
+          </Paragraph>
           {links.map((link: any) => (
             <Paragraph>
               <Anchor
