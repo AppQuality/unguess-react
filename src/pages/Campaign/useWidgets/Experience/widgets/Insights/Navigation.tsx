@@ -8,6 +8,8 @@ import {
 import { appTheme } from 'src/app/theme';
 import { BugCard } from 'src/common/components/BugCard';
 import styled from 'styled-components';
+import { Ellipsis } from '@appquality/unguess-design-system';
+import { useEffect, useRef, useState } from 'react';
 import { Insight } from './useCampaignInsights';
 import { getClusterTag, getSeverity, getSeverityTag } from './utils';
 
@@ -37,6 +39,21 @@ const ScrollingContainer = styled.div`
 
 const Navigation = ({ insights }: { insights: Insight[] }) => {
   const { t } = useTranslation();
+  const refScroll = useRef<HTMLDivElement>(null);
+  const [activeInsight, setActiveInsight] = useState<string>();
+
+  useEffect(() => {
+    if (refScroll.current) {
+      // Set ScrollingContainer position to active insight
+      const activeInsightElement = document.getElementById(activeInsight || '');
+      if (activeInsightElement) {
+        refScroll.current.scrollTo({
+          top: activeInsightElement.offsetTop - 100,
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, [activeInsight]);
 
   return (
     <StickyContainer>
@@ -44,7 +61,7 @@ const Navigation = ({ insights }: { insights: Insight[] }) => {
         {t('__CAMPAIGN_PAGE_INSIGHTS_NAVIGATION_TITLE')}
       </StickyNavItemLabel>
       <StyledDivider />
-      <ScrollingContainer>
+      <ScrollingContainer ref={refScroll}>
         {insights.length > 0 &&
           insights.map((insight, index) => (
             <StyledStickyNavItem
@@ -55,6 +72,9 @@ const Navigation = ({ insights }: { insights: Insight[] }) => {
               smooth
               duration={500}
               offset={-30}
+              onSetActive={() => {
+                setActiveInsight(`anchor-insight-row-${insight.id}`);
+              }}
             >
               <StyledBugCard
                 severity={getSeverity(insight.severity) as Severities}
@@ -68,7 +88,9 @@ const Navigation = ({ insights }: { insights: Insight[] }) => {
                     <BugCard.TopTitle>
                       {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {index + 1}
                     </BugCard.TopTitle>
-                    <BugCard.Title>{insight.title}</BugCard.Title>
+                    <BugCard.Title>
+                      <Ellipsis>{insight.title}</Ellipsis>
+                    </BugCard.Title>
                     <BugCard.Footer>
                       {getClusterTag(insight.cluster, t)}
                       {getSeverityTag(insight.severity)}
