@@ -24,7 +24,7 @@ export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
         id: 1,
         name: 'Major issue',
       },
-      cluster: 'all',
+      cluster: 'all' as const,
       video: [
         {
           id: 1,
