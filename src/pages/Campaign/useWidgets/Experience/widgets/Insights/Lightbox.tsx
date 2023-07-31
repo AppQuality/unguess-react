@@ -4,7 +4,7 @@ import Video from '@appquality/stream-player';
 import styled from 'styled-components';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { appTheme } from 'src/app/theme';
-import { VideoPart } from './HighlightCard';
+import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 
 const Player = styled(Video.Player)``;
 
@@ -14,7 +14,9 @@ const InsightLightbox = ({
   onClose,
   onSlideChange,
 }: {
-  items: VideoPart[];
+  items: NonNullable<
+    GetCampaignsByCidUxApiResponse['findings']
+  >[number]['video'];
   currentIndex?: number;
   onClose?: () => void;
   onSlideChange?: (index: number) => void;
@@ -51,14 +53,16 @@ const InsightLightbox = ({
             onSlideChange={slideChange}
             initialSlide={currentIndex}
           >
-            {items.map((item) => (
-              <Slider.Slide>
-                <Video src={item.streamUrl} start={item.start} end={item.end}>
-                  <Video.PlayPauseButton />
-                  <Player />
-                </Video>
-              </Slider.Slide>
-            ))}
+            {items &&
+              items.length > 0 &&
+              items.map((item) => (
+                <Slider.Slide>
+                  <Video src={item.streamUrl} start={item.start} end={item.end}>
+                    <Video.PlayPauseButton />
+                    <Player />
+                  </Video>
+                </Slider.Slide>
+              ))}
           </Slider>
         </Lightbox.Body.Main>
         {hideDetails === false && (
