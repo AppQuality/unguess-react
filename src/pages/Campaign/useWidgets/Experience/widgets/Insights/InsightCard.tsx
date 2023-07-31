@@ -2,7 +2,7 @@ import { SpecialCard } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { Insight } from './useCampaignInsights';
+import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import { getClusterTag, getSeverityIcon, getSeverityTag } from './utils';
 
 export const CardFooter = styled(SpecialCard.Footer)`
@@ -14,11 +14,19 @@ export const CardFooter = styled(SpecialCard.Footer)`
   }
 `;
 
-const InsightCard = ({ insight }: { insight: Insight }) => {
+const StyledSpecialCard = styled(SpecialCard)`
+  pointer-events: none;
+`;
+
+const InsightCard = ({
+  insight,
+}: {
+  insight: NonNullable<GetCampaignsByCidUxApiResponse['findings']>[number];
+}) => {
   const { t } = useTranslation();
 
   return (
-    <SpecialCard title={insight.title}>
+    <StyledSpecialCard title={insight.title}>
       <SpecialCard.Thumb>{getSeverityIcon(insight.severity)}</SpecialCard.Thumb>
       <SpecialCard.Header>
         <SpecialCard.Header.Label>
@@ -33,7 +41,7 @@ const InsightCard = ({ insight }: { insight: Insight }) => {
         {getClusterTag(insight.cluster, t)}
         {getSeverityTag(insight.severity)}
       </CardFooter>
-    </SpecialCard>
+    </StyledSpecialCard>
   );
 };
 
