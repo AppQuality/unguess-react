@@ -3,8 +3,8 @@ import { SpecialCard } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
 import { useTranslation } from 'react-i18next';
+import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import { CardFooter } from './InsightCard';
-import { Insight } from './useCampaignInsights';
 import { getClusterTag, getSeverityTag } from './utils';
 
 const CardThumb = styled(SpecialCard.Thumb)`
@@ -57,43 +57,27 @@ const Player = styled(Video.Player)`
   }
 `;
 
-export interface VideoPart {
-  id: number;
-  start: number;
-  end: number;
-  mediaId: number;
-  url: string;
-  streamUrl: string;
-  description: string;
-}
-
 const HighlightCard = ({
-  videoPart,
+  video,
   index,
   insight,
   onClick,
 }: {
-  videoPart: VideoPart;
+  video: NonNullable<
+    NonNullable<GetCampaignsByCidUxApiResponse['findings']>[number]['video']
+  >[number];
   index: number;
-  insight: Insight;
+  insight: NonNullable<GetCampaignsByCidUxApiResponse['findings']>[number];
   onClick?: () => void;
 }) => {
   const { t } = useTranslation();
 
   return (
-    <SpecialCard
-      key={videoPart.id}
-      title={videoPart.description}
-      onClick={onClick}
-    >
+    <SpecialCard title={video.description} onClick={onClick}>
       <SpecialCard.Header>
         <CardThumb>
           <VideoPlayIcon />
-          <Video
-            src={videoPart.streamUrl}
-            start={videoPart.start}
-            end={videoPart.end}
-          >
+          <Video src={video.streamUrl} start={video.start} end={video.end}>
             <Player />
           </Video>
         </CardThumb>
@@ -101,7 +85,7 @@ const HighlightCard = ({
           {t('__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL')} {index + 1}
         </SpecialCard.Header.Label>
         <SpecialCard.Header.Title>
-          {`”${videoPart.description}”`}
+          {`”${video.description}”`}
         </SpecialCard.Header.Title>
       </SpecialCard.Header>
       <CardFooter justifyContent="start">
