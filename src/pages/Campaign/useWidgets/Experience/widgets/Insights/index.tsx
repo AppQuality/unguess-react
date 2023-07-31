@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { WidgetSection } from 'src/pages/Campaign/WidgetSection';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import { useCampaignInsights } from './useCampaignInsights';
@@ -27,40 +27,26 @@ export const Insights = ({
 }) => {
   const { t } = useTranslation();
   const { data, isLoading } = useCampaignInsights({
-    campaignId: campaign.id ?? 0,
+    campaignId: campaign.id ? campaign.id.toString() : '',
   });
-  const [insightsLightbox, setInsightsLightbox] = useState(
-    data?.findings.reduce(
-      (
-        acc: {
-          [key: number]: {
-            isOpen: boolean;
-            currentIndex: number;
-          };
-        },
-        insight
-      ) => {
-        acc[insight.id] = {
-          isOpen: false,
-          currentIndex: 0,
-        };
-        return acc;
-      },
-      {}
-    ) ?? {}
-  );
-
-  if (!data || !data.findings) return null;
+  const [insightsLightbox, setInsightsLightbox] = useState<{
+    [key: number]: {
+      isOpen: boolean;
+      currentIndex: number;
+    };
+  }>({});
 
   // Check if url has an anchor and scroll to it
-  const url = window.location.href;
-  const urlAnchor = url.split('#')[1];
-  if (urlAnchor) {
-    const anchor = document.getElementById(urlAnchor);
-    if (anchor) {
-      anchor.scrollIntoView();
+  useEffect(() => {
+    const url = window.location.href;
+    const urlAnchor = url.split('#')[1];
+    if (urlAnchor) {
+      const anchor = document.getElementById(urlAnchor);
+      if (anchor) {
+        anchor.scrollIntoView();
+      }
     }
-  }
+  }, []);
 
   const onSlideChange = (insightId: number, index: number) => {
     setInsightsLightbox({
@@ -81,6 +67,8 @@ export const Insights = ({
       },
     });
   };
+
+  if (!data || !data.findings) return null;
 
   return (
     <WidgetSection {...(id && { id })}>
@@ -128,34 +116,38 @@ export const Insights = ({
                         <Col xs={12} lg={6}>
                           <InsightCard insight={insight} />
                         </Col>
-                        {insight.videoPart.map((videoPart, index) => (
+                        {insight.video?.map((videoPart, index) => (
                           <Col xs={12} lg={6}>
                             <HighlightCard
                               onClick={() => openLightbox(insight.id, index)}
-                              {...{ videoPart, index, insight }}
+                              video={videoPart}
+                              index={index}
+                              insight={insight}
                             />
                           </Col>
                         ))}
-                        {insightsLightbox[insight.id].isOpen && (
-                          <InsightLightbox
-                            currentIndex={
-                              insightsLightbox[insight.id].currentIndex
-                            }
-                            items={insight.videoPart}
-                            onClose={() =>
-                              setInsightsLightbox({
-                                ...insightsLightbox,
-                                [insight.id]: {
-                                  isOpen: false,
-                                  currentIndex: 0,
-                                },
-                              })
-                            }
-                            onSlideChange={(index) =>
-                              onSlideChange(insight.id, index)
-                            }
-                          />
-                        )}
+                        {insightsLightbox &&
+                          insightsLightbox[insight.id] &&
+                          insightsLightbox[insight.id].isOpen && (
+                            <InsightLightbox
+                              currentIndex={
+                                insightsLightbox[insight.id].currentIndex
+                              }
+                              items={insight?.video}
+                              onClose={() =>
+                                setInsightsLightbox({
+                                  ...insightsLightbox,
+                                  [insight.id]: {
+                                    isOpen: false,
+                                    currentIndex: 0,
+                                  },
+                                })
+                              }
+                              onSlideChange={(index) =>
+                                onSlideChange(insight.id, index)
+                              }
+                            />
+                          )}
                       </Row>
                     ))}
                 </Grid>
