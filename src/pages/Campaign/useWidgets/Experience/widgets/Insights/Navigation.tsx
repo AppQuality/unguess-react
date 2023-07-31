@@ -10,10 +10,12 @@ import { BugCard } from 'src/common/components/BugCard';
 import styled from 'styled-components';
 import { Ellipsis } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
-import { Insight } from './useCampaignInsights';
+import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import { getClusterTag, getSeverity, getSeverityTag } from './utils';
 
-const StyledBugCard = styled(BugCard)``;
+const StyledBugCard = styled(BugCard)`
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
 
 const StyledStickyNavItem = styled(StickyNavItem)`
   padding: 0;
@@ -37,7 +39,11 @@ const ScrollingContainer = styled.div`
   padding-right: ${({ theme }) => theme.space.sm};
 `;
 
-const Navigation = ({ insights }: { insights: Insight[] }) => {
+const Navigation = ({
+  insights,
+}: {
+  insights: GetCampaignsByCidUxApiResponse['findings'];
+}) => {
   const { t } = useTranslation();
   const refScroll = useRef<HTMLDivElement>(null);
   const [activeInsight, setActiveInsight] = useState<string>();
@@ -62,7 +68,8 @@ const Navigation = ({ insights }: { insights: Insight[] }) => {
       </StickyNavItemLabel>
       <StyledDivider />
       <ScrollingContainer ref={refScroll}>
-        {insights.length > 0 &&
+        {insights &&
+          insights.length > 0 &&
           insights.map((insight, index) => (
             <StyledStickyNavItem
               id={`anchor-insight-row-${insight.id}`}
@@ -79,9 +86,6 @@ const Navigation = ({ insights }: { insights: Insight[] }) => {
               <StyledBugCard
                 severity={getSeverity(insight.severity) as Severities}
                 url="#"
-                style={{
-                  marginBottom: appTheme.space.sm,
-                }}
               >
                 {() => (
                   <>
