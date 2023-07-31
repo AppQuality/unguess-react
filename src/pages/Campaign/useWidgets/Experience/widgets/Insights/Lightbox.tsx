@@ -58,7 +58,6 @@ const InsightLightbox = ({
               items.map((item) => (
                 <Slider.Slide>
                   <Video src={item.streamUrl} start={item.start} end={item.end}>
-                    <Video.PlayPauseButton />
                     <Player />
                   </Video>
                 </Slider.Slide>
