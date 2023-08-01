@@ -26,7 +26,7 @@ export const Insights = ({
   campaign: Campaign;
 }) => {
   const { t } = useTranslation();
-  const { data, isLoading } = useCampaignInsights({
+  const { data, isLoading, isError } = useCampaignInsights({
     campaignId: campaign.id ? campaign.id.toString() : '',
   });
   const [insightsLightbox, setInsightsLightbox] = useState<{
@@ -68,7 +68,9 @@ export const Insights = ({
     });
   };
 
-  if (!data || !data.findings) return null;
+  if (!data || !data.findings || isError) return null;
+
+  if (data.findings && data.findings.length === 0) return null;
 
   return (
     <WidgetSection {...(id && { id })}>
@@ -100,56 +102,55 @@ export const Insights = ({
               </Col>
               <Col xs={12} lg={8}>
                 <Grid>
-                  {data.findings.length > 0 &&
-                    data.findings.map((insight, i) => (
-                      <Row id={`insight-row-${insight.id}`}>
-                        <Col xs={12}>
-                          <XL
-                            style={{
-                              fontWeight: appTheme.fontWeights.semibold,
-                            }}
-                          >
-                            {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
-                          </XL>
-                          <Divider />
-                        </Col>
+                  {data.findings.map((insight, i) => (
+                    <Row id={`insight-row-${insight.id}`}>
+                      <Col xs={12}>
+                        <XL
+                          style={{
+                            fontWeight: appTheme.fontWeights.semibold,
+                          }}
+                        >
+                          {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
+                        </XL>
+                        <Divider />
+                      </Col>
+                      <Col xs={12} lg={6}>
+                        <InsightCard insight={insight} />
+                      </Col>
+                      {insight.video?.map((videoPart, index) => (
                         <Col xs={12} lg={6}>
-                          <InsightCard insight={insight} />
+                          <HighlightCard
+                            onClick={() => openLightbox(insight.id, index)}
+                            video={videoPart}
+                            index={index}
+                            insight={insight}
+                          />
                         </Col>
-                        {insight.video?.map((videoPart, index) => (
-                          <Col xs={12} lg={6}>
-                            <HighlightCard
-                              onClick={() => openLightbox(insight.id, index)}
-                              video={videoPart}
-                              index={index}
-                              insight={insight}
-                            />
-                          </Col>
-                        ))}
-                        {insightsLightbox &&
-                          insightsLightbox[insight.id] &&
-                          insightsLightbox[insight.id].isOpen && (
-                            <InsightLightbox
-                              currentIndex={
-                                insightsLightbox[insight.id].currentIndex
-                              }
-                              items={insight?.video}
-                              onClose={() =>
-                                setInsightsLightbox({
-                                  ...insightsLightbox,
-                                  [insight.id]: {
-                                    isOpen: false,
-                                    currentIndex: 0,
-                                  },
-                                })
-                              }
-                              onSlideChange={(index) =>
-                                onSlideChange(insight.id, index)
-                              }
-                            />
-                          )}
-                      </Row>
-                    ))}
+                      ))}
+                      {insightsLightbox &&
+                        insightsLightbox[insight.id] &&
+                        insightsLightbox[insight.id].isOpen && (
+                          <InsightLightbox
+                            currentIndex={
+                              insightsLightbox[insight.id].currentIndex
+                            }
+                            items={insight?.video}
+                            onClose={() =>
+                              setInsightsLightbox({
+                                ...insightsLightbox,
+                                [insight.id]: {
+                                  isOpen: false,
+                                  currentIndex: 0,
+                                },
+                              })
+                            }
+                            onSlideChange={(index) =>
+                              onSlideChange(insight.id, index)
+                            }
+                          />
+                        )}
+                    </Row>
+                  ))}
                 </Grid>
               </Col>
             </>
