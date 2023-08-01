@@ -18,15 +18,16 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
   } = useGetCampaignsByCidReportsQuery({
     cid: campaignId.toString(),
   });
+
   const reportList = [
-    ...(reports ?? []),
+    ...(reports && reports.length ? reports : []),
     ...(campaign?.family.name.toLocaleLowerCase() === 'functional'
       ? ['bugreport' as const]
       : []),
   ];
 
   const showReport = !!(
-    reportList &&
+    reportList.length &&
     campaign &&
     !isLoadingReports &&
     !isFetchingReports
