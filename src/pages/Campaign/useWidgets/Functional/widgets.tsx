@@ -16,6 +16,7 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
 
   if (!showFunctional || !campaign) return [];
 
+  // TODO: Check if widgets contain data before returning navigation items (Check Experience/widgets.tsx for example)
   return [
     {
       id: 'campaign-overview',
