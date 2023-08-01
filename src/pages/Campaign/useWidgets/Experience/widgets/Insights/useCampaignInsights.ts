@@ -5,12 +5,23 @@ export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
     cid: campaignId,
   });
 
-  if (isLoading || isFetching || isError || !data) {
+  if (isLoading || isFetching) {
     return {
       data: {
         findings: [],
       },
       isLoading: true,
+      isError: false,
+    };
+  }
+
+  if (!data || isError) {
+    return {
+      data: {
+        findings: [],
+      },
+      isLoading: false,
+      isError: true,
     };
   }
 
@@ -362,8 +373,9 @@ export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
 
   return {
     data: {
-      findings: fakeFindings,
+      findings: data.findings,
     },
     isLoading: false,
+    isError: false,
   };
 };
