@@ -131,6 +131,7 @@ export const Insights = ({
                         insightsLightbox[insight.id] &&
                         insightsLightbox[insight.id].isOpen && (
                           <InsightLightbox
+                            insight={insight}
                             currentIndex={
                               insightsLightbox[insight.id].currentIndex
                             }
