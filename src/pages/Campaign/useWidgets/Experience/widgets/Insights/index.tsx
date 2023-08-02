@@ -8,7 +8,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
-import { WidgetSection } from 'src/pages/Campaign/WidgetSection';
 import { useEffect, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
