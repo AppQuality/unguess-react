@@ -12,11 +12,22 @@ import { WidgetSection } from 'src/pages/Campaign/WidgetSection';
 import { useEffect, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
+import styled, { css } from 'styled-components';
 import { useCampaignInsights } from './useCampaignInsights';
 import { Navigation } from './Navigation';
 import { InsightCard } from './InsightCard';
 import { HighlightCard } from './HighlightCard';
 import { InsightLightbox } from './Lightbox';
+
+const hideOnMobile = css`
+  @media (max-width: ${appTheme.breakpoints.lg}) {
+    display: none;
+  }
+`;
+
+const ResponsiveCol = styled(Col)`
+  ${hideOnMobile}
+`;
 
 export const Insights = ({
   id,
@@ -73,7 +84,7 @@ export const Insights = ({
   if (data.findings && data.findings.length === 0) return null;
 
   return (
-    <WidgetSection {...(id && { id })}>
+    <div {...(id && { id })}>
       <Grid>
         <Row>
           <Col xs={12}>
@@ -97,10 +108,10 @@ export const Insights = ({
             </>
           ) : (
             <>
-              <Col xs={12} lg={4}>
+              <ResponsiveCol xs={12} lg={6} xl={4}>
                 <Navigation insights={data.findings} />
-              </Col>
-              <Col xs={12} lg={8}>
+              </ResponsiveCol>
+              <Col xs={12} lg={6} xl={8}>
                 <Grid>
                   {data.findings.map((insight, i) => (
                     <Row id={`insight-row-${insight.id}`}>
@@ -114,11 +125,11 @@ export const Insights = ({
                         </XL>
                         <Divider />
                       </Col>
-                      <Col xs={12} lg={6}>
+                      <Col xs={12} md={6} lg={12} xl={6}>
                         <InsightCard insight={insight} />
                       </Col>
                       {insight.video?.map((videoPart, index) => (
-                        <Col xs={12} lg={6}>
+                        <Col xs={12} md={6} lg={12} xl={6}>
                           <HighlightCard
                             onClick={() => openLightbox(insight.id, index)}
                             video={videoPart}
@@ -158,6 +169,6 @@ export const Insights = ({
           )}
         </Row>
       </Grid>
-    </WidgetSection>
+    </div>
   );
 };
