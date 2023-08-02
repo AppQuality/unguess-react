@@ -87,4 +87,27 @@ function getSeverity(
   }
 }
 
-export { getSeverityIcon, getSeverityTag, getClusterTag, getSeverity };
+function getClusterName(
+  cluster: NonNullable<
+    GetCampaignsByCidUxApiResponse['findings']
+  >[number]['cluster'],
+  t: TFunction
+) {
+  if (cluster === 'all') {
+    return t('__CAMPAIGN_PAGE_INSIGHTS_ALL_CLUSTERS');
+  }
+
+  if (Array.isArray(cluster)) {
+    return cluster.map((c) => c.name).join(', ');
+  }
+
+  return null;
+}
+
+export {
+  getSeverityIcon,
+  getSeverityTag,
+  getClusterTag,
+  getSeverity,
+  getClusterName,
+};
