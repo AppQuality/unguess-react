@@ -1,7 +1,9 @@
 import { Ellipsis, Tag } from '@appquality/unguess-design-system';
 import { TFunction } from 'react-i18next';
-import { ReactComponent as MajorIssueIcon } from 'src/assets/icons/insight-major-issue.svg';
-import { ReactComponent as MinorIssueIcon } from 'src/assets/icons/insight-minor-issue.svg';
+import { ReactComponent as MajorIssueIcon } from 'src/assets/icons/insight-major-issue-icon.svg';
+import { ReactComponent as MinorIssueIcon } from 'src/assets/icons/insight-minor-issue-icon.svg';
+import { ReactComponent as ObservationIcon } from 'src/assets/icons/insight-observation-icon.svg';
+import { ReactComponent as PositiveFindingIcon } from 'src/assets/icons/insight-positive-finding-icon.svg';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 
@@ -15,6 +17,10 @@ function getSeverityIcon(
       return <MajorIssueIcon />;
     case 2:
       return <MinorIssueIcon />;
+    case 3:
+      return <PositiveFindingIcon />;
+    case 4:
+      return <ObservationIcon />;
     default:
       return null;
   }
@@ -39,6 +45,19 @@ function getSeverityTag(
           <Ellipsis>{text ?? severity.name}</Ellipsis>
         </SeverityTag>
       );
+    case 3:
+      return (
+        <SeverityTag hasBackground severity="low">
+          <Ellipsis>{text ?? severity.name}</Ellipsis>
+        </SeverityTag>
+      );
+    case 4:
+      return (
+        <SeverityTag hasBackground severity="medium">
+          <Ellipsis>{text ?? severity.name}</Ellipsis>
+        </SeverityTag>
+      );
+
     default:
       return null;
   }
