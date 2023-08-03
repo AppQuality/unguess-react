@@ -119,8 +119,8 @@ const InsightLightbox = ({
         )}
       </Lightbox.Body>
       {/* TODO: check how to download the trimmed video, not the full media url 📦📦📦 */}
-      {/* <Lightbox.Footer>
-        <Button
+      <Lightbox.Footer>
+        {/* <Button
           isBasic
           onClick={() => {
             if (items)
@@ -135,8 +135,8 @@ const InsightLightbox = ({
             <DownloadIcon />
           </Button.StartIcon>
           {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_DOWNLOAD_BUTTON')}
-        </Button>
-      </Lightbox.Footer> */}
+        </Button> */}
+      </Lightbox.Footer>
       <Lightbox.Close aria-label="Close insight lightbox" />
     </Lightbox>
   );
