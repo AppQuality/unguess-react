@@ -59,7 +59,6 @@ const Navigation = ({
       if (activeInsightElement) {
         refScroll.current.scrollTo({
           top: activeInsightElement.offsetTop - 100,
-          behavior: 'instant',
         });
       }
     }
