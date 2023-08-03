@@ -2,7 +2,7 @@ import Video from '@appquality/stream-player';
 import { SpecialCard } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import { CardFooter } from './InsightCard';
 import { getClusterTag, getSeverityTag } from './utils';
@@ -59,6 +59,7 @@ const Player = styled(Video.Player)`
 
 const HighlightCard = ({
   video,
+  videoCount,
   index,
   insight,
   onClick,
@@ -66,6 +67,7 @@ const HighlightCard = ({
   video: NonNullable<
     NonNullable<GetCampaignsByCidUxApiResponse['findings']>[number]['video']
   >[number];
+  videoCount: number;
   index: number;
   insight: NonNullable<GetCampaignsByCidUxApiResponse['findings']>[number];
   onClick?: () => void;
@@ -82,7 +84,9 @@ const HighlightCard = ({
           </Video>
         </CardThumb>
         <SpecialCard.Header.Label>
-          {t('__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL')} {index + 1}
+          <Trans i18nKey="__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL">
+            Highlight {{ index: index + 1 }} of {{ video_count: videoCount }}
+          </Trans>
         </SpecialCard.Header.Label>
         <SpecialCard.Header.Title>
           {`”${video.description}”`}

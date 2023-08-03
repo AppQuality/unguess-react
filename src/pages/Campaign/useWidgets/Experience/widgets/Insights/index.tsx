@@ -139,6 +139,7 @@ export const Insights = ({
                             video={videoPart}
                             index={index}
                             insight={insight}
+                            videoCount={insight.video.length}
                           />
                         </Col>
                       ))}
@@ -185,6 +186,7 @@ export const Insights = ({
                               video={videoPart}
                               index={index + 1}
                               insight={insight}
+                              videoCount={insight.video.length}
                             />
                           </Col>
                         ))}

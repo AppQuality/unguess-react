@@ -247,7 +247,7 @@
   "__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL_one": "Mostra altri highlight <2>({{video_count}})</2>",
   "__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL_many": "Mostra altri highlight <2>({{video_count}})</2>",
   "__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL_other": "Mostra altri highlight <2>({{video_count}})</2>",
-  "__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL": "Highlight n.",
+  "__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL": "Highlight {{index}} di {{video_count}}",
   "__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL": "Vai alla lista bug",
   "__CAMPAIGN_PAGE_NAVIGATION_BUG_GROUP_DETAILS_LABEL": "APPROFONDISCI",
   "__CAMPAIGN_PAGE_NAVIGATION_BUG_GROUP_OTHER_LABEL": "DOWNLOAD",
