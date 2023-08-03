@@ -9,13 +9,19 @@ import { ProfileAvatar } from './profileAvatar';
 export const Header = ({
   logo = 'simple',
   loggedIn = true,
+  style,
 }: {
   logo?: 'simple' | 'full';
   loggedIn?: boolean;
+  style?: React.CSSProperties;
 }) => (
   <UgHeader
     isStandalone
-    style={{ zIndex: appTheme.levels.front, justifyContent: 'space-between' }}
+    style={{
+      zIndex: appTheme.levels.front,
+      justifyContent: 'space-between',
+      ...style,
+    }}
   >
     {loggedIn && <MobileToggle />}
     <BrandLogo size={logo} />
