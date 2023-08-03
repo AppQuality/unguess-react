@@ -163,13 +163,14 @@ export const Insights = ({
                                 count={insight.video.length - 1}
                                 i18nKey="__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL"
                               >
-                                Show{' '}
+                                Show more highlights{' '}
                                 <Span isBold>
+                                  (
                                   {{
                                     video_count: insight.video.length - 1,
                                   }}
-                                </Span>{' '}
-                                more highlights
+                                  )
+                                </Span>
                               </Trans>
                             </Anchor>
                           </Col>
