@@ -103,6 +103,17 @@ export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
           description:
             'I can find something, there are no stores near me that I can visit',
         },
+        {
+          id: 2,
+          start: 25,
+          end: 50,
+          mediaId: 1,
+          url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+          streamUrl:
+            'http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8',
+          description:
+            'I can find something, there are no stores near me that I can visit',
+        },
       ],
     },
     {
@@ -111,8 +122,8 @@ export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
       description:
         "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
       severity: {
-        id: 2,
-        name: 'Minor issue',
+        id: 4,
+        name: 'Observation',
       },
       cluster: [
         {
@@ -144,8 +155,8 @@ export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
       description:
         "I motori di ricerca dei diversi flussi per fissare un appuntamento presentano malfunzionamenti e dinamiche diverse che rendono complicata l'interazione e la ricerca.",
       severity: {
-        id: 2,
-        name: 'Minor issue',
+        id: 3,
+        name: 'Positive finding',
       },
       cluster: [
         {
@@ -373,7 +384,7 @@ export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
 
   return {
     data: {
-      findings: data.findings,
+      findings: fakeFindings,
     },
     isLoading: false,
     isError: false,
