@@ -26,6 +26,10 @@ const hideOnMobile = css`
   }
 `;
 
+const StyledDivider = styled(Divider)`
+  margin: ${({ theme }) => theme.space.base * 4}px 0;
+`;
+
 const ResponsiveCol = styled(Col)`
   ${hideOnMobile}
 `;
@@ -119,8 +123,11 @@ export const Insights = ({
               <Col xs={12} lg={6} xl={8}>
                 <Grid>
                   {data.findings.map((insight, i) => (
-                    <Row id={`insight-row-${insight.id}`}>
-                      <Col xs={12}>
+                    <Row
+                      id={`insight-row-${insight.id}`}
+                      style={{ marginBottom: appTheme.space.lg }}
+                    >
+                      <Col xs={12} style={{ margin: 0 }}>
                         <XL
                           style={{
                             fontWeight: appTheme.fontWeights.semibold,
@@ -128,13 +135,25 @@ export const Insights = ({
                         >
                           {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
                         </XL>
-                        <Divider />
+                        <StyledDivider />
                       </Col>
-                      <Col xs={12} md={6} lg={12} xl={6}>
+                      <Col
+                        xs={12}
+                        md={6}
+                        lg={12}
+                        xl={6}
+                        style={{ marginBottom: appTheme.space.md }}
+                      >
                         <InsightCard insight={insight} />
                       </Col>
                       {insight.video?.slice(0, 1).map((videoPart, index) => (
-                        <Col xs={12} md={6} lg={12} xl={6}>
+                        <Col
+                          xs={12}
+                          md={6}
+                          lg={12}
+                          xl={6}
+                          style={{ marginBottom: appTheme.space.md }}
+                        >
                           <HighlightCard
                             onClick={() => openLightbox(insight.id, index)}
                             video={videoPart}
@@ -149,7 +168,11 @@ export const Insights = ({
                         insightsState &&
                         (!insightsState[insight.id] ||
                           !insightsState[insight.id].showMore) && (
-                          <Col xs={12} textAlign="end">
+                          <Col
+                            xs={12}
+                            textAlign="end"
+                            style={{ marginBottom: appTheme.space.md }}
+                          >
                             <Anchor
                               onClick={() =>
                                 setInsightsState({
@@ -181,7 +204,13 @@ export const Insights = ({
                         insightsState[insight.id] &&
                         insightsState[insight.id].showMore &&
                         insight.video?.slice(1).map((videoPart, index) => (
-                          <Col xs={12} md={6} lg={12} xl={6}>
+                          <Col
+                            xs={12}
+                            md={6}
+                            lg={12}
+                            xl={6}
+                            style={{ marginBottom: appTheme.space.md }}
+                          >
                             <HighlightCard
                               onClick={() => openLightbox(insight.id, index)}
                               video={videoPart}
@@ -196,7 +225,11 @@ export const Insights = ({
                         insightsState &&
                         insightsState[insight.id] &&
                         insightsState[insight.id].showMore && (
-                          <Col xs={12} textAlign="end">
+                          <Col
+                            xs={12}
+                            textAlign="end"
+                            style={{ marginBottom: appTheme.space.md }}
+                          >
                             <Anchor
                               onClick={() =>
                                 setInsightsState({
