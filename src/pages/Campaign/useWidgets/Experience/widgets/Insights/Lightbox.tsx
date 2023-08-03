@@ -1,5 +1,5 @@
 import {
-  Button,
+  // Button,
   Lightbox,
   MD,
   Slider,
@@ -13,9 +13,13 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import { appTheme } from 'src/app/theme';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import { t } from 'i18next';
-import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
+// import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { Trans } from 'react-i18next';
-import { getClusterName, getClusterTag, getSeverityTag } from './utils';
+import {
+  getClusterName,
+  // getClusterTag,
+  getSeverityTag,
+} from './utils';
 
 const Player = styled(Video.Player)``;
 
