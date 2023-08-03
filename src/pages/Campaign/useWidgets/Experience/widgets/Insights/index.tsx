@@ -131,6 +131,7 @@ export const Insights = ({
                         <XL
                           style={{
                             fontWeight: appTheme.fontWeights.semibold,
+                            paddingTop: appTheme.space.sm,
                           }}
                         >
                           {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
