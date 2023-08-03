@@ -30,5 +30,6 @@ StickyNavItem.defaultProps = {
 };
 
 export const StickyNavItemLabel = styled(MD)`
+  padding-top: ${({ theme }) => theme.space.xxs};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;
