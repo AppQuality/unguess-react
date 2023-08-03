@@ -39,6 +39,10 @@ const ScrollingContainer = styled.div`
   padding-right: ${({ theme }) => theme.space.sm};
 `;
 
+const StyledStickyNavItemLabel = styled(StickyNavItemLabel)`
+  color: ${({ theme }) => theme.palette.grey[800]};
+`;
+
 const Navigation = ({
   insights,
 }: {
@@ -63,9 +67,9 @@ const Navigation = ({
 
   return (
     <StickyContainer>
-      <StickyNavItemLabel>
+      <StyledStickyNavItemLabel>
         {t('__CAMPAIGN_PAGE_INSIGHTS_NAVIGATION_TITLE')}
-      </StickyNavItemLabel>
+      </StyledStickyNavItemLabel>
       <StyledDivider />
       <ScrollingContainer ref={refScroll}>
         {insights &&
