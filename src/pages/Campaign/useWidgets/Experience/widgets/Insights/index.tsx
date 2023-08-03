@@ -91,11 +91,12 @@ export const Insights = ({
     <div {...(id && { id })}>
       <Grid>
         <Row>
-          <Col xs={12}>
+          <Col xs={12} style={{ margin: 0 }}>
             <SectionTitle
               title={t('__CAMPAIGN_PAGE_INSIGHTS_SECTION_TITLE')}
               subtitle={t('__CAMPAIGN_PAGE_INSIGHTS_SECTION_SUBTITLE')}
             />
+            <Divider style={{ margin: `${appTheme.space.md} 0` }} />
           </Col>
         </Row>
       </Grid>
