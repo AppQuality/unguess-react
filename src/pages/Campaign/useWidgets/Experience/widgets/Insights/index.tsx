@@ -6,6 +6,7 @@ import {
   Skeleton,
   Span,
   XL,
+  XXL,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
@@ -77,9 +78,6 @@ export const Insights = ({
   };
 
   const openLightbox = (insightId: number, index: number) => {
-    console.log('insightId: ', insightId);
-    console.log('index: ', index);
-
     setInsightsState({
       ...insightsState,
       [insightId]: {

@@ -1,4 +1,4 @@
-import { Paragraph, theme, XL } from '@appquality/unguess-design-system';
+import { Paragraph, theme, XXL } from '@appquality/unguess-design-system';
 
 export const SectionTitle = ({
   id,
@@ -10,7 +10,7 @@ export const SectionTitle = ({
   subtitle?: string;
 }) => (
   <>
-    <XL
+    <XXL
       id={id}
       style={{
         fontWeight: theme.fontWeights.medium,
@@ -18,7 +18,7 @@ export const SectionTitle = ({
       }}
     >
       {title}
-    </XL>
+    </XXL>
     {subtitle && <Paragraph>{subtitle}</Paragraph>}
   </>
 );
