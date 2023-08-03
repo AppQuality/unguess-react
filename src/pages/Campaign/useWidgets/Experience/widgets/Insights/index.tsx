@@ -1,11 +1,13 @@
 import {
+  Anchor,
   Col,
   Grid,
   Row,
   Skeleton,
+  Span,
   XL,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { useEffect, useState } from 'react';
@@ -39,10 +41,11 @@ export const Insights = ({
   const { data, isLoading, isError } = useCampaignInsights({
     campaignId: campaign.id ? campaign.id.toString() : '',
   });
-  const [insightsLightbox, setInsightsLightbox] = useState<{
+  const [insightsState, setInsightsState] = useState<{
     [key: number]: {
       isOpen: boolean;
       currentIndex: number;
+      showMore: boolean;
     };
   }>({});
 
@@ -59,9 +62,10 @@ export const Insights = ({
   }, []);
 
   const onSlideChange = (insightId: number, index: number) => {
-    setInsightsLightbox({
-      ...insightsLightbox,
+    setInsightsState({
+      ...insightsState,
       [insightId]: {
+        ...insightsState[`${insightId}`],
         isOpen: true,
         currentIndex: index,
       },
@@ -69,9 +73,10 @@ export const Insights = ({
   };
 
   const openLightbox = (insightId: number, index: number) => {
-    setInsightsLightbox({
-      ...insightsLightbox,
+    setInsightsState({
+      ...insightsState,
       [insightId]: {
+        ...insightsState[`${insightId}`],
         isOpen: true,
         currentIndex: index,
       },
@@ -127,7 +132,7 @@ export const Insights = ({
                       <Col xs={12} md={6} lg={12} xl={6}>
                         <InsightCard insight={insight} />
                       </Col>
-                      {insight.video?.map((videoPart, index) => (
+                      {insight.video?.slice(0, 1).map((videoPart, index) => (
                         <Col xs={12} md={6} lg={12} xl={6}>
                           <HighlightCard
                             onClick={() => openLightbox(insight.id, index)}
@@ -137,19 +142,86 @@ export const Insights = ({
                           />
                         </Col>
                       ))}
-                      {insightsLightbox &&
-                        insightsLightbox[insight.id] &&
-                        insightsLightbox[insight.id].isOpen && (
+                      {insight.video &&
+                        insight.video.length > 1 &&
+                        insightsState &&
+                        (!insightsState[insight.id] ||
+                          !insightsState[insight.id].showMore) && (
+                          <Col xs={12} textAlign="end">
+                            <Anchor
+                              onClick={() =>
+                                setInsightsState({
+                                  ...insightsState,
+                                  [insight.id]: {
+                                    ...insightsState[`${insight.id}`],
+                                    showMore: true,
+                                  },
+                                })
+                              }
+                            >
+                              <Trans
+                                count={insight.video.length - 1}
+                                i18nKey="__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL"
+                              >
+                                Show{' '}
+                                <Span isBold>
+                                  {{
+                                    video_count: insight.video.length - 1,
+                                  }}
+                                </Span>{' '}
+                                more highlights
+                              </Trans>
+                            </Anchor>
+                          </Col>
+                        )}
+                      {insightsState &&
+                        insightsState[insight.id] &&
+                        insightsState[insight.id].showMore &&
+                        insight.video?.slice(1).map((videoPart, index) => (
+                          <Col xs={12} md={6} lg={12} xl={6}>
+                            <HighlightCard
+                              onClick={() => openLightbox(insight.id, index)}
+                              video={videoPart}
+                              index={index + 1}
+                              insight={insight}
+                            />
+                          </Col>
+                        ))}
+                      {insight.video &&
+                        insight.video.length > 1 &&
+                        insightsState &&
+                        insightsState[insight.id] &&
+                        insightsState[insight.id].showMore && (
+                          <Col xs={12} textAlign="end">
+                            <Anchor
+                              onClick={() =>
+                                setInsightsState({
+                                  ...insightsState,
+                                  [insight.id]: {
+                                    ...insightsState[`${insight.id}`],
+                                    showMore: false,
+                                  },
+                                })
+                              }
+                            >
+                              {t('__CAMPAIGN_PAGE_INSIGHTS_SHOW_LESS_LABEL')}
+                            </Anchor>
+                          </Col>
+                        )}
+                      {insightsState &&
+                        insightsState[insight.id] &&
+                        insightsState[insight.id].isOpen && (
                           <InsightLightbox
                             insight={insight}
                             currentIndex={
-                              insightsLightbox[insight.id].currentIndex
+                              insightsState[insight.id].currentIndex
                             }
                             items={insight?.video}
                             onClose={() =>
-                              setInsightsLightbox({
-                                ...insightsLightbox,
+                              setInsightsState({
+                                ...insightsState,
                                 [insight.id]: {
+                                  ...insightsState[`${insight.id}`],
                                   isOpen: false,
                                   currentIndex: 0,
                                 },
