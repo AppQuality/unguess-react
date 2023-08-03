@@ -77,6 +77,9 @@ export const Insights = ({
   };
 
   const openLightbox = (insightId: number, index: number) => {
+    console.log('insightId: ', insightId);
+    console.log('index: ', index);
+
     setInsightsState({
       ...insightsState,
       [insightId]: {
@@ -213,7 +216,9 @@ export const Insights = ({
                             style={{ marginBottom: appTheme.space.md }}
                           >
                             <HighlightCard
-                              onClick={() => openLightbox(insight.id, index)}
+                              onClick={() =>
+                                openLightbox(insight.id, index + 1)
+                              }
                               video={videoPart}
                               index={index + 1}
                               insight={insight}
