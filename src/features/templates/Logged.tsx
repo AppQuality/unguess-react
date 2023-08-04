@@ -27,10 +27,12 @@ export const Logged = ({
   children,
   pageHeader,
   route,
+  isMinimal = false,
 }: {
   children: React.ReactNode;
   pageHeader?: React.ReactNode;
   route: string;
+  isMinimal?: boolean;
 }) => {
   const location = useLocation();
   const loginRoute = useLocalizeRoute('login');
@@ -56,7 +58,7 @@ export const Logged = ({
       />
       <Chrome isFluid hue={appTheme.palette.white}>
         <Body id="body" style={{ backgroundColor: appTheme.palette.grey[100] }}>
-          <Navigation route={route}>
+          <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
               {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
               {children}
