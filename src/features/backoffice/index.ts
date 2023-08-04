@@ -162,6 +162,59 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.expressTypeLocalizationRequest,
       }),
     }),
+    getManuals: build.query<GetManualsApiResponse, GetManualsApiArg>({
+      query: (queryArg) => ({
+        url: `/manuals`,
+        params: {
+          sort: queryArg.sort,
+          pagination: queryArg.pagination,
+          fields: queryArg.fields,
+          populate: queryArg.populate,
+        },
+      }),
+    }),
+    postManuals: build.mutation<PostManualsApiResponse, PostManualsApiArg>({
+      query: (queryArg) => ({
+        url: `/manuals`,
+        method: 'POST',
+        body: queryArg.manualRequest,
+      }),
+    }),
+    getManualsById: build.query<
+      GetManualsByIdApiResponse,
+      GetManualsByIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/manuals/${queryArg.id}` }),
+    }),
+    putManualsById: build.mutation<
+      PutManualsByIdApiResponse,
+      PutManualsByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/manuals/${queryArg.id}`,
+        method: 'PUT',
+        body: queryArg.manualRequest,
+      }),
+    }),
+    deleteManualsById: build.mutation<
+      DeleteManualsByIdApiResponse,
+      DeleteManualsByIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/manuals/${queryArg.id}`,
+        method: 'DELETE',
+      }),
+    }),
+    postManualsByIdLocalizations: build.mutation<
+      PostManualsByIdLocalizationsApiResponse,
+      PostManualsByIdLocalizationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/manuals/${queryArg.id}/localizations`,
+        method: 'POST',
+        body: queryArg.manualLocalizationRequest,
+      }),
+    }),
     getServices: build.query<GetServicesApiResponse, GetServicesApiArg>({
       query: (queryArg) => ({
         url: `/services`,
@@ -398,6 +451,45 @@ export type PostExpressTypesByIdLocalizationsApiArg = {
   id: string;
   expressTypeLocalizationRequest: ExpressTypeLocalizationRequest;
 };
+export type GetManualsApiResponse = /** status 200 OK */ ManualListResponse;
+export type GetManualsApiArg = {
+  /** Sort by attributes ascending (asc) or descending (desc) */
+  sort?: string;
+  pagination?: {
+    withCount?: boolean;
+    page?: number;
+    pageSize?: number;
+    start?: number;
+    limit?: number;
+  };
+  /** Fields to return (ex: title,author) */
+  fields?: string;
+  /** Relations to return */
+  populate?: string;
+};
+export type PostManualsApiResponse = /** status 200 OK */ ManualResponse;
+export type PostManualsApiArg = {
+  manualRequest: ManualRequest;
+};
+export type GetManualsByIdApiResponse = /** status 200 OK */ ManualResponse;
+export type GetManualsByIdApiArg = {
+  id: string;
+};
+export type PutManualsByIdApiResponse = /** status 200 OK */ ManualResponse;
+export type PutManualsByIdApiArg = {
+  id: string;
+  manualRequest: ManualRequest;
+};
+export type DeleteManualsByIdApiResponse = /** status 200 OK */ number;
+export type DeleteManualsByIdApiArg = {
+  id: string;
+};
+export type PostManualsByIdLocalizationsApiResponse =
+  /** status 200 OK */ ManualLocalizationResponse;
+export type PostManualsByIdLocalizationsApiArg = {
+  id: string;
+  manualLocalizationRequest: ManualLocalizationRequest;
+};
 export type GetServicesApiResponse = /** status 200 OK */ ServiceListResponse;
 export type GetServicesApiArg = {
   /** Sort by attributes ascending (asc) or descending (desc) */
@@ -620,7 +712,6 @@ export type CategoryListResponse = {
             };
             campaign_type?: string;
             title?: string;
-            is_express?: boolean;
             description?: string;
             duration_in_days?: number;
             environment?: string;
@@ -1562,7 +1653,6 @@ export type CategoryResponse = {
             };
             campaign_type?: string;
             title?: string;
-            is_express?: boolean;
             description?: string;
             duration_in_days?: number;
             environment?: string;
@@ -2492,7 +2582,6 @@ export type CategoryLocalizationResponse = {
         };
         campaign_type?: string;
         title?: string;
-        is_express?: boolean;
         description?: string;
         duration_in_days?: number;
         environment?: string;
@@ -5366,6 +5455,364 @@ export type ExpressTypeLocalizationRequest = {
   description?: string;
   webhook_url?: string;
 };
+export type ManualListResponse = {
+  data?: {
+    id?: string;
+    attributes?: {
+      title?: string;
+      content?: string;
+      campaignId?: number;
+      token?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      publishedAt?: string;
+      createdBy?: {
+        data?: {
+          id?: string;
+          attributes?: {
+            firstname?: string;
+            lastname?: string;
+            username?: string;
+            email?: string;
+            resetPasswordToken?: string;
+            registrationToken?: string;
+            isActive?: boolean;
+            roles?: {
+              data?: {
+                id?: string;
+                attributes?: {
+                  name?: string;
+                  code?: string;
+                  description?: string;
+                  users?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    }[];
+                  };
+                  permissions?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {
+                        action?: string;
+                        subject?: string;
+                        properties?: any;
+                        conditions?: any;
+                        role?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        createdAt?: string;
+                        updatedAt?: string;
+                        createdBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        updatedBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                      };
+                    }[];
+                  };
+                  createdAt?: string;
+                  updatedAt?: string;
+                  createdBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                  updatedBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                };
+              }[];
+            };
+            blocked?: boolean;
+            preferedLanguage?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            createdBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+            updatedBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+          };
+        };
+      };
+      updatedBy?: {
+        data?: {
+          id?: string;
+          attributes?: {};
+        };
+      };
+      localizations?: {}[];
+      locale?: string;
+    };
+  }[];
+  meta?: {
+    pagination?: {
+      page?: number;
+      pageSize?: number;
+      pageCount?: number;
+      total?: number;
+    };
+  };
+};
+export type ManualResponse = {
+  data?: {
+    id?: string;
+    attributes?: {
+      title?: string;
+      content?: string;
+      campaignId?: number;
+      token?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      publishedAt?: string;
+      createdBy?: {
+        data?: {
+          id?: string;
+          attributes?: {
+            firstname?: string;
+            lastname?: string;
+            username?: string;
+            email?: string;
+            resetPasswordToken?: string;
+            registrationToken?: string;
+            isActive?: boolean;
+            roles?: {
+              data?: {
+                id?: string;
+                attributes?: {
+                  name?: string;
+                  code?: string;
+                  description?: string;
+                  users?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    }[];
+                  };
+                  permissions?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {
+                        action?: string;
+                        subject?: string;
+                        properties?: any;
+                        conditions?: any;
+                        role?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        createdAt?: string;
+                        updatedAt?: string;
+                        createdBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                        updatedBy?: {
+                          data?: {
+                            id?: string;
+                            attributes?: {};
+                          };
+                        };
+                      };
+                    }[];
+                  };
+                  createdAt?: string;
+                  updatedAt?: string;
+                  createdBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                  updatedBy?: {
+                    data?: {
+                      id?: string;
+                      attributes?: {};
+                    };
+                  };
+                };
+              }[];
+            };
+            blocked?: boolean;
+            preferedLanguage?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            createdBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+            updatedBy?: {
+              data?: {
+                id?: string;
+                attributes?: {};
+              };
+            };
+          };
+        };
+      };
+      updatedBy?: {
+        data?: {
+          id?: string;
+          attributes?: {};
+        };
+      };
+      localizations?: {}[];
+      locale?: string;
+    };
+  };
+  meta?: object;
+};
+export type ManualRequest = {
+  data?: {
+    title?: string;
+    content?: string;
+    campaignId?: number;
+    token?: string;
+  };
+};
+export type ManualLocalizationResponse = {
+  id?: string;
+  title?: string;
+  content?: string;
+  campaignId?: number;
+  token?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  publishedAt?: string;
+  createdBy?: {
+    data?: {
+      id?: string;
+      attributes?: {
+        firstname?: string;
+        lastname?: string;
+        username?: string;
+        email?: string;
+        resetPasswordToken?: string;
+        registrationToken?: string;
+        isActive?: boolean;
+        roles?: {
+          data?: {
+            id?: string;
+            attributes?: {
+              name?: string;
+              code?: string;
+              description?: string;
+              users?: {
+                data?: {
+                  id?: string;
+                  attributes?: {};
+                }[];
+              };
+              permissions?: {
+                data?: {
+                  id?: string;
+                  attributes?: {
+                    action?: string;
+                    subject?: string;
+                    properties?: any;
+                    conditions?: any;
+                    role?: {
+                      data?: {
+                        id?: string;
+                        attributes?: {};
+                      };
+                    };
+                    createdAt?: string;
+                    updatedAt?: string;
+                    createdBy?: {
+                      data?: {
+                        id?: string;
+                        attributes?: {};
+                      };
+                    };
+                    updatedBy?: {
+                      data?: {
+                        id?: string;
+                        attributes?: {};
+                      };
+                    };
+                  };
+                }[];
+              };
+              createdAt?: string;
+              updatedAt?: string;
+              createdBy?: {
+                data?: {
+                  id?: string;
+                  attributes?: {};
+                };
+              };
+              updatedBy?: {
+                data?: {
+                  id?: string;
+                  attributes?: {};
+                };
+              };
+            };
+          }[];
+        };
+        blocked?: boolean;
+        preferedLanguage?: string;
+        createdAt?: string;
+        updatedAt?: string;
+        createdBy?: {
+          data?: {
+            id?: string;
+            attributes?: {};
+          };
+        };
+        updatedBy?: {
+          data?: {
+            id?: string;
+            attributes?: {};
+          };
+        };
+      };
+    };
+  };
+  updatedBy?: {
+    data?: {
+      id?: string;
+      attributes?: {};
+    };
+  };
+  localizations?: {}[];
+  locale?: string;
+};
+export type ManualLocalizationRequest = {
+  title?: string;
+  content?: string;
+  campaignId?: number;
+  token?: string;
+};
 export type ServiceListResponse = {
   data?: {
     id?: string;
@@ -5498,7 +5945,6 @@ export type ServiceListResponse = {
       };
       campaign_type?: string;
       title?: string;
-      is_express?: boolean;
       description?: string;
       duration_in_days?: number;
       environment?: string;
@@ -6054,7 +6500,6 @@ export type ServiceListResponse = {
                   };
                   campaign_type?: string;
                   title?: string;
-                  is_express?: boolean;
                   description?: string;
                   duration_in_days?: number;
                   environment?: string;
@@ -6981,7 +7426,6 @@ export type ServiceResponse = {
       };
       campaign_type?: string;
       title?: string;
-      is_express?: boolean;
       description?: string;
       duration_in_days?: number;
       environment?: string;
@@ -7537,7 +7981,6 @@ export type ServiceResponse = {
                   };
                   campaign_type?: string;
                   title?: string;
-                  is_express?: boolean;
                   description?: string;
                   duration_in_days?: number;
                   environment?: string;
@@ -8329,7 +8772,6 @@ export type ServiceRequest = {
   data?: {
     campaign_type?: string;
     title?: string;
-    is_express?: boolean;
     description?: string;
     service_slug?: string;
     is_functional?: boolean;
@@ -8467,7 +8909,6 @@ export type ServiceLocalizationResponse = {
   };
   campaign_type?: string;
   title?: string;
-  is_express?: boolean;
   description?: string;
   duration_in_days?: number;
   environment?: string;
@@ -9023,7 +9464,6 @@ export type ServiceLocalizationResponse = {
               };
               campaign_type?: string;
               title?: string;
-              is_express?: boolean;
               description?: string;
               duration_in_days?: number;
               environment?: string;
@@ -9811,7 +10251,6 @@ export type ServiceLocalizationResponse = {
 export type ServiceLocalizationRequest = {
   campaign_type?: string;
   title?: string;
-  is_express?: boolean;
   description?: string;
   service_slug?: string;
   is_functional?: boolean;
@@ -10179,6 +10618,12 @@ export const {
   usePutExpressTypesByIdMutation,
   useDeleteExpressTypesByIdMutation,
   usePostExpressTypesByIdLocalizationsMutation,
+  useGetManualsQuery,
+  usePostManualsMutation,
+  useGetManualsByIdQuery,
+  usePutManualsByIdMutation,
+  useDeleteManualsByIdMutation,
+  usePostManualsByIdLocalizationsMutation,
   useGetServicesQuery,
   usePostServicesMutation,
   useGetServicesByIdQuery,
