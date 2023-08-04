@@ -65,6 +65,15 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getCampaignsByCidUx: build.query<
+      GetCampaignsByCidUxApiResponse,
+      GetCampaignsByCidUxApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/ux`,
+        params: { showAsCustomer: queryArg.showAsCustomer },
+      }),
+    }),
     getCampaignsByCidBugTypes: build.query<
       GetCampaignsByCidBugTypesApiResponse,
       GetCampaignsByCidBugTypesApiArg
@@ -486,6 +495,42 @@ export type GetCampaignsByCidBugsApiArg = {
   filterBy?: any;
   /** keywords to search */
   search?: string;
+};
+export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
+  findings?: {
+    id: number;
+    title: string;
+    description?: string;
+    severity: {
+      id: number;
+      name?: string;
+    };
+    cluster:
+      | {
+          id?: number;
+          name?: string;
+        }[]
+      | 'all';
+    video?: {
+      url: string;
+      streamUrl: string;
+      start: number;
+      end: number;
+      description?: string;
+    }[];
+  }[];
+  sentiment?: {
+    cluster: {
+      id: number;
+      name: string;
+    };
+    value: number;
+  }[];
+};
+export type GetCampaignsByCidUxApiArg = {
+  /** Campaign id */
+  cid: string;
+  showAsCustomer?: boolean;
 };
 export type GetCampaignsByCidBugTypesApiResponse =
   /** status 200 OK */ BugType[];
@@ -1307,6 +1352,7 @@ export const {
   usePatchCampaignsByCidMutation,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidBugsQuery,
+  useGetCampaignsByCidUxQuery,
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   usePatchCampaignsByCidBugsAndBidMutation,

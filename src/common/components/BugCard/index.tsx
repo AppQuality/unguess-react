@@ -68,6 +68,8 @@ type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
  */
 
 const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
+  width: 100%;
+
   ${({ disabled }) =>
     disabled &&
     ` 
