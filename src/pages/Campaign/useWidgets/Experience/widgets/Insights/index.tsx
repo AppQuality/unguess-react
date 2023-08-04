@@ -147,23 +147,24 @@ export const Insights = ({
                       >
                         <InsightCard insight={insight} />
                       </Col>
-                      {insight.video?.slice(0, 1).map((videoPart, index) => (
-                        <Col
-                          xs={12}
-                          md={6}
-                          lg={12}
-                          xl={6}
-                          style={{ marginBottom: appTheme.space.md }}
-                        >
-                          <HighlightCard
-                            onClick={() => openLightbox(insight.id, index)}
-                            video={videoPart}
-                            index={index}
-                            insight={insight}
-                            videoCount={insight.video.length}
-                          />
-                        </Col>
-                      ))}
+                      {insight.video &&
+                        insight.video.slice(0, 1).map((videoPart, index) => (
+                          <Col
+                            xs={12}
+                            md={6}
+                            lg={12}
+                            xl={6}
+                            style={{ marginBottom: appTheme.space.md }}
+                          >
+                            <HighlightCard
+                              onClick={() => openLightbox(insight.id, index)}
+                              video={videoPart}
+                              index={index}
+                              insight={insight}
+                              videoCount={insight.video?.length || 0}
+                            />
+                          </Col>
+                        ))}
                       {insight.video &&
                         insight.video.length > 1 &&
                         insightsState &&
@@ -204,7 +205,8 @@ export const Insights = ({
                       {insightsState &&
                         insightsState[insight.id] &&
                         insightsState[insight.id].showMore &&
-                        insight.video?.slice(1).map((videoPart, index) => (
+                        insight.video &&
+                        insight.video.slice(1).map((videoPart, index) => (
                           <Col
                             xs={12}
                             md={6}
@@ -219,7 +221,7 @@ export const Insights = ({
                               video={videoPart}
                               index={index + 1}
                               insight={insight}
-                              videoCount={insight.video.length}
+                              videoCount={insight.video?.length || 0}
                             />
                           </Col>
                         ))}
