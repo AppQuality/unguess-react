@@ -5,11 +5,11 @@ import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useGetProjectsByPidQuery } from 'src/features/api';
 import {
   projectFilterChanged,
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { useGetProjectWithWorkspaceQuery } from 'src/features/api/customEndpoints/getProjectWithWorkspace';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
@@ -17,6 +17,7 @@ import { CardRowLoading } from './CardRowLoading';
 import {
   setPermissionSettingsTitle,
   setProjectId,
+  setWorkspace,
 } from '../../features/navigation/navigationSlice';
 
 const Project = () => {
@@ -30,28 +31,38 @@ const Project = () => {
     navigate(notFoundRoute);
   }
 
-  const project = useGetProjectsByPidQuery({
+  const {
+    data: { project, workspace } = {},
+    isSuccess,
+    isError,
+  } = useGetProjectWithWorkspaceQuery({
     pid: projectId ?? '0',
   });
 
   useEffect(() => {
-    if (project.isSuccess) {
+    if (isSuccess) {
       dispatch(resetFilters());
       dispatch(projectFilterChanged(Number(projectId)));
     }
 
     if (project) {
-      dispatch(setPermissionSettingsTitle(project.data?.name));
-      dispatch(setProjectId(project.data?.id));
+      dispatch(setPermissionSettingsTitle(project.name));
+      dispatch(setProjectId(project.id));
     }
 
     return () => {
       dispatch(setPermissionSettingsTitle(undefined));
       dispatch(setProjectId(undefined));
     };
-  }, [project]);
+  }, [project, dispatch, projectId]);
 
-  if (project.isError) {
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+  }, [workspace, dispatch]);
+
+  if (isError) {
     navigate(notFoundRoute);
   }
 
@@ -63,7 +74,7 @@ const Project = () => {
     >
       <LayoutWrapper>
         <Grid>
-          {project.isSuccess ? (
+          {isSuccess ? (
             <ProjectItems projectId={Number(projectId) || 0} />
           ) : (
             <CardRowLoading />

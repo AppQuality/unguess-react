@@ -1,21 +1,24 @@
+import { useTranslation } from 'react-i18next';
 import {
-  createBrowserRouter,
-  createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
-  Navigate,
+  createBrowserRouter,
+  createRoutesFromElements,
 } from 'react-router-dom';
-import LoginPage from 'src/pages/LoginPage';
+import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
+import Bug from 'src/pages/Bug';
+import BugForm from 'src/pages/Bugform';
+import Bugs from 'src/pages/Bugs';
+import Campaign from 'src/pages/Campaign';
+import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
+import LoginPage from 'src/pages/LoginPage';
 import NotFound from 'src/pages/NotFound';
-import Catalog from 'src/pages/Services';
 import Service from 'src/pages/Service';
-import Campaign from 'src/pages/Campaign';
-import Bugs from 'src/pages/Bugs';
-import { useTranslation } from 'react-i18next';
-import Bug from 'src/pages/Bug';
-import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
+import Catalog from 'src/pages/Services';
+import Manual from 'src/pages/Manual';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -38,6 +41,18 @@ const Pages = () => {
                   path={`/${langPrefix}/campaigns/:campaignId`}
                   element={<Campaign />}
                 />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/preview`}
+                  element={<CampaignPreview />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugform`}
+                  element={<BugForm />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/manual`}
+                  element={<Manual />}
+                />
                 <Route path={`/${langPrefix}/login`} element={<LoginPage />} />
                 <Route
                   path={`/${langPrefix}/projects/:projectId`}
@@ -56,7 +71,6 @@ const Pages = () => {
                   path={`/${langPrefix}/services/:templateId`}
                   element={<Service />}
                 />
-
                 {/* No route found */}
                 <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
                 <Route index element={<Dashboard />} />

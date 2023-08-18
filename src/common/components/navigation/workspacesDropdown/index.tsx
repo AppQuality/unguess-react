@@ -9,22 +9,23 @@ import {
   Menu,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { useEffect, useState } from 'react';
-import { Workspace } from 'src/features/api';
-import styled from 'styled-components';
-import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { useEffect, useState } from 'react';
+import TagManager from 'react-gtm-module';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import API from 'src/common/api';
+import { Workspace } from 'src/features/api';
+import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
-import TagManager from 'react-gtm-module';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import useDebounce from 'src/hooks/useDebounce';
-import { useNavigate } from 'react-router-dom';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import useDebounce from 'src/hooks/useDebounce';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import styled from 'styled-components';
 import { WorkspaceSettings } from '../../inviteUsers/workspaceSettings';
 
 const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
@@ -83,7 +84,7 @@ export const WorkspacesDropdown = () => {
   const navigate = useNavigate();
   const homeRoute = useLocalizeRoute('');
 
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
   const { userData: user } = useAppSelector((state) => state.user);
   const workspaces = useAppSelector(selectWorkspaces);
 
@@ -118,6 +119,12 @@ export const WorkspacesDropdown = () => {
   };
 
   useEffect(() => {
+    if (activeWorkspace) {
+      setSelectedItem(activeWorkspace);
+    }
+  }, [activeWorkspace]);
+
+  useEffect(() => {
     filterMatchingOptions(debouncedInputValue);
   }, [debouncedInputValue, activeWorkspace, workspaces]);
 
@@ -149,7 +156,7 @@ export const WorkspacesDropdown = () => {
   if (!activeWorkspace || !user) return null;
 
   return workspaces.length > 1 ? (
-    <DropdownItem>
+    <DropdownItem id="workspace-dropdown-item">
       <Dropdown
         inputValue={inputValue}
         selectedItem={selectedItem}
@@ -230,13 +237,9 @@ export const WorkspacesDropdown = () => {
       )}
     </DropdownItem>
   ) : (
-    <>
+    <DropdownItem>
       <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
-      {canManageUsers && (
-        <DropdownItem>
-          <WorkspaceSettings />
-        </DropdownItem>
-      )}
-    </>
+      {canManageUsers && <WorkspaceSettings />}
+    </DropdownItem>
   );
 };

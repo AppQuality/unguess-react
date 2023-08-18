@@ -1,39 +1,40 @@
-import { appTheme } from 'src/app/theme';
 import {
+  Button,
   Label,
+  MD,
   Modal,
   ModalClose,
-  Span,
-  useToast,
   Notification,
-  Button,
+  Span,
   getColor,
-  MD,
+  useToast,
 } from '@appquality/unguess-design-system';
-import { useAppSelector } from 'src/app/hooks';
+import { FormikHelpers } from 'formik';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
+import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import {
   useDeleteWorkspacesByWidUsersMutation,
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
 } from 'src/features/api';
-import { FormikHelpers } from 'formik';
-import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
-import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
-import { useState } from 'react';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import i18n from 'src/i18n';
 import { AddNewMemberInput } from './addNewMember';
-import { UserItem } from './userItem';
 import { PermissionSettingsFooter } from './modalFooter';
 import {
   FixedBody,
   FlexContainer,
   SettingsDivider,
-  UsersLabel,
   UsersContainer,
+  UsersLabel,
 } from './styled';
+import { UserItem } from './userItem';
 
 export const WorkspaceSettings = () => {
-  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { activeWorkspace } = useActiveWorkspace();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -53,15 +54,18 @@ export const WorkspaceSettings = () => {
   const usersCount = workspaceCount;
 
   const onSubmitNewMember = (
-    values: { email: string },
-    actions: FormikHelpers<{ email: string }>
+    values: { email: string; message?: string },
+    actions: FormikHelpers<{ email: string; message?: string }>
   ) => {
     addNewMember({
       wid: activeWorkspace?.id.toString() || '',
       body: {
         email: values.email,
+        locale: i18n.language,
+        ...(values.message && { message: values.message }),
       },
     })
+      .unwrap()
       .then(() => {
         addToast(
           ({ close }) => (
@@ -69,18 +73,51 @@ export const WorkspaceSettings = () => {
               onClose={close}
               type="success"
               message={t('__PERMISSION_SETTINGS_TOAST_ADD_NEW')}
-              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />
           ),
           { placement: 'top' }
         );
         actions.setSubmitting(false);
+        actions.resetForm({
+          values: {
+            email: '',
+            message: '',
+          },
+        });
         refetchWorkspaceUsers();
       })
       .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
+        if (err.status === 400) {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="warning"
+                message={t('__PERMISSION_SETTINGS_TOAST_ADD_NEW_EXISTING')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+        } else {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="error"
+                message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }
         actions.setSubmitting(false);
       });
   };
@@ -100,7 +137,7 @@ export const WorkspaceSettings = () => {
               onClose={close}
               type="success"
               message={t('__PERMISSION_SETTINGS_TOAST_RESEND')}
-              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />
           ),
@@ -108,6 +145,18 @@ export const WorkspaceSettings = () => {
         );
       })
       .catch((err) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         // eslint-disable-next-line no-console
         console.error(err);
       });
@@ -129,7 +178,7 @@ export const WorkspaceSettings = () => {
               onClose={close}
               type="success"
               message={t('__PERMISSION_SETTINGS_TOAST_REMOVE')}
-              closeText={t('__PERMISSION_SETTINGS_TOAST_CLOSE_TEXT')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />
           ),
@@ -138,6 +187,18 @@ export const WorkspaceSettings = () => {
         refetchWorkspaceUsers();
       })
       .catch((err) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
         // eslint-disable-next-line no-console
         console.error(err);
       });
