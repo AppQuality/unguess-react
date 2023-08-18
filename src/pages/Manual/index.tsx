@@ -53,18 +53,20 @@ const Manual = () => {
       <LayoutWrapper style={{ minHeight: 'calc(100vh - 64px)' }}>
         <Grid style={{ height: '100%' }}>
           <Row style={{ height: '100%' }}>
-            <Col xs={12} lg={8}>
-              <StyledCard>
-                {manual ? (
-                  <ManualDetails manual={manual} />
-                ) : (
-                  <ManualNotFound />
-                )}
-              </StyledCard>
-            </Col>
-            <HelpCol xs={12} lg={4}>
-              <RightModalHelp campaignId={campaignId ?? '-1'} />
-            </HelpCol>
+            {manual ? (
+              <>
+                <Col xs={12} lg={8}>
+                  <StyledCard>
+                    <ManualDetails manual={manual} />
+                  </StyledCard>
+                </Col>
+                <HelpCol xs={12} lg={4}>
+                  <RightModalHelp campaignId={campaignId ?? '-1'} />
+                </HelpCol>
+              </>
+            ) : (
+              <ManualNotFound />
+            )}
           </Row>
         </Grid>
       </LayoutWrapper>
