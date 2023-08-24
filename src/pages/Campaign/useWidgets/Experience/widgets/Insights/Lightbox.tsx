@@ -5,9 +5,9 @@ import {
   Slider,
   Span,
   XL,
+  Player,
 } from '@appquality/unguess-design-system';
 import { useCallback, useRef } from 'react';
-import Video from '@appquality/stream-player';
 import styled from 'styled-components';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { appTheme } from 'src/app/theme';
@@ -20,8 +20,6 @@ import {
   // getClusterTag,
   getSeverityTag,
 } from './utils';
-
-const Player = styled(Video.Player)``;
 
 const LightboxHeader = styled(Lightbox.Header)`
   display: flex;
@@ -90,9 +88,14 @@ const InsightLightbox = ({
             {items.length > 0 &&
               items.map((item) => (
                 <Slider.Slide>
-                  <Video src={item.streamUrl} start={item.start} end={item.end}>
-                    <Player />
-                  </Video>
+                  <Player
+                    ref={(ref) => {
+                      videoRefs.current.push(ref);
+                    }}
+                    url={item.streamUrl || item.url}
+                    start={item.start}
+                    end={item.end}
+                  />
                 </Slider.Slide>
               ))}
           </Slider>
