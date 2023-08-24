@@ -1,4 +1,3 @@
-import Video from '@appquality/stream-player';
 import { SpecialCard } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
@@ -45,7 +44,7 @@ const CardThumb = styled(SpecialCard.Thumb)`
   }
 `;
 
-const Player = styled(Video.Player)`
+const Player = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -79,9 +78,11 @@ const HighlightCard = ({
       <SpecialCard.Header>
         <CardThumb>
           <VideoPlayIcon />
-          <Video src={video.streamUrl} start={video.start} end={video.end}>
-            <Player />
-          </Video>
+          <Player>
+            <video src={`${video.url}#t=0.5`}>
+              <track kind="captions" />
+            </video>
+          </Player>
         </CardThumb>
         <SpecialCard.Header.Label>
           <Trans i18nKey="__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL">

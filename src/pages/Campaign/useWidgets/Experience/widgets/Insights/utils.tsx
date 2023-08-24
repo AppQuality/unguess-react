@@ -35,13 +35,13 @@ function getSeverityTag(
   switch (severity.id) {
     case 1:
       return (
-        <SeverityTag hasBackground severity="critical">
+        <SeverityTag hasBackground severity="high">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
         </SeverityTag>
       );
     case 2:
       return (
-        <SeverityTag hasBackground severity="high">
+        <SeverityTag hasBackground severity="critical">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
         </SeverityTag>
       );
