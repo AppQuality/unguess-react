@@ -3,7 +3,9 @@ import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidUxQuery,
 } from 'src/features/api';
+
 import { Insights } from './widgets/Insights';
+import { CampaignInfo } from './widgets/General';
 
 export const widgets = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
@@ -23,6 +25,12 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
 
   if (uxData && uxData.findings && uxData.findings.length > 0)
     widgetsToShow.push(
+      {
+        id: 'campaign-methodology',
+        title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_METHODOLOGY_LABEL'),
+        content: <CampaignInfo id="campaign-methodology" campaign={campaign} />,
+        type: 'item' as const,
+      },
       {
         title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_GROUP_INSIGHTS_LABEL'),
         type: 'title' as const,
