@@ -49,7 +49,7 @@ export const GoalCard = ({
   if (isLoading || isFetching || isError || !data) return <div>loading...</div>;
 
   return (
-    <WidgetCard title={t('__CAMPAIGN_PAGE_GOAL_CARD_TITLE')}>
+    <WidgetCard>
       <WidgetCard.Meta justifyContent="space-between">
         <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
           {t('__CAMPAIGN_PAGE_GOAL_CARD_TITLE')}

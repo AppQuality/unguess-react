@@ -92,7 +92,7 @@ export const Methodology = ({
   };
 
   return (
-    <WidgetCard title={t('__CAMPAIGN_PAGE_METHODOLOGY_CARD_TITLE')}>
+    <WidgetCard>
       <WidgetCard.Meta justifyContent="space-between">
         <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
           {t('__CAMPAIGN_PAGE_METHODOLOGY_CARD_TITLE')}
