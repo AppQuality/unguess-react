@@ -43,7 +43,13 @@ const Label = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[500]};
 `;
 
-export const Methodology = ({ campaignId }: { campaignId: number }) => {
+export const Methodology = ({
+  campaignId,
+  isPreview,
+}: {
+  campaignId: number;
+  isPreview?: boolean;
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -56,6 +62,7 @@ export const Methodology = ({ campaignId }: { campaignId: number }) => {
 
   const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
     cid: campaignId.toString(),
+    ...(!isPreview && { showAsCustomer: true }),
   });
 
   const servicesRoute = useLocalizeRoute(`services/#experience-optimization`);

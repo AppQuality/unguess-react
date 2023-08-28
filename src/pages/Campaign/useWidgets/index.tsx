@@ -3,7 +3,13 @@ import { widgets as experienceWidgets } from './Experience/widgets';
 import { widgets as functionalWidgets } from './Functional/widgets';
 import { widgets as reportWidgets } from './Report/widgets';
 
-export const useWidgets = ({ campaignId }: { campaignId: number }) => {
+export const useWidgets = ({
+  campaignId,
+  isPreview,
+}: {
+  campaignId: number;
+  isPreview?: boolean;
+}) => {
   const { data: campaign } = useGetCampaignsByCidQuery({
     cid: campaignId.toString(),
   });
@@ -13,6 +19,7 @@ export const useWidgets = ({ campaignId }: { campaignId: number }) => {
 
   const experience = experienceWidgets({
     campaignId,
+    isPreview,
   });
 
   const reports = reportWidgets({

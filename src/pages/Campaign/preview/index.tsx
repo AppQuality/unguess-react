@@ -46,7 +46,7 @@ const CampaignPreview = () => {
       isMinimal
     >
       <LayoutWrapper>
-        <CampaignWidgets />
+        <CampaignWidgets isPreview />
       </LayoutWrapper>
     </Page>
   );
