@@ -81,7 +81,7 @@ const Navigation = ({
               spy
               smooth
               duration={500}
-              offset={-90}
+              offset={-180}
               onSetActive={() => {
                 setActiveInsight(`anchor-insight-row-${insight.id}`);
               }}
