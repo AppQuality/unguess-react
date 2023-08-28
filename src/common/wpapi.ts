@@ -52,7 +52,7 @@ const WPAPI = {
     const urlParams = new URLSearchParams(window.location.search);
     const rp = urlParams.get('ugReverseProxy');
 
-    fetch(
+    return fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php${
         typeof rp === 'undefined' ? '' : '?ugReverseProxy=1'
       }`,
