@@ -93,19 +93,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       </PageMeta>
       <ButtonWrapper>
         <CampaignSettings />
-        {outputs?.includes('media') && (
-          <Button
-            id="button-media-list-header"
-            onClick={() =>
-              openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
-                newTab: true,
-              })
-            }
-            style={{ marginLeft: appTheme.space.xs }}
-          >
-            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
-          </Button>
-        )}
         {outputs?.includes('bugs') && (
           <Link to={functionalDashboardLink}>
             <Button id="button-bugs-list-header" isPrimary isAccent>
