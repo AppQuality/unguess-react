@@ -72,8 +72,11 @@ const InsightLightbox = ({
             {insight.title}
           </Span>{' '}
           |{' '}
-          <Trans i18nKey="__CAMPAIGN_PAGE_INSIGHTS_LIGHTBOX_HEADER_HIGHLIGHTS_LABEL">
-            ({{ number: items.length }} Highlights)
+          <Trans
+            count={items.length}
+            i18nKey="__CAMPAIGN_PAGE_INSIGHTS_LIGHTBOX_HEADER_HIGHLIGHTS_LABEL"
+          >
+            ({{ count: items.length }} Highlights)
           </Trans>
         </MD>
       </LightboxHeader>
