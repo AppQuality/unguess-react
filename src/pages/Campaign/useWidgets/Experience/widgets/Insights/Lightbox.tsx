@@ -78,7 +78,7 @@ const InsightLightbox = ({
         </MD>
       </LightboxHeader>
       <Lightbox.Body>
-        <Lightbox.Body.Main>
+        <Lightbox.Body.Main style={{ flex: 2 }}>
           <Slider
             prevArrow={<Slider.PrevButton isBright />}
             nextArrow={<Slider.NextButton isBright />}
