@@ -15,7 +15,7 @@ import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import styled, { css } from 'styled-components';
 import { useCampaignInsights } from './useCampaignInsights';
-import { Navigation } from './Navigation';
+import { Navigation, navigationOffset } from './Navigation';
 import { InsightCard } from './InsightCard';
 import { HighlightCard } from './HighlightCard';
 import { InsightLightbox } from './Lightbox';
@@ -121,11 +121,16 @@ export const Insights = ({
                 <Navigation insights={data.findings} />
               </ResponsiveCol>
               <Col xs={12} lg={6} xl={8}>
-                <Grid>
+                <Grid
+                  style={{
+                    paddingBottom:
+                      navigationOffset /* To fix unreachable last item in the navigation */,
+                  }}
+                >
                   {data.findings.map((insight, i) => (
                     <Row
                       id={`insight-row-${insight.id}`}
-                      style={{ marginBottom: appTheme.space.lg }}
+                      style={{ paddingBottom: appTheme.space.lg }}
                     >
                       <Col xs={12} style={{ margin: 0 }}>
                         <XL
