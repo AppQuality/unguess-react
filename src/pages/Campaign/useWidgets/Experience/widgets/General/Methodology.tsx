@@ -1,20 +1,13 @@
 import {
-  ContainerCard,
   MD,
   Row,
   Col,
   SpecialCard,
   SM,
-  LG,
   getColor,
-  Accordion,
-  Stepper,
-  Timeline,
-  Paragraph,
-  Span,
-  Avatar,
   Grid,
   Anchor,
+  Skeleton,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -24,18 +17,11 @@ import {
   useGetCampaignsByCidUxQuery,
 } from 'src/features/api';
 import { Divider } from 'src/common/components/divider';
-import { ReactComponent as TargetIcon } from './assets/target.svg';
-import { CircleList } from './List';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { Link } from 'react-router-dom';
+import { ReactComponent as CampaignInfo } from './assets/campaignInfo.svg';
+import { ReactComponent as UserGroup } from './assets/userGroup.svg';
 import { MethodologyNote } from './Note';
-
-// export const CardFooter = styled(SpecialCard.Footer)`
-//   flex-wrap: wrap;
-//   margin-bottom: -${({ theme }) => theme.space.xs};
-
-//   > * {
-//     margin-bottom: ${({ theme }) => theme.space.xs};
-//   }
-// `;
 
 const WidgetCard = styled(SpecialCard)`
   cursor: default;
@@ -44,16 +30,17 @@ const WidgetCard = styled(SpecialCard)`
   }
 `;
 
+const Summary = styled.div`
+  margin: ${({ theme }) => theme.space.base * 2}px 0;
+`;
+
 const StyledRow = styled(Row)`
   padding: ${({ theme }) => theme.space.base * 2}px 0;
 `;
 
-const Title = styled(LG)`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-  color: ${({ theme }) => theme.palette.blue[600]};
-`;
-const Text = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[700]};
+const Label = styled(SM)`
+  margin: ${({ theme }) => theme.space.base * 2}px 0;
+  color: ${({ theme }) => theme.palette.grey[500]};
 `;
 
 export const Methodology = ({ campaignId }: { campaignId: number }) => {
@@ -71,6 +58,8 @@ export const Methodology = ({ campaignId }: { campaignId: number }) => {
     cid: campaignId.toString(),
   });
 
+  const servicesRoute = useLocalizeRoute(`services/#experience-optimization`);
+
   if (
     isLoading ||
     cpIsLoading ||
@@ -80,7 +69,7 @@ export const Methodology = ({ campaignId }: { campaignId: number }) => {
     !data ||
     !cpData
   )
-    return <div>loading...</div>;
+    return <Skeleton width="200px" height="12px" />;
 
   const getStudyText = (type: string) => {
     switch (type.toLowerCase()) {
@@ -104,38 +93,58 @@ export const Methodology = ({ campaignId }: { campaignId: number }) => {
       </WidgetCard.Meta>
       <Divider />
       <Grid>
-        <StyledRow alignItems="center">
-          <Col xs={12} sm="auto" alignSelf="start" style={{ margin: 0 }}>
-            <TargetIcon />
-          </Col>
-          <Col xs={12} sm={9} alignSelf="start" style={{ margin: 0 }}>
-            <MethodologyNote
-              title={cpData.type.name}
-              text={data.methodology.description}
-            />
-          </Col>
-        </StyledRow>
-        <Divider />
-        <StyledRow alignItems="center">
-          <Col xs={12} sm="auto" style={{ margin: 0 }}>
-            <TargetIcon />
-          </Col>
-          <Col xs={12} sm={9} style={{ margin: 0 }}>
-            <MethodologyNote
-              title={`${
-                (t('__CAMPAIGN_PAGE_METHODOLOGY_USERS_NUMBER'),
-                {
-                  count: data.users,
-                })
-              }`}
-              text={getStudyText(data.methodology.type)}
-            />
-          </Col>
-        </StyledRow>
-      </Grid>
+        <Summary>
+          <Row>
+            <Col xs={12} style={{ margin: 0 }}>
+              <Label isBold>
+                {t('__CAMPAIGN_PAGE_METHODOLOGY_CARD_TEST_TYPOLOGY_LABEL')}
+              </Label>
+            </Col>
+          </Row>
+          <StyledRow alignItems="center">
+            <Col xs={12} sm="auto" alignSelf="start" style={{ margin: 0 }}>
+              <CampaignInfo />
+            </Col>
+            <Col xs={12} sm={9} alignSelf="start" style={{ margin: 0 }}>
+              <MethodologyNote
+                title={cpData.type.name}
+                text={data.methodology.description}
+              />
+            </Col>
+          </StyledRow>
+        </Summary>
 
-      <Divider />
-      <Anchor>asdasd</Anchor>
+        <Divider />
+        <Summary>
+          <Row>
+            <Col xs={12} style={{ margin: 0 }}>
+              <Label isBold>
+                {t('__CAMPAIGN_PAGE_METHODOLOGY_CARD_INVOLVED_USERS_LABEL')}
+              </Label>
+            </Col>
+          </Row>
+          <StyledRow alignItems="center">
+            <Col xs={12} sm="auto" style={{ margin: 0 }}>
+              <UserGroup />
+            </Col>
+            <Col xs={12} sm={9} style={{ margin: 0 }}>
+              <MethodologyNote
+                title={`${t('__CAMPAIGN_PAGE_METHODOLOGY_USERS_NUMBER', {
+                  count: data.users,
+                })}`}
+                text={getStudyText(data.methodology.type)}
+              />
+            </Col>
+          </StyledRow>
+        </Summary>
+      </Grid>
+      <WidgetCard.Footer>
+        <Link to={servicesRoute.slice(0, -1)}>
+          <Anchor isExternal>
+            {t('__CAMPAIGN_PAGE_METHODOLOGY_SERVICES_LINK')}
+          </Anchor>
+        </Link>
+      </WidgetCard.Footer>
     </WidgetCard>
   );
 };
