@@ -9,19 +9,27 @@ const WPAPI = {
     username: string;
     password: string;
     security: string;
-  }) =>
-    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: queryString.stringify({
-        username,
-        password,
-        security,
-        action: 'ajaxlogin',
-      }),
-    })
+  }) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const rp = urlParams.get('ugReverseProxy');
+
+    return fetch(
+      `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php${
+        typeof rp === 'undefined' ? '' : '?ugReverseProxy=1'
+      }`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: queryString.stringify({
+          username,
+          password,
+          security,
+          action: 'ajaxlogin',
+        }),
+      }
+    )
       .then((data) => data.json())
       .then((res) => {
         if (res.loggedin) {
@@ -38,24 +46,34 @@ const WPAPI = {
             message: 'There was an error, please reload',
           })
         );
-      }),
-  getNonce: () =>
-    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: queryString.stringify({
-        action: 'ug_get_nonce',
-      }),
-    })
+      });
+  },
+  getNonce: () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const rp = urlParams.get('ugReverseProxy');
+
+    fetch(
+      `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php${
+        typeof rp === 'undefined' ? '' : '?ugReverseProxy=1'
+      }`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: queryString.stringify({
+          action: 'ug_get_nonce',
+        }),
+      }
+    )
       .then((data) => data.json())
       .then((res) => {
         if (res.success) {
           return res.data;
         }
         throw new Error('Nonce not found.');
-      }),
+      });
+  },
   logout: () =>
     fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
