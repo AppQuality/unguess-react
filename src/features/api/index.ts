@@ -497,18 +497,21 @@ export type GetCampaignsByCidBugsApiArg = {
   search?: string;
 };
 export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
+  version: number;
+  goal: string;
+  users: number;
   findings?: {
     id: number;
     title: string;
-    description?: string;
+    description: string;
     severity: {
       id: number;
       name?: string;
     };
     cluster:
       | {
-          id?: number;
-          name?: string;
+          id: number;
+          name: string;
         }[]
       | 'all';
     video?: {
@@ -525,6 +528,13 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
       name: string;
     };
     value: number;
+  }[];
+  methodology: {
+    type: string;
+    description: string;
+  };
+  questions: {
+    text: string;
   }[];
 };
 export type GetCampaignsByCidUxApiArg = {
