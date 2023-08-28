@@ -2,14 +2,22 @@ import { operations } from '../schema';
 
 export const login = (
   credentials: operations['post-authenticate']['requestBody']['content']['application/json']
-) =>
-  fetch(`${process.env.REACT_APP_API_URL}/authenticate`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials),
-  })
+) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const rp = urlParams.get('ugReverseProxy');
+
+  return fetch(
+    `${process.env.REACT_APP_API_URL}/authenticate${
+      typeof rp === 'undefined' ? '' : '?ugReverseProxy=1'
+    }`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    }
+  )
     .then((data) => data.json())
     .then((data) => {
       if (data.token) {
@@ -17,3 +25,4 @@ export const login = (
       }
       return { token: false, error: data };
     });
+};

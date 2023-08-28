@@ -17,9 +17,17 @@ export const me = async (
     requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
   let url = `${process.env.REACT_APP_API_URL}/users/me`;
+  const urlps = new URLSearchParams();
   if (query) {
-    const urlps = new URLSearchParams();
     urlps.set('fields', query);
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const rp = urlParams.get('ugReverseProxy');
+  if (typeof rp !== 'undefined') {
+    urlps.set('ugReverseProxy', '1');
+  }
+  if (urlps.toString().length > 0) {
     url += `?${urlps.toString()}`;
   }
   const res = await fetch(url, {

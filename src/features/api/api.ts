@@ -1,11 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { stringify } from 'qs';
-import {
-  GetCampaignsByCidApiResponse,
-  GetProjectsByPidApiResponse,
-  GetWorkspacesByWidApiResponse,
-  Template,
-} from '.';
+import { Template } from '.';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
@@ -19,7 +14,14 @@ export const apiSlice = createApi({
 
       return headers;
     },
-    paramsSerializer: (params) => stringify(params, { encodeValuesOnly: true }),
+    paramsSerializer: (params) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const rp = urlParams.get('ugReverseProxy');
+      return stringify(
+        typeof rp === 'undefined' ? params : { ...params, ugReverseProxy: 1 },
+        { encodeValuesOnly: true }
+      );
+    },
   }),
   tagTypes: [
     'Users',

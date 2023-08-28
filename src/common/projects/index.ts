@@ -6,7 +6,6 @@ import {
   GetWorkspacesByWidProjectsApiResponse,
 } from 'src/features/api';
 
-import { stringify } from 'qs';
 import HttpError from '../HttpError';
 
 export const projects = async (
@@ -24,7 +23,19 @@ export const projects = async (
   if (currentToken) {
     requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
-  const url = `${process.env.REACT_APP_API_URL}/workspaces/${workspace_id}/projects`;
+
+  const urlps = new URLSearchParams();
+  const urlParams = new URLSearchParams(window.location.search);
+  const rp = urlParams.get('ugReverseProxy');
+  if (typeof rp !== 'undefined') {
+    urlps.set('ugReverseProxy', '1');
+  }
+
+  let args = '';
+  if (urlps.toString().length > 0) {
+    args = `?${urlps.toString()}`;
+  }
+  const url = `${process.env.REACT_APP_API_URL}/workspaces/${workspace_id}/projects${args}`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -52,7 +63,19 @@ export const project = async (
   if (currentToken) {
     requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
-  const url = `${process.env.REACT_APP_API_URL}/projects/${project_id}`;
+
+  const urlps = new URLSearchParams();
+  const urlParams = new URLSearchParams(window.location.search);
+  const rp = urlParams.get('ugReverseProxy');
+  if (typeof rp !== 'undefined') {
+    urlps.set('ugReverseProxy', '1');
+  }
+
+  let args = '';
+  if (urlps.toString().length > 0) {
+    args = `?${urlps.toString()}`;
+  }
+  const url = `${process.env.REACT_APP_API_URL}/projects/${project_id}${args}`;
 
   const res = await fetch(url, {
     method: 'GET',
@@ -81,9 +104,21 @@ export const workspaces = async (
     requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
 
-  let args = '';
+  const urlps = new URLSearchParams();
   if (params) {
-    args = `?${stringify(params)}`;
+    Object.entries(params).forEach(([key, value]) => {
+      urlps.set(key, value.toString());
+    });
+  }
+  const urlParams = new URLSearchParams(window.location.search);
+  const rp = urlParams.get('ugReverseProxy');
+  if (typeof rp !== 'undefined') {
+    urlps.set('ugReverseProxy', '1');
+  }
+
+  let args = '';
+  if (urlps.toString().length > 0) {
+    args = `?${urlps.toString()}`;
   }
 
   const url = `${process.env.REACT_APP_API_URL}/workspaces${args}`;
@@ -114,7 +149,20 @@ export const workspacesById = async (
   if (currentToken) {
     requestHeaders.set('Authorization', `Bearer ${currentToken}`);
   }
-  const url = `${process.env.REACT_APP_API_URL}/workspaces/${workspaceId}`;
+
+  const urlps = new URLSearchParams();
+  const urlParams = new URLSearchParams(window.location.search);
+  const rp = urlParams.get('ugReverseProxy');
+  if (typeof rp !== 'undefined') {
+    urlps.set('ugReverseProxy', '1');
+  }
+
+  let args = '';
+  if (urlps.toString().length > 0) {
+    args = `?${urlps.toString()}`;
+  }
+
+  const url = `${process.env.REACT_APP_API_URL}/workspaces/${workspaceId}${args}`;
 
   const res = await fetch(url, {
     method: 'GET',
