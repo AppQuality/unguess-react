@@ -1,6 +1,6 @@
 import { Paragraph, Row, XXL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Divider } from 'src/common/components/divider';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { hasEnoughCoins } from 'src/common/utils';
@@ -30,6 +30,7 @@ export const Featured = ({ handleHubspot }: { handleHubspot: () => void }) => {
   const navigate = useNavigate();
   const { activeWorkspace } = useActiveWorkspace();
   const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
 
   const {
     data: featuredData,
@@ -67,7 +68,9 @@ export const Featured = ({ handleHubspot }: { handleHubspot: () => void }) => {
   }
 
   if (isError) {
-    navigate(notFoundRoute, { replace: true });
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   if (isLoading || isFetching) {

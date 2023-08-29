@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
@@ -13,9 +13,12 @@ const CampaignPreview = () => {
   const notFoundRoute = useLocalizeRoute('oops');
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   const {
@@ -28,7 +31,9 @@ const CampaignPreview = () => {
   });
 
   if (isErrorCampaign) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   useEffect(() => {
@@ -46,7 +51,7 @@ const CampaignPreview = () => {
       isMinimal
     >
       <LayoutWrapper>
-        <CampaignWidgets />
+        <CampaignWidgets isPreview />
       </LayoutWrapper>
     </Page>
   );

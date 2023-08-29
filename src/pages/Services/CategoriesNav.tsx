@@ -1,6 +1,6 @@
 import { Anchor, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { StickyContainer } from 'src/common/components/StickyContainer';
 import {
@@ -23,10 +23,9 @@ const CategoriesNav = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
-
   const { activeWorkspace } = useActiveWorkspace();
-
   const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
 
   const {
     data: categoriesData,
@@ -54,7 +53,9 @@ const CategoriesNav = () => {
   }
 
   if (categoriesError) {
-    navigate(notFoundRoute, { replace: true });
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   const {
@@ -94,7 +95,9 @@ const CategoriesNav = () => {
   }
 
   if (featuredError) {
-    navigate(notFoundRoute, { replace: true });
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   return featuredLoading || categoriesLoading || status === 'loading' ? (

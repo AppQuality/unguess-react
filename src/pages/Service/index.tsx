@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { HubspotModal } from 'src/common/components/HubspotModal';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -24,13 +24,16 @@ const Service = () => {
   const notFoundRoute = useLocalizeRoute('oops');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { activeWorkspace } = useActiveWorkspace();
+  const location = useLocation();
 
   const memoCsm = useMemo(() => activeWorkspace?.csm, [activeWorkspace]);
 
   const { status } = useAppSelector((state) => state.user);
 
   if (!templateId || Number.isNaN(Number(templateId))) {
-    navigate(notFoundRoute, { replace: true });
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   const { data, isLoading, isError } = useGetFullServicesByIdQuery({
@@ -55,7 +58,9 @@ const Service = () => {
   }
 
   if (isError) {
-    navigate(notFoundRoute, { replace: true });
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   const handleContactUsClick = () => {

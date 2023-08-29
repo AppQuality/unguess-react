@@ -14,9 +14,9 @@ function getSeverityIcon(
 ) {
   switch (severity.id) {
     case 1:
-      return <MajorIssueIcon />;
-    case 2:
       return <MinorIssueIcon />;
+    case 2:
+      return <MajorIssueIcon />;
     case 3:
       return <PositiveFindingIcon />;
     case 4:
@@ -35,13 +35,13 @@ function getSeverityTag(
   switch (severity.id) {
     case 1:
       return (
-        <SeverityTag hasBackground severity="critical">
+        <SeverityTag hasBackground severity="high">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
         </SeverityTag>
       );
     case 2:
       return (
-        <SeverityTag hasBackground severity="high">
+        <SeverityTag hasBackground severity="critical">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
         </SeverityTag>
       );
@@ -94,15 +94,15 @@ function getSeverity(
 ) {
   switch (severity.id) {
     case 1:
-      return 'critical';
+      return 'high'; // Minor
     case 2:
-      return 'high';
+      return 'critical'; // Major
     case 3:
-      return 'medium';
+      return 'low'; // Positive
     case 4:
-      return 'low';
+      return 'medium'; // Observation
     default:
-      return 'medium';
+      return 'medium'; // Observation
   }
 }
 

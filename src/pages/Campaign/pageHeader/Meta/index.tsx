@@ -1,14 +1,10 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
 } from 'src/features/api';
-import { getLocalizedUXDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import i18n from 'src/i18n';
-import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -20,6 +16,7 @@ import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
 import { CampaignDurationMeta } from './CampaignDurationMeta';
+import { TvMeta } from './TvMeta';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -88,24 +85,12 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             {meta.allowed_devices.includes('desktop') && <DesktopMeta />}
             {meta.allowed_devices.includes('smartphone') && <SmartphoneMeta />}
             {meta.allowed_devices.includes('tablet') && <TabletMeta />}
+            {meta.allowed_devices.includes('tv') && <TvMeta />}
           </>
         ) : null}
       </PageMeta>
       <ButtonWrapper>
         <CampaignSettings />
-        {outputs?.includes('media') && (
-          <Button
-            id="button-media-list-header"
-            onClick={() =>
-              openUrl(getLocalizedUXDashboardUrl(campaign.id, i18n.language), {
-                newTab: true,
-              })
-            }
-            style={{ marginLeft: appTheme.space.xs }}
-          >
-            {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_MEDIA')}
-          </Button>
-        )}
         {outputs?.includes('bugs') && (
           <Link to={functionalDashboardLink}>
             <Button id="button-bugs-list-header" isPrimary isAccent>

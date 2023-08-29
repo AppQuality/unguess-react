@@ -23,7 +23,7 @@ export const StatusMeta = ({ status, counter, ...props }: StatusMetaArgs) => {
       secondaryText={counter}
       {...props}
     >
-      {statusInfo.text}
+      {props.children ?? statusInfo.text}
     </Meta>
   );
 };
