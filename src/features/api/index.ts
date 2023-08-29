@@ -65,6 +65,15 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getCampaignsByCidUx: build.query<
+      GetCampaignsByCidUxApiResponse,
+      GetCampaignsByCidUxApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/ux`,
+        params: { showAsCustomer: queryArg.showAsCustomer },
+      }),
+    }),
     getCampaignsByCidBugTypes: build.query<
       GetCampaignsByCidBugTypesApiResponse,
       GetCampaignsByCidBugTypesApiArg
@@ -486,6 +495,52 @@ export type GetCampaignsByCidBugsApiArg = {
   filterBy?: any;
   /** keywords to search */
   search?: string;
+};
+export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
+  version: number;
+  goal: string;
+  users: number;
+  findings?: {
+    id: number;
+    title: string;
+    description: string;
+    severity: {
+      id: number;
+      name?: string;
+    };
+    cluster:
+      | {
+          id: number;
+          name: string;
+        }[]
+      | 'all';
+    video?: {
+      url: string;
+      streamUrl: string;
+      start: number;
+      end: number;
+      description?: string;
+    }[];
+  }[];
+  sentiment?: {
+    cluster: {
+      id: number;
+      name: string;
+    };
+    value: number;
+  }[];
+  methodology: {
+    type: string;
+    description: string;
+  };
+  questions: {
+    text: string;
+  }[];
+};
+export type GetCampaignsByCidUxApiArg = {
+  /** Campaign id */
+  cid: string;
+  showAsCustomer?: boolean;
 };
 export type GetCampaignsByCidBugTypesApiResponse =
   /** status 200 OK */ BugType[];
@@ -1045,7 +1100,7 @@ export type UseCase = {
   logged?: boolean;
   link?: string;
 };
-export type Output = 'bugs' | 'media';
+export type Output = 'bugs' | 'media' | 'insights';
 export type CampaignWithOutput = Campaign & {
   outputs?: Output[];
 };
@@ -1307,6 +1362,7 @@ export const {
   usePatchCampaignsByCidMutation,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidBugsQuery,
+  useGetCampaignsByCidUxQuery,
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   usePatchCampaignsByCidBugsAndBidMutation,

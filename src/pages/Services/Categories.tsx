@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
@@ -16,6 +16,7 @@ const Categories = ({ handleHubspot }: { handleHubspot: () => void }) => {
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
   const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
 
   const {
     data: categoriesData,
@@ -42,7 +43,9 @@ const Categories = ({ handleHubspot }: { handleHubspot: () => void }) => {
   }
 
   if (isError) {
-    navigate(notFoundRoute, { replace: true });
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   if (isLoading || status === 'loading') {

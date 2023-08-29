@@ -27,12 +27,14 @@ export const Logged = ({
   children,
   pageHeader,
   route,
+  isMinimal = false,
 }: {
   children: React.ReactNode;
   pageHeader?: React.ReactNode;
   route: string;
+  isMinimal?: boolean;
 }) => {
-  const location = useLocation();
+  const { pathname, state: locationState } = useLocation();
   const loginRoute = useLocalizeRoute('login');
   const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ export const Logged = ({
   useEffect(() => {
     if (status === 'failed') {
       navigate(loginRoute, {
-        state: { from: location.pathname },
+        state: { from: locationState?.from ?? pathname },
       });
     }
   }, [status]);
@@ -56,7 +58,7 @@ export const Logged = ({
       />
       <Chrome isFluid hue={appTheme.palette.white}>
         <Body id="body" style={{ backgroundColor: appTheme.palette.grey[100] }}>
-          <Navigation route={route}>
+          <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
               {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
               {children}

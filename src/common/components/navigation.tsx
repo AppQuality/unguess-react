@@ -5,7 +5,7 @@ import { MD } from '@appquality/unguess-design-system';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 export const StyledDivider = styled(Divider)`
-  margin-top: ${({ theme }) => theme.space.base * 3}px;
+  margin-top: ${({ theme }) => theme.space.base * 6}px;
   margin-bottom: ${({ theme }) => theme.space.base * 6}px;
 `;
 
@@ -30,5 +30,6 @@ StickyNavItem.defaultProps = {
 };
 
 export const StickyNavItemLabel = styled(MD)`
+  padding-top: ${({ theme }) => theme.space.xxs};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 `;

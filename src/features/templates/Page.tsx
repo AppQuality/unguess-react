@@ -39,6 +39,7 @@ export const Page = ({
   excludeMarginTop,
   excludeMarginBottom,
   className,
+  isMinimal,
 }: {
   children: React.ReactNode;
   title?: string;
@@ -47,10 +48,11 @@ export const Page = ({
   excludeMarginTop?: boolean;
   excludeMarginBottom?: boolean;
   className?: string;
+  isMinimal?: boolean;
 }) => (
   <GoogleTagManager title={title}>
     <ErrorBoundary>
-      <Logged route={route} pageHeader={pageHeader}>
+      <Logged route={route} pageHeader={pageHeader} isMinimal={isMinimal}>
         <Container
           id="container"
           className={className}

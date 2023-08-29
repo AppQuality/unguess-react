@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { selectCampaign } from 'src/features/bugsPage/bugsPageSlice';
@@ -21,9 +21,12 @@ const Bugs = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
   useCampaignAnalytics(campaignId);
 
@@ -55,7 +58,9 @@ const Bugs = () => {
   }, [workspace, dispatch]);
 
   if (isError) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   // Check if the campaign has bugs
@@ -64,7 +69,9 @@ const Bugs = () => {
     campaign &&
     (!campaign.outputs?.length || !campaign.outputs.includes('bugs'))
   ) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   return (

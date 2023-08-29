@@ -95,10 +95,8 @@ export const LightboxContainer = ({
                     ref={(ref) => {
                       videoRefs.current.push(ref);
                     }}
-                  >
-                    <source src={item.url} type="video/mp4" />
-                    <track kind="captions" />
-                  </Player>
+                    url={item.url}
+                  />
                 )}
               </Slider.Slide>
             ))}
