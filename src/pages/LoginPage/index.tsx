@@ -61,7 +61,7 @@ const LoginPage = () => {
       });
 
       setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
-      document.location.href = from || '/';
+      navigate(from || '/');
     } catch (e: unknown) {
       const { message } = e as Error;
       const error = JSON.parse(message);
@@ -69,7 +69,7 @@ const LoginPage = () => {
       if (error.type === 'invalid') {
         setStatus({ message: `${t('__LOGIN_FORM_FAILED_INVALID')}` });
       } else {
-        document.location.href = from || '/';
+        navigate(from || '/');
       }
     }
 

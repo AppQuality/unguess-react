@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { Page } from 'src/features/templates/Page';
@@ -18,6 +18,7 @@ const Bug = () => {
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const location = useLocation();
 
   if (
     !campaignId ||
@@ -25,7 +26,9 @@ const Bug = () => {
     !bugId ||
     Number.isNaN(Number(bugId))
   ) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
     return null;
   }
 
@@ -60,7 +63,9 @@ const Bug = () => {
   }
 
   if (isError || typeof bug === 'undefined') {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
     return null;
   }
 

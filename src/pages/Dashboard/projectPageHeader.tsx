@@ -7,7 +7,7 @@ import {
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
 import {
@@ -41,6 +41,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
 
   const { status, userData } = useAppSelector((state) => state.user);
   const [itemTitle, setItemTitle] = useState<string>();
@@ -61,7 +62,11 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     }
   }, [project]);
 
-  if (isError) navigate(notFoundRoute, { replace: true });
+  if (isError) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
 
   const [patchProject] = usePatchProjectsByPidMutation();
 

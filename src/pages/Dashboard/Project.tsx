@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   projectFilterChanged,
@@ -26,9 +26,12 @@ const Project = () => {
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
   const { projectId } = useParams();
+  const location = useLocation();
 
   if (!projectId || Number.isNaN(Number(projectId))) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   const {
@@ -63,7 +66,9 @@ const Project = () => {
   }, [workspace, dispatch]);
 
   if (isError) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   return (

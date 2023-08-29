@@ -4,7 +4,7 @@ import { Divider } from 'src/common/components/divider';
 import { Paragraph, Row, XXL } from '@appquality/unguess-design-system';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { SERVICES_SHOW_TIPS } from 'src/constants';
 import { LoadingServices } from './LoadingServices';
@@ -34,6 +34,7 @@ export const Category = ({
 }) => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
 
   const {
     data: categoryData,
@@ -55,7 +56,9 @@ export const Category = ({
   const formattedServices = extractStrapiData(formattedCategory.services);
 
   if (isError) {
-    navigate(notFoundRoute);
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
   }
 
   if (isLoading) {
