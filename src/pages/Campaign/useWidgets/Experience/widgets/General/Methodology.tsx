@@ -146,7 +146,7 @@ export const Methodology = ({
         </Summary>
       </Grid>
       <WidgetCard.Footer>
-        <Link to={servicesRoute.slice(0, -1)}>
+        <Link to={servicesRoute.slice(0, -1)} target="_blank">
           <Anchor isExternal>
             {t('__CAMPAIGN_PAGE_METHODOLOGY_SERVICES_LINK')}
           </Anchor>
