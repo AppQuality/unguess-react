@@ -9,11 +9,10 @@ import { useParams } from 'react-router-dom';
 import { EmptyState } from './EmptyState';
 import { useWidgets } from './useWidgets';
 
-export const CampaignWidgets = ({ isPreview }: { isPreview?: boolean }) => {
+export const CampaignWidgets = () => {
   const { campaignId } = useParams();
   const { widgets } = useWidgets({
     campaignId: campaignId ? Number(campaignId) : 0,
-    isPreview,
   });
   const { all, footers, items, itemsWithTitles } = widgets;
 
