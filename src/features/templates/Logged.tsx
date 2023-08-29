@@ -34,7 +34,7 @@ export const Logged = ({
   route: string;
   isMinimal?: boolean;
 }) => {
-  const location = useLocation();
+  const { pathname, state: locationState } = useLocation();
   const loginRoute = useLocalizeRoute('login');
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ export const Logged = ({
   useEffect(() => {
     if (status === 'failed') {
       navigate(loginRoute, {
-        state: { from: location.pathname },
+        state: { from: locationState?.from ?? pathname },
       });
     }
   }, [status]);
