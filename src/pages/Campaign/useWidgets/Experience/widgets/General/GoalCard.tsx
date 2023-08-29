@@ -32,17 +32,24 @@ const Goal = styled(ContainerCard)`
   width: 100%;
 `;
 
-export const GoalCard = ({ campaignId }: { campaignId: number }) => {
+export const GoalCard = ({
+  campaignId,
+  isPreview,
+}: {
+  campaignId: number;
+  isPreview?: boolean;
+}) => {
   const { t } = useTranslation();
 
   const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
     cid: campaignId.toString(),
+    ...(!isPreview && { showAsCustomer: true }),
   });
 
   if (isLoading || isFetching || isError || !data) return <div>loading...</div>;
 
   return (
-    <WidgetCard title={t('__CAMPAIGN_PAGE_GOAL_CARD_TITLE')}>
+    <WidgetCard>
       <WidgetCard.Meta justifyContent="space-between">
         <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
           {t('__CAMPAIGN_PAGE_GOAL_CARD_TITLE')}

@@ -43,7 +43,13 @@ const Label = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[500]};
 `;
 
-export const Methodology = ({ campaignId }: { campaignId: number }) => {
+export const Methodology = ({
+  campaignId,
+  isPreview,
+}: {
+  campaignId: number;
+  isPreview?: boolean;
+}) => {
   const { t } = useTranslation();
 
   const {
@@ -56,6 +62,7 @@ export const Methodology = ({ campaignId }: { campaignId: number }) => {
 
   const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
     cid: campaignId.toString(),
+    ...(!isPreview && { showAsCustomer: true }),
   });
 
   const servicesRoute = useLocalizeRoute(`services/#experience-optimization`);
@@ -85,7 +92,7 @@ export const Methodology = ({ campaignId }: { campaignId: number }) => {
   };
 
   return (
-    <WidgetCard title={t('__CAMPAIGN_PAGE_METHODOLOGY_CARD_TITLE')}>
+    <WidgetCard>
       <WidgetCard.Meta justifyContent="space-between">
         <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
           {t('__CAMPAIGN_PAGE_METHODOLOGY_CARD_TITLE')}
@@ -139,7 +146,7 @@ export const Methodology = ({ campaignId }: { campaignId: number }) => {
         </Summary>
       </Grid>
       <WidgetCard.Footer>
-        <Link to={servicesRoute.slice(0, -1)}>
+        <Link to={servicesRoute.slice(0, -1)} target="_blank">
           <Anchor isExternal>
             {t('__CAMPAIGN_PAGE_METHODOLOGY_SERVICES_LINK')}
           </Anchor>

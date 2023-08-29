@@ -27,14 +27,16 @@ const StyledRow = styled.div`
 export const CampaignInfo = ({
   id,
   campaign,
+  isPreview,
 }: {
   id: string;
   campaign: Campaign;
+  isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
 
   return (
-    <div style={{ marginBottom: appTheme.space.xxl }}>
+    <div style={{ marginBottom: appTheme.space.xxl }} id={id}>
       <Row>
         <Col xs={12} style={{ margin: 0 }}>
           <SectionTitle
@@ -46,10 +48,10 @@ export const CampaignInfo = ({
       </Row>
       <StyledRow style={{ flexFlow: 'column' }}>
         <div style={{ margin: 0 }}>
-          <GoalCard campaignId={campaign.id} />
+          <GoalCard campaignId={campaign.id} isPreview={isPreview} />
         </div>
         <div style={{ margin: 0 }}>
-          <Methodology campaignId={campaign.id} />
+          <Methodology campaignId={campaign.id} isPreview={isPreview} />
         </div>
       </StyledRow>
     </div>

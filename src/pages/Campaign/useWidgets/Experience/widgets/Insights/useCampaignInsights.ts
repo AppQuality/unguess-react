@@ -1,8 +1,15 @@
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 
-export const useCampaignInsights = ({ campaignId }: { campaignId: string }) => {
+export const useCampaignInsights = ({
+  campaignId,
+  isPreview,
+}: {
+  campaignId: string;
+  isPreview?: boolean;
+}) => {
   const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
     cid: campaignId,
+    ...(!isPreview && { showAsCustomer: true }),
   });
 
   if (isLoading || isFetching) {

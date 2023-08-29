@@ -37,13 +37,16 @@ const ResponsiveCol = styled(Col)`
 export const Insights = ({
   id,
   campaign,
+  isPreview,
 }: {
   id: string;
   campaign: Campaign;
+  isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
   const { data, isLoading, isError } = useCampaignInsights({
     campaignId: campaign.id ? campaign.id.toString() : '',
+    isPreview,
   });
   const [insightsState, setInsightsState] = useState<{
     [key: number]: {
