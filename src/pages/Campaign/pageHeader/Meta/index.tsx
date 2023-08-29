@@ -85,7 +85,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             {meta.allowed_devices.includes('desktop') && <DesktopMeta />}
             {meta.allowed_devices.includes('smartphone') && <SmartphoneMeta />}
             {meta.allowed_devices.includes('tablet') && <TabletMeta />}
-            {meta.allowed_devices.includes('tv') && <TvMeta />} ì
+            {meta.allowed_devices.includes('tv') && <TvMeta />}
           </>
         ) : null}
       </PageMeta>
