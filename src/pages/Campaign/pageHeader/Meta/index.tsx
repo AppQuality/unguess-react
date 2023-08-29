@@ -20,6 +20,7 @@ import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
 import { CampaignDurationMeta } from './CampaignDurationMeta';
+import { TvMeta } from './TvMeta';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -88,6 +89,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             {meta.allowed_devices.includes('desktop') && <DesktopMeta />}
             {meta.allowed_devices.includes('smartphone') && <SmartphoneMeta />}
             {meta.allowed_devices.includes('tablet') && <TabletMeta />}
+            {meta.allowed_devices.includes('tv') && <TvMeta />} ì
           </>
         ) : null}
       </PageMeta>
