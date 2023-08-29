@@ -6,7 +6,7 @@ import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useEffect } from 'react';
-import { CampaignWidgets } from '../CampaignWidgets';
+import { PreviewWidgets } from './widgets';
 
 const CampaignPreview = () => {
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ const CampaignPreview = () => {
       isMinimal
     >
       <LayoutWrapper>
-        <CampaignWidgets isPreview />
+        <PreviewWidgets />
       </LayoutWrapper>
     </Page>
   );
