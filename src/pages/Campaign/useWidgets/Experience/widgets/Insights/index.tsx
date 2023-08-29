@@ -2,15 +2,19 @@ import {
   Anchor,
   Col,
   Grid,
+  IconButton,
   Row,
   Skeleton,
   Span,
   XL,
+  Notification,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
-import { useEffect, useState } from 'react';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/link-fill.svg';
+import { useCallback, useEffect, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import styled, { css } from 'styled-components';
@@ -56,6 +60,27 @@ export const Insights = ({
     };
   }>({});
 
+  const { addToast } = useToast();
+
+  const copyLink = useCallback(
+    (anchor: string) => {
+      navigator.clipboard.writeText(`${window.location.href}#${anchor}`);
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__INSIGHT_LINK_TOAST_COPY_MESSAGE')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    },
+    [data.findings]
+  );
+
   // Check if url has an anchor and scroll to it
   useEffect(() => {
     const url = window.location.href;
@@ -63,7 +88,7 @@ export const Insights = ({
     if (urlAnchor) {
       const anchor = document.getElementById(urlAnchor);
       if (anchor) {
-        anchor.scrollIntoView();
+        anchor.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
     }
   }, []);
@@ -143,7 +168,15 @@ export const Insights = ({
                           }}
                         >
                           {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
+                          <IconButton
+                            onClick={() =>
+                              copyLink(`insight-row-${insight.id}`)
+                            }
+                          >
+                            <CopyIcon />
+                          </IconButton>
                         </XL>
+
                         <StyledDivider />
                       </Col>
                       <Col

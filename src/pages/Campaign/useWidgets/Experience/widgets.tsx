@@ -24,7 +24,7 @@ export const widgets = ({
     ...(!isPreview && { showAsCustomer: true }),
   });
 
-  const showExperience = !!campaign?.outputs?.includes('insights');
+  const showExperience = !!campaign?.outputs?.includes('insights') || isPreview;
 
   if (!showExperience || !campaign) return [];
 
