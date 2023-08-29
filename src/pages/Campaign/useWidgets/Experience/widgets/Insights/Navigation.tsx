@@ -43,6 +43,8 @@ const StyledStickyNavItemLabel = styled(StickyNavItemLabel)`
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
+export const navigationOffset = 200;
+
 const Navigation = ({
   insights,
 }: {
@@ -81,7 +83,7 @@ const Navigation = ({
               spy
               smooth
               duration={500}
-              offset={-90}
+              offset={-navigationOffset - 20}
               onSetActive={() => {
                 setActiveInsight(`anchor-insight-row-${insight.id}`);
               }}
