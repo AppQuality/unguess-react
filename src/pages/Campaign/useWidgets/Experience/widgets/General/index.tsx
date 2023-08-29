@@ -1,13 +1,5 @@
 import { Campaign } from 'src/features/api';
-import {
-  Anchor,
-  Col,
-  Grid,
-  Row,
-  Skeleton,
-  Span,
-  XL,
-} from '@appquality/unguess-design-system';
+import { Col, Row } from '@appquality/unguess-design-system';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';

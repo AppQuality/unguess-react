@@ -1,9 +1,4 @@
-import {
-  getColor,
-  Paragraph,
-  theme,
-  XXL,
-} from '@appquality/unguess-design-system';
+import { getColor, Paragraph, XXL } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 
 export const SectionTitle = ({

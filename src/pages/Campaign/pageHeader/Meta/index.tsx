@@ -1,14 +1,10 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
 } from 'src/features/api';
-import { getLocalizedUXDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import i18n from 'src/i18n';
-import { openUrl } from 'src/common/openUrl';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
