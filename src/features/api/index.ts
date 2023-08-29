@@ -1100,7 +1100,7 @@ export type UseCase = {
   logged?: boolean;
   link?: string;
 };
-export type Output = 'bugs' | 'media';
+export type Output = 'bugs' | 'media' | 'insights';
 export type CampaignWithOutput = Campaign & {
   outputs?: Output[];
 };

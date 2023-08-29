@@ -38,7 +38,11 @@ export function getLocalizeoFirstLevelDashboardRoute(
 export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   const { campaignId, outputs } = props;
 
-  if (outputs.length === 0 || outputs.some((o) => o === 'bugs')) {
+  if (
+    outputs.length === 0 ||
+    outputs.some((o) => o === 'bugs') ||
+    outputs.some((o) => o === 'insights')
+  ) {
     return getLocalizeoFirstLevelDashboardRoute(campaignId);
   }
 
