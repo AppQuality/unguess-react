@@ -657,6 +657,7 @@
   "__FORM_FIELD_REQUIRED_MESSAGE": "Campo obbligatorio",
   "__FORM_OPTIONAL_LABEL": "(opzionale)",
   "__FUNCTIONAL_LABEL": "Funzionali",
+  "__INSIGHT_LINK_TOAST_COPY_MESSAGE": "Hai copiato il link",
   "__LIST_PAGE_NEXT": "Indietro",
   "__LIST_PAGE_PREVIOUS": "Avanti",
   "__LOGIN_FORM_BACK_TO_LABEL": "Torna su Unguess",
