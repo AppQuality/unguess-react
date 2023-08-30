@@ -20,7 +20,8 @@ const Container = styled.div<{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: ${({ theme }) => theme.palette.grey[100]};
-  margin: ${({ theme }) => theme.space.xxl} auto;
+  margin: 0 auto;
+  padding: ${({ theme }) => theme.space.xxl} 0;
   ${({ excludeMarginTop }) => excludeMarginTop && `margin-top: 0;`}
   ${({ excludeMarginBottom }) => excludeMarginBottom && `margin-bottom: 0;`}
 
