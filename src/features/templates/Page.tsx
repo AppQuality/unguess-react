@@ -20,6 +20,9 @@ const Container = styled.div<{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: ${({ theme }) => theme.palette.grey[100]};
+  padding-bottom: ${({ theme }) =>
+    theme.components.chrome.header
+      .height}; /* Fix to prevent page bottom for being cut because of the chrome fixed header height */
   margin: ${({ theme }) => theme.space.xxl} auto;
   ${({ excludeMarginTop }) => excludeMarginTop && `margin-top: 0;`}
   ${({ excludeMarginBottom }) => excludeMarginBottom && `margin-bottom: 0;`}
