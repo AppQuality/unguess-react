@@ -3,9 +3,9 @@ import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import i18n from 'src/i18n';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 import { UnreadBugs } from './UnreadBugs';
 import { DuplicateBugs } from './DuplicateBugs';
-import { BasicWidget } from '../widgetCards/BasicWidget';
 import { useBugsByDuplicates } from './DuplicateBugs/useBugsByDuplicates';
 import { UnreadBugsWrapper } from './UnreadBugs/UnreadBugsWrapper';
 

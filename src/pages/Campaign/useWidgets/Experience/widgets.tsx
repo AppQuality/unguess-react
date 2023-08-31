@@ -6,6 +6,7 @@ import {
 
 import { Insights } from './widgets/Insights';
 import { CampaignInfo } from './widgets/General';
+import { Overview } from './widgets/Overview';
 
 export const widgets = ({
   campaignId,
@@ -47,6 +48,18 @@ export const widgets = ({
       {
         title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_GROUP_INSIGHTS_LABEL'),
         type: 'title' as const,
+      },
+      {
+        id: 'campaign-overview',
+        title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_OVERVIEW_LABEL'),
+        content: (
+          <Overview
+            id="campaign-overview"
+            campaign={campaign}
+            isPreview={isPreview}
+          />
+        ),
+        type: 'item' as const,
       },
       {
         id: 'campaign-insights',

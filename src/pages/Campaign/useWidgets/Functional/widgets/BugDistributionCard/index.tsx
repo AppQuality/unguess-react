@@ -9,9 +9,9 @@ import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
 import { useBugs } from './useBugs';
-import { BasicWidget } from '../widgetCards/BasicWidget';
-import { CapitalizeFirstLetter } from '../widgetCards/common/CapitalizeFirstLetter';
 import { WidgetLoader } from '../widgetLoader';
 
 function translateSeverity(severity: Severities, t: TFunction) {
