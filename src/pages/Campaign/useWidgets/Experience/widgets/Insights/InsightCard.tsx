@@ -1,8 +1,8 @@
 import { SpecialCard } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
+import styled from 'styled-components';
 import { getClusterTag, getSeverityIcon, getSeverityTag } from './utils';
 
 export const CardFooter = styled(SpecialCard.Footer)`
@@ -35,7 +35,7 @@ const InsightCard = ({
         <SpecialCard.Header.Title style={{ marginBottom: appTheme.space.xs }}>
           {insight.title}
         </SpecialCard.Header.Title>
-        {insight.description}
+        <div style={{ whiteSpace: 'pre-wrap' }}>{insight.description}</div>
       </SpecialCard.Header>
       <CardFooter justifyContent="start">
         {getClusterTag(insight.cluster, t)}
