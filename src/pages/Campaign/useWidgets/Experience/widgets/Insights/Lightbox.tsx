@@ -8,17 +8,12 @@ import {
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useCallback, useRef } from 'react';
+import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
-// import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
-import { Trans } from 'react-i18next';
-import {
-  getClusterName,
-  // getClusterTag,
-  getSeverityTag,
-} from './utils';
+import { getClusterName, getSeverityTag } from './utils';
 
 const LightboxHeader = styled(Lightbox.Header)`
   display: flex;
