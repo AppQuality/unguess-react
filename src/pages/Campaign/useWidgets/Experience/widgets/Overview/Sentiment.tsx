@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { SentimentChart } from './SentimentChart';
-import { SentimentList } from './SentimentList';
+import { List } from './SentimentList';
 
 export const Sentiment = ({
   campaignId,
@@ -24,11 +24,11 @@ export const Sentiment = ({
   return (
     <FlipCard className="bugs-by-type-widget" height={secondRowHeight}>
       <FlipCard.Header>
-        {t('__CAMPAIGN_WIDGET_BUGS_BY_TYPE_HEADER')}
+        {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_HEADER')}
       </FlipCard.Header>
       <FlipCard.Body
         front={<SentimentChart campaignId={campaignId} isPreview={isPreview} />}
-        back={<SentimentList campaignId={campaignId} isPreview={isPreview} />}
+        back={<List campaignId={campaignId} isPreview={isPreview} />}
       />
     </FlipCard>
   );

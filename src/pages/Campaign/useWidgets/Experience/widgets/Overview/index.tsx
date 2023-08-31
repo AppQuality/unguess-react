@@ -23,8 +23,8 @@ export const Overview = ({
       <Row>
         <Col xs={12} style={{ margin: 0 }}>
           <SectionTitle
-            title={t('__CAMPAIGN_PAGE_OVERVIEW_SECTION_TITLE')}
-            subtitle={t('__CAMPAIGN_PAGE_OVERVIEW_SECTION_SUBTITLE')}
+            title={t('__CAMPAIGN_PAGE_EXP_OVERVIEW_SECTION_TITLE')}
+            subtitle={t('__CAMPAIGN_PAGE_EXP_OVERVIEW_SECTION_SUBTITLE')}
           />
           <Divider style={{ margin: `${appTheme.space.md} 0` }} />
         </Col>
