@@ -1,16 +1,25 @@
 import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
-import styled from 'styled-components';
-import { Item } from './Item';
+import { useEffect, useMemo, useState } from 'react';
+import { List } from 'src/pages/Campaign/List';
+import { Item, Sentiment } from './Item';
 
-export const List = ({
+// Repeat some items to make the list longer for testing purposes
+const fakize = (sentiment: Sentiment[]) => [
+  ...sentiment,
+  ...Array(5).fill(sentiment[0]),
+  ...sentiment,
+];
+
+export const SentimentList = ({
   campaignId,
   isPreview,
 }: {
   campaignId: number;
   isPreview?: boolean;
 }) => {
+  const PAGE_ITEMS_SIZE = 4;
   const { t } = useTranslation();
 
   const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
@@ -18,12 +27,31 @@ export const List = ({
     ...(!isPreview && { showAsCustomer: true }),
   });
 
-  if (isLoading || isFetching || isError || !data) return <div>loading...</div>;
+  const sentiments = data?.sentiment ? fakize(data?.sentiment) : [];
 
-  if (!data?.sentiment) return <div>no data</div>;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [paginatedItems, setPaginatedItems] = useState<Sentiment[]>([]);
+  const maxPages = useMemo(
+    () => Math.ceil(sentiments.length / PAGE_ITEMS_SIZE),
+    [sentiments, PAGE_ITEMS_SIZE]
+  );
+
+  useEffect(() => {
+    setPaginatedItems(
+      [...sentiments]
+        .reverse()
+        .slice(
+          (currentPage - 1) * PAGE_ITEMS_SIZE,
+          currentPage * PAGE_ITEMS_SIZE
+        )
+    );
+  }, [currentPage, sentiments]);
+
+  if (isLoading || isFetching || isError || !data) return <div>loading...</div>;
+  if (!sentiments.length) return <div>no data</div>;
 
   // Sort sentiment by value
-  const orderedSentiment = [...data.sentiment].sort((a, b) => {
+  const ordered = [...paginatedItems].sort((a, b) => {
     if (a.value > b.value) return 1;
     if (a.value < b.value) return -1;
     return 0;
@@ -38,9 +66,27 @@ export const List = ({
       </Row>
       <Row>
         <Col xs={12}>
-          {orderedSentiment.map((item) => (
-            <Item item={item} />
-          ))}
+          <List>
+            <List.Columns style={{ marginBottom: 0 }}>
+              <List.Columns.Label isBold>
+                {' '}
+                {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
+                  count: sentiments.length,
+                })}
+              </List.Columns.Label>
+              <List.Columns.Label isBold>
+                {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
+              </List.Columns.Label>
+            </List.Columns>
+            {ordered.map((item) => (
+              <Item item={item} />
+            ))}
+            <List.Pagination
+              setPage={setCurrentPage}
+              page={currentPage}
+              totalPages={maxPages}
+            />
+          </List>
         </Col>
       </Row>
     </Grid>

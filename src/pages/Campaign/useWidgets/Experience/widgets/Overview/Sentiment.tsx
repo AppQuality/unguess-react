@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { SentimentChart } from './SentimentChart';
-import { List } from './SentimentList';
+import { SentimentList } from './SentimentList';
 
 export const Sentiment = ({
   campaignId,
@@ -28,7 +28,7 @@ export const Sentiment = ({
       </FlipCard.Header>
       <FlipCard.Body
         front={<SentimentChart campaignId={campaignId} isPreview={isPreview} />}
-        back={<List campaignId={campaignId} isPreview={isPreview} />}
+        back={<SentimentList campaignId={campaignId} isPreview={isPreview} />}
       />
     </FlipCard>
   );

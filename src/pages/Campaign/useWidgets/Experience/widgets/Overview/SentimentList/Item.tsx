@@ -1,4 +1,4 @@
-import { MD, Progress, SM } from '@appquality/unguess-design-system';
+import { Ellipsis, MD, Progress, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -28,7 +28,7 @@ const StyledSM = styled(SM)`
   }
 `;
 
-interface Sentiment {
+export interface Sentiment {
   cluster: {
     id: number;
     name: string;
@@ -47,7 +47,9 @@ export const Item = ({ item }: { item: Sentiment }) => {
           <MD isBold style={{ color: appTheme.palette.blue[600] }}>
             {item.cluster.name}
           </MD>
-          {item.comment}
+          <Ellipsis title={item.comment} style={{ width: '97%' }}>
+            {item.comment}
+          </Ellipsis>
         </div>
         <StyledSM>{getSentiment(item.value, t).text}</StyledSM>
       </ListItemTitle>

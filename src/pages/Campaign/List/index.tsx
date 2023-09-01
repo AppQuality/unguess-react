@@ -77,10 +77,12 @@ const ExampleList = () => {
  */
 export const List = ({ header, title, children }: ListProps) => (
   <ListWrapper>
-    <ListHeader>
-      {header ? <Columns.Label isBold>{header}</Columns.Label> : null}
-      <ListHeaderTitle isBold>{title}</ListHeaderTitle>
-    </ListHeader>
+    {(header || title) && (
+      <ListHeader>
+        {header ? <Columns.Label isBold>{header}</Columns.Label> : null}
+        {title ? <ListHeaderTitle isBold>{title}</ListHeaderTitle> : null}
+      </ListHeader>
+    )}
 
     {children}
   </ListWrapper>
