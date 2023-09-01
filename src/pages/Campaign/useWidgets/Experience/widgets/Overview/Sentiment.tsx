@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
-import { SentimentChart } from './SentimentChart';
+import { Chart } from './SentimentChart';
 import { SentimentList } from './SentimentList';
 
 export const Sentiment = ({
@@ -12,7 +12,7 @@ export const Sentiment = ({
   isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
-  const secondRowHeight = '465px';
+  const secondRowHeight = '550px';
 
   const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
     cid: campaignId.toString(),
@@ -27,7 +27,7 @@ export const Sentiment = ({
         {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_HEADER')}
       </FlipCard.Header>
       <FlipCard.Body
-        front={<SentimentChart campaignId={campaignId} isPreview={isPreview} />}
+        front={<Chart campaignId={campaignId} isPreview={isPreview} />}
         back={<SentimentList campaignId={campaignId} isPreview={isPreview} />}
       />
     </FlipCard>
