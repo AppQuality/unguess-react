@@ -29,34 +29,32 @@ const StyledSM = styled(SM)`
 `;
 
 export interface Sentiment {
-  cluster: {
-    id: number;
-    name: string;
-  };
-  value: number;
-  comment: string;
+  id: number;
+  title: string;
+  sentiment: number;
+  note: string;
 }
 
 export const Item = ({ item }: { item: Sentiment }) => {
   const { t } = useTranslation();
 
   return (
-    <ListItemWrapper>
+    <ListItemWrapper key={`cluster_${item.id}`}>
       <ListItemTitle>
         <div>
           <MD isBold style={{ color: appTheme.palette.blue[600] }}>
-            {item.cluster.name}
+            {item.title}
           </MD>
-          <Ellipsis title={item.comment} style={{ width: '97%' }}>
-            {item.comment}
+          <Ellipsis title={item.note} style={{ width: '97%' }}>
+            {item.note}
           </Ellipsis>
         </div>
-        <StyledSM>{getSentiment(item.value, t).text}</StyledSM>
+        <StyledSM>{getSentiment(item.sentiment, t).text}</StyledSM>
       </ListItemTitle>
       <Progress
-        value={getPercentage(item.value)}
+        value={getPercentage(item.sentiment)}
         size="small"
-        color={getSentiment(item.value, t).color}
+        color={getSentiment(item.sentiment, t).color}
         style={{ margin: 0, marginTop: appTheme.space.xxs }}
       />
     </ListItemWrapper>
