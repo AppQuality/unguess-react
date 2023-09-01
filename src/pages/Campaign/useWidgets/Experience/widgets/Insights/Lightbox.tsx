@@ -1,25 +1,19 @@
 import {
-  // Button,
   Lightbox,
   MD,
+  Player,
   Slider,
   Span,
   XL,
-  Player,
 } from '@appquality/unguess-design-system';
+import { t } from 'i18next';
 import { useCallback, useRef } from 'react';
-import styled from 'styled-components';
-import useWindowSize from 'src/hooks/useWindowSize';
+import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
-import { t } from 'i18next';
-// import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
-import { Trans } from 'react-i18next';
-import {
-  getClusterName,
-  // getClusterTag,
-  getSeverityTag,
-} from './utils';
+import useWindowSize from 'src/hooks/useWindowSize';
+import styled from 'styled-components';
+import { getClusterName, getSeverityTag } from './utils';
 
 const LightboxHeader = styled(Lightbox.Header)`
   display: flex;
@@ -120,29 +114,11 @@ const InsightLightbox = ({
                 '__CAMPAIGN_PAGE_INSIGHTS_LIGHTBOX_DETAILS_LINKED_INSIGHT_LABEL'
               )}
             </MD>
-            <MD>{insight.description}</MD>
+            <MD style={{ whiteSpace: 'pre-wrap' }}>{insight.description}</MD>
           </Lightbox.Body.Details>
         )}
       </Lightbox.Body>
-      {/* TODO: check how to download the trimmed video, not the full media url 📦📦📦 */}
-      <Lightbox.Footer>
-        {/* <Button
-          isBasic
-          onClick={() => {
-            if (items)
-              if (currentIndex in items) {
-                const media = items[currentIndex as number];
-                // eslint-disable-next-line security/detect-non-literal-fs-filename
-                window.open(media.url, '_blank');
-              }
-          }}
-        >
-          <Button.StartIcon>
-            <DownloadIcon />
-          </Button.StartIcon>
-          {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_DOWNLOAD_BUTTON')}
-        </Button> */}
-      </Lightbox.Footer>
+      <Lightbox.Footer />
       <Lightbox.Close aria-label="Close insight lightbox" />
     </Lightbox>
   );
