@@ -5,13 +5,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { List } from 'src/pages/Campaign/List';
 import { Item, Sentiment } from './Item';
 
-// Repeat some items to make the list longer for testing purposes
-const fakize = (sentiment: Sentiment[]) => [
-  ...sentiment,
-  ...Array(5).fill(sentiment[0]),
-  ...sentiment,
-];
-
 export const SentimentList = ({
   campaignId,
   isPreview,
@@ -27,7 +20,7 @@ export const SentimentList = ({
     ...(!isPreview && { showAsCustomer: true }),
   });
 
-  const sentiments = data?.sentiment ? fakize(data?.sentiment) : [];
+  const sentiments = data?.sentiment ?? [];
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [paginatedItems, setPaginatedItems] = useState<Sentiment[]>([]);
@@ -47,8 +40,8 @@ export const SentimentList = ({
     );
   }, [currentPage, sentiments]);
 
-  if (isLoading || isFetching || isError || !data) return <div>loading...</div>;
-  if (!sentiments.length) return <div>no data</div>;
+  if (isLoading || isFetching || isError || !data) return null;
+  if (!sentiments.length) return null;
 
   // Sort sentiment by value
   const ordered = [...paginatedItems].sort((a, b) => {
@@ -64,31 +57,27 @@ export const SentimentList = ({
           {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_DESCRIPTION')}
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>
-          <List>
-            <List.Columns style={{ marginBottom: 0 }}>
-              <List.Columns.Label isBold>
-                {' '}
-                {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
-                  count: sentiments.length,
-                })}
-              </List.Columns.Label>
-              <List.Columns.Label isBold>
-                {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
-              </List.Columns.Label>
-            </List.Columns>
-            {ordered.map((item) => (
-              <Item item={item} />
-            ))}
-            <List.Pagination
-              setPage={setCurrentPage}
-              page={currentPage}
-              totalPages={maxPages}
-            />
-          </List>
-        </Col>
-      </Row>
+      <List>
+        <List.Columns style={{ marginBottom: 0 }}>
+          <List.Columns.Label isBold>
+            {' '}
+            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
+              count: sentiments.length,
+            })}
+          </List.Columns.Label>
+          <List.Columns.Label isBold>
+            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
+          </List.Columns.Label>
+        </List.Columns>
+        {ordered.map((item) => (
+          <Item item={item} />
+        ))}
+        <List.Pagination
+          setPage={setCurrentPage}
+          page={currentPage}
+          totalPages={maxPages}
+        />
+      </List>
     </Grid>
   );
 };

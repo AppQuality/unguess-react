@@ -10,7 +10,7 @@ export const getSentiment = (value: number, t: TFunction) => {
   switch (value) {
     case 1:
       return {
-        color: appTheme.palette.red[600],
+        color: appTheme.palette.red[500],
         text: (
           <>
             <Sentiment1 />{' '}
@@ -20,7 +20,7 @@ export const getSentiment = (value: number, t: TFunction) => {
       };
     case 2:
       return {
-        color: appTheme.palette.red[600],
+        color: appTheme.palette.red[500],
         text: (
           <>
             <Sentiment2 />{' '}
@@ -30,7 +30,7 @@ export const getSentiment = (value: number, t: TFunction) => {
       };
     case 3:
       return {
-        color: appTheme.palette.yellow[600],
+        color: appTheme.palette.yellow[500],
         text: (
           <>
             <Sentiment3 />{' '}
@@ -40,7 +40,7 @@ export const getSentiment = (value: number, t: TFunction) => {
       };
     case 4:
       return {
-        color: appTheme.palette.green[600],
+        color: appTheme.palette.green[500],
         text: (
           <>
             <Sentiment4 />{' '}
@@ -50,7 +50,7 @@ export const getSentiment = (value: number, t: TFunction) => {
       };
     case 5:
       return {
-        color: appTheme.palette.green[600],
+        color: appTheme.palette.green[500],
         text: (
           <>
             <Sentiment5 />{' '}
@@ -61,8 +61,8 @@ export const getSentiment = (value: number, t: TFunction) => {
 
     default:
       return {
-        color: appTheme.palette.red[600],
-        text: '--',
+        color: appTheme.palette.yellow[500],
+        text: '',
       };
   }
 };
