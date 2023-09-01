@@ -1,9 +1,21 @@
-import { Grid, Row, Col } from '@appquality/unguess-design-system';
+import { MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import { useEffect, useMemo, useState } from 'react';
 import { List } from 'src/pages/Campaign/List';
+import styled from 'styled-components';
 import { Item, Sentiment } from './Item';
+import { useSentiments } from '../useSentiments';
+
+const Description = styled(MD)`
+  margin: ${({ theme }) => theme.space.base * 5}px 0;
+  color: ${({ theme }) => theme.palette.grey[700]};
+  align-self: flex-start;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
+`;
 
 export const SentimentList = ({
   campaignId,
@@ -15,12 +27,11 @@ export const SentimentList = ({
   const PAGE_ITEMS_SIZE = 4;
   const { t } = useTranslation();
 
-  const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
+  const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
     ...(!isPreview && { showAsCustomer: true }),
+    order: 'DESC',
   });
-
-  const sentiments = data?.sentiment ?? [];
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [paginatedItems, setPaginatedItems] = useState<Sentiment[]>([]);
@@ -30,33 +41,26 @@ export const SentimentList = ({
   );
 
   useEffect(() => {
-    setPaginatedItems(
-      [...sentiments]
-        .reverse()
-        .slice(
-          (currentPage - 1) * PAGE_ITEMS_SIZE,
-          currentPage * PAGE_ITEMS_SIZE
-        )
-    );
-  }, [currentPage, sentiments]);
+    if (sentiments.length) {
+      setPaginatedItems(
+        sentiments
+          .reverse()
+          .slice(
+            (currentPage - 1) * PAGE_ITEMS_SIZE,
+            currentPage * PAGE_ITEMS_SIZE
+          )
+      );
+    }
+  }, [currentPage, sentiments.length]);
 
-  if (isLoading || isFetching || isError || !data) return null;
+  if (isLoading || isError || !sentiments) return null;
   if (!sentiments.length) return null;
 
-  // Sort sentiment by value
-  const ordered = [...paginatedItems].sort((a, b) => {
-    if (a.value > b.value) return 1;
-    if (a.value < b.value) return -1;
-    return 0;
-  });
-
   return (
-    <Grid>
-      <Row>
-        <Col xs={12}>
-          {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_DESCRIPTION')}
-        </Col>
-      </Row>
+    <>
+      <Description>
+        {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_DESCRIPTION')}
+      </Description>
       <List>
         <List.Columns style={{ marginBottom: 0 }}>
           <List.Columns.Label isBold>
@@ -69,7 +73,7 @@ export const SentimentList = ({
             {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
           </List.Columns.Label>
         </List.Columns>
-        {ordered.map((item) => (
+        {paginatedItems.map((item) => (
           <Item item={item} />
         ))}
         <List.Pagination
@@ -78,6 +82,6 @@ export const SentimentList = ({
           totalPages={maxPages}
         />
       </List>
-    </Grid>
+    </>
   );
 };
