@@ -6,6 +6,7 @@ import {
 
 import { Insights } from './widgets/Insights';
 import { CampaignInfo } from './widgets/General';
+import { Overview } from './widgets/Overview';
 
 export const widgets = ({
   campaignId,
@@ -26,41 +27,56 @@ export const widgets = ({
 
   const showExperience = !!campaign?.outputs?.includes('insights') || isPreview;
 
-  if (!showExperience || !campaign) return [];
+  if (!showExperience || !campaign || !uxData) return [];
 
-  const widgetsToShow = [];
+  const widgetsToShow = [
+    {
+      id: 'campaign-methodology',
+      title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_METHODOLOGY_LABEL'),
+      content: (
+        <CampaignInfo
+          id="campaign-methodology"
+          campaign={campaign}
+          isPreview={isPreview}
+        />
+      ),
+      type: 'item' as const,
+    },
+    {
+      title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_GROUP_INSIGHTS_LABEL'),
+      type: 'title' as const,
+    },
+  ];
 
-  if (uxData && uxData.findings && uxData.findings.length > 0)
-    widgetsToShow.push(
-      {
-        id: 'campaign-methodology',
-        title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_METHODOLOGY_LABEL'),
-        content: (
-          <CampaignInfo
-            id="campaign-methodology"
-            campaign={campaign}
-            isPreview={isPreview}
-          />
-        ),
-        type: 'item' as const,
-      },
-      {
-        title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_GROUP_INSIGHTS_LABEL'),
-        type: 'title' as const,
-      },
-      {
-        id: 'campaign-insights',
-        title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_INSIGHTS_LABEL'),
-        content: (
-          <Insights
-            id="campaign-insights"
-            campaign={campaign}
-            isPreview={isPreview}
-          />
-        ),
-        type: 'item' as const,
-      }
-    );
+  if (uxData?.sentiment && uxData.sentiment.length > 0) {
+    widgetsToShow.push({
+      id: 'campaign-overview',
+      title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_OVERVIEW_LABEL'),
+      content: (
+        <Overview
+          id="campaign-overview"
+          campaign={campaign}
+          isPreview={isPreview}
+        />
+      ),
+      type: 'item' as const,
+    });
+  }
+
+  if (uxData.findings && uxData.findings.length > 0) {
+    widgetsToShow.push({
+      id: 'campaign-insights',
+      title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_INSIGHTS_LABEL'),
+      content: (
+        <Insights
+          id="campaign-insights"
+          campaign={campaign}
+          isPreview={isPreview}
+        />
+      ),
+      type: 'item' as const,
+    });
+  }
 
   return widgetsToShow;
 };

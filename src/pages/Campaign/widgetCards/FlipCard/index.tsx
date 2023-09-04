@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { StyledSpecialCard } from '../common/StyledSpecialCard';
+import { WidgetSpecialCard } from '../common/StyledSpecialCard';
 import { WidgetCardFooter } from '../common/WidgetCardFooter';
 import { FlipCardBody } from './FlipCardBody';
 import { FlipCardHeader } from './FlipCardHeader';
 import { FlipCardContextProvider } from './context/FlipCardContext';
 
-const FlipCardContainer = styled(StyledSpecialCard)<{ height?: string }>`
+const FlipCardContainer = styled(WidgetSpecialCard)<{ height?: string }>`
   height: ${({ height }) => height || 'auto'};
 `;
 interface FlipCardProps extends React.HTMLAttributes<HTMLDivElement> {

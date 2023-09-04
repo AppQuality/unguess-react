@@ -2,7 +2,6 @@ import {
   MD,
   Row,
   Col,
-  SpecialCard,
   SM,
   getColor,
   Grid,
@@ -19,16 +18,10 @@ import {
 import { Divider } from 'src/common/components/divider';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Link } from 'react-router-dom';
+import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { ReactComponent as CampaignInfo } from './assets/campaignInfo.svg';
 import { ReactComponent as UserGroup } from './assets/userGroup.svg';
 import { MethodologyNote } from './Note';
-
-const WidgetCard = styled(SpecialCard)`
-  cursor: default;
-  &:hover {
-    box-shadow: none;
-  }
-`;
 
 const Summary = styled.div`
   margin: ${({ theme }) => theme.space.base * 2}px 0;
@@ -92,12 +85,12 @@ export const Methodology = ({
   };
 
   return (
-    <WidgetCard>
-      <WidgetCard.Meta justifyContent="space-between">
+    <WidgetSpecialCard>
+      <WidgetSpecialCard.Meta justifyContent="space-between">
         <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
           {t('__CAMPAIGN_PAGE_METHODOLOGY_CARD_TITLE')}
         </MD>
-      </WidgetCard.Meta>
+      </WidgetSpecialCard.Meta>
       <Divider />
       <Grid>
         <Summary>
@@ -145,13 +138,13 @@ export const Methodology = ({
           </StyledRow>
         </Summary>
       </Grid>
-      <WidgetCard.Footer>
+      <WidgetSpecialCard.Footer>
         <Link to={servicesRoute.slice(0, -1)} target="_blank">
           <Anchor isExternal>
             {t('__CAMPAIGN_PAGE_METHODOLOGY_SERVICES_LINK')}
           </Anchor>
         </Link>
-      </WidgetCard.Footer>
-    </WidgetCard>
+      </WidgetSpecialCard.Footer>
+    </WidgetSpecialCard>
   );
 };
