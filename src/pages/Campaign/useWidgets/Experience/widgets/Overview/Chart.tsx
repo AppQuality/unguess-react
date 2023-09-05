@@ -42,7 +42,7 @@ const Tooltip = styled.div`
 `;
 
 const LegendCard = styled(ContainerCard)`
-  padding: ${({ theme }) => theme.space.sm};
+  padding: ${({ theme }) => theme.space.base * 4}px;
   background-color: ${({ theme }) => theme.palette.grey[100]};
   height: 100%;
 `;
@@ -80,7 +80,7 @@ export const Chart = ({
   return (
     <Grid style={{ margin: `${appTheme.space.sm} auto` }}>
       <Row>
-        <Col xs="9">
+        <Col xs="12" style={{ margin: 0 }}>
           <Row>
             <Col
               xs="1"
@@ -90,7 +90,7 @@ export const Chart = ({
                 {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
               </VerticalLabel>
             </Col>
-            <Col xs="11" style={{ margin: 0 }}>
+            <Col xs="8" style={{ margin: 0 }}>
               {isLoading ? (
                 <Skeleton height="400px" />
               ) : (
@@ -105,7 +105,9 @@ export const Chart = ({
                       })),
                     ],
                   }}
-                  width={`${sentiments.length * 150}px`}
+                  width={`${
+                    sentiments.length < 4 ? '100%' : sentiments.length * 200
+                  }px`}
                   height="400px"
                   margin={{ top: 50, right: 0, bottom: 50, left: 0 }}
                   i18n={{
@@ -155,13 +157,51 @@ export const Chart = ({
                 />
               )}
             </Col>
+            <Col xs="3" style={{ margin: 0 }}>
+              <LegendCard>
+                <SM
+                  style={{
+                    color: appTheme.palette.grey[700],
+                    marginTop: appTheme.space.sm,
+                  }}
+                >
+                  {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_PRE_TITLE')}
+                </SM>
+                <LG
+                  style={{
+                    margin: `${appTheme.space.xxs} 0`,
+                    color: appTheme.palette.blue[600],
+                  }}
+                  isBold
+                >
+                  {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_TITLE')}
+                </LG>
+                <MD
+                  style={{
+                    marginBottom: appTheme.space.md,
+                    color: appTheme.palette.grey[700],
+                  }}
+                >
+                  {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_DESCRIPTION')}
+                </MD>
+                <SentimentItem>{getSentiment(1, t).text}</SentimentItem>
+                <SentimentItem>{getSentiment(2, t).text}</SentimentItem>
+                <SentimentItem>{getSentiment(3, t).text}</SentimentItem>
+                <SentimentItem>{getSentiment(4, t).text}</SentimentItem>
+                <SentimentItem style={{ marginBottom: appTheme.space.sm }}>
+                  {getSentiment(5, t).text}
+                </SentimentItem>
+              </LegendCard>
+            </Col>
           </Row>
           <Row>
             <Col xs="1" style={{ margin: 0 }} />
-            <Col xs="11" style={{ margin: 0 }}>
+            <Col xs="8" style={{ margin: 0 }}>
               <div
                 style={{
-                  width: sentiments.length * 150,
+                  width: `${
+                    sentiments.length < 4 ? '100%' : sentiments.length * 200
+                  }px`,
                   maxWidth: '100%',
                   marginTop: appTheme.space.md,
                 }}
@@ -173,43 +213,8 @@ export const Chart = ({
                 </HorizontalLabel>
               </div>
             </Col>
+            <Col xs="3" style={{ margin: 0 }} />
           </Row>
-        </Col>
-        <Col xs="3" style={{ margin: 0, gap: appTheme.space.md }}>
-          <LegendCard>
-            <SM
-              style={{
-                color: appTheme.palette.grey[700],
-                marginTop: appTheme.space.sm,
-              }}
-            >
-              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_PRE_TITLE')}
-            </SM>
-            <LG
-              style={{
-                margin: `${appTheme.space.xxs} 0`,
-                color: appTheme.palette.blue[600],
-              }}
-              isBold
-            >
-              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_TITLE')}
-            </LG>
-            <MD
-              style={{
-                marginBottom: appTheme.space.xs,
-                color: appTheme.palette.grey[700],
-              }}
-            >
-              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_DESCRIPTION')}
-            </MD>
-            <SentimentItem>{getSentiment(1, t).text}</SentimentItem>
-            <SentimentItem>{getSentiment(2, t).text}</SentimentItem>
-            <SentimentItem>{getSentiment(3, t).text}</SentimentItem>
-            <SentimentItem>{getSentiment(4, t).text}</SentimentItem>
-            <SentimentItem style={{ marginBottom: appTheme.space.sm }}>
-              {getSentiment(5, t).text}
-            </SentimentItem>
-          </LegendCard>
         </Col>
       </Row>
     </Grid>
