@@ -190,6 +190,7 @@ export const Chart = ({
                 margin: `${appTheme.space.xxs} 0`,
                 color: appTheme.palette.blue[600],
               }}
+              isBold
             >
               {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_TITLE')}
             </LG>
