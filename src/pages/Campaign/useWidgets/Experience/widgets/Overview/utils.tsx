@@ -1,5 +1,6 @@
 import { TFunction } from 'i18next';
 import { appTheme } from 'src/app/theme';
+import { Span } from '@appquality/unguess-design-system';
 import { ReactComponent as Sentiment1 } from './assets/sentiment-1.svg';
 import { ReactComponent as Sentiment2 } from './assets/sentiment-2.svg';
 import { ReactComponent as Sentiment3 } from './assets/sentiment-3.svg';
@@ -14,7 +15,9 @@ export const getSentiment = (value: number, t: TFunction) => {
         text: (
           <>
             <Sentiment1 />{' '}
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_1')}
+            <Span style={{ whiteSpace: 'nowrap' }}>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_1')}
+            </Span>
           </>
         ),
       };
@@ -24,7 +27,9 @@ export const getSentiment = (value: number, t: TFunction) => {
         text: (
           <>
             <Sentiment2 />{' '}
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_2')}
+            <Span style={{ whiteSpace: 'nowrap' }}>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_2')}
+            </Span>
           </>
         ),
       };
@@ -34,7 +39,9 @@ export const getSentiment = (value: number, t: TFunction) => {
         text: (
           <>
             <Sentiment3 />{' '}
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_3')}
+            <Span style={{ whiteSpace: 'nowrap' }}>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_3')}
+            </Span>
           </>
         ),
       };
@@ -44,7 +51,9 @@ export const getSentiment = (value: number, t: TFunction) => {
         text: (
           <>
             <Sentiment4 />{' '}
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_4')}
+            <Span style={{ whiteSpace: 'nowrap' }}>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_4')}
+            </Span>
           </>
         ),
       };
@@ -54,7 +63,9 @@ export const getSentiment = (value: number, t: TFunction) => {
         text: (
           <>
             <Sentiment5 />{' '}
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_5')}
+            <Span style={{ whiteSpace: 'nowrap' }}>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_ITEM_VAL_5')}
+            </Span>
           </>
         ),
       };
