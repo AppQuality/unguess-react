@@ -21,6 +21,8 @@ const StyledSM = styled(SM)`
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+  flex-shrink: 0;
+
   svg {
     width: 1rem;
     height: 1rem;
