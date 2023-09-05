@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import FlipCard from '../widgetCards/FlipCard';
+import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { ChartUniqueBugs4UseCase } from './Chart';
 import { ListUniqueBugs4UseCase } from './List';
 

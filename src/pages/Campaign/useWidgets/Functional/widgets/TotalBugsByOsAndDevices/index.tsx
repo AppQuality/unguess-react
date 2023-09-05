@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import FlipCard from '../widgetCards/FlipCard';
+import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { ChartTotalBugsByDevice } from './ChartTotalBugsByDevice';
 import { ListTotalBugsByDevice } from './ListTotalBugsByDevice';
 

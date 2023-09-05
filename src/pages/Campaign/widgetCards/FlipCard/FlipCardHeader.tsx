@@ -17,7 +17,7 @@ export const FlipButtonContainer = styled.div`
 
 export const FlipCardHeader = ({ children, hasBack }: FlipCardHeaderProps) => {
   const { visibleFace, setVisibleFace, width } = useFlipCardContext();
-  const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
+  const breakpointMd = parseInt(appTheme.breakpoints.lg, 10);
 
   return (
     <WidgetCardHeader

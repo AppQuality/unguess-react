@@ -1,9 +1,9 @@
 import { WaffleChart, XL, Span } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
+import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
-import { BasicWidget } from '../widgetCards/BasicWidget';
 import { TrendPill } from './Trend';
 import { WidgetLoader } from '../widgetLoader';
 

@@ -9,6 +9,6 @@ export interface ListItemProps {
 
 export interface ListProps {
   header?: ReactNode;
-  title: ReactNode;
+  title?: ReactNode;
   children: ReactNode;
 }

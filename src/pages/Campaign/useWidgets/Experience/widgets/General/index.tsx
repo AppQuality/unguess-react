@@ -11,7 +11,7 @@ import { Methodology } from './Methodology';
 
 const StyledRow = styled.div`
   display: grid;
-  grid-template-columns: 8fr 4fr;
+  grid-template-columns: 7fr 5fr;
   grid-gap: ${({ theme }) => theme.space.md};
   align-items: start;
 
