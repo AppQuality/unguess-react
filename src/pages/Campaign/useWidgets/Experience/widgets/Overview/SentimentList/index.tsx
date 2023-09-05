@@ -1,11 +1,10 @@
 import { MD } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { List } from 'src/pages/Campaign/List';
 import styled from 'styled-components';
-import { Item, Sentiment } from './Item';
 import { useSentiments } from '../useSentiments';
+import { Item, Sentiment } from './Item';
 
 const Description = styled(MD)`
   margin: ${({ theme }) => theme.space.base * 5}px 0;
@@ -29,7 +28,7 @@ export const SentimentList = ({
 
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
-    ...(!isPreview && { showAsCustomer: true }),
+    isPreview,
     order: 'DESC',
   });
 

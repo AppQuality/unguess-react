@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { Chart } from './Chart';
 import { SentimentList } from './SentimentList';
@@ -17,7 +16,7 @@ export const Sentiment = ({
 
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
-    ...(!isPreview && { showAsCustomer: true }),
+    isPreview,
   });
 
   if (isLoading || isError || !sentiments) return null;

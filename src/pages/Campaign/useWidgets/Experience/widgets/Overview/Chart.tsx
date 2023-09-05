@@ -46,7 +46,7 @@ export const Chart = ({
 
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
-    ...(!isPreview && { showAsCustomer: true }),
+    isPreview,
   });
 
   if (!sentiments.length) return null;
