@@ -147,7 +147,12 @@ export const Chart = ({
                           </Span>
                         </div>
                         {data?.customData && (
-                          <MD style={{ marginTop: appTheme.space.xs, whiteSpace: 'pre-wrap' }}>
+                          <MD
+                            style={{
+                              marginTop: appTheme.space.xs,
+                              whiteSpace: 'pre-wrap',
+                            }}
+                          >
                             {data?.customData}
                           </MD>
                         )}
