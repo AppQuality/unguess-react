@@ -8,7 +8,7 @@ import {
 import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import React from 'react';
 import styled from 'styled-components';
-import { StyledSpecialCard } from './common/StyledSpecialCard';
+import { WidgetSpecialCard } from './common/StyledSpecialCard';
 import { WidgetCardFooter } from './common/WidgetCardFooter';
 import { WidgetCardHeader } from './common/WidgetCardHeader';
 
@@ -18,9 +18,9 @@ interface BasicWidgetProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const BasicWidget = ({ children, height, ...props }: BasicWidgetProps) => (
-  <StyledSpecialCard {...props} style={{ height }}>
+  <WidgetSpecialCard {...props} style={{ height }}>
     {children}
-  </StyledSpecialCard>
+  </WidgetSpecialCard>
 );
 
 const BasicWidgetHeader = ({

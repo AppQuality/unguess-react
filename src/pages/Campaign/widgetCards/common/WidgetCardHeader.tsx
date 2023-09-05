@@ -1,5 +1,6 @@
 import { MD, SpecialCard } from '@appquality/unguess-design-system';
 import { Divider } from 'src/common/components/divider';
+import { appTheme } from 'src/app/theme';
 import { CapitalizeFirstLetter } from './CapitalizeFirstLetter';
 
 export const WidgetCardHeader = ({
@@ -12,7 +13,7 @@ export const WidgetCardHeader = ({
   <>
     <SpecialCard.Meta justifyContent="space-between">
       {title && (
-        <MD isBold>
+        <MD isBold style={{ color: appTheme.palette.grey[800] }}>
           <CapitalizeFirstLetter>{title}</CapitalizeFirstLetter>
         </MD>
       )}

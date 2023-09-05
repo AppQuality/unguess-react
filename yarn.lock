@@ -48,16 +48,16 @@
     call-me-maybe "^1.0.1"
 
 "@appquality/stream-player@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@appquality/stream-player/-/stream-player-1.0.3.tgz#cd8f1599c37de1edb2162cbce332e356d020b5f8"
-  integrity sha512-kZBmDxb3BokBRKU9k3d9Z04rOCGq0UzK2u/iKilcQxp5wsHyPwweXki+6DaqMcZJMjLxKBfsq3QUCxpOMtZXmw==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@appquality/stream-player/-/stream-player-1.0.4.tgz#d1a87be1e04f25b39a539b9eff2e8aa0b38627df"
+  integrity sha512-RMhzbf9uDLCWIHwVQf5LSOYbenrM/RNQkCSjtayrRBj4pcVs42gvnIa0TgPflZDEFL/jxTHthu1eL0U2NhKxWg==
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@3.1.45":
-  version "3.1.45"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.45.tgz#ab55fff6b5cb7dcea23f16a45d2f4c62addeb1ce"
-  integrity sha512-0KBbbyrtHuYK34uQ5EqzIc8HLnOPUrgATpmbYTTAhnrkmEpYM8CGuAOXpvpWQ2i0gZ8avo4TEQHqpFkWNvGBHg==
+"@appquality/unguess-design-system@3.1.47-sentiment-beta":
+  version "3.1.47-sentiment-beta"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.47-sentiment-beta.tgz#c9888884bdd6efe622f559cca6965a3300f89bf3"
+  integrity sha512-D647QWfDNVBJlPJZ2IlqF7giYX7Noh+RSvK1EwZwGARS3bFdvFn/gldXvhlGRzUppr7udelLeWmNg1LHUf/Low==
   dependencies:
     "@appquality/stream-player" "^1.0.3"
     "@nivo/bar" "^0.80.0"
@@ -2471,9 +2471,9 @@
   integrity sha512-cfS5sW0gu7qf4ihwnLtW/QMTBrBEXaT0sJl3RwkhjIBg/65ywJKE5Nz9ewnQHmDeT18hvMJJ1VIb4j4ze9jj9A==
 
 "@tiptap/extension-link@^2.0.4":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-link/-/extension-link-2.1.3.tgz#408842a961a186485b4119d6eaa6e2ff7c7df31b"
-  integrity sha512-iyCMCKwnQZZTt5LCXSca62ea2uNxWH2/869xkrk92OTl+ybmC/FVzIxKwbn6S8KcXKLG/lXY95P0JUfnkv8HIw==
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-link/-/extension-link-2.1.7.tgz#2705c212d105ccf411d505e334ece4a723971ee4"
+  integrity sha512-NDfoMCkThng1B530pMg5y69+eWoghZXK2uCntrJH7Rs8jNeGMyt9wGIOd7N8ZYz0oJ2ZYKzZjS0RANdBDS17DA==
   dependencies:
     linkifyjs "^4.1.0"
 
@@ -7997,9 +7997,9 @@ hex-color-regex@^1.1.0:
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
 hls.js@^1.4.8:
-  version "1.4.10"
-  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.4.10.tgz#3feac40f21a558453b243b5b926b7317e70624e1"
-  integrity sha512-wAVSj4Fm2MqOHy5+BlYnlKxXvJlv5IuZHjlzHu18QmjRzSDFQiUDWdHs5+NsFMQrgKEBwuWDcyvaMC9dUzJ5Uw==
+  version "1.4.11"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.4.11.tgz#6ca2d7ab56f2725f27bb5f2e3c7982c6ec287118"
+  integrity sha512-rhPSUMACcIBbcUnwWnIcRgGXqJJt0xBRxvhzl99XpGHtnnLKjbczmmBmUuQueAQcbL3SdN7D5peAObR18VrhvQ==
 
 hmac-drbg@^1.0.1:
   version "1.0.1"

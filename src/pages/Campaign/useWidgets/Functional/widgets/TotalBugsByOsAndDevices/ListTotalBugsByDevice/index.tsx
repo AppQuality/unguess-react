@@ -2,8 +2,8 @@ import { Skeleton, XL } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { List } from '../../List';
-import { ListItem } from '../../List/ListItem';
+import { List } from 'src/pages/Campaign/List';
+import { ListItem } from 'src/pages/Campaign/List/ListItem';
 import { useListBugsByDevice } from './useListBugsByDevice';
 
 export const ListTotalBugsByDevice = ({

@@ -3,7 +3,6 @@ import {
   MD,
   Row,
   Col,
-  SpecialCard,
   getColor,
   Accordion,
 } from '@appquality/unguess-design-system';
@@ -12,15 +11,9 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import { Divider } from 'src/common/components/divider';
+import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { ReactComponent as TargetIcon } from './assets/target.svg';
 import { CircleList } from './List';
-
-const WidgetCard = styled(SpecialCard)`
-  cursor: default;
-  &:hover {
-    box-shadow: none;
-  }
-`;
 
 const CardContent = styled.div`
   padding: ${({ theme }) => theme.space.base * 2}px 0;
@@ -49,12 +42,12 @@ export const GoalCard = ({
   if (isLoading || isFetching || isError || !data) return <div>loading...</div>;
 
   return (
-    <WidgetCard>
-      <WidgetCard.Meta justifyContent="space-between">
+    <WidgetSpecialCard>
+      <WidgetSpecialCard.Meta justifyContent="space-between">
         <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
           {t('__CAMPAIGN_PAGE_GOAL_CARD_TITLE')}
         </MD>
-      </WidgetCard.Meta>
+      </WidgetSpecialCard.Meta>
       <Divider />
       <CardContent>
         <Goal>
@@ -63,12 +56,16 @@ export const GoalCard = ({
               <TargetIcon />
             </Col>
             <Col xs={12} sm={10} alignSelf="start" style={{ margin: 0 }}>
-              <WidgetCard.Header style={{ marginTop: appTheme.space.xxs }}>
-                <WidgetCard.Header.Label>
+              <WidgetSpecialCard.Header
+                style={{ marginTop: appTheme.space.xxs }}
+              >
+                <WidgetSpecialCard.Header.Label>
                   {t('__CAMPAIGN_PAGE_GOAL_CARD_PRE_LABEL')}
-                </WidgetCard.Header.Label>
-                <WidgetCard.Header.Title>{data.goal}</WidgetCard.Header.Title>
-              </WidgetCard.Header>
+                </WidgetSpecialCard.Header.Label>
+                <WidgetSpecialCard.Header.Title>
+                  {data.goal}
+                </WidgetSpecialCard.Header.Title>
+              </WidgetSpecialCard.Header>
             </Col>
           </Row>
         </Goal>
@@ -95,6 +92,6 @@ export const GoalCard = ({
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>
-    </WidgetCard>
+    </WidgetSpecialCard>
   );
 };

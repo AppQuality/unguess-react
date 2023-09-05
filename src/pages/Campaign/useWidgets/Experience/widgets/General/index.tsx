@@ -14,6 +14,10 @@ const StyledRow = styled.div`
   grid-template-columns: 8fr 4fr;
   grid-gap: ${({ theme }) => theme.space.md};
   align-items: start;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const CampaignInfo = ({

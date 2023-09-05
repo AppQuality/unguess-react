@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
+import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { ListTotalBugsByType } from './ListTotalBugByType';
-import FlipCard from '../widgetCards/FlipCard';
 import ChartBugsByType from './ChartTotalBugsByType';
 
 const BugsByType = ({
