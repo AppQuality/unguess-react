@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
 import { Workspace, useGetWorkspacesQuery } from 'src/features/api';
