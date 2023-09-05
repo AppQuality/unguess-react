@@ -4,7 +4,6 @@ import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
-
 import { Sentiment } from './Sentiment';
 
 export const Overview = ({

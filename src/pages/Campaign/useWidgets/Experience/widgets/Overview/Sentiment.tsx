@@ -12,7 +12,6 @@ export const Sentiment = ({
   isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
-  const secondRowHeight = '550px';
 
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
@@ -22,7 +21,7 @@ export const Sentiment = ({
   if (isLoading || isError || !sentiments) return null;
 
   return (
-    <FlipCard className="bugs-by-type-widget" height={secondRowHeight}>
+    <FlipCard className="sentiment-widget">
       <FlipCard.Header>
         {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_HEADER')}
       </FlipCard.Header>
