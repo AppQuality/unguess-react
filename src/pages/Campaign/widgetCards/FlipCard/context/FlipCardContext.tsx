@@ -12,9 +12,9 @@ export const FlipCardContextProvider = ({
   children: React.ReactNode;
 }) => {
   const { width } = useWindowSize();
-  const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
+  const breakpointMd = parseInt(appTheme.breakpoints.lg, 10);
 
-  const isDesktop = isMinMedia(appTheme.breakpoints.sm);
+  const isDesktop = isMinMedia(appTheme.breakpoints.lg);
   const [visibleFace, setVisibleFace] = useState<FaceType>(
     isDesktop ? 'front' : 'back'
   );
