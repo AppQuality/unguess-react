@@ -8,6 +8,7 @@ import { FlipCardContextProvider } from './context/FlipCardContext';
 const FlipCardContainer = styled(WidgetSpecialCard)<{ height?: string }>`
   height: ${({ height }) => height || 'auto'};
 `;
+
 interface FlipCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   height?: string;
