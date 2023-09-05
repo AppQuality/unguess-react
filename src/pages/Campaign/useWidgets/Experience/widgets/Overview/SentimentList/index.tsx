@@ -23,7 +23,7 @@ export const SentimentList = ({
   campaignId: number;
   isPreview?: boolean;
 }) => {
-  const PAGE_ITEMS_SIZE = 4;
+  const PAGE_ITEMS_SIZE = 5;
   const { t } = useTranslation();
 
   const { sentiments, isLoading, isError } = useSentiments({
