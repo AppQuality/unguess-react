@@ -1,12 +1,13 @@
-import { Anchor, Skeleton } from '@appquality/unguess-design-system';
+import { Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
-import { StickyContainer } from 'src/common/components/StickyContainer';
 import {
   StickyNavItem,
   StickyNavItemLabel,
   StyledDivider,
+  StickyNavContainer,
+  StickyNavItemExternal,
 } from 'src/common/components/navigation';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { hasEnoughCoins } from 'src/common/utils';
@@ -101,15 +102,11 @@ const CategoriesNav = () => {
   }
 
   return featuredLoading || categoriesLoading || status === 'loading' ? (
-    <StickyContainer>
-      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
-      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
-      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
-      <StyledDivider />
-      <Skeleton width="100%" height="20px" />
-    </StickyContainer>
+    <StickyNavContainer>
+      <Skeleton height="300px" />
+    </StickyNavContainer>
   ) : (
-    <StickyContainer>
+    <StickyNavContainer>
       {featured.length > 0 ? (
         <StickyNavItem
           style={{ marginTop: 0 }}
@@ -167,15 +164,15 @@ const CategoriesNav = () => {
         </>
       ) : null}
       {(featured.length > 0 || categories.length > 0) && <StyledDivider />}
-      <Anchor
+      <StickyNavItemExternal
         isExternal
         onClick={() => {
           window.open('https://unguess.io/services/', '_blank');
         }}
       >
         {t('__CATALOG_STICKY_CONTAINER_NAV_EXTERNAL_LINK_LABEL')}
-      </Anchor>
-    </StickyContainer>
+      </StickyNavItemExternal>
+    </StickyNavContainer>
   );
 };
 
