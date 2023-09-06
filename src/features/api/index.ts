@@ -756,6 +756,7 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
       name: string;
     };
     value: number;
+    comment: string;
   }[];
   methodology: {
     type: string;

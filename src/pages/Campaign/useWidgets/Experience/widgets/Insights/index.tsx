@@ -23,6 +23,7 @@ import { InsightCard } from './InsightCard';
 import { InsightLightbox } from './Lightbox';
 import { Navigation, navigationOffset } from './Navigation';
 import { useCampaignInsights } from './useCampaignInsights';
+import { InsightComment } from './Comments';
 
 const hideOnMobile = css`
   @media (max-width: ${appTheme.breakpoints.lg}) {
@@ -31,7 +32,8 @@ const hideOnMobile = css`
 `;
 
 const StyledDivider = styled(Divider)`
-  margin: ${({ theme }) => theme.space.base * 4}px 0;
+  margin: ${({ theme }) => theme.space.base * 4}px 0
+    ${({ theme }) => theme.space.base * 3}px;
 `;
 
 const ResponsiveCol = styled(Col)`
@@ -184,6 +186,16 @@ export const Insights = ({
                         </XL>
 
                         <StyledDivider />
+                      </Col>
+                      <Col
+                        xs={12}
+                        style={{ marginBottom: `${appTheme.space.base * 3}px` }}
+                      >
+                        <InsightComment
+                          id={insight.id}
+                          cid={campaign.id}
+                          comment={insight.comment}
+                        />
                       </Col>
                       <Col
                         xs={12}
