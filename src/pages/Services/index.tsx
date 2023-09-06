@@ -74,10 +74,10 @@ const Catalog = () => {
             onClose={() => setIsModalOpen(false)}
           />
           <Row>
-            <Col xs={12} lg={3}>
+            <Col xs={12} lg={2}>
               <CategoriesNav />
             </Col>
-            <Col xs={12} lg={9}>
+            <Col xs={12} lg={10}>
               <Featured handleHubspot={handleOpenHubspot} />
               <Categories handleHubspot={handleOpenHubspot} />
               <ExpressDrawer
