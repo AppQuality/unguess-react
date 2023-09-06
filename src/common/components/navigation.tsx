@@ -1,8 +1,23 @@
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { Link } from 'react-scroll';
-import { MD } from '@appquality/unguess-design-system';
+import { Anchor, ContainerCard, MD } from '@appquality/unguess-design-system';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+
+export const StickyNavContainer = styled(ContainerCard)`
+  position: sticky;
+  top: ${({ theme }) => theme.space.md};
+  z-index: 1;
+  padding: ${({ theme }) => theme.space.sm};
+  display: none;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: block;
+    background-color: transparent;
+    border-color: transparent;
+    padding: ${({ theme }) => theme.space.xs};
+  }
+`;
 
 export const StyledDivider = styled(Divider)`
   margin-top: ${({ theme }) => theme.space.base * 6}px;
@@ -13,16 +28,26 @@ export const StickyNavItem = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xs}
+    ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
   cursor: pointer;
-  margin: ${({ theme }) => theme.space.sm} 0;
+  margin-bottom: ${({ theme }) => theme.space.xs};
   transition: all 0.1s ease-in-out;
   text-decoration: none;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 
   &:hover {
     text-decoration: none;
   }
+
   ${(props) => retrieveComponentStyles('navigation.hoverableItem', props)};
+
+  &.isCurrent {
+    font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  }
 `;
 
 StickyNavItem.defaultProps = {
@@ -30,6 +55,12 @@ StickyNavItem.defaultProps = {
 };
 
 export const StickyNavItemLabel = styled(MD)`
-  padding-top: ${({ theme }) => theme.space.xxs};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  padding-top: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.xs};
+`;
+
+export const StickyNavItemExternal = styled(Anchor)`
+  display: block;
+  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xs}
+    ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
 `;
