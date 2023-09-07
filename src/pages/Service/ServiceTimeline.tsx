@@ -19,7 +19,7 @@ import { extractStrapiData } from 'src/common/getStrapiData';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import i18n from 'src/i18n';
-import { StyledDivider } from 'src/common/components/navigation';
+import { StyledDivider } from 'src/common/components/navigation/asideNav';
 import { ServiceExpressCta } from './ServiceExpressCta';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
 
