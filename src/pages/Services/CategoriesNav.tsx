@@ -2,12 +2,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import {
+  AsideNav,
   StickyNavItem,
   StickyNavItemLabel,
   StyledDivider,
   StickyNavItemExternal,
-} from 'src/common/components/navigation';
-import { AsideNav } from 'src/common/components/navigation/asideNav';
+} from 'src/common/components/navigation/asideNav';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { hasEnoughCoins } from 'src/common/utils';
 import { CategoryResponse, ServiceResponse } from 'src/features/backoffice';
