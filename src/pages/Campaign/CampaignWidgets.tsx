@@ -1,11 +1,11 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import {
+  AsideNav,
   StickyNavItem,
   StickyNavItemLabel,
   StyledDivider,
-} from 'src/common/components/navigation';
+} from 'src/common/components/navigation/asideNav';
 import { useParams } from 'react-router-dom';
-import { AsideNav } from 'src/common/components/navigation/asideNav';
 import { EmptyState } from './EmptyState';
 import { useWidgets } from './useWidgets';
 
