@@ -10,12 +10,14 @@ export type CommentContextType = {
 export const CommentContext = createContext<CommentContextType | null>(null);
 
 export const CommentContextProvider = ({
+  initialComment,
   children,
 }: {
+  initialComment?: string;
   children: React.ReactNode;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [comment, setComment] = useState<string>('');
+  const [comment, setComment] = useState<string>(initialComment ?? '');
 
   const commentContextValue = useMemo(
     () => ({

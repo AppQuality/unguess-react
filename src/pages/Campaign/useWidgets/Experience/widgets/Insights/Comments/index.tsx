@@ -24,8 +24,8 @@ export const InsightComment = ({
         </Col>
         <Col xs={12} sm={11} alignSelf="start" style={{ margin: 0 }}>
           <StyledCard.Header style={{ marginTop: appTheme.space.xxs }}>
-            <CommentContextProvider>
-              <CommentWrapper id={id} value={comment} campaignId={cid} />
+            <CommentContextProvider initialComment={comment}>
+              <CommentWrapper id={id} campaignId={cid} />
             </CommentContextProvider>
           </StyledCard.Header>
         </Col>

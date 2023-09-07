@@ -17,6 +17,7 @@ export const CardTitle = styled(MD)`
 export const CardText = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[600]};
   margin-bottom: ${({ theme }) => theme.space.xs};
+  white-space: pre-wrap;
 `;
 
 export const EditorFooter = styled.div`

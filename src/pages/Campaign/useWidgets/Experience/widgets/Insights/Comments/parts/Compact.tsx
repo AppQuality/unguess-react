@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardText, CardTitle } from '../common';
 import { useCommentContext } from '../context/CommentContext';
@@ -8,18 +7,12 @@ import { EditButton } from './EditButton';
 export const CompactComment = ({
   id,
   campaignId,
-  value,
 }: {
   id: number;
   campaignId: number;
-  value?: string;
 }) => {
   const { t } = useTranslation();
-  const { comment, setComment, isEditing } = useCommentContext();
-
-  useEffect(() => {
-    if (value) setComment(value);
-  }, [value]);
+  const { comment, isEditing } = useCommentContext();
 
   return (
     <>

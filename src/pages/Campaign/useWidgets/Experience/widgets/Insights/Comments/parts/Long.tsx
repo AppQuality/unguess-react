@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Anchor } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -15,19 +15,13 @@ const ButtonContainer = styled.div`
 export const LongComment = ({
   id,
   campaignId,
-  value,
 }: {
   id: number;
   campaignId: number;
-  value?: string;
 }) => {
   const { t } = useTranslation();
-  const { comment, setComment, isEditing } = useCommentContext();
+  const { comment, isEditing } = useCommentContext();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (value) setComment(value);
-  }, [value]);
 
   return (
     <>
