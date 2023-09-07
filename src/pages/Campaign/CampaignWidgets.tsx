@@ -21,7 +21,7 @@ export const CampaignWidgets = () => {
   ) : (
     <Grid gutters="xl">
       <Row>
-        <Col xs={12} lg={2}>
+        <Col xs={12} lg={2} style={{ margin: 0 }}>
           <AsideNav isLoading={isLoading} containerId="main">
             <>
               {itemsWithTitles.map((widget) => {

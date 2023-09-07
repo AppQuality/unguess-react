@@ -74,7 +74,7 @@ const Catalog = () => {
             onClose={() => setIsModalOpen(false)}
           />
           <Row>
-            <Col xs={12} lg={2}>
+            <Col xs={12} lg={2} style={{ margin: 0 }}>
               <CategoriesNav />
             </Col>
             <Col xs={12} lg={10}>
