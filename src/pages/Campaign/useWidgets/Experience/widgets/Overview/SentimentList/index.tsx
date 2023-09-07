@@ -1,4 +1,4 @@
-import { MD } from '@appquality/unguess-design-system';
+import { MD, Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { List } from 'src/pages/Campaign/List';
@@ -33,7 +33,12 @@ export const SentimentList = ({
   });
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [paginatedItems, setPaginatedItems] = useState<Sentiment[]>([]);
+  const [paginatedItems, setPaginatedItems] = useState<Sentiment[]>(
+    sentiments
+      .reverse()
+      .slice((currentPage - 1) * PAGE_ITEMS_SIZE, currentPage * PAGE_ITEMS_SIZE)
+  );
+
   const maxPages = useMemo(
     () => Math.ceil(sentiments.length / PAGE_ITEMS_SIZE),
     [sentiments, PAGE_ITEMS_SIZE]
@@ -52,8 +57,9 @@ export const SentimentList = ({
     }
   }, [currentPage, sentiments.length]);
 
-  if (isLoading || isError || !sentiments) return null;
-  if (!sentiments.length) return null;
+  if (isError || !sentiments) return null;
+
+  if (isLoading) return <Skeleton />;
 
   return (
     <>
