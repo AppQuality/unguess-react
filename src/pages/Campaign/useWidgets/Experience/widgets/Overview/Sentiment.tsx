@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { Chart } from './Chart';
 import { SentimentList } from './SentimentList';
@@ -13,17 +12,16 @@ export const Sentiment = ({
   isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
-  const secondRowHeight = '550px';
 
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
-    ...(!isPreview && { showAsCustomer: true }),
+    isPreview,
   });
 
   if (isLoading || isError || !sentiments) return null;
 
   return (
-    <FlipCard className="bugs-by-type-widget" height={secondRowHeight}>
+    <FlipCard className="sentiment-widget">
       <FlipCard.Header>
         {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_HEADER')}
       </FlipCard.Header>

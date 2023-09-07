@@ -1,11 +1,10 @@
-import { MD } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { useGetCampaignsByCidUxQuery } from 'src/features/api';
+import { MD, Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { List } from 'src/pages/Campaign/List';
 import styled from 'styled-components';
-import { Item, Sentiment } from './Item';
 import { useSentiments } from '../useSentiments';
+import { Item, Sentiment } from './Item';
 
 const Description = styled(MD)`
   margin: ${({ theme }) => theme.space.base * 5}px 0;
@@ -24,17 +23,22 @@ export const SentimentList = ({
   campaignId: number;
   isPreview?: boolean;
 }) => {
-  const PAGE_ITEMS_SIZE = 4;
+  const PAGE_ITEMS_SIZE = 5;
   const { t } = useTranslation();
 
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
-    ...(!isPreview && { showAsCustomer: true }),
+    isPreview,
     order: 'DESC',
   });
 
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [paginatedItems, setPaginatedItems] = useState<Sentiment[]>([]);
+  const [paginatedItems, setPaginatedItems] = useState<Sentiment[]>(
+    sentiments
+      .reverse()
+      .slice((currentPage - 1) * PAGE_ITEMS_SIZE, currentPage * PAGE_ITEMS_SIZE)
+  );
+
   const maxPages = useMemo(
     () => Math.ceil(sentiments.length / PAGE_ITEMS_SIZE),
     [sentiments, PAGE_ITEMS_SIZE]
@@ -53,8 +57,9 @@ export const SentimentList = ({
     }
   }, [currentPage, sentiments.length]);
 
-  if (isLoading || isError || !sentiments) return null;
-  if (!sentiments.length) return null;
+  if (isError || !sentiments) return null;
+
+  if (isLoading) return <Skeleton />;
 
   return (
     <>

@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardBodyProps } from './types';
@@ -7,38 +6,25 @@ import { FlipCardBodyProps } from './types';
 const durationMilliseconds = 500;
 
 const WidgetCardFaceContent = styled.div`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-  margin-top: ${({ theme }) => theme.space.xxs};
-  height: calc(
-    100% - ${({ theme }) => theme.space.xxs} - ${({ theme }) => theme.space.xxs}
-  );
+  @keyframes flip {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
-  background-color: white;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  &.face-enter {
-    opacity: 0;
-  }
-  &.face-enter-active {
-    position: absolute;
-  }
-  &.face-enter-active,
-  &.face-enter-done {
-    opacity: 1;
-    transition: opacity ${durationMilliseconds}ms;
-  }
-  &.face-exit {
-    opacity: 1;
-  }
-  &.face-exit-active,
-  &.face-exit-done {
-    opacity: 0;
-    transition: opacity ${durationMilliseconds}ms;
-  }
+  margin-bottom: ${({ theme }) => theme.space.xxs};
+  margin-top: ${({ theme }) => theme.space.xxs};
+  opacity: 0;
+  transition: all ${durationMilliseconds}ms;
+  animation: flip ${durationMilliseconds}ms ease-in-out;
+  animation-fill-mode: both;
 `;
 
 export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
@@ -46,29 +32,14 @@ export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
   const backRef = useRef(null);
   const { visibleFace } = useFlipCardContext();
 
-  if (!back) {
-    return <WidgetCardFaceContent>{front}</WidgetCardFaceContent>;
-  }
-
   return (
-    <TransitionGroup
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        overflow: 'hidden',
-      }}
-    >
+    <div className={`face ${visibleFace}`}>
       {visibleFace === 'back' && (
-        <CSSTransition timeout={durationMilliseconds} classNames="face">
-          <WidgetCardFaceContent ref={backRef}>{back}</WidgetCardFaceContent>
-        </CSSTransition>
+        <WidgetCardFaceContent ref={backRef}>{back}</WidgetCardFaceContent>
       )}
       {visibleFace === 'front' && (
-        <CSSTransition timeout={durationMilliseconds} classNames="face">
-          <WidgetCardFaceContent ref={frontRef}>{front}</WidgetCardFaceContent>
-        </CSSTransition>
+        <WidgetCardFaceContent ref={frontRef}>{front}</WidgetCardFaceContent>
       )}
-    </TransitionGroup>
+    </div>
   );
 };

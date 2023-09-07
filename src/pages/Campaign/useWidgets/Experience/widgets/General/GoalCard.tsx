@@ -5,6 +5,7 @@ import {
   Col,
   getColor,
   Accordion,
+  Grid,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -42,7 +43,7 @@ export const GoalCard = ({
   if (isLoading || isFetching || isError || !data) return <div>loading...</div>;
 
   return (
-    <WidgetSpecialCard>
+    <WidgetSpecialCard style={{ height: 'auto' }}>
       <WidgetSpecialCard.Meta justifyContent="space-between">
         <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
           {t('__CAMPAIGN_PAGE_GOAL_CARD_TITLE')}
@@ -51,23 +52,25 @@ export const GoalCard = ({
       <Divider />
       <CardContent>
         <Goal>
-          <Row alignItems="center">
-            <Col xs={12} sm="auto" alignSelf="start" style={{ margin: 0 }}>
-              <TargetIcon />
-            </Col>
-            <Col xs={12} sm={10} alignSelf="start" style={{ margin: 0 }}>
-              <WidgetSpecialCard.Header
-                style={{ marginTop: appTheme.space.xxs }}
-              >
-                <WidgetSpecialCard.Header.Label>
-                  {t('__CAMPAIGN_PAGE_GOAL_CARD_PRE_LABEL')}
-                </WidgetSpecialCard.Header.Label>
-                <WidgetSpecialCard.Header.Title>
-                  {data.goal}
-                </WidgetSpecialCard.Header.Title>
-              </WidgetSpecialCard.Header>
-            </Col>
-          </Row>
+          <Grid>
+            <Row alignItems="center">
+              <Col xs={12} sm="auto" alignSelf="start" style={{ margin: 0 }}>
+                <TargetIcon />
+              </Col>
+              <Col xs={12} sm={9} alignSelf="start" style={{ margin: 0 }}>
+                <WidgetSpecialCard.Header
+                  style={{ marginTop: appTheme.space.xxs }}
+                >
+                  <WidgetSpecialCard.Header.Label>
+                    {t('__CAMPAIGN_PAGE_GOAL_CARD_PRE_LABEL')}
+                  </WidgetSpecialCard.Header.Label>
+                  <WidgetSpecialCard.Header.Title>
+                    {data.goal}
+                  </WidgetSpecialCard.Header.Title>
+                </WidgetSpecialCard.Header>
+              </Col>
+            </Row>
+          </Grid>
         </Goal>
       </CardContent>
 

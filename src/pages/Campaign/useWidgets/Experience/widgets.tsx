@@ -31,11 +31,11 @@ export const widgets = ({
 
   const widgetsToShow = [
     {
-      id: 'campaign-methodology',
+      id: 'exp-campaign-methodology',
       title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_METHODOLOGY_LABEL'),
       content: (
         <CampaignInfo
-          id="campaign-methodology"
+          id="exp-campaign-methodology"
           campaign={campaign}
           isPreview={isPreview}
         />
@@ -50,11 +50,11 @@ export const widgets = ({
 
   if (uxData?.sentiment && uxData.sentiment.length > 0) {
     widgetsToShow.push({
-      id: 'campaign-overview',
+      id: 'exp-campaign-overview',
       title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_OVERVIEW_LABEL'),
       content: (
         <Overview
-          id="campaign-overview"
+          id="exp-campaign-overview"
           campaign={campaign}
           isPreview={isPreview}
         />
@@ -65,11 +65,11 @@ export const widgets = ({
 
   if (uxData.findings && uxData.findings.length > 0) {
     widgetsToShow.push({
-      id: 'campaign-insights',
+      id: 'exp-campaign-insights',
       title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_INSIGHTS_LABEL'),
       content: (
         <Insights
-          id="campaign-insights"
+          id="exp-campaign-insights"
           campaign={campaign}
           isPreview={isPreview}
         />

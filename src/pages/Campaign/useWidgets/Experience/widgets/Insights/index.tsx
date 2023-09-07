@@ -3,26 +3,27 @@ import {
   Col,
   Grid,
   IconButton,
+  Notification,
   Row,
   Skeleton,
   Span,
   XL,
-  Notification,
   useToast,
 } from '@appquality/unguess-design-system';
+import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/link-fill.svg';
+import { Divider } from 'src/common/components/divider';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
-import { ReactComponent as CopyIcon } from 'src/assets/icons/link-fill.svg';
-import { useCallback, useEffect, useState } from 'react';
-import { Divider } from 'src/common/components/divider';
-import { appTheme } from 'src/app/theme';
 import styled, { css } from 'styled-components';
-import { useCampaignInsights } from './useCampaignInsights';
-import { Navigation, navigationOffset } from './Navigation';
-import { InsightCard } from './InsightCard';
 import { HighlightCard } from './HighlightCard';
+import { InsightCard } from './InsightCard';
 import { InsightLightbox } from './Lightbox';
+import { Navigation, navigationOffset } from './Navigation';
+import { useCampaignInsights } from './useCampaignInsights';
+import { InsightComment } from './Comments';
 
 const hideOnMobile = css`
   @media (max-width: ${appTheme.breakpoints.lg}) {
@@ -31,7 +32,8 @@ const hideOnMobile = css`
 `;
 
 const StyledDivider = styled(Divider)`
-  margin: ${({ theme }) => theme.space.base * 4}px 0;
+  margin: ${({ theme }) => theme.space.base * 4}px 0
+    ${({ theme }) => theme.space.base * 3}px;
 `;
 
 const ResponsiveCol = styled(Col)`
@@ -64,7 +66,8 @@ export const Insights = ({
 
   const copyLink = useCallback(
     (anchor: string) => {
-      navigator.clipboard.writeText(`${window.location.href}#${anchor}`);
+      const url = window.location.href.split('#')[0];
+      navigator.clipboard.writeText(`${url}#${anchor}`);
       addToast(
         ({ close }) => (
           <Notification
@@ -87,8 +90,13 @@ export const Insights = ({
     const urlAnchor = url.split('#')[1];
     if (urlAnchor) {
       const anchor = document.getElementById(urlAnchor);
-      if (anchor) {
-        anchor.scrollIntoView({ block: 'end', behavior: 'smooth' });
+      const main = document.getElementById('main');
+      if (anchor && main) {
+        main.scroll({
+          top: anchor.offsetTop,
+          left: 0,
+          behavior: 'smooth',
+        });
       }
     }
   }, []);
@@ -178,6 +186,16 @@ export const Insights = ({
                         </XL>
 
                         <StyledDivider />
+                      </Col>
+                      <Col
+                        xs={12}
+                        style={{ marginBottom: `${appTheme.space.base * 3}px` }}
+                      >
+                        <InsightComment
+                          id={insight.id}
+                          cid={campaign.id}
+                          comment={insight.comment}
+                        />
                       </Col>
                       <Col
                         xs={12}
