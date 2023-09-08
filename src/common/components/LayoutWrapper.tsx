@@ -9,7 +9,6 @@ const Container = styled.div<{
   margin: 0 auto;
   max-width: ${({ theme, isNotBoxed }) =>
     isNotBoxed ? '100%' : theme.breakpoints.xxl};
-  overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     padding: 0 ${({ theme }) => theme.space.md};
