@@ -1,13 +1,13 @@
-import { Anchor, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
-import { StickyContainer } from 'src/common/components/StickyContainer';
 import {
+  AsideNav,
   StickyNavItem,
   StickyNavItemLabel,
   StyledDivider,
-} from 'src/common/components/navigation';
+  StickyNavItemExternal,
+} from 'src/common/components/navigation/asideNav';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { hasEnoughCoins } from 'src/common/utils';
 import { CategoryResponse, ServiceResponse } from 'src/features/backoffice';
@@ -100,82 +100,79 @@ const CategoriesNav = () => {
     });
   }
 
-  return featuredLoading || categoriesLoading || status === 'loading' ? (
-    <StickyContainer>
-      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
-      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
-      <Skeleton width="100%" height="20px" style={{ margin: '10px 0' }} />
-      <StyledDivider />
-      <Skeleton width="100%" height="20px" />
-    </StickyContainer>
-  ) : (
-    <StickyContainer>
-      {featured.length > 0 ? (
-        <StickyNavItem
-          style={{ marginTop: 0 }}
-          to="featured"
-          containerId="main"
-          spy
-          smooth
-          duration={500}
-          offset={-350}
-        >
-          {t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}
-        </StickyNavItem>
-      ) : null}
-      {categories.length > 0 ? (
-        <>
-          <StickyNavItemLabel>
-            {t('__CATALOG_STICKY_CONTAINER_NAV_CATEGORIES_LABEL')}
-          </StickyNavItemLabel>
-          {categories.map((categoryResponse) => {
-            const { data: categoryData } = categoryResponse;
-            const category = extractStrapiData({ data: categoryData });
-            const categoryServices: Array<ServiceResponse> = [];
-            if (category) {
-              if (category.services) {
-                const services = extractStrapiData(category.services);
-                services.forEach((service: any) => {
-                  // Check coins availability for each service considering the service express cost
-                  const express = extractStrapiData(service.express);
-                  if (
-                    !express ||
-                    hasEnoughCoins({
-                      workspace: activeWorkspace,
-                      coins: express.cost,
-                    })
-                  ) {
-                    categoryServices.push({ data: service });
-                  }
-                });
+  return (
+    <AsideNav
+      isLoading={status === 'loading' || categoriesLoading || featuredLoading}
+      containerId="main"
+    >
+      <>
+        {featured.length > 0 ? (
+          <StickyNavItem
+            style={{ marginTop: 0 }}
+            to="featured"
+            containerId="main"
+            spy
+            smooth
+            duration={500}
+            offset={-350}
+          >
+            {t('__CATALOG_PAGE_CONTENT_FEATURED_TITLE')}
+          </StickyNavItem>
+        ) : null}
+        {categories.length > 0 ? (
+          <>
+            <StickyNavItemLabel>
+              {t('__CATALOG_STICKY_CONTAINER_NAV_CATEGORIES_LABEL')}
+            </StickyNavItemLabel>
+            {categories.map((categoryResponse) => {
+              const { data: categoryData } = categoryResponse;
+              const category = extractStrapiData({ data: categoryData });
+              const categoryServices: Array<ServiceResponse> = [];
+              if (category) {
+                if (category.services) {
+                  const services = extractStrapiData(category.services);
+                  services.forEach((service: any) => {
+                    // Check coins availability for each service considering the service express cost
+                    const express = extractStrapiData(service.express);
+                    if (
+                      !express ||
+                      hasEnoughCoins({
+                        workspace: activeWorkspace,
+                        coins: express.cost,
+                      })
+                    ) {
+                      categoryServices.push({ data: service });
+                    }
+                  });
+                }
               }
-            }
 
-            return categoryServices.length ? (
-              <StickyNavItem
-                to={category.Slug || ''}
-                containerId="main"
-                spy
-                smooth
-                duration={500}
-                offset={-350}
-              >
-                {category.Name} ({categoryServices.length})
-              </StickyNavItem>
-            ) : null;
-          })}
-        </>
-      ) : null}
-      {(featured.length > 0 || categories.length > 0) && <StyledDivider />}
-      <Anchor
-        isExternal
-        onClick={() => {
-          window.open('https://unguess.io/services/', '_blank');
-        }}
-      >
-        {t('__CATALOG_STICKY_CONTAINER_NAV_EXTERNAL_LINK_LABEL')}
-      </Anchor>
-    </StickyContainer>
+              return categoryServices.length ? (
+                <StickyNavItem
+                  to={category.Slug || ''}
+                  containerId="main"
+                  spy
+                  smooth
+                  duration={500}
+                  offset={-350}
+                >
+                  {category.Name} ({categoryServices.length})
+                </StickyNavItem>
+              ) : null;
+            })}
+          </>
+        ) : null}
+        {(featured.length > 0 || categories.length > 0) && <StyledDivider />}
+        <StickyNavItemExternal
+          isExternal
+          onClick={() => {
+            window.open('https://unguess.io/services/', '_blank');
+          }}
+        >
+          {t('__CATALOG_STICKY_CONTAINER_NAV_EXTERNAL_LINK_LABEL')}
+        </StickyNavItemExternal>
+      </>
+    </AsideNav>
   );
 };
 
