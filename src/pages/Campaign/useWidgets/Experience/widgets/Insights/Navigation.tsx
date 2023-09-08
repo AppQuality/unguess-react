@@ -4,7 +4,7 @@ import {
   StickyNavItem,
   StickyNavItemLabel,
   StyledDivider,
-} from 'src/common/components/navigation';
+} from 'src/common/components/navigation/asideNav';
 import { appTheme } from 'src/app/theme';
 import { BugCard } from 'src/common/components/BugCard';
 import styled from 'styled-components';
