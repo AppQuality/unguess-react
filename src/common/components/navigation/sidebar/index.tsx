@@ -10,17 +10,18 @@ import {
   NavToggle,
   SM,
 } from '@appquality/unguess-design-system';
+
 import { PropsWithChildren, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { isMaxMedia } from 'src/common/utils';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
@@ -44,6 +45,16 @@ const SharedLabel = styled(SM)`
   text-transform: uppercase;
 `;
 
+const DropdownItem = styled.div`
+  margin: ${({ theme }) => theme.space.xs};
+  font-family: ${({ theme }) => theme.fonts.system};
+  z-index: 2;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    display: none;
+  }
+`;
+
 export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const { route, onSidebarToggle } = props;
   const { t } = useTranslation();
@@ -51,6 +62,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const navigate = useNavigate();
   const { isSidebarOpen } = useAppSelector((state) => state.navigation);
   const { activeWorkspace } = useActiveWorkspace();
+  const { isMobile } = useWindowSize();
 
   const prjRef = useRef<HTMLButtonElement>(null);
 
@@ -64,8 +76,6 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     },
     { skip: !activeWorkspace?.id }
   );
-
-  const isMobile = isMaxMedia(appTheme.breakpoints.sm);
 
   const navigateTo = (destination: string, parameter?: string) => {
     let localizedRoute = '';
@@ -109,7 +119,11 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
       )}
       <ScrollingContainer>
         <NavToggle onClick={onSidebarToggle} isExpanded={isSidebarOpen} />
-        {isMobile && <WorkspacesDropdown />}
+        {isMobile && isSidebarOpen && (
+          <DropdownItem id="sidebar-dropdown-item">
+            <WorkspacesDropdown />
+          </DropdownItem>
+        )}
 
         <NavItem
           className="sidebar-first-level-item"
