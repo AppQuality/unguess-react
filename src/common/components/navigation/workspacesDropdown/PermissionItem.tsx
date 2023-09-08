@@ -22,10 +22,6 @@ export const PermissionItem = () => {
     }
   }, [activeWorkspace]);
 
-  console.log(
-    '🚀 ~ file: PermissionItem.tsx:26 ~ PermissionItem ~ canManageUsers:',
-    canManageUsers
-  );
   return canManageUsers ? (
     <div style={{ marginLeft: appTheme.space.sm }}>
       <WorkspaceSettings />
