@@ -34,6 +34,12 @@ const StyledSM = styled(SM)`
   }
 `;
 
+const StyledRow = styled(Row)`
+  @media screen and (max-width: ${(p) => p.theme.breakpoints.xl}) {
+    gap: ${(p) => p.theme.space.xxs};
+  }
+`;
+
 export interface Sentiment {
   id: number;
   title: string;
@@ -48,7 +54,7 @@ export const Item = ({ item }: { item: Sentiment }) => {
     <ListItemWrapper key={`cluster_${item.id}`}>
       {/* <ListItemTitle> */}
       <Grid>
-        <Row alignItemsXl="end">
+        <StyledRow alignItemsXl="end">
           <Col xs={12} xl={10} style={{ margin: 0 }}>
             {/* <div > */}
             <MD isBold style={{ color: appTheme.palette.blue[600] }}>
@@ -60,7 +66,7 @@ export const Item = ({ item }: { item: Sentiment }) => {
           <Col xs={12} xl={2} style={{ margin: 0 }}>
             <StyledSM>{getSentiment(item.sentiment, t).text}</StyledSM>
           </Col>
-        </Row>
+        </StyledRow>
       </Grid>
       {/* </ListItemTitle> */}
       <Progress
