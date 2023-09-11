@@ -95,7 +95,12 @@ const HighlightCard = ({
             Highlight {{ index: index + 1 }} of {{ video_count: videoCount }}
           </Trans>
         </SpecialCard.Header.Label>
-        <SpecialCard.Header.Title>
+        <SpecialCard.Header.Title
+          style={{
+            whiteSpace: 'pre-wrap',
+            wordBreak: 'break-word',
+          }}
+        >
           {`”${video.description}”`}
         </SpecialCard.Header.Title>
       </SpecialCard.Header>
