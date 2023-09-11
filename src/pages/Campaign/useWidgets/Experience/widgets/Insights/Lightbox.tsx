@@ -104,7 +104,7 @@ const InsightLightbox = ({
               isBold
               style={{
                 margin: `${appTheme.space.xs} 0`,
-                whiteSpace: 'pre-wrap',
+                whiteSpace: 'normal',
                 wordBreak: 'break-word',
               }}
             >

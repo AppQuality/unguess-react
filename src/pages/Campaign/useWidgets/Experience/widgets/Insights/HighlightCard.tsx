@@ -97,7 +97,7 @@ const HighlightCard = ({
         </SpecialCard.Header.Label>
         <SpecialCard.Header.Title
           style={{
-            whiteSpace: 'pre-wrap',
+            whiteSpace: 'normal',
             wordBreak: 'break-word',
           }}
         >
