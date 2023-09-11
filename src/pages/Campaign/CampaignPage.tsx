@@ -1,4 +1,4 @@
-import { Grid, Row } from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
@@ -80,7 +80,9 @@ const CampaignPage = ({ children }: { children: React.ReactNode }) => {
     >
       <LayoutWrapper>
         <Grid>
-          <Row>{children}</Row>
+          <Row>
+            <Col>{children}</Col>
+          </Row>
         </Grid>
       </LayoutWrapper>
     </Page>

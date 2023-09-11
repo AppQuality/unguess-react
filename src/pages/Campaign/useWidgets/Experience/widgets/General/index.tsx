@@ -1,5 +1,5 @@
 import { Campaign } from 'src/features/api';
-import { Col, Row } from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
@@ -32,7 +32,7 @@ export const CampaignInfo = ({
   const { t } = useTranslation();
 
   return (
-    <div style={{ marginBottom: appTheme.space.xxl }} id={id}>
+    <Grid style={{ marginBottom: appTheme.space.xxl }} id={id}>
       <Row>
         <Col xs={12} style={{ margin: 0 }}>
           <SectionTitle
@@ -50,6 +50,6 @@ export const CampaignInfo = ({
           <Methodology campaignId={campaign.id} isPreview={isPreview} />
         </div>
       </StyledRow>
-    </div>
+    </Grid>
   );
 };
