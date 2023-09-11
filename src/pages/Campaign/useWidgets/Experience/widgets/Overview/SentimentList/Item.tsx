@@ -1,5 +1,4 @@
 import {
-  Ellipsis,
   MD,
   Progress,
   Grid,
@@ -12,14 +11,6 @@ import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { getPercentage, getSentiment } from '../utils';
 
-// const ListItemTitle = styled.div`
-//   display: grid;
-//   grid-template-columns: 6fr 1fr;
-//   padding-top: ${({ theme }) => theme.space.xs};
-//   padding-bottom: ${({ theme }) => theme.space.xxs};
-//   align-items: bottom;
-// `;
-
 const ListItemWrapper = styled.div`
   margin-top: ${(p) => p.theme.space.xxs};
   display: block;
@@ -27,8 +18,13 @@ const ListItemWrapper = styled.div`
 
 const StyledSM = styled(SM)`
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+
+  @media screen and (min-width: ${(p) => p.theme.breakpoints.xl}) {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
   flex-shrink: 0;
 
   svg {
@@ -52,18 +48,16 @@ export const Item = ({ item }: { item: Sentiment }) => {
     <ListItemWrapper key={`cluster_${item.id}`}>
       {/* <ListItemTitle> */}
       <Grid>
-        <Row alignItems="end">
-          <Col xs={8} sm={9} md={10} style={{ margin: 0 }}>
+        <Row alignItemsXl="end">
+          <Col xs={12} xl={10} style={{ margin: 0 }}>
             {/* <div > */}
             <MD isBold style={{ color: appTheme.palette.blue[600] }}>
               {item.title}
             </MD>
-            <Ellipsis title={item.note} style={{ maxWidth: '97%' }}>
-              {item.note}
-            </Ellipsis>
+            <SM style={{ color: appTheme.palette.grey[600] }}>{item.note}</SM>
             {/* </div> */}
           </Col>
-          <Col xs={4} sm={3} md={2} style={{ margin: 0 }}>
+          <Col xs={12} xl={2} style={{ margin: 0 }}>
             <StyledSM>{getSentiment(item.sentiment, t).text}</StyledSM>
           </Col>
         </Row>
