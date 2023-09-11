@@ -10,9 +10,17 @@ const Description = styled(MD)`
   margin: ${({ theme }) => theme.space.base * 5}px 0;
   color: ${({ theme }) => theme.palette.grey[700]};
   align-self: flex-start;
+  display: none;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none;
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    display: block;
+  }
+`;
+
+const ListBody = styled.div`
+  margin-top: ${({ theme }) => theme.space.base * 4}px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    margin-top: 0;
   }
 `;
 
@@ -67,20 +75,21 @@ export const SentimentList = ({
         {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_DESCRIPTION')}
       </Description>
       <List>
-        <List.Columns style={{ marginBottom: 0 }}>
-          <List.Columns.Label isBold>
-            {' '}
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
-              count: sentiments.length,
-            })}
-          </List.Columns.Label>
-          <List.Columns.Label isBold>
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
-          </List.Columns.Label>
-        </List.Columns>
-        {paginatedItems.map((item) => (
-          <Item item={item} />
-        ))}
+        <ListBody>
+          <List.Columns style={{ marginBottom: 0 }}>
+            <List.Columns.Label isBold>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
+                count: sentiments.length,
+              })}
+            </List.Columns.Label>
+            <List.Columns.Label isBold>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
+            </List.Columns.Label>
+          </List.Columns>
+          {paginatedItems.map((item) => (
+            <Item item={item} />
+          ))}
+        </ListBody>
         <List.Pagination
           setPage={setCurrentPage}
           page={currentPage}
