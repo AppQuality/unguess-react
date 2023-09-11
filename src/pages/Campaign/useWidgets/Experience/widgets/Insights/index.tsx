@@ -221,6 +221,9 @@ export const Insights = ({
                               index={index}
                               insight={insight}
                               videoCount={insight.video?.length || 0}
+                              {...(videoPart.poster && {
+                                poster: videoPart.poster,
+                              })}
                             />
                           </Col>
                         ))}
@@ -281,6 +284,9 @@ export const Insights = ({
                               index={index + 1}
                               insight={insight}
                               videoCount={insight.video?.length || 0}
+                              {...(videoPart.poster && {
+                                poster: videoPart.poster,
+                              })}
                             />
                           </Col>
                         ))}
