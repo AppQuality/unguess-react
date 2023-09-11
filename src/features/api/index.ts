@@ -745,6 +745,7 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
     video?: {
       url: string;
       streamUrl: string;
+      poster?: string;
       start: number;
       end: number;
       description?: string;
