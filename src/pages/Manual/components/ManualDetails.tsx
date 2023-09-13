@@ -5,9 +5,7 @@ import { appTheme } from 'src/app/theme';
 import { ManualResponse } from 'src/features/backoffice';
 
 const StyledDiv = styled.div`
-  * {
-    color: ${appTheme.palette.grey[800]};
-  }
+  color: ${appTheme.palette.grey[800]};
   > div:focus {
     box-shadow: none;
     outline: none;
