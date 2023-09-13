@@ -58,7 +58,7 @@ export const UserItem = ({
   return (
     <>
       <UserListItem key={`profile_${user.profile_id}`}>
-        <Avatar avatarType="text">
+        <Avatar avatarType="text" style={{ flexShrink: 0 }}>
           {getInitials(user.name.length ? user.name : user.email)}
         </Avatar>
         <div>
