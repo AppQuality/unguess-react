@@ -169,6 +169,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
                     onClick={() =>
                       navigateTo('projects', project.id.toString())
                     }
+                    style={{ alignItems: 'flex-start' }}
                   >
                     <NavItemProject.Title title={project.name}>
                       {project.name}
