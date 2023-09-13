@@ -15,6 +15,10 @@ const StyledDiv = styled.div`
   > div {
     padding: 0;
   }
+
+  a {
+    color: #008dff;
+  }
 `;
 
 export const ManualDetails = ({
