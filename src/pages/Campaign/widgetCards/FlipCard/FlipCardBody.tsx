@@ -1,45 +1,51 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
+import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardBodyProps } from './types';
 
-const durationMilliseconds = 500;
+const durationMilliseconds = 125;
 
-const WidgetCardFaceContent = styled.div`
-  @keyframes flip {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
+const FaceContent = styled.div<{ isVisible?: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
-  opacity: 0;
-  transition: all ${durationMilliseconds}ms;
-  animation: flip ${durationMilliseconds}ms ease-in-out;
-  animation-fill-mode: both;
+  transition: opacity ${durationMilliseconds}ms;
+`;
+
+const WidgetCard = styled.div`
+  ${FaceContent} {
+    &.flip-card-enter {
+      opacity: 0;
+    }
+    &.flip-card-enter-active {
+      opacity: 1;
+    }
+    &.flip-card-exit {
+      opacity: 1;
+    }
+    &.flip-card-exit-active {
+      opacity: 0;
+    }
+  }
 `;
 
 export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
-  const frontRef = useRef(null);
-  const backRef = useRef(null);
   const { visibleFace } = useFlipCardContext();
 
   return (
-    <div className={`face ${visibleFace}`}>
-      {visibleFace === 'back' && (
-        <WidgetCardFaceContent ref={backRef}>{back}</WidgetCardFaceContent>
-      )}
-      {visibleFace === 'front' && (
-        <WidgetCardFaceContent ref={frontRef}>{front}</WidgetCardFaceContent>
-      )}
-    </div>
+    <WidgetCard className={`face ${visibleFace}`}>
+      <SwitchTransition>
+        <CSSTransition
+          key={visibleFace}
+          timeout={durationMilliseconds}
+          classNames="flip-card"
+        >
+          <FaceContent>{visibleFace === 'front' ? front : back}</FaceContent>
+        </CSSTransition>
+      </SwitchTransition>
+    </WidgetCard>
   );
 };
