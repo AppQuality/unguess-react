@@ -24,6 +24,12 @@ const ListBody = styled.div`
   }
 `;
 
+const StyledLabel = styled(List.Columns.Label)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
+    display: none;
+  }
+`;
+
 export const SentimentList = ({
   campaignId,
   isPreview,
@@ -37,7 +43,7 @@ export const SentimentList = ({
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
     isPreview,
-    order: 'DESC',
+    order: 'ASC',
   });
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -76,15 +82,15 @@ export const SentimentList = ({
       </Description>
       <List>
         <ListBody>
-          <List.Columns style={{ marginBottom: 0 }}>
+          <List.Columns>
             <List.Columns.Label isBold>
               {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
                 count: sentiments.length,
               })}
             </List.Columns.Label>
-            <List.Columns.Label isBold>
+            <StyledLabel isBold>
               {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
-            </List.Columns.Label>
+            </StyledLabel>
           </List.Columns>
           {paginatedItems.map((item) => (
             <Item item={item} />
