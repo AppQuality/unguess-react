@@ -14,11 +14,10 @@ import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatus
 import { BugTitle } from '../components/BugTitle';
 import { TableBugType } from '../../../types';
 
-const AlignmentDiv = styled.div`
+const AlignmentDiv = styled.div<{ alignment?: TextAlign }>`
   height: 2em;
   display: flex;
-  justify-content: ${(props: { alignment?: TextAlign }) =>
-    props.alignment || 'center'};
+  justify-content: ${({ alignment }) => alignment || 'center'};
   align-items: center;
   cursor: pointer;
 `;
@@ -59,7 +58,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                   placement="bottom"
                   type="light"
                   size="medium"
-                  onClick={(e) => {
+                  onClick={(e: { stopPropagation: () => void }) => {
                     e.stopPropagation();
                   }}
                 >
@@ -85,7 +84,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
             placement="bottom"
             type="light"
             size="medium"
-            onClick={(e) => {
+            onClick={(e: { stopPropagation: () => void }) => {
               e.stopPropagation();
             }}
           >
