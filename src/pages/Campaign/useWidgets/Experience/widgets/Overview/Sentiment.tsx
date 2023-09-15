@@ -21,7 +21,7 @@ export const Sentiment = ({
   if (isLoading || isError || !sentiments) return null;
 
   return (
-    <FlipCard className="sentiment-widget">
+    <FlipCard className="sentiment-widget" activateSwitchFromBreakpoint={500}>
       <FlipCard.Header>
         {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_HEADER')}
       </FlipCard.Header>
