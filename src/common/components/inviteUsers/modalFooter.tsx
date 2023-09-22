@@ -20,12 +20,14 @@ export const PermissionSettingsFooter = () => {
   const { t } = useTranslation();
   const { addToast } = useToast();
 
+  const url = new URL(window.location.href);
+
   return (
     <FooterWithBorder>
       <Button
         isBasic
         onClick={() => {
-          navigator.clipboard.writeText(window.location.href);
+          navigator.clipboard.writeText(`${url.origin}${url.pathname}`);
           addToast(
             ({ close }) => (
               <Notification

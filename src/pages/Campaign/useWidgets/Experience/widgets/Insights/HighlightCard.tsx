@@ -61,6 +61,7 @@ const HighlightCard = ({
   videoCount,
   index,
   insight,
+  poster,
   onClick,
 }: {
   video: NonNullable<
@@ -69,6 +70,7 @@ const HighlightCard = ({
   videoCount: number;
   index: number;
   insight: NonNullable<GetCampaignsByCidUxApiResponse['findings']>[number];
+  poster?: string;
   onClick?: () => void;
 }) => {
   const { t } = useTranslation();
@@ -78,18 +80,27 @@ const HighlightCard = ({
       <SpecialCard.Header>
         <CardThumb>
           <VideoPlayIcon />
-          <Player>
-            <video src={`${video.url}#t=0.5`}>
-              <track kind="captions" />
-            </video>
-          </Player>
+          {poster && poster !== '' ? (
+            <img src={poster} alt={video.description} />
+          ) : (
+            <Player>
+              <video src={`${video.url}#t=0.5`}>
+                <track kind="captions" />
+              </video>
+            </Player>
+          )}
         </CardThumb>
         <SpecialCard.Header.Label>
           <Trans i18nKey="__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL">
             Highlight {{ index: index + 1 }} of {{ video_count: videoCount }}
           </Trans>
         </SpecialCard.Header.Label>
-        <SpecialCard.Header.Title>
+        <SpecialCard.Header.Title
+          style={{
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+          }}
+        >
           {`”${video.description}”`}
         </SpecialCard.Header.Title>
       </SpecialCard.Header>
