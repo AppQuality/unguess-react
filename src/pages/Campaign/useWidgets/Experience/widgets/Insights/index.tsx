@@ -18,6 +18,7 @@ import { Divider } from 'src/common/components/divider';
 import { Campaign } from 'src/features/api';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import styled, { css } from 'styled-components';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { HighlightCard } from './HighlightCard';
 import { InsightCard } from './InsightCard';
 import { InsightLightbox } from './Lightbox';
@@ -62,12 +63,15 @@ export const Insights = ({
     };
   }>({});
 
+  const pageUrl = useLocalizeRoute(`campaigns/${campaign.id}`);
+
   const { addToast } = useToast();
 
   const copyLink = useCallback(
     (anchor: string) => {
-      const url = window.location.href.split('#')[0];
-      navigator.clipboard.writeText(`${url}#${anchor}`);
+      navigator.clipboard.writeText(
+        `${window.location.origin}${pageUrl}#${anchor}`
+      );
       addToast(
         ({ close }) => (
           <Notification
@@ -221,6 +225,9 @@ export const Insights = ({
                               index={index}
                               insight={insight}
                               videoCount={insight.video?.length || 0}
+                              {...(videoPart.poster && {
+                                poster: videoPart.poster,
+                              })}
                             />
                           </Col>
                         ))}
@@ -281,6 +288,9 @@ export const Insights = ({
                               index={index + 1}
                               insight={insight}
                               videoCount={insight.video?.length || 0}
+                              {...(videoPart.poster && {
+                                poster: videoPart.poster,
+                              })}
                             />
                           </Col>
                         ))}

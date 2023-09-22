@@ -2,7 +2,6 @@ import {
   Autocomplete,
   Dropdown,
   Ellipsis,
-  HeaderItem,
   HeaderItemText,
   Item,
   ItemContent,
@@ -15,18 +14,19 @@ import TagManager from 'react-gtm-module';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import API from 'src/common/api';
 import { Workspace } from 'src/features/api';
 import { saveWorkspaceToLs } from 'src/features/navigation/cachedStorage';
-import { setWorkspace } from 'src/features/navigation/navigationSlice';
+import {
+  closeSidebar,
+  setWorkspace,
+} from 'src/features/navigation/navigationSlice';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useDebounce from 'src/hooks/useDebounce';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { WorkspaceSettings } from '../../inviteUsers/workspaceSettings';
 
 const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${({ theme, isCompact }) =>
@@ -58,17 +58,6 @@ const GroupLabel = styled(StyledItem)`
   }
 `;
 
-const DropdownItem = styled(HeaderItem)`
-  margin-right: auto;
-  margin-left: -8px;
-  ${(props) => retrieveComponentStyles('text.primary', props)};
-  font-family: ${({ theme }) => theme.fonts.system};
-  z-index: 2;
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    display: none;
-  }
-`;
-
 const BrandName = styled(HeaderItemText)`
     margin-right: ${({ theme }) => theme.space.sm}};
     ${(props) => retrieveComponentStyles('text.primary', props)};
@@ -92,7 +81,6 @@ export const WorkspacesDropdown = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [matchingPersonal, setMatchingPersonal] = useState(workspaces);
   const [matchingShared, setMatchingShared] = useState(workspaces);
-  const [canManageUsers, setCanManageUsers] = useState(false);
 
   const debouncedInputValue = useDebounce<string>(inputValue, 300);
 
@@ -109,13 +97,6 @@ export const WorkspacesDropdown = () => {
 
     setMatchingPersonal(personalWorkspaces);
     setMatchingShared(sharedWorkspaces);
-
-    // Check if current active workspace is in personal or shared workspaces
-    const activeWorkspaceInPersonal = !!personalWorkspaces.find(
-      (ws) => ws.id === activeWorkspace?.id
-    );
-
-    setCanManageUsers(activeWorkspaceInPersonal);
   };
 
   useEffect(() => {
@@ -148,6 +129,7 @@ export const WorkspacesDropdown = () => {
       API.workspacesById(workspace.id).then((ws) => {
         dispatch(setWorkspace(ws));
         toggleGtmWorkspaceChange(ws.company);
+        dispatch(closeSidebar());
         navigate(homeRoute, { replace: true });
       });
     }
@@ -156,7 +138,7 @@ export const WorkspacesDropdown = () => {
   if (!activeWorkspace || !user) return null;
 
   return workspaces.length > 1 ? (
-    <DropdownItem id="workspace-dropdown-item">
+    <div id="workspace-dropdown-item">
       <Dropdown
         inputValue={inputValue}
         selectedItem={selectedItem}
@@ -230,16 +212,8 @@ export const WorkspacesDropdown = () => {
           )}
         </Menu>
       </Dropdown>
-      {canManageUsers && (
-        <div style={{ marginLeft: appTheme.space.sm }}>
-          <WorkspaceSettings />
-        </div>
-      )}
-    </DropdownItem>
+    </div>
   ) : (
-    <DropdownItem>
-      <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
-      {canManageUsers && <WorkspaceSettings />}
-    </DropdownItem>
+    <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
   );
 };

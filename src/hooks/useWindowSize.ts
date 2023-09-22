@@ -16,7 +16,7 @@ export default function useWindowSize() {
   const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
-    isMobile: window.innerWidth < parseInt(appTheme.breakpoints.lg, 10),
+    isMobile: window.innerWidth < parseInt(appTheme.breakpoints.md, 10),
   });
 
   useLayoutEffect(() => {
@@ -24,7 +24,7 @@ export default function useWindowSize() {
       setSize({
         width: window.innerWidth,
         height: window.innerHeight,
-        isMobile: window.innerWidth < parseInt(appTheme.breakpoints.lg, 10),
+        isMobile: window.innerWidth < parseInt(appTheme.breakpoints.md, 10),
       });
     }, 300);
 

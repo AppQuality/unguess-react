@@ -100,7 +100,14 @@ const InsightLightbox = ({
         {hideDetails === false && (
           <Lightbox.Body.Details>
             <div>{getSeverityTag(insight.severity)}</div>
-            <XL isBold style={{ margin: `${appTheme.space.xs} 0` }}>
+            <XL
+              isBold
+              style={{
+                margin: `${appTheme.space.xs} 0`,
+                whiteSpace: 'normal',
+                wordBreak: 'break-word',
+              }}
+            >
               “{items[`${currentIndex}`].description}“
             </XL>
             <MD style={{ color: appTheme.palette.grey[600] }}>

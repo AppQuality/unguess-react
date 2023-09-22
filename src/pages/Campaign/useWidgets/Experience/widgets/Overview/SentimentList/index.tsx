@@ -10,8 +10,22 @@ const Description = styled(MD)`
   margin: ${({ theme }) => theme.space.base * 5}px 0;
   color: ${({ theme }) => theme.palette.grey[700]};
   align-self: flex-start;
+  display: none;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    display: block;
+  }
+`;
+
+const ListBody = styled.div`
+  margin-top: ${({ theme }) => theme.space.base * 4}px;
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    margin-top: 0;
+  }
+`;
+
+const StyledLabel = styled(List.Columns.Label)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
     display: none;
   }
 `;
@@ -29,7 +43,7 @@ export const SentimentList = ({
   const { sentiments, isLoading, isError } = useSentiments({
     cid: campaignId.toString(),
     isPreview,
-    order: 'DESC',
+    order: 'ASC',
   });
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -67,20 +81,21 @@ export const SentimentList = ({
         {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_DESCRIPTION')}
       </Description>
       <List>
-        <List.Columns style={{ marginBottom: 0 }}>
-          <List.Columns.Label isBold>
-            {' '}
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
-              count: sentiments.length,
-            })}
-          </List.Columns.Label>
-          <List.Columns.Label isBold>
-            {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
-          </List.Columns.Label>
-        </List.Columns>
-        {paginatedItems.map((item) => (
-          <Item item={item} />
-        ))}
+        <ListBody>
+          <List.Columns>
+            <List.Columns.Label isBold>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_USECASE_LABEL', {
+                count: sentiments.length,
+              })}
+            </List.Columns.Label>
+            <StyledLabel isBold>
+              {t('__CAMPAIGN_EXP_WIDGET_SENTIMENT_LIST_SENTIMENT_LABEL')}
+            </StyledLabel>
+          </List.Columns>
+          {paginatedItems.map((item) => (
+            <Item item={item} />
+          ))}
+        </ListBody>
         <List.Pagination
           setPage={setCurrentPage}
           page={currentPage}
