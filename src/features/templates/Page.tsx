@@ -1,8 +1,9 @@
 import React from 'react';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import styled from 'styled-components';
+
+import ErrorBoundary from 'src/common/components/ErrorBoundary';
 import { Logged } from './Logged';
-import ErrorBoundary from '../../common/components/ErrorBoundary';
 
 const Container = styled.div<{
   excludeMarginTop?: boolean;

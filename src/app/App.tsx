@@ -6,6 +6,8 @@ import Helmet from 'react-helmet';
 import Pages from 'src/common/Pages';
 import { appTheme } from 'src/app/theme';
 import { Provider } from 'react-redux';
+import { AnalyticsProvider } from 'use-analytics';
+import analytics from 'src/common/analytics';
 import { store } from './store';
 
 const App = () => {
@@ -35,7 +37,9 @@ const App = () => {
             },
           }}
         >
-          <Pages />
+          <AnalyticsProvider instance={analytics}>
+            <Pages />
+          </AnalyticsProvider>
         </ToastProvider>
       </ThemeProvider>
     </Provider>
