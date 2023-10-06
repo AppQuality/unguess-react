@@ -12,48 +12,6 @@ const CardThumb = styled(SpecialCard.Thumb)`
   width: 100%;
   display: flex;
   justify-content: center;
-  .img-container {
-    width: 100%;
-    height: 200px;
-    max-height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: ${({ theme }) => theme.borderRadii.lg};
-    overflow: hidden;
-    position: relative;
-    padding: 0;
-    border: 1px solid ${({ theme }) => theme.palette.grey[600]};
-    margin-bottom: ${({ theme }) => theme.space.sm};
-
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 2;
-      overflow: hidden;
-    }
-    > img {
-      width: auto;
-      max-height: 100%;
-    }
-    > svg {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      max-width: 100%;
-      max-height: 100%;
-      width: ${({ theme }) => theme.space.base * 14}px;
-      height: auto;
-      z-index: 3;
-    }
-  }
 `;
 
 const Player = styled.div`
@@ -66,6 +24,50 @@ const Player = styled.div`
     width: 100%;
     height: 200px;
   }
+`;
+const ImageContainer = styled.div`
+width: 100%;
+height: 200px;
+max-height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: ${({ theme }) => theme.borderRadii.lg};
+overflow: hidden;
+position: relative;
+padding: 0;
+border: 1px solid ${({ theme }) => theme.palette.grey[600]};
+margin-bottom: ${({ theme }) => theme.space.sm};
+
+&:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  overflow: hidden;
+}
+> img {
+  width: auto;
+  max-height: 100%;
+}
+> svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  max-height: 100%;
+  width: ${({ theme }) => theme.space.base * 14}px;
+  height: auto;
+  z-index: 3;
+}
+}
+
 `;
 
 const HighlightCard = ({
@@ -91,7 +93,7 @@ const HighlightCard = ({
     <SpecialCard title={video.description} onClick={onClick}>
       <SpecialCard.Header>
         <CardThumb>
-          <div className="img-container">
+          <ImageContainer>
             <VideoPlayIcon />
             {poster && poster !== '' ? (
               <img src={poster} alt={video.description} />
@@ -102,7 +104,7 @@ const HighlightCard = ({
                 </video>
               </Player>
             )}
-          </div>
+          </ImageContainer>
         </CardThumb>
         <SpecialCard.Header.Label>
           <Trans i18nKey="__CAMPAIGN_PAGE_INSIGHTS_VIDEO_PART_NUMBER_LABEL">
