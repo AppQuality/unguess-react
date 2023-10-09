@@ -59,7 +59,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                   placement="bottom"
                   type="light"
                   size="medium"
-                  onClick={(e) => {
+                  onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                     e.stopPropagation();
                   }}
                 >
@@ -85,7 +85,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
             placement="bottom"
             type="light"
             size="medium"
-            onClick={(e) => {
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
               e.stopPropagation();
             }}
           >
