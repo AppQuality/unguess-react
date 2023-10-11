@@ -7,12 +7,12 @@ import { checkHubspotURL, getLocalizedStrapiData } from 'src/common/utils';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
 import { openWizard } from 'src/features/express/expressSlice';
 import { Page } from 'src/features/templates/Page';
-import PageLoader from 'src/features/templates/PageLoader';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
+import { PageLoader } from 'src/common/components/PageLoader';
 import { ServiceTimeline } from './ServiceTimeline';
 import { SingleServicePageHeader } from './SingleServicePageHeader';
 import { strapiParams } from './strapi';
@@ -73,9 +73,7 @@ const Service = () => {
     }
   };
 
-  return isLoading || status === 'loading' ? (
-    <PageLoader />
-  ) : (
+  return (
     <Page
       pageHeader={
         data && (
@@ -88,7 +86,9 @@ const Service = () => {
       title={service.title}
       route="service"
     >
-      {data && (
+      {!data || isLoading || status === 'loading' ? (
+        <PageLoader />
+      ) : (
         <LayoutWrapper>
           <HubspotModal
             isOpen={isModalOpen}
