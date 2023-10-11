@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
-import {
-  Chrome,
-  Body,
-  PageLoader,
-  Main,
-  Anchor,
-} from '@appquality/unguess-design-system';
+import { Chrome, Body, Main, Anchor } from '@appquality/unguess-design-system';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
+import { PageLoader } from 'src/common/components/PageLoader';
 import { Navigation } from '../navigation/Navigation';
 
 const StyledMain = styled(Main)`
@@ -48,9 +43,7 @@ export const Logged = ({
     }
   }, [status]);
 
-  return status === 'idle' || status === 'loading' ? (
-    <PageLoader />
-  ) : (
+  return (
     <>
       <Anchor
         href="https://www.iubenda.com/privacy-policy/833252/full-legal"
@@ -60,8 +53,16 @@ export const Logged = ({
         <Body id="body" style={{ backgroundColor: appTheme.palette.grey[100] }}>
           <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
-              {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
-              {children}
+              {status === 'idle' || status === 'loading' ? (
+                <PageLoader />
+              ) : (
+                <>
+                  {pageHeader && (
+                    <HeaderContainer>{pageHeader}</HeaderContainer>
+                  )}
+                  {children}
+                </>
+              )}
             </StyledMain>
           </Navigation>
         </Body>
