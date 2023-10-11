@@ -1,4 +1,3 @@
-import IframeResizer from 'iframe-resizer-react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Header } from 'src/common/components/navigation/header/header';
 import { isDev } from 'src/common/isDevEnvironment';
@@ -13,8 +12,8 @@ const BugForm = () => {
   return (
     <div>
       <Header logo="full" loggedIn={false} />
-      <IframeResizer
-        heightCalculationMethod="lowestElement"
+      <iframe
+        title="iframe"
         src={`${tryberUrl}${lang}/vdp/${campaignId}/${token}`}
         style={{ width: '1px', minWidth: '100%', height: 0 }}
       />
