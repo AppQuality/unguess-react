@@ -43,7 +43,9 @@ export const Logged = ({
     }
   }, [status]);
 
-  return (
+  return status === 'idle' || status === 'loading' ? (
+    <PageLoader />
+  ) : (
     <>
       <Anchor
         href="https://www.iubenda.com/privacy-policy/833252/full-legal"
@@ -53,16 +55,10 @@ export const Logged = ({
         <Body id="body" style={{ backgroundColor: appTheme.palette.grey[100] }}>
           <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
-              {status === 'idle' || status === 'loading' ? (
-                <PageLoader />
-              ) : (
-                <>
-                  {pageHeader && (
-                    <HeaderContainer>{pageHeader}</HeaderContainer>
-                  )}
-                  {children}
-                </>
-              )}
+              <>
+                {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
+                {children}
+              </>
             </StyledMain>
           </Navigation>
         </Body>
