@@ -79,11 +79,30 @@ interface IAsideNav {
   duration?: number;
   offset?: number;
   isLoading?: boolean;
-  children: React.ReactNode;
+  items?: Array<{
+    label?: string;
+    items: Array<{
+      title: string;
+      to: string;
+    }>;
+  }>;
+  children?: React.ReactNode;
 }
 
 export const AsideNav = ({ isLoading, children, ...rest }: IAsideNav) => (
   <StickyNavContainer {...rest}>
-    {isLoading ? <Skeleton height="300px" /> : children}
+    {isLoading ? (
+      <Skeleton height="300px" />
+    ) : (
+      <>
+        <p>AsideNav logic</p>
+        {children && (
+          <>
+            <StyledDivider />
+            {children}
+          </>
+        )}
+      </>
+    )}
   </StickyNavContainer>
 );
