@@ -101,7 +101,8 @@ const CategoriesNav = () => {
   }
 
   return (
-    <AsideNav
+    <p>Ciolla</p>
+    /*  <AsideNav
       isLoading={status === 'loading' || categoriesLoading || featuredLoading}
       containerId="main"
     >
@@ -172,7 +173,7 @@ const CategoriesNav = () => {
           {t('__CATALOG_STICKY_CONTAINER_NAV_EXTERNAL_LINK_LABEL')}
         </StickyNavItemExternal>
       </>
-    </AsideNav>
+    </AsideNav> */
   );
 };
 

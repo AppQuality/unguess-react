@@ -70,19 +70,17 @@ export const StickyNavItemExternal = styled(Anchor)`
     ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
 `;
 
-interface INavItem {
+export interface INavItem {
   title?: string;
-  items?: [
-    {
-      id: string;
-      title: string;
-      url: string;
-      callback?: () => void;
-    }
-  ];
+  items: {
+    id?: string;
+    label?: string;
+    url?: string;
+    callback?: () => void;
+  }[];
 }
 
-interface IAsideNav {
+export interface IAsideNav {
   containerId: string;
   isLoading?: boolean;
   navItems: INavItem[];
@@ -123,24 +121,30 @@ export const AsideNav = ({
                       window.open(item.url, '_blank');
                     }}
                   >
-                    {item.title}
+                    {item.label}
                   </StickyNavItemExternal>
                 </>
               ) : (
                 <StickyNavItem
+                  key={`anchor-${item.id}`}
                   id={`anchor-${item.id}`}
                   to={item.id}
                   {...rest}
                   containerId={rest?.containerId ?? 'main'}
                   {...(item.callback && { onClick: item.callback })}
                 >
-                  {item.title}
+                  {item.label}
                 </StickyNavItem>
               )
             )}
         </>
       ))
     )}
-    {children}
+    {children && (
+      <>
+        <StyledDivider />
+        {children}
+      </>
+    )}
   </StickyNavContainer>
 );
