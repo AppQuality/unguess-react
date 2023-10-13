@@ -90,9 +90,15 @@ interface IAsideNav {
   smooth?: boolean;
   duration?: number;
   offset?: number;
+  children?: React.ReactNode;
 }
 
-export const AsideNav = ({ isLoading, navItems, ...rest }: IAsideNav) => (
+export const AsideNav = ({
+  isLoading,
+  navItems,
+  children,
+  ...rest
+}: IAsideNav) => (
   <StickyNavContainer {...rest}>
     {isLoading ? (
       <Skeleton height="300px" />
@@ -106,17 +112,20 @@ export const AsideNav = ({ isLoading, navItems, ...rest }: IAsideNav) => (
             navItem.items.length > 0 &&
             navItem.items.map((item) =>
               item.url ? (
-                <StickyNavItemExternal
-                  isExternal
-                  onClick={() => {
-                    if (item.callback) {
-                      item.callback();
-                    }
-                    window.open(item.url, '_blank');
-                  }}
-                >
-                  {item.title}
-                </StickyNavItemExternal>
+                <>
+                  <StyledDivider />
+                  <StickyNavItemExternal
+                    isExternal
+                    onClick={() => {
+                      if (item.callback) {
+                        item.callback();
+                      }
+                      window.open(item.url, '_blank');
+                    }}
+                  >
+                    {item.title}
+                  </StickyNavItemExternal>
+                </>
               ) : (
                 <StickyNavItem
                   id={`anchor-${item.id}`}
@@ -132,5 +141,6 @@ export const AsideNav = ({ isLoading, navItems, ...rest }: IAsideNav) => (
         </>
       ))
     )}
+    {children}
   </StickyNavContainer>
 );
