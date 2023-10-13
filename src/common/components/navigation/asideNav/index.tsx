@@ -1,5 +1,3 @@
-// TODO: Structure the menu in this components instead of using the children
-
 import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { Link } from 'react-scroll';
@@ -72,18 +70,67 @@ export const StickyNavItemExternal = styled(Anchor)`
     ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
 `;
 
-interface IAsideNav {
-  containerId: string;
-  isSpy?: boolean;
-  isSmooth?: boolean;
-  duration?: number;
-  offset?: number;
-  isLoading?: boolean;
-  children: React.ReactNode;
+interface INavItem {
+  title?: string;
+  items?: [
+    {
+      id: string;
+      title: string;
+      url: string;
+      callback?: () => void;
+    }
+  ];
 }
 
-export const AsideNav = ({ isLoading, children, ...rest }: IAsideNav) => (
+interface IAsideNav {
+  containerId: string;
+  isLoading?: boolean;
+  navItems: INavItem[];
+  spy?: boolean;
+  smooth?: boolean;
+  duration?: number;
+  offset?: number;
+}
+
+export const AsideNav = ({ isLoading, navItems, ...rest }: IAsideNav) => (
   <StickyNavContainer {...rest}>
-    {isLoading ? <Skeleton height="300px" /> : children}
+    {isLoading ? (
+      <Skeleton height="300px" />
+    ) : (
+      navItems.map((navItem) => (
+        <>
+          {navItem.title && (
+            <StickyNavItemLabel>{navItem.title}</StickyNavItemLabel>
+          )}
+          {navItem.items &&
+            navItem.items.length > 0 &&
+            navItem.items.map((item) =>
+              item.url ? (
+                <StickyNavItemExternal
+                  isExternal
+                  onClick={() => {
+                    if (item.callback) {
+                      item.callback();
+                    }
+                    window.open(item.url, '_blank');
+                  }}
+                >
+                  {item.title}
+                </StickyNavItemExternal>
+              ) : (
+                <StickyNavItem
+                  id={`anchor-${item.id}`}
+                  to={item.id}
+                  {...rest}
+                  containerId={rest?.containerId ?? 'main'}
+                  {...(item.callback && { onClick: item.callback })}
+                >
+                  {item.title}
+                </StickyNavItem>
+              )
+            )}
+        </>
+      ))
+    )}
   </StickyNavContainer>
 );
