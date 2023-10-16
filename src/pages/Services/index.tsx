@@ -8,9 +8,9 @@ import { PageTitle } from 'src/common/components/PageTitle';
 import { checkHubspotURL } from 'src/common/utils';
 import { openWizard } from 'src/features/express/expressSlice';
 import { Page } from 'src/features/templates/Page';
-import PageLoader from 'src/features/templates/PageLoader';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import styled from 'styled-components';
+import { PageLoader } from 'src/common/components/PageLoader';
 import { ExpressWizardContainer } from '../ExpressWizard';
 import { ExpressDrawer } from '../ExpressWizard/drawer';
 import { Categories } from './Categories';
@@ -42,9 +42,7 @@ const Catalog = () => {
     }
   };
 
-  return status === 'loading' ? (
-    <PageLoader />
-  ) : (
+  return (
     <Page
       pageHeader={
         <LayoutWrapper>
@@ -66,30 +64,34 @@ const Catalog = () => {
       title={t('__PAGE_TITLE_CATALOG')}
       route="services"
     >
-      <LayoutWrapper>
-        <StyledGrid gutters="lg">
-          <HubspotModal
-            isOpen={isModalOpen}
-            meetingUrl={memoCsm?.url}
-            onClose={() => setIsModalOpen(false)}
-          />
-          <Row>
-            <Col xs={12} lg={2} style={{ margin: 0 }}>
-              <CategoriesNav />
-            </Col>
-            <Col xs={12} lg={10}>
-              <Featured handleHubspot={handleOpenHubspot} />
-              <Categories handleHubspot={handleOpenHubspot} />
-              <ExpressDrawer
-                onCtaClick={() => {
-                  dispatch(openWizard());
-                }}
-              />
-              <ExpressWizardContainer />
-            </Col>
-          </Row>
-        </StyledGrid>
-      </LayoutWrapper>
+      {status === 'loading' ? (
+        <PageLoader />
+      ) : (
+        <LayoutWrapper>
+          <StyledGrid gutters="lg">
+            <HubspotModal
+              isOpen={isModalOpen}
+              meetingUrl={memoCsm?.url}
+              onClose={() => setIsModalOpen(false)}
+            />
+            <Row>
+              <Col xs={12} lg={2} style={{ margin: 0 }}>
+                <CategoriesNav />
+              </Col>
+              <Col xs={12} lg={10}>
+                <Featured handleHubspot={handleOpenHubspot} />
+                <Categories handleHubspot={handleOpenHubspot} />
+                <ExpressDrawer
+                  onCtaClick={() => {
+                    dispatch(openWizard());
+                  }}
+                />
+                <ExpressWizardContainer />
+              </Col>
+            </Row>
+          </StyledGrid>
+        </LayoutWrapper>
+      )}
     </Page>
   );
 };
