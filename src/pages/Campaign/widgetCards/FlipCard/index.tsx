@@ -7,15 +7,23 @@ import { FlipCardContextProvider } from './context/FlipCardContext';
 
 const FlipCardContainer = styled(WidgetSpecialCard)<{ height?: string }>`
   height: ${({ height }) => height || 'auto'};
+  container-type: inline-size;
+  container-name: flip-card;
 `;
 
 interface FlipCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   height?: string;
+  activateSwitchFromBreakpoint?: number;
 }
 
-const FlipCard = ({ children, height, ...props }: FlipCardProps) => (
-  <FlipCardContextProvider>
+const FlipCard = ({
+  children,
+  height,
+  activateSwitchFromBreakpoint,
+  ...props
+}: FlipCardProps) => (
+  <FlipCardContextProvider breakpoint={activateSwitchFromBreakpoint || 500}>
     <FlipCardContainer {...props} height={height}>
       {children}
     </FlipCardContainer>

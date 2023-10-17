@@ -1,45 +1,99 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardBodyProps } from './types';
 
 const durationMilliseconds = 500;
 
-const WidgetCardFaceContent = styled.div`
-  @keyframes flip {
-    from {
+const FlipCardFaceContainer = styled.div<{ breakpoint: number }>`
+  container-type: inline-size;
+  .flipcard-face {
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation-duration: ${durationMilliseconds}ms;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  .flipcard-face-back {
+    animation-name: show;
+  }
+  .flipcard-face-front {
+    animation-name: hide;
+  }
+  @container (min-width: ${(p) => p.breakpoint}px) {
+    .flipcard-face-front {
+      z-index: 2;
+    }
+    .flipcard-face-back {
+      z-index: 1;
+    }
+    &.flipcard.front {
+      .flipcard-face-front {
+        animation-name: show;
+      }
+      .flipcard-face-back {
+        animation-name: hide;
+      }
+    }
+    &.flipcard.back {
+      .flipcard-face-front {
+        animation-name: hide;
+      }
+      .flipcard-face-back {
+        animation-name: show;
+      }
+    }
+  }
+  @keyframes hide {
+    0% {
+      opacity: 1;
+      display: block;
+    }
+    99% {
+      display: block;
+    }
+    100% {
+      display: none;
       opacity: 0;
     }
-    to {
+  }
+  @keyframes show {
+    0% {
+      opacity: 0;
+      display: none;
+    }
+    1% {
+      display: block;
+    }
+    100% {
+      display: block;
       opacity: 1;
     }
   }
+`;
 
+const FlipCardFaceContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-bottom: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.xxs};
-  opacity: 0;
-  transition: all ${durationMilliseconds}ms;
-  animation: flip ${durationMilliseconds}ms ease-in-out;
-  animation-fill-mode: both;
 `;
 
 export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
-  const frontRef = useRef(null);
-  const backRef = useRef(null);
-  const { visibleFace } = useFlipCardContext();
+  const { visibleFace, breakpoint } = useFlipCardContext();
 
   return (
-    <div className={`face ${visibleFace}`}>
-      {visibleFace === 'back' && (
-        <WidgetCardFaceContent ref={backRef}>{back}</WidgetCardFaceContent>
-      )}
-      {visibleFace === 'front' && (
-        <WidgetCardFaceContent ref={frontRef}>{front}</WidgetCardFaceContent>
-      )}
-    </div>
+    <FlipCardFaceContainer
+      breakpoint={breakpoint}
+      className={`flipcard ${visibleFace}`}
+    >
+      <FlipCardFaceContent className="flipcard-face flipcard-face-back">
+        {back}
+      </FlipCardFaceContent>
+      <FlipCardFaceContent className="flipcard-face flipcard-face-front">
+        {front}
+      </FlipCardFaceContent>
+    </FlipCardFaceContainer>
   );
 };
