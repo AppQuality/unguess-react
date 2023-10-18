@@ -1,7 +1,7 @@
 export type FlipCardContextType = {
   visibleFace: FaceType;
   setVisibleFace: (face: FaceType) => void;
-  width: number;
+  breakpoint: number;
 };
 
 export interface FlipCardHeaderProps {
