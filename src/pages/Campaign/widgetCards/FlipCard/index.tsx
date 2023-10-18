@@ -9,6 +9,9 @@ const FlipCardContainer = styled(WidgetSpecialCard)<{ height?: string }>`
   height: ${({ height }) => height || 'auto'};
   container-type: inline-size;
   container-name: flip-card;
+  ::-webkit-scrollbar {
+    display: block;
+  }
 `;
 
 interface FlipCardProps extends React.HTMLAttributes<HTMLDivElement> {

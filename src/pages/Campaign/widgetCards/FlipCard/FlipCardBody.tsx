@@ -7,7 +7,6 @@ const durationMilliseconds = 500;
 const FlipCardFaceContainer = styled.div<{ breakpoint: number }>`
   container-type: inline-size;
   .flipcard-face {
-    overflow: hidden;
     transform-style: preserve-3d;
     animation-duration: ${durationMilliseconds}ms;
     animation-timing-function: linear;
@@ -48,9 +47,6 @@ const FlipCardFaceContainer = styled.div<{ breakpoint: number }>`
       opacity: 1;
       display: block;
     }
-    99% {
-      display: block;
-    }
     100% {
       display: none;
       opacity: 0;
@@ -60,9 +56,6 @@ const FlipCardFaceContainer = styled.div<{ breakpoint: number }>`
     0% {
       opacity: 0;
       display: none;
-    }
-    1% {
-      display: block;
     }
     100% {
       display: block;
