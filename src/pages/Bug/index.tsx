@@ -7,10 +7,11 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { Header } from './Header';
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
+import { CustomStatusDrawer } from './Drawer';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
@@ -19,6 +20,9 @@ const Bug = () => {
   const notFoundRoute = useLocalizeRoute('oops');
   const [showSkeleton, setShowSkeleton] = useState(true);
   const location = useLocation();
+  const { isCustomStatusDrawerOpen } = useAppSelector((state) => ({
+    isCustomStatusDrawerOpen: state.bugsPage.isCustomStatusDrawerOpen,
+  }));
 
   if (
     !campaignId ||
@@ -94,6 +98,7 @@ const Bug = () => {
           </Row>
         </Grid>
       </LayoutWrapper>
+      {isCustomStatusDrawerOpen && <CustomStatusDrawer />}
     </Page>
   );
 };
