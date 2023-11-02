@@ -8,6 +8,9 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import useWindowSize from 'src/hooks/useWindowSize';
+import { appTheme } from 'src/app/theme';
+import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { Header } from './Header';
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
@@ -23,6 +26,9 @@ const Bug = () => {
   const { isCustomStatusDrawerOpen } = useAppSelector((state) => ({
     isCustomStatusDrawerOpen: state.bugsPage.isCustomStatusDrawerOpen,
   }));
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const hideDrawer = width < breakpointSm;
 
   if (
     !campaignId ||
@@ -62,6 +68,10 @@ const Bug = () => {
     }
   }, [workspace]);
 
+  useEffect(() => {
+    if (hideDrawer) dispatch(setCustomStatusDrawerOpen(false));
+  }, [width]);
+
   if (showSkeleton && (isLoading || isFetching)) {
     return <LoadingSkeleton />;
   }
@@ -98,7 +108,7 @@ const Bug = () => {
           </Row>
         </Grid>
       </LayoutWrapper>
-      {isCustomStatusDrawerOpen && <CustomStatusDrawer />}
+      {isCustomStatusDrawerOpen && !hideDrawer && <CustomStatusDrawer />}
     </Page>
   );
 };
