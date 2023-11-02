@@ -23,6 +23,7 @@ import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatus
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import { useAppDispatch } from 'src/app/hooks';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
+import useWindowSize from 'src/hooks/useWindowSize';
 
 const StyledItem = styled(Item)`
   display: flex;
@@ -72,6 +73,9 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
     cid: bug.campaign_id.toString(),
   });
   const dispatch = useAppDispatch();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const hideManage = width < breakpointSm;
 
   const sortStates = (a: DropdownItem, b: DropdownItem) => {
     if (a.id < b.id) return -1;
@@ -174,17 +178,24 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
                   </StyledItem>
                 </>
               ))}
-            <Separator />
-            <ManageItem
-              disabled
-              value={{}}
-              key="manage-custom-status"
-              className="bug-dropdown-custom-status-manage"
-              onClick={onManageClick}
-            >
-              <GearIcon />{' '}
-              {t('__BUGS_PAGE_BUG_DETAIL_CUSTOM_STATUS_DROPDOWN_MANAGE_LABEL')}
-            </ManageItem>
+
+            {!hideManage && (
+              <>
+                <Separator />
+                <ManageItem
+                  disabled
+                  value={{}}
+                  key="manage-custom-status"
+                  className="bug-dropdown-custom-status-manage"
+                  onClick={onManageClick}
+                >
+                  <GearIcon />{' '}
+                  {t(
+                    '__BUGS_PAGE_BUG_DETAIL_CUSTOM_STATUS_DROPDOWN_MANAGE_LABEL'
+                  )}
+                </ManageItem>
+              </>
+            )}
           </Menu>
         </Dropdown>
       )}
