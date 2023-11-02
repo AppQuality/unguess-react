@@ -178,8 +178,8 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
             <ManageItem
               disabled
               value={{}}
-              key="not-solved"
-              className="bug-dropdown-custom-status"
+              key="manage-custom-status"
+              className="bug-dropdown-custom-status-manage"
               onClick={onManageClick}
             >
               <GearIcon />{' '}
