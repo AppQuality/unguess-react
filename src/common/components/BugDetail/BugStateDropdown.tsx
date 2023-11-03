@@ -12,22 +12,23 @@ import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
 import {
   Bug,
+  BugCustomStatus,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
-import { BugStateIcon } from 'src/common/components/BugStateIcon';
-import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import { useAppDispatch } from 'src/app/hooks';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { Circle } from 'src/pages/Bug/Drawer/Circle';
 
 const StyledItem = styled(Item)`
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 
   > svg {
     margin-right: ${({ theme }) => theme.space.xs};
@@ -44,6 +45,7 @@ const ManageItem = styled(StyledItem)`
 const SelectedItem = styled.div`
   display: flex;
   align-items: center;
+  text-transform: capitalize;
 
   > svg {
     margin-right: ${({ theme }) => theme.space.xs};
@@ -51,18 +53,10 @@ const SelectedItem = styled.div`
   }
 `;
 
-type DropdownItem = {
-  id: number;
-  text: string;
-  slug: string;
-  icon: React.ReactNode;
-};
-
 const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
   const { custom_status } = bug;
-  const [selectedItem, setSelectedItem] = useState<DropdownItem | undefined>();
-  const [options, setOptions] = useState<DropdownItem[]>([]);
+  const [selectedItem, setSelectedItem] = useState<BugCustomStatus>();
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const {
     data: cpBugStates,
@@ -77,36 +71,33 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const hideManage = width < breakpointSm;
 
-  const sortStates = (a: DropdownItem, b: DropdownItem) => {
-    if (a.id < b.id) return -1;
-    if (a.id > b.id) return 1;
-    return 0;
-  };
-
-  useEffect(() => {
-    if (cpBugStates) {
-      setOptions(
-        cpBugStates
-          .map((bugState) => ({
-            id: bugState.id,
-            slug: bugState.name,
-            text: getCustomStatusInfo(bugState.name as BugState, t).text,
-            icon: (
-              <BugStateIcon
-                {...appTheme.colors.byBugState[bugState.name as BugState]}
-              />
-            ),
-          }))
-          .sort(sortStates)
-      );
+  // Split custom statuses by phase into an object with multiple arrays
+  const customStatusesByPhase = cpBugStates?.reduce((acc, cs) => {
+    const phase = acc.find((p) => p.id === cs.phase.id);
+    if (phase) {
+      phase.customStatuses.push(cs);
+    } else {
+      acc.push({
+        id: cs.phase.id,
+        name: cs.phase.name,
+        customStatuses: [cs],
+      });
     }
-  }, [cpBugStates]);
+    return acc;
+  }, [] as { id: number; name: string; customStatuses: typeof cpBugStates }[]);
 
+  // Check selected custom status
   useEffect(() => {
-    setSelectedItem(
-      options.find((bugStatus) => bugStatus.id === custom_status.id)
-    );
-  }, [custom_status, options]);
+    customStatusesByPhase?.find((phase) => {
+      const found = phase.customStatuses.find(
+        (cs) => cs.id === custom_status.id
+      );
+      if (found) {
+        setSelectedItem(found);
+      }
+      return found;
+    });
+  }, [cpBugStates, custom_status]);
 
   const onManageClick = () => {
     dispatch(setCustomStatusDrawerOpen(true));
@@ -127,7 +118,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
       ) : (
         <Dropdown
           selectedItem={selectedItem}
-          onSelect={async (item: DropdownItem) => {
+          onSelect={async (item: BugCustomStatus) => {
             await patchBug({
               cid: bug.campaign_id.toString(),
               bid: bug.id.toString(),
@@ -138,7 +129,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
             setSelectedItem(item);
           }}
           downshiftProps={{
-            itemToString: (item: DropdownItem) => item && item.slug,
+            itemToString: (item: BugCustomStatus) => item && item.name,
           }}
         >
           <Field className="bug-dropdown-custom-status">
@@ -149,36 +140,55 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
                 content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
               >
                 <Select isCompact disabled>
-                  <SelectedItem>
+                  <StyledItem>
                     {t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}
-                  </SelectedItem>
+                  </StyledItem>
                 </Select>
               </Tooltip>
             ) : (
               <Select isCompact>
-                <SelectedItem>
-                  {selectedItem?.icon} {selectedItem?.text}
-                </SelectedItem>
+                {selectedItem && (
+                  <SelectedItem>
+                    <Circle
+                      color={`#${selectedItem.color}`}
+                      {...(selectedItem.id === 1 && {
+                        style: {
+                          border: `2px solid ${appTheme.palette.grey[400]}`,
+                        },
+                      })}
+                    />{' '}
+                    {selectedItem.name}
+                  </SelectedItem>
+                )}
               </Select>
             )}
           </Field>
           <Menu zIndex={1}>
-            {options &&
-              options.map((item) => (
+            {customStatusesByPhase &&
+              customStatusesByPhase.map((phase, i) => (
                 <>
-                  {item.slug === 'solved' && <Separator />}
-                  <StyledItem
-                    key={item.slug}
-                    value={item}
-                    className={`bug-dropdown-custom-status-${item.slug
-                      .toLowerCase()
-                      .replace(/\s+/g, '-')}`}
-                  >
-                    {item.icon} {item.text}
-                  </StyledItem>
+                  {phase.customStatuses.map((cs) => (
+                    <StyledItem
+                      key={cs.name}
+                      value={cs}
+                      className={`bug-dropdown-custom-status-${cs.name
+                        .toLowerCase()
+                        .replace(/\s+/g, '-')}`}
+                    >
+                      <Circle
+                        color={`#${cs.color}`}
+                        {...(cs.id === 1 && {
+                          style: {
+                            border: `2px solid ${appTheme.palette.grey[400]}`,
+                          },
+                        })}
+                      />{' '}
+                      {cs.name}
+                    </StyledItem>
+                  ))}
+                  {i < customStatusesByPhase.length - 1 && <Separator />}
                 </>
               ))}
-
             {!hideManage && (
               <>
                 <Separator />
