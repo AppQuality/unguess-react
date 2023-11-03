@@ -6,14 +6,27 @@ import {
   setCustomStatusDrawerOpen,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
+import {
+  useDeleteCampaignsByCidCustomStatusesMutation,
+  useGetCampaignsByCidCustomStatusesQuery,
+  usePatchCampaignsByCidCustomStatusesMutation,
+} from 'src/features/api';
+import { useParams } from 'react-router-dom';
 import { CustomStatusForm } from './CustomStatusForm';
 
 export const CustomStatusDrawer = () => {
+  const { campaignId } = useParams();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { isCustomStatusDrawerOpen } = useAppSelector(
+  const { isCustomStatusDrawerOpen, customStatus } = useAppSelector(
     (state) => state.bugsPage
   );
+  const { data: dbCustomStatus } = useGetCampaignsByCidCustomStatusesQuery({
+    cid: campaignId?.toString() || '',
+  });
+  const [patchCustomStatuses] = usePatchCampaignsByCidCustomStatusesMutation();
+  const [deleteCustomStatuses] =
+    useDeleteCampaignsByCidCustomStatusesMutation();
 
   const onClose = () => {
     dispatch(setCustomStatusDrawerOpen(false));
@@ -22,6 +35,28 @@ export const CustomStatusDrawer = () => {
 
   const onCtaClick = () => {
     dispatch(setCustomStatusDrawerOpen(false));
+
+    // Check all dbCustomStatus ids that are not in the customStatus array
+    const deleteCustomStatus = dbCustomStatus?.reduce((acc, cs) => {
+      if (cs.is_default) return acc;
+      if (!customStatus.find((rcs) => rcs.id === cs.id)) {
+        acc.push(cs.id);
+      }
+      return acc;
+    }, [] as number[]);
+
+    // Remove all ids from customStatus objects with is_new = true
+    const patchCustomStatus = customStatus.map((cs) => {
+      if (cs.is_new) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...rest } = cs;
+        return rest;
+      }
+      return cs;
+    });
+
+    console.log('patchCustomStatus', patchCustomStatus);
+    console.log('deleteCustomStatus', deleteCustomStatus);
   };
 
   return (
