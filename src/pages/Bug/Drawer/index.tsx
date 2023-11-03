@@ -13,10 +13,7 @@ export const CustomStatusDrawer = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { isCustomStatusDrawerOpen, customStatus } = useAppSelector(
-    (state) => ({
-      isCustomStatusDrawerOpen: state.bugsPage.isCustomStatusDrawerOpen,
-      customStatus: state.bugsPage.customStatus,
-    })
+    (state) => state.bugsPage
   );
 
   const onClose = () => {
