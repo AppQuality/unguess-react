@@ -45,15 +45,6 @@ export interface paths {
       };
     };
   };
-  '/campaigns/{cid}/bugTypes': {
-    get: operations['get-campaigns-cid-bug-types'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-  };
   '/campaigns/{cid}/bugs/{bid}': {
     get: operations['get-campaigns-single-bug'];
     patch: operations['patch-campaigns-cid-bugs-bid'];
@@ -63,16 +54,6 @@ export interface paths {
         cid: components['parameters']['cid'];
         /** Defines an identifier for the bug object (BUG ID) */
         bid: components['parameters']['bid'];
-      };
-    };
-  };
-  '/campaigns/{cid}/replicabilities': {
-    /** Return all accepted replicabilities of a specific campaign */
-    get: operations['get-campaigns-replicabilities'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
       };
     };
   };
@@ -87,6 +68,46 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/bugTypes': {
+    get: operations['get-campaigns-cid-bug-types'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/campaigns/{cid}/custom_statuses': {
+    get: operations['get-campaigns-cid-custom-statuses'];
+    delete: operations['delete-campaigns-cid-custom_statuses'];
+    patch: operations['patch-campaigns-cid-custom_statuses'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/devices': {
+    get: operations['get-campaigns-cid-devices'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/findings/{fid}': {
+    put: operations['put-campaigns-cid-findings-fid'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+        /** Finding id */
+        fid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/meta': {
     /** Used to extra info about a selected campaign */
     get: operations['get-campaigns-cid-meta'];
@@ -97,9 +118,46 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/os': {
+    get: operations['get-campaigns-cid-os'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/priorities': {
+    get: operations['get-campaigns-cid-priorities'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/replicabilities': {
+    /** Return all accepted replicabilities of a specific campaign */
+    get: operations['get-campaigns-replicabilities'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/reports': {
     /** Return all available report of a specific campaign */
     get: operations['get-campaigns-reports'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/campaigns/{cid}/severities': {
+    get: operations['get-campaigns-cid-severities'];
     parameters: {
       path: {
         /** Campaign id */
@@ -116,62 +174,8 @@ export interface paths {
       };
     };
   };
-  '/campaigns/{cid}/devices': {
-    get: operations['get-campaigns-cid-devices'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-  };
-  '/campaigns/{cid}/os': {
-    get: operations['get-campaigns-cid-os'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-  };
-  '/campaigns/{cid}/severities': {
-    get: operations['get-campaigns-cid-severities'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-  };
-  '/campaigns/{cid}/priorities': {
-    get: operations['get-campaigns-cid-priorities'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-  };
-  '/campaigns/{cid}/custom_statuses': {
-    get: operations['get-campaigns-cid-custom-statuses'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-  };
   '/campaigns/{cid}/usecases': {
     get: operations['get-campaigns-cid-usecases'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-  };
-  '/campaigns/{cid}/widgets': {
-    get: operations['get-campaigns-cid-widgets-wslug'];
     parameters: {
       path: {
         /** Campaign id */
@@ -186,6 +190,24 @@ export interface paths {
     post: operations['post-campaign-cid-users'];
     /** Remove an user from campaign */
     delete: operations['delete-campaign-cid-users'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/campaigns/{cid}/ux': {
+    get: operations['get-campaigns-cid-ux'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/widgets': {
+    get: operations['get-campaigns-cid-widgets-wslug'];
     parameters: {
       path: {
         /** Campaign id */
@@ -210,6 +232,20 @@ export interface paths {
   };
   '/projects/{pid}/campaigns': {
     get: operations['get-project-campaigns'];
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+  };
+  '/projects/{pid}/users': {
+    /** Return a list of users from a specific project */
+    get: operations['get-projects-users'];
+    /** Use this to add a new or existent user into a specific project. */
+    post: operations['post-projects-pid-users'];
+    /** Remove an user from project */
+    delete: operations['delete-projects-pid-users'];
     parameters: {
       path: {
         /** Project id */
@@ -256,34 +292,6 @@ export interface paths {
       };
     };
   };
-  '/workspaces/{wid}/users': {
-    /** Return a list of users from a specific workspace */
-    get: operations['get-workspaces-users'];
-    /** Use this to add a new or existent user into a specific workspace. */
-    post: operations['post-workspaces-wid-users'];
-    /** Remove an user from workspace */
-    delete: operations['delete-workspaces-wid-users'];
-    parameters: {
-      path: {
-        /** Workspace (company, customer) id */
-        wid: components['parameters']['wid'];
-      };
-    };
-  };
-  '/projects/{pid}/users': {
-    /** Return a list of users from a specific project */
-    get: operations['get-projects-users'];
-    /** Use this to add a new or existent user into a specific project. */
-    post: operations['post-projects-pid-users'];
-    /** Remove an user from project */
-    delete: operations['delete-projects-pid-users'];
-    parameters: {
-      path: {
-        /** Project id */
-        pid: components['parameters']['pid'];
-      };
-    };
-  };
   '/workspaces/{wid}/projects': {
     get: operations['get-workspace-projects'];
     parameters: {
@@ -312,6 +320,20 @@ export interface paths {
         wid: components['parameters']['wid'];
         /** Project id */
         pid: components['parameters']['pid'];
+      };
+    };
+  };
+  '/workspaces/{wid}/users': {
+    /** Return a list of users from a specific workspace */
+    get: operations['get-workspaces-users'];
+    /** Use this to add a new or existent user into a specific workspace. */
+    post: operations['post-workspaces-wid-users'];
+    /** Remove an user from workspace */
+    delete: operations['delete-workspaces-wid-users'];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
       };
     };
   };
@@ -388,6 +410,19 @@ export interface components {
       /** @enum {string} */
       kind: 'select';
     };
+    /** BugCustomStatus */
+    BugCustomStatus: {
+      id: number;
+      name: string;
+      color: string;
+      phase: components['schemas']['BugCustomStatusPhase'];
+      is_default: number;
+    };
+    /** BugCustomStatusPhase */
+    BugCustomStatusPhase: {
+      id: number;
+      name: string;
+    };
     /** BugMedia */
     BugMedia: {
       mime_type: {
@@ -398,6 +433,11 @@ export interface components {
       /** Format: uri */
       url: string;
       creation_date: string;
+    };
+    /** BugPriority */
+    BugPriority: {
+      id: number;
+      name: string;
     };
     /** BugReplicability */
     BugReplicability: {
@@ -411,16 +451,6 @@ export interface components {
     };
     /** BugStatus */
     BugStatus: {
-      id: number;
-      name: string;
-    };
-    /** BugPriority */
-    BugPriority: {
-      id: number;
-      name: string;
-    };
-    /** BugCustomStatus */
-    BugCustomStatus: {
       id: number;
       name: string;
     };
@@ -477,6 +507,10 @@ export interface components {
         name: string;
       };
       project: {
+        id: number;
+        name: string;
+      };
+      workspace: {
         id: number;
         name: string;
       };
@@ -547,7 +581,7 @@ export interface components {
      * @description campaign output item
      * @enum {string}
      */
-    Output: 'bugs' | 'media';
+    Output: 'bugs' | 'media' | 'insights';
     /** Platform Object */
     Platform: {
       /** @description os */
@@ -682,52 +716,6 @@ export interface components {
       features?: components['schemas']['Feature'][];
     };
     /**
-     * Workspace
-     * @description A workspace is the company area with projects and campaigns
-     */
-    Workspace: {
-      id: number;
-      company: string;
-      tokens: number;
-      logo?: string;
-      csm: {
-        id: number;
-        email: string;
-        name: string;
-        profile_id: number;
-        tryber_wp_user_id: number;
-        picture?: string;
-        url?: string;
-      };
-      /** @description express coins */
-      coins?: number;
-    };
-    /**
-     * WidgetBugsByUseCase
-     * @description Returns a list of use case with the number of bugs
-     */
-    WidgetBugsByUseCase: {
-      data: {
-        title: {
-          full: string;
-          simple?: string;
-          prefix?: string;
-          info?: string;
-        };
-        description: string;
-        uniqueBugs?: number;
-        bugs: number;
-        usecase_completion?: number;
-        usecase_id: number;
-      }[];
-      /**
-       * @default bugsByUseCase
-       * @example bugsByUseCase
-       * @enum {string}
-       */
-      kind: 'bugsByUseCase';
-    };
-    /**
      * WidgetBugsByDevice
      * @description Returns a list of devices with the number of bugs
      */
@@ -758,6 +746,31 @@ export interface components {
       })[];
       /** @enum {string} */
       kind: 'bugsByDuplicates';
+    };
+    /**
+     * WidgetBugsByUseCase
+     * @description Returns a list of use case with the number of bugs
+     */
+    WidgetBugsByUseCase: {
+      data: {
+        title: {
+          full: string;
+          simple?: string;
+          prefix?: string;
+          info?: string;
+        };
+        description: string;
+        uniqueBugs?: number;
+        bugs: number;
+        usecase_completion?: number;
+        usecase_id: number;
+      }[];
+      /**
+       * @default bugsByUseCase
+       * @example bugsByUseCase
+       * @enum {string}
+       */
+      kind: 'bugsByUseCase';
     };
     /**
      * WidgetCampaignProgress
@@ -802,8 +815,33 @@ export interface components {
        */
       kind: 'campaignUniqueBugs';
     };
+    /**
+     * Workspace
+     * @description A workspace is the company area with projects and campaigns
+     */
+    Workspace: {
+      id: number;
+      company: string;
+      tokens: number;
+      logo?: string;
+      csm: {
+        id: number;
+        email: string;
+        name: string;
+        profile_id: number;
+        tryber_wp_user_id: number;
+        picture?: string;
+        url?: string;
+      };
+      /** @description express coins */
+      coins?: number;
+      /** @description Do this workspace have shared items? */
+      isShared?: boolean;
+      /** @description Number of shared items */
+      sharedItems?: number;
+    };
     /** Tenant */
-    Invitation: {
+    Tenant: {
       /** @description tryber wp_user_id */
       id: number;
       profile_id: number;
@@ -853,6 +891,8 @@ export interface components {
       | 'bugs-by-duplicates';
     /** @description keywords to search */
     search: string;
+    /** @description Custom Status id */
+    csid: string;
   };
   requestBodies: {
     Credentials: {
@@ -899,6 +939,19 @@ export interface components {
         'application/json': {
           name: string;
           customer_id: number;
+        };
+      };
+    };
+    Invitation: {
+      content: {
+        'application/json': {
+          email: string;
+          name?: string;
+          surname?: string;
+          locale?: string;
+          event_name?: string;
+          redirect_url?: string;
+          message?: string;
         };
       };
     };
@@ -1053,25 +1106,6 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  'get-campaigns-cid-bug-types': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['BugType'][];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
   'get-campaigns-single-bug': {
     parameters: {
       path: {
@@ -1143,27 +1177,6 @@ export interface operations {
       };
     };
   };
-  /** Return all accepted replicabilities of a specific campaign */
-  'get-campaigns-replicabilities': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['BugReplicability'][];
-        };
-      };
-      /** Bad Request */
-      400: unknown;
-      /** Forbidden */
-      403: unknown;
-    };
-  };
   'get-campaigns-bug-siblings': {
     parameters: {
       path: {
@@ -1215,6 +1228,141 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  'get-campaigns-cid-bug-types': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugType'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-campaigns-cid-custom-statuses': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugCustomStatus'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'delete-campaigns-cid-custom_statuses': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            status?: boolean;
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          custom_status_id: number;
+          to_custom_status_id?: number;
+        }[];
+      };
+    };
+  };
+  'patch-campaigns-cid-custom_statuses': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugCustomStatus'][];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /**
+           * @description se esiste già questo parametro viene passato nel request body
+           * se invece non esiste ed il custom status deve essere creato, non viene passato
+           */
+          custom_status_id?: number;
+          name: string;
+          color: string;
+        }[];
+      };
+    };
+  };
+  'get-campaigns-cid-devices': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            device: string;
+          }[];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'put-campaigns-cid-findings-fid': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+        /** Finding id */
+        fid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          comment: string;
+        };
+      };
+    };
+  };
   /** Used to extra info about a selected campaign */
   'get-campaigns-cid-meta': {
     parameters: {
@@ -1240,68 +1388,6 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  /** Return all available report of a specific campaign */
-  'get-campaigns-reports': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Report'][];
-        };
-      };
-    };
-  };
-  'get-campaigns-cid-tags': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            tag_id: number;
-            display_name: string;
-            slug: string;
-            is_public?: number;
-          }[];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'get-campaigns-cid-devices': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            device: string;
-          }[];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
   'get-campaigns-cid-os': {
     parameters: {
       path: {
@@ -1316,25 +1402,6 @@ export interface operations {
           'application/json': {
             os: string;
           }[];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'get-campaigns-cid-severities': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['BugSeverity'][];
         };
       };
       400: components['responses']['Error'];
@@ -1361,7 +1428,8 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  'get-campaigns-cid-custom-statuses': {
+  /** Return all accepted replicabilities of a specific campaign */
+  'get-campaigns-replicabilities': {
     parameters: {
       path: {
         /** Campaign id */
@@ -1372,7 +1440,68 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': components['schemas']['BugCustomStatus'][];
+          'application/json': components['schemas']['BugReplicability'][];
+        };
+      };
+      /** Bad Request */
+      400: unknown;
+      /** Forbidden */
+      403: unknown;
+    };
+  };
+  /** Return all available report of a specific campaign */
+  'get-campaigns-reports': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Report'][];
+        };
+      };
+    };
+  };
+  'get-campaigns-cid-severities': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugSeverity'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-campaigns-cid-tags': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            tag_id: number;
+            display_name: string;
+            slug: string;
+            is_public?: number;
+          }[];
         };
       };
       400: components['responses']['Error'];
@@ -1408,37 +1537,6 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  'get-campaigns-cid-widgets-wslug': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-      query: {
-        /** Campaign widget slug */
-        s: components['parameters']['wslug'];
-        /** should update bug trend after request resolves? */
-        updateTrend?: boolean;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json':
-            | components['schemas']['WidgetBugsByUseCase']
-            | components['schemas']['WidgetBugsByDevice']
-            | components['schemas']['WidgetCampaignProgress']
-            | components['schemas']['WidgetCampaignUniqueBugs']
-            | components['schemas']['WidgetBugsByDuplicates'];
-        };
-      };
-      400: components['responses']['Error'];
-      401: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
   /** Return a list of users from a specific campaign */
   'get-campaign-users': {
     parameters: {
@@ -1462,7 +1560,7 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items: components['schemas']['Invitation'][];
+            items: components['schemas']['Tenant'][];
             start?: number;
             limit?: number;
             size?: number;
@@ -1498,23 +1596,7 @@ export interface operations {
       403: components['responses']['Error'];
       500: components['responses']['Error'];
     };
-    requestBody: {
-      content: {
-        'application/json': {
-          email: string;
-          name?: string;
-          surname?: string;
-          /**
-           * @description preferred language
-           * @default en
-           * @enum {string}
-           */
-          locale?: 'it' | 'en';
-          event_name?: string;
-          redirect_url?: string;
-        };
-      };
-    };
+    requestBody: components['requestBodies']['Invitation'];
   };
   /** Remove an user from campaign */
   'delete-campaign-cid-users': {
@@ -1529,7 +1611,7 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items: components['schemas']['Invitation'][];
+            items: components['schemas']['Tenant'][];
           };
         };
       };
@@ -1544,6 +1626,104 @@ export interface operations {
           user_id: number;
         };
       };
+    };
+  };
+  'get-campaigns-cid-ux': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+      query: {
+        showAsCustomer?: boolean;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            version: number;
+            goal: string;
+            users: number;
+            findings?: {
+              /** @description this field is the Finding ID */
+              id: number;
+              title: string;
+              description: string;
+              comment?: string;
+              severity: {
+                id: number;
+                name?: string;
+              };
+              cluster:
+                | {
+                    id: number;
+                    name: string;
+                  }[]
+                | 'all';
+              video?: {
+                url: string;
+                streamUrl: string;
+                poster?: string;
+                start: number;
+                end: number;
+                description?: string;
+              }[];
+            }[];
+            sentiment?: {
+              cluster: {
+                id: number;
+                name: string;
+              };
+              value: number;
+              comment: string;
+            }[];
+            methodology: {
+              type: string;
+              description: string;
+            };
+            questions: {
+              text: string;
+            }[];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      404: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-campaigns-cid-widgets-wslug': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+      query: {
+        /** Campaign widget slug */
+        s: components['parameters']['wslug'];
+        /** should update bug trend after request resolves? */
+        updateTrend?: boolean;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json':
+            | components['schemas']['WidgetBugsByUseCase']
+            | components['schemas']['WidgetBugsByDevice']
+            | components['schemas']['WidgetCampaignProgress']
+            | components['schemas']['WidgetCampaignUniqueBugs']
+            | components['schemas']['WidgetBugsByDuplicates'];
+        };
+      };
+      400: components['responses']['Error'];
+      401: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
     };
   };
   'post-projects': {
@@ -1653,6 +1833,98 @@ export interface operations {
       403: components['responses']['Error'];
       404: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  /** Return a list of users from a specific project */
+  'get-projects-users': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Tenant'][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  /** Use this to add a new or existent user into a specific project. */
+  'post-projects-pid-users': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            profile_id: number;
+            tryber_wp_user_id: number;
+            email: string;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: components['requestBodies']['Invitation'];
+  };
+  /** Remove an user from project */
+  'delete-projects-pid-users': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Tenant'][];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Tryber WP USER ID */
+          user_id: number;
+          include_shared?: boolean;
+        };
+      };
     };
   };
   /** Retrieve all available use case templates */
@@ -1842,220 +2114,6 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  /** Return a list of users from a specific workspace */
-  'get-workspaces-users': {
-    parameters: {
-      path: {
-        /** Workspace (company, customer) id */
-        wid: components['parameters']['wid'];
-      };
-      query: {
-        /** Limit pagination parameter */
-        limit?: components['parameters']['limit'];
-        /** Start pagination parameter */
-        start?: components['parameters']['start'];
-        /** Order value (ASC, DESC) */
-        order?: components['parameters']['order'];
-        /** Order by accepted field */
-        orderBy?: components['parameters']['orderBy'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            items: components['schemas']['Invitation'][];
-            start?: number;
-            limit?: number;
-            size?: number;
-            total?: number;
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  /** Use this to add a new or existent user into a specific workspace. */
-  'post-workspaces-wid-users': {
-    parameters: {
-      path: {
-        /** Workspace (company, customer) id */
-        wid: components['parameters']['wid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            profile_id: number;
-            tryber_wp_user_id: number;
-            email: string;
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          email: string;
-          name?: string;
-          surname?: string;
-          /**
-           * @description preferred language
-           * @default en
-           * @enum {string}
-           */
-          locale?: 'it' | 'en';
-          event_name?: string;
-          redirect_url?: string;
-        };
-      };
-    };
-  };
-  /** Remove an user from workspace */
-  'delete-workspaces-wid-users': {
-    parameters: {
-      path: {
-        /** Workspace (company, customer) id */
-        wid: components['parameters']['wid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            items: components['schemas']['Invitation'][];
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          /** @description Tryber WP USER ID */
-          user_id: number;
-        };
-      };
-    };
-  };
-  /** Return a list of users from a specific project */
-  'get-projects-users': {
-    parameters: {
-      path: {
-        /** Project id */
-        pid: components['parameters']['pid'];
-      };
-      query: {
-        /** Limit pagination parameter */
-        limit?: components['parameters']['limit'];
-        /** Start pagination parameter */
-        start?: components['parameters']['start'];
-        /** Order value (ASC, DESC) */
-        order?: components['parameters']['order'];
-        /** Order by accepted field */
-        orderBy?: components['parameters']['orderBy'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            items: components['schemas']['Invitation'][];
-            start?: number;
-            limit?: number;
-            size?: number;
-            total?: number;
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  /** Use this to add a new or existent user into a specific project. */
-  'post-projects-pid-users': {
-    parameters: {
-      path: {
-        /** Project id */
-        pid: components['parameters']['pid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            profile_id: number;
-            tryber_wp_user_id: number;
-            email: string;
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          email: string;
-          name?: string;
-          surname?: string;
-          /**
-           * @description preferred language
-           * @default en
-           * @enum {string}
-           */
-          locale?: 'it' | 'en';
-          event_name?: string;
-          redirect_url?: string;
-        };
-      };
-    };
-  };
-  /** Remove an user from project */
-  'delete-projects-pid-users': {
-    parameters: {
-      path: {
-        /** Project id */
-        pid: components['parameters']['pid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            items: components['schemas']['Invitation'][];
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          /** @description Tryber WP USER ID */
-          user_id: number;
-        };
-      };
-    };
-  };
   'get-workspace-projects': {
     parameters: {
       path: {
@@ -2142,6 +2200,98 @@ export interface operations {
       403: components['responses']['Error'];
       404: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  /** Return a list of users from a specific workspace */
+  'get-workspaces-users': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Tenant'][];
+            start?: number;
+            limit?: number;
+            size?: number;
+            total?: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  /** Use this to add a new or existent user into a specific workspace. */
+  'post-workspaces-wid-users': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            profile_id: number;
+            tryber_wp_user_id: number;
+            email: string;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: components['requestBodies']['Invitation'];
+  };
+  /** Remove an user from workspace */
+  'delete-workspaces-wid-users': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['Tenant'][];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @description Tryber WP USER ID */
+          user_id: number;
+          include_shared?: boolean;
+        };
+      };
     };
   };
 }
