@@ -57,7 +57,7 @@ export const DEFAULT_NOT_A_BUG_CUSTOM_STATUS = {
   id: 7,
   name: 'not a bug',
   color: 'ffffff',
-  is_default: true,
+  is_default: 1,
   phase: {
     id: 1,
     name: 'working',
