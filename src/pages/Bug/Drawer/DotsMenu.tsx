@@ -5,6 +5,8 @@ import { ReactComponent as DotsIcon } from 'src/assets/icons/dots-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { appTheme } from 'src/app/theme';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { updateCustomStatus } from 'src/features/bugsPage/bugsPageSlice';
 // import { ColorPicker } from './ColorPicker';
 
 const StyledModal = styled(Modal)`
@@ -29,9 +31,11 @@ const StyledButton = styled(Button)`
   justify-content: flex-start;
 `;
 
-export const DotsMenu = () => {
+export const DotsMenu = ({ customStatusId }: { customStatusId: number }) => {
   const { t } = useTranslation();
   const [isDotsMenuOpen, setIsDotsMenuOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const { customStatus } = useAppSelector((state) => state.bugsPage);
 
   return (
     <>
@@ -59,7 +63,14 @@ export const DotsMenu = () => {
             <StyledButton
               isBasic
               isStretched
-              onClick={() => setIsDotsMenuOpen(false)}
+              onClick={() => {
+                dispatch(
+                  updateCustomStatus(
+                    customStatus.filter((cs) => cs.id !== customStatusId)
+                  )
+                );
+                setIsDotsMenuOpen(false);
+              }}
               style={{ color: appTheme.palette.red[500] }}
             >
               <Button.StartIcon>
