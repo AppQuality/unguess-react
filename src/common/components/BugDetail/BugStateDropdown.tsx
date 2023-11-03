@@ -20,6 +20,10 @@ import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { BugStateIcon } from 'src/common/components/BugStateIcon';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
+import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
+import { useAppDispatch } from 'src/app/hooks';
+import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
+import useWindowSize from 'src/hooks/useWindowSize';
 
 const StyledItem = styled(Item)`
   display: flex;
@@ -28,6 +32,13 @@ const StyledItem = styled(Item)`
   > svg {
     margin-right: ${({ theme }) => theme.space.xs};
   }
+`;
+
+const ManageItem = styled(StyledItem)`
+  padding-left: ${({ theme }) => theme.space.sm};
+  color: ${({ theme }) => theme.palette.blue[600]};
+  font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  cursor: pointer;
 `;
 
 const SelectedItem = styled.div`
@@ -61,6 +72,10 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   } = useGetCampaignsByCidCustomStatusesQuery({
     cid: bug.campaign_id.toString(),
   });
+  const dispatch = useAppDispatch();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const hideManage = width < breakpointSm;
 
   const sortStates = (a: DropdownItem, b: DropdownItem) => {
     if (a.id < b.id) return -1;
@@ -92,6 +107,10 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
       options.find((bugStatus) => bugStatus.id === custom_status.id)
     );
   }, [custom_status, options]);
+
+  const onManageClick = () => {
+    dispatch(setCustomStatusDrawerOpen(true));
+  };
 
   if (isError) return null;
 
@@ -143,7 +162,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
               </Select>
             )}
           </Field>
-          <Menu>
+          <Menu zIndex={1}>
             {options &&
               options.map((item) => (
                 <>
@@ -159,6 +178,24 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
                   </StyledItem>
                 </>
               ))}
+
+            {!hideManage && (
+              <>
+                <Separator />
+                <ManageItem
+                  disabled
+                  value={{}}
+                  key="manage-custom-status"
+                  className="bug-dropdown-custom-status-manage"
+                  onClick={onManageClick}
+                >
+                  <GearIcon />{' '}
+                  {t(
+                    '__BUGS_PAGE_BUG_DETAIL_CUSTOM_STATUS_DROPDOWN_MANAGE_LABEL'
+                  )}
+                </ManageItem>
+              </>
+            )}
           </Menu>
         </Dropdown>
       )}
