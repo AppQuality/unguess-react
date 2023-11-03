@@ -14,6 +14,8 @@ import * as Yup from 'yup';
 import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.svg';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
 import { Field } from '@zendeskgarden/react-forms';
+import { updateCustomStatus } from 'src/features/bugsPage/bugsPageSlice';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
 import { DotsMenu } from './DotsMenu';
 
@@ -48,23 +50,25 @@ export const CustomStatusForm = () => {
   } = useGetCampaignsByCidCustomStatusesQuery({
     cid: campaignId?.toString() || '',
   });
+  const dispatch = useAppDispatch();
+  const { customStatus } = useAppSelector((state) => state.bugsPage);
 
   // Split custom statuses by phase into an object with multiple arrays
-  const customStatusesByPhase = customStatuses?.reduce((acc, customStatus) => {
-    const phase = acc.find((p) => p.id === customStatus.phase.id);
+  const customStatusesByPhase = customStatuses?.reduce((acc, cs) => {
+    const phase = acc.find((p) => p.id === cs.phase.id);
     if (phase) {
-      phase.customStatuses.push(customStatus);
+      phase.customStatuses.push(cs);
     } else {
       acc.push({
-        id: customStatus.phase.id,
-        name: customStatus.phase.name,
-        customStatuses: [customStatus],
+        id: cs.phase.id,
+        name: cs.phase.name,
+        customStatuses: [cs],
       });
     }
     return acc;
   }, [] as { id: number; name: string; customStatuses: typeof customStatuses }[]);
 
-  if (isError) return null;
+  if (isLoading || isFetching || isError) return null;
 
   return (
     <div>
@@ -76,34 +80,34 @@ export const CustomStatusForm = () => {
             >
               {getCustomStatusPhaseName(phase, t)}
             </Label>
-            {phase.customStatuses.map((customStatus) => (
+            {phase.customStatuses.map((cs) => (
               <div style={{ marginBottom: appTheme.space.xs }}>
-                {customStatus.is_default ? (
+                {cs.is_default ? (
                   <FakeInput>
                     <Circle
-                      color={`#${customStatus.color}`}
-                      {...(customStatus.id === 1 && {
+                      color={`#${cs.color}`}
+                      {...(cs.id === 1 && {
                         style: {
                           border: `2px solid ${appTheme.palette.grey[400]}`,
                         },
                       })}
                     />
-                    <Paragraph>{customStatus.name}</Paragraph>
+                    <Paragraph>{cs.name}</Paragraph>
                   </FakeInput>
                 ) : (
                   <Field
-                    key={phase.id}
-                    style={{ marginBottom: appTheme.space.md }}
+                    key={`phase-${phase.id}-custom-status-${cs.id}`}
+                    style={{ marginBottom: appTheme.space.xs }}
                   >
                     <MediaInput
-                      key={`custom-status-${customStatus.id}`}
+                      key={`custom-status-${cs.id}`}
                       name="customStatus"
-                      value={customStatus.name}
-                      id={`custom-status-${customStatus.id}`}
+                      value={cs.name}
+                      id={`custom-status-${cs.id}`}
                       start={
                         <Circle
-                          color={`#${customStatus.color}`}
-                          {...(customStatus.id === 1 && {
+                          color={`#${cs.color}`}
+                          {...(cs.id === 1 && {
                             style: {
                               border: `2px solid ${appTheme.palette.grey[400]}`,
                             },
@@ -116,8 +120,63 @@ export const CustomStatusForm = () => {
                 )}
               </div>
             ))}
+            {phase.id === 1 &&
+              customStatus &&
+              customStatus.map((cs) => (
+                <Field
+                  key={`phase-${phase.id}-custom-status-${cs.id}`}
+                  style={{ marginBottom: appTheme.space.xs }}
+                >
+                  <MediaInput
+                    key={`custom-status-${cs.id}`}
+                    name="customStatus"
+                    value={cs.name}
+                    id={`custom-status-${cs.id}`}
+                    start={<Circle color={`#${cs.color}`} />}
+                    end={<DotsMenu />}
+                    onInput={(e) => {
+                      const target = e.target as HTMLInputElement;
+                      const { value } = target;
+
+                      dispatch(
+                        updateCustomStatus(
+                          customStatus.map((c) => {
+                            if (c.id === cs.id) {
+                              return {
+                                ...c,
+                                name: value,
+                              };
+                            }
+                            return c;
+                          })
+                        )
+                      );
+                    }}
+                  />
+                </Field>
+              ))}
             {phase.id === 1 && (
-              <Button isBasic style={{ marginBottom: appTheme.space.md }}>
+              <Button
+                isBasic
+                style={{ marginBottom: appTheme.space.md }}
+                onClick={() => {
+                  dispatch(
+                    updateCustomStatus([
+                      ...customStatus,
+                      {
+                        id: customStatus.length + 1,
+                        name: '',
+                        color: appTheme.palette.grey[400],
+                        is_default: 0,
+                        phase: {
+                          id: phase.id,
+                          name: phase.name,
+                        },
+                      },
+                    ])
+                  );
+                }}
+              >
                 <AddIcon style={{ marginRight: appTheme.space.xs }} />
                 {t(
                   '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CREATE_CUSTOM_STATUS_BUTTON'
