@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
   resetCustomStatus,
   setCustomStatusDrawerOpen,
-  updateCustomStatus,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
 import { CustomStatusForm } from './CustomStatusForm';
@@ -12,21 +11,17 @@ import { CustomStatusForm } from './CustomStatusForm';
 export const CustomStatusDrawer = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { isCustomStatusDrawerOpen, customStatus } = useAppSelector(
+  const { isCustomStatusDrawerOpen } = useAppSelector(
     (state) => state.bugsPage
   );
 
   const onClose = () => {
     dispatch(setCustomStatusDrawerOpen(false));
+    dispatch(resetCustomStatus());
   };
 
   const onCtaClick = () => {
-    dispatch(updateCustomStatus(customStatus));
     dispatch(setCustomStatusDrawerOpen(false));
-  };
-
-  const onResetClick = () => {
-    dispatch(resetCustomStatus());
   };
 
   return (
@@ -42,11 +37,7 @@ export const CustomStatusDrawer = () => {
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
-          <Button
-            id="custom-status-drawer-reset"
-            onClick={onResetClick}
-            isBasic
-          >
+          <Button id="custom-status-drawer-reset" onClick={onClose} isBasic>
             {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_RESET_BUTTON')}
           </Button>
         </Drawer.FooterItem>
