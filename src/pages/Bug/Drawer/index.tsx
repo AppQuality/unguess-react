@@ -7,7 +7,9 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
 import {
+  BugCustomStatus,
   useDeleteCampaignsByCidCustomStatusesMutation,
+  useGetCampaignsByCidBugsQuery,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
@@ -27,6 +29,9 @@ export const CustomStatusDrawer = () => {
   const [patchCustomStatuses] = usePatchCampaignsByCidCustomStatusesMutation();
   const [deleteCustomStatuses] =
     useDeleteCampaignsByCidCustomStatusesMutation();
+  const { data: bugs } = useGetCampaignsByCidBugsQuery({
+    cid: campaignId?.toString() || '',
+  });
 
   const onClose = () => {
     dispatch(setCustomStatusDrawerOpen(false));
@@ -37,13 +42,14 @@ export const CustomStatusDrawer = () => {
     dispatch(setCustomStatusDrawerOpen(false));
 
     // Check all dbCustomStatus ids that are not in the customStatus array
-    const deleteCustomStatus = dbCustomStatus?.reduce((acc, cs) => {
-      if (cs.is_default) return acc;
-      if (!customStatus.find((rcs) => rcs.id === cs.id)) {
-        acc.push(cs.id);
-      }
-      return acc;
-    }, [] as number[]);
+    const deleteCustomStatus =
+      dbCustomStatus?.reduce((acc, cs) => {
+        if (cs.is_default) return acc;
+        if (!customStatus.find((rcs) => rcs.id === cs.id)) {
+          acc.push(cs);
+        }
+        return acc;
+      }, [] as BugCustomStatus[]) ?? [];
 
     // Remove all ids from customStatus objects with is_new = true
     const patchCustomStatus = customStatus.map((cs) => {
@@ -55,8 +61,44 @@ export const CustomStatusDrawer = () => {
       return cs;
     });
 
+    // Check if deleteCustomStatus is used in bugs and create an array of them
+    const deleteCustomStatusUsed =
+      deleteCustomStatus?.filter((cs) =>
+        bugs?.items?.find((b) => b.custom_status.id === cs.id)
+      ) ?? [];
+
+    // Create an array of customStatus ids that are not used in bugs
+    const deleteCustomStatusUnused =
+      deleteCustomStatus?.filter(
+        (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
+      ) ?? [];
+
     console.log('patchCustomStatus', patchCustomStatus);
     console.log('deleteCustomStatus', deleteCustomStatus);
+    console.log('deleteCustomStatusUsed', deleteCustomStatusUsed);
+    console.log('deleteCustomStatusUnused', deleteCustomStatusUnused);
+
+    // TODO: Move these API calls to delete modal
+
+    // if (patchCustomStatus.length > 0)
+    //   patchCustomStatuses({
+    //     cid: campaignId?.toString() || '',
+    //     body: patchCustomStatus,
+    //   });
+
+    // if (deleteCustomStatus.length > 0)
+    //   deleteCustomStatuses({
+    //     cid: campaignId?.toString() || '',
+    //     body: [
+    //       ...deleteCustomStatusUnused.map((cs) => ({
+    //         custom_status_id: cs.id,
+    //       })),
+    //       ...deleteCustomStatusUsed.map((cs) => ({
+    //         custom_status_id: cs.id,
+    //         // to_custom_status_id
+    //       })),
+    //     ],
+    //   });
   };
 
   return (
