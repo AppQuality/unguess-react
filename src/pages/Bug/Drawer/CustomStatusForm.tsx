@@ -11,25 +11,14 @@ import { appTheme } from 'src/app/theme';
 import { useGetCampaignsByCidCustomStatusesQuery } from 'src/features/api';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.svg';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
 import { Field } from '@zendeskgarden/react-forms';
 import { updateCustomStatus } from 'src/features/bugsPage/bugsPageSlice';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useEffect } from 'react';
 import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
 import { DotsMenu } from './DotsMenu';
-
-export const Circle = styled(CircleFill)<{
-  color: string;
-}>`
-  width: auto;
-  height: 100%;
-  max-height: 10px;
-  margin: 0 2px;
-  border-radius: 50%;
-  color: ${({ color }) => color};
-  margin-right: ${({ theme }) => theme.space.xs};
-`;
+import { Circle } from './Circle';
 
 const FakeInput = styled.div`
   padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
@@ -55,6 +44,7 @@ export const CustomStatusForm = () => {
 
   // Split custom statuses by phase into an object with multiple arrays
   const customStatusesByPhase = customStatuses?.reduce((acc, cs) => {
+    if (!cs.is_default) return acc;
     const phase = acc.find((p) => p.id === cs.phase.id);
     if (phase) {
       phase.customStatuses.push(cs);
@@ -67,6 +57,13 @@ export const CustomStatusForm = () => {
     }
     return acc;
   }, [] as { id: number; name: string; customStatuses: typeof customStatuses }[]);
+
+  useEffect(() => {
+    // Update custom status with the new custom statuses with is_default === 0
+    dispatch(
+      updateCustomStatus(customStatuses?.filter((cs) => !cs.is_default) || [])
+    );
+  }, []);
 
   if (isLoading || isFetching || isError) return null;
 
@@ -114,7 +111,26 @@ export const CustomStatusForm = () => {
                           })}
                         />
                       }
-                      end={<DotsMenu />}
+                      end={<DotsMenu customStatusId={cs.id} />}
+                      onInput={(e) => {
+                        const target = e.target as HTMLInputElement;
+                        const { value } = target;
+
+                        dispatch(
+                          updateCustomStatus(
+                            customStatus.map((c) => {
+                              if (c.id === cs.id) {
+                                return {
+                                  ...c,
+                                  name: value,
+                                };
+                              }
+                              return c;
+                            })
+                          )
+                        );
+                      }}
+                      style={{ textTransform: 'capitalize' }}
                     />
                   </Field>
                 )}
@@ -133,7 +149,7 @@ export const CustomStatusForm = () => {
                     value={cs.name}
                     id={`custom-status-${cs.id}`}
                     start={<Circle color={`#${cs.color}`} />}
-                    end={<DotsMenu />}
+                    end={<DotsMenu customStatusId={cs.id} />}
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement;
                       const { value } = target;
@@ -164,7 +180,7 @@ export const CustomStatusForm = () => {
                     updateCustomStatus([
                       ...customStatus,
                       {
-                        id: customStatus.length + 1,
+                        id: Math.max(...customStatus.map((cs) => cs.id)) + 1, // Set highest id in customStatus + 1
                         name: '',
                         color: appTheme.palette.grey[400],
                         is_default: 0,
@@ -172,6 +188,7 @@ export const CustomStatusForm = () => {
                           id: phase.id,
                           name: phase.name,
                         },
+                        is_new: true,
                       },
                     ])
                   );
