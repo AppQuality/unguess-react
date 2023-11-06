@@ -8,8 +8,6 @@ import {
 import { appTheme } from 'src/app/theme';
 import {
   BugCustomStatus,
-  useDeleteCampaignsByCidCustomStatusesMutation,
-  useGetCampaignsByCidBugsQuery,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
@@ -32,13 +30,16 @@ export const CustomStatusDrawer = () => {
     cid: campaignId?.toString() || '',
   });
   const [patchCustomStatuses] = usePatchCampaignsByCidCustomStatusesMutation();
-  const [deleteCustomStatuses] =
-    useDeleteCampaignsByCidCustomStatusesMutation();
-  const { data: bugs } = useGetCampaignsByCidBugsQuery({
-    cid: campaignId?.toString() || '',
-  });
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [isMigrationModalOpen, setIsMigrationModalOpen] = useState(false);
+  const [deleteCustomStatusState, setDeleteCustomStatusState] = useState<
+    BugCustomStatus[]
+  >([]);
+  const [patchCustomStatusState, setPatchCustomStatusState] = useState<
+    (Omit<BugCustomStatus, 'id'> & {
+      id?: number;
+    })[]
+  >([]);
 
   const onClose = () => {
     if (isCustomStatusDrawerTouched) {
@@ -49,9 +50,7 @@ export const CustomStatusDrawer = () => {
     }
   };
 
-  const onCtaClick = () => {
-    dispatch(setCustomStatusDrawerOpen(false));
-
+  const onCtaClick = async () => {
     // Check all dbCustomStatus ids that are not in the customStatus array
     const deleteCustomStatus =
       dbCustomStatus?.reduce((acc, cs) => {
@@ -61,6 +60,7 @@ export const CustomStatusDrawer = () => {
         }
         return acc;
       }, [] as BugCustomStatus[]) ?? [];
+    setDeleteCustomStatusState(deleteCustomStatus);
 
     // Remove all ids from customStatus objects with is_new = true
     const patchCustomStatus = customStatus.map((cs) => {
@@ -71,45 +71,23 @@ export const CustomStatusDrawer = () => {
       }
       return cs;
     });
+    setPatchCustomStatusState(patchCustomStatus);
 
-    // Check if deleteCustomStatus is used in bugs and create an array of them
-    const deleteCustomStatusUsed =
-      deleteCustomStatus?.filter((cs) =>
-        bugs?.items?.find((b) => b.custom_status.id === cs.id)
-      ) ?? [];
+    // Show migration modal only if there are custom statuses to delete
+    if (deleteCustomStatus.length > 0) {
+      setIsMigrationModalOpen(true);
+      return;
+    }
 
-    // Create an array of customStatus ids that are not used in bugs
-    const deleteCustomStatusUnused =
-      deleteCustomStatus?.filter(
-        (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
-      ) ?? [];
+    // Do API call for PATCH (if necessary) and close drawer
+    if (patchCustomStatus.length > 0) {
+      await patchCustomStatuses({
+        cid: campaignId?.toString() || '',
+        body: patchCustomStatus,
+      });
+    }
 
-    console.log('patchCustomStatus', patchCustomStatus);
-    console.log('deleteCustomStatus', deleteCustomStatus);
-    console.log('deleteCustomStatusUsed', deleteCustomStatusUsed);
-    console.log('deleteCustomStatusUnused', deleteCustomStatusUnused);
-
-    // TODO: Move these API calls to delete modal
-
-    // if (patchCustomStatus.length > 0)
-    //   patchCustomStatuses({
-    //     cid: campaignId?.toString() || '',
-    //     body: patchCustomStatus,
-    //   });
-
-    // if (deleteCustomStatus.length > 0)
-    //   deleteCustomStatuses({
-    //     cid: campaignId?.toString() || '',
-    //     body: [
-    //       ...deleteCustomStatusUnused.map((cs) => ({
-    //         custom_status_id: cs.id,
-    //       })),
-    //       ...deleteCustomStatusUsed.map((cs) => ({
-    //         custom_status_id: cs.id,
-    //         // to_custom_status_id
-    //       })),
-    //     ],
-    //   });
+    dispatch(setCustomStatusDrawerOpen(false));
   };
 
   return (
@@ -148,7 +126,13 @@ export const CustomStatusDrawer = () => {
           setIsConfirmationModalOpen={setIsConfirmationModalOpen}
         />
       )}
-      {isMigrationModalOpen && <MigrationModal />}
+      {isMigrationModalOpen && (
+        <MigrationModal
+          customStatusesToPatch={patchCustomStatusState}
+          customStatusesToDelete={deleteCustomStatusState}
+          setIsMigrationModalOpen={setIsMigrationModalOpen}
+        />
+      )}
     </>
   );
 };
