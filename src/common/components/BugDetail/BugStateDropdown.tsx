@@ -42,7 +42,7 @@ const ManageItem = styled(StyledItem)`
   cursor: pointer;
 `;
 
-const SelectedItem = styled.div`
+export const SelectedItem = styled.div`
   display: flex;
   align-items: center;
   text-transform: capitalize;
@@ -53,7 +53,102 @@ const SelectedItem = styled.div`
   }
 `;
 
-const BugStateDropdown = ({ bug }: { bug: Bug }) => {
+const BugStateDropdownItem = ({
+  customStatus,
+}: {
+  customStatus?: BugCustomStatus;
+}) => {
+  if (!customStatus) return null;
+
+  return (
+    <SelectedItem>
+      <Circle
+        color={`#${customStatus.color}`}
+        {...(customStatus.id === 1 && {
+          style: {
+            border: `2px solid ${appTheme.palette.grey[400]}`,
+          },
+        })}
+      />{' '}
+      {customStatus.name}
+    </SelectedItem>
+  );
+};
+
+const BugStateDropdownMenu = ({
+  customStatusesByPhase,
+  isEditable = false,
+}: {
+  customStatusesByPhase: {
+    id: number;
+    name: string;
+    customStatuses: BugCustomStatus[];
+  }[];
+  isEditable?: boolean;
+}) => {
+  const { t } = useTranslation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const hideManage = width < breakpointSm || !isEditable;
+  const dispatch = useAppDispatch();
+
+  const onManageClick = () => {
+    dispatch(setCustomStatusDrawerOpen(true));
+  };
+
+  return (
+    <Menu zIndex={1}>
+      {customStatusesByPhase &&
+        customStatusesByPhase.map((phase, i) => (
+          <>
+            {phase.customStatuses.map((cs) => (
+              <StyledItem
+                key={cs.name}
+                value={cs}
+                className={`bug-dropdown-custom-status-${cs.name
+                  .toLowerCase()
+                  .replace(/\s+/g, '-')}`}
+              >
+                <Circle
+                  color={`#${cs.color}`}
+                  {...(cs.id === 1 && {
+                    style: {
+                      border: `2px solid ${appTheme.palette.grey[400]}`,
+                    },
+                  })}
+                />{' '}
+                {cs.name}
+              </StyledItem>
+            ))}
+            {i < customStatusesByPhase.length - 1 && <Separator />}
+          </>
+        ))}
+      {!hideManage && (
+        <>
+          <Separator />
+          <ManageItem
+            disabled
+            value={{}}
+            key="manage-custom-status"
+            className="bug-dropdown-custom-status-manage"
+            onClick={onManageClick}
+          >
+            <GearIcon />{' '}
+            {t('__BUGS_PAGE_BUG_DETAIL_CUSTOM_STATUS_DROPDOWN_MANAGE_LABEL')}
+          </ManageItem>
+        </>
+      )}
+    </Menu>
+  );
+};
+
+const BugStateDropdown = ({
+  bug,
+  isEditable = true,
+}: {
+  bug: Bug;
+  isEditable?: boolean;
+}) => {
   const { t } = useTranslation();
   const { custom_status } = bug;
   const [selectedItem, setSelectedItem] = useState<BugCustomStatus>();
@@ -66,10 +161,6 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   } = useGetCampaignsByCidCustomStatusesQuery({
     cid: bug.campaign_id.toString(),
   });
-  const dispatch = useAppDispatch();
-  const { width } = useWindowSize();
-  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
-  const hideManage = width < breakpointSm;
 
   // Split custom statuses by phase into an object with multiple arrays
   const customStatusesByPhase = cpBugStates?.reduce((acc, cs) => {
@@ -98,10 +189,6 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
       return found;
     });
   }, [cpBugStates, custom_status]);
-
-  const onManageClick = () => {
-    dispatch(setCustomStatusDrawerOpen(true));
-  };
 
   if (isError) return null;
 
@@ -148,69 +235,19 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
             ) : (
               <Select isCompact>
                 {selectedItem && (
-                  <SelectedItem>
-                    <Circle
-                      color={`#${selectedItem.color}`}
-                      {...(selectedItem.id === 1 && {
-                        style: {
-                          border: `2px solid ${appTheme.palette.grey[400]}`,
-                        },
-                      })}
-                    />{' '}
-                    {selectedItem.name}
-                  </SelectedItem>
+                  <BugStateDropdownItem customStatus={selectedItem} />
                 )}
               </Select>
             )}
           </Field>
-          <Menu zIndex={1}>
-            {customStatusesByPhase &&
-              customStatusesByPhase.map((phase, i) => (
-                <>
-                  {phase.customStatuses.map((cs) => (
-                    <StyledItem
-                      key={cs.name}
-                      value={cs}
-                      className={`bug-dropdown-custom-status-${cs.name
-                        .toLowerCase()
-                        .replace(/\s+/g, '-')}`}
-                    >
-                      <Circle
-                        color={`#${cs.color}`}
-                        {...(cs.id === 1 && {
-                          style: {
-                            border: `2px solid ${appTheme.palette.grey[400]}`,
-                          },
-                        })}
-                      />{' '}
-                      {cs.name}
-                    </StyledItem>
-                  ))}
-                  {i < customStatusesByPhase.length - 1 && <Separator />}
-                </>
-              ))}
-            {!hideManage && (
-              <>
-                <Separator />
-                <ManageItem
-                  disabled
-                  value={{}}
-                  key="manage-custom-status"
-                  className="bug-dropdown-custom-status-manage"
-                  onClick={onManageClick}
-                >
-                  <GearIcon />{' '}
-                  {t(
-                    '__BUGS_PAGE_BUG_DETAIL_CUSTOM_STATUS_DROPDOWN_MANAGE_LABEL'
-                  )}
-                </ManageItem>
-              </>
-            )}
-          </Menu>
+          <BugStateDropdownMenu
+            isEditable={isEditable}
+            customStatusesByPhase={customStatusesByPhase ?? []}
+          />
         </Dropdown>
       )}
     </div>
   );
 };
 
-export default BugStateDropdown;
+export { BugStateDropdown, BugStateDropdownMenu, BugStateDropdownItem };
