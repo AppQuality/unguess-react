@@ -14,15 +14,20 @@ import {
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
 import { CustomStatusForm } from './CustomStatusForm';
+import { CloseDrawerModal } from '../Modals/ClosingDrawerConfirmationModal';
+import { MigrationModal } from '../Modals/MigrationModal';
 
 export const CustomStatusDrawer = () => {
   const { campaignId } = useParams();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { isCustomStatusDrawerOpen, customStatus } = useAppSelector(
-    (state) => state.bugsPage
-  );
+  const {
+    isCustomStatusDrawerOpen,
+    isCustomStatusDrawerTouched,
+    customStatus,
+  } = useAppSelector((state) => state.bugsPage);
   const { data: dbCustomStatus } = useGetCampaignsByCidCustomStatusesQuery({
     cid: campaignId?.toString() || '',
   });
@@ -32,10 +37,16 @@ export const CustomStatusDrawer = () => {
   const { data: bugs } = useGetCampaignsByCidBugsQuery({
     cid: campaignId?.toString() || '',
   });
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isMigrationModalOpen, setIsMigrationModalOpen] = useState(false);
 
   const onClose = () => {
-    dispatch(setCustomStatusDrawerOpen(false));
-    dispatch(resetCustomStatus());
+    if (isCustomStatusDrawerTouched) {
+      setIsConfirmationModalOpen(true);
+    } else {
+      dispatch(setCustomStatusDrawerOpen(false));
+      dispatch(resetCustomStatus());
+    }
   };
 
   const onCtaClick = () => {
@@ -102,34 +113,42 @@ export const CustomStatusDrawer = () => {
   };
 
   return (
-    <Drawer isOpen={isCustomStatusDrawerOpen} onClose={onClose}>
-      <Drawer.Header>
-        {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE')}
-      </Drawer.Header>
-      <Drawer.Body>
-        <MD style={{ marginBottom: appTheme.space.lg }}>
-          {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_BODY_DESCRIPTION')}
-        </MD>
-        <CustomStatusForm />
-      </Drawer.Body>
-      <Drawer.Footer>
-        <Drawer.FooterItem>
-          <Button id="custom-status-drawer-reset" onClick={onClose} isBasic>
-            {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_RESET_BUTTON')}
-          </Button>
-        </Drawer.FooterItem>
-        <Drawer.FooterItem>
-          <Button
-            id="custom-status-drawer-confirm"
-            isPrimary
-            isAccent
-            onClick={onCtaClick}
-          >
-            {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON')}
-          </Button>
-        </Drawer.FooterItem>
-      </Drawer.Footer>
-      <Drawer.Close id="custom-status-drawer-close" onClick={onClose} />
-    </Drawer>
+    <>
+      <Drawer isOpen={isCustomStatusDrawerOpen} onClose={onClose}>
+        <Drawer.Header>
+          {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE')}
+        </Drawer.Header>
+        <Drawer.Body>
+          <MD style={{ marginBottom: appTheme.space.lg }}>
+            {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_BODY_DESCRIPTION')}
+          </MD>
+          <CustomStatusForm />
+        </Drawer.Body>
+        <Drawer.Footer>
+          <Drawer.FooterItem>
+            <Button id="custom-status-drawer-reset" onClick={onClose} isBasic>
+              {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_RESET_BUTTON')}
+            </Button>
+          </Drawer.FooterItem>
+          <Drawer.FooterItem>
+            <Button
+              id="custom-status-drawer-confirm"
+              isPrimary
+              isAccent
+              onClick={onCtaClick}
+            >
+              {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON')}
+            </Button>
+          </Drawer.FooterItem>
+        </Drawer.Footer>
+        <Drawer.Close id="custom-status-drawer-close" onClick={onClose} />
+      </Drawer>
+      {isCustomStatusDrawerTouched && isConfirmationModalOpen && (
+        <CloseDrawerModal
+          setIsConfirmationModalOpen={setIsConfirmationModalOpen}
+        />
+      )}
+      {isMigrationModalOpen && <MigrationModal />}
+    </>
   );
 };
