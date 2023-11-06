@@ -1,18 +1,16 @@
-import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
+import { ContainerCard } from '@appquality/unguess-design-system';
+import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
+import BugAttachments from 'src/common/components/BugDetail/Attachments';
+import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
+import BugStateDropdown from 'src/common/components/BugDetail/BugStateDropdown';
+import BugDescription from 'src/common/components/BugDetail/Description';
+import BugDetails from 'src/common/components/BugDetail/Details';
 import BugMeta from 'src/common/components/BugDetail/Meta';
 import BugPriority from 'src/common/components/BugDetail/Priority';
-import BugDescription from 'src/common/components/BugDetail/Description';
-import BugAttachments from 'src/common/components/BugDetail/Attachments';
-import BugDetails from 'src/common/components/BugDetail/Details';
-import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
-import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
-import BugStateDropdown from 'src/common/components/BugDetail/BugStateDropdown';
-import { ContainerCard } from '@appquality/unguess-design-system';
+import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import styled from 'styled-components';
-import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from '../Bugs/Content/context/BugPreviewContext';
-import { CloseDrawerModal } from './Modals/ClosingDrawerConfirmationModal';
-import { MigrationModal } from './Modals/MigrationModal';
+import BugHeader from './components/BugHeader';
 
 interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;

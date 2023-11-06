@@ -1,21 +1,20 @@
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
-import { Grid, Row, Col } from '@appquality/unguess-design-system';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
+import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
+import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
-import { setWorkspace } from 'src/features/navigation/navigationSlice';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import useWindowSize from 'src/hooks/useWindowSize';
-import { appTheme } from 'src/app/theme';
-import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
-import { Header } from './Header';
 import { Content } from './Content';
-import { LoadingSkeleton } from './LoadingSkeleton';
 import { CustomStatusDrawer } from './Drawer';
-import { CloseDrawerModal } from './Modals/ClosingDrawerConfirmationModal';
+import { Header } from './Header';
+import { LoadingSkeleton } from './LoadingSkeleton';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
