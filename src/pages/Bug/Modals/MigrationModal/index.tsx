@@ -22,7 +22,7 @@ import {
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import {
   BugStateDropdownItem,
@@ -100,12 +100,16 @@ export const MigrationModal = ({
       (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
     ) ?? [];
 
-  const [selectedItems, setSelectedItems] = useState<MigrationItem[]>(
-    deleteCustomStatusUsed.map((cs) => ({
-      custom_status_id: cs.id,
-      to_custom_status_id: 1,
-    }))
-  );
+  const [selectedItems, setSelectedItems] = useState<MigrationItem[]>([]);
+
+  useEffect(() => {
+    setSelectedItems(
+      deleteCustomStatusUsed.map((cs) => ({
+        custom_status_id: cs.id,
+        to_custom_status_id: 1,
+      }))
+    );
+  }, []);
 
   const onQuit = () => {
     setIsMigrationModalOpen(false);
