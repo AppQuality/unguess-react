@@ -11,7 +11,6 @@ import {
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
 import {
-  Bug,
   BugCustomStatus,
   useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidCustomStatusesQuery,
@@ -26,7 +25,6 @@ import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { Circle } from 'src/pages/Bug/Drawer/Circle';
 import { useParams } from 'react-router-dom';
-import { ref } from 'yup';
 
 const StyledItem = styled(Item)`
   display: flex;
