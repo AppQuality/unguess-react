@@ -2,7 +2,7 @@ import { ContainerCard } from '@appquality/unguess-design-system';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
-import BugStateDropdown from 'src/common/components/BugDetail/BugStateDropdown';
+import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
 import BugDescription from 'src/common/components/BugDetail/Description';
 import BugDetails from 'src/common/components/BugDetail/Details';
 import BugMeta from 'src/common/components/BugDetail/Meta';
