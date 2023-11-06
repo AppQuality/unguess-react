@@ -68,31 +68,26 @@ export const ColorPicker = () => {
   //   const [colIndex, setColIndex] = useState(SELECTED_COL_INDEX);
   //   const [selectedRowIndex, setSelectedRowIndex] = useState(SELECTED_ROW_INDEX);
   //   const [selectedColIndex, setSelectedColIndex] = useState(SELECTED_COL_INDEX);
-
   //   const onChange = (rowIdx: number, colIdx: number) => {
   //     setRowIndex(rowIdx);
   //     setColIndex(colIdx);
   //   };
-
   //   const onSelect = (rowIdx: number, colIdx: number) => {
   //     setSelectedRowIndex(rowIdx);
   //     setSelectedColIndex(colIdx);
   //     setColor(matrix[rowIdx][colIdx].value);
   //   };
-  console.log('ColorPicker');
-
-  return (
-    <p>ColorPicker</p>
-    //     <ColorSwatchDialog
-    //       colors={matrix}
-    //       onChange={onChange}
-    //       onSelect={onSelect}
-    //       rowIndex={rowIndex}
-    //       colIndex={colIndex}
-    //       selectedRowIndex={selectedRowIndex}
-    //       selectedColIndex={selectedColIndex}
-    //     >
-    //       <PaletteIconButton iconColor={color} />
-    //     </ColorSwatchDialog>
-  );
+  // return (
+  //     <ColorSwatchDialog
+  //       colors={matrix}
+  //       onChange={onChange}
+  //       onSelect={onSelect}
+  //       rowIndex={rowIndex}
+  //       colIndex={colIndex}
+  //       selectedRowIndex={selectedRowIndex}
+  //       selectedColIndex={selectedColIndex}
+  //     >
+  //       <PaletteIconButton iconColor={color} />
+  //     </ColorSwatchDialog>
+  // );
 };

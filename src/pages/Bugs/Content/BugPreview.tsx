@@ -101,7 +101,7 @@ export const BugPreview = ({
           <BugMeta bug={bug} />
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
           <GridWrapper>
-            <BugStateDropdown bug={bug} />
+            <BugStateDropdown />
             <BugPriority bug={bug} />
           </GridWrapper>
           <BugDescription bug={bug} />

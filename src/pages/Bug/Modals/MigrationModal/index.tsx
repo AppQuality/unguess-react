@@ -22,7 +22,7 @@ import {
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import {
   BugStateDropdownItem,

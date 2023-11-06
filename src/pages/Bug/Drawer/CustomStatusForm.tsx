@@ -4,13 +4,11 @@ import {
   Paragraph,
   Button,
 } from '@appquality/unguess-design-system';
-import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useGetCampaignsByCidCustomStatusesQuery } from 'src/features/api';
 import styled from 'styled-components';
-import * as Yup from 'yup';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
 import { Field } from '@zendeskgarden/react-forms';
 import {
