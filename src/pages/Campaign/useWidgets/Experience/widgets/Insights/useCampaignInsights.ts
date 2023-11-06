@@ -1,4 +1,5 @@
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
+import { data } from './fakeData';
 
 export const useCampaignInsights = ({
   campaignId,
@@ -7,10 +8,14 @@ export const useCampaignInsights = ({
   campaignId: string;
   isPreview?: boolean;
 }) => {
-  const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
-    cid: campaignId,
-    ...(!isPreview && { showAsCustomer: true }),
-  });
+  // const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
+  //   cid: campaignId,
+  //   ...(!isPreview && { showAsCustomer: true }),
+  // });
+
+  const isLoading = false;
+  const isError = false;
+  const isFetching = false;
 
   if (isLoading || isFetching) {
     return {

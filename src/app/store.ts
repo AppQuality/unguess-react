@@ -8,6 +8,7 @@ import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
 import expressReducer from '../features/express/expressSlice';
 import { strapiSlice } from '../features/backoffice/strapi';
 import bugsPageReducer from '../features/bugsPage/bugsPageSlice';
+import uxFilterReducer from '../features/uxFiltersFake/campaignsFilterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     filters: filterReducer,
     express: expressReducer,
     bugsPage: bugsPageReducer,
+    uxFilters: uxFilterReducer,
     [unguessApiSlice.reducerPath]: unguessApiSlice.reducer,
     [strapiSlice.reducerPath]: strapiSlice.reducer,
   },
