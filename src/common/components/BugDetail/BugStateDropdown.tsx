@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import {
   Bug,
   BugCustomStatus,
+  useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
@@ -24,6 +25,8 @@ import { useAppDispatch } from 'src/app/hooks';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { Circle } from 'src/pages/Bug/Drawer/Circle';
+import { useParams } from 'react-router-dom';
+import { ref } from 'yup';
 
 const StyledItem = styled(Item)`
   display: flex;
@@ -142,28 +145,31 @@ const BugStateDropdownMenu = ({
   );
 };
 
-const BugStateDropdown = ({
-  bug,
-  isEditable = true,
-}: {
-  bug: Bug;
-  isEditable?: boolean;
-}) => {
+const BugStateDropdown = () => {
   const { t } = useTranslation();
-  const { custom_status } = bug;
+  const { campaignId, bugId } = useParams();
   const [selectedItem, setSelectedItem] = useState<BugCustomStatus>();
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const {
-    data: cpBugStates,
-    isLoading,
-    isFetching,
-    isError,
+    data: cpCustomStatus,
+    isLoading: isLoadingCustomStatus,
+    isFetching: isFetchingCustomStatus,
+    isError: isErrorCustomStatus,
   } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: bug.campaign_id.toString(),
+    cid: campaignId ? campaignId.toString() : '',
+  });
+  const {
+    data: bug,
+    isLoading: isLoadingBug,
+    isFetching: isFetchingBug,
+    isError: isErrorBug,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId ? campaignId.toString() : '',
+    bid: bugId ? bugId.toString() : '',
   });
 
   // Split custom statuses by phase into an object with multiple arrays
-  const customStatusesByPhase = cpBugStates?.reduce((acc, cs) => {
+  const customStatusesByPhase = cpCustomStatus?.reduce((acc, cs) => {
     const phase = acc.find((p) => p.id === cs.phase.id);
     if (phase) {
       phase.customStatuses.push(cs);
@@ -175,29 +181,37 @@ const BugStateDropdown = ({
       });
     }
     return acc;
-  }, [] as { id: number; name: string; customStatuses: typeof cpBugStates }[]);
+  }, [] as { id: number; name: string; customStatuses: typeof cpCustomStatus }[]);
 
   // Check selected custom status
   useEffect(() => {
+    if (!bug) return;
+
     customStatusesByPhase?.find((phase) => {
       const found = phase.customStatuses.find(
-        (cs) => cs.id === custom_status.id
+        (cs) => cs.id === bug.custom_status.id
       );
       if (found) {
         setSelectedItem(found);
       }
       return found;
     });
-  }, [cpBugStates, custom_status]);
+  }, [bug, cpCustomStatus]);
 
-  if (isError) return null;
+  if (
+    isErrorBug ||
+    isErrorCustomStatus ||
+    isLoadingBug ||
+    isLoadingCustomStatus
+  )
+    return null;
 
   return (
     <div>
       <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_STATE_LABEL')}
       </MD>
-      {isLoading || isFetching ? (
+      {isFetchingBug || isFetchingCustomStatus ? (
         <Skeleton
           height="30px"
           style={{ borderRadius: appTheme.borderRadii.md }}
@@ -207,8 +221,8 @@ const BugStateDropdown = ({
           selectedItem={selectedItem}
           onSelect={async (item: BugCustomStatus) => {
             await patchBug({
-              cid: bug.campaign_id.toString(),
-              bid: bug.id.toString(),
+              cid: campaignId ? campaignId.toString() : '',
+              bid: bugId ? bugId.toString() : '',
               body: {
                 custom_status_id: item.id,
               },
@@ -220,7 +234,7 @@ const BugStateDropdown = ({
           }}
         >
           <Field className="bug-dropdown-custom-status">
-            {bug.status.id === 4 ? (
+            {bug && bug.status.id === 4 ? (
               <Tooltip
                 appendToNode={document.body}
                 type="light"
@@ -241,7 +255,7 @@ const BugStateDropdown = ({
             )}
           </Field>
           <BugStateDropdownMenu
-            isEditable={isEditable}
+            isEditable
             customStatusesByPhase={customStatusesByPhase ?? []}
           />
         </Dropdown>
