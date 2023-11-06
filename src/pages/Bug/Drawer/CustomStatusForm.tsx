@@ -18,7 +18,7 @@ import {
   updateCustomStatus,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
 import { DotsMenu } from './DotsMenu';
@@ -45,6 +45,19 @@ export const CustomStatusForm = () => {
   });
   const dispatch = useAppDispatch();
   const { customStatus } = useAppSelector((state) => state.bugsPage);
+  const [maxId, setMaxId] = useState(0);
+
+  useEffect(() => {
+    if (!customStatus) return;
+
+    // Set as maxId the highest id in customStatus
+    setMaxId(
+      customStatus.reduce((acc, cs) => {
+        if (cs.id > acc) return cs.id;
+        return acc;
+      }, 0)
+    );
+  }, [customStatus]);
 
   // Split custom statuses by phase into an object with multiple arrays
   const customStatusesByPhase = customStatuses?.reduce((acc, cs) => {
@@ -189,7 +202,7 @@ export const CustomStatusForm = () => {
                       updateCustomStatus([
                         ...customStatus,
                         {
-                          id: Math.max(...customStatus.map((cs) => cs.id)) + 1, // Set highest id in customStatus + 1
+                          id: maxId + 1, // Set highest id in customStatus + 1
                           name: '',
                           color: appTheme.palette.grey[400],
                           is_default: 0,
