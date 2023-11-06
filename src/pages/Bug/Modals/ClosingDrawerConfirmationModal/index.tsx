@@ -1,14 +1,30 @@
 import { Button, Modal, ModalClose } from '@appquality/unguess-design-system';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
+import {
+  resetCustomStatus,
+  setCustomStatusDrawerOpen,
+} from 'src/features/bugsPage/bugsPageSlice';
 
-export const CloseDrawerModal = () => {
+export const CloseDrawerModal = ({
+  setIsConfirmationModalOpen,
+}: {
+  setIsConfirmationModalOpen: (isOpen: boolean) => void;
+}) => {
   const { t } = useTranslation();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const dispatch = useAppDispatch();
+
+  const onQuit = () => {
+    dispatch(setCustomStatusDrawerOpen(false));
+    dispatch(resetCustomStatus());
+  };
+
+  const onContinue = () => {
+    setIsConfirmationModalOpen(false);
+  };
 
   return (
-    <Modal>
+    <Modal onClose={onContinue}>
       <Modal.Header isDanger>
         {t('__BUGS_PAGE_CUSTOM_STATUS_CLOSE_DRAWER_MODAL_HEADER_TITLE')}
       </Modal.Header>
@@ -21,14 +37,20 @@ export const CloseDrawerModal = () => {
           id="custom-status-close-drawer-quit"
           isDanger
           isLink
+          onClick={onQuit}
         >
           {t('__BUGS_PAGE_CUSTOM_STATUS_CLOSE_DRAWER_MODAL_QUIT_BUTTON')}
         </Button>
-        <Button id="custom-status-close-drawer-continue" isPrimary isAccent>
+        <Button
+          id="custom-status-close-drawer-continue"
+          isPrimary
+          isAccent
+          onClick={onContinue}
+        >
           {t('__BUGS_PAGE_CUSTOM_STATUS_CLOSE_DRAWER_MODAL_CONTINUE_BUTTON')}
         </Button>
       </Modal.Footer>
-      <ModalClose onClick={() => setIsModalOpen(false)} />
+      <ModalClose onClick={onContinue} />
     </Modal>
   );
 };
