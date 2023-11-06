@@ -57,7 +57,8 @@ interface initialSimpleState {
       id: number;
       name: string;
     };
-    is_default: boolean;
+    is_default: number;
+    is_new?: boolean;
   }>;
 }
 
