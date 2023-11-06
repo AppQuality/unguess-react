@@ -49,6 +49,7 @@ interface initialSimpleState {
   isFilterDrawerOpen: boolean;
   isNaBugExcluded: boolean;
   isCustomStatusDrawerOpen: boolean;
+  isCustomStatusDrawerTouched: boolean;
   customStatus: Array<{
     id: number;
     name: string;
@@ -70,6 +71,7 @@ const initialStateSimple: initialSimpleState = {
   isFilterDrawerOpen: false,
   isNaBugExcluded: false,
   isCustomStatusDrawerOpen: false,
+  isCustomStatusDrawerTouched: false,
   customStatus: [],
 };
 
@@ -215,6 +217,9 @@ const bugPageSlice = createSlice({
     setCustomStatusDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isCustomStatusDrawerOpen = action.payload;
     },
+    setCustomStatusDrawerTouched: (state, action: PayloadAction<boolean>) => {
+      state.isCustomStatusDrawerTouched = action.payload;
+    },
     updateCustomStatus: (state, action) => {
       state.customStatus = action.payload;
     },
@@ -297,6 +302,7 @@ export const {
   setFilterDrawerOpen,
   setIsNaBugExcluded,
   setCustomStatusDrawerOpen,
+  setCustomStatusDrawerTouched,
   updateCustomStatus,
   resetCustomStatus,
 } = bugPageSlice.actions;
