@@ -100,16 +100,12 @@ export const MigrationModal = ({
       (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
     ) ?? [];
 
-  const [selectedItems, setSelectedItems] = useState<MigrationItem[]>([]);
-
-  useEffect(() => {
-    setSelectedItems(
-      deleteCustomStatusUsed.map((cs) => ({
-        custom_status_id: cs.id,
-        to_custom_status_id: 1,
-      }))
-    );
-  }, []);
+  const [selectedItems, setSelectedItems] = useState<MigrationItem[]>(
+    deleteCustomStatusUsed.map((cs) => ({
+      custom_status_id: cs.id,
+      to_custom_status_id: 1,
+    }))
+  );
 
   const onQuit = () => {
     setIsMigrationModalOpen(false);
@@ -138,6 +134,8 @@ export const MigrationModal = ({
     setIsMigrationModalOpen(false);
     dispatch(setCustomStatusDrawerOpen(false));
   };
+
+  if (!cpCustomStatuses || !bugs) return null;
 
   return (
     <Modal onClose={onQuit}>
