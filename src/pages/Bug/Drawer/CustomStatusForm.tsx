@@ -13,7 +13,10 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
 import { Field } from '@zendeskgarden/react-forms';
-import { updateCustomStatus } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  setCustomStatusDrawerTouched,
+  updateCustomStatus,
+} from 'src/features/bugsPage/bugsPageSlice';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useEffect } from 'react';
 import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
@@ -129,6 +132,8 @@ export const CustomStatusForm = () => {
                             })
                           )
                         );
+
+                        dispatch(setCustomStatusDrawerTouched(true));
                       }}
                       style={{ textTransform: 'capitalize' }}
                     />
@@ -167,6 +172,8 @@ export const CustomStatusForm = () => {
                           })
                         )
                       );
+
+                      dispatch(setCustomStatusDrawerTouched(true));
                     }}
                   />
                 </Field>
@@ -192,6 +199,8 @@ export const CustomStatusForm = () => {
                       },
                     ])
                   );
+
+                  dispatch(setCustomStatusDrawerTouched(true));
                 }}
               >
                 <AddIcon style={{ marginRight: appTheme.space.xs }} />
