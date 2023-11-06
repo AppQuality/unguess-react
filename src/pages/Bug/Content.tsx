@@ -11,6 +11,8 @@ import { ContainerCard } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from '../Bugs/Content/context/BugPreviewContext';
+import { CloseDrawerModal } from './Modals/ClosingDrawerConfirmationModal';
+import { MigrationModal } from './Modals/MigrationModal';
 
 interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;

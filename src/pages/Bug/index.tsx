@@ -15,6 +15,7 @@ import { Header } from './Header';
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { CustomStatusDrawer } from './Drawer';
+import { CloseDrawerModal } from './Modals/ClosingDrawerConfirmationModal';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();

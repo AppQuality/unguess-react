@@ -44,11 +44,6 @@ const ManageItem = styled(StyledItem)`
 const SelectedItem = styled.div`
   display: flex;
   align-items: center;
-
-  > svg {
-    margin-right: ${({ theme }) => theme.space.xs};
-    margin-left: 1px; // fix icon alignment
-  }
 `;
 
 type DropdownItem = {
