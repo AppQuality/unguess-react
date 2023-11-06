@@ -19,6 +19,7 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useEffect } from 'react';
+import { Divider } from 'src/common/components/divider';
 import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
 import { DotsMenu } from './DotsMenu';
 import { Circle } from './Circle';
@@ -179,35 +180,38 @@ export const CustomStatusForm = () => {
                 </Field>
               ))}
             {phase.id === 1 && (
-              <Button
-                isBasic
-                style={{ marginBottom: appTheme.space.md }}
-                onClick={() => {
-                  dispatch(
-                    updateCustomStatus([
-                      ...customStatus,
-                      {
-                        id: Math.max(...customStatus.map((cs) => cs.id)) + 1, // Set highest id in customStatus + 1
-                        name: '',
-                        color: appTheme.palette.grey[400],
-                        is_default: 0,
-                        phase: {
-                          id: phase.id,
-                          name: phase.name,
+              <>
+                <Button
+                  isBasic
+                  style={{ marginTop: appTheme.space.xs }}
+                  onClick={() => {
+                    dispatch(
+                      updateCustomStatus([
+                        ...customStatus,
+                        {
+                          id: Math.max(...customStatus.map((cs) => cs.id)) + 1, // Set highest id in customStatus + 1
+                          name: '',
+                          color: appTheme.palette.grey[400],
+                          is_default: 0,
+                          phase: {
+                            id: phase.id,
+                            name: phase.name,
+                          },
+                          is_new: true,
                         },
-                        is_new: true,
-                      },
-                    ])
-                  );
+                      ])
+                    );
 
-                  dispatch(setCustomStatusDrawerTouched(true));
-                }}
-              >
-                <AddIcon style={{ marginRight: appTheme.space.xs }} />
-                {t(
-                  '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CREATE_CUSTOM_STATUS_BUTTON'
-                )}
-              </Button>
+                    dispatch(setCustomStatusDrawerTouched(true));
+                  }}
+                >
+                  <AddIcon style={{ marginRight: appTheme.space.xs }} />
+                  {t(
+                    '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CREATE_CUSTOM_STATUS_BUTTON'
+                  )}
+                </Button>
+                <Divider style={{ margin: `${appTheme.space.md} 0` }} />
+              </>
             )}
           </>
         ))}
