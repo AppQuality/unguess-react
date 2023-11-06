@@ -146,14 +146,11 @@ export const MigrationModal = ({
             <Trans i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS">
               You are about to delete more than one status. Currently{' '}
               <Span isBold>
-                {{ custom_statuses_num: deleteCustomStatusUnused.length }} bugs
-                (
                 {{
                   custom_statuses: deleteCustomStatusUnused
                     .map((cs) => cs.name)
                     .join(', '),
                 }}
-                )
               </Span>{' '}
               are not associated with any bugs.
             </Trans>
