@@ -223,9 +223,10 @@ export const MigrationModal = ({
                         }}
                         onSelect={(item: BugCustomStatus) => {
                           setSelectedItems((prev) => {
-                            const index = prev.findIndex(
+                            let index = prev.findIndex(
                               (i) => i.custom_status_id === cs.id
                             );
+                            if (index < 0) index = 0;
                             prev[`${index}`] = {
                               custom_status_id: cs.id,
                               to_custom_status_id: item.id,
