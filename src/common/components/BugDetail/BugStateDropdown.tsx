@@ -98,7 +98,7 @@ const BugStateDropdownMenu = ({
   };
 
   return (
-    <Menu zIndex={1}>
+    <Menu zIndex={1} style={{ maxHeight: '200px' }}>
       {customStatusesByPhase &&
         customStatusesByPhase.map((phase, i) => (
           <>
