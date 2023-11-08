@@ -237,3 +237,29 @@ export const data = {
     },
   ],
 };
+
+/**
+ * Clusters from API
+ */
+export const clusters = [
+  {
+    id: 1121,
+    name: 'UC1 - Personalizzazione maglia',
+  },
+  {
+    id: 1122,
+    name: 'UC2 - Acquisto da ospite',
+  },
+  {
+    id: 1123,
+    name: 'UC3 - Guida taglie',
+  },
+  {
+    id: 1124,
+    name: 'UC4 - Maglia giocatore',
+  },
+  {
+    id: 1125,
+    name: 'UC5 - Ricerca regalo',
+  },
+];

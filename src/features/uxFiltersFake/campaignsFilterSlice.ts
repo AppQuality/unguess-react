@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export interface FilterState {
-  severity: string;
-  usecase: string;
+  severity: { id: number; name: string }[];
+  usecase: { id: number; name: string }[];
 }
 
 const initialState: FilterState = {
-  severity: 'all',
-  usecase: 'all',
+  severity: [],
+  usecase: [],
 };
 
 const filtersSlice = createSlice({

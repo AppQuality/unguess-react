@@ -1,4 +1,5 @@
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
+import { useAppSelector } from 'src/app/hooks';
 import { data } from './fakeData';
 
 export const useCampaignInsights = ({
@@ -12,6 +13,9 @@ export const useCampaignInsights = ({
   //   cid: campaignId,
   //   ...(!isPreview && { showAsCustomer: true }),
   // });
+
+  const { severity: selectedSeverity, usecase: selectedUseCase } =
+    useAppSelector((state) => state.uxFilters);
 
   const isLoading = false;
   const isError = false;
@@ -37,8 +41,24 @@ export const useCampaignInsights = ({
     };
   }
 
+  // Filter by severity
+  let filteredFindings = selectedSeverity.length
+    ? data.findings.filter((finding) =>
+        selectedSeverity.some((i) => i.id === finding.severity.id)
+      )
+    : data.findings;
+
+  // Filter by usecase
+  filteredFindings = selectedUseCase.length
+    ? filteredFindings.filter((finding) =>
+        selectedUseCase.some((i) =>
+          finding.cluster.some((cluster) => i.id === cluster.id)
+        )
+      )
+    : filteredFindings;
+
   return {
-    data,
+    data: { ...data, findings: filteredFindings },
     isLoading: false,
     isError: false,
   };

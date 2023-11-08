@@ -25,6 +25,7 @@ import { InsightLightbox } from './Lightbox';
 import { Navigation, navigationOffset } from './Navigation';
 import { useCampaignInsights } from './useCampaignInsights';
 import { InsightComment } from './Comments';
+import { Filters } from './filters';
 
 const hideOnMobile = css`
   @media (max-width: ${appTheme.breakpoints.lg}) {
@@ -140,7 +141,10 @@ export const Insights = ({
               title={t('__CAMPAIGN_PAGE_INSIGHTS_SECTION_TITLE')}
               subtitle={t('__CAMPAIGN_PAGE_INSIGHTS_SECTION_SUBTITLE')}
             />
-            <Divider style={{ margin: `${appTheme.space.md} 0` }} />
+          </Col>
+          <Col xs={12}>
+            <Filters />
+            {/* <Divider style={{ margin: `${appTheme.space.md} 0` }} /> */}
           </Col>
         </Row>
       </Grid>
