@@ -36,9 +36,7 @@ export const CustomStatusDrawer = () => {
     BugCustomStatus[]
   >([]);
   const [patchCustomStatusState, setPatchCustomStatusState] = useState<
-    (Omit<BugCustomStatus, 'id'> & {
-      id?: number;
-    })[]
+    BugCustomStatus[]
   >([]);
 
   const onClose = () => {
@@ -63,15 +61,7 @@ export const CustomStatusDrawer = () => {
     setDeleteCustomStatusState(deleteCustomStatus);
 
     // Remove all ids from customStatus objects with is_new = true
-    const patchCustomStatus = customStatus.map((cs) => {
-      if (cs.is_new) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, ...rest } = cs;
-        return rest;
-      }
-      return cs;
-    });
-    setPatchCustomStatusState(patchCustomStatus);
+    setPatchCustomStatusState(customStatus);
 
     // Show migration modal only if there are custom statuses to delete
     if (deleteCustomStatus.length > 0) {
@@ -80,10 +70,14 @@ export const CustomStatusDrawer = () => {
     }
 
     // Do API call for PATCH (if necessary) and close drawer
-    if (patchCustomStatus.length > 0) {
+    if (customStatus.length > 0) {
       await patchCustomStatuses({
         cid: campaignId?.toString() || '',
-        body: patchCustomStatus,
+        body: customStatus.map((cs) => ({
+          ...(!cs.is_new && { custom_status_id: cs.id }),
+          name: cs.name,
+          color: cs.color,
+        })),
       });
     }
 

@@ -54,8 +54,8 @@ export const MigrationModal = ({
   customStatusesToDelete = [],
   setIsMigrationModalOpen,
 }: {
-  customStatusesToPatch: (Omit<BugCustomStatus, 'id'> & {
-    id?: number;
+  customStatusesToPatch: (BugCustomStatus & {
+    is_new?: boolean;
   })[];
   customStatusesToDelete: BugCustomStatus[];
   setIsMigrationModalOpen: (isOpen: boolean) => void;
@@ -115,7 +115,11 @@ export const MigrationModal = ({
     if (customStatusesToPatch.length > 0) {
       await patchCustomStatuses({
         cid: campaignId?.toString() || '',
-        body: customStatusesToPatch,
+        body: customStatusesToPatch.map((cs) => ({
+          ...(!cs.is_new && { custom_status_id: cs.id }),
+          name: cs.name,
+          color: cs.color,
+        })),
       });
     }
 
