@@ -22,7 +22,7 @@ interface ColorPickerProps {
 export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
   ({ onSelect }, ref) => (
     <div style={{ zIndex: 2 }}>
-      <ColorSwatch colors={colorsArray} onSelect={onSelect}>
+      <ColorSwatch colors={colorsArray} onSelect={onSelect} disableTooltip>
         <div ref={ref} />
       </ColorSwatch>
     </div>

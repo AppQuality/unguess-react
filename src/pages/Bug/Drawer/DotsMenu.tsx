@@ -16,7 +16,7 @@ import {
   updateCustomStatus,
 } from 'src/features/bugsPage/bugsPageSlice';
 import { Field } from '@zendeskgarden/react-dropdowns';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { ColorPicker } from './ColorPicker';
 import { Circle } from './Circle';
 
@@ -49,25 +49,15 @@ export const DotsMenu = ({ customStatusId }: { customStatusId: number }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { customStatus } = useAppSelector((state) => state.bugsPage);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const colorPickerRef = useRef<HTMLDivElement>(null);
 
   return (
     <>
-      <DropdownWrapper
-        onClick={() => {
-          setIsDropdownOpen(!isDropdownOpen);
-        }}
-      >
-        <StyledDropdown isOpen={isDropdownOpen}>
+      <DropdownWrapper>
+        <StyledDropdown>
           <Field>
             <Select isBare>
-              <DotsButton
-                onClick={(e) => {
-                  setIsDropdownOpen(true);
-                  e.stopPropagation();
-                }}
-              />
+              <DotsButton />
             </Select>
           </Field>
           <StyledMenu zIndex={1}>
@@ -97,7 +87,6 @@ export const DotsMenu = ({ customStatusId }: { customStatusId: number }) => {
                   )
                 );
                 dispatch(setCustomStatusDrawerTouched(true));
-                setIsDropdownOpen(false);
               }}
               style={{ color: appTheme.palette.red[500] }}
             >
