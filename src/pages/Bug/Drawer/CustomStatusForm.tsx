@@ -165,7 +165,7 @@ export const CustomStatusForm = () => {
                     name="customStatus"
                     value={cs.name}
                     id={`custom-status-${cs.id}`}
-                    start={<Circle color={`#${cs.color}`} />}
+                    start={<Circle color={`${cs.color}`} />}
                     end={<DotsMenu customStatusId={cs.id} />}
                     onInput={(e) => {
                       const target = e.target as HTMLInputElement;
