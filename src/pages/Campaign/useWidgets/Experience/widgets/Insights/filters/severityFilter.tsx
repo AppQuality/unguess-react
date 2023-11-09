@@ -23,6 +23,7 @@ export const SeverityFilter = () => {
 
   const { data, isLoading, isError } = useCampaignInsights({
     campaignId: '6149',
+    filterBy: 'usecase',
   });
   const available = data.findings.map((item) => item.severity);
 
@@ -53,7 +54,9 @@ export const SeverityFilter = () => {
           style: {
             color: getSeverityInfo(getSeverity(item) as Severities, t).color,
           },
-          disabled: !available.some((i) => i.id === item.id),
+          disabled:
+            !selectedSeverity.some((i) => i.id === item.id) &&
+            !available.some((i) => i.id === item.id),
           selected: selectedSeverity.some((i) => i.id === item.id),
         }))}
       />

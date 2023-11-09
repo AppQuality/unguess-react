@@ -18,12 +18,11 @@ export const UseCaseFilter = () => {
 
   const { data, isLoading, isError } = useCampaignInsights({
     campaignId: '6149',
+    filterBy: 'severity',
   });
   // reduce clusters into an array of clusters
 
   const available = data.findings.map((item) => item.cluster).flat(1);
-  console.log('findings', data.findings);
-  console.log('available', available);
 
   return (
     <div style={{ maxWidth: '170px' }} className="dropdown-severities">
