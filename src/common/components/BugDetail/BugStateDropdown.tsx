@@ -26,6 +26,12 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import { Circle } from 'src/pages/Bug/Drawer/Circle';
 import { useParams } from 'react-router-dom';
 
+const StyledMenu = styled(Menu)`
+  &::-webkit-scrollbar {
+    display: block;
+  }
+`;
+
 const StyledItem = styled(Item)`
   display: flex;
   align-items: center;
@@ -98,7 +104,7 @@ const BugStateDropdownMenu = ({
   };
 
   return (
-    <Menu zIndex={1} style={{ maxHeight: '200px' }}>
+    <StyledMenu zIndex={1} style={{ maxHeight: '200px' }}>
       {customStatusesByPhase &&
         customStatusesByPhase.map((phase, i) => (
           <>
@@ -139,7 +145,7 @@ const BugStateDropdownMenu = ({
           </ManageItem>
         </>
       )}
-    </Menu>
+    </StyledMenu>
   );
 };
 
