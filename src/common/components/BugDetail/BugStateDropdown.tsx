@@ -154,10 +154,17 @@ const BugStateDropdownMenu = ({
 
 const BugStateDropdown = () => {
   const { t } = useTranslation();
-  const { campaignId } = useParams();
+  const { campaignId, bugId } = useParams();
   const [selectedItem, setSelectedItem] = useState<BugCustomStatus>();
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const selectedBugId = getSelectedBugId();
+
+  let bid: string = '';
+  if (selectedBugId) {
+    bid = selectedBugId.toString();
+  } else if (bugId) {
+    bid = bugId.toString();
+  }
 
   const {
     data: cpCustomStatus,
@@ -174,7 +181,7 @@ const BugStateDropdown = () => {
     isError: isErrorBug,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId ? campaignId.toString() : '',
-    bid: selectedBugId ? selectedBugId.toString() : '',
+    bid,
   });
 
   // Split custom statuses by phase into an object with multiple arrays
@@ -217,8 +224,6 @@ const BugStateDropdown = () => {
   )
     return null;
 
-  console.log('bug', bug);
-
   return (
     <div>
       <MD style={{ marginBottom: appTheme.space.xxs }}>
@@ -235,7 +240,7 @@ const BugStateDropdown = () => {
           onSelect={async (item: BugCustomStatus) => {
             await patchBug({
               cid: campaignId ? campaignId.toString() : '',
-              bid: selectedBugId ? selectedBugId.toString() : '',
+              bid,
               body: {
                 custom_status_id: item.id,
               },
