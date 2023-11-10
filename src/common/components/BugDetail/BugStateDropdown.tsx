@@ -50,6 +50,7 @@ const ManageItem = styled(StyledItem)`
   color: ${({ theme }) => theme.palette.blue[600]};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
+  text-transform: none;
 `;
 
 export const SelectedItem = styled.div`
