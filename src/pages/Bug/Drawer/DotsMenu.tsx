@@ -117,7 +117,7 @@ export const DotsMenu = ({
                 if (cs.id === customStatusId) {
                   return {
                     ...cs,
-                    color,
+                    color: color.replace('#', ''),
                   };
                 }
                 return cs;
