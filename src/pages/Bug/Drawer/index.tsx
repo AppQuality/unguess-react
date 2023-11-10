@@ -14,7 +14,8 @@ import {
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { FormikHelpers } from 'formik';
-import { CustomStatusForm, CustomStatusFormProps } from './CustomStatusForm';
+import { CustomStatusForm } from './CustomStatusForm';
+import { CustomStatusFormProps } from './formModel';
 import { CloseDrawerModal } from '../Modals/ClosingDrawerConfirmationModal';
 import { MigrationModal } from '../Modals/MigrationModal';
 

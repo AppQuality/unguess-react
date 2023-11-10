@@ -20,14 +20,11 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useEffect, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { FieldArray, Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import * as Yup from 'yup';
 import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
 import { DotsMenu } from './DotsMenu';
 import { Circle } from './Circle';
-
-export interface CustomStatusFormProps {
-  custom_status: string[];
-}
+import { CustomStatusFormProps, validationSchema } from './formModel';
+import { StatusValidationMessage } from './StatusValidationMessage';
 
 const FakeInput = styled.div`
   padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
@@ -58,14 +55,6 @@ export const CustomStatusForm = ({
   const dispatch = useAppDispatch();
   const { customStatus } = useAppSelector((state) => state.bugsPage);
   const [maxId, setMaxId] = useState(0);
-
-  const validationSchema = Yup.object().shape({
-    custom_status: Yup.array().of(
-      Yup.string()
-        .required(t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED'))
-        .max(17, t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_MAX'))
-    ),
-  });
 
   useEffect(() => {
     if (!customStatus) return;
@@ -120,7 +109,7 @@ export const CustomStatusForm = ({
         errors,
         handleSubmit,
         ...formProps
-      }: FormikProps<{ custom_status: string }>) => (
+      }: FormikProps<CustomStatusFormProps>) => (
         <Form
           onSubmit={handleSubmit}
           style={{ marginBottom: appTheme.space.sm }}
@@ -250,24 +239,14 @@ export const CustomStatusForm = ({
                                 dispatch(setCustomStatusDrawerTouched(true));
                               }}
                             />
-                            {errors.custom_status &&
-                            errors.custom_status[cs.id] ? (
-                              <Message
-                                validation="error"
-                                style={{ margin: `${appTheme.space.xs} 0` }}
-                              >
-                                {errors.custom_status[cs.id]}
-                              </Message>
-                            ) : (
-                              <Message
-                                validation="success"
-                                style={{ margin: `${appTheme.space.xs} 0` }}
-                              >
-                                {t(
-                                  '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_SUCCESS'
-                                )}
-                              </Message>
-                            )}
+                            <StatusValidationMessage
+                              formikProps={{
+                                errors,
+                                handleSubmit,
+                                ...formProps,
+                              }}
+                              custom_status_id={cs.id}
+                            />
                           </Field>
                         ))}
                       {phase.id === 1 && (
