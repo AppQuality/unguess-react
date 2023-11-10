@@ -7,32 +7,54 @@ import { CustomStatusFormProps } from './formModel';
 
 export const StatusValidationMessage = ({
   formikProps,
-  custom_status_id,
+  field_id,
 }: {
   formikProps: FormikProps<CustomStatusFormProps>;
-  custom_status_id: number;
+  field_id: number;
 }) => {
   const { t } = useTranslation();
-  const { errors, touched, values } = formikProps;
-  console.log('********', custom_status_id, '**********');
-  console.log('🚀 ~ file: StatusValidationMessage.tsx:17 ~ values:', values);
-  console.log('🚀 ~ file: StatusValidationMessage.tsx:17 ~ touched:', touched);
-  console.log('🚀 ~ file: StatusValidationMessage.tsx:17 ~ errors:', errors);
-  console.log('********', custom_status_id, '**********');
+  const { errors, touched, values, initialValues } = formikProps;
 
-  if (!touched.custom_status) return null;
+  const status = values.custom_statuses[field_id];
+  const initialStatus = initialValues.custom_statuses[field_id];
+  const isChanged = initialStatus && initialStatus.name !== status.name;
 
-  if (errors.custom_status && errors.custom_status[custom_status_id]) {
+  const isTouched =
+    touched.custom_statuses && touched.custom_statuses[field_id];
+
+  // If is a newly created custom status, add it's not touched I want to show a warning message
+  if (!isTouched && !status.id && status.name === '') {
     return (
-      <Message validation="error" style={{ margin: `${appTheme.space.xs} 0` }}>
-        {errors.custom_status[custom_status_id]}
+      <Message
+        validation="warning"
+        style={{ margin: `${appTheme.space.xs} 0` }}
+      >
+        {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED')}
       </Message>
     );
   }
 
+  if (!isTouched || !isChanged) return null;
+
+  if (errors.custom_statuses && errors.custom_statuses[field_id]) {
+    return (
+      <Message validation="error" style={{ margin: `${appTheme.space.xs} 0` }}>
+        {errors.custom_statuses[field_id]}
+      </Message>
+    );
+  }
+
+  console.table({
+    errors: errors.custom_statuses,
+    field_id,
+    isTouched,
+  });
+
   return (
     <Message validation="success" style={{ margin: `${appTheme.space.xs} 0` }}>
-      {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_SUCCESS')}
+      {status.id
+        ? t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_SUCCESS')
+        : t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_NEW_CUSTOM_STATUS_SUCCESS')}
     </Message>
   );
 };

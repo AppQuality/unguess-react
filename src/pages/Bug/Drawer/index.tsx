@@ -19,9 +19,9 @@ import {
 } from 'src/features/api';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { FormikHelpers } from 'formik';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
 import { CustomStatusForm } from './CustomStatusForm';
-import { CustomStatusFormProps } from './formModel';
+import { CustomStatusFormProps, validationSchema } from './formModel';
 import { CloseDrawerModal } from '../Modals/ClosingDrawerConfirmationModal';
 import { MigrationModal } from '../Modals/MigrationModal';
 
@@ -48,22 +48,64 @@ export const CustomStatusDrawer = () => {
     BugCustomStatus[]
   >([]);
 
+  const formInitialValues = {
+    custom_statuses: dbCustomStatus?.filter((cs) => !cs.is_default) || [],
+  };
+
   const onSubmit = (
     values: CustomStatusFormProps,
     formikProps: FormikHelpers<CustomStatusFormProps>
   ) => {
-    if (!customStatus) return;
+    const { custom_statuses } = values;
+    if (!custom_statuses) return;
 
-    // Check if there are any errors in the form
-    formikProps.validateForm().then((errors) => {
-      if (errors) {
-        console.log('ERRORS', errors);
-        return false;
+    formikProps.setSubmitting(true);
+
+    // Check all dbCustomStatus ids that are not in the customStatus array
+    const statusToBeDeleted =
+      formInitialValues.custom_statuses.reduce((acc, cs) => {
+        if (cs.is_default) return acc;
+        if (!custom_statuses.find((rcs) => rcs.id === cs.id)) {
+          acc.push(cs);
+        }
+        return acc;
+      }, [] as BugCustomStatus[]) ?? [];
+    setDeleteCustomStatusState(statusToBeDeleted);
+
+    // Show migration modal only if there are custom statuses to delete
+    if (statusToBeDeleted.length > 0) {
+      setIsMigrationModalOpen(true);
+    } else {
+      if (values.custom_statuses.length > 0) {
+        patchCustomStatuses({
+          cid: campaignId?.toString() || '',
+          body: values.custom_statuses.map((cs) => ({
+            ...(cs.id && { custom_status_id: cs.id }),
+            name: cs.name,
+            color: cs.color,
+          })),
+        })
+          .unwrap()
+          .then((res) => {
+            console.log('Patch completed', res);
+          });
       }
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+      dispatch(setCustomStatusDrawerOpen(false));
+    }
 
-      console.log('OK', values);
-      return true;
-    });
+    formikProps.setSubmitting(false);
   };
 
   const onClose = () => {
@@ -75,84 +117,52 @@ export const CustomStatusDrawer = () => {
     }
   };
 
-  const onCtaClick = async () => {
-    // Check all dbCustomStatus ids that are not in the customStatus array
-    const deleteCustomStatus =
-      dbCustomStatus?.reduce((acc, cs) => {
-        if (cs.is_default) return acc;
-        if (!customStatus.find((rcs) => rcs.id === cs.id)) {
-          acc.push(cs);
-        }
-        return acc;
-      }, [] as BugCustomStatus[]) ?? [];
-    setDeleteCustomStatusState(deleteCustomStatus);
-
-    // Remove all ids from customStatus objects with is_new = true
-    setPatchCustomStatusState(customStatus);
-
-    // Show migration modal only if there are custom statuses to delete
-    if (deleteCustomStatus.length > 0) {
-      setIsMigrationModalOpen(true);
-      return;
-    }
-
-    // Do API call for PATCH (if necessary) and close drawer
-    if (customStatus.length > 0) {
-      await patchCustomStatuses({
-        cid: campaignId?.toString() || '',
-        body: customStatus.map((cs) => ({
-          ...(!cs.is_new && { custom_status_id: cs.id }),
-          name: cs.name,
-          color: cs.color,
-        })),
-      });
-    }
-    addToast(
-      ({ close }) => (
-        <Notification
-          onClose={close}
-          type="success"
-          message={t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST')}
-          closeText={t('__TOAST_CLOSE_TEXT')}
-          isPrimary
-        />
-      ),
-      { placement: 'top' }
-    );
-    dispatch(setCustomStatusDrawerOpen(false));
-  };
-
   return (
     <>
-      <Drawer isOpen={isCustomStatusDrawerOpen} onClose={onClose}>
-        <Drawer.Header>
-          {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE')}
-        </Drawer.Header>
-        <Drawer.Body>
-          <MD style={{ marginBottom: appTheme.space.lg }}>
-            {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_BODY_DESCRIPTION')}
-          </MD>
-          <CustomStatusForm onSubmit={onSubmit} />
-        </Drawer.Body>
-        <Drawer.Footer>
-          <Drawer.FooterItem>
-            <Button id="custom-status-drawer-reset" onClick={onClose} isBasic>
-              {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_RESET_BUTTON')}
-            </Button>
-          </Drawer.FooterItem>
-          <Drawer.FooterItem>
-            <Button
-              id="custom-status-drawer-confirm"
-              isPrimary
-              isAccent
-              onClick={onCtaClick}
-            >
-              {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON')}
-            </Button>
-          </Drawer.FooterItem>
-        </Drawer.Footer>
-        <Drawer.Close id="custom-status-drawer-close" onClick={onClose} />
-      </Drawer>
+      <Formik
+        initialValues={formInitialValues}
+        validateOnChange
+        validateOnBlur
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {(formProps: FormikProps<CustomStatusFormProps>) => (
+          <Drawer isOpen={isCustomStatusDrawerOpen} onClose={onClose}>
+            <Drawer.Header>
+              {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE')}
+            </Drawer.Header>
+            <Drawer.Body>
+              <MD style={{ marginBottom: appTheme.space.lg }}>
+                {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_BODY_DESCRIPTION')}
+              </MD>
+              <CustomStatusForm formikProps={formProps} />
+            </Drawer.Body>
+            <Drawer.Footer>
+              <Drawer.FooterItem>
+                <Button
+                  id="custom-status-drawer-reset"
+                  onClick={onClose}
+                  isBasic
+                >
+                  {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_RESET_BUTTON')}
+                </Button>
+              </Drawer.FooterItem>
+              <Drawer.FooterItem>
+                <Button
+                  id="custom-status-drawer-confirm"
+                  isPrimary
+                  isAccent
+                  disabled={formProps.isSubmitting}
+                  onClick={formProps.submitForm}
+                >
+                  {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON')}
+                </Button>
+              </Drawer.FooterItem>
+            </Drawer.Footer>
+            <Drawer.Close id="custom-status-drawer-close" onClick={onClose} />
+          </Drawer>
+        )}
+      </Formik>
       {isCustomStatusDrawerTouched && isConfirmationModalOpen && (
         <CloseDrawerModal
           setIsConfirmationModalOpen={setIsConfirmationModalOpen}
