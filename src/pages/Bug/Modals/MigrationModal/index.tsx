@@ -147,10 +147,23 @@ export const MigrationModal = ({
         {t('__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_HEADER_TITLE')}
       </Modal.Header>
       <MigrateModalBody>
+        <Paragraph>
+          <Trans
+            count={
+              deleteCustomStatusUnused.length + deleteCustomStatusUsed.length
+            }
+            i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_INTRO"
+          >
+            You are about to delete a custom status.
+          </Trans>
+        </Paragraph>
         {deleteCustomStatusUnused.length > 0 && (
           <Paragraph>
-            <Trans i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS">
-              You are about to delete more than one status. Currently{' '}
+            <Trans
+              count={deleteCustomStatusUnused.length}
+              i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS"
+            >
+              Currently{' '}
               <Span isBold>
                 {{
                   custom_statuses: deleteCustomStatusUnused
@@ -165,7 +178,10 @@ export const MigrationModal = ({
         {cpCustomStatuses && deleteCustomStatusUsed.length > 0 && (
           <>
             <Paragraph>
-              <Trans i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_BUGS">
+              <Trans
+                count={deleteCustomStatusUsed.length}
+                i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_BUGS"
+              >
                 Before confirming and deleting, choose how to handle{' '}
                 <Span isBold>
                   {{ custom_statuses_num: deleteCustomStatusUsed.length }} bugs
