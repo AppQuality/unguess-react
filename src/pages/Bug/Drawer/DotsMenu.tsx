@@ -17,6 +17,7 @@ import {
 } from 'src/features/bugsPage/bugsPageSlice';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useRef } from 'react';
+import { ArrayHelpers } from 'formik';
 import { ColorPicker } from './ColorPicker';
 import { Circle } from './Circle';
 
@@ -45,7 +46,13 @@ const StyledDropdown = styled(Dropdown)`
   position: relative;
 `;
 
-export const DotsMenu = ({ customStatusId }: { customStatusId: number }) => {
+export const DotsMenu = ({
+  customStatusId,
+  arrayHelpers,
+}: {
+  customStatusId: number;
+  arrayHelpers: ArrayHelpers;
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { customStatus } = useAppSelector((state) => state.bugsPage);
@@ -87,6 +94,7 @@ export const DotsMenu = ({ customStatusId }: { customStatusId: number }) => {
                   )
                 );
                 dispatch(setCustomStatusDrawerTouched(true));
+                arrayHelpers.remove(customStatusId);
               }}
               style={{ color: appTheme.palette.red[500] }}
             >
