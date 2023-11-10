@@ -44,12 +44,6 @@ export const StatusValidationMessage = ({
     );
   }
 
-  console.table({
-    errors: errors.custom_statuses,
-    field_id,
-    isTouched,
-  });
-
   return (
     <Message validation="success" style={{ margin: `${appTheme.space.xs} 0` }}>
       {status.id
