@@ -1,18 +1,18 @@
 import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { SeverityTag } from 'src/common/components/tag/SeverityTag';
-import { Pipe } from 'src/common/components/Pipe';
-import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { Meta } from 'src/common/components/Meta';
-import styled from 'styled-components';
-import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
+import { Pipe } from 'src/common/components/Pipe';
 import { TextAlign } from 'src/common/components/Table';
-import { BugStateIcon } from 'src/common/components/BugStateIcon';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
-import { BugTitle } from '../components/BugTitle';
+import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
+import { Circle } from 'src/pages/Bug/Drawer/Circle';
+import styled from 'styled-components';
 import { TableBugType } from '../../../types';
+import { BugTitle } from '../components/BugTitle';
 
 const AlignmentDiv = styled.div<{
   alignment?: TextAlign;
@@ -124,14 +124,14 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
             )}
             <Pipe size="small" />
             <Tag isRegular={!isPillBold} hue="rgba(0,0,0,0)">
-              <Tag.Avatar>
-                <BugStateIcon
-                  size="small"
-                  {...appTheme.colors.byBugState[
-                    bug.custom_status.name as BugState
-                  ]}
-                />
-              </Tag.Avatar>
+              <Circle
+                color={`#${bug.custom_status.color}`}
+                {...(bug.custom_status.id === 1 && {
+                  style: {
+                    border: `2px solid ${appTheme.palette.grey[400]}`,
+                  },
+                })}
+              />
               {getCustomStatusInfo(bug.custom_status.name as BugState, t).text}
             </Tag>
             {!bug.read && (
