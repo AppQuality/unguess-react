@@ -124,14 +124,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
             )}
             <Pipe size="small" />
             <Tag isRegular={!isPillBold} hue="rgba(0,0,0,0)">
-              <Circle
-                color={`#${bug.custom_status.color}`}
-                {...(bug.custom_status.id === 1 && {
-                  style: {
-                    border: `2px solid ${appTheme.palette.grey[400]}`,
-                  },
-                })}
-              />
+              <Circle color={`#${bug.custom_status.color}`} />
               {getCustomStatusInfo(bug.custom_status.name as BugState, t).text}
             </Tag>
             {!bug.read && (
