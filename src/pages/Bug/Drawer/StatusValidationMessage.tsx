@@ -2,7 +2,6 @@ import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Message } from '@appquality/unguess-design-system';
-
 import { CustomStatusFormProps } from './formModel';
 
 export const StatusValidationMessage = ({
@@ -34,8 +33,6 @@ export const StatusValidationMessage = ({
     );
   }
 
-  if (!isTouched || !isChanged) return null;
-
   if (errors.custom_statuses && errors.custom_statuses[field_id]) {
     return (
       <Message validation="error" style={{ margin: `${appTheme.space.xs} 0` }}>
@@ -43,6 +40,8 @@ export const StatusValidationMessage = ({
       </Message>
     );
   }
+
+  if (!isTouched || !isChanged) return null;
 
   return (
     <Message validation="success" style={{ margin: `${appTheme.space.xs} 0` }}>

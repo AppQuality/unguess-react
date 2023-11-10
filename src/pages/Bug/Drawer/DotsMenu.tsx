@@ -10,16 +10,12 @@ import { ReactComponent as DotsIcon } from 'src/assets/icons/dots-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { appTheme } from 'src/app/theme';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import {
-  setCustomStatusDrawerTouched,
-  updateCustomStatus,
-} from 'src/features/bugsPage/bugsPageSlice';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useRef } from 'react';
-import { ArrayHelpers } from 'formik';
+import { ArrayHelpers, FormikProps } from 'formik';
 import { ColorPicker } from './ColorPicker';
 import { Circle } from './Circle';
+import { CustomStatusFormProps } from './formModel';
 
 const DotsButton = styled(DotsIcon)`
   cursor: pointer;
@@ -47,16 +43,21 @@ const StyledDropdown = styled(Dropdown)`
 `;
 
 export const DotsMenu = ({
-  customStatusId,
   arrayHelpers,
+  formikProps,
+  field_id,
 }: {
-  customStatusId: number;
   arrayHelpers: ArrayHelpers;
+  formikProps: FormikProps<CustomStatusFormProps>;
+  field_id: number;
 }) => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { customStatus } = useAppSelector((state) => state.bugsPage);
   const colorPickerRef = useRef<HTMLDivElement>(null);
+
+  const { setFieldValue, values } = formikProps;
+  const status = values.custom_statuses[field_id];
+
+  if (!status) return null;
 
   return (
     <>
@@ -75,12 +76,7 @@ export const DotsMenu = ({
                 colorPickerRef.current?.click();
               }}
             >
-              <Circle
-                {...(customStatus.find((cs) => cs.id === customStatusId) && {
-                  color: customStatus.find((cs) => cs.id === customStatusId)
-                    ?.color,
-                })}
-              />
+              <Circle color={`#${status.color}`} />
               <Span style={{ color: appTheme.palette.grey[700] }}>
                 {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_EDIT_COLOR_BUTTON')}
               </Span>
@@ -88,13 +84,7 @@ export const DotsMenu = ({
             <StyledButton
               isBasic
               onClick={() => {
-                dispatch(
-                  updateCustomStatus(
-                    customStatus.filter((cs) => cs.id !== customStatusId)
-                  )
-                );
-                dispatch(setCustomStatusDrawerTouched(true));
-                arrayHelpers.remove(customStatusId);
+                arrayHelpers.remove(field_id);
               }}
               style={{ color: appTheme.palette.red[500] }}
             >
@@ -111,18 +101,9 @@ export const DotsMenu = ({
       <ColorPicker
         ref={colorPickerRef}
         onSelect={(color) => {
-          dispatch(
-            updateCustomStatus(
-              customStatus.map((cs) => {
-                if (cs.id === customStatusId) {
-                  return {
-                    ...cs,
-                    color: color.replace('#', ''),
-                  };
-                }
-                return cs;
-              })
-            )
+          setFieldValue(
+            `custom_statuses.${field_id}.color`,
+            color.replace('#', '')
           );
         }}
       />

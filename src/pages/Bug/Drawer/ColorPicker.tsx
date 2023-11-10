@@ -3,16 +3,16 @@ import { appTheme } from 'src/app/theme';
 import { forwardRef } from 'react';
 
 const colorsArray: {
-  label: string;
+  label?: string;
   value: string;
 }[] = [
-  { value: appTheme.palette.grey[400], label: '' },
-  { value: appTheme.palette.azure[500], label: '' },
-  { value: appTheme.palette.yellow[500], label: '' },
-  { value: appTheme.palette.red[500], label: '' },
-  { value: appTheme.palette.fuschia[600], label: '' },
-  { value: appTheme.palette.purple[500], label: '' },
-  { value: appTheme.palette.royal[700], label: '' },
+  { value: appTheme.palette.grey[400] },
+  { value: appTheme.palette.azure[500] },
+  { value: appTheme.palette.yellow[500] },
+  { value: appTheme.palette.red[500] },
+  { value: appTheme.palette.fuschia[600] },
+  { value: appTheme.palette.purple[500] },
+  { value: appTheme.palette.royal[700] },
 ];
 
 interface ColorPickerProps {

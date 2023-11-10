@@ -111,8 +111,9 @@ export const CustomStatusForm = ({
                               start={<Circle color={`#${status.color}`} />}
                               end={
                                 <DotsMenu
-                                  customStatusId={status.id}
                                   arrayHelpers={helpers}
+                                  formikProps={formikProps}
+                                  field_id={index}
                                 />
                               }
                               {...formikProps.getFieldProps(
@@ -139,8 +140,8 @@ export const CustomStatusForm = ({
                         onClick={() => {
                           helpers.push({
                             name: '',
-                            color: '',
-                            phase,
+                            color: appTheme.palette.grey[400],
+                            phase: { id: phase.id, name: phase.name },
                             is_default: 0,
                           });
                         }}

@@ -7,13 +7,13 @@ export interface CustomStatusFormProps {
 }
 
 export const validationSchema = Yup.object().shape({
-  custom_status: Yup.array().of(
+  custom_statuses: Yup.array().of(
     Yup.object().shape({
       id: Yup.number(),
       name: Yup.string()
-        .required(t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED'))
-        .max(17, t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_MAX')),
-      color: Yup.string().required(),
+        .max(17, t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_MAX'))
+        .required(t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED')),
+      color: Yup.string(),
       phase: Yup.object().shape({
         id: Yup.number().required(),
         name: Yup.string().required(),
