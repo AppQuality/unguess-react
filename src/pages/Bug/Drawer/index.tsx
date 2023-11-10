@@ -13,7 +13,8 @@ import {
 } from 'src/features/api';
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { CustomStatusForm } from './CustomStatusForm';
+import { FormikHelpers } from 'formik';
+import { CustomStatusForm, CustomStatusFormProps } from './CustomStatusForm';
 import { CloseDrawerModal } from '../Modals/ClosingDrawerConfirmationModal';
 import { MigrationModal } from '../Modals/MigrationModal';
 
@@ -38,6 +39,24 @@ export const CustomStatusDrawer = () => {
   const [patchCustomStatusState, setPatchCustomStatusState] = useState<
     BugCustomStatus[]
   >([]);
+
+  const onSubmit = (
+    values: CustomStatusFormProps,
+    formikProps: FormikHelpers<CustomStatusFormProps>
+  ) => {
+    if (!customStatus) return;
+
+    // Check if there are any errors in the form
+    formikProps.validateForm().then((errors) => {
+      if (errors) {
+        console.log('ERRORS', errors);
+        return false;
+      }
+
+      console.log('OK', values);
+      return true;
+    });
+  };
 
   const onClose = () => {
     if (isCustomStatusDrawerTouched) {
@@ -94,7 +113,7 @@ export const CustomStatusDrawer = () => {
           <MD style={{ marginBottom: appTheme.space.lg }}>
             {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_BODY_DESCRIPTION')}
           </MD>
-          <CustomStatusForm />
+          <CustomStatusForm onSubmit={onSubmit} />
         </Drawer.Body>
         <Drawer.Footer>
           <Drawer.FooterItem>
