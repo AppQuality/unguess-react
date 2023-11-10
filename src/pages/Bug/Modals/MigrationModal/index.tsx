@@ -9,6 +9,8 @@ import {
   Span,
   Dropdown,
   Select,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { Label, MediaInput } from '@zendeskgarden/react-forms';
 import { Trans, useTranslation } from 'react-i18next';
@@ -61,6 +63,7 @@ export const MigrationModal = ({
   setIsMigrationModalOpen: (isOpen: boolean) => void;
 }) => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const [patchCustomStatuses] = usePatchCampaignsByCidCustomStatusesMutation();
@@ -134,7 +137,18 @@ export const MigrationModal = ({
         ],
       });
     }
-
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="success"
+          message={t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST')}
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
     setIsMigrationModalOpen(false);
     dispatch(setCustomStatusDrawerOpen(false));
   };

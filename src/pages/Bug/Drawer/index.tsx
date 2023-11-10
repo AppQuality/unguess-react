@@ -1,4 +1,10 @@
-import { Button, Drawer, MD } from '@appquality/unguess-design-system';
+import {
+  Button,
+  Drawer,
+  MD,
+  Notification,
+  useToast,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
@@ -20,6 +26,7 @@ import { MigrationModal } from '../Modals/MigrationModal';
 
 export const CustomStatusDrawer = () => {
   const { campaignId } = useParams();
+  const { addToast } = useToast();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const {
@@ -99,7 +106,18 @@ export const CustomStatusDrawer = () => {
         })),
       });
     }
-
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="success"
+          message={t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST')}
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
     dispatch(setCustomStatusDrawerOpen(false));
   };
 
