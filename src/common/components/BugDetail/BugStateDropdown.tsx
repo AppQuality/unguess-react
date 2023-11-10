@@ -21,7 +21,10 @@ import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import { useAppDispatch } from 'src/app/hooks';
-import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  setCustomStatusDrawerOpen,
+  getSelectedBugId,
+} from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { Circle } from 'src/pages/Bug/Drawer/Circle';
 import { useParams } from 'react-router-dom';
@@ -151,9 +154,11 @@ const BugStateDropdownMenu = ({
 
 const BugStateDropdown = () => {
   const { t } = useTranslation();
-  const { campaignId, bugId } = useParams();
+  const { campaignId } = useParams();
   const [selectedItem, setSelectedItem] = useState<BugCustomStatus>();
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
+  const selectedBugId = getSelectedBugId();
+
   const {
     data: cpCustomStatus,
     isLoading: isLoadingCustomStatus,
@@ -169,7 +174,7 @@ const BugStateDropdown = () => {
     isError: isErrorBug,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId ? campaignId.toString() : '',
-    bid: bugId ? bugId.toString() : '',
+    bid: selectedBugId ? selectedBugId.toString() : '',
   });
 
   // Split custom statuses by phase into an object with multiple arrays
@@ -203,12 +208,16 @@ const BugStateDropdown = () => {
   }, [bug, cpCustomStatus]);
 
   if (
+    !bug ||
+    !cpCustomStatus ||
     isErrorBug ||
     isErrorCustomStatus ||
     isLoadingBug ||
     isLoadingCustomStatus
   )
     return null;
+
+  console.log('bug', bug);
 
   return (
     <div>
@@ -226,7 +235,7 @@ const BugStateDropdown = () => {
           onSelect={async (item: BugCustomStatus) => {
             await patchBug({
               cid: campaignId ? campaignId.toString() : '',
-              bid: bugId ? bugId.toString() : '',
+              bid: selectedBugId ? selectedBugId.toString() : '',
               body: {
                 custom_status_id: item.id,
               },
