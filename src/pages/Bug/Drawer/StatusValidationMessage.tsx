@@ -22,7 +22,7 @@ export const StatusValidationMessage = ({
     touched.custom_statuses && touched.custom_statuses[field_id];
 
   // If is a newly created custom status, add it's not touched I want to show a warning message
-  if (!isTouched && !status.id && status.name === '') {
+  if (!isTouched && !status?.id && status.name === '') {
     return (
       <Message
         validation="warning"
@@ -36,7 +36,7 @@ export const StatusValidationMessage = ({
   if (errors.custom_statuses && errors.custom_statuses[field_id]) {
     return (
       <Message validation="error" style={{ margin: `${appTheme.space.xs} 0` }}>
-        {errors.custom_statuses[field_id]}
+        {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_MAX')}
       </Message>
     );
   }
