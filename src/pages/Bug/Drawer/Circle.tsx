@@ -11,4 +11,5 @@ export const Circle = styled(CircleFill)<{
   border-radius: 50%;
   color: ${({ color }) => color};
   margin-right: ${({ theme }) => theme.space.xs};
+  min-width: auto;
 `;
