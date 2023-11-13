@@ -7,6 +7,8 @@ import {
   Tooltip,
   Separator,
   MD,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
@@ -156,6 +158,7 @@ const BugStateDropdownMenu = ({
 const BugStateDropdown = () => {
   const { t } = useTranslation();
   const { campaignId, bugId } = useParams();
+  const { addToast } = useToast();
   const [selectedItem, setSelectedItem] = useState<BugCustomStatus>();
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const selectedBugId = getSelectedBugId();
@@ -168,18 +171,24 @@ const BugStateDropdown = () => {
   }
 
   const {
-    data: cpCustomStatus,
+    currentData: cpCustomStatus,
     isLoading: isLoadingCustomStatus,
     isFetching: isFetchingCustomStatus,
     isError: isErrorCustomStatus,
-  } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: campaignId ? campaignId.toString() : '',
-  });
+  } = useGetCampaignsByCidCustomStatusesQuery(
+    {
+      cid: campaignId ? campaignId.toString() : '',
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
   const {
-    data: bug,
+    currentData: bug,
     isLoading: isLoadingBug,
     isFetching: isFetchingBug,
     isError: isErrorBug,
+    refetch: refetchBug,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId ? campaignId.toString() : '',
     bid,
@@ -238,15 +247,38 @@ const BugStateDropdown = () => {
       ) : (
         <Dropdown
           selectedItem={selectedItem}
-          onSelect={async (item: BugCustomStatus) => {
-            await patchBug({
+          onSelect={(item: BugCustomStatus) => {
+            patchBug({
               cid: campaignId ? campaignId.toString() : '',
               bid,
               body: {
                 custom_status_id: item.id,
               },
-            });
-            setSelectedItem(item);
+            })
+              .unwrap()
+              .then((res) => {
+                console.log(
+                  '🚀 ~ file: BugStateDropdown.tsx:260 ~ .then ~ res:',
+                  res
+                );
+                setSelectedItem(item);
+              })
+              .catch((err) => {
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={t(
+                        '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST_API'
+                      )}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              });
           }}
           downshiftProps={{
             itemToString: (item: BugCustomStatus) => item && item.name,
