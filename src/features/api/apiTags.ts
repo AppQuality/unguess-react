@@ -57,13 +57,13 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Bugs'],
     },
     patchCampaignsByCidBugsAndBid: {
-      invalidatesTags: ['Bugs', 'Tags'],
+      invalidatesTags: ['Bug', 'Bugs', 'Tags', 'CustomStatuses'],
     },
     getCampaignsByCidTags: {
       providesTags: ['Tags'],
     },
     getCampaignsByCidBugsAndBid: {
-      providesTags: ['Tags', 'CustomStatuses'],
+      providesTags: ['Bug'],
     },
     getWorkspacesByWidUsers: {
       providesTags: ['Users'],
@@ -78,10 +78,10 @@ unguessApi.enhanceEndpoints({
       providesTags: ['CustomStatuses'],
     },
     deleteCampaignsByCidCustomStatuses: {
-      invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
+      invalidatesTags: ['CustomStatuses', 'Bugs', 'Bug'],
     },
     patchCampaignsByCidCustomStatuses: {
-      invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
+      invalidatesTags: ['CustomStatuses', 'Bugs', 'Bug'],
     },
   },
 });

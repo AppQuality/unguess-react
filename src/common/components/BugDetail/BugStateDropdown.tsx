@@ -175,14 +175,9 @@ const BugStateDropdown = () => {
     isLoading: isLoadingCustomStatus,
     isFetching: isFetchingCustomStatus,
     isError: isErrorCustomStatus,
-  } = useGetCampaignsByCidCustomStatusesQuery(
-    {
-      cid: campaignId ? campaignId.toString() : '',
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  } = useGetCampaignsByCidCustomStatusesQuery({
+    cid: campaignId ? campaignId.toString() : '',
+  });
   const {
     currentData: bug,
     isLoading: isLoadingBug,
