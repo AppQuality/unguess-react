@@ -50,8 +50,6 @@ export const StatusValidationMessage = ({
     );
   }
 
-  if (!isTouched || !isChanged) return null;
-
   return (
     <Message validation="success" style={{ margin: `${appTheme.space.xs} 0` }}>
       {status.id
