@@ -55,7 +55,7 @@ export const DotsMenu = ({
   const colorPickerRef = useRef<HTMLDivElement>(null);
 
   const { setFieldValue, values } = formikProps;
-  const status = values.custom_statuses[field_id];
+  const status = values.custom_statuses[`${field_id}`];
 
   if (!status) return null;
 

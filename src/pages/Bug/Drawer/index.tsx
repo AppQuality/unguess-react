@@ -5,22 +5,22 @@ import {
   Notification,
   useToast,
 } from '@appquality/unguess-design-system';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
 import {
   BugCustomStatus,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
-import { useParams } from 'react-router-dom';
-import { useState } from 'react';
-import { Formik, FormikHelpers, FormikProps } from 'formik';
-import { CustomStatusForm } from './CustomStatusForm';
-import { CustomStatusFormProps, validationSchema } from './formModel';
+import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { CloseDrawerModal } from '../Modals/ClosingDrawerConfirmationModal';
 import { MigrationModal } from '../Modals/MigrationModal';
+import { CustomStatusForm } from './CustomStatusForm';
+import { CustomStatusFormProps, validationSchema } from './formModel';
 
 export const CustomStatusDrawer = () => {
   const { campaignId } = useParams();
@@ -47,7 +47,7 @@ export const CustomStatusDrawer = () => {
     custom_statuses: dbCustomStatus?.filter((cs) => !cs.is_default) || [],
   };
 
-  const onSubmit = (
+  const onSubmit = async (
     values: CustomStatusFormProps,
     formikProps: FormikHelpers<CustomStatusFormProps>
   ) => {
@@ -66,24 +66,20 @@ export const CustomStatusDrawer = () => {
         return acc;
       }, [] as BugCustomStatus[]) ?? [];
     setDeleteCustomStatusState(statusToBeDeleted);
-
+    setPatchCustomStatusState(values.custom_statuses);
     // Show migration modal only if there are custom statuses to delete
     if (statusToBeDeleted.length > 0) {
       setIsMigrationModalOpen(true);
     } else {
       if (values.custom_statuses.length > 0) {
-        patchCustomStatuses({
+        await patchCustomStatuses({
           cid: campaignId?.toString() || '',
           body: values.custom_statuses.map((cs) => ({
             ...(cs.id && { custom_status_id: cs.id }),
             name: cs.name,
             color: cs.color,
           })),
-        })
-          .unwrap()
-          .then((res) => {
-            console.log('Patch completed', res);
-          });
+        });
       }
       addToast(
         ({ close }) => (

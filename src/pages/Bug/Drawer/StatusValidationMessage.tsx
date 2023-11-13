@@ -15,12 +15,12 @@ export const StatusValidationMessage = ({
   const { t } = useTranslation();
   const { errors, touched, values, initialValues } = formikProps;
 
-  const status = values.custom_statuses[field_id];
-  const initialStatus = initialValues.custom_statuses[field_id];
+  const status = values.custom_statuses[`${field_id}`];
+  const initialStatus = initialValues.custom_statuses[`${field_id}`];
   const isChanged = initialStatus && initialStatus.name !== status.name;
 
   const isTouched =
-    touched.custom_statuses && touched.custom_statuses[field_id];
+    touched.custom_statuses && touched.custom_statuses[`${field_id}`];
 
   // If is a newly created custom status, add it's not touched I want to show a warning message
   if (!isTouched && !status?.id && status.name === '') {
@@ -34,9 +34,9 @@ export const StatusValidationMessage = ({
     );
   }
 
-  if (errors.custom_statuses && errors.custom_statuses[field_id]) {
+  if (errors.custom_statuses && errors.custom_statuses[`${field_id}`]) {
     const errObj = errors.custom_statuses[
-      field_id
+      `${field_id}`
     ] as FormikErrors<BugCustomStatus>;
 
     return (
