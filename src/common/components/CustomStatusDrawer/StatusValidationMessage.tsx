@@ -17,7 +17,8 @@ export const StatusValidationMessage = ({
 
   const status = values.custom_statuses[`${field_id}`];
   const initialStatus = initialValues.custom_statuses[`${field_id}`];
-  const isChanged = initialStatus && initialStatus.name !== status.name;
+  const isChanged =
+    initialStatus && initialStatus.name.localeCompare(status.name) === 0;
 
   const isTouched =
     touched.custom_statuses && touched.custom_statuses[`${field_id}`];
