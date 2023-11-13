@@ -188,7 +188,6 @@ const BugStateDropdown = () => {
     isLoading: isLoadingBug,
     isFetching: isFetchingBug,
     isError: isErrorBug,
-    refetch: refetchBug,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId ? campaignId.toString() : '',
     bid,
@@ -256,14 +255,10 @@ const BugStateDropdown = () => {
               },
             })
               .unwrap()
-              .then((res) => {
-                console.log(
-                  '🚀 ~ file: BugStateDropdown.tsx:260 ~ .then ~ res:',
-                  res
-                );
+              .then(() => {
                 setSelectedItem(item);
               })
-              .catch((err) => {
+              .catch(() => {
                 addToast(
                   ({ close }) => (
                     <Notification
