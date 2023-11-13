@@ -49,18 +49,6 @@ interface initialSimpleState {
   isFilterDrawerOpen: boolean;
   isNaBugExcluded: boolean;
   isCustomStatusDrawerOpen: boolean;
-  isCustomStatusDrawerTouched: boolean;
-  customStatus: Array<{
-    id: number;
-    name: string;
-    color: string;
-    phase: {
-      id: number;
-      name: string;
-    };
-    is_default: number;
-    is_new?: boolean;
-  }>;
 }
 
 const initialStateSimple: initialSimpleState = {
@@ -71,8 +59,6 @@ const initialStateSimple: initialSimpleState = {
   isFilterDrawerOpen: false,
   isNaBugExcluded: false,
   isCustomStatusDrawerOpen: false,
-  isCustomStatusDrawerTouched: false,
-  customStatus: [],
 };
 
 const bugPageSlice = createSlice({
@@ -217,15 +203,6 @@ const bugPageSlice = createSlice({
     setCustomStatusDrawerOpen: (state, action: PayloadAction<boolean>) => {
       state.isCustomStatusDrawerOpen = action.payload;
     },
-    setCustomStatusDrawerTouched: (state, action: PayloadAction<boolean>) => {
-      state.isCustomStatusDrawerTouched = action.payload;
-    },
-    updateCustomStatus: (state, action) => {
-      state.customStatus = action.payload;
-    },
-    resetCustomStatus: (state) => {
-      state.customStatus = initialStateSimple.customStatus;
-    },
   },
 });
 
@@ -302,7 +279,4 @@ export const {
   setFilterDrawerOpen,
   setIsNaBugExcluded,
   setCustomStatusDrawerOpen,
-  setCustomStatusDrawerTouched,
-  updateCustomStatus,
-  resetCustomStatus,
 } = bugPageSlice.actions;

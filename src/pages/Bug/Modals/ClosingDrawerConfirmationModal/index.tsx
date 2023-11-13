@@ -1,10 +1,7 @@
 import { Button, Modal, ModalClose } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import {
-  resetCustomStatus,
-  setCustomStatusDrawerOpen,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 
 export const CloseDrawerModal = ({
   setIsConfirmationModalOpen,
@@ -16,7 +13,6 @@ export const CloseDrawerModal = ({
 
   const onQuit = () => {
     dispatch(setCustomStatusDrawerOpen(false));
-    dispatch(resetCustomStatus());
   };
 
   const onContinue = () => {

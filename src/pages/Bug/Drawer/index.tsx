@@ -7,10 +7,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import {
-  resetCustomStatus,
-  setCustomStatusDrawerOpen,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
 import {
   BugCustomStatus,
@@ -30,11 +27,9 @@ export const CustomStatusDrawer = () => {
   const { addToast } = useToast();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const {
-    isCustomStatusDrawerOpen,
-    isCustomStatusDrawerTouched,
-    customStatus,
-  } = useAppSelector((state) => state.bugsPage);
+  const { isCustomStatusDrawerOpen } = useAppSelector(
+    (state) => state.bugsPage
+  );
   const { data: dbCustomStatus } = useGetCampaignsByCidCustomStatusesQuery({
     cid: campaignId?.toString() || '',
   });
@@ -108,12 +103,11 @@ export const CustomStatusDrawer = () => {
     formikProps.setSubmitting(false);
   };
 
-  const onClose = () => {
-    if (isCustomStatusDrawerTouched) {
+  const onClose = (props: FormikProps<CustomStatusFormProps>) => {
+    if (props.dirty) {
       setIsConfirmationModalOpen(true);
     } else {
       dispatch(setCustomStatusDrawerOpen(false));
-      dispatch(resetCustomStatus());
     }
   };
 
@@ -127,7 +121,10 @@ export const CustomStatusDrawer = () => {
         onSubmit={onSubmit}
       >
         {(formProps: FormikProps<CustomStatusFormProps>) => (
-          <Drawer isOpen={isCustomStatusDrawerOpen} onClose={onClose}>
+          <Drawer
+            isOpen={isCustomStatusDrawerOpen}
+            onClose={() => onClose(formProps)}
+          >
             <Drawer.Header>
               {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE')}
             </Drawer.Header>
@@ -141,7 +138,7 @@ export const CustomStatusDrawer = () => {
               <Drawer.FooterItem>
                 <Button
                   id="custom-status-drawer-reset"
-                  onClick={onClose}
+                  onClick={() => onClose(formProps)}
                   isBasic
                 >
                   {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_RESET_BUTTON')}
@@ -159,11 +156,14 @@ export const CustomStatusDrawer = () => {
                 </Button>
               </Drawer.FooterItem>
             </Drawer.Footer>
-            <Drawer.Close id="custom-status-drawer-close" onClick={onClose} />
+            <Drawer.Close
+              id="custom-status-drawer-close"
+              onClick={() => onClose(formProps)}
+            />
           </Drawer>
         )}
       </Formik>
-      {isCustomStatusDrawerTouched && isConfirmationModalOpen && (
+      {isConfirmationModalOpen && (
         <CloseDrawerModal
           setIsConfirmationModalOpen={setIsConfirmationModalOpen}
         />

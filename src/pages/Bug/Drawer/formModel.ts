@@ -9,7 +9,9 @@ export const validationSchema = Yup.object().shape({
   custom_statuses: Yup.array().of(
     Yup.object().shape({
       id: Yup.number(),
-      name: Yup.string().max(17).required(),
+      name: Yup.string()
+        .max(17, '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_MAX')
+        .required('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED'),
       color: Yup.string(),
       phase: Yup.object().shape({
         id: Yup.number().required(),
