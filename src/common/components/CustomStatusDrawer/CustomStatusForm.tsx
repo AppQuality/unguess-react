@@ -140,7 +140,7 @@ export const CustomStatusForm = ({
                         onClick={() => {
                           helpers.push({
                             name: '',
-                            color: appTheme.palette.grey[400],
+                            color: appTheme.palette.grey[400].replace('#', ''),
                             phase: { id: phase.id, name: phase.name },
                             is_default: 0,
                           });
