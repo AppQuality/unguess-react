@@ -146,7 +146,25 @@ export const CustomStatusDrawer = () => {
                   isPrimary
                   isAccent
                   disabled={formProps.isSubmitting}
-                  onClick={formProps.submitForm}
+                  onClick={() => {
+                    if (!formProps.isValid) {
+                      addToast(
+                        ({ close }) => (
+                          <Notification
+                            onClose={close}
+                            type="error"
+                            message={t(
+                              '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST'
+                            )}
+                            closeText={t('__TOAST_CLOSE_TEXT')}
+                            isPrimary
+                          />
+                        ),
+                        { placement: 'top' }
+                      );
+                    }
+                    formProps.submitForm();
+                  }}
                 >
                   {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON')}
                 </Button>
