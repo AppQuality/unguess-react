@@ -1,4 +1,4 @@
-import { SM, Tag, Tooltip } from '@appquality/unguess-design-system';
+import { SM, Span, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
@@ -125,7 +125,14 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
             <Pipe size="small" />
             <Tag isRegular={!isPillBold} hue="rgba(0,0,0,0)">
               <Circle color={`#${bug.custom_status.color}`} />
-              {getCustomStatusInfo(bug.custom_status.name as BugState, t).text}
+              <Span
+                style={{ textTransform: 'capitalize', fontWeight: 'normal' }}
+              >
+                {
+                  getCustomStatusInfo(bug.custom_status.name as BugState, t)
+                    .text
+                }
+              </Span>
             </Tag>
             {!bug.read && (
               <Meta color={appTheme.palette.blue[600]}>
