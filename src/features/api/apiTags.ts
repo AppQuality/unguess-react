@@ -57,7 +57,7 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Bugs'],
     },
     patchCampaignsByCidBugsAndBid: {
-      invalidatesTags: ['Bugs'],
+      invalidatesTags: ['Bugs', 'Tags'],
     },
     getCampaignsByCidTags: {
       providesTags: ['Tags'],
@@ -78,10 +78,10 @@ unguessApi.enhanceEndpoints({
       providesTags: ['CustomStatuses'],
     },
     deleteCampaignsByCidCustomStatuses: {
-      invalidatesTags: ['CustomStatuses'],
+      invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
     },
     patchCampaignsByCidCustomStatuses: {
-      invalidatesTags: ['CustomStatuses'],
+      invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
     },
   },
 });

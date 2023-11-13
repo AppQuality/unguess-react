@@ -26,7 +26,7 @@ import {
   getSelectedBugId,
 } from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
-import { Circle } from 'src/pages/Bug/Drawer/Circle';
+import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import { useParams } from 'react-router-dom';
 
 const StyledMenu = styled(Menu)`

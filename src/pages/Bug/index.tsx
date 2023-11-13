@@ -11,8 +11,8 @@ import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { CustomStatusDrawer } from 'src/common/components/CustomStatusDrawer';
 import { Content } from './Content';
-import { CustomStatusDrawer } from './Drawer';
 import { Header } from './Header';
 import { LoadingSkeleton } from './LoadingSkeleton';
 

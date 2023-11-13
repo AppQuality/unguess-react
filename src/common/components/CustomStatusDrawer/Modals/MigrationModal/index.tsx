@@ -32,7 +32,7 @@ import {
 } from 'src/common/components/BugDetail/BugStateDropdown';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { useAppDispatch } from 'src/app/hooks';
-import { Circle } from '../../Drawer/Circle';
+import { Circle } from '../../Circle';
 
 const MigrationItemsList = styled.ul`
   margin-top: ${({ theme }) => theme.space.lg};
@@ -96,20 +96,17 @@ export const MigrationModal = ({
     customStatusesToDelete.filter((cs) =>
       bugs?.items?.find((b) => b.custom_status.id === cs.id)
     ) ?? [];
-
   // Create an array of customStatus ids that are not used in bugs
   const deleteCustomStatusUnused =
     customStatusesToDelete?.filter(
       (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
     ) ?? [];
-
   const [selectedItems, setSelectedItems] = useState<MigrationItem[]>(
     deleteCustomStatusUsed.map((cs) => ({
       custom_status_id: cs.id,
       to_custom_status_id: 1,
     }))
   );
-
   const onQuit = () => {
     setIsMigrationModalOpen(false);
   };

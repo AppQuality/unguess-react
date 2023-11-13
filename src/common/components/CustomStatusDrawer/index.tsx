@@ -17,8 +17,8 @@ import {
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
-import { CloseDrawerModal } from '../Modals/ClosingDrawerConfirmationModal';
-import { MigrationModal } from '../Modals/MigrationModal';
+import { CloseDrawerModal } from './Modals/ClosingDrawerConfirmationModal';
+import { MigrationModal } from './Modals/MigrationModal';
 import { CustomStatusForm } from './CustomStatusForm';
 import { CustomStatusFormProps, validationSchema } from './formModel';
 

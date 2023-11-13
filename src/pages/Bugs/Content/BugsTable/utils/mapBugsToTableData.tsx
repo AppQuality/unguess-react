@@ -9,7 +9,7 @@ import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { Circle } from 'src/pages/Bug/Drawer/Circle';
+import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import styled from 'styled-components';
 import { TableBugType } from '../../../types';
 import { BugTitle } from '../components/BugTitle';
