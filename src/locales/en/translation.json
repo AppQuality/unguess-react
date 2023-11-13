@@ -114,7 +114,7 @@
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON": "Save changes",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST": "Changes saved.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CREATE_CUSTOM_STATUS_BUTTON": "Create a new status",
-  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED": "Choose a name up to 17 characters including spaces.",
+  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED": " Choose a name up to 17 characters including spaces.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_SUCCESS": "Status changed! You will see it on the campaign after save.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_DELETE_CUSTOM_STATUS_BUTTON": "Delete status",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_EDIT_COLOR_BUTTON": "Edit color",
