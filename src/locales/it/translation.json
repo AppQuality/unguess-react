@@ -101,7 +101,7 @@
   "__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_SUBTITLE": "Il bug da prendere come riferimento",
   "__BUGS_PAGE_BUG_DETAIL_SIBLINGS_FATHER_TITLE": "Bug unico",
   "__BUGS_PAGE_BUG_DETAIL_SIBLINGS_SHOW_MORE_one": "+ {{count}} altro",
-  "__BUGS_PAGE_BUG_DETAIL_SIBLINGS_SHOW_MORE_many": "Show more +{{count}}",
+  "__BUGS_PAGE_BUG_DETAIL_SIBLINGS_SHOW_MORE_many": "+ altri {{count}}",
   "__BUGS_PAGE_BUG_DETAIL_SIBLINGS_SHOW_MORE_other": "+ altri {{count}}",
   "__BUGS_PAGE_BUG_DETAIL_STATE_LABEL": "Stato",
   "__BUGS_PAGE_BUG_DETAIL_TAGS_ADD_NEW": "Aggiungi",
