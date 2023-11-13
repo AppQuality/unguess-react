@@ -76,8 +76,34 @@ export const MigrationModal = ({
     cid: campaignId?.toString() || '',
   });
 
+  // Check if deleteCustomStatus is used in bugs and create an array of them
+  const deleteCustomStatusUsed =
+    customStatusesToDelete.filter((cs) =>
+      bugs?.items?.find((b) => b.custom_status.id === cs.id)
+    ) ?? [];
+  // Create an array of customStatus ids that are not used in bugs
+  const deleteCustomStatusUnused =
+    customStatusesToDelete?.filter(
+      (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
+    ) ?? [];
+
+  const [selectedItems, setSelectedItems] = useState<MigrationItem[]>(
+    deleteCustomStatusUsed.map((cs) => ({
+      custom_status_id: cs.id,
+      to_custom_status_id: 1,
+    }))
+  );
+
   // Split custom statuses by phase into an object with multiple arrays
   const customStatusesByPhase = cpCustomStatuses?.reduce((acc, cs) => {
+    // Skip if cs is in deleteCustomStatusUnused or deleteCustomStatusUsed
+    if (
+      deleteCustomStatusUnused.find((dcs) => dcs.id === cs.id) ||
+      deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
+    ) {
+      return acc;
+    }
+
     const phase = acc.find((p) => p.id === cs.phase.id);
     if (phase) {
       phase.customStatuses.push(cs);
@@ -91,22 +117,6 @@ export const MigrationModal = ({
     return acc;
   }, [] as { id: number; name: string; customStatuses: typeof cpCustomStatuses }[]);
 
-  // Check if deleteCustomStatus is used in bugs and create an array of them
-  const deleteCustomStatusUsed =
-    customStatusesToDelete.filter((cs) =>
-      bugs?.items?.find((b) => b.custom_status.id === cs.id)
-    ) ?? [];
-  // Create an array of customStatus ids that are not used in bugs
-  const deleteCustomStatusUnused =
-    customStatusesToDelete?.filter(
-      (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
-    ) ?? [];
-  const [selectedItems, setSelectedItems] = useState<MigrationItem[]>(
-    deleteCustomStatusUsed.map((cs) => ({
-      custom_status_id: cs.id,
-      to_custom_status_id: 1,
-    }))
-  );
   const onQuit = () => {
     setIsMigrationModalOpen(false);
   };
@@ -253,17 +263,15 @@ export const MigrationModal = ({
                           itemToString: (item: BugCustomStatus) => item,
                         }}
                         onSelect={(item: BugCustomStatus) => {
-                          setSelectedItems((prev) => {
-                            let index = prev.findIndex(
-                              (i) => i.custom_status_id === cs.id
-                            );
-                            if (index < 0) index = 0;
-                            prev[`${index}`] = {
+                          setSelectedItems([
+                            ...selectedItems.filter(
+                              (i) => i.custom_status_id !== cs.id
+                            ),
+                            {
                               custom_status_id: cs.id,
                               to_custom_status_id: item.id,
-                            };
-                            return [...prev];
-                          });
+                            },
+                          ]);
                         }}
                       >
                         <Field className="bug-dropdown-custom-status">
@@ -281,16 +289,7 @@ export const MigrationModal = ({
                         </Field>
                         <BugStateDropdownMenu
                           isEditable={false}
-                          customStatusesByPhase={
-                            customStatusesByPhase
-                              ? customStatusesByPhase?.map((phase) => ({
-                                  ...phase,
-                                  customStatuses: phase.customStatuses.filter(
-                                    (c) => cs.id !== c.id
-                                  ),
-                                }))
-                              : []
-                          }
+                          customStatusesByPhase={customStatusesByPhase ?? []}
                         />
                       </Dropdown>
                     </StyledCol>
