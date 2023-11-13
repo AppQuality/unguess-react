@@ -185,7 +185,7 @@ export const MigrationModal = ({
               i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS"
             >
               Currently{' '}
-              <Span isBold>
+              <Span isBold style={{ textTransform: 'capitalize' }}>
                 {{
                   custom_statuses: deleteCustomStatusUnused
                     .map((cs) => cs.name)
