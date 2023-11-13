@@ -304,7 +304,7 @@ export const MigrationModal = ({
         <Button
           style={{ paddingRight: 20 }}
           id="custom-status-migration-modal-cancel"
-          isPrimary
+          isDanger
           isLink
           onClick={onQuit}
         >
