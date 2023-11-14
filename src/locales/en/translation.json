@@ -129,7 +129,7 @@
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_STATUS_TO_DELETE": "Status to delete",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_STATUS_TO_MIGRATE_TO": "New status",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_BUGS_one": "Before confirming and deleting, choose how to handle <2>{{custom_statuses_num}} bugs</2> in this campaign associated with this status:",
-  "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_BUGS_other": "Before confirming and deleting, choose how to handle <2>{{custom_statuses_num}} bugs</2> in this campaign associated with these status:",
+  "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_BUGS_other": "Before confirming and deleting, choose how to handle <2>{{custom_statuses_num}} bugs</2> in this campaign associated with these statuses:",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_INTRO_one": "You are about to delete a status.",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_INTRO_other": "You are about to delete more than one status.",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS_one": "Currently <2>{{custom_statuses}}</2> is not associated with any bugs.",
