@@ -74,6 +74,15 @@ unguessApi.enhanceEndpoints({
     deleteWorkspacesByWidUsers: {
       invalidatesTags: ['Users'],
     },
+    getCampaignsByCidCustomStatuses: {
+      providesTags: ['CustomStatuses'],
+    },
+    deleteCampaignsByCidCustomStatuses: {
+      invalidatesTags: ['CustomStatuses'],
+    },
+    patchCampaignsByCidCustomStatuses: {
+      invalidatesTags: ['CustomStatuses'],
+    },
   },
 });
 

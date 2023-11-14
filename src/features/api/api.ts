@@ -30,6 +30,7 @@ export const apiSlice = createApi({
     'Templates',
     'Bugs',
     'Tags',
+    'CustomStatuses',
   ],
   endpoints: () => ({}),
 });
