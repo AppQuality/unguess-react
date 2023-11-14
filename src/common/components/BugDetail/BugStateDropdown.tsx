@@ -55,7 +55,7 @@ const ManageItem = styled(StyledItem)`
   cursor: pointer;
   text-transform: none;
 
-  &[disabled] {
+  &[disabled]:hover {
     ${(props) => retrieveComponentStyles('navigation.hoverableItem', props)};
     border-radius: 0 !important;
   }
