@@ -63,7 +63,7 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Tags'],
     },
     getCampaignsByCidBugsAndBid: {
-      providesTags: ['Tags'],
+      providesTags: ['Tags', 'Bugs'],
     },
     getWorkspacesByWidUsers: {
       providesTags: ['Users'],
