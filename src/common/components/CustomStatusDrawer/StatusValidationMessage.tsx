@@ -15,10 +15,13 @@ export const StatusValidationMessage = ({
   const { t } = useTranslation();
   const { errors, touched, values, initialValues } = formikProps;
   const status = values.custom_statuses[`${field_id}`];
-  const initialStatus = initialValues.custom_statuses[`${field_id}`];
+  const initialStatus = initialValues.custom_statuses.find(
+    (cs) => cs.id === status.id
+  );
   const isChanged =
-    initialStatus && initialStatus.name.localeCompare(status.name) !== 0;
-
+    initialStatus &&
+    initialStatus.name &&
+    initialStatus.name.localeCompare(status.name) !== 0;
   const isTouched =
     touched.custom_statuses && touched.custom_statuses[`${field_id}`];
 
@@ -50,7 +53,7 @@ export const StatusValidationMessage = ({
     );
   }
 
-  if (!isChanged && !isTouched) return null;
+  if (isChanged === false) return null;
 
   // Show success message otherwise
   return (
