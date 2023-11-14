@@ -1,4 +1,4 @@
-import { PageLoader, Grid, Row, Col } from '@appquality/unguess-design-system';
+import { Grid, Row, Col } from '@appquality/unguess-design-system';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { ManualResponse } from 'src/features/backoffice';
 import { useGeti18nManualsQuery } from 'src/features/backoffice/strapi';
@@ -7,6 +7,7 @@ import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useParams } from 'react-router-dom';
+import { PageLoader } from 'src/common/components/PageLoader';
 import { RightModalHelp } from './components/RightModalHelp';
 import { ManualDetails } from './components/ManualDetails';
 import ManualHeader from './components/ManualHeader';
@@ -33,8 +34,6 @@ const Manual = () => {
     },
   });
 
-  if (isLoading) return <PageLoader />;
-
   if (isError) {
     return <ManualNotFound />;
   }
@@ -49,27 +48,33 @@ const Manual = () => {
 
   return (
     <div style={{ background: appTheme.palette.grey[100], maxWidth: '100%' }}>
-      <ManualHeader manual={manual} />
-      <LayoutWrapper style={{ minHeight: 'calc(100vh - 64px)' }}>
-        <Grid style={{ height: '100%' }}>
-          <Row style={{ height: '100%' }}>
-            {manual ? (
-              <>
-                <Col xs={12} lg={8}>
-                  <StyledCard>
-                    <ManualDetails manual={manual} />
-                  </StyledCard>
-                </Col>
-                <HelpCol xs={12} lg={4}>
-                  <RightModalHelp campaignId={campaignId ?? '-1'} />
-                </HelpCol>
-              </>
-            ) : (
-              <ManualNotFound />
-            )}
-          </Row>
-        </Grid>
-      </LayoutWrapper>
+      {isLoading ? (
+        <PageLoader />
+      ) : (
+        <>
+          <ManualHeader manual={manual} />
+          <LayoutWrapper style={{ minHeight: 'calc(100vh - 64px)' }}>
+            <Grid style={{ height: '100%' }}>
+              <Row style={{ height: '100%' }}>
+                {manual ? (
+                  <>
+                    <Col xs={12} lg={8}>
+                      <StyledCard>
+                        <ManualDetails manual={manual} />
+                      </StyledCard>
+                    </Col>
+                    <HelpCol xs={12} lg={4}>
+                      <RightModalHelp campaignId={campaignId ?? '-1'} />
+                    </HelpCol>
+                  </>
+                ) : (
+                  <ManualNotFound />
+                )}
+              </Row>
+            </Grid>
+          </LayoutWrapper>
+        </>
+      )}
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import { useAppSelector } from 'src/app/hooks';
+import { BugCustomStatus } from '../api';
 
 export type CustomStatusFilterType = {
   customStatuses: {
-    available: { id: number; name: string }[];
-    selected: { id: number; name: string }[];
+    available: BugCustomStatus[];
+    selected: BugCustomStatus[];
   };
 };
 
@@ -20,7 +21,7 @@ export const CustomStatusFilter = {
   }),
   setAvailable: (
     state: CustomStatusFilterType,
-    customStatuses: { id: number; name: string }[]
+    customStatuses: BugCustomStatus[]
   ) => ({
     customStatuses: {
       ...CustomStatusFilter.getCurrent(state),
@@ -29,7 +30,7 @@ export const CustomStatusFilter = {
   }),
   filter: (
     state: CustomStatusFilterType,
-    customStatuses?: { id: number; name: string }[]
+    customStatuses?: BugCustomStatus[]
   ) => ({
     customStatuses: {
       ...CustomStatusFilter.getCurrent(state),

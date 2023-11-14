@@ -9,7 +9,7 @@ import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useEffect, useRef } from 'react';
-import BugStateDropdown from 'src/common/components/BugDetail/BugStateDropdown';
+import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
@@ -64,15 +64,10 @@ export const BugPreview = ({
     isFetching,
     isError,
     refetch: refetchBugTags,
-  } = useGetCampaignsByCidBugsAndBidQuery(
-    {
-      cid: campaignId.toString(),
-      bid: bugId.toString(),
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId.toString(),
+    bid: bugId.toString(),
+  });
   const currentBugId = getSelectedBugId();
 
   // Reset container scroll position when bug changes

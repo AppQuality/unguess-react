@@ -105,6 +105,26 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/campaigns/${queryArg.cid}/custom_statuses`,
       }),
     }),
+    patchCampaignsByCidCustomStatuses: build.mutation<
+      PatchCampaignsByCidCustomStatusesApiResponse,
+      PatchCampaignsByCidCustomStatusesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/custom_statuses`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
+    deleteCampaignsByCidCustomStatuses: build.mutation<
+      DeleteCampaignsByCidCustomStatusesApiResponse,
+      DeleteCampaignsByCidCustomStatusesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/custom_statuses`,
+        method: 'DELETE',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidDevices: build.query<
       GetCampaignsByCidDevicesApiResponse,
       GetCampaignsByCidDevicesApiArg
@@ -596,6 +616,29 @@ export type GetCampaignsByCidCustomStatusesApiResponse =
 export type GetCampaignsByCidCustomStatusesApiArg = {
   /** Campaign id */
   cid: string;
+};
+export type PatchCampaignsByCidCustomStatusesApiResponse =
+  /** status 200 OK */ BugCustomStatus[];
+export type PatchCampaignsByCidCustomStatusesApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    custom_status_id?: number;
+    name: string;
+    color: string;
+  }[];
+};
+export type DeleteCampaignsByCidCustomStatusesApiResponse =
+  /** status 200 OK */ {
+    status?: boolean;
+  };
+export type DeleteCampaignsByCidCustomStatusesApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    custom_status_id: number;
+    to_custom_status_id?: number;
+  }[];
 };
 export type GetCampaignsByCidDevicesApiResponse = /** status 200 OK */ {
   device: string;
@@ -1152,9 +1195,16 @@ export type BugPriority = {
   id: number;
   name: string;
 };
+export type BugCustomStatusPhase = {
+  id: number;
+  name: string;
+};
 export type BugCustomStatus = {
   id: number;
   name: string;
+  color: string;
+  phase: BugCustomStatusPhase;
+  is_default: number;
 };
 export type Smartphone = {
   manufacturer: string;
@@ -1390,6 +1440,8 @@ export const {
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidCustomStatusesQuery,
+  usePatchCampaignsByCidCustomStatusesMutation,
+  useDeleteCampaignsByCidCustomStatusesMutation,
   useGetCampaignsByCidDevicesQuery,
   usePutCampaignsByCidFindingsAndFidMutation,
   useGetCampaignsByCidMetaQuery,
