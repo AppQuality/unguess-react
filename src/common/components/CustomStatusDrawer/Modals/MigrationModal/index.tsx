@@ -81,11 +81,22 @@ export const MigrationModal = ({
     customStatusesToDelete.filter((cs) =>
       bugs?.items?.find((b) => b.custom_status.id === cs.id)
     ) ?? [];
+
   // Create an array of customStatus ids that are not used in bugs
   const deleteCustomStatusUnused =
     customStatusesToDelete?.filter(
       (cs) => !deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
     ) ?? [];
+
+  // Calculate bugs count for deleteCustomStatusUsed
+  let bugsCount = 0;
+  bugs?.items?.forEach((b) => {
+    deleteCustomStatusUsed.forEach((dcs) => {
+      if (b.custom_status.id === dcs.id) {
+        bugsCount += 1;
+      }
+    });
+  });
 
   const [selectedItems, setSelectedItems] = useState<MigrationItem[]>(
     deleteCustomStatusUsed.map((cs) => ({
@@ -204,10 +215,8 @@ export const MigrationModal = ({
                 i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_BUGS"
               >
                 Before confirming and deleting, choose how to handle{' '}
-                <Span isBold>
-                  {{ custom_statuses_num: deleteCustomStatusUsed.length }} bugs
-                </Span>{' '}
-                in this campaign associated with these status:
+                <Span isBold>{{ custom_statuses_num: bugsCount }} bugs</Span> in
+                this campaign associated with these status:
               </Trans>
             </Paragraph>
             <MigrationItemsList>
