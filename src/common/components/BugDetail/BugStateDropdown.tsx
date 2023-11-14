@@ -189,6 +189,7 @@ const BugStateDropdown = () => {
     isLoading: isLoadingBug,
     isFetching: isFetchingBug,
     isError: isErrorBug,
+    refetch: refetchBug,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId ? campaignId.toString() : '',
     bid,
@@ -230,7 +231,9 @@ const BugStateDropdown = () => {
     isErrorBug ||
     isErrorCustomStatus ||
     isLoadingBug ||
-    isLoadingCustomStatus
+    isFetchingBug ||
+    isLoadingCustomStatus ||
+    isFetchingCustomStatus
   )
     return null;
 
@@ -256,25 +259,26 @@ const BugStateDropdown = () => {
               },
             })
               .unwrap()
-              .then(() => {
-                setSelectedItem(item);
-              })
-              .catch(() => {
-                addToast(
-                  ({ close }) => (
-                    <Notification
-                      onClose={close}
-                      type="error"
-                      message={t(
-                        '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST_API'
-                      )}
-                      closeText={t('__TOAST_CLOSE_TEXT')}
-                      isPrimary
-                    />
-                  ),
-                  { placement: 'top' }
-                );
+              .catch((err) => {
+                if (err.status !== 500) {
+                  addToast(
+                    ({ close }) => (
+                      <Notification
+                        onClose={close}
+                        type="error"
+                        message={t(
+                          '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST_API'
+                        )}
+                        closeText={t('__TOAST_CLOSE_TEXT')}
+                        isPrimary
+                      />
+                    ),
+                    { placement: 'top' }
+                  );
+                }
               });
+
+            refetchBug();
           }}
           downshiftProps={{
             itemToString: (item: BugCustomStatus) => item && item.id,
