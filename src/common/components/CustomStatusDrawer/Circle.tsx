@@ -4,10 +4,10 @@ import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.
 export const Circle = styled(CircleFill)<{
   color: string;
 }>`
-  width: 13px;
-  height: 13px;
-  min-width: 13px;
-  min-height: 13px;
+  width: ${({ theme }) => theme.space.sm};
+  height: ${({ theme }) => theme.space.sm};
+  min-width: ${({ theme }) => theme.space.sm};
+  min-height: ${({ theme }) => theme.space.sm};
   margin: auto 0;
   border-radius: 50%;
   color: ${({ color }) => color};
