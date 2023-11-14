@@ -50,7 +50,7 @@ export const StatusValidationMessage = ({
     );
   }
 
-  if (!isChanged || !isTouched) return null;
+  if (!isChanged && !isTouched) return null;
 
   // Show success message otherwise
   return (
