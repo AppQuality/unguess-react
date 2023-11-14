@@ -28,10 +28,8 @@ export const apiSlice = createApi({
     'Campaigns',
     'Reports',
     'Templates',
-    'Bug',
     'Bugs',
     'Tags',
-    'CustomStatuses',
   ],
   endpoints: () => ({}),
 });
