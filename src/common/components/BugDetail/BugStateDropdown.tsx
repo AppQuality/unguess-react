@@ -30,6 +30,7 @@ import {
 import useWindowSize from 'src/hooks/useWindowSize';
 import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import { useParams } from 'react-router-dom';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 const StyledMenu = styled(Menu)`
   &::-webkit-scrollbar {
@@ -53,6 +54,11 @@ const ManageItem = styled(StyledItem)`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   cursor: pointer;
   text-transform: none;
+
+  &[disabled] {
+    ${(props) => retrieveComponentStyles('navigation.hoverableItem', props)};
+    border-radius: 0 !important;
+  }
 `;
 
 export const SelectedItem = styled.div`
