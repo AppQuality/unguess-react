@@ -116,7 +116,7 @@
   "__BUGS_PAGE_CUSTOM_STATUS_CLOSE_DRAWER_MODAL_HEADER_TITLE": "Se esci le modifiche fatte non saranno salvate",
   "__BUGS_PAGE_CUSTOM_STATUS_CLOSE_DRAWER_MODAL_QUIT_BUTTON": "Esci",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_BODY_DESCRIPTION": "Da qui puoi creare un nuovo stato, aggiungerlo a quelli in lavorazione o modificarlo.",
-  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON": "Salva modifiche",
+  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON": "Salva le modifiche",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST": "Modifiche salvate",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CREATE_CUSTOM_STATUS_BUTTON": "Crea un nuovo stato",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED": "Scegli un nome fino a 17 caratteri spazi compresi.",
