@@ -179,16 +179,16 @@ export const MigrationModal = ({
         {t('__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_HEADER_TITLE')}
       </Modal.Header>
       <MigrateModalBody>
-        <Paragraph>
-          <Trans
-            count={
-              deleteCustomStatusUnused.length + deleteCustomStatusUsed.length
-            }
-            i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_INTRO"
-          >
-            You are about to delete a custom status.
-          </Trans>
-        </Paragraph>
+        {deleteCustomStatusUsed.length > 0 && (
+          <Paragraph>
+            <Trans
+              count={deleteCustomStatusUsed.length}
+              i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_INTRO"
+            >
+              You are about to delete a custom status.
+            </Trans>
+          </Paragraph>
+        )}
         {deleteCustomStatusUnused.length > 0 && (
           <Paragraph>
             <Trans
