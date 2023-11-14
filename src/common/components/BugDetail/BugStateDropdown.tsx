@@ -277,7 +277,7 @@ const BugStateDropdown = () => {
               });
           }}
           downshiftProps={{
-            itemToString: (item: BugCustomStatus) => item && item.name,
+            itemToString: (item: BugCustomStatus) => item && item.id,
           }}
         >
           <Field className="bug-dropdown-custom-status">
