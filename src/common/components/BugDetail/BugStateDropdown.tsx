@@ -3,7 +3,6 @@ import {
   Select,
   Item,
   Menu,
-  Skeleton,
   Tooltip,
   Separator,
   MD,
@@ -11,10 +10,10 @@ import {
   Notification,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
+  Bug,
   BugCustomStatus,
-  useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
@@ -23,13 +22,9 @@ import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import { useAppDispatch } from 'src/app/hooks';
-import {
-  setCustomStatusDrawerOpen,
-  getSelectedBugId,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
-import { useParams } from 'react-router-dom';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 
 const StyledMenu = styled(Menu)`
@@ -161,38 +156,20 @@ const BugStateDropdownMenu = ({
   );
 };
 
-const BugStateDropdown = () => {
+const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
-  const { campaignId, bugId } = useParams();
   const { addToast } = useToast();
-  const [selectedItem, setSelectedItem] = useState<BugCustomStatus>();
+  const [selectedItem, setSelectedItem] = useState<BugCustomStatus>(
+    bug.custom_status
+  );
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
-  const selectedBugId = getSelectedBugId();
-
-  let bid: string = '';
-  if (selectedBugId) {
-    bid = selectedBugId.toString();
-  } else if (bugId) {
-    bid = bugId.toString();
-  }
 
   const {
     currentData: cpCustomStatus,
     isLoading: isLoadingCustomStatus,
-    isFetching: isFetchingCustomStatus,
     isError: isErrorCustomStatus,
   } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: campaignId ? campaignId.toString() : '',
-  });
-  const {
-    currentData: bug,
-    isLoading: isLoadingBug,
-    isFetching: isFetchingBug,
-    isError: isErrorBug,
-    refetch: refetchBug,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId ? campaignId.toString() : '',
-    bid,
+    cid: bug.campaign_id.toString(),
   });
 
   // Split custom statuses by phase into an object with multiple arrays
@@ -210,31 +187,7 @@ const BugStateDropdown = () => {
     return acc;
   }, [] as { id: number; name: string; customStatuses: typeof cpCustomStatus }[]);
 
-  // Check selected custom status
-  useEffect(() => {
-    if (!bug) return;
-
-    customStatusesByPhase?.find((phase) => {
-      const found = phase.customStatuses.find(
-        (cs) => cs.id === bug.custom_status.id
-      );
-      if (found) {
-        setSelectedItem(found);
-      }
-      return found;
-    });
-  }, [bug, cpCustomStatus]);
-
-  if (
-    !bug ||
-    !cpCustomStatus ||
-    isErrorBug ||
-    isErrorCustomStatus ||
-    isLoadingBug ||
-    isFetchingBug ||
-    isLoadingCustomStatus ||
-    isFetchingCustomStatus
-  )
+  if (!bug || !cpCustomStatus || isErrorCustomStatus || isLoadingCustomStatus)
     return null;
 
   return (
@@ -242,75 +195,68 @@ const BugStateDropdown = () => {
       <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_STATE_LABEL')}
       </MD>
-      {isFetchingBug || isFetchingCustomStatus ? (
-        <Skeleton
-          height="30px"
-          style={{ borderRadius: appTheme.borderRadii.md }}
-        />
-      ) : (
-        <Dropdown
-          selectedItem={selectedItem}
-          onSelect={(item: BugCustomStatus) => {
-            patchBug({
-              cid: campaignId ? campaignId.toString() : '',
-              bid,
-              body: {
-                custom_status_id: item.id,
-              },
-            })
-              .unwrap()
-              .catch((err) => {
-                if (err.status !== 500) {
-                  addToast(
-                    ({ close }) => (
-                      <Notification
-                        onClose={close}
-                        type="error"
-                        message={t(
-                          '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST_API'
-                        )}
-                        closeText={t('__TOAST_CLOSE_TEXT')}
-                        isPrimary
-                      />
-                    ),
-                    { placement: 'top' }
-                  );
-                }
-              });
-
-            refetchBug();
-          }}
-          downshiftProps={{
-            itemToString: (item: BugCustomStatus) => item && item.id,
-          }}
-        >
-          <Field className="bug-dropdown-custom-status">
-            {bug && bug.status.id === 4 ? (
-              <Tooltip
-                appendToNode={document.body}
-                type="light"
-                content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
-              >
-                <Select isCompact disabled>
-                  <StyledItem>
-                    {t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}
-                  </StyledItem>
-                </Select>
-              </Tooltip>
-            ) : (
-              <Select isCompact>
-                {selectedItem && (
-                  <BugStateDropdownItem customStatus={selectedItem} />
-                )}
+      <Dropdown
+        selectedItem={selectedItem}
+        onSelect={(item: BugCustomStatus) => {
+          console.log('going to select item', item);
+          patchBug({
+            cid: bug.campaign_id.toString(),
+            bid: bug.id.toString(),
+            body: {
+              custom_status_id: item.id,
+            },
+          })
+            .unwrap()
+            .catch((e) => {
+              if (e.status !== 500) {
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={t(
+                        '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST_API'
+                      )}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              }
+            });
+          setSelectedItem(item);
+        }}
+        downshiftProps={{
+          itemToString: (item: BugCustomStatus) => item && item.id,
+        }}
+      >
+        <Field className="bug-dropdown-custom-status">
+          {bug && bug.status.id === 4 ? (
+            <Tooltip
+              appendToNode={document.body}
+              type="light"
+              content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
+            >
+              <Select isCompact disabled>
+                <StyledItem>
+                  {t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}
+                </StyledItem>
               </Select>
-            )}
-          </Field>
-          <BugStateDropdownMenu
-            isEditable
-            customStatusesByPhase={customStatusesByPhase ?? []}
-          />
-        </Dropdown>
-      )}
+            </Tooltip>
+          ) : (
+            <Select isCompact>
+              {selectedItem && (
+                <BugStateDropdownItem customStatus={selectedItem} />
+              )}
+            </Select>
+          )}
+        </Field>
+        <BugStateDropdownMenu
+          isEditable
+          customStatusesByPhase={customStatusesByPhase ?? []}
+        />
+      </Dropdown>
     </div>
   );
 };

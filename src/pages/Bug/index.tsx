@@ -48,15 +48,10 @@ const Bug = () => {
     isFetching,
     isError,
     refetch,
-  } = useGetCampaignsByCidBugsAndBidQuery(
-    {
-      cid: campaignId,
-      bid: bugId,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId,
+    bid: bugId,
+  });
 
   const { data: { workspace } = {} } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId,

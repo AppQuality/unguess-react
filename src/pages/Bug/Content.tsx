@@ -33,7 +33,7 @@ export const Content = ({ bug, campaignId, refetchBugTags }: Props) => (
       <BugMeta bug={bug} />
       <AnchorButtons bug={bug} />
       <GridWrapper>
-        <BugStateDropdown />
+        <BugStateDropdown bug={bug} />
         <BugPriority bug={bug} />
       </GridWrapper>
       <BugDescription bug={bug} />
