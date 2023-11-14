@@ -1,4 +1,5 @@
 import {
+  IconButton,
   Logo,
   Nav,
   NavAccordionItem,
@@ -118,7 +119,14 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         <SharedLabel>{t('__APP_SIDEBAR_SHARED_WORKSPACE_LABEL')}</SharedLabel>
       )}
       <ScrollingContainer>
-        <NavToggle onClick={onSidebarToggle} isExpanded={isSidebarOpen} />
+        {!isMobile && (
+          <NavToggle
+            id="sidebar-nav-toggle"
+            onClick={onSidebarToggle}
+            isExpanded={isSidebarOpen}
+            style={{ display: 'block' }}
+          />
+        )}
         {isMobile && isSidebarOpen && (
           <DropdownItem id="sidebar-dropdown-item">
             <WorkspacesDropdown />
