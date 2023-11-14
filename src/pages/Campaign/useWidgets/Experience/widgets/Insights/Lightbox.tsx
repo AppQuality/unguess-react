@@ -6,6 +6,7 @@ import {
   Span,
   XL,
 } from '@appquality/unguess-design-system';
+import StreamPlayer from '@appquality/unguess-streamplayer';
 import { t } from 'i18next';
 import { useCallback, useRef } from 'react';
 import { Trans } from 'react-i18next';
@@ -85,11 +86,11 @@ const InsightLightbox = ({
             {items.length > 0 &&
               items.map((item) => (
                 <Slider.Slide>
-                  <Player
-                    ref={(ref) => {
+                  <StreamPlayer
+                    ref={(ref: HTMLVideoElement) => {
                       videoRefs.current.push(ref);
                     }}
-                    url={item.streamUrl || item.url}
+                    src={item.streamUrl || item.url}
                     start={item.start}
                     end={item.end}
                   />

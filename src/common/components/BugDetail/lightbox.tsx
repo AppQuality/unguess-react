@@ -5,6 +5,7 @@ import {
   Player,
   Slider,
 } from '@appquality/unguess-design-system';
+import StreamPlayer from '@appquality/unguess-streamplayer';
 import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import {
@@ -91,11 +92,11 @@ export const LightboxContainer = ({
                   <img src={item.url} alt={`bug ${item.mime_type}`} />
                 )}
                 {item.mime_type.type === 'video' && (
-                  <Player
-                    ref={(ref) => {
+                  <StreamPlayer
+                    ref={(ref: HTMLVideoElement) => {
                       videoRefs.current.push(ref);
                     }}
-                    url={item.url}
+                    src={item.url}
                   />
                 )}
               </Slider.Slide>
