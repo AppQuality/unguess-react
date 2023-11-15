@@ -73,40 +73,38 @@ const Service = () => {
     }
   };
 
+  if (!data || isLoading || status === 'loading') {
+    return <PageLoader />;
+  }
+
   return (
     <Page
       pageHeader={
-        data && (
-          <SingleServicePageHeader
-            response={data}
-            onContactClick={handleContactUsClick}
-          />
-        )
+        <SingleServicePageHeader
+          response={data}
+          onContactClick={handleContactUsClick}
+        />
       }
       title={service.title}
       route="service"
     >
-      {!data || isLoading || status === 'loading' ? (
-        <PageLoader />
-      ) : (
-        <LayoutWrapper>
-          <HubspotModal
-            isOpen={isModalOpen}
-            meetingUrl={memoCsm?.url}
-            onClose={() => setIsModalOpen(false)}
-          />
-          <ServiceTimeline
-            response={data}
-            onContactClick={handleContactUsClick}
-          />
-          <ExpressDrawer
-            onCtaClick={() => {
-              dispatch(openWizard());
-            }}
-          />
-          <ExpressWizardContainer />
-        </LayoutWrapper>
-      )}
+      <LayoutWrapper>
+        <HubspotModal
+          isOpen={isModalOpen}
+          meetingUrl={memoCsm?.url}
+          onClose={() => setIsModalOpen(false)}
+        />
+        <ServiceTimeline
+          response={data}
+          onContactClick={handleContactUsClick}
+        />
+        <ExpressDrawer
+          onCtaClick={() => {
+            dispatch(openWizard());
+          }}
+        />
+        <ExpressWizardContainer />
+      </LayoutWrapper>
     </Page>
   );
 };
