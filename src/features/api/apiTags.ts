@@ -78,10 +78,10 @@ unguessApi.enhanceEndpoints({
       providesTags: ['CustomStatuses'],
     },
     deleteCampaignsByCidCustomStatuses: {
-      invalidatesTags: ['CustomStatuses'],
+      invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
     },
     patchCampaignsByCidCustomStatuses: {
-      invalidatesTags: ['CustomStatuses'],
+      invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
     },
   },
 });
