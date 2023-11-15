@@ -1,6 +1,9 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
+import { CustomStatusDrawer } from 'src/common/components/CustomStatusDrawer';
+import { useAppSelector } from 'src/app/hooks';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { BugsFilters } from '../Filters';
@@ -31,6 +34,13 @@ const LayoutWrapperFilters = styled(LayoutWrapper)`
 const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
   const currentBugId = getSelectedBugId();
   const previewOpenStyle = currentBugId ? { marginRight: 0 } : {};
+  const { isCustomStatusDrawerOpen } = useAppSelector((state) => ({
+    isCustomStatusDrawerOpen: state.bugsPage.isCustomStatusDrawerOpen,
+  }));
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const hideDrawer = width < breakpointSm;
+
   return (
     <>
       <LayoutWrapperFilters isNotBoxed>
@@ -55,6 +65,7 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
           </Row>
         </Grid>
       </LayoutWrapperBugs>
+      {isCustomStatusDrawerOpen && !hideDrawer && <CustomStatusDrawer />}
     </>
   );
 };

@@ -49,6 +49,9 @@ export const CustomStatusField = ({
         {
           id: customStatusNotABugInfo.actionIdentifier,
           name: customStatusNotABugInfo.drawerTitle,
+          color: customStatusNotABugInfo.customStatusColor,
+          phase: customStatusNotABugInfo.customStatusPhase,
+          is_default: customStatusNotABugInfo.customStatusIsDefault,
         },
       ]
     : [...selected];
