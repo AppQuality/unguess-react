@@ -121,7 +121,7 @@
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_EDIT_COLOR_BUTTON": "Modifica colore",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST": "Modifiche non salvate. Controlla i campi con errore.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST_API": "Qualcosa è andato storto, per favore riprova.",
-  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE": "Add or edit statuses",
+  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE": "Crea o modifica stati",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_NEW_CUSTOM_STATUS_SUCCESS": "Nuovo stato aggiunto! Salvalo per vederlo nella campagna.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_PHASE_1_NAME": "In lavorazione",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_PHASE_2_NAME": "Completato",
