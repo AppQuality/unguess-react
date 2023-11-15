@@ -24,7 +24,7 @@ import {
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import {
   BugStateDropdownItem,
@@ -104,6 +104,18 @@ export const MigrationModal = ({
       to_custom_status_id: 1,
     }))
   );
+
+  useEffect(() => {
+    // Be sure to update selectedItems when customStatusesToDelete changes to avoid empty selectedItems (without default values)
+    setSelectedItems(
+      customStatusesToDelete
+        .filter((cs) => bugs?.items?.find((b) => b.custom_status.id === cs.id))
+        .map((cs) => ({
+          custom_status_id: cs.id,
+          to_custom_status_id: 1,
+        }))
+    );
+  }, [customStatusesToDelete, bugs]);
 
   // Split custom statuses by phase into an object with multiple arrays
   const customStatusesByPhase = cpCustomStatuses?.reduce((acc, cs) => {
