@@ -198,7 +198,6 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
       <Dropdown
         selectedItem={selectedItem}
         onSelect={(item: BugCustomStatus) => {
-          console.log('going to select item', item);
           patchBug({
             cid: bug.campaign_id.toString(),
             bid: bug.id.toString(),
