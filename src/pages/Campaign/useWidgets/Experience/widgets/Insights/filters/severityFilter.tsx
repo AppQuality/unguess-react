@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 
-import { setSeverity } from 'src/features/uxFiltersFake/campaignsFilterSlice';
+import { setSeverity } from 'src/features/uxFilters/campaignsFilterSlice';
 import { getSeverity } from '../utils';
 import { useCampaignInsights } from '../useCampaignInsights';
 

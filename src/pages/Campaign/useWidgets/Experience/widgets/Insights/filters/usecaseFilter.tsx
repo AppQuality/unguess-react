@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 
-import { setUseCase } from 'src/features/uxFiltersFake/campaignsFilterSlice';
+import { setUseCase } from 'src/features/uxFilters/campaignsFilterSlice';
 
 import { clusters } from '../fakeData';
 import { getSeverity } from '../utils';

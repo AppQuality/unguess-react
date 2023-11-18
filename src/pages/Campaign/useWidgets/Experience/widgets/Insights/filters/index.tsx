@@ -7,7 +7,7 @@ import {
   setSeverity,
   setUseCase,
   resetFilters,
-} from 'src/features/uxFiltersFake/campaignsFilterSlice';
+} from 'src/features/uxFilters/campaignsFilterSlice';
 import { useTranslation } from 'react-i18next';
 import { SeverityFilter } from './severityFilter';
 import { UseCaseFilter } from './usecaseFilter';
