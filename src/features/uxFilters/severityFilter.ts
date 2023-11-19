@@ -31,7 +31,7 @@ export const SeverityFilter = {
     state: SeverityFilterType,
     severities?: { id: number; name: string }[]
   ) => ({
-    types: {
+    severities: {
       ...SeverityFilter.getCurrent(state),
       ...(severities ? { selected: severities } : {}),
     },

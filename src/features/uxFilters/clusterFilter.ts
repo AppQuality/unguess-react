@@ -31,7 +31,7 @@ export const ClusterFilter = {
     state: ClusterFilterType,
     clusters?: { id: number; name: string }[]
   ) => ({
-    types: {
+    clusters: {
       ...ClusterFilter.getCurrent(state),
       ...(clusters ? { selected: clusters } : {}),
     },

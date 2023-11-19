@@ -1,13 +1,13 @@
 import { SpecialCard, Tag, Button } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppDispatch } from 'src/app/hooks';
 import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import {
-  setSeverity,
-  setUseCase,
+  getCurrentUxData,
   resetFilters,
-} from 'src/features/uxFilters/campaignsFilterSlice';
+  updateFilters,
+} from 'src/features/uxFilters';
 import { useTranslation } from 'react-i18next';
 import { SeverityFilter } from './severityFilter';
 import { UseCaseFilter } from './usecaseFilter';
@@ -96,18 +96,33 @@ const StyledButton = styled(Button)`
 `;
 
 export const Filters = () => {
-  const { severity: selectedSeverity, usecase: selectedUseCase } =
-    useAppSelector((state) => state.uxFilters);
   const { t } = useTranslation();
+  const data = getCurrentUxData();
 
   const dispatch = useAppDispatch();
 
+  if (!data || !data.clusters || !data.severities) return null;
+
   const removeSeverity = (id: number) => () => {
-    dispatch(setSeverity(selectedSeverity.filter((item) => item.id !== id)));
+    const { selected } = data.severities;
+    dispatch(
+      updateFilters({
+        filters: {
+          severities: selected.filter((s) => s.id !== id),
+        },
+      })
+    );
   };
 
   const removeUseCase = (id: number) => () => {
-    dispatch(setUseCase(selectedUseCase.filter((item) => item.id !== id)));
+    const { selected } = data.clusters;
+    dispatch(
+      updateFilters({
+        filters: {
+          clusters: selected.filter((c) => c.id !== id),
+        },
+      })
+    );
   };
 
   return (
@@ -125,7 +140,7 @@ export const Filters = () => {
       <Wrapper>
         <Inner>
           <ScrollingContainer>
-            {selectedSeverity.map((item) => (
+            {data.severities.selected.map((item) => (
               <Tag
                 key={item.id}
                 hue={`${
@@ -141,7 +156,7 @@ export const Filters = () => {
               </Tag>
             ))}
 
-            {selectedUseCase.map((item) => (
+            {data.clusters.selected.map((item) => (
               <Tag key={item.id} size="large" hue={appTheme.palette.grey[200]}>
                 {item.name}
                 <Tag.Close onClick={removeUseCase(item.id)} />

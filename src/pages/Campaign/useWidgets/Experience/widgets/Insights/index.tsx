@@ -86,7 +86,7 @@ export const Insights = ({
         { placement: 'top' }
       );
     },
-    [data.findings]
+    [data?.findings]
   );
 
   // Check if url has an anchor and scroll to it

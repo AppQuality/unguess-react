@@ -1,31 +1,24 @@
 import { CounterMultiselect } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
-
-import { setSeverity } from 'src/features/uxFilters/campaignsFilterSlice';
-import { getSeverity } from '../utils';
-import { useCampaignInsights } from '../useCampaignInsights';
-
-const severities = [
-  { id: 1, name: 'Minor' },
-  { id: 2, name: 'Major' },
-  { id: 3, name: 'Positive' },
-  { id: 4, name: 'Observation' },
-];
+import { useAppDispatch } from 'src/app/hooks';
+import { getCurrentUxData, updateFilters } from 'src/features/uxFilters';
+import { appTheme } from 'src/app/theme';
+import { useFilterData } from './useFilterData';
 
 export const SeverityFilter = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { severity: selectedSeverity } = useAppSelector(
-    (state) => state.uxFilters
-  );
+  const data = getCurrentUxData();
+  const { counters } = useFilterData('severities');
 
-  const { data, isLoading, isError } = useCampaignInsights({
-    campaignId: '6149',
-    filterBy: 'usecase',
-  });
-  const available = data.findings.map((item) => item.severity);
+  if (
+    !data ||
+    !data.severities ||
+    !data.severities.available ||
+    !data.severities.available.length ||
+    !counters
+  )
+    return null;
 
   return (
     <div style={{ maxWidth: '170px' }} className="dropdown-severities">
@@ -37,27 +30,28 @@ export const SeverityFilter = () => {
         }}
         onChange={(selected) => {
           dispatch(
-            setSeverity(
-              selected.map((item) => ({
-                id: item.itemId,
-                name: item.label,
-              }))
-            )
+            updateFilters({
+              filters: {
+                severities: selected.map((item) => ({
+                  id: item.itemId,
+                  name: item.label,
+                })),
+              },
+            })
           );
         }}
-        options={severities.map((item) => ({
+        options={data.severities.available.map((item) => ({
           itemId: item.id,
           className: `dropdown-severities-item-${item.name.toLowerCase()}`,
-          label: `${item.name} ${
-            !available.some((i) => i.id === item.id) ? '(0)' : ''
-          }`,
+          label: `${item.name} (${counters[item.id]})`,
           style: {
-            color: getSeverityInfo(getSeverity(item) as Severities, t).color,
+            color:
+              appTheme.colors.bySeverity[
+                item.name.toLocaleLowerCase() as Severities
+              ],
           },
-          disabled:
-            !selectedSeverity.some((i) => i.id === item.id) &&
-            !available.some((i) => i.id === item.id),
-          selected: selectedSeverity.some((i) => i.id === item.id),
+          disabled: !counters[item.id],
+          selected: data.severities.selected.map((i) => i.id).includes(item.id),
         }))}
       />
     </div>

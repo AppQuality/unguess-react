@@ -1,31 +1,26 @@
 import { CounterMultiselect } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
-
-import { setUseCase } from 'src/features/uxFilters/campaignsFilterSlice';
-
-import { clusters } from '../fakeData';
-import { getSeverity } from '../utils';
-import { useCampaignInsights } from '../useCampaignInsights';
+import { useAppDispatch } from 'src/app/hooks';
+import { getCurrentUxData, updateFilters } from 'src/features/uxFilters';
+import { useFilterData } from './useFilterData';
 
 export const UseCaseFilter = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { usecase: selectedUseCase } = useAppSelector(
-    (state) => state.uxFilters
-  );
+  const data = getCurrentUxData();
+  const { counters } = useFilterData('clusters');
 
-  const { data, isLoading, isError } = useCampaignInsights({
-    campaignId: '6149',
-    filterBy: 'severity',
-  });
-  // reduce clusters into an array of clusters
-
-  const available = data.findings.map((item) => item.cluster).flat(1);
+  if (
+    !data ||
+    !data.clusters ||
+    !data.clusters.available ||
+    !data.clusters.available.length ||
+    !counters
+  )
+    return null;
 
   return (
-    <div style={{ maxWidth: '170px' }} className="dropdown-severities">
+    <div style={{ maxWidth: '170px' }} className="dropdown-clusters">
       <CounterMultiselect
         isCompact
         i18n={{
@@ -34,25 +29,22 @@ export const UseCaseFilter = () => {
         }}
         onChange={(selected) => {
           dispatch(
-            setUseCase(
-              selected.map((item) => ({
-                id: item.itemId,
-                name: item.label,
-              }))
-            )
+            updateFilters({
+              filters: {
+                clusters: selected.map((item) => ({
+                  id: item.itemId,
+                  name: item.label,
+                })),
+              },
+            })
           );
         }}
-        options={clusters.map((item) => ({
+        options={data.clusters.available.map((item) => ({
           itemId: item.id,
-          className: `dropdown-usecase-item-${item.name.toLowerCase()}`,
-          label: `${item.name} ${
-            !available.some((i) => i.id === item.id) ? '(0)' : ''
-          }`,
-          style: {
-            color: getSeverityInfo(getSeverity(item) as Severities, t).color,
-          },
-          disabled: !available.some((i) => i.id === item.id),
-          selected: selectedUseCase.some((i) => i.id === item.id),
+          className: `dropdown-clusters-item-${item.name.toLowerCase()}`,
+          label: `${item.name} (${counters[item.id]})`,
+          disabled: !counters[item.id],
+          selected: data.clusters.selected.map((i) => i.id).includes(item.id),
         }))}
       />
     </div>

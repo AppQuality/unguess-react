@@ -115,7 +115,6 @@
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST": "Changes saved",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CREATE_CUSTOM_STATUS_BUTTON": "Create a new status",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED": "Choose a name up to 17 characters including spaces.",
-  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_MAX": "This name is a bit long. We recommend sticking to a maximum of 17 characters including spaces.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_SUCCESS": "Status changed! Save it to see it on the campaign.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_DELETE_CUSTOM_STATUS_BUTTON": "Delete status",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_EDIT_COLOR_BUTTON": "Edit color",
@@ -714,6 +713,10 @@
   "__FORM_OPTIONAL_LABEL": "(optional)",
   "__FUNCTIONAL_LABEL": "Functional",
   "__INSIGHT_LINK_TOAST_COPY_MESSAGE": "Link copied to clipboard",
+  "__INSIGHT_SEVERITY_MAJOR": "Major",
+  "__INSIGHT_SEVERITY_MINOR": "Minor",
+  "__INSIGHT_SEVERITY_OBSERVATION": "Observation",
+  "__INSIGHT_SEVERITY_POSITIVE": "Positive",
   "__LIST_PAGE_NEXT": "Next",
   "__LIST_PAGE_PREVIOUS": "Previous",
   "__LOGIN_FORM_BACK_TO_LABEL": "Back to Unguess",
@@ -825,5 +828,7 @@
   "Typology ({{count}})_one": "Typology ({{count}})",
   "Typology ({{count}})_other": "Typologies ({{count}})",
   "Use Cases ({{count}})_one": "Use Cases ({{count}})",
-  "Use Cases ({{count}})_other": "Use Cases ({{count}})"
+  "Use Cases ({{count}})_other": "Use Cases ({{count}})",
+  "UseCase ({{count}})_one": "",
+  "UseCase ({{count}})_other": ""
 }
