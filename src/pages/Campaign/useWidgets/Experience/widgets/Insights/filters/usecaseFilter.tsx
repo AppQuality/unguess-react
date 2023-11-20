@@ -43,7 +43,9 @@ export const UseCaseFilter = () => {
           itemId: item.id,
           className: `dropdown-clusters-item-${item.name.toLowerCase()}`,
           label: `${item.name} (${counters[item.id]})`,
-          disabled: !counters[item.id],
+          disabled:
+            !counters[item.id] &&
+            !data.clusters.selected.map((i) => i.id).includes(item.id),
           selected: data.clusters.selected.map((i) => i.id).includes(item.id),
         }))}
       />
