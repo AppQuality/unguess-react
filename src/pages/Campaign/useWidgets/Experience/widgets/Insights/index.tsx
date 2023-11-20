@@ -19,6 +19,8 @@ import { Campaign } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import styled from 'styled-components';
+import { resetFilters } from 'src/features/uxFilters';
+import { useAppDispatch } from 'src/app/hooks';
 import { InsightComment } from './Comments';
 import { HighlightCard } from './HighlightCard';
 import { InsightCard } from './InsightCard';
@@ -28,6 +30,7 @@ import { useCampaignInsights } from './useCampaignInsights';
 import { FiltersDropwdowns } from './filters/FiltersDropdowns';
 import { FiltersHeader } from './filters/FiltersHeader';
 import { FiltersTags } from './filters/FiltersTags';
+import { Empty } from './Empty';
 
 const StyledDivider = styled(Divider)`
   margin: ${({ theme }) => theme.space.base * 4}px 0
@@ -63,6 +66,7 @@ export const Insights = ({
   }>({});
   const pageUrl = useLocalizeRoute(`campaigns/${campaign.id}`);
   const { addToast } = useToast();
+  const dispatch = useAppDispatch();
 
   const copyLink = useCallback(
     (anchor: string) => {
@@ -126,7 +130,7 @@ export const Insights = ({
 
   if (!data || !data.findings || isError) return null;
 
-  if (data.findings && data.findings.length === 0) return null;
+  if (isLoading) return <Skeleton />;
 
   return (
     <div {...(id && { id })}>
@@ -145,211 +149,196 @@ export const Insights = ({
         <FiltersHeader />
         <FiltersDropwdowns />
         <FiltersTags />
-        <Row style={{ marginTop: appTheme.space.xxl }}>
-          {isLoading ? (
-            <>
-              <Col xs={12} lg={4}>
-                <Skeleton height="200px" />
-              </Col>
-              <Col xs={12} lg={8}>
-                <Skeleton height="100%" />
-              </Col>
-            </>
-          ) : (
-            <>
-              <ResponsiveCol xs={12} lg={6} xl={4}>
-                <Navigation insights={data.findings} />
-              </ResponsiveCol>
-              <Col xs={12} lg={6} xl={8}>
-                <Grid
-                  style={{
-                    paddingBottom:
-                      navigationOffset /* To fix unreachable last item in the navigation */,
-                  }}
-                >
-                  {data.findings.map((insight, i) => (
-                    <Row
-                      id={`insight-row-${insight.id}`}
-                      style={{ paddingBottom: appTheme.space.lg }}
-                    >
-                      <Col xs={12} style={{ margin: 0 }}>
-                        <XL
-                          style={{
-                            fontWeight: appTheme.fontWeights.semibold,
-                            paddingTop: appTheme.space.sm,
-                          }}
+        {data.findings && data.findings.length === 0 ? (
+          <Empty onClick={() => dispatch(resetFilters())} />
+        ) : (
+          <Row style={{ marginTop: appTheme.space.xxl }}>
+            <ResponsiveCol xs={12} lg={6} xl={4}>
+              <Navigation insights={data.findings} />
+            </ResponsiveCol>
+            <Col xs={12} lg={6} xl={8}>
+              <Grid
+                style={{
+                  paddingBottom:
+                    navigationOffset /* To fix unreachable last item in the navigation */,
+                }}
+              >
+                {data.findings.map((insight, i) => (
+                  <Row
+                    id={`insight-row-${insight.id}`}
+                    style={{ paddingBottom: appTheme.space.lg }}
+                  >
+                    <Col xs={12} style={{ margin: 0 }}>
+                      <XL
+                        style={{
+                          fontWeight: appTheme.fontWeights.semibold,
+                          paddingTop: appTheme.space.sm,
+                        }}
+                      >
+                        {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
+                        <IconButton
+                          onClick={() => copyLink(`insight-row-${insight.id}`)}
                         >
-                          {t('__CAMPAIGN_PAGE_INSIGHTS_NUMBER_LABEL')} {i + 1}
-                          <IconButton
-                            onClick={() =>
-                              copyLink(`insight-row-${insight.id}`)
-                            }
-                          >
-                            <CopyIcon />
-                          </IconButton>
-                        </XL>
+                          <CopyIcon />
+                        </IconButton>
+                      </XL>
 
-                        <StyledDivider />
-                      </Col>
-                      <Col
-                        xs={12}
-                        style={{ marginBottom: `${appTheme.space.base * 3}px` }}
-                      >
-                        <InsightComment
-                          id={insight.id}
-                          cid={campaign.id}
-                          comment={insight.comment}
-                        />
-                      </Col>
-                      <Col
-                        xs={12}
-                        md={6}
-                        lg={12}
-                        xl={6}
-                        style={{ marginBottom: appTheme.space.md }}
-                      >
-                        <InsightCard insight={insight} />
-                      </Col>
-                      {insight.video &&
-                        insight.video.slice(0, 1).map((videoPart, index) => (
-                          <Col
-                            xs={12}
-                            md={6}
-                            lg={12}
-                            xl={6}
-                            style={{ marginBottom: appTheme.space.md }}
-                          >
-                            <HighlightCard
-                              onClick={() => openLightbox(insight.id, index)}
-                              video={videoPart}
-                              index={index}
-                              insight={insight}
-                              videoCount={insight.video?.length || 0}
-                              {...(videoPart.poster && {
-                                poster: videoPart.poster,
-                              })}
-                            />
-                          </Col>
-                        ))}
-                      {insight.video &&
-                        insight.video.length > 1 &&
-                        insightsState &&
-                        (!insightsState[insight.id] ||
-                          !insightsState[insight.id].showMore) && (
-                          <Col
-                            xs={12}
-                            textAlign="end"
-                            style={{ marginBottom: appTheme.space.md }}
-                          >
-                            <Anchor
-                              onClick={() =>
-                                setInsightsState({
-                                  ...insightsState,
-                                  [insight.id]: {
-                                    ...insightsState[`${insight.id}`],
-                                    showMore: true,
-                                  },
-                                })
-                              }
-                            >
-                              <Trans
-                                count={insight.video.length - 1}
-                                i18nKey="__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL"
-                              >
-                                Show more highlights{' '}
-                                <Span isBold>
-                                  (
-                                  {{
-                                    video_count: insight.video.length - 1,
-                                  }}
-                                  )
-                                </Span>
-                              </Trans>
-                            </Anchor>
-                          </Col>
-                        )}
-                      {insightsState &&
-                        insightsState[insight.id] &&
-                        insightsState[insight.id].showMore &&
-                        insight.video &&
-                        insight.video.slice(1).map((videoPart, index) => (
-                          <Col
-                            xs={12}
-                            md={6}
-                            lg={12}
-                            xl={6}
-                            style={{ marginBottom: appTheme.space.md }}
-                          >
-                            <HighlightCard
-                              onClick={() =>
-                                openLightbox(insight.id, index + 1)
-                              }
-                              video={videoPart}
-                              index={index + 1}
-                              insight={insight}
-                              videoCount={insight.video?.length || 0}
-                              {...(videoPart.poster && {
-                                poster: videoPart.poster,
-                              })}
-                            />
-                          </Col>
-                        ))}
-                      {insight.video &&
-                        insight.video.length > 1 &&
-                        insightsState &&
-                        insightsState[insight.id] &&
-                        insightsState[insight.id].showMore && (
-                          <Col
-                            xs={12}
-                            textAlign="end"
-                            style={{ marginBottom: appTheme.space.md }}
-                          >
-                            <Anchor
-                              onClick={() =>
-                                setInsightsState({
-                                  ...insightsState,
-                                  [insight.id]: {
-                                    ...insightsState[`${insight.id}`],
-                                    showMore: false,
-                                  },
-                                })
-                              }
-                            >
-                              {t('__CAMPAIGN_PAGE_INSIGHTS_SHOW_LESS_LABEL')}
-                            </Anchor>
-                          </Col>
-                        )}
-                      {insightsState &&
-                        insightsState[insight.id] &&
-                        insightsState[insight.id].isOpen && (
-                          <InsightLightbox
+                      <StyledDivider />
+                    </Col>
+                    <Col
+                      xs={12}
+                      style={{ marginBottom: `${appTheme.space.base * 3}px` }}
+                    >
+                      <InsightComment
+                        id={insight.id}
+                        cid={campaign.id}
+                        comment={insight.comment}
+                      />
+                    </Col>
+                    <Col
+                      xs={12}
+                      md={6}
+                      lg={12}
+                      xl={6}
+                      style={{ marginBottom: appTheme.space.md }}
+                    >
+                      <InsightCard insight={insight} />
+                    </Col>
+                    {insight.video &&
+                      insight.video.slice(0, 1).map((videoPart, index) => (
+                        <Col
+                          xs={12}
+                          md={6}
+                          lg={12}
+                          xl={6}
+                          style={{ marginBottom: appTheme.space.md }}
+                        >
+                          <HighlightCard
+                            onClick={() => openLightbox(insight.id, index)}
+                            video={videoPart}
+                            index={index}
                             insight={insight}
-                            currentIndex={
-                              insightsState[insight.id].currentIndex
-                            }
-                            items={insight?.video}
-                            onClose={() =>
+                            videoCount={insight.video?.length || 0}
+                            {...(videoPart.poster && {
+                              poster: videoPart.poster,
+                            })}
+                          />
+                        </Col>
+                      ))}
+                    {insight.video &&
+                      insight.video.length > 1 &&
+                      insightsState &&
+                      (!insightsState[insight.id] ||
+                        !insightsState[insight.id].showMore) && (
+                        <Col
+                          xs={12}
+                          textAlign="end"
+                          style={{ marginBottom: appTheme.space.md }}
+                        >
+                          <Anchor
+                            onClick={() =>
                               setInsightsState({
                                 ...insightsState,
                                 [insight.id]: {
                                   ...insightsState[`${insight.id}`],
-                                  isOpen: false,
-                                  currentIndex: 0,
+                                  showMore: true,
                                 },
                               })
                             }
-                            onSlideChange={(index) =>
-                              onSlideChange(insight.id, index)
-                            }
+                          >
+                            <Trans
+                              count={insight.video.length - 1}
+                              i18nKey="__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL"
+                            >
+                              Show more highlights{' '}
+                              <Span isBold>
+                                (
+                                {{
+                                  video_count: insight.video.length - 1,
+                                }}
+                                )
+                              </Span>
+                            </Trans>
+                          </Anchor>
+                        </Col>
+                      )}
+                    {insightsState &&
+                      insightsState[insight.id] &&
+                      insightsState[insight.id].showMore &&
+                      insight.video &&
+                      insight.video.slice(1).map((videoPart, index) => (
+                        <Col
+                          xs={12}
+                          md={6}
+                          lg={12}
+                          xl={6}
+                          style={{ marginBottom: appTheme.space.md }}
+                        >
+                          <HighlightCard
+                            onClick={() => openLightbox(insight.id, index + 1)}
+                            video={videoPart}
+                            index={index + 1}
+                            insight={insight}
+                            videoCount={insight.video?.length || 0}
+                            {...(videoPart.poster && {
+                              poster: videoPart.poster,
+                            })}
                           />
-                        )}
-                    </Row>
-                  ))}
-                </Grid>
-              </Col>
-            </>
-          )}
-        </Row>
+                        </Col>
+                      ))}
+                    {insight.video &&
+                      insight.video.length > 1 &&
+                      insightsState &&
+                      insightsState[insight.id] &&
+                      insightsState[insight.id].showMore && (
+                        <Col
+                          xs={12}
+                          textAlign="end"
+                          style={{ marginBottom: appTheme.space.md }}
+                        >
+                          <Anchor
+                            onClick={() =>
+                              setInsightsState({
+                                ...insightsState,
+                                [insight.id]: {
+                                  ...insightsState[`${insight.id}`],
+                                  showMore: false,
+                                },
+                              })
+                            }
+                          >
+                            {t('__CAMPAIGN_PAGE_INSIGHTS_SHOW_LESS_LABEL')}
+                          </Anchor>
+                        </Col>
+                      )}
+                    {insightsState &&
+                      insightsState[insight.id] &&
+                      insightsState[insight.id].isOpen && (
+                        <InsightLightbox
+                          insight={insight}
+                          currentIndex={insightsState[insight.id].currentIndex}
+                          items={insight?.video}
+                          onClose={() =>
+                            setInsightsState({
+                              ...insightsState,
+                              [insight.id]: {
+                                ...insightsState[`${insight.id}`],
+                                isOpen: false,
+                                currentIndex: 0,
+                              },
+                            })
+                          }
+                          onSlideChange={(index) =>
+                            onSlideChange(insight.id, index)
+                          }
+                        />
+                      )}
+                  </Row>
+                ))}
+              </Grid>
+            </Col>
+          </Row>
+        )}
       </Grid>
     </div>
   );
