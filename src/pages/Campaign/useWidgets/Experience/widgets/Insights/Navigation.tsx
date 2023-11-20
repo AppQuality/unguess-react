@@ -14,7 +14,7 @@ import { getClusterTag, getSeverity, getSeverityTag } from './utils';
 
 const StickyContainer = styled(ContainerCard)`
   position: sticky;
-  top: ${({ theme }) => theme.space.base * 14}px;
+  top: ${({ theme }) => theme.space.base * 18}px;
   z-index: 2;
   padding: ${({ theme }) => theme.space.sm}
     ${({ theme }) => theme.space.base * 4}px;
