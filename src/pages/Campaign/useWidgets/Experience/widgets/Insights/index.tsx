@@ -5,7 +5,6 @@ import {
   IconButton,
   Notification,
   Row,
-  Skeleton,
   Span,
   XL,
   useToast,
@@ -128,9 +127,9 @@ export const Insights = ({
     });
   };
 
-  if (!data || !data.findings || isError) return null;
+  if (isError) return null;
 
-  if (isLoading) return <Skeleton />;
+  if (!data || !data.findings || isLoading) return null;
 
   return (
     <div {...(id && { id })}>
