@@ -16,16 +16,18 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as CopyIcon } from 'src/assets/icons/link-fill.svg';
 import { Divider } from 'src/common/components/divider';
 import { Campaign } from 'src/features/api';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import styled, { css } from 'styled-components';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { InsightComment } from './Comments';
 import { HighlightCard } from './HighlightCard';
 import { InsightCard } from './InsightCard';
 import { InsightLightbox } from './Lightbox';
 import { Navigation, navigationOffset } from './Navigation';
 import { useCampaignInsights } from './useCampaignInsights';
-import { InsightComment } from './Comments';
-import { Filters } from './filters';
+import { FiltersDropwdowns } from './filters/filtersDropdowns';
+import { FiltersHeader } from './filters/filtersHeader';
+import { FiltersTags } from './filters/filtersTags';
 
 const hideOnMobile = css`
   @media (max-width: ${appTheme.breakpoints.lg}) {
@@ -143,7 +145,6 @@ export const Insights = ({
             />
           </Col>
           <Col xs={12}>
-            <Filters />
             {/* <Divider style={{ margin: `${appTheme.space.md} 0` }} /> */}
           </Col>
         </Row>
@@ -162,6 +163,9 @@ export const Insights = ({
           ) : (
             <>
               <ResponsiveCol xs={12} lg={6} xl={4}>
+                <FiltersHeader />
+                <FiltersDropwdowns />
+                <FiltersTags />
                 <Navigation insights={data.findings} />
               </ResponsiveCol>
               <Col xs={12} lg={6} xl={8}>
