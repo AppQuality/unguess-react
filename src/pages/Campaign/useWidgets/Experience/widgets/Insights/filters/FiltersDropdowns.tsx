@@ -13,9 +13,9 @@ const FlexWrapper = styled.div<{
   flex-wrap: wrap;
   align-items: center;
   flex-basis: 100%;
-  z-index: ${({ theme }) => theme.levels.front};
+  z-index: 4;
   background-color: ${({ theme }) => theme.palette.grey[100]};
-  padding: ${({ theme }) => theme.space.sm} 0;
+  padding: ${({ theme }) => theme.space.md} 0;
 
   @media (min-width: ${appTheme.breakpoints.lg}) {
     flex-basis: auto;
@@ -28,7 +28,7 @@ const FlexWrapper = styled.div<{
 
 export const FiltersDropwdowns = () => (
   <FlexWrapper>
-    <UseCaseFilter />
     <SeverityFilter />
+    <UseCaseFilter />
   </FlexWrapper>
 );
