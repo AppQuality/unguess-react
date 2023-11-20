@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const StickyContainer = styled(ContainerCard)`
   position: sticky;
-  top: ${({ theme }) => theme.space.md};
+  top: ${({ theme }) => theme.space.xxl};
   z-index: 1;
   padding: ${({ theme }) => theme.space.sm}
     ${({ theme }) => theme.space.base * 4}px;
