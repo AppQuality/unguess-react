@@ -50,7 +50,9 @@ export const SeverityFilter = () => {
                 item.name.toLocaleLowerCase() as Severities
               ],
           },
-          disabled: !counters[item.id],
+          disabled:
+            !counters[item.id] &&
+            !data.severities.selected.map((i) => i.id).includes(item.id),
           selected: data.severities.selected.map((i) => i.id).includes(item.id),
         }))}
       />
