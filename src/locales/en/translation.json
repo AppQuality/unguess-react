@@ -287,6 +287,8 @@
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_EMPTY_BUTTON": "Try a different search",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_EMPTY_DESCRIPTION": "Try expanding your research by selecting fewer filters.",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_EMPTY_TITLE": "There are no findings matching these filters.",
+  "__CAMPAIGN_PAGE_INSIGHTS_SECTION_FILTERS_COUNT_LABEL": "Insights:",
+  "__CAMPAIGN_PAGE_INSIGHTS_SECTION_FILTERS_TITLE": "Filter by:",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_SUBTITLE": "The major results and findings on user experience",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_TITLE": "Key points",
   "__CAMPAIGN_PAGE_INSIGHTS_SHOW_LESS_LABEL": "Show less",

@@ -306,6 +306,8 @@
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_EMPTY_BUTTON": "Fai un’altra ricerca",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_EMPTY_DESCRIPTION": "Prova ad ampliare la ricerca e a selezionare meno filtri.",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_EMPTY_TITLE": "Non ci sono scoperte con questi filtri.",
+  "__CAMPAIGN_PAGE_INSIGHTS_SECTION_FILTERS_COUNT_LABEL": "Scoperte:",
+  "__CAMPAIGN_PAGE_INSIGHTS_SECTION_FILTERS_TITLE": "Filtra per:",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_SUBTITLE": "Cosa abbiamo scoperto dell’esperienza utente",
   "__CAMPAIGN_PAGE_INSIGHTS_SECTION_TITLE": "Punti principali",
   "__CAMPAIGN_PAGE_INSIGHTS_SHOW_LESS_LABEL": "Mostra meno",
