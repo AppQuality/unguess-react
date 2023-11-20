@@ -29,9 +29,6 @@ export const widgets = ({
   });
 
   useEffect(() => {
-    console.log('🚀 ~ file: widgets.tsx:33 ~ useEffect ~ filters:', filters);
-    console.log('🚀 ~ file: widgets.tsx:33 ~ useEffect ~ uxData:', uxData);
-    console.log('🚀 ~ file: widgets.tsx:33 ~ useEffect ~ cid:', cid);
     if (filters && cid) {
       dispatch(
         selectUxCampaign({
