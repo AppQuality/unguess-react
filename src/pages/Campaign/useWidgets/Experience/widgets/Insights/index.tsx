@@ -18,22 +18,16 @@ import { Divider } from 'src/common/components/divider';
 import { Campaign } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { InsightComment } from './Comments';
 import { HighlightCard } from './HighlightCard';
 import { InsightCard } from './InsightCard';
 import { InsightLightbox } from './Lightbox';
 import { Navigation, navigationOffset } from './Navigation';
 import { useCampaignInsights } from './useCampaignInsights';
-import { FiltersDropwdowns } from './filters/filtersDropdowns';
-import { FiltersHeader } from './filters/filtersHeader';
-import { FiltersTags } from './filters/filtersTags';
-
-const hideOnMobile = css`
-  @media (max-width: ${appTheme.breakpoints.lg}) {
-    display: none;
-  }
-`;
+import { FiltersDropwdowns } from './filters/FiltersDropdowns';
+import { FiltersHeader } from './filters/FiltersHeader';
+import { FiltersTags } from './filters/FiltersTags';
 
 const StyledDivider = styled(Divider)`
   margin: ${({ theme }) => theme.space.base * 4}px 0
@@ -41,7 +35,9 @@ const StyledDivider = styled(Divider)`
 `;
 
 const ResponsiveCol = styled(Col)`
-  ${hideOnMobile}
+  @media (max-width: ${appTheme.breakpoints.lg}) {
+    display: none;
+  }
 `;
 
 export const Insights = ({
@@ -65,9 +61,7 @@ export const Insights = ({
       showMore: boolean;
     };
   }>({});
-
   const pageUrl = useLocalizeRoute(`campaigns/${campaign.id}`);
-
   const { addToast } = useToast();
 
   const copyLink = useCallback(
@@ -143,14 +137,15 @@ export const Insights = ({
               title={t('__CAMPAIGN_PAGE_INSIGHTS_SECTION_TITLE')}
               subtitle={t('__CAMPAIGN_PAGE_INSIGHTS_SECTION_SUBTITLE')}
             />
-          </Col>
-          <Col xs={12}>
-            {/* <Divider style={{ margin: `${appTheme.space.md} 0` }} /> */}
+            <Divider style={{ margin: `${appTheme.space.md} 0` }} />
           </Col>
         </Row>
       </Grid>
       <Grid gutters="md">
-        <Row>
+        <FiltersHeader />
+        <FiltersDropwdowns />
+        <FiltersTags />
+        <Row style={{ marginTop: appTheme.space.xxl }}>
           {isLoading ? (
             <>
               <Col xs={12} lg={4}>
@@ -163,9 +158,6 @@ export const Insights = ({
           ) : (
             <>
               <ResponsiveCol xs={12} lg={6} xl={4}>
-                <FiltersHeader />
-                <FiltersDropwdowns />
-                <FiltersTags />
                 <Navigation insights={data.findings} />
               </ResponsiveCol>
               <Col xs={12} lg={6} xl={8}>
