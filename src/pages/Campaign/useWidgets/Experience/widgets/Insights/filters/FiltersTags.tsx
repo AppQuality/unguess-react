@@ -21,6 +21,8 @@ const Wrapper = styled.div`
   min-height: calc(
     ${buttonHeight} + ${sectionMargin} + ${tagsHeight} + ${sectionPaddingTop}
   );
+  margin-bottom: ${(p) => p.theme.space.xs};
+
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     min-height: 0;
   }
@@ -29,7 +31,6 @@ const Wrapper = styled.div`
 const Inner = styled.div`
   overflow-x: auto;
   overflow-y: visible;
-  padding-top: ${(p) => p.theme.space.md};
   padding-right: ${(p) => p.theme.space.sm};
   margin-right: -24px;
   @media (min-width: ${(p) => p.theme.breakpoints.sm}) {
@@ -125,15 +126,19 @@ export const FiltersTags = () => {
             </Tag>
           ))}
 
-          <StyledButton
-            isBasic
-            size="medium"
-            onClick={() => {
-              dispatch(resetFilters());
-            }}
-          >
-            {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
-          </StyledButton>
+          {(data.clusters.selected.length > 0 ||
+            data.severities.selected.length > 0) && (
+            <StyledButton
+              isBasic
+              size="medium"
+              onClick={() => {
+                dispatch(resetFilters());
+              }}
+              style={{ marginLeft: appTheme.space.xs }}
+            >
+              {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
+            </StyledButton>
+          )}
         </ScrollingContainer>
       </Inner>
     </Wrapper>

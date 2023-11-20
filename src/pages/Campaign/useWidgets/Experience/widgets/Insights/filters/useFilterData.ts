@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
-import {
-  GetCampaignsByCidBugsApiResponse,
-  useGetCampaignsByCidBugsQuery,
-  useGetCampaignsByCidUxQuery,
-} from 'src/features/api';
+import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import { getSelectedUxFiltersIds } from 'src/features/uxFilters';
 
 type Filter = 'clusters' | 'severities';
 export interface CounterItems {
   [key: string | number]: number;
 }
-type Bug = ItemOfArray<GetCampaignsByCidBugsApiResponse['items']>;
 
 interface Insight {
   id: number;
