@@ -43,7 +43,7 @@ export const SeverityFilter = () => {
         options={data.severities.available.map((item) => ({
           itemId: item.id,
           className: `dropdown-severities-item-${item.name.toLowerCase()}`,
-          label: `${item.name} (${counters[item.id]})`,
+          label: `${item.name} (${counters[item.id] ?? 0})`,
           style: {
             color:
               appTheme.colors.bySeverity[
