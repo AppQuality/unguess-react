@@ -10,6 +10,7 @@ import {
 } from 'src/features/uxFilters';
 import { styled } from 'styled-components';
 import { getSeverity } from '../utils';
+import { useFilterData } from './useFilterData';
 
 const buttonHeight = appTheme.space.lg; // 32
 const sectionMargin = appTheme.space.sm; // 12
@@ -73,9 +74,10 @@ const StyledButton = styled(Button)`
 
 export const FiltersTags = () => {
   const { t } = useTranslation();
-  const data = getCurrentUxData();
-
   const dispatch = useAppDispatch();
+  const data = getCurrentUxData();
+  const { counters: severitiesCounters } = useFilterData('severities');
+  const { counters: clustersCounters } = useFilterData('clusters');
 
   if (!data || !data.clusters || !data.severities) return null;
 
@@ -114,14 +116,16 @@ export const FiltersTags = () => {
               color={getSeverityInfo(getSeverity(item) as Severities, t).color}
               size="large"
             >
-              {item.name}
+              {data.severities.available.find((s) => s.id === item.id)?.name} (
+              {severitiesCounters[item.id] ?? 0})
               <Tag.Close onClick={removeSeverity(item.id)} />
             </Tag>
           ))}
 
           {data.clusters.selected.map((item) => (
             <Tag key={item.id} size="large" hue={appTheme.palette.grey[200]}>
-              {item.name}
+              {data.clusters.available.find((s) => s.id === item.id)?.name} (
+              {clustersCounters[item.id] ?? 0})
               <Tag.Close onClick={removeUseCase(item.id)} />
             </Tag>
           ))}
