@@ -68,3 +68,30 @@ export const Page = ({
     </ErrorBoundary>
   </GoogleTagManager>
 );
+
+export const NotLoggedPage = ({
+  children,
+  title = 'UNGUESS - BE SMART FROM THE START',
+  excludeMarginTop,
+  excludeMarginBottom,
+  className,
+}: {
+  children: React.ReactNode;
+  title?: string;
+  excludeMarginTop?: boolean;
+  excludeMarginBottom?: boolean;
+  className?: string;
+}) => (
+  <GoogleTagManager title={title}>
+    <ErrorBoundary>
+      <Container
+        id="container"
+        className={className}
+        excludeMarginTop={excludeMarginTop}
+        excludeMarginBottom={excludeMarginBottom}
+      >
+        {children}
+      </Container>
+    </ErrorBoundary>
+  </GoogleTagManager>
+);

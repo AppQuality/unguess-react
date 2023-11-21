@@ -11,9 +11,11 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { ReactComponent as Illustration } from 'src/assets/notFoundPage.svg';
-import { Page } from 'src/features/templates/Page';
+import desktopIllustration from 'src/assets/not_found/404_desktop.svg';
+import mobileIllustration from 'src/assets/not_found/404_mobile.svg';
+import { NotLoggedPage } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { appTheme } from 'src/app/theme';
 
 const NotFound = () => {
   const { t } = useTranslation();
@@ -21,13 +23,19 @@ const NotFound = () => {
   const homeRoute = useLocalizeRoute('');
 
   return (
-    <Page title={t('__404_PAGE_TITLE MAX:10')} route="oops">
+    <NotLoggedPage title={t('__404_PAGE_TITLE MAX:10')}>
       <Grid>
         <Row>
-          <Col>
-            <Illustration style={{ maxHeight: '80vh' }} />
+          <Col md={6}>
+            <picture>
+              <source
+                media={`(min-width: ${appTheme.breakpoints.md})`}
+                srcSet={desktopIllustration}
+              />
+              <img src={mobileIllustration} alt="404 not found" />
+            </picture>
           </Col>
-          <Col alignSelf="center">
+          <Col md={6} alignSelf="center">
             <Paragraph>
               <XXXL style={{ color: theme.palette.blue[600] }}>
                 {t('__404_PAGE_TITLE MAX:10')}
@@ -45,14 +53,14 @@ const NotFound = () => {
             </Paragraph>
 
             <Paragraph style={{ marginTop: theme.space.lg }}>
-              <Button isPrimary onClick={() => navigate(homeRoute)}>
+              <Button isAccent onClick={() => navigate(homeRoute)}>
                 {t('__404_PAGE_BUTTON')}
               </Button>
             </Paragraph>
           </Col>
         </Row>
       </Grid>
-    </Page>
+    </NotLoggedPage>
   );
 };
 
