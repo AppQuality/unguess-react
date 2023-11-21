@@ -23,7 +23,8 @@ export const useCampaignInsights = ({
 
   return {
     data,
-    isLoading: isLoading || isFetching,
+    isLoading,
+    isFetching,
     isError,
   };
 };
