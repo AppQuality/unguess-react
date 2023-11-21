@@ -2,8 +2,9 @@ import { CounterMultiselect } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { getCurrentUxData, updateFilters } from 'src/features/uxFilters';
-import { appTheme } from 'src/app/theme';
+import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import { useFilterData } from './useFilterData';
+import { getSeverity } from '../utils';
 
 export const SeverityFilter = () => {
   const { t } = useTranslation();
@@ -45,10 +46,7 @@ export const SeverityFilter = () => {
           className: `dropdown-severities-item-${item.name.toLowerCase()}`,
           label: `${item.name} (${counters[item.id] ?? 0})`,
           style: {
-            color:
-              appTheme.colors.bySeverity[
-                item.name.toLocaleLowerCase() as Severities
-              ],
+            color: getSeverityInfo(getSeverity(item) as Severities, t).color,
           },
           disabled:
             !counters[item.id] &&
