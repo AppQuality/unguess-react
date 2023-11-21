@@ -9,7 +9,6 @@ import {
   updateFilters,
 } from 'src/features/uxFilters';
 import { styled } from 'styled-components';
-import { useCallback } from 'react';
 import { getSeverity } from '../utils';
 import { useFilterData } from './useFilterData';
 
