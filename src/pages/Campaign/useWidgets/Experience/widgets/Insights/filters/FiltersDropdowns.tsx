@@ -15,8 +15,6 @@ const FlexWrapper = styled.div<{
   flex-basis: 100%;
   z-index: 4;
   background-color: ${({ theme }) => theme.palette.grey[100]};
-  padding: ${({ theme }) => theme.space.md} 0;
-
   @media (min-width: ${appTheme.breakpoints.lg}) {
     flex-basis: auto;
   }
