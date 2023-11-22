@@ -2,12 +2,11 @@ import {
   Col,
   Grid,
   Row,
-  theme,
   XXXL,
   XXL,
-  MD,
   Paragraph,
   Button,
+  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -37,22 +36,18 @@ const NotFound = () => {
           </Col>
           <Col md={6} alignSelf="center">
             <Paragraph>
-              <XXXL style={{ color: theme.palette.blue[600] }}>
-                {t('__404_PAGE_TITLE MAX:10')}
-              </XXXL>
+              <XXXL>{t('__404_PAGE_TITLE MAX:10')}</XXXL>
             </Paragraph>
             <Paragraph>
-              <XXL style={{ color: theme.palette.blue[600] }}>
+              <XXL color={appTheme.palette.blue[600]}>
                 {t('__404_PAGE_SUB_TITLE MAX:80')}
               </XXL>
             </Paragraph>
             <Paragraph>
-              <MD style={{ color: theme.palette.grey[600] }}>
-                {t('__404_PAGE_DESCRIPTION')}
-              </MD>
+              <TextDescription>{t('__404_PAGE_DESCRIPTION')}</TextDescription>
             </Paragraph>
 
-            <Paragraph style={{ marginTop: theme.space.lg }}>
+            <Paragraph style={{ marginTop: appTheme.space.lg }}>
               <Button isAccent isPrimary onClick={() => navigate(homeRoute)}>
                 {t('__404_PAGE_BUTTON')}
               </Button>
