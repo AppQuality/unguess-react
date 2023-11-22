@@ -27,12 +27,14 @@ export const useUxData = ({
     uxData?: GetCampaignsByCidUxApiResponse;
   }>();
 
-  const severities = [
+  const severitiesData = [
     { id: 1, name: t('__INSIGHT_SEVERITY_MINOR') },
     { id: 2, name: t('__INSIGHT_SEVERITY_MAJOR') },
     { id: 3, name: t('__INSIGHT_SEVERITY_POSITIVE') },
     { id: 4, name: t('__INSIGHT_SEVERITY_OBSERVATION') },
   ];
+
+  const clustersData = [{ id: 0, name: t('__INSIGHT_CLUSTER_GENERAL') }];
 
   const {
     isLoading: isLoadingCampaign,
@@ -53,8 +55,15 @@ export const useUxData = ({
       setCampaignData({
         cid: campaignId,
         filters: {
-          clusters: clusters?.items || [],
-          severities,
+          clusters:
+            [
+              ...clustersData,
+              ...(clusters?.items?.map((c) => ({
+                id: c.id,
+                name: c.name,
+              })) || []),
+            ] || [],
+          severities: severitiesData,
         },
         uxData,
       });
