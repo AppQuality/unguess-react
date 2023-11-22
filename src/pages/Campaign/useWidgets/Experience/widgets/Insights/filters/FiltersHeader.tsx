@@ -10,7 +10,6 @@ export const FiltersHeader = () => {
       isBold
       style={{
         color: appTheme.palette.grey[800],
-        marginBottom: appTheme.space.xs,
       }}
     >
       {t('__CAMPAIGN_PAGE_INSIGHTS_SECTION_FILTERS_TITLE')}
