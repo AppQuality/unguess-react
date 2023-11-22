@@ -54,7 +54,7 @@ export const useFilterData = (filter: Filter) => {
         (acc: CounterItems, insight: Insight) => {
           if (filter === 'clusters') {
             if (insight.cluster === 'all') {
-              acc.all = (acc.all || 0) + 1;
+              acc[`0`] = (acc[`0`] || 0) + 1;
             } else {
               insight.cluster.forEach((c) => {
                 acc[c.id] = (acc[c.id] || 0) + 1;
