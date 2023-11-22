@@ -12,16 +12,8 @@ import { styled } from 'styled-components';
 import { getSeverity } from '../utils';
 import { useFilterData } from './useFilterData';
 
-const buttonHeight = appTheme.space.lg; // 32
-const sectionMargin = appTheme.space.sm; // 12
-const tagsHeight = appTheme.space.lg; // 32
-const sectionPaddingTop = appTheme.space.md; // 20
-
 const Wrapper = styled.div`
   position: relative;
-  min-height: calc(
-    ${buttonHeight} + ${sectionMargin} + ${tagsHeight} + ${sectionPaddingTop}
-  );
   margin-bottom: ${(p) => p.theme.space.xs};
 
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
@@ -54,21 +46,14 @@ const ScrollingContainer = styled.div`
   row-gap: ${(p) => p.theme.space.sm};
   width: max-content;
   align-items: center;
+  flex-wrap: nowrap;
+
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     flex-wrap: wrap;
     width: auto;
     .filter-recap-item {
       margin-right: ${(p) => p.theme.space.xs};
     }
-  }
-`;
-
-const StyledButton = styled(Button)`
-  position: absolute;
-  top: calc(${sectionMargin} + ${tagsHeight} + ${sectionPaddingTop});
-  left: 0;
-  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
-    position: static;
   }
 `;
 
@@ -132,7 +117,7 @@ export const FiltersTags = () => {
 
           {(data.clusters.selected.length > 0 ||
             data.severities.selected.length > 0) && (
-            <StyledButton
+            <Button
               isBasic
               size="medium"
               onClick={() => {
@@ -141,7 +126,7 @@ export const FiltersTags = () => {
               style={{ marginLeft: appTheme.space.xs }}
             >
               {t('__BUGS_FILTER_VIEW_RESET_LABEL')}
-            </StyledButton>
+            </Button>
           )}
         </ScrollingContainer>
       </Inner>
