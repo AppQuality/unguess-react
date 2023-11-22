@@ -9,6 +9,7 @@ const FlexWrapper = styled.div<{
   position: sticky;
   top: -1px;
   column-gap: 8px;
+  padding: ${(p) => p.theme.space.md} 0;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
