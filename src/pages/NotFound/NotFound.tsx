@@ -13,9 +13,9 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import desktopIllustration from 'src/assets/not_found/404_desktop.svg';
 import mobileIllustration from 'src/assets/not_found/404_mobile.svg';
-import { NotLoggedPage } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { appTheme } from 'src/app/theme';
+import PageWrapper from './PageWrapper';
 
 const NotFound = () => {
   const { t } = useTranslation();
@@ -23,10 +23,10 @@ const NotFound = () => {
   const homeRoute = useLocalizeRoute('');
 
   return (
-    <NotLoggedPage title={t('__404_PAGE_TITLE MAX:10')}>
+    <PageWrapper title={t('__404_PAGE_TITLE MAX:10')}>
       <Grid>
         <Row>
-          <Col md={6}>
+          <Col md={6} textAlignMd="end">
             <picture>
               <source
                 media={`(min-width: ${appTheme.breakpoints.md})`}
@@ -53,14 +53,14 @@ const NotFound = () => {
             </Paragraph>
 
             <Paragraph style={{ marginTop: theme.space.lg }}>
-              <Button isAccent onClick={() => navigate(homeRoute)}>
+              <Button isAccent isPrimary onClick={() => navigate(homeRoute)}>
                 {t('__404_PAGE_BUTTON')}
               </Button>
             </Paragraph>
           </Col>
         </Row>
       </Grid>
-    </NotLoggedPage>
+    </PageWrapper>
   );
 };
 
