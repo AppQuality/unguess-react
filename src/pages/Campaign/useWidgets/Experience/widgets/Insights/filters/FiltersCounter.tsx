@@ -1,12 +1,12 @@
 import { SM, Span } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { Campaign, useGetCampaignsByCidUxQuery } from 'src/features/api';
 import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const StyledSpan = styled(Span)`
@@ -14,13 +14,26 @@ const StyledSpan = styled(Span)`
 `;
 
 export const FiltersCounter = ({
+  campaign,
+  isPreview,
   count,
-  total,
 }: {
+  campaign: Campaign;
+  isPreview?: boolean;
   count: number;
-  total: number;
 }) => {
   const { t } = useTranslation();
+
+  const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
+    cid: campaign.id ? campaign.id.toString() : '',
+    showAsCustomer: isPreview ?? false,
+  });
+
+  if (!data || isLoading || isFetching || isError) return null;
+
+  if (data && data.findings && data.findings.length === 0) return null;
+
+  const total = data?.findings?.length;
 
   return (
     <Container>
