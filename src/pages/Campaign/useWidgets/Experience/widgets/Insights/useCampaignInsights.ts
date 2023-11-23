@@ -1,4 +1,5 @@
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
+import { getSelectedUxFiltersIds } from 'src/features/uxFilters';
 
 export const useCampaignInsights = ({
   campaignId,
@@ -7,34 +8,23 @@ export const useCampaignInsights = ({
   campaignId: string;
   isPreview?: boolean;
 }) => {
+  const filterBy = getSelectedUxFiltersIds();
+
   const { data, isLoading, isFetching, isError } = useGetCampaignsByCidUxQuery({
     cid: campaignId,
     ...(!isPreview && { showAsCustomer: true }),
+    filterBy: {
+      ...(filterBy?.clusters ? { clusters: filterBy.clusters.join(',') } : {}),
+      ...(filterBy?.severities
+        ? { severities: filterBy.severities.join(',') }
+        : {}),
+    },
   });
-
-  if (isLoading || isFetching) {
-    return {
-      data: {
-        findings: [],
-      },
-      isLoading: true,
-      isError: false,
-    };
-  }
-
-  if (!data || isError) {
-    return {
-      data: {
-        findings: [],
-      },
-      isLoading: false,
-      isError: true,
-    };
-  }
 
   return {
     data,
-    isLoading: false,
-    isError: false,
+    isLoading,
+    isFetching,
+    isError,
   };
 };

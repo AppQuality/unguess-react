@@ -97,6 +97,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/bugTypes` }),
     }),
+    getCampaignsByCidClusters: build.query<
+      GetCampaignsByCidClustersApiResponse,
+      GetCampaignsByCidClustersApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/clusters` }),
+    }),
     getCampaignsByCidCustomStatuses: build.query<
       GetCampaignsByCidCustomStatusesApiResponse,
       GetCampaignsByCidCustomStatusesApiArg
@@ -231,7 +237,10 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/ux`,
-        params: { showAsCustomer: queryArg.showAsCustomer },
+        params: {
+          showAsCustomer: queryArg.showAsCustomer,
+          filterBy: queryArg.filterBy,
+        },
       }),
     }),
     getCampaignsByCidWidgets: build.query<
@@ -438,6 +447,9 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
+      query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -609,6 +621,12 @@ export type GetCampaignsByCidBugTypesApiResponse =
   /** status 200 OK */ BugType[];
 export type GetCampaignsByCidBugTypesApiArg = {
   /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidClustersApiResponse = /** status 200 OK */ {
+  items?: Cluster[];
+};
+export type GetCampaignsByCidClustersApiArg = {
   cid: string;
 };
 export type GetCampaignsByCidCustomStatusesApiResponse =
@@ -814,6 +832,8 @@ export type GetCampaignsByCidUxApiArg = {
   /** Campaign id */
   cid: string;
   showAsCustomer?: boolean;
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
 };
 export type GetCampaignsByCidWidgetsApiResponse =
   /** status 200 OK */
@@ -1092,6 +1112,10 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     include_shared?: boolean;
   };
 };
+export type GetMediaByIdApiResponse = unknown;
+export type GetMediaByIdApiArg = {
+  id: string;
+};
 export type Error = {
   message: string;
   code: number;
@@ -1293,6 +1317,10 @@ export type BugAdditionalField = {
   name: string;
   value: string;
 } & (BugAdditionalFieldRegex | BugAdditionalFieldSelect);
+export type Cluster = {
+  id: number;
+  name: string;
+};
 export type ReportExtensions =
   | 'pdf'
   | 'doc'
@@ -1439,6 +1467,7 @@ export const {
   usePatchCampaignsByCidBugsAndBidMutation,
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidBugTypesQuery,
+  useGetCampaignsByCidClustersQuery,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidCustomStatusesMutation,
   useDeleteCampaignsByCidCustomStatusesMutation,
@@ -1477,4 +1506,5 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
+  useGetMediaByIdQuery,
 } = injectedRtkApi;

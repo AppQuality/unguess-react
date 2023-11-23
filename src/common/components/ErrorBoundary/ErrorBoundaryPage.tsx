@@ -35,7 +35,11 @@ const ErrorBoundaryPage = () => {
                 </Paragraph>
 
                 <Paragraph style={{ marginTop: theme.space.lg }}>
-                  <Button isPrimary onClick={() => window.location.reload()}>
+                  <Button
+                    isPrimary
+                    isAccent
+                    onClick={() => window.location.reload()}
+                  >
                     {t('__ERROR_PAGE_BUTTON')}
                   </Button>
                 </Paragraph>
