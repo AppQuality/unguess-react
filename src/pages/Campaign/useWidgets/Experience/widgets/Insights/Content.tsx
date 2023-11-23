@@ -123,14 +123,14 @@ export const InsightsContent = ({
     });
   };
 
-  if (isError) return null;
+  if (isError || !data || !data.findings) return null;
 
-  if (!data || !data.findings || isLoading) return null;
   if (isLoading) {
     return <InsightsSkeleton />;
   }
+
   return (
-    <div style={{ opacity: isFetching || isLoading ? 0.5 : 1 }}>
+    <div style={{ opacity: isFetching ? 0.5 : 1 }}>
       {data.findings && data.findings.length === 0 ? (
         <Empty onClick={() => dispatch(resetFilters())} />
       ) : (
