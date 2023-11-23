@@ -15,7 +15,8 @@ import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
 import LoginPage from 'src/pages/LoginPage';
-import NotFound from 'src/pages/NotFound';
+import NotFound from 'src/pages/NotFound/NotFound';
+import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import Service from 'src/pages/Service';
 import Catalog from 'src/pages/Services';
 import Manual from 'src/pages/Manual';
@@ -72,6 +73,10 @@ const Pages = () => {
                   element={<Service />}
                 />
                 {/* No route found */}
+                <Route
+                  path={`/${langPrefix}/media/oops`}
+                  element={<MediaNotFound />}
+                />
                 <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
                 <Route index element={<Dashboard />} />
               </Route>
