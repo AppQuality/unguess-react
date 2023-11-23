@@ -119,6 +119,7 @@
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_BUTTON": "Salva le modifiche",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CONFIRM_TOAST": "Modifiche salvate",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CREATE_CUSTOM_STATUS_BUTTON": "Crea un nuovo stato",
+  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_MAX": "Questo nome è un pò lungo. Ti consigliamo di stare in 17 caratteri spazi compresi.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED": "Scegli un nome fino a 17 caratteri spazi compresi.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_SUCCESS": "Hai modificato lo stato! Salvalo per vederlo nella campagna.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_DELETE_CUSTOM_STATUS_BUTTON": "Elimina stato",
