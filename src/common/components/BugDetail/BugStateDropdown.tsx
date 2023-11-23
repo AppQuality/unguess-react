@@ -238,9 +238,9 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
               content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
             >
               <Select isCompact disabled>
-                <StyledItem>
+                <SelectedItem>
                   {t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}
-                </StyledItem>
+                </SelectedItem>
               </Select>
             </Tooltip>
           ) : (
