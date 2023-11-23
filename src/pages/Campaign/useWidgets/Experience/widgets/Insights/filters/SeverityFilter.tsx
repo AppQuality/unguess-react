@@ -26,7 +26,8 @@ export const SeverityFilter = () => {
       <CounterMultiselect
         isCompact
         i18n={{
-          counterText: (count) => t(`Severity ({{count}})`, { count }),
+          counterText: (count) =>
+            t('__BUGS_SEVERITY_FILTER_ITEM_WITH_COUNTER', { count }),
           noItems: t('__BUGS_SEVERITY_FILTER_ITEM_NO_ITEMS'),
         }}
         onChange={(selected) => {
