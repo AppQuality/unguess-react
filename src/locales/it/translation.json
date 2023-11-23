@@ -870,7 +870,7 @@
   "Use Cases ({{count}})_one": "Use Case ({{count}})",
   "Use Cases ({{count}})_many": "",
   "Use Cases ({{count}})_other": "Use Case ({{count}})",
-  "UseCase ({{count}})_one": "",
+  "UseCase ({{count}})_one": "Use Case ({{count}})",
   "UseCase ({{count}})_many": "",
-  "UseCase ({{count}})_other": ""
+  "UseCase ({{count}})_other": "Use Case ({{count}})"
 }

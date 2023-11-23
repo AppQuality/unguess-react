@@ -838,6 +838,6 @@
   "Typology ({{count}})_other": "Typologies ({{count}})",
   "Use Cases ({{count}})_one": "Use Cases ({{count}})",
   "Use Cases ({{count}})_other": "Use Cases ({{count}})",
-  "UseCase ({{count}})_one": "",
-  "UseCase ({{count}})_other": ""
+  "UseCase ({{count}})_one": "Use Case ({{count}})",
+  "UseCase ({{count}})_other": "Use Cases ({{count}})"
 }
