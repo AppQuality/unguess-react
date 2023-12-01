@@ -123,9 +123,6 @@ export const WhoStep = ({
                 <Label isRegular>
                   {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2')}
                 </Label>
-                <StyledHint>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2_HINT')}
-                </StyledHint>
               </Radio>
             </StyledRadioField>
           </WizardCol>
