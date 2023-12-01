@@ -40,12 +40,6 @@ const CampaignPage = ({ children }: { children: React.ReactNode }) => {
     cid: campaignId?.toString() ?? '0',
   });
 
-  if (isErrorCampaign) {
-    navigate(notFoundRoute, {
-      state: { from: location.pathname },
-    });
-  }
-
   useEffect(() => {
     if (workspace) {
       dispatch(setWorkspace(workspace));
@@ -64,7 +58,11 @@ const CampaignPage = ({ children }: { children: React.ReactNode }) => {
     };
   }, [campaign]);
 
-  if (!campaign) return null;
+  if (isErrorCampaign) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
 
   return (
     <Page
