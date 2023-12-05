@@ -1,6 +1,5 @@
 import {
   ContainerCard,
-  Hint,
   Label,
   Message,
   Paragraph,
