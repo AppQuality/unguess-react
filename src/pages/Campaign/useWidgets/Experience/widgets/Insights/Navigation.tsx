@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { StickyContainer } from 'src/common/components/StickyContainer';
 import {
   StickyNavItem,
   StickyNavItemLabel,
@@ -8,10 +7,19 @@ import {
 import { appTheme } from 'src/app/theme';
 import { BugCard } from 'src/common/components/BugCard';
 import styled from 'styled-components';
-import { Ellipsis } from '@appquality/unguess-design-system';
+import { ContainerCard, Ellipsis } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import { getClusterTag, getSeverity, getSeverityTag } from './utils';
+
+const StickyContainer = styled(ContainerCard)`
+  position: sticky;
+  top: ${({ theme }) => theme.space.base * 18}px;
+  z-index: 2;
+  padding: ${({ theme }) => theme.space.sm}
+    ${({ theme }) => theme.space.base * 4}px;
+  background-color: ${({ theme }) => theme.palette.white};
+`;
 
 const StyledBugCard = styled(BugCard)`
   margin-bottom: ${({ theme }) => theme.space.sm};

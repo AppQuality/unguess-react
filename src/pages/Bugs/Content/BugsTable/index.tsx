@@ -10,7 +10,7 @@ import { useTableData } from './hooks/useTableData';
 const Wrapper = styled.div<{
   isFetching?: boolean;
 }>`
-  padding-top: ${(p) => p.theme.space.lg}};
+  padding-top: ${(p) => p.theme.space.lg};
 
   ${(p) =>
     p.isFetching &&

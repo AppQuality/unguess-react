@@ -198,7 +198,6 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
       <Dropdown
         selectedItem={selectedItem}
         onSelect={(item: BugCustomStatus) => {
-          console.log('going to select item', item);
           patchBug({
             cid: bug.campaign_id.toString(),
             bid: bug.id.toString(),
@@ -239,9 +238,9 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
               content={t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW_TOOLTIP')}
             >
               <Select isCompact disabled>
-                <StyledItem>
+                <SelectedItem>
                   {t('__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW')}
-                </StyledItem>
+                </SelectedItem>
               </Select>
             </Tooltip>
           ) : (

@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import {
-  useGetCampaignsByCidQuery,
-  useGetCampaignsByCidUxQuery,
-} from 'src/features/api';
-
+import { useGetCampaignsByCidQuery } from 'src/features/api';
+import { useAppDispatch } from 'src/app/hooks';
+import { useEffect } from 'react';
+import { selectUxCampaign } from 'src/features/uxFilters';
 import { Insights } from './widgets/Insights';
 import { CampaignInfo } from './widgets/General';
 import { Overview } from './widgets/Overview';
+import { useUxData } from './useUxData';
 
 export const widgets = ({
   campaignId,
@@ -16,14 +16,28 @@ export const widgets = ({
   isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  // TODO: create hook for this with selectCampaign dispatch
   const { data: campaign } = useGetCampaignsByCidQuery({
     cid: campaignId.toString(),
   });
 
-  const { data: uxData } = useGetCampaignsByCidUxQuery({
-    cid: campaignId.toString(),
-    ...(!isPreview && { showAsCustomer: true }),
+  const { data: { cid, filters, uxData } = {} } = useUxData({
+    campaignId,
+    isPreview,
   });
+
+  useEffect(() => {
+    if (filters && cid) {
+      dispatch(
+        selectUxCampaign({
+          campaignId: cid,
+          filters,
+        })
+      );
+    }
+  }, [filters, cid]);
 
   const showExperience = !!campaign?.outputs?.includes('insights') || isPreview;
 
