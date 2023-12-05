@@ -126,7 +126,7 @@
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_EDIT_COLOR_BUTTON": "Modifica colore",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST": "Modifiche non salvate. Controlla i campi con errore.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_ERROR_TOAST_API": "Qualcosa è andato storto, per favore riprova.",
-  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE": "Crea o modifica stati",
+  "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_HEADER_TITLE": "Add or edit statuses",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_NEW_CUSTOM_STATUS_SUCCESS": "Nuovo stato aggiunto! Salvalo per vederlo nella campagna.",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_PHASE_1_NAME": "In lavorazione",
   "__BUGS_PAGE_CUSTOM_STATUS_DRAWER_PHASE_2_NAME": "Completato",
@@ -728,7 +728,6 @@
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL": "Seleziona la lingua parlata dai tester",
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_1": "Italiano",
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2": "Inglese",
-  "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2_HINT": "+24h sul tempo di consegna",
   "__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_TITLE": "Lingua",
   "__EXPRESS_WIZARD_STEP_WHO_LABEL": "Chi",
   "__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA": "è il target della campagna?",
@@ -872,9 +871,7 @@
   "Typology ({{count}})_many": "",
   "Typology ({{count}})_other": "Tipologie ({{count}})",
   "Use Cases ({{count}})_one": "Use Case ({{count}})",
-  "Use Cases ({{count}})_many": "",
   "Use Cases ({{count}})_other": "Use Case ({{count}})",
   "UseCase ({{count}})_one": "Use Case ({{count}})",
-  "UseCase ({{count}})_many": "",
   "UseCase ({{count}})_other": "Use Case ({{count}})"
 }
