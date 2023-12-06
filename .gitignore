@@ -30,3 +30,5 @@ generate-devel-token-*.json
 
 # vs code configuration
 .vscode
+# Sentry Config File
+.sentryclirc
