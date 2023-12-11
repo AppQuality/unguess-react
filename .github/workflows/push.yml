@@ -72,6 +72,7 @@ jobs:
           docker build \
             --build-arg STRAPI_TOKEN=${{ secrets.STRAPI_TOKEN }} \
             --build-arg STAGE_ENV="development" \
+            --build-arg SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"

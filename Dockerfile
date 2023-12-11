@@ -3,6 +3,7 @@ ARG STAGE_ENV
 FROM node:16.19-alpine3.17 as base
 
 ARG STRAPI_TOKEN
+ARG SENTRY_AUTH_TOKEN
 
 
 COPY package.json ./
@@ -15,6 +16,7 @@ COPY . .
 RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env.local
 
 RUN ["yarn", "build"]
+RUN ["yarn", "sentry:sourcemaps"]
 
 
 FROM alpine:3.14 as web
