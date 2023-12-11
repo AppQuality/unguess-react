@@ -40,7 +40,8 @@ services:
       - '80:80'
     environment:
       PORT: 80
-      REACT_APP_ENV: $ENVIRONMENT
+      REACT_APP_ENVIRONMENT: $ENVIRONMENT
+      REACT_APP_VERSION: $DOCKER_IMAGE
 
 " > $DOCKER_COMPOSE_FILE
 
