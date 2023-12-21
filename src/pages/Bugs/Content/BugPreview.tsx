@@ -5,6 +5,7 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugDescription from 'src/common/components/BugDetail/Description';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import BugDetails from 'src/common/components/BugDetail/Details';
+import BugTags from 'src/common/components/BugDetail/Tags';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
@@ -63,7 +64,7 @@ export const BugPreview = ({
     isLoading,
     isFetching,
     isError,
-    refetch: refetchBugTags,
+    refetch,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId.toString(),
     bid: bugId.toString(),
@@ -84,8 +85,9 @@ export const BugPreview = ({
 
   const GridWrapper = styled.div`
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 1fr 1fr;
     column-gap: ${({ theme }) => theme.space.sm};
+    margin-bottom: ${({ theme }) => theme.space.md};
   `;
 
   return (
@@ -99,9 +101,10 @@ export const BugPreview = ({
             <BugStateDropdown bug={bug} />
             <BugPriority bug={bug} />
           </GridWrapper>
+          <BugTags bug={bug} refetchBugTags={refetch} />
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
-          <BugDetails bug={bug} refetchBugTags={() => refetchBugTags()} />
+          <BugDetails bug={bug} />
           {currentBugId && (
             <BugDuplicates cid={campaignId} bugId={currentBugId} />
           )}
