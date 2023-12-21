@@ -33,6 +33,7 @@
   "__BUG_CUSTOM_STATUS_TO_BE_IMPORTED": "Da importare",
   "__BUG_CUSTOM_STATUS_TO_BE_REGISTERED": "Da riprovare",
   "__BUG_CUSTOM_STATUS_TO_DO": "Da fare",
+  "__BUG_PAGE_ACTIONS_TITLE": "Gestisci in autonomia il bug",
   "__BUG_PAGE_HEADER_SHARE_LINK_CTA": "Condividi link pubblico",
   "__BUG_PRIORITY_HIGH": "Alta",
   "__BUG_PRIORITY_HIGHEST": "Altissima",
@@ -86,7 +87,7 @@
   "__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL": "Data di rilevamento",
   "__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIPOLOGY_LABEL": "Tipologia",
   "__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_USE_CASE_LABEL": "Caso d'uso",
-  "__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL": "Tag e Dettagli",
+  "__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL": "Dettagli",
   "__BUGS_PAGE_BUG_DETAIL_DUPLICATES_ACCORDION_TITLE": "Bug collegati",
   "__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL": "Risultato previsto",
   "__BUGS_PAGE_BUG_DETAIL_NEED_REVIEW": "In revisione",
@@ -871,7 +872,9 @@
   "Typology ({{count}})_many": "",
   "Typology ({{count}})_other": "Tipologie ({{count}})",
   "Use Cases ({{count}})_one": "Use Case ({{count}})",
+  "Use Cases ({{count}})_many": "",
   "Use Cases ({{count}})_other": "Use Case ({{count}})",
   "UseCase ({{count}})_one": "Use Case ({{count}})",
+  "UseCase ({{count}})_many": "",
   "UseCase ({{count}})_other": "Use Case ({{count}})"
 }
