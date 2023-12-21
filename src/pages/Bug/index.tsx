@@ -15,6 +15,7 @@ import { CustomStatusDrawer } from 'src/common/components/CustomStatusDrawer';
 import { Content } from './Content';
 import { Header } from './Header';
 import { LoadingSkeleton } from './LoadingSkeleton';
+import { Actions } from './Actions';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
@@ -28,7 +29,10 @@ const Bug = () => {
   }));
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
-  const hideDrawer = width < breakpointSm;
+  const breakpointLg = parseInt(appTheme.breakpoints.lg, 10);
+
+  const [hideDrawer, setHideDrawer] = useState(width < breakpointSm);
+  const [hideActions, setHideActions] = useState(width < breakpointLg);
 
   if (
     !campaignId ||
@@ -47,7 +51,6 @@ const Bug = () => {
     isLoading,
     isFetching,
     isError,
-    refetch,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId,
     bid: bugId,
@@ -65,6 +68,8 @@ const Bug = () => {
 
   useEffect(() => {
     if (hideDrawer) dispatch(setCustomStatusDrawerOpen(false));
+    setHideDrawer(width < breakpointSm);
+    setHideActions(width < breakpointLg);
   }, [width]);
 
   if (showSkeleton && (isLoading || isFetching)) {
@@ -78,27 +83,26 @@ const Bug = () => {
     return null;
   }
 
-  const refetchBugTags = () => {
-    setShowSkeleton(false);
-    refetch().then(() => setShowSkeleton(true));
-  };
-
   return (
     <Page
       title={bug.title.compact}
       className="bug-page"
       pageHeader={<Header campaignId={campaignId} bug={bug} />}
       route="bug"
+      excludeMarginTop
+      excludeMarginBottom
     >
-      <LayoutWrapper>
-        <Grid>
+      <LayoutWrapper
+        isNotBoxed
+        {...(!hideActions && { style: { paddingRight: 0 } })}
+      >
+        <Grid gutters="xxl">
           <Row>
-            <Col xl={8} offsetXl={2}>
-              <Content
-                bug={bug}
-                campaignId={campaignId}
-                refetchBugTags={refetchBugTags}
-              />
+            <Col lg={8} style={{ marginBottom: 0 }}>
+              <Content bug={bug} campaignId={campaignId} />
+            </Col>
+            <Col lg={4} style={{ marginBottom: 0 }}>
+              <Actions />
             </Col>
           </Row>
         </Grid>
