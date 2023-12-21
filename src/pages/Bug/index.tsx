@@ -22,7 +22,6 @@ const Bug = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
-  const [showSkeleton, setShowSkeleton] = useState(true);
   const location = useLocation();
   const { isCustomStatusDrawerOpen } = useAppSelector((state) => ({
     isCustomStatusDrawerOpen: state.bugsPage.isCustomStatusDrawerOpen,
@@ -72,7 +71,7 @@ const Bug = () => {
     setHideActions(width < breakpointLg);
   }, [width]);
 
-  if (showSkeleton && (isLoading || isFetching)) {
+  if (isLoading || isFetching) {
     return <LoadingSkeleton />;
   }
 
