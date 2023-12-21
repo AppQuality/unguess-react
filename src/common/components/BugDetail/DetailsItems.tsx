@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
-import BugTags from 'src/common/components/BugDetail/Tags';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import { MD, Span } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
@@ -23,8 +22,6 @@ const StyledSpan = styled(Span)`
 
 export default ({
   bug,
-  isLightbox,
-  refetchBugTags,
 }: {
   bug: Bug & {
     reporter: {
@@ -33,8 +30,6 @@ export default ({
     };
     additional_fields?: BugAdditionalField[];
   };
-  isLightbox?: boolean;
-  refetchBugTags?: () => void;
 }) => {
   const { t } = useTranslation();
   const { occurred_date, device, reporter } = bug;
@@ -43,11 +38,6 @@ export default ({
 
   return (
     <>
-      {!isLightbox && (
-        <DetailsItem>
-          <BugTags bug={bug} refetchBugTags={refetchBugTags} />
-        </DetailsItem>
-      )}
       <DetailsItem>
         <MD isBold style={{ marginBottom: appTheme.space.xs }}>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
