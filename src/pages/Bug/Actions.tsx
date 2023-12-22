@@ -1,4 +1,10 @@
-import { LG } from '@appquality/unguess-design-system';
+import {
+  Button,
+  Chat,
+  ChatProvider,
+  Comment,
+  LG,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
@@ -58,7 +64,33 @@ export const Actions = () => {
       <Divider
         style={{ margin: `${appTheme.space.lg} auto ${appTheme.space.md}` }}
       />
-      <p>Commenti</p>
+      <ChatProvider>
+        <Chat author={{ avatar: 'Pippo Baudo' }}>
+          <Chat.Header>Titolone</Chat.Header>
+          <Chat.Comments>
+            <Comment author="Pippo Baudo">
+              Ciao sono Pippo Baudo
+              <br />
+            </Comment>
+          </Chat.Comments>
+          <Chat.Input
+            author={{ avatar: 'LC' }}
+            onSave={(editor) => console.log(editor.getHTML())}
+          >
+            default text if needed
+          </Chat.Input>
+          <Chat.Footer>
+            <Button isBasic>Cancel</Button>
+            <Button
+              onClick={() => {
+                alert('Saved');
+              }}
+            >
+              Save
+            </Button>
+          </Chat.Footer>
+        </Chat>
+      </ChatProvider>
     </Container>
   );
 };
