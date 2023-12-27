@@ -123,7 +123,7 @@ export const Actions = () => {
         <Chat.Comments>
           {comments.items.map((comment) => (
             <Comment
-              author={{ name: comment.creator.name, avatar: 'PB' }}
+              author={{ name: getInitials(comment.creator.name), avatar: 'PB' }}
               message={comment.text}
               key={comment.id}
             >
