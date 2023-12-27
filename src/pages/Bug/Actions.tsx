@@ -1,6 +1,7 @@
 import {
   Button,
   Chat,
+  ChatProvider,
   Comment,
   LG,
   useChatContext,
@@ -8,7 +9,6 @@ import {
 import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { get } from 'react-scroll/modules/mixins/scroller';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
@@ -23,6 +23,7 @@ import {
   usePostCampaignsByCidBugsAndBidCommentsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { ChatBox } from './Chat';
 
 const Container = styled.div`
   display: flex;
@@ -106,6 +107,10 @@ export const Actions = () => {
   if (!comments || isLoadingComments || isFetchingComments || isErrorComments)
     return null;
 
+  const handleChatSave = (editor: any) => {
+    console.log('editor', editor);
+  };
+
   return (
     <Container>
       <LG isBold>{t('__BUG_PAGE_ACTIONS_TITLE')}</LG>
@@ -118,39 +123,9 @@ export const Actions = () => {
       <Divider
         style={{ margin: `${appTheme.space.lg} auto ${appTheme.space.md}` }}
       />
-      <Chat>
-        <Chat.Header>Titolone</Chat.Header>
-        <Chat.Comments>
-          {comments.items.map((comment) => (
-            <Comment
-              author={{ name: getInitials(comment.creator.name), avatar: 'PB' }}
-              message={comment.text}
-              key={comment.id}
-            >
-              <>
-                {convertToLocalTime(comment.creation_date)}
-                <br />
-                {(comment.creator.id === user.id ||
-                  user.role === 'administrator') && (
-                  <Button
-                    isBasic
-                    onClick={() => deleteCommentHandler(`${comment.id}`)}
-                  >
-                    Elimina
-                  </Button>
-                )}
-              </>
-            </Comment>
-          ))}
-        </Chat.Comments>
-        <Chat.Input author={{ avatar: 'LC' }} onSave={createCommentHandler}>
-          default text if needed
-        </Chat.Input>
-        <Chat.Footer>
-          <Button isBasic>Cancel</Button>
-          <Button onClick={createCommentHandler}>Save</Button>
-        </Chat.Footer>
-      </Chat>
+      <ChatProvider onSave={handleChatSave}>
+        <ChatBox />
+      </ChatProvider>
     </Container>
   );
 };
