@@ -4,6 +4,7 @@ import {
   ChatProvider,
   Comment,
   LG,
+  useChatContext,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -14,6 +15,8 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { useParams } from 'react-router-dom';
+import { useCallback } from 'react';
+import { ChatBox } from './Chat';
 
 const Container = styled.div`
   display: flex;
@@ -52,6 +55,10 @@ export const Actions = () => {
 
   if (!bug || isLoading || isFetching || isError) return null;
 
+  const handleChatSave = (editor: any) => {
+    console.log('editor', editor);
+  };
+
   return (
     <Container>
       <LG isBold>{t('__BUG_PAGE_ACTIONS_TITLE')}</LG>
@@ -64,32 +71,8 @@ export const Actions = () => {
       <Divider
         style={{ margin: `${appTheme.space.lg} auto ${appTheme.space.md}` }}
       />
-      <ChatProvider>
-        <Chat author={{ avatar: 'Pippo Baudo' }}>
-          <Chat.Header>Titolone</Chat.Header>
-          <Chat.Comments>
-            <Comment author="Pippo Baudo">
-              Ciao sono Pippo Baudo
-              <br />
-            </Comment>
-          </Chat.Comments>
-          <Chat.Input
-            author={{ avatar: 'LC' }}
-            onSave={(editor) => console.log(editor.getHTML())}
-          >
-            default text if needed
-          </Chat.Input>
-          <Chat.Footer>
-            <Button isBasic>Cancel</Button>
-            <Button
-              onClick={() => {
-                alert('Saved');
-              }}
-            >
-              Save
-            </Button>
-          </Chat.Footer>
-        </Chat>
+      <ChatProvider onSave={handleChatSave}>
+        <ChatBox />
       </ChatProvider>
     </Container>
   );
