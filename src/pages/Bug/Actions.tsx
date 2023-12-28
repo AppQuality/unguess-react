@@ -1,5 +1,5 @@
 import { ChatProvider, LG } from '@appquality/unguess-design-system';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -27,6 +27,7 @@ const Container = styled.div`
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.lg};
+  overflow-y: auto;
 `;
 
 const GridWrapper = styled.div`
@@ -39,6 +40,7 @@ const GridWrapper = styled.div`
 export const Actions = () => {
   const { t } = useTranslation();
   const { campaignId, bugId } = useParams();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
@@ -58,7 +60,6 @@ export const Actions = () => {
     isLoading: isLoadingComments,
     isFetching: isFetchingComments,
     isError: isErrorComments,
-    refetch: commentsRefetch,
   } = useGetCampaignsByCidBugsAndBidCommentsQuery({
     cid,
     bid,
@@ -76,8 +77,10 @@ export const Actions = () => {
           },
         })
           .unwrap()
-          .then(() => {
-            commentsRefetch();
+          .then((res) => {
+            // TODO: reset editor
+            console.log('Comment successfully created.', res);
+            setIsSubmitting(false);
           });
       }
     },
@@ -97,10 +100,15 @@ export const Actions = () => {
       </GridWrapper>
       <BugTags bug={bug} refetchBugTags={refetch} />
       <Divider
-        style={{ margin: `${appTheme.space.lg} auto ${appTheme.space.md}` }}
+        style={{ margin: `${appTheme.space.sm} auto ${appTheme.space.sm}` }}
       />
       <ChatProvider onSave={createCommentHandler}>
-        <ChatBox campaignId={cid} bugId={bid} />
+        <ChatBox
+          campaignId={cid}
+          bugId={bid}
+          isSubmitting={isSubmitting}
+          setIsSubmitting={setIsSubmitting}
+        />
       </ChatProvider>
     </Container>
   );

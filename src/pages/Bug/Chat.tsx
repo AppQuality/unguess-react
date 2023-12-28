@@ -22,23 +22,22 @@ function convertToLocalTime(utcString: string) {
 export const ChatBox = ({
   campaignId,
   bugId,
+  isSubmitting,
+  setIsSubmitting,
 }: {
   campaignId: string;
   bugId: string;
+  isSubmitting: boolean;
+  setIsSubmitting: (state: boolean) => void;
 }) => {
   const { triggerSave } = useChatContext();
   const { userData: user } = useAppSelector((state) => state.user);
 
-  const {
-    data: comments,
-    isLoading: isLoadingComments,
-    isFetching: isFetchingComments,
-    isError: isErrorComments,
-    refetch: commentsRefetch,
-  } = useGetCampaignsByCidBugsAndBidCommentsQuery({
-    cid: campaignId,
-    bid: bugId,
-  });
+  const { data: comments, refetch: commentsRefetch } =
+    useGetCampaignsByCidBugsAndBidCommentsQuery({
+      cid: campaignId,
+      bid: bugId,
+    });
 
   const [deleteComment] =
     useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation();
@@ -89,7 +88,15 @@ export const ChatBox = ({
       />
       <Chat.Footer>
         <Button isBasic>Cancel</Button>
-        <Button onClick={triggerSave}>Save</Button>
+        <Button
+          disabled={isSubmitting}
+          onClick={() => {
+            triggerSave();
+            setIsSubmitting(true);
+          }}
+        >
+          Save
+        </Button>
       </Chat.Footer>
     </Chat>
   );

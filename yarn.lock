@@ -34,7 +34,7 @@
   resolved "https://registry.yarnpkg.com/@apidevtools/swagger-methods/-/swagger-methods-3.0.2.tgz#b789a362e055b0340d04712eafe7027ddc1ac267"
   integrity sha512-QAkD5kK2b1WfjDS/UQn/qQkbwF31uqRjPTrsCs5ZG9BQGAkjwvqGFjjPqAuzac/IYzpPtRzjCP1WrTuAIjMrXg==
 
-"@apidevtools/swagger-parser@^10.0.1", "@apidevtools/swagger-parser@^10.0.2":
+"@apidevtools/swagger-parser@^10.0.2", "@apidevtools/swagger-parser@^10.1.0":
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/@apidevtools/swagger-parser/-/swagger-parser-10.1.0.tgz#a987d71e5be61feb623203be0c96e5985b192ab6"
   integrity sha512-9Kt7EuS/7WbMAUv2gSziqjvxwDbFSg3Xeyfuj5laUODX8o/k/CpsAKiQ8W7/R88eXFTMbJYg6+7uAmOWNKmwnw==
@@ -2195,29 +2195,18 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rtk-query/codegen-openapi@^1.0.0-alpha.1":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@rtk-query/codegen-openapi/-/codegen-openapi-1.0.0.tgz#92455bfbe1531c7854a403f174adb7ee9274067e"
-  integrity sha512-mptXwJVtMLozWFSqxm7WKY6K8duWLsPgjmkGjqaEqo5qEWJlARur6SHoqugKh3fHSM7vPaCS3VcWJ5RCYjup9Q==
+"@rtk-query/codegen-openapi@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@rtk-query/codegen-openapi/-/codegen-openapi-1.2.0.tgz#2c63cbbd80382c4ba6c9fab5e9004efb43637de3"
+  integrity sha512-Sru3aPHyFC0Tb7jeFh/kVMGBdQUcofb9frrHhjNSRLEoJWsG9fjaioUx3nPT5HZVbdAvAFF4xMWFQNfgJBrAGw==
   dependencies:
     "@apidevtools/swagger-parser" "^10.0.2"
-    "@rtk-query/oazapfts-patched" "^3.6.0-2"
     commander "^6.2.0"
+    oazapfts "^4.8.0"
     prettier "^2.2.1"
     semver "^7.3.5"
     swagger2openapi "^7.0.4"
-    typescript ">=4.1 <=4.5"
-
-"@rtk-query/oazapfts-patched@^3.6.0-2":
-  version "3.6.0-2"
-  resolved "https://registry.yarnpkg.com/@rtk-query/oazapfts-patched/-/oazapfts-patched-3.6.0-2.tgz#14b04b7b3edcb90527f5d038f2d8ce2190b6d7b6"
-  integrity sha512-9Y9j8BOvmb7WStrY2SomAk8syoAc8/8/EDS8OybG7G2mxy5aWH9qxNZgGxx9ODR4lQwbglan4+kTq0X6KqHUYA==
-  dependencies:
-    "@apidevtools/swagger-parser" "^10.0.1"
-    lodash "^4.17.20"
-    minimist "^1.2.5"
-    swagger2openapi "^7.0.7"
-    typescript "^4.1.2"
+    typescript "^5.0.0"
 
 "@sentry-internal/feedback@7.85.0":
   version "7.85.0"
@@ -10473,7 +10462,7 @@ minimist@1.2.7:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.7.tgz#daa1c4d91f507390437c6a8bc01078e7000c4d18"
   integrity sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==
 
-minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
+minimist@^1.1.1, minimist@^1.2.0, minimist@^1.2.6, minimist@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
@@ -10930,6 +10919,17 @@ oas-validator@^5.0.8:
     reftools "^1.1.9"
     should "^13.2.1"
     yaml "^1.10.0"
+
+oazapfts@^4.8.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/oazapfts/-/oazapfts-4.12.0.tgz#8a86c5fe5a1237b16b05d06d05815cffa2a2b949"
+  integrity sha512-hNKRG4eLYceuJuqDDx7Uqsi8p3j5k83gNKSo2qnUOTiiU03sCQOjXxOqCXDbzRcuDFyK94+1PBIpotK4NoxIjw==
+  dependencies:
+    "@apidevtools/swagger-parser" "^10.1.0"
+    lodash "^4.17.21"
+    minimist "^1.2.8"
+    swagger2openapi "^7.0.8"
+    typescript "^5.2.2"
 
 object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"
@@ -14503,7 +14503,7 @@ svgo@^1.0.0, svgo@^1.2.2:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swagger2openapi@^7.0.4, swagger2openapi@^7.0.7:
+swagger2openapi@^7.0.4, swagger2openapi@^7.0.8:
   version "7.0.8"
   resolved "https://registry.yarnpkg.com/swagger2openapi/-/swagger2openapi-7.0.8.tgz#12c88d5de776cb1cbba758994930f40ad0afac59"
   integrity sha512-upi/0ZGkYgEcLeGieoz8gT74oWHA0E7JivX7aN9mAf+Tc7BQoRBvnIGHoPDw+f9TXTW4s6kGYCZJtauP6OYp7g==
@@ -14990,12 +14990,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-"typescript@>=4.1 <=4.5":
-  version "4.5.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
-  integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
-
-typescript@^4.1.2, typescript@^4.2.4, typescript@^4.6.2:
+typescript@^4.2.4, typescript@^4.6.2:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
@@ -15004,6 +14999,11 @@ typescript@^4.1.2, typescript@^4.2.4, typescript@^4.6.2:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
   integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
+
+typescript@^5.0.0, typescript@^5.2.2:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
+  integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
 
 ua-parser-js@^1.0.2:
   version "1.0.35"
