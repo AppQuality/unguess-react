@@ -32,7 +32,7 @@ export const ChatBox = ({
   isSubmitting: boolean;
   setIsSubmitting: (state: boolean) => void;
 }) => {
-  const { triggerSave } = useChatContext();
+  const { triggerSave, editor } = useChatContext();
   const { userData: user } = useAppSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<string>('');
