@@ -90,7 +90,6 @@ unguessApi.enhanceEndpoints({
       ) {
         try {
           const { data: updatedPost } = await queryFulfilled;
-          console.log('🚀 ~ file: apiTags.ts:93 ~ updatedPost:', updatedPost);
           dispatch(
             unguessApi.util.updateQueryData(
               'getCampaignsByCidBugsAndBidComments',
