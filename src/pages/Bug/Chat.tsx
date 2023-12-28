@@ -124,8 +124,6 @@ export const ChatBox = ({
             isPrimary
             isAccent
             disabled={isSubmitting}
-            isAccent
-            isPrimary
             onClick={() => {
               triggerSave();
               setIsSubmitting(true);
