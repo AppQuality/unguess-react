@@ -1,23 +1,13 @@
-import {
-  Button,
-  Chat,
-  ChatProvider,
-  Comment,
-  LG,
-  useChatContext,
-} from '@appquality/unguess-design-system';
-import { format } from 'date-fns';
+import { ChatProvider, LG } from '@appquality/unguess-design-system';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
 import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
-import { getInitials } from 'src/common/components/navigation/header/utils';
 import {
-  useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
@@ -46,15 +36,13 @@ const GridWrapper = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-function convertToLocalTime(utcString: string) {
-  const date = new Date(utcString);
-  const formattedDate = format(date, 'dd MMM yyyy | HH:mm');
-  return formattedDate.toLowerCase();
-}
-
 export const Actions = () => {
   const { t } = useTranslation();
   const { campaignId, bugId } = useParams();
+
+  const cid = campaignId ? campaignId.toString() : '';
+  const bid = bugId ? bugId.toString() : '';
+
   const {
     data: bug,
     isLoading,
@@ -62,54 +50,42 @@ export const Actions = () => {
     isError,
     refetch,
   } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId ? campaignId.toString() : '',
-    bid: bugId ? bugId.toString() : '',
+    cid,
+    bid,
   });
-  const { triggerSave, editor } = useChatContext();
+  const [createComment] = usePostCampaignsByCidBugsAndBidCommentsMutation();
   const {
-    data: comments,
     isLoading: isLoadingComments,
     isFetching: isFetchingComments,
     isError: isErrorComments,
     refetch: commentsRefetch,
   } = useGetCampaignsByCidBugsAndBidCommentsQuery({
-    cid: campaignId ? campaignId.toString() : '',
-    bid: bugId ? bugId.toString() : '',
+    cid,
+    bid,
   });
-  const [createComment] = usePostCampaignsByCidBugsAndBidCommentsMutation();
-  const [deleteComment] =
-    useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation();
-  const { userData: user } = useAppSelector((state) => state.user);
-  const createCommentHandler = async () => {
-    if (editor) {
-      await createComment({
-        cid: campaignId ? campaignId.toString() : '',
-        bid: bugId ? bugId.toString() : '',
-        body: {
-          text: editor.getHTML(),
-        },
-      });
-      commentsRefetch();
-    }
-  };
 
-  const deleteCommentHandler = async (commentId: string) => {
-    await deleteComment({
-      cid: campaignId ? campaignId.toString() : '',
-      bid: bugId ? bugId.toString() : '',
-      cmid: commentId,
-      body: {},
-    });
-    commentsRefetch();
-  };
+  const createCommentHandler = useCallback(
+    (editor) => {
+      console.log('triggered handler, editor:', editor);
+      if (editor) {
+        createComment({
+          cid,
+          bid,
+          body: {
+            text: editor.getHTML(),
+          },
+        })
+          .unwrap()
+          .then(() => {
+            commentsRefetch();
+          });
+      }
+    },
+    [cid, bid, bug]
+  );
 
   if (!bug || isLoading || isFetching || isError) return null;
-  if (!comments || isLoadingComments || isFetchingComments || isErrorComments)
-    return null;
-
-  const handleChatSave = (editor: any) => {
-    console.log('editor', editor);
-  };
+  if (isLoadingComments || isFetchingComments || isErrorComments) return null;
 
   return (
     <Container>
@@ -123,8 +99,8 @@ export const Actions = () => {
       <Divider
         style={{ margin: `${appTheme.space.lg} auto ${appTheme.space.md}` }}
       />
-      <ChatProvider onSave={handleChatSave}>
-        <ChatBox />
+      <ChatProvider onSave={createCommentHandler}>
+        <ChatBox campaignId={cid} bugId={bid} />
       </ChatProvider>
     </Container>
   );
