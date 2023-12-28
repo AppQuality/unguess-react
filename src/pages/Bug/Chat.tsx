@@ -6,6 +6,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { format } from 'date-fns';
 import { useState } from 'react';
+import { styled } from 'styled-components';
 import { useAppSelector } from 'src/app/hooks';
 import defaultBkg from 'src/assets/bg-chat.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
@@ -20,6 +21,10 @@ function convertToLocalTime(utcString: string) {
   const formattedDate = format(date, ' | dd MMM yyyy | HH:mm');
   return formattedDate.toLowerCase();
 }
+
+const StyledComments = styled(Chat.Comments)`
+  height: 30vh;
+`;
 
 export const ChatBox = ({
   campaignId,
@@ -64,7 +69,7 @@ export const ChatBox = ({
     <>
       <Chat>
         <Chat.Header>Titolone</Chat.Header>
-        <Chat.Comments chatBkg={`url(${defaultBkg}) repeat center center`}>
+        <StyledComments chatBkg={`url(${defaultBkg}) repeat center center`}>
           {comments &&
             comments.items.length > 0 &&
             comments.items.map((comment) => (
@@ -88,12 +93,19 @@ export const ChatBox = ({
                 </>
               </Comment>
             ))}
-        </Chat.Comments>
+        </StyledComments>
         <Chat.Input
           author={{ avatar: getInitials(user.name), name: user.name }}
         />
         <Chat.Footer>
-          <Button isBasic>Cancel</Button>
+          <Button
+            isBasic
+            onClick={() => {
+              editor?.commands.clearContent(true);
+            }}
+          >
+            Cancel
+          </Button>
           <Button
             disabled={isSubmitting}
             onClick={() => {

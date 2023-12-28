@@ -67,7 +67,6 @@ export const Actions = () => {
 
   const createCommentHandler = useCallback(
     (editor) => {
-      console.log('triggered handler, editor:', editor);
       if (editor) {
         createComment({
           cid,
@@ -77,9 +76,7 @@ export const Actions = () => {
           },
         })
           .unwrap()
-          .then((res) => {
-            // TODO: reset editor
-            console.log('Comment successfully created.', res);
+          .then(() => {
             setIsSubmitting(false);
           });
       }
