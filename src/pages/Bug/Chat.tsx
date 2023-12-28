@@ -5,7 +5,7 @@ import {
   useChatContext,
 } from '@appquality/unguess-design-system';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useAppSelector } from 'src/app/hooks';
 import defaultBkg from 'src/assets/bg-chat.svg';
@@ -65,11 +65,24 @@ export const ChatBox = ({
     commentsRefetch();
   };
 
+  useEffect(() => {
+    if (comments) {
+      // Scroll to bottom of chat
+      const chat = document.getElementById('bug-comments-container');
+      if (chat) {
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+  }, [comments]);
+
   return (
     <>
       <Chat>
         <Chat.Header>Titolone</Chat.Header>
-        <StyledComments chatBkg={`url(${defaultBkg}) repeat center center`}>
+        <StyledComments
+          id="bug-comments-container"
+          chatBkg={`url(${defaultBkg}) repeat center center`}
+        >
           {comments &&
             comments.items.length > 0 &&
             comments.items.map((comment) => (
