@@ -26,9 +26,11 @@ export const DeleteCommentModal = ({
   };
   return (
     <Modal onClose={onQuit}>
-      <Modal.Header isDanger>Vuoi eliminare il commento?</Modal.Header>
+      <Modal.Header isDanger>
+        {t('__BUG_COMMENTS_DELETE_MODAL_HEADER__')}
+      </Modal.Header>
       <ModalBody>
-        <Paragraph>Se lo elimini, non comparirà più tra i commenti.</Paragraph>
+        <Paragraph>{t('__BUG_COMMENTS_DELETE_MODAL_BODY__')}</Paragraph>
       </ModalBody>
       <Modal.Footer>
         <Button
@@ -38,10 +40,10 @@ export const DeleteCommentModal = ({
           isLink
           onClick={() => deleteCommentHandler(deleteCommentId)}
         >
-          Elimina
+          {t('__BUG_COMMENTS_DELETE_MODAL_DELETE__')}
         </Button>
         <Button id="comment-modal-cancel" isPrimary isAccent onClick={onQuit}>
-          Torna al commento
+          {t('__BUG_COMMENTS_DELETE_MODAL_CANCEL__')}
         </Button>
       </Modal.Footer>
       <ModalClose onClick={onQuit} />
