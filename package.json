@@ -3,10 +3,10 @@
   "version": "1.4.0",
   "private": true,
   "dependencies": {
-    "@appquality/unguess-design-system": "3.1.54",
+    "@appquality/unguess-design-system": "3.1.61",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
-    "@rtk-query/codegen-openapi": "^1.0.0-alpha.1",
+    "@rtk-query/codegen-openapi": "1.2.0",
     "@sentry/react": "^7.85.0",
     "@zendeskgarden/react-datepickers": "^8.49.4",
     "@zendeskgarden/react-dropdowns": "^8.49.0",
