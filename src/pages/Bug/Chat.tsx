@@ -5,6 +5,7 @@ import {
   useChatContext,
 } from '@appquality/unguess-design-system';
 import { format } from 'date-fns';
+import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { useAppSelector } from 'src/app/hooks';
@@ -78,7 +79,7 @@ export const ChatBox = ({
   return (
     <>
       <Chat>
-        <Chat.Header>Titolone</Chat.Header>
+        <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
         <StyledComments
           id="bug-comments-container"
           chatBkg={`url(${defaultBkg}) repeat center center`}
@@ -100,7 +101,7 @@ export const ChatBox = ({
                   {(comment.creator.id === user.id ||
                     user.role === 'administrator') && (
                     <Button isBasic onClick={() => openModal(`${comment.id}`)}>
-                      Elimina
+                      {t('__BUG_COMMENTS_CHAT_DELETE__')}
                     </Button>
                   )}
                 </>
@@ -117,16 +118,18 @@ export const ChatBox = ({
               editor?.commands.clearContent(true);
             }}
           >
-            Cancel
+            {t('__BUG_COMMENTS_CHAT_CANCEL__')}
           </Button>
           <Button
+            isPrimary
+            isAccent
             disabled={isSubmitting}
             onClick={() => {
               triggerSave();
               setIsSubmitting(true);
             }}
           >
-            Save
+            {t('__BUG_COMMENTS_CHAT_CONFIRM__')}
           </Button>
         </Chat.Footer>
       </Chat>
