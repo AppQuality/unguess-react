@@ -15,7 +15,7 @@ import { useAppSelector } from 'src/app/hooks';
 
 function convertToLocalTime(utcString: string) {
   const date = new Date(utcString);
-  const formattedDate = format(date, 'dd MMM yyyy | HH:mm');
+  const formattedDate = format(date, ' | dd MMM yyyy | HH:mm');
   return formattedDate.toLowerCase();
 }
 
@@ -64,11 +64,11 @@ export const ChatBox = ({
                 avatar: getInitials(comment.creator.name),
                 name: comment.creator.name,
               }}
+              date={convertToLocalTime(comment.creation_date)}
               message={comment.text}
               key={comment.id}
             >
               <>
-                {convertToLocalTime(comment.creation_date)}
                 <br />
                 {(comment.creator.id === user.id ||
                   user.role === 'administrator') && (
