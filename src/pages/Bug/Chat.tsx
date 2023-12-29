@@ -98,7 +98,7 @@ export const ChatBox = ({
               >
                 <>
                   <br />
-                  {(comment.creator.id === user.id ||
+                  {(comment.creator.id === user.profile_id ||
                     user.role === 'administrator') && (
                     <Button isBasic onClick={() => openModal(`${comment.id}`)}>
                       {t('__BUG_COMMENTS_CHAT_DELETE__')}
