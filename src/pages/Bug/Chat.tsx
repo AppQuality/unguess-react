@@ -12,6 +12,7 @@ import { useAppSelector } from 'src/app/hooks';
 import defaultBkg from 'src/assets/bg-chat.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
 import {
+  User,
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
 } from 'src/features/api';
@@ -66,6 +67,15 @@ export const ChatBox = ({
     commentsRefetch();
   };
 
+  const hasFeatureFlag = (userObj: User, slug: string) => {
+    if (userObj && userObj.features) {
+      return (
+        userObj.features.find((feature) => feature.slug === slug) !== undefined
+      );
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (comments) {
       // Scroll to bottom of chat
@@ -75,64 +85,69 @@ export const ChatBox = ({
       }
     }
   }, [comments]);
-
+  console.log(user);
   return (
     <>
-      <Chat>
-        <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
-        {comments && comments.items.length > 0 && (
-          <StyledComments
-            id="bug-comments-container"
-            chatBkg={`url(${defaultBkg}) repeat center center`}
-          >
-            {comments.items.map((comment) => (
-              <Comment
-                author={{
-                  avatar: getInitials(comment.creator.name),
-                  name: comment.creator.name,
-                }}
-                date={convertToLocalTime(comment.creation_date)}
-                message={comment.text}
-                key={comment.id}
-              >
-                <>
-                  <br />
-                  {(comment.creator.id === user.id ||
-                    user.role === 'administrator') && (
-                    <Button isBasic onClick={() => openModal(`${comment.id}`)}>
-                      {t('__BUG_COMMENTS_CHAT_DELETE__')}
-                    </Button>
-                  )}
-                </>
-              </Comment>
-            ))}
-          </StyledComments>
-        )}
-        <Chat.Input
-          author={{ avatar: getInitials(user.name), name: user.name }}
-        />
-        <Chat.Footer>
-          <Button
-            isBasic
-            onClick={() => {
-              editor?.commands.clearContent(true);
-            }}
-          >
-            {t('__BUG_COMMENTS_CHAT_CANCEL__')}
-          </Button>
-          <Button
-            isPrimary
-            isAccent
-            disabled={isSubmitting}
-            onClick={() => {
-              triggerSave();
-              setIsSubmitting(true);
-            }}
-          >
-            {t('__BUG_COMMENTS_CHAT_CONFIRM__')}
-          </Button>
-        </Chat.Footer>
-      </Chat>
+      {hasFeatureFlag(user, 'bug-comments') && (
+        <Chat>
+          <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
+          {comments && comments.items.length > 0 && (
+            <StyledComments
+              id="bug-comments-container"
+              chatBkg={`url(${defaultBkg}) repeat center center`}
+            >
+              {comments.items.map((comment) => (
+                <Comment
+                  author={{
+                    avatar: getInitials(comment.creator.name),
+                    name: comment.creator.name,
+                  }}
+                  date={convertToLocalTime(comment.creation_date)}
+                  message={comment.text}
+                  key={comment.id}
+                >
+                  <>
+                    <br />
+                    {(comment.creator.id === user.id ||
+                      user.role === 'administrator') && (
+                      <Button
+                        isBasic
+                        onClick={() => openModal(`${comment.id}`)}
+                      >
+                        {t('__BUG_COMMENTS_CHAT_DELETE__')}
+                      </Button>
+                    )}
+                  </>
+                </Comment>
+              ))}
+            </StyledComments>
+          )}
+          <Chat.Input
+            author={{ avatar: getInitials(user.name), name: user.name }}
+          />
+          <Chat.Footer>
+            <Button
+              isBasic
+              onClick={() => {
+                editor?.commands.clearContent(true);
+              }}
+            >
+              {t('__BUG_COMMENTS_CHAT_CANCEL__')}
+            </Button>
+            <Button
+              isPrimary
+              isAccent
+              disabled={isSubmitting}
+              onClick={() => {
+                triggerSave();
+                setIsSubmitting(true);
+              }}
+            >
+              {t('__BUG_COMMENTS_CHAT_CONFIRM__')}
+            </Button>
+          </Chat.Footer>
+        </Chat>
+      )}
       {isModalOpen && (
         <DeleteCommentModal
           setIsModalOpen={setIsModalOpen}
