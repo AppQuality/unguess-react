@@ -80,13 +80,12 @@ export const ChatBox = ({
     <>
       <Chat>
         <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
-        <StyledComments
-          id="bug-comments-container"
-          chatBkg={`url(${defaultBkg}) repeat center center`}
-        >
-          {comments &&
-            comments.items.length > 0 &&
-            comments.items.map((comment) => (
+        {comments && comments.items.length > 0 && (
+          <StyledComments
+            id="bug-comments-container"
+            chatBkg={`url(${defaultBkg}) repeat center center`}
+          >
+            {comments.items.map((comment) => (
               <Comment
                 author={{
                   avatar: getInitials(comment.creator.name),
@@ -107,7 +106,8 @@ export const ChatBox = ({
                 </>
               </Comment>
             ))}
-        </StyledComments>
+          </StyledComments>
+        )}
         <Chat.Input
           author={{ avatar: getInitials(user.name), name: user.name }}
         />
