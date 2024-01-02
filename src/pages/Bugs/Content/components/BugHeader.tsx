@@ -1,20 +1,20 @@
-import { IconButton, Tooltip, Tag } from '@appquality/unguess-design-system';
+import { IconButton, Tag, Tooltip } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.svg';
-import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { ReactComponent as SpeechBubble } from 'src/assets/icons/speech-bubble-fill.svg';
+import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import {
   Bug,
-  useGetCampaignsByCidBugsAndBidCommentsQuery,
+  GetCampaignsByCidBugsAndBidCommentsApiResponse,
 } from 'src/features/api';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
-import styled from 'styled-components';
-import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
-import { Link, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
@@ -62,6 +62,8 @@ const CommentsBadge = styled.span`
 
 export default ({
   bug,
+  comments,
+  showComments,
 }: {
   bug: Bug & {
     reporter: {
@@ -69,15 +71,12 @@ export default ({
       name: string;
     };
   };
+  comments: GetCampaignsByCidBugsAndBidCommentsApiResponse | undefined;
+  showComments: boolean;
 }) => {
   const dispatch = useAppDispatch();
-  const { campaignId } = useParams();
   const { t } = useTranslation();
 
-  const { data: comments } = useGetCampaignsByCidBugsAndBidCommentsQuery({
-    cid: campaignId ?? '',
-    bid: `${bug.id}`,
-  });
   return (
     <Container>
       <Tag
@@ -100,35 +99,37 @@ export default ({
         <Tag.SecondaryText isBold>{bug.id}</Tag.SecondaryText>
       </Tag>
       <ActionDetailPreview>
-        <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
-        >
-          <Tooltip
-            content={
-              comments && comments.items.length > 0
-                ? t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP', {
-                    count: comments?.items.length,
-                  })
-                : t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_EMPTY')
-            }
-            size="large"
-            type="light"
-            placement="auto"
+        {showComments && (
+          <Link
+            to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
           >
-            <IconButton size="medium" className="bug-detail-go-to-bug-link">
-              <CommentsIconContainer>
-                <SpeechBubble />
-                {comments?.items && comments.items.length > 0 && (
-                  <CommentsBadge>
-                    {comments?.items.length < 10
-                      ? comments?.items.length
-                      : '9+'}
-                  </CommentsBadge>
-                )}
-              </CommentsIconContainer>
-            </IconButton>
-          </Tooltip>
-        </Link>
+            <Tooltip
+              content={
+                comments && comments.items.length > 0
+                  ? t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP', {
+                      count: comments?.items.length,
+                    })
+                  : t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_EMPTY')
+              }
+              size="large"
+              type="light"
+              placement="auto"
+            >
+              <IconButton size="medium" className="bug-detail-go-to-bug-link">
+                <CommentsIconContainer>
+                  <SpeechBubble />
+                  {comments?.items && comments.items.length > 0 && (
+                    <CommentsBadge>
+                      {comments?.items.length < 10
+                        ? comments?.items.length
+                        : '9+'}
+                    </CommentsBadge>
+                  )}
+                </CommentsIconContainer>
+              </IconButton>
+            </Tooltip>
+          </Link>
+        )}
         <Link
           to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
         >

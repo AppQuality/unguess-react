@@ -67,7 +67,10 @@ export const ChatBox = ({
     commentsRefetch();
   };
 
-  const hasFeatureFlag = (userObj: User, slug: string) => {
+  const hasFeatureFlag = (userObj: User, slug?: string) => {
+    if (userObj && userObj.role === 'administrator') {
+      return true;
+    }
     if (userObj && userObj.features) {
       return (
         userObj.features.find((feature) => feature.slug === slug) !== undefined
@@ -85,7 +88,6 @@ export const ChatBox = ({
       }
     }
   }, [comments]);
-  console.log(user);
   return (
     <>
       {hasFeatureFlag(user, 'bug-comments') && (
