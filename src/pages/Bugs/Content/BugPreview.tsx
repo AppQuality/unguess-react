@@ -1,6 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useRef } from 'react';
-import { useAppSelector } from 'src/app/hooks';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
