@@ -18,6 +18,7 @@ import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { styled } from 'styled-components';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
@@ -28,10 +29,19 @@ interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
 }
 
+const ActionContainer = styled.div`
+  display: flex;
+  align-items: end;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 const BreadCrumbs = ({
   campaign,
+  children,
 }: {
   campaign: GetCampaignsByCidApiResponse;
+  children?: React.ReactNode;
 }) => {
   const { t } = useTranslation();
 
@@ -52,21 +62,24 @@ const BreadCrumbs = ({
   }
 
   return (
-    <PageHeader.Breadcrumbs>
-      {project ? (
-        <Link to={projectRoute}>
-          <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+    <ActionContainer>
+      <PageHeader.Breadcrumbs>
+        {project ? (
+          <Link to={projectRoute}>
+            <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+          </Link>
+        ) : (
+          campaign.project.name
+        )}
+        <Link to={campaignRoute}>
+          <Anchor>{campaign.customer_title}</Anchor>
         </Link>
-      ) : (
-        campaign.project.name
-      )}
-      <Link to={campaignRoute}>
-        <Anchor>{campaign.customer_title}</Anchor>
-      </Link>
-      <Link to={bugsRoute}>
-        <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
-      </Link>
-    </PageHeader.Breadcrumbs>
+        <Link to={bugsRoute}>
+          <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
+        </Link>
+      </PageHeader.Breadcrumbs>
+      {children}
+    </ActionContainer>
   );
 };
 
@@ -81,7 +94,6 @@ export const Header = ({ campaignId, bug }: Props) => {
     cid: campaignId,
   });
   const { t } = useTranslation();
-  const isShareButtonEnabled = false;
 
   useEffect(() => {
     if (campaign) {
@@ -108,21 +120,18 @@ export const Header = ({ campaignId, bug }: Props) => {
   return (
     <LayoutWrapper isNotBoxed>
       <PageHeader>
-        <BreadCrumbs campaign={campaign} />
-        {isShareButtonEnabled && (
-          <PageHeader.Footer>
-            <ShareButton bug={bug}>
-              {(setModalOpen) => (
-                <Button onClick={() => setModalOpen(true)}>
-                  <Button.StartIcon>
-                    <ShareIcon />
-                  </Button.StartIcon>
-                  {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
-                </Button>
-              )}
-            </ShareButton>
-          </PageHeader.Footer>
-        )}
+        <BreadCrumbs campaign={campaign}>
+          <ShareButton bug={bug}>
+            {(setModalOpen) => (
+              <Button onClick={() => setModalOpen(true)}>
+                <Button.StartIcon>
+                  <ShareIcon />
+                </Button.StartIcon>
+                {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
+              </Button>
+            )}
+          </ShareButton>
+        </BreadCrumbs>
       </PageHeader>
     </LayoutWrapper>
   );
