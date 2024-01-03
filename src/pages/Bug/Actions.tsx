@@ -96,9 +96,7 @@ export const Actions = () => {
         <BugPriority bug={bug} />
       </GridWrapper>
       <BugTags bug={bug} refetchBugTags={refetch} />
-      <Divider
-        style={{ margin: `${appTheme.space.sm} auto ${appTheme.space.sm}` }}
-      />
+      <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
       <ChatProvider onSave={createCommentHandler}>
         <ChatBox
           campaignId={cid}
