@@ -63,6 +63,7 @@ export const BugCommentsDetail = ({
         <CommentsIcon
           style={{
             marginRight: appTheme.space.base * 3,
+            marginTop: appTheme.space.base,
           }}
         />
         <LG

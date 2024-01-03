@@ -7,12 +7,12 @@ import {
 import { format } from 'date-fns';
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { styled } from 'styled-components';
 import { useAppSelector } from 'src/app/hooks';
 import defaultBkg from 'src/assets/bg-chat.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
 import {
-  User,
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
 } from 'src/features/api';
@@ -67,17 +67,9 @@ export const ChatBox = ({
     commentsRefetch();
   };
 
-  const hasFeatureFlag = (userObj: User, slug?: string) => {
-    if (userObj && userObj.role === 'administrator') {
-      return true;
-    }
-    if (userObj && userObj.features) {
-      return (
-        userObj.features.find((feature) => feature.slug === slug) !== undefined
-      );
-    }
-    return false;
-  };
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  const canAccessFeature = hasFeatureFlag('bug-comments');
 
   useEffect(() => {
     if (comments) {
@@ -90,7 +82,7 @@ export const ChatBox = ({
   }, [comments]);
   return (
     <>
-      {hasFeatureFlag(user, 'bug-comments') && (
+      {canAccessFeature && (
         <Chat>
           <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
           {comments && comments.items.length > 0 && (
