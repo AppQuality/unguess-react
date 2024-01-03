@@ -232,7 +232,6 @@
   "__BUGS_PAGE_USECASE_COMPLETION_4": "<0>Use case <1>completato</1></0>",
   "__BUGS_PAGE_USECASE_COMPLETION_4_TOOLTIP": "Siamo pronti con lo Use Case: analizza tutti i bug raccolti",
   "__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_one": "{{count}} commento nella pagina di dettaglio bug",
-  "__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_many": "{{count}} commenti nella pagina di dettaglio bug",
   "__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_other": "{{count}} commenti nella pagina di dettaglio bug",
   "__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_EMPTY": "Non ci sono commenti su questo bug",
   "__BUGS_PAGE_VIEW_BUG_TOOLTIP": "Apri il bug",
@@ -859,9 +858,7 @@
   "Typology ({{count}})_one": "Tipologia ({{count}})",
   "Typology ({{count}})_other": "Tipologie ({{count}})",
   "Use Cases ({{count}})_one": "Use Case ({{count}})",
-  "Use Cases ({{count}})_many": "",
   "Use Cases ({{count}})_other": "Use Case ({{count}})",
   "UseCase ({{count}})_one": "Use Case ({{count}})",
-  "UseCase ({{count}})_many": "",
   "UseCase ({{count}})_other": "Use Case ({{count}})"
 }
