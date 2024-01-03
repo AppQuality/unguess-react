@@ -14,7 +14,6 @@ import {
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
 } from 'src/features/api';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { styled } from 'styled-components';
 import { DeleteCommentModal } from './DeleteCommentModal';
 
