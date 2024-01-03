@@ -2,6 +2,7 @@ import { ChatProvider, LG } from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { appTheme } from 'src/app/theme';
 import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
 import BugPriority from 'src/common/components/BugDetail/Priority';
@@ -44,6 +45,9 @@ export const Actions = () => {
 
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  const canAccessComments = hasFeatureFlag('bug-comments');
 
   const {
     data: bug,
@@ -96,15 +100,17 @@ export const Actions = () => {
         <BugPriority bug={bug} />
       </GridWrapper>
       <BugTags bug={bug} refetchBugTags={refetch} />
-      <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
-      <ChatProvider onSave={createCommentHandler}>
-        <ChatBox
-          campaignId={cid}
-          bugId={bid}
-          isSubmitting={isSubmitting}
-          setIsSubmitting={setIsSubmitting}
-        />
-      </ChatProvider>
+      {canAccessComments && (
+        <ChatProvider onSave={createCommentHandler}>
+          <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
+          <ChatBox
+            campaignId={cid}
+            bugId={bid}
+            isSubmitting={isSubmitting}
+            setIsSubmitting={setIsSubmitting}
+          />
+        </ChatProvider>
+      )}
     </Container>
   );
 };
