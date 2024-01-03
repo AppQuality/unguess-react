@@ -1,17 +1,22 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { useEffect, useRef } from 'react';
+import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
+import BugAttachments from 'src/common/components/BugDetail/Attachments';
+import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
+import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
+import BugDescription from 'src/common/components/BugDetail/Description';
+import BugDetails from 'src/common/components/BugDetail/Details';
 import BugMeta from 'src/common/components/BugDetail/Meta';
 import BugPriority from 'src/common/components/BugDetail/Priority';
-import BugDescription from 'src/common/components/BugDetail/Description';
-import BugAttachments from 'src/common/components/BugDetail/Attachments';
-import BugDetails from 'src/common/components/BugDetail/Details';
 import BugTags from 'src/common/components/BugDetail/Tags';
-import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
-import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import {
+  useGetCampaignsByCidBugsAndBidCommentsQuery,
+  useGetCampaignsByCidBugsAndBidQuery,
+} from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { useEffect, useRef } from 'react';
-import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
-import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import styled from 'styled-components';
+import { BugCommentsDetail } from './components/BugCommentsDetails';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
@@ -70,7 +75,14 @@ export const BugPreview = ({
     bid: bugId.toString(),
   });
   const currentBugId = getSelectedBugId();
+  const { data: comments } = useGetCampaignsByCidBugsAndBidCommentsQuery({
+    cid: campaignId.toString(),
+    bid: bugId.toString(),
+  });
 
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  const canAccessFeature = hasFeatureFlag('bug-comments');
   // Reset container scroll position when bug changes
   useEffect(() => {
     if (refScroll.current) {
@@ -89,10 +101,13 @@ export const BugPreview = ({
     column-gap: ${({ theme }) => theme.space.sm};
     margin-bottom: ${({ theme }) => theme.space.md};
   `;
-
   return (
     <DetailContainer isFetching={isFetching}>
-      <BugHeader bug={bug} />
+      <BugHeader
+        bug={bug}
+        comments={comments}
+        showComments={canAccessFeature}
+      />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
           <BugMeta bug={bug} />
@@ -104,6 +119,13 @@ export const BugPreview = ({
           <BugTags bug={bug} refetchBugTags={refetch} />
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
+          {canAccessFeature && (
+            <BugCommentsDetail
+              commentsCount={comments?.items.length ?? 0}
+              bugId={bugId}
+              campaignId={campaignId}
+            />
+          )}
           <BugDetails bug={bug} />
           {currentBugId && (
             <BugDuplicates cid={campaignId} bugId={currentBugId} />
