@@ -450,6 +450,34 @@ const injectedRtkApi = api.injectEndpoints({
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
       query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
     }),
+    getCampaignsByCidBugsAndBidComments: build.query<
+      GetCampaignsByCidBugsAndBidCommentsApiResponse,
+      GetCampaignsByCidBugsAndBidCommentsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments`,
+      }),
+    }),
+    postCampaignsByCidBugsAndBidComments: build.mutation<
+      PostCampaignsByCidBugsAndBidCommentsApiResponse,
+      PostCampaignsByCidBugsAndBidCommentsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    deleteCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
+      DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse,
+      DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments/${queryArg.cmid}`,
+        method: 'DELETE',
+        body: queryArg.body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -1116,6 +1144,35 @@ export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
   id: string;
 };
+export type GetCampaignsByCidBugsAndBidCommentsApiResponse =
+  /** status 200 OK */ {
+    items: BugComment[];
+  };
+export type GetCampaignsByCidBugsAndBidCommentsApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+};
+export type PostCampaignsByCidBugsAndBidCommentsApiResponse =
+  /** status 200 OK */ BugComment;
+export type PostCampaignsByCidBugsAndBidCommentsApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+  body: {
+    text: string;
+  };
+};
+export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =
+  /** status 200 OK */ string;
+export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg = {
+  cid: string;
+  bid: string;
+  cmid: string;
+  body: {};
+};
 export type Error = {
   message: string;
   code: number;
@@ -1455,6 +1512,15 @@ export type Coin = {
   created_on?: string;
   updated_on?: string;
 };
+export type BugComment = {
+  id: number;
+  text: string;
+  creation_date: string;
+  creator: {
+    id: number;
+    name: string;
+  };
+};
 export const {
   useGetQuery,
   usePostAuthenticateMutation,
@@ -1507,4 +1573,7 @@ export const {
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
   useGetMediaByIdQuery,
+  useGetCampaignsByCidBugsAndBidCommentsQuery,
+  usePostCampaignsByCidBugsAndBidCommentsMutation,
+  useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
 } = injectedRtkApi;

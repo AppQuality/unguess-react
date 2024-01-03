@@ -25,7 +25,8 @@ export type CampaignStatus =
 
 declare global {
   let react_env: {
-    REACT_APP_ENV: string;
+    REACT_APP_ENVIRONMENT: string;
+    REACT_APP_VERSION: string;
   };
   type Theme = typeof appTheme;
   type UserData = GetUsersMeApiResponse;

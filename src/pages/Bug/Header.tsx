@@ -5,7 +5,6 @@ import {
   Button,
   PageHeader,
   Skeleton,
-  XXXL,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -82,6 +81,7 @@ export const Header = ({ campaignId, bug }: Props) => {
     cid: campaignId,
   });
   const { t } = useTranslation();
+  const isShareButtonEnabled = false;
 
   useEffect(() => {
     if (campaign) {
@@ -100,33 +100,29 @@ export const Header = ({ campaignId, bug }: Props) => {
       <LayoutWrapper>
         <PageHeader>
           <Skeleton height="50px" />
-          <PageHeader.Main mainTitle={bug.title.full}>
-            <XXXL isBold>{bug.title.compact}</XXXL>
-          </PageHeader.Main>
         </PageHeader>
       </LayoutWrapper>
     );
   }
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper isNotBoxed>
       <PageHeader>
         <BreadCrumbs campaign={campaign} />
-        <PageHeader.Main mainTitle={bug.title.full}>
-          <XXXL isBold>{bug.title.compact}</XXXL>
-        </PageHeader.Main>
-        <PageHeader.Footer>
-          <ShareButton bug={bug}>
-            {(setModalOpen) => (
-              <Button onClick={() => setModalOpen(true)}>
-                <Button.StartIcon>
-                  <ShareIcon />
-                </Button.StartIcon>
-                {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
-              </Button>
-            )}
-          </ShareButton>
-        </PageHeader.Footer>
+        {isShareButtonEnabled && (
+          <PageHeader.Footer>
+            <ShareButton bug={bug}>
+              {(setModalOpen) => (
+                <Button onClick={() => setModalOpen(true)}>
+                  <Button.StartIcon>
+                    <ShareIcon />
+                  </Button.StartIcon>
+                  {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
+                </Button>
+              )}
+            </ShareButton>
+          </PageHeader.Footer>
+        )}
       </PageHeader>
     </LayoutWrapper>
   );

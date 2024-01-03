@@ -6,6 +6,7 @@ import { appTheme } from 'src/app/theme';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { PageLoader } from 'src/common/components/PageLoader';
+import * as Sentry from '@sentry/react';
 import { Navigation } from '../navigation/Navigation';
 
 const StyledMain = styled(Main)`
@@ -33,7 +34,7 @@ export const Logged = ({
   const loginRoute = useLocalizeRoute('login');
   const navigate = useNavigate();
 
-  const { status } = useAppSelector((state) => state.user);
+  const { status, userData } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (status === 'failed') {
@@ -43,9 +44,19 @@ export const Logged = ({
     }
   }, [status]);
 
-  return status === 'idle' || status === 'loading' ? (
-    <PageLoader />
-  ) : (
+  if (status === 'idle' || status === 'loading') {
+    return <PageLoader />;
+  }
+
+  Sentry.setUser({
+    id: userData.id ?? 0,
+    email: userData.email ?? 'unknown',
+    wp_user_id: userData.unguess_wp_user_id ?? 0,
+    tryber_id: userData.tryber_wp_user_id ?? 0,
+    role: userData.role ?? 'unknown',
+  });
+
+  return (
     <>
       <Anchor
         href="https://www.iubenda.com/privacy-policy/833252/full-legal"

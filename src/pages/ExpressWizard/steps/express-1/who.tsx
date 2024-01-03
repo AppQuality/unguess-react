@@ -1,6 +1,5 @@
 import {
   ContainerCard,
-  Hint,
   Label,
   Message,
   Paragraph,
@@ -41,10 +40,6 @@ const StyledLanguageTitle = styled(XL)`
 
 const StyledRadioField = styled(Field)`
   margin-top: ${({ theme }) => theme.space.base * 4}px;
-`;
-
-const StyledHint = styled(Hint)`
-  color: ${({ theme }) => theme.palette.yellow[800]};
 `;
 
 export const WhoStep = ({
