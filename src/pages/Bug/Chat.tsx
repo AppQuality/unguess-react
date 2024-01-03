@@ -118,6 +118,9 @@ export const ChatBox = ({
           )}
           <Chat.Input
             author={{ avatar: getInitials(user.name), name: user.name }}
+            placeholderOptions={{
+              placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
+            }}
           />
           <Chat.Footer>
             <Button
