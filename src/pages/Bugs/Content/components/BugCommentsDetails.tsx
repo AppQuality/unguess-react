@@ -31,7 +31,7 @@ const CommentsCountBadge = styled.span`
   background-color: ${({ theme }) => theme.palette.azure[600]};
   color: ${({ theme }) => theme.palette.white};
   margin-right: ${({ theme }) => theme.space.md};
-  width: ${appTheme.space.md};
+  padding: 0 ${appTheme.space.xxs};
   height: ${appTheme.space.sm};
   font-size: ${appTheme.fontSizes.xs};
   border-radius: ${appTheme.borderRadii.lg};
