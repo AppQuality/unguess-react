@@ -4,7 +4,6 @@ import {
   Comment,
   useChatContext,
 } from '@appquality/unguess-design-system';
-import { format } from 'date-fns';
 import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
@@ -14,13 +13,26 @@ import {
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
 } from 'src/features/api';
+import i18n from 'src/i18n';
 import { styled } from 'styled-components';
 import { DeleteCommentModal } from './DeleteCommentModal';
 
-function convertToLocalTime(utcString: string) {
-  const date = new Date(utcString);
-  const formattedDate = format(date, ' | dd MMM yyyy | HH:mm');
-  return formattedDate.toLowerCase();
+function convertToLocalTime(utcString: string, locale: string) {
+  const options = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  } as Intl.DateTimeFormatOptions;
+
+  const dateTime = new Date(utcString);
+
+  const date = dateTime.toLocaleDateString(locale, options);
+  const time = dateTime.toLocaleTimeString(locale, {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  return `| ${date} | ${time}`;
 }
 
 const StyledComments = styled(Chat.Comments)`
@@ -42,6 +54,7 @@ export const ChatBox = ({
   const { userData: user } = useAppSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<string>('');
+  const currentLanguage = i18n.language === 'it' ? 'it-IT' : 'en-EN';
 
   const openModal = (commentId: string) => {
     setIsModalOpen(true);
@@ -90,7 +103,10 @@ export const ChatBox = ({
                   avatar: getInitials(comment.creator.name),
                   name: comment.creator.name,
                 }}
-                date={convertToLocalTime(comment.creation_date)}
+                date={convertToLocalTime(
+                  comment.creation_date,
+                  currentLanguage
+                )}
                 message={comment.text}
                 key={comment.id}
               >
