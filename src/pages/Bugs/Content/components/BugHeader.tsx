@@ -53,10 +53,10 @@ const CommentsBadge = styled.span`
   right: -${appTheme.space.xs};
   background-color: ${appTheme.palette.azure[600]};
   color: ${appTheme.palette.white};
-  width: ${appTheme.space.md};
+  width: 16px;
   height: ${appTheme.space.sm};
   border: 1px solid ${appTheme.palette.white};
-  font-size: ${appTheme.fontSizes.xs};
+  font-size: 8px;
   border-radius: ${appTheme.borderRadii.lg};
 `;
 
