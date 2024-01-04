@@ -5,7 +5,6 @@ import {
   Button,
   PageHeader,
   Skeleton,
-  XXXL,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -19,6 +18,7 @@ import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { styled } from 'styled-components';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
@@ -29,10 +29,19 @@ interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
 }
 
+const ActionContainer = styled.div`
+  display: flex;
+  align-items: end;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 const BreadCrumbs = ({
   campaign,
+  children,
 }: {
   campaign: GetCampaignsByCidApiResponse;
+  children?: React.ReactNode;
 }) => {
   const { t } = useTranslation();
 
@@ -53,21 +62,24 @@ const BreadCrumbs = ({
   }
 
   return (
-    <PageHeader.Breadcrumbs>
-      {project ? (
-        <Link to={projectRoute}>
-          <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+    <ActionContainer>
+      <PageHeader.Breadcrumbs>
+        {project ? (
+          <Link to={projectRoute}>
+            <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+          </Link>
+        ) : (
+          campaign.project.name
+        )}
+        <Link to={campaignRoute}>
+          <Anchor>{campaign.customer_title}</Anchor>
         </Link>
-      ) : (
-        campaign.project.name
-      )}
-      <Link to={campaignRoute}>
-        <Anchor>{campaign.customer_title}</Anchor>
-      </Link>
-      <Link to={bugsRoute}>
-        <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
-      </Link>
-    </PageHeader.Breadcrumbs>
+        <Link to={bugsRoute}>
+          <Anchor>{t('__PAGE_TITLE_BUGS_COLLECTION')}</Anchor>
+        </Link>
+      </PageHeader.Breadcrumbs>
+      {children}
+    </ActionContainer>
   );
 };
 
@@ -100,22 +112,15 @@ export const Header = ({ campaignId, bug }: Props) => {
       <LayoutWrapper>
         <PageHeader>
           <Skeleton height="50px" />
-          <PageHeader.Main mainTitle={bug.title.full}>
-            <XXXL isBold>{bug.title.compact}</XXXL>
-          </PageHeader.Main>
         </PageHeader>
       </LayoutWrapper>
     );
   }
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper isNotBoxed>
       <PageHeader>
-        <BreadCrumbs campaign={campaign} />
-        <PageHeader.Main mainTitle={bug.title.full}>
-          <XXXL isBold>{bug.title.compact}</XXXL>
-        </PageHeader.Main>
-        <PageHeader.Footer>
+        <BreadCrumbs campaign={campaign}>
           <ShareButton bug={bug}>
             {(setModalOpen) => (
               <Button onClick={() => setModalOpen(true)}>
@@ -126,7 +131,7 @@ export const Header = ({ campaignId, bug }: Props) => {
               </Button>
             )}
           </ShareButton>
-        </PageHeader.Footer>
+        </BreadCrumbs>
       </PageHeader>
     </LayoutWrapper>
   );

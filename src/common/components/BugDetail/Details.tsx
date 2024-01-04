@@ -24,7 +24,6 @@ const Title = styled.div`
 
 export default ({
   bug,
-  refetchBugTags,
 }: {
   bug: Bug & {
     reporter: {
@@ -33,7 +32,6 @@ export default ({
     };
     additional_fields?: BugAdditionalField[];
   };
-  refetchBugTags?: () => void;
 }) => {
   const { t } = useTranslation();
   const { openAccordions, setOpenAccordions } = useBugPreviewContext();
@@ -71,7 +69,7 @@ export default ({
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
-            <DetailsItems bug={bug} refetchBugTags={refetchBugTags} />
+            <DetailsItems bug={bug} />
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>

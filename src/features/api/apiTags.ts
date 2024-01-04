@@ -83,6 +83,31 @@ unguessApi.enhanceEndpoints({
     patchCampaignsByCidCustomStatuses: {
       invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
     },
+    postCampaignsByCidBugsAndBidComments: {
+      async onQueryStarted(
+        { cid, bid, ...post },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: updatedPost } = await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getCampaignsByCidBugsAndBidComments',
+              { cid, bid },
+              (draft) => {
+                draft.items.push(updatedPost);
+              }
+            )
+          );
+        } catch {
+          /**
+           * TODO: on failure invalidate the corresponding cache tags
+           * to trigger a re-fetch:
+           * dispatch(api.util.invalidateTags(['BugComments']))
+           */
+        }
+      },
+    },
   },
 });
 
