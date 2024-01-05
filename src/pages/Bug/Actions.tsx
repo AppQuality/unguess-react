@@ -27,7 +27,7 @@ const Container = styled.div`
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
-  padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.lg};
+  padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.md};
   overflow-y: auto;
 `;
 
@@ -102,7 +102,7 @@ export const Actions = () => {
       <BugTags bug={bug} refetchBugTags={refetch} />
       {canAccessComments && (
         <ChatProvider onSave={createCommentHandler}>
-          <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
+          <Divider style={{ margin: `${appTheme.space.md} auto` }} />
           <ChatBox
             campaignId={cid}
             bugId={bid}

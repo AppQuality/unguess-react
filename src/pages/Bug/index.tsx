@@ -105,7 +105,7 @@ const Bug = () => {
             <Col lg={8} style={{ marginBottom: 0 }}>
               <Content bug={bug} campaignId={campaignId} />
             </Col>
-            <Col lg={4} style={{ marginBottom: 0 }}>
+            <Col lg={4} style={{ marginBottom: 0, paddingRight: 0 }}>
               <ChatProvider>
                 <Actions />
               </ChatProvider>

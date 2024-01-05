@@ -31,7 +31,6 @@ const StyledItem = styled(Item)`
 const SelectedItem = styled.div`
   display: flex;
   align-items: center;
-
   > svg {
     margin-right: ${({ theme }) => theme.space.xs};
   }
