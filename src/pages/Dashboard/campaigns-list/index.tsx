@@ -47,7 +47,11 @@ export const CampaignsList = () => {
 
   const { filteredCampaigns, isLoading, isFetching, isError } =
     useGetWorkspacesByWidCampaignsQuery(
-      { wid: activeWorkspace?.id.toString() || '' },
+      {
+        wid: activeWorkspace?.id.toString() || '',
+        orderBy: 'start_date',
+        order: 'DESC',
+      },
       {
         selectFromResult: (result) => ({
           ...result,
