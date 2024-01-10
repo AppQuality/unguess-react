@@ -26,7 +26,7 @@ const FlipCard = ({
   activateSwitchFromBreakpoint,
   ...props
 }: FlipCardProps) => (
-  <FlipCardContextProvider breakpoint={activateSwitchFromBreakpoint || 500}>
+  <FlipCardContextProvider breakpoint={activateSwitchFromBreakpoint || 380}>
     <FlipCardContainer {...props} height={height}>
       {children}
     </FlipCardContainer>
