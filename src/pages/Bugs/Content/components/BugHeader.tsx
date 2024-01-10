@@ -57,7 +57,7 @@ const CommentsBadge = styled.span`
   border: 1px solid ${appTheme.palette.white};
   font-size: 8px;
   border-radius: ${appTheme.borderRadii.lg};
-  z-index: 3000;
+  z-index: 2;
 `;
 
 export default ({
