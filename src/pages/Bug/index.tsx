@@ -101,7 +101,7 @@ const Bug = () => {
         {...(!hideActions && { style: { paddingRight: 0 } })}
       >
         <Grid gutters="xxl">
-          <Row>
+          <Row style={{ marginRight: 0 }}>
             <Col lg={8} style={{ marginBottom: 0 }}>
               <Content bug={bug} campaignId={campaignId} />
             </Col>

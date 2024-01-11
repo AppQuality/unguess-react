@@ -41,7 +41,6 @@ const CommentsIconContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
-  margin-bottom: ${appTheme.space.xxs};
 `;
 
 const CommentsBadge = styled.span`
@@ -50,7 +49,7 @@ const CommentsBadge = styled.span`
   justify-content: center;
   position: absolute;
   top: -${appTheme.space.xxs};
-  right: -${appTheme.space.xs};
+  right: -${appTheme.space.xxs};
   background-color: ${appTheme.palette.azure[600]};
   color: ${appTheme.palette.white};
   width: 16px;
@@ -58,6 +57,7 @@ const CommentsBadge = styled.span`
   border: 1px solid ${appTheme.palette.white};
   font-size: 8px;
   border-radius: ${appTheme.borderRadii.lg};
+  z-index: 2;
 `;
 
 export default ({
@@ -115,7 +115,7 @@ export default ({
               type="light"
               placement="auto"
             >
-              <IconButton size="medium" className="bug-detail-go-to-bug-link">
+              <IconButton size="small" className="bug-detail-go-to-bug-link">
                 <CommentsIconContainer>
                   <SpeechBubble />
                   {comments?.items && comments.items.length > 0 && (

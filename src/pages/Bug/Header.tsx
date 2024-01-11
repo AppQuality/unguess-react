@@ -83,6 +83,10 @@ const BreadCrumbs = ({
   );
 };
 
+const StyledContainer = styled(LayoutWrapper)`
+  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[200]};
+`;
+
 export const Header = ({ campaignId, bug }: Props) => {
   const dispatch = useAppDispatch();
   const {
@@ -118,8 +122,8 @@ export const Header = ({ campaignId, bug }: Props) => {
   }
 
   return (
-    <LayoutWrapper isNotBoxed>
-      <PageHeader>
+    <StyledContainer isNotBoxed>
+      <PageHeader style={{ border: 'none' }}>
         <BreadCrumbs campaign={campaign}>
           <ShareButton bug={bug}>
             {(setModalOpen) => (
@@ -133,6 +137,6 @@ export const Header = ({ campaignId, bug }: Props) => {
           </ShareButton>
         </BreadCrumbs>
       </PageHeader>
-    </LayoutWrapper>
+    </StyledContainer>
   );
 };
