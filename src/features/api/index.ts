@@ -554,6 +554,7 @@ export type GetCampaignsByCidBugsApiResponse = /** status 200 OK */ {
       tag_name: string;
     }[];
     siblings: number;
+    comments: number;
   })[];
   start?: number;
   limit?: number;
