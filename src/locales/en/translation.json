@@ -764,6 +764,7 @@
   "__PAGE_BUG_EMPTY_STATE_CTA": "Try another search",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC": "There are no results for this keyword",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_SUB": "Try different or more general keywords",
+  "__PAGE_BUGS_COMMENTS_NUMBER_LABEL": "Comments",
   "__PAGE_BUGS_UNREAD_PILL": "Unread",
   "__PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_BOTTOM_LABEL_one": "Bug",
   "__PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_BOTTOM_LABEL_other": "Bugs",

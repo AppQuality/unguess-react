@@ -57,13 +57,13 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Bugs'],
     },
     patchCampaignsByCidBugsAndBid: {
-      invalidatesTags: ['Bugs'],
+      invalidatesTags: ['Bugs', 'Bug'],
     },
     getCampaignsByCidTags: {
       providesTags: ['Tags'],
     },
     getCampaignsByCidBugsAndBid: {
-      providesTags: ['Tags', 'Bugs'],
+      providesTags: ['Tags', 'Bug'],
     },
     getWorkspacesByWidUsers: {
       providesTags: ['Users'],
@@ -84,6 +84,7 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
     },
     postCampaignsByCidBugsAndBidComments: {
+      invalidatesTags: ['Bugs'],
       async onQueryStarted(
         { cid, bid, ...post },
         { dispatch, queryFulfilled }
