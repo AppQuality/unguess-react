@@ -764,6 +764,7 @@
   "__PAGE_BUG_EMPTY_STATE_CTA": "Fai una nuova ricerca",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC": "Non ci sono risultati per questa parola chiave",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_SUB": "Prova con parole chiave diverse o più comuni",
+  "__PAGE_BUGS_COMMENTS_NUMBER_LABEL": "Commenti",
   "__PAGE_BUGS_UNREAD_PILL": "Non letti",
   "__PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_BOTTOM_LABEL_one": "Bug",
   "__PAGE_CAMPAIGN_WIDGET_BUGS_BY_TYPE_AXIS_BOTTOM_LABEL_other": "Bug",
