@@ -38,7 +38,9 @@ const BugForm = () => {
   const { campaignId } = useParams<{ campaignId: string }>();
   const [query] = useSearchParams();
   const token = query.get('token') || '';
-  const tryberUrl = process.env.REACT_APP_TRYBER_URL;
+  const tryberUrl = isDev()
+    ? 'https://dev.tryber.me'
+    : process.env.REACT_APP_TRYBER_URL;
   const lang = i18n.language !== 'en' ? `/${i18n.language}` : '';
 
   return (
