@@ -12,6 +12,7 @@ import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import styled from 'styled-components';
 import { ReactComponent as CommentsIcon } from 'src/assets/icons/speech-bubble-plain-stroke.svg';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { TableBugType } from '../../../types';
 import { BugTitle } from '../components/BugTitle';
 
@@ -51,6 +52,8 @@ const CommentsCountBadge = styled.div`
 export const mapBugsToTableData = (bugs: TableBugType[]) => {
   const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
+  const { hasFeatureFlag } = useFeatureFlag();
+  const canAccessComments = hasFeatureFlag('bug-comments');
 
   if (!bugs) return [];
   return bugs.map((bug) => {
@@ -148,7 +151,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                 {t('__PAGE_BUGS_UNREAD_PILL')}
               </Meta>
             )}
-            {bug.comments > 0 && (
+            {canAccessComments && bug.comments > 0 && (
               <>
                 <Pipe size="small" />
                 <CommentsCountBadge>
