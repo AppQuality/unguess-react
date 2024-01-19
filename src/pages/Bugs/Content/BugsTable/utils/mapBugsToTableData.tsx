@@ -12,7 +12,6 @@ import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import styled from 'styled-components';
 import { ReactComponent as CommentsIcon } from 'src/assets/icons/speech-bubble-plain-stroke.svg';
-import { useAppSelector } from 'src/app/hooks';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { TableBugType } from '../../../types';
 import { BugTitle } from '../components/BugTitle';
