@@ -11,6 +11,8 @@ import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import styled from 'styled-components';
+import { ReactComponent as CommentsIcon } from 'src/assets/icons/speech-bubble-plain-stroke.svg';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { TableBugType } from '../../../types';
 import { BugTitle } from '../components/BugTitle';
 
@@ -39,9 +41,19 @@ const CustomTag = styled(Tag)`
   }
 `;
 
+const CommentsCountBadge = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: ${({ theme }) => theme.space.xxs};
+  color: ${({ theme }) => theme.palette.grey[700]};
+`;
+
 export const mapBugsToTableData = (bugs: TableBugType[]) => {
   const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
+  const { hasFeatureFlag } = useFeatureFlag();
+  const canAccessComments = hasFeatureFlag('bug-comments');
 
   if (!bugs) return [];
   return bugs.map((bug) => {
@@ -138,6 +150,20 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
               <Meta color={appTheme.palette.blue[600]}>
                 {t('__PAGE_BUGS_UNREAD_PILL')}
               </Meta>
+            )}
+            {canAccessComments && bug.comments > 0 && (
+              <>
+                <Pipe size="small" />
+                <CommentsCountBadge>
+                  <CommentsIcon style={{ marginRight: appTheme.space.xxs }} />
+                  <SM>
+                    {t('__PAGE_BUGS_COMMENTS_NUMBER_LABEL')}:
+                    <Span isBold style={{ marginLeft: appTheme.space.xxs }}>
+                      {bug.comments}
+                    </Span>
+                  </SM>
+                </CommentsCountBadge>
+              </>
             )}
           </div>
         </div>
