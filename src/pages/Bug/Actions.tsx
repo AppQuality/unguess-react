@@ -15,6 +15,7 @@ import {
 } from 'src/features/api';
 import { styled } from 'styled-components';
 import { ChatBox } from './Chat';
+import { getMentionableUsers } from './hooks/getMentionableUsers';
 
 const Container = styled.div`
   display: flex;
@@ -70,13 +71,19 @@ export const Actions = () => {
   });
 
   const createCommentHandler = useCallback(
-    (editor) => {
+    (editor, mentions) => {
       if (editor) {
         createComment({
           cid,
           bid,
           body: {
             text: editor.getHTML(),
+            ...(mentions &&
+              mentions.length > 0 && {
+                mentions: mentions.map((mention: any) => ({
+                  id: mention.id,
+                })),
+              }),
           },
         })
           .unwrap()
@@ -101,7 +108,10 @@ export const Actions = () => {
       </GridWrapper>
       <BugTags bug={bug} refetchBugTags={refetch} />
       {canAccessComments && (
-        <ChatProvider onSave={createCommentHandler}>
+        <ChatProvider
+          onSave={createCommentHandler}
+          setMentionableUsers={getMentionableUsers}
+        >
           <Divider style={{ margin: `${appTheme.space.md} auto` }} />
           <ChatBox
             campaignId={cid}

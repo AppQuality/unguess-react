@@ -21,6 +21,7 @@ import { Content } from './Content';
 import { Header } from './Header';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { Actions } from './Actions';
+import { getMentionableUsers } from './hooks/getMentionableUsers';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
@@ -106,7 +107,7 @@ const Bug = () => {
               <Content bug={bug} campaignId={campaignId} />
             </Col>
             <Col lg={4} style={{ marginBottom: 0, paddingRight: 0 }}>
-              <ChatProvider>
+              <ChatProvider setMentionableUsers={getMentionableUsers}>
                 <Actions />
               </ChatProvider>
             </Col>

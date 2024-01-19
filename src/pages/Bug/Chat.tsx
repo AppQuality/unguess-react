@@ -124,12 +124,14 @@ export const ChatBox = ({
           </StyledComments>
         )}
         <Chat.Input
+          hasInlineMenu
+          hasButtonsMenu
           author={{ avatar: getInitials(user.name), name: user.name }}
           placeholderOptions={{
             placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
           }}
         />
-        <Chat.Footer>
+        <Chat.Footer showShortcut>
           <Button
             isBasic
             onClick={() => {
