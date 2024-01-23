@@ -1,3 +1,5 @@
+import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'src/app/hooks';
 import {
   Bug,
   useGetCampaignsByCidUsersQuery,
@@ -10,48 +12,25 @@ export type SuggestedUser = {
   name: string;
 };
 
-export const getMentionableUsers = async ({ query }: { query: string }) => {
-  // const {
-  //     isLoading: isLoadingCampaignUsers,
-  //     isFetching: isFetchingCampaignUsers,
-  //     data: campaignUsers,
-  //     refetch: refetchCampaignUsers,
-  //   } = useGetCampaignsByCidUsersQuery({
-  //     cid: bug.campaign_id.toString(),
-  //   });
+export const useGetMentionableUsers = () => {
+  const { activeWorkspace } = useAppSelector((state) => state.navigation);
+  const { campaignId } = useParams();
+  const { data: workspaceUsers, isLoading: isLoadingWorkspaceUsers } =
+    useGetWorkspacesByWidUsersQuery({
+      wid: activeWorkspace?.id.toString() || '0',
+    });
+  const { data: campaignUsers, isLoading: isLoadingCampaignUsers } =
+    useGetCampaignsByCidUsersQuery({ cid: campaignId || '0' });
 
-  //   const {
-  //     isLoading: isLoadingProjectUsers,
-  //     isFetching: isFetchingProjectUsers,
-  //     data: projectUsers,
-  //     refetch: refetchProjectUsers,
-  //   } = useGetProjectsByPidUsersQuery({
-  //     pid: bug.projectId?.toString() || '0',
-  //   });
+  const users = [
+    ...(campaignUsers?.items || []),
+    ...(workspaceUsers?.items || []),
+  ];
+  if (!users) return [];
 
-  //   const {
-  //     isLoading: isLoadingWorkspaceUsers,
-  //     isFetching: isFetchingWorkspaceUsers,
-  //     data: workspaceUsers,
-  //     refetch: refetchWorkspaceUsers,
-  //     error: workspaceUsersError,
-  //   } = useGetWorkspacesByWidUsersQuery({
-  //     wid: activeWorkspace?.id.toString() || '0',
-  //   });
-
-  console.log('getMentionableUsers', query);
-
-  return [
-    {
-      id: 1,
-      name: 'John Doe',
-    },
-    {
-      id: 2,
-      name: 'Jane Doe',
-    },
-  ].filter((item) => {
-    if (!query) return item;
-    return item.name.toLowerCase().startsWith(query.toLowerCase());
-  });
+  return users.map((user) => ({
+    id: user.id,
+    name: user.name,
+    email: user.email,
+  }));
 };

@@ -2,7 +2,6 @@ import { ChatProvider, LG } from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { appTheme } from 'src/app/theme';
 import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
 import BugPriority from 'src/common/components/BugDetail/Priority';
@@ -13,9 +12,10 @@ import {
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
 } from 'src/features/api';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { styled } from 'styled-components';
 import { ChatBox } from './Chat';
-import { getMentionableUsers } from './hooks/getMentionableUsers';
+import { useGetMentionableUsers } from './hooks/getMentionableUsers';
 
 const Container = styled.div`
   display: flex;
@@ -40,7 +40,23 @@ const GridWrapper = styled.div`
 `;
 
 export const Actions = () => {
+  const users = useGetMentionableUsers();
   const { t } = useTranslation();
+
+  const mentionableUsers = useCallback(
+    async ({ query }) => {
+      const mentions = users.filter((user) => {
+        if (!query) return user;
+        return (
+          user.name.toLowerCase().includes(query.toLowerCase()) ||
+          user.email.toLowerCase().includes(query.toLowerCase())
+        );
+      });
+      return mentions?.map((user) => ({ id: user.id, name: user.name })) || [];
+    },
+    [users]
+  );
+
   const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -110,7 +126,7 @@ export const Actions = () => {
       {canAccessComments && (
         <ChatProvider
           onSave={createCommentHandler}
-          setMentionableUsers={getMentionableUsers}
+          setMentionableUsers={mentionableUsers}
         >
           <Divider style={{ margin: `${appTheme.space.md} auto` }} />
           <ChatBox
