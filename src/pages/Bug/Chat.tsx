@@ -17,6 +17,10 @@ import i18n from 'src/i18n';
 import { styled } from 'styled-components';
 import { DeleteCommentModal } from './DeleteCommentModal';
 
+const ButtonsContainer = styled.div`
+  padding: 0px 16px;
+  display: flex;
+`;
 function convertToLocalTime(utcString: string, locale: string) {
   const options = {
     year: 'numeric',
@@ -65,9 +69,16 @@ export const ChatBox = ({
       cid: campaignId,
       bid: bugId,
     });
-
   const [deleteComment] =
     useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation();
+
+  const handleSendComment = () => {
+    if (!editor?.isEmpty) {
+      triggerSave();
+      setIsSubmitting(true);
+    }
+    setIsSubmitting(false);
+  };
 
   const deleteCommentHandler = async (commentId: string) => {
     await deleteComment({
@@ -132,25 +143,24 @@ export const ChatBox = ({
           }}
         />
         <Chat.Footer showShortcut>
-          <Button
-            isBasic
-            onClick={() => {
-              editor?.commands.clearContent(true);
-            }}
-          >
-            {t('__BUG_COMMENTS_CHAT_CANCEL__')}
-          </Button>
-          <Button
-            isPrimary
-            isAccent
-            disabled={isSubmitting}
-            onClick={() => {
-              triggerSave();
-              setIsSubmitting(true);
-            }}
-          >
-            {t('__BUG_COMMENTS_CHAT_CONFIRM__')}
-          </Button>
+          <ButtonsContainer>
+            <Button
+              isBasic
+              onClick={() => {
+                editor?.commands.clearContent(true);
+              }}
+            >
+              {t('__BUG_COMMENTS_CHAT_CANCEL__')}
+            </Button>
+            <Button
+              isPrimary
+              isAccent
+              disabled={isSubmitting}
+              onClick={handleSendComment}
+            >
+              {t('__BUG_COMMENTS_CHAT_CONFIRM__')}
+            </Button>
+          </ButtonsContainer>
         </Chat.Footer>
       </Chat>
       {isModalOpen && (
