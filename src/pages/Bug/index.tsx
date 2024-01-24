@@ -1,9 +1,4 @@
-import {
-  ChatProvider,
-  Col,
-  Grid,
-  Row,
-} from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -21,7 +16,6 @@ import { Content } from './Content';
 import { Header } from './Header';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { Actions } from './Actions';
-import { useGetMentionableUsers } from './hooks/getMentionableUsers';
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
