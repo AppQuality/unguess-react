@@ -100,7 +100,7 @@ export const Actions = () => {
             text: editor.getHTML(),
             ...(mentions &&
               mentions.length > 0 && {
-                mentions: mentions.map((mention: any) => ({
+                mentioned: mentions.map((mention: any) => ({
                   id: mention.id,
                 })),
               }),
