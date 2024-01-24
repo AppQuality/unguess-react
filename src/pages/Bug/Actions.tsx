@@ -40,19 +40,23 @@ const GridWrapper = styled.div`
 `;
 
 export const Actions = () => {
-  const users = useGetMentionableUsers();
+  const { isLoading: isLoadingUsers, items: users } = useGetMentionableUsers();
   const { t } = useTranslation();
 
   const mentionableUsers = useCallback(
-    async ({ query }) => {
-      const mentions = users.items.filter((user) => {
+    ({ query }: { query: string }) => {
+      const mentions = users.filter((user) => {
         if (!query) return user;
         return (
           user.name.toLowerCase().includes(query.toLowerCase()) ||
           user.email.toLowerCase().includes(query.toLowerCase())
         );
       });
-      return mentions?.map((user) => ({ id: user.id, name: user.name })) || [];
+      return mentions.map((user) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      }));
     },
     [users]
   );
@@ -112,7 +116,13 @@ export const Actions = () => {
   );
 
   if (!bug || isLoading || isFetching || isError) return null;
-  if (isLoadingComments || isFetchingComments || isErrorComments) return null;
+  if (
+    isLoadingComments ||
+    isFetchingComments ||
+    isErrorComments ||
+    isLoadingUsers
+  )
+    return null;
 
   return (
     <Container>

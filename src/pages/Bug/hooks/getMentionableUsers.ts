@@ -58,7 +58,7 @@ export const useGetMentionableUsers = () => {
     ...(projectUsers?.items || []),
   ];
 
-  if (!allUsers) return { isLoading, items: [] };
+  if (!allUsers.length) return { isLoading, items: [] };
 
   const users = allUsers.reduce((acc: Tenant[], user) => {
     if (!acc.find((u) => u.id === user.id)) {
