@@ -45,7 +45,7 @@ export const Actions = () => {
 
   const mentionableUsers = useCallback(
     async ({ query }) => {
-      const mentions = users.filter((user) => {
+      const mentions = users.items.filter((user) => {
         if (!query) return user;
         return (
           user.name.toLowerCase().includes(query.toLowerCase()) ||
