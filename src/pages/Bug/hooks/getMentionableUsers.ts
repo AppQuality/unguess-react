@@ -61,7 +61,7 @@ export const useGetMentionableUsers = () => {
   if (!allUsers.length) return { isLoading, items: [] };
 
   const users = allUsers.reduce((acc: Tenant[], user) => {
-    if (!acc.find((u) => u.id === user.id)) {
+    if (!acc.find((u) => u.profile_id === user.profile_id)) {
       acc.push(user);
     }
     return acc;
@@ -70,7 +70,7 @@ export const useGetMentionableUsers = () => {
   return {
     isLoading,
     items: users.map((user) => ({
-      id: user.id,
+      id: user.profile_id,
       name: user.name,
       email: user.email,
     })),
