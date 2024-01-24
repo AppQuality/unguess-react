@@ -15,12 +15,18 @@ export type SuggestedUser = {
 export const useGetMentionableUsers = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { campaignId } = useParams();
-  const { data: workspaceUsers, isLoading: isLoadingWorkspaceUsers } =
-    useGetWorkspacesByWidUsersQuery({
-      wid: activeWorkspace?.id.toString() || '0',
-    });
-  const { data: campaignUsers, isLoading: isLoadingCampaignUsers } =
-    useGetCampaignsByCidUsersQuery({ cid: campaignId || '0' });
+  const {
+    data: workspaceUsers,
+    isLoading: isLoadingWorkspaceUsers,
+    isFetching: isFetchingWorkspaceUsers,
+  } = useGetWorkspacesByWidUsersQuery({
+    wid: activeWorkspace?.id.toString() || '0',
+  });
+  const {
+    data: campaignUsers,
+    isLoading: isLoadingCampaignUsers,
+    isFetching: isFetchingCampaignUsers,
+  } = useGetCampaignsByCidUsersQuery({ cid: campaignId || '0' });
 
   const users = [
     ...(campaignUsers?.items || []),
