@@ -1,9 +1,4 @@
-import {
-  ChatProvider,
-  Col,
-  Grid,
-  Row,
-} from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -106,9 +101,7 @@ const Bug = () => {
               <Content bug={bug} campaignId={campaignId} />
             </Col>
             <Col lg={4} style={{ marginBottom: 0, paddingRight: 0 }}>
-              <ChatProvider>
-                <Actions />
-              </ChatProvider>
+              <Actions />
             </Col>
           </Row>
         </Grid>
