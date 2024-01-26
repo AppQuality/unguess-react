@@ -137,7 +137,7 @@ export const Actions = () => {
         >
           <Divider style={{ margin: `${appTheme.space.md} auto` }} />
           {isFetchingUsers || isLoadingUsers ? (
-            <Skeleton />
+            <Skeleton style={{ borderRadius: 0 }} />
           ) : (
             <ChatBox
               campaignId={cid}

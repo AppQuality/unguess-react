@@ -114,47 +114,49 @@ export const ChatBox = ({
     <>
       <Chat>
         <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
-        {isLoading || isFetching ? (
-          <Skeleton />
-        ) : (
-          comments &&
-          comments.items.length > 0 && (
-            <StyledComments
-              id="bug-comments-container"
-              chatBkg={`url(${defaultBkg}) repeat center center`}
-              key="bug-comments-container"
-              ref={commentsContainerRef}
-            >
-              {comments.items.map((comment) => (
-                <Comment
-                  author={{
-                    avatar: getInitials(comment.creator.name),
-                    name: comment.creator.name,
-                  }}
-                  date={convertToLocalTime(
-                    comment.creation_date,
-                    currentLanguage
-                  )}
-                  message={comment.text}
-                  key={comment.id}
-                >
-                  <>
-                    <br />
-                    {(comment.creator.id === user.profile_id ||
-                      user.role === 'administrator') && (
-                      <Button
-                        isBasic
-                        onClick={() => openModal(`${comment.id}`)}
-                      >
-                        {t('__BUG_COMMENTS_CHAT_DELETE__')}
-                      </Button>
+        <StyledComments
+          id="bug-comments-container"
+          chatBkg={`url(${defaultBkg}) repeat center center`}
+          key="bug-comments-container"
+          ref={commentsContainerRef}
+        >
+          {isLoading || isFetching ? (
+            <Skeleton style={{ borderRadius: 0 }} />
+          ) : (
+            comments &&
+            comments.items.length > 0 && (
+              <>
+                {comments.items.map((comment) => (
+                  <Comment
+                    author={{
+                      avatar: getInitials(comment.creator.name),
+                      name: comment.creator.name,
+                    }}
+                    date={convertToLocalTime(
+                      comment.creation_date,
+                      currentLanguage
                     )}
-                  </>
-                </Comment>
-              ))}
-            </StyledComments>
-          )
-        )}
+                    message={comment.text}
+                    key={comment.id}
+                  >
+                    <>
+                      <br />
+                      {(comment.creator.id === user.profile_id ||
+                        user.role === 'administrator') && (
+                        <Button
+                          isBasic
+                          onClick={() => openModal(`${comment.id}`)}
+                        >
+                          {t('__BUG_COMMENTS_CHAT_DELETE__')}
+                        </Button>
+                      )}
+                    </>
+                  </Comment>
+                ))}
+              </>
+            )
+          )}
+        </StyledComments>
         <Chat.Input
           hasFloatingMenu
           hasButtonsMenu
