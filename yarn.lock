@@ -54,10 +54,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@3.1.67":
-  version "3.1.67"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.67.tgz#03633c442e9356c8467f95e7b6aa2860b107d931"
-  integrity sha512-rNInc1qKDiypuTakHnzLG5l0kvmWmu6w/+8CVaXYR62GbBnhWCkHQv2pBMYFSrrAbBBWjgxnt7+QRKZmMVF7mQ==
+"@appquality/unguess-design-system@3.1.70":
+  version "3.1.70"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.70.tgz#e0625d9bde145af0728a31dde002c5e897c63d2a"
+  integrity sha512-f+P/lOcHAPZMr9MzD3hrcsjy/GgtPfVbX2pbX0bWnuv2sMweImZTqWeFPeaXxMt/+myUCrrFuZrLVVjoVZ3UeA==
   dependencies:
     "@appquality/stream-player" "^1.0.3"
     "@nivo/bar" "^0.80.0"
@@ -2663,7 +2663,7 @@
     prosemirror-transform "^1.7.0"
     prosemirror-view "^1.28.2"
 
-"@tiptap/react@2.1.16", "@tiptap/react@^2.1.16":
+"@tiptap/react@2.1.16":
   version "2.1.16"
   resolved "https://registry.yarnpkg.com/@tiptap/react/-/react-2.1.16.tgz#20addbd7a0abac8942d2aea83dcb922c44d7ca9a"
   integrity sha512-ywws50aV/8TNBBlFNXVR/bWpi5n0f+CDiwixsPGzne9T/zMfz30FnXej2xo7Qm1LLBdC0d65Mz7otdz+rn65cA==

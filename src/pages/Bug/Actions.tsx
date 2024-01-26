@@ -1,4 +1,4 @@
-import { ChatProvider, LG } from '@appquality/unguess-design-system';
+import { ChatProvider, LG, Skeleton } from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -8,7 +8,6 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
 import {
-  useGetCampaignsByCidBugsAndBidCommentsQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
 } from 'src/features/api';
@@ -40,7 +39,11 @@ const GridWrapper = styled.div`
 `;
 
 export const Actions = () => {
-  const { isLoading: isLoadingUsers, items: users } = useGetMentionableUsers();
+  const {
+    items: users,
+    isLoading: isLoadingUsers,
+    isFetching: isFetchingUsers,
+  } = useGetMentionableUsers();
   const { t } = useTranslation();
 
   const mentionableUsers = useCallback(
@@ -81,14 +84,6 @@ export const Actions = () => {
     bid,
   });
   const [createComment] = usePostCampaignsByCidBugsAndBidCommentsMutation();
-  const {
-    isLoading: isLoadingComments,
-    isFetching: isFetchingComments,
-    isError: isErrorComments,
-  } = useGetCampaignsByCidBugsAndBidCommentsQuery({
-    cid,
-    bid,
-  });
 
   const createCommentHandler = useCallback(
     (editor, mentions) => {
@@ -109,42 +104,48 @@ export const Actions = () => {
           .unwrap()
           .then(() => {
             setIsSubmitting(false);
+          })
+          .catch(() => {
+            setIsSubmitting(false);
           });
       }
     },
     [cid, bid, bug]
   );
 
-  if (!bug || isLoading || isFetching || isError) return null;
-  if (
-    isLoadingComments ||
-    isFetchingComments ||
-    isErrorComments ||
-    isLoadingUsers
-  )
-    return null;
+  if (!bug || isError) return null;
 
   return (
     <Container>
       <LG isBold>{t('__BUG_PAGE_ACTIONS_TITLE')}</LG>
       <Divider style={{ margin: `${appTheme.space.md} auto` }} />
-      <GridWrapper>
-        <BugStateDropdown bug={bug} />
-        <BugPriority bug={bug} />
-      </GridWrapper>
-      <BugTags bug={bug} refetchBugTags={refetch} />
+      {isLoading || isFetching ? (
+        <Skeleton />
+      ) : (
+        <>
+          <GridWrapper>
+            <BugStateDropdown bug={bug} />
+            <BugPriority bug={bug} />
+          </GridWrapper>
+          <BugTags bug={bug} refetchBugTags={refetch} />
+        </>
+      )}
       {canAccessComments && (
         <ChatProvider
           onSave={createCommentHandler}
           setMentionableUsers={mentionableUsers}
         >
           <Divider style={{ margin: `${appTheme.space.md} auto` }} />
-          <ChatBox
-            campaignId={cid}
-            bugId={bid}
-            isSubmitting={isSubmitting}
-            setIsSubmitting={setIsSubmitting}
-          />
+          {isFetchingUsers || isLoadingUsers ? (
+            <Skeleton style={{ borderRadius: 0 }} />
+          ) : (
+            <ChatBox
+              campaignId={cid}
+              bugId={bid}
+              isSubmitting={isSubmitting}
+              setIsSubmitting={setIsSubmitting}
+            />
+          )}
         </ChatProvider>
       )}
     </Container>
