@@ -86,9 +86,9 @@ export const Actions = () => {
   const [createComment] = usePostCampaignsByCidBugsAndBidCommentsMutation();
 
   const createCommentHandler = useCallback(
-    async (editor, mentions) => {
+    (editor, mentions) => {
       if (editor) {
-        await createComment({
+        createComment({
           cid,
           bid,
           body: {
@@ -105,9 +105,8 @@ export const Actions = () => {
           .then(() => {
             setIsSubmitting(false);
           })
-          .catch((e) => {
+          .catch(() => {
             setIsSubmitting(false);
-            console.error(e);
           });
       }
     },
