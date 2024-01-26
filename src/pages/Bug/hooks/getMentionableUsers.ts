@@ -24,6 +24,7 @@ export const useGetMentionableUsers = () => {
     data: workspaceUsers,
     isLoading: isLoadingWorkspaceUsers,
     isFetching: isFetchingWorkspaceUsers,
+    isError: isWorkspaceUsersError,
   } = useGetWorkspacesByWidUsersQuery({
     wid: activeWorkspace?.id.toString() || '0',
   });
@@ -32,25 +33,31 @@ export const useGetMentionableUsers = () => {
     data: campaignUsers,
     isLoading: isLoadingCampaignUsers,
     isFetching: isFetchingCampaignUsers,
+    isError: isCampaignUsersError,
   } = useGetCampaignsByCidUsersQuery({ cid: campaignId || '0' });
 
   const {
     data: projectUsers,
     isLoading: isLoadingProjectUsers,
     isFetching: isFetchingProjectUsers,
+    isError: isProjectUsersError,
   } = useGetProjectsByPidUsersQuery({
     pid: campaign?.project.id.toString() || '0',
   });
 
   const isLoading =
-    isLoadingWorkspaceUsers ||
-    isLoadingCampaignUsers ||
-    isLoadingProjectUsers ||
+    isLoadingWorkspaceUsers || isLoadingCampaignUsers || isLoadingProjectUsers;
+
+  const isFetching =
     isFetchingWorkspaceUsers ||
     isFetchingCampaignUsers ||
     isFetchingProjectUsers;
 
-  if (isLoading) return { isLoading, items: [] };
+  const isError =
+    isWorkspaceUsersError || isCampaignUsersError || isProjectUsersError;
+
+  if (isLoading || isFetching || isError)
+    return { isLoading, isFetching, isError, items: [] };
 
   const allUsers = [
     ...(campaignUsers?.items || []),
@@ -69,6 +76,8 @@ export const useGetMentionableUsers = () => {
 
   return {
     isLoading,
+    isFetching,
+    isError,
     items: users.map((user) => ({
       id: user.profile_id,
       name: user.name,
