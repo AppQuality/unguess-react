@@ -1185,6 +1185,9 @@ export type PostCampaignsByCidBugsAndBidCommentsApiArg = {
   bid: string;
   body: {
     text: string;
+    mentioned?: {
+      id: number;
+    }[];
   };
 };
 export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =

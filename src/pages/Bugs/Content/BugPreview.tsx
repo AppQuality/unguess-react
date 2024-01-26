@@ -70,10 +70,13 @@ export const BugPreview = ({
     isFetching,
     isError,
     refetch,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId.toString(),
-    bid: bugId.toString(),
-  });
+  } = useGetCampaignsByCidBugsAndBidQuery(
+    {
+      cid: campaignId.toString(),
+      bid: bugId.toString(),
+    },
+    { pollingInterval: 1200000 }
+  );
   const currentBugId = getSelectedBugId();
   const { data: comments } = useGetCampaignsByCidBugsAndBidCommentsQuery({
     cid: campaignId.toString(),
