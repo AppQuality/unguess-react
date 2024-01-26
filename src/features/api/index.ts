@@ -1384,7 +1384,6 @@ export type Bug = {
   read?: boolean;
 };
 export type BugMedia = {
-  id: number;
   mime_type: {
     type: 'video' | 'image' | 'other';
     extension: string;
