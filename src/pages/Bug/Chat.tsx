@@ -41,7 +41,7 @@ function convertToLocalTime(utcString: string, locale: string) {
 }
 
 const StyledComments = styled(Chat.Comments)`
-  height: 30vh;
+  max-height: 30vh;
 `;
 
 export const ChatBox = ({
