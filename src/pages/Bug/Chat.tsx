@@ -156,7 +156,7 @@ export const ChatBox = ({
           )
         )}
         <Chat.Input
-          // hasInlineMenu //TODO: fix in unguess-design-system
+          hasFloatingMenu
           hasButtonsMenu
           author={{ avatar: getInitials(user.name), name: user.name }}
           placeholderOptions={{
