@@ -1,14 +1,14 @@
 import { Col, Grid, Row, TextLabel } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import 'src/common/components/BugDetail/responsive-grid.css';
 import {
   BugMedia as BugMediaType,
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
-import { appTheme } from 'src/app/theme';
 import ImageCard from '../ImageCard';
 import VideoCard from '../VideoCard';
-import 'src/common/components/BugDetail/responsive-grid.css';
 import { LightboxContainer } from '../lightbox';
 
 export default ({
