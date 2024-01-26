@@ -102,7 +102,7 @@ export const BugPreview = ({
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: ${({ theme }) => theme.space.sm};
-    margin-bottom: ${({ theme }) => theme.space.md};x
+    margin-bottom: ${({ theme }) => theme.space.md};
   `;
   return (
     <DetailContainer isFetching={isFetching}>
