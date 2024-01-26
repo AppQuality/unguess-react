@@ -27,6 +27,7 @@ export const apiSlice = createApi({
     'Tags',
     'CustomStatuses',
     'Bug',
+    'BugComments',
   ],
   endpoints: () => ({}),
 });
