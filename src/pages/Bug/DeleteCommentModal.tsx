@@ -24,6 +24,7 @@ export const DeleteCommentModal = ({
   const onQuit = () => {
     setIsModalOpen(false);
   };
+
   return (
     <Modal onClose={onQuit}>
       <Modal.Header isDanger>
@@ -38,7 +39,10 @@ export const DeleteCommentModal = ({
           id="comment-modal-delete"
           isDanger
           isLink
-          onClick={() => deleteCommentHandler(deleteCommentId)}
+          onClick={() => {
+            deleteCommentHandler(deleteCommentId);
+            onQuit();
+          }}
         >
           {t('__BUG_COMMENTS_DELETE_MODAL_DELETE__')}
         </Button>
