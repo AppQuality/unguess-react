@@ -63,7 +63,6 @@ const CommentsBadge = styled.span`
 export default ({
   bug,
   comments,
-  showComments,
 }: {
   bug: Bug & {
     reporter: {
@@ -72,7 +71,6 @@ export default ({
     };
   };
   comments: GetCampaignsByCidBugsAndBidCommentsApiResponse | undefined;
-  showComments: boolean;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -99,37 +97,35 @@ export default ({
         <Tag.SecondaryText isBold>{bug.id}</Tag.SecondaryText>
       </Tag>
       <ActionDetailPreview>
-        {showComments && (
-          <Link
-            to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+        <Link
+          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+        >
+          <Tooltip
+            content={
+              comments && comments.items.length > 0
+                ? t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP', {
+                    count: comments?.items.length,
+                  })
+                : t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_EMPTY')
+            }
+            size="large"
+            type="light"
+            placement="auto"
           >
-            <Tooltip
-              content={
-                comments && comments.items.length > 0
-                  ? t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP', {
-                      count: comments?.items.length,
-                    })
-                  : t('__BUGS_PAGE_VIEW_BUG_COMMENTS_TOOLTIP_EMPTY')
-              }
-              size="large"
-              type="light"
-              placement="auto"
-            >
-              <IconButton size="small" className="bug-detail-go-to-bug-link">
-                <CommentsIconContainer>
-                  <SpeechBubble />
-                  {comments?.items && comments.items.length > 0 && (
-                    <CommentsBadge>
-                      {comments?.items.length < 10
-                        ? comments?.items.length
-                        : '9+'}
-                    </CommentsBadge>
-                  )}
-                </CommentsIconContainer>
-              </IconButton>
-            </Tooltip>
-          </Link>
-        )}
+            <IconButton size="small" className="bug-detail-go-to-bug-link">
+              <CommentsIconContainer>
+                <SpeechBubble />
+                {comments?.items && comments.items.length > 0 && (
+                  <CommentsBadge>
+                    {comments?.items.length < 10
+                      ? comments?.items.length
+                      : '9+'}
+                  </CommentsBadge>
+                )}
+              </CommentsIconContainer>
+            </IconButton>
+          </Tooltip>
+        </Link>
         <Link
           to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
         >

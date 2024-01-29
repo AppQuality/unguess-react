@@ -83,9 +83,6 @@ export const BugPreview = ({
     bid: bugId.toString(),
   });
 
-  const { hasFeatureFlag } = useFeatureFlag();
-
-  const canAccessFeature = hasFeatureFlag('bug-comments');
   // Reset container scroll position when bug changes
   useEffect(() => {
     if (refScroll.current) {
@@ -106,11 +103,7 @@ export const BugPreview = ({
   `;
   return (
     <DetailContainer isFetching={isFetching}>
-      <BugHeader
-        bug={bug}
-        comments={comments}
-        showComments={canAccessFeature}
-      />
+      <BugHeader bug={bug} comments={comments} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
           <BugMeta bug={bug} />
@@ -122,13 +115,11 @@ export const BugPreview = ({
           <BugTags bug={bug} refetchBugTags={refetch} />
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
-          {canAccessFeature && (
-            <BugCommentsDetail
-              commentsCount={comments?.items.length ?? 0}
-              bugId={bugId}
-              campaignId={campaignId}
-            />
-          )}
+          <BugCommentsDetail
+            commentsCount={comments?.items.length ?? 0}
+            bugId={bugId}
+            campaignId={campaignId}
+          />
           <BugDetails bug={bug} />
           {currentBugId && (
             <BugDuplicates cid={campaignId} bugId={currentBugId} />

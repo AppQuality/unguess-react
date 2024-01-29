@@ -52,8 +52,6 @@ const CommentsCountBadge = styled.div`
 export const mapBugsToTableData = (bugs: TableBugType[]) => {
   const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
-  const { hasFeatureFlag } = useFeatureFlag();
-  const canAccessComments = hasFeatureFlag('bug-comments');
 
   if (!bugs) return [];
   return bugs.map((bug) => {
@@ -151,7 +149,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                 {t('__PAGE_BUGS_UNREAD_PILL')}
               </Meta>
             )}
-            {canAccessComments && bug.comments > 0 && (
+            {bug.comments > 0 && (
               <>
                 <Pipe size="small" />
                 <CommentsCountBadge>
