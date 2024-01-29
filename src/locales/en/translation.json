@@ -32,6 +32,7 @@
   "__BUG_COMMENTS_CHAT_HEADER__": "Talk to your Team and UNGUESS",
   "__BUG_COMMENTS_CHAT_ITALIC": "Italic",
   "__BUG_COMMENTS_CHAT_MENTION": "Mention a person",
+  "__BUG_COMMENTS_CHAT_NO_RESULTS": "No results. Go to 'Invite' to add new people to the campaign",
   "__BUG_COMMENTS_CHAT_PLACEHOLDER": "Write a message and mention with @",
   "__BUG_COMMENTS_CHAT_SAVE_TEXT": "to send",
   "__BUG_COMMENTS_DELETE_MODAL_BODY__": "If you delete it, it will no longer appear in the comments.",

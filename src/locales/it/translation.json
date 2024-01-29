@@ -33,6 +33,7 @@
   "__BUG_COMMENTS_CHAT_HEADER__": "Comunica con UNGUESS e il tuo team",
   "__BUG_COMMENTS_CHAT_ITALIC": "Corsivo",
   "__BUG_COMMENTS_CHAT_MENTION": "Menziona una persona",
+  "__BUG_COMMENTS_CHAT_NO_RESULTS": "Nessun risultato. Vai su “Invita” per aggiungere nuove persone alla campagna.",
   "__BUG_COMMENTS_CHAT_PLACEHOLDER": "Scrivi un commento e menziona con @",
   "__BUG_COMMENTS_CHAT_SAVE_TEXT": "per inviare",
   "__BUG_COMMENTS_DELETE_MODAL_BODY__": "Se lo elimini, non comparirà più tra i commenti.",

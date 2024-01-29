@@ -171,6 +171,9 @@ export const ChatBox = ({
               italic: t('__BUG_COMMENTS_CHAT_ITALIC'),
               mention: t('__BUG_COMMENTS_CHAT_MENTION'),
             },
+            mention: {
+              noResults: t('__BUG_COMMENTS_CHAT_NO_RESULTS'),
+            },
           }}
         />
         <Chat.Footer showShortcut saveText={t('__BUG_COMMENTS_CHAT_SAVE_TEXT')}>
