@@ -30,6 +30,7 @@
   "__BUG_COMMENTS_CHAT_DELETE__": "Delete",
   "__BUG_COMMENTS_CHAT_HEADER__": "Talk to your Team and UNGUESS",
   "__BUG_COMMENTS_CHAT_PLACEHOLDER": "Share your comment",
+  "__BUG_COMMENTS_CHAT_SAVE_TEXT": "to send",
   "__BUG_COMMENTS_DELETE_MODAL_BODY__": "If you delete it, it will no longer appear in the comments.",
   "__BUG_COMMENTS_DELETE_MODAL_CANCEL__": "Back to comment",
   "__BUG_COMMENTS_DELETE_MODAL_DELETE__": "Delete",
