@@ -21,6 +21,7 @@ import { DeleteCommentModal } from './DeleteCommentModal';
 const ButtonsContainer = styled.div`
   padding: 0px 16px;
   display: flex;
+  gap: ${({ theme }) => theme.space.xs};
 `;
 function convertToLocalTime(utcString: string, locale: string) {
   const options = {
@@ -163,6 +164,16 @@ export const ChatBox = ({
           author={{ avatar: getInitials(user.name), name: user.name }}
           placeholderOptions={{
             placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
+          }}
+          i18n={{
+            menu: {
+              bold: t('__BUG_COMMENTS_CHAT_BOLD'),
+              italic: t('__BUG_COMMENTS_CHAT_ITALIC'),
+              mention: t('__BUG_COMMENTS_CHAT_MENTION'),
+            },
+            mention: {
+              noResults: t('__BUG_COMMENTS_CHAT_NO_RESULTS'),
+            },
           }}
         />
         <Chat.Footer showShortcut saveText={t('__BUG_COMMENTS_CHAT_SAVE_TEXT')}>
