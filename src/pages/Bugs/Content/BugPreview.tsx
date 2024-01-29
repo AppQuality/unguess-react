@@ -14,7 +14,6 @@ import {
   useGetCampaignsByCidBugsAndBidQuery,
 } from 'src/features/api';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { BugCommentsDetail } from './components/BugCommentsDetails';
 import BugHeader from './components/BugHeader';

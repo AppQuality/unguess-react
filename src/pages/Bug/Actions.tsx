@@ -11,7 +11,6 @@ import {
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
 } from 'src/features/api';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { styled } from 'styled-components';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
