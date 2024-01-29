@@ -149,20 +149,16 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                 {t('__PAGE_BUGS_UNREAD_PILL')}
               </Meta>
             )}
-            {bug.comments > 0 && (
-              <>
-                <Pipe size="small" />
-                <CommentsCountBadge>
-                  <CommentsIcon style={{ marginRight: appTheme.space.xxs }} />
-                  <SM>
-                    {t('__PAGE_BUGS_COMMENTS_NUMBER_LABEL')}:
-                    <Span isBold style={{ marginLeft: appTheme.space.xxs }}>
-                      {bug.comments}
-                    </Span>
-                  </SM>
-                </CommentsCountBadge>
-              </>
-            )}
+            <Pipe size="small" />
+            <CommentsCountBadge>
+              <CommentsIcon style={{ marginRight: appTheme.space.xxs }} />
+              <SM>
+                {t('__PAGE_BUGS_COMMENTS_NUMBER_LABEL')}:
+                <Span isBold style={{ marginLeft: appTheme.space.xxs }}>
+                  {bug.comments}
+                </Span>
+              </SM>
+            </CommentsCountBadge>
           </div>
         </div>
       ),
