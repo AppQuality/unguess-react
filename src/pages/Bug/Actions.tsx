@@ -11,7 +11,6 @@ import {
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
 } from 'src/features/api';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { styled } from 'styled-components';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
@@ -69,9 +68,6 @@ export const Actions = () => {
 
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
-  const { hasFeatureFlag } = useFeatureFlag();
-
-  const canAccessComments = hasFeatureFlag('bug-comments');
 
   const {
     data: bug,
@@ -130,24 +126,22 @@ export const Actions = () => {
           <BugTags bug={bug} refetchBugTags={refetch} />
         </>
       )}
-      {canAccessComments && (
-        <ChatProvider
-          onSave={createCommentHandler}
-          setMentionableUsers={mentionableUsers}
-        >
-          <Divider style={{ margin: `${appTheme.space.md} auto` }} />
-          {isFetchingUsers || isLoadingUsers ? (
-            <Skeleton style={{ borderRadius: 0 }} />
-          ) : (
-            <ChatBox
-              campaignId={cid}
-              bugId={bid}
-              isSubmitting={isSubmitting}
-              setIsSubmitting={setIsSubmitting}
-            />
-          )}
-        </ChatProvider>
-      )}
+      <ChatProvider
+        onSave={createCommentHandler}
+        setMentionableUsers={mentionableUsers}
+      >
+        <Divider style={{ margin: `${appTheme.space.md} auto` }} />
+        {isFetchingUsers || isLoadingUsers ? (
+          <Skeleton style={{ borderRadius: 0 }} />
+        ) : (
+          <ChatBox
+            campaignId={cid}
+            bugId={bid}
+            isSubmitting={isSubmitting}
+            setIsSubmitting={setIsSubmitting}
+          />
+        )}
+      </ChatProvider>
     </Container>
   );
 };

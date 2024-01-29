@@ -2,6 +2,8 @@ import { SM, Span, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
+import { ReactComponent as CommentsIcon } from 'src/assets/icons/speech-bubble-plain-stroke.svg';
+import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
 import { TextAlign } from 'src/common/components/Table';
@@ -9,10 +11,7 @@ import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
 import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
-import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import styled from 'styled-components';
-import { ReactComponent as CommentsIcon } from 'src/assets/icons/speech-bubble-plain-stroke.svg';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { TableBugType } from '../../../types';
 import { BugTitle } from '../components/BugTitle';
 
@@ -52,8 +51,6 @@ const CommentsCountBadge = styled.div`
 export const mapBugsToTableData = (bugs: TableBugType[]) => {
   const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
-  const { hasFeatureFlag } = useFeatureFlag();
-  const canAccessComments = hasFeatureFlag('bug-comments');
 
   if (!bugs) return [];
   return bugs.map((bug) => {
@@ -151,20 +148,16 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
                 {t('__PAGE_BUGS_UNREAD_PILL')}
               </Meta>
             )}
-            {canAccessComments && bug.comments > 0 && (
-              <>
-                <Pipe size="small" />
-                <CommentsCountBadge>
-                  <CommentsIcon style={{ marginRight: appTheme.space.xxs }} />
-                  <SM>
-                    {t('__PAGE_BUGS_COMMENTS_NUMBER_LABEL')}:
-                    <Span isBold style={{ marginLeft: appTheme.space.xxs }}>
-                      {bug.comments}
-                    </Span>
-                  </SM>
-                </CommentsCountBadge>
-              </>
-            )}
+            <Pipe size="small" />
+            <CommentsCountBadge>
+              <CommentsIcon style={{ marginRight: appTheme.space.xxs }} />
+              <SM>
+                {t('__PAGE_BUGS_COMMENTS_NUMBER_LABEL')}:
+                <Span isBold style={{ marginLeft: appTheme.space.xxs }}>
+                  {bug.comments}
+                </Span>
+              </SM>
+            </CommentsCountBadge>
           </div>
         </div>
       ),
