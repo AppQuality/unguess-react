@@ -165,7 +165,7 @@ export const ChatBox = ({
             placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
           }}
         />
-        <Chat.Footer showShortcut>
+        <Chat.Footer showShortcut saveText={t('__BUG_COMMENTS_CHAT_SAVE_TEXT')}>
           <ButtonsContainer>
             <Button
               isBasic
