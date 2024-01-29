@@ -21,7 +21,6 @@ import {
   usePostWorkspacesByWidUsersMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import i18n from 'src/i18n';
 import { AddNewMemberInput } from './addNewMember';
 import { PermissionSettingsFooter } from './modalFooter';
 import {
