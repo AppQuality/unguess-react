@@ -61,7 +61,6 @@ export const WorkspaceSettings = () => {
       wid: activeWorkspace?.id.toString() || '',
       body: {
         email: values.email,
-        locale: i18n.language,
         ...(values.message && { message: values.message }),
       },
     })

@@ -84,7 +84,6 @@ export const ProjectSettings = () => {
       body: {
         email: values.email,
         redirect_url: projectRoute,
-        locale: i18n.language,
         ...(values.message && { message: values.message }),
       },
     })
