@@ -30,7 +30,7 @@
     }
   ],
   "start_url": "/",
-  "scope": "/",
+  "scope": "https://app.unguess.io/",
   "orientation": "portrait",
   "display": "standalone",
   "theme_color": "#003A57",

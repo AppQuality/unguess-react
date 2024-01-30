@@ -28,4 +28,10 @@ EOF
 
 echo "}" >> $CONFIG_FILE_PATH
 
+## Use REACT_APP_ENV to update scope property in manifest.json, if development replace app.unguess.io with dev.unguess.io
+if [ "$REACT_APP_ENV" = "development" ]; then
+    sed -i 's/app.unguess.io/dev.unguess.io/g' /build/manifest.json
+fi
+
+
 nginx -g 'daemon off;'
