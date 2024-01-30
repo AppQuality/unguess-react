@@ -1,9 +1,4 @@
-import {
-  ChatProvider,
-  Col,
-  Grid,
-  Row,
-} from '@appquality/unguess-design-system';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -14,6 +9,7 @@ import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoin
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
+import styled from 'styled-components';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { CustomStatusDrawer } from 'src/common/components/CustomStatusDrawer';
@@ -21,6 +17,15 @@ import { Content } from './Content';
 import { Header } from './Header';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { Actions } from './Actions';
+
+const BugContainer = styled.div<{ isFetching?: boolean }>`
+  ${(p) =>
+    p.isFetching &&
+    `
+  opacity: 0.5;
+  pointer-events: none;
+`}
+`;
 
 const Bug = () => {
   const { campaignId, bugId } = useParams();
@@ -55,10 +60,13 @@ const Bug = () => {
     isLoading,
     isFetching,
     isError,
-  } = useGetCampaignsByCidBugsAndBidQuery({
-    cid: campaignId,
-    bid: bugId,
-  });
+  } = useGetCampaignsByCidBugsAndBidQuery(
+    {
+      cid: campaignId,
+      bid: bugId,
+    },
+    { pollingInterval: 1200000 }
+  );
 
   const { data: { workspace } = {} } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId,
@@ -76,7 +84,7 @@ const Bug = () => {
     setHideActions(width < breakpointLg);
   }, [width]);
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <LoadingSkeleton />;
   }
 
@@ -100,18 +108,18 @@ const Bug = () => {
         isNotBoxed
         {...(!hideActions && { style: { paddingRight: 0 } })}
       >
-        <Grid gutters="xxl">
-          <Row style={{ marginRight: 0 }}>
-            <Col lg={8} style={{ marginBottom: 0 }}>
-              <Content bug={bug} campaignId={campaignId} />
-            </Col>
-            <Col lg={4} style={{ marginBottom: 0, paddingRight: 0 }}>
-              <ChatProvider>
+        <BugContainer isFetching={isFetching}>
+          <Grid gutters="xxl">
+            <Row style={{ marginRight: 0 }}>
+              <Col lg={8} style={{ marginBottom: 0 }}>
+                <Content bug={bug} campaignId={campaignId} />
+              </Col>
+              <Col lg={4} style={{ marginBottom: 0, paddingRight: 0 }}>
                 <Actions />
-              </ChatProvider>
-            </Col>
-          </Row>
-        </Grid>
+              </Col>
+            </Row>
+          </Grid>
+        </BugContainer>
       </LayoutWrapper>
       {isCustomStatusDrawerOpen && !hideDrawer && <CustomStatusDrawer />}
     </Page>

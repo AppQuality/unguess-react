@@ -5,19 +5,19 @@ import {
   Player,
   Slider,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
+import { useCallback, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import {
   BugMedia,
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
-import { useCallback, useRef } from 'react';
-import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
-import styled from 'styled-components';
 import useWindowSize from 'src/hooks/useWindowSize';
-import BugMeta from './Meta';
+import styled from 'styled-components';
 import BugDescription from './Description';
 import DetailsItems from './DetailsItems';
+import BugMeta from './Meta';
 
 const Grey600Span = styled.span`
   color: ${({ theme }) => theme.palette.grey[600]};

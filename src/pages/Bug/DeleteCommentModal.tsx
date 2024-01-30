@@ -21,11 +21,8 @@ export const DeleteCommentModal = ({
 }) => {
   const { t } = useTranslation();
 
-  const onQuit = () => {
-    setIsModalOpen(false);
-  };
   return (
-    <Modal onClose={onQuit}>
+    <Modal onClose={() => setIsModalOpen(false)}>
       <Modal.Header isDanger>
         {t('__BUG_COMMENTS_DELETE_MODAL_HEADER__')}
       </Modal.Header>
@@ -38,15 +35,23 @@ export const DeleteCommentModal = ({
           id="comment-modal-delete"
           isDanger
           isLink
-          onClick={() => deleteCommentHandler(deleteCommentId)}
+          onClick={() => {
+            deleteCommentHandler(deleteCommentId);
+            setIsModalOpen(false);
+          }}
         >
           {t('__BUG_COMMENTS_DELETE_MODAL_DELETE__')}
         </Button>
-        <Button id="comment-modal-cancel" isPrimary isAccent onClick={onQuit}>
+        <Button
+          id="comment-modal-cancel"
+          isPrimary
+          isAccent
+          onClick={() => setIsModalOpen(false)}
+        >
           {t('__BUG_COMMENTS_DELETE_MODAL_CANCEL__')}
         </Button>
       </Modal.Footer>
-      <ModalClose onClick={onQuit} />
+      <ModalClose onClick={() => setIsModalOpen(false)} />
     </Modal>
   );
 };
