@@ -59,14 +59,16 @@ export const useGetMentionableUsers = () => {
   if (isLoading || isFetching || isError)
     return { isLoading, isFetching, isError, items: [] };
 
+  // Combine all users and filter out pendingInvitation users
   const allUsers = [
     ...(campaignUsers?.items || []),
     ...(workspaceUsers?.items || []),
     ...(projectUsers?.items || []),
-  ];
+  ].filter((user) => !user.invitationPending);
 
   if (!allUsers.length) return { isLoading, items: [] };
 
+  // Remove duplicated ids
   const users = allUsers.reduce((acc: Tenant[], user) => {
     if (!acc.find((u) => u.profile_id === user.profile_id)) {
       acc.push(user);
