@@ -57,13 +57,13 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Bugs'],
     },
     patchCampaignsByCidBugsAndBid: {
-      invalidatesTags: ['Bugs'],
+      invalidatesTags: ['Bugs', 'Bug'],
     },
     getCampaignsByCidTags: {
       providesTags: ['Tags'],
     },
     getCampaignsByCidBugsAndBid: {
-      providesTags: ['Tags', 'Bugs'],
+      providesTags: ['Tags', 'Bug'],
     },
     getWorkspacesByWidUsers: {
       providesTags: ['Users'],
@@ -83,11 +83,15 @@ unguessApi.enhanceEndpoints({
     patchCampaignsByCidCustomStatuses: {
       invalidatesTags: ['CustomStatuses', 'Bugs', 'Tags'],
     },
+    getCampaignsByCidBugsAndBidComments: {
+      providesTags: ['BugComments'],
+    },
+    deleteCampaignsByCidBugsAndBidCommentsCmid: {
+      invalidatesTags: ['BugComments'],
+    },
     postCampaignsByCidBugsAndBidComments: {
-      async onQueryStarted(
-        { cid, bid, ...post },
-        { dispatch, queryFulfilled }
-      ) {
+      invalidatesTags: ['Bugs'],
+      async onQueryStarted({ cid, bid }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedPost } = await queryFulfilled;
           dispatch(
@@ -100,11 +104,7 @@ unguessApi.enhanceEndpoints({
             )
           );
         } catch {
-          /**
-           * TODO: on failure invalidate the corresponding cache tags
-           * to trigger a re-fetch:
-           * dispatch(api.util.invalidateTags(['BugComments']))
-           */
+          dispatch(unguessApi.util.invalidateTags(['BugComments']));
         }
       },
     },

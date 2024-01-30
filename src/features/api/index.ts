@@ -1,7 +1,7 @@
 import { apiSlice as api } from './api';
 const injectedRtkApi = api.injectEndpoints({
   endpoints: (build) => ({
-    get: build.query<GetApiResponse, GetApiArg>({
+    $get: build.query<$getApiResponse, $getApiArg>({
       query: () => ({ url: `/` }),
     }),
     postAuthenticate: build.mutation<
@@ -281,7 +281,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/projects/${queryArg.pid}/campaigns`,
-        params: { limit: queryArg.limit, start: queryArg.start },
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
       }),
     }),
     getProjectsByPidUsers: build.query<
@@ -482,8 +487,8 @@ const injectedRtkApi = api.injectEndpoints({
   overrideExisting: false,
 });
 export { injectedRtkApi as unguessApi };
-export type GetApiResponse = /** status 200 OK */ {};
-export type GetApiArg = void;
+export type $getApiResponse = /** status 200 OK */ {};
+export type $getApiArg = void;
 export type PostAuthenticateApiResponse = /** status 200 OK */ Authentication;
 export type PostAuthenticateApiArg = {
   body: {
@@ -512,11 +517,16 @@ export type PostCampaignsApiArg = {
     project_id: number;
     pm_id: number;
     platforms: PlatformObject[];
+    /** Da togliere */
     page_preview_id?: number;
+    /** Da togliere */
     page_manual_id?: number;
+    /** Used to check available coins */
     customer_id: number;
     has_bug_form?: number;
+    /** if has_bug_form is 0 this has to be 0 */
     has_bug_parade?: number;
+    /** Useless value required by Tryber BackOffice */
     description?: string;
     base_bug_internal_id?: string;
     express_slug: string;
@@ -544,6 +554,7 @@ export type GetCampaignsByCidBugsApiResponse = /** status 200 OK */ {
       tag_name: string;
     }[];
     siblings: number;
+    comments: number;
   })[];
   start?: number;
   limit?: number;
@@ -568,9 +579,9 @@ export type GetCampaignsByCidBugsApiArg = {
 };
 export type GetCampaignsByCidBugsAndBidApiResponse =
   /** status 200 OK */ Bug & {
-    media?: BugMedia[];
-    tags?: BugTag[];
-    additional_fields?: BugAdditionalField[];
+    media: BugMedia[];
+    tags: BugTag[];
+    additional_fields: BugAdditionalField[];
     reporter: {
       tester_id: number;
       name: string;
@@ -669,6 +680,8 @@ export type PatchCampaignsByCidCustomStatusesApiArg = {
   /** Campaign id */
   cid: string;
   body: {
+    /** se esiste già questo parametro viene passato nel request body
+        se invece non esiste ed il custom status deve essere creato, non viene passato */
     custom_status_id?: number;
     name: string;
     color: string;
@@ -705,6 +718,7 @@ export type PutCampaignsByCidFindingsAndFidApiArg = {
 };
 export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
   selected_testers: number;
+  /** Array of form factors */
   allowed_devices: string[];
 };
 export type GetCampaignsByCidMetaApiArg = {
@@ -809,6 +823,7 @@ export type DeleteCampaignsByCidUsersApiArg = {
   /** Campaign id */
   cid: string;
   body: {
+    /** Tryber WP USER ID */
     user_id: number;
   };
 };
@@ -817,6 +832,7 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
   goal: string;
   users: number;
   findings?: {
+    /** this field is the Finding ID */
     id: number;
     title: string;
     description: string;
@@ -917,6 +933,10 @@ export type GetProjectsByPidCampaignsApiArg = {
   limit?: number;
   /** Start pagination parameter */
   start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
 };
 export type GetProjectsByPidUsersApiResponse = /** status 200 OK */ {
   items: Tenant[];
@@ -962,6 +982,7 @@ export type DeleteProjectsByPidUsersApiArg = {
   /** Project id */
   pid: string;
   body: {
+    /** Tryber WP USER ID */
     user_id: number;
     include_shared?: boolean;
   };
@@ -1136,6 +1157,7 @@ export type DeleteWorkspacesByWidUsersApiArg = {
   /** Workspace (company, customer) id */
   wid: string;
   body: {
+    /** Tryber WP USER ID */
     user_id: number;
     include_shared?: boolean;
   };
@@ -1163,6 +1185,9 @@ export type PostCampaignsByCidBugsAndBidCommentsApiArg = {
   bid: string;
   body: {
     text: string;
+    mentioned?: {
+      id: number;
+    }[];
   };
 };
 export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =
@@ -1196,6 +1221,9 @@ export type Campaign = {
   title: string;
   customer_title: string;
   is_public: number;
+  /** -1: no bug form;
+    0: only bug form;
+    1: bug form with bug parade'; */
   bug_form?: number;
   type: {
     id: number;
@@ -1221,7 +1249,16 @@ export type Campaign = {
   base_bug_internal_id?: string;
 };
 export type PlatformObject = {
+  /** os */
   id: number;
+  /** form_factor
+    
+    0 => smartphone,
+    1 => tablet
+    2 => pc
+    3 => smartwatch
+    4 => console
+    5 => tv */
   deviceType: number;
 };
 export type TemplateCategory = {
@@ -1230,17 +1267,21 @@ export type TemplateCategory = {
 };
 export type Template = {
   title: string;
+  /** Short description used as preview of template or in templates dropdown */
   description?: string;
+  /** HTML content used to pre-fill the use case editor */
   content?: string;
   category?: TemplateCategory;
   device_type?: 'webapp' | 'mobileapp';
   locale?: 'en' | 'it';
   image?: string;
+  /** The use case created by this template needs a login or not? */
   requiresLogin?: boolean;
 };
 export type UseCase = {
   title: string;
   description: string;
+  /** Optional in experiential campaigns */
   functionality?: {
     id?: number;
   } & Template;
@@ -1253,6 +1294,7 @@ export type CampaignWithOutput = Campaign & {
 };
 export type BugTitle = {
   full: string;
+  /** Bug title without context. */
   compact: string;
   context?: string[];
 };
@@ -1407,6 +1449,7 @@ export type Report = {
   update_date?: string;
 };
 export type Tenant = {
+  /** tryber wp_user_id */
   id: number;
   profile_id: number;
   name: string;
@@ -1436,6 +1479,7 @@ export type WidgetBugsByUseCase = {
 export type WidgetBugsByDevice = {
   data: ((Smartphone | Desktop | Tablet) & {
     unique_bugs: number;
+    /** Unique bugs */
     bugs: number;
   })[];
   kind: 'bugsByDevice';
@@ -1444,8 +1488,11 @@ export type WidgetCampaignProgress = {
   data: {
     start_date: string;
     end_date: string;
+    /** Percentage fixed rate of completion */
     usecase_completion: 12.5 | 37.5 | 62.5 | 87.5 | 100;
+    /** Number of hours from start_date */
     time_elapsed: number;
+    /** Expected amount of hours required to complete the campaign */
     expected_duration: number;
   };
   kind: 'campaignProgress';
@@ -1475,6 +1522,7 @@ export type Feature = {
   name?: string;
 };
 export type User = {
+  /** This is the main id of the user. Currently is equal to tryber_wp_user_id */
   id: number;
   email: string;
   role: string;
@@ -1499,17 +1547,23 @@ export type Workspace = {
     picture?: string;
     url?: string;
   };
+  /** express coins */
   coins?: number;
+  /** Do this workspace have shared items? */
   isShared?: boolean;
+  /** Number of shared items */
   sharedItems?: number;
 };
 export type Coin = {
   id: number;
   customer_id: number;
+  /** Number of available coin */
   amount: number;
   agreement_id?: number;
+  /** This is the single coin price */
   price?: number;
   created_on?: string;
+  /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
 export type BugComment = {
@@ -1522,7 +1576,7 @@ export type BugComment = {
   };
 };
 export const {
-  useGetQuery,
+  use$getQuery,
   usePostAuthenticateMutation,
   usePostAnalyticsViewsCampaignsByCidMutation,
   usePostCampaignsMutation,

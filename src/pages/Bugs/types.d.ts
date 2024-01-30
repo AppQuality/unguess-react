@@ -9,4 +9,5 @@ export interface CounterItems {
 export type BugItem = Bug & {
   tags?: { tag_id: number; tag_name: string }[] | undefined;
   siblings: number;
+  comments: number;
 };
