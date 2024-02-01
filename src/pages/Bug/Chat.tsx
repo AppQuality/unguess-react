@@ -132,6 +132,9 @@ export const ChatBox = ({
                     author={{
                       avatar: getInitials(comment.creator.name),
                       name: comment.creator.name,
+                      ...(comment.creator.isInternal && {
+                        avatarType: 'system',
+                      }),
                     }}
                     date={convertToLocalTime(
                       comment.creation_date,
