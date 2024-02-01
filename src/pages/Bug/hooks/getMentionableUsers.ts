@@ -19,6 +19,7 @@ export const useGetMentionableUsers = () => {
   const { data: { campaign } = {} } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId || '0',
   });
+  const { userData } = useAppSelector((state) => state.user);
 
   const {
     data: workspaceUsers,
@@ -68,12 +69,17 @@ export const useGetMentionableUsers = () => {
     };
 
   // Remove duplicated ids
-  const users = allUsers.reduce((acc: Tenant[], user) => {
+  const filteredUsers = allUsers.reduce((acc: Tenant[], user) => {
     if (!acc.find((u) => u.profile_id === user.profile_id)) {
       acc.push(user);
     }
     return acc;
   }, []);
+
+  // Remove user himself
+  const users = filteredUsers.filter(
+    (u) => u.profile_id !== userData.profile_id
+  );
 
   return {
     isLoading,
