@@ -1573,6 +1573,7 @@ export type BugComment = {
   creator: {
     id: number;
     name: string;
+    isInternal: boolean;
   };
 };
 export const {

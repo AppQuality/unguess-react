@@ -19,12 +19,12 @@ export const useGetMentionableUsers = () => {
   const { data: { campaign } = {} } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId || '0',
   });
+  const { userData } = useAppSelector((state) => state.user);
 
   const {
     data: workspaceUsers,
     isLoading: isLoadingWorkspaceUsers,
     isFetching: isFetchingWorkspaceUsers,
-    isError: isWorkspaceUsersError,
   } = useGetWorkspacesByWidUsersQuery({
     wid: activeWorkspace?.id.toString() || '0',
   });
@@ -33,14 +33,12 @@ export const useGetMentionableUsers = () => {
     data: campaignUsers,
     isLoading: isLoadingCampaignUsers,
     isFetching: isFetchingCampaignUsers,
-    isError: isCampaignUsersError,
   } = useGetCampaignsByCidUsersQuery({ cid: campaignId || '0' });
 
   const {
     data: projectUsers,
     isLoading: isLoadingProjectUsers,
     isFetching: isFetchingProjectUsers,
-    isError: isProjectUsersError,
   } = useGetProjectsByPidUsersQuery({
     pid: campaign?.project.id.toString() || '0',
   });
@@ -53,11 +51,8 @@ export const useGetMentionableUsers = () => {
     isFetchingCampaignUsers ||
     isFetchingProjectUsers;
 
-  const isError =
-    isWorkspaceUsersError || isCampaignUsersError || isProjectUsersError;
-
-  if (isLoading || isFetching || isError)
-    return { isLoading, isFetching, isError, items: [] };
+  if (isLoading || isFetching)
+    return { isLoading, isFetching, isError: false, items: [] };
 
   // Combine all users and filter out pendingInvitation users
   const allUsers = [
@@ -66,20 +61,29 @@ export const useGetMentionableUsers = () => {
     ...(projectUsers?.items || []),
   ].filter((user) => !user.invitationPending);
 
-  if (!allUsers.length) return { isLoading, items: [] };
+  if (!allUsers.length)
+    return {
+      isLoading: false,
+      isFetching: false,
+      items: [],
+    };
 
   // Remove duplicated ids
-  const users = allUsers.reduce((acc: Tenant[], user) => {
+  const filteredUsers = allUsers.reduce((acc: Tenant[], user) => {
     if (!acc.find((u) => u.profile_id === user.profile_id)) {
       acc.push(user);
     }
     return acc;
   }, []);
 
+  // Remove user himself
+  const users = filteredUsers.filter(
+    (u) => u.profile_id !== userData.profile_id
+  );
+
   return {
     isLoading,
     isFetching,
-    isError,
     items: users.map((user) => ({
       id: user.profile_id,
       name: user.name,
