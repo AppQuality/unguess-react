@@ -9,6 +9,7 @@ export const useCampaignUseCases = (campaignId: number) => {
   return {
     useCases: data || [],
     useCasesError: error,
-    useCasesLoading: isLoading || isFetching,
+    useCasesLoading: isLoading,
+    useCasesFetching: isFetching,
   };
 };
