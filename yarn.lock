@@ -47,19 +47,19 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/stream-player@^1.0.3":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@appquality/stream-player/-/stream-player-1.0.4.tgz#d1a87be1e04f25b39a539b9eff2e8aa0b38627df"
-  integrity sha512-RMhzbf9uDLCWIHwVQf5LSOYbenrM/RNQkCSjtayrRBj4pcVs42gvnIa0TgPflZDEFL/jxTHthu1eL0U2NhKxWg==
+"@appquality/stream-player@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@appquality/stream-player/-/stream-player-1.0.6.tgz#b48d195b77ae0070b4d10384eb28573069b79605"
+  integrity sha512-OuAkU3oX7nsJk7nD4MOce0qJeVPG3xij5gibteD0f/lIgNOMnqhL3azaQ/xdk+1KuA5uKVKORwnKK5m/7CyfDA==
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@3.1.71":
-  version "3.1.71"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.71.tgz#0bb836e1e86313c16edee125a5e35c1a2d79d09a"
-  integrity sha512-MyliVtppWvVpumw3ktDQ+cuRgTG4ie0neWRzln0071X2hkWSBu0IcjC4UfWtKaSElE43f75dxpRfUS65CSa+rA==
+"@appquality/unguess-design-system@3.1.72":
+  version "3.1.72"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.72.tgz#6c354477ce5cc5cef6e9386a52ddc94258740b35"
+  integrity sha512-y+bPygEsN+H60IeHCE8LSeM/nM+YMCjoF+e0wV/XVi0GhS4hEKH5sHchPfMiscCaVLlNEMOSnw3DR+T6UbFiNw==
   dependencies:
-    "@appquality/stream-player" "^1.0.3"
+    "@appquality/stream-player" "^1.0.6"
     "@nivo/bar" "^0.80.0"
     "@nivo/bullet" "^0.80.0"
     "@nivo/core" "^0.80.0"
