@@ -33,16 +33,15 @@ export const AnchorButtons = ({
   const {
     data: bug,
     isLoading,
-    isFetching,
     isError,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId ?? '',
     bid: currentBugId ? currentBugId.toString() : '',
   });
   const { t } = useTranslation();
-  if (isError || !bug) return null;
+  if (isError) return null;
 
-  if (isLoading || isFetching) return <Skeleton />;
+  if (!bug || isLoading) return <Skeleton />;
 
   const { media } = bug;
   const { openAccordions, setOpenAccordions } = useBugPreviewContext();

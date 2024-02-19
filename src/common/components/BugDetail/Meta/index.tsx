@@ -56,14 +56,13 @@ export default () => {
     data: bug,
     isLoading,
     isError,
-    isFetching,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId ?? '',
     bid: currentBugId ? currentBugId.toString() : '',
   });
-  if (isError || !bug) return null;
+  if (isError) return null;
 
-  if (isLoading || isFetching) return <Skeleton />;
+  if (!bug || isLoading) return <Skeleton />;
   return (
     <Container>
       <SeverityContainer>
