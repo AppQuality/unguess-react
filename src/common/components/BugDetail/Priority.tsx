@@ -10,13 +10,15 @@ import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
 import { DEFAULT_BUG_PRIORITY } from 'src/constants';
 import {
-  Bug,
+  useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidPrioritiesQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
 
 const StyledItem = styled(Item)`
@@ -43,9 +45,8 @@ type DropdownItem = {
   icon: React.ReactNode;
 };
 
-const Priority = ({ bug }: { bug: Bug }) => {
+const Priority = () => {
   const { t } = useTranslation();
-  const { priority: bugPriority } = bug;
   const [selectedItem, setSelectedItem] = useState<DropdownItem>({
     id: DEFAULT_BUG_PRIORITY.id,
     slug: DEFAULT_BUG_PRIORITY.name,
@@ -54,13 +55,26 @@ const Priority = ({ bug }: { bug: Bug }) => {
   });
   const [options, setOptions] = useState<DropdownItem[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
+  const { campaignId } = useParams();
+  const currentBugId = getSelectedBugId();
+
   const {
     data: cpPriorities,
-    isLoading,
-    isFetching,
-    isError,
+    isLoading: isLoadingCpPriorities,
+    isFetching: isFetchingCpPriorities,
+    isError: isErrorCpPriorities,
   } = useGetCampaignsByCidPrioritiesQuery({
-    cid: bug.campaign_id.toString(),
+    cid: campaignId || '',
+  });
+
+  const {
+    data: bug,
+    isLoading: isLoadingBug,
+    isFetching: isFetchingBug,
+    isError: isErrorBug,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId || '',
+    bid: currentBugId?.toString() || '',
   });
 
   useEffect(() => {
@@ -77,24 +91,27 @@ const Priority = ({ bug }: { bug: Bug }) => {
   }, [cpPriorities]);
 
   useEffect(() => {
-    if (bugPriority) {
+    if (bug?.priority) {
       setSelectedItem({
-        id: bugPriority.id,
-        slug: bugPriority.name,
-        text: getPriorityInfo(bugPriority.name as Priority, t).text,
-        icon: getPriorityInfo(bugPriority.name as Priority, t).icon,
+        id: bug.priority.id,
+        slug: bug.priority.name,
+        text: getPriorityInfo(bug.priority.name as Priority, t).text,
+        icon: getPriorityInfo(bug.priority.name as Priority, t).icon,
       });
     }
-  }, [bugPriority]);
+  }, [bug?.priority]);
 
-  if (isError) return null;
+  if (!bug || !cpPriorities || isErrorBug || isErrorCpPriorities) return null;
 
   return (
     <div>
       <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
       </MD>
-      {isLoading || isFetching ? (
+      {isLoadingBug ||
+      isLoadingCpPriorities ||
+      isFetchingBug ||
+      isFetchingCpPriorities ? (
         <Skeleton
           height="30px"
           style={{ borderRadius: appTheme.borderRadii.md }}

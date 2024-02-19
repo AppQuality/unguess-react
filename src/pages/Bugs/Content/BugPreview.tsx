@@ -54,6 +54,13 @@ const ScrollingContainer = styled.div`
   overflow-y: auto;
 `;
 
+const GridWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.md};
+`;
+
 export const BugPreview = ({
   campaignId,
   bugId,
@@ -89,19 +96,13 @@ export const BugPreview = ({
     }
   }, [currentBugId]);
 
-  // TODO: implement a better loading state
-  if (isLoading || isError || !bug) return <Skeleton />;
+  if (isError) return null;
+
+  if (!bug || isLoading) return <Skeleton style={{ borderRadius: 0 }} />;
 
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
 
-  // TODO: move this out of the component
-  const GridWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: ${({ theme }) => theme.space.sm};
-    margin-bottom: ${({ theme }) => theme.space.md};
-  `;
   return (
     <DetailContainer isFetching={isFetching}>
       {/* TODO: prop drilling (bug) */}
@@ -115,9 +116,9 @@ export const BugPreview = ({
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
           <GridWrapper>
             {/* TODO: prop drilling (bug) */}
-            <BugStateDropdown bug={bug} />
+            <BugStateDropdown bugId={bugId} />
             {/* TODO: prop drilling (bug) */}
-            <BugPriority bug={bug} />
+            <BugPriority />
           </GridWrapper>
           {/* TODO: prop drilling (bug) */}
           {/* TODO: not necessary to pass refetch */}

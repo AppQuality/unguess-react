@@ -120,8 +120,8 @@ export const Actions = () => {
       ) : (
         <>
           <GridWrapper>
-            <BugStateDropdown bug={bug} />
-            <BugPriority bug={bug} />
+            <BugStateDropdown bugId={parseInt(bid, 10)} />
+            <BugPriority />
           </GridWrapper>
           <BugTags bug={bug} refetchBugTags={refetch} />
         </>
