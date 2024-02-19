@@ -1,14 +1,21 @@
-import { XL, Tag, TextDescription } from '@appquality/unguess-design-system';
+import {
+  Skeleton,
+  Tag,
+  TextDescription,
+  XL,
+} from '@appquality/unguess-design-system';
+import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg';
+import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
-import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
-import { SeverityTag } from 'src/common/components/tag/SeverityTag';
-import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
-import { Bug } from 'src/features/api';
 import { Pipe } from 'src/common/components/Pipe';
 import { WrappedText } from 'src/common/components/WrappedText';
+import { SeverityTag } from 'src/common/components/tag/SeverityTag';
+import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
+import styled from 'styled-components';
 import { NeedReviewTag } from './NeedReviewTag';
 
 const Container = styled.div`
@@ -42,64 +49,71 @@ function getDeviceIcon(device: string) {
   }
 }
 
-export default ({
-  bug,
-}: {
-  bug: Bug & {
-    reporter: {
-      tester_id: number;
-      name: string;
-    };
-  };
-}) => (
-  <Container>
-    <SeverityContainer>
-      <SeverityTag
-        hasBackground
-        severity={bug.severity.name.toLowerCase() as Severities}
-      />
-      {bug.status.id === 4 && <NeedReviewTag />}
-    </SeverityContainer>
-    <XL
-      isBold
-      style={{
-        marginTop: appTheme.space.xxs,
-        marginBottom: appTheme.space.xs,
-      }}
-    >
-      <WrappedText>{bug.title.compact}</WrappedText>
-    </XL>
-    <TextDescription
-      style={{
-        marginBottom: appTheme.space.md,
-      }}
-    >
-      {bug.title.context ? bug.title.context.join(', ') : null}
-    </TextDescription>
-    <BugInfo>
-      <TextDescription
-        isSmall
+export default () => {
+  const { campaignId } = useParams();
+  const currentBugId = getSelectedBugId();
+  const {
+    data: bug,
+    isLoading,
+    isError,
+    isFetching,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId ?? '',
+    bid: currentBugId ? currentBugId.toString() : '',
+  });
+  if (isError || !bug) return null;
+
+  if (isLoading || isFetching) return <Skeleton />;
+  return (
+    <Container>
+      <SeverityContainer>
+        <SeverityTag
+          hasBackground
+          severity={bug.severity.name.toLowerCase() as Severities}
+        />
+        {bug.status.id === 4 && <NeedReviewTag />}
+      </SeverityContainer>
+      <XL
         isBold
         style={{
-          textTransform: 'capitalize',
-          marginRight: appTheme.space.sm,
+          marginTop: appTheme.space.xxs,
+          marginBottom: appTheme.space.xs,
         }}
       >
-        {bug.type.name}
+        <WrappedText>{bug.title.compact}</WrappedText>
+      </XL>
+      <TextDescription
+        style={{
+          marginBottom: appTheme.space.md,
+        }}
+      >
+        {bug.title.context ? bug.title.context.join(', ') : null}
       </TextDescription>
-      <Pipe size="regular" />
-      <Tag hue="white" style={{ textTransform: 'capitalize' }}>
-        <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>
-        {bug.device.type === 'desktop'
-          ? bug.device.desktop_type
-          : `${bug.device.manufacturer} ${bug.device.model}`}
-      </Tag>
-      <Tag hue="white" style={{ textTransform: 'capitalize' }}>
-        <Tag.Avatar>
-          <OSIcon />
-        </Tag.Avatar>
-        {bug.device.os} {bug.device.os_version}
-      </Tag>
-    </BugInfo>
-  </Container>
-);
+      <BugInfo>
+        <TextDescription
+          isSmall
+          isBold
+          style={{
+            textTransform: 'capitalize',
+            marginRight: appTheme.space.sm,
+          }}
+        >
+          {bug.type.name}
+        </TextDescription>
+        <Pipe size="regular" />
+        <Tag hue="white" style={{ textTransform: 'capitalize' }}>
+          <Tag.Avatar>{getDeviceIcon(bug.device.type)}</Tag.Avatar>
+          {bug.device.type === 'desktop'
+            ? bug.device.desktop_type
+            : `${bug.device.manufacturer} ${bug.device.model}`}
+        </Tag>
+        <Tag hue="white" style={{ textTransform: 'capitalize' }}>
+          <Tag.Avatar>
+            <OSIcon />
+          </Tag.Avatar>
+          {bug.device.os} {bug.device.os_version}
+        </Tag>
+      </BugInfo>
+    </Container>
+  );
+};
