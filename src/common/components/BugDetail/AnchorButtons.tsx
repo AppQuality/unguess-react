@@ -1,12 +1,18 @@
-import styled from 'styled-components';
+import {
+  IconButton,
+  Skeleton,
+  Tooltip,
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { Link } from 'react-scroll';
-import { IconButton, Tooltip } from '@appquality/unguess-design-system';
-import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
 import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/linked.svg';
+import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
-import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 const FlexComponent = styled.div`
   width: 100%;
@@ -18,15 +24,28 @@ const FlexComponent = styled.div`
 `;
 
 export const AnchorButtons = ({
-  bug,
   scrollerBoxId,
 }: {
-  bug: GetCampaignsByCidBugsAndBidApiResponse;
   scrollerBoxId?: string;
 }) => {
+  const { campaignId } = useParams();
+  const currentBugId = getSelectedBugId();
+  const {
+    data: bug,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId ?? '',
+    bid: currentBugId ? currentBugId.toString() : '',
+  });
+  const { t } = useTranslation();
+  if (isError || !bug) return null;
+
+  if (isLoading || isFetching) return <Skeleton />;
+
   const { media } = bug;
   const { openAccordions, setOpenAccordions } = useBugPreviewContext();
-  const { t } = useTranslation();
 
   return (
     <FlexComponent>
