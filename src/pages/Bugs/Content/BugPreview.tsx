@@ -75,7 +75,6 @@ export const BugPreview = ({
     isLoading,
     isFetching,
     isError,
-    refetch,
   } = useGetCampaignsByCidBugsAndBidQuery(
     {
       cid: campaignId.toString(),
@@ -118,11 +117,11 @@ export const BugPreview = ({
             {/* TODO: prop drilling (bug) */}
             <BugStateDropdown bugId={bugId} />
             {/* TODO: prop drilling (bug) */}
-            <BugPriority />
+            <BugPriority bugId={bugId} />
           </GridWrapper>
           {/* TODO: prop drilling (bug) */}
           {/* TODO: not necessary to pass refetch */}
-          <BugTags bug={bug} refetchBugTags={refetch} />
+          <BugTags bugId={bugId} />
           {/* TODO: prop drilling (bug) */}
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
