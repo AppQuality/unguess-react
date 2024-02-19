@@ -104,15 +104,12 @@ export const BugPreview = ({
   `;
   return (
     <DetailContainer isFetching={isFetching}>
-      {/* TODO: prop drilling (bug) */}
-      <BugHeader bug={bug} comments={comments} />
+      <BugHeader comments={comments} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
-          {/* TODO: prop drilling (bug) */}
-          <BugMeta bug={bug} />
-          {/* TODO: prop drilling (bug) */}
-          {/* TODO: not necessary to pass scrollerBoxId */}
-          <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
+          <BugMeta />
+          {/* TODO: not necessary to pass scrollerBoxId are we sure? */}
+          <AnchorButtons scrollerBoxId={scrollerBoxId} />
           <GridWrapper>
             {/* TODO: prop drilling (bug) */}
             <BugStateDropdown bug={bug} />
@@ -122,8 +119,7 @@ export const BugPreview = ({
           {/* TODO: prop drilling (bug) */}
           {/* TODO: not necessary to pass refetch */}
           <BugTags bug={bug} refetchBugTags={refetch} />
-          {/* TODO: prop drilling (bug) */}
-          <BugDescription bug={bug} />
+          <BugDescription />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
           <BugCommentsDetail
             commentsCount={comments?.items.length ?? 0}
