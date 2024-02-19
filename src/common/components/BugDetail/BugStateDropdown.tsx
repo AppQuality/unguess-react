@@ -187,6 +187,7 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
     return acc;
   }, [] as { id: number; name: string; customStatuses: typeof cpCustomStatus }[]);
 
+  // TODO: optimize loading state
   if (!bug || !cpCustomStatus || isErrorCustomStatus || isLoadingCustomStatus)
     return null;
 

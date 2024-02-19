@@ -60,6 +60,7 @@ export const BugsByUsecase = ({
       >
         {useCases.map((item) => (
           <BugsByUseCaseAccordion
+            /* TODO: prop drilling (campaignId) */
             campaignId={campaignId}
             key={item.useCase.id}
             title={

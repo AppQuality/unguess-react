@@ -60,6 +60,7 @@ export const BugsByState = ({
       >
         {bugStates.map((item) => (
           <BugStateAccordion
+            /* TODO: prop drilling (campaignId) */
             campaignId={campaignId}
             key={item.state.id}
             title={

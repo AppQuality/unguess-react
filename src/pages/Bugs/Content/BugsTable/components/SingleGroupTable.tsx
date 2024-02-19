@@ -22,7 +22,7 @@ interface SingleGroupTableProps {
 
 const SingleGroupTable = ({
   campaignId,
-  item,
+  item, // TODO: can we use a more specific name?
   isPreview,
 }: SingleGroupTableProps) => {
   const { width } = useWindowSize();
@@ -51,6 +51,7 @@ const SingleGroupTable = ({
       isPreview && item && item.bugs.length > 3
         ? item.bugs.slice(0, 3)
         : item.bugs;
+    // TODO: can we optimize this?
     return mapBugsToTableData(displayBugs);
   }, [isPreview, item.bugs]);
 

@@ -55,10 +55,12 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
               style={{ paddingBottom: appTheme.space.lg }}
             >
               <FilterRecap />
+              {/* TODO: prop drilling (campaignId) */}
               <BugsTable campaignId={campaignId} />
             </Col>
             {currentBugId && (
               <Col xs={12} md={4} style={{ margin: 0, paddingRight: 0 }}>
+                {/* TODO: prop drilling (campaignId) */}
                 <BugPreview bugId={currentBugId} campaignId={campaignId} />
               </Col>
             )}

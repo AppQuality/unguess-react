@@ -38,10 +38,13 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <Wrapper isFetching={isFetching}>
+      {/* TODO: prop drilling (bugs) */}
       <InfoRow bugs={bugs} />
       {isMdBreakpoint ? (
+        /* TODO: prop drilling (bugs) */
         <BugCards bugs={bugs} />
       ) : (
+        /* TODO: prop drilling (campaignId, bugs) */
         <AllBugsTable campaignId={campaignId} item={{ bugs }} />
       )}
     </Wrapper>

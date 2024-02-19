@@ -89,11 +89,13 @@ export const BugPreview = ({
     }
   }, [currentBugId]);
 
+  // TODO: implement a better loading state
   if (isLoading || isError || !bug) return <Skeleton />;
 
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
 
+  // TODO: move this out of the component
   const GridWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -102,25 +104,38 @@ export const BugPreview = ({
   `;
   return (
     <DetailContainer isFetching={isFetching}>
+      {/* TODO: prop drilling (bug) */}
       <BugHeader bug={bug} comments={comments} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
+          {/* TODO: prop drilling (bug) */}
           <BugMeta bug={bug} />
+          {/* TODO: prop drilling (bug) */}
+          {/* TODO: not necessary to pass scrollerBoxId */}
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
           <GridWrapper>
+            {/* TODO: prop drilling (bug) */}
             <BugStateDropdown bug={bug} />
+            {/* TODO: prop drilling (bug) */}
             <BugPriority bug={bug} />
           </GridWrapper>
+          {/* TODO: prop drilling (bug) */}
+          {/* TODO: not necessary to pass refetch */}
           <BugTags bug={bug} refetchBugTags={refetch} />
+          {/* TODO: prop drilling (bug) */}
           <BugDescription bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
           <BugCommentsDetail
             commentsCount={comments?.items.length ?? 0}
             bugId={bugId}
+            /* TODO: prop drilling (campaignId) */
             campaignId={campaignId}
           />
+          {/* TODO: prop drilling (bug) */}
           <BugDetails bug={bug} />
+          {/* TODO: why check currentBugId? */}
           {currentBugId && (
+            /* TODO: prop drilling (campaignId, currentBugId) */
             <BugDuplicates cid={campaignId} bugId={currentBugId} />
           )}
         </BugPreviewContextProvider>

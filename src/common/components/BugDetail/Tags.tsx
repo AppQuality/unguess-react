@@ -139,6 +139,8 @@ export default ({
                   // Update options
                   setOptions(newOptions);
 
+                  // TODO: can we remove manual refetch and handle this via api tags?
+
                   // Refetch cp tags to get the new ones
                   refetchCpTags();
                   // Refetch bug tags to get the new ones

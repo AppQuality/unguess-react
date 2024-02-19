@@ -92,6 +92,7 @@ const Bugs = () => {
       {isLoading ? (
         <BugsPageContentLoader />
       ) : (
+        /* TODO: prop drilling (campaignId) */
         <BugsPageContent campaignId={campaign?.cp_id || 0} />
       )}
     </Page>

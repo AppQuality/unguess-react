@@ -20,11 +20,14 @@ const BugsTable = ({ campaignId }: { campaignId: number }) => {
   return (
     <>
       {groupBy === 'usecase' && (
+        /* TODO: prop drilling (campaignId) */
         <BugsByUsecase campaignId={campaignId} isDefaultView={isDefaultView} />
       )}
       {groupBy === 'bugState' && (
+        /* TODO: prop drilling (campaignId) */
         <BugsByState campaignId={campaignId} isDefaultView={isDefaultView} />
       )}
+      {/* TODO: prop drilling (campaignId) */}
       {groupBy === 'ungrouped' && <AllBugs campaignId={campaignId} />}
     </>
   );
