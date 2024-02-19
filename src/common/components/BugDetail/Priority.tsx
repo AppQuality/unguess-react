@@ -18,7 +18,6 @@ import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
 
 const StyledItem = styled(Item)`
@@ -45,7 +44,7 @@ type DropdownItem = {
   icon: React.ReactNode;
 };
 
-const Priority = () => {
+const Priority = ({ bugId }: { bugId: number }) => {
   const { t } = useTranslation();
   const [selectedItem, setSelectedItem] = useState<DropdownItem>({
     id: DEFAULT_BUG_PRIORITY.id,
@@ -56,7 +55,6 @@ const Priority = () => {
   const [options, setOptions] = useState<DropdownItem[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const { campaignId } = useParams();
-  const currentBugId = getSelectedBugId();
 
   const {
     data: cpPriorities,
@@ -74,7 +72,7 @@ const Priority = () => {
     isError: isErrorBug,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid: campaignId || '',
-    bid: currentBugId?.toString() || '',
+    bid: bugId.toString(),
   });
 
   useEffect(() => {
@@ -101,14 +99,16 @@ const Priority = () => {
     }
   }, [bug?.priority]);
 
-  if (!bug || !cpPriorities || isErrorBug || isErrorCpPriorities) return null;
+  if (isErrorBug || isErrorCpPriorities) return null;
 
   return (
     <div>
       <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
       </MD>
-      {isLoadingBug ||
+      {!bug ||
+      !cpPriorities ||
+      isLoadingBug ||
       isLoadingCpPriorities ||
       isFetchingBug ||
       isFetchingCpPriorities ? (
