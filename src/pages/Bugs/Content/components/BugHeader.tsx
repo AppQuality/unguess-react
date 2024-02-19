@@ -1,6 +1,11 @@
-import { IconButton, Tag, Tooltip } from '@appquality/unguess-design-system';
+import {
+  IconButton,
+  Skeleton,
+  Tag,
+  Tooltip,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
@@ -9,10 +14,13 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/external-link-icon.
 import { ReactComponent as SpeechBubble } from 'src/assets/icons/speech-bubble-fill.svg';
 import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import {
-  Bug,
   GetCampaignsByCidBugsAndBidCommentsApiResponse,
+  useGetCampaignsByCidBugsAndBidQuery,
 } from 'src/features/api';
-import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  getSelectedBugId,
+  selectBug,
+} from 'src/features/bugsPage/bugsPageSlice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -61,19 +69,27 @@ const CommentsBadge = styled.span`
 `;
 
 export default ({
-  bug,
   comments,
 }: {
-  bug: Bug & {
-    reporter: {
-      tester_id: number;
-      name: string;
-    };
-  };
   comments: GetCampaignsByCidBugsAndBidCommentsApiResponse | undefined;
 }) => {
   const dispatch = useAppDispatch();
+  const { campaignId } = useParams();
+  const currentBugId = getSelectedBugId();
   const { t } = useTranslation();
+  const {
+    data: bug,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId ?? '',
+    bid: currentBugId ? currentBugId.toString() : '',
+  });
+
+  if (isError || !bug) return null;
+
+  if (isLoading || isFetching) return <Skeleton />;
 
   return (
     <Container>
@@ -83,7 +99,7 @@ export default ({
         hue="rgba(0,0,0,0)"
         style={{ paddingTop: `${appTheme.space.base}px` }}
       >
-        {!bug.duplicated_of_id && (
+        {!bug?.duplicated_of_id && (
           <Tag.Avatar>
             <FatherIcon
               style={{
@@ -94,11 +110,11 @@ export default ({
           </Tag.Avatar>
         )}
         ID
-        <Tag.SecondaryText isBold>{bug.id}</Tag.SecondaryText>
+        <Tag.SecondaryText isBold>{bug?.id}</Tag.SecondaryText>
       </Tag>
       <ActionDetailPreview>
         <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+          to={useLocalizeRoute(`campaigns/${bug?.campaign_id}/bugs/${bug?.id}`)}
         >
           <Tooltip
             content={
@@ -127,7 +143,7 @@ export default ({
           </Tooltip>
         </Link>
         <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+          to={useLocalizeRoute(`campaigns/${bug?.campaign_id}/bugs/${bug?.id}`)}
         >
           <Tooltip
             content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
@@ -141,7 +157,7 @@ export default ({
           </Tooltip>
         </Link>
 
-        <ShareButton bug={bug} />
+        <ShareButton bugTitle={bug.title.full} />
 
         <Tooltip
           content={t('__BUGS_PAGE_CLOSE_DETAILS_TOOLTIP')}
