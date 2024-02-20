@@ -1,44 +1,42 @@
 import { Skeleton, MultiSelect, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
-  Bug,
-  BugTag,
+  useGetCampaignsByCidBugsAndBidQuery,
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import { appTheme } from 'src/app/theme';
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default ({
-  bug,
-  refetchBugTags,
-}: {
-  bug: Bug & {
-    reporter: {
-      tester_id: number;
-      name: string;
-    };
-    tags?: BugTag[];
-  };
-  refetchBugTags?: () => void;
-}) => {
+export default ({ bugId }: { bugId: number }) => {
   const { t } = useTranslation();
-  const { tags: bugTags } = bug;
   const [options, setOptions] = useState<
     { id: number; label: string; selected?: boolean }[]
   >([]);
   const [selectedOptions, setSelectedOptions] = useState<
     { id: number; label: string }[]
   >([]);
+  const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
+  const { campaignId } = useParams();
 
   const {
     isLoading: isLoadingCampaignTags,
     isFetching: isFetchingCampaignTags,
     isError: isErrorCampaignTags,
     data: cpTags,
-    refetch: refetchCpTags,
   } = useGetCampaignsByCidTagsQuery({
-    cid: bug.campaign_id.toString() ?? '0',
+    cid: campaignId || '',
+  });
+
+  const {
+    data: bug,
+    isLoading: isLoadingBug,
+    isFetching: isFetchingBug,
+    isError: isErrorBug,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId || '',
+    bid: bugId.toString(),
   });
 
   useEffect(() => {
@@ -54,24 +52,29 @@ export default ({
   }, [cpTags, selectedOptions]);
 
   useEffect(() => {
-    setSelectedOptions(
-      bug.tags?.map((tag) => ({
-        id: tag.tag_id,
-        label: tag.name,
-      })) ?? []
-    );
-  }, [bugTags]);
+    if (bug?.tags) {
+      setSelectedOptions(
+        bug.tags?.map((tag) => ({
+          id: tag.tag_id,
+          label: tag.name,
+        })) ?? []
+      );
+    }
+  }, [bug?.tags]);
 
-  const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
-
-  if (isErrorCampaignTags) return null;
+  if (isErrorCampaignTags || isErrorBug) return null;
 
   return (
     <div>
       <MD style={{ marginBottom: appTheme.space.xxs }}>
         {t('__BUGS_PAGE_BUG_DETAIL_TAGS_LABEL')}
       </MD>
-      {!bug || !cpTags || isLoadingCampaignTags ? (
+      {!bug ||
+      !cpTags ||
+      isLoadingCampaignTags ||
+      isLoadingBug ||
+      isFetchingCampaignTags ||
+      isFetchingBug ? (
         <Skeleton
           height="30px"
           style={{ borderRadius: appTheme.borderRadii.md }}
@@ -138,13 +141,6 @@ export default ({
 
                   // Update options
                   setOptions(newOptions);
-
-                  // TODO: can we remove manual refetch and handle this via api tags?
-
-                  // Refetch cp tags to get the new ones
-                  refetchCpTags();
-                  // Refetch bug tags to get the new ones
-                  refetchBugTags?.();
                 })
                 .catch((err) => {
                   // eslint-disable-next-line no-console

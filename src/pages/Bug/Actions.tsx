@@ -74,7 +74,6 @@ export const Actions = () => {
     isLoading,
     isFetching,
     isError,
-    refetch,
   } = useGetCampaignsByCidBugsAndBidQuery({
     cid,
     bid,
@@ -120,10 +119,10 @@ export const Actions = () => {
       ) : (
         <>
           <GridWrapper>
-            <BugStateDropdown bug={bug} />
-            <BugPriority bug={bug} />
+            <BugStateDropdown bugId={parseInt(bid, 10)} />
+            <BugPriority bugId={parseInt(bid, 10)} />
           </GridWrapper>
-          <BugTags bug={bug} refetchBugTags={refetch} />
+          <BugTags bugId={parseInt(bid, 10)} />
         </>
       )}
       <ChatProvider
