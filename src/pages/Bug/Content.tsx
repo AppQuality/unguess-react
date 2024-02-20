@@ -23,9 +23,9 @@ export const Content = ({ bug, campaignId }: Props) => (
   <Container>
     <BugPreviewContextProvider>
       <BugHeader bug={bug} />
-      <BugMeta bug={bug} />
-      <AnchorButtons bug={bug} />
-      <BugDescription bug={bug} />
+      <BugMeta />
+      <AnchorButtons />
+      <BugDescription />
       {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
       <BugDetails bug={bug} />
       <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />

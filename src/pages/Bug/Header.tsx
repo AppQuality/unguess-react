@@ -125,7 +125,7 @@ export const Header = ({ campaignId, bug }: Props) => {
     <StyledContainer isNotBoxed>
       <PageHeader style={{ border: 'none' }}>
         <BreadCrumbs campaign={campaign}>
-          <ShareButton bug={bug}>
+          <ShareButton bugTitle={bug.title.full}>
             {(setModalOpen) => (
               <Button onClick={() => setModalOpen(true)}>
                 <Button.StartIcon>

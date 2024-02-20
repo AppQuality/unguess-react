@@ -1,12 +1,12 @@
 import {
+  Button,
+  Dots,
   IconButton,
+  MD,
   Modal,
   ModalClose,
-  MD,
   Span,
-  Dots,
   Tooltip,
-  Button,
 } from '@appquality/unguess-design-system';
 import {
   Dispatch,
@@ -16,24 +16,24 @@ import {
   useState,
 } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
-import { Bug } from 'src/features/api';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-lg-stroke.svg';
+import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
 import { useShareBug } from './hooks/useShareBug';
 
 export const ShareButton = ({
-  bug,
+  bugTitle,
   children,
 }: {
-  bug: Bug;
+  bugTitle: string;
   children?: (action: Dispatch<SetStateAction<boolean>>) => ReactElement;
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const { t } = useTranslation();
-
+  const currentBugId = getSelectedBugId();
   const { createLink, link, isLoading, isError } = useShareBug({
-    bid: bug.id,
+    bid: currentBugId ?? 0,
     reset: modalIsOpen,
   });
 
@@ -82,9 +82,9 @@ export const ShareButton = ({
               </Trans>
             </MD>
             <MD>
-              ID {bug.id}{' '}
+              ID {currentBugId}{' '}
               <Span isBold>
-                &quot;{bug.title.full}
+                &quot;{bugTitle}
                 &quot;
               </Span>
             </MD>

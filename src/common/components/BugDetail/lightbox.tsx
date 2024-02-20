@@ -104,8 +104,8 @@ export const LightboxContainer = ({
         </Lightbox.Body.Main>
         {hideDetails === false && (
           <Lightbox.Body.Details style={{ flex: 1 }}>
-            <BugMeta bug={bug} />
-            <BugDescription bug={bug} />
+            <BugMeta />
+            <BugDescription />
             <DetailsItems bug={bug} />
           </Lightbox.Body.Details>
         )}

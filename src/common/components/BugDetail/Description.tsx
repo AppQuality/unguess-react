@@ -1,8 +1,14 @@
-import { MD, TextDescription } from '@appquality/unguess-design-system';
-import { Bug } from 'src/features/api';
-import styled from 'styled-components';
+import {
+  MD,
+  Skeleton,
+  TextDescription,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { WrappedText } from 'src/common/components/WrappedText';
+import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
+import styled from 'styled-components';
 
 const Container = styled.div`
   display: inline-block;
@@ -22,18 +28,22 @@ const StyledLabel = styled(MD)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
-export default ({
-  bug,
-}: {
-  bug: Bug & {
-    reporter: {
-      tester_id: number;
-      name: string;
-    };
-  };
-}) => {
+export default () => {
   const { t } = useTranslation();
+  const { campaignId } = useParams();
+  const currentBugId = getSelectedBugId();
+  const {
+    data: bug,
+    isLoading,
+    isError,
+  } = useGetCampaignsByCidBugsAndBidQuery({
+    cid: campaignId ?? '',
+    bid: currentBugId ? currentBugId.toString() : '',
+  });
 
+  if (isError) return null;
+
+  if (!bug || isLoading) return <Skeleton />;
   return (
     <Container>
       <TextBlock>
