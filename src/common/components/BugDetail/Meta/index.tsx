@@ -51,7 +51,8 @@ function getDeviceIcon(device: string) {
 
 export default () => {
   const { campaignId } = useParams();
-  const currentBugId = getSelectedBugId();
+  const { bugId } = useParams();
+  const currentBugId = getSelectedBugId() ?? bugId;
   const {
     data: bug,
     isLoading,
@@ -61,7 +62,6 @@ export default () => {
     bid: currentBugId ? currentBugId.toString() : '',
   });
   if (isError) return null;
-
   if (!bug || isLoading) return <Skeleton />;
   return (
     <Container>
