@@ -66,7 +66,22 @@ export const Navigation = ({
     await updatePreference({
       prefid: `${notificationsPreference?.preference_id}`,
       body: { value },
-    });
+    })
+      .unwrap()
+      .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PROFILE_MODAL_NOTIFICATIONS_UPDATED')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
   };
 
   useEffect(() => {
