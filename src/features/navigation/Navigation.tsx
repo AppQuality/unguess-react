@@ -2,6 +2,7 @@ import {
   Content,
   Notification,
   ProfileModal,
+  Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
@@ -22,6 +23,10 @@ import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { Header } from '../../common/components/navigation/header/header';
 import { usePathWithoutLocale } from './usePathWithoutLocale';
+import {
+  useGetUsersMePreferencesQuery,
+  usePutUsersMePreferencesByPrefidMutation,
+} from '../api';
 
 const StyledContent = styled(Content)`
   height: 100%;
@@ -44,7 +49,26 @@ export const Navigation = ({
   const { activeWorkspace } = useActiveWorkspace();
   const { addToast } = useToast();
 
-  // Set isSidebarOpen to false for specific routes
+  const {
+    data: preferences,
+    isLoading: isLoadingPrefs,
+    isFetching: isFetchingPrefs,
+    isError,
+  } = useGetUsersMePreferencesQuery();
+
+  const notificationsPreference = preferences?.items?.find(
+    (preference) => preference?.name === 'notifications_enabled'
+  );
+
+  const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
+
+  const onSetSettings = async (value: number) => {
+    await updatePreference({
+      prefid: `${notificationsPreference?.preference_id}`,
+      body: { value },
+    });
+  };
+
   useEffect(() => {
     switch (route) {
       case 'service':
@@ -111,6 +135,22 @@ export const Navigation = ({
       title: t('__PROFILE_MODAL_PRIVACY_ITEM_LABEL'),
       url: 'https://www.iubenda.com/privacy-policy/833252/full-legal',
     },
+    settingValue: notificationsPreference?.value,
+    i18n: {
+      settingsTitle: t('__PROFILE_MODAL_NOTIFICATIONS_TITLE'),
+      settingsIntroText: t('__PROFILE_MODAL_NOTIFICATIONS_INTRO'),
+      settingsOutroText: {
+        paragraph_1: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_1'),
+        paragraph_2: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_2'),
+        paragraph_3: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_3'),
+      },
+      settingsToggle: {
+        title: t('__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_TITLE'),
+        on: t('__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_ON'),
+        off: t('__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_OFF'),
+      },
+    },
+    onSetSettings,
     onSelectLanguage: (lang: string) => {
       if (pathWithoutLocale === false) return;
       if (lang === i18n.language) return;
@@ -158,6 +198,12 @@ export const Navigation = ({
 
   if (!activeWorkspace) return null;
 
+  if (isLoadingPrefs || isFetchingPrefs) {
+    return <Skeleton />;
+  }
+  if (isError || !preferences) {
+    return null;
+  }
   return (
     <>
       <Header {...(isMinimal && { style: { display: 'none' } })} />
