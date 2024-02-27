@@ -89,6 +89,12 @@ unguessApi.enhanceEndpoints({
     deleteCampaignsByCidBugsAndBidCommentsCmid: {
       invalidatesTags: ['BugComments'],
     },
+    getUsersMePreferences: {
+      providesTags: ['Preferences'],
+    },
+    putUsersMePreferencesByPrefid: {
+      invalidatesTags: ['Preferences'],
+    },
     postCampaignsByCidBugsAndBidComments: {
       invalidatesTags: ['Bugs'],
       async onQueryStarted({ cid, bid }, { dispatch, queryFulfilled }) {

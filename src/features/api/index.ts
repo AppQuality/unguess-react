@@ -483,6 +483,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getUsersMePreferences: build.query<
+      GetUsersMePreferencesApiResponse,
+      GetUsersMePreferencesApiArg
+    >({
+      query: () => ({ url: `/users/me/preferences` }),
+    }),
+    putUsersMePreferencesByPrefid: build.mutation<
+      PutUsersMePreferencesByPrefidApiResponse,
+      PutUsersMePreferencesByPrefidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/me/preferences/${queryArg.prefid}`,
+        method: 'PUT',
+        body: queryArg.body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -1198,6 +1214,18 @@ export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg = {
   cmid: string;
   body: {};
 };
+export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
+  items?: UserPreference[];
+};
+export type GetUsersMePreferencesApiArg = void;
+export type PutUsersMePreferencesByPrefidApiResponse =
+  /** status 200 OK */ UserPreference;
+export type PutUsersMePreferencesByPrefidApiArg = {
+  prefid: string;
+  body: {
+    value: number;
+  };
+};
 export type Error = {
   message: string;
   code: number;
@@ -1576,6 +1604,11 @@ export type BugComment = {
     isInternal: boolean;
   };
 };
+export type UserPreference = {
+  preference_id: number;
+  value: number;
+  name: string;
+};
 export const {
   use$getQuery,
   usePostAuthenticateMutation,
@@ -1631,4 +1664,6 @@ export const {
   useGetCampaignsByCidBugsAndBidCommentsQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
+  useGetUsersMePreferencesQuery,
+  usePutUsersMePreferencesByPrefidMutation,
 } = injectedRtkApi;
