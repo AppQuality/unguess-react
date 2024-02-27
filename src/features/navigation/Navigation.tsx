@@ -213,7 +213,7 @@ export const Navigation = ({
 
   if (!activeWorkspace) return null;
 
-  if (isLoadingPrefs || isFetchingPrefs) {
+  if (isLoadingPrefs) {
     return <Skeleton />;
   }
   if (isError || !preferences) {
@@ -221,7 +221,11 @@ export const Navigation = ({
   }
   return (
     <>
-      <Header {...(isMinimal && { style: { display: 'none' } })} />
+      <Header
+        {...(isMinimal && {
+          style: { display: 'none', opacity: isFetchingPrefs ? 0.5 : 1 },
+        })}
+      />
       {isProfileModalOpen && (
         <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
       )}
