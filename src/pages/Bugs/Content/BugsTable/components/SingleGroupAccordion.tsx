@@ -40,15 +40,16 @@ const SingleGroupAccordion = ({
   footer,
 }: SingleGroupAccordionProps) => {
   const { t } = useTranslation();
-  const [isPreview, setIsPreview] = useState(true);
   const dispatch = useAppDispatch();
   const { width } = useWindowSize();
+  const [isPreview, setIsPreview] = useState(true);
 
   const breakpointLg = parseInt(appTheme.breakpoints.lg, 10);
   const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
   const isLgBreakpoint = width < breakpointLg;
   const isMdBreakpoint = width < breakpointMd;
 
+  // Force close bug details on mobile
   useEffect(() => {
     if (isLgBreakpoint) dispatch(selectBug({ bug_id: undefined }));
   }, [isLgBreakpoint]);

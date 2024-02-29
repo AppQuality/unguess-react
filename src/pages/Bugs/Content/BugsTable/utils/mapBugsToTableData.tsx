@@ -53,6 +53,7 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
   const { t } = useTranslation();
 
   if (!bugs) return [];
+
   return bugs.map((bug) => {
     const isPillBold = (currentBugId && currentBugId === bug.id) || !bug.read;
     const { priority: bugPriority } = bug;

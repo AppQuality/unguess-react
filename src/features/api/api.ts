@@ -28,6 +28,7 @@ export const apiSlice = createApi({
     'CustomStatuses',
     'Bug',
     'BugComments',
+    'Preferences',
   ],
   endpoints: () => ({}),
 });
