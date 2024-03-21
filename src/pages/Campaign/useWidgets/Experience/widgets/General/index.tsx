@@ -1,11 +1,14 @@
 import { Campaign } from 'src/features/api';
-import { Col, Grid, Row } from '@appquality/unguess-design-system';
+import { Col, Grid, IconButton, Row } from '@appquality/unguess-design-system';
+import { ReactComponent as LinkIcon } from 'src/pages/Campaign/useWidgets/Experience/widgets/Insights/Comments/assets/notes-stroke.svg';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { GoalCard } from './GoalCard';
 import { Methodology } from './Methodology';
 
@@ -30,6 +33,9 @@ export const CampaignInfo = ({
   isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
+  const uxDasboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/ux-dashboard`
+  );
 
   return (
     <Grid style={{ marginBottom: appTheme.space.xxl }} id={id}>
@@ -37,6 +43,15 @@ export const CampaignInfo = ({
         <Col xs={12} style={{ margin: 0 }}>
           <SectionTitle
             title={t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_TITLE')}
+            children={
+              isPreview ? undefined : (
+                <Link to={uxDasboardLink}>
+                  <IconButton size="small">
+                    <LinkIcon />
+                  </IconButton>
+                </Link>
+              )
+            }
             subtitle={t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_SUBTITLE')}
           />
           <Divider style={{ margin: `${appTheme.space.md} 0` }} />
