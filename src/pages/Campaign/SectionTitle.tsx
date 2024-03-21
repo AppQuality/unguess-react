@@ -5,10 +5,12 @@ export const SectionTitle = ({
   id,
   title,
   subtitle,
+  children,
 }: {
   title: string;
   id?: string;
   subtitle?: string;
+  children?: React.ReactNode;
 }) => (
   <>
     <XXL
@@ -19,7 +21,7 @@ export const SectionTitle = ({
         color: getColor(appTheme.palette.blue, 600),
       }}
     >
-      {title}
+      {title} {children}
     </XXL>
     {subtitle && <Paragraph>{subtitle}</Paragraph>}
   </>
