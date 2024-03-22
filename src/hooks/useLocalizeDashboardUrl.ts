@@ -66,13 +66,10 @@ export const getLocalizedBugUrl = (
 export const getLocalizedProjectUrl = (
   aProjectId: number,
   aLanguage: string
-): string => {
-  const location = window.location.host;
-
-  return aLanguage === 'en'
-    ? `${location}/projects/${aProjectId}`
-    : `${location}/it/projects/${aProjectId}`;
-};
+): string =>
+  aLanguage === 'en'
+    ? `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/projects/${aProjectId}`
+    : `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/it/projects/${aProjectId}`;
 
 export const getLocalizedCampaignUrl = (
   aCampaignId: number,
