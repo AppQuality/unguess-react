@@ -77,9 +77,7 @@ export const getLocalizedProjectUrl = (
 export const getLocalizedCampaignUrl = (
   aCampaignId: number,
   aLanguage: string
-): string => {
-  const location = window.location.host;
-  return aLanguage === 'en'
-    ? `${process.env.REACT_APP_CROWD_WP_URL}/campaigns/${aCampaignId}`
-    : `${process.env.REACT_APP_CROWD_WP_URL}/it/campaigns/${aCampaignId}`;
-};
+): string =>
+  aLanguage === 'en'
+    ? `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/campaigns/${aCampaignId}`
+    : `${process.env.REACT_APP_CROWD_WP_URL ?? ''}/it/campaigns/${aCampaignId}`;
