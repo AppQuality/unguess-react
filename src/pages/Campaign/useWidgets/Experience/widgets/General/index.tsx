@@ -33,9 +33,7 @@ export const CampaignInfo = ({
   isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
-  const uxDasboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/ux-dashboard`
-  );
+  const videoPageLink = useLocalizeRoute(`campaigns/${campaign.id}/videos`);
 
   return (
     <Grid style={{ marginBottom: appTheme.space.xxl }} id={id}>
@@ -43,17 +41,16 @@ export const CampaignInfo = ({
         <Col xs={12} style={{ margin: 0 }}>
           <SectionTitle
             title={t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_TITLE')}
-            children={
-              isPreview ? undefined : (
-                <Link to={uxDasboardLink}>
-                  <IconButton size="small">
-                    <LinkIcon />
-                  </IconButton>
-                </Link>
-              )
-            }
             subtitle={t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_SUBTITLE')}
-          />
+          >
+            {isPreview ? undefined : (
+              <Link to={videoPageLink}>
+                <IconButton size="small">
+                  <LinkIcon />
+                </IconButton>
+              </Link>
+            )}
+          </SectionTitle>
           <Divider style={{ margin: `${appTheme.space.md} 0` }} />
         </Col>
       </Row>

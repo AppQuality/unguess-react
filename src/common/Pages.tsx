@@ -21,7 +21,7 @@ import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import Service from 'src/pages/Service';
 import Catalog from 'src/pages/Services';
 import Manual from 'src/pages/Manual';
-import UxDashboard from 'src/pages/UxDashboard';
+import VideosPage from 'src/pages/VideosPage';
 import SentryWrapper from 'src/features/SentryWrapper';
 import { Redirect } from './Redirect';
 
@@ -84,8 +84,8 @@ const Pages = () => {
                     element={<Service />}
                   />
                   <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/ux-dashboard`}
-                    element={<UxDashboard />}
+                    path={`/${langPrefix}/campaigns/:campaignId/videos`}
+                    element={<VideosPage />}
                   />
                   {/* No route found */}
                   <Route
