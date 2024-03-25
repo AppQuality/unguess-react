@@ -109,7 +109,6 @@ export const CampaignSettings = () => {
       body: {
         email: values.email,
         redirect_url: campaignRoute,
-        locale: i18n.language,
         ...(values.message && { message: values.message }),
       },
     })

@@ -67,20 +67,18 @@ export const getLocalizedProjectUrl = (
   aProjectId: number,
   aLanguage: string
 ): string => {
-  const location = window.location.host;
-
+  const { host, protocol } = window.location;
   return aLanguage === 'en'
-    ? `${location}/projects/${aProjectId}`
-    : `${location}/it/projects/${aProjectId}`;
+    ? `${protocol}//${host}/projects/${aProjectId}`
+    : `${protocol}//${host}/it/projects/${aProjectId}`;
 };
 
 export const getLocalizedCampaignUrl = (
   aCampaignId: number,
   aLanguage: string
 ): string => {
-  const location = window.location.host;
-
+  const { host, protocol } = window.location;
   return aLanguage === 'en'
-    ? `${location}/campaigns/${aCampaignId}`
-    : `${location}/it/campaigns/${aCampaignId}`;
+    ? `${protocol}//${host}/campaigns/${aCampaignId}`
+    : `${protocol}//${host}/it/campaigns/${aCampaignId}`;
 };
