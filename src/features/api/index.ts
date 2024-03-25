@@ -281,6 +281,26 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getCampaignsByCidVideoTags: build.query<
+      GetCampaignsByCidVideoTagsApiResponse,
+      GetCampaignsByCidVideoTagsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/videoTags` }),
+    }),
+    getCampaignsByCidVideo: build.query<
+      GetCampaignsByCidVideoApiResponse,
+      GetCampaignsByCidVideoApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/video`,
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
+      }),
+    }),
     getCampaignsByCidWidgets: build.query<
       GetCampaignsByCidWidgetsApiResponse,
       GetCampaignsByCidWidgetsApiArg
@@ -967,6 +987,42 @@ export type GetCampaignsByCidUxApiArg = {
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
 };
+export type GetCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {
+  group?: {
+    id: number;
+    name: string;
+  };
+  tags: {
+    id: number;
+    name: string;
+    color: string;
+    usageNumber: number;
+  }[];
+}[];
+export type GetCampaignsByCidVideoTagsApiArg = {
+  cid: string;
+};
+export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
+  items: {
+    usecase: {
+      id: number;
+      title: string;
+      description: string;
+    };
+    videos: Video[];
+  }[];
+} & PaginationData;
+export type GetCampaignsByCidVideoApiArg = {
+  cid: string;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
+};
 export type GetCampaignsByCidWidgetsApiResponse =
   /** status 200 OK */
   | WidgetBugsByUseCase
@@ -1103,6 +1159,17 @@ export type PutUsersMePreferencesByPrefidApiArg = {
   body: {
     value: number;
   };
+};
+export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
+  robaOsservazione?: string;
+  tags?: {
+    id?: string;
+    name?: string;
+    groupId?: string;
+  }[];
+};
+export type GetVideoByVidObservationsApiArg = {
+  vid: string;
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
@@ -1542,6 +1609,21 @@ export type Tenant = {
     id?: number;
   };
 };
+export type Video = {
+  id: number;
+  url: string;
+  streamUrl?: string;
+  tester: {
+    id: number;
+    name: string;
+  };
+};
+export type PaginationData = {
+  start?: number;
+  size?: number;
+  limit?: number;
+  total?: number;
+};
 export type WidgetBugsByUseCase = {
   data: {
     title: {
@@ -1687,6 +1769,8 @@ export const {
   usePostCampaignsByCidUsersMutation,
   useDeleteCampaignsByCidUsersMutation,
   useGetCampaignsByCidUxQuery,
+  useGetCampaignsByCidVideoTagsQuery,
+  useGetCampaignsByCidVideoQuery,
   useGetCampaignsByCidWidgetsQuery,
   useGetMediaByIdQuery,
   usePostProjectsMutation,
