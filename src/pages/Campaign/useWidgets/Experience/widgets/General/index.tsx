@@ -1,14 +1,10 @@
 import { Campaign } from 'src/features/api';
-import { Col, Grid, IconButton, Row } from '@appquality/unguess-design-system';
-import { ReactComponent as LinkIcon } from 'src/pages/Campaign/useWidgets/Experience/widgets/Insights/Comments/assets/notes-stroke.svg';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { GoalCard } from './GoalCard';
 import { Methodology } from './Methodology';
 
@@ -33,7 +29,6 @@ export const CampaignInfo = ({
   isPreview?: boolean;
 }) => {
   const { t } = useTranslation();
-  const videoPageLink = useLocalizeRoute(`campaigns/${campaign.id}/videos`);
 
   return (
     <Grid style={{ marginBottom: appTheme.space.xxl }} id={id}>
@@ -42,15 +37,7 @@ export const CampaignInfo = ({
           <SectionTitle
             title={t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_TITLE')}
             subtitle={t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_SUBTITLE')}
-          >
-            {isPreview ? undefined : (
-              <Link to={videoPageLink}>
-                <IconButton size="small">
-                  <LinkIcon />
-                </IconButton>
-              </Link>
-            )}
-          </SectionTitle>
+          />
           <Divider style={{ margin: `${appTheme.space.md} 0` }} />
         </Col>
       </Row>
