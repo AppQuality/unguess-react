@@ -21,7 +21,7 @@ import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import Service from 'src/pages/Service';
 import Catalog from 'src/pages/Services';
 import Manual from 'src/pages/Manual';
-import VideosPage from 'src/pages/VideosPage';
+import VideosPage from 'src/pages/Videos';
 import SentryWrapper from 'src/features/SentryWrapper';
 import { Redirect } from './Redirect';
 
