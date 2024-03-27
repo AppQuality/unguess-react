@@ -1,16 +1,22 @@
 import { Page } from 'src/features/templates/Page';
+import VideosPageHeader from './PageHeader';
+import VideosPageContent from './Content';
 
-const VideosPage = () => (
-  <Page
-    title="Videos Page"
-    className="videos-page"
-    pageHeader={<>page header</>}
-    route="videos-page"
-    excludeMarginTop
-    excludeMarginBottom
-  >
-    page content
-  </Page>
-);
+const VideosPage = () => {
+  console.log('VideosPage');
+
+  return (
+    <Page
+      title="Videos Page"
+      className="videos-page"
+      pageHeader={<VideosPageHeader />}
+      route="videos-page"
+      excludeMarginTop
+      excludeMarginBottom
+    >
+      <VideosPageContent />
+    </Page>
+  );
+};
 
 export default VideosPage;
