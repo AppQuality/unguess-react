@@ -4,12 +4,13 @@ import { Skeleton } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import VideosPageHeader from './PageHeader';
 import VideosPageContent from './Content';
+import Empty from './Empty';
 
 const VideosPage = () => {
   const { campaignId } = useParams();
 
   const {
-    data: videos,
+    data: items,
     isFetching,
     isLoading,
     isError,
@@ -30,7 +31,7 @@ const VideosPage = () => {
         <Skeleton />
       ) : (
         <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-          {videos && <VideosPageContent items={videos} />}
+          {items ? <VideosPageContent items={items} /> : <Empty />}
         </div>
       )}
     </Page>
