@@ -1,41 +1,16 @@
 import { Page } from 'src/features/templates/Page';
-import { useGetCampaignsByCidVideoQuery } from 'src/features/api';
-import { Skeleton } from '@appquality/unguess-design-system';
-import { useParams } from 'react-router-dom';
 import VideosPageHeader from './PageHeader';
 import VideosPageContent from './Content';
-import Empty from './Empty';
 
-const VideosPage = () => {
-  const { campaignId } = useParams();
-
-  const {
-    data: items,
-    isFetching,
-    isLoading,
-    isError,
-  } = useGetCampaignsByCidVideoQuery({
-    cid: campaignId || '',
-  });
-
-  if (isError) return null;
-
-  return (
-    <Page
-      title="Videos Page"
-      className="videos-page"
-      pageHeader={<VideosPageHeader />}
-      route="videos"
-    >
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-          {items ? <VideosPageContent items={items} /> : <Empty />}
-        </div>
-      )}
-    </Page>
-  );
-};
+const VideosPage = () => (
+  <Page
+    title="Videos Page"
+    className="videos-page"
+    pageHeader={<VideosPageHeader />}
+    route="videos"
+  >
+    <VideosPageContent />
+  </Page>
+);
 
 export default VideosPage;
