@@ -1,4 +1,11 @@
-import { Col, Grid, Row, Skeleton } from '@appquality/unguess-design-system';
+import {
+  Col,
+  Grid,
+  LG,
+  Row,
+  Skeleton,
+  Span,
+} from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignsByCidVideoQuery } from 'src/features/api';
@@ -26,14 +33,13 @@ const VideosPageContent = () => {
       ) : (
         <div style={{ opacity: isFetching ? 0.5 : 1 }}>
           <Grid>
-            {data.items.map((item, index) => (
+            {data.items.map((item) => (
               <Row>
                 <Col>
-                  <h2>
-                    UseCase #{index + 1} ({item.videos.length} video)
-                  </h2>
-                  {item.usecase.title}
-                  {item.usecase.description}
+                  <LG>
+                    <Span isBold>{item.usecase.title}</Span> (
+                    {item.videos.length} video)
+                  </LG>
                   {item.videos.map((video) => (
                     <Video video={video} />
                   ))}
