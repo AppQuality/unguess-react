@@ -1,57 +1,48 @@
-import { Button, Col, Grid, Row } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
+import { Col, Grid, Row, Skeleton } from '@appquality/unguess-design-system';
+import { useParams } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useGetCampaignsByCidVideoQuery } from 'src/features/api';
+import Empty from './Empty';
+import { Video } from './Video';
 
-const VideosPageContent = ({
-  items: { items },
-}: {
-  items: GetCampaignsByCidVideoApiResponse;
-}) => {
+const VideosPageContent = () => {
   const { campaignId } = useParams();
-  const { t } = useTranslation();
+
+  const { data, isFetching, isLoading, isError } =
+    useGetCampaignsByCidVideoQuery({
+      cid: campaignId || '',
+    });
+
+  if ((!data && (!isLoading || !isFetching)) || isError) return null;
+
+  if (data && data.items.length === 0) {
+    return <Empty />;
+  }
 
   return (
     <LayoutWrapper>
-      <Grid>
-        {items.map((item, index) => (
-          <Row>
-            <Col>
-              <h2>
-                UseCase #{index + 1} ({item.videos.length} video)
-              </h2>
-              {item.usecase.title}
-              {item.usecase.description}
-              {item.videos.map((video) => {
-                const videoUrl = useLocalizeRoute(
-                  `campaigns/${campaignId}/videos/${video.id}`
-                );
-
-                return (
-                  <>
-                    <hr />
-                    <p>
-                      <p>{video.id}</p>
-                      <p>{video.url}</p>
-                      <p>{video.streamUrl}</p>
-                      <p>
-                        {video.tester.name} {video.tester.id}
-                      </p>
-                      <Link to={videoUrl}>
-                        <Button id="button-bugs-list-header" isPrimary isAccent>
-                          {t('__VIDEOS_PAGE_BUTTON_DETAIL_VIDEO')}
-                        </Button>
-                      </Link>
-                    </p>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-        ))}
-      </Grid>
+      {isLoading ? (
+        <Skeleton height="300px" style={{ borderRadius: 0 }} />
+      ) : (
+        <div style={{ opacity: isFetching ? 0.5 : 1 }}>
+          <Grid>
+            {data.items.map((item, index) => (
+              <Row>
+                <Col>
+                  <h2>
+                    UseCase #{index + 1} ({item.videos.length} video)
+                  </h2>
+                  {item.usecase.title}
+                  {item.usecase.description}
+                  {item.videos.map((video) => (
+                    <Video video={video} />
+                  ))}
+                </Col>
+              </Row>
+            ))}
+          </Grid>
+        </div>
+      )}
     </LayoutWrapper>
   );
 };
