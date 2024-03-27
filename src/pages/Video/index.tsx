@@ -1,15 +1,15 @@
 import { Page } from 'src/features/templates/Page';
+import VideoPageHeader from './PageHeader';
+import VideoPageContent from './Content';
 
 const VideoPage = () => (
   <Page
     title="Video Page"
     className="video-page"
-    pageHeader={<>page header</>}
-    route="video-page"
-    excludeMarginTop
-    excludeMarginBottom
+    pageHeader={<VideoPageHeader />}
+    route="video"
   >
-    page content
+    <VideoPageContent />
   </Page>
 );
 
