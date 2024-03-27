@@ -275,7 +275,17 @@ const injectedRtkApi = api.injectEndpoints({
       GetCampaignsByCidVideoTagsApiResponse,
       GetCampaignsByCidVideoTagsApiArg
     >({
-      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/videoTags` }),
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/video-tags` }),
+    }),
+    postCampaignsByCidVideoTags: build.mutation<
+      PostCampaignsByCidVideoTagsApiResponse,
+      PostCampaignsByCidVideoTagsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/video-tags`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
     }),
     getCampaignsByCidVideo: build.query<
       GetCampaignsByCidVideoApiResponse,
@@ -954,7 +964,7 @@ export type GetCampaignsByCidUxApiArg = {
   filterBy?: any;
 };
 export type GetCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {
-  group?: {
+  group: {
     id: number;
     name: string;
   };
@@ -967,6 +977,20 @@ export type GetCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {
 }[];
 export type GetCampaignsByCidVideoTagsApiArg = {
   cid: string;
+};
+export type PostCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {};
+export type PostCampaignsByCidVideoTagsApiArg = {
+  cid: string;
+  /** If there's a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
+  body: {
+    group: {
+      name: string;
+    };
+    tag: {
+      name: string;
+      style?: string;
+    };
+  };
 };
 export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
   items: {
@@ -1731,6 +1755,7 @@ export const {
   useDeleteCampaignsByCidUsersMutation,
   useGetCampaignsByCidUxQuery,
   useGetCampaignsByCidVideoTagsQuery,
+  usePostCampaignsByCidVideoTagsMutation,
   useGetCampaignsByCidVideoQuery,
   useGetCampaignsByCidWidgetsQuery,
   useGetMediaByIdQuery,
