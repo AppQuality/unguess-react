@@ -1,11 +1,11 @@
 import { Page } from 'src/features/templates/Page';
 
-const VideosPage = () => (
+const VideoPage = () => (
   <Page
-    title="Videos Page"
-    className="videos-page"
+    title="Video Page"
+    className="video-page"
     pageHeader={<>page header</>}
-    route="videos-page"
+    route="video-page"
     excludeMarginTop
     excludeMarginBottom
   >
@@ -13,4 +13,4 @@ const VideosPage = () => (
   </Page>
 );
 
-export default VideosPage;
+export default VideoPage;
