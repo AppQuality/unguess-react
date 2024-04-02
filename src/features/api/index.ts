@@ -197,6 +197,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/os` }),
     }),
+    getCampaignsByCidObservations: build.query<
+      GetCampaignsByCidObservationsApiResponse,
+      GetCampaignsByCidObservationsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/observations` }),
+    }),
     getCampaignsByCidPriorities: build.query<
       GetCampaignsByCidPrioritiesApiResponse,
       GetCampaignsByCidPrioritiesApiArg
@@ -850,6 +856,27 @@ export type GetCampaignsByCidOsApiArg = {
   /** Campaign id */
   cid: string;
 };
+export type GetCampaignsByCidObservationsApiResponse = /** status 200 OK */ {
+  id: number;
+  tags: {
+    id: number;
+    name: string;
+    style: string;
+  }[];
+  sentiments: {
+    id: number;
+    value: number;
+    comment: string;
+    cluster?: {
+      id?: number;
+      name?: string;
+    };
+  }[];
+}[];
+export type GetCampaignsByCidObservationsApiArg = {
+  /** Campaign id */
+  cid: string;
+};
 export type GetCampaignsByCidPrioritiesApiResponse =
   /** status 200 OK */ BugPriority[];
 export type GetCampaignsByCidPrioritiesApiArg = {
@@ -1005,7 +1032,7 @@ export type GetCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {
   tags: {
     id: number;
     name: string;
-    color: string;
+    style: string;
     usageNumber: number;
   }[];
 }[];
@@ -1184,16 +1211,57 @@ export type PutUsersMePreferencesByPrefidApiArg = {
     value: number;
   };
 };
-export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
-  robaOsservazione?: string;
-  tags?: {
-    id?: string;
-    name?: string;
-    groupId?: string;
-  }[];
+export type GetVideoByVidApiResponse = /** status 200 OK */ Video & {
+  usecase: {
+    id: number;
+    name: string;
+  };
+} & {
+  campaign: {
+    id: number;
+    name: string;
+  };
 };
+export type GetVideoByVidApiArg = {
+  vid: string;
+};
+export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
+  id: number;
+  title: string;
+  description: string;
+  start: number;
+  end: number;
+  tags: VideoTag[];
+}[];
 export type GetVideoByVidObservationsApiArg = {
   vid: string;
+};
+export type PostVideoByVidObservationsApiResponse =
+  /** status 200 OK */ Observation;
+export type PostVideoByVidObservationsApiArg = {
+  vid: string;
+  body: {
+    start: number;
+    end: number;
+  };
+};
+export type PatchVideoByVidObservationsAndOidApiResponse =
+  /** status 200 OK */ Observation;
+export type PatchVideoByVidObservationsAndOidApiArg = {
+  vid: string;
+  oid: string;
+  body: {
+    title?: string;
+    description?: string;
+    start?: number;
+    end?: number;
+    tags?: number[];
+  };
+};
+export type DeleteVideoByVidObservationsAndOidApiResponse = unknown;
+export type DeleteVideoByVidObservationsAndOidApiArg = {
+  vid: string;
+  oid: string;
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
@@ -1726,6 +1794,26 @@ export type UserPreference = {
   value: number;
   name: string;
 };
+export type VideoTag = {
+  group: {
+    id: number;
+    name: string;
+  };
+  tag: {
+    id: number;
+    name: string;
+    style: string;
+    usageNumber: number;
+  };
+};
+export type Observation = {
+  id: number;
+  title: string;
+  description: string;
+  start: number;
+  end: number;
+  tags: VideoTag[];
+};
 export type Workspace = {
   id: number;
   company: string;
@@ -1783,6 +1871,7 @@ export const {
   usePutCampaignsByCidFindingsAndFidMutation,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidOsQuery,
+  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidReportsQuery,
