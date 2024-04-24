@@ -1,43 +1,21 @@
-import { LG } from '@appquality/unguess-design-system';
-import { useParams } from 'react-router-dom';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import {
-  useGetCampaignsByCidQuery,
-  useGetCampaignsByCidVideoTagsQuery,
-} from 'src/features/api';
+import Actions from './Actions';
+import { VideoPlayer } from './components/Player';
 
-const VideoPageContent = () => {
-  const { campaignId, videoId } = useParams();
-
-  const {
-    data: campaign,
-    isFetching: isFetchingCampaign,
-    isLoading: isLoadingCampaign,
-    isError: isErrorCampaign,
-  } = useGetCampaignsByCidQuery({
-    cid: campaignId || '',
-  });
-
-  const {
-    data: videoTags,
-    isLoading: isLoadingVideoTags,
-    isFetching: isFetchingVideoTags,
-    isError: isErrorVideoTags,
-  } = useGetCampaignsByCidVideoTagsQuery({
-    cid: campaignId || '',
-  });
-
-  // GET /videos/{videoId}
-  // GET /videos/{videoId}/observations
-
-  console.log('campaign', campaign);
-  console.log('videoTags', videoTags);
-
-  return (
-    <LayoutWrapper>
-      <LG>Video #{videoId}</LG>
-    </LayoutWrapper>
-  );
-};
+const VideoPageContent = () => (
+  <LayoutWrapper isNotBoxed>
+    <Grid gutters="xxl">
+      <Row>
+        <Col lg={8}>
+          <VideoPlayer />
+        </Col>
+        <Col lg={4}>
+          <Actions />
+        </Col>
+      </Row>
+    </Grid>
+  </LayoutWrapper>
+);
 
 export default VideoPageContent;
