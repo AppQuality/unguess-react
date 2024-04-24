@@ -157,16 +157,6 @@ export interface paths {
       };
     };
   };
-  '/campaigns/{cid}/observations': {
-    /** Return all observations of a specific campaign */
-    get: operations['get-campaigns-cid-observations'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-  };
   '/campaigns/{cid}/priorities': {
     get: operations['get-campaigns-cid-priorities'];
     parameters: {
@@ -447,6 +437,27 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/insights': {
+    get: operations['get-insights'];
+    post: operations['post-insights'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/insights/{iid}': {
+    get: operations['get-insights-iid'];
+    delete: operations['delete-insights-iid'];
+    patch: operations['patch-insights-iid'];
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+  };
 }
 
 export interface components {
@@ -701,6 +712,22 @@ export interface components {
       os?: string;
       os_version?: string;
       type?: string;
+    };
+    /** Insight */
+    Insight: {
+      id: number;
+      title: string;
+      description: string;
+      severity: components['schemas']['BugSeverity'];
+      observations: (components['schemas']['Observation'] & {
+        video: {
+          id: number;
+          poster: string;
+          url: string;
+          streamUrl: string;
+        };
+      })[];
+      comment?: string;
     };
     /**
      * Output
@@ -1004,7 +1031,9 @@ export interface components {
       tester: {
         id: number;
         name: string;
+        surname: string;
       };
+      transcript?: components['schemas']['Transcript'];
     };
     /** Observation */
     Observation: {
@@ -1027,6 +1056,18 @@ export interface components {
         style: string;
         usageNumber: number;
       };
+    };
+    /** Transcript */
+    Transcript: {
+      speakers: number;
+      words: {
+        /** Format: float */
+        start: number;
+        /** Format: float */
+        end: number;
+        word: string;
+        speaker?: number;
+      }[];
     };
   };
   responses: {
@@ -1067,6 +1108,8 @@ export interface components {
     search: string;
     /** @description Custom Status id */
     csid: string;
+    /** @description Insight id */
+    iid: string;
   };
   requestBodies: {
     Credentials: {
@@ -1679,39 +1722,6 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  /** Return all observations of a specific campaign */
-  'get-campaigns-cid-observations': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            id: number;
-            tags: {
-              id: number;
-              name: string;
-              style: string;
-            }[];
-            sentiments: {
-              id: number;
-              value: number;
-              comment: string;
-              cluster?: {
-                id?: number;
-                name?: string;
-              };
-            }[];
-          }[];
-        };
-      };
-    };
-  };
   'get-campaigns-cid-priorities': {
     parameters: {
       path: {
@@ -2038,7 +2048,7 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': { [key: string]: unknown };
+          'application/json': components['schemas']['VideoTag'];
         };
       };
     };
@@ -2421,17 +2431,7 @@ export interface operations {
               id: number;
               name: string;
             };
-          } & {
-            campaign: {
-              id: number;
-              name: string;
-            };
           };
-        };
-      };
-      '': {
-        content: {
-          'application/json': { [key: string]: unknown };
         };
       };
     };
@@ -2849,6 +2849,119 @@ export interface operations {
           /** @description Tryber WP USER ID */
           user_id: number;
           include_shared?: boolean;
+        };
+      };
+    };
+  };
+  'get-insights': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'post-insights': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          title: string;
+          description?: string;
+          severity_id: number;
+          observations_ids: number[];
+          comment?: string;
+        };
+      };
+    };
+  };
+  'get-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'delete-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'patch-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          title?: string;
+          description?: string;
+          severity_id?: number;
+          observations_ids?: number[];
+          comment?: string;
         };
       };
     };
