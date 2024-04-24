@@ -187,12 +187,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/os` }),
     }),
-    getCampaignsByCidObservations: build.query<
-      GetCampaignsByCidObservationsApiResponse,
-      GetCampaignsByCidObservationsApiArg
-    >({
-      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/observations` }),
-    }),
     getCampaignsByCidPriorities: build.query<
       GetCampaignsByCidPrioritiesApiResponse,
       GetCampaignsByCidPrioritiesApiArg
@@ -573,6 +567,47 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postCampaignsByCidInsights: build.mutation<
+      PostCampaignsByCidInsightsApiResponse,
+      PostCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/insights`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getCampaignsByCidInsights: build.query<
+      GetCampaignsByCidInsightsApiResponse,
+      GetCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/insights` }),
+    }),
+    getInsightsByIid: build.query<
+      GetInsightsByIidApiResponse,
+      GetInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({ url: `/insights/${queryArg.iid}` }),
+    }),
+    deleteInsightsByIid: build.mutation<
+      DeleteInsightsByIidApiResponse,
+      DeleteInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'DELETE',
+      }),
+    }),
+    patchInsightsByIid: build.mutation<
+      PatchInsightsByIidApiResponse,
+      PatchInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -854,27 +889,6 @@ export type GetCampaignsByCidOsApiArg = {
   /** Campaign id */
   cid: string;
 };
-export type GetCampaignsByCidObservationsApiResponse = /** status 200 OK */ {
-  id: number;
-  tags: {
-    id: number;
-    name: string;
-    style: string;
-  }[];
-  sentiments: {
-    id: number;
-    value: number;
-    comment: string;
-    cluster?: {
-      id?: number;
-      name?: string;
-    };
-  }[];
-}[];
-export type GetCampaignsByCidObservationsApiArg = {
-  /** Campaign id */
-  cid: string;
-};
 export type GetCampaignsByCidPrioritiesApiResponse =
   /** status 200 OK */ BugPriority[];
 export type GetCampaignsByCidPrioritiesApiArg = {
@@ -1037,7 +1051,8 @@ export type GetCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {
 export type GetCampaignsByCidVideoTagsApiArg = {
   cid: string;
 };
-export type PostCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {};
+export type PostCampaignsByCidVideoTagsApiResponse =
+  /** status 200 OK */ VideoTag;
 export type PostCampaignsByCidVideoTagsApiArg = {
   cid: string;
   /** If there's a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
@@ -1211,11 +1226,6 @@ export type PutUsersMePreferencesByPrefidApiArg = {
 };
 export type GetVideoByVidApiResponse = /** status 200 OK */ Video & {
   usecase: {
-    id: number;
-    name: string;
-  };
-} & {
-  campaign: {
     id: number;
     name: string;
   };
@@ -1421,6 +1431,47 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     /** Tryber WP USER ID */
     user_id: number;
     include_shared?: boolean;
+  };
+};
+export type PostCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight;
+export type PostCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    title: string;
+    description?: string;
+    severity_id: number;
+    observations_ids: number[];
+    comment?: string;
+  };
+};
+export type GetCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight[];
+export type GetCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type GetInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
+export type DeleteInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type PatchInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type PatchInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+  body: {
+    title?: string;
+    description?: string;
+    severity_id?: number;
+    observations_ids?: number[];
+    comment?: string;
   };
 };
 export type Error = {
@@ -1695,6 +1746,27 @@ export type Tenant = {
     id?: number;
   };
 };
+export type VideoTag = {
+  group: {
+    id: number;
+    name: string;
+  };
+  tag: {
+    id: number;
+    name: string;
+    style: string;
+    usageNumber: number;
+  };
+};
+export type Transcript = {
+  speakers: number;
+  words: {
+    start: number;
+    end: number;
+    word: string;
+    speaker?: number;
+  }[];
+};
 export type Video = {
   id: number;
   url: string;
@@ -1702,7 +1774,9 @@ export type Video = {
   tester: {
     id: number;
     name: string;
+    surname: string;
   };
+  transcript?: Transcript;
 };
 export type PaginationData = {
   start?: number;
@@ -1788,18 +1862,6 @@ export type UserPreference = {
   value: number;
   name: string;
 };
-export type VideoTag = {
-  group: {
-    id: number;
-    name: string;
-  };
-  tag: {
-    id: number;
-    name: string;
-    style: string;
-    usageNumber: number;
-  };
-};
 export type Observation = {
   id: number;
   title: string;
@@ -1841,6 +1903,21 @@ export type Coin = {
   /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
+export type Insight = {
+  id: number;
+  title: string;
+  description: string;
+  severity: BugSeverity;
+  observations: (Observation & {
+    video: {
+      id: number;
+      poster: string;
+      url: string;
+      streamUrl: string;
+    };
+  })[];
+  comment?: string;
+};
 export const {
   use$getQuery,
   usePostAuthenticateMutation,
@@ -1864,7 +1941,6 @@ export const {
   usePutCampaignsByCidFindingsAndFidMutation,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidOsQuery,
-  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidReportsQuery,
@@ -1907,4 +1983,9 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
+  usePostCampaignsByCidInsightsMutation,
+  useGetCampaignsByCidInsightsQuery,
+  useGetInsightsByIidQuery,
+  useDeleteInsightsByIidMutation,
+  usePatchInsightsByIidMutation,
 } = injectedRtkApi;
