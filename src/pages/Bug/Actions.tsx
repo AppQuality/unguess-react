@@ -113,6 +113,7 @@ export const Actions = () => {
         console.warn('upload failed', e);
       });
   };
+  console.log('mediaIds', mediaIds);
 
   const createCommentHandler = useCallback(
     (editor, mentions) => {
@@ -139,7 +140,6 @@ export const Actions = () => {
           .unwrap()
           .then(() => {
             setIsSubmitting(false);
-            setMediaIds([]);
           })
           .catch(() => {
             setIsSubmitting(false);
