@@ -10,6 +10,7 @@ import { Divider } from 'src/common/components/divider';
 import {
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
+  usePostCampaignsByCidBugsAndBidMediaMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
 import { ChatBox } from './Chat';
@@ -81,6 +82,32 @@ export const Actions = () => {
   });
   const [createComment] = usePostCampaignsByCidBugsAndBidCommentsMutation();
 
+  const [uploadMedia] = usePostCampaignsByCidBugsAndBidMediaMutation();
+
+  const handleMediaUpload = async (files: File[]) => {
+    const formData = new FormData();
+
+    files.forEach((f) => {
+      // normalize filename
+      const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
+      formData.append('media', f, filename);
+    });
+
+    uploadMedia({
+      cid,
+      bid,
+      // @ts-ignore
+      body: formData,
+    })
+      .unwrap()
+      .then((data) => {
+        console.log('upload complete', data);
+      })
+      .catch((e) => {
+        console.log('upload failed', e);
+      });
+  };
+
   const createCommentHandler = useCallback(
     (editor, mentions) => {
       if (editor) {
@@ -129,6 +156,7 @@ export const Actions = () => {
       <ChatProvider
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
+        onFileUpload={(files) => handleMediaUpload(files)}
       >
         <Divider style={{ margin: `${appTheme.space.md} auto` }} />
         {isFetchingUsers || isLoadingUsers ? (
