@@ -555,6 +555,7 @@ export interface components {
       media?: {
         url: string;
         id: number;
+        type: string;
       }[];
     };
     /** BugCustomStatus */
