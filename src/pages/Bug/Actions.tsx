@@ -64,6 +64,7 @@ export const Actions = () => {
     [users]
   );
 
+  const [mediaIds, setMediaIds] = useState<{ id: number }[]>([]);
   const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -102,6 +103,16 @@ export const Actions = () => {
       .unwrap()
       .then((data) => {
         console.log('upload complete', data);
+        // {"uploaded_ids":[{"id":10},{"id":11}]}
+
+        if (data && data.uploaded_ids) {
+          data.uploaded_ids.forEach((e: { id: number }) => {
+            if (mediaIds.length === 0) setMediaIds([{ id: e.id }]);
+            setMediaIds((prev) => [...prev, { id: e.id }]);
+            console.log('element', e.id);
+            console.log('mediaIds', mediaIds);
+          });
+        }
       })
       .catch((e) => {
         console.log('upload failed', e);
