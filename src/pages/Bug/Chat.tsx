@@ -142,6 +142,24 @@ export const ChatBox = ({
                     )}
                     message={comment.text}
                     key={comment.id}
+                    media={
+                      (comment.media &&
+                        comment.media.map((media) => {
+                          if (media.type.includes('video')) {
+                            return {
+                              id: media.id,
+                              url: media.url,
+                              type: 'video',
+                            };
+                          }
+                          return {
+                            id: media.id,
+                            url: media.url,
+                            type: 'image',
+                          };
+                        })) ||
+                      undefined
+                    }
                   >
                     <>
                       <br />
