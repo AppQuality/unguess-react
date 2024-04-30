@@ -102,26 +102,22 @@ export const Actions = () => {
     })
       .unwrap()
       .then((data) => {
-        console.log('upload complete', data);
-        // {"uploaded_ids":[{"id":10},{"id":11}]}
-
         if (data && data.uploaded_ids) {
           data.uploaded_ids.forEach((e: { id: number }) => {
-            if (mediaIds.length === 0) setMediaIds([{ id: e.id }]);
             setMediaIds((prev) => [...prev, { id: e.id }]);
             console.log('element', e.id);
-            console.log('mediaIds', mediaIds);
           });
         }
       })
       .catch((e) => {
-        console.log('upload failed', e);
+        console.warn('upload failed', e);
       });
   };
 
   const createCommentHandler = useCallback(
     (editor, mentions) => {
       if (editor) {
+        console.log('medias', mediaIds);
         createComment({
           cid,
           bid,
@@ -133,11 +129,17 @@ export const Actions = () => {
                   id: mention.id,
                 })),
               }),
+            ...(mediaIds.length > 0 && {
+              media_id: mediaIds.map((media) => ({
+                id: media.id,
+              })),
+            }),
           },
         })
           .unwrap()
           .then(() => {
             setIsSubmitting(false);
+            setMediaIds([]);
           })
           .catch(() => {
             setIsSubmitting(false);
