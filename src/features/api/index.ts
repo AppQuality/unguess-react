@@ -1707,6 +1707,7 @@ export type BugComment = {
   media?: {
     url: string;
     id: number;
+    type: string;
   }[];
 };
 export type Cluster = {
