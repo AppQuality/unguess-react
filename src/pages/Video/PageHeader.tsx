@@ -45,10 +45,11 @@ const VideoPageHeader = () => {
 
   return (
     <LayoutWrapper isNotBoxed>
-      <PageHeader>
+      <PageHeader style={{ padding: 0 }}>
         <PageHeader.Main
           mainTitle={t('__VIDEO_PAGE_TITLE')}
           mainDescription={t('__VIDEO_PAGE_DESCRIPTION')}
+          style={{ padding: 0 }}
         >
           <PageHeader.Breadcrumbs>
             <Link to={campaignRoute}>
@@ -58,8 +59,8 @@ const VideoPageHeader = () => {
               <Anchor id="breadcrumb-parent">{t('__VIDEOS_PAGE_TITLE')}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
-          <PageHeader.Description>
-            <Span isBold>
+          <PageHeader.Description style={{ margin: 0 }}>
+            <Span isBold style={{ margin: 0 }}>
               {video.tester.name} {video.tester.surname}
             </Span>
           </PageHeader.Description>
