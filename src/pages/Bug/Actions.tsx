@@ -113,12 +113,10 @@ export const Actions = () => {
         console.warn('upload failed', e);
       });
   };
-  console.log('mediaIds', mediaIds);
 
   const createCommentHandler = useCallback(
     (editor, mentions) => {
       if (editor) {
-        console.log('medias', mediaIds);
         createComment({
           cid,
           bid,
@@ -140,13 +138,14 @@ export const Actions = () => {
           .unwrap()
           .then(() => {
             setIsSubmitting(false);
+            setMediaIds([]);
           })
           .catch(() => {
             setIsSubmitting(false);
           });
       }
     },
-    [cid, bid, bug]
+    [cid, bid, bug, mediaIds]
   );
 
   if (!bug || isError) return null;
