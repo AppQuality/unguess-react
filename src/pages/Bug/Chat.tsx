@@ -82,6 +82,8 @@ export const ChatBox = ({
     if (!editor?.isEmpty) {
       triggerSave();
       setIsSubmitting(true);
+    } else {
+      alert('Please enter a comment');
     }
     setIsSubmitting(false);
   };
