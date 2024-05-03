@@ -10,8 +10,24 @@ import * as Sentry from '@sentry/react';
 import { Navigation } from '../navigation/Navigation';
 
 const StyledMain = styled(Main)`
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.palette.grey[100]};
   margin: 0;
+  overflow: hidden;
+`;
+
+const Scrolling = styled.div`
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: ${({ theme }) =>
+    `calc(100vh - ${theme.components.chrome.header.height})`};
 `;
 
 const HeaderContainer = styled.div`
@@ -63,13 +79,13 @@ export const Logged = ({
         className="iubenda-cs-preferences-link"
       />
       <Chrome isFluid hue={appTheme.palette.white}>
-        <Body id="body" style={{ backgroundColor: appTheme.palette.grey[100] }}>
+        <Body id="body" style={{ overflow: 'hidden' }}>
           <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
-              <>
+              <Scrolling id="scrolling">
                 {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
                 {children}
-              </>
+              </Scrolling>
             </StyledMain>
           </Navigation>
         </Body>
