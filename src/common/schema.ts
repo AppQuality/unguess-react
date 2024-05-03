@@ -36,6 +36,15 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/bugTypes': {
+    get: operations['get-campaigns-cid-bug-types'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
   '/campaigns/{cid}/bugs': {
     get: operations['get-campaigns-cid-bugs'];
     parameters: {
@@ -57,6 +66,28 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/bugs/{bid}/comments': {
+    get: operations['get-campaigns-cid-bugs-bid-comments'];
+    post: operations['post-campaigns-cid-bugs-bid-comments'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: components['parameters']['bid'];
+      };
+    };
+  };
+  '/campaigns/{cid}/bugs/{bid}/comments/{cmid}': {
+    delete: operations['delete-campaigns-cid-bugs-bid-comments-cmid'];
+    parameters: {
+      path: {
+        cid: string;
+        bid: string;
+        cmid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/bugs/{bid}/siblings': {
     get: operations['get-campaigns-bug-siblings'];
     parameters: {
@@ -65,15 +96,6 @@ export interface paths {
         cid: string;
         /** Defines an identifier for the bug object (BUG ID) */
         bid: string;
-      };
-    };
-  };
-  '/campaigns/{cid}/bugTypes': {
-    get: operations['get-campaigns-cid-bug-types'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
       };
     };
   };
@@ -214,12 +236,40 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/video-tags': {
+    /** Retrieve all groups of public ux-tags for a specific campaign */
+    get: operations['get-campaigns-cid-video-tags'];
+    /** Add videoTags with groups to a specific campaign */
+    post: operations['post-campaigns-cid-video-tags'];
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/video': {
+    /** Return all published video for a specific campaign */
+    get: operations['get-campaigns-cid-video'];
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/widgets': {
     get: operations['get-campaigns-cid-widgets-wslug'];
     parameters: {
       path: {
         /** Campaign id */
         cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/media/{id}': {
+    get: operations['get-media-id'];
+    parameters: {
+      path: {
+        id: string;
       };
     };
   };
@@ -267,6 +317,48 @@ export interface paths {
   };
   '/users/me': {
     get: operations['get-users-me'];
+  };
+  '/users/me/preferences': {
+    get: operations['get-users-me-preferences'];
+  };
+  '/users/me/preferences/{prefid}': {
+    put: operations['put-users-me-preferences-prefid'];
+    parameters: {
+      path: {
+        prefid: string;
+      };
+    };
+  };
+  '/video/{vid}': {
+    /** Retrive single video data */
+    get: operations['get-video-vid'];
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+  };
+  '/video/{vid}/observations': {
+    /** Retrive all observations of a specific video */
+    get: operations['get-video-vid-observations'];
+    post: operations['post-video-vid-observations'];
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+  };
+  '/video/{vid}/observations/{oid}': {
+    /** delete an observation */
+    delete: operations['delete-video-vid-observations-oid'];
+    /** Update partial data of a video observation. */
+    patch: operations['patch-video-vid-observations-oid'];
+    parameters: {
+      path: {
+        vid: string;
+        oid: string;
+      };
+    };
   };
   '/workspaces': {
     get: operations['get-workspaces'];
@@ -345,6 +437,27 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/insights': {
+    get: operations['get-insights'];
+    post: operations['post-insights'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/insights/{iid}': {
+    get: operations['get-insights-iid'];
+    delete: operations['delete-insights-iid'];
+    patch: operations['patch-insights-iid'];
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+  };
 }
 
 export interface components {
@@ -417,6 +530,17 @@ export interface components {
       options: string[];
       /** @enum {string} */
       kind: 'select';
+    };
+    /** BugComment */
+    BugComment: {
+      id: number;
+      text: string;
+      creation_date: string;
+      creator: {
+        id: number;
+        name: string;
+        isInternal: boolean;
+      };
     };
     /** BugCustomStatus */
     BugCustomStatus: {
@@ -531,8 +655,8 @@ export interface components {
     };
     /** Cluster */
     Cluster: {
-      id?: number;
-      name?: string;
+      id: number;
+      name: string;
     };
     /**
      * Coin
@@ -588,6 +712,22 @@ export interface components {
       os?: string;
       os_version?: string;
       type?: string;
+    };
+    /** Insight */
+    Insight: {
+      id: number;
+      title: string;
+      description: string;
+      severity: components['schemas']['BugSeverity'];
+      observations: (components['schemas']['Observation'] & {
+        video: {
+          id: number;
+          poster: string;
+          url: string;
+          streamUrl: string;
+        };
+      })[];
+      comment?: string;
     };
     /**
      * Output
@@ -703,6 +843,20 @@ export interface components {
       id?: number;
       name: string;
     };
+    /** Tenant */
+    Tenant: {
+      /** @description tryber wp_user_id */
+      id: number;
+      profile_id: number;
+      name: string;
+      email: string;
+      invitationPending: boolean;
+      permissionFrom?: {
+        /** @enum {string} */
+        type?: 'workspace' | 'project';
+        id?: number;
+      };
+    };
     /** UseCase */
     UseCase: {
       title: string;
@@ -727,6 +881,12 @@ export interface components {
       unguess_wp_user_id: number;
       picture?: string;
       features?: components['schemas']['Feature'][];
+    };
+    /** UserPreference */
+    UserPreference: {
+      preference_id: number;
+      value: number;
+      name: string;
     };
     /**
      * WidgetBugsByDevice
@@ -853,23 +1013,65 @@ export interface components {
       /** @description Number of shared items */
       sharedItems?: number;
     };
-    /** Tenant */
-    Tenant: {
-      /** @description tryber wp_user_id */
+    /** PaginationData */
+    PaginationData: {
+      start?: number;
+      size?: number;
+      limit?: number;
+      total?: number;
+    };
+    /**
+     * Video
+     * @description Video uploaded from a user
+     */
+    Video: {
       id: number;
-      profile_id: number;
-      name: string;
-      email: string;
-      invitationPending: boolean;
-      permissionFrom?: {
-        /** @enum {string} */
-        type?: 'workspace' | 'project';
-        id?: number;
+      url: string;
+      streamUrl?: string;
+      tester: {
+        id: number;
+        name: string;
+        surname: string;
       };
+      transcript?: components['schemas']['Transcript'];
+    };
+    /** Observation */
+    Observation: {
+      id: number;
+      title: string;
+      description: string;
+      start: number;
+      end: number;
+      tags: components['schemas']['VideoTag'][];
+    };
+    /** VideoTag */
+    VideoTag: {
+      group: {
+        id: number;
+        name: string;
+      };
+      tag: {
+        id: number;
+        name: string;
+        style: string;
+        usageNumber: number;
+      };
+    };
+    /** Transcript */
+    Transcript: {
+      speakers: number;
+      words: {
+        /** Format: float */
+        start: number;
+        /** Format: float */
+        end: number;
+        word: string;
+        speaker?: number;
+      }[];
     };
   };
   responses: {
-    /** Example response */
+    /** Shared error response */
     Error: {
       content: {
         'application/json': components['schemas']['Error'];
@@ -906,6 +1108,8 @@ export interface components {
     search: string;
     /** @description Custom Status id */
     csid: string;
+    /** @description Insight id */
+    iid: string;
   };
   requestBodies: {
     Credentials: {
@@ -1073,6 +1277,25 @@ export interface operations {
       };
     };
   };
+  'get-campaigns-cid-bug-types': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugType'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
   'get-campaigns-cid-bugs': {
     parameters: {
       path: {
@@ -1105,6 +1328,7 @@ export interface operations {
                 tag_name: string;
               }[];
               siblings: number;
+              comments: number;
             })[];
             start?: number;
             limit?: number;
@@ -1133,9 +1357,9 @@ export interface operations {
       200: {
         content: {
           'application/json': components['schemas']['Bug'] & {
-            media?: components['schemas']['BugMedia'][];
-            tags?: components['schemas']['BugTag'][];
-            additional_fields?: components['schemas']['BugAdditionalField'][];
+            media: components['schemas']['BugMedia'][];
+            tags: components['schemas']['BugTag'][];
+            additional_fields: components['schemas']['BugAdditionalField'][];
             reporter: {
               tester_id: number;
               name: string;
@@ -1190,6 +1414,81 @@ export interface operations {
       };
     };
   };
+  'get-campaigns-cid-bugs-bid-comments': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: components['parameters']['bid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['BugComment'][];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'post-campaigns-cid-bugs-bid-comments': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: components['parameters']['bid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['BugComment'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          text: string;
+          mentioned?: {
+            id: number;
+          }[];
+        };
+      };
+    };
+  };
+  'delete-campaigns-cid-bugs-bid-comments-cmid': {
+    parameters: {
+      path: {
+        cid: string;
+        bid: string;
+        cmid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': { [key: string]: unknown };
+      };
+    };
+  };
   'get-campaigns-bug-siblings': {
     parameters: {
       path: {
@@ -1237,25 +1536,6 @@ export interface operations {
       };
       400: components['responses']['Error'];
       401: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'get-campaigns-cid-bug-types': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['BugType'][];
-        };
-      };
-      400: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
     };
@@ -1730,6 +2010,98 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  /** Retrieve all groups of public ux-tags for a specific campaign */
+  'get-campaigns-cid-video-tags': {
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            group: {
+              id: number;
+              name: string;
+            };
+            tags: {
+              id: number;
+              name: string;
+              style: string;
+              usageNumber: number;
+            }[];
+          }[];
+        };
+      };
+    };
+  };
+  /** Add videoTags with groups to a specific campaign */
+  'post-campaigns-cid-video-tags': {
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['VideoTag'];
+        };
+      };
+    };
+    /** If there's a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
+    requestBody: {
+      content: {
+        'application/json': {
+          group: {
+            name: string;
+          };
+          tag: {
+            name: string;
+            style?: string;
+          };
+        };
+      };
+    };
+  };
+  /** Return all published video for a specific campaign */
+  'get-campaigns-cid-video': {
+    parameters: {
+      path: {
+        cid: string;
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: {
+              usecase: {
+                id: number;
+                title: string;
+                description: string;
+              };
+              videos: components['schemas']['Video'][];
+            }[];
+          } & components['schemas']['PaginationData'];
+        };
+      };
+    };
+  };
   'get-campaigns-cid-widgets-wslug': {
     parameters: {
       path: {
@@ -1759,6 +2131,17 @@ export interface operations {
       401: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'get-media-id': {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Found */
+      302: never;
     };
   };
   'post-projects': {
@@ -1837,6 +2220,10 @@ export interface operations {
         limit?: components['parameters']['limit'];
         /** Start pagination parameter */
         start?: components['parameters']['start'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
       };
     };
     responses: {
@@ -1853,18 +2240,7 @@ export interface operations {
         };
       };
       400: components['responses']['Error'];
-      /** Unauthorized */
-      401: {
-        content: {
-          'application/json': {
-            items?: components['schemas']['Campaign'][];
-            start?: number;
-            limit?: number;
-            size?: number;
-            total?: number;
-          };
-        };
-      };
+      401: components['responses']['Error'];
       403: components['responses']['Error'];
       404: components['responses']['Error'];
       500: components['responses']['Error'];
@@ -1997,6 +2373,154 @@ export interface operations {
       };
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'get-users-me-preferences': {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items?: components['schemas']['UserPreference'][];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'put-users-me-preferences-prefid': {
+    parameters: {
+      path: {
+        prefid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['UserPreference'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          value: number;
+        };
+      };
+    };
+  };
+  /** Retrive single video data */
+  'get-video-vid': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Video'] & {
+            usecase: {
+              id: number;
+              name: string;
+            };
+          };
+        };
+      };
+    };
+  };
+  /** Retrive all observations of a specific video */
+  'get-video-vid-observations': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            title: string;
+            description: string;
+            start: number;
+            end: number;
+            tags: components['schemas']['VideoTag'][];
+          }[];
+        };
+      };
+    };
+  };
+  'post-video-vid-observations': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Observation'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          start: number;
+          end: number;
+        };
+      };
+    };
+  };
+  /** delete an observation */
+  'delete-video-vid-observations-oid': {
+    parameters: {
+      path: {
+        vid: string;
+        oid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+    };
+  };
+  /** Update partial data of a video observation. */
+  'patch-video-vid-observations-oid': {
+    parameters: {
+      path: {
+        vid: string;
+        oid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Observation'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          title?: string;
+          description?: string;
+          start?: number;
+          end?: number;
+          tags?: number[];
+        };
+      };
     };
   };
   'get-workspaces': {
@@ -2325,6 +2849,119 @@ export interface operations {
           /** @description Tryber WP USER ID */
           user_id: number;
           include_shared?: boolean;
+        };
+      };
+    };
+  };
+  'get-insights': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'post-insights': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          title: string;
+          description?: string;
+          severity_id: number;
+          observations_ids: number[];
+          comment?: string;
+        };
+      };
+    };
+  };
+  'get-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'delete-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'patch-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          title?: string;
+          description?: string;
+          severity_id?: number;
+          observations_ids?: number[];
+          comment?: string;
         };
       };
     };

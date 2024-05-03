@@ -83,101 +83,94 @@ export const ReportRow = ({
   const { id: campaignId, customer_title } = campaign;
 
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <Row id="reports">
-        {reports && reports.length ? (
-          <Col xs={12}>
-            <SectionTitle
-              title={t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
-              subtitle={t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}
-            />
-          </Col>
-        ) : null}
-        {reports && reports.length
-          ? reports.map((report) =>
-              report === 'bugreport' ? (
-                <Col xs={12} sm={6} md={4} xl={3}>
-                  <BugsReportCard
-                    campaignId={campaignId}
-                    title={customer_title}
-                  />
-                </Col>
-              ) : (
-                <Col xs={12} sm={6} md={4} xl={3}>
-                  <SpecialCard>
-                    <SpecialCard.Meta
-                      justifyContent="start"
-                      style={{ fontSize: theme.fontSizes.sm }}
-                    >
-                      {report.update_date ? (
-                        <>
-                          {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPDATED_ON_LABEL')}{' '}
-                          {format(new Date(report.update_date), 'dd/MM/yyyy')}
-                        </>
-                      ) : (
-                        <>
-                          {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPLOADED_ON_LABEL')}{' '}
-                          {format(
-                            new Date(report.creation_date ?? ''),
-                            'dd/MM/yyyy'
-                          )}
-                        </>
-                      )}
-                    </SpecialCard.Meta>
+    <Row id="reports">
+      {reports && reports.length ? (
+        <Col xs={12}>
+          <SectionTitle
+            title={t('__CAMPAIGN_PAGE_REPORTS_TITLE')}
+            subtitle={t('__CAMPAIGN_PAGE_REPORTS_DESCRIPTION')}
+          />
+        </Col>
+      ) : null}
+      {reports && reports.length
+        ? reports.map((report) =>
+            report === 'bugreport' ? (
+              <Col xs={12} sm={6} md={4} xl={3}>
+                <BugsReportCard
+                  campaignId={campaignId}
+                  title={customer_title}
+                />
+              </Col>
+            ) : (
+              <Col xs={12} sm={6} md={4} xl={3}>
+                <SpecialCard>
+                  <SpecialCard.Meta
+                    justifyContent="start"
+                    style={{ fontSize: theme.fontSizes.sm }}
+                  >
+                    {report.update_date ? (
+                      <>
+                        {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPDATED_ON_LABEL')}{' '}
+                        {format(new Date(report.update_date), 'dd/MM/yyyy')}
+                      </>
+                    ) : (
+                      <>
+                        {t('__CAMPAIGN_PAGE_REPORTS_CARDS_UPLOADED_ON_LABEL')}{' '}
+                        {format(
+                          new Date(report.creation_date ?? ''),
+                          'dd/MM/yyyy'
+                        )}
+                      </>
+                    )}
+                  </SpecialCard.Meta>
 
-                    <SpecialCard.Thumb>
-                      {getFileTypeIcon(
+                  <SpecialCard.Thumb>
+                    {getFileTypeIcon(report.file_type?.type ?? '', report.url)}
+                  </SpecialCard.Thumb>
+
+                  <SpecialCard.Header>
+                    <SpecialCard.Header.Label>
+                      {getFileTypeName(
                         report.file_type?.type ?? '',
                         report.url
                       )}
-                    </SpecialCard.Thumb>
+                    </SpecialCard.Header.Label>
+                    <SpecialCard.Header.Title>
+                      {report.title}
+                    </SpecialCard.Header.Title>
+                  </SpecialCard.Header>
 
-                    <SpecialCard.Header>
-                      <SpecialCard.Header.Label>
-                        {getFileTypeName(
-                          report.file_type?.type ?? '',
-                          report.url
-                        )}
-                      </SpecialCard.Header.Label>
-                      <SpecialCard.Header.Title>
-                        {report.title}
-                      </SpecialCard.Header.Title>
-                    </SpecialCard.Header>
-
-                    <SpecialCard.Footer
-                      direction="column"
-                      justifyContent="center"
+                  <SpecialCard.Footer
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Button
+                      className={`report-btn report-btn-${
+                        report.file_type?.type === 'link' ? 'link' : 'download'
+                      } report-btn-${report.file_type?.type ?? ''}`}
+                      isStretched
+                      onClick={() => {
+                        // eslint-disable-next-line security/detect-non-literal-fs-filename
+                        window.open(report.url || '', '_blank');
+                      }}
                     >
-                      <Button
-                        className={`report-btn report-btn-${
-                          report.file_type?.type === 'link'
-                            ? 'link'
-                            : 'download'
-                        } report-btn-${report.file_type?.type ?? ''}`}
-                        isStretched
-                        onClick={() => {
-                          // eslint-disable-next-line security/detect-non-literal-fs-filename
-                          window.open(report.url || '', '_blank');
-                        }}
-                      >
-                        <Button.StartIcon>
-                          {report.file_type?.type === 'link' ? (
-                            <OpenLinkIcon />
-                          ) : (
-                            <DownloadIcon />
-                          )}
-                        </Button.StartIcon>
-                        {report.file_type?.type === 'link'
-                          ? t('__CAMPAIGN_PAGE_REPORTS_CARDS_OPEN_LINK_LABEL')
-                          : t('__CAMPAIGN_PAGE_REPORTS_CARDS_DOWNLOAD_LABEL')}
-                      </Button>
-                    </SpecialCard.Footer>
-                  </SpecialCard>
-                </Col>
-              )
+                      <Button.StartIcon>
+                        {report.file_type?.type === 'link' ? (
+                          <OpenLinkIcon />
+                        ) : (
+                          <DownloadIcon />
+                        )}
+                      </Button.StartIcon>
+                      {report.file_type?.type === 'link'
+                        ? t('__CAMPAIGN_PAGE_REPORTS_CARDS_OPEN_LINK_LABEL')
+                        : t('__CAMPAIGN_PAGE_REPORTS_CARDS_DOWNLOAD_LABEL')}
+                    </Button>
+                  </SpecialCard.Footer>
+                </SpecialCard>
+              </Col>
             )
-          : null}
-      </Row>
-    </div>
+          )
+        : null}
+    </Row>
   );
 };

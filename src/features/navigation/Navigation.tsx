@@ -20,7 +20,7 @@ import {
 } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 import { Header } from '../../common/components/navigation/header/header';
 import { usePathWithoutLocale } from './usePathWithoutLocale';
 import {
@@ -29,7 +29,7 @@ import {
 } from '../api';
 
 const StyledContent = styled(Content)`
-  height: 100%;
+  height: calc(100% - ${({ theme }) => theme.components.chrome.header.height});
 `;
 
 export const Navigation = ({

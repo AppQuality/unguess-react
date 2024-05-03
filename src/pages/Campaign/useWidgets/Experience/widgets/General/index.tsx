@@ -5,7 +5,6 @@ import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-
 import { GoalCard } from './GoalCard';
 import { Methodology } from './Methodology';
 
