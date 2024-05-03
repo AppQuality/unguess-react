@@ -3,6 +3,7 @@ import { GetVideoByVidObservationsApiResponse } from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { useState } from 'react';
 import { appTheme } from 'src/app/theme';
+import { ObservationForm } from './ObservationForm';
 
 const Observation = ({
   observation,
@@ -65,7 +66,7 @@ const Observation = ({
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
-          <p>Form</p>
+          <ObservationForm onSubmit={() => alert('submit')} />
         </Accordion.Panel>
       </Accordion.Section>
     </Accordion>
