@@ -20,12 +20,17 @@ import {
 } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
+import { styled } from 'styled-components';
 import { Header } from '../../common/components/navigation/header/header';
 import { usePathWithoutLocale } from './usePathWithoutLocale';
 import {
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesByPrefidMutation,
 } from '../api';
+
+const StyledContent = styled(Content)`
+  height: calc(100% - ${({ theme }) => theme.components.chrome.header.height});
+`;
 
 export const Navigation = ({
   children,
@@ -224,7 +229,7 @@ export const Navigation = ({
       {isProfileModalOpen && (
         <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
       )}
-      <Content>
+      <StyledContent>
         <AppSidebar
           route={
             route === 'projects' && parameter !== ''
@@ -235,7 +240,7 @@ export const Navigation = ({
           {...(isMinimal && { style: { display: 'none' } })}
         />
         {children}
-      </Content>
+      </StyledContent>
     </>
   );
 };

@@ -12,22 +12,9 @@ import { Navigation } from '../navigation/Navigation';
 const StyledMain = styled(Main)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
   margin: 0;
-  overflow: hidden;
-`;
-
-const Scrolling = styled.div`
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-
   overflow-y: auto;
   overflow-x: hidden;
-  height: ${({ theme }) =>
-    `calc(100vh - ${theme.components.chrome.header.height})`};
+  height: 100%;
 `;
 
 const HeaderContainer = styled.div`
@@ -82,10 +69,8 @@ export const Logged = ({
         <Body id="body" style={{ overflow: 'hidden' }}>
           <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
-              <Scrolling id="scrolling">
-                {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
-                {children}
-              </Scrolling>
+              {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
+              {children}
             </StyledMain>
           </Navigation>
         </Body>
