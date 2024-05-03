@@ -20,13 +20,13 @@ const VideosPageContent = () => {
       cid: campaignId || '',
     });
 
-  if ((!data && (!isLoading || !isFetching)) || isError) return null;
+  if (isError) return null;
 
-  if (!data || data.items.length === 0) {
+  if (data && data.items.length === 0) {
     return <Empty />;
   }
 
-  const usecases = data.items.filter((item) => item.videos.length > 0);
+  const usecases = data?.items.filter((item) => item.videos.length > 0);
 
   return (
     <LayoutWrapper>
@@ -35,7 +35,7 @@ const VideosPageContent = () => {
       ) : (
         <div style={{ opacity: isFetching ? 0.5 : 1 }}>
           <Grid>
-            {usecases.map((item) => (
+            {usecases?.map((item) => (
               <Row>
                 <Col>
                   <LG>
