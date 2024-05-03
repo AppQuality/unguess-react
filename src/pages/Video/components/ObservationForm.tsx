@@ -20,3 +20,5 @@ const ObservationForm = ({
 
   return <>Form</>;
 };
+
+export { ObservationForm };
