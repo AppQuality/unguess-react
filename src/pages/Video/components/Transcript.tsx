@@ -33,7 +33,7 @@ const Transcript = () => {
   return (
     <StyledContainerCard>
       <LG>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
-      <Paragraph>{video.transcript}</Paragraph>
+      <Paragraph>Transcript</Paragraph>
     </StyledContainerCard>
   );
 };
