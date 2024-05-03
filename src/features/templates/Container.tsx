@@ -4,8 +4,6 @@ export const Container = styled.div<{
   excludeMarginTop?: boolean;
   excludeMarginBottom?: boolean;
 }>`
-  height: ${({ theme }) =>
-    `calc(100vh + ${theme.components.chrome.header.height} + ${theme.space.xxl})`};
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: ${({ theme }) => theme.space.xxl} 0;
