@@ -29,6 +29,7 @@ export const apiSlice = createApi({
     'Bug',
     'BugComments',
     'Preferences',
+    'VideoTags',
   ],
   endpoints: () => ({}),
 });

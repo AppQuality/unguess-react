@@ -114,6 +114,12 @@ unguessApi.enhanceEndpoints({
         }
       },
     },
+    getCampaignsByCidVideoTags: {
+      providesTags: ['VideoTags'],
+    },
+    postCampaignsByCidVideoTags: {
+      invalidatesTags: ['VideoTags'],
+    },
   },
 });
 

@@ -22,6 +22,7 @@ import {
   GetCampaignsByCidVideoTagsApiResponse,
   GetVideoByVidObservationsApiResponse,
   useGetCampaignsByCidVideoTagsQuery,
+  usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
 import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useRef, useState } from 'react';
@@ -70,6 +71,7 @@ const ObservationForm = ({
   const [selectedOptions, setSelectedOptions] = useState<
     { id: number; label: string }[]
   >([]);
+  const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
 
   const {
     data: tags,
@@ -265,14 +267,33 @@ const ObservationForm = ({
                       )} "${value}"`,
                   }}
                   onChange={async (availableTags, newTag) => {
-                    console.log(
-                      'selectedTags',
-                      availableTags.filter((o) => o.selected)
-                    );
-                    console.log('newTag', newTag);
-
                     setSelectedOptions(availableTags.filter((o) => o.selected));
-                    // TODO: handle new tag
+                    if (newTag)
+                      addVideoTags({
+                        cid: campaignId?.toString() || '0',
+                        body: {
+                          group: {
+                            name: 'tags',
+                          },
+                          tag: {
+                            name: newTag,
+                          },
+                        },
+                      })
+                        .unwrap()
+                        .then((res) => {
+                          setSelectedOptions([
+                            ...selectedOptions,
+                            {
+                              id: res.tag.id,
+                              label: res.tag.name,
+                            },
+                          ]);
+                        })
+                        .catch((err) => {
+                          // eslint-disable-next-line no-console
+                          console.error(err);
+                        });
                   }}
                 />
               )}
