@@ -6,7 +6,6 @@ import {
   useGetVideoByVidQuery,
 } from 'src/features/api';
 import { Divider } from 'src/common/components/divider';
-import { Pipe } from 'src/common/components/Pipe';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { NoObservations } from './components/NoObservations';
