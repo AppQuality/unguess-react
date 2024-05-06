@@ -19,6 +19,9 @@ const Container = styled.div`
   width: 100%;
   background-color: white;
   height: 100%;
+  min-height: calc(
+    100vh - ${({ theme }) => theme.components.chrome.header.height}
+  );
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
