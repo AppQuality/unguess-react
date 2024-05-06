@@ -5,14 +5,14 @@ import { VideoPlayer } from './components/Player';
 import { Transcript } from './components/Transcript';
 
 const VideoPageContent = () => (
-  <LayoutWrapper isNotBoxed>
+  <LayoutWrapper isNotBoxed style={{ paddingRight: 0 }}>
     <Grid gutters="xxl">
       <Row>
         <Col lg={8}>
           <VideoPlayer />
           <Transcript />
         </Col>
-        <Col lg={4}>
+        <Col lg={4} style={{ paddingRight: 0 }}>
           <Actions />
         </Col>
       </Row>
