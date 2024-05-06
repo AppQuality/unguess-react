@@ -27,15 +27,13 @@ const Observation = ({
     setIsOpen(false);
   };
 
-  const handleCancel = () => {
-    setIsOpen(false);
-  };
+  const handleDelete = () => {};
 
   return (
     <Accordion
       level={3}
       style={{ padding: 0, marginBottom: appTheme.space.md }}
-      key={`details_accordion_${isOpen}`}
+      key={`observation_accordion_${observation.id}_${isOpen}`}
       defaultExpandedSections={isOpen ? [0, 1] : []}
       onChange={handleAccordionChange}
     >
@@ -75,7 +73,7 @@ const Observation = ({
           <ObservationForm
             observation={observation}
             onSubmit={handleSubmit}
-            onCancel={handleCancel}
+            onDelete={handleDelete}
           />
         </Accordion.Panel>
       </Accordion.Section>
