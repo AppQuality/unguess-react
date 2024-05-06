@@ -17,7 +17,6 @@ import {
 import i18n from 'src/i18n';
 import { styled } from 'styled-components';
 import { DeleteCommentModal } from './DeleteCommentModal';
-import { bindActionCreators } from '@reduxjs/toolkit';
 
 const ButtonsContainer = styled.div`
   padding: 0px 16px;
