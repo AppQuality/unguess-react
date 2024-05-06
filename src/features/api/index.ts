@@ -107,6 +107,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postCampaignsByCidBugsAndBidMedia: build.mutation<
+      PostCampaignsByCidBugsAndBidMediaApiResponse,
+      PostCampaignsByCidBugsAndBidMediaApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/media`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     deleteCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse,
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg
@@ -772,6 +782,28 @@ export type PostCampaignsByCidBugsAndBidCommentsApiArg = {
     mentioned?: {
       id: number;
     }[];
+    media_id?: {
+      id: number;
+    }[];
+  };
+};
+export type PostCampaignsByCidBugsAndBidMediaApiResponse =
+  /** status 200 OK */ {
+    failed?: {
+      name: string;
+      errorCode: 'FILE_TOO_BIG' | 'INVALID_FILE_EXTENSION' | 'GENERIC_ERROR';
+    }[];
+    uploaded_ids?: {
+      id: number;
+    }[];
+  };
+export type PostCampaignsByCidBugsAndBidMediaApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+  body: {
+    media: string | string[];
   };
 };
 export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =
@@ -1701,6 +1733,11 @@ export type BugComment = {
     name: string;
     isInternal: boolean;
   };
+  media?: {
+    url: string;
+    id: number;
+    type: string;
+  }[];
 };
 export type Cluster = {
   id: number;
@@ -1931,6 +1968,7 @@ export const {
   usePatchCampaignsByCidBugsAndBidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
+  usePostCampaignsByCidBugsAndBidMediaMutation,
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidClustersQuery,
