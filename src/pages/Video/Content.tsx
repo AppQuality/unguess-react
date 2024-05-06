@@ -12,7 +12,7 @@ const VideoPageContent = () => (
           <VideoPlayer />
           <Transcript />
         </Col>
-        <Col lg={4} style={{ paddingRight: 0 }}>
+        <Col lg={4}>
           <Actions />
         </Col>
       </Row>
