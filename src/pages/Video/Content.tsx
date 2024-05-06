@@ -8,11 +8,11 @@ const VideoPageContent = () => (
   <LayoutWrapper isNotBoxed style={{ paddingRight: 0 }}>
     <Grid gutters="xxl">
       <Row>
-        <Col lg={8}>
+        <Col lg={8} style={{ margin: 0 }}>
           <VideoPlayer />
           <Transcript />
         </Col>
-        <Col lg={4}>
+        <Col lg={4} style={{ margin: 0 }}>
           <Actions />
         </Col>
       </Row>
