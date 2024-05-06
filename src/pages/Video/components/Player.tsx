@@ -1,8 +1,9 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LG, Player, Skeleton } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { useGetVideoByVidQuery } from 'src/features/api';
 import { styled } from 'styled-components';
+import { Transcript } from './Transcript';
 
 const PlayerContainer = styled.div`
   width: 100%;
@@ -21,6 +22,23 @@ const VideoPlayer = () => {
   } = useGetVideoByVidQuery({
     vid: videoId || '',
   });
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.addEventListener('timeupdate', () => {
+        setCurrentTime(videoRef.current?.currentTime || 0);
+      });
+    }
+
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.removeEventListener('timeupdate', () => {
+          setCurrentTime(videoRef.current?.currentTime || 0);
+        });
+      }
+    };
+  }, [videoRef]);
 
   if (!video || isErrorVideo) return null;
 
@@ -32,6 +50,7 @@ const VideoPlayer = () => {
       <PlayerContainer>
         <Player ref={videoRef} url={video.url} />
       </PlayerContainer>
+      <Transcript currentTime={currentTime} />
     </>
   );
 };

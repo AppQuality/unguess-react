@@ -1,9 +1,22 @@
-import { ContainerCard, LG, Skeleton } from '@appquality/unguess-design-system';
+import {
+  Button,
+  ContainerCard,
+  Highlight,
+  LG,
+  Paragraph,
+  SM,
+  Skeleton,
+} from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useGetVideoByVidQuery } from 'src/features/api';
+import { Divider } from 'src/common/components/divider';
+import {
+  useGetVideoByVidObservationsQuery,
+  useGetVideoByVidQuery,
+  usePostVideoByVidObservationsMutation,
+} from 'src/features/api';
 import { styled } from 'styled-components';
-import { TranscriptParagraph } from './TranscriptParagraph';
 
 const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -14,10 +27,29 @@ const StyledTitle = styled(LG)`
   margin-bottom: ${({ theme }) => theme.space.sm};
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
+const StyledSelectionText = styled(SM)`
+  margin-bottom: ${({ theme }) => theme.space.sm};
+  color: ${({ theme }) => theme.palette.grey[800]};
+`;
 
-const Transcript = () => {
+const StyledDivider = styled(Divider)`
+  margin: ${({ theme }) => theme.space.sm} 0;
+`;
+const TranscriptContainer = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+`;
+
+const Transcript = ({ currentTime }: { currentTime: number }) => {
   const { t } = useTranslation();
   const { campaignId, videoId } = useParams();
+  const [selection, setSelection] = useState<{
+    from: number;
+    to: number;
+    text: string;
+  }>();
+
+  const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
 
   const {
     data: video,
@@ -28,18 +60,61 @@ const Transcript = () => {
     vid: videoId || '',
   });
 
+  const {
+    data: observations,
+    isFetching: isFetchingObservations,
+    isLoading: isLoadingObservations,
+    isError: isErrorObservations,
+  } = useGetVideoByVidObservationsQuery({
+    vid: videoId || '',
+  });
+
+  const handleAddObservation = async () => {
+    if (selection) {
+      const body = { start: selection.from, end: selection.to };
+      await postVideoByVidObservations({
+        vid: videoId || '',
+        body,
+      }).unwrap();
+    }
+  };
+
   if (!video || isErrorVideo || !video.transcript) return null;
 
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
-
   return (
     <StyledContainerCard>
       <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
-      <TranscriptParagraph
-        words={`T71338, Apple iPhone 13, use case three. Okay, so I am on the product page and I'm just gonna scroll through the photos. Looks like a very nice cotton -only shirt. I love the photos, it shows the product very good.`}
-        startTime="00:00"
-        endTime="00:00"
-      />
+      <TranscriptContainer>
+        <Highlight handleSelection={(part) => setSelection(part)}>
+          {video.transcript.words.map((item, index) => (
+            <Highlight.Word
+              key={item.word}
+              start={item.start}
+              end={item.end}
+              observations={observations}
+              currentTime={currentTime}
+            >
+              {item.word}
+            </Highlight.Word>
+          ))}
+        </Highlight>
+      </TranscriptContainer>
+      {selection && (
+        <>
+          <StyledDivider />
+          <StyledSelectionText isBold>
+            {t('__VIDEO_PAGE_TRANSCRIPT_HIGHLIGHTED_TEXT')}
+          </StyledSelectionText>
+          <Paragraph>
+            <i>{selection.text}</i> ({selection.from} - {selection.to})
+          </Paragraph>
+          <br />
+          <Button isPrimary onClick={handleAddObservation}>
+            {t('__VIDEO_PAGE_TRANSCRIPT_ADD_OBSERVATION')}
+          </Button>
+        </>
+      )}
     </StyledContainerCard>
   );
 };
