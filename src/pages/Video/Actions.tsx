@@ -24,6 +24,7 @@ const Container = styled.div`
   );
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.md};
   overflow-y: auto;
+  border-left: 1px solid ${({ theme }) => theme.palette.grey[200]};
 `;
 
 const Actions = () => {
