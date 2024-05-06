@@ -120,6 +120,18 @@ unguessApi.enhanceEndpoints({
     postCampaignsByCidVideoTags: {
       invalidatesTags: ['VideoTags'],
     },
+    getVideoByVidObservations: {
+      providesTags: ['Observations'],
+    },
+    postVideoByVidObservations: {
+      invalidatesTags: ['Observations'],
+    },
+    patchVideoByVidObservationsAndOid: {
+      invalidatesTags: ['Observations'],
+    },
+    deleteVideoByVidObservationsAndOid: {
+      invalidatesTags: ['Observations'],
+    },
   },
 });
 
