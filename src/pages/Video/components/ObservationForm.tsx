@@ -83,9 +83,11 @@ const ObservationForm = ({
     title: Yup.string().required(
       t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_ERROR')
     ),
-    severity: Yup.number().required(
-      t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR')
-    ),
+    severity: Yup.number()
+      .min(1, t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR'))
+      .required(
+        t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR')
+      ),
   });
 
   const formInitialValues = {
@@ -129,6 +131,7 @@ const ObservationForm = ({
       >
         {({
           errors,
+          values,
           getFieldProps,
           handleSubmit,
           ...formProps
@@ -176,12 +179,14 @@ const ObservationForm = ({
                       selectedItem={selectedSeverity}
                       onSelect={(item) => {
                         setSelectedSeverity(item);
+                        formProps.setFieldValue('severity', item.id);
                       }}
                       downshiftProps={{
                         itemToString: (
                           item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
                         ) => item && item.id,
                       }}
+                      {...getFieldProps('severity')}
                     >
                       <Field>
                         <Select>
