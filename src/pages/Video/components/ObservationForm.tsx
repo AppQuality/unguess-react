@@ -291,16 +291,18 @@ const ObservationForm = ({
             </div>
             <PullRight>
               <Button
+                isBasic
                 disabled={formProps.isSubmitting}
                 style={{
                   marginRight: appTheme.space.sm,
+                  color: appTheme.palette.red[500],
                 }}
                 onClick={() => {
                   formRef.current?.resetForm();
                   onCancel();
                 }}
               >
-                {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_CANCEL_BUTTON')}
+                {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_BUTTON')}
               </Button>
               <Button
                 isPrimary

@@ -12,6 +12,7 @@ const VideoPage = () => {
       className="video-page"
       pageHeader={<VideoPageHeader />}
       route="video"
+      excludeMarginTop
     >
       <VideoPageContent />
     </Page>
