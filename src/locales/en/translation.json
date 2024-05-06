@@ -853,7 +853,7 @@
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_LABEL": "Title",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_PLACEHOLDER": "Insert a title",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_SAVE_BUTTON": "Save",
-  "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_SAVE_TOAST_SUCCESS": "",
+  "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_SAVE_TOAST_SUCCESS": "Observation saved successfully",
   "__VIDEO_PAGE_ACTIONS_TITLE": "Observations",
   "__VIDEO_PAGE_NO_OBSERVATIONS": "You didn't create any observations yet! You can add them by clicking on the button on the video player or from the transcript.",
   "__VIDEO_PAGE_NO_OBSERVATIONS_TITLE": "No observations",

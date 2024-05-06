@@ -141,6 +141,45 @@ const ObservationForm = ({
     notes: observation?.description || '',
   };
 
+  const onSubmitPatch = async (
+    values: ObservationFormValues,
+    actions: FormikHelpers<ObservationFormValues>
+  ) => {
+    onSubmit(values, actions);
+    patchObservation({
+      vid: videoId ?? '',
+      oid: observation.id.toString(),
+      body: {
+        title: values.title,
+        description: values.notes,
+        start: observation.start,
+        end: observation.end,
+        tags: [...selectedOptions.map((tag) => tag.id), values.severity],
+      },
+    })
+      .unwrap()
+      .then(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t(
+                '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_SAVE_TOAST_SUCCESS'
+              )}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      });
+  };
+
   return (
     <>
       <FormContainer>
@@ -150,7 +189,7 @@ const ObservationForm = ({
           validateOnChange
           validateOnBlur
           validationSchema={validationSchema}
-          onSubmit={onSubmit}
+          onSubmit={onSubmitPatch}
         >
           {({
             errors,
@@ -350,7 +389,6 @@ const ObservationForm = ({
                     color: appTheme.palette.red[500],
                   }}
                   onClick={() => {
-                    formRef.current?.resetForm();
                     onDelete();
                     setIsConfirmationModalOpen(true);
                   }}
@@ -362,44 +400,6 @@ const ObservationForm = ({
                   isAccent
                   type="submit"
                   disabled={formProps.isSubmitting || !formProps.isValid}
-                  onClick={() => {
-                    patchObservation({
-                      vid: videoId ?? '',
-                      oid: observation.id.toString(),
-                      body: {
-                        title: values.title,
-                        description: values.notes,
-                        start: observation.start,
-                        end: observation.end,
-                        tags: [
-                          ...selectedOptions.map((tag) => tag.id),
-                          values.severity,
-                        ],
-                      },
-                    })
-                      .unwrap()
-                      .then(() => {
-                        onSubmit(values, formProps);
-                        addToast(
-                          ({ close }) => (
-                            <Notification
-                              onClose={close}
-                              type="success"
-                              message={t(
-                                '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_SAVE_TOAST_SUCCESS'
-                              )}
-                              closeText={t('__TOAST_CLOSE_TEXT')}
-                              isPrimary
-                            />
-                          ),
-                          { placement: 'top' }
-                        );
-                      })
-                      .catch((err) => {
-                        // eslint-disable-next-line no-console
-                        console.error(err);
-                      });
-                  }}
                 >
                   {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_SAVE_BUTTON')}
                 </Button>
