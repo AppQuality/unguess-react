@@ -10,7 +10,7 @@ const Observation = ({
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
 }) => {
-  const { id, title, start, end } = observation;
+  const { title, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
 
   const formatTime = (time: number) => {
@@ -19,10 +19,16 @@ const Observation = ({
     return date.toISOString().slice(11, 19);
   };
 
-  console.log(`Observation ${id} ${title}`);
-
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleSubmit = () => {
+    setIsOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -66,7 +72,11 @@ const Observation = ({
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
-          <ObservationForm onSubmit={() => alert('submit')} />
+          <ObservationForm
+            observation={observation}
+            onSubmit={handleSubmit}
+            onCancel={handleCancel}
+          />
         </Accordion.Panel>
       </Accordion.Section>
     </Accordion>

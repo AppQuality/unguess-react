@@ -59,9 +59,6 @@ const Actions = () => {
       <Divider />
       {observations && observations.length ? (
         <div style={{ margin: `${appTheme.space.md} 0` }}>
-          <MD isBold style={{ marginBottom: appTheme.space.md }}>
-            {t('__VIDEO_PAGE_ACTIONS_OBSERVATIONS_TITLE')}
-          </MD>
           {observations &&
             observations.map((observation) => (
               <Observation key={observation.id} observation={observation} />
