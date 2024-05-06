@@ -139,8 +139,8 @@ export const ChatBox = ({
                       }),
                     }}
                     header={{
-                      title: 'Bug: ' + bugId,
-                      message: 'Comment: ' + comment.id,
+                      title: `Bug: ${bugId}`,
+                      message: `Comment: ${comment.id}`,
                     }}
                     date={convertToLocalTime(
                       comment.creation_date,
