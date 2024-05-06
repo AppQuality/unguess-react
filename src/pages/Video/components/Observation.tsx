@@ -50,7 +50,10 @@ const Observation = ({
               <TagIcon
                 style={{
                   marginRight: appTheme.space.sm,
-                  color: appTheme.palette.green[600],
+                  color:
+                    observation.tags.find(
+                      (tag) => tag.group.name.toLowerCase() === 'severity'
+                    )?.tag.style || appTheme.palette.grey[600],
                 }}
               />
               <div>
