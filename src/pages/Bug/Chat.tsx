@@ -17,6 +17,7 @@ import {
 import i18n from 'src/i18n';
 import { styled } from 'styled-components';
 import { DeleteCommentModal } from './DeleteCommentModal';
+import { bindActionCreators } from '@reduxjs/toolkit';
 
 const ButtonsContainer = styled.div`
   padding: 0px 16px;
@@ -137,6 +138,10 @@ export const ChatBox = ({
                       ...(comment.creator.isInternal && {
                         avatarType: 'system',
                       }),
+                    }}
+                    header={{
+                      title: 'Bug: ' + bugId,
+                      message: 'Comment: ' + comment.id,
                     }}
                     date={convertToLocalTime(
                       comment.creation_date,
