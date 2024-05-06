@@ -13,6 +13,7 @@ import {
   Message,
   MultiSelect,
   Select,
+  Skeleton,
   Span,
   Textarea,
 } from '@appquality/unguess-design-system';
@@ -59,7 +60,7 @@ const ObservationForm = ({
   onCancel: () => void;
 }) => {
   const { t } = useTranslation();
-  const { campaignId, videoId } = useParams();
+  const { campaignId } = useParams();
   const formRef = useRef<FormikProps<ObservationFormValues>>(null);
   const [selectedSeverity, setSelectedSeverity] =
     useState<GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]>();
@@ -74,7 +75,6 @@ const ObservationForm = ({
     data: tags,
     isLoading,
     isFetching,
-    isError,
   } = useGetCampaignsByCidVideoTagsQuery({
     cid: campaignId || '',
   });
@@ -157,100 +157,120 @@ const ObservationForm = ({
               </Message>
             )}
             {severities && severities.tags.length > 0 && (
-              <div style={{ marginTop: appTheme.space.md }}>
+              <div
+                style={{
+                  marginTop: appTheme.space.md,
+                  opacity: isFetching ? 0.5 : 1,
+                }}
+              >
                 <StyledLabel>
                   {t(
                     '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_LABEL'
                   )}
                 </StyledLabel>
-                <Dropdown
-                  selectedItem={selectedSeverity}
-                  onSelect={(item) => {
-                    setSelectedSeverity(item);
-                  }}
-                  downshiftProps={{
-                    itemToString: (
-                      item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
-                    ) => item && item.id,
-                  }}
-                >
-                  <Field>
-                    <Select>
-                      {selectedSeverity ? (
-                        <>
-                          <Circle color={`${selectedSeverity.style}`} />
-                          {selectedSeverity.name} (
-                          {selectedSeverity.usageNumber})
-                        </>
-                      ) : (
-                        <Span style={{ color: appTheme.palette.grey[400] }}>
-                          {t(
-                            '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_PLACEHOLDER'
+                {isLoading ? (
+                  <Skeleton />
+                ) : (
+                  <>
+                    <Dropdown
+                      selectedItem={selectedSeverity}
+                      onSelect={(item) => {
+                        setSelectedSeverity(item);
+                      }}
+                      downshiftProps={{
+                        itemToString: (
+                          item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
+                        ) => item && item.id,
+                      }}
+                    >
+                      <Field>
+                        <Select>
+                          {selectedSeverity ? (
+                            <>
+                              <Circle color={`${selectedSeverity.style}`} />
+                              {selectedSeverity.name} (
+                              {selectedSeverity.usageNumber})
+                            </>
+                          ) : (
+                            <Span style={{ color: appTheme.palette.grey[400] }}>
+                              {t(
+                                '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_PLACEHOLDER'
+                              )}
+                            </Span>
                           )}
-                        </Span>
-                      )}
-                    </Select>
-                  </Field>
-                  <Menu>
-                    {severities.tags.map(
-                      (
-                        item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
-                      ) => (
-                        <Item key={item.id} value={item}>
-                          <>
-                            <Circle color={`${item.style}`} />
-                            {item.name} ({item.usageNumber})
-                          </>
-                        </Item>
-                      )
+                        </Select>
+                      </Field>
+                      <Menu>
+                        {severities.tags.map(
+                          (
+                            item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
+                          ) => (
+                            <Item key={item.id} value={item}>
+                              <>
+                                <Circle color={`${item.style}`} />
+                                {item.name} ({item.usageNumber})
+                              </>
+                            </Item>
+                          )
+                        )}
+                      </Menu>
+                    </Dropdown>
+                    {errors.severity && (
+                      <Message
+                        validation="error"
+                        style={{ marginTop: appTheme.space.sm }}
+                      >
+                        {errors.severity}
+                      </Message>
                     )}
-                  </Menu>
-                </Dropdown>
-                {errors.severity && (
-                  <Message
-                    validation="error"
-                    style={{ marginTop: appTheme.space.sm }}
-                  >
-                    {errors.severity}
-                  </Message>
+                  </>
                 )}
               </div>
             )}
-            <div style={{ marginTop: appTheme.space.md }}>
+            <div
+              style={{
+                marginTop: appTheme.space.md,
+                opacity: isFetching ? 0.5 : 1,
+              }}
+            >
               <StyledLabel>
                 {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TAGS_LABEL')}
               </StyledLabel>
-              <MultiSelect
-                options={options}
-                selectedItems={options.filter((o) => o.selected)}
-                creatable
-                maxItems={4}
-                size="medium"
-                i18n={{
-                  placeholder: t(
-                    '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TAGS_PLACEHOLDER'
-                  ),
-                  showMore: (count) =>
-                    t(
-                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TAGS_SHOW_MORE',
-                      { count }
+              {isLoading ? (
+                <Skeleton />
+              ) : (
+                <MultiSelect
+                  options={options}
+                  selectedItems={options.filter((o) => o.selected)}
+                  creatable
+                  maxItems={4}
+                  size="medium"
+                  i18n={{
+                    placeholder: t(
+                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TAGS_PLACEHOLDER'
                     ),
-                  addNew: (value) =>
-                    `${t(
-                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TAGS_ADD_NEW'
-                    )} "${value}"`,
-                }}
-                onChange={async (availableTags, newTag) => {
-                  console.log(
-                    'selectedTags',
-                    availableTags.filter((o) => o.selected)
-                  );
-                  console.log('newTag', newTag);
+                    showMore: (count) =>
+                      t(
+                        '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TAGS_SHOW_MORE',
+                        { count }
+                      ),
+                    addNew: (value) =>
+                      `${t(
+                        '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TAGS_ADD_NEW'
+                      )} "${value}"`,
+                  }}
+                  onChange={async (availableTags, newTag) => {
+                    console.log(
+                      'selectedTags',
+                      availableTags.filter((o) => o.selected)
+                    );
+                    console.log('newTag', newTag);
 
-                  setSelectedOptions(availableTags.filter((o) => o.selected));
-                  // TODO: handle new tag
-                }}
-              />
+                    setSelectedOptions(availableTags.filter((o) => o.selected));
+                    // TODO: handle new tag
+                  }}
+                />
+              )}
             </div>
             <div style={{ marginTop: appTheme.space.md }}>
               <StyledLabel>
