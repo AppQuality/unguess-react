@@ -1517,6 +1517,46 @@ export interface operations {
           mentioned?: {
             id: number;
           }[];
+          media_id?: {
+            id: number;
+          }[];
+        };
+      };
+    };
+  };
+  'post-campaigns-cid-bugs-bid-media': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            failed?: {
+              name: string;
+              /** @enum {string} */
+              errorCode:
+                | 'FILE_TOO_BIG'
+                | 'INVALID_FILE_EXTENSION'
+                | 'GENERIC_ERROR';
+            }[];
+            uploaded_ids?: {
+              id: number;
+            }[];
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          media: string | string[];
         };
       };
     };
