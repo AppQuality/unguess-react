@@ -1,4 +1,4 @@
-import { LG, MD, Skeleton } from '@appquality/unguess-design-system';
+import { LG, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import {
@@ -12,7 +12,7 @@ import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
 
 const Actions = () => {
-  const { campaignId, videoId } = useParams();
+  const { videoId } = useParams();
   const { t } = useTranslation();
 
   const {
