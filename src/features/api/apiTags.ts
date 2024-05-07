@@ -95,6 +95,12 @@ unguessApi.enhanceEndpoints({
     putUsersMePreferencesByPrefid: {
       invalidatesTags: ['Preferences'],
     },
+    getVideoByVidObservations: {
+      providesTags: ['Observations'],
+    },
+    postVideoByVidObservations: {
+      invalidatesTags: ['Observations'],
+    },
     postCampaignsByCidBugsAndBidComments: {
       invalidatesTags: ['Bugs'],
       async onQueryStarted({ cid, bid }, { dispatch, queryFulfilled }) {
@@ -119,12 +125,6 @@ unguessApi.enhanceEndpoints({
     },
     postCampaignsByCidVideoTags: {
       invalidatesTags: ['VideoTags'],
-    },
-    getVideoByVidObservations: {
-      providesTags: ['Observations'],
-    },
-    postVideoByVidObservations: {
-      invalidatesTags: ['Observations'],
     },
     patchVideoByVidObservationsAndOid: {
       invalidatesTags: ['Observations'],
