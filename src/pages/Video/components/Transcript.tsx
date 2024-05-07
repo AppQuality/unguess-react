@@ -1,21 +1,20 @@
 import {
-  Button,
   ContainerCard,
   Highlight,
+  IconButton,
   LG,
-  Paragraph,
-  SM,
   Skeleton,
 } from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { Divider } from 'src/common/components/divider';
+import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import {
   useGetVideoByVidObservationsQuery,
   useGetVideoByVidQuery,
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
+import { useClickOtuside } from 'src/hooks/useClickOutside';
 import { styled } from 'styled-components';
 
 const StyledContainerCard = styled(ContainerCard)`
@@ -26,14 +25,6 @@ const StyledContainerCard = styled(ContainerCard)`
 const StyledTitle = styled(LG)`
   margin-bottom: ${({ theme }) => theme.space.sm};
   color: ${({ theme }) => theme.palette.grey[800]};
-`;
-const StyledSelectionText = styled(SM)`
-  margin-bottom: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[800]};
-`;
-
-const StyledDivider = styled(Divider)`
-  margin: ${({ theme }) => theme.space.sm} 0;
 `;
 const TranscriptContainer = styled.div`
   display: grid;
@@ -48,7 +39,7 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
     to: number;
     text: string;
   }>();
-
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
 
   const {
@@ -71,7 +62,10 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
 
   const handleAddObservation = async () => {
     if (selection) {
-      const body = { start: selection.from, end: selection.to };
+      const body = {
+        start: Math.round(selection.from),
+        end: Math.round(selection.to),
+      }; // to be changed to float in the DB
       await postVideoByVidObservations({
         vid: videoId || '',
         body,
@@ -79,42 +73,46 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
     }
   };
 
-  if (!video || isErrorVideo || !video.transcript) return null;
+  useClickOtuside(wrapperRef, () => {
+    setSelection(undefined);
+  });
 
-  if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
+  if (!video || isErrorVideo || !video.transcript || isErrorObservations)
+    return null;
+
+  if (
+    isFetchingVideo ||
+    isLoadingVideo ||
+    isFetchingObservations ||
+    isLoadingObservations
+  )
+    return <Skeleton />;
   return (
     <StyledContainerCard>
       <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
       <TranscriptContainer>
-        <Highlight handleSelection={(part) => setSelection(part)}>
-          {video.transcript.words.map((item, index) => (
-            <Highlight.Word
-              key={`${item.word + index}`}
-              start={item.start}
-              end={item.end}
-              observations={observations}
-              currentTime={currentTime}
-            >
-              {item.word}
-            </Highlight.Word>
-          ))}
-        </Highlight>
+        <div ref={wrapperRef}>
+          <Highlight handleSelection={(part) => setSelection(part)}>
+            {video.transcript.words.map((item, index) => (
+              <Highlight.Word
+                size="sm"
+                key={`${item.word + index}`}
+                start={item.start}
+                end={item.end}
+                observations={observations}
+                currentTime={currentTime}
+              >
+                {item.word}
+              </Highlight.Word>
+            ))}
+          </Highlight>
+        </div>
+        {selection && (
+          <IconButton onClick={handleAddObservation} size="small">
+            <TagIcon />
+          </IconButton>
+        )}
       </TranscriptContainer>
-      {selection && (
-        <>
-          <StyledDivider />
-          <StyledSelectionText isBold>
-            {t('__VIDEO_PAGE_TRANSCRIPT_HIGHLIGHTED_TEXT')}
-          </StyledSelectionText>
-          <Paragraph>
-            <i>{selection.text}</i> ({selection.from} - {selection.to})
-          </Paragraph>
-          <br />
-          <Button isPrimary onClick={handleAddObservation}>
-            {t('__VIDEO_PAGE_TRANSCRIPT_ADD_OBSERVATION')}
-          </Button>
-        </>
-      )}
     </StyledContainerCard>
   );
 };
