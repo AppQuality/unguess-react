@@ -193,7 +193,6 @@ const ObservationForm = ({
         >
           {({
             errors,
-            values,
             getFieldProps,
             handleSubmit,
             ...formProps
