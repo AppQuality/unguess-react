@@ -10,7 +10,7 @@ const Observation = ({
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
 }) => {
-  const { id, title, start, end } = observation;
+  const { title, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
 
   const formatTime = (time: number) => {
@@ -19,17 +19,21 @@ const Observation = ({
     return date.toISOString().slice(11, 19);
   };
 
-  console.log(`Observation ${id} ${title}`);
-
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleSubmit = () => {
+    setIsOpen(false);
+  };
+
+  const handleDelete = () => {};
 
   return (
     <Accordion
       level={3}
       style={{ padding: 0, marginBottom: appTheme.space.md }}
-      key={`details_accordion_${isOpen}`}
+      key={`observation_accordion_${observation.id}_${isOpen}`}
       defaultExpandedSections={isOpen ? [0, 1] : []}
       onChange={handleAccordionChange}
     >
@@ -46,7 +50,10 @@ const Observation = ({
               <TagIcon
                 style={{
                   marginRight: appTheme.space.sm,
-                  color: appTheme.palette.green[600],
+                  color:
+                    observation.tags.find(
+                      (tag) => tag.group.name.toLowerCase() === 'severity'
+                    )?.tag.style || appTheme.palette.grey[600],
                 }}
               />
               <div>
@@ -66,7 +73,11 @@ const Observation = ({
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
-          <ObservationForm onSubmit={() => alert('submit')} />
+          <ObservationForm
+            observation={observation}
+            onSubmit={handleSubmit}
+            onDelete={handleDelete}
+          />
         </Accordion.Panel>
       </Accordion.Section>
     </Accordion>

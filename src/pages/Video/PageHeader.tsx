@@ -48,7 +48,6 @@ const VideoPageHeader = () => {
       <PageHeader style={{ padding: 0 }}>
         <PageHeader.Main
           mainTitle={t('__VIDEO_PAGE_TITLE')}
-          mainDescription={t('__VIDEO_PAGE_DESCRIPTION')}
           style={{ padding: 0 }}
         >
           <PageHeader.Breadcrumbs>
