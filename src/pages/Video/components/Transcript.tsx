@@ -69,7 +69,6 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
         start: Math.round(selection.from),
         end: Math.round(selection.to),
       }; // to be changed to float in the DB
-      console.log(body);
       await postVideoByVidObservations({
         vid: videoId || '',
         body,

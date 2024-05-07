@@ -43,7 +43,6 @@ const VideoPlayer = () => {
   if (!video || isErrorVideo) return null;
 
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
-  console.log(currentTime);
   return (
     <>
       <LG>Tester ID {video.tester.id}</LG>
