@@ -89,7 +89,7 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
         <Highlight handleSelection={(part) => setSelection(part)}>
           {video.transcript.words.map((item, index) => (
             <Highlight.Word
-              key={item.word}
+              key={`${item.word + index}`}
               start={item.start}
               end={item.end}
               observations={observations}
