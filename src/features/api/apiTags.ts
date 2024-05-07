@@ -1,3 +1,4 @@
+import { usePostVideoByVidObservationsMutation } from 'src/features/api';
 import { unguessApi } from '.';
 
 unguessApi.enhanceEndpoints({
@@ -94,6 +95,12 @@ unguessApi.enhanceEndpoints({
     },
     putUsersMePreferencesByPrefid: {
       invalidatesTags: ['Preferences'],
+    },
+    getVideoByVidObservations: {
+      providesTags: ['Observations'],
+    },
+    postVideoByVidObservations: {
+      invalidatesTags: ['Observations'],
     },
     postCampaignsByCidBugsAndBidComments: {
       invalidatesTags: ['Bugs'],
