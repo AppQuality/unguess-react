@@ -8,6 +8,7 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
 import {
+  PostCampaignsByCidBugsAndBidMediaApiResponse,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
@@ -45,7 +46,6 @@ export const Actions = () => {
     isFetching: isFetchingUsers,
   } = useGetMentionableUsers();
   const { t } = useTranslation();
-
   const mentionableUsers = useCallback(
     ({ query }: { query: string }) => {
       const mentions = users.filter((user) => {
@@ -93,25 +93,27 @@ export const Actions = () => {
       const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
       formData.append('media', f, filename);
     });
+    let data = {};
+    try {
+      data = await uploadMedia({
+        cid,
+        bid,
+        // @ts-ignore
+        body: formData,
+      }).unwrap();
 
-    uploadMedia({
-      cid,
-      bid,
       // @ts-ignore
-      body: formData,
-    })
-      .unwrap()
-      .then((data) => {
-        if (data && data.uploaded_ids) {
-          data.uploaded_ids.forEach((e: { id: number }) => {
-            setMediaIds((prev) => [...prev, { id: e.id }]);
-            console.log('element', e.id);
-          });
-        }
-      })
-      .catch((e) => {
-        console.warn('upload failed', e);
-      });
+      if (data && data.uploaded_ids) {
+        // @ts-ignore
+        data.uploaded_ids.forEach((e: { id: number }) => {
+          setMediaIds((prev) => [...prev, { id: e.id }]);
+        });
+      }
+    } catch (e) {
+      console.warn('upload failed', e);
+    }
+
+    return data;
   };
 
   const createCommentHandler = useCallback(
