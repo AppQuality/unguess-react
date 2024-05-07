@@ -4,6 +4,8 @@ import {
   Comment,
   Skeleton,
   useChatContext,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
@@ -60,6 +62,7 @@ export const ChatBox = ({
   const { userData: user } = useAppSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<string>('');
+  const { addToast } = useToast();
   const currentLanguage = i18n.language === 'it' ? 'it-IT' : 'en-EN';
   const commentsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -83,7 +86,18 @@ export const ChatBox = ({
       triggerSave();
       setIsSubmitting(true);
     } else {
-      alert('Please enter a comment');
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__BUG_COMMENTS_CHAT_ERROR_EMPTY__')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
     }
     setIsSubmitting(false);
   };

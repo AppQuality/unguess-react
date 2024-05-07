@@ -30,6 +30,7 @@
   "__BUG_COMMENTS_CHAT_CANCEL__": "Annulla",
   "__BUG_COMMENTS_CHAT_CONFIRM__": "Invia",
   "__BUG_COMMENTS_CHAT_DELETE__": "Elimina",
+  "__BUG_COMMENTS_CHAT_ERROR_EMPTY__": "Per favore scrivi qualcosa",
   "__BUG_COMMENTS_CHAT_HEADER__": "Comunica con UNGUESS e il tuo team",
   "__BUG_COMMENTS_CHAT_ITALIC": "Corsivo",
   "__BUG_COMMENTS_CHAT_MENTION": "Menziona una persona",

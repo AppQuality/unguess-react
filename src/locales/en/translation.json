@@ -29,6 +29,7 @@
   "__BUG_COMMENTS_CHAT_CANCEL__": "Cancel",
   "__BUG_COMMENTS_CHAT_CONFIRM__": "Send",
   "__BUG_COMMENTS_CHAT_DELETE__": "Delete",
+  "__BUG_COMMENTS_CHAT_ERROR_EMPTY__": "Please enter a comment",
   "__BUG_COMMENTS_CHAT_HEADER__": "Share messages with UNGUESS and your workteam",
   "__BUG_COMMENTS_CHAT_ITALIC": "Italic",
   "__BUG_COMMENTS_CHAT_MENTION": "Mention a specific person",
