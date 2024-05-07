@@ -102,9 +102,8 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
                 end={item.end}
                 observations={observations}
                 currentTime={currentTime}
-              >
-                {item.word}
-              </Highlight.Word>
+                text={item.word}
+              />
             ))}
           </Highlight>
         </div>
