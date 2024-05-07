@@ -81,7 +81,6 @@ const VideoPlayer = () => {
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   return (
     <>
-      <LG>Tester ID {video.tester.id}</LG>
       <PlayerContainer>
         <Player
           ref={videoRef}
