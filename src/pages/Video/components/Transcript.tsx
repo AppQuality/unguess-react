@@ -39,7 +39,9 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
     from: number;
     to: number;
     text: string;
+    y: number;
   }>();
+  const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
 
@@ -67,6 +69,7 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
         start: Math.round(selection.from),
         end: Math.round(selection.to),
       }; // to be changed to float in the DB
+      console.log(body);
       await postVideoByVidObservations({
         vid: videoId || '',
         body,
@@ -74,7 +77,33 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
     }
   };
 
-  useClickOtuside(wrapperRef, () => {
+  const handleSelection = (part: {
+    from: number;
+    to: number;
+    text: string;
+  }) => {
+    const currentSelection = window.getSelection();
+    if (currentSelection && currentSelection.rangeCount > 0) {
+      const range = currentSelection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      const containerRect =
+        wrapperRef && wrapperRef.current
+          ? wrapperRef.current.getBoundingClientRect()
+          : null;
+      if (!containerRect || !wrapperRef || !wrapperRef.current) return;
+      const relativeY =
+        rect.top - containerRect.top + wrapperRef.current.scrollTop;
+
+      setSelection({
+        from: part.from,
+        to: part.to,
+        text: part.text,
+        y: relativeY,
+      });
+    }
+  };
+
+  useClickOtuside(containerRef, () => {
     setSelection(undefined);
   });
 
@@ -91,9 +120,9 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
   return (
     <StyledContainerCard>
       <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
-      <TranscriptContainer>
+      <TranscriptContainer ref={containerRef}>
         <div ref={wrapperRef}>
-          <Highlight handleSelection={(part) => setSelection(part)}>
+          <Highlight handleSelection={(part) => handleSelection(part)}>
             {video.transcript.words.map((item, index) => (
               <Highlight.Word
                 size="sm"
@@ -108,9 +137,20 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
           </Highlight>
         </div>
         {selection && (
-          <IconButton onClick={handleAddObservation} size="small">
-            <TagIcon />
-          </IconButton>
+          <div style={{ position: 'relative' }}>
+            <IconButton
+              onClick={handleAddObservation}
+              size="small"
+              style={{
+                position: 'absolute',
+                left: '30%',
+                top: `${selection.y}px`,
+                transform: 'translateX(-100%)',
+              }}
+            >
+              <TagIcon />
+            </IconButton>
+          </div>
         )}
       </TranscriptContainer>
     </StyledContainerCard>
