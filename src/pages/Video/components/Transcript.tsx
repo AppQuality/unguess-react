@@ -8,6 +8,7 @@ import {
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import {
   useGetVideoByVidObservationsQuery,
@@ -117,42 +118,44 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
   )
     return <Skeleton />;
   return (
-    <StyledContainerCard>
-      <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
-      <TranscriptContainer ref={containerRef}>
-        <div ref={wrapperRef}>
-          <Highlight handleSelection={(part) => handleSelection(part)}>
-            {video.transcript.words.map((item, index) => (
-              <Highlight.Word
-                size="sm"
-                key={`${item.word + index}`}
-                start={item.start}
-                end={item.end}
-                observations={observations}
-                currentTime={currentTime}
-                text={item.word}
-              />
-            ))}
-          </Highlight>
-        </div>
-        {selection && (
-          <div style={{ position: 'relative' }}>
-            <IconButton
-              onClick={handleAddObservation}
-              size="small"
-              style={{
-                position: 'absolute',
-                left: '30%',
-                top: `${selection.y}px`,
-                transform: 'translateX(-100%)',
-              }}
-            >
-              <TagIcon />
-            </IconButton>
+    <div style={{ paddingLeft: appTheme.space.xxl }}>
+      <StyledContainerCard>
+        <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
+        <TranscriptContainer ref={containerRef}>
+          <div ref={wrapperRef}>
+            <Highlight handleSelection={(part) => handleSelection(part)}>
+              {video.transcript.words.map((item, index) => (
+                <Highlight.Word
+                  size="sm"
+                  key={`${item.word + index}`}
+                  start={item.start}
+                  end={item.end}
+                  observations={observations}
+                  currentTime={currentTime}
+                  text={item.word}
+                />
+              ))}
+            </Highlight>
           </div>
-        )}
-      </TranscriptContainer>
-    </StyledContainerCard>
+          {selection && (
+            <div style={{ position: 'relative' }}>
+              <IconButton
+                onClick={handleAddObservation}
+                size="small"
+                style={{
+                  position: 'absolute',
+                  left: '30%',
+                  top: `${selection.y}px`,
+                  transform: 'translateX(-100%)',
+                }}
+              >
+                <TagIcon />
+              </IconButton>
+            </div>
+          )}
+        </TranscriptContainer>
+      </StyledContainerCard>
+    </div>
   );
 };
 
