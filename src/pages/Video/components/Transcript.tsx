@@ -28,6 +28,7 @@ const StyledTitle = styled(LG)`
 `;
 const TranscriptContainer = styled.div`
   display: grid;
+  line-height: ${({ theme }) => theme.lineHeights.lg};
   grid-template-columns: 2fr 1fr;
 `;
 
