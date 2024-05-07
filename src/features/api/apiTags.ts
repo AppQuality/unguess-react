@@ -1,4 +1,3 @@
-import { usePostVideoByVidObservationsMutation } from 'src/features/api';
 import { unguessApi } from '.';
 
 unguessApi.enhanceEndpoints({
@@ -126,12 +125,6 @@ unguessApi.enhanceEndpoints({
     },
     postCampaignsByCidVideoTags: {
       invalidatesTags: ['VideoTags'],
-    },
-    getVideoByVidObservations: {
-      providesTags: ['Observations'],
-    },
-    postVideoByVidObservations: {
-      invalidatesTags: ['Observations'],
     },
     patchVideoByVidObservationsAndOid: {
       invalidatesTags: ['Observations'],
