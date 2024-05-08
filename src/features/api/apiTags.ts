@@ -99,7 +99,22 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Observations'],
     },
     postVideoByVidObservations: {
-      invalidatesTags: ['Observations'],
+      async onQueryStarted({ vid }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedPost } = await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideoByVidObservations',
+              { vid },
+              (draft) => {
+                draft.push(updatedPost);
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
+        }
+      },
     },
     postCampaignsByCidBugsAndBidComments: {
       invalidatesTags: ['Bugs'],
@@ -127,10 +142,50 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['VideoTags'],
     },
     patchVideoByVidObservationsAndOid: {
-      invalidatesTags: ['Observations'],
+      async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedPatch } = await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideoByVidObservations',
+              { vid },
+              (draft) => {
+                const index = draft.findIndex(
+                  (observation) => observation.id === Number(oid)
+                );
+                if (index !== -1) {
+                  draft[index] = updatedPatch;
+                }
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
+        }
+      },
     },
     deleteVideoByVidObservationsAndOid: {
-      invalidatesTags: ['Observations'],
+      async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideoByVidObservations',
+              { vid },
+              (draft) => {
+                const index = draft.findIndex(
+                  (observation) => observation.id === Number(oid)
+                );
+                if (index !== -1) {
+                  draft.splice(index, 1);
+                }
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
+        }
+      },
     },
   },
 });
