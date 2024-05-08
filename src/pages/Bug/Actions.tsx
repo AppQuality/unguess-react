@@ -8,7 +8,6 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
 import {
-  PostCampaignsByCidBugsAndBidMediaApiResponse,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
