@@ -108,7 +108,7 @@ const VideoPlayer = () => {
           }))}
         />
       </PlayerContainer>
-      <Transcript currentTime={currentTime} />
+      <Transcript currentTime={currentTime} isSearchable />
     </>
   );
 };
