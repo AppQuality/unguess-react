@@ -4,7 +4,7 @@ import Actions from './Actions';
 import { VideoPlayer } from './components/Player';
 
 const VideoPageContent = () => (
-  <LayoutWrapper isNotBoxed style={{ paddingRight: 0 }}>
+  <LayoutWrapper isNotBoxed style={{ padding: 0 }}>
     <Grid gutters="xxl">
       <Row>
         <Col lg={8} style={{ margin: 0 }}>

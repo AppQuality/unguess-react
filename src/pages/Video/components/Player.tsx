@@ -1,7 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 import { LG, Player, Skeleton } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
-import { useGetVideoByVidQuery } from 'src/features/api';
+import {
+  useGetVideoByVidObservationsQuery,
+  useGetVideoByVidQuery,
+} from 'src/features/api';
 import { styled } from 'styled-components';
 import { Transcript } from './Transcript';
 
@@ -12,7 +15,7 @@ const PlayerContainer = styled.div`
 
 const VideoPlayer = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const { campaignId, videoId } = useParams();
+  const { videoId } = useParams();
 
   const {
     data: video,
@@ -40,14 +43,64 @@ const VideoPlayer = () => {
     };
   }, [videoRef]);
 
+  const {
+    data: observations,
+    isFetching: isFetchingObservations,
+    isLoading: isLoadingObservations,
+    isError: isErrorObservations,
+  } = useGetVideoByVidObservationsQuery({
+    vid: videoId || '',
+  });
+
+  const [start, setStart] = useState<number | undefined>(undefined);
+
+  const handleCut = useCallback(
+    (time: number) => {
+      if (!start) {
+        setStart(time);
+        return;
+      }
+
+      // TODO: POST obs start and time
+
+      setStart(undefined);
+    },
+    [observations, start]
+  );
+
+  const handleBookmarksUpdate = useCallback(
+    (bookmarks) => {
+      console.log(bookmarks);
+    },
+    [observations]
+  );
+
   if (!video || isErrorVideo) return null;
+  if (!observations || isErrorObservations) return null;
 
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   return (
     <>
-      <LG>Tester ID {video.tester.id}</LG>
       <PlayerContainer>
-        <Player ref={videoRef} url={video.url} />
+        <Player
+          ref={videoRef}
+          url={video.url}
+          onCutHandler={handleCut}
+          handleBookmarkUpdate={handleBookmarksUpdate}
+          isCutting={!!start}
+          enablePipOnScroll
+          bookmarks={observations.map((obs) => ({
+            id: obs.id,
+            start: obs.start,
+            end: obs.end,
+            title: obs.title,
+            hue:
+              obs.tags.find(
+                (tag) => tag.group.name.toLowerCase() === 'severity'
+              )?.tag.style || 'grey',
+            label: obs.title,
+          }))}
+        />
       </PlayerContainer>
       <Transcript currentTime={currentTime} />
     </>
