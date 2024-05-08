@@ -118,7 +118,7 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
   )
     return <Skeleton />;
   return (
-    <div style={{ paddingLeft: appTheme.space.xxl }}>
+    <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
         <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
         <TranscriptContainer ref={containerRef}>
