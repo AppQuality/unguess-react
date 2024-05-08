@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useRef, useState } from 'react';
-import { LG, Player, Skeleton } from '@appquality/unguess-design-system';
+import { Player, Skeleton } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import {
   useGetVideoByVidObservationsQuery,
@@ -11,6 +11,12 @@ import { Transcript } from './Transcript';
 const PlayerContainer = styled.div`
   width: 100%;
   height: auto;
+  max-height: 50vh;
+  display: flex;
+
+  > div {
+    height: auto;
+  }
 `;
 
 const VideoPlayer = () => {
