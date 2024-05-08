@@ -90,6 +90,7 @@ export const Navigation = ({
       case 'campaigns':
       case 'bugs':
       case 'bug':
+      case 'video':
         dispatch(setSidebarOpen(false));
         break;
       default:
