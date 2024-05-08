@@ -16,6 +16,7 @@ import {
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { useClickOtuside } from 'src/hooks/useClickOutside';
+import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
 
 const StyledContainerCard = styled(ContainerCard)`
@@ -42,9 +43,12 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
     text: string;
     y: number;
   }>();
+  const [searchTerm, setSearchTerm] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
+
+  const debouncedValue = useDebounce(searchTerm, 300);
 
   const {
     data: video,
@@ -122,7 +126,10 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
         <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
         <TranscriptContainer ref={containerRef}>
           <div ref={wrapperRef}>
-            <Highlight handleSelection={(part) => handleSelection(part)}>
+            <Highlight
+              search={debouncedValue}
+              handleSelection={(part) => handleSelection(part)}
+            >
               {video.transcript.words.map((item, index) => (
                 <Highlight.Word
                   size="sm"
