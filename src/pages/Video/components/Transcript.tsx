@@ -63,7 +63,6 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
   } = useGetVideoByVidObservationsQuery({
     vid: videoId || '',
   });
-
   const handleAddObservation = async () => {
     if (selection) {
       const body = {
