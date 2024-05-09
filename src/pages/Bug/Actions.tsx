@@ -1,4 +1,5 @@
 import { ChatProvider, LG, Skeleton } from '@appquality/unguess-design-system';
+import { FileItem } from '@appquality/unguess-design-system/build/stories/chat/_types';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -66,6 +67,7 @@ export const Actions = () => {
   const [mediaIds, setMediaIds] = useState<{ id: number }[]>([]);
   const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mediaIdMap, setMediaIdMap] = useState<FileItem[]>([]);
 
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
@@ -84,34 +86,46 @@ export const Actions = () => {
 
   const [uploadMedia] = usePostCampaignsByCidBugsAndBidMediaMutation();
 
-  const handleMediaUpload = async (files: File[]) => {
-    const formData = new FormData();
+  /*
 
-    files.forEach((f) => {
+[
+  {key: numeroMediaDB, nomefile: nomedelFile},
+  {key: numeroMediaDB2, nomefile: nome2delFile},
+]
+
+
+  */
+
+  const handleMediaUpload = async (files: FileItem[]) => {
+    let data = {};
+    files.forEach(async (f) => {
+      const formData = new FormData();
+
       // normalize filename
       const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
       formData.append('media', f, filename);
-    });
-    let data = {};
-    try {
-      data = await uploadMedia({
-        cid,
-        bid,
-        // @ts-ignore
-        body: formData,
-      }).unwrap();
+      try {
+        data = await uploadMedia({
+          cid,
+          bid,
+          // @ts-ignore
+          body: formData,
+        }).unwrap();
 
-      // @ts-ignore
-      if (data && data.uploaded_ids) {
         // @ts-ignore
-        data.uploaded_ids.forEach((e: { id: number }) => {
-          setMediaIds((prev) => [...prev, { id: e.id }]);
-        });
+        if (data && data.uploaded_ids) {
+          // @ts-ignore
+          data.uploaded_ids.forEach((e: { id: number }) => {
+            setMediaIds((prev) => [...prev, { id: e.id }]);
+            setMediaIdMap((prev) => [...prev, { ...f, id: e.id } as FileItem]);
+          });
+        }
+      } catch (e) {
+        console.warn('upload failed', e);
       }
-    } catch (e) {
-      console.warn('upload failed', e);
-    }
-
+    });
+    console.log('mediamap', mediaIdMap);
+    console.log('media', files);
     return data;
   };
 
