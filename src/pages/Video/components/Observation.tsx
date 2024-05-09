@@ -1,17 +1,57 @@
 import { Accordion, LG, SM, Title } from '@appquality/unguess-design-system';
-import { GetVideoByVidObservationsApiResponse } from 'src/features/api';
+import {
+  GetVideoByVidApiResponse,
+  GetVideoByVidObservationsApiResponse,
+} from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { appTheme } from 'src/app/theme';
+import { styled } from 'styled-components';
 import { ObservationForm } from './ObservationForm';
+import { useVideoContext } from '../context/VideoContext';
+
+const Circle = styled.div<{
+  color: string;
+}>`
+  width: 20px;
+  height: 20px;
+  margin-right: ${({ theme }) => theme.space.sm};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: ${({ color }) => color};
+    opacity: 0.08;
+  }
+`;
 
 const Observation = ({
   observation,
+  refScroll,
+  transcript,
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
+  refScroll: React.RefObject<HTMLDivElement>;
+  transcript?: GetVideoByVidApiResponse['transcript'];
 }) => {
   const { title, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
+  const { openAccordion, setOpenAccordion } = useVideoContext();
+
+  const quots = transcript?.words
+    .filter((w) => w.start >= observation.start && w.end <= observation.end)
+    .map((w) => w.word)
+    .join(' ');
 
   const formatTime = (time: number) => {
     const date = new Date(0);
@@ -21,13 +61,41 @@ const Observation = ({
 
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
+    if (!isOpen) {
+      setOpenAccordion(undefined);
+    }
   };
 
   const handleSubmit = () => {
     setIsOpen(false);
   };
 
-  const handleDelete = () => {};
+  useEffect(() => {
+    if (openAccordion !== undefined) {
+      if (openAccordion.id === observation.id) {
+        setIsOpen(true);
+
+        // Set scrolling container position to active element
+        setTimeout(() => {
+          if (!refScroll.current) {
+            return;
+          }
+
+          const activeElement = document.getElementById(
+            `video-observation-accordion-${openAccordion.id}`
+          );
+          if (activeElement) {
+            refScroll.current.scrollTo({
+              top: activeElement.offsetTop,
+              behavior: 'smooth',
+            });
+          }
+
+          setOpenAccordion(undefined);
+        }, 100);
+      }
+    }
+  }, [openAccordion]);
 
   return (
     <Accordion
@@ -36,6 +104,7 @@ const Observation = ({
       key={`observation_accordion_${observation.id}_${isOpen}`}
       defaultExpandedSections={isOpen ? [0, 1] : []}
       onChange={handleAccordionChange}
+      id={`video-observation-accordion-${observation.id}`}
     >
       <Accordion.Section>
         <Accordion.Header>
@@ -47,15 +116,22 @@ const Observation = ({
                 alignItems: 'center',
               }}
             >
-              <TagIcon
-                style={{
-                  marginRight: appTheme.space.sm,
-                  color:
-                    observation.tags.find(
-                      (tag) => tag.group.name.toLowerCase() === 'severity'
-                    )?.tag.style || appTheme.palette.grey[600],
-                }}
-              />
+              <Circle
+                color={
+                  observation.tags.find(
+                    (tag) => tag.group.name.toLowerCase() === 'severity'
+                  )?.tag.style || appTheme.palette.grey[600]
+                }
+              >
+                <TagIcon
+                  style={{
+                    color:
+                      observation.tags.find(
+                        (tag) => tag.group.name.toLowerCase() === 'severity'
+                      )?.tag.style || appTheme.palette.grey[600],
+                  }}
+                />
+              </Circle>
               <div>
                 <Title>
                   <LG isBold>{title}</LG>
@@ -76,7 +152,7 @@ const Observation = ({
           <ObservationForm
             observation={observation}
             onSubmit={handleSubmit}
-            onDelete={handleDelete}
+            {...(quots && { quots })}
           />
         </Accordion.Panel>
       </Accordion.Section>

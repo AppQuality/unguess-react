@@ -57,13 +57,18 @@ export const ConfirmDeleteModal = ({
         {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_BODY_TEXT')}
       </Modal.Body>
       <Modal.Footer>
-        <Button style={{ paddingRight: 20 }} isDanger isLink onClick={onQuit}>
-          {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_QUIT_BUTTON')}
-        </Button>
-        <Button isPrimary isAccent onClick={onContinue}>
+        <Button
+          style={{ paddingRight: 20 }}
+          isDanger
+          isLink
+          onClick={onContinue}
+        >
           {t(
             '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_CONTINUE_BUTTON'
           )}
+        </Button>
+        <Button isPrimary isAccent onClick={onQuit}>
+          {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_QUIT_BUTTON')}
         </Button>
       </Modal.Footer>
       <ModalClose onClick={onQuit} />

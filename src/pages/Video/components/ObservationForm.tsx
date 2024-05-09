@@ -5,19 +5,16 @@ import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import {
   Button,
-  Dropdown,
   Input,
-  Item,
   Label,
-  Menu,
   Message,
   MultiSelect,
-  Select,
   Skeleton,
-  Span,
   Textarea,
   useToast,
   Notification,
+  Radio,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import {
@@ -27,9 +24,8 @@ import {
   usePatchVideoByVidObservationsAndOidMutation,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
-import { Field } from '@zendeskgarden/react-dropdowns';
+import { Field as FormField } from '@zendeskgarden/react-forms';
 import { useEffect, useRef, useState } from 'react';
-import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
 
 const FormContainer = styled.div`
@@ -47,6 +43,28 @@ const StyledLabel = styled(Label)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
+const RadioTag = styled(Tag)<{
+  color: string;
+}>`
+  position: relative;
+  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xxs};
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: ${({ color }) => color};
+    opacity: 0.08;
+  }
+
+  * {
+    user-select: none;
+  }
+`;
+
 interface ObservationFormValues {
   title: string;
   severity: number;
@@ -55,15 +73,15 @@ interface ObservationFormValues {
 
 const ObservationForm = ({
   observation,
+  quots,
   onSubmit,
-  onDelete,
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
+  quots?: string;
   onSubmit: (
     values: ObservationFormValues,
     actions: FormikHelpers<ObservationFormValues>
   ) => void;
-  onDelete: () => void;
 }) => {
   const { t } = useTranslation();
   const { campaignId, videoId } = useParams();
@@ -236,53 +254,26 @@ const ObservationForm = ({
                     <Skeleton />
                   ) : (
                     <>
-                      <Dropdown
-                        selectedItem={selectedSeverity}
-                        onSelect={(item) => {
-                          setSelectedSeverity(item);
-                          formProps.setFieldValue('severity', item.id);
-                        }}
-                        downshiftProps={{
-                          itemToString: (
-                            item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
-                          ) => item && item.id,
-                        }}
-                        {...getFieldProps('severity')}
-                      >
-                        <Field>
-                          <Select>
-                            {selectedSeverity ? (
-                              <>
-                                <Circle color={`${selectedSeverity.style}`} />
-                                {selectedSeverity.name} (
-                                {selectedSeverity.usageNumber})
-                              </>
-                            ) : (
-                              <Span
-                                style={{ color: appTheme.palette.grey[400] }}
-                              >
-                                {t(
-                                  '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_PLACEHOLDER'
-                                )}
-                              </Span>
-                            )}
-                          </Select>
-                        </Field>
-                        <Menu>
-                          {severities.tags.map(
-                            (
-                              item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
-                            ) => (
-                              <Item key={item.id} value={item}>
-                                <>
-                                  <Circle color={`${item.style}`} />
-                                  {item.name} ({item.usageNumber})
-                                </>
-                              </Item>
-                            )
-                          )}
-                        </Menu>
-                      </Dropdown>
+                      {severities.tags.map((severity) => (
+                        <RadioTag color={severity.style}>
+                          <FormField>
+                            <Radio
+                              checked={selectedSeverity?.id === severity.id}
+                              onChange={() => {
+                                setSelectedSeverity(severity);
+                                formRef.current?.setFieldValue(
+                                  'severity',
+                                  severity.id
+                                );
+                              }}
+                            >
+                              <Label style={{ color: severity.style }}>
+                                {severity.name} ({severity.usageNumber})
+                              </Label>
+                            </Radio>
+                          </FormField>
+                        </RadioTag>
+                      ))}
                       {errors.severity && (
                         <Message
                           validation="error"
@@ -361,12 +352,21 @@ const ObservationForm = ({
                   />
                 )}
               </div>
-              <div style={{ marginTop: appTheme.space.md }}>
-                <StyledLabel>
-                  {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL')}
-                </StyledLabel>
-                <Input readOnly disabled style={{ margin: 0 }} />
-              </div>
+              {quots && (
+                <div style={{ marginTop: appTheme.space.md }}>
+                  <StyledLabel>
+                    {t(
+                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL'
+                    )}
+                  </StyledLabel>
+                  <Input
+                    readOnly
+                    disabled
+                    style={{ margin: 0 }}
+                    value={quots}
+                  />
+                </div>
+              )}
               <div style={{ marginTop: appTheme.space.md }}>
                 <StyledLabel>
                   {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_LABEL')}
@@ -388,7 +388,6 @@ const ObservationForm = ({
                     color: appTheme.palette.red[500],
                   }}
                   onClick={() => {
-                    onDelete();
                     setIsConfirmationModalOpen(true);
                   }}
                 >
