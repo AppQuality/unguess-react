@@ -4,18 +4,19 @@ import {
   IconButton,
   LG,
   Skeleton,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
+import { ReactComponent as InfoTooltip } from 'src/assets/info-tooltip.svg';
 import {
   useGetVideoByVidObservationsQuery,
   useGetVideoByVidQuery,
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
-import { useClickOtuside } from 'src/hooks/useClickOutside';
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
@@ -35,12 +36,21 @@ const TranscriptContainer = styled.div`
   line-height: ${({ theme }) => theme.lineHeights.lg};
   grid-template-columns: 2fr 1fr;
 `;
-
+const InfoTooltipIcon = styled(InfoTooltip)`
+  width: ${({ theme }) => theme.space.lg};
+  height: ${({ theme }) => theme.space.lg};
+`;
 const TranscriptHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
+const TranscriptTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xxs};
 `;
 
 const Transcript = ({
@@ -130,10 +140,6 @@ const Transcript = ({
     }
   };
 
-  useClickOtuside(wrapperRef, () => {
-    setSelection(undefined);
-  });
-
   if (!video || isErrorVideo || !video.transcript || isErrorObservations)
     return null;
 
@@ -148,7 +154,18 @@ const Transcript = ({
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
         <TranscriptHeader>
-          <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
+          <TranscriptTitleContainer>
+            <Tooltip
+              content={t('__VIDEO_PAGE_TRANSCRIPT_TOOLTIP')}
+              type="light"
+              size="medium"
+            >
+              <InfoTooltipIcon />
+            </Tooltip>
+            <StyledTitle isBold>
+              {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
+            </StyledTitle>
+          </TranscriptTitleContainer>
           {isSearchable && (
             <SearchBar
               value={searchValue}
