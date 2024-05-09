@@ -200,9 +200,10 @@ export const ChatBox = ({
           )}
         </StyledComments>
         <Chat.Input
+          author={{ avatar: getInitials(user.name), name: user.name }}
+          messageBadFileFormat={t('__BUG_CHAT_BAD_ATTACHMENT_FILE_FORMAT__')}
           hasFloatingMenu
           hasButtonsMenu
-          author={{ avatar: getInitials(user.name), name: user.name }}
           placeholderOptions={{
             placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
           }}
