@@ -28,9 +28,7 @@ const StyledContainerCard = styled(ContainerCard)`
   padding: ${({ theme }) => theme.space.xl};
   gap: ${({ theme }) => theme.space.sm};
 `;
-const StyledTitle = styled(LG)`
-  color: ${({ theme }) => theme.palette.grey[800]};
-`;
+
 const TranscriptContainer = styled.div`
   display: grid;
   line-height: ${({ theme }) => theme.lineHeights.lg};
@@ -162,9 +160,7 @@ const Transcript = ({
             >
               <InfoTooltipIcon />
             </Tooltip>
-            <StyledTitle isBold>
-              {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
-            </StyledTitle>
+            <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
           </TranscriptTitleContainer>
           {isSearchable && (
             <SearchBar
