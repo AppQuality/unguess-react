@@ -3,7 +3,33 @@ import { GetVideoByVidObservationsApiResponse } from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { useState } from 'react';
 import { appTheme } from 'src/app/theme';
+import { styled } from 'styled-components';
 import { ObservationForm } from './ObservationForm';
+
+const Circle = styled.div<{
+  color: string;
+}>`
+  width: 20px;
+  height: 20px;
+  margin-right: ${({ theme }) => theme.space.sm};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: ${({ color }) => color};
+    opacity: 0.08;
+  }
+`;
 
 const Observation = ({
   observation,
@@ -47,15 +73,22 @@ const Observation = ({
                 alignItems: 'center',
               }}
             >
-              <TagIcon
-                style={{
-                  marginRight: appTheme.space.sm,
-                  color:
-                    observation.tags.find(
-                      (tag) => tag.group.name.toLowerCase() === 'severity'
-                    )?.tag.style || appTheme.palette.grey[600],
-                }}
-              />
+              <Circle
+                color={
+                  observation.tags.find(
+                    (tag) => tag.group.name.toLowerCase() === 'severity'
+                  )?.tag.style || appTheme.palette.grey[600]
+                }
+              >
+                <TagIcon
+                  style={{
+                    color:
+                      observation.tags.find(
+                        (tag) => tag.group.name.toLowerCase() === 'severity'
+                      )?.tag.style || appTheme.palette.grey[600],
+                  }}
+                />
+              </Circle>
               <div>
                 <Title>
                   <LG isBold>{title}</LG>
