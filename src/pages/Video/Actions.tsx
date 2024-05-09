@@ -73,6 +73,9 @@ const Actions = () => {
                 refScroll={refScroll}
                 key={observation.id}
                 observation={observation}
+                {...(video.transcript && {
+                  transcript: video.transcript,
+                })}
               />
             ))}
         </div>
