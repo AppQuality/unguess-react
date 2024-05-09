@@ -51,9 +51,7 @@ const Observation = ({
 
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
-    if (isOpen) {
-      setOpenAccordion({ id: observation.id });
-    } else {
+    if (!isOpen) {
       setOpenAccordion(undefined);
     }
   };
@@ -78,10 +76,12 @@ const Observation = ({
           );
           if (activeElement) {
             refScroll.current.scrollTo({
-              top: activeElement.offsetTop - 100,
+              top: activeElement.offsetTop,
               behavior: 'smooth',
             });
           }
+
+          setOpenAccordion(undefined);
         }, 100);
       }
     }
