@@ -123,7 +123,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
             id="sidebar-nav-toggle"
             onClick={onSidebarToggle}
             isExpanded={isSidebarOpen}
-            style={{ display: 'block' }}
+            style={{ display: 'block', zIndex: 4 }}
           />
         )}
         {isMobile && isSidebarOpen && (
