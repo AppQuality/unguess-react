@@ -3,7 +3,6 @@ import {
   Highlight,
   IconButton,
   LG,
-  MediaInput,
   Skeleton,
 } from '@appquality/unguess-design-system';
 import { useRef, useState } from 'react';
@@ -19,6 +18,7 @@ import {
 import { useClickOtuside } from 'src/hooks/useClickOutside';
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
+import { useVideoContext } from '../context/VideoContext';
 import { EmptyTranscript } from './EmptyTranscript';
 import { SearchBar } from './SearchBar';
 
@@ -51,7 +51,7 @@ const Transcript = ({
   isSearchable: boolean;
 }) => {
   const { t } = useTranslation();
-  const { campaignId, videoId } = useParams();
+  const { videoId } = useParams();
   const [selection, setSelection] = useState<{
     from: number;
     to: number;
@@ -62,6 +62,7 @@ const Transcript = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
+  const { setOpenAccordion } = useVideoContext();
 
   const debouncedValue = useDebounce(searchValue, 300);
 
@@ -91,7 +92,15 @@ const Transcript = ({
       await postVideoByVidObservations({
         vid: videoId || '',
         body,
-      }).unwrap();
+      })
+        .unwrap()
+        .then((res) => {
+          setOpenAccordion({ id: res.id });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
     }
   };
 
