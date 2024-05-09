@@ -53,8 +53,6 @@ const Observation = ({
     setIsOpen(false);
   };
 
-  const handleDelete = () => {};
-
   return (
     <Accordion
       level={3}
@@ -106,11 +104,7 @@ const Observation = ({
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
-          <ObservationForm
-            observation={observation}
-            onSubmit={handleSubmit}
-            onDelete={handleDelete}
-          />
+          <ObservationForm observation={observation} onSubmit={handleSubmit} />
         </Accordion.Panel>
       </Accordion.Section>
     </Accordion>

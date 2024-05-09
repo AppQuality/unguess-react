@@ -74,14 +74,12 @@ interface ObservationFormValues {
 const ObservationForm = ({
   observation,
   onSubmit,
-  onDelete,
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
   onSubmit: (
     values: ObservationFormValues,
     actions: FormikHelpers<ObservationFormValues>
   ) => void;
-  onDelete: () => void;
 }) => {
   const { t } = useTranslation();
   const { campaignId, videoId } = useParams();
@@ -379,7 +377,6 @@ const ObservationForm = ({
                     color: appTheme.palette.red[500],
                   }}
                   onClick={() => {
-                    onDelete();
                     setIsConfirmationModalOpen(true);
                   }}
                 >
