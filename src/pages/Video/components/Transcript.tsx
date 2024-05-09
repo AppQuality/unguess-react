@@ -16,8 +16,11 @@ import {
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { useClickOtuside } from 'src/hooks/useClickOutside';
+import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
+import { EmptyTranscript } from './EmptyTranscript';
+import { SearchBar } from './SearchBar';
 
 const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -25,7 +28,6 @@ const StyledContainerCard = styled(ContainerCard)`
   gap: ${({ theme }) => theme.space.sm};
 `;
 const StyledTitle = styled(LG)`
-  margin-bottom: ${({ theme }) => theme.space.sm};
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
 const TranscriptContainer = styled.div`
@@ -34,7 +36,20 @@ const TranscriptContainer = styled.div`
   grid-template-columns: 2fr 1fr;
 `;
 
-const Transcript = ({ currentTime }: { currentTime: number }) => {
+const TranscriptHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.space.sm};
+`;
+
+const Transcript = ({
+  currentTime,
+  isSearchable,
+}: {
+  currentTime: number;
+  isSearchable: boolean;
+}) => {
   const { t } = useTranslation();
   const { videoId } = useParams();
   const [selection, setSelection] = useState<{
@@ -43,10 +58,13 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
     text: string;
     y: number;
   }>();
+  const [searchValue, setSearchValue] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
   const { setOpenAccordion } = useVideoContext();
+
+  const debouncedValue = useDebounce(searchValue, 300);
 
   const {
     data: video,
@@ -65,7 +83,6 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
   } = useGetVideoByVidObservationsQuery({
     vid: videoId || '',
   });
-
   const handleAddObservation = async () => {
     if (selection) {
       const body = {
@@ -113,7 +130,7 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
     }
   };
 
-  useClickOtuside(containerRef, () => {
+  useClickOtuside(wrapperRef, () => {
     setSelection(undefined);
   });
 
@@ -130,38 +147,50 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
-        <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
+        <TranscriptHeader>
+          <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
+          {isSearchable && (
+            <SearchBar
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          )}
+        </TranscriptHeader>
         <TranscriptContainer ref={containerRef}>
-          <div ref={wrapperRef}>
-            <Highlight handleSelection={(part) => handleSelection(part)}>
-              {video.transcript.words.map((item, index) => (
-                <Highlight.Word
-                  size="sm"
-                  key={`${item.word + index}`}
-                  start={item.start}
-                  end={item.end}
-                  observations={observations}
-                  currentTime={currentTime}
-                  text={item.word}
-                />
-              ))}
-            </Highlight>
-          </div>
-          {selection && (
-            <div style={{ position: 'relative' }}>
-              <IconButton
-                onClick={handleAddObservation}
-                size="small"
-                style={{
-                  position: 'absolute',
-                  left: '30%',
-                  top: `${selection.y}px`,
-                  transform: 'translateX(-100%)',
-                }}
+          {video.transcript ? (
+            <div style={{ position: 'relative' }} ref={wrapperRef}>
+              <Highlight
+                search={debouncedValue}
+                handleSelection={(part) => handleSelection(part)}
               >
-                <TagIcon />
-              </IconButton>
+                {video.transcript.words.map((item, index) => (
+                  <Highlight.Word
+                    size="sm"
+                    key={`${item.word + index}`}
+                    start={item.start}
+                    end={item.end}
+                    observations={observations}
+                    currentTime={currentTime}
+                    text={item.word}
+                  />
+                ))}
+              </Highlight>
+              {selection && (
+                <IconButton
+                  onClick={handleAddObservation}
+                  size="small"
+                  style={{
+                    position: 'absolute',
+                    right: '-40px',
+                    top: `${selection.y}px`,
+                  }}
+                >
+                  <TagIcon />
+                </IconButton>
+              )}
             </div>
+          ) : (
+            <EmptyTranscript />
           )}
         </TranscriptContainer>
       </StyledContainerCard>
