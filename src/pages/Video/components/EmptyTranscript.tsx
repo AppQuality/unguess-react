@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { ReactComponent as EmptyTranscriptImage } from 'src/assets/empty-transcript.svg';
-import { Paragraph, SM } from '@appquality/unguess-design-system';
+import { SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as EmptyTranscriptImage } from 'src/assets/empty-transcript.svg';
+import styled from 'styled-components';
 
 const EmptyTranscriptContainer = styled.div`
   display: flex;
