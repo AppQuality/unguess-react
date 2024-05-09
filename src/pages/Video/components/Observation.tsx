@@ -1,5 +1,8 @@
 import { Accordion, LG, SM, Title } from '@appquality/unguess-design-system';
-import { GetVideoByVidObservationsApiResponse } from 'src/features/api';
+import {
+  GetVideoByVidApiResponse,
+  GetVideoByVidObservationsApiResponse,
+} from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { useEffect, useState } from 'react';
 import { appTheme } from 'src/app/theme';
@@ -35,13 +38,20 @@ const Circle = styled.div<{
 const Observation = ({
   observation,
   refScroll,
+  transcript,
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
   refScroll: React.RefObject<HTMLDivElement>;
+  transcript?: GetVideoByVidApiResponse['transcript'];
 }) => {
   const { title, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
   const { openAccordion, setOpenAccordion } = useVideoContext();
+
+  const quots = transcript?.words
+    .filter((w) => w.start >= observation.start && w.end <= observation.end)
+    .map((w) => w.word)
+    .join(' ');
 
   const formatTime = (time: number) => {
     const date = new Date(0);
@@ -139,7 +149,11 @@ const Observation = ({
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
-          <ObservationForm observation={observation} onSubmit={handleSubmit} />
+          <ObservationForm
+            observation={observation}
+            onSubmit={handleSubmit}
+            {...(quots && { quots })}
+          />
         </Accordion.Panel>
       </Accordion.Section>
     </Accordion>

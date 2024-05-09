@@ -73,9 +73,11 @@ interface ObservationFormValues {
 
 const ObservationForm = ({
   observation,
+  quots,
   onSubmit,
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
+  quots?: string;
   onSubmit: (
     values: ObservationFormValues,
     actions: FormikHelpers<ObservationFormValues>
@@ -350,12 +352,21 @@ const ObservationForm = ({
                   />
                 )}
               </div>
-              <div style={{ marginTop: appTheme.space.md }}>
-                <StyledLabel>
-                  {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL')}
-                </StyledLabel>
-                <Input readOnly disabled style={{ margin: 0 }} />
-              </div>
+              {quots && (
+                <div style={{ marginTop: appTheme.space.md }}>
+                  <StyledLabel>
+                    {t(
+                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL'
+                    )}
+                  </StyledLabel>
+                  <Input
+                    readOnly
+                    disabled
+                    style={{ margin: 0 }}
+                    value={quots}
+                  />
+                </div>
+              )}
               <div style={{ marginTop: appTheme.space.md }}>
                 <StyledLabel>
                   {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_LABEL')}
