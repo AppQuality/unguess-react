@@ -121,7 +121,7 @@ const Transcript = ({
     }
   };
 
-  useClickOtuside(containerRef, () => {
+  useClickOtuside(wrapperRef, () => {
     setSelection(undefined);
   });
 
@@ -149,42 +149,37 @@ const Transcript = ({
         </TranscriptHeader>
         <TranscriptContainer ref={containerRef}>
           {video.transcript ? (
-            <>
-              <div ref={wrapperRef}>
-                <Highlight
-                  search={debouncedValue}
-                  handleSelection={(part) => handleSelection(part)}
-                >
-                  {video.transcript.words.map((item, index) => (
-                    <Highlight.Word
-                      size="sm"
-                      key={`${item.word + index}`}
-                      start={item.start}
-                      end={item.end}
-                      observations={observations}
-                      currentTime={currentTime}
-                      text={item.word}
-                    />
-                  ))}
-                </Highlight>
-              </div>
+            <div style={{ position: 'relative' }} ref={wrapperRef}>
+              <Highlight
+                search={debouncedValue}
+                handleSelection={(part) => handleSelection(part)}
+              >
+                {video.transcript.words.map((item, index) => (
+                  <Highlight.Word
+                    size="sm"
+                    key={`${item.word + index}`}
+                    start={item.start}
+                    end={item.end}
+                    observations={observations}
+                    currentTime={currentTime}
+                    text={item.word}
+                  />
+                ))}
+              </Highlight>
               {selection && (
-                <div style={{ position: 'relative' }}>
-                  <IconButton
-                    onClick={handleAddObservation}
-                    size="small"
-                    style={{
-                      position: 'absolute',
-                      left: '30%',
-                      top: `${selection.y}px`,
-                      transform: 'translateX(-100%)',
-                    }}
-                  >
-                    <TagIcon />
-                  </IconButton>
-                </div>
+                <IconButton
+                  onClick={handleAddObservation}
+                  size="small"
+                  style={{
+                    position: 'absolute',
+                    right: '-40px',
+                    top: `${selection.y}px`,
+                  }}
+                >
+                  <TagIcon />
+                </IconButton>
               )}
-            </>
+            </div>
           ) : (
             <EmptyTranscript />
           )}
