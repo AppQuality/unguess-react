@@ -4,9 +4,11 @@ import { useParams } from 'react-router-dom';
 import {
   useGetVideoByVidObservationsQuery,
   useGetVideoByVidQuery,
+  usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
 import { Transcript } from './Transcript';
+import { useVideoContext } from '../context/VideoContext';
 
 const PlayerContainer = styled.div`
   width: 100%;
@@ -22,6 +24,8 @@ const PlayerContainer = styled.div`
 const VideoPlayer = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { videoId } = useParams();
+  const { setOpenAccordion } = useVideoContext();
+  const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
 
   const {
     data: video,
@@ -61,14 +65,27 @@ const VideoPlayer = () => {
   const [start, setStart] = useState<number | undefined>(undefined);
 
   const handleCut = useCallback(
-    (time: number) => {
+    async (time: number) => {
       if (!start) {
         setStart(time);
         return;
       }
 
-      // TODO: POST obs start and time
-      // TODO: setOpenAccordion({ id: res.id });
+      await postVideoByVidObservations({
+        vid: videoId || '',
+        body: {
+          start: Math.round(start),
+          end: Math.round(time),
+        },
+      })
+        .unwrap()
+        .then((res) => {
+          setOpenAccordion({ id: res.id });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
 
       setStart(undefined);
     },
