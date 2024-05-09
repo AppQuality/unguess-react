@@ -58,7 +58,7 @@ export const ChatBox = ({
   isSubmitting: boolean;
   setIsSubmitting: (state: boolean) => void;
 }) => {
-  const { triggerSave, editor } = useChatContext();
+  const { triggerSave, editor, clearInput } = useChatContext();
   const { userData: user } = useAppSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<string>('');
@@ -220,12 +220,7 @@ export const ChatBox = ({
         />
         <Chat.Footer showShortcut saveText={t('__BUG_COMMENTS_CHAT_SAVE_TEXT')}>
           <ButtonsContainer>
-            <Button
-              isBasic
-              onClick={() => {
-                editor?.commands.clearContent(true);
-              }}
-            >
+            <Button isBasic onClick={clearInput}>
               {t('__BUG_COMMENTS_CHAT_CANCEL__')}
             </Button>
             <Button
