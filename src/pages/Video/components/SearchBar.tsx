@@ -1,7 +1,6 @@
 import { MediaInput } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as SearchIcon } from 'src/assets/icons/search-stroke.svg';
-import styled from 'styled-components';
 
 export const SearchBar = ({
   value,
