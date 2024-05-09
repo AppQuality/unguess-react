@@ -17,6 +17,7 @@ import {
 } from 'src/features/api';
 import { useClickOtuside } from 'src/hooks/useClickOutside';
 import { styled } from 'styled-components';
+import { useVideoContext } from '../context/VideoContext';
 
 const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -35,7 +36,7 @@ const TranscriptContainer = styled.div`
 
 const Transcript = ({ currentTime }: { currentTime: number }) => {
   const { t } = useTranslation();
-  const { campaignId, videoId } = useParams();
+  const { videoId } = useParams();
   const [selection, setSelection] = useState<{
     from: number;
     to: number;
@@ -45,6 +46,7 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
+  const { setOpenAccordion } = useVideoContext();
 
   const {
     data: video,
@@ -73,7 +75,15 @@ const Transcript = ({ currentTime }: { currentTime: number }) => {
       await postVideoByVidObservations({
         vid: videoId || '',
         body,
-      }).unwrap();
+      })
+        .unwrap()
+        .then((res) => {
+          setOpenAccordion({ id: res.id });
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
     }
   };
 

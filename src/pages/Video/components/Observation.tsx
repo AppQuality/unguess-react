@@ -1,10 +1,11 @@
 import { Accordion, LG, SM, Title } from '@appquality/unguess-design-system';
 import { GetVideoByVidObservationsApiResponse } from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
 import { ObservationForm } from './ObservationForm';
+import { useVideoContext } from '../context/VideoContext';
 
 const Circle = styled.div<{
   color: string;
@@ -33,11 +34,14 @@ const Circle = styled.div<{
 
 const Observation = ({
   observation,
+  refScroll,
 }: {
   observation: GetVideoByVidObservationsApiResponse[number];
+  refScroll: React.RefObject<HTMLDivElement>;
 }) => {
   const { title, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
+  const { openAccordion, setOpenAccordion } = useVideoContext();
 
   const formatTime = (time: number) => {
     const date = new Date(0);
@@ -47,11 +51,41 @@ const Observation = ({
 
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
+    if (isOpen) {
+      setOpenAccordion({ id: observation.id });
+    } else {
+      setOpenAccordion(undefined);
+    }
   };
 
   const handleSubmit = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    if (openAccordion !== undefined) {
+      if (openAccordion.id === observation.id) {
+        setIsOpen(true);
+
+        // Set scrolling container position to active element
+        setTimeout(() => {
+          if (!refScroll.current) {
+            return;
+          }
+
+          const activeElement = document.getElementById(
+            `video-observation-accordion-${openAccordion.id}`
+          );
+          if (activeElement) {
+            refScroll.current.scrollTo({
+              top: activeElement.offsetTop - 100,
+              behavior: 'smooth',
+            });
+          }
+        }, 100);
+      }
+    }
+  }, [openAccordion]);
 
   return (
     <Accordion
@@ -60,6 +94,7 @@ const Observation = ({
       key={`observation_accordion_${observation.id}_${isOpen}`}
       defaultExpandedSections={isOpen ? [0, 1] : []}
       onChange={handleAccordionChange}
+      id={`video-observation-accordion-${observation.id}`}
     >
       <Accordion.Section>
         <Accordion.Header>

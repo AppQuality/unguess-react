@@ -68,6 +68,7 @@ const VideoPlayer = () => {
       }
 
       // TODO: POST obs start and time
+      // TODO: setOpenAccordion({ id: res.id });
 
       setStart(undefined);
     },
