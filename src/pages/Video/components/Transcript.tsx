@@ -3,7 +3,6 @@ import {
   Highlight,
   IconButton,
   LG,
-  MediaInput,
   Skeleton,
 } from '@appquality/unguess-design-system';
 import { useRef, useState } from 'react';
@@ -19,9 +18,9 @@ import {
 import { useClickOtuside } from 'src/hooks/useClickOutside';
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
+import { useVideoContext } from '../context/VideoContext';
 import { EmptyTranscript } from './EmptyTranscript';
 import { SearchBar } from './SearchBar';
-import { useVideoContext } from '../context/VideoContext';
 
 const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
