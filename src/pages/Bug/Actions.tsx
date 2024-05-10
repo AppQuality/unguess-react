@@ -1,6 +1,11 @@
-import { ChatProvider, LG, Skeleton } from '@appquality/unguess-design-system';
+import {
+  ChatProvider,
+  LG,
+  Skeleton,
+  useChatContext,
+} from '@appquality/unguess-design-system';
 import { FileItem } from '@appquality/unguess-design-system/build/stories/chat/_types';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -9,6 +14,7 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
 import {
+  PostCampaignsByCidBugsAndBidMediaApiResponse,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
@@ -69,8 +75,15 @@ export const Actions = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mediaIdMap, setMediaIdMap] = useState<FileItem[]>([]);
 
+  const fileMap: Map<number, File> = new Map();
+
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
+
+  useMemo(() => {
+    console.log('mediaidmap', mediaIdMap[0]);
+    console.log('mediaids', mediaIds);
+  }, [mediaIdMap, mediaIds]);
 
   const {
     data: bug,
@@ -97,10 +110,10 @@ export const Actions = () => {
   */
 
   const handleMediaUpload = async (files: FileItem[]) => {
-    let data = {};
+    let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
     files.forEach(async (f) => {
       const formData = new FormData();
-
+      console.log('f', f);
       // normalize filename
       const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
       formData.append('media', f, filename);
@@ -111,21 +124,34 @@ export const Actions = () => {
           // @ts-ignore
           body: formData,
         }).unwrap();
-
+        // console.log('data', data);
         // @ts-ignore
         if (data && data.uploaded_ids) {
+          console.log('data', data);
           // @ts-ignore
-          data.uploaded_ids.forEach((e: { id: number }) => {
-            setMediaIds((prev) => [...prev, { id: e.id }]);
-            setMediaIdMap((prev) => [...prev, { ...f, id: e.id } as FileItem]);
-          });
+          setMediaIds((prev) => [
+            ...prev,
+            // @ts-ignore
+            { id: data.uploaded_ids[0].id },
+          ]);
+
+          fileMap.set(data.uploaded_ids[0].id, f);
+          console.log('fileMap', fileMap);
+
+          setMediaIdMap((prev) => [
+            ...prev,
+            {
+              ...(f as File),
+              // @ts-ignore
+              id: data.uploaded_ids[0].id,
+            } as FileItem,
+          ]);
         }
       } catch (e) {
         console.warn('upload failed', e);
       }
     });
-    console.log('mediamap', mediaIdMap);
-    console.log('media', files);
+
     return data;
   };
 
