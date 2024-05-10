@@ -1,6 +1,5 @@
 import { MD, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { CampaignVideoResponseItem } from '../types';
 
 const StyledMD = styled(MD)`
   span {
@@ -26,11 +25,17 @@ const StyledDiv = styled.div`
   }
 `;
 
-export const InfoRow = ({ videos, usecase }: CampaignVideoResponseItem) => (
+export const InfoRow = ({
+  videos,
+  usecase,
+}: {
+  videos: number;
+  usecase: string;
+}) => (
   <StyledDiv>
     <StyledMD isBold>
-      {usecase.title}
-      <MD tag="span">{` (${videos.length ?? 0})`}</MD>
+      {usecase}
+      <MD tag="span">{` (${videos})`}</MD>
     </StyledMD>
   </StyledDiv>
 );

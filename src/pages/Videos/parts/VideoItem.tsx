@@ -1,7 +1,5 @@
-import { Anchor, Button, MD, SM } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
+import { Anchor, MD, SM } from '@appquality/unguess-design-system';
+import { useParams } from 'react-router-dom';
 import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
@@ -38,12 +36,33 @@ const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
   }
 `;
 
+const Poster = ({
+  video,
+}: {
+  video: GetCampaignsByCidVideoApiResponse['items'][number]['videos'][number];
+}) => {
+  if (video.poster) {
+    return (
+      <img
+        src={video.poster}
+        alt={`video poster preview of video ${video.id}`}
+      />
+    );
+  }
+
+  return (
+    <video>
+      <source src={`${video.url}#t0.5`} type="video/mp4" />
+      <track kind="captions" />
+    </video>
+  );
+};
+
 const Video = ({
   video,
 }: {
   video: GetCampaignsByCidVideoApiResponse['items'][number]['videos'][number];
 }) => {
-  const { t } = useTranslation();
   const { campaignId } = useParams();
   const videoUrl = useLocalizeRoute(
     `campaigns/${campaignId}/videos/${video.id}`
@@ -52,10 +71,7 @@ const Video = ({
   return (
     <StyledAnchor href={videoUrl}>
       <Container>
-        <video>
-          <source src={`${video.url}#t0.5`} type="video/mp4" />
-          <track kind="captions" />
-        </video>
+        <Poster video={video} />
         <div>
           <MD isBold>{video.tester.name}</MD>
           <SM>ID: {video.id}</SM>
