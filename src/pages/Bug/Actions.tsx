@@ -71,6 +71,7 @@ export const Actions = () => {
   );
 
   const [mediaIds, setMediaIds] = useState<{ id: number }[]>([]);
+  const [internalMediaIds, setInternalMediaIds] = useState<string[]>([]);
   const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mediaIdMap, setMediaIdMap] = useState<FileItem[]>([]);
@@ -135,17 +136,14 @@ export const Actions = () => {
             { id: data.uploaded_ids[0].id },
           ]);
 
+          setInternalMediaIds((prev) => [
+            ...prev,
+            // @ts-ignore
+            f.internal_id,
+          ]);
+
           fileMap.set(data.uploaded_ids[0].id, f);
           console.log('fileMap', fileMap);
-
-          setMediaIdMap((prev) => [
-            ...prev,
-            {
-              ...(f as File),
-              // @ts-ignore
-              id: data.uploaded_ids[0].id,
-            } as FileItem,
-          ]);
         }
       } catch (e) {
         console.warn('upload failed', e);
@@ -210,6 +208,11 @@ export const Actions = () => {
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
         onFileUpload={(files) => handleMediaUpload(files)}
+        onDeleteThumbnail={(id) => {
+          setInternalMediaIds((prev) =>
+            prev.filter((internal_id) => internal_id !== id)
+          );
+        }}
       >
         <Divider style={{ margin: `${appTheme.space.md} auto` }} />
         {isFetchingUsers || isLoadingUsers ? (
