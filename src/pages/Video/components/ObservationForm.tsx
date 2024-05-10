@@ -26,6 +26,7 @@ import {
 } from 'src/features/api';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { useEffect, useRef, useState } from 'react';
+import { getColorWithAlpha } from 'src/common/utils';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
 
 const FormContainer = styled.div`
@@ -46,19 +47,7 @@ const StyledLabel = styled(Label)`
 const RadioTag = styled(Tag)<{
   color: string;
 }>`
-  position: relative;
   padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xxs};
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: ${({ color }) => color};
-    opacity: 0.08;
-  }
 
   * {
     user-select: none;
@@ -254,26 +243,42 @@ const ObservationForm = ({
                     <Skeleton />
                   ) : (
                     <>
-                      {severities.tags.map((severity) => (
-                        <RadioTag color={severity.style}>
-                          <FormField>
-                            <Radio
-                              checked={selectedSeverity?.id === severity.id}
-                              onChange={() => {
-                                setSelectedSeverity(severity);
-                                formRef.current?.setFieldValue(
-                                  'severity',
-                                  severity.id
-                                );
-                              }}
-                            >
-                              <Label style={{ color: severity.style }}>
-                                {severity.name} ({severity.usageNumber})
-                              </Label>
-                            </Radio>
-                          </FormField>
-                        </RadioTag>
-                      ))}
+                      <div>
+                        {severities.tags.map((severity) => (
+                          <RadioTag
+                            color={severity.style}
+                            style={{
+                              backgroundColor: getColorWithAlpha(
+                                severity.style,
+                                0.1
+                              ),
+                              marginBottom: appTheme.space.sm,
+                            }}
+                          >
+                            <FormField>
+                              <Radio
+                                checked={selectedSeverity?.id === severity.id}
+                                onChange={() => {
+                                  setSelectedSeverity(severity);
+                                  formRef.current?.setFieldValue(
+                                    'severity',
+                                    severity.id
+                                  );
+                                }}
+                              >
+                                <Label
+                                  style={{
+                                    color: severity.style,
+                                    paddingRight: appTheme.space.xxs,
+                                  }}
+                                >
+                                  {severity.name}
+                                </Label>
+                              </Radio>
+                            </FormField>
+                          </RadioTag>
+                        ))}
+                      </div>
                       {errors.severity && (
                         <Message
                           validation="error"
