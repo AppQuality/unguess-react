@@ -9,12 +9,15 @@ import {
   Skeleton,
   Span,
   Tag,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
+import { getColorWithAlpha } from 'src/common/utils';
 import {
   useGetVideoByVidObservationsQuery,
   useGetVideoByVidQuery,
@@ -22,7 +25,6 @@ import {
 } from 'src/features/api';
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
-import { getColorWithAlpha } from 'src/common/utils';
 import { useVideoContext } from '../context/VideoContext';
 import { EmptyTranscript } from './EmptyTranscript';
 import { SearchBar } from './SearchBar';
@@ -31,9 +33,6 @@ const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
   padding: ${({ theme }) => theme.space.xl};
   gap: ${({ theme }) => theme.space.sm};
-`;
-const StyledTitle = styled(LG)`
-  color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
 const TranscriptHeader = styled.div`
@@ -46,7 +45,7 @@ const TranscriptHeader = styled.div`
 const HighlightContainer = styled.div``;
 
 const ChipsWrap = styled.div`
-  line-height: ${({ theme }) => theme.lineHeights.xl};
+  line-height: ${({ theme }) => theme.lineHeights.xxl};
   position: relative;
 
   .highlighted-tag {
@@ -58,6 +57,17 @@ const ChipsWrap = styled.div`
   [observation] {
     display: inline-block;
   }
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xxs};
+`;
+
+const InfoTranscriptIcon = styled(InfoIcon)`
+  width: ${({ theme }) => theme.space.lg};
+  height: ${({ theme }) => theme.space.lg};
 `;
 
 const StyledTag = styled(Tag)`
@@ -183,7 +193,16 @@ const Transcript = ({
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
         <TranscriptHeader>
-          <StyledTitle isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</StyledTitle>
+          <TitleWrapper>
+            <Tooltip
+              size="large"
+              content={t('__VIDEO_PAGE_TRANSCRIPT_INFO')}
+              type="light"
+            >
+              <InfoTranscriptIcon />
+            </Tooltip>
+            <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
+          </TitleWrapper>
           {isSearchable && (
             <SearchBar
               value={searchValue}
