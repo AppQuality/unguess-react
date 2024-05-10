@@ -135,6 +135,7 @@ const Transcript = ({
         .unwrap()
         .then((res) => {
           setOpenAccordion({ id: res.id });
+          setIsSelecting(false);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console

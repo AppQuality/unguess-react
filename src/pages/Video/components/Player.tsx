@@ -129,6 +129,7 @@ const VideoPlayer = () => {
                 (tag) => tag.group.name.toLowerCase() === 'severity'
               )?.tag.style || 'grey',
             label: obs.title,
+            onClick: () => setOpenAccordion({ id: obs.id }),
           }))}
         />
       </PlayerContainer>
