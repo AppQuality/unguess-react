@@ -10,11 +10,19 @@ import { styled } from 'styled-components';
 import { Transcript } from './Transcript';
 import { useVideoContext } from '../context/VideoContext';
 
-const PlayerContainer = styled.div`
+const PlayerContainer = styled.div<{
+  isFetching: boolean;
+}>`
   width: 100%;
   height: auto;
   max-height: 50vh;
   display: flex;
+
+  ${({ isFetching }) =>
+    isFetching &&
+    `
+    opacity: 0.75;
+  `}
 
   > div {
     height: auto;
@@ -99,10 +107,11 @@ const VideoPlayer = () => {
   if (!video || isErrorVideo) return null;
   if (!observations || isErrorObservations) return null;
 
-  if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
+  if (isFetchingVideo || isLoadingVideo || isLoadingObservations)
+    return <Skeleton />;
   return (
     <>
-      <PlayerContainer>
+      <PlayerContainer isFetching={isFetchingObservations}>
         <Player
           ref={videoRef}
           url={video.url}
