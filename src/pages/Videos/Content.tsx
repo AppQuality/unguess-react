@@ -2,22 +2,20 @@ import {
   Accordion,
   Col,
   Grid,
-  LG,
   Row,
   Skeleton,
-  Span,
 } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetCampaignsByCidVideoQuery } from 'src/features/api';
-import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
-import Empty from './Empty';
-import { Video } from './parts/VideoItem';
-import { Wrapper } from './parts/Wrapper';
-import { InfoRow } from './parts/InfoRow';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
+import Empty from './Empty';
+import { InfoRow } from './parts/InfoRow';
 import { VideoContainer } from './parts/VideoContainer';
+import { Wrapper } from './parts/Wrapper';
+import { useVideo } from './useVideos';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
   padding: 0;
@@ -36,19 +34,21 @@ const AccordionFooter = styled.div`
 
 const VideosPageContent = () => {
   const { campaignId } = useParams();
-
-  const { data, isFetching, isLoading, isError } =
-    useGetCampaignsByCidVideoQuery({
-      cid: campaignId || '',
-    });
+  const { t } = useTranslation();
+  const {
+    sorted: videos,
+    isFetching,
+    isLoading,
+    isError,
+  } = useVideo(campaignId ?? '');
 
   if (isError) return null;
 
-  if (data && data.items.length === 0) {
+  if (!videos || videos.length === 0) {
     return <Empty />;
   }
 
-  const usecases = data?.items.filter((item) => item.videos.length > 0);
+  const usecases = videos.filter((item) => item.videos.total > 0);
 
   return (
     <LayoutWrapper>
@@ -77,19 +77,33 @@ const VideosPageContent = () => {
                           <StyledAccordionHeader>
                             <StyledAccordionLabel>
                               <InfoRow
-                                usecase={uc.usecase}
-                                videos={uc.videos}
+                                usecase={uc.usecase.title}
+                                videos={uc.videos.total}
                               />
                             </StyledAccordionLabel>
                           </StyledAccordionHeader>
                           <Accordion.Panel style={{ padding: 0 }}>
-                            <VideoContainer
-                              title="Sia Desktop che Mobile"
-                              video={uc.videos}
-                            />
+                            {!!uc.videos.desktop.length && (
+                              <VideoContainer
+                                title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
+                                video={uc.videos.desktop}
+                              />
+                            )}
+                            {!!uc.videos.tablet.length && (
+                              <VideoContainer
+                                title={t('__VIDEOS_LIST_TABLET_TITLE')}
+                                video={uc.videos.tablet}
+                              />
+                            )}
+                            {!!uc.videos.smartphone.length && (
+                              <VideoContainer
+                                title={t('__VIDEOS_LIST_SMARTPHONE_TITLE')}
+                                video={uc.videos.smartphone}
+                              />
+                            )}
                             <AccordionFooter>
                               <CompletionTooltip
-                                percentage={Math.random() * 100}
+                                percentage={uc.usecase.completion}
                               />
                             </AccordionFooter>
                           </Accordion.Panel>
