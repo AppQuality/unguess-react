@@ -555,6 +555,7 @@ export interface components {
       media?: {
         url: string;
         id: number;
+        type: string;
       }[];
     };
     /** BugCustomStatus */
@@ -1165,19 +1166,11 @@ export interface components {
           has_bug_form?: number;
           /** @description if has_bug_form is 0 this has to be 0 */
           has_bug_parade?: number;
+          /** @description Useless value required by Tryber BackOffice */
           description?: string;
           base_bug_internal_id?: string;
           express_slug: string;
           use_cases?: components['schemas']['UseCase'][];
-          productType?: number;
-          productLink?: string;
-          browsers?: number[];
-          languages?: number[];
-          outOfScope?: string;
-          testerRequirements?: string;
-          targetSize?: number;
-          goal?: string;
-          testDescription?: string;
         };
       };
     };
