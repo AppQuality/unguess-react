@@ -52,6 +52,11 @@ const ChipsWrap = styled.div`
   .highlighted-tag {
     position: absolute;
     left: 100%;
+    margin-left: ${({ theme }) => theme.space.md};
+  }
+
+  [observation] {
+    display: inline-block;
   }
 `;
 
