@@ -1,23 +1,23 @@
-import * as Yup from 'yup';
-import { FormikProps } from 'formik';
-import { t } from 'i18next';
 import {
+  ContainerCard,
   Paragraph,
   Span,
   XXL,
-  ContainerCard,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
-import { useEffect } from 'react';
-import { EXPRESS_3_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { FormikProps } from 'formik';
+import { t } from 'i18next';
+import { useEffect } from 'react';
 import { appTheme } from 'src/app/theme';
+import { EXPRESS_3_BUSINESS_DAYS_TO_ADD } from 'src/constants';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
+import * as Yup from 'yup';
+import { HowConfirm } from './confirm/howConfirm';
+import { WhatConfirm } from './confirm/whatConfirm';
 import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
-import { WhatConfirm } from './confirm/whatConfirm';
-import { HowConfirm } from './confirm/howConfirm';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;
@@ -42,6 +42,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
   useEffect(() => {
     // This XPS require more time to be completed, so we update the default duration value
     setFieldValue('base_cp_duration', EXPRESS_3_BUSINESS_DAYS_TO_ADD);
+    setFieldValue('target_size', 6);
   }, []);
 
   const hasWhereStep = values.link || values.iOSLink || values.androidLink;
