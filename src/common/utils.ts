@@ -1,5 +1,6 @@
 import { DEFAULT_EXPRESS_REQUIRED_COINS } from 'src/constants';
 import { Workspace } from 'src/features/api';
+import { getColor } from '@appquality/unguess-design-system';
 import { extractStrapiData, StrapiResponse } from './getStrapiData';
 
 export const prepareGravatar = (url: string, size?: number) =>
@@ -77,3 +78,6 @@ export const getLocalizedStrapiData = ({
   // Return the default language item (EN)
   return data;
 };
+
+export const getColorWithAlpha = (hue: string, alpha: number) =>
+  getColor(hue, undefined, undefined, alpha);
