@@ -160,12 +160,24 @@ const Transcript = ({
     });
   };
 
-  document.addEventListener('selectionchange', () => {
-    const s = document.getSelection();
-    if (s && s.toString().length > 0) {
-      setIsSelecting(true);
+  document.addEventListener('selectionchange', (e) => {
+    if (!wrapperRef || !wrapperRef.current) return;
 
-      if (!wrapperRef || !wrapperRef.current) return;
+    const s = document.getSelection();
+
+    if (s && s.toString().length > 0) {
+      const anchorNode = s?.anchorNode?.parentElement;
+      const focusNode = s?.focusNode?.parentElement;
+
+      if (
+        anchorNode &&
+        focusNode &&
+        !wrapperRef.current.contains(anchorNode) &&
+        !wrapperRef.current.contains(focusNode)
+      )
+        return;
+
+      setIsSelecting(true);
 
       const rect = s.getRangeAt(0).getBoundingClientRect();
       const containerRect =
