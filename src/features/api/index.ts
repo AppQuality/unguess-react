@@ -1104,6 +1104,7 @@ export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
       id: number;
       title: string;
       description: string;
+      completion: number;
     };
     videos: Video[];
   }[];
@@ -1808,10 +1809,12 @@ export type Video = {
   id: number;
   url: string;
   streamUrl?: string;
+  poster?: string;
   tester: {
     id: number;
     name: string;
     surname: string;
+    device: Smartphone | Tablet | Desktop;
   };
   transcript?: Transcript;
 };
