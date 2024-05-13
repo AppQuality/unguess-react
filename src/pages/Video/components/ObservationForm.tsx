@@ -364,11 +364,12 @@ const ObservationForm = ({
                       '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL'
                     )}
                   </StyledLabel>
-                  <Input
+                  <Textarea
                     readOnly
                     disabled
                     style={{ margin: 0 }}
                     value={quots}
+                    rows={4}
                   />
                 </div>
               )}
@@ -381,6 +382,7 @@ const ObservationForm = ({
                   placeholder={t(
                     '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_PLACEHOLDER'
                   )}
+                  rows={4}
                   {...getFieldProps('notes')}
                 />
               </div>
