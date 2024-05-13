@@ -40,6 +40,7 @@ const TranscriptHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: ${({ theme }) => theme.space.sm};
+  z-index: 200;
 `;
 
 const HighlightContainer = styled.div``;
@@ -63,6 +64,9 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.space.xxs};
+`;
+const StyledTooltip = styled(Tooltip)`
+  left: ${({ theme }) => -theme.space.xxs};
 `;
 
 const InfoTranscriptIcon = styled(InfoIcon)`
@@ -195,13 +199,14 @@ const Transcript = ({
       <StyledContainerCard>
         <TranscriptHeader>
           <TitleWrapper>
-            <Tooltip
+            <StyledTooltip
               size="large"
               content={t('__VIDEO_PAGE_TRANSCRIPT_INFO')}
               type="light"
+              placement="top-start"
             >
               <InfoTranscriptIcon />
-            </Tooltip>
+            </StyledTooltip>
             <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
           </TitleWrapper>
           {isSearchable && (
