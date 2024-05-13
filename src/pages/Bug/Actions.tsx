@@ -15,6 +15,7 @@ import {
   usePostCampaignsByCidBugsAndBidMediaMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { Data } from '@appquality/unguess-design-system/build/stories/chat/context/chatContext';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
 
@@ -87,36 +88,41 @@ export const Actions = () => {
 
   const [uploadMedia] = usePostCampaignsByCidBugsAndBidMediaMutation();
 
-  const handleMediaUpload = async (files: FileItem[]) => {
-    let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
-    files.forEach(async (f) => {
-      const formData = new FormData();
-      // normalize filename
-      const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
-      formData.append('media', f, filename);
-      try {
-        data = await uploadMedia({
-          cid,
-          bid,
-          // @ts-ignore
-          body: formData,
-        }).unwrap();
-        // @ts-ignore
-        if (data && data.uploaded_ids) {
-          // @ts-ignore
-          setMediaIds((prev) => [
-            ...prev,
+  const handleMediaUpload = async (files: FileItem[]) =>
+    new Promise<Data>((resolve, reject) => {
+      let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
+      files.forEach(async (f) => {
+        const formData = new FormData();
+        // normalize filename
+        const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
+        formData.append('media', f, filename);
+        try {
+          data = await uploadMedia({
+            cid,
+            bid,
             // @ts-ignore
-            { id: data.uploaded_ids[0].id, internal_id: f.internal_id },
-          ]);
+            body: formData,
+          }).unwrap();
+          // @ts-ignore
+          if (data && data.uploaded_ids) {
+            // @ts-ignore
+            setMediaIds((prev) => [
+              ...prev,
+              // @ts-ignore
+              { id: data.uploaded_ids[0].id, internal_id: f.internal_id },
+            ]);
+          }
+          resolve(data);
+        } catch (e) {
+          console.warn('upload failed', e);
+          reject(data);
         }
-      } catch (e) {
-        console.warn('upload failed', e);
-      }
+      });
     });
+  //
+  //
 
-    return data;
-  };
+  // return data;
 
   const createCommentHandler = useCallback(
     (editor, mentions) => {
@@ -172,7 +178,7 @@ export const Actions = () => {
       <ChatProvider
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
-        onFileUpload={(files) => handleMediaUpload(files)}
+        onFileUpload={async (files: FileItem[]) => handleMediaUpload(files)}
         onDeleteThumbnail={(id) => {
           setMediaIds((prev) =>
             prev.filter((media) => media.internal_id !== id)
