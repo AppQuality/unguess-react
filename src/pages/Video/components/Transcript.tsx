@@ -160,7 +160,7 @@ const Transcript = ({
     });
   };
 
-  document.addEventListener('selectionchange', (e) => {
+  document.addEventListener('selectionchange', () => {
     if (!wrapperRef || !wrapperRef.current) return;
 
     const s = document.getSelection();
