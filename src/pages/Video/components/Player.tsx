@@ -73,8 +73,8 @@ const VideoPlayer = () => {
       await postVideoByVidObservations({
         vid: videoId || '',
         body: {
-          start: Math.round(start),
-          end: Math.round(time),
+          start,
+          end: time,
         },
       })
         .unwrap()
