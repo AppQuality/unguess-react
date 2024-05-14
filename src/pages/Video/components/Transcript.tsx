@@ -108,6 +108,8 @@ const Transcript = ({
   const { setOpenAccordion } = useVideoContext();
   const debouncedValue = useDebounce(searchValue, 300);
 
+  console.log('currentTime from Transcript: ', currentTime);
+
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -160,6 +162,7 @@ const Transcript = ({
     });
   };
 
+  // What's this? why an event listener here?
   document.addEventListener('selectionchange', () => {
     if (!wrapperRef || !wrapperRef.current) return;
 

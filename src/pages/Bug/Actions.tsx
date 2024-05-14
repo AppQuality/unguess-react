@@ -129,6 +129,7 @@ export const Actions = () => {
       <ChatProvider
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
+        onDeleteThumbnail={() => alert('Not implemented')}
       >
         <Divider style={{ margin: `${appTheme.space.md} auto` }} />
         {isFetchingUsers || isLoadingUsers ? (

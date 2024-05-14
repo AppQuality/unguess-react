@@ -54,10 +54,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@3.1.86":
-  version "3.1.86"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.86.tgz#aa5632fd204b522ffca26d9d709f54a12be8d168"
-  integrity sha512-K1DiQWolRSbmtKDKOrrO3fp19toYdrs/VXjip3OpZvashL9zDut7g0LDpVUEBZcHp0n2Ku9R0iunHz7U0X0NSg==
+"@appquality/unguess-design-system@3.1.88":
+  version "3.1.88"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.88.tgz#71bb5328369aea83f4ae40022736725e7faeebbf"
+  integrity sha512-Fjfcq2i6DfkFX7dBz/pbU+tWiQ7OOZwghQYhAuDymxFhjctjXrZEkBiWyT3nmfvMR5tlAoOKxsHrazORJLOS7A==
   dependencies:
     "@appquality/stream-player" "^1.0.6"
     "@nivo/bar" "^0.80.0"
@@ -71,6 +71,8 @@
     "@nivo/waffle" "^0.80.0"
     "@tiptap/extension-bubble-menu" "2.1.16"
     "@tiptap/extension-character-count" "2.1.16"
+    "@tiptap/extension-dropcursor" "^2.2.4"
+    "@tiptap/extension-image" "^2.2.4"
     "@tiptap/extension-link" "2.1.16"
     "@tiptap/extension-mention" "2.1.16"
     "@tiptap/extension-placeholder" "2.1.16"
@@ -101,6 +103,7 @@
     react-window "^1.8.6"
     tippy.js "^6.3.7"
     ua-parser-js "^1.0.2"
+    uuid "^9.0.1"
 
 "@babel/code-frame@7.10.4":
   version "7.10.4"
@@ -2675,6 +2678,11 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-dropcursor/-/extension-dropcursor-2.1.16.tgz#6b7d3d3cb0375bba7499c6f9223562008ec983c5"
   integrity sha512-voWEIAmxV3f9Q0gc3K89HRq8KFeOVtHJBRHYihZwxMnvq2aMIwdpCx0GbiCd4slQaBLd1ASJHz1uAigVhR2+uA==
 
+"@tiptap/extension-dropcursor@^2.2.4":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-dropcursor/-/extension-dropcursor-2.3.2.tgz#3f12430fb5fa7e436726c66c53fe0334f97e1834"
+  integrity sha512-r7JJn9dEnIRDdbnTCAUFCWX4OPsR48+4OEm5eGlysEaD2h4z0G1AaK5XXwOoQhP3WP2LHHjL4LahlYZvltzFzw==
+
 "@tiptap/extension-floating-menu@^2.1.16":
   version "2.1.16"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-floating-menu/-/extension-floating-menu-2.1.16.tgz#1ee53b1244ff23653114fdc248d6856a2eaa7974"
@@ -2706,6 +2714,11 @@
   version "2.1.16"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-horizontal-rule/-/extension-horizontal-rule-2.1.16.tgz#484a5c29d4e708cefc50b05dccc4489e140a3fa1"
   integrity sha512-Q+Zp0lJF7212YIuZnbMmn4KC1MZoZjQIuvSd+DOgCwKSeUcTXBbljDjOiN8yrY134r+A4fFM7KHTXWYqZGZQug==
+
+"@tiptap/extension-image@^2.2.4":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-image/-/extension-image-2.3.2.tgz#befc9120fd3bc7903fc208323f832be228f415c1"
+  integrity sha512-otkhqToHnjjpWOIswuotfK/PTPEOhhKRFPf1NuXvqHpMNulz+J1uIuA9R/B1m+bXkxZzCMKkWQi50vjqH9idVg==
 
 "@tiptap/extension-italic@^2.1.16":
   version "2.1.16"
@@ -15461,6 +15474,11 @@ uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.1.tgz#e188d4c8853cc722220392c424cd637f32293f30"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 v8-compile-cache-lib@^3.0.1:
   version "3.0.1"

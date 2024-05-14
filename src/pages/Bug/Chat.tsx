@@ -142,6 +142,7 @@ export const ChatBox = ({
                     )}
                     message={comment.text}
                     key={comment.id}
+                    header={{ title: 'Not implemented Title' }}
                   >
                     <>
                       <br />
@@ -168,6 +169,7 @@ export const ChatBox = ({
           placeholderOptions={{
             placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
           }}
+          messageBadFileFormat="{{file}} {{fileSize}} {{fileType}}"
           i18n={{
             menu: {
               bold: t('__BUG_COMMENTS_CHAT_BOLD'),
