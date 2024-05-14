@@ -185,6 +185,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postCampaignsByCidInsights: build.mutation<
+      PostCampaignsByCidInsightsApiResponse,
+      PostCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/insights`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getCampaignsByCidInsights: build.query<
+      GetCampaignsByCidInsightsApiResponse,
+      GetCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/insights` }),
+    }),
     getCampaignsByCidMeta: build.query<
       GetCampaignsByCidMetaApiResponse,
       GetCampaignsByCidMetaApiArg
@@ -318,6 +334,31 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/widgets`,
         params: { s: queryArg.s, updateTrend: queryArg.updateTrend },
+      }),
+    }),
+    getInsightsByIid: build.query<
+      GetInsightsByIidApiResponse,
+      GetInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({ url: `/insights/${queryArg.iid}` }),
+    }),
+    deleteInsightsByIid: build.mutation<
+      DeleteInsightsByIidApiResponse,
+      DeleteInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'DELETE',
+      }),
+    }),
+    patchInsightsByIid: build.mutation<
+      PatchInsightsByIidApiResponse,
+      PatchInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'PATCH',
+        body: queryArg.body,
       }),
     }),
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
@@ -536,47 +577,6 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/workspaces/${queryArg.wid}/users`,
         method: 'DELETE',
-        body: queryArg.body,
-      }),
-    }),
-    postCampaignsByCidInsights: build.mutation<
-      PostCampaignsByCidInsightsApiResponse,
-      PostCampaignsByCidInsightsApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/campaigns/${queryArg.cid}/insights`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
-    getCampaignsByCidInsights: build.query<
-      GetCampaignsByCidInsightsApiResponse,
-      GetCampaignsByCidInsightsApiArg
-    >({
-      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/insights` }),
-    }),
-    getInsightsByIid: build.query<
-      GetInsightsByIidApiResponse,
-      GetInsightsByIidApiArg
-    >({
-      query: (queryArg) => ({ url: `/insights/${queryArg.iid}` }),
-    }),
-    deleteInsightsByIid: build.mutation<
-      DeleteInsightsByIidApiResponse,
-      DeleteInsightsByIidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/insights/${queryArg.iid}`,
-        method: 'DELETE',
-      }),
-    }),
-    patchInsightsByIid: build.mutation<
-      PatchInsightsByIidApiResponse,
-      PatchInsightsByIidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/insights/${queryArg.iid}`,
-        method: 'PATCH',
         body: queryArg.body,
       }),
     }),
@@ -875,6 +875,25 @@ export type PutCampaignsByCidFindingsAndFidApiArg = {
     comment: string;
   };
 };
+export type PostCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight;
+export type PostCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    title: string;
+    description?: string;
+    severity_id: number;
+    observations_ids: number[];
+    comment?: string;
+  };
+};
+export type GetCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight[];
+export type GetCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
+};
 export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
   selected_testers: number;
   /** Array of form factors */
@@ -1074,6 +1093,7 @@ export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
       id: number;
       title: string;
       description: string;
+      completion: number;
     };
     videos: Video[];
   }[];
@@ -1108,6 +1128,28 @@ export type GetCampaignsByCidWidgetsApiArg = {
     | 'bugs-by-duplicates';
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
+};
+export type GetInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type GetInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
+export type DeleteInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type PatchInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type PatchInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+  body: {
+    title?: string;
+    description?: string;
+    severity_id?: number;
+    observations_ids?: number[];
+    comment?: string;
+  };
 };
 export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
@@ -1435,47 +1477,6 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     include_shared?: boolean;
   };
 };
-export type PostCampaignsByCidInsightsApiResponse =
-  /** status 200 OK */ Insight;
-export type PostCampaignsByCidInsightsApiArg = {
-  /** Campaign id */
-  cid: string;
-  body: {
-    title: string;
-    description?: string;
-    severity_id: number;
-    observations_ids: number[];
-    comment?: string;
-  };
-};
-export type GetCampaignsByCidInsightsApiResponse =
-  /** status 200 OK */ Insight[];
-export type GetCampaignsByCidInsightsApiArg = {
-  /** Campaign id */
-  cid: string;
-};
-export type GetInsightsByIidApiResponse = /** status 200 OK */ Insight;
-export type GetInsightsByIidApiArg = {
-  /** Insight id */
-  iid: string;
-};
-export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
-export type DeleteInsightsByIidApiArg = {
-  /** Insight id */
-  iid: string;
-};
-export type PatchInsightsByIidApiResponse = /** status 200 OK */ Insight;
-export type PatchInsightsByIidApiArg = {
-  /** Insight id */
-  iid: string;
-  body: {
-    title?: string;
-    description?: string;
-    severity_id?: number;
-    observations_ids?: number[];
-    comment?: string;
-  };
-};
 export type Error = {
   message: string;
   code: number;
@@ -1712,6 +1713,41 @@ export type Cluster = {
   id: number;
   name: string;
 };
+export type VideoTag = {
+  group: {
+    id: number;
+    name: string;
+  };
+  tag: {
+    id: number;
+    name: string;
+    style: string;
+    usageNumber: number;
+  };
+};
+export type Observation = {
+  id: number;
+  title: string;
+  description: string;
+  start: number;
+  end: number;
+  tags: VideoTag[];
+};
+export type Insight = {
+  id: number;
+  title: string;
+  description: string;
+  severity: BugSeverity;
+  observations: (Observation & {
+    video: {
+      id: number;
+      poster: string;
+      url: string;
+      streamUrl: string;
+    };
+  })[];
+  comment?: string;
+};
 export type ReportExtensions =
   | 'pdf'
   | 'doc'
@@ -1752,18 +1788,6 @@ export type Tenant = {
     id?: number;
   };
 };
-export type VideoTag = {
-  group: {
-    id: number;
-    name: string;
-  };
-  tag: {
-    id: number;
-    name: string;
-    style: string;
-    usageNumber: number;
-  };
-};
 export type Transcript = {
   speakers: number;
   words: {
@@ -1777,10 +1801,12 @@ export type Video = {
   id: number;
   url: string;
   streamUrl?: string;
+  poster?: string;
   tester: {
     id: number;
     name: string;
     surname: string;
+    device: Smartphone | Tablet | Desktop;
   };
   transcript?: Transcript;
 };
@@ -1868,14 +1894,6 @@ export type UserPreference = {
   value: number;
   name: string;
 };
-export type Observation = {
-  id: number;
-  title: string;
-  description: string;
-  start: number;
-  end: number;
-  tags: VideoTag[];
-};
 export type Workspace = {
   id: number;
   company: string;
@@ -1909,21 +1927,6 @@ export type Coin = {
   /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
-export type Insight = {
-  id: number;
-  title: string;
-  description: string;
-  severity: BugSeverity;
-  observations: (Observation & {
-    video: {
-      id: number;
-      poster: string;
-      url: string;
-      streamUrl: string;
-    };
-  })[];
-  comment?: string;
-};
 export const {
   use$getQuery,
   usePostAuthenticateMutation,
@@ -1946,6 +1949,8 @@ export const {
   useDeleteCampaignsByCidCustomStatusesMutation,
   useGetCampaignsByCidDevicesQuery,
   usePutCampaignsByCidFindingsAndFidMutation,
+  usePostCampaignsByCidInsightsMutation,
+  useGetCampaignsByCidInsightsQuery,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
@@ -1962,6 +1967,9 @@ export const {
   usePostCampaignsByCidVideoTagsMutation,
   useGetCampaignsByCidVideoQuery,
   useGetCampaignsByCidWidgetsQuery,
+  useGetInsightsByIidQuery,
+  useDeleteInsightsByIidMutation,
+  usePatchInsightsByIidMutation,
   useGetMediaByIdQuery,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
@@ -1985,9 +1993,4 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
-  usePostCampaignsByCidInsightsMutation,
-  useGetCampaignsByCidInsightsQuery,
-  useGetInsightsByIidQuery,
-  useDeleteInsightsByIidMutation,
-  usePatchInsightsByIidMutation,
 } = injectedRtkApi;
