@@ -53,14 +53,10 @@ const VideoPlayer = () => {
     };
   }, [videoRef]);
 
-  const {
-    data: observations,
-    isFetching: isFetchingObservations,
-    isLoading: isLoadingObservations,
-    isError: isErrorObservations,
-  } = useGetVideoByVidObservationsQuery({
-    vid: videoId || '',
-  });
+  const { data: observations, isError: isErrorObservations } =
+    useGetVideoByVidObservationsQuery({
+      vid: videoId || '',
+    });
 
   const [start, setStart] = useState<number | undefined>(undefined);
 
@@ -94,6 +90,7 @@ const VideoPlayer = () => {
 
   const handleBookmarksUpdate = useCallback(
     (bookmarks) => {
+      // eslint-disable-next-line no-console
       console.log(bookmarks);
     },
     [observations]
