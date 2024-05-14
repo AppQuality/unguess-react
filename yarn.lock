@@ -2679,9 +2679,9 @@
   integrity sha512-voWEIAmxV3f9Q0gc3K89HRq8KFeOVtHJBRHYihZwxMnvq2aMIwdpCx0GbiCd4slQaBLd1ASJHz1uAigVhR2+uA==
 
 "@tiptap/extension-dropcursor@^2.2.4":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-dropcursor/-/extension-dropcursor-2.3.2.tgz#3f12430fb5fa7e436726c66c53fe0334f97e1834"
-  integrity sha512-r7JJn9dEnIRDdbnTCAUFCWX4OPsR48+4OEm5eGlysEaD2h4z0G1AaK5XXwOoQhP3WP2LHHjL4LahlYZvltzFzw==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-dropcursor/-/extension-dropcursor-2.3.0.tgz#4220434bbf96202d7e4c366f28693fe64c3f7542"
+  integrity sha512-WWxxGQPWdbzxyYP6jtBYSq4wMRhINhI0wBC8pgkxTVwCIWftMuYj++FP4LLIpuWgj78PWApuoM0QQxk4Lj7FOw==
 
 "@tiptap/extension-floating-menu@^2.1.16":
   version "2.1.16"
@@ -2716,9 +2716,9 @@
   integrity sha512-Q+Zp0lJF7212YIuZnbMmn4KC1MZoZjQIuvSd+DOgCwKSeUcTXBbljDjOiN8yrY134r+A4fFM7KHTXWYqZGZQug==
 
 "@tiptap/extension-image@^2.2.4":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-image/-/extension-image-2.3.2.tgz#befc9120fd3bc7903fc208323f832be228f415c1"
-  integrity sha512-otkhqToHnjjpWOIswuotfK/PTPEOhhKRFPf1NuXvqHpMNulz+J1uIuA9R/B1m+bXkxZzCMKkWQi50vjqH9idVg==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-image/-/extension-image-2.3.0.tgz#914c4c5030fa4278f53e808c03819f7422da4497"
+  integrity sha512-v1fLEEzrfXWavsLFUEkTiYYxwm1WDNrjuUriU5tG2Jv22NL1BL4BLVbZbGdkAk+qHWy8QWszrDJbcgGh2VNCoQ==
 
 "@tiptap/extension-italic@^2.1.16":
   version "2.1.16"
