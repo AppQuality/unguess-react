@@ -67,9 +67,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const functionalDashboardLink = useLocalizeRoute(
     `campaigns/${campaign.id}/bugs`
   );
-  const videoDashboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/videos`
-  );
   const { start_date, end_date, type, status, outputs, family } = campaign;
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
