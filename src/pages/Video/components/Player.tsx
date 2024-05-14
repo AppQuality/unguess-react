@@ -30,7 +30,6 @@ const PlayerContainer = styled.div<{
 `;
 
 const VideoPlayer = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const { videoId } = useParams();
   const { setOpenAccordion } = useVideoContext();
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
@@ -45,21 +44,13 @@ const VideoPlayer = () => {
   });
   const [currentTime, setCurrentTime] = useState(0);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.addEventListener('timeupdate', () => {
-        setCurrentTime(videoRef.current?.currentTime || 0);
+  const handleVideoRef = useCallback((videoRef: HTMLVideoElement) => {
+    if (videoRef) {
+      videoRef.addEventListener('timeupdate', () => {
+        setCurrentTime(videoRef?.currentTime || 0);
       });
     }
-
-    return () => {
-      if (videoRef.current) {
-        videoRef.current.removeEventListener('timeupdate', () => {
-          setCurrentTime(videoRef.current?.currentTime || 0);
-        });
-      }
-    };
-  }, [videoRef]);
+  }, []);
 
   const { data: observations, isError: isErrorObservations } =
     useGetVideoByVidObservationsQuery({
@@ -113,7 +104,7 @@ const VideoPlayer = () => {
     <>
       <PlayerContainer isFetching={isFetchingObservations}>
         <Player
-          ref={videoRef}
+          ref={handleVideoRef}
           url={video.url}
           onCutHandler={handleCut}
           handleBookmarkUpdate={handleBookmarksUpdate}
