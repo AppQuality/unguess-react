@@ -101,13 +101,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {outputs?.includes('media') && (
-          <Link to={videoDashboardLink}>
-            <Button id="button-bugs-list-header" isPrimary isAccent>
-              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
-            </Button>
-          </Link>
-        )}
       </ButtonWrapper>
     </FooterContainer>
   );
