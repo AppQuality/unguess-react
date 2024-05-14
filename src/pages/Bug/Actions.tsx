@@ -129,7 +129,10 @@ export const Actions = () => {
       <ChatProvider
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
-        onDeleteThumbnail={() => alert('Not implemented')}
+        onDeleteThumbnail={() => {
+          // eslint-disable-next-line no-alert
+          alert('Not implemented');
+        }}
       >
         <Divider style={{ margin: `${appTheme.space.md} auto` }} />
         {isFetchingUsers || isLoadingUsers ? (

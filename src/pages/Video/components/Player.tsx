@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Player, Skeleton } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import {
