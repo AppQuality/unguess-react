@@ -4,6 +4,8 @@ import {
   Comment,
   Skeleton,
   useChatContext,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
@@ -56,10 +58,11 @@ export const ChatBox = ({
   isSubmitting: boolean;
   setIsSubmitting: (state: boolean) => void;
 }) => {
-  const { triggerSave, editor } = useChatContext();
+  const { triggerSave, editor, clearInput } = useChatContext();
   const { userData: user } = useAppSelector((state) => state.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<string>('');
+  const { addToast } = useToast();
   const currentLanguage = i18n.language === 'it' ? 'it-IT' : 'en-EN';
   const commentsContainerRef = useRef<HTMLDivElement>(null);
 
@@ -82,6 +85,19 @@ export const ChatBox = ({
     if (!editor?.isEmpty) {
       triggerSave();
       setIsSubmitting(true);
+    } else {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__BUG_COMMENTS_CHAT_ERROR_EMPTY__')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
     }
     setIsSubmitting(false);
   };
@@ -136,12 +152,34 @@ export const ChatBox = ({
                         avatarType: 'system',
                       }),
                     }}
+                    header={{
+                      title: `Bug ID: ${bugId}`,
+                      message: `Comment posted by: ${comment.creator.name}`,
+                    }}
                     date={convertToLocalTime(
                       comment.creation_date,
                       currentLanguage
                     )}
                     message={comment.text}
                     key={comment.id}
+                    media={
+                      (comment.media &&
+                        comment.media.map((media) => {
+                          if (media.type.includes('video')) {
+                            return {
+                              id: media.id,
+                              url: media.url,
+                              type: 'video',
+                            };
+                          }
+                          return {
+                            id: media.id,
+                            url: media.url,
+                            type: 'image',
+                          };
+                        })) ||
+                      undefined
+                    }
                   >
                     <>
                       <br />
@@ -162,9 +200,10 @@ export const ChatBox = ({
           )}
         </StyledComments>
         <Chat.Input
+          author={{ avatar: getInitials(user.name), name: user.name }}
+          messageBadFileFormat={t('__BUG_CHAT_BAD_ATTACHMENT_FILE_FORMAT__')}
           hasFloatingMenu
           hasButtonsMenu
-          author={{ avatar: getInitials(user.name), name: user.name }}
           placeholderOptions={{
             placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
           }}
@@ -181,12 +220,7 @@ export const ChatBox = ({
         />
         <Chat.Footer showShortcut saveText={t('__BUG_COMMENTS_CHAT_SAVE_TEXT')}>
           <ButtonsContainer>
-            <Button
-              isBasic
-              onClick={() => {
-                editor?.commands.clearContent(true);
-              }}
-            >
+            <Button isBasic onClick={clearInput}>
               {t('__BUG_COMMENTS_CHAT_CANCEL__')}
             </Button>
             <Button

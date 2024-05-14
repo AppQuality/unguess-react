@@ -1,4 +1,5 @@
 import { ChatProvider, LG, Skeleton } from '@appquality/unguess-design-system';
+import { FileItem } from '@appquality/unguess-design-system/build/stories/chat/_types';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -8,10 +9,13 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
 import {
+  PostCampaignsByCidBugsAndBidMediaApiResponse,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
+  usePostCampaignsByCidBugsAndBidMediaMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { Data } from '@appquality/unguess-design-system/build/stories/chat/context/chatContext';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
 
@@ -44,7 +48,6 @@ export const Actions = () => {
     isFetching: isFetchingUsers,
   } = useGetMentionableUsers();
   const { t } = useTranslation();
-
   const mentionableUsers = useCallback(
     ({ query }: { query: string }) => {
       const mentions = users.filter((user) => {
@@ -63,9 +66,11 @@ export const Actions = () => {
     [users]
   );
 
+  const [mediaIds, setMediaIds] = useState<
+    { id: number; internal_id: string }[]
+  >([]);
   const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
 
@@ -81,6 +86,44 @@ export const Actions = () => {
   });
   const [createComment] = usePostCampaignsByCidBugsAndBidCommentsMutation();
 
+  const [uploadMedia] = usePostCampaignsByCidBugsAndBidMediaMutation();
+
+  const handleMediaUpload = async (files: FileItem[]) =>
+    new Promise<Data>((resolve, reject) => {
+      let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
+      files.forEach(async (f) => {
+        const formData = new FormData();
+        // normalize filename
+        const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
+        formData.append('media', f, filename);
+        try {
+          data = await uploadMedia({
+            cid,
+            bid,
+            // @ts-ignore
+            body: formData,
+          }).unwrap();
+          // @ts-ignore
+          if (data && data.uploaded_ids) {
+            // @ts-ignore
+            setMediaIds((prev) => [
+              ...prev,
+              // @ts-ignore
+              { id: data.uploaded_ids[0].id, internal_id: f.internal_id },
+            ]);
+          }
+          resolve(data);
+        } catch (e) {
+          console.warn('upload failed', e);
+          reject(data);
+        }
+      });
+    });
+  //
+  //
+
+  // return data;
+
   const createCommentHandler = useCallback(
     (editor, mentions) => {
       if (editor) {
@@ -95,18 +138,24 @@ export const Actions = () => {
                   id: mention.id,
                 })),
               }),
+            ...(mediaIds.length > 0 && {
+              media_id: mediaIds.map((media) => ({
+                id: media.id,
+              })),
+            }),
           },
         })
           .unwrap()
           .then(() => {
             setIsSubmitting(false);
+            setMediaIds([]);
           })
           .catch(() => {
             setIsSubmitting(false);
           });
       }
     },
-    [cid, bid, bug]
+    [cid, bid, bug, mediaIds]
   );
 
   if (!bug || isError) return null;
@@ -129,6 +178,12 @@ export const Actions = () => {
       <ChatProvider
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
+        onFileUpload={async (files: FileItem[]) => handleMediaUpload(files)}
+        onDeleteThumbnail={(id) => {
+          setMediaIds((prev) =>
+            prev.filter((media) => media.internal_id !== id)
+          );
+        }}
       >
         <Divider style={{ margin: `${appTheme.space.md} auto` }} />
         {isFetchingUsers || isLoadingUsers ? (
