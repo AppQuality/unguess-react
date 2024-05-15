@@ -43,6 +43,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
     // This XPS require more time to be completed, so we update the default duration value
     setFieldValue('base_cp_duration', EXPRESS_3_BUSINESS_DAYS_TO_ADD);
     setFieldValue('target_size', 6);
+    setFieldValue('campaign_language', 'it');
   }, []);
 
   const hasWhereStep = values.link || values.iOSLink || values.androidLink;

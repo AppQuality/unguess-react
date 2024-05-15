@@ -46,6 +46,7 @@ export const ConfirmationStep = (props: FormikProps<WizardModel>) => {
       EXPRESS_4_UX_TAGGING_BUSINESS_DAYS_TO_ADD
     );
     setFieldValue('target_size', 6);
+    setFieldValue('campaign_language', 'it');
   }, []);
 
   const hasWhereStep = values.link || values.iOSLink || values.androidLink;
