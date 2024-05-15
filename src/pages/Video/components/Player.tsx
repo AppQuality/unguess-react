@@ -33,6 +33,7 @@ const VideoPlayer = () => {
   const { videoId } = useParams();
   const { setOpenAccordion } = useVideoContext();
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
+  const [ref, setRef] = useState<HTMLVideoElement | null>(null);
 
   const {
     data: video,
@@ -46,6 +47,7 @@ const VideoPlayer = () => {
 
   const handleVideoRef = useCallback((videoRef: HTMLVideoElement) => {
     if (videoRef) {
+      setRef(videoRef);
       videoRef.addEventListener('timeupdate', () => {
         setCurrentTime(videoRef?.currentTime || 0);
       });
@@ -79,6 +81,7 @@ const VideoPlayer = () => {
       })
         .unwrap()
         .then((res) => {
+          ref?.pause();
           setOpenAccordion({ id: res.id });
         })
         .catch((err) => {
