@@ -5,18 +5,18 @@ import {
   Highlight,
   IconButton,
   LG,
+  Paragraph,
   Row,
+  SM,
   Skeleton,
   Span,
   Tag,
-  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
   useGetVideoByVidObservationsQuery,
@@ -63,16 +63,8 @@ const ChipsWrap = styled.div`
 
 const TitleWrapper = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: ${({ theme }) => theme.space.xxs};
-`;
-const StyledTooltip = styled(Tooltip)`
-  left: ${({ theme }) => -theme.space.xxs};
-`;
-
-const InfoTranscriptIcon = styled(InfoIcon)`
-  width: ${({ theme }) => theme.space.lg};
-  height: ${({ theme }) => theme.space.lg};
 `;
 
 const StyledTag = styled(Tag)`
@@ -217,15 +209,8 @@ const Transcript = ({
       <StyledContainerCard>
         <TranscriptHeader>
           <TitleWrapper>
-            <StyledTooltip
-              size="large"
-              content={t('__VIDEO_PAGE_TRANSCRIPT_INFO')}
-              type="light"
-              placement="top-start"
-            >
-              <InfoTranscriptIcon />
-            </StyledTooltip>
             <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
+            <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
           </TitleWrapper>
           {isSearchable && (
             <SearchBar
