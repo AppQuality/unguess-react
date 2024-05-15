@@ -11,7 +11,7 @@ import {
   Tag,
   Tooltip,
 } from '@appquality/unguess-design-system';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -161,41 +161,45 @@ const Transcript = ({
     });
   };
 
-  // What's this? why an event listener here?
-  document.addEventListener('selectionchange', () => {
-    if (!wrapperRef || !wrapperRef.current) return;
+  useEffect(() => {
+    document.addEventListener('selectionchange', () => {
+      if (!wrapperRef || !wrapperRef.current) return;
 
-    const s = document.getSelection();
+      const s = document.getSelection();
 
-    if (s && s.toString().length > 0) {
-      const anchorNode = s?.anchorNode?.parentElement;
-      const focusNode = s?.focusNode?.parentElement;
+      if (s && s.toString().length > 0) {
+        const anchorNode = s?.anchorNode?.parentElement;
+        const focusNode = s?.focusNode?.parentElement;
 
-      if (
-        anchorNode &&
-        focusNode &&
-        !wrapperRef.current.contains(anchorNode) &&
-        !wrapperRef.current.contains(focusNode)
-      )
-        return;
+        if (
+          anchorNode &&
+          focusNode &&
+          !wrapperRef.current.contains(anchorNode) &&
+          !wrapperRef.current.contains(focusNode)
+        )
+          return;
 
-      setIsSelecting(true);
+        setIsSelecting(true);
 
-      const rect = s.getRangeAt(0).getBoundingClientRect();
-      const containerRect =
-        wrapperRef && wrapperRef.current
-          ? wrapperRef.current.getBoundingClientRect()
-          : null;
+        const rect = s.getRangeAt(0).getBoundingClientRect();
+        const containerRect =
+          wrapperRef && wrapperRef.current
+            ? wrapperRef.current.getBoundingClientRect()
+            : null;
 
-      if (!rect || !containerRect) return;
+        if (!rect || !containerRect) return;
 
-      const relativeY =
-        rect.top - containerRect.top + wrapperRef.current.scrollTop;
-      setYPosition(relativeY);
-    } else {
-      setIsSelecting(false);
-    }
-  });
+        const relativeY =
+          rect.top - containerRect.top + wrapperRef.current.scrollTop;
+        setYPosition(relativeY);
+      } else {
+        setIsSelecting(false);
+      }
+    });
+    return () => {
+      document.removeEventListener('selectionchange', () => {});
+    };
+  }, []);
 
   if (!video || isErrorVideo || !video.transcript || isErrorObservations)
     return null;
@@ -274,6 +278,7 @@ const Transcript = ({
                               currentTime={currentTime}
                               text={item.word}
                             />
+                            {console.log(item.start)}
                             {observations &&
                               observations
                                 .filter(
