@@ -6,7 +6,7 @@ const Empty = () => {
   const { t } = useTranslation();
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper isNotBoxed>
       <Paragraph>{t('__VIDEOS_PAGE_NO_ITEMS_MESSAGE')}</Paragraph>
     </LayoutWrapper>
   );

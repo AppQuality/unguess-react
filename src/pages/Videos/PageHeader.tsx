@@ -13,7 +13,7 @@ const VideosPageHeader = () => {
   const projectRoute = useLocalizeRoute(`projects/${project?.id}`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   return (
-    <LayoutWrapper>
+    <LayoutWrapper isNotBoxed>
       <PageHeader>
         <PageHeader.Breadcrumbs>
           <Link to={projectRoute}>
