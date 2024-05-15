@@ -1,5 +1,6 @@
 import { Anchor, MD, SM } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
@@ -13,7 +14,18 @@ const Container = styled.div`
 
   display: flex;
 `;
+const VideoInfoContainer = styled.div`
+  margin: ${({ theme }) => theme.space.md};
+`;
 
+const ThumbnailContainer = styled.div`
+  margin: ${({ theme }) => theme.space.md};
+  background-color: ${({ theme }) => theme.palette.black};
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
   width: 100%;
 
@@ -29,10 +41,8 @@ const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
   }
 
   video {
-    margin: ${({ theme }) => theme.space.md};
-    max-width: 20%;
-    min-width: 80px;
-    height: auto;
+    width: 100%;
+    max-height: 150px;
   }
 `;
 
@@ -51,10 +61,12 @@ const Poster = ({
   }
 
   return (
-    <video>
-      <source src={`${video.url}#t0.5`} type="video/mp4" />
-      <track kind="captions" />
-    </video>
+    <ThumbnailContainer>
+      <video>
+        <source src={`${video.url}#t0.5`} type="video/mp4" />
+        <track kind="captions" />
+      </video>
+    </ThumbnailContainer>
   );
 };
 
@@ -72,10 +84,10 @@ const Video = ({
     <StyledAnchor href={videoUrl}>
       <Container>
         <Poster video={video} />
-        <div>
+        <VideoInfoContainer>
           <MD isBold>{video.tester.name}</MD>
-          <SM>ID: {video.id}</SM>
-        </div>
+          <SM color={appTheme.palette.grey[600]}>ID: {video.id}</SM>
+        </VideoInfoContainer>
       </Container>
     </StyledAnchor>
   );
