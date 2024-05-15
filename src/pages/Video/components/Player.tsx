@@ -7,6 +7,7 @@ import {
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { Transcript } from './Transcript';
 import { useVideoContext } from '../context/VideoContext';
 
@@ -34,6 +35,7 @@ const VideoPlayer = () => {
   const { setOpenAccordion } = useVideoContext();
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
   const [ref, setRef] = useState<HTMLVideoElement | null>(null);
+  const { t } = useTranslation();
 
   const {
     data: video,
@@ -129,6 +131,10 @@ const VideoPlayer = () => {
             label: obs.title,
             onClick: () => setOpenAccordion({ id: obs.id }),
           }))}
+          i18n={{
+            beforeHighlight: t('__VIDEO_PAGE_ADD_OBSERVATION'),
+            onHighlight: t('__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION'),
+          }}
         />
       </PlayerContainer>
       <Transcript currentTime={currentTime} isSearchable />
