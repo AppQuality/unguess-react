@@ -1,7 +1,6 @@
 import { Anchor, MD, SM } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { Divider } from 'src/common/components/divider';
 import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
