@@ -7,6 +7,7 @@ import {
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { Transcript } from './Transcript';
 import { useVideoContext } from '../context/VideoContext';
 
@@ -33,6 +34,8 @@ const VideoPlayer = () => {
   const { videoId } = useParams();
   const { setOpenAccordion } = useVideoContext();
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
+  const [ref, setRef] = useState<HTMLVideoElement | null>(null);
+  const { t } = useTranslation();
 
   const {
     data: video,
@@ -46,6 +49,7 @@ const VideoPlayer = () => {
 
   const handleVideoRef = useCallback((videoRef: HTMLVideoElement) => {
     if (videoRef) {
+      setRef(videoRef);
       videoRef.addEventListener('timeupdate', () => {
         setCurrentTime(videoRef?.currentTime || 0);
       });
@@ -79,6 +83,7 @@ const VideoPlayer = () => {
       })
         .unwrap()
         .then((res) => {
+          ref?.pause();
           setOpenAccordion({ id: res.id });
         })
         .catch((err) => {
@@ -126,6 +131,10 @@ const VideoPlayer = () => {
             label: obs.title,
             onClick: () => setOpenAccordion({ id: obs.id }),
           }))}
+          i18n={{
+            beforeHighlight: t('__VIDEO_PAGE_ADD_OBSERVATION'),
+            onHighlight: t('__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION'),
+          }}
         />
       </PlayerContainer>
       <Transcript currentTime={currentTime} isSearchable />
