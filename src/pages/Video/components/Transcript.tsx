@@ -1,13 +1,11 @@
 import {
+  Button,
   ContainerCard,
   Highlight,
   LG,
-  Paragraph,
-  Row,
   SM,
   Skeleton,
   Tag,
-  Button,
 } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
