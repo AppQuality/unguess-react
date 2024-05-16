@@ -23,6 +23,7 @@ const ThumbnailContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
 const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
   width: 100%;
@@ -87,7 +88,6 @@ const Video = ({
           <SM color={appTheme.palette.grey[600]}>ID: {video.id}</SM>
         </div>
       </Container>
-      <Divider />
     </StyledAnchor>
   );
 };
