@@ -65,6 +65,10 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isLoading,
     isError,
   } = useVideo(campaign.id.toString() ?? '');
+  const totalVideos = videos?.reduce(
+    (sum, video) => sum + video.videos.total,
+    0
+  );
 
   if (isFetching || isLoading) return <Skeleton width="200px" height="20px" />;
   if (isError) return null;
@@ -72,7 +76,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     <FooterContainer>
       <PageMeta>
         <VideosMeta>
-          {videos?.length} {t('__VIDEOS_LIST_META_VIDEO_COUNT')}
+          {totalVideos} {t('__VIDEOS_LIST_META_VIDEO_COUNT')}
         </VideosMeta>
         <StyledPipe />
         <StatusMeta status={status.name as CampaignStatus} />
