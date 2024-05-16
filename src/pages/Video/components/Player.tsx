@@ -96,6 +96,7 @@ const VideoPlayer = () => {
     (bookmarks) => {
       // eslint-disable-next-line no-console
       console.log(bookmarks);
+      // TODO: PATCH observation
     },
     [observations]
   );
