@@ -5,6 +5,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
+import { Metas } from './Metas';
 
 const VideosPageHeader = () => {
   const { campaignId } = useParams();
@@ -12,6 +13,7 @@ const VideosPageHeader = () => {
   const { campaign, project } = useCampaign(Number(campaignId));
   const projectRoute = useLocalizeRoute(`projects/${project?.id}`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+  if (!campaign || !project) return null;
   return (
     <LayoutWrapper isNotBoxed>
       <PageHeader>
@@ -27,6 +29,9 @@ const VideosPageHeader = () => {
           <PageHeader.Title>
             <PageTitle>{t('__VIDEOS_PAGE_TITLE')}</PageTitle>
           </PageHeader.Title>
+          <PageHeader.Meta>
+            <Metas campaign={campaign} />
+          </PageHeader.Meta>
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>
