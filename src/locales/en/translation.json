@@ -868,6 +868,7 @@
   "__VIDEOS_LIST_DESKTOP_TITLE": "Desktop",
   "__VIDEOS_LIST_SMARTPHONE_TITLE": "Mobile",
   "__VIDEOS_LIST_TABLET_TITLE": "Tablet",
+  "__VIDEOS_LIST_USECASE_INFO": "videos",
   "__VIDEOS_PAGE_NO_ITEMS_MESSAGE": "No videos found",
   "__VIDEOS_PAGE_TITLE": "Video List",
   "__WIZARD_EXPRESS_2_USE_CASE_MODAL_HEADER_SAVE_BUTTON": "Save and continue",
