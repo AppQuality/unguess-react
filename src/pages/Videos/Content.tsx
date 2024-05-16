@@ -51,7 +51,7 @@ const VideosPageContent = () => {
   const usecases = videos.filter((item) => item.videos.total > 0);
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper isNotBoxed>
       {isLoading ? (
         <Skeleton height="300px" style={{ borderRadius: 0 }} />
       ) : (

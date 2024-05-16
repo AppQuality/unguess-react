@@ -18,6 +18,7 @@ const VideoPageHeader = () => {
   const { campaignId, videoId } = useParams();
   const { t } = useTranslation();
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
+  const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
 
   const {
     data: campaign,
@@ -51,13 +52,16 @@ const VideoPageHeader = () => {
           style={{ padding: 0 }}
         >
           <PageHeader.Breadcrumbs>
+            <Link to={campaignRoute}>
+              <Anchor id="breadcrumb-parent">{campaign.title}</Anchor>
+            </Link>
             <Link to={videosRoute}>
               <Anchor id="breadcrumb-parent">{t('__VIDEOS_PAGE_TITLE')}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
           <PageHeader.Description style={{ margin: 0 }}>
             <Span isBold style={{ margin: 0 }}>
-              {video.tester.name} {video.tester.surname}
+              T{video.tester.id} | {video.tester.name} {video.tester.surname}
             </Span>
           </PageHeader.Description>
         </PageHeader.Main>
