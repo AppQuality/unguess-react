@@ -1,4 +1,5 @@
 import { MD, SM } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const StyledMD = styled(MD)`
@@ -31,11 +32,14 @@ export const InfoRow = ({
 }: {
   videos: number;
   usecase: string;
-}) => (
-  <StyledDiv>
-    <StyledMD isBold>
-      {usecase}
-      <MD tag="span">{` (${videos})`}</MD>
-    </StyledMD>
-  </StyledDiv>
-);
+}) => {
+  const { t } = useTranslation();
+  return (
+    <StyledDiv>
+      <StyledMD isBold>
+        {usecase}
+        <MD tag="span">{` (${videos} ${t('__VIDEOS_LIST_USECASE_INFO')})`}</MD>
+      </StyledMD>
+    </StyledDiv>
+  );
+};
