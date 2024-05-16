@@ -1,6 +1,7 @@
 import { Anchor, MD, SM } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { Divider } from 'src/common/components/divider';
 import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
@@ -13,15 +14,12 @@ const Container = styled.div`
   }
 
   display: flex;
-`;
-const VideoInfoContainer = styled.div`
-  margin: ${({ theme }) => theme.space.md};
+  gap: ${({ theme }) => theme.space.md};
 `;
 
 const ThumbnailContainer = styled.div`
-  margin: ${({ theme }) => theme.space.md};
   background-color: ${({ theme }) => theme.palette.black};
-  width: 20%;
+  width: 106px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,7 +40,7 @@ const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
 
   video {
     width: 100%;
-    max-height: 150px;
+    height: 68px;
   }
 `;
 
@@ -84,11 +82,12 @@ const Video = ({
     <StyledAnchor href={videoUrl}>
       <Container>
         <Poster video={video} />
-        <VideoInfoContainer>
+        <div>
           <MD isBold>{video.tester.name}</MD>
           <SM color={appTheme.palette.grey[600]}>ID: {video.id}</SM>
-        </VideoInfoContainer>
+        </div>
       </Container>
+      <Divider />
     </StyledAnchor>
   );
 };
