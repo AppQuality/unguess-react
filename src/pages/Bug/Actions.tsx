@@ -1,5 +1,5 @@
 import { ChatProvider, LG, Skeleton } from '@appquality/unguess-design-system';
-import { FileItem } from '@appquality/unguess-design-system/build/stories/chat/_types';
+import { CommentMedia } from '@appquality/unguess-design-system/build/stories/chat/_types';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -88,13 +88,13 @@ export const Actions = () => {
 
   const [uploadMedia] = usePostCampaignsByCidBugsAndBidMediaMutation();
 
-  const handleMediaUpload = async (files: FileItem[]) =>
+  const handleMediaUpload = async (files: any[]) =>
     new Promise<Data>((resolve, reject) => {
       let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
       files.forEach(async (f) => {
         const formData = new FormData();
         // normalize filename
-        const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
+        const filename = f.name?.normalize('NFD').replace(/\s+/g, '-');
         formData.append('media', f, filename);
         try {
           data = await uploadMedia({
@@ -178,7 +178,7 @@ export const Actions = () => {
       <ChatProvider
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
-        onFileUpload={async (files: FileItem[]) => handleMediaUpload(files)}
+        onFileUpload={async (files) => handleMediaUpload(files)}
         onDeleteThumbnail={(id) => {
           setMediaIds((prev) =>
             prev.filter((media) => media.internal_id !== id)

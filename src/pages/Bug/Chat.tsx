@@ -162,24 +162,11 @@ export const ChatBox = ({
                     )}
                     message={comment.text}
                     key={comment.id}
-                    media={
-                      (comment.media &&
-                        comment.media.map((media) => {
-                          if (media.type.includes('video')) {
-                            return {
-                              id: media.id,
-                              url: media.url,
-                              type: 'video',
-                            };
-                          }
-                          return {
-                            id: media.id,
-                            url: media.url,
-                            type: 'image',
-                          };
-                        })) ||
-                      undefined
-                    }
+                    media={comment.media?.map((media) => ({
+                      id: media.id.toString(),
+                      url: media.url,
+                      type: media.type,
+                    }))}
                   >
                     <>
                       <br />
@@ -201,7 +188,6 @@ export const ChatBox = ({
         </StyledComments>
         <Chat.Input
           author={{ avatar: getInitials(user.name), name: user.name }}
-          messageBadFileFormat={t('__BUG_CHAT_BAD_ATTACHMENT_FILE_FORMAT__')}
           hasFloatingMenu
           hasButtonsMenu
           placeholderOptions={{
