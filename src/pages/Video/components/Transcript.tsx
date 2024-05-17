@@ -5,7 +5,6 @@ import {
   LG,
   SM,
   Skeleton,
-  Tag,
 } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -55,33 +54,6 @@ const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xxs};
-`;
-
-const StyledTag = styled(Tag)`
-  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
-  background: white;
-  position: relative;
-
-  &:hover {
-    cursor: pointer;
-    color: ${({ color }) => getColorWithAlpha(color ?? '', 0.5)};
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: ${({ color }) => color};
-    opacity: 0.1;
-  }
-
-  > svg {
-    min-width: 0;
-    margin-right: ${({ theme }) => theme.space.xxs};
-  }
 `;
 
 const Transcript = ({
