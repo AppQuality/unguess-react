@@ -22,7 +22,7 @@ const VideosPageHeader = () => {
             <Anchor id="breadcrumb-parent">{project?.name}</Anchor>
           </Link>
           <Link to={campaignRoute}>
-            <Anchor id="breadcrumb-parent">{campaign?.title}</Anchor>
+            <Anchor id="breadcrumb-parent">{campaign?.customer_title}</Anchor>
           </Link>
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={t('__VIDEOS_PAGE_TITLE')}>
