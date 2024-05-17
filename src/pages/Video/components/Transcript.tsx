@@ -270,7 +270,7 @@ const Transcript = ({
                       <Button.StartIcon>
                         <TagIcon />
                       </Button.StartIcon>
-                      {t('__VIDEO_PAGE_TRANSCRIPT_ADD_OBSERVATION')}
+                      {t('__VIDEO_PAGE_ADD_OBSERVATION')}
                     </Button>
                   )}
                 </ChipsWrap>

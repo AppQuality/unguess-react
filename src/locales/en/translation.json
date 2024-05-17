@@ -860,7 +860,6 @@
   "__VIDEO_PAGE_NO_OBSERVATIONS_TITLE": "No observations",
   "__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION": "Stop observation",
   "__VIDEO_PAGE_TITLE": "UX Tagging Tool",
-  "__VIDEO_PAGE_TRANSCRIPT_ADD_OBSERVATION": "Add new observation",
   "__VIDEO_PAGE_TRANSCRIPT_EMPTY_STATE": "There is no available transcript for this video.",
   "__VIDEO_PAGE_TRANSCRIPT_INFO": "Select some text to create an observation or use the button on the video player.",
   "__VIDEO_PAGE_TRANSCRIPT_SEARCH_PLACEHOLDER": "Search",
