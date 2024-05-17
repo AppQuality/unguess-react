@@ -31,14 +31,10 @@ const VideosPage = () => {
 
   useCampaignAnalytics(campaignId);
 
-  const {
-    isLoading: isLoadingCampaign,
-    isFetching: isFetchingCampaign,
-    isError: isErrorCampaign,
-    data: { campaign, workspace } = {},
-  } = useGetCampaignWithWorkspaceQuery({
-    cid: campaignId?.toString() ?? '0',
-  });
+  const { isError: isErrorCampaign, data: { campaign, workspace } = {} } =
+    useGetCampaignWithWorkspaceQuery({
+      cid: campaignId?.toString() ?? '0',
+    });
 
   useEffect(() => {
     if (workspace) {
