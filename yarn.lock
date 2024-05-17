@@ -54,10 +54,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@3.1.88-bookmark-tooltip-changes-3":
-  version "3.1.88-bookmark-tooltip-changes-3"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.88-bookmark-tooltip-changes-3.tgz#fb128589d3f0cf3eaeca76ee8aa2a20dc2d2e641"
-  integrity sha512-oHmuZrW/yrMoBh32DsWUl1wZ3LY7ySEB0Ek7Bx1+VVvzssCE2awNcdNPbX6+wQkW5brqy7xdcxI2Uws9rVjD8Q==
+"@appquality/unguess-design-system@3.1.92":
+  version "3.1.92"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-3.1.92.tgz#e8763ddb92125d4976a9308bab4e3f9a1c708781"
+  integrity sha512-YGNrf+hxZtJhRHhCoJaAXjnhcbroUkWlybrFMN7UDC//7l1Tqtpe4vbYJBoGIpTSQRdCKK1y5fRg/UAB8AsUAA==
   dependencies:
     "@appquality/stream-player" "^1.0.6"
     "@nivo/bar" "^0.80.0"
