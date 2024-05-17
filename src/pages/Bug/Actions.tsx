@@ -150,12 +150,12 @@ export const Actions = () => {
           },
         })
           .unwrap()
-          .then(() => {
+          .catch((e) => {
+            console.error('error creating comment: ', e);
+          })
+          .finally(() => {
             setIsSubmitting(false);
             setMediaIds([]);
-          })
-          .catch(() => {
-            setIsSubmitting(false);
           });
       }
     },
