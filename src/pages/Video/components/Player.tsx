@@ -1,13 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Player, Skeleton } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import {
+  VideoTag,
   useGetVideoByVidObservationsQuery,
   useGetVideoByVidQuery,
+  usePatchVideoByVidObservationsAndOidMutation,
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import useDebounce from 'src/hooks/useDebounce';
 import { Transcript } from './Transcript';
 import { useVideoContext } from '../context/VideoContext';
 
@@ -34,8 +37,21 @@ const VideoPlayer = () => {
   const { videoId } = useParams();
   const { setOpenAccordion } = useVideoContext();
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
+  const [patchObservation] = usePatchVideoByVidObservationsAndOidMutation();
   const [ref, setRef] = useState<HTMLVideoElement | null>(null);
   const { t } = useTranslation();
+  const [updatedObservation, setUpdatedObservation] = useState<{
+    id: number;
+    start: number;
+    end: number;
+    title: string;
+    hue: string;
+    label: string;
+    onClick: () => void;
+    tags: VideoTag[];
+  }>();
+  const [start, setStart] = useState<number | undefined>(undefined);
+  const debouncedObservation = useDebounce(updatedObservation, 500);
 
   const {
     data: video,
@@ -60,8 +76,6 @@ const VideoPlayer = () => {
     useGetVideoByVidObservationsQuery({
       vid: videoId || '',
     });
-
-  const [start, setStart] = useState<number | undefined>(undefined);
 
   const handleCut = useCallback(
     async (time: number) => {
@@ -93,13 +107,32 @@ const VideoPlayer = () => {
   );
 
   const handleBookmarksUpdate = useCallback(
-    (bookmarks) => {
-      // eslint-disable-next-line no-console
-      console.log(bookmarks);
-      // TODO: PATCH observation
+    (bookmark) => {
+      setUpdatedObservation(bookmark);
     },
     [observations]
   );
+
+  useEffect(() => {
+    if (!debouncedObservation) return;
+
+    patchObservation({
+      vid: videoId || '',
+      oid: debouncedObservation.id.toString(),
+      body: {
+        ...debouncedObservation,
+        tags: debouncedObservation.tags.map((item) => item.tag.id),
+      },
+    })
+      .unwrap()
+      .then(() => {
+        setUpdatedObservation(undefined);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      });
+  }, [debouncedObservation]);
 
   if (!video || isErrorVideo) return null;
   if (!observations || isErrorObservations) return null;
@@ -127,6 +160,7 @@ const VideoPlayer = () => {
               )?.tag.style || 'grey',
             label: obs.title,
             onClick: () => setOpenAccordion({ id: obs.id }),
+            tags: obs.tags,
           }))}
           i18n={{
             beforeHighlight: t('__VIDEO_PAGE_ADD_OBSERVATION'),

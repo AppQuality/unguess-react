@@ -267,6 +267,7 @@ const Transcript = ({
                           0.1
                         ),
                         label: o.title,
+                        tags: o.tags,
                       }))}
                       currentTime={currentTime}
                       text={item.word}
