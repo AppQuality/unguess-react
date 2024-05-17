@@ -49,6 +49,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}` }),
     }),
+    getCampaignsByCidBugTypes: build.query<
+      GetCampaignsByCidBugTypesApiResponse,
+      GetCampaignsByCidBugTypesApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/bugTypes` }),
+    }),
     getCampaignsByCidBugs: build.query<
       GetCampaignsByCidBugsApiResponse,
       GetCampaignsByCidBugsApiArg
@@ -83,6 +89,44 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCampaignsByCidBugsAndBidComments: build.query<
+      GetCampaignsByCidBugsAndBidCommentsApiResponse,
+      GetCampaignsByCidBugsAndBidCommentsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments`,
+      }),
+    }),
+    postCampaignsByCidBugsAndBidComments: build.mutation<
+      PostCampaignsByCidBugsAndBidCommentsApiResponse,
+      PostCampaignsByCidBugsAndBidCommentsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    postCampaignsByCidBugsAndBidMedia: build.mutation<
+      PostCampaignsByCidBugsAndBidMediaApiResponse,
+      PostCampaignsByCidBugsAndBidMediaApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/media`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    deleteCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
+      DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse,
+      DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments/${queryArg.cmid}`,
+        method: 'DELETE',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidBugsAndBidSiblings: build.query<
       GetCampaignsByCidBugsAndBidSiblingsApiResponse,
       GetCampaignsByCidBugsAndBidSiblingsApiArg
@@ -90,12 +134,6 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/siblings`,
       }),
-    }),
-    getCampaignsByCidBugTypes: build.query<
-      GetCampaignsByCidBugTypesApiResponse,
-      GetCampaignsByCidBugTypesApiArg
-    >({
-      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/bugTypes` }),
     }),
     getCampaignsByCidClusters: build.query<
       GetCampaignsByCidClustersApiResponse,
@@ -252,6 +290,9 @@ const injectedRtkApi = api.injectEndpoints({
         params: { s: queryArg.s, updateTrend: queryArg.updateTrend },
       }),
     }),
+    getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
+      query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
+    }),
     postProjects: build.mutation<PostProjectsApiResponse, PostProjectsApiArg>({
       query: (queryArg) => ({
         url: `/projects`,
@@ -335,6 +376,22 @@ const injectedRtkApi = api.injectEndpoints({
     }),
     getUsersMe: build.query<GetUsersMeApiResponse, GetUsersMeApiArg>({
       query: () => ({ url: `/users/me` }),
+    }),
+    getUsersMePreferences: build.query<
+      GetUsersMePreferencesApiResponse,
+      GetUsersMePreferencesApiArg
+    >({
+      query: () => ({ url: `/users/me/preferences` }),
+    }),
+    putUsersMePreferencesByPrefid: build.mutation<
+      PutUsersMePreferencesByPrefidApiResponse,
+      PutUsersMePreferencesByPrefidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/me/preferences/${queryArg.prefid}`,
+        method: 'PUT',
+        body: queryArg.body,
+      }),
     }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
@@ -452,53 +509,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
-      query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
-    }),
-    getCampaignsByCidBugsAndBidComments: build.query<
-      GetCampaignsByCidBugsAndBidCommentsApiResponse,
-      GetCampaignsByCidBugsAndBidCommentsApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments`,
-      }),
-    }),
-    postCampaignsByCidBugsAndBidComments: build.mutation<
-      PostCampaignsByCidBugsAndBidCommentsApiResponse,
-      PostCampaignsByCidBugsAndBidCommentsApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
-    deleteCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
-      DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse,
-      DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments/${queryArg.cmid}`,
-        method: 'DELETE',
-        body: queryArg.body,
-      }),
-    }),
-    getUsersMePreferences: build.query<
-      GetUsersMePreferencesApiResponse,
-      GetUsersMePreferencesApiArg
-    >({
-      query: () => ({ url: `/users/me/preferences` }),
-    }),
-    putUsersMePreferencesByPrefid: build.mutation<
-      PutUsersMePreferencesByPrefidApiResponse,
-      PutUsersMePreferencesByPrefidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/users/me/preferences/${queryArg.prefid}`,
-        method: 'PUT',
-        body: queryArg.body,
-      }),
-    }),
   }),
   overrideExisting: false,
 });
@@ -542,11 +552,19 @@ export type PostCampaignsApiArg = {
     has_bug_form?: number;
     /** if has_bug_form is 0 this has to be 0 */
     has_bug_parade?: number;
-    /** Useless value required by Tryber BackOffice */
     description?: string;
     base_bug_internal_id?: string;
     express_slug: string;
     use_cases?: UseCase[];
+    productType?: number;
+    productLink?: string;
+    browsers?: number[];
+    languages?: number[];
+    outOfScope?: string;
+    testerRequirements?: string;
+    targetSize?: number;
+    goal?: string;
+    testDescription?: string;
   };
 };
 export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
@@ -560,6 +578,12 @@ export type PatchCampaignsByCidApiArg = {
 export type GetCampaignsByCidApiResponse =
   /** status 200 OK */ CampaignWithOutput;
 export type GetCampaignsByCidApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidBugTypesApiResponse =
+  /** status 200 OK */ BugType[];
+export type GetCampaignsByCidBugTypesApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -635,6 +659,60 @@ export type PatchCampaignsByCidBugsAndBidApiArg = {
     custom_status_id?: number;
   };
 };
+export type GetCampaignsByCidBugsAndBidCommentsApiResponse =
+  /** status 200 OK */ {
+    items: BugComment[];
+  };
+export type GetCampaignsByCidBugsAndBidCommentsApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+};
+export type PostCampaignsByCidBugsAndBidCommentsApiResponse =
+  /** status 200 OK */ BugComment;
+export type PostCampaignsByCidBugsAndBidCommentsApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+  body: {
+    text: string;
+    mentioned?: {
+      id: number;
+    }[];
+    media_id?: {
+      id: number;
+    }[];
+  };
+};
+export type PostCampaignsByCidBugsAndBidMediaApiResponse =
+  /** status 200 OK */ {
+    failed?: {
+      name: string;
+      errorCode: 'FILE_TOO_BIG' | 'INVALID_FILE_EXTENSION' | 'GENERIC_ERROR';
+    }[];
+    uploaded_ids?: {
+      id: number;
+    }[];
+  };
+export type PostCampaignsByCidBugsAndBidMediaApiArg = {
+  /** Campaign id */
+  cid: string;
+  /** Defines an identifier for the bug object (BUG ID) */
+  bid: string;
+  body: {
+    media: string | string[];
+  };
+};
+export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =
+  /** status 200 OK */ string;
+export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg = {
+  cid: string;
+  bid: string;
+  cmid: string;
+  body: {};
+};
 export type GetCampaignsByCidBugsAndBidSiblingsApiResponse =
   /** status 200 OK */ {
     father?: {
@@ -671,12 +749,6 @@ export type GetCampaignsByCidBugsAndBidSiblingsApiArg = {
   cid: string;
   /** Defines an identifier for the bug object (BUG ID) */
   bid: string;
-};
-export type GetCampaignsByCidBugTypesApiResponse =
-  /** status 200 OK */ BugType[];
-export type GetCampaignsByCidBugTypesApiArg = {
-  /** Campaign id */
-  cid: string;
 };
 export type GetCampaignsByCidClustersApiResponse = /** status 200 OK */ {
   items?: Cluster[];
@@ -915,6 +987,10 @@ export type GetCampaignsByCidWidgetsApiArg = {
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
 };
+export type GetMediaByIdApiResponse = unknown;
+export type GetMediaByIdApiArg = {
+  id: string;
+};
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
 export type PostProjectsApiArg = {
   body: {
@@ -1016,6 +1092,18 @@ export type GetTemplatesApiArg = {
 };
 export type GetUsersMeApiResponse = /** status 200  */ User;
 export type GetUsersMeApiArg = void;
+export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
+  items?: UserPreference[];
+};
+export type GetUsersMePreferencesApiArg = void;
+export type PutUsersMePreferencesByPrefidApiResponse =
+  /** status 200 OK */ UserPreference;
+export type PutUsersMePreferencesByPrefidApiArg = {
+  prefid: string;
+  body: {
+    value: number;
+  };
+};
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
   start?: number;
@@ -1178,54 +1266,6 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     include_shared?: boolean;
   };
 };
-export type GetMediaByIdApiResponse = unknown;
-export type GetMediaByIdApiArg = {
-  id: string;
-};
-export type GetCampaignsByCidBugsAndBidCommentsApiResponse =
-  /** status 200 OK */ {
-    items: BugComment[];
-  };
-export type GetCampaignsByCidBugsAndBidCommentsApiArg = {
-  /** Campaign id */
-  cid: string;
-  /** Defines an identifier for the bug object (BUG ID) */
-  bid: string;
-};
-export type PostCampaignsByCidBugsAndBidCommentsApiResponse =
-  /** status 200 OK */ BugComment;
-export type PostCampaignsByCidBugsAndBidCommentsApiArg = {
-  /** Campaign id */
-  cid: string;
-  /** Defines an identifier for the bug object (BUG ID) */
-  bid: string;
-  body: {
-    text: string;
-    mentioned?: {
-      id: number;
-    }[];
-  };
-};
-export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =
-  /** status 200 OK */ string;
-export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg = {
-  cid: string;
-  bid: string;
-  cmid: string;
-  body: {};
-};
-export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
-  items?: UserPreference[];
-};
-export type GetUsersMePreferencesApiArg = void;
-export type PutUsersMePreferencesByPrefidApiResponse =
-  /** status 200 OK */ UserPreference;
-export type PutUsersMePreferencesByPrefidApiArg = {
-  prefid: string;
-  body: {
-    value: number;
-  };
-};
 export type Error = {
   message: string;
   code: number;
@@ -1320,6 +1360,10 @@ export type Output = 'bugs' | 'media' | 'insights';
 export type CampaignWithOutput = Campaign & {
   outputs?: Output[];
 };
+export type BugType = {
+  id: number;
+  name: string;
+};
 export type BugTitle = {
   full: string;
   /** Bug title without context. */
@@ -1331,10 +1375,6 @@ export type BugStatus = {
   name: string;
 };
 export type BugSeverity = {
-  id: number;
-  name: string;
-};
-export type BugType = {
   id: number;
   name: string;
 };
@@ -1444,6 +1484,20 @@ export type BugAdditionalField = {
   name: string;
   value: string;
 } & (BugAdditionalFieldRegex | BugAdditionalFieldSelect);
+export type BugComment = {
+  id: number;
+  text: string;
+  creation_date: string;
+  creator: {
+    id: number;
+    name: string;
+    isInternal: boolean;
+  };
+  media?: {
+    url: string;
+    id: number;
+  }[];
+};
 export type Cluster = {
   id: number;
   name: string;
@@ -1561,6 +1615,11 @@ export type User = {
   picture?: string;
   features?: Feature[];
 };
+export type UserPreference = {
+  preference_id: number;
+  value: number;
+  name: string;
+};
 export type Workspace = {
   id: number;
   company: string;
@@ -1594,21 +1653,6 @@ export type Coin = {
   /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
-export type BugComment = {
-  id: number;
-  text: string;
-  creation_date: string;
-  creator: {
-    id: number;
-    name: string;
-    isInternal: boolean;
-  };
-};
-export type UserPreference = {
-  preference_id: number;
-  value: number;
-  name: string;
-};
 export const {
   use$getQuery,
   usePostAuthenticateMutation,
@@ -1616,11 +1660,15 @@ export const {
   usePostCampaignsMutation,
   usePatchCampaignsByCidMutation,
   useGetCampaignsByCidQuery,
+  useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidBugsQuery,
   useGetCampaignsByCidBugsAndBidQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
+  useGetCampaignsByCidBugsAndBidCommentsQuery,
+  usePostCampaignsByCidBugsAndBidCommentsMutation,
+  usePostCampaignsByCidBugsAndBidMediaMutation,
+  useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
-  useGetCampaignsByCidBugTypesQuery,
   useGetCampaignsByCidClustersQuery,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidCustomStatusesMutation,
@@ -1640,6 +1688,7 @@ export const {
   useDeleteCampaignsByCidUsersMutation,
   useGetCampaignsByCidUxQuery,
   useGetCampaignsByCidWidgetsQuery,
+  useGetMediaByIdQuery,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
@@ -1649,6 +1698,8 @@ export const {
   useDeleteProjectsByPidUsersMutation,
   useGetTemplatesQuery,
   useGetUsersMeQuery,
+  useGetUsersMePreferencesQuery,
+  usePutUsersMePreferencesByPrefidMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
@@ -1660,10 +1711,4 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
-  useGetMediaByIdQuery,
-  useGetCampaignsByCidBugsAndBidCommentsQuery,
-  usePostCampaignsByCidBugsAndBidCommentsMutation,
-  useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
-  useGetUsersMePreferencesQuery,
-  usePutUsersMePreferencesByPrefidMutation,
 } = injectedRtkApi;
