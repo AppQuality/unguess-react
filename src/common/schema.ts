@@ -83,19 +83,9 @@ export interface paths {
     parameters: {
       path: {
         /** Campaign id */
-        cid: components['parameters']['cid'];
-        /** Defines an identifier for the bug object (BUG ID) */
-        bid: components['parameters']['bid'];
-      };
-    };
-  };
-  '/campaigns/{cid}/bugs/{bid}/comments/{cmid}': {
-    delete: operations['delete-campaigns-cid-bugs-bid-comments-cmid'];
-    parameters: {
-      path: {
         cid: string;
+        /** Defines an identifier for the bug object (BUG ID) */
         bid: string;
-        cmid: string;
       };
     };
   };
@@ -182,16 +172,6 @@ export interface paths {
   };
   '/campaigns/{cid}/os': {
     get: operations['get-campaigns-cid-os'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-  };
-  '/campaigns/{cid}/observations': {
-    /** Return all observations of a specific campaign */
-    get: operations['get-campaigns-cid-observations'];
     parameters: {
       path: {
         /** Campaign id */
@@ -398,7 +378,6 @@ export interface paths {
     parameters: {
       path: {
         vid: string;
-        oid: string;
       };
     };
   };
@@ -1561,121 +1540,6 @@ export interface operations {
       };
     };
   };
-  'delete-campaigns-cid-bugs-bid-comments-cmid': {
-    parameters: {
-      path: {
-        cid: string;
-        bid: string;
-        cmid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: unknown;
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': { [key: string]: unknown };
-      };
-    };
-  };
-  'get-campaigns-bug-siblings': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-        /** Defines an identifier for the bug object (BUG ID) */
-        bid: components['parameters']['bid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            items: components['schemas']['BugComment'][];
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'post-campaigns-cid-bugs-bid-comments': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-        /** Defines an identifier for the bug object (BUG ID) */
-        bid: components['parameters']['bid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['BugComment'];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          text: string;
-          mentioned?: {
-            id: number;
-          }[];
-          media_id?: {
-            id: number;
-          }[];
-        };
-      };
-    };
-  };
-  'post-campaigns-cid-bugs-bid-media': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-        /** Defines an identifier for the bug object (BUG ID) */
-        bid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            failed?: {
-              name: string;
-              /** @enum {string} */
-              errorCode:
-                | 'FILE_TOO_BIG'
-                | 'INVALID_FILE_EXTENSION'
-                | 'GENERIC_ERROR';
-            }[];
-            uploaded_ids?: {
-              id: number;
-            }[];
-          };
-        };
-      };
-    };
-    requestBody: {
-      content: {
-        'multipart/form-data': {
-          media: string | string[];
-        };
-      };
-    };
-  };
   'post-campaigns-cid-bugs-bid-comments-cmid-media': {
     parameters: {
       path: {
@@ -2017,39 +1881,6 @@ export interface operations {
       400: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
-    };
-  };
-  /** Return all observations of a specific campaign */
-  'get-campaigns-cid-observations': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            id: number;
-            tags: {
-              id: number;
-              name: string;
-              style: string;
-            }[];
-            sentiments: {
-              id: number;
-              value: number;
-              comment: string;
-              cluster?: {
-                id?: number;
-                name?: string;
-              };
-            }[];
-          }[];
-        };
-      };
     };
   };
   'get-campaigns-cid-priorities': {

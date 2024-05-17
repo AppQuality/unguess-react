@@ -223,12 +223,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/os` }),
     }),
-    getCampaignsByCidObservations: build.query<
-      GetCampaignsByCidObservationsApiResponse,
-      GetCampaignsByCidObservationsApiArg
-    >({
-      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/observations` }),
-    }),
     getCampaignsByCidPriorities: build.query<
       GetCampaignsByCidPrioritiesApiResponse,
       GetCampaignsByCidPrioritiesApiArg
@@ -983,27 +977,6 @@ export type GetCampaignsByCidOsApiResponse = /** status 200 OK */ {
   os: string;
 }[];
 export type GetCampaignsByCidOsApiArg = {
-  /** Campaign id */
-  cid: string;
-};
-export type GetCampaignsByCidObservationsApiResponse = /** status 200 OK */ {
-  id: number;
-  tags: {
-    id: number;
-    name: string;
-    style: string;
-  }[];
-  sentiments: {
-    id: number;
-    value: number;
-    comment: string;
-    cluster?: {
-      id?: number;
-      name?: string;
-    };
-  }[];
-}[];
-export type GetCampaignsByCidObservationsApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -1992,26 +1965,6 @@ export type UserPreference = {
   value: number;
   name: string;
 };
-export type VideoTag = {
-  group: {
-    id: number;
-    name: string;
-  };
-  tag: {
-    id: number;
-    name: string;
-    style: string;
-    usageNumber: number;
-  };
-};
-export type Observation = {
-  id: number;
-  title: string;
-  description: string;
-  start: number;
-  end: number;
-  tags: VideoTag[];
-};
 export type Workspace = {
   id: number;
   company: string;
@@ -2072,7 +2025,6 @@ export const {
   useGetCampaignsByCidInsightsQuery,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidOsQuery,
-  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidReportsQuery,

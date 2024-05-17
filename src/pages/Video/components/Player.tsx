@@ -74,10 +74,14 @@ const VideoPlayer = () => {
     }
   }, []);
 
-  const { data: observations, isError: isErrorObservations } =
-    useGetVideoByVidObservationsQuery({
-      vid: videoId || '',
-    });
+  const {
+    data: observations,
+    isFetching: isFetchingObservations,
+    isLoading: isLoadingObservations,
+    isError: isErrorObservations,
+  } = useGetVideoByVidObservationsQuery({
+    vid: videoId || '',
+  });
 
   const handleCut = useCallback(
     async (time: number) => {
