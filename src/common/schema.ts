@@ -90,6 +90,7 @@ export interface paths {
     };
   };
   '/campaigns/{cid}/bugs/{bid}/comments/{cmid}': {
+    post: operations['post-campaigns-cid-bugs-bid-comments-cmid-media'];
     delete: operations['delete-campaigns-cid-bugs-bid-comments-cmid'];
     parameters: {
       path: {
@@ -1166,11 +1167,19 @@ export interface components {
           has_bug_form?: number;
           /** @description if has_bug_form is 0 this has to be 0 */
           has_bug_parade?: number;
-          /** @description Useless value required by Tryber BackOffice */
           description?: string;
           base_bug_internal_id?: string;
           express_slug: string;
           use_cases?: components['schemas']['UseCase'][];
+          productType?: number;
+          productLink?: string;
+          browsers?: number[];
+          languages?: number[];
+          outOfScope?: string;
+          testerRequirements?: string;
+          targetSize?: number;
+          goal?: string;
+          testDescription?: string;
         };
       };
     };
@@ -1508,6 +1517,46 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            failed?: {
+              name: string;
+              /** @enum {string} */
+              errorCode:
+                | 'FILE_TOO_BIG'
+                | 'INVALID_FILE_EXTENSION'
+                | 'GENERIC_ERROR';
+            }[];
+            uploaded_ids?: {
+              id: number;
+            }[];
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          media: string | string[];
+        };
+      };
+    };
+  };
+  'post-campaigns-cid-bugs-bid-comments-cmid-media': {
+    parameters: {
+      path: {
+        cid: string;
+        bid: string;
+        cmid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            files?: {
+              name: string;
+              path: string;
+            }[];
             failed?: {
               name: string;
               /** @enum {string} */

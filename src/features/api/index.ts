@@ -117,6 +117,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
+      PostCampaignsByCidBugsAndBidCommentsCmidApiResponse,
+      PostCampaignsByCidBugsAndBidCommentsCmidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments/${queryArg.cmid}`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     deleteCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse,
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg
@@ -464,6 +474,44 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getVideoByVid: build.query<GetVideoByVidApiResponse, GetVideoByVidApiArg>({
+      query: (queryArg) => ({ url: `/video/${queryArg.vid}` }),
+    }),
+    getVideoByVidObservations: build.query<
+      GetVideoByVidObservationsApiResponse,
+      GetVideoByVidObservationsApiArg
+    >({
+      query: (queryArg) => ({ url: `/video/${queryArg.vid}/observations` }),
+    }),
+    postVideoByVidObservations: build.mutation<
+      PostVideoByVidObservationsApiResponse,
+      PostVideoByVidObservationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/video/${queryArg.vid}/observations`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    patchVideoByVidObservationsAndOid: build.mutation<
+      PatchVideoByVidObservationsAndOidApiResponse,
+      PatchVideoByVidObservationsAndOidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/video/${queryArg.vid}/observations/${queryArg.oid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
+    deleteVideoByVidObservationsAndOid: build.mutation<
+      DeleteVideoByVidObservationsAndOidApiResponse,
+      DeleteVideoByVidObservationsAndOidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/video/${queryArg.vid}/observations/${queryArg.oid}`,
+        method: 'DELETE',
+      }),
+    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -772,6 +820,28 @@ export type PostCampaignsByCidBugsAndBidMediaApiArg = {
   cid: string;
   /** Defines an identifier for the bug object (BUG ID) */
   bid: string;
+  body: {
+    media: string | string[];
+  };
+};
+export type PostCampaignsByCidBugsAndBidCommentsCmidApiResponse =
+  /** status 200 OK */ {
+    files?: {
+      name: string;
+      path: string;
+    }[];
+    failed?: {
+      name: string;
+      errorCode: 'FILE_TOO_BIG' | 'INVALID_FILE_EXTENSION' | 'GENERIC_ERROR';
+    }[];
+    uploaded_ids?: {
+      id: number;
+    }[];
+  };
+export type PostCampaignsByCidBugsAndBidCommentsCmidApiArg = {
+  cid: string;
+  bid: string;
+  cmid: string;
   body: {
     media: string | string[];
   };
@@ -1942,6 +2012,7 @@ export const {
   useGetCampaignsByCidBugsAndBidCommentsQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
+  usePostCampaignsByCidBugsAndBidCommentsCmidMutation,
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidClustersQuery,
@@ -1983,6 +2054,11 @@ export const {
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesByPrefidMutation,
+  useGetVideoByVidQuery,
+  useGetVideoByVidObservationsQuery,
+  usePostVideoByVidObservationsMutation,
+  usePatchVideoByVidObservationsAndOidMutation,
+  useDeleteVideoByVidObservationsAndOidMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
