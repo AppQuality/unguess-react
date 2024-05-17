@@ -23,6 +23,7 @@ import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
 import { EmptyTranscript } from './EmptyTranscript';
 import { SearchBar } from './SearchBar';
+import { ObservationTooltip } from './ObservationTooltip';
 
 const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -271,16 +272,11 @@ const Transcript = ({
                       currentTime={currentTime}
                       text={item.word}
                       tooltipContent={(observation) => (
-                        <StyledTag
-                          size="large"
+                        <ObservationTooltip
                           color={observation.color}
-                          onClick={() =>
-                            setOpenAccordion({ id: observation.id })
-                          }
-                        >
-                          <TagIcon />
-                          {observation.label && observation.label}
-                        </StyledTag>
+                          observationId={observation.id}
+                          label={observation.label}
+                        />
                       )}
                     />
                   ))}

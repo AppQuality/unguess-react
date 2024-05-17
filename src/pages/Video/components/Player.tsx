@@ -7,9 +7,11 @@ import {
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { Transcript } from './Transcript';
 import { useVideoContext } from '../context/VideoContext';
+import { ObservationTooltip } from './ObservationTooltip';
 
 const PlayerContainer = styled.div<{
   isFetching: boolean;
@@ -130,6 +132,17 @@ const VideoPlayer = () => {
                 (tag) => tag.group.name.toLowerCase() === 'severity'
               )?.tag.style || 'grey',
             label: obs.title,
+            tooltipContent: (
+              <ObservationTooltip
+                observationId={obs.id}
+                color={
+                  obs.tags.find(
+                    (tag) => tag.group.name.toLowerCase() === 'severity'
+                  )?.tag.style || appTheme.palette.grey[600]
+                }
+                label={obs.title}
+              />
+            ),
             onClick: () => setOpenAccordion({ id: obs.id }),
           }))}
           i18n={{
