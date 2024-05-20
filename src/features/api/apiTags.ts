@@ -95,6 +95,27 @@ unguessApi.enhanceEndpoints({
     putUsersMePreferencesByPrefid: {
       invalidatesTags: ['Preferences'],
     },
+    getVideoByVidObservations: {
+      providesTags: ['Observations'],
+    },
+    postVideoByVidObservations: {
+      async onQueryStarted({ vid }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedPost } = await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideoByVidObservations',
+              { vid },
+              (draft) => {
+                draft.push(updatedPost);
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
+        }
+      },
+    },
     postCampaignsByCidBugsAndBidComments: {
       invalidatesTags: ['Bugs'],
       async onQueryStarted({ cid, bid }, { dispatch, queryFulfilled }) {
@@ -111,6 +132,58 @@ unguessApi.enhanceEndpoints({
           );
         } catch {
           dispatch(unguessApi.util.invalidateTags(['BugComments']));
+        }
+      },
+    },
+    getCampaignsByCidVideoTags: {
+      providesTags: ['VideoTags'],
+    },
+    postCampaignsByCidVideoTags: {
+      invalidatesTags: ['VideoTags'],
+    },
+    patchVideoByVidObservationsAndOid: {
+      async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedPatch } = await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideoByVidObservations',
+              { vid },
+              (draft) => {
+                const index = draft.findIndex(
+                  (observation) => observation.id === Number(oid)
+                );
+                if (index !== -1) {
+                  draft[index] = updatedPatch;
+                }
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
+        }
+      },
+    },
+    deleteVideoByVidObservationsAndOid: {
+      async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideoByVidObservations',
+              { vid },
+              (draft) => {
+                const index = draft.findIndex(
+                  (observation) => observation.id === Number(oid)
+                );
+                if (index !== -1) {
+                  draft.splice(index, 1);
+                }
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
         }
       },
     },

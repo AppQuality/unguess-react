@@ -117,6 +117,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
+      PostCampaignsByCidBugsAndBidCommentsCmidApiResponse,
+      PostCampaignsByCidBugsAndBidCommentsCmidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments/${queryArg.cmid}`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     deleteCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse,
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg
@@ -184,6 +194,22 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'PUT',
         body: queryArg.body,
       }),
+    }),
+    postCampaignsByCidInsights: build.mutation<
+      PostCampaignsByCidInsightsApiResponse,
+      PostCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/insights`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getCampaignsByCidInsights: build.query<
+      GetCampaignsByCidInsightsApiResponse,
+      GetCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/insights` }),
     }),
     getCampaignsByCidMeta: build.query<
       GetCampaignsByCidMetaApiResponse,
@@ -281,6 +307,36 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getCampaignsByCidVideoTags: build.query<
+      GetCampaignsByCidVideoTagsApiResponse,
+      GetCampaignsByCidVideoTagsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/video-tags` }),
+    }),
+    postCampaignsByCidVideoTags: build.mutation<
+      PostCampaignsByCidVideoTagsApiResponse,
+      PostCampaignsByCidVideoTagsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/video-tags`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getCampaignsByCidVideo: build.query<
+      GetCampaignsByCidVideoApiResponse,
+      GetCampaignsByCidVideoApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/video`,
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+        },
+      }),
+    }),
     getCampaignsByCidWidgets: build.query<
       GetCampaignsByCidWidgetsApiResponse,
       GetCampaignsByCidWidgetsApiArg
@@ -288,6 +344,31 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/widgets`,
         params: { s: queryArg.s, updateTrend: queryArg.updateTrend },
+      }),
+    }),
+    getInsightsByIid: build.query<
+      GetInsightsByIidApiResponse,
+      GetInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({ url: `/insights/${queryArg.iid}` }),
+    }),
+    deleteInsightsByIid: build.mutation<
+      DeleteInsightsByIidApiResponse,
+      DeleteInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'DELETE',
+      }),
+    }),
+    patchInsightsByIid: build.mutation<
+      PatchInsightsByIidApiResponse,
+      PatchInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'PATCH',
+        body: queryArg.body,
       }),
     }),
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
@@ -391,6 +472,44 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/users/me/preferences/${queryArg.prefid}`,
         method: 'PUT',
         body: queryArg.body,
+      }),
+    }),
+    getVideoByVid: build.query<GetVideoByVidApiResponse, GetVideoByVidApiArg>({
+      query: (queryArg) => ({ url: `/video/${queryArg.vid}` }),
+    }),
+    getVideoByVidObservations: build.query<
+      GetVideoByVidObservationsApiResponse,
+      GetVideoByVidObservationsApiArg
+    >({
+      query: (queryArg) => ({ url: `/video/${queryArg.vid}/observations` }),
+    }),
+    postVideoByVidObservations: build.mutation<
+      PostVideoByVidObservationsApiResponse,
+      PostVideoByVidObservationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/video/${queryArg.vid}/observations`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    patchVideoByVidObservationsAndOid: build.mutation<
+      PatchVideoByVidObservationsAndOidApiResponse,
+      PatchVideoByVidObservationsAndOidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/video/${queryArg.vid}/observations/${queryArg.oid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
+    deleteVideoByVidObservationsAndOid: build.mutation<
+      DeleteVideoByVidObservationsAndOidApiResponse,
+      DeleteVideoByVidObservationsAndOidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/video/${queryArg.vid}/observations/${queryArg.oid}`,
+        method: 'DELETE',
       }),
     }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
@@ -705,6 +824,28 @@ export type PostCampaignsByCidBugsAndBidMediaApiArg = {
     media: string | string[];
   };
 };
+export type PostCampaignsByCidBugsAndBidCommentsCmidApiResponse =
+  /** status 200 OK */ {
+    files?: {
+      name: string;
+      path: string;
+    }[];
+    failed?: {
+      name: string;
+      errorCode: 'FILE_TOO_BIG' | 'INVALID_FILE_EXTENSION' | 'GENERIC_ERROR';
+    }[];
+    uploaded_ids?: {
+      id: number;
+    }[];
+  };
+export type PostCampaignsByCidBugsAndBidCommentsCmidApiArg = {
+  cid: string;
+  bid: string;
+  cmid: string;
+  body: {
+    media: string | string[];
+  };
+};
 export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =
   /** status 200 OK */ string;
 export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg = {
@@ -803,6 +944,25 @@ export type PutCampaignsByCidFindingsAndFidApiArg = {
   body: {
     comment: string;
   };
+};
+export type PostCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight;
+export type PostCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    title: string;
+    description?: string;
+    severity_id: number;
+    observations_ids: number[];
+    comment?: string;
+  };
+};
+export type GetCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight[];
+export type GetCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
 };
 export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
   selected_testers: number;
@@ -967,6 +1127,58 @@ export type GetCampaignsByCidUxApiArg = {
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
 };
+export type GetCampaignsByCidVideoTagsApiResponse = /** status 200 OK */ {
+  group: {
+    id: number;
+    name: string;
+  };
+  tags: {
+    id: number;
+    name: string;
+    style: string;
+    usageNumber: number;
+  }[];
+}[];
+export type GetCampaignsByCidVideoTagsApiArg = {
+  cid: string;
+};
+export type PostCampaignsByCidVideoTagsApiResponse =
+  /** status 200 OK */ VideoTag;
+export type PostCampaignsByCidVideoTagsApiArg = {
+  cid: string;
+  /** If there's a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
+  body: {
+    group: {
+      name: string;
+    };
+    tag: {
+      name: string;
+      style?: string;
+    };
+  };
+};
+export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
+  items: {
+    usecase: {
+      id: number;
+      title: string;
+      description: string;
+      completion: number;
+    };
+    videos: Video[];
+  }[];
+} & PaginationData;
+export type GetCampaignsByCidVideoApiArg = {
+  cid: string;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
+};
 export type GetCampaignsByCidWidgetsApiResponse =
   /** status 200 OK */
   | WidgetBugsByUseCase
@@ -986,6 +1198,28 @@ export type GetCampaignsByCidWidgetsApiArg = {
     | 'bugs-by-duplicates';
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
+};
+export type GetInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type GetInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
+export type DeleteInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type PatchInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type PatchInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+  body: {
+    title?: string;
+    description?: string;
+    severity_id?: number;
+    observations_ids?: number[];
+    comment?: string;
+  };
 };
 export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
@@ -1103,6 +1337,53 @@ export type PutUsersMePreferencesByPrefidApiArg = {
   body: {
     value: number;
   };
+};
+export type GetVideoByVidApiResponse = /** status 200 OK */ Video & {
+  usecase: {
+    id: number;
+    name: string;
+  };
+};
+export type GetVideoByVidApiArg = {
+  vid: string;
+};
+export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
+  id: number;
+  title: string;
+  description: string;
+  start: number;
+  end: number;
+  tags: VideoTag[];
+}[];
+export type GetVideoByVidObservationsApiArg = {
+  vid: string;
+};
+export type PostVideoByVidObservationsApiResponse =
+  /** status 200 OK */ Observation;
+export type PostVideoByVidObservationsApiArg = {
+  vid: string;
+  body: {
+    start: number;
+    end: number;
+  };
+};
+export type PatchVideoByVidObservationsAndOidApiResponse =
+  /** status 200 OK */ Observation;
+export type PatchVideoByVidObservationsAndOidApiArg = {
+  vid: string;
+  oid: string;
+  body: {
+    title?: string;
+    description?: string;
+    start?: number;
+    end?: number;
+    tags?: number[];
+  };
+};
+export type DeleteVideoByVidObservationsAndOidApiResponse = unknown;
+export type DeleteVideoByVidObservationsAndOidApiArg = {
+  vid: string;
+  oid: string;
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
@@ -1496,11 +1777,47 @@ export type BugComment = {
   media?: {
     url: string;
     id: number;
+    type: string;
   }[];
 };
 export type Cluster = {
   id: number;
   name: string;
+};
+export type VideoTag = {
+  group: {
+    id: number;
+    name: string;
+  };
+  tag: {
+    id: number;
+    name: string;
+    style: string;
+    usageNumber: number;
+  };
+};
+export type Observation = {
+  id: number;
+  title: string;
+  description: string;
+  start: number;
+  end: number;
+  tags: VideoTag[];
+};
+export type Insight = {
+  id: number;
+  title: string;
+  description: string;
+  severity: BugSeverity;
+  observations: (Observation & {
+    video: {
+      id: number;
+      poster: string;
+      url: string;
+      streamUrl: string;
+    };
+  })[];
+  comment?: string;
 };
 export type ReportExtensions =
   | 'pdf'
@@ -1541,6 +1858,34 @@ export type Tenant = {
     type?: 'workspace' | 'project';
     id?: number;
   };
+};
+export type Transcript = {
+  speakers: number;
+  words: {
+    start: number;
+    end: number;
+    word: string;
+    speaker?: number;
+  }[];
+};
+export type Video = {
+  id: number;
+  url: string;
+  streamUrl?: string;
+  poster?: string;
+  tester: {
+    id: number;
+    name: string;
+    surname: string;
+    device: Smartphone | Tablet | Desktop;
+  };
+  transcript?: Transcript;
+};
+export type PaginationData = {
+  start?: number;
+  size?: number;
+  limit?: number;
+  total?: number;
 };
 export type WidgetBugsByUseCase = {
   data: {
@@ -1667,6 +2012,7 @@ export const {
   useGetCampaignsByCidBugsAndBidCommentsQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
+  usePostCampaignsByCidBugsAndBidCommentsCmidMutation,
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidClustersQuery,
@@ -1675,6 +2021,8 @@ export const {
   useDeleteCampaignsByCidCustomStatusesMutation,
   useGetCampaignsByCidDevicesQuery,
   usePutCampaignsByCidFindingsAndFidMutation,
+  usePostCampaignsByCidInsightsMutation,
+  useGetCampaignsByCidInsightsQuery,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
@@ -1687,7 +2035,13 @@ export const {
   usePostCampaignsByCidUsersMutation,
   useDeleteCampaignsByCidUsersMutation,
   useGetCampaignsByCidUxQuery,
+  useGetCampaignsByCidVideoTagsQuery,
+  usePostCampaignsByCidVideoTagsMutation,
+  useGetCampaignsByCidVideoQuery,
   useGetCampaignsByCidWidgetsQuery,
+  useGetInsightsByIidQuery,
+  useDeleteInsightsByIidMutation,
+  usePatchInsightsByIidMutation,
   useGetMediaByIdQuery,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
@@ -1700,6 +2054,11 @@ export const {
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesByPrefidMutation,
+  useGetVideoByVidQuery,
+  useGetVideoByVidObservationsQuery,
+  usePostVideoByVidObservationsMutation,
+  usePatchVideoByVidObservationsAndOidMutation,
+  useDeleteVideoByVidObservationsAndOidMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
