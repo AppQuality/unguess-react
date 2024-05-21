@@ -180,7 +180,7 @@ const VideoPlayer = () => {
             tags: obs.tags,
           }))}
           i18n={{
-            beforeHighlight: t('__VIDEO_PAGE_ADD_OBSERVATION'),
+            beforeHighlight: t('__VIDEO_PAGE_PLAYER_START_ADD_OBSERVATION'),
             onHighlight: t('__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION'),
           }}
         />
