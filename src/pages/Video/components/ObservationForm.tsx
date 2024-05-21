@@ -130,7 +130,7 @@ const ObservationForm = ({
           .map((group) =>
             group.tags.map((tag) => ({
               id: tag.id,
-              label: tag.name,
+              label: `${tag.name} (${tag.usageNumber})`,
               selected: selectedOptions.some((bt) => bt.id === tag.id),
             }))
           )
