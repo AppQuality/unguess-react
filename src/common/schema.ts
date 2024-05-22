@@ -2675,17 +2675,7 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': {
-            id: number;
-            title: string;
-            description: string;
-            /** Format: float */
-            start: number;
-            /** Format: float */
-            end: number;
-            tags: components['schemas']['VideoTag'][];
-            ''?: string;
-          }[];
+          'application/json': components['schemas']['Observation'][];
         };
       };
     };

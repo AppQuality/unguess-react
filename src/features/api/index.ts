@@ -1349,15 +1349,8 @@ export type GetVideoByVidApiResponse = /** status 200 OK */ Video & {
 export type GetVideoByVidApiArg = {
   vid: string;
 };
-export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
-  id: number;
-  title: string;
-  description: string;
-  start: number;
-  end: number;
-  tags: VideoTag[];
-  ''?: string;
-}[];
+export type GetVideoByVidObservationsApiResponse =
+  /** status 200 OK */ Observation[];
 export type GetVideoByVidObservationsApiArg = {
   vid: string;
 };

@@ -37,11 +37,11 @@ const StyledPipe = styled(Pipe)`
   display: inline;
   margin-left: ${({ theme }) => theme.space.sm};
 `;
-const SeveritiesMetaContainer = styled.div`
+export const SeveritiesMetaContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-const SeveritiesMetaText = styled(MD)`
+export const SeveritiesMetaText = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[600]};
   margin-right: ${({ theme }) => theme.space.sm};
 `;
