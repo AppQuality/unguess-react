@@ -832,6 +832,7 @@
   "__TAILORED_LABEL": "Tailored",
   "__TOAST_CLOSE_TEXT": "Dismiss",
   "__TOAST_GENERIC_ERROR_MESSAGE": "Something went wrong. Please try again later.",
+  "__VIDEO_LIST_META_SEVERITIES_COUNT": "You have found",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_BUTTON": "Delete",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_BODY_TEXT": "Are you sure you want to delete the observation?",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_CONTINUE_BUTTON": "Delete",

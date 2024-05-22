@@ -5,7 +5,7 @@ import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
-import { getSeverityTagsWithCount } from '../utils/getSeverityTagsWithCount';
+import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
@@ -87,7 +87,7 @@ const Video = ({
   );
 
   const severityTotals = video.observations
-    ? getSeverityTagsWithCount(video.observations)
+    ? getSeverityTagsByVideoCount(video.observations)
     : [];
   return (
     <StyledAnchor href={videoUrl}>
