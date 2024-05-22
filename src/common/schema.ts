@@ -90,6 +90,7 @@ export interface paths {
     };
   };
   '/campaigns/{cid}/bugs/{bid}/comments/{cmid}': {
+    post: operations['post-campaigns-cid-bugs-bid-comments-cmid-media'];
     delete: operations['delete-campaigns-cid-bugs-bid-comments-cmid'];
     parameters: {
       path: {
@@ -146,6 +147,16 @@ export interface paths {
         cid: components['parameters']['cid'];
         /** Finding id */
         fid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/insights': {
+    get: operations['get-insights'];
+    post: operations['post-insights'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
       };
     };
   };
@@ -273,6 +284,17 @@ export interface paths {
       path: {
         /** Campaign id */
         cid: components['parameters']['cid'];
+      };
+    };
+  };
+  '/insights/{iid}': {
+    get: operations['get-insights-iid'];
+    delete: operations['delete-insights-iid'];
+    patch: operations['patch-insights-iid'];
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
       };
     };
   };
@@ -445,27 +467,6 @@ export interface paths {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
-      };
-    };
-  };
-  '/campaigns/{cid}/insights': {
-    get: operations['get-insights'];
-    post: operations['post-insights'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-  };
-  '/insights/{iid}': {
-    get: operations['get-insights-iid'];
-    delete: operations['delete-insights-iid'];
-    patch: operations['patch-insights-iid'];
-    parameters: {
-      path: {
-        /** Insight id */
-        iid: components['parameters']['iid'];
       };
     };
   };
@@ -745,12 +746,30 @@ export interface components {
       })[];
       comment?: string;
     };
+    /** Observation */
+    Observation: {
+      id: number;
+      title: string;
+      description: string;
+      /** Format: float */
+      start: number;
+      /** Format: float */
+      end: number;
+      tags: components['schemas']['VideoTag'][];
+    };
     /**
      * Output
      * @description campaign output item
      * @enum {string}
      */
     Output: 'bugs' | 'media' | 'insights';
+    /** PaginationData */
+    PaginationData: {
+      start?: number;
+      size?: number;
+      limit?: number;
+      total?: number;
+    };
     /** Platform Object */
     Platform: {
       /** @description os */
@@ -873,6 +892,18 @@ export interface components {
         id?: number;
       };
     };
+    /** Transcript */
+    Transcript: {
+      speakers: number;
+      words: {
+        /** Format: float */
+        start: number;
+        /** Format: float */
+        end: number;
+        word: string;
+        speaker?: number;
+      }[];
+    };
     /** UseCase */
     UseCase: {
       title: string;
@@ -903,6 +934,39 @@ export interface components {
       preference_id: number;
       value: number;
       name: string;
+    };
+    /**
+     * Video
+     * @description Video uploaded from a user
+     */
+    Video: {
+      id: number;
+      url: string;
+      streamUrl?: string;
+      poster?: string;
+      tester: {
+        id: number;
+        name: string;
+        surname: string;
+        device:
+          | components['schemas']['Smartphone']
+          | components['schemas']['Tablet']
+          | components['schemas']['Desktop'];
+      };
+      transcript?: components['schemas']['Transcript'];
+    };
+    /** VideoTag */
+    VideoTag: {
+      group: {
+        id: number;
+        name: string;
+      };
+      tag: {
+        id: number;
+        name: string;
+        style: string;
+        usageNumber: number;
+      };
     };
     /**
      * WidgetBugsByDevice
@@ -1029,62 +1093,6 @@ export interface components {
       /** @description Number of shared items */
       sharedItems?: number;
     };
-    /** PaginationData */
-    PaginationData: {
-      start?: number;
-      size?: number;
-      limit?: number;
-      total?: number;
-    };
-    /**
-     * Video
-     * @description Video uploaded from a user
-     */
-    Video: {
-      id: number;
-      url: string;
-      streamUrl?: string;
-      tester: {
-        id: number;
-        name: string;
-        surname: string;
-      };
-      transcript?: components['schemas']['Transcript'];
-    };
-    /** Observation */
-    Observation: {
-      id: number;
-      title: string;
-      description: string;
-      start: number;
-      end: number;
-      tags: components['schemas']['VideoTag'][];
-    };
-    /** VideoTag */
-    VideoTag: {
-      group: {
-        id: number;
-        name: string;
-      };
-      tag: {
-        id: number;
-        name: string;
-        style: string;
-        usageNumber: number;
-      };
-    };
-    /** Transcript */
-    Transcript: {
-      speakers: number;
-      words: {
-        /** Format: float */
-        start: number;
-        /** Format: float */
-        end: number;
-        word: string;
-        speaker?: number;
-      }[];
-    };
   };
   responses: {
     /** Shared error response */
@@ -1159,11 +1167,19 @@ export interface components {
           has_bug_form?: number;
           /** @description if has_bug_form is 0 this has to be 0 */
           has_bug_parade?: number;
-          /** @description Useless value required by Tryber BackOffice */
           description?: string;
           base_bug_internal_id?: string;
           express_slug: string;
           use_cases?: components['schemas']['UseCase'][];
+          productType?: number;
+          productLink?: string;
+          browsers?: number[];
+          languages?: number[];
+          outOfScope?: string;
+          testerRequirements?: string;
+          targetSize?: number;
+          goal?: string;
+          testDescription?: string;
         };
       };
     };
@@ -1524,6 +1540,46 @@ export interface operations {
       };
     };
   };
+  'post-campaigns-cid-bugs-bid-comments-cmid-media': {
+    parameters: {
+      path: {
+        cid: string;
+        bid: string;
+        cmid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            files?: {
+              name: string;
+              path: string;
+            }[];
+            failed?: {
+              name: string;
+              /** @enum {string} */
+              errorCode:
+                | 'FILE_TOO_BIG'
+                | 'INVALID_FILE_EXTENSION'
+                | 'GENERIC_ERROR';
+            }[];
+            uploaded_ids?: {
+              id: number;
+            }[];
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          media: string | string[];
+        };
+      };
+    };
+  };
   'delete-campaigns-cid-bugs-bid-comments-cmid': {
     parameters: {
       path: {
@@ -1728,6 +1784,55 @@ export interface operations {
       content: {
         'application/json': {
           comment: string;
+        };
+      };
+    };
+  };
+  'get-insights': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'][];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'post-insights': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: components['parameters']['cid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          title: string;
+          description?: string;
+          severity_id: number;
+          observations_ids: number[];
+          comment?: string;
         };
       };
     };
@@ -2150,8 +2255,11 @@ export interface operations {
                 id: number;
                 title: string;
                 description: string;
+                completion: number;
               };
-              videos: components['schemas']['Video'][];
+              videos: (components['schemas']['Video'] & {
+                observations?: components['schemas']['Observation'][];
+              })[];
             }[];
           } & components['schemas']['PaginationData'];
         };
@@ -2187,6 +2295,70 @@ export interface operations {
       401: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'get-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'delete-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'patch-insights-iid': {
+    parameters: {
+      path: {
+        /** Insight id */
+        iid: components['parameters']['iid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Insight'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          title?: string;
+          description?: string;
+          severity_id?: number;
+          observations_ids?: number[];
+          comment?: string;
+        };
+      };
     };
   };
   'get-media-id': {
@@ -2507,9 +2679,12 @@ export interface operations {
             id: number;
             title: string;
             description: string;
+            /** Format: float */
             start: number;
+            /** Format: float */
             end: number;
             tags: components['schemas']['VideoTag'][];
+            ''?: string;
           }[];
         };
       };
@@ -2532,7 +2707,9 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          /** Format: float */
           start: number;
+          /** Format: float */
           end: number;
         };
       };
@@ -2572,7 +2749,9 @@ export interface operations {
         'application/json': {
           title?: string;
           description?: string;
+          /** Format: float */
           start?: number;
+          /** Format: float */
           end?: number;
           tags?: number[];
         };
@@ -2905,119 +3084,6 @@ export interface operations {
           /** @description Tryber WP USER ID */
           user_id: number;
           include_shared?: boolean;
-        };
-      };
-    };
-  };
-  'get-insights': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Insight'][];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'post-insights': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: components['parameters']['cid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Insight'];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          title: string;
-          description?: string;
-          severity_id: number;
-          observations_ids: number[];
-          comment?: string;
-        };
-      };
-    };
-  };
-  'get-insights-iid': {
-    parameters: {
-      path: {
-        /** Insight id */
-        iid: components['parameters']['iid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Insight'];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'delete-insights-iid': {
-    parameters: {
-      path: {
-        /** Insight id */
-        iid: components['parameters']['iid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: unknown;
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'patch-insights-iid': {
-    parameters: {
-      path: {
-        /** Insight id */
-        iid: components['parameters']['iid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Insight'];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          title?: string;
-          description?: string;
-          severity_id?: number;
-          observations_ids?: number[];
-          comment?: string;
         };
       };
     };

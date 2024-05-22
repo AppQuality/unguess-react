@@ -13,6 +13,7 @@ const VideosPageHeader = () => {
   const { campaign, project } = useCampaign(Number(campaignId));
   const projectRoute = useLocalizeRoute(`projects/${project?.id}`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+
   if (!campaign || !project) return null;
   return (
     <LayoutWrapper isNotBoxed>

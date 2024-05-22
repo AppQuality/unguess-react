@@ -1,9 +1,11 @@
-import { Anchor, MD, SM } from '@appquality/unguess-design-system';
+import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
+import { getColorWithAlpha } from 'src/common/utils';
+import { getSeverityTagsWithCount } from '../utils/getSeverityTagsWithCount';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
@@ -44,6 +46,12 @@ const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
   }
 `;
 
+const ObservationsTotalContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${({ theme }) => theme.space.xxs};
+`;
+
 const Poster = ({
   video,
 }: {
@@ -78,6 +86,9 @@ const Video = ({
     `campaigns/${campaignId}/videos/${video.id}`
   );
 
+  const severityTotals = video.observations
+    ? getSeverityTagsWithCount(video.observations)
+    : [];
   return (
     <StyledAnchor href={videoUrl}>
       <Container>
@@ -85,6 +96,19 @@ const Video = ({
         <div>
           <MD isBold>{video.tester.name}</MD>
           <SM color={appTheme.palette.grey[600]}>ID: {video.id}</SM>
+          <ObservationsTotalContainer>
+            {severityTotals.map((tag) => (
+              <Tag
+                hue={getColorWithAlpha(
+                  tag.style || appTheme.palette.grey[600],
+                  0.1
+                )}
+                color={tag.style || appTheme.palette.grey[600]}
+              >
+                {tag.name} {tag.count}
+              </Tag>
+            ))}
+          </ObservationsTotalContainer>
         </div>
       </Container>
     </StyledAnchor>

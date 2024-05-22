@@ -117,6 +117,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
+      PostCampaignsByCidBugsAndBidCommentsCmidApiResponse,
+      PostCampaignsByCidBugsAndBidCommentsCmidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}/comments/${queryArg.cmid}`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     deleteCampaignsByCidBugsAndBidCommentsCmid: build.mutation<
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse,
       DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg
@@ -184,6 +194,22 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'PUT',
         body: queryArg.body,
       }),
+    }),
+    postCampaignsByCidInsights: build.mutation<
+      PostCampaignsByCidInsightsApiResponse,
+      PostCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/insights`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getCampaignsByCidInsights: build.query<
+      GetCampaignsByCidInsightsApiResponse,
+      GetCampaignsByCidInsightsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/insights` }),
     }),
     getCampaignsByCidMeta: build.query<
       GetCampaignsByCidMetaApiResponse,
@@ -318,6 +344,31 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/widgets`,
         params: { s: queryArg.s, updateTrend: queryArg.updateTrend },
+      }),
+    }),
+    getInsightsByIid: build.query<
+      GetInsightsByIidApiResponse,
+      GetInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({ url: `/insights/${queryArg.iid}` }),
+    }),
+    deleteInsightsByIid: build.mutation<
+      DeleteInsightsByIidApiResponse,
+      DeleteInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'DELETE',
+      }),
+    }),
+    patchInsightsByIid: build.mutation<
+      PatchInsightsByIidApiResponse,
+      PatchInsightsByIidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/insights/${queryArg.iid}`,
+        method: 'PATCH',
+        body: queryArg.body,
       }),
     }),
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
@@ -577,47 +628,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    postCampaignsByCidInsights: build.mutation<
-      PostCampaignsByCidInsightsApiResponse,
-      PostCampaignsByCidInsightsApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/campaigns/${queryArg.cid}/insights`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
-    getCampaignsByCidInsights: build.query<
-      GetCampaignsByCidInsightsApiResponse,
-      GetCampaignsByCidInsightsApiArg
-    >({
-      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/insights` }),
-    }),
-    getInsightsByIid: build.query<
-      GetInsightsByIidApiResponse,
-      GetInsightsByIidApiArg
-    >({
-      query: (queryArg) => ({ url: `/insights/${queryArg.iid}` }),
-    }),
-    deleteInsightsByIid: build.mutation<
-      DeleteInsightsByIidApiResponse,
-      DeleteInsightsByIidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/insights/${queryArg.iid}`,
-        method: 'DELETE',
-      }),
-    }),
-    patchInsightsByIid: build.mutation<
-      PatchInsightsByIidApiResponse,
-      PatchInsightsByIidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/insights/${queryArg.iid}`,
-        method: 'PATCH',
-        body: queryArg.body,
-      }),
-    }),
   }),
   overrideExisting: false,
 });
@@ -661,11 +671,19 @@ export type PostCampaignsApiArg = {
     has_bug_form?: number;
     /** if has_bug_form is 0 this has to be 0 */
     has_bug_parade?: number;
-    /** Useless value required by Tryber BackOffice */
     description?: string;
     base_bug_internal_id?: string;
     express_slug: string;
     use_cases?: UseCase[];
+    productType?: number;
+    productLink?: string;
+    browsers?: number[];
+    languages?: number[];
+    outOfScope?: string;
+    testerRequirements?: string;
+    targetSize?: number;
+    goal?: string;
+    testDescription?: string;
   };
 };
 export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
@@ -806,6 +824,28 @@ export type PostCampaignsByCidBugsAndBidMediaApiArg = {
     media: string | string[];
   };
 };
+export type PostCampaignsByCidBugsAndBidCommentsCmidApiResponse =
+  /** status 200 OK */ {
+    files?: {
+      name: string;
+      path: string;
+    }[];
+    failed?: {
+      name: string;
+      errorCode: 'FILE_TOO_BIG' | 'INVALID_FILE_EXTENSION' | 'GENERIC_ERROR';
+    }[];
+    uploaded_ids?: {
+      id: number;
+    }[];
+  };
+export type PostCampaignsByCidBugsAndBidCommentsCmidApiArg = {
+  cid: string;
+  bid: string;
+  cmid: string;
+  body: {
+    media: string | string[];
+  };
+};
 export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiResponse =
   /** status 200 OK */ string;
 export type DeleteCampaignsByCidBugsAndBidCommentsCmidApiArg = {
@@ -904,6 +944,25 @@ export type PutCampaignsByCidFindingsAndFidApiArg = {
   body: {
     comment: string;
   };
+};
+export type PostCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight;
+export type PostCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    title: string;
+    description?: string;
+    severity_id: number;
+    observations_ids: number[];
+    comment?: string;
+  };
+};
+export type GetCampaignsByCidInsightsApiResponse =
+  /** status 200 OK */ Insight[];
+export type GetCampaignsByCidInsightsApiArg = {
+  /** Campaign id */
+  cid: string;
 };
 export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
   selected_testers: number;
@@ -1106,7 +1165,9 @@ export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
       description: string;
       completion: number;
     };
-    videos: Video[];
+    videos: (Video & {
+      observations?: Observation[];
+    })[];
   }[];
 } & PaginationData;
 export type GetCampaignsByCidVideoApiArg = {
@@ -1139,6 +1200,28 @@ export type GetCampaignsByCidWidgetsApiArg = {
     | 'bugs-by-duplicates';
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
+};
+export type GetInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type GetInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
+export type DeleteInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+};
+export type PatchInsightsByIidApiResponse = /** status 200 OK */ Insight;
+export type PatchInsightsByIidApiArg = {
+  /** Insight id */
+  iid: string;
+  body: {
+    title?: string;
+    description?: string;
+    severity_id?: number;
+    observations_ids?: number[];
+    comment?: string;
+  };
 };
 export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
@@ -1273,6 +1356,7 @@ export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
   start: number;
   end: number;
   tags: VideoTag[];
+  ''?: string;
 }[];
 export type GetVideoByVidObservationsApiArg = {
   vid: string;
@@ -1464,47 +1548,6 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     /** Tryber WP USER ID */
     user_id: number;
     include_shared?: boolean;
-  };
-};
-export type PostCampaignsByCidInsightsApiResponse =
-  /** status 200 OK */ Insight;
-export type PostCampaignsByCidInsightsApiArg = {
-  /** Campaign id */
-  cid: string;
-  body: {
-    title: string;
-    description?: string;
-    severity_id: number;
-    observations_ids: number[];
-    comment?: string;
-  };
-};
-export type GetCampaignsByCidInsightsApiResponse =
-  /** status 200 OK */ Insight[];
-export type GetCampaignsByCidInsightsApiArg = {
-  /** Campaign id */
-  cid: string;
-};
-export type GetInsightsByIidApiResponse = /** status 200 OK */ Insight;
-export type GetInsightsByIidApiArg = {
-  /** Insight id */
-  iid: string;
-};
-export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
-export type DeleteInsightsByIidApiArg = {
-  /** Insight id */
-  iid: string;
-};
-export type PatchInsightsByIidApiResponse = /** status 200 OK */ Insight;
-export type PatchInsightsByIidApiArg = {
-  /** Insight id */
-  iid: string;
-  body: {
-    title?: string;
-    description?: string;
-    severity_id?: number;
-    observations_ids?: number[];
-    comment?: string;
   };
 };
 export type Error = {
@@ -1744,6 +1787,41 @@ export type Cluster = {
   id: number;
   name: string;
 };
+export type VideoTag = {
+  group: {
+    id: number;
+    name: string;
+  };
+  tag: {
+    id: number;
+    name: string;
+    style: string;
+    usageNumber: number;
+  };
+};
+export type Observation = {
+  id: number;
+  title: string;
+  description: string;
+  start: number;
+  end: number;
+  tags: VideoTag[];
+};
+export type Insight = {
+  id: number;
+  title: string;
+  description: string;
+  severity: BugSeverity;
+  observations: (Observation & {
+    video: {
+      id: number;
+      poster: string;
+      url: string;
+      streamUrl: string;
+    };
+  })[];
+  comment?: string;
+};
 export type ReportExtensions =
   | 'pdf'
   | 'doc'
@@ -1782,18 +1860,6 @@ export type Tenant = {
   permissionFrom?: {
     type?: 'workspace' | 'project';
     id?: number;
-  };
-};
-export type VideoTag = {
-  group: {
-    id: number;
-    name: string;
-  };
-  tag: {
-    id: number;
-    name: string;
-    style: string;
-    usageNumber: number;
   };
 };
 export type Transcript = {
@@ -1902,14 +1968,6 @@ export type UserPreference = {
   value: number;
   name: string;
 };
-export type Observation = {
-  id: number;
-  title: string;
-  description: string;
-  start: number;
-  end: number;
-  tags: VideoTag[];
-};
 export type Workspace = {
   id: number;
   company: string;
@@ -1943,21 +2001,6 @@ export type Coin = {
   /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
-export type Insight = {
-  id: number;
-  title: string;
-  description: string;
-  severity: BugSeverity;
-  observations: (Observation & {
-    video: {
-      id: number;
-      poster: string;
-      url: string;
-      streamUrl: string;
-    };
-  })[];
-  comment?: string;
-};
 export const {
   use$getQuery,
   usePostAuthenticateMutation,
@@ -1972,6 +2015,7 @@ export const {
   useGetCampaignsByCidBugsAndBidCommentsQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
+  usePostCampaignsByCidBugsAndBidCommentsCmidMutation,
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidSiblingsQuery,
   useGetCampaignsByCidClustersQuery,
@@ -1980,6 +2024,8 @@ export const {
   useDeleteCampaignsByCidCustomStatusesMutation,
   useGetCampaignsByCidDevicesQuery,
   usePutCampaignsByCidFindingsAndFidMutation,
+  usePostCampaignsByCidInsightsMutation,
+  useGetCampaignsByCidInsightsQuery,
   useGetCampaignsByCidMetaQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
@@ -1996,6 +2042,9 @@ export const {
   usePostCampaignsByCidVideoTagsMutation,
   useGetCampaignsByCidVideoQuery,
   useGetCampaignsByCidWidgetsQuery,
+  useGetInsightsByIidQuery,
+  useDeleteInsightsByIidMutation,
+  usePatchInsightsByIidMutation,
   useGetMediaByIdQuery,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
@@ -2024,9 +2073,4 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
-  usePostCampaignsByCidInsightsMutation,
-  useGetCampaignsByCidInsightsQuery,
-  useGetInsightsByIidQuery,
-  useDeleteInsightsByIidMutation,
-  usePatchInsightsByIidMutation,
 } = injectedRtkApi;
