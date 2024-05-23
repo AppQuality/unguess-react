@@ -1,5 +1,6 @@
 import {
   Anchor,
+  MD,
   PageHeader,
   Skeleton,
   Span,
@@ -10,9 +11,25 @@ import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import {
   useGetCampaignsByCidQuery,
+  useGetVideoByVidObservationsQuery,
   useGetVideoByVidQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { Meta } from 'src/common/components/Meta';
+import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
+import { styled } from 'styled-components';
+import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
+
+const SeveritiesMetaContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${({ theme }) => theme.space.sm};
+`;
+
+const SeveritiesMetaText = styled(MD)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  margin-right: ${({ theme }) => theme.space.sm};
+`;
 
 const VideoPageHeader = () => {
   const { campaignId, videoId } = useParams();
@@ -37,12 +54,26 @@ const VideoPageHeader = () => {
   } = useGetVideoByVidQuery({
     vid: videoId || '',
   });
+  const {
+    data: observations,
+    isLoading: isLoadingObservations,
+    isFetching: isFetchingObservations,
+    isError: isErrorObservations,
+  } = useGetVideoByVidObservationsQuery({
+    vid: videoId || '',
+  });
+
+  const severities = observations
+    ? getSeverityTagsByVideoCount(observations)
+    : [];
 
   if (!video || isErrorVideo) return null;
   if (!campaign || isErrorCampaign) return null;
+  if (!observations || isErrorObservations) return null;
 
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingCampaign || isLoadingCampaign) return <Skeleton />;
+  if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
   return (
     <LayoutWrapper isNotBoxed>
@@ -64,6 +95,24 @@ const VideoPageHeader = () => {
               T{video.tester.id} | {video.tester.name} {video.tester.surname}
             </Span>
           </PageHeader.Description>
+          <PageHeader.Meta>
+            {severities && (
+              <SeveritiesMetaContainer>
+                <SeveritiesMetaText>
+                  {t('__VIDEO_LIST_META_SEVERITIES_COUNT')}
+                </SeveritiesMetaText>
+                {severities.map((severity) => (
+                  <Meta
+                    size="large"
+                    color={severity.style}
+                    secondaryText={severity.count}
+                  >
+                    {capitalizeFirstLetter(severity.name)}
+                  </Meta>
+                ))}
+              </SeveritiesMetaContainer>
+            )}
+          </PageHeader.Meta>
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>

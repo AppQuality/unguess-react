@@ -1,13 +1,18 @@
-import { PageMeta } from 'src/common/components/PageMeta';
-import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { MD, Paragraph, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
-import { CampaignWithOutput } from 'src/features/api';
-import { CampaignStatus } from 'src/types';
-import { Paragraph, Skeleton } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
+import { Meta } from 'src/common/components/Meta';
+import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
-import { useVideo } from './useVideos';
+import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import {
+  CampaignWithOutput,
+  useGetCampaignsByCidVideoQuery,
+} from 'src/features/api';
+import { CampaignStatus } from 'src/types';
+import styled from 'styled-components';
+import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -26,10 +31,22 @@ const ButtonWrapper = styled.div`
 const VideosMeta = styled(Paragraph)`
   color: ${({ theme }) => theme.palette.blue[600]};
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
+  margin-right: ${({ theme }) => theme.space.sm};
 `;
+
 const StyledPipe = styled(Pipe)`
   display: inline;
   margin-left: ${({ theme }) => theme.space.sm};
+`;
+
+const SeveritiesMetaContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const SeveritiesMetaText = styled(MD)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  margin-right: ${({ theme }) => theme.space.sm};
 `;
 
 const FooterContainer = styled.div`
@@ -60,15 +77,16 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { status } = campaign;
   const { t } = useTranslation();
   const {
-    sorted: videos,
+    data: videos,
     isFetching,
     isLoading,
     isError,
-  } = useVideo(campaign.id.toString() ?? '');
-  const totalVideos = videos?.reduce(
-    (sum, video) => sum + video.videos.total,
+  } = useGetCampaignsByCidVideoQuery({ cid: campaign.id.toString() });
+  const totalVideos = videos?.items.reduce(
+    (total, item) => total + item.videos.length,
     0
   );
+  const severities = videos ? getAllSeverityTags(videos.items) : [];
 
   if (isFetching || isLoading) return <Skeleton width="200px" height="20px" />;
   if (isError) return null;
@@ -78,6 +96,22 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         <VideosMeta>
           {totalVideos} {t('__VIDEOS_LIST_META_VIDEO_COUNT')}
         </VideosMeta>
+        {severities && (
+          <SeveritiesMetaContainer>
+            <SeveritiesMetaText>
+              {t('__VIDEO_LIST_META_SEVERITIES_COUNT')}
+            </SeveritiesMetaText>
+            {severities.map((severity) => (
+              <Meta
+                size="large"
+                color={severity.style}
+                secondaryText={severity.count}
+              >
+                {capitalizeFirstLetter(severity.name)}
+              </Meta>
+            ))}
+          </SeveritiesMetaContainer>
+        )}
         <StyledPipe />
         <StatusMeta status={status.name as CampaignStatus} />
       </PageMeta>
