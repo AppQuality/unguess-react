@@ -1165,7 +1165,9 @@ export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
       description: string;
       completion: number;
     };
-    videos: Video[];
+    videos: (Video & {
+      observations?: Observation[];
+    })[];
   }[];
 } & PaginationData;
 export type GetCampaignsByCidVideoApiArg = {
@@ -1347,14 +1349,8 @@ export type GetVideoByVidApiResponse = /** status 200 OK */ Video & {
 export type GetVideoByVidApiArg = {
   vid: string;
 };
-export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
-  id: number;
-  title: string;
-  description: string;
-  start: number;
-  end: number;
-  tags: VideoTag[];
-}[];
+export type GetVideoByVidObservationsApiResponse =
+  /** status 200 OK */ Observation[];
 export type GetVideoByVidObservationsApiArg = {
   vid: string;
 };

@@ -2257,7 +2257,9 @@ export interface operations {
                 description: string;
                 completion: number;
               };
-              videos: components['schemas']['Video'][];
+              videos: (components['schemas']['Video'] & {
+                observations?: components['schemas']['Observation'][];
+              })[];
             }[];
           } & components['schemas']['PaginationData'];
         };
@@ -2673,16 +2675,7 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': {
-            id: number;
-            title: string;
-            description: string;
-            /** Format: float */
-            start: number;
-            /** Format: float */
-            end: number;
-            tags: components['schemas']['VideoTag'][];
-          }[];
+          'application/json': components['schemas']['Observation'][];
         };
       };
     };
