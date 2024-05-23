@@ -1,5 +1,6 @@
 import {
   Anchor,
+  MD,
   PageHeader,
   Skeleton,
   Span,
@@ -16,8 +17,19 @@ import {
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Meta } from 'src/common/components/Meta';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
+import { styled } from 'styled-components';
 import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
-import { SeveritiesMetaContainer, SeveritiesMetaText } from '../Videos/Metas';
+
+const SeveritiesMetaContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${({ theme }) => theme.space.sm};
+`;
+
+const SeveritiesMetaText = styled(MD)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  margin-right: ${({ theme }) => theme.space.sm};
+`;
 
 const VideoPageHeader = () => {
   const { campaignId, videoId } = useParams();

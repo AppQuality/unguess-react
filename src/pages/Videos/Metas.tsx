@@ -33,16 +33,18 @@ const VideosMeta = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.fontWeights.semibold};
   margin-right: ${({ theme }) => theme.space.sm};
 `;
+
 const StyledPipe = styled(Pipe)`
   display: inline;
   margin-left: ${({ theme }) => theme.space.sm};
 `;
-export const SeveritiesMetaContainer = styled.div`
+
+const SeveritiesMetaContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: ${({ theme }) => theme.space.sm};
 `;
-export const SeveritiesMetaText = styled(MD)`
+
+const SeveritiesMetaText = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[600]};
   margin-right: ${({ theme }) => theme.space.sm};
 `;
