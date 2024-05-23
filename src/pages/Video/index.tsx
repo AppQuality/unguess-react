@@ -1,11 +1,63 @@
-import { Page } from 'src/features/templates/Page';
 import { useTranslation } from 'react-i18next';
-import VideoPageHeader from './PageHeader';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
+import { Page } from 'src/features/templates/Page';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useAppDispatch } from 'src/app/hooks';
+import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
+import { useEffect } from 'react';
+import {
+  setCampaignId,
+  setPermissionSettingsTitle,
+  setWorkspace,
+} from 'src/features/navigation/navigationSlice';
 import VideoPageContent from './Content';
+import VideoPageHeader from './PageHeader';
 
 const VideoPage = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const notFoundRoute = useLocalizeRoute('oops');
+  const { campaignId } = useParams();
+  const dispatch = useAppDispatch();
+  const location = useLocation();
 
+  if (!campaignId || Number.isNaN(Number(campaignId))) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
+
+  useCampaignAnalytics(campaignId);
+
+  const { isError: isErrorCampaign, data: { campaign, workspace } = {} } =
+    useGetCampaignWithWorkspaceQuery({
+      cid: campaignId?.toString() ?? '0',
+    });
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+  }, [workspace, dispatch]);
+
+  useEffect(() => {
+    if (campaign) {
+      dispatch(setPermissionSettingsTitle(campaign.customer_title));
+      dispatch(setCampaignId(campaign.id));
+    }
+
+    return () => {
+      dispatch(setPermissionSettingsTitle(undefined));
+      dispatch(setCampaignId(undefined));
+    };
+  }, [campaign]);
+
+  if (isErrorCampaign) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
   return (
     <Page
       title={t('__VIDEO_PAGE_TITLE')}
