@@ -40,6 +40,7 @@ const StyledPipe = styled(Pipe)`
 export const SeveritiesMetaContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-top: ${({ theme }) => theme.space.sm};
 `;
 export const SeveritiesMetaText = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[600]};
