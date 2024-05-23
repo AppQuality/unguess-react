@@ -20,17 +20,16 @@ import {
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
-import { EmptyTranscript } from './EmptyTranscript';
 import { SearchBar } from './SearchBar';
 import { ObservationTooltip } from './ObservationTooltip';
 
-const StyledContainerCard = styled(ContainerCard)`
+export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
   padding: ${({ theme }) => theme.space.xl};
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-const TranscriptHeader = styled.div`
+export const TranscriptHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,7 +49,7 @@ const ChipsWrap = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
+export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xxs};
@@ -183,7 +182,6 @@ const Transcript = ({
 
   if (!video || isErrorVideo || !video.transcript || isErrorObservations)
     return null;
-
   if (
     isFetchingVideo ||
     isLoadingVideo ||
@@ -208,77 +206,73 @@ const Transcript = ({
           )}
         </TranscriptHeader>
         <div ref={containerRef}>
-          {video.transcript ? (
-            <HighlightContainer ref={wrapperRef}>
-              <Highlight
-                search={debouncedValue}
-                handleSelection={(part) => {
-                  if (!isSelecting) return;
+          <HighlightContainer ref={wrapperRef}>
+            <Highlight
+              search={debouncedValue}
+              handleSelection={(part) => {
+                if (!isSelecting) return;
 
-                  handleSelection(part);
-                }}
-              >
-                <ChipsWrap id="chips-wrap">
-                  {video.transcript.words.map((item, index) => (
-                    <Highlight.Word
-                      size="md"
-                      key={`${item.word + index}`}
-                      start={item.start}
-                      end={item.end}
-                      observations={observations?.map((o) => ({
-                        id: o.id,
-                        start: o.start,
-                        end: o.end,
-                        color:
-                          o.tags.find(
-                            (tag) => tag.group.name.toLowerCase() === 'severity'
-                          )?.tag.style || appTheme.palette.grey[600],
-                        hue: getColorWithAlpha(
-                          o.tags.find(
-                            (tag) => tag.group.name.toLowerCase() === 'severity'
-                          )?.tag.style || appTheme.palette.grey[600],
-                          0.1
-                        ),
-                        label: o.title,
-                        tags: o.tags,
-                      }))}
-                      currentTime={currentTime}
-                      text={item.word}
-                      tooltipContent={(observation) => (
-                        <ObservationTooltip
-                          color={observation.color}
-                          observationId={observation.id}
-                          label={observation.label}
-                        />
-                      )}
-                    />
-                  ))}
-                  {isSelecting && (
-                    <Button
-                      size="small"
-                      id="add-observation-button"
-                      isAccent
-                      isPrimary
-                      onClick={handleAddObservation}
-                      style={{
-                        position: 'absolute',
-                        left: position?.x,
-                        top: position?.y,
-                        marginLeft: appTheme.space.lg,
-                      }}
-                    >
-                      <Button.StartIcon>
-                        <TagIcon />
-                      </Button.StartIcon>
-                      {t('__VIDEO_PAGE_ADD_OBSERVATION')}
-                    </Button>
-                  )}
-                </ChipsWrap>
-              </Highlight>
-            </HighlightContainer>
-          ) : (
-            <EmptyTranscript />
-          )}
+                handleSelection(part);
+              }}
+            >
+              <ChipsWrap id="chips-wrap">
+                {video.transcript.words.map((item, index) => (
+                  <Highlight.Word
+                    size="md"
+                    key={`${item.word + index}`}
+                    start={item.start}
+                    end={item.end}
+                    observations={observations?.map((o) => ({
+                      id: o.id,
+                      start: o.start,
+                      end: o.end,
+                      color:
+                        o.tags.find(
+                          (tag) => tag.group.name.toLowerCase() === 'severity'
+                        )?.tag.style || appTheme.palette.grey[600],
+                      hue: getColorWithAlpha(
+                        o.tags.find(
+                          (tag) => tag.group.name.toLowerCase() === 'severity'
+                        )?.tag.style || appTheme.palette.grey[600],
+                        0.1
+                      ),
+                      label: o.title,
+                      tags: o.tags,
+                    }))}
+                    currentTime={currentTime}
+                    text={item.word}
+                    tooltipContent={(observation) => (
+                      <ObservationTooltip
+                        color={observation.color}
+                        observationId={observation.id}
+                        label={observation.label}
+                      />
+                    )}
+                  />
+                ))}
+                {isSelecting && (
+                  <Button
+                    size="small"
+                    id="add-observation-button"
+                    isAccent
+                    isPrimary
+                    onClick={handleAddObservation}
+                    style={{
+                      position: 'absolute',
+                      left: position?.x,
+                      top: position?.y,
+                      marginLeft: appTheme.space.lg,
+                    }}
+                  >
+                    <Button.StartIcon>
+                      <TagIcon />
+                    </Button.StartIcon>
+                    {t('__VIDEO_PAGE_ADD_OBSERVATION')}
+                  </Button>
+                )}
+              </ChipsWrap>
+            </Highlight>
+          </HighlightContainer>
         </div>
       </StyledContainerCard>
     </div>

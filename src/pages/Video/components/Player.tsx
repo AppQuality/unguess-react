@@ -13,6 +13,7 @@ import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { Transcript } from './Transcript';
+import { EmptyTranscript } from './EmptyTranscript';
 
 const PlayerContainer = styled.div<{
   isFetching: boolean;
@@ -145,7 +146,6 @@ const VideoPlayer = () => {
 
   if (isFetchingVideo || isLoadingVideo || isLoadingObservations)
     return <Skeleton />;
-
   return (
     <>
       <PlayerContainer isFetching={isFetchingObservations}>
@@ -163,7 +163,11 @@ const VideoPlayer = () => {
           }}
         />
       </PlayerContainer>
-      <Transcript currentTime={currentTime} isSearchable />
+      {video.transcript ? (
+        <Transcript currentTime={currentTime} isSearchable />
+      ) : (
+        <EmptyTranscript />
+      )}
     </>
   );
 };
