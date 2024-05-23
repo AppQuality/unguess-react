@@ -23,15 +23,15 @@ const VideoPage = () => {
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { userData } = useAppSelector((state) => state.user);
+  const { userData, status } = useAppSelector((state) => state.user);
 
-  const hasFeatureFlag =
+  const hasTaggingToolFeatureFlag =
     userData.features &&
     userData.features.find(
       (feature: Feature) => feature.slug === FEATURE_FLAG_TAGGING_TOOL
     );
 
-  if (!campaignId || Number.isNaN(Number(campaignId)) || !hasFeatureFlag) {
+  if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
@@ -67,6 +67,17 @@ const VideoPage = () => {
       state: { from: location.pathname },
     });
   }
+
+  useEffect(() => {
+    if (status === 'idle' || status === 'loading') return;
+
+    if (!hasTaggingToolFeatureFlag) {
+      navigate(notFoundRoute, {
+        state: { from: location.pathname },
+      });
+    }
+  }, [status, hasTaggingToolFeatureFlag]);
+
   return (
     <Page
       title={t('__VIDEO_PAGE_TITLE')}

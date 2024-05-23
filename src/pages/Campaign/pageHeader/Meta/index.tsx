@@ -78,7 +78,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
 
-  const hasButton =
+  const hasTaggingToolFeatureFlag =
     userData.features &&
     userData.features.find(
       (feature: Feature) => feature.slug === FEATURE_FLAG_TAGGING_TOOL
@@ -111,7 +111,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {outputs?.includes('media') && hasButton && (
+        {outputs?.includes('media') && hasTaggingToolFeatureFlag && (
           <Link to={videoDashboardLink}>
             <Button id="button-bugs-list-header" isPrimary isAccent>
               {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
