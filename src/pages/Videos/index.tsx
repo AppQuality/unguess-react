@@ -2,9 +2,11 @@ import { Page } from 'src/features/templates/Page';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { Feature } from 'src/features/api';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
@@ -22,8 +24,15 @@ const VideosPage = () => {
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const { userData } = useAppSelector((state) => state.user);
 
-  if (!campaignId || Number.isNaN(Number(campaignId))) {
+  const hasFeatureFlag =
+    userData.features &&
+    userData.features.find(
+      (feature: Feature) => feature.slug === FEATURE_FLAG_TAGGING_TOOL
+    );
+
+  if (!campaignId || Number.isNaN(Number(campaignId)) || !hasFeatureFlag) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
