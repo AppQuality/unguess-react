@@ -96,7 +96,7 @@ const VideoPageHeader = () => {
             </Span>
           </PageHeader.Description>
           <PageHeader.Meta>
-            {severities && (
+            {severities && severities.length > 0 && (
               <SeveritiesMetaContainer>
                 <SeveritiesMetaText>
                   {t('__VIDEO_LIST_META_SEVERITIES_COUNT')}

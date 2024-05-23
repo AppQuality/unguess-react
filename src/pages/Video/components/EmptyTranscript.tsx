@@ -1,6 +1,7 @@
 import { LG, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as EmptyTranscriptImage } from 'src/assets/empty-transcript.svg';
 import {
   StyledContainerCard,
@@ -34,21 +35,23 @@ const ImageContainer = styled.div`
 export const EmptyTranscript = () => {
   const { t } = useTranslation();
   return (
-    <StyledContainerCard>
-      <TranscriptHeader>
-        <TitleWrapper>
-          <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
-          <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
-        </TitleWrapper>
-      </TranscriptHeader>
-      <EmptyTranscriptContainer>
-        <ImageContainer>
-          <EmptyTranscriptImage />
-          <StyledParagraph>
-            {t('__VIDEO_PAGE_TRANSCRIPT_EMPTY_STATE')}
-          </StyledParagraph>
-        </ImageContainer>
-      </EmptyTranscriptContainer>
-    </StyledContainerCard>
+    <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
+      <StyledContainerCard>
+        <TranscriptHeader>
+          <TitleWrapper>
+            <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
+            <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
+          </TitleWrapper>
+        </TranscriptHeader>
+        <EmptyTranscriptContainer>
+          <ImageContainer>
+            <EmptyTranscriptImage />
+            <StyledParagraph>
+              {t('__VIDEO_PAGE_TRANSCRIPT_EMPTY_STATE')}
+            </StyledParagraph>
+          </ImageContainer>
+        </EmptyTranscriptContainer>
+      </StyledContainerCard>
+    </div>
   );
 };
