@@ -154,7 +154,7 @@ unguessApi.enhanceEndpoints({
                   (observation) => observation.id === Number(oid)
                 );
                 if (index !== -1) {
-                  draft[index] = updatedPatch;
+                  draft[index] = { ...updatedPatch };
                 }
               }
             )

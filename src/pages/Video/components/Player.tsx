@@ -1,20 +1,18 @@
-import { useCallback, useEffect, useState } from 'react';
 import { Player, Skeleton } from '@appquality/unguess-design-system';
+import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import {
-  VideoTag,
   useGetVideoByVidObservationsQuery,
   useGetVideoByVidQuery,
   usePatchVideoByVidObservationsAndOidMutation,
   usePostVideoByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
-import { appTheme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
-import useDebounce from 'src/hooks/useDebounce';
-import { Transcript } from './Transcript';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
+import { Transcript } from './Transcript';
 
 const PlayerContainer = styled.div<{
   isFetching: boolean;
@@ -37,23 +35,13 @@ const PlayerContainer = styled.div<{
 
 const VideoPlayer = () => {
   const { videoId } = useParams();
+  const { t } = useTranslation();
   const { setOpenAccordion } = useVideoContext();
   const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
   const [patchObservation] = usePatchVideoByVidObservationsAndOidMutation();
   const [ref, setRef] = useState<HTMLVideoElement | null>(null);
-  const { t } = useTranslation();
-  const [updatedObservation, setUpdatedObservation] = useState<{
-    id: number;
-    start: number;
-    end: number;
-    title: string;
-    hue: string;
-    label: string;
-    onClick: () => void;
-    tags: VideoTag[];
-  }>();
   const [start, setStart] = useState<number | undefined>(undefined);
-  const debouncedObservation = useDebounce(updatedObservation, 500);
+  const [currentTime, setCurrentTime] = useState<number>(0);
 
   const {
     data: video,
@@ -63,7 +51,6 @@ const VideoPlayer = () => {
   } = useGetVideoByVidQuery({
     vid: videoId || '',
   });
-  const [currentTime, setCurrentTime] = useState(0);
 
   const handleVideoRef = useCallback((videoRef: HTMLVideoElement) => {
     if (videoRef) {
@@ -109,42 +96,56 @@ const VideoPlayer = () => {
 
       setStart(undefined);
     },
-    [observations, start]
+    [start]
   );
 
-  const handleBookmarksUpdate = useCallback(
-    (bookmark) => {
-      setUpdatedObservation(bookmark);
-    },
+  const mappedObservations = useMemo(
+    () =>
+      observations?.map((obs) => ({
+        id: obs.id,
+        start: obs.start,
+        end: obs.end,
+        title: obs.title,
+        hue:
+          obs.tags.find((tag) => tag.group.name.toLowerCase() === 'severity')
+            ?.tag.style || 'grey',
+        label: obs.title,
+        tooltipContent: (
+          <ObservationTooltip
+            observationId={obs.id}
+            color={
+              obs.tags.find(
+                (tag) => tag.group.name.toLowerCase() === 'severity'
+              )?.tag.style || appTheme.palette.grey[600]
+            }
+            label={obs.title}
+          />
+        ),
+        onClick: () => setOpenAccordion({ id: obs.id }),
+        tags: obs.tags,
+      })),
     [observations]
   );
 
-  useEffect(() => {
-    if (!debouncedObservation) return;
-
-    patchObservation({
+  const handleBookmarksUpdate = useCallback(async (bookmark) => {
+    await patchObservation({
       vid: videoId || '',
-      oid: debouncedObservation.id.toString(),
+      oid: bookmark.id.toString(),
       body: {
-        ...debouncedObservation,
-        tags: debouncedObservation.tags.map((item) => item.tag.id),
+        title: bookmark.label,
+        start: bookmark.start,
+        end: bookmark.end,
+        tags: bookmark.tags.map((item: any) => item.tag.id),
       },
-    })
-      .unwrap()
-      .then(() => {
-        setUpdatedObservation(undefined);
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      });
-  }, [debouncedObservation]);
+    }).unwrap();
+  }, []);
 
   if (!video || isErrorVideo) return null;
   if (!observations || isErrorObservations) return null;
 
   if (isFetchingVideo || isLoadingVideo || isLoadingObservations)
     return <Skeleton />;
+
   return (
     <>
       <PlayerContainer isFetching={isFetchingObservations}>
@@ -155,30 +156,7 @@ const VideoPlayer = () => {
           handleBookmarkUpdate={handleBookmarksUpdate}
           isCutting={!!start}
           enablePipOnScroll
-          bookmarks={observations.map((obs) => ({
-            id: obs.id,
-            start: obs.start,
-            end: obs.end,
-            title: obs.title,
-            hue:
-              obs.tags.find(
-                (tag) => tag.group.name.toLowerCase() === 'severity'
-              )?.tag.style || 'grey',
-            label: obs.title,
-            tooltipContent: (
-              <ObservationTooltip
-                observationId={obs.id}
-                color={
-                  obs.tags.find(
-                    (tag) => tag.group.name.toLowerCase() === 'severity'
-                  )?.tag.style || appTheme.palette.grey[600]
-                }
-                label={obs.title}
-              />
-            ),
-            onClick: () => setOpenAccordion({ id: obs.id }),
-            tags: obs.tags,
-          }))}
+          bookmarks={mappedObservations}
           i18n={{
             beforeHighlight: t('__VIDEO_PAGE_ADD_OBSERVATION'),
             onHighlight: t('__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION'),
