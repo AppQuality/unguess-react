@@ -203,7 +203,6 @@ const Transcript = ({
     isLoadingObservations
   )
     return <Skeleton />;
-
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
@@ -233,7 +232,7 @@ const Transcript = ({
               }}
             >
               <ChipsWrap id="chips-wrap">
-                {video.transcript?.paragraphs.forEach((paragraph) =>
+                {video.transcript?.paragraphs.map((paragraph) =>
                   paragraph.words.map((item, index) => (
                     <Highlight.Word
                       size="md"

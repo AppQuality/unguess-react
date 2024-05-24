@@ -43,7 +43,7 @@ const Observation = ({
       )
     )
     .map((w) => w.word)
-    .join('');
+    .join(' ');
 
   const formatTime = (time: number) => {
     const date = new Date(0);
