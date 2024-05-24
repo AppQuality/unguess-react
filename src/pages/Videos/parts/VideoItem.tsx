@@ -5,6 +5,7 @@ import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
+import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 
 const Container = styled.div`
@@ -19,30 +20,26 @@ const Container = styled.div`
 `;
 
 const ThumbnailContainer = styled.div`
-  background-color: ${({ theme }) => theme.palette.black};
-  width: 106px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  margin-bottom: ${({ theme }) => theme.space.xxs};
-`;
-const StyledAnchor = styled(Anchor)<{ disabled?: boolean }>`
-  width: 100%;
+  align-items: center;
+  background-color: ${({ theme }) => theme.palette.black};
+  height: 70px;
+  width: 110px;
+  overflow: hidden;
 
-  ${({ disabled }) =>
-    disabled &&
-    ` 
-    pointer-events: none;
-    cursor: default;
-    `}
+  > img,
+  svg {
+    width: 100%;
+    height: auto;
+  }
+`;
+
+const StyledAnchor = styled(Anchor)`
+  width: 100%;
 
   &:hover {
     text-decoration: none;
-  }
-
-  video {
-    width: 100%;
-    height: 68px;
   }
 `;
 
@@ -56,25 +53,15 @@ const Poster = ({
   video,
 }: {
   video: GetCampaignsByCidVideoApiResponse['items'][number]['videos'][number];
-}) => {
-  if (video.poster) {
-    return (
-      <img
-        src={video.poster}
-        alt={`video poster preview of video ${video.id}`}
-      />
-    );
-  }
-
-  return (
-    <ThumbnailContainer>
-      <video>
-        <source src={`${video.url}#t0.5`} type="video/mp4" />
-        <track kind="captions" />
-      </video>
-    </ThumbnailContainer>
-  );
-};
+}) => (
+  <ThumbnailContainer>
+    {video.poster ? (
+      <img src={video.poster} alt={`Video ${video.id}`} />
+    ) : (
+      <PlaceholderVideo />
+    )}
+  </ThumbnailContainer>
+);
 
 const Video = ({
   video,
