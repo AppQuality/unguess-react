@@ -233,40 +233,42 @@ const Transcript = ({
               }}
             >
               <ChipsWrap id="chips-wrap">
-                {video.transcript.words.map((item, index) => (
-                  <Highlight.Word
-                    size="md"
-                    key={`${item.word + index}`}
-                    start={item.start}
-                    end={item.end}
-                    observations={observations?.map((o) => ({
-                      id: o.id,
-                      start: o.start,
-                      end: o.end,
-                      color:
-                        o.tags.find(
-                          (tag) => tag.group.name.toLowerCase() === 'severity'
-                        )?.tag.style || appTheme.palette.grey[600],
-                      hue: getColorWithAlpha(
-                        o.tags.find(
-                          (tag) => tag.group.name.toLowerCase() === 'severity'
-                        )?.tag.style || appTheme.palette.grey[600],
-                        0.1
-                      ),
-                      label: o.title,
-                      tags: o.tags,
-                    }))}
-                    currentTime={currentTime}
-                    text={item.word}
-                    tooltipContent={(observation) => (
-                      <ObservationTooltip
-                        color={observation.color}
-                        observationId={observation.id}
-                        label={observation.label}
-                      />
-                    )}
-                  />
-                ))}
+                {video.transcript?.paragraphs.forEach((paragraph) =>
+                  paragraph.words.map((item, index) => (
+                    <Highlight.Word
+                      size="md"
+                      key={`${item.word + index}`}
+                      start={item.start}
+                      end={item.end}
+                      observations={observations?.map((o) => ({
+                        id: o.id,
+                        start: o.start,
+                        end: o.end,
+                        color:
+                          o.tags.find(
+                            (tag) => tag.group.name.toLowerCase() === 'severity'
+                          )?.tag.style || appTheme.palette.grey[600],
+                        hue: getColorWithAlpha(
+                          o.tags.find(
+                            (tag) => tag.group.name.toLowerCase() === 'severity'
+                          )?.tag.style || appTheme.palette.grey[600],
+                          0.1
+                        ),
+                        label: o.title,
+                        tags: o.tags,
+                      }))}
+                      currentTime={currentTime}
+                      text={item.word}
+                      tooltipContent={(observation) => (
+                        <ObservationTooltip
+                          color={observation.color}
+                          observationId={observation.id}
+                          label={observation.label}
+                        />
+                      )}
+                    />
+                  ))
+                )}
                 {isSelecting && (
                   <Button
                     size="small"

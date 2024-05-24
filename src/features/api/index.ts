@@ -1858,20 +1858,32 @@ export type Tenant = {
     id?: number;
   };
 };
+export type Word = {
+  start: number;
+  end: number;
+  /** Id of Speaker */
+  speaker?: number;
+  word: string;
+};
+export type Paragraph = {
+  text: string;
+  start: number;
+  end: number;
+  /** Id Of speaker */
+  speaker?: number;
+  words: Word[];
+};
 export type Transcript = {
+  /** Number of spekers */
   speakers: number;
-  words: {
-    start: number;
-    end: number;
-    word: string;
-    speaker?: number;
-  }[];
+  paragraphs: Paragraph[];
 };
 export type Video = {
   id: number;
   url: string;
   streamUrl?: string;
   poster?: string;
+  duration?: number;
   tester: {
     id: number;
     name: string;

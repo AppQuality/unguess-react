@@ -770,6 +770,14 @@ export interface components {
       limit?: number;
       total?: number;
     };
+    Paragraph: {
+      text: string;
+      start: number;
+      end: number;
+      /** @description Id Of speaker */
+      speaker?: number;
+      words: components['schemas']['Word'][];
+    };
     /** Platform Object */
     Platform: {
       /** @description os */
@@ -892,17 +900,10 @@ export interface components {
         id?: number;
       };
     };
-    /** Transcript */
     Transcript: {
+      /** @description Number of spekers */
       speakers: number;
-      words: {
-        /** Format: float */
-        start: number;
-        /** Format: float */
-        end: number;
-        word: string;
-        speaker?: number;
-      }[];
+      paragraphs: components['schemas']['Paragraph'][];
     };
     /** UseCase */
     UseCase: {
@@ -944,6 +945,7 @@ export interface components {
       url: string;
       streamUrl?: string;
       poster?: string;
+      duration?: number;
       tester: {
         id: number;
         name: string;
@@ -1067,6 +1069,13 @@ export interface components {
        * @enum {string}
        */
       kind: 'campaignUniqueBugs';
+    };
+    Word: {
+      start: number;
+      end: number;
+      /** @description Id of Speaker */
+      speaker?: number;
+      word: string;
     };
     /**
      * Workspace
