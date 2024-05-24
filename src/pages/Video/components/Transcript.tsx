@@ -58,6 +58,20 @@ export const TitleWrapper = styled.div`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
+const CreateObservationButton = styled(Button)<{
+  position: {
+    x: number;
+    y: number;
+  };
+}>`
+  user-select: none;
+  position: absolute;
+  left: ${({ position }) => position.x}px;
+  top: ${({ position }) => position.y}px;
+  transform: translate(-50%, 0);
+  z-index: ${({ theme }) => theme.levels.front};
+`;
+
 const Transcript = ({
   currentTime,
   isSearchable,
@@ -175,9 +189,10 @@ const Transcript = ({
 
         setPosition({
           x: relativeX,
-          y: relativeY + 10,
+          y: relativeY + 15,
         });
       } else {
+        setPosition(undefined);
         setIsSelecting(false);
       }
     };
@@ -258,30 +273,25 @@ const Transcript = ({
                         color={observation.color}
                         observationId={observation.id}
                         label={observation.label}
+                        isSelecting={isSelecting}
                       />
                     )}
                   />
                 ))}
                 {isSelecting && (
-                  <Button
+                  <CreateObservationButton
                     size="small"
                     id="add-observation-button"
                     isAccent
                     isPrimary
                     onClick={handleAddObservation}
-                    style={{
-                      position: 'absolute',
-                      left: position?.x,
-                      top: position?.y,
-                      transform: 'translate(-50%, 0)',
-                      zIndex: appTheme.levels.front,
-                    }}
+                    position={position || { x: 0, y: 0 }}
                   >
                     <Button.StartIcon>
                       <TagIcon />
                     </Button.StartIcon>
                     {t('__VIDEO_PAGE_ADD_OBSERVATION')}
-                  </Button>
+                  </CreateObservationButton>
                 )}
               </ChipsWrap>
             </Highlight>

@@ -4,7 +4,14 @@ import { getColorWithAlpha } from 'src/common/utils';
 import styled from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
 
-const StyledTag = styled(Tag)`
+const StyledTag = styled(Tag)<{
+  isSelecting?: boolean;
+}>`
+  ${({ isSelecting }) =>
+    isSelecting &&
+    `
+    display: none;
+  `}
   box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
   background: white;
   position: relative;
@@ -36,10 +43,12 @@ export const ObservationTooltip = ({
   observationId,
   color,
   label,
+  isSelecting,
 }: {
   observationId: number;
   color?: string;
   label?: string;
+  isSelecting?: boolean;
 }) => {
   const { setOpenAccordion } = useVideoContext();
   return (
@@ -47,6 +56,7 @@ export const ObservationTooltip = ({
       size="large"
       color={color}
       onClick={() => setOpenAccordion({ id: observationId })}
+      isSelecting={isSelecting}
     >
       <TagIcon />
       {label}
