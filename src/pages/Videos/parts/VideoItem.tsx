@@ -6,6 +6,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
+import { Pipe } from 'src/common/components/Pipe';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 
 const Container = styled.div`
@@ -49,6 +50,11 @@ const ObservationsTotalContainer = styled.div`
   margin-top: ${({ theme }) => theme.space.xs};
 `;
 
+const TagsContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Poster = ({
   video,
 }: {
@@ -76,6 +82,15 @@ const Video = ({
   const severityTotals = video.observations
     ? getSeverityTagsByVideoCount(video.observations)
     : [];
+
+  const formatDuration = (duration: number) => {
+    const minutes = Math.floor(duration / 60);
+    const remainingSeconds = Math.round(duration % 60);
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
   return (
     <StyledAnchor href={videoUrl}>
       <Container>
@@ -84,17 +99,31 @@ const Video = ({
           <MD isBold>{video.tester.name}</MD>
           <SM color={appTheme.palette.grey[600]}>ID: {video.id}</SM>
           <ObservationsTotalContainer>
-            {severityTotals.map((tag) => (
-              <Tag
-                hue={getColorWithAlpha(
-                  tag.style || appTheme.palette.grey[600],
-                  0.1
-                )}
-                color={tag.style || appTheme.palette.grey[600]}
-              >
-                {tag.name} {tag.count}
-              </Tag>
-            ))}
+            <TagsContainer>
+              {video.duration && (
+                <>
+                  <Tag
+                    hue={appTheme.palette.grey[200]}
+                    color={appTheme.palette.grey[700]}
+                  >
+                    {formatDuration(video.duration)}
+                  </Tag>
+                  <Pipe />
+                </>
+              )}
+
+              {severityTotals.map((tag) => (
+                <Tag
+                  hue={getColorWithAlpha(
+                    tag.style || appTheme.palette.grey[600],
+                    0.1
+                  )}
+                  color={tag.style || appTheme.palette.grey[600]}
+                >
+                  {tag.name} {tag.count}
+                </Tag>
+              ))}
+            </TagsContainer>
           </ObservationsTotalContainer>
         </div>
       </Container>
