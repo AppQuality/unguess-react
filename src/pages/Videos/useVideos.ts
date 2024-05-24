@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import {
-  GetCampaignsByCidVideoApiResponse,
+  GetCampaignsByCidVideosApiResponse,
   Video,
-  useGetCampaignsByCidVideoQuery,
+  useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 
 // eslint-disable-next-line
@@ -16,7 +16,7 @@ type OrderedVideo = Record<DeviceTypeEnum, Video[]>;
 type VideosWithTotal = OrderedVideo & { total: number };
 
 type CampaignVideos = Array<{
-  usecase: GetCampaignsByCidVideoApiResponse['items'][0]['usecase'];
+  usecase: GetCampaignsByCidVideosApiResponse['items'][0]['usecase'];
   videos: VideosWithTotal;
 }>;
 
@@ -24,7 +24,7 @@ export const useVideo = (cid: string) => {
   const [sorted, setSorted] = useState<CampaignVideos>();
 
   const { data, isFetching, isLoading, isError } =
-    useGetCampaignsByCidVideoQuery({
+    useGetCampaignsByCidVideosQuery({
       cid,
     });
 

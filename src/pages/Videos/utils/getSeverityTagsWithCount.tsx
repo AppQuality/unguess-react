@@ -1,5 +1,5 @@
 import {
-  GetCampaignsByCidVideoApiResponse,
+  GetCampaignsByCidVideosApiResponse,
   Observation,
   VideoTag,
 } from 'src/features/api';
@@ -45,7 +45,7 @@ export function getSeverityTagsByVideoCount(
 }
 
 export function getAllSeverityTags(
-  items: GetCampaignsByCidVideoApiResponse['items']
+  items: GetCampaignsByCidVideosApiResponse['items']
 ): TagWithCount[] {
   const globalTagCount: { [key: string]: { count: number; style: string } } =
     {};

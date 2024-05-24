@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
-  useGetVideoByVidObservationsQuery,
-  useGetVideoByVidQuery,
-  usePatchVideoByVidObservationsAndOidMutation,
-  usePostVideoByVidObservationsMutation,
+  useGetVideosByVidObservationsQuery,
+  useGetVideosByVidQuery,
+  usePatchVideosByVidObservationsAndOidMutation,
+  usePostVideosByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
@@ -38,8 +38,8 @@ const VideoPlayer = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
   const { setOpenAccordion } = useVideoContext();
-  const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
-  const [patchObservation] = usePatchVideoByVidObservationsAndOidMutation();
+  const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
+  const [patchObservation] = usePatchVideosByVidObservationsAndOidMutation();
   const [ref, setRef] = useState<HTMLVideoElement | null>(null);
   const [start, setStart] = useState<number | undefined>(undefined);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -49,7 +49,7 @@ const VideoPlayer = () => {
     isFetching: isFetchingVideo,
     isLoading: isLoadingVideo,
     isError: isErrorVideo,
-  } = useGetVideoByVidQuery({
+  } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
 
@@ -67,7 +67,7 @@ const VideoPlayer = () => {
     isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
     isError: isErrorObservations,
-  } = useGetVideoByVidObservationsQuery({
+  } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
 

@@ -7,7 +7,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useDeleteVideoByVidObservationsAndOidMutation } from 'src/features/api';
+import { useDeleteVideosByVidObservationsAndOidMutation } from 'src/features/api';
 
 export const ConfirmDeleteModal = ({
   observationId,
@@ -19,7 +19,7 @@ export const ConfirmDeleteModal = ({
   const { videoId } = useParams();
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const [deleteObservation] = useDeleteVideoByVidObservationsAndOidMutation();
+  const [deleteObservation] = useDeleteVideosByVidObservationsAndOidMutation();
 
   const onQuit = () => {
     setIsConfirmationModalOpen(false);
