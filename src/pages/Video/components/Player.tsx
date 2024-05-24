@@ -1,7 +1,7 @@
 import { Player, Skeleton } from '@appquality/unguess-design-system';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
   useGetVideosByVidObservationsQuery,
@@ -10,6 +10,7 @@ import {
   usePostVideosByVidObservationsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { Transcript } from './Transcript';
@@ -38,6 +39,9 @@ const VideoPlayer = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
   const { setOpenAccordion } = useVideoContext();
+  const navigate = useNavigate();
+  const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
   const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
   const [patchObservation] = usePatchVideosByVidObservationsAndOidMutation();
   const [ref, setRef] = useState<HTMLVideoElement | null>(null);
@@ -52,6 +56,12 @@ const VideoPlayer = () => {
   } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
+
+  if (isErrorVideo) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
 
   const handleVideoRef = useCallback((videoRef: HTMLVideoElement) => {
     if (videoRef) {
@@ -141,7 +151,7 @@ const VideoPlayer = () => {
     }).unwrap();
   }, []);
 
-  if (!video || isErrorVideo) return null;
+  if (!video) return null;
   if (!observations || isErrorObservations) return null;
 
   if (isFetchingVideo || isLoadingVideo || isLoadingObservations)
