@@ -1,7 +1,7 @@
 import { Accordion, LG, SM, Title } from '@appquality/unguess-design-system';
 import {
-  GetVideoByVidApiResponse,
-  GetVideoByVidObservationsApiResponse,
+  GetVideosByVidApiResponse,
+  GetVideosByVidObservationsApiResponse,
 } from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { useEffect, useState } from 'react';
@@ -28,9 +28,9 @@ const Observation = ({
   refScroll,
   transcript,
 }: {
-  observation: GetVideoByVidObservationsApiResponse[number];
+  observation: GetVideosByVidObservationsApiResponse[number];
   refScroll: React.RefObject<HTMLDivElement>;
-  transcript?: GetVideoByVidApiResponse['transcript'];
+  transcript?: GetVideosByVidApiResponse['transcript'];
 }) => {
   const { title, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);

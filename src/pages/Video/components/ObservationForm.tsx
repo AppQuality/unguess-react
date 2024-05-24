@@ -19,9 +19,9 @@ import {
 import { useParams } from 'react-router-dom';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
-  GetVideoByVidObservationsApiResponse,
+  GetVideosByVidObservationsApiResponse,
   useGetCampaignsByCidVideoTagsQuery,
-  usePatchVideoByVidObservationsAndOidMutation,
+  usePatchVideosByVidObservationsAndOidMutation,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
 import { Field as FormField } from '@zendeskgarden/react-forms';
@@ -65,7 +65,7 @@ const ObservationForm = ({
   quots,
   onSubmit,
 }: {
-  observation: GetVideoByVidObservationsApiResponse[number];
+  observation: GetVideosByVidObservationsApiResponse[number];
   quots?: string;
   onSubmit: (
     values: ObservationFormValues,
@@ -97,7 +97,7 @@ const ObservationForm = ({
   );
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
-  const [patchObservation] = usePatchVideoByVidObservationsAndOidMutation();
+  const [patchObservation] = usePatchVideosByVidObservationsAndOidMutation();
 
   const {
     data: tags,

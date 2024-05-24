@@ -8,7 +8,7 @@ import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSett
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import {
   CampaignWithOutput,
-  useGetCampaignsByCidVideoQuery,
+  useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
@@ -81,7 +81,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isFetching,
     isLoading,
     isError,
-  } = useGetCampaignsByCidVideoQuery({ cid: campaign.id.toString() });
+  } = useGetCampaignsByCidVideosQuery({ cid: campaign.id.toString() });
   const totalVideos = videos?.items.reduce(
     (total, item) => total + item.videos.length,
     0

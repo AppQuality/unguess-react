@@ -2,8 +2,8 @@ import { LG, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import {
-  useGetVideoByVidObservationsQuery,
-  useGetVideoByVidQuery,
+  useGetVideosByVidObservationsQuery,
+  useGetVideosByVidQuery,
 } from 'src/features/api';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
@@ -42,7 +42,7 @@ const Actions = () => {
     isFetching: isFetchingVideo,
     isLoading: isLoadingVideo,
     isError: isErrorVideo,
-  } = useGetVideoByVidQuery({
+  } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
 
@@ -51,7 +51,7 @@ const Actions = () => {
     isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
     isError: isErrorObservations,
-  } = useGetVideoByVidObservationsQuery({
+  } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
 

@@ -1,7 +1,7 @@
-import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
+import { GetCampaignsByCidVideosApiResponse } from 'src/features/api';
 
 export type CampaignVideoResponseItem = ItemOfArray<
-  GetCampaignsByCidVideoApiResponse['items']
+  GetCampaignsByCidVideosApiResponse['items']
 >;
 
 export type IUseCase = Pick<CampaignVideoResponseItem, 'usecase'>;

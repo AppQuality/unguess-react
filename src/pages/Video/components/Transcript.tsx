@@ -13,9 +13,9 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
-  useGetVideoByVidObservationsQuery,
-  useGetVideoByVidQuery,
-  usePostVideoByVidObservationsMutation,
+  useGetVideosByVidObservationsQuery,
+  useGetVideosByVidQuery,
+  usePostVideosByVidObservationsMutation,
 } from 'src/features/api';
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
@@ -77,7 +77,7 @@ const Transcript = ({
   const [searchValue, setSearchValue] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [postVideoByVidObservations] = usePostVideoByVidObservationsMutation();
+  const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
   const { setOpenAccordion } = useVideoContext();
   const debouncedValue = useDebounce(searchValue, 300);
 
@@ -86,7 +86,7 @@ const Transcript = ({
     isFetching: isFetchingVideo,
     isLoading: isLoadingVideo,
     isError: isErrorVideo,
-  } = useGetVideoByVidQuery({
+  } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
 
@@ -95,7 +95,7 @@ const Transcript = ({
     isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
     isError: isErrorObservations,
-  } = useGetVideoByVidObservationsQuery({
+  } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
 

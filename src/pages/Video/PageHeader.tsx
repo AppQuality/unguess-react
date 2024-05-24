@@ -11,8 +11,8 @@ import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import {
   useGetCampaignsByCidQuery,
-  useGetVideoByVidObservationsQuery,
-  useGetVideoByVidQuery,
+  useGetVideosByVidObservationsQuery,
+  useGetVideosByVidQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Meta } from 'src/common/components/Meta';
@@ -51,7 +51,7 @@ const VideoPageHeader = () => {
     isFetching: isFetchingVideo,
     isLoading: isLoadingVideo,
     isError: isErrorVideo,
-  } = useGetVideoByVidQuery({
+  } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
   const {
@@ -59,7 +59,7 @@ const VideoPageHeader = () => {
     isLoading: isLoadingObservations,
     isFetching: isFetchingObservations,
     isError: isErrorObservations,
-  } = useGetVideoByVidObservationsQuery({
+  } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
 

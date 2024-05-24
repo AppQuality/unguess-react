@@ -1,7 +1,7 @@
 import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { GetCampaignsByCidVideoApiResponse } from 'src/features/api';
+import { GetCampaignsByCidVideosApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
@@ -52,7 +52,7 @@ const ObservationsTotalContainer = styled.div`
 const Poster = ({
   video,
 }: {
-  video: GetCampaignsByCidVideoApiResponse['items'][number]['videos'][number];
+  video: GetCampaignsByCidVideosApiResponse['items'][number]['videos'][number];
 }) => (
   <ThumbnailContainer>
     {video.poster ? (
@@ -66,7 +66,7 @@ const Poster = ({
 const Video = ({
   video,
 }: {
-  video: GetCampaignsByCidVideoApiResponse['items'][number]['videos'][number];
+  video: GetCampaignsByCidVideosApiResponse['items'][number]['videos'][number];
 }) => {
   const { campaignId } = useParams();
   const videoUrl = useLocalizeRoute(

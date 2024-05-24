@@ -269,9 +269,9 @@ export interface paths {
       };
     };
   };
-  '/campaigns/{cid}/video': {
+  '/campaigns/{cid}/videos': {
     /** Return all published video for a specific campaign */
-    get: operations['get-campaigns-cid-video'];
+    get: operations['get-campaigns-cid-videos'];
     parameters: {
       path: {
         cid: string;
@@ -362,30 +362,30 @@ export interface paths {
       };
     };
   };
-  '/video/{vid}': {
+  '/videos/{vid}': {
     /** Retrive single video data */
-    get: operations['get-video-vid'];
+    get: operations['get-videos-vid'];
     parameters: {
       path: {
         vid: string;
       };
     };
   };
-  '/video/{vid}/observations': {
+  '/videos/{vid}/observations': {
     /** Retrive all observations of a specific video */
-    get: operations['get-video-vid-observations'];
-    post: operations['post-video-vid-observations'];
+    get: operations['get-videos-vid-observations'];
+    post: operations['post-videos-vid-observations'];
     parameters: {
       path: {
         vid: string;
       };
     };
   };
-  '/video/{vid}/observations/{oid}': {
+  '/videos/{vid}/observations/{oid}': {
     /** delete an observation */
-    delete: operations['delete-video-vid-observations-oid'];
+    delete: operations['delete-videos-vid-observations-oid'];
     /** Update partial data of a video observation. */
-    patch: operations['patch-video-vid-observations-oid'];
+    patch: operations['patch-videos-vid-observations-oid'];
     parameters: {
       path: {
         vid: string;
@@ -2229,7 +2229,7 @@ export interface operations {
     };
   };
   /** Return all published video for a specific campaign */
-  'get-campaigns-cid-video': {
+  'get-campaigns-cid-videos': {
     parameters: {
       path: {
         cid: string;
@@ -2644,7 +2644,7 @@ export interface operations {
     };
   };
   /** Retrive single video data */
-  'get-video-vid': {
+  'get-videos-vid': {
     parameters: {
       path: {
         vid: string;
@@ -2665,7 +2665,7 @@ export interface operations {
     };
   };
   /** Retrive all observations of a specific video */
-  'get-video-vid-observations': {
+  'get-videos-vid-observations': {
     parameters: {
       path: {
         vid: string;
@@ -2680,7 +2680,7 @@ export interface operations {
       };
     };
   };
-  'post-video-vid-observations': {
+  'post-videos-vid-observations': {
     parameters: {
       path: {
         vid: string;
@@ -2706,7 +2706,7 @@ export interface operations {
     };
   };
   /** delete an observation */
-  'delete-video-vid-observations-oid': {
+  'delete-videos-vid-observations-oid': {
     parameters: {
       path: {
         vid: string;
@@ -2719,7 +2719,7 @@ export interface operations {
     };
   };
   /** Update partial data of a video observation. */
-  'patch-video-vid-observations-oid': {
+  'patch-videos-vid-observations-oid': {
     parameters: {
       path: {
         vid: string;
