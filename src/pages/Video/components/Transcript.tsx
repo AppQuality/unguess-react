@@ -49,11 +49,6 @@ const HighlightContainer = styled.div``;
 const ChipsWrap = styled.div`
   line-height: ${({ theme }) => theme.lineHeights.xxl};
   position: relative;
-
-  [observation] {
-    display: inline-block;
-    padding: 0 2px;
-  }
 `;
 
 export const TitleWrapper = styled.div`
