@@ -49,11 +49,6 @@ const HighlightContainer = styled.div``;
 const ChipsWrap = styled.div`
   line-height: ${({ theme }) => theme.lineHeights.xxl};
   position: relative;
-
-  [observation] {
-    display: inline-block;
-    padding: 0 2px;
-  }
 `;
 
 export const TitleWrapper = styled.div`
@@ -61,6 +56,20 @@ export const TitleWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   gap: ${({ theme }) => theme.space.xs};
+`;
+
+const CreateObservationButton = styled(Button)<{
+  position: {
+    x: number;
+    y: number;
+  };
+}>`
+  user-select: none;
+  position: absolute;
+  left: ${({ position }) => position.x}px;
+  top: ${({ position }) => position.y}px;
+  transform: translate(-50%, 0);
+  z-index: ${({ theme }) => theme.levels.front};
 `;
 
 const Transcript = ({
@@ -179,10 +188,11 @@ const Transcript = ({
           lastRect.right - containerRect.left + wrapperRef.current.scrollLeft;
 
         setPosition({
-          x: relativeX + 30,
-          y: relativeY - 60,
+          x: relativeX,
+          y: relativeY + 15,
         });
       } else {
+        setPosition(undefined);
         setIsSelecting(false);
       }
     };
@@ -263,29 +273,25 @@ const Transcript = ({
                         color={observation.color}
                         observationId={observation.id}
                         label={observation.label}
+                        isSelecting={isSelecting}
                       />
                     )}
                   />
                 ))}
                 {isSelecting && (
-                  <Button
+                  <CreateObservationButton
                     size="small"
                     id="add-observation-button"
                     isAccent
                     isPrimary
                     onClick={handleAddObservation}
-                    style={{
-                      position: 'absolute',
-                      left: position?.x,
-                      top: position?.y,
-                      transform: 'translate(-50%, 0)',
-                    }}
+                    position={position || { x: 0, y: 0 }}
                   >
                     <Button.StartIcon>
                       <TagIcon />
                     </Button.StartIcon>
                     {t('__VIDEO_PAGE_ADD_OBSERVATION')}
-                  </Button>
+                  </CreateObservationButton>
                 )}
               </ChipsWrap>
             </Highlight>
