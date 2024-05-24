@@ -6,13 +6,13 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
-import { Feature } from 'src/features/api';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
 import { useEffect } from 'react';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import VideosPageHeader from './PageHeader';
 import VideosPageContent from './Content';
 
@@ -24,13 +24,10 @@ const VideosPage = () => {
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { userData, status } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
+  const { hasFeatureFlag } = useFeatureFlag();
 
-  const hasTaggingToolFeatureFlag =
-    userData.features &&
-    userData.features.find(
-      (feature: Feature) => feature.slug === FEATURE_FLAG_TAGGING_TOOL
-    );
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   if (!campaignId || Number.isNaN(Number(campaignId))) {
     navigate(notFoundRoute, {
@@ -41,12 +38,12 @@ const VideosPage = () => {
   useEffect(() => {
     if (status === 'idle' || status === 'loading') return;
 
-    if (!hasTaggingToolFeatureFlag) {
+    if (!hasTaggingToolFeature) {
       navigate(notFoundRoute, {
         state: { from: location.pathname },
       });
     }
-  }, [status, hasTaggingToolFeatureFlag]);
+  }, [status, hasTaggingToolFeature]);
 
   useCampaignAnalytics(campaignId);
 
