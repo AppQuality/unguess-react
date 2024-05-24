@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { getColorWithAlpha } from 'src/common/utils';
+import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -32,9 +33,15 @@ export const StyledContainerCard = styled(ContainerCard)`
 export const TranscriptHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: ${({ theme }) => theme.space.sm};
+  align-items: flex-start;
+  margin-bottom: ${({ theme }) => theme.space.xl};
   z-index: 200;
+`;
+
+const IconTitleContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.space.xxs};
 `;
 
 const HighlightContainer = styled.div``;
@@ -52,7 +59,8 @@ const ChipsWrap = styled.div`
 export const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.xxs};
+  justify-content: flex-start;
+  gap: ${({ theme }) => theme.space.xs};
 `;
 
 const Transcript = ({
@@ -134,7 +142,7 @@ const Transcript = ({
   };
 
   useEffect(() => {
-    document.addEventListener('selectionchange', () => {
+    const handleSelectionChange = () => {
       if (!wrapperRef || !wrapperRef.current) return;
 
       const s = document.getSelection();
@@ -144,39 +152,45 @@ const Transcript = ({
         const focusNode = s?.focusNode?.parentElement;
 
         if (
-          anchorNode &&
-          focusNode &&
-          !wrapperRef.current.contains(anchorNode) &&
+          !anchorNode ||
+          !focusNode ||
+          !wrapperRef.current.contains(anchorNode) ||
           !wrapperRef.current.contains(focusNode)
-        )
+        ) {
+          setIsSelecting(false);
           return;
+        }
 
         setIsSelecting(true);
 
-        const rect = s.getRangeAt(0).getBoundingClientRect();
+        const range = s.getRangeAt(0);
+        const rects = range.getClientRects();
+        const lastRect = rects[rects.length - 1];
         const containerRect =
           wrapperRef && wrapperRef.current
             ? wrapperRef.current.getBoundingClientRect()
             : null;
 
-        if (!rect || !containerRect) return;
+        if (!lastRect || !containerRect) return;
 
         const relativeY =
-          rect.top - containerRect.top + wrapperRef.current.scrollTop;
+          lastRect.bottom - containerRect.top + wrapperRef.current.scrollTop;
         const relativeX =
-          rect.left - containerRect.left + wrapperRef.current.scrollLeft;
+          lastRect.right - containerRect.left + wrapperRef.current.scrollLeft;
 
         setPosition({
-          x: relativeX,
-          y: relativeY - 50,
+          x: relativeX + 30,
+          y: relativeY - 60,
         });
       } else {
         setIsSelecting(false);
       }
-    });
+    };
+
+    document.addEventListener('selectionchange', handleSelectionChange);
 
     return () => {
-      document.removeEventListener('selectionchange', () => {});
+      document.removeEventListener('selectionchange', handleSelectionChange);
     };
   }, [wrapperRef]);
 
@@ -195,7 +209,10 @@ const Transcript = ({
       <StyledContainerCard>
         <TranscriptHeader>
           <TitleWrapper>
-            <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
+            <IconTitleContainer>
+              <InfoIcon />
+              <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
+            </IconTitleContainer>
             <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
           </TitleWrapper>
           {isSearchable && (
@@ -261,7 +278,7 @@ const Transcript = ({
                       position: 'absolute',
                       left: position?.x,
                       top: position?.y,
-                      marginLeft: appTheme.space.lg,
+                      transform: 'translate(-50%, 0)',
                     }}
                   >
                     <Button.StartIcon>
