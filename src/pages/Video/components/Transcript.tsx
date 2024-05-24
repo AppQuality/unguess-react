@@ -279,6 +279,7 @@ const Transcript = ({
                       left: position?.x,
                       top: position?.y,
                       transform: 'translate(-50%, 0)',
+                      zIndex: appTheme.levels.front,
                     }}
                   >
                     <Button.StartIcon>
