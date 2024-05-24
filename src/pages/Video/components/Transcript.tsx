@@ -179,8 +179,8 @@ const Transcript = ({
           lastRect.right - containerRect.left + wrapperRef.current.scrollLeft;
 
         setPosition({
-          x: relativeX + 30,
-          y: relativeY - 60,
+          x: relativeX,
+          y: relativeY + 10,
         });
       } else {
         setIsSelecting(false);

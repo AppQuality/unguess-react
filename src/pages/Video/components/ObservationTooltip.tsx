@@ -8,6 +8,7 @@ const StyledTag = styled(Tag)`
   box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
   background: white;
   position: relative;
+  user-select: none;
 
   &:hover {
     cursor: pointer;
