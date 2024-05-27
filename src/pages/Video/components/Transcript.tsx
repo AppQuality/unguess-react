@@ -234,7 +234,9 @@ const Transcript = ({
           <TitleWrapper>
             <IconTitleContainer>
               <InfoIcon />
-              <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
+              <LG color={appTheme.palette.grey[800]} isBold>
+                {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
+              </LG>
             </IconTitleContainer>
             <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
           </TitleWrapper>
