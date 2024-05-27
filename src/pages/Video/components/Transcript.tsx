@@ -3,16 +3,18 @@ import {
   ContainerCard,
   Highlight,
   LG,
+  Notification,
   SM,
   Skeleton,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { getColorWithAlpha } from 'src/common/utils';
 import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
+import { getColorWithAlpha } from 'src/common/utils';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -21,8 +23,8 @@ import {
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
-import { SearchBar } from './SearchBar';
 import { ObservationTooltip } from './ObservationTooltip';
+import { SearchBar } from './SearchBar';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -97,7 +99,7 @@ const Transcript = ({
   const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
   const { setOpenAccordion } = useVideoContext();
   const debouncedValue = useDebounce(searchValue, 300);
-
+  const { addToast } = useToast();
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -132,6 +134,18 @@ const Transcript = ({
           setIsSelecting(false);
         })
         .catch((err) => {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="error"
+                message={t('__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
           // eslint-disable-next-line no-console
           console.error(err);
         });
