@@ -174,6 +174,8 @@ const Transcript = ({
 
       const s = document.getSelection();
 
+      console.log(s, s?.toString());
+
       if (s && s.toString().length > 0) {
         const anchorNode = s?.anchorNode?.parentElement;
         const focusNode = s?.focusNode?.parentElement;
@@ -205,12 +207,13 @@ const Transcript = ({
         const relativeX =
           lastRect.right - containerRect.left + wrapperRef.current.scrollLeft;
 
-        setPosition({
-          x: relativeX,
-          y: relativeY + 15,
-        });
+        if (relativeY > 0 || relativeX > 0)
+          // Fix to avoid the button to be placed sometimes at the top left corner of the screen (X: 0, Y: 0)
+          setPosition({
+            x: relativeX,
+            y: relativeY + 15,
+          });
       } else {
-        setPosition(undefined);
         setIsSelecting(false);
       }
     };
