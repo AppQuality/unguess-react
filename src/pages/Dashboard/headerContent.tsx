@@ -4,7 +4,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
-import { Feature } from 'src/features/api';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { Counters } from './Counters';
 
 export const DashboardHeaderContent = ({
@@ -13,15 +13,12 @@ export const DashboardHeaderContent = ({
   pageTitle?: string;
 }) => {
   const { t } = useTranslation();
-  const { status, userData } = useAppSelector((state) => state.user);
+  const { status } = useAppSelector((state) => state.user);
+  const { hasFeatureFlag } = useFeatureFlag();
 
   const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
 
-  const hasButton =
-    userData.features &&
-    userData.features.find(
-      (feature: Feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM
-    );
+  const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
 
   return status === 'idle' || status === 'loading' ? null : (
     <LayoutWrapper>
@@ -34,7 +31,7 @@ export const DashboardHeaderContent = ({
             <Counters />
           </PageHeader.Meta>
         </PageHeader.Main>
-        {hasButton && (
+        {hasSkyJotformFeature && (
           <PageHeader.Footer>
             <Button
               isPrimary
