@@ -163,6 +163,10 @@ const Transcript = ({
       text: part.text,
     });
   };
+  const sanitizeInput = (input: string) => {
+    const sanitizedInput = input.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+    return sanitizedInput;
+  };
 
   useEffect(() => {
     const handleSelectionChange = () => {
@@ -250,7 +254,7 @@ const Transcript = ({
         <div ref={containerRef}>
           <HighlightContainer ref={wrapperRef}>
             <Highlight
-              search={debouncedValue}
+              search={sanitizeInput(debouncedValue)}
               handleSelection={(part) => {
                 if (!isSelecting) return;
 
