@@ -36,8 +36,12 @@ const Observation = ({
   const [isOpen, setIsOpen] = useState(false);
   const { openAccordion, setOpenAccordion } = useVideoContext();
 
-  const quots = transcript?.words
-    .filter((w) => w.start >= observation.start && w.end <= observation.end)
+  const quots = transcript?.paragraphs
+    .flatMap((paragraph) =>
+      paragraph.words.filter(
+        (w) => w.start >= observation.start && w.end <= observation.end
+      )
+    )
     .map((w) => w.word)
     .join(' ');
 
