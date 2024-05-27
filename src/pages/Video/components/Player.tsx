@@ -1,4 +1,9 @@
-import { Player, Skeleton } from '@appquality/unguess-design-system';
+import {
+  Notification,
+  Player,
+  Skeleton,
+  useToast,
+} from '@appquality/unguess-design-system';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -9,12 +14,12 @@ import {
   usePatchVideosByVidObservationsAndOidMutation,
   usePostVideosByVidObservationsMutation,
 } from 'src/features/api';
-import { styled } from 'styled-components';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
+import { EmptyTranscript } from './EmptyTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
 import { Transcript } from './Transcript';
-import { EmptyTranscript } from './EmptyTranscript';
 
 const PlayerContainer = styled.div<{
   isFetching: boolean;
@@ -47,7 +52,7 @@ const VideoPlayer = () => {
   const [ref, setRef] = useState<HTMLVideoElement | null>(null);
   const [start, setStart] = useState<number | undefined>(undefined);
   const [currentTime, setCurrentTime] = useState<number>(0);
-
+  const { addToast } = useToast();
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -88,23 +93,45 @@ const VideoPlayer = () => {
         return;
       }
 
-      await postVideoByVidObservations({
-        vid: videoId || '',
-        body: {
-          start,
-          end: time,
-        },
-      })
-        .unwrap()
-        .then((res) => {
+      if (time > start) {
+        try {
+          const res = await postVideoByVidObservations({
+            vid: videoId || '',
+            body: {
+              start,
+              end: time,
+            },
+          }).unwrap();
           ref?.pause();
           setOpenAccordion({ id: res.id });
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.error(err);
-        });
-
+        } catch (err) {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="error"
+                message={t('__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+        }
+      } else {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={t('__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION_TIME')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      }
       setStart(undefined);
     },
     [start]

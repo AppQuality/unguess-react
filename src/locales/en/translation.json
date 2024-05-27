@@ -859,6 +859,8 @@
   "__VIDEO_PAGE_ADD_OBSERVATION": "Create observation",
   "__VIDEO_PAGE_NO_OBSERVATIONS": "Start watching the video and mark the highlights.",
   "__VIDEO_PAGE_NO_OBSERVATIONS_TITLE": "For this video, there are no observations yet.",
+  "__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION": "Something went wrong, please try again.",
+  "__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION_TIME": "The observation you are trying to create is too short.",
   "__VIDEO_PAGE_PLAYER_START_ADD_OBSERVATION": "Start observation",
   "__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION": "End observation",
   "__VIDEO_PAGE_TITLE": "UX Tagging Tool",
