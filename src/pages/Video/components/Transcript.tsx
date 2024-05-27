@@ -174,8 +174,6 @@ const Transcript = ({
 
       const s = document.getSelection();
 
-      console.log(s, s?.toString());
-
       if (s && s.toString().length > 0) {
         const anchorNode = s?.anchorNode?.parentElement;
         const focusNode = s?.focusNode?.parentElement;
