@@ -92,7 +92,7 @@ const VideoPageHeader = () => {
           </PageHeader.Breadcrumbs>
           <PageHeader.Description style={{ margin: 0 }}>
             <Span isBold style={{ margin: 0 }}>
-              T{video.tester.id} | {video.tester.name} {video.tester.surname}
+              T{video.tester.id} | {video.tester.name}
             </Span>
           </PageHeader.Description>
           <PageHeader.Meta>
