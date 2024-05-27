@@ -108,6 +108,7 @@ unguessApi.enhanceEndpoints({
               { vid },
               (draft) => {
                 draft.push(updatedPost);
+                draft.sort((a, b) => a.start - b.start);
               }
             )
           );
