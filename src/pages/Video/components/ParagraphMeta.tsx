@@ -1,5 +1,6 @@
 import { SM } from '@appquality/unguess-design-system';
 import { PropsWithChildren } from 'react';
+import { formatDuration } from 'src/pages/Videos/utils/formatDuration';
 import { styled } from 'styled-components';
 
 interface IParagraphMeta {
@@ -8,16 +9,6 @@ interface IParagraphMeta {
   end: number;
   speakerIndex: number;
 }
-
-export const formatDuration = (durationInSeconds: number) => {
-  const min = Math.floor(durationInSeconds / 60);
-  const sec = Math.floor(durationInSeconds - min * 60);
-
-  const minutes = `${min}`.padStart(2, '0');
-  const seconds = `${sec}`.padStart(2, '0');
-
-  return `${minutes}:${seconds}`;
-};
 
 const StyledSM = styled(SM)`
   user-select: none;

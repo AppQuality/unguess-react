@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
+import { formatDuration } from 'src/pages/Videos/utils/formatDuration';
 import { ObservationForm } from './ObservationForm';
 import { useVideoContext } from '../context/VideoContext';
 
@@ -44,12 +45,6 @@ const Observation = ({
     )
     .map((w) => w.word)
     .join(' ');
-
-  const formatTime = (time: number) => {
-    const date = new Date(0);
-    date.setSeconds(time);
-    return date.toISOString().slice(11, 19);
-  };
 
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
@@ -142,7 +137,7 @@ const Observation = ({
                     marginTop: appTheme.space.xs,
                   }}
                 >
-                  {formatTime(start)} - {formatTime(end)}
+                  {formatDuration(start)} - {formatDuration(end)}
                 </SM>
               </div>
             </div>
