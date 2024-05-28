@@ -4,7 +4,6 @@ import {
   Highlight,
   LG,
   Notification,
-  Paragraph,
   SM,
   Skeleton,
   useToast,
