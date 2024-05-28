@@ -53,6 +53,7 @@ const VideoPlayer = () => {
   const [start, setStart] = useState<number | undefined>(undefined);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const { addToast } = useToast();
+
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -76,6 +77,12 @@ const VideoPlayer = () => {
       });
     }
   }, []);
+
+  const exitFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+  };
 
   const {
     data: observations,
@@ -103,6 +110,7 @@ const VideoPlayer = () => {
             },
           }).unwrap();
           ref?.pause();
+          exitFullscreen();
           setOpenAccordion({ id: res.id });
         } catch (err) {
           addToast(
