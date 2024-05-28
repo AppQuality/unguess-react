@@ -146,7 +146,6 @@ const Transcript = ({
             ),
             { placement: 'top' }
           );
-          // eslint-disable-next-line no-console
           console.error(err);
         });
     }
@@ -163,6 +162,7 @@ const Transcript = ({
       text: part.text,
     });
   };
+
   const sanitizeInput = (input: string) => {
     const sanitizedInput = input.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     return sanitizedInput;
@@ -205,21 +205,47 @@ const Transcript = ({
         const relativeX =
           lastRect.right - containerRect.left + wrapperRef.current.scrollLeft;
 
-        if (relativeY > 0 || relativeX > 0)
-          // Fix to avoid the button to be placed sometimes at the top left corner of the screen (X: 0, Y: 0)
+        if (relativeY > 0 || relativeX > 0) {
           setPosition({
             x: relativeX,
             y: relativeY + 15,
           });
+        }
+
+        let start: number | null = null;
+        let end: number | null = null;
+
+        const anchorWord = anchorNode?.closest('[data-start]');
+        const focusWord = focusNode?.closest('[data-end]');
+
+        if (anchorWord && focusWord) {
+          const startAttr = anchorWord.getAttribute('data-start');
+          const endAttr = focusWord.getAttribute('data-end');
+          if (startAttr && endAttr) {
+            start = parseFloat(startAttr);
+            end = parseFloat(endAttr);
+          }
+        }
+
+        if (start && end) {
+          setSelection({
+            from: start,
+            to: end,
+            text: s.toString(),
+          });
+        }
       } else {
+        setPosition(undefined);
         setIsSelecting(false);
       }
     };
 
     document.addEventListener('selectionchange', handleSelectionChange);
+    document.addEventListener('dbclick', handleSelectionChange);
 
     return () => {
       document.removeEventListener('selectionchange', handleSelectionChange);
+      document.removeEventListener('dbclick', handleSelectionChange);
     };
   }, [wrapperRef]);
 
@@ -270,6 +296,8 @@ const Transcript = ({
                       key={`${item.word + index}`}
                       start={item.start}
                       end={item.end}
+                      data-start={item.start}
+                      data-end={item.end}
                       observations={observations?.map((o) => ({
                         id: o.id,
                         start: o.start,
