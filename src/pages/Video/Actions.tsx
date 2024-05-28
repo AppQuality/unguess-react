@@ -87,7 +87,8 @@ const Actions = () => {
     })
       .then((data) => data.json())
       .then((res) => {
-        if (res.success) window.open(res.data.file, '_blank');
+        if (res.success)
+          window.location.href = `${process.env.REACT_APP_CROWD_WP_URL}/wp-content/themes/unguess/report/temp/${res.data.file}`;
         // eslint-disable-next-line no-console
         else console.error(res);
       })
