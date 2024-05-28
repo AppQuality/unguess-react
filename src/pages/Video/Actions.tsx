@@ -87,7 +87,9 @@ const Actions = () => {
     })
       .then((data) => data.json())
       .then((res) => {
-        console.log(res);
+        if (res.success) window.open(res.data.file, '_blank');
+        // eslint-disable-next-line no-console
+        else console.error(res);
       })
       .catch((e) => {
         // eslint-disable-next-line no-console
