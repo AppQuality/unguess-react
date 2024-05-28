@@ -4,6 +4,8 @@ import {
   Skeleton,
   Tooltip,
   Tag,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -55,6 +57,7 @@ const Actions = () => {
   const { campaignId, videoId } = useParams();
   const { t } = useTranslation();
   const refScroll = useRef<HTMLDivElement>(null);
+  const { addToast } = useToast();
 
   const {
     data: video,
@@ -87,10 +90,36 @@ const Actions = () => {
     })
       .then((data) => data.json())
       .then((res) => {
-        if (res.success)
+        if (res.success) {
           window.location.href = `${process.env.REACT_APP_CROWD_WP_URL}/wp-content/themes/unguess/report/temp/${res.data.file}`;
-        // eslint-disable-next-line no-console
-        else console.error(res);
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="success"
+                message={t('__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_SUCCESS_MESSAGE')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+        } else {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="error"
+                message={t('__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_ERROR_MESSAGE')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+          // eslint-disable-next-line no-console
+          console.error(res);
+        }
       })
       .catch((e) => {
         // eslint-disable-next-line no-console

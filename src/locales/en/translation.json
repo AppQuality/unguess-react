@@ -835,6 +835,8 @@
   "__TOAST_GENERIC_ERROR_MESSAGE": "Something went wrong. Please try again later.",
   "__VIDEO_LIST_META_SEVERITIES_COUNT": "You have found",
   "__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL": "Download report",
+  "__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_ERROR_MESSAGE": "Something went wrong, try again",
+  "__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_SUCCESS_MESSAGE": "Downloading report",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_BUTTON": "Delete",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_BODY_TEXT": "Are you sure you want to delete the observation?",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_CONTINUE_BUTTON": "Delete",
