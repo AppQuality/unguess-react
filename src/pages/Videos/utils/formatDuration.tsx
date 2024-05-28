@@ -1,8 +1,9 @@
 export const formatDuration = (duration: number) => {
-  const minutes = Math.floor(duration / 60);
-  const remainingSeconds = Math.round(duration % 60);
-  const formattedMinutes = String(minutes).padStart(2, '0');
-  const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+  const min = Math.floor(duration / 60);
+  const sec = Math.floor(duration - min * 60);
 
-  return `${formattedMinutes}:${formattedSeconds}`;
+  const minutes = `${min}`.padStart(2, '0');
+  const seconds = `${sec}`.padStart(2, '0');
+
+  return `${minutes}:${seconds}`;
 };
