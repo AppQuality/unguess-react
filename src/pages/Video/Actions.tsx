@@ -55,8 +55,6 @@ const Actions = () => {
     vid: videoId || '',
   });
 
-  console.log(video);
-
   const {
     data: observations,
     isFetching: isFetchingObservations,
