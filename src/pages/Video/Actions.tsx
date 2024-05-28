@@ -82,7 +82,7 @@ const Actions = () => {
       },
       body: queryString.stringify({
         id: campaignId,
-        action: 'ug_generate_reasearch_report',
+        action: 'ug_generate_research_report',
       }),
     })
       .then((data) => data.json())
