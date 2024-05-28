@@ -8,6 +8,7 @@ import { getColorWithAlpha } from 'src/common/utils';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { Pipe } from 'src/common/components/Pipe';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
+import { formatDuration } from '../utils/formatDuration';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
@@ -83,14 +84,6 @@ const Video = ({
     ? getSeverityTagsByVideoCount(video.observations)
     : [];
 
-  const formatDuration = (duration: number) => {
-    const minutes = Math.floor(duration / 60);
-    const remainingSeconds = Math.round(duration % 60);
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-
-    return `${formattedMinutes}:${formattedSeconds}`;
-  };
   return (
     <StyledAnchor href={videoUrl}>
       <Container>
