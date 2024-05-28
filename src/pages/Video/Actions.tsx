@@ -1,5 +1,11 @@
-import { LG, Skeleton, Tag } from '@appquality/unguess-design-system';
-import { useRef } from 'react';
+import {
+  Button,
+  LG,
+  Skeleton,
+  Tooltip,
+  Tag,
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
@@ -12,6 +18,9 @@ import {
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import styled from 'styled-components';
+import { useRef } from 'react';
+import queryString from 'query-string';
+import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { formatDuration } from '../Videos/utils/formatDuration';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
@@ -43,7 +52,8 @@ const MetaContainer = styled.div`
 `;
 
 const Actions = () => {
-  const { videoId } = useParams();
+  const { campaignId, videoId } = useParams();
+  const { t } = useTranslation();
   const refScroll = useRef<HTMLDivElement>(null);
 
   const {
@@ -63,6 +73,27 @@ const Actions = () => {
   } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
+
+  const handleUseCaseExport = () => {
+    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: queryString.stringify({
+        id: campaignId,
+        action: 'ug_generate_reasearch_report',
+      }),
+    })
+      .then((data) => data.json())
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.error(e.message);
+      });
+  };
 
   if (!video || isErrorVideo) return null;
   if (!observations || isErrorObservations) return null;
