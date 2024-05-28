@@ -29,7 +29,7 @@ const BugInfo = styled.div`
   margin: ${({ theme }) => theme.space.xxs} 0;
 `;
 
-function getDeviceIcon(device: string) {
+export function getDeviceIcon(device: string) {
   switch (device) {
     case 'smartphone':
       return <SmartphoneIcon />;

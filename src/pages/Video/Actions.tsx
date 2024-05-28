@@ -1,14 +1,18 @@
-import { LG, Skeleton } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { LG, Skeleton, Tag } from '@appquality/unguess-design-system';
+import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { Meta } from 'src/common/components/Meta';
+import { Pipe } from 'src/common/components/Pipe';
+import { Divider } from 'src/common/components/divider';
+import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
+import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
-import { Divider } from 'src/common/components/divider';
-import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
-import { useRef } from 'react';
+import { formatDuration } from '../Videos/utils/formatDuration';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
 
@@ -31,10 +35,15 @@ const Container = styled.div`
   border-left: 1px solid ${({ theme }) => theme.palette.grey[200]};
   scroll-behavior: smooth;
 `;
+const MetaContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.xs};
+`;
 
 const Actions = () => {
   const { videoId } = useParams();
-  const { t } = useTranslation();
   const refScroll = useRef<HTMLDivElement>(null);
 
   const {
@@ -63,7 +72,27 @@ const Actions = () => {
 
   return (
     <Container ref={refScroll}>
-      <LG isBold>{t('__VIDEO_PAGE_ACTIONS_TITLE')}</LG>
+      <LG isBold>{video.tester.name}</LG>
+      <MetaContainer>
+        <Meta size="medium">T{video.tester.id}</Meta>
+        <Pipe />
+        {video.tester.device && (
+          <Tag hue="white" style={{ textTransform: 'capitalize' }}>
+            <Tag.Avatar>{getDeviceIcon(video.tester.device.type)}</Tag.Avatar>
+            {video.tester.device.type === 'desktop'
+              ? video.tester.device.desktop_type
+              : `${video.tester.device.manufacturer} ${video.tester.device.model}`}
+          </Tag>
+        )}
+        {video.duration && (
+          <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
+            <Tag.Avatar>
+              <ClockIcon />
+            </Tag.Avatar>
+            {formatDuration(video.duration)}
+          </Tag>
+        )}
+      </MetaContainer>
       <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
       {observations && observations.length ? (
         <div style={{ margin: `${appTheme.space.sm} 0` }}>
