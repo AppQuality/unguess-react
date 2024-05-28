@@ -4,6 +4,7 @@ import {
   Highlight,
   LG,
   Notification,
+  Paragraph,
   SM,
   Skeleton,
   useToast,
@@ -25,6 +26,7 @@ import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
+import { ParagraphMeta } from './ParagraphMeta';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -263,43 +265,52 @@ const Transcript = ({
               }}
             >
               <ChipsWrap id="chips-wrap">
-                {video.transcript?.paragraphs.map((paragraph) =>
-                  paragraph.words.map((item, index) => (
-                    <Highlight.Word
-                      size="md"
-                      key={`${item.word + index}`}
-                      start={item.start}
-                      end={item.end}
-                      observations={observations?.map((o) => ({
-                        id: o.id,
-                        start: o.start,
-                        end: o.end,
-                        color:
-                          o.tags.find(
-                            (tag) => tag.group.name.toLowerCase() === 'severity'
-                          )?.tag.style || appTheme.palette.grey[600],
-                        hue: getColorWithAlpha(
-                          o.tags.find(
-                            (tag) => tag.group.name.toLowerCase() === 'severity'
-                          )?.tag.style || appTheme.palette.grey[600],
-                          0.1
-                        ),
-                        label: o.title,
-                        tags: o.tags,
-                      }))}
-                      currentTime={currentTime}
-                      text={item.word}
-                      tooltipContent={(observation) => (
-                        <ObservationTooltip
-                          color={observation.color}
-                          observationId={observation.id}
-                          label={observation.label}
-                          isSelecting={isSelecting}
-                        />
-                      )}
-                    />
-                  ))
-                )}
+                {video.transcript?.paragraphs.map((p) => (
+                  <ParagraphMeta
+                    speakers={video.transcript?.speakers || 0}
+                    start={p.start}
+                    end={p.end}
+                    speakerIndex={p.speaker || 0}
+                  >
+                    {p.words.map((item, index) => (
+                      <Highlight.Word
+                        size="md"
+                        key={`${item.word + index}`}
+                        start={item.start}
+                        end={item.end}
+                        observations={observations?.map((o) => ({
+                          id: o.id,
+                          start: o.start,
+                          end: o.end,
+                          color:
+                            o.tags.find(
+                              (tag) =>
+                                tag.group.name.toLowerCase() === 'severity'
+                            )?.tag.style || appTheme.palette.grey[600],
+                          hue: getColorWithAlpha(
+                            o.tags.find(
+                              (tag) =>
+                                tag.group.name.toLowerCase() === 'severity'
+                            )?.tag.style || appTheme.palette.grey[600],
+                            0.1
+                          ),
+                          label: o.title,
+                          tags: o.tags,
+                        }))}
+                        currentTime={currentTime}
+                        text={item.word}
+                        tooltipContent={(observation) => (
+                          <ObservationTooltip
+                            color={observation.color}
+                            observationId={observation.id}
+                            label={observation.label}
+                            isSelecting={isSelecting}
+                          />
+                        )}
+                      />
+                    ))}
+                  </ParagraphMeta>
+                ))}
                 {isSelecting && (
                   <CreateObservationButton
                     size="small"
