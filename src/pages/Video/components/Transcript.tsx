@@ -4,7 +4,6 @@ import {
   Highlight,
   LG,
   Notification,
-  Paragraph,
   SM,
   Skeleton,
   useToast,
@@ -74,6 +73,14 @@ const CreateObservationButton = styled(Button)<{
   top: ${({ position }) => position.y}px;
   transform: translate(-50%, 0);
   z-index: ${({ theme }) => theme.levels.front};
+`;
+
+const TagsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.xs};
 `;
 
 const Transcript = ({
@@ -299,13 +306,17 @@ const Transcript = ({
                         }))}
                         currentTime={currentTime}
                         text={item.word}
-                        tooltipContent={(observation) => (
-                          <ObservationTooltip
-                            color={observation.color}
-                            observationId={observation.id}
-                            label={observation.label}
-                            isSelecting={isSelecting}
-                          />
+                        tooltipContent={(obs) => (
+                          <TagsWrapper>
+                            {obs.map((o) => (
+                              <ObservationTooltip
+                                color={o.color}
+                                observationId={o.id}
+                                label={o.label}
+                                isSelecting={isSelecting}
+                              />
+                            ))}
+                          </TagsWrapper>
                         )}
                       />
                     ))}

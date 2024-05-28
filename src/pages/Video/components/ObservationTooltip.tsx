@@ -19,7 +19,7 @@ const StyledTag = styled(Tag)<{
 
   &:hover {
     cursor: pointer;
-    color: ${({ color }) => getColorWithAlpha(color ?? '', 0.5)};
+    color: ${({ color }) => color};
   }
 
   &:before {
@@ -29,8 +29,7 @@ const StyledTag = styled(Tag)<{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${({ color }) => color};
-    opacity: 0.1;
+    background-color: ${({ color }) => getColorWithAlpha(color ?? '', 0.2)};
   }
 
   > svg {

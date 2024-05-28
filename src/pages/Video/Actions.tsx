@@ -1,5 +1,4 @@
 import { LG, Skeleton, Tag } from '@appquality/unguess-design-system';
-import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
@@ -12,6 +11,7 @@ import {
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import styled from 'styled-components';
+import { useRef } from 'react';
 import { formatDuration } from '../Videos/utils/formatDuration';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
