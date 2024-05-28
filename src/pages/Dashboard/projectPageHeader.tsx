@@ -11,13 +11,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
 import {
-  Feature,
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
 } from 'src/features/api';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import styled from 'styled-components';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { Counters } from './Counters';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
@@ -42,8 +42,8 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
-
-  const { status, userData } = useAppSelector((state) => state.user);
+  const { hasFeatureFlag } = useFeatureFlag();
+  const { status } = useAppSelector((state) => state.user);
   const [itemTitle, setItemTitle] = useState<string>();
 
   const {
@@ -72,11 +72,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
 
   const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
 
-  const hasButton =
-    userData.features &&
-    userData.features.find(
-      (feature: Feature) => feature.slug === FEATURE_FLAG_SKY_JOTFORM
-    );
+  const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
 
   // Memoize InputToggle component to avoid re-rendering
   const InputToggleMemo = useMemo(
@@ -126,7 +122,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             <ProjectSettings />
           </StyledPageHeaderMeta>
         </PageHeader.Main>
-        {hasButton && (
+        {hasSkyJotformFeature && (
           <PageHeader.Footer>
             <Button
               isPrimary

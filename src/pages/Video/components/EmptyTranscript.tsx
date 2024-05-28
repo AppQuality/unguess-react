@@ -1,7 +1,13 @@
-import { SM } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { ReactComponent as EmptyTranscriptImage } from 'src/assets/empty-transcript.svg';
+import { LG, SM } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as EmptyTranscriptImage } from 'src/assets/empty-transcript.svg';
+import {
+  StyledContainerCard,
+  TitleWrapper,
+  TranscriptHeader,
+} from './Transcript';
 
 const EmptyTranscriptContainer = styled.div`
   display: flex;
@@ -23,19 +29,29 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const EmptyTranscript = () => {
   const { t } = useTranslation();
   return (
-    <EmptyTranscriptContainer>
-      <ImageContainer>
-        <EmptyTranscriptImage />
-        <StyledParagraph>
-          {t('__VIDEO_PAGE_TRANSCRIPT_EMPTY_STATE')}
-        </StyledParagraph>
-      </ImageContainer>
-    </EmptyTranscriptContainer>
+    <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
+      <StyledContainerCard>
+        <TranscriptHeader>
+          <TitleWrapper>
+            <LG isBold>{t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}</LG>
+            <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
+          </TitleWrapper>
+        </TranscriptHeader>
+        <EmptyTranscriptContainer>
+          <ImageContainer>
+            <EmptyTranscriptImage />
+            <StyledParagraph>
+              {t('__VIDEO_PAGE_TRANSCRIPT_EMPTY_STATE')}
+            </StyledParagraph>
+          </ImageContainer>
+        </EmptyTranscriptContainer>
+      </StyledContainerCard>
+    </div>
   );
 };

@@ -323,12 +323,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    getCampaignsByCidVideo: build.query<
-      GetCampaignsByCidVideoApiResponse,
-      GetCampaignsByCidVideoApiArg
+    getCampaignsByCidVideos: build.query<
+      GetCampaignsByCidVideosApiResponse,
+      GetCampaignsByCidVideosApiArg
     >({
       query: (queryArg) => ({
-        url: `/campaigns/${queryArg.cid}/video`,
+        url: `/campaigns/${queryArg.cid}/videos`,
         params: {
           limit: queryArg.limit,
           start: queryArg.start,
@@ -474,41 +474,44 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    getVideoByVid: build.query<GetVideoByVidApiResponse, GetVideoByVidApiArg>({
-      query: (queryArg) => ({ url: `/video/${queryArg.vid}` }),
-    }),
-    getVideoByVidObservations: build.query<
-      GetVideoByVidObservationsApiResponse,
-      GetVideoByVidObservationsApiArg
+    getVideosByVid: build.query<
+      GetVideosByVidApiResponse,
+      GetVideosByVidApiArg
     >({
-      query: (queryArg) => ({ url: `/video/${queryArg.vid}/observations` }),
+      query: (queryArg) => ({ url: `/videos/${queryArg.vid}` }),
     }),
-    postVideoByVidObservations: build.mutation<
-      PostVideoByVidObservationsApiResponse,
-      PostVideoByVidObservationsApiArg
+    getVideosByVidObservations: build.query<
+      GetVideosByVidObservationsApiResponse,
+      GetVideosByVidObservationsApiArg
+    >({
+      query: (queryArg) => ({ url: `/videos/${queryArg.vid}/observations` }),
+    }),
+    postVideosByVidObservations: build.mutation<
+      PostVideosByVidObservationsApiResponse,
+      PostVideosByVidObservationsApiArg
     >({
       query: (queryArg) => ({
-        url: `/video/${queryArg.vid}/observations`,
+        url: `/videos/${queryArg.vid}/observations`,
         method: 'POST',
         body: queryArg.body,
       }),
     }),
-    patchVideoByVidObservationsAndOid: build.mutation<
-      PatchVideoByVidObservationsAndOidApiResponse,
-      PatchVideoByVidObservationsAndOidApiArg
+    patchVideosByVidObservationsAndOid: build.mutation<
+      PatchVideosByVidObservationsAndOidApiResponse,
+      PatchVideosByVidObservationsAndOidApiArg
     >({
       query: (queryArg) => ({
-        url: `/video/${queryArg.vid}/observations/${queryArg.oid}`,
+        url: `/videos/${queryArg.vid}/observations/${queryArg.oid}`,
         method: 'PATCH',
         body: queryArg.body,
       }),
     }),
-    deleteVideoByVidObservationsAndOid: build.mutation<
-      DeleteVideoByVidObservationsAndOidApiResponse,
-      DeleteVideoByVidObservationsAndOidApiArg
+    deleteVideosByVidObservationsAndOid: build.mutation<
+      DeleteVideosByVidObservationsAndOidApiResponse,
+      DeleteVideosByVidObservationsAndOidApiArg
     >({
       query: (queryArg) => ({
-        url: `/video/${queryArg.vid}/observations/${queryArg.oid}`,
+        url: `/videos/${queryArg.vid}/observations/${queryArg.oid}`,
         method: 'DELETE',
       }),
     }),
@@ -1157,7 +1160,7 @@ export type PostCampaignsByCidVideoTagsApiArg = {
     };
   };
 };
-export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
+export type GetCampaignsByCidVideosApiResponse = /** status 200 OK */ {
   items: {
     usecase: {
       id: number;
@@ -1165,10 +1168,12 @@ export type GetCampaignsByCidVideoApiResponse = /** status 200 OK */ {
       description: string;
       completion: number;
     };
-    videos: Video[];
+    videos: (Video & {
+      observations?: Observation[];
+    })[];
   }[];
 } & PaginationData;
-export type GetCampaignsByCidVideoApiArg = {
+export type GetCampaignsByCidVideosApiArg = {
   cid: string;
   /** Limit pagination parameter */
   limit?: number;
@@ -1338,38 +1343,32 @@ export type PutUsersMePreferencesByPrefidApiArg = {
     value: number;
   };
 };
-export type GetVideoByVidApiResponse = /** status 200 OK */ Video & {
+export type GetVideosByVidApiResponse = /** status 200 OK */ Video & {
   usecase: {
     id: number;
     name: string;
   };
 };
-export type GetVideoByVidApiArg = {
+export type GetVideosByVidApiArg = {
   vid: string;
 };
-export type GetVideoByVidObservationsApiResponse = /** status 200 OK */ {
-  id: number;
-  title: string;
-  description: string;
-  start: number;
-  end: number;
-  tags: VideoTag[];
-}[];
-export type GetVideoByVidObservationsApiArg = {
+export type GetVideosByVidObservationsApiResponse =
+  /** status 200 OK */ Observation[];
+export type GetVideosByVidObservationsApiArg = {
   vid: string;
 };
-export type PostVideoByVidObservationsApiResponse =
+export type PostVideosByVidObservationsApiResponse =
   /** status 200 OK */ Observation;
-export type PostVideoByVidObservationsApiArg = {
+export type PostVideosByVidObservationsApiArg = {
   vid: string;
   body: {
     start: number;
     end: number;
   };
 };
-export type PatchVideoByVidObservationsAndOidApiResponse =
+export type PatchVideosByVidObservationsAndOidApiResponse =
   /** status 200 OK */ Observation;
-export type PatchVideoByVidObservationsAndOidApiArg = {
+export type PatchVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
   body: {
@@ -1380,8 +1379,8 @@ export type PatchVideoByVidObservationsAndOidApiArg = {
     tags?: number[];
   };
 };
-export type DeleteVideoByVidObservationsAndOidApiResponse = unknown;
-export type DeleteVideoByVidObservationsAndOidApiArg = {
+export type DeleteVideosByVidObservationsAndOidApiResponse = unknown;
+export type DeleteVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
 };
@@ -1859,20 +1858,32 @@ export type Tenant = {
     id?: number;
   };
 };
+export type Word = {
+  start: number;
+  end: number;
+  /** Id of Speaker */
+  speaker?: number;
+  word: string;
+};
+export type Paragraph = {
+  text: string;
+  start: number;
+  end: number;
+  /** Id Of speaker */
+  speaker?: number;
+  words: Word[];
+};
 export type Transcript = {
+  /** Number of spekers */
   speakers: number;
-  words: {
-    start: number;
-    end: number;
-    word: string;
-    speaker?: number;
-  }[];
+  paragraphs: Paragraph[];
 };
 export type Video = {
   id: number;
   url: string;
   streamUrl?: string;
   poster?: string;
+  duration?: number;
   tester: {
     id: number;
     name: string;
@@ -2037,7 +2048,7 @@ export const {
   useGetCampaignsByCidUxQuery,
   useGetCampaignsByCidVideoTagsQuery,
   usePostCampaignsByCidVideoTagsMutation,
-  useGetCampaignsByCidVideoQuery,
+  useGetCampaignsByCidVideosQuery,
   useGetCampaignsByCidWidgetsQuery,
   useGetInsightsByIidQuery,
   useDeleteInsightsByIidMutation,
@@ -2054,11 +2065,11 @@ export const {
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesByPrefidMutation,
-  useGetVideoByVidQuery,
-  useGetVideoByVidObservationsQuery,
-  usePostVideoByVidObservationsMutation,
-  usePatchVideoByVidObservationsAndOidMutation,
-  useDeleteVideoByVidObservationsAndOidMutation,
+  useGetVideosByVidQuery,
+  useGetVideosByVidObservationsQuery,
+  usePostVideosByVidObservationsMutation,
+  usePatchVideosByVidObservationsAndOidMutation,
+  useDeleteVideosByVidObservationsAndOidMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,

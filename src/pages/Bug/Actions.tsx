@@ -120,7 +120,8 @@ export const Actions = () => {
           }
           resolve(data);
         } catch (e) {
-          console.error('upload failed: ', e);
+          // eslint-disable-next-line no-console
+          console.error('Error upload failed: ', e);
           reject(data);
         }
       });
@@ -151,7 +152,8 @@ export const Actions = () => {
         })
           .unwrap()
           .catch((e) => {
-            console.error('error creating comment: ', e);
+            // eslint-disable-next-line no-console
+            console.error('Error creating comment: ', e);
           })
           .finally(() => {
             setIsSubmitting(false);
