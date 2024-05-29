@@ -171,7 +171,8 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     <FooterContainer>
       <PageMeta>
         <VideosMeta>
-          {totalVideos} {t('__VIDEOS_LIST_META_VIDEO_COUNT')}
+          {totalVideos}{' '}
+          {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
         </VideosMeta>
         {severities && severities.length > 0 && (
           <SeveritiesMetaContainer>
