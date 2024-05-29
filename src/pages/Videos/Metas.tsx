@@ -175,22 +175,24 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
           {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
         </VideosMeta>
         {severities && severities.length > 0 && (
-          <SeveritiesMetaContainer>
-            <SeveritiesMetaText>
-              {t('__VIDEO_LIST_META_SEVERITIES_COUNT')}
-            </SeveritiesMetaText>
-            {severities.map((severity) => (
-              <Meta
-                size="large"
-                color={severity.style}
-                secondaryText={severity.count}
-              >
-                {capitalizeFirstLetter(severity.name)}
-              </Meta>
-            ))}
-          </SeveritiesMetaContainer>
+          <>
+            <SeveritiesMetaContainer>
+              <SeveritiesMetaText>
+                {t('__VIDEO_LIST_META_SEVERITIES_COUNT')}
+              </SeveritiesMetaText>
+              {severities.map((severity) => (
+                <Meta
+                  size="large"
+                  color={severity.style}
+                  secondaryText={severity.count}
+                >
+                  {capitalizeFirstLetter(severity.name)}
+                </Meta>
+              ))}
+            </SeveritiesMetaContainer>
+            <StyledPipe />
+          </>
         )}
-        <StyledPipe />
         <StatusMeta status={status.name as CampaignStatus} />
       </PageMeta>
       <ButtonWrapper>
