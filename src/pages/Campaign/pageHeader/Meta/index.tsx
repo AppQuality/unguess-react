@@ -8,10 +8,12 @@ import {
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { CampaignStatus } from 'src/types';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
@@ -64,12 +66,18 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
 
   const { t } = useTranslation();
+  const { hasFeatureFlag } = useFeatureFlag();
   const functionalDashboardLink = useLocalizeRoute(
     `campaigns/${campaign.id}/bugs`
+  );
+  const videoDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/videos`
   );
   const { start_date, end_date, type, status, outputs, family } = campaign;
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
+
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   return (
     <FooterContainer>
@@ -95,6 +103,13 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
           <Link to={functionalDashboardLink}>
             <Button id="button-bugs-list-header" isPrimary isAccent>
               {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_BUG')}
+            </Button>
+          </Link>
+        )}
+        {outputs?.includes('media') && hasTaggingToolFeature && (
+          <Link to={videoDashboardLink}>
+            <Button id="button-bugs-list-header" isPrimary isAccent>
+              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
             </Button>
           </Link>
         )}

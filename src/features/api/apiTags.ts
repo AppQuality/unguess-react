@@ -95,19 +95,20 @@ unguessApi.enhanceEndpoints({
     putUsersMePreferencesByPrefid: {
       invalidatesTags: ['Preferences'],
     },
-    getVideoByVidObservations: {
+    getVideosByVidObservations: {
       providesTags: ['Observations'],
     },
-    postVideoByVidObservations: {
+    postVideosByVidObservations: {
       async onQueryStarted({ vid }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedPost } = await queryFulfilled;
           dispatch(
             unguessApi.util.updateQueryData(
-              'getVideoByVidObservations',
+              'getVideosByVidObservations',
               { vid },
               (draft) => {
                 draft.push(updatedPost);
+                draft.sort((a, b) => a.start - b.start);
               }
             )
           );
@@ -141,36 +142,37 @@ unguessApi.enhanceEndpoints({
     postCampaignsByCidVideoTags: {
       invalidatesTags: ['VideoTags'],
     },
-    patchVideoByVidObservationsAndOid: {
+    patchVideosByVidObservationsAndOid: {
       async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedPatch } = await queryFulfilled;
           dispatch(
             unguessApi.util.updateQueryData(
-              'getVideoByVidObservations',
+              'getVideosByVidObservations',
               { vid },
               (draft) => {
                 const index = draft.findIndex(
                   (observation) => observation.id === Number(oid)
                 );
                 if (index !== -1) {
-                  draft[index] = updatedPatch;
+                  draft[index] = { ...updatedPatch };
                 }
               }
             )
           );
+          dispatch(unguessApi.util.invalidateTags(['VideoTags']));
         } catch {
           dispatch(unguessApi.util.invalidateTags(['Observations']));
         }
       },
     },
-    deleteVideoByVidObservationsAndOid: {
+    deleteVideosByVidObservationsAndOid: {
       async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
           dispatch(
             unguessApi.util.updateQueryData(
-              'getVideoByVidObservations',
+              'getVideosByVidObservations',
               { vid },
               (draft) => {
                 const index = draft.findIndex(

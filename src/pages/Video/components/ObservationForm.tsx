@@ -19,13 +19,14 @@ import {
 import { useParams } from 'react-router-dom';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
-  GetVideoByVidObservationsApiResponse,
+  GetVideosByVidObservationsApiResponse,
   useGetCampaignsByCidVideoTagsQuery,
-  usePatchVideoByVidObservationsAndOidMutation,
+  usePatchVideosByVidObservationsAndOidMutation,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { useEffect, useRef, useState } from 'react';
+import { getColorWithAlpha } from 'src/common/utils';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
 
 const FormContainer = styled.div`
@@ -46,19 +47,7 @@ const StyledLabel = styled(Label)`
 const RadioTag = styled(Tag)<{
   color: string;
 }>`
-  position: relative;
   padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xxs};
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: ${({ color }) => color};
-    opacity: 0.08;
-  }
 
   * {
     user-select: none;
@@ -76,7 +65,7 @@ const ObservationForm = ({
   quots,
   onSubmit,
 }: {
-  observation: GetVideoByVidObservationsApiResponse[number];
+  observation: GetVideosByVidObservationsApiResponse[number];
   quots?: string;
   onSubmit: (
     values: ObservationFormValues,
@@ -108,7 +97,7 @@ const ObservationForm = ({
   );
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
-  const [patchObservation] = usePatchVideoByVidObservationsAndOidMutation();
+  const [patchObservation] = usePatchVideosByVidObservationsAndOidMutation();
 
   const {
     data: tags,
@@ -141,7 +130,7 @@ const ObservationForm = ({
           .map((group) =>
             group.tags.map((tag) => ({
               id: tag.id,
-              label: tag.name,
+              label: `${tag.name} (${tag.usageNumber})`,
               selected: selectedOptions.some((bt) => bt.id === tag.id),
             }))
           )
@@ -254,26 +243,42 @@ const ObservationForm = ({
                     <Skeleton />
                   ) : (
                     <>
-                      {severities.tags.map((severity) => (
-                        <RadioTag color={severity.style}>
-                          <FormField>
-                            <Radio
-                              checked={selectedSeverity?.id === severity.id}
-                              onChange={() => {
-                                setSelectedSeverity(severity);
-                                formRef.current?.setFieldValue(
-                                  'severity',
-                                  severity.id
-                                );
-                              }}
-                            >
-                              <Label style={{ color: severity.style }}>
-                                {severity.name} ({severity.usageNumber})
-                              </Label>
-                            </Radio>
-                          </FormField>
-                        </RadioTag>
-                      ))}
+                      <div>
+                        {severities.tags.map((severity) => (
+                          <RadioTag
+                            color={severity.style}
+                            style={{
+                              backgroundColor: getColorWithAlpha(
+                                severity.style,
+                                0.1
+                              ),
+                              marginBottom: appTheme.space.sm,
+                            }}
+                          >
+                            <FormField>
+                              <Radio
+                                checked={selectedSeverity?.id === severity.id}
+                                onChange={() => {
+                                  setSelectedSeverity(severity);
+                                  formRef.current?.setFieldValue(
+                                    'severity',
+                                    severity.id
+                                  );
+                                }}
+                              >
+                                <Label
+                                  style={{
+                                    color: severity.style,
+                                    paddingRight: appTheme.space.xxs,
+                                  }}
+                                >
+                                  {severity.name}
+                                </Label>
+                              </Radio>
+                            </FormField>
+                          </RadioTag>
+                        ))}
+                      </div>
                       {errors.severity && (
                         <Message
                           validation="error"
@@ -359,11 +364,12 @@ const ObservationForm = ({
                       '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL'
                     )}
                   </StyledLabel>
-                  <Input
+                  <Textarea
                     readOnly
                     disabled
                     style={{ margin: 0 }}
                     value={quots}
+                    rows={4}
                   />
                 </div>
               )}
@@ -376,6 +382,7 @@ const ObservationForm = ({
                   placeholder={t(
                     '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_PLACEHOLDER'
                   )}
+                  rows={4}
                   {...getFieldProps('notes')}
                 />
               </div>
