@@ -21,6 +21,8 @@ import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import Service from 'src/pages/Service';
 import Catalog from 'src/pages/Services';
 import Manual from 'src/pages/Manual';
+import Videos from 'src/pages/Videos';
+import Video from 'src/pages/Video';
 import SentryWrapper from 'src/features/SentryWrapper';
 import { Redirect } from './Redirect';
 
@@ -81,6 +83,14 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/services/:templateId`}
                     element={<Service />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/campaigns/:campaignId/videos`}
+                    element={<Videos />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
+                    element={<Video />}
                   />
                   {/* No route found */}
                   <Route

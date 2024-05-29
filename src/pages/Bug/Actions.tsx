@@ -8,10 +8,14 @@ import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
 import {
+  PostCampaignsByCidBugsAndBidMediaApiResponse,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
+  usePostCampaignsByCidBugsAndBidMediaMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { Data } from '@appquality/unguess-design-system/build/stories/chat/context/chatContext';
+import { CommentMedia } from '@appquality/unguess-design-system/build/stories/chat/_types';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
 
@@ -44,7 +48,6 @@ export const Actions = () => {
     isFetching: isFetchingUsers,
   } = useGetMentionableUsers();
   const { t } = useTranslation();
-
   const mentionableUsers = useCallback(
     ({ query }: { query: string }) => {
       const mentions = users.filter((user) => {
@@ -63,9 +66,11 @@ export const Actions = () => {
     [users]
   );
 
+  const [mediaIds, setMediaIds] = useState<
+    { id: number; internal_id: string }[]
+  >([]);
   const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
 
@@ -81,6 +86,49 @@ export const Actions = () => {
   });
   const [createComment] = usePostCampaignsByCidBugsAndBidCommentsMutation();
 
+  const [uploadMedia] = usePostCampaignsByCidBugsAndBidMediaMutation();
+
+  interface MyFormData extends FormData {
+    media: string | string[];
+  }
+
+  const handleMediaUpload = (files: (File & CommentMedia)[]) =>
+    new Promise<Data>((resolve, reject) => {
+      let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
+      files.forEach(async (f) => {
+        const formData: MyFormData = new FormData() as MyFormData;
+        // normalize filename
+        const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
+        formData.append('media', f, filename);
+        try {
+          data = await uploadMedia({
+            cid,
+            bid,
+            body: formData,
+          }).unwrap();
+          if (
+            data &&
+            'uploaded_ids' in data &&
+            typeof data.uploaded_ids !== 'undefined' &&
+            typeof data.uploaded_ids !== 'string'
+          ) {
+            const newIds = data.uploaded_ids.map((uploaded) => ({
+              id: uploaded.id,
+              internal_id: f.id,
+            }));
+            setMediaIds((prev) => [...prev, ...newIds]);
+          }
+          resolve(data);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.error('Error upload failed: ', e);
+          reject(data);
+        }
+      });
+    });
+
+  // return data;
+
   const createCommentHandler = useCallback(
     (editor, mentions) => {
       if (editor) {
@@ -91,22 +139,29 @@ export const Actions = () => {
             text: editor.getHTML(),
             ...(mentions &&
               mentions.length > 0 && {
-                mentioned: mentions.map((mention: any) => ({
+                mentioned: mentions.map((mention: { id: any }) => ({
                   id: mention.id,
                 })),
               }),
+            ...(mediaIds.length > 0 && {
+              media_id: mediaIds.map((media) => ({
+                id: media.id,
+              })),
+            }),
           },
         })
           .unwrap()
-          .then(() => {
-            setIsSubmitting(false);
+          .catch((e) => {
+            // eslint-disable-next-line no-console
+            console.error('Error creating comment: ', e);
           })
-          .catch(() => {
+          .finally(() => {
             setIsSubmitting(false);
+            setMediaIds([]);
           });
       }
     },
-    [cid, bid, bug]
+    [cid, bid, bug, mediaIds]
   );
 
   if (!bug || isError) return null;
@@ -129,6 +184,12 @@ export const Actions = () => {
       <ChatProvider
         onSave={createCommentHandler}
         setMentionableUsers={mentionableUsers}
+        onFileUpload={handleMediaUpload}
+        onDeleteThumbnail={(internalId) => {
+          setMediaIds((prev) =>
+            prev.filter((media) => media.internal_id !== internalId)
+          );
+        }}
       >
         <Divider style={{ margin: `${appTheme.space.md} auto` }} />
         {isFetchingUsers || isLoadingUsers ? (

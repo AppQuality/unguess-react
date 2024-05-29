@@ -89,6 +89,34 @@ unguessApi.enhanceEndpoints({
     deleteCampaignsByCidBugsAndBidCommentsCmid: {
       invalidatesTags: ['BugComments'],
     },
+    getUsersMePreferences: {
+      providesTags: ['Preferences'],
+    },
+    putUsersMePreferencesByPrefid: {
+      invalidatesTags: ['Preferences'],
+    },
+    getVideosByVidObservations: {
+      providesTags: ['Observations'],
+    },
+    postVideosByVidObservations: {
+      async onQueryStarted({ vid }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedPost } = await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideosByVidObservations',
+              { vid },
+              (draft) => {
+                draft.push(updatedPost);
+                draft.sort((a, b) => a.start - b.start);
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
+        }
+      },
+    },
     postCampaignsByCidBugsAndBidComments: {
       invalidatesTags: ['Bugs'],
       async onQueryStarted({ cid, bid }, { dispatch, queryFulfilled }) {
@@ -105,6 +133,59 @@ unguessApi.enhanceEndpoints({
           );
         } catch {
           dispatch(unguessApi.util.invalidateTags(['BugComments']));
+        }
+      },
+    },
+    getCampaignsByCidVideoTags: {
+      providesTags: ['VideoTags'],
+    },
+    postCampaignsByCidVideoTags: {
+      invalidatesTags: ['VideoTags'],
+    },
+    patchVideosByVidObservationsAndOid: {
+      async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
+        try {
+          const { data: updatedPatch } = await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideosByVidObservations',
+              { vid },
+              (draft) => {
+                const index = draft.findIndex(
+                  (observation) => observation.id === Number(oid)
+                );
+                if (index !== -1) {
+                  draft[index] = { ...updatedPatch };
+                }
+              }
+            )
+          );
+          dispatch(unguessApi.util.invalidateTags(['VideoTags']));
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
+        }
+      },
+    },
+    deleteVideosByVidObservationsAndOid: {
+      async onQueryStarted({ vid, oid }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            unguessApi.util.updateQueryData(
+              'getVideosByVidObservations',
+              { vid },
+              (draft) => {
+                const index = draft.findIndex(
+                  (observation) => observation.id === Number(oid)
+                );
+                if (index !== -1) {
+                  draft.splice(index, 1);
+                }
+              }
+            )
+          );
+        } catch {
+          dispatch(unguessApi.util.invalidateTags(['Observations']));
         }
       },
     },

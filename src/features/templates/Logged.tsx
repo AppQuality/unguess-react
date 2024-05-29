@@ -10,8 +10,11 @@ import * as Sentry from '@sentry/react';
 import { Navigation } from '../navigation/Navigation';
 
 const StyledMain = styled(Main)`
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.palette.grey[100]};
   margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
 `;
 
 const HeaderContainer = styled.div`
@@ -63,13 +66,11 @@ export const Logged = ({
         className="iubenda-cs-preferences-link"
       />
       <Chrome isFluid hue={appTheme.palette.white}>
-        <Body id="body" style={{ backgroundColor: appTheme.palette.grey[100] }}>
+        <Body id="body" style={{ overflow: 'hidden' }}>
           <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
-              <>
-                {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
-                {children}
-              </>
+              {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
+              {children}
             </StyledMain>
           </Navigation>
         </Body>

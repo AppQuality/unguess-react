@@ -56,6 +56,12 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { getPlatform } from './getPlatform';
+import {
+  mapBrowsers,
+  mapLanguages,
+  mapProductType,
+  mapTesterRequirements,
+} from './mapToCampaignFields';
 import { reasonItems } from './steps/express-1/what';
 import { ThankYouStep } from './steps/thankYou';
 import { StepItem, useExpressStep } from './steps/useSteps';
@@ -263,6 +269,14 @@ export const ExpressWizardContainer = () => {
           has_bug_form: values.has_bug_form ? 1 : 0,
           has_bug_parade: values.has_bug_parade ? 1 : 0,
           ...(values.use_cases && { use_cases: values.use_cases }),
+          outOfScope: values.outOfScope,
+          productLink: values.link,
+          languages: mapLanguages([values.campaign_language || '']),
+          productType: mapProductType(values.product_type || ''),
+          browsers: mapBrowsers(values),
+          testDescription: values.test_description,
+          testerRequirements: mapTesterRequirements(values),
+          targetSize: values.target_size,
         },
       }).unwrap();
 

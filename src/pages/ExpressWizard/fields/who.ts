@@ -3,4 +3,5 @@ export interface WhoStep {
   age_range?: string;
   gender?: string;
   digital_literacy?: string;
+  target_size?: number;
 }

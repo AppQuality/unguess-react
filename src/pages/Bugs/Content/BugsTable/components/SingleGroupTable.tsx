@@ -26,14 +26,14 @@ const SingleGroupTable = ({
   isPreview,
 }: SingleGroupTableProps) => {
   const { width } = useWindowSize();
-  const dispatch = useAppDispatch();
   const { columns } = useTableColumns();
-  const currentBugId = getSelectedBugId();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const currentBugId = getSelectedBugId();
+  const bugPageUrlWithoutId = useLocalizeRoute(`campaigns/${campaignId}/bugs/`);
 
   const breakpointLg = parseInt(appTheme.breakpoints.lg, 10);
   const isLgBreakpoint = width < breakpointLg;
-  const bugPageUrlWithoutId = useLocalizeRoute(`campaigns/${campaignId}/bugs/`);
 
   const onRowClick = useCallback(
     (bug_id: string) => {
