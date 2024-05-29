@@ -94,17 +94,14 @@ const Video = ({
           <ObservationsTotalContainer>
             <TagsContainer>
               {video.duration && (
-                <>
-                  <Tag
-                    hue={appTheme.palette.grey[200]}
-                    color={appTheme.palette.grey[700]}
-                  >
-                    {formatDuration(video.duration)}
-                  </Tag>
-                  <Pipe />
-                </>
+                <Tag
+                  hue={appTheme.palette.grey[200]}
+                  color={appTheme.palette.grey[700]}
+                >
+                  {formatDuration(video.duration)}
+                </Tag>
               )}
-
+              {video.duration && severityTotals.length > 0 && <Pipe />}
               {severityTotals.map((tag) => (
                 <Tag
                   hue={getColorWithAlpha(
