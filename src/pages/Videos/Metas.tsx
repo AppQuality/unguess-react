@@ -197,12 +197,14 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       </PageMeta>
       <ButtonWrapper>
         <CampaignSettings />
-        <Button isAccent isPrimary size="small" onClick={handleUseCaseExport}>
-          <Button.StartIcon>
-            <DownloadIcon />
-          </Button.StartIcon>
-          {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
-        </Button>
+        {totalVideos && totalVideos > 0 && (
+          <Button isAccent isPrimary size="small" onClick={handleUseCaseExport}>
+            <Button.StartIcon>
+              <DownloadIcon />
+            </Button.StartIcon>
+            {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
+          </Button>
+        )}
       </ButtonWrapper>
     </FooterContainer>
   );

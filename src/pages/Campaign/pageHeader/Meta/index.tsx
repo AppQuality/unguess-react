@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
+  useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 import { Link } from 'react-router-dom';
 import { Pipe } from 'src/common/components/Pipe';
@@ -65,6 +66,11 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isFetching,
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
 
+  const { data: videos, isLoading: isLoadingVideos } =
+    useGetCampaignsByCidVideosQuery({
+      cid: campaign.id.toString(),
+    });
+
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
   const functionalDashboardLink = useLocalizeRoute(
@@ -75,7 +81,8 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   );
   const { start_date, end_date, type, status, outputs, family } = campaign;
 
-  if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
+  if (isLoading || isFetching || isLoadingVideos)
+    return <Skeleton width="200px" height="20px" />;
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
@@ -106,13 +113,16 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {outputs?.includes('media') && hasTaggingToolFeature && (
-          <Link to={videoDashboardLink}>
-            <Button id="button-bugs-list-header" isPrimary isAccent>
-              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
-            </Button>
-          </Link>
-        )}
+        {outputs?.includes('media') &&
+          hasTaggingToolFeature &&
+          videos &&
+          videos?.items.length > 0 && (
+            <Link to={videoDashboardLink}>
+              <Button id="button-bugs-list-header" isPrimary isAccent>
+                {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
+              </Button>
+            </Link>
+          )}
       </ButtonWrapper>
     </FooterContainer>
   );

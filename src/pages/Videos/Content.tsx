@@ -5,13 +5,14 @@ import {
   Row,
   Skeleton,
 } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
-import Empty from './Empty';
+import { Empty } from './Empty';
 import { InfoRow } from './parts/InfoRow';
 import { VideoContainer } from './parts/VideoContainer';
 import { Wrapper } from './parts/Wrapper';
@@ -35,6 +36,10 @@ const AccordionFooter = styled.div`
 const VideosPageContent = () => {
   const { campaignId } = useParams();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    console.time('Load videos');
+  }, []);
   const {
     sorted: videos,
     isFetching,
@@ -42,11 +47,17 @@ const VideosPageContent = () => {
     isError,
   } = useVideo(campaignId ?? '');
 
+  useEffect(() => {
+    if (!isLoading) {
+      console.timeEnd('Load videos');
+    }
+  }, [isLoading]);
+
   if (isError) return null;
 
   if (isLoading) return <Skeleton height="300px" style={{ borderRadius: 0 }} />;
 
-  if (!videos || videos.length === 0) {
+  if (!videos || videos.length > 0) {
     return <Empty />;
   }
 
