@@ -57,7 +57,7 @@ const VideosPageContent = () => {
 
   if (isLoading) return <Skeleton height="300px" style={{ borderRadius: 0 }} />;
 
-  if (!videos || videos.length > 0) {
+  if (!videos || videos.length === 0) {
     return <Empty />;
   }
 
