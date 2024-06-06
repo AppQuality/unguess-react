@@ -173,8 +173,9 @@ export const ChatBox = ({
                       {(comment.creator.id === user.profile_id ||
                         user.role === 'administrator') && (
                         <Button
+                          isPill
+                          isBasic
                           isDanger
-                          isLink
                           onClick={() => openModal(`${comment.id}`)}
                         >
                           {t('__BUG_COMMENTS_CHAT_DELETE__')}
