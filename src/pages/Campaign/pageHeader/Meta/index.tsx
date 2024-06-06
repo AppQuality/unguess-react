@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Button, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -12,6 +13,7 @@ import {
 } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useVideo } from 'src/pages/Videos/useVideos';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { CampaignDurationMeta } from './CampaignDurationMeta';
@@ -59,11 +61,24 @@ const FooterContainer = styled.div`
 `;
 
 export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
+  const [totalVideos, setTotalVideos] = useState<number>(0);
   const {
     data: meta,
     isLoading,
     isFetching,
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
+
+  const { sorted: videos } = useVideo(campaign.id.toString() ?? '');
+
+  useEffect(() => {
+    if (videos) {
+      const groupedVideos = videos?.reduce(
+        (total, item) => total + item.videos.total,
+        0
+      );
+      setTotalVideos(groupedVideos);
+    }
+  }, [videos]);
 
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
@@ -106,13 +121,15 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {outputs?.includes('media') && hasTaggingToolFeature && (
-          <Link to={videoDashboardLink}>
-            <Button id="button-bugs-list-header" isPrimary isAccent>
-              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
-            </Button>
-          </Link>
-        )}
+        {outputs?.includes('media') &&
+          hasTaggingToolFeature &&
+          totalVideos > 0 && (
+            <Link to={videoDashboardLink}>
+              <Button id="button-bugs-list-header" isPrimary isAccent>
+                {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
+              </Button>
+            </Link>
+          )}
       </ButtonWrapper>
     </FooterContainer>
   );

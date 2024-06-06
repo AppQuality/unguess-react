@@ -205,7 +205,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       </PageMeta>
       <ButtonWrapper>
         <CampaignSettings />
-        {totalVideos && totalVideos > 0 && (
+        {totalVideos > 0 && (
           <Button isAccent isPrimary size="small" onClick={handleUseCaseExport}>
             <Button.StartIcon>
               <DownloadIcon />

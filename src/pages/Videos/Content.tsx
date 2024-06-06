@@ -5,7 +5,7 @@ import {
   Row,
   Skeleton,
 } from '@appquality/unguess-design-system';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -35,6 +35,7 @@ const AccordionFooter = styled.div`
 
 const VideosPageContent = () => {
   const { campaignId } = useParams();
+  const [totalVideos, setTotalVideos] = useState<number>(0);
   const { t } = useTranslation();
 
   const {
@@ -44,11 +45,20 @@ const VideosPageContent = () => {
     isError,
   } = useVideo(campaignId ?? '');
 
+  useEffect(() => {
+    if (videos) {
+      const groupedVideos = videos?.reduce(
+        (total, item) => total + item.videos.total,
+        0
+      );
+      setTotalVideos(groupedVideos);
+    }
+  }, [videos]);
+
   if (isError) return null;
 
   if (isLoading) return <Skeleton height="300px" style={{ borderRadius: 0 }} />;
-
-  if (!videos || videos.length === 0) {
+  if (!videos || totalVideos === 0) {
     return <Empty />;
   }
 
