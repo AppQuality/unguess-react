@@ -121,15 +121,13 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {outputs?.includes('media') &&
-          hasTaggingToolFeature &&
-          totalVideos > 0 && (
-            <Link to={videoDashboardLink}>
-              <Button id="button-bugs-list-header" isPrimary isAccent>
-                {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
-              </Button>
-            </Link>
-          )}
+        {hasTaggingToolFeature && totalVideos > 0 && (
+          <Link to={videoDashboardLink}>
+            <Button id="button-bugs-list-header" isPrimary isAccent>
+              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
+            </Button>
+          </Link>
+        )}
       </ButtonWrapper>
     </FooterContainer>
   );
