@@ -1,24 +1,23 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { PageMeta } from 'src/common/components/PageMeta';
+import { Pipe } from 'src/common/components/Pipe';
+import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
-  useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
-import { Link } from 'react-router-dom';
-import { Pipe } from 'src/common/components/Pipe';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
-import { CampaignStatus } from 'src/types';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
-import { PageMeta } from 'src/common/components/PageMeta';
-import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { CampaignStatus } from 'src/types';
+import styled from 'styled-components';
+import { CampaignDurationMeta } from './CampaignDurationMeta';
 import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
-import { CampaignDurationMeta } from './CampaignDurationMeta';
 import { TvMeta } from './TvMeta';
 
 const ButtonWrapper = styled.div`

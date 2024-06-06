@@ -37,21 +37,12 @@ const VideosPageContent = () => {
   const { campaignId } = useParams();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    console.time('Load videos');
-  }, []);
   const {
     sorted: videos,
     isFetching,
     isLoading,
     isError,
   } = useVideo(campaignId ?? '');
-
-  useEffect(() => {
-    if (!isLoading) {
-      console.timeEnd('Load videos');
-    }
-  }, [isLoading]);
 
   if (isError) return null;
 
