@@ -25,8 +25,7 @@ const PlayerContainer = styled.div<{
   isFetching: boolean;
 }>`
   width: 100%;
-  height: auto;
-  max-height: 50vh;
+  height: 55vh;
   display: flex;
 
   ${({ isFetching }) =>
