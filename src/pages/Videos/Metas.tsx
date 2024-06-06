@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
   Button,
   MD,
@@ -86,6 +87,7 @@ const FooterContainer = styled.div`
 export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { status } = campaign;
   const { campaignId } = useParams();
+  const [totalVideos, setTotalVideos] = useState<number>(0);
   const { t } = useTranslation();
   const { addToast } = useToast();
 
@@ -95,10 +97,16 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isLoading,
     isError,
   } = useGetCampaignsByCidVideosQuery({ cid: campaign.id.toString() });
-  const totalVideos = videos?.items.reduce(
-    (total, item) => total + item.videos.length,
-    0
-  );
+
+  useEffect(() => {
+    if (videos && videos.items.length > 0) {
+      const groupedVideos = videos?.items.reduce(
+        (total, item) => total + item.videos.length,
+        0
+      );
+      setTotalVideos(groupedVideos);
+    }
+  }, [videos]);
 
   const severities = videos ? getAllSeverityTags(videos.items) : [];
 
@@ -197,12 +205,14 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       </PageMeta>
       <ButtonWrapper>
         <CampaignSettings />
-        <Button isAccent isPrimary size="small" onClick={handleUseCaseExport}>
-          <Button.StartIcon>
-            <DownloadIcon />
-          </Button.StartIcon>
-          {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
-        </Button>
+        {totalVideos > 0 && (
+          <Button isAccent isPrimary size="small" onClick={handleUseCaseExport}>
+            <Button.StartIcon>
+              <DownloadIcon />
+            </Button.StartIcon>
+            {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
+          </Button>
+        )}
       </ButtonWrapper>
     </FooterContainer>
   );

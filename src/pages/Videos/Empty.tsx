@@ -1,15 +1,28 @@
-import { Paragraph } from '@appquality/unguess-design-system';
+import { MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
+import { ReactComponent as EmptyStateImg } from '../../assets/empty-state-videos.svg';
 
-const Empty = () => {
+const StyledEmptyState = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding-top: ${appTheme.space.md};
+`;
+
+export const Empty = () => {
   const { t } = useTranslation();
-
   return (
-    <LayoutWrapper isNotBoxed>
-      <Paragraph>{t('__VIDEOS_PAGE_NO_ITEMS_MESSAGE')}</Paragraph>
-    </LayoutWrapper>
+    <StyledEmptyState>
+      <EmptyStateImg
+        title="Table is empty"
+        style={{ marginBottom: appTheme.space.lg }}
+      />
+      <MD>{t('__PAGE_VIDEOS_EMPTY_STATE')}</MD>
+    </StyledEmptyState>
   );
 };
-
-export default Empty;
