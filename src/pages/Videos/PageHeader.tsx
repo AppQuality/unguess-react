@@ -26,16 +26,16 @@ const VideosPageHeader = () => {
       <PageHeader>
         <PageHeader.Breadcrumbs>
           {isError || !userProject ? (
-            <span style={{ color: appTheme.palette.blue[600] }}>
+            <span style={{ color: appTheme.palette.grey[600] }}>
               {project?.name}
             </span>
           ) : (
             <Link to={projectRoute}>
-              <Anchor id="breadcrumb-parent">{project?.name}</Anchor>
+              <Anchor id="breadcrumb-project">{project?.name}</Anchor>
             </Link>
           )}
           <Link to={campaignRoute}>
-            <Anchor id="breadcrumb-parent">{campaign?.customer_title}</Anchor>
+            <Anchor id="breadcrumb-campaign">{campaign?.customer_title}</Anchor>
           </Link>
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={t('__VIDEOS_PAGE_TITLE')}>
