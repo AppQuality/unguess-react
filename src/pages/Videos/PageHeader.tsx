@@ -23,7 +23,7 @@ const VideosPageHeader = () => {
         <PageHeader.Breadcrumbs>
           {project.hasAccess ? (
             <Link to={projectRoute}>
-              <Anchor id="breadcrumb-parent">{project.name}</Anchor>
+              <Anchor id="breadcrumb-project">{project.name}</Anchor>
             </Link>
           ) : (
             project.name
