@@ -152,7 +152,7 @@ export const Actions = () => {
             <Notification
               onClose={close}
               type="error"
-              message={e.message}
+              message={e.message ? e.message : 'Error while deleting media'}
               closeText="X"
               isPrimary
             />
