@@ -1,4 +1,10 @@
-import { ChatProvider, LG, Skeleton } from '@appquality/unguess-design-system';
+import {
+  ChatProvider,
+  LG,
+  Skeleton,
+  useToast,
+  Notification,
+} from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -91,6 +97,8 @@ export const Actions = () => {
 
   const [deleteMediaComment] = useDeleteMediaCommentByMcidMutation();
 
+  const { addToast } = useToast();
+
   interface MyFormData extends FormData {
     media: string | string[];
   }
@@ -137,6 +145,20 @@ export const Actions = () => {
       .unwrap()
       .then(() => {
         refetch();
+      })
+      .catch((e) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={e.message}
+              closeText="X"
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
       });
   };
 
