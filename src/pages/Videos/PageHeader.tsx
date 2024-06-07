@@ -2,6 +2,8 @@ import { Anchor, PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { appTheme } from 'src/app/theme';
+import { useGetProjectsByPidQuery } from 'src/features/api';
 import { PageTitle } from 'src/common/components/PageTitle';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
@@ -14,15 +16,26 @@ const VideosPageHeader = () => {
   const projectRoute = useLocalizeRoute(`projects/${project?.id}`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   if (!campaign || !project) return null;
+
+  const { currentData: userProject, isError } = useGetProjectsByPidQuery({
+    pid: campaign.project.id.toString(),
+  });
+
   return (
     <LayoutWrapper isNotBoxed>
       <PageHeader>
         <PageHeader.Breadcrumbs>
-          <Link to={projectRoute}>
-            <Anchor id="breadcrumb-parent">{project?.name}</Anchor>
-          </Link>
+          {isError || !userProject ? (
+            <span style={{ color: appTheme.palette.grey[600] }}>
+              {project?.name}
+            </span>
+          ) : (
+            <Link to={projectRoute}>
+              <Anchor id="breadcrumb-project">{project?.name}</Anchor>
+            </Link>
+          )}
           <Link to={campaignRoute}>
-            <Anchor id="breadcrumb-parent">{campaign?.customer_title}</Anchor>
+            <Anchor id="breadcrumb-campaign">{campaign?.customer_title}</Anchor>
           </Link>
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={t('__VIDEOS_PAGE_TITLE')}>
