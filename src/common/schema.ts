@@ -306,6 +306,15 @@ export interface paths {
       };
     };
   };
+  '/media-comment/{mcid}': {
+    /** Delete a media-comment */
+    delete: operations['delete-media-comment-mcid'];
+    parameters: {
+      path: {
+        mcid: string;
+      };
+    };
+  };
   '/projects': {
     post: operations['post-projects'];
   };
@@ -640,7 +649,7 @@ export interface components {
       /**
        * @description -1: no bug form;
        * 0: only bug form;
-       * 1: bug form with bug parade';
+       * 1: bug form with bug parade;
        */
       bug_form?: number;
       type: {
@@ -2222,7 +2231,7 @@ export interface operations {
         };
       };
     };
-    /** If there's a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
+    /** If there is a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
     requestBody: {
       content: {
         'application/json': {
@@ -2379,6 +2388,26 @@ export interface operations {
     responses: {
       /** Found */
       302: never;
+    };
+  };
+  /** Delete a media-comment */
+  'delete-media-comment-mcid': {
+    parameters: {
+      path: {
+        mcid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+      /** Unauthorized */
+      401: unknown;
+      /** Not Found */
+      404: unknown;
     };
   };
   'post-projects': {

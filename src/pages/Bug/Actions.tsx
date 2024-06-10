@@ -1,4 +1,10 @@
-import { ChatProvider, LG, Skeleton } from '@appquality/unguess-design-system';
+import {
+  ChatProvider,
+  LG,
+  Skeleton,
+  useToast,
+  Notification,
+} from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -12,6 +18,7 @@ import {
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
+  useDeleteMediaCommentByMcidMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
 import { Data } from '@appquality/unguess-design-system/build/stories/chat/context/chatContext';
@@ -88,6 +95,10 @@ export const Actions = () => {
 
   const [uploadMedia] = usePostCampaignsByCidBugsAndBidMediaMutation();
 
+  const [deleteMediaComment] = useDeleteMediaCommentByMcidMutation();
+
+  const { addToast } = useToast();
+
   interface MyFormData extends FormData {
     media: string | string[];
   }
@@ -128,6 +139,28 @@ export const Actions = () => {
     });
 
   // return data;
+
+  const handleDeleteMediaComment = (mcid: string) => {
+    deleteMediaComment({ mcid })
+      .unwrap()
+      .then(() => {
+        refetch();
+      })
+      .catch((e) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={e.message ? e.message : 'Error while deleting media'}
+              closeText="X"
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
+  };
 
   const createCommentHandler = useCallback(
     (editor, mentions) => {
@@ -189,6 +222,11 @@ export const Actions = () => {
           setMediaIds((prev) =>
             prev.filter((media) => media.internal_id !== internalId)
           );
+          const mediaToDelete = mediaIds.find(
+            (media) => media.internal_id === internalId
+          );
+          if (mediaToDelete)
+            handleDeleteMediaComment(mediaToDelete.id.toString());
         }}
       >
         <Divider style={{ margin: `${appTheme.space.md} auto` }} />
