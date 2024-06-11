@@ -195,32 +195,39 @@ const Observation = ({
               <div>
                 <StyledTitle>
                   <LG isBold>{title} </LG>
-                  <Tooltip
-                    content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
-                    size="large"
-                    type="light"
-                    placement="bottom-start"
-                    hasArrow={false}
-                  >
-                    <IconButton
-                      onClick={(event) =>
-                        copyLink(`observation-${observation.id}`, event)
-                      }
-                    >
-                      <CopyIcon style={{ width: 14, height: 14 }} />
-                    </IconButton>
-                  </Tooltip>
                 </StyledTitle>
-                <SM
-                  style={{
-                    color: appTheme.palette.grey[600],
-                    marginTop: appTheme.space.xs,
-                  }}
-                >
-                  {formatDuration(start)} - {formatDuration(end)}
-                </SM>
               </div>
+              <Tooltip
+                content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
+                size="large"
+                type="light"
+                placement="bottom-start"
+                hasArrow={false}
+              >
+                <IconButton
+                  size="small"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginLeft: appTheme.space.sm,
+                  }}
+                  onClick={(event) =>
+                    copyLink(`observation-${observation.id}`, event)
+                  }
+                >
+                  <CopyIcon style={{ width: 14, height: 14 }} />
+                </IconButton>
+              </Tooltip>
             </div>
+            <SM
+              style={{
+                color: appTheme.palette.grey[600],
+                marginTop: appTheme.space.xs,
+                marginLeft: appTheme.space.lg,
+              }}
+            >
+              {formatDuration(start)} - {formatDuration(end)}
+            </SM>
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
