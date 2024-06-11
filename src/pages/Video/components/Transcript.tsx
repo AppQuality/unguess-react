@@ -1,5 +1,4 @@
 import {
-  Button,
   ContainerCard,
   Highlight,
   LG,
@@ -8,11 +7,10 @@ import {
   Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
@@ -61,20 +59,6 @@ export const TitleWrapper = styled.div`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
-const CreateObservationButton = styled(Button)<{
-  position: {
-    x: number;
-    y: number;
-  };
-}>`
-  user-select: none;
-  position: absolute;
-  left: ${({ position }) => position.x}px;
-  top: ${({ position }) => position.y}px;
-  transform: translate(-50%, 0);
-  z-index: ${({ theme }) => theme.levels.front};
-`;
-
 const TagsWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -92,16 +76,6 @@ const Transcript = ({
 }) => {
   const { t } = useTranslation();
   const { videoId } = useParams();
-  const [selection, setSelection] = useState<{
-    from: number;
-    to: number;
-    text: string;
-  }>();
-  const [isSelecting, setIsSelecting] = useState<boolean>(false);
-  const [position, setPosition] = useState<{
-    x: number;
-    y: number;
-  }>();
   const [searchValue, setSearchValue] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -127,110 +101,45 @@ const Transcript = ({
     vid: videoId || '',
   });
 
-  const handleAddObservation = async () => {
-    if (selection) {
-      const body = {
-        start: selection.from,
-        end: selection.to,
-      };
-      await postVideoByVidObservations({
-        vid: videoId || '',
-        body,
-      })
-        .unwrap()
-        .then((res) => {
-          setOpenAccordion({ id: res.id });
-          setIsSelecting(false);
-        })
-        .catch((err) => {
-          addToast(
-            ({ close }) => (
-              <Notification
-                onClose={close}
-                type="error"
-                message={t('__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION')}
-                closeText={t('__TOAST_CLOSE_TEXT')}
-                isPrimary
-              />
-            ),
-            { placement: 'top' }
-          );
-          // eslint-disable-next-line no-console
-          console.error(err);
-        });
-    }
-  };
-
-  const handleSelection = (part: {
+  const handleAddObservation = async (part: {
     from: number;
     to: number;
     text: string;
   }) => {
-    setSelection({
-      from: part.from,
-      to: part.to,
-      text: part.text,
-    });
+    const body = {
+      start: part.from,
+      end: part.to,
+    };
+    await postVideoByVidObservations({
+      vid: videoId || '',
+      body,
+    })
+      .unwrap()
+      .then((res) => {
+        setOpenAccordion({ id: res.id });
+      })
+      .catch((err) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={t('__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+        // eslint-disable-next-line no-console
+        console.error(err);
+      });
   };
+
   const sanitizeInput = (input: string) => {
     const sanitizedInput = input.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     return sanitizedInput;
   };
-
-  useEffect(() => {
-    const handleSelectionChange = () => {
-      if (!wrapperRef || !wrapperRef.current) return;
-
-      const s = document.getSelection();
-
-      if (s && s.toString().length > 0) {
-        const anchorNode = s?.anchorNode?.parentElement;
-        const focusNode = s?.focusNode?.parentElement;
-
-        if (
-          !anchorNode ||
-          !focusNode ||
-          !wrapperRef.current.contains(anchorNode) ||
-          !wrapperRef.current.contains(focusNode)
-        ) {
-          setIsSelecting(false);
-          return;
-        }
-
-        setIsSelecting(true);
-
-        const range = s.getRangeAt(0);
-        const rects = range.getClientRects();
-        const lastRect = rects[rects.length - 1];
-        const containerRect =
-          wrapperRef && wrapperRef.current
-            ? wrapperRef.current.getBoundingClientRect()
-            : null;
-
-        if (!lastRect || !containerRect) return;
-
-        const relativeY =
-          lastRect.bottom - containerRect.top + wrapperRef.current.scrollTop;
-        const relativeX =
-          lastRect.right - containerRect.left + wrapperRef.current.scrollLeft;
-
-        if (relativeY > 0 || relativeX > 0)
-          // Fix to avoid the button to be placed sometimes at the top left corner of the screen (X: 0, Y: 0)
-          setPosition({
-            x: relativeX,
-            y: relativeY + 15,
-          });
-      } else {
-        setIsSelecting(false);
-      }
-    };
-
-    document.addEventListener('selectionchange', handleSelectionChange);
-
-    return () => {
-      document.removeEventListener('selectionchange', handleSelectionChange);
-    };
-  }, [wrapperRef]);
 
   if (!video || isErrorVideo || !video.transcript || isErrorObservations)
     return null;
@@ -265,10 +174,9 @@ const Transcript = ({
           <HighlightContainer ref={wrapperRef}>
             <Highlight
               search={sanitizeInput(debouncedValue)}
-              handleSelection={(part) => {
-                if (!isSelecting) return;
-
-                handleSelection(part);
+              onSelectionButtonClick={handleAddObservation}
+              i18n={{
+                selectionButtonLabel: t('__VIDEO_PAGE_ADD_OBSERVATION'),
               }}
             >
               <ChipsWrap id="chips-wrap">
@@ -313,7 +221,6 @@ const Transcript = ({
                                 color={o.color}
                                 observationId={o.id}
                                 label={o.label}
-                                isSelecting={isSelecting}
                               />
                             ))}
                           </TagsWrapper>
@@ -322,21 +229,6 @@ const Transcript = ({
                     ))}
                   </ParagraphMeta>
                 ))}
-                {isSelecting && (
-                  <CreateObservationButton
-                    size="small"
-                    id="add-observation-button"
-                    isAccent
-                    isPrimary
-                    onClick={handleAddObservation}
-                    position={position || { x: 0, y: 0 }}
-                  >
-                    <Button.StartIcon>
-                      <TagIcon />
-                    </Button.StartIcon>
-                    {t('__VIDEO_PAGE_ADD_OBSERVATION')}
-                  </CreateObservationButton>
-                )}
               </ChipsWrap>
             </Highlight>
           </HighlightContainer>
