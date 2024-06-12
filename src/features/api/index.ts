@@ -1705,12 +1705,7 @@ export type Tablet = {
   type: 'tablet';
 };
 export type Desktop = {
-  desktop_type:
-    | 'Desktop'
-    | 'Gaming PC'
-    | 'Notebook'
-    | 'Tablet PC / Hybrid'
-    | 'Ultrabook';
+  desktop_type: string;
   os: string;
   os_version: string;
   type: 'desktop';
@@ -1901,7 +1896,9 @@ export type Video = {
     id: number;
     name: string;
     surname: string;
-    device: Smartphone | Tablet | Desktop;
+    device: {
+      type: 'smartphone' | 'tablet' | 'desktop' | 'other';
+    };
   };
   transcript?: Transcript;
 };
