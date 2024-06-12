@@ -143,9 +143,6 @@ export const Actions = () => {
   const handleDeleteMediaComment = (mcid: string) => {
     deleteMediaComment({ mcid })
       .unwrap()
-      .then(() => {
-        refetch();
-      })
       .catch((e) => {
         addToast(
           ({ close }) => (
