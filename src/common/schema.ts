@@ -707,13 +707,7 @@ export interface components {
     };
     /** Desktop */
     Desktop: {
-      /** @enum {string} */
-      desktop_type:
-        | 'Desktop'
-        | 'Gaming PC'
-        | 'Notebook'
-        | 'Tablet PC / Hybrid'
-        | 'Ultrabook';
+      desktop_type: string;
       os: string;
       os_version: string;
       /** @enum {string} */
@@ -959,10 +953,10 @@ export interface components {
         id: number;
         name: string;
         surname: string;
-        device:
-          | components['schemas']['Smartphone']
-          | components['schemas']['Tablet']
-          | components['schemas']['Desktop'];
+        device: {
+          /** @enum {string} */
+          type: 'smartphone' | 'tablet' | 'desktop' | 'other';
+        };
       };
       transcript?: components['schemas']['Transcript'];
     };

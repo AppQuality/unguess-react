@@ -109,6 +109,12 @@ const VideosPageContent = () => {
                               video={uc.videos.smartphone}
                             />
                           )}
+                          {!!uc.videos.other.length && (
+                            <VideoContainer
+                              title={t('__VIDEOS_LIST_OTHER_TITLE')}
+                              video={uc.videos.other}
+                            />
+                          )}
                           <AccordionFooter>
                             <CompletionTooltip
                               percentage={uc.usecase.completion}

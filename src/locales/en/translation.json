@@ -877,6 +877,7 @@
   "__VIDEOS_LIST_META_VIDEO_COUNT_one": "video uploaded",
   "__VIDEOS_LIST_META_VIDEO_COUNT_many": "videos uploaded",
   "__VIDEOS_LIST_META_VIDEO_COUNT_other": "videos uploaded",
+  "__VIDEOS_LIST_OTHER_TITLE": "Other",
   "__VIDEOS_LIST_SMARTPHONE_TITLE": "Mobile",
   "__VIDEOS_LIST_TABLET_TITLE": "Tablet",
   "__VIDEOS_LIST_USECASE_INFO": "videos",
