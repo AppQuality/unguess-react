@@ -877,6 +877,7 @@
   "__VIDEOS_LIST_META_VIDEO_COUNT_one": "video caricato",
   "__VIDEOS_LIST_META_VIDEO_COUNT_many": "video caricati",
   "__VIDEOS_LIST_META_VIDEO_COUNT_other": "video caricati",
+  "__VIDEOS_LIST_OTHER_TITLE": "Altro",
   "__VIDEOS_LIST_SMARTPHONE_TITLE": "Mobile",
   "__VIDEOS_LIST_TABLET_TITLE": "Tablet",
   "__VIDEOS_LIST_USECASE_INFO": "video totali",
