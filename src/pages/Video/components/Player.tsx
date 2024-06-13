@@ -195,7 +195,7 @@ const VideoPlayer = () => {
       <PlayerContainer isFetching={isFetchingObservations}>
         <Player
           ref={handleVideoRef}
-          url={video.url}
+          url={video.streamUrl ?? video.url}
           onCutHandler={handleCut}
           handleBookmarkUpdate={handleBookmarksUpdate}
           isCutting={!!start}
