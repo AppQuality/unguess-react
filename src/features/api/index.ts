@@ -374,6 +374,15 @@ const injectedRtkApi = api.injectEndpoints({
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
       query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
     }),
+    deleteMediaCommentByMcid: build.mutation<
+      DeleteMediaCommentByMcidApiResponse,
+      DeleteMediaCommentByMcidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/media-comment/${queryArg.mcid}`,
+        method: 'DELETE',
+      }),
+    }),
     postProjects: build.mutation<PostProjectsApiResponse, PostProjectsApiArg>({
       query: (queryArg) => ({
         url: `/projects`,
@@ -1149,7 +1158,7 @@ export type PostCampaignsByCidVideoTagsApiResponse =
   /** status 200 OK */ VideoTag;
 export type PostCampaignsByCidVideoTagsApiArg = {
   cid: string;
-  /** If there's a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
+  /** If there is a group, post new tag into that group; otherwise, create the group and add tag into the new group. */
   body: {
     group: {
       name: string;
@@ -1229,6 +1238,10 @@ export type PatchInsightsByIidApiArg = {
 export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
   id: string;
+};
+export type DeleteMediaCommentByMcidApiResponse = /** status 200 OK */ object;
+export type DeleteMediaCommentByMcidApiArg = {
+  mcid: string;
 };
 export type PostProjectsApiResponse = /** status 200 OK */ Project;
 export type PostProjectsApiArg = {
@@ -1571,7 +1584,7 @@ export type Campaign = {
   is_public: number;
   /** -1: no bug form;
     0: only bug form;
-    1: bug form with bug parade'; */
+    1: bug form with bug parade; */
   bug_form?: number;
   type: {
     id: number;
@@ -1692,12 +1705,7 @@ export type Tablet = {
   type: 'tablet';
 };
 export type Desktop = {
-  desktop_type:
-    | 'Desktop'
-    | 'Gaming PC'
-    | 'Notebook'
-    | 'Tablet PC / Hybrid'
-    | 'Ultrabook';
+  desktop_type: string;
   os: string;
   os_version: string;
   type: 'desktop';
@@ -1888,7 +1896,9 @@ export type Video = {
     id: number;
     name: string;
     surname: string;
-    device: Smartphone | Tablet | Desktop;
+    device: {
+      type: 'smartphone' | 'tablet' | 'desktop' | 'other';
+    };
   };
   transcript?: Transcript;
 };
@@ -2054,6 +2064,7 @@ export const {
   useDeleteInsightsByIidMutation,
   usePatchInsightsByIidMutation,
   useGetMediaByIdQuery,
+  useDeleteMediaCommentByMcidMutation,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,

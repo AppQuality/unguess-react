@@ -25,8 +25,7 @@ const PlayerContainer = styled.div<{
   isFetching: boolean;
 }>`
   width: 100%;
-  height: auto;
-  max-height: 50vh;
+  height: 55vh;
   display: flex;
 
   ${({ isFetching }) =>
@@ -196,7 +195,7 @@ const VideoPlayer = () => {
       <PlayerContainer isFetching={isFetchingObservations}>
         <Player
           ref={handleVideoRef}
-          url={video.url}
+          url={video.streamUrl ?? video.url}
           onCutHandler={handleCut}
           handleBookmarkUpdate={handleBookmarksUpdate}
           isCutting={!!start}

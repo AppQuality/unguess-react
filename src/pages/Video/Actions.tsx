@@ -79,9 +79,7 @@ const Actions = () => {
         {video.tester.device && (
           <Tag hue="white" style={{ textTransform: 'capitalize' }}>
             <Tag.Avatar>{getDeviceIcon(video.tester.device.type)}</Tag.Avatar>
-            {video.tester.device.type === 'desktop'
-              ? video.tester.device.desktop_type
-              : `${video.tester.device.manufacturer} ${video.tester.device.model}`}
+            {video.tester.device.type}
           </Tag>
         )}
         {video.duration && (

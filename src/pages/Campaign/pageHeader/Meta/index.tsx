@@ -1,23 +1,25 @@
+import { useEffect, useState } from 'react';
 import { Button, Skeleton } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { PageMeta } from 'src/common/components/PageMeta';
+import { Pipe } from 'src/common/components/Pipe';
+import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
 } from 'src/features/api';
-import { Link } from 'react-router-dom';
-import { Pipe } from 'src/common/components/Pipe';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
-import { CampaignStatus } from 'src/types';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
-import { PageMeta } from 'src/common/components/PageMeta';
-import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useVideo } from 'src/pages/Videos/useVideos';
+import { CampaignStatus } from 'src/types';
+import styled from 'styled-components';
+import { CampaignDurationMeta } from './CampaignDurationMeta';
 import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
-import { CampaignDurationMeta } from './CampaignDurationMeta';
 import { TvMeta } from './TvMeta';
 
 const ButtonWrapper = styled.div`
@@ -59,11 +61,24 @@ const FooterContainer = styled.div`
 `;
 
 export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
+  const [totalVideos, setTotalVideos] = useState<number>(0);
   const {
     data: meta,
     isLoading,
     isFetching,
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
+
+  const { sorted: videos } = useVideo(campaign.id.toString() ?? '');
+
+  useEffect(() => {
+    if (videos) {
+      const groupedVideos = videos?.reduce(
+        (total, item) => total + item.videos.total,
+        0
+      );
+      setTotalVideos(groupedVideos);
+    }
+  }, [videos]);
 
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
@@ -106,7 +121,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {outputs?.includes('media') && hasTaggingToolFeature && (
+        {hasTaggingToolFeature && totalVideos > 0 && (
           <Link to={videoDashboardLink}>
             <Button id="button-bugs-list-header" isPrimary isAccent>
               {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
