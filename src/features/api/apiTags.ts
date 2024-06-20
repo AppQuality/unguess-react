@@ -102,6 +102,7 @@ unguessApi.enhanceEndpoints({
       async onQueryStarted({ vid }, { dispatch, queryFulfilled }) {
         try {
           const { data: updatedPost } = await queryFulfilled;
+          console.log('updatedPost', updatedPost);
           dispatch(
             unguessApi.util.updateQueryData(
               'getVideosByVidObservations',

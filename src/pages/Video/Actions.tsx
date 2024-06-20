@@ -11,7 +11,7 @@ import {
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import styled from 'styled-components';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { formatDuration } from '../Videos/utils/formatDuration';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
@@ -57,12 +57,15 @@ const Actions = () => {
 
   const {
     data: observations,
+    currentData: currentObservations,
     isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
     isError: isErrorObservations,
   } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
+  console.log('currentObservations', currentObservations);
+  console.log('observations', observations);
 
   if (!video || isErrorVideo) return null;
   if (!observations || isErrorObservations) return null;
