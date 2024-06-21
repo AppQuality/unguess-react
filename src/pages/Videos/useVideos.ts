@@ -10,6 +10,7 @@ enum DeviceTypeEnum {
   smartphone = 'smartphone',
   tablet = 'tablet',
   desktop = 'desktop',
+  other = 'other',
 }
 
 type OrderedVideo = Record<DeviceTypeEnum, Video[]>;
@@ -39,6 +40,7 @@ export const useVideo = (cid: string) => {
             smartphone: [],
             tablet: [],
             desktop: [],
+            other: [],
             total: item.videos.length,
           } as VideosWithTotal,
         };

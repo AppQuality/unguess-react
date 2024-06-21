@@ -1,11 +1,24 @@
-import { Accordion, LG, SM, Title } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  IconButton,
+  LG,
+  Notification,
+  SM,
+  Title,
+  Tooltip,
+  useToast,
+} from '@appquality/unguess-design-system';
 import {
   GetVideosByVidApiResponse,
   GetVideosByVidObservationsApiResponse,
 } from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { useEffect, useState } from 'react';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/link-fill.svg';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 import { appTheme } from 'src/app/theme';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
 import { formatDuration } from 'src/pages/Videos/utils/formatDuration';
@@ -23,6 +36,10 @@ const Circle = styled.div<{
   align-items: center;
   border-radius: 50%;
 `;
+const StyledTitle = styled(Title)`
+  display: flex;
+  align-items: center;
+`;
 
 const Observation = ({
   observation,
@@ -36,6 +53,12 @@ const Observation = ({
   const { title, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
   const { openAccordion, setOpenAccordion } = useVideoContext();
+  const { campaignId, videoId } = useParams();
+  const pageUrl = useLocalizeRoute(
+    `campaigns/${campaignId}/videos/${videoId}/`
+  );
+  const { addToast } = useToast();
+  const { t } = useTranslation();
 
   const quots = transcript?.paragraphs
     .flatMap((paragraph) =>
@@ -52,6 +75,28 @@ const Observation = ({
       setOpenAccordion(undefined);
     }
   };
+
+  const copyLink = useCallback(
+    (anchor: string, event: React.MouseEvent) => {
+      event.stopPropagation();
+      navigator.clipboard.writeText(
+        `${window.location.origin}${pageUrl}#${anchor}`
+      );
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__VIDEO_PAGE_OBSERVATION_LINK_TOAST_MESSAGE')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    },
+    [observation]
+  );
 
   const handleSubmit = () => {
     setIsOpen(false);
@@ -77,12 +122,32 @@ const Observation = ({
               behavior: 'smooth',
             });
           }
-
           setOpenAccordion(undefined);
         }, 100);
       }
     }
   }, [openAccordion]);
+
+  // Check if url has an anchor and scroll to it
+  useEffect(() => {
+    const url = window.location.href;
+    const urlAnchor = url.split('#')[1];
+    if (urlAnchor) {
+      const observationId = parseInt(urlAnchor.replace('observation-', ''), 10);
+      if (observationId) {
+        setOpenAccordion({ id: observationId });
+      }
+      const anchor = document.getElementById(urlAnchor);
+      const main = document.getElementById('main');
+      if (anchor && main) {
+        main.scroll({
+          top: anchor.offsetTop,
+          left: 0,
+          behavior: 'smooth',
+        });
+      }
+    }
+  }, []);
 
   return (
     <Accordion
@@ -128,19 +193,41 @@ const Observation = ({
                 />
               </Circle>
               <div>
-                <Title>
-                  <LG isBold>{title}</LG>
-                </Title>
-                <SM
-                  style={{
-                    color: appTheme.palette.grey[600],
-                    marginTop: appTheme.space.xs,
-                  }}
-                >
-                  {formatDuration(start)} - {formatDuration(end)}
-                </SM>
+                <StyledTitle>
+                  <LG isBold>{title} </LG>
+                </StyledTitle>
               </div>
+              <Tooltip
+                content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
+                size="large"
+                type="light"
+                placement="bottom-start"
+                hasArrow={false}
+              >
+                <IconButton
+                  size="small"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    marginLeft: appTheme.space.sm,
+                  }}
+                  onClick={(event) =>
+                    copyLink(`observation-${observation.id}`, event)
+                  }
+                >
+                  <CopyIcon style={{ width: 14, height: 14 }} />
+                </IconButton>
+              </Tooltip>
             </div>
+            <SM
+              style={{
+                color: appTheme.palette.grey[600],
+                marginTop: appTheme.space.xs,
+                marginLeft: appTheme.space.lg,
+              }}
+            >
+              {formatDuration(start)} - {formatDuration(end)}
+            </SM>
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel style={{ padding: 0 }}>
