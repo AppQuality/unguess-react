@@ -50,7 +50,7 @@ const Observation = ({
   refScroll: React.RefObject<HTMLDivElement>;
   transcript?: GetVideosByVidApiResponse['transcript'];
 }) => {
-  const { title, start, end } = observation;
+  const { tags, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
   const { openAccordion, setOpenAccordion } = useVideoContext();
   const { campaignId, videoId } = useParams();
@@ -59,6 +59,9 @@ const Observation = ({
   );
   const { addToast } = useToast();
   const { t } = useTranslation();
+
+  const title = tags.find((tag) => tag.group.name.toLowerCase() === 'title')
+    ?.tag.name;
 
   const quots = transcript?.paragraphs
     .flatMap((paragraph) =>
@@ -194,7 +197,7 @@ const Observation = ({
               </Circle>
               <div>
                 <StyledTitle>
-                  <LG isBold>{title} </LG>
+                  <LG isBold>{title}</LG>
                 </StyledTitle>
               </div>
               <Tooltip
