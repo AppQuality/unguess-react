@@ -1,14 +1,16 @@
 import {
   Notification,
-  Player,
+  useVideoContext as usePlayerContext,
+  PlayerProvider,
   Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
+  GetVideosByVidApiResponse,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
   usePatchVideosByVidObservationsAndOidMutation,
@@ -39,43 +41,17 @@ const PlayerContainer = styled.div<{
   }
 `;
 
-const VideoPlayer = () => {
+const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
   const { videoId } = useParams();
   const { t } = useTranslation();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const { setOpenAccordion } = useVideoContext();
-  const navigate = useNavigate();
-  const notFoundRoute = useLocalizeRoute('oops');
-  const location = useLocation();
   const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
   const [patchObservation] = usePatchVideosByVidObservationsAndOidMutation();
-  const [ref, setRef] = useState<HTMLVideoElement | null>(null);
   const [start, setStart] = useState<number | undefined>(undefined);
-  const [currentTime, setCurrentTime] = useState<number>(0);
+  const { context, setIsPlaying } = usePlayerContext();
+  const { currentTime } = context.player || { currentTime: 0 };
   const { addToast } = useToast();
-
-  const {
-    data: video,
-    isFetching: isFetchingVideo,
-    isLoading: isLoadingVideo,
-    isError: isErrorVideo,
-  } = useGetVideosByVidQuery({
-    vid: videoId || '',
-  });
-
-  if (isErrorVideo) {
-    navigate(notFoundRoute, {
-      state: { from: location.pathname },
-    });
-  }
-
-  const handleVideoRef = useCallback((videoRef: HTMLVideoElement) => {
-    if (videoRef) {
-      setRef(videoRef);
-      videoRef.addEventListener('timeupdate', () => {
-        setCurrentTime(videoRef?.currentTime || 0);
-      });
-    }
-  }, []);
 
   const exitFullscreen = () => {
     if (document.fullscreenElement) {
@@ -108,7 +84,7 @@ const VideoPlayer = () => {
               end: time,
             },
           }).unwrap();
-          ref?.pause();
+          videoRef?.current?.pause();
           exitFullscreen();
           setOpenAccordion({ id: res.id });
         } catch (err) {
@@ -172,6 +148,17 @@ const VideoPlayer = () => {
     [observations]
   );
 
+  const seekPlayer = useCallback(
+    (time: number) => {
+      if (videoRef && videoRef.current) {
+        videoRef.current.currentTime = time;
+        setIsPlaying(true);
+        videoRef.current.play();
+      }
+    },
+    [videoRef]
+  );
+
   const handleBookmarksUpdate = useCallback(async (bookmark) => {
     await patchObservation({
       vid: videoId || '',
@@ -185,21 +172,18 @@ const VideoPlayer = () => {
     }).unwrap();
   }, []);
 
-  if (!video) return null;
   if (!observations || isErrorObservations) return null;
 
-  if (isFetchingVideo || isLoadingVideo || isLoadingObservations)
-    return <Skeleton />;
+  if (isLoadingObservations) return <Skeleton />;
   return (
     <>
       <PlayerContainer isFetching={isFetchingObservations}>
-        <Player
-          ref={handleVideoRef}
+        <PlayerProvider.Core
+          ref={videoRef}
           url={video.streamUrl ?? video.url}
           onCutHandler={handleCut}
           handleBookmarkUpdate={handleBookmarksUpdate}
           isCutting={!!start}
-          enablePipOnScroll
           bookmarks={mappedObservations}
           i18n={{
             beforeHighlight: t('__VIDEO_PAGE_PLAYER_START_ADD_OBSERVATION'),
@@ -208,11 +192,46 @@ const VideoPlayer = () => {
         />
       </PlayerContainer>
       {video.transcript ? (
-        <Transcript currentTime={currentTime} isSearchable />
+        <Transcript
+          currentTime={currentTime}
+          isSearchable
+          setCurrentTime={seekPlayer}
+        />
       ) : (
         <EmptyTranscript />
       )}
     </>
+  );
+};
+
+const VideoPlayer = () => {
+  const { videoId } = useParams();
+  const navigate = useNavigate();
+  const notFoundRoute = useLocalizeRoute('oops');
+  const location = useLocation();
+
+  const {
+    data: video,
+    isFetching: isFetchingVideo,
+    isLoading: isLoadingVideo,
+    isError: isErrorVideo,
+  } = useGetVideosByVidQuery({
+    vid: videoId || '',
+  });
+
+  if (isErrorVideo) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
+
+  if (!video) return null;
+  if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
+
+  return (
+    <PlayerProvider url={video.streamUrl ?? video.url}>
+      <CorePlayer video={video} />
+    </PlayerProvider>
   );
 };
 
