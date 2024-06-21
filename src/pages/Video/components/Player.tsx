@@ -42,7 +42,7 @@ const PlayerContainer = styled.div<{
 const VideoPlayer = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
-  const { setOpenAccordion } = useVideoContext();
+  const { setOpenAccordion, openAccordion } = useVideoContext();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
@@ -150,7 +150,8 @@ const VideoPlayer = () => {
         id: obs.id,
         start: obs.start,
         end: obs.end,
-        title: obs.title,
+        title: `${obs.title}  suchella`,
+        isFocused: obs.id === openAccordion?.id,
         hue:
           obs.tags.find((tag) => tag.group.name.toLowerCase() === 'severity')
             ?.tag.style || 'grey',
@@ -169,7 +170,7 @@ const VideoPlayer = () => {
         onClick: () => setOpenAccordion({ id: obs.id }),
         tags: obs.tags,
       })),
-    [observations]
+    [observations, openAccordion]
   );
 
   const handleBookmarksUpdate = useCallback(async (bookmark) => {

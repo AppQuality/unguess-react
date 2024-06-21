@@ -80,7 +80,7 @@ const Transcript = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
-  const { setOpenAccordion } = useVideoContext();
+  const { setOpenAccordion, openAccordion } = useVideoContext();
   const debouncedValue = useDebounce(searchValue, 300);
   const { addToast } = useToast();
   const {
@@ -197,6 +197,7 @@ const Transcript = ({
                           id: o.id,
                           start: o.start,
                           end: o.end,
+                          isFocused: o.id === openAccordion?.id,
                           color:
                             o.tags.find(
                               (tag) =>

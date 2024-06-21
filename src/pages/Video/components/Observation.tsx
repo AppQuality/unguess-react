@@ -51,7 +51,6 @@ const Observation = ({
   transcript?: GetVideosByVidApiResponse['transcript'];
 }) => {
   const { title, start, end } = observation;
-  const [isOpen, setIsOpen] = useState(false);
   const { openAccordion, setOpenAccordion } = useVideoContext();
   const { campaignId, videoId } = useParams();
   const pageUrl = useLocalizeRoute(
@@ -70,10 +69,9 @@ const Observation = ({
     .join(' ');
 
   const handleAccordionChange = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      setOpenAccordion(undefined);
-    }
+    setOpenAccordion(
+      openAccordion?.id === observation.id ? undefined : { id: observation.id }
+    );
   };
 
   const copyLink = useCallback(
@@ -99,15 +97,12 @@ const Observation = ({
   );
 
   const handleSubmit = () => {
-    setIsOpen(false);
+    setOpenAccordion(undefined);
   };
 
   useEffect(() => {
     if (openAccordion !== undefined) {
       if (openAccordion.id === observation.id) {
-        setIsOpen(true);
-
-        // Set scrolling container position to active element
         setTimeout(() => {
           if (!refScroll.current) {
             return;
@@ -122,7 +117,6 @@ const Observation = ({
               behavior: 'smooth',
             });
           }
-          setOpenAccordion(undefined);
         }, 100);
       }
     }
@@ -153,8 +147,12 @@ const Observation = ({
     <Accordion
       level={3}
       style={{ padding: 0, marginBottom: appTheme.space.md }}
-      key={`observation_accordion_${observation.id}_${isOpen}`}
-      defaultExpandedSections={isOpen ? [0, 1] : []}
+      key={`observation_accordion_${observation.id}_${
+        openAccordion?.id === observation.id ? 'open' : 'closed'
+      }`}
+      defaultExpandedSections={
+        openAccordion?.id === observation.id ? [0, 1] : []
+      }
       onChange={handleAccordionChange}
       id={`video-observation-accordion-${observation.id}`}
     >
