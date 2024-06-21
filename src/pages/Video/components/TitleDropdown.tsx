@@ -68,7 +68,7 @@ export const TitleDropdown = ({
     <Dropdown
       inputValue={inputValue}
       selectedItem={selectedItem}
-      onSelect={async (
+      onSelect={(
         item: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number]
       ) => {
         if (item)
@@ -79,8 +79,9 @@ export const TitleDropdown = ({
                   '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_MAX_ERROR'
                 ),
               });
+              setSelectedItem(item);
             } else {
-              await addVideoTags({
+              addVideoTags({
                 cid: campaignId?.toString() || '0',
                 body: {
                   group: {
@@ -95,6 +96,7 @@ export const TitleDropdown = ({
                 .then((res) => {
                   setSelectedItem(res.tag);
                   formProps.setFieldValue('title', res.tag.id);
+                  setInputValue('');
                 })
                 .catch((err) => {
                   // eslint-disable-next-line no-console
