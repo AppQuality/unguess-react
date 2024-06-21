@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import {
   Button,
-  Input,
   Label,
   Message,
   MultiSelect,
@@ -28,6 +27,7 @@ import { Field as FormField } from '@zendeskgarden/react-forms';
 import { useEffect, useRef, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
+import { ObservationFormValues, TitleDropdown } from './TitleDropdown';
 
 const FormContainer = styled.div`
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xxs};
@@ -53,12 +53,6 @@ const RadioTag = styled(Tag)<{
     user-select: none;
   }
 `;
-
-interface ObservationFormValues {
-  title: string;
-  severity: number;
-  notes: string;
-}
 
 const ObservationForm = ({
   observation,
@@ -89,7 +83,11 @@ const ObservationForm = ({
     { id: number; label: string }[]
   >(
     observation.tags
-      ?.filter((tag) => tag.group.name.toLowerCase() !== 'severity')
+      ?.filter(
+        (tag) =>
+          tag.group.name.toLowerCase() !== 'severity' &&
+          tag.group.name.toLowerCase() !== 'title'
+      )
       .map((tag) => ({
         id: tag.tag.id,
         label: tag.tag.name,
@@ -108,9 +106,9 @@ const ObservationForm = ({
   });
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required(
-      t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_ERROR')
-    ),
+    title: Yup.number()
+      .min(1, t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_ERROR'))
+      .required(t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_ERROR')),
     severity: Yup.number()
       .min(1, t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR'))
       .required(
@@ -122,11 +120,19 @@ const ObservationForm = ({
     (tag) => tag.group.name.toLowerCase() === 'severity'
   )?.[0];
 
+  const titles = tags?.filter(
+    (tag) => tag.group.name.toLowerCase() === 'title'
+  )?.[0];
+
   useEffect(() => {
     if (tags) {
       setOptions(
         tags
-          .filter((group) => group.group.name.toLowerCase() !== 'severity')
+          .filter(
+            (group) =>
+              group.group.name.toLowerCase() !== 'severity' &&
+              group.group.name.toLowerCase() !== 'title'
+          )
           .map((group) =>
             group.tags.map((tag) => ({
               id: tag.id,
@@ -140,7 +146,9 @@ const ObservationForm = ({
   }, [tags, selectedOptions]);
 
   const formInitialValues = {
-    title: observation?.title || '',
+    title:
+      observation?.tags?.find((tag) => tag.group.name.toLowerCase() === 'title')
+        ?.tag.id || 0,
     severity:
       observation?.tags?.find(
         (tag) => tag.group.name.toLowerCase() === 'severity'
@@ -157,11 +165,14 @@ const ObservationForm = ({
       vid: videoId ?? '',
       oid: observation.id.toString(),
       body: {
-        title: values.title,
         description: values.notes,
         start: observation.start,
         end: observation.end,
-        tags: [...selectedOptions.map((tag) => tag.id), values.severity],
+        tags: [
+          ...selectedOptions.map((tag) => tag.id),
+          values.severity,
+          values.title,
+        ],
       },
     })
       .unwrap()
@@ -210,33 +221,29 @@ const ObservationForm = ({
           validationSchema={validationSchema}
           onSubmit={onSubmitPatch}
         >
-          {({
-            errors,
-            getFieldProps,
-            handleSubmit,
-            ...formProps
-          }: FormikProps<ObservationFormValues>) => (
+          {(formProps: FormikProps<ObservationFormValues>) => (
             <Form
-              onSubmit={handleSubmit}
+              onSubmit={formProps.handleSubmit}
               style={{ marginBottom: appTheme.space.sm }}
             >
               <StyledLabel>
                 {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_LABEL')}
               </StyledLabel>
-              <Input
-                style={{ margin: 0 }}
-                placeholder={t(
-                  '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_PLACEHOLDER'
-                )}
-                {...getFieldProps('title')}
-                {...(errors.title && { validation: 'error' })}
+              <TitleDropdown
+                titles={titles?.tags}
+                title={
+                  observation.tags?.find(
+                    (tag) => tag.group.name.toLowerCase() === 'title'
+                  )?.tag
+                }
+                formProps={formProps}
               />
-              {errors.title && (
+              {formProps.errors.title && (
                 <Message
                   validation="error"
                   style={{ marginTop: appTheme.space.sm }}
                 >
-                  {errors.title}
+                  {formProps.errors.title}
                 </Message>
               )}
               {severities && severities.tags.length > 0 && (
@@ -291,12 +298,12 @@ const ObservationForm = ({
                           </RadioTag>
                         ))}
                       </div>
-                      {errors.severity && (
+                      {formProps.errors.severity && (
                         <Message
                           validation="error"
                           style={{ marginTop: appTheme.space.sm }}
                         >
-                          {errors.severity}
+                          {formProps.errors.severity}
                         </Message>
                       )}
                     </>
@@ -395,7 +402,7 @@ const ObservationForm = ({
                     '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_PLACEHOLDER'
                   )}
                   rows={4}
-                  {...getFieldProps('notes')}
+                  {...formProps.getFieldProps('notes')}
                 />
               </div>
               <PullRight>
