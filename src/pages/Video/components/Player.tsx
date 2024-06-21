@@ -29,6 +29,9 @@ const PlayerContainer = styled.div<{
   width: 100%;
   height: 55vh;
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 3;
 
   ${({ isFetching }) =>
     isFetching &&
