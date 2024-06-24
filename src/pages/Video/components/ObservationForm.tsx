@@ -19,6 +19,7 @@ import { useParams } from 'react-router-dom';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   GetVideosByVidObservationsApiResponse,
+  Paragraph,
   useGetCampaignsByCidVideoTagsQuery,
   usePatchVideosByVidObservationsAndOidMutation,
   usePostCampaignsByCidVideoTagsMutation,
@@ -53,14 +54,13 @@ const RadioTag = styled(Tag)<{
     user-select: none;
   }
 `;
-
 const ObservationForm = ({
   observation,
-  generatedQuots,
+  paragraphs,
   onSubmit,
 }: {
   observation: GetVideosByVidObservationsApiResponse[number];
-  generatedQuots?: string;
+  paragraphs?: Paragraph[];
   onSubmit: (
     values: ObservationFormValues,
     actions: FormikHelpers<ObservationFormValues>
@@ -145,6 +145,18 @@ const ObservationForm = ({
     }
   }, [tags, selectedOptions]);
 
+  function generateQuotes() {
+    if (!paragraphs) return undefined;
+    return paragraphs
+      .flatMap((paragraph) =>
+        paragraph.words.filter(
+          (w) => w.start >= observation.start && w.end <= observation.end
+        )
+      )
+      .map((w) => w.word)
+      .join(' ');
+  }
+
   const formInitialValues = {
     title:
       observation?.tags?.find((tag) => tag.group.name.toLowerCase() === 'title')
@@ -154,7 +166,7 @@ const ObservationForm = ({
         (tag) => tag.group.name.toLowerCase() === 'severity'
       )?.tag.id || 0,
     notes: observation?.description || '',
-    quotes: observation?.quotes || generatedQuots || '',
+    quotes: observation?.quotes || generateQuotes() || '',
   };
 
   const onSubmitPatch = async (

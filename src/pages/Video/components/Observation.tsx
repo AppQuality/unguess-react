@@ -63,15 +63,6 @@ const Observation = ({
   const title = tags.find((tag) => tag.group.name.toLowerCase() === 'title')
     ?.tag.name;
 
-  const quots = transcript?.paragraphs
-    .flatMap((paragraph) =>
-      paragraph.words.filter(
-        (w) => w.start >= observation.start && w.end <= observation.end
-      )
-    )
-    .map((w) => w.word)
-    .join(' ');
-
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
     if (!isOpen) {
@@ -237,7 +228,7 @@ const Observation = ({
           <ObservationForm
             observation={observation}
             onSubmit={handleSubmit}
-            generatedQuots={quots}
+            paragraphs={transcript?.paragraphs}
           />
         </Accordion.Panel>
       </Accordion.Section>
