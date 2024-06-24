@@ -759,6 +759,7 @@ export interface components {
       /** Format: float */
       end: number;
       tags: components['schemas']['VideoTag'][];
+      quotes: string;
     };
     /**
      * Output
@@ -2775,6 +2776,7 @@ export interface operations {
           start?: number;
           /** Format: float */
           end?: number;
+          quotes?: string;
           tags?: number[];
         };
       };
