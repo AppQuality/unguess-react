@@ -237,7 +237,7 @@ const Observation = ({
           <ObservationForm
             observation={observation}
             onSubmit={handleSubmit}
-            {...(quots && { quots })}
+            generatedQuots={quots}
           />
         </Accordion.Panel>
       </Accordion.Section>

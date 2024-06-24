@@ -56,11 +56,11 @@ const RadioTag = styled(Tag)<{
 
 const ObservationForm = ({
   observation,
-  quots,
+  generatedQuots,
   onSubmit,
 }: {
   observation: GetVideosByVidObservationsApiResponse[number];
-  quots?: string;
+  generatedQuots?: string;
   onSubmit: (
     values: ObservationFormValues,
     actions: FormikHelpers<ObservationFormValues>
@@ -154,6 +154,7 @@ const ObservationForm = ({
         (tag) => tag.group.name.toLowerCase() === 'severity'
       )?.tag.id || 0,
     notes: observation?.description || '',
+    quotes: observation?.quotes || generatedQuots || '',
   };
 
   const onSubmitPatch = async (
@@ -166,6 +167,7 @@ const ObservationForm = ({
       oid: observation.id.toString(),
       body: {
         description: values.notes,
+        quotes: values.quotes,
         start: observation.start,
         end: observation.end,
         tags: [
@@ -376,22 +378,17 @@ const ObservationForm = ({
                   />
                 )}
               </div>
-              {quots && (
-                <div style={{ marginTop: appTheme.space.md }}>
-                  <StyledLabel>
-                    {t(
-                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL'
-                    )}
-                  </StyledLabel>
-                  <Textarea
-                    readOnly
-                    disabled
-                    style={{ margin: 0 }}
-                    value={quots}
-                    rows={4}
-                  />
-                </div>
-              )}
+
+              <div style={{ marginTop: appTheme.space.md }}>
+                <StyledLabel>
+                  {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL')}
+                </StyledLabel>
+                <Textarea
+                  style={{ margin: 0 }}
+                  {...formProps.getFieldProps('quotes')}
+                  rows={4}
+                />
+              </div>
               <div style={{ marginTop: appTheme.space.md }}>
                 <StyledLabel>
                   {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_LABEL')}
