@@ -121,7 +121,7 @@ export const TitleDropdown = ({
       <Field>
         <Autocomplete>
           {selectedItem ? (
-            selectedItem.name
+            <Span>{selectedItem.name}</Span>
           ) : (
             <Span
               style={{
@@ -140,7 +140,9 @@ export const TitleDropdown = ({
         {matchingOptions && matchingOptions.length ? (
           matchingOptions.map((item) => (
             <Item key={item.id} value={item}>
-              <Span>{item.name}</Span>
+              <Span>
+                {item.name} ({item.usageNumber})
+              </Span>
             </Item>
           ))
         ) : (
