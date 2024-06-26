@@ -5,7 +5,7 @@ import {
   Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { Profiler, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -178,6 +178,38 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
   if (!observations || isErrorObservations) return null;
 
   if (isLoadingObservations) return <Skeleton />;
+
+  type ProfilerOnRenderCallback = (
+    id: string,
+    phase: 'mount' | 'update',
+    actualDuration: number,
+    baseDuration: number,
+    startTime: number,
+    commitTime: number,
+    interactions: Set<any>
+  ) => void;
+
+  // Implementation of the onRenderCallback function
+  const onRenderCallback: ProfilerOnRenderCallback = (
+    id,
+    phase,
+    actualDuration,
+    baseDuration,
+    startTime,
+    commitTime,
+    interactions
+  ) => {
+    console.log({
+      id,
+      phase,
+      actualDuration,
+      baseDuration,
+      startTime,
+      commitTime,
+      interactions,
+    });
+  };
+
   return (
     <>
       <PlayerContainer isFetching={isFetchingObservations}>
@@ -195,11 +227,13 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         />
       </PlayerContainer>
       {video.transcript ? (
-        <Transcript
-          currentTime={currentTime}
-          isSearchable
-          setCurrentTime={seekPlayer}
-        />
+        <Profiler id="Transcript" onRender={onRenderCallback}>
+          <Transcript
+            currentTime={currentTime}
+            isSearchable
+            setCurrentTime={seekPlayer}
+          />
+        </Profiler>
       ) : (
         <EmptyTranscript />
       )}
