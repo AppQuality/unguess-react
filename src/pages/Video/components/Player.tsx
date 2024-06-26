@@ -123,6 +123,17 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
     [start]
   );
 
+  const seekPlayer = useCallback(
+    (time: number) => {
+      if (videoRef && videoRef.current) {
+        videoRef.current.currentTime = time;
+        setIsPlaying(true);
+        videoRef.current.play();
+      }
+    },
+    [videoRef]
+  );
+
   const mappedObservations = useMemo(
     () =>
       observations?.map((obs) => ({
@@ -145,21 +156,13 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
             label={obs.title}
           />
         ),
-        onClick: () => setOpenAccordion({ id: obs.id }),
+        onClick: () => {
+          seekPlayer(obs.start);
+          setOpenAccordion({ id: obs.id });
+        },
         tags: obs.tags,
       })),
     [observations]
-  );
-
-  const seekPlayer = useCallback(
-    (time: number) => {
-      if (videoRef && videoRef.current) {
-        videoRef.current.currentTime = time;
-        setIsPlaying(true);
-        videoRef.current.play();
-      }
-    },
-    [videoRef]
   );
 
   const handleBookmarksUpdate = useCallback(async (bookmark) => {
