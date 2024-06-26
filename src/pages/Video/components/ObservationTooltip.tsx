@@ -2,10 +2,6 @@ import { Tag } from '@appquality/unguess-design-system';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import styled from 'styled-components';
-import {
-  GetVideosByVidObservationsApiResponse,
-  Observation,
-} from 'src/features/api';
 import { useVideoContext } from '../context/VideoContext';
 
 const StyledTag = styled(Tag)<{
