@@ -148,12 +148,14 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         tooltipContent: (
           <ObservationTooltip
             observationId={obs.id}
+            start={obs.start}
             color={
               obs.tags.find(
                 (tag) => tag.group.name.toLowerCase() === 'severity'
               )?.tag.style || appTheme.palette.grey[600]
             }
             label={obs.title}
+            seekPlayer={seekPlayer}
           />
         ),
         onClick: () => {
