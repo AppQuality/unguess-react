@@ -25,6 +25,7 @@ export interface ObservationFormValues {
   title: number;
   severity: number;
   notes: string;
+  quotes?: string;
 }
 
 export const TitleDropdown = ({

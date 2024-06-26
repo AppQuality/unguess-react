@@ -1389,6 +1389,7 @@ export type PatchVideosByVidObservationsAndOidApiArg = {
     description?: string;
     start?: number;
     end?: number;
+    quotes?: string;
     tags?: number[];
   };
 };
@@ -1810,6 +1811,7 @@ export type Observation = {
   start: number;
   end: number;
   tags: VideoTag[];
+  quotes: string;
 };
 export type Insight = {
   id: number;

@@ -19,6 +19,7 @@ import { useParams } from 'react-router-dom';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   GetVideosByVidObservationsApiResponse,
+  Paragraph,
   useGetCampaignsByCidVideoTagsQuery,
   usePatchVideosByVidObservationsAndOidMutation,
   usePostCampaignsByCidVideoTagsMutation,
@@ -53,14 +54,13 @@ const RadioTag = styled(Tag)<{
     user-select: none;
   }
 `;
-
 const ObservationForm = ({
   observation,
-  quots,
+  paragraphs,
   onSubmit,
 }: {
   observation: GetVideosByVidObservationsApiResponse[number];
-  quots?: string;
+  paragraphs?: Paragraph[];
   onSubmit: (
     values: ObservationFormValues,
     actions: FormikHelpers<ObservationFormValues>
@@ -145,6 +145,18 @@ const ObservationForm = ({
     }
   }, [tags, selectedOptions]);
 
+  function generateQuotes() {
+    if (!paragraphs) return undefined;
+    return paragraphs
+      .flatMap((paragraph) =>
+        paragraph.words.filter(
+          (w) => w.start >= observation.start && w.end <= observation.end
+        )
+      )
+      .map((w) => w.word)
+      .join(' ');
+  }
+
   const formInitialValues = {
     title:
       observation?.tags?.find((tag) => tag.group.name.toLowerCase() === 'title')
@@ -154,6 +166,7 @@ const ObservationForm = ({
         (tag) => tag.group.name.toLowerCase() === 'severity'
       )?.tag.id || 0,
     notes: observation?.description || '',
+    quotes: observation?.quotes || generateQuotes() || '',
   };
 
   const onSubmitPatch = async (
@@ -166,6 +179,7 @@ const ObservationForm = ({
       oid: observation.id.toString(),
       body: {
         description: values.notes,
+        quotes: values.quotes,
         start: observation.start,
         end: observation.end,
         tags: [
@@ -376,22 +390,17 @@ const ObservationForm = ({
                   />
                 )}
               </div>
-              {quots && (
-                <div style={{ marginTop: appTheme.space.md }}>
-                  <StyledLabel>
-                    {t(
-                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL'
-                    )}
-                  </StyledLabel>
-                  <Textarea
-                    readOnly
-                    disabled
-                    style={{ margin: 0 }}
-                    value={quots}
-                    rows={4}
-                  />
-                </div>
-              )}
+
+              <div style={{ marginTop: appTheme.space.md }}>
+                <StyledLabel>
+                  {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL')}
+                </StyledLabel>
+                <Textarea
+                  style={{ margin: 0 }}
+                  {...formProps.getFieldProps('quotes')}
+                  rows={4}
+                />
+              </div>
               <div style={{ marginTop: appTheme.space.md }}>
                 <StyledLabel>
                   {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_LABEL')}
