@@ -1,9 +1,4 @@
-import {
-  Card,
-  ContainerCard,
-  SM,
-  Title,
-} from '@appquality/unguess-design-system';
+import { ContainerCard, SM, Title } from '@appquality/unguess-design-system';
 import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { IVideo } from '../types';
