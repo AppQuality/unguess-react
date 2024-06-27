@@ -1,4 +1,4 @@
-import { LG, Skeleton, Tag } from '@appquality/unguess-design-system';
+import { Skeleton, Tag, XL } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
@@ -12,6 +12,7 @@ import {
 } from 'src/features/api';
 import styled from 'styled-components';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { formatDuration } from '../Videos/utils/formatDuration';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
@@ -45,6 +46,7 @@ const MetaContainer = styled.div`
 const Actions = () => {
   const { videoId } = useParams();
   const refScroll = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   const {
     data: video,
@@ -72,7 +74,7 @@ const Actions = () => {
 
   return (
     <Container ref={refScroll}>
-      <LG isBold>{video.tester.name}</LG>
+      <XL isBold>{video.tester.name}</XL>
       <MetaContainer>
         <Meta size="medium">T{video.tester.id}</Meta>
         <Pipe />
@@ -91,21 +93,18 @@ const Actions = () => {
           </Tag>
         )}
       </MetaContainer>
-      <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
       {observations && observations.length ? (
-        <div style={{ margin: `${appTheme.space.sm} 0` }}>
-          {observations &&
-            observations.map((observation) => (
-              <Observation
-                refScroll={refScroll}
-                key={observation.id}
-                observation={observation}
-                {...(video.transcript && {
-                  transcript: video.transcript,
-                })}
-              />
-            ))}
-        </div>
+        observations &&
+        observations.map((observation) => (
+          <Observation
+            refScroll={refScroll}
+            key={observation.id}
+            observation={observation}
+            {...(video.transcript && {
+              transcript: video.transcript,
+            })}
+          />
+        ))
       ) : (
         <NoObservations />
       )}

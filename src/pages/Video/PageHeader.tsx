@@ -5,7 +5,7 @@ import {
   Skeleton,
   Span,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -22,12 +22,10 @@ import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWith
 
 const SeveritiesMetaContainer = styled.div`
   display: flex;
-  align-items: center;
-  margin-top: ${({ theme }) => theme.space.sm};
+  flex-direction: row;
 `;
 
-const SeveritiesMetaText = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[600]};
+const SeveritiesMetaText = styled.div`
   margin-right: ${({ theme }) => theme.space.sm};
 `;
 
@@ -78,10 +76,7 @@ const VideoPageHeader = () => {
   return (
     <LayoutWrapper isNotBoxed>
       <PageHeader style={{ padding: `${appTheme.space.xs} 0` }}>
-        <PageHeader.Main
-          mainTitle={t('__VIDEO_PAGE_TITLE')}
-          style={{ padding: 0 }}
-        >
+        <PageHeader.Main mainTitle={t('__VIDEO_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
             <Link to={campaignRoute}>
               <Anchor id="breadcrumb-parent">{campaign.customer_title}</Anchor>
@@ -90,27 +85,42 @@ const VideoPageHeader = () => {
               <Anchor id="breadcrumb-parent">{t('__VIDEOS_PAGE_TITLE')}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
-          <PageHeader.Description style={{ margin: 0 }}>
-            <Span isBold style={{ margin: 0 }}>
+          <PageHeader.Description>
+            <Span isBold>
               T{video.tester.id} | {video.tester.name}
             </Span>
           </PageHeader.Description>
           <PageHeader.Meta>
             {severities && severities.length > 0 && (
-              <SeveritiesMetaContainer>
+              <>
                 <SeveritiesMetaText>
-                  {t('__VIDEO_LIST_META_SEVERITIES_COUNT')}
-                </SeveritiesMetaText>
-                {severities.map((severity) => (
-                  <Meta
-                    size="large"
-                    color={severity.style}
-                    secondaryText={severity.count}
+                  <Trans
+                    i18nKey="__VIDEO_LIST_META_SEVERITIES_COUNT"
+                    count={observations.length}
                   >
-                    {capitalizeFirstLetter(severity.name)}
-                  </Meta>
-                ))}
-              </SeveritiesMetaContainer>
+                    <MD>
+                      You have found{' '}
+                      <Span
+                        isBold
+                        style={{ color: appTheme.palette.blue[600] }}
+                      >
+                        {{ count: observations.length }} observations:
+                      </Span>
+                    </MD>
+                  </Trans>
+                </SeveritiesMetaText>
+                <SeveritiesMetaContainer>
+                  {severities.map((severity) => (
+                    <Meta
+                      size="large"
+                      color={severity.style}
+                      secondaryText={severity.count}
+                    >
+                      {capitalizeFirstLetter(severity.name)}
+                    </Meta>
+                  ))}
+                </SeveritiesMetaContainer>
+              </>
             )}
           </PageHeader.Meta>
         </PageHeader.Main>
