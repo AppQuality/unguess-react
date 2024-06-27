@@ -221,9 +221,11 @@ const Transcript = ({
                           <TagsWrapper>
                             {obs.map((o) => (
                               <ObservationTooltip
-                                color={o.color}
                                 observationId={o.id}
+                                start={o.start}
+                                color={o.color}
                                 label={o.label}
+                                seekPlayer={setCurrentTime}
                               />
                             ))}
                           </TagsWrapper>
