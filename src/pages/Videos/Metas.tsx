@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import {
   Button,
   MD,
-  Paragraph,
   Skeleton,
   useToast,
   Notification,

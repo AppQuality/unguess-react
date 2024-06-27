@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
-import { Divider } from 'src/common/components/divider';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
 import {
@@ -12,7 +11,6 @@ import {
 } from 'src/features/api';
 import styled from 'styled-components';
 import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { formatDuration } from '../Videos/utils/formatDuration';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
@@ -46,7 +44,6 @@ const MetaContainer = styled.div`
 const Actions = () => {
   const { videoId } = useParams();
   const refScroll = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
 
   const {
     data: video,
