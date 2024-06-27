@@ -97,7 +97,7 @@ const Video = ({
             isBold
             style={{ marginTop: appTheme.space.xxs }}
           >
-            Video ID: {video.id}
+            T{video.tester.id}
           </SM>
           <ObservationsTotalContainer>
             <TagsContainer>
