@@ -114,6 +114,9 @@ const ObservationForm = ({
       .required(
         t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR')
       ),
+    quotes: Yup.string().required(
+      t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_ERROR')
+    ),
   });
 
   const severities = tags?.filter(
@@ -400,6 +403,14 @@ const ObservationForm = ({
                   {...formProps.getFieldProps('quotes')}
                   rows={4}
                 />
+                {formProps.errors.quotes && (
+                  <Message
+                    validation="error"
+                    style={{ marginTop: appTheme.space.sm }}
+                  >
+                    {formProps.errors.quotes}
+                  </Message>
+                )}
               </div>
               <div style={{ marginTop: appTheme.space.md }}>
                 <StyledLabel>
