@@ -90,30 +90,32 @@ const VideosPageContent = () => {
                             />
                           </StyledAccordionLabel>
                         </StyledAccordionHeader>
-                        <Accordion.Panel
-                          style={{ padding: 0, boxShadow: 'none' }}
-                        >
+                        <Accordion.Panel style={{ padding: 0 }}>
                           {!!uc.videos.desktop.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
+                              videosCount={uc.videos.desktop.length}
                               video={uc.videos.desktop}
                             />
                           )}
                           {!!uc.videos.tablet.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_TABLET_TITLE')}
+                              videosCount={uc.videos.tablet.length}
                               video={uc.videos.tablet}
                             />
                           )}
                           {!!uc.videos.smartphone.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_SMARTPHONE_TITLE')}
+                              videosCount={uc.videos.smartphone.length}
                               video={uc.videos.smartphone}
                             />
                           )}
                           {!!uc.videos.other.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_OTHER_TITLE')}
+                              videosCount={uc.videos.other.length}
                               video={uc.videos.other}
                             />
                           )}

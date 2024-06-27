@@ -1,18 +1,10 @@
-import { MD, SM } from '@appquality/unguess-design-system';
+import { MD, SM, Span } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 
-const StyledMD = styled(MD)`
-  span {
-    color: ${({ theme }) => theme.palette.grey[600]};
-  }
-`;
-
-export const StyledSM = styled(SM)<{ accent?: string }>`
+export const StyledSM = styled(SM)`
   color: ${(p) => p.theme.palette.grey[600]};
-  span {
-    color: ${(p) => p.accent};
-  }
 `;
 
 const StyledDiv = styled.div`
@@ -36,10 +28,15 @@ export const InfoRow = ({
   const { t } = useTranslation();
   return (
     <StyledDiv>
-      <StyledMD isBold>
-        {usecase}
-        <MD tag="span">{` (${videos} ${t('__VIDEOS_LIST_USECASE_INFO')})`}</MD>
-      </StyledMD>
+      <MD>
+        <Span isBold>{usecase} </Span>
+        <Span style={{ color: appTheme.palette.grey[600] }}>{`(${videos} ${t(
+          '__VIDEOS_LIST_USECASE_INFO',
+          {
+            count: videos,
+          }
+        )})`}</Span>
+      </MD>
     </StyledDiv>
   );
 };
