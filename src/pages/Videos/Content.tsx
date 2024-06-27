@@ -71,7 +71,7 @@ const VideosPageContent = () => {
           {!!usecases?.length && (
             <Row>
               <Col>
-                <Wrapper isFetching={false}>
+                <Wrapper isFetching={isFetching}>
                   <Accordion
                     level={3}
                     defaultExpandedSections={Array.from(usecases, (_, i) => i)}
@@ -90,7 +90,9 @@ const VideosPageContent = () => {
                             />
                           </StyledAccordionLabel>
                         </StyledAccordionHeader>
-                        <Accordion.Panel style={{ padding: 0 }}>
+                        <Accordion.Panel
+                          style={{ padding: 0, boxShadow: 'none' }}
+                        >
                           {!!uc.videos.desktop.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
