@@ -847,6 +847,7 @@
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_TOAST_SUCCESS": "Osservazione eliminata con successo",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_LABEL": "Note sull'osservazione",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_PLACEHOLDER": "Aggiungi un commento per lavorare in modo più facile sull’evidenza",
+  "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_ERROR": "Devi inserire una citazione",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL": "Citazione",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR": "Devi selezionare una tipologia",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_LABEL": "Tipo di osservazione",
