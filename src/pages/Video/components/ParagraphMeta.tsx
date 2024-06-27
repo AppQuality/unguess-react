@@ -14,6 +14,8 @@ interface IParagraphMeta {
 
 const StyledSM = styled(SM)`
   display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
   user-select: none;
   margin-bottom: ${({ theme }) => theme.space.sm};
   line-height: ${({ theme }) => theme.lineHeights.md};
@@ -27,17 +29,6 @@ const StyledDiv = styled.div`
   margin-bottom: ${({ theme }) => theme.space.lg};
 `;
 
-const StyledButton = styled(IconButton)`
-  ${({ theme }) => `
-  width: ${theme.space.md};
-  min-width: ${theme.space.md};
-  height: ${theme.space.md};
-  `}
-
-  padding: 2px;
-  margin-right: ${({ theme }) => theme.space.xs};
-`;
-
 export const ParagraphMeta = ({
   speakers,
   start,
@@ -48,14 +39,9 @@ export const ParagraphMeta = ({
 }: PropsWithChildren<IParagraphMeta>) => (
   <StyledDiv>
     <StyledSM data-unselectable>
-      <StyledButton
-        isBasic={false}
-        isNeutral
-        size="small"
-        onClick={() => setCurrentTime(start)}
-      >
+      <IconButton size="small" onClick={() => setCurrentTime(start)}>
         <PlayIcon />
-      </StyledButton>
+      </IconButton>
       {speakers > 1 && <b>Speaker {speakerIndex + 1} </b>}
       {formatDuration(start)} - {formatDuration(end)}
     </StyledSM>

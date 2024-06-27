@@ -71,13 +71,8 @@ const VideosPageContent = () => {
           {!!usecases?.length && (
             <Row>
               <Col>
-                <Wrapper isFetching={false}>
-                  <Accordion
-                    level={3}
-                    defaultExpandedSections={Array.from(usecases, (_, i) => i)}
-                    isExpandable
-                    isBare
-                  >
+                <Wrapper isFetching={isFetching}>
+                  <Accordion level={3} isExpandable isBare>
                     {usecases.map((uc) => (
                       <Accordion.Section
                         style={{ marginBottom: appTheme.space.lg }}
@@ -94,24 +89,28 @@ const VideosPageContent = () => {
                           {!!uc.videos.desktop.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
+                              videosCount={uc.videos.desktop.length}
                               video={uc.videos.desktop}
                             />
                           )}
                           {!!uc.videos.tablet.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_TABLET_TITLE')}
+                              videosCount={uc.videos.tablet.length}
                               video={uc.videos.tablet}
                             />
                           )}
                           {!!uc.videos.smartphone.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_SMARTPHONE_TITLE')}
+                              videosCount={uc.videos.smartphone.length}
                               video={uc.videos.smartphone}
                             />
                           )}
                           {!!uc.videos.other.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_OTHER_TITLE')}
+                              videosCount={uc.videos.other.length}
                               video={uc.videos.other}
                             />
                           )}

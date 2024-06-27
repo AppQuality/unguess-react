@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import {
   Button,
   MD,
-  Paragraph,
   Skeleton,
   useToast,
   Notification,
+  Span,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
@@ -23,6 +23,7 @@ import styled from 'styled-components';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import queryString from 'query-string';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
@@ -37,12 +38,6 @@ const ButtonWrapper = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
   }
-`;
-
-const VideosMeta = styled(Paragraph)`
-  color: ${({ theme }) => theme.palette.blue[600]};
-  font-weight: ${({ theme }) => theme.fontWeights.semibold};
-  margin-right: ${({ theme }) => theme.space.sm};
 `;
 
 const StyledPipe = styled(Pipe)`
@@ -109,6 +104,17 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   }, [videos]);
 
   const severities = videos ? getAllSeverityTags(videos.items) : [];
+
+  const observationsCount = videos?.items.reduce(
+    (total, item) =>
+      total +
+      item.videos.reduce(
+        (tot, video) =>
+          video.observations ? tot + video.observations.length : 0,
+        0
+      ),
+    0
+  );
 
   const handleUseCaseExport = () => {
     fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
@@ -178,16 +184,27 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   return (
     <FooterContainer>
       <PageMeta>
-        <VideosMeta>
+        <Span isBold style={{ color: appTheme.palette.blue[600] }}>
           {totalVideos}{' '}
           {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
-        </VideosMeta>
+        </Span>
+        <StyledPipe />
         {severities && severities.length > 0 && (
           <>
+            <SeveritiesMetaText>
+              <Trans
+                i18nKey="__VIDEO_LIST_META_SEVERITIES_COUNT"
+                count={observationsCount}
+              >
+                <MD>
+                  You have found{' '}
+                  <Span isBold style={{ color: appTheme.palette.blue[600] }}>
+                    {{ count: observationsCount }} observations:
+                  </Span>
+                </MD>
+              </Trans>
+            </SeveritiesMetaText>
             <SeveritiesMetaContainer>
-              <SeveritiesMetaText>
-                {t('__VIDEO_LIST_META_SEVERITIES_COUNT')}
-              </SeveritiesMetaText>
               {severities.map((severity) => (
                 <Meta
                   size="large"
