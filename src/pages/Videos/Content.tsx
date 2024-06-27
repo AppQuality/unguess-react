@@ -72,12 +72,7 @@ const VideosPageContent = () => {
             <Row>
               <Col>
                 <Wrapper isFetching={isFetching}>
-                  <Accordion
-                    level={3}
-                    defaultExpandedSections={Array.from(usecases, (_, i) => i)}
-                    isExpandable
-                    isBare
-                  >
+                  <Accordion level={3} isExpandable isBare>
                     {usecases.map((uc) => (
                       <Accordion.Section
                         style={{ marginBottom: appTheme.space.lg }}
