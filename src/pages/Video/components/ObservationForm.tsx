@@ -150,14 +150,19 @@ const ObservationForm = ({
 
   function generateQuotes() {
     if (!paragraphs) return undefined;
-    return paragraphs
+    const wordsWithinRange = paragraphs
       .flatMap((paragraph) =>
         paragraph.words.filter(
-          (w) => w.start >= observation.start && w.end <= observation.end
+          (word) =>
+            Number(word.start.toFixed(8)) >=
+              Number(observation.start.toFixed(8)) &&
+            Number(word.end.toFixed(8)) <= Number(observation.end.toFixed(8))
         )
       )
-      .map((w) => w.word)
+      .map((word) => word.word)
       .join(' ');
+
+    return wordsWithinRange;
   }
 
   const formInitialValues = {
