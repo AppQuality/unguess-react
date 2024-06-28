@@ -14,7 +14,7 @@ const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
   display: flex;
   gap: ${({ theme }) => theme.space.md};
-  border-bottom: 2px solid ${({ theme }) => theme.palette.grey[300]};
+  border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
