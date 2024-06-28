@@ -31,7 +31,7 @@ const PlayerContainer = styled.div<{
   display: flex;
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 101;
 
   ${({ isFetching }) =>
     isFetching &&
@@ -123,6 +123,17 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
     [start]
   );
 
+  const seekPlayer = useCallback(
+    (time: number) => {
+      if (videoRef && videoRef.current) {
+        videoRef.current.currentTime = time;
+        setIsPlaying(true);
+        videoRef.current.play();
+      }
+    },
+    [videoRef]
+  );
+
   const mappedObservations = useMemo(
     () =>
       observations?.map((obs) => ({
@@ -137,29 +148,23 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         tooltipContent: (
           <ObservationTooltip
             observationId={obs.id}
+            start={obs.start}
             color={
               obs.tags.find(
                 (tag) => tag.group.name.toLowerCase() === 'severity'
               )?.tag.style || appTheme.palette.grey[600]
             }
             label={obs.title}
+            seekPlayer={seekPlayer}
           />
         ),
-        onClick: () => setOpenAccordion({ id: obs.id }),
+        onClick: () => {
+          seekPlayer(obs.start);
+          setOpenAccordion({ id: obs.id });
+        },
         tags: obs.tags,
       })),
     [observations]
-  );
-
-  const seekPlayer = useCallback(
-    (time: number) => {
-      if (videoRef && videoRef.current) {
-        videoRef.current.currentTime = time;
-        setIsPlaying(true);
-        videoRef.current.play();
-      }
-    },
-    [videoRef]
   );
 
   const handleBookmarksUpdate = useCallback(async (bookmark) => {
