@@ -122,7 +122,6 @@ const Transcript = ({
         setOpenAccordion({ id: res.id });
       })
       .catch((err) => {
-        console.log(err);
         addToast(
           ({ close }) => (
             <Notification
