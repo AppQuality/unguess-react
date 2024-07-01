@@ -32,9 +32,7 @@ const VideosPageHeader = () => {
           </Link>
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={t('__VIDEOS_PAGE_TITLE')}>
-          <PageHeader.Title>
-            <PageTitle>{t('__VIDEOS_PAGE_TITLE')}</PageTitle>
-          </PageHeader.Title>
+          <PageHeader.Title>{t('__VIDEOS_PAGE_TITLE')}</PageHeader.Title>
           <PageHeader.Meta>
             <Metas campaign={campaign} />
           </PageHeader.Meta>
