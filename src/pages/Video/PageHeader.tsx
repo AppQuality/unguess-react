@@ -2,6 +2,7 @@ import {
   Anchor,
   MD,
   PageHeader,
+  SM,
   Skeleton,
   Span,
 } from '@appquality/unguess-design-system';
@@ -120,6 +121,15 @@ const VideoPageHeader = () => {
                     </Meta>
                   ))}
                 </SeveritiesMetaContainer>
+                <SM
+                  style={{
+                    marginLeft: 'auto',
+                    color: appTheme.palette.grey[600],
+                  }}
+                >
+                  {capitalizeFirstLetter(video.usecase.name)} -{' '}
+                  {capitalizeFirstLetter(video.tester.device.type)}
+                </SM>
               </>
             )}
           </PageHeader.Meta>
