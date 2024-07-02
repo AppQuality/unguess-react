@@ -13,7 +13,7 @@ import {
   GetVideosByVidObservationsApiResponse,
 } from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
@@ -209,7 +209,7 @@ const Observation = ({
                       copyLink(`observation-${observation.id}`, event)
                     }
                   >
-                    <ShareIcon />
+                    <LinkIcon />
                   </IconButton>
                 </Tooltip>
               </Container>
