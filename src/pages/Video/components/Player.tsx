@@ -29,7 +29,7 @@ const PlayerContainer = styled.div<{
   width: 100%;
   height: 55vh;
   display: flex;
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 101;
 
@@ -188,6 +188,7 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
       <PlayerContainer isFetching={isFetchingObservations}>
         <PlayerProvider.Core
           ref={videoRef}
+          pipMode="auto"
           url={video.streamUrl ?? video.url}
           onCutHandler={handleCut}
           handleBookmarkUpdate={handleBookmarksUpdate}
