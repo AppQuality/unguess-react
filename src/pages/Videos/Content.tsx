@@ -79,10 +79,7 @@ const VideosPageContent = () => {
                       >
                         <StyledAccordionHeader>
                           <StyledAccordionLabel>
-                            <InfoRow
-                              usecase={uc.usecase.title}
-                              videos={uc.videos.total}
-                            />
+                            <InfoRow uc={uc} />
                           </StyledAccordionLabel>
                         </StyledAccordionHeader>
                         <Accordion.Panel style={{ padding: 0 }}>
