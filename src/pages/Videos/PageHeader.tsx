@@ -2,8 +2,6 @@ import { Anchor, PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-
-import { PageTitle } from 'src/common/components/PageTitle';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useCampaign } from 'src/pages/Campaign/pageHeader/useCampaign';
 import { Metas } from './Metas';

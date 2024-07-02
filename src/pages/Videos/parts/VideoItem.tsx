@@ -29,11 +29,13 @@ const ThumbnailContainer = styled.div`
   height: 70px;
   width: 110px;
   overflow: hidden;
+  border: 2px solid ${({ theme }) => theme.palette.grey[300]};
+  border-radius: ${({ theme }) => theme.borderRadii.md};
 
   > img,
   svg {
-    width: 100%;
-    height: auto;
+    height: 100%;
+    width: auto;
   }
 `;
 
