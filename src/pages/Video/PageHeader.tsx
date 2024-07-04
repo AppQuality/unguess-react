@@ -132,12 +132,12 @@ const VideoPageHeader = () => {
                     </Meta>
                   ))}
                 </SeveritiesMetaContainer>
-                <StyledUseCaseName>
-                  {capitalizeFirstLetter(video.usecase.name)} -{' '}
-                  {capitalizeFirstLetter(video.tester.device.type)}
-                </StyledUseCaseName>
               </>
             )}
+            <StyledUseCaseName>
+              {capitalizeFirstLetter(video.usecase.name)} -{' '}
+              {capitalizeFirstLetter(video.tester.device.type)}
+            </StyledUseCaseName>
           </StyledPageHeaderMeta>
         </PageHeader.Main>
       </PageHeader>
