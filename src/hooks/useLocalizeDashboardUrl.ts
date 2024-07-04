@@ -1,5 +1,7 @@
 import { CampaignActionProps } from 'src/pages/Dashboard/types';
 import i18n from 'src/i18n';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { useFeatureFlag } from './useFeatureFlag';
 
 export const getLocalizedFunctionalDashboardUrl = (
   aCampaignId: number,
@@ -37,11 +39,15 @@ export function getLocalizeoFirstLevelDashboardRoute(
 
 export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
   const { campaignId, outputs } = props;
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   if (
     outputs.length === 0 ||
     outputs.some((o) => o === 'bugs') ||
-    outputs.some((o) => o === 'insights')
+    outputs.some((o) => o === 'insights') ||
+    (outputs.some((o) => o === 'media') && hasTaggingToolFeature)
   ) {
     return getLocalizeoFirstLevelDashboardRoute(campaignId);
   }
