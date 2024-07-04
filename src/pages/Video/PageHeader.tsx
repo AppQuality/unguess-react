@@ -24,9 +24,21 @@ const SeveritiesMetaContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
 const SeveritiesMetaText = styled.div`
   margin-right: ${({ theme }) => theme.space.sm};
+`;
+const StyledUseCaseName = styled(MD)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  margin-left: auto;
+`;
+const StyledPageHeaderMeta = styled(PageHeader.Meta)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    ${StyledUseCaseName} {
+      display: block;
+      width: 100%;
+      margin-top: ${({ theme }) => theme.space.xs};
+    }
+  }
 `;
 
 const VideoPageHeader = () => {
@@ -90,7 +102,7 @@ const VideoPageHeader = () => {
               T{video.tester.id} | {video.tester.name}
             </Span>
           </PageHeader.Description>
-          <PageHeader.Meta>
+          <StyledPageHeaderMeta>
             {severities && severities.length > 0 && (
               <>
                 <SeveritiesMetaText>
@@ -122,7 +134,11 @@ const VideoPageHeader = () => {
                 </SeveritiesMetaContainer>
               </>
             )}
-          </PageHeader.Meta>
+            <StyledUseCaseName>
+              {capitalizeFirstLetter(video.usecase.name)} -{' '}
+              {capitalizeFirstLetter(video.tester.device.type)}
+            </StyledUseCaseName>
+          </StyledPageHeaderMeta>
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>

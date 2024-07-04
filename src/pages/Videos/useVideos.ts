@@ -16,8 +16,8 @@ enum DeviceTypeEnum {
 type OrderedVideo = Record<DeviceTypeEnum, Video[]>;
 type VideosWithTotal = OrderedVideo & { total: number };
 
-type CampaignVideos = Array<{
-  usecase: GetCampaignsByCidVideosApiResponse['items'][0]['usecase'];
+export type CampaignVideos = Array<{
+  usecase: GetCampaignsByCidVideosApiResponse['items'][number]['usecase'];
   videos: VideosWithTotal;
 }>;
 

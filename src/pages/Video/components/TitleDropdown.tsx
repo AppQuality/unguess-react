@@ -137,7 +137,7 @@ export const TitleDropdown = ({
           )}
         </Autocomplete>
       </Field>
-      <Menu style={{ maxHeight: '205px' }}>
+      <Menu style={{ maxHeight: '200px', maxWidth: '290px' }}>
         {matchingOptions && matchingOptions.length ? (
           matchingOptions.map((item) => (
             <Item key={item.id} value={item}>
@@ -164,7 +164,7 @@ export const TitleDropdown = ({
                 name: inputValue,
               }}
             >
-              <MediaFigure>
+              <MediaFigure style={{ flexShrink: 0 }}>
                 <AddIcon />
               </MediaFigure>
               <MediaBody>

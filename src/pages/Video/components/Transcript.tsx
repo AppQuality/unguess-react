@@ -111,6 +111,7 @@ const Transcript = ({
     const body = {
       start: part.from,
       end: part.to,
+      text: part.text,
     };
     await postVideoByVidObservations({
       vid: videoId || '',

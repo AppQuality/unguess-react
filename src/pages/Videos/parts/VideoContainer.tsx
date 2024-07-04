@@ -21,11 +21,11 @@ const StyledSM = styled(SM)`
 const StyledCard = styled(ContainerCard)`
   padding: 0;
   border-radius: ${({ theme }) => theme.borderRadii.lg};
-  border-color: ${({ theme }) => theme.palette.grey[300]};
+  border-color: ${({ theme }) => theme.palette.grey[200]};
 `;
 
 const StyledTitle = styled(Title)`
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
+  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[200]};
 `;
 
 export const VideoContainer = ({

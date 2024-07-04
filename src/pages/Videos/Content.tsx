@@ -72,17 +72,19 @@ const VideosPageContent = () => {
             <Row>
               <Col>
                 <Wrapper isFetching={isFetching}>
-                  <Accordion level={3} isExpandable isBare>
+                  <Accordion
+                    level={3}
+                    isExpandable
+                    isBare
+                    defaultExpandedSections={[]}
+                  >
                     {usecases.map((uc) => (
                       <Accordion.Section
                         style={{ marginBottom: appTheme.space.lg }}
                       >
                         <StyledAccordionHeader>
                           <StyledAccordionLabel>
-                            <InfoRow
-                              usecase={uc.usecase.title}
-                              videos={uc.videos.total}
-                            />
+                            <InfoRow uc={uc} />
                           </StyledAccordionLabel>
                         </StyledAccordionHeader>
                         <Accordion.Panel style={{ padding: 0 }}>

@@ -91,7 +91,6 @@ const Actions = () => {
         )}
       </MetaContainer>
       {observations && observations.length ? (
-        observations &&
         observations.map((observation) => (
           <Observation
             refScroll={refScroll}

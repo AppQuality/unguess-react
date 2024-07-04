@@ -14,7 +14,7 @@ const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
   display: flex;
   gap: ${({ theme }) => theme.space.md};
-  border-bottom: 2px solid ${({ theme }) => theme.palette.grey[300]};
+  border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
@@ -29,11 +29,13 @@ const ThumbnailContainer = styled.div`
   height: 70px;
   width: 110px;
   overflow: hidden;
+  border: 2px solid ${({ theme }) => theme.palette.grey[300]};
+  border-radius: ${({ theme }) => theme.borderRadii.md};
 
   > img,
   svg {
-    width: 100%;
-    height: auto;
+    height: 100%;
+    width: auto;
   }
 `;
 
@@ -97,7 +99,7 @@ const Video = ({
             isBold
             style={{ marginTop: appTheme.space.xxs }}
           >
-            T{video.tester.id}
+            Tester ID: T{video.tester.id}
           </SM>
           <ObservationsTotalContainer>
             <TagsContainer>
