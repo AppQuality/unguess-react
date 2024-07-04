@@ -88,6 +88,9 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const videoDashboardLink = useLocalizeRoute(
     `campaigns/${campaign.id}/videos`
   );
+  const insightsDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/insights`
+  );
   const { start_date, end_date, type, status, outputs, family } = campaign;
 
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
@@ -122,11 +125,18 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
           </Link>
         )}
         {hasTaggingToolFeature && totalVideos > 0 && (
-          <Link to={videoDashboardLink}>
-            <Button id="button-bugs-list-header" isPrimary isAccent>
-              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
-            </Button>
-          </Link>
+          <>
+            <Link to={videoDashboardLink}>
+              <Button id="button-bugs-list-header" isPrimary isAccent>
+                {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
+              </Button>
+            </Link>
+            <Link to={insightsDashboardLink}>
+              <Button id="button-bugs-list-header" isPrimary isAccent>
+                {t('__CAMPAIGN_PAGE_BUTTON_GO_TO_INSIGTHS')}
+              </Button>
+            </Link>
+          </>
         )}
       </ButtonWrapper>
     </FooterContainer>
