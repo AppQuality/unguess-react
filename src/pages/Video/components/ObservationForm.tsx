@@ -5,7 +5,6 @@ import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import {
   Button,
-  Input,
   Label,
   Message,
   MultiSelect,
@@ -20,6 +19,7 @@ import { useParams } from 'react-router-dom';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   GetVideosByVidObservationsApiResponse,
+  Paragraph,
   useGetCampaignsByCidVideoTagsQuery,
   usePatchVideosByVidObservationsAndOidMutation,
   usePostCampaignsByCidVideoTagsMutation,
@@ -28,6 +28,7 @@ import { Field as FormField } from '@zendeskgarden/react-forms';
 import { useEffect, useRef, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
+import { ObservationFormValues, TitleDropdown } from './TitleDropdown';
 
 const FormContainer = styled.div`
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xxs};
@@ -53,20 +54,13 @@ const RadioTag = styled(Tag)<{
     user-select: none;
   }
 `;
-
-interface ObservationFormValues {
-  title: string;
-  severity: number;
-  notes: string;
-}
-
 const ObservationForm = ({
   observation,
-  quots,
+  paragraphs,
   onSubmit,
 }: {
   observation: GetVideosByVidObservationsApiResponse[number];
-  quots?: string;
+  paragraphs?: Paragraph[];
   onSubmit: (
     values: ObservationFormValues,
     actions: FormikHelpers<ObservationFormValues>
@@ -89,7 +83,11 @@ const ObservationForm = ({
     { id: number; label: string }[]
   >(
     observation.tags
-      ?.filter((tag) => tag.group.name.toLowerCase() !== 'severity')
+      ?.filter(
+        (tag) =>
+          tag.group.name.toLowerCase() !== 'severity' &&
+          tag.group.name.toLowerCase() !== 'title'
+      )
       .map((tag) => ({
         id: tag.tag.id,
         label: tag.tag.name,
@@ -108,25 +106,36 @@ const ObservationForm = ({
   });
 
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required(
-      t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_ERROR')
-    ),
+    title: Yup.number()
+      .min(1, t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_ERROR'))
+      .required(t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_ERROR')),
     severity: Yup.number()
       .min(1, t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR'))
       .required(
         t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_ERROR')
       ),
+    quotes: Yup.string().required(
+      t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_ERROR')
+    ),
   });
 
   const severities = tags?.filter(
     (tag) => tag.group.name.toLowerCase() === 'severity'
   )?.[0];
 
+  const titles = tags?.filter(
+    (tag) => tag.group.name.toLowerCase() === 'title'
+  )?.[0];
+
   useEffect(() => {
     if (tags) {
       setOptions(
         tags
-          .filter((group) => group.group.name.toLowerCase() !== 'severity')
+          .filter(
+            (group) =>
+              group.group.name.toLowerCase() !== 'severity' &&
+              group.group.name.toLowerCase() !== 'title'
+          )
           .map((group) =>
             group.tags.map((tag) => ({
               id: tag.id,
@@ -139,13 +148,33 @@ const ObservationForm = ({
     }
   }, [tags, selectedOptions]);
 
+  function generateQuotes() {
+    if (!paragraphs) return undefined;
+    const wordsWithinRange = paragraphs
+      .flatMap((paragraph) =>
+        paragraph.words.filter(
+          (word) =>
+            Number(word.start.toFixed(8)) >=
+              Number(observation.start.toFixed(8)) &&
+            Number(word.end.toFixed(8)) <= Number(observation.end.toFixed(8))
+        )
+      )
+      .map((word) => word.word)
+      .join(' ');
+
+    return wordsWithinRange;
+  }
+
   const formInitialValues = {
-    title: observation?.title || '',
+    title:
+      observation?.tags?.find((tag) => tag.group.name.toLowerCase() === 'title')
+        ?.tag.id || 0,
     severity:
       observation?.tags?.find(
         (tag) => tag.group.name.toLowerCase() === 'severity'
       )?.tag.id || 0,
     notes: observation?.description || '',
+    quotes: observation?.quotes || generateQuotes() || '',
   };
 
   const onSubmitPatch = async (
@@ -157,11 +186,15 @@ const ObservationForm = ({
       vid: videoId ?? '',
       oid: observation.id.toString(),
       body: {
-        title: values.title,
         description: values.notes,
+        quotes: values.quotes,
         start: observation.start,
         end: observation.end,
-        tags: [...selectedOptions.map((tag) => tag.id), values.severity],
+        tags: [
+          ...selectedOptions.map((tag) => tag.id),
+          values.severity,
+          values.title,
+        ],
       },
     })
       .unwrap()
@@ -210,33 +243,29 @@ const ObservationForm = ({
           validationSchema={validationSchema}
           onSubmit={onSubmitPatch}
         >
-          {({
-            errors,
-            getFieldProps,
-            handleSubmit,
-            ...formProps
-          }: FormikProps<ObservationFormValues>) => (
+          {(formProps: FormikProps<ObservationFormValues>) => (
             <Form
-              onSubmit={handleSubmit}
+              onSubmit={formProps.handleSubmit}
               style={{ marginBottom: appTheme.space.sm }}
             >
               <StyledLabel>
                 {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_LABEL')}
               </StyledLabel>
-              <Input
-                style={{ margin: 0 }}
-                placeholder={t(
-                  '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_PLACEHOLDER'
-                )}
-                {...getFieldProps('title')}
-                {...(errors.title && { validation: 'error' })}
+              <TitleDropdown
+                titles={titles?.tags}
+                title={
+                  observation.tags?.find(
+                    (tag) => tag.group.name.toLowerCase() === 'title'
+                  )?.tag
+                }
+                formProps={formProps}
               />
-              {errors.title && (
+              {formProps.errors.title && (
                 <Message
                   validation="error"
                   style={{ marginTop: appTheme.space.sm }}
                 >
-                  {errors.title}
+                  {formProps.errors.title}
                 </Message>
               )}
               {severities && severities.tags.length > 0 && (
@@ -291,12 +320,12 @@ const ObservationForm = ({
                           </RadioTag>
                         ))}
                       </div>
-                      {errors.severity && (
+                      {formProps.errors.severity && (
                         <Message
                           validation="error"
                           style={{ marginTop: appTheme.space.sm }}
                         >
-                          {errors.severity}
+                          {formProps.errors.severity}
                         </Message>
                       )}
                     </>
@@ -369,22 +398,25 @@ const ObservationForm = ({
                   />
                 )}
               </div>
-              {quots && (
-                <div style={{ marginTop: appTheme.space.md }}>
-                  <StyledLabel>
-                    {t(
-                      '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL'
-                    )}
-                  </StyledLabel>
-                  <Textarea
-                    readOnly
-                    disabled
-                    style={{ margin: 0 }}
-                    value={quots}
-                    rows={4}
-                  />
-                </div>
-              )}
+
+              <div style={{ marginTop: appTheme.space.md }}>
+                <StyledLabel>
+                  {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL')}
+                </StyledLabel>
+                <Textarea
+                  style={{ margin: 0 }}
+                  {...formProps.getFieldProps('quotes')}
+                  rows={4}
+                />
+                {formProps.errors.quotes && (
+                  <Message
+                    validation="error"
+                    style={{ marginTop: appTheme.space.sm }}
+                  >
+                    {formProps.errors.quotes}
+                  </Message>
+                )}
+              </div>
               <div style={{ marginTop: appTheme.space.md }}>
                 <StyledLabel>
                   {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_LABEL')}
@@ -395,7 +427,7 @@ const ObservationForm = ({
                     '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_NOTES_PLACEHOLDER'
                   )}
                   rows={4}
-                  {...getFieldProps('notes')}
+                  {...formProps.getFieldProps('notes')}
                 />
               </div>
               <PullRight>

@@ -1,9 +1,8 @@
-import { LG, Skeleton, Tag } from '@appquality/unguess-design-system';
+import { Skeleton, Tag, XL } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
-import { Divider } from 'src/common/components/divider';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
 import {
@@ -72,7 +71,7 @@ const Actions = () => {
 
   return (
     <Container ref={refScroll}>
-      <LG isBold>{video.tester.name}</LG>
+      <XL isBold>{video.tester.name}</XL>
       <MetaContainer>
         <Meta size="medium">T{video.tester.id}</Meta>
         <Pipe />
@@ -91,21 +90,17 @@ const Actions = () => {
           </Tag>
         )}
       </MetaContainer>
-      <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
       {observations && observations.length ? (
-        <div style={{ margin: `${appTheme.space.sm} 0` }}>
-          {observations &&
-            observations.map((observation) => (
-              <Observation
-                refScroll={refScroll}
-                key={observation.id}
-                observation={observation}
-                {...(video.transcript && {
-                  transcript: video.transcript,
-                })}
-              />
-            ))}
-        </div>
+        observations.map((observation) => (
+          <Observation
+            refScroll={refScroll}
+            key={observation.id}
+            observation={observation}
+            {...(video.transcript && {
+              transcript: video.transcript,
+            })}
+          />
+        ))
       ) : (
         <NoObservations />
       )}

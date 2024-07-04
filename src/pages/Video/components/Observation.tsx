@@ -13,7 +13,7 @@ import {
   GetVideosByVidObservationsApiResponse,
 } from 'src/features/api';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { ReactComponent as CopyIcon } from 'src/assets/icons/link-fill.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
@@ -22,6 +22,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
 import { formatDuration } from 'src/pages/Videos/utils/formatDuration';
+import { Divider } from 'src/common/components/divider';
 import { ObservationForm } from './ObservationForm';
 import { useVideoContext } from '../context/VideoContext';
 
@@ -36,9 +37,11 @@ const Circle = styled.div<{
   align-items: center;
   border-radius: 50%;
 `;
-const StyledTitle = styled(Title)`
+
+const Container = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
 `;
 
 const Observation = ({
@@ -50,7 +53,7 @@ const Observation = ({
   refScroll: React.RefObject<HTMLDivElement>;
   transcript?: GetVideosByVidApiResponse['transcript'];
 }) => {
-  const { title, start, end } = observation;
+  const { tags, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
   const { openAccordion, setOpenAccordion } = useVideoContext();
   const { campaignId, videoId } = useParams();
@@ -60,14 +63,8 @@ const Observation = ({
   const { addToast } = useToast();
   const { t } = useTranslation();
 
-  const quots = transcript?.paragraphs
-    .flatMap((paragraph) =>
-      paragraph.words.filter(
-        (w) => w.start >= observation.start && w.end <= observation.end
-      )
-    )
-    .map((w) => w.word)
-    .join(' ');
+  const title = tags.find((tag) => tag.group.name.toLowerCase() === 'title')
+    ?.tag.name;
 
   const handleAccordionChange = () => {
     setIsOpen(!isOpen);
@@ -150,95 +147,84 @@ const Observation = ({
   }, []);
 
   return (
-    <Accordion
-      level={3}
-      style={{ padding: 0, marginBottom: appTheme.space.md }}
-      key={`observation_accordion_${observation.id}_${isOpen}`}
-      defaultExpandedSections={isOpen ? [0, 1] : []}
-      onChange={handleAccordionChange}
-      id={`video-observation-accordion-${observation.id}`}
-    >
-      <Accordion.Section>
-        <Accordion.Header>
-          <Accordion.Label style={{ padding: 0 }}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}
-            >
-              <Circle
-                color={
-                  observation.tags.find(
-                    (tag) => tag.group.name.toLowerCase() === 'severity'
-                  )?.tag.style || appTheme.palette.grey[600]
-                }
-                style={{
-                  backgroundColor: getColorWithAlpha(
+    <>
+      <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
+      <Accordion
+        level={3}
+        style={{ padding: `${appTheme.space.md} 0` }}
+        key={`observation_accordion_${observation.id}_${isOpen}`}
+        defaultExpandedSections={isOpen ? [0, 1] : []}
+        onChange={handleAccordionChange}
+        id={`video-observation-accordion-${observation.id}`}
+      >
+        <Accordion.Section>
+          <Accordion.Header>
+            <Accordion.Label style={{ padding: 0 }}>
+              <Container>
+                <Circle
+                  color={
                     observation.tags.find(
                       (tag) => tag.group.name.toLowerCase() === 'severity'
-                    )?.tag.style || appTheme.palette.grey[600],
-                    0.1
-                  ),
-                }}
-              >
-                <TagIcon
+                    )?.tag.style || appTheme.palette.grey[600]
+                  }
                   style={{
-                    color:
+                    backgroundColor: getColorWithAlpha(
                       observation.tags.find(
                         (tag) => tag.group.name.toLowerCase() === 'severity'
                       )?.tag.style || appTheme.palette.grey[600],
+                      0.1
+                    ),
                   }}
-                />
-              </Circle>
-              <div>
-                <StyledTitle>
-                  <LG isBold>{title} </LG>
-                </StyledTitle>
-              </div>
-              <Tooltip
-                content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
-                size="large"
-                type="light"
-                placement="bottom-start"
-                hasArrow={false}
-              >
-                <IconButton
-                  size="small"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginLeft: appTheme.space.sm,
-                  }}
-                  onClick={(event) =>
-                    copyLink(`observation-${observation.id}`, event)
-                  }
                 >
-                  <CopyIcon style={{ width: 14, height: 14 }} />
-                </IconButton>
-              </Tooltip>
-            </div>
-            <SM
-              style={{
-                color: appTheme.palette.grey[600],
-                marginTop: appTheme.space.xs,
-                marginLeft: appTheme.space.lg,
-              }}
-            >
-              {formatDuration(start)} - {formatDuration(end)}
-            </SM>
-          </Accordion.Label>
-        </Accordion.Header>
-        <Accordion.Panel style={{ padding: 0 }}>
-          <ObservationForm
-            observation={observation}
-            onSubmit={handleSubmit}
-            {...(quots && { quots })}
-          />
-        </Accordion.Panel>
-      </Accordion.Section>
-    </Accordion>
+                  <TagIcon
+                    style={{
+                      color:
+                        observation.tags.find(
+                          (tag) => tag.group.name.toLowerCase() === 'severity'
+                        )?.tag.style || appTheme.palette.grey[600],
+                    }}
+                  />
+                </Circle>
+                <Title style={{ flexGrow: 1 }}>
+                  <LG isBold>{title}</LG>
+                  <SM
+                    style={{
+                      color: appTheme.palette.grey[600],
+                      marginTop: appTheme.space.xs,
+                    }}
+                  >
+                    {formatDuration(start)} - {formatDuration(end)}
+                  </SM>
+                </Title>
+                <Tooltip
+                  content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
+                  size="large"
+                  type="light"
+                  placement="bottom-start"
+                  hasArrow={false}
+                >
+                  <IconButton
+                    size="small"
+                    onClick={(event) =>
+                      copyLink(`observation-${observation.id}`, event)
+                    }
+                  >
+                    <LinkIcon />
+                  </IconButton>
+                </Tooltip>
+              </Container>
+            </Accordion.Label>
+          </Accordion.Header>
+          <Accordion.Panel style={{ padding: 0 }}>
+            <ObservationForm
+              observation={observation}
+              onSubmit={handleSubmit}
+              paragraphs={transcript?.paragraphs}
+            />
+          </Accordion.Panel>
+        </Accordion.Section>
+      </Accordion>
+    </>
   );
 };
 

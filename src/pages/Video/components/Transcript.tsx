@@ -70,9 +70,11 @@ const TagsWrapper = styled.div`
 const Transcript = ({
   currentTime,
   isSearchable,
+  setCurrentTime,
 }: {
   currentTime: number;
   isSearchable: boolean;
+  setCurrentTime: (time: number) => void;
 }) => {
   const { t } = useTranslation();
   const { videoId } = useParams();
@@ -109,6 +111,7 @@ const Transcript = ({
     const body = {
       start: part.from,
       end: part.to,
+      text: part.text,
     };
     await postVideoByVidObservations({
       vid: videoId || '',
@@ -186,6 +189,7 @@ const Transcript = ({
                     start={p.start}
                     end={p.end}
                     speakerIndex={p.speaker || 0}
+                    setCurrentTime={setCurrentTime}
                   >
                     {p.words.map((item, index) => (
                       <Highlight.Word
@@ -218,9 +222,11 @@ const Transcript = ({
                           <TagsWrapper>
                             {obs.map((o) => (
                               <ObservationTooltip
-                                color={o.color}
                                 observationId={o.id}
+                                start={o.start}
+                                color={o.color}
                                 label={o.label}
+                                seekPlayer={setCurrentTime}
                               />
                             ))}
                           </TagsWrapper>

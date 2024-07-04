@@ -12,13 +12,13 @@ import { formatDuration } from '../utils/formatDuration';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
+  display: flex;
+  gap: ${({ theme }) => theme.space.md};
+  border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
   }
-
-  display: flex;
-  gap: ${({ theme }) => theme.space.md};
 `;
 
 const ThumbnailContainer = styled.div`
@@ -29,11 +29,13 @@ const ThumbnailContainer = styled.div`
   height: 70px;
   width: 110px;
   overflow: hidden;
+  border: 2px solid ${({ theme }) => theme.palette.grey[300]};
+  border-radius: ${({ theme }) => theme.borderRadii.md};
 
   > img,
   svg {
-    width: 100%;
-    height: auto;
+    height: 100%;
+    width: auto;
   }
 `;
 
@@ -53,7 +55,7 @@ const ObservationsTotalContainer = styled.div`
 
 const TagsContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const Poster = ({
@@ -88,9 +90,17 @@ const Video = ({
     <StyledAnchor href={videoUrl}>
       <Container>
         <Poster video={video} />
-        <div>
-          <MD isBold>{video.tester.name}</MD>
-          <SM color={appTheme.palette.grey[600]}>ID: {video.id}</SM>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <MD isBold style={{ color: appTheme.palette.blue[600] }}>
+            {video.tester.name}
+          </MD>
+          <SM
+            color={appTheme.palette.grey[600]}
+            isBold
+            style={{ marginTop: appTheme.space.xxs }}
+          >
+            Tester ID: T{video.tester.id}
+          </SM>
           <ObservationsTotalContainer>
             <TagsContainer>
               {video.duration && (
