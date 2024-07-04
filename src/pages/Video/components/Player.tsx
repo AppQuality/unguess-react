@@ -31,7 +31,7 @@ const PlayerContainer = styled.div<{
   display: flex;
   position: relative;
   top: 0;
-  z-index: 101;
+  z-index: 3;
 
   ${({ isFetching }) =>
     isFetching &&
