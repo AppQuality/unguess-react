@@ -68,7 +68,18 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isFetching,
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
 
+  const { start_date, end_date, type, status, outputs, family } = campaign;
+  const { t } = useTranslation();
   const { sorted: videos } = useVideo(campaign.id.toString() ?? '');
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
+
+  const functionalDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/bugs`
+  );
+  const videoDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/videos`
+  );
 
   useEffect(() => {
     if (videos) {
@@ -80,19 +91,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     }
   }, [videos]);
 
-  const { t } = useTranslation();
-  const { hasFeatureFlag } = useFeatureFlag();
-  const functionalDashboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/bugs`
-  );
-  const videoDashboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/videos`
-  );
-  const { start_date, end_date, type, status, outputs, family } = campaign;
-
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
-
-  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   return (
     <FooterContainer>
