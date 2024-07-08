@@ -52,7 +52,7 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
   const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
   const [patchObservation] = usePatchVideosByVidObservationsAndOidMutation();
   const [start, setStart] = useState<number | undefined>(undefined);
-  const { context } = usePlayerContext();
+  const { context, setIsPlaying } = usePlayerContext();
   const { currentTime } = context.player || { currentTime: 0 };
   const { addToast } = useToast();
 
@@ -124,9 +124,14 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
   );
 
   const seekPlayer = useCallback(
-    (time: number) => {
+    (time: number, forcePlay?: boolean) => {
       if (videoRef && videoRef.current) {
         videoRef.current.currentTime = time;
+
+        if (forcePlay) {
+          setIsPlaying(true);
+          videoRef.current.play();
+        }
       }
     },
     [videoRef]
