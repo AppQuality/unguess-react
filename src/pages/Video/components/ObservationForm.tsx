@@ -136,14 +136,13 @@ const ObservationForm = ({
               group.group.name.toLowerCase() !== 'severity' &&
               group.group.name.toLowerCase() !== 'title'
           )
-          .map((group) =>
-            group.tags.map((tag) => ({
-              id: tag.id,
-              label: `${tag.name} (${tag.usageNumber})`,
-              selected: selectedOptions.some((bt) => bt.id === tag.id),
-            }))
-          )
-          .flat()
+          .flatMap((group) => group.tags)
+          .sort((a, b) => b.usageNumber - a.usageNumber)
+          .map((tag) => ({
+            id: tag.id,
+            label: `${tag.name} (${tag.usageNumber})`,
+            selected: selectedOptions.some((bt) => bt.id === tag.id),
+          }))
       );
     }
   }, [tags, selectedOptions]);
