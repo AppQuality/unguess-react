@@ -24,6 +24,7 @@ import Manual from 'src/pages/Manual';
 import Videos from 'src/pages/Videos';
 import Video from 'src/pages/Video';
 import SentryWrapper from 'src/features/SentryWrapper';
+import DashboardResearcher from 'src/pages/DashboardResearcher';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -135,6 +136,10 @@ const Pages = () => {
                   />
                 }
                 errorElement={<ErrorBoundaryPage />}
+              />
+              <Route
+                path="/dashboard-researcher"
+                element={<DashboardResearcher />}
               />
               <Route path="*" element={<Navigate replace to="/oops" />} />
             </>

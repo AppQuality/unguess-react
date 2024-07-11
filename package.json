@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@appquality/unguess-design-system": "3.1.104",
+    "@atlaskit/pragmatic-drag-and-drop": "^1.2.1",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@rtk-query/codegen-openapi": "1.2.0",
@@ -36,12 +37,14 @@
     "react-scripts": "4.0.3",
     "react-scroll": "^1.8.7",
     "styled-components": "^6.1.1",
+    "tiny-invariant": "^1.3.3",
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
   "scripts": {
     "start": "craco start",
+    "start:ssl": "craco --openssl-legacy-provider start",
     "build": "craco build",
     "test": "react-scripts test",
     "recover": "yarn install --check-files",
