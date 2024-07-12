@@ -22,8 +22,11 @@ import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import queryString from 'query-string';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
@@ -85,6 +88,13 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const [totalVideos, setTotalVideos] = useState<number>(0);
   const { t } = useTranslation();
   const { addToast } = useToast();
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  const insightsDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/insights`
+  );
+
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   const {
     data: videos,
@@ -223,12 +233,19 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       <ButtonWrapper>
         <CampaignSettings />
         {totalVideos > 0 && (
-          <Button isAccent isPrimary size="small" onClick={handleUseCaseExport}>
+          <Button isAccent isPrimary onClick={handleUseCaseExport}>
             <Button.StartIcon>
               <DownloadIcon />
             </Button.StartIcon>
             {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
           </Button>
+        )}
+        {hasTaggingToolFeature && totalVideos > 0 && (
+          <Link to={insightsDashboardLink}>
+            <Button id="button-bugs-list-header" isPrimary isAccent>
+              {t('__CAMPAIGN_PAGE_BUTTON_GO_TO_INSIGTHS')}
+            </Button>
+          </Link>
         )}
       </ButtonWrapper>
     </FooterContainer>
