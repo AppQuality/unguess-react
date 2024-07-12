@@ -1,6 +1,6 @@
-const ObservationsList = () => {
+const Collection = () => {
   // eslint-disable-next-line no-console
-  console.log('ObservationsList');
+  console.log('Collection');
 
   return (
     <div>
@@ -11,4 +11,4 @@ const ObservationsList = () => {
   );
 };
 
-export { ObservationsList };
+export { Collection };
