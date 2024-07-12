@@ -1,6 +1,7 @@
+import { useFormikContext } from 'formik';
 import { styled } from 'styled-components';
-
-export const filtersHeight = 56;
+import { Insight } from './Insight';
+import { InsightFormValues } from './FormProvider';
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -14,6 +15,7 @@ const DetailContainer = styled.div<{
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
+  padding: ${({ theme }) => theme.space.md};
 
   ${(p) =>
     p.isFetching &&
@@ -24,12 +26,36 @@ const DetailContainer = styled.div<{
 `;
 
 const InsightsDrawer = () => {
+  const { values } = useFormikContext<InsightFormValues>();
+
   // eslint-disable-next-line no-console
-  console.log('InsightsDrawer');
+  console.log(values);
 
   return (
     <DetailContainer>
-      <p>Insight drawer</p>
+      <Insight
+        insight={{
+          id: 1,
+          title: 'Insight #1',
+          severity: 1,
+          observations: [
+            {
+              id: 1,
+              title: 'Observation #1',
+              severity: 1,
+              quotes: '',
+            },
+          ],
+        }}
+      />
+      <Insight
+        insight={{
+          id: 2,
+          title: 'Insight #2',
+          severity: 1,
+          observations: [],
+        }}
+      />
     </DetailContainer>
   );
 };

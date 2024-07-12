@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Widgets } from './Widgets';
 import { Collection } from './Collection';
 import { InsightsDrawer } from './InsightsDrawer';
+import { FormProvider } from './FormProvider';
+import { ActionBar } from './ActionBar';
 
 const InsightsPageContent = () => {
   // eslint-disable-next-line
@@ -14,19 +16,22 @@ const InsightsPageContent = () => {
       isNotBoxed
       {...(isDrawerOpen && { style: { paddingRight: 0 } })}
     >
-      <Grid gutters="xxl">
-        <Row>
-          <Col lg={isDrawerOpen ? 8 : 12}>
-            <Widgets />
-            <Collection />
-          </Col>
-          {isDrawerOpen && (
-            <Col lg={4}>
-              <InsightsDrawer />
+      <FormProvider>
+        <Grid gutters="xxl">
+          <Row>
+            <Col lg={isDrawerOpen ? 6 : 12}>
+              <ActionBar />
+              <Widgets />
+              <Collection />
             </Col>
-          )}
-        </Row>
-      </Grid>
+            {isDrawerOpen && (
+              <Col lg={6}>
+                <InsightsDrawer />
+              </Col>
+            )}
+          </Row>
+        </Grid>
+      </FormProvider>
     </LayoutWrapper>
   );
 };
