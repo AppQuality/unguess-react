@@ -42,7 +42,7 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 `;
 
 const VideoPageHeader = () => {
-  const { campaignId, videoId } = useParams();
+  const { campaignId } = useParams();
   const { t } = useTranslation();
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
@@ -56,39 +56,14 @@ const VideoPageHeader = () => {
     cid: campaignId || '',
   });
 
-  const {
-    data: video,
-    isFetching: isFetchingVideo,
-    isLoading: isLoadingVideo,
-    isError: isErrorVideo,
-  } = useGetVideosByVidQuery({
-    vid: videoId || '',
-  });
-  const {
-    data: observations,
-    isLoading: isLoadingObservations,
-    isFetching: isFetchingObservations,
-    isError: isErrorObservations,
-  } = useGetVideosByVidObservationsQuery({
-    vid: videoId || '',
-  });
-
-  const severities = observations
-    ? getSeverityTagsByVideoCount(observations)
-    : [];
-
-  if (!video || isErrorVideo) return null;
   if (!campaign || isErrorCampaign) return null;
-  if (!observations || isErrorObservations) return null;
 
-  if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingCampaign || isLoadingCampaign) return <Skeleton />;
-  if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
   return (
     <LayoutWrapper isNotBoxed>
       <PageHeader style={{ padding: `${appTheme.space.xs} 0` }}>
-        <PageHeader.Main mainTitle={t('__VIDEO_PAGE_TITLE')}>
+        <PageHeader.Main mainTitle={t('__INSIGHTS_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
             <Link to={campaignRoute}>
               <Anchor id="breadcrumb-parent">{campaign.customer_title}</Anchor>
@@ -97,48 +72,7 @@ const VideoPageHeader = () => {
               <Anchor id="breadcrumb-parent">{t('__VIDEOS_PAGE_TITLE')}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
-          <PageHeader.Description>
-            <Span isBold>
-              T{video.tester.id} | {video.tester.name}
-            </Span>
-          </PageHeader.Description>
-          <StyledPageHeaderMeta>
-            {severities && severities.length > 0 && (
-              <>
-                <SeveritiesMetaText>
-                  <Trans
-                    i18nKey="__VIDEO_LIST_META_SEVERITIES_COUNT"
-                    count={observations.length}
-                  >
-                    <MD>
-                      You have found{' '}
-                      <Span
-                        isBold
-                        style={{ color: appTheme.palette.blue[600] }}
-                      >
-                        {{ count: observations.length }} observations:
-                      </Span>
-                    </MD>
-                  </Trans>
-                </SeveritiesMetaText>
-                <SeveritiesMetaContainer>
-                  {severities.map((severity) => (
-                    <Meta
-                      size="large"
-                      color={severity.style}
-                      secondaryText={severity.count}
-                    >
-                      {capitalizeFirstLetter(severity.name)}
-                    </Meta>
-                  ))}
-                </SeveritiesMetaContainer>
-                <StyledUseCaseName>
-                  {capitalizeFirstLetter(video.usecase.name)} -{' '}
-                  {capitalizeFirstLetter(video.tester.device.type)}
-                </StyledUseCaseName>
-              </>
-            )}
-          </StyledPageHeaderMeta>
+          <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>
