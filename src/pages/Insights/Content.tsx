@@ -2,7 +2,7 @@ import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useState } from 'react';
 import { Widgets } from './Widgets';
-import { ObservationsList } from './Collection';
+import { Collection } from './Collection';
 import { InsightsDrawer } from './InsightsDrawer';
 
 const InsightsPageContent = () => {
@@ -18,23 +18,7 @@ const InsightsPageContent = () => {
         <Row>
           <Col lg={isDrawerOpen ? 8 : 12}>
             <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
-            <Widgets />
-            <ObservationsList />
+            <Collection />
           </Col>
           {isDrawerOpen && (
             <Col lg={4}>
