@@ -2,7 +2,7 @@ import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useState } from 'react';
 import { Widgets } from './Widgets';
-import { ObservationsList } from './ObservationsList';
+import { ObservationsList } from './Collection';
 import { InsightsDrawer } from './InsightsDrawer';
 
 const InsightsPageContent = () => {
