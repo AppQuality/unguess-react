@@ -1,45 +1,14 @@
 import {
   Anchor,
-  MD,
   PageHeader,
   Skeleton,
-  Span,
 } from '@appquality/unguess-design-system';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import {
-  useGetCampaignsByCidQuery,
-  useGetVideosByVidObservationsQuery,
-  useGetVideosByVidQuery,
-} from 'src/features/api';
+import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { Meta } from 'src/common/components/Meta';
-import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
-import { styled } from 'styled-components';
-import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
-
-const SeveritiesMetaContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-const SeveritiesMetaText = styled.div`
-  margin-right: ${({ theme }) => theme.space.sm};
-`;
-const StyledUseCaseName = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-  margin-left: auto;
-`;
-const StyledPageHeaderMeta = styled(PageHeader.Meta)`
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    ${StyledUseCaseName} {
-      display: block;
-      width: 100%;
-      margin-top: ${({ theme }) => theme.space.xs};
-    }
-  }
-`;
 
 const VideoPageHeader = () => {
   const { campaignId } = useParams();
