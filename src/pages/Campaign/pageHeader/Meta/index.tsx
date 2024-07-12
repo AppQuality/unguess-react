@@ -68,7 +68,18 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isFetching,
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
 
+  const { start_date, end_date, type, status, outputs, family } = campaign;
+  const { t } = useTranslation();
   const { sorted: videos } = useVideo(campaign.id.toString() ?? '');
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
+
+  const functionalDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/bugs`
+  );
+  const videoDashboardLink = useLocalizeRoute(
+    `campaigns/${campaign.id}/videos`
+  );
 
   useEffect(() => {
     if (videos) {
@@ -80,22 +91,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     }
   }, [videos]);
 
-  const { t } = useTranslation();
-  const { hasFeatureFlag } = useFeatureFlag();
-  const functionalDashboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/bugs`
-  );
-  const videoDashboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/videos`
-  );
-  const insightsDashboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/insights`
-  );
-  const { start_date, end_date, type, status, outputs, family } = campaign;
-
   if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
-
-  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   return (
     <FooterContainer>
@@ -125,18 +121,11 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
           </Link>
         )}
         {hasTaggingToolFeature && totalVideos > 0 && (
-          <>
-            <Link to={videoDashboardLink}>
-              <Button id="button-bugs-list-header" isPrimary isAccent>
-                {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
-              </Button>
-            </Link>
-            <Link to={insightsDashboardLink}>
-              <Button id="button-bugs-list-header" isPrimary isAccent>
-                {t('__CAMPAIGN_PAGE_BUTTON_GO_TO_INSIGTHS')}
-              </Button>
-            </Link>
-          </>
+          <Link to={videoDashboardLink}>
+            <Button id="button-bugs-list-header" isPrimary isAccent>
+              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
+            </Button>
+          </Link>
         )}
       </ButtonWrapper>
     </FooterContainer>
