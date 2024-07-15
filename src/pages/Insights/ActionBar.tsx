@@ -26,10 +26,9 @@ const Container = styled.div`
 
 const ActionBar = () => {
   const { t } = useTranslation();
-  const { values } = useFormikContext<InsightFormValues>();
-  const { isDrawerOpen, setIsDrawerOpen } = useInsightContext();
+  const { values, setValues } = useFormikContext<InsightFormValues>();
+  const { setIsDrawerOpen } = useInsightContext();
 
-  if (isDrawerOpen) return null;
   if (values.id !== 0) return null;
   if (values.observations.length === 0) return null;
 
@@ -52,6 +51,7 @@ const ActionBar = () => {
           size="small"
           onClick={() => {
             setIsDrawerOpen(true);
+            setValues({ ...values, id: -1 });
           }}
         >
           {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CREATE_INSIGHT')}
