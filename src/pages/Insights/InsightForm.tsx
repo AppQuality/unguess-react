@@ -28,7 +28,8 @@ const InsightForm = ({ insight }: { insight: any }) => {
             .map((observation: any) => observation.title)
             .join(', ')}
         </SM>
-        <Button onClick={() => setValues(insight)}>
+        {/* TODO: Undo button */}
+        <Button isPrimary onClick={() => setValues(insight)}>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
         </Button>
       </>
@@ -61,39 +62,52 @@ const InsightForm = ({ insight }: { insight: any }) => {
           </>
         )}
       </Field>
-      {insight.observations.map(
-        (observation: InsightFormValues['observations'][number]) => (
-          <Field key={observation.id} name={`observations.${observation.id}`}>
-            {({ form }: FieldProps) => (
-              <ZendeskField>
-                <Checkbox
-                  checked={
-                    !!values.observations.find((o) => o.id === observation.id)
-                  }
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      form.setFieldValue('observations', [
-                        ...values.observations,
-                        observation,
-                      ]);
-                    } else {
-                      form.setFieldValue(
-                        'observations',
-                        values.observations.filter(
-                          (o) => o.id !== observation.id
+      <div style={{ margin: `${appTheme.space.md} 0` }}>
+        <Label>
+          {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
+        </Label>
+        <div style={{ marginTop: appTheme.space.sm }}>
+          {insight.observations.map(
+            (observation: InsightFormValues['observations'][number]) => (
+              <Field
+                key={observation.id}
+                name={`observations.${observation.id}`}
+              >
+                {({ form }: FieldProps) => (
+                  <ZendeskField>
+                    <Checkbox
+                      checked={
+                        !!values.observations.find(
+                          (o) => o.id === observation.id
                         )
-                      );
-                    }
-                  }}
-                >
-                  <Label isRegular>{observation.title}</Label>
-                </Checkbox>
-              </ZendeskField>
-            )}
-          </Field>
-        )
-      )}
-      <Button type="submit">
+                      }
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          form.setFieldValue('observations', [
+                            ...values.observations,
+                            observation,
+                          ]);
+                        } else {
+                          form.setFieldValue(
+                            'observations',
+                            values.observations.filter(
+                              (o) => o.id !== observation.id
+                            )
+                          );
+                        }
+                      }}
+                    >
+                      <Label isRegular>{observation.title}</Label>
+                    </Checkbox>
+                  </ZendeskField>
+                )}
+              </Field>
+            )
+          )}
+        </div>
+      </div>
+      {/* TODO: Undo button */}
+      <Button isPrimary type="submit">
         {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_SAVE')}
       </Button>
     </>

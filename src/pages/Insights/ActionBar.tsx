@@ -1,24 +1,63 @@
 import { useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { Button } from '@appquality/unguess-design-system';
+import { Trans, useTranslation } from 'react-i18next';
+import { Button, MD, Span } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
 import { InsightFormValues } from './FormProvider';
+import { useInsightContext } from './InsightContext';
+
+const FloatingContainer = styled.div`
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background-color: white;
+  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.md};
+  border-radius: ${({ theme }) => theme.borderRadii.xl};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  transition: all 0.3s ease-in-out;
+`;
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const ActionBar = () => {
   const { t } = useTranslation();
   const { values } = useFormikContext<InsightFormValues>();
+  const { isDrawerOpen, setIsDrawerOpen } = useInsightContext();
 
+  if (isDrawerOpen) return null;
   if (values.id !== 0) return null;
   if (values.observations.length === 0) return null;
 
   return (
-    <Button
-      onClick={() => {
-        // eslint-disable-next-line no-alert
-        alert('openDrawer');
-      }}
-    >
-      {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CREATE_INSIGHT')}
-    </Button>
+    <FloatingContainer>
+      <Container>
+        <MD style={{ marginRight: appTheme.space.md }}>
+          <Trans
+            count={values.observations.length}
+            i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_LABEL"
+          >
+            <Span isBold style={{ color: appTheme.palette.blue[600] }}>
+              {{ count: values.observations.length }}
+            </Span>{' '}
+            observations
+          </Trans>
+        </MD>
+        <Button
+          isPrimary
+          size="small"
+          onClick={() => {
+            setIsDrawerOpen(true);
+          }}
+        >
+          {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CREATE_INSIGHT')}
+        </Button>
+      </Container>
+    </FloatingContainer>
   );
 };
 
