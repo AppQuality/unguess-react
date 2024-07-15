@@ -189,6 +189,12 @@ unguessApi.enhanceEndpoints({
         }
       },
     },
+    getCampaignsByCidVideosAndVidSentiments: {
+      providesTags: ['Sentiments'],
+    },
+    postCampaignsByCidVideosAndVidSentiments: {
+      invalidatesTags: ['Sentiments'],
+    },
   },
 });
 

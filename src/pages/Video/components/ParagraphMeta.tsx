@@ -49,6 +49,7 @@ const Header = styled.div`
 const Flex = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 export const ParagraphMeta = ({
@@ -73,12 +74,12 @@ export const ParagraphMeta = ({
           {formatDuration(start)} - {formatDuration(end)}
         </StyledSM>
         {sentimentObj && sentimentObj.text && (
-          <Flex>
+          <Flex onClick={() => setIsOpen(!isOpen)}>
             {sentimentObj.text}
             <IconButton
               isRotated={isOpen}
               size="small"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={(e) => e.stopPropagation()}
             >
               <ChevronIcon />
             </IconButton>
