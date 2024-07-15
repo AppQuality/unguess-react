@@ -15,6 +15,7 @@ import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import InsightsPageContent from './Content';
 import InsightsPageHeader from './PageHeader';
+import { InsightContextProvider } from './InsightContext';
 
 const InsightsPage = () => {
   const { t } = useTranslation();
@@ -84,7 +85,9 @@ const InsightsPage = () => {
       excludeMarginTop
       excludeMarginBottom
     >
-      <InsightsPageContent />
+      <InsightContextProvider>
+        <InsightsPageContent />
+      </InsightContextProvider>
     </Page>
   );
 };
