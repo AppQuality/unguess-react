@@ -15,7 +15,8 @@ import { InsightFormValues } from './FormProvider';
 
 const InsightForm = ({ insight }: { insight: any }) => {
   const { t } = useTranslation();
-  const { values, setValues } = useFormikContext<InsightFormValues>();
+  const { values, setValues, isSubmitting } =
+    useFormikContext<InsightFormValues>();
   const isEditing = values.id === insight.id;
 
   // Readonly mode
@@ -23,13 +24,29 @@ const InsightForm = ({ insight }: { insight: any }) => {
     return (
       <>
         <MD>{insight.title}</MD>
-        <SM>
-          {insight.observations
-            .map((observation: any) => observation.title)
-            .join(', ')}
-        </SM>
-        {/* TODO: Undo button */}
-        <Button isPrimary onClick={() => setValues(insight)}>
+        <div style={{ marginTop: appTheme.space.sm }}>
+          <SM>
+            {insight.observations
+              .map((observation: any) => observation.title)
+              .join(', ')}
+          </SM>
+        </div>
+        <Button
+          isBasic
+          disabled={isSubmitting}
+          style={{
+            marginRight: appTheme.space.sm,
+            color: appTheme.palette.red[500],
+          }}
+          onClick={() => {}}
+        >
+          {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE')}
+        </Button>
+        <Button
+          style={{ marginTop: appTheme.space.md }}
+          isPrimary
+          onClick={() => setValues(insight)}
+        >
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
         </Button>
       </>
@@ -106,7 +123,16 @@ const InsightForm = ({ insight }: { insight: any }) => {
           )}
         </div>
       </div>
-      {/* TODO: Undo button */}
+      <Button
+        isBasic
+        disabled={isSubmitting}
+        style={{
+          marginRight: appTheme.space.sm,
+        }}
+        onClick={() => {}}
+      >
+        {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNDO')}
+      </Button>
       <Button isPrimary type="submit">
         {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_SAVE')}
       </Button>
