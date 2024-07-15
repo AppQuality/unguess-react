@@ -3,8 +3,9 @@ import { Field as ZendeskField } from '@zendeskgarden/react-forms';
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
-import { InsightFormValues } from './FormProvider';
+import { InsightFormValues } from '../FormProvider';
 import { ClusterCard } from './ClusterCard';
+import { ObservationCard } from './ObservationCard';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
@@ -12,8 +13,8 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: ${({ theme }) => theme.space.md};
+  grid-template-columns: repeat(4, 25%);
+  grid-gap: 0;
   blockquote {
     font-style: italic;
     padding: 0;
@@ -120,6 +121,13 @@ const Collection = () => {
               quote:
                 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi',
             },
+            {
+              id: 4,
+              title: 'Observation #4',
+              severity: 2,
+              quote:
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
+            },
           ]}
         >
           <p>
@@ -130,24 +138,45 @@ const Collection = () => {
           </p>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </ClusterCard>
-        <Card>
-          <blockquote>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </blockquote>
-        </Card>
-        <Card>
-          <blockquote>
+        <ClusterCard
+          severity={2}
+          observations={[
+            {
+              id: 1,
+              title: 'Observation #1',
+              severity: 1,
+              quote:
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
+            },
+            {
+              id: 2,
+              title: 'Observation #2',
+              severity: 2,
+              quote: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+            },
+            {
+              id: 3,
+              title: 'Observation #3',
+              severity: 3,
+              quote: 'Lorem ipsum dolor sit',
+            },
+          ]}
+        >
+          <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
             pariatur officia, modi, quisquam nam repellendus commodi
             exercitationem expedita distinctio harum et similique voluptatibus
-            asperiores iusto possimus!
-          </blockquote>
-        </Card>
-        <Card>
-          <blockquote>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </blockquote>
-        </Card>
+            asperiores iusto possimus! Autem aspernatur aut tenetur.
+          </p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+        </ClusterCard>
+        <ObservationCard
+          quote={`Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
+            pariatur officia, modi, quisquam nam repellendus commodi
+            exercitationem expedita distinctio harum et similique voluptatibus
+            asperiores iusto possimus!`}
+        />
+        <ObservationCard quote="Lorem ipsum dolor sit amet consectetur adipisicing elit." />
       </Wrapper>
     </Container>
   );
