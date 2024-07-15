@@ -82,6 +82,16 @@ const InsightsDrawer = () => {
             observations: [],
           }}
         />
+        {values.id === -1 && (
+          <Insight
+            insight={{
+              id: -1,
+              title: 'New Insight',
+              severity: 1,
+              observations: values.observations,
+            }}
+          />
+        )}
       </div>
     </DetailContainer>
   );
