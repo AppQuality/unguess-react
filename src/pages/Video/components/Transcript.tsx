@@ -14,6 +14,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
+  useGetCampaignsByCidVideosAndVidSentimentsQuery,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
   usePostVideosByVidObservationsMutation,
@@ -24,6 +25,7 @@ import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
 import { ParagraphMeta } from './ParagraphMeta';
+import { AutoSentiment } from './AutoSentiment';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -43,6 +45,7 @@ const IconTitleContainer = styled.div`
   display: flex;
   align-items: flex-start;
   gap: ${({ theme }) => theme.space.xxs};
+  align-items: center;
 `;
 
 const HighlightContainer = styled.div``;
@@ -77,7 +80,7 @@ const Transcript = ({
   setCurrentTime: (time: number, forcePlay?: boolean) => void;
 }) => {
   const { t } = useTranslation();
-  const { videoId } = useParams();
+  const { campaignId, videoId } = useParams();
   const [searchValue, setSearchValue] = useState('');
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -91,6 +94,15 @@ const Transcript = ({
     isLoading: isLoadingVideo,
     isError: isErrorVideo,
   } = useGetVideosByVidQuery({
+    vid: videoId || '',
+  });
+
+  const {
+    data: sentiment,
+    isFetching: isFetchingSentiment,
+    isLoading: isLoadingSentiment,
+  } = useGetCampaignsByCidVideosAndVidSentimentsQuery({
+    cid: campaignId || '',
     vid: videoId || '',
   });
 
@@ -144,13 +156,22 @@ const Transcript = ({
     return sanitizedInput;
   };
 
-  if (!video || isErrorVideo || !video.transcript || isErrorObservations)
+  if (
+    !video ||
+    !videoId ||
+    !campaignId ||
+    isErrorVideo ||
+    !video.transcript ||
+    isErrorObservations
+  )
     return null;
   if (
     isFetchingVideo ||
     isLoadingVideo ||
     isFetchingObservations ||
-    isLoadingObservations
+    isLoadingObservations ||
+    isFetchingSentiment ||
+    isLoadingSentiment
   )
     return <Skeleton />;
   return (
@@ -163,9 +184,11 @@ const Transcript = ({
               <LG color={appTheme.palette.grey[800]} isBold>
                 {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
               </LG>
+              <AutoSentiment videoId={videoId} campaignId={campaignId} />
             </IconTitleContainer>
             <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
           </TitleWrapper>
+
           {isSearchable && (
             <SearchBar
               value={searchValue}
@@ -189,6 +212,13 @@ const Transcript = ({
                     start={p.start}
                     end={p.end}
                     speakerIndex={p.speaker || 0}
+                    sentiment={
+                      sentiment?.paragraphs
+                        ? sentiment?.paragraphs.find(
+                            (ps) => ps.start === p.start && ps.end === p.end
+                          )
+                        : undefined
+                    }
                     setCurrentTime={(time) => setCurrentTime(time, true)}
                   >
                     {p.words.map((item, index) => (

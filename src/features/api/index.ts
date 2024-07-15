@@ -505,6 +505,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getVideosByVidSentiment: build.query<
+      GetVideosByVidSentimentApiResponse,
+      GetVideosByVidSentimentApiArg
+    >({
+      query: (queryArg) => ({ url: `/videos/${queryArg.vid}/sentiment` }),
+    }),
     patchVideosByVidObservationsAndOid: build.mutation<
       PatchVideosByVidObservationsAndOidApiResponse,
       PatchVideosByVidObservationsAndOidApiArg
@@ -637,6 +643,24 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/workspaces/${queryArg.wid}/users`,
         method: 'DELETE',
+        body: queryArg.body,
+      }),
+    }),
+    getCampaignsByCidVideosAndVidSentiments: build.query<
+      GetCampaignsByCidVideosAndVidSentimentsApiResponse,
+      GetCampaignsByCidVideosAndVidSentimentsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/videos/${queryArg.vid}/sentiments`,
+      }),
+    }),
+    postCampaignsByCidVideosAndVidSentiments: build.mutation<
+      PostCampaignsByCidVideosAndVidSentimentsApiResponse,
+      PostCampaignsByCidVideosAndVidSentimentsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/videos/${queryArg.vid}/sentiments`,
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
@@ -921,8 +945,7 @@ export type PatchCampaignsByCidCustomStatusesApiArg = {
   /** Campaign id */
   cid: string;
   body: {
-    /** se esiste già questo parametro viene passato nel request body
-        se invece non esiste ed il custom status deve essere creato, non viene passato */
+    /** se esiste già questo parametro viene passato nel request body\r\nse invece non esiste ed il custom status deve essere creato, non viene passato */
     custom_status_id?: number;
     name: string;
     color: string;
@@ -1379,6 +1402,19 @@ export type PostVideosByVidObservationsApiArg = {
     end: number;
   };
 };
+export type GetVideosByVidSentimentApiResponse = /** status 200 OK */ {
+  value: number;
+  comment: string;
+  paragraphs: {
+    start: number;
+    end: number;
+    value: number;
+    comment: string;
+  }[];
+} | /** status 202 Accepted */ void;
+export type GetVideosByVidSentimentApiArg = {
+  vid: string;
+};
 export type PatchVideosByVidObservationsAndOidApiResponse =
   /** status 200 OK */ Observation;
 export type PatchVideosByVidObservationsAndOidApiArg = {
@@ -1559,6 +1595,39 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     user_id: number;
     include_shared?: boolean;
   };
+};
+export type GetCampaignsByCidVideosAndVidSentimentsApiResponse =
+  /** status 200 OK */ {
+    value: number;
+    comment: string;
+    paragraphs: {
+      end: number;
+      start: number;
+      value: number;
+      comment: string;
+    }[];
+  };
+export type GetCampaignsByCidVideosAndVidSentimentsApiArg = {
+  /** Campaign id */
+  cid: string;
+  vid: string;
+};
+export type PostCampaignsByCidVideosAndVidSentimentsApiResponse =
+  /** status 200 Ok */ {
+    value: number;
+    comment: string;
+    paragraphs: {
+      end: number;
+      start: number;
+      value: number;
+      comment: string;
+    }[];
+  };
+export type PostCampaignsByCidVideosAndVidSentimentsApiArg = {
+  /** Campaign id */
+  cid: string;
+  vid: string;
+  body: {};
 };
 export type Error = {
   message: string;
@@ -2081,6 +2150,7 @@ export const {
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,
   usePostVideosByVidObservationsMutation,
+  useGetVideosByVidSentimentQuery,
   usePatchVideosByVidObservationsAndOidMutation,
   useDeleteVideosByVidObservationsAndOidMutation,
   useGetWorkspacesQuery,
@@ -2094,4 +2164,6 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
+  useGetCampaignsByCidVideosAndVidSentimentsQuery,
+  usePostCampaignsByCidVideosAndVidSentimentsMutation,
 } = injectedRtkApi;
