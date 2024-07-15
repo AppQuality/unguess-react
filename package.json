@@ -42,6 +42,7 @@
   },
   "scripts": {
     "start": "craco start",
+    "start:ssl": "craco --openssl-legacy-provider start",
     "build": "craco build",
     "test": "react-scripts test",
     "recover": "yarn install --check-files",
