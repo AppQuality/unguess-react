@@ -45,11 +45,9 @@ export const ClusterCard = ({
       </CardBackground>
       {isOpen &&
         observations.map((observation) => (
-          <ObservationCard
-            key={observation.id}
-            isOpen={isOpen}
-            quote={observation.quote}
-          />
+          <CardBackground key={observation.id} isOpen={isOpen}>
+            <ObservationCard quote={observation.quote} />
+          </CardBackground>
         ))}
       {isOpen && 'divisore'}
     </>
