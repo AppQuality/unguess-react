@@ -160,6 +160,20 @@ const Collection = () => {
               severity: 3,
               quote: 'Lorem ipsum dolor sit',
             },
+            {
+              id: 4,
+              title: 'Observation #4',
+              severity: 2,
+              quote:
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
+            },
+            {
+              id: 5,
+              title: 'Observation #5',
+              severity: 2,
+              quote:
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
+            },
           ]}
         >
           <p>
