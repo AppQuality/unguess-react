@@ -27,9 +27,6 @@ const Collection = () => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
 
-  // eslint-disable-next-line no-console
-  console.log(values);
-
   return (
     <Container>
       <LG>{t('__INSIGHTS_PAGE_COLLECTION_TITLE')}</LG>

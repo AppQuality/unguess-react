@@ -1,12 +1,20 @@
-import { Accordion, LG } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  Button,
+  LG,
+  MD,
+  SM,
+} from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
+import { useTranslation } from 'react-i18next';
 import { InsightFormValues } from './FormProvider';
-import { InsightForm } from './InsightForm';
 
 const Insight = ({ insight }: { insight: any }) => {
-  const { values } = useFormikContext<InsightFormValues>();
+  const { t } = useTranslation();
+  const { values, setValues, isSubmitting } =
+    useFormikContext<InsightFormValues>();
   const isCurrent = values.id === insight.id;
 
   return (
@@ -26,7 +34,32 @@ const Insight = ({ insight }: { insight: any }) => {
             </Accordion.Label>
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
-            <InsightForm insight={insight} />
+            <MD>{insight.title}</MD>
+            <div style={{ marginTop: appTheme.space.sm }}>
+              <SM>
+                {insight.observations
+                  .map((observation: any) => observation.title)
+                  .join(', ')}
+              </SM>
+            </div>
+            <Button
+              isBasic
+              disabled={isSubmitting}
+              style={{
+                marginRight: appTheme.space.sm,
+                color: appTheme.palette.red[500],
+              }}
+              onClick={() => {}}
+            >
+              {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE')}
+            </Button>
+            <Button
+              style={{ marginTop: appTheme.space.md }}
+              isPrimary
+              onClick={() => setValues(insight)}
+            >
+              {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
+            </Button>
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>
