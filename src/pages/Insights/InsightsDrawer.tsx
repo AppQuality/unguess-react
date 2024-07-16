@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { IconButton, LG, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { useMemo } from 'react';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { Insight } from './Insight';
 import { InsightFormValues } from './FormProvider';
@@ -38,6 +39,39 @@ const InsightsDrawer = () => {
   // eslint-disable-next-line no-console
   console.log(values);
 
+  const Insight1 = useMemo(
+    () => (
+      <Insight
+        insight={{
+          id: 1,
+          title: 'Insight #1',
+          severity: 1,
+          observations: [
+            {
+              id: 1,
+              title: 'Observation #1',
+              severity: 1,
+              quotes: '',
+            },
+          ],
+        }}
+      />
+    ),
+    []
+  );
+  const Insight2 = useMemo(
+    () => (
+      <Insight
+        insight={{
+          id: 2,
+          title: 'Insight #2',
+          severity: 1,
+          observations: [],
+        }}
+      />
+    ),
+    []
+  );
   return (
     <DetailContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -59,29 +93,8 @@ const InsightsDrawer = () => {
         </Tooltip>
       </div>
       <div style={{ marginTop: appTheme.space.md }}>
-        <Insight
-          insight={{
-            id: 1,
-            title: 'Insight #1',
-            severity: 1,
-            observations: [
-              {
-                id: 1,
-                title: 'Observation #1',
-                severity: 1,
-                quotes: '',
-              },
-            ],
-          }}
-        />
-        <Insight
-          insight={{
-            id: 2,
-            title: 'Insight #2',
-            severity: 1,
-            observations: [],
-          }}
-        />
+        {Insight1}
+        {Insight2}
         {values.id === -1 && (
           <Insight
             insight={{

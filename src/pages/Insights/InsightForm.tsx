@@ -11,14 +11,15 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { Field as ZendeskField } from '@zendeskgarden/react-forms';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { memo } from 'react';
 import { InsightFormValues } from './FormProvider';
 
-const InsightForm = ({ insight }: { insight: any }) => {
+const InsightForm = memo(({ insight }: { insight: any }) => {
   const { t } = useTranslation();
   const { values, setValues, isSubmitting } =
     useFormikContext<InsightFormValues>();
   const isEditing = values.id === insight.id;
-
+  console.log('suca', insight);
   // Readonly mode
   if (!isEditing)
     return (
@@ -51,7 +52,6 @@ const InsightForm = ({ insight }: { insight: any }) => {
         </Button>
       </>
     );
-
   // Editing mode
   return (
     <>
@@ -84,7 +84,7 @@ const InsightForm = ({ insight }: { insight: any }) => {
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
         </Label>
         <div style={{ marginTop: appTheme.space.sm }}>
-          {insight.observations.map(
+          {values.observations.map(
             (observation: InsightFormValues['observations'][number]) => (
               <Field
                 key={observation.id}
@@ -138,6 +138,5 @@ const InsightForm = ({ insight }: { insight: any }) => {
       </Button>
     </>
   );
-};
-
+});
 export { InsightForm };

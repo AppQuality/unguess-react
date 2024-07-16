@@ -38,8 +38,8 @@ const FormProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <Formik
       initialValues={initialValues}
-      validateOnChange
-      validateOnBlur
+      validateOnChange={false}
+      validateOnBlur={false}
       validationSchema={validationSchema}
       onSubmit={(
         values: InsightFormValues,
