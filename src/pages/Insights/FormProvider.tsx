@@ -41,12 +41,11 @@ const FormProvider = ({ children }: { children: React.ReactNode }) => {
       validateOnChange={false}
       validateOnBlur={false}
       validationSchema={validationSchema}
+      enableReinitialize={false}
       onSubmit={(
         values: InsightFormValues,
         { setSubmitting, resetForm }: FormikHelpers<InsightFormValues>
       ) => {
-        // eslint-disable-next-line no-console
-        console.log(values);
         setSubmitting(false);
         resetForm();
       }}
