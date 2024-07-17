@@ -7,6 +7,29 @@ import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { Insight } from './Insight';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
+import { InsightForm } from './InsightForm';
+
+const insightData = [
+  {
+    id: 1,
+    title: 'Insight #1',
+    severity: 1,
+    observations: [
+      {
+        id: 1,
+        title: 'Observation #1',
+        severity: 1,
+        quotes: '',
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: 'Insight #2',
+    severity: 1,
+    observations: [],
+  },
+];
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -35,9 +58,6 @@ const InsightsDrawer = () => {
   const { t } = useTranslation();
   const { setIsDrawerOpen } = useInsightContext();
 
-  // eslint-disable-next-line no-console
-  console.log(values);
-
   return (
     <DetailContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -59,30 +79,11 @@ const InsightsDrawer = () => {
         </Tooltip>
       </div>
       <div style={{ marginTop: appTheme.space.md }}>
-        <Insight
-          insight={{
-            id: 1,
-            title: 'Insight #1',
-            severity: 1,
-            observations: [
-              {
-                id: 1,
-                title: 'Observation #1',
-                severity: 1,
-                quotes: '',
-              },
-            ],
-          }}
-        />
-        <Insight
-          insight={{
-            id: 2,
-            title: 'Insight #2',
-            severity: 1,
-            observations: [],
-          }}
-        />
+        {values.id === 0 &&
+          // accordion
+          insightData.map((insight) => <Insight insight={insight} />)}
         {values.id === -1 && (
+          // new insight
           <Insight
             insight={{
               id: -1,
@@ -91,6 +92,10 @@ const InsightsDrawer = () => {
               observations: values.observations,
             }}
           />
+        )}
+        {values.id > 0 && (
+          // edit insight
+          <InsightForm />
         )}
       </div>
     </DetailContainer>
