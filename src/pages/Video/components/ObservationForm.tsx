@@ -153,9 +153,7 @@ const ObservationForm = ({
       .flatMap((paragraph) =>
         paragraph.words.filter(
           (word) =>
-            Number(word.start.toFixed(8)) >=
-              Number(observation.start.toFixed(8)) &&
-            Number(word.end.toFixed(8)) <= Number(observation.end.toFixed(8))
+            word.start >= observation.start && word.end <= observation.end
         )
       )
       .map((word) => word.word)
