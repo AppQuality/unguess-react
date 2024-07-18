@@ -7,16 +7,15 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field as ZendeskField } from '@zendeskgarden/react-forms';
 import { useState } from 'react';
+import { Observation, UseCase, Video } from 'src/features/api';
 import { CardBackground } from './CardBackground';
 import { ObservationCard } from './ObservationCard';
 
 interface ClusterCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  observations: {
-    id: number;
-    title: string;
-    severity: number;
-    quote: string;
-  }[];
+  observations: (Observation & {
+    video: Video;
+    useCase: UseCase;
+  })[];
   severity: number;
 }
 
@@ -46,7 +45,7 @@ export const ClusterCard = ({
       {isOpen &&
         observations.map((observation) => (
           <CardBackground key={observation.id} isOpen={isOpen}>
-            <ObservationCard quote={observation.quote} />
+            <ObservationCard observation={observation} />
           </CardBackground>
         ))}
       {isOpen && 'divisore'}

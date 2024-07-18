@@ -100,30 +100,69 @@ const Collection = () => {
           observations={[
             {
               id: 1,
-              title: 'Observation #1',
-              severity: 1,
-              quote: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-            },
-            {
-              id: 2,
-              title: 'Observation #2',
-              severity: 2,
-              quote:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
-            },
-            {
-              id: 3,
-              title: 'Observation #3',
-              severity: 3,
-              quote:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi',
-            },
-            {
-              id: 4,
-              title: 'Observation #4',
-              severity: 2,
-              quote:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
+              title: 'observation #1',
+              description: 'observation #1 description',
+              /** Format: float */
+              start: 1,
+              /** Format: float */
+              end: 3,
+              tags: [
+                {
+                  group: {
+                    id: 1,
+                    name: 'group #1',
+                  },
+                  tag: {
+                    id: 1,
+                    name: 'tag #1',
+                    style: '#000000',
+                    usageNumber: 1,
+                  },
+                },
+                {
+                  group: {
+                    id: 1,
+                    name: 'group #1',
+                  },
+                  tag: {
+                    id: 2,
+                    name: 'tag #2',
+                    style: '#000000',
+                    usageNumber: 1,
+                  },
+                },
+                {
+                  group: {
+                    id: 2,
+                    name: 'severity',
+                  },
+                  tag: {
+                    id: 3,
+                    name: 'high',
+                    style: '#FF0000',
+                    usageNumber: 1,
+                  },
+                },
+              ],
+              quotes: 'lorem ipsum',
+              video: {
+                id: 1,
+                poster: 'https://via.placeholder.com/150',
+                url: 'https://via.placeholder.com/150',
+                streamUrl: 'https://via.placeholder.com/150',
+                tester: {
+                  id: 1,
+                  name: "tester's name",
+                  surname: "tester's surname",
+                  device: {
+                    type: 'smartphone',
+                  },
+                },
+              },
+              useCase: {
+                title: 'use case title',
+                description: 'use case description',
+              },
             },
           ]}
         >
@@ -135,44 +174,7 @@ const Collection = () => {
           </p>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
         </ClusterCard>
-        <ClusterCard
-          severity={2}
-          observations={[
-            {
-              id: 1,
-              title: 'Observation #1',
-              severity: 1,
-              quote:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
-            },
-            {
-              id: 2,
-              title: 'Observation #2',
-              severity: 2,
-              quote: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-            },
-            {
-              id: 3,
-              title: 'Observation #3',
-              severity: 3,
-              quote: 'Lorem ipsum dolor sit',
-            },
-            {
-              id: 4,
-              title: 'Observation #4',
-              severity: 2,
-              quote:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
-            },
-            {
-              id: 5,
-              title: 'Observation #5',
-              severity: 2,
-              quote:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis pariatur officia, modi, quisquam nam repellendus commodi exercitationem expedita distinctio harum et similique voluptatibus asperiores iusto possimus!',
-            },
-          ]}
-        >
+        <ClusterCard severity={2} observations={[]}>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
             pariatur officia, modi, quisquam nam repellendus commodi

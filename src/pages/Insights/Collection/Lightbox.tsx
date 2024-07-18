@@ -7,7 +7,6 @@ import {
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { Pipe } from 'src/common/components/Pipe';
 import { Observation, UseCase, Video } from 'src/features/api';
 import useWindowSize from 'src/hooks/useWindowSize';
