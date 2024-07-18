@@ -17,7 +17,7 @@ export const UserAnalysisWidget = () => {
         </CapitalizeFirstLetter>
       </BasicWidget.Header>
       <BasicWidget.Description
-        header={t('_CAMPAIGN_WIDGET_UX_USER_ANALYSIS_DESCRIPTION_HEADER')}
+        header=""
         content={
           <span
             style={{
@@ -38,7 +38,7 @@ export const UserAnalysisWidget = () => {
         footer={
           <Trans
             i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL"
-            defaults="su <bold>{{35}}</bold> video totali"
+            defaults="su <bold>{{total}}</bold> video totali"
             count={15}
             components={{
               bold: (
