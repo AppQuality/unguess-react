@@ -2,7 +2,7 @@ import { LG } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
 import { UserAnalysisWidget } from './Widgets/UserAnalysisWidget';
-import { ObservedThemesWidget } from './Widgets/UserAnalysisWidget/ObservedThemesWidget';
+import { ObservedThemesWidget } from './Widgets/ObservedThemesWidget';
 import { ProgressMonitoringWidget } from './Widgets/ProgressMonitoringWidget';
 
 const Container = styled.div`

@@ -17,7 +17,7 @@ export const ObservedThemesWidget = () => {
         </CapitalizeFirstLetter>
       </BasicWidget.Header>
       <BasicWidget.Description
-        header={t('_CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_DESCRIPTION_HEADER')}
+        header=""
         content={
           <span
             style={{
@@ -39,7 +39,7 @@ export const ObservedThemesWidget = () => {
           <Trans
             // TODO: change the translation key
             i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL_2"
-            defaults="per un totale di <bold>{{140}}</bold> osservazioni"
+            defaults="per un totale di <bold>{{total}}</bold> osservazioni"
             count={15}
             components={{
               bold: (
