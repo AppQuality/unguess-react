@@ -121,7 +121,7 @@ export const ObservationCard = ({
         <SpecialCard.Footer>
           <Anchor
             isExternal
-            onClick={(e) => {
+            onClick={() => {
               setIsLightboxOpen(true);
             }}
           >
