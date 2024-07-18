@@ -81,9 +81,9 @@ export const ObservationCard = ({
       <SpecialCard.Header>
         <SpecialCard.Header.Label>{observation.title}</SpecialCard.Header.Label>
         <SpecialCard.Header.Title style={{ fontStyle: 'italic' }}>
-          {'"'}
+          &quot;
           {observation.quotes}
-          {'"'}
+          &quot;
         </SpecialCard.Header.Title>
         <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
           {severity && (
