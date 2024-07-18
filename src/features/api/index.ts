@@ -217,6 +217,15 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/meta` }),
     }),
+    getCampaignsByCidObservations: build.query<
+      GetCampaignsByCidObservationsApiResponse,
+      GetCampaignsByCidObservationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/observations`,
+        params: { groupBy: queryArg.groupBy },
+      }),
+    }),
     getCampaignsByCidOs: build.query<
       GetCampaignsByCidOsApiResponse,
       GetCampaignsByCidOsApiArg
@@ -921,8 +930,7 @@ export type PatchCampaignsByCidCustomStatusesApiArg = {
   /** Campaign id */
   cid: string;
   body: {
-    /** se esiste già questo parametro viene passato nel request body
-        se invece non esiste ed il custom status deve essere creato, non viene passato */
+    /** se esiste già questo parametro viene passato nel request body\r\nse invece non esiste ed il custom status deve essere creato, non viene passato */
     custom_status_id?: number;
     name: string;
     color: string;
@@ -968,6 +976,7 @@ export type PostCampaignsByCidInsightsApiArg = {
     severity_id: number;
     observations_ids: number[];
     comment?: string;
+    visible?: number;
   };
 };
 export type GetCampaignsByCidInsightsApiResponse =
@@ -984,6 +993,25 @@ export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
 export type GetCampaignsByCidMetaApiArg = {
   /** Campaign id */
   cid: string;
+};
+export type GetCampaignsByCidObservationsApiResponse =
+  /** status 200 OK */
+  | {
+      results: {
+        usecaseId: number;
+        usecaseTitle: string;
+        grapes: Grape[];
+        ungrouped: Observation[];
+      }[];
+      kind: 'usecase-grapes';
+    }
+  | {
+      results: Observation[];
+      kind: 'ungrouped';
+    };
+export type GetCampaignsByCidObservationsApiArg = {
+  cid: string;
+  groupBy?: 'usecase-grapes';
 };
 export type GetCampaignsByCidOsApiResponse = /** status 200 OK */ {
   os: string;
@@ -1233,6 +1261,7 @@ export type PatchInsightsByIidApiArg = {
     severity_id?: number;
     observations_ids?: number[];
     comment?: string;
+    visible?: number;
   };
 };
 export type GetMediaByIdApiResponse = unknown;
@@ -1810,14 +1839,17 @@ export type Observation = {
   description: string;
   start: number;
   end: number;
-  tags: VideoTag[];
   quotes: string;
+  uxNote?: string;
+  tags: VideoTag[];
 };
 export type Insight = {
   id: number;
   title: string;
   description: string;
   severity: BugSeverity;
+  visible?: number;
+  comment?: string;
   observations: (Observation & {
     video: {
       id: number;
@@ -1826,7 +1858,12 @@ export type Insight = {
       streamUrl: string;
     };
   })[];
-  comment?: string;
+};
+export type Grape = {
+  title: string;
+  severity: string;
+  usersNumber: number;
+  observations: Observation[];
 };
 export type ReportExtensions =
   | 'pdf'
@@ -2047,6 +2084,7 @@ export const {
   usePostCampaignsByCidInsightsMutation,
   useGetCampaignsByCidInsightsQuery,
   useGetCampaignsByCidMetaQuery,
+  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidReplicabilitiesQuery,
