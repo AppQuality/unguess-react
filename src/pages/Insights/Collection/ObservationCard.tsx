@@ -16,6 +16,7 @@ import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-deskto
 import { Pipe } from 'src/common/components/Pipe';
 import { useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
+import { LightboxContainer } from './Lightbox';
 
 export function getDeviceIcon(device?: string) {
   switch (device) {
@@ -40,6 +41,7 @@ export const ObservationCard = ({
 }) => {
   const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   const handleChange = () => {
     setChecked(!checked);
@@ -52,72 +54,87 @@ export const ObservationCard = ({
   const tags = observation.tags.filter((tag) => tag.group.name !== 'severity');
 
   return (
-    <SpecialCard
-      onClick={handleChange}
-      {...(checked && {
-        style: { borderColor: appTheme.palette.blue[600], borderWidth: 2 },
-      })}
-    >
-      <SpecialCard.Meta
-        justifyContent="start"
-        style={{
-          fontSize: appTheme.fontSizes.sm,
-          alignContent: 'center',
-          userSelect: 'none',
-        }}
+    <>
+      <SpecialCard
+        onClick={handleChange}
+        {...(checked && {
+          style: { borderColor: appTheme.palette.blue[600], borderWidth: 2 },
+        })}
       >
-        <Field>
-          <Checkbox checked={checked} onChange={handleChange}>
-            <Label>&nbsp;</Label>
-          </Checkbox>
-        </Field>
-        <>
-          <Pipe />
-          {getDeviceIcon(observation.video.tester.device.type)}
-          <Span>{observation.useCase.title}</Span>
-        </>
-      </SpecialCard.Meta>
+        <SpecialCard.Meta
+          justifyContent="start"
+          style={{
+            fontSize: appTheme.fontSizes.sm,
+            alignContent: 'center',
+            userSelect: 'none',
+          }}
+        >
+          <Field>
+            <Checkbox checked={checked} onChange={handleChange}>
+              <Label>&nbsp;</Label>
+            </Checkbox>
+          </Field>
+          <>
+            <Pipe />
+            {getDeviceIcon(observation.video.tester.device.type)}
+            <Span>{observation.useCase.title}</Span>
+          </>
+        </SpecialCard.Meta>
 
-      <SpecialCard.Header>
-        <SpecialCard.Header.Label>{observation.title}</SpecialCard.Header.Label>
-        <SpecialCard.Header.Title style={{ fontStyle: 'italic' }}>
-          &quot;
-          {observation.quotes}
-          &quot;
-        </SpecialCard.Header.Title>
-        <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
-          {severity && (
-            <>
+        <SpecialCard.Header>
+          <SpecialCard.Header.Label>
+            {observation.title}
+          </SpecialCard.Header.Label>
+          <SpecialCard.Header.Title style={{ fontStyle: 'italic' }}>
+            &quot;
+            {observation.quotes}
+            &quot;
+          </SpecialCard.Header.Title>
+          <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
+            {severity && (
+              <>
+                <Tag
+                  color={severity.tag.style}
+                  style={{
+                    backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
+                  }}
+                >
+                  {severity.tag.name}
+                </Tag>
+                <Pipe />
+              </>
+            )}
+            {tags.length > 0 && (
               <Tag
-                color={severity.tag.style}
+                color={tags[0].tag.style}
                 style={{
-                  backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
+                  backgroundColor: getColorWithAlpha(tags[0].tag.style, 0.1),
                 }}
               >
-                {severity.tag.name}
+                {tags[0].tag.name}
+                {tags.length > 1 && ` +${tags.length - 1}`}
               </Tag>
-              <Pipe />
-            </>
-          )}
-          {tags.length > 0 && (
-            <Tag
-              color={tags[0].tag.style}
-              style={{
-                backgroundColor: getColorWithAlpha(tags[0].tag.style, 0.1),
-              }}
-            >
-              {tags[0].tag.name}
-              {tags.length > 1 && ` +${tags.length - 1}`}
-            </Tag>
-          )}
-        </SpecialCard.Header.Text>
-      </SpecialCard.Header>
+            )}
+          </SpecialCard.Header.Text>
+        </SpecialCard.Header>
 
-      <SpecialCard.Footer>
-        <Anchor isExternal>
-          {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_VIEW_DETAILS')}
-        </Anchor>
-      </SpecialCard.Footer>
-    </SpecialCard>
+        <SpecialCard.Footer>
+          <Anchor
+            isExternal
+            onClick={(e) => {
+              setIsLightboxOpen(true);
+            }}
+          >
+            {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_VIEW_DETAILS')}
+          </Anchor>
+        </SpecialCard.Footer>
+      </SpecialCard>
+      {isLightboxOpen && (
+        <LightboxContainer
+          observation={observation}
+          onClose={() => setIsLightboxOpen(false)}
+        />
+      )}
+    </>
   );
 };
