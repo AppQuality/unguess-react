@@ -2,32 +2,29 @@ import { Checkbox, LG, Label } from '@appquality/unguess-design-system';
 import { Field as ZendeskField } from '@zendeskgarden/react-forms';
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { styled } from 'styled-components';
 import { InsightFormValues } from '../FormProvider';
 import { UsecaseSection } from './UsecaseSection';
-import { usecaseGrapes } from '../data';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
 `;
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 25%);
-  grid-gap: 0;
-  blockquote {
-    font-style: italic;
-    padding: 0;
-    margin: 0;
-    color: ${({ theme }) => theme.palette.grey[800]};
-  }
-`;
-
 const Collection = () => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
-  const { results } = usecaseGrapes;
+  const { campaignId } = useParams<{ campaignId: string }>();
 
+  const { data, isLoading, isError } = useGetCampaignsByCidObservationsQuery({
+    cid: campaignId || '',
+    groupBy: 'usecase-grapes',
+  });
+
+  if (isLoading || isError || !data) {
+    return null;
+  }
   return (
     <Container>
       <LG>{t('__INSIGHTS_PAGE_COLLECTION_TITLE')}</LG>
@@ -95,10 +92,13 @@ const Collection = () => {
           <Label isRegular>Observation #2</Label>
         </Checkbox>
       </ZendeskField>
-
-      {results.map((result) => (
-        <UsecaseSection usecase={result} />
-      ))}
+      {data.kind === 'usecase-grapes' && (
+        <>
+          {data.results.map((result) => (
+            <UsecaseSection {...result} />
+          ))}
+        </>
+      )}
     </Container>
   );
 };
