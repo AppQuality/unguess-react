@@ -4,8 +4,11 @@ import { appTheme } from 'src/app/theme';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 
 import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
+import { useUxTaggingVideoCompletionData } from '../hooks/useUxTaggingVideoCompletionData';
 
-export const UserAnalysisWidget = () => {
+export const UserAnalysisWidget = ({ campaignId }: { campaignId: string }) => {
+  const { countMediaWithObservation, countMedia } =
+    useUxTaggingVideoCompletionData(campaignId);
   const { t } = useTranslation();
   return (
     <BasicWidget className="bugs-distribution-widget">
@@ -24,7 +27,7 @@ export const UserAnalysisWidget = () => {
               color: appTheme.palette.blue[600],
             }}
           >
-            7
+            {countMediaWithObservation}
             <XL
               tag="span"
               isBold
@@ -44,7 +47,7 @@ export const UserAnalysisWidget = () => {
           <Trans
             i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_TOTAL_LABEL"
             defaults="on <bold>{{total}}</bold> total videos"
-            count={35}
+            count={countMedia}
             components={{
               bold: (
                 <Span
@@ -54,7 +57,7 @@ export const UserAnalysisWidget = () => {
               ),
             }}
             values={{
-              total: 35,
+              total: countMedia,
             }}
           />
         }

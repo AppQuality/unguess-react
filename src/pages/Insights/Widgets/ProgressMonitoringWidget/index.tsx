@@ -4,9 +4,15 @@ import { appTheme } from 'src/app/theme';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 
 import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
+import { useSeveritiesDistributionData } from '../hooks/useSeveritiesDistributionData';
 
-export const ProgressMonitoringWidget = () => {
+export const ProgressMonitoringWidget = ({
+  campaignId,
+}: {
+  campaignId: string;
+}) => {
   const { t } = useTranslation();
+  const { results } = useSeveritiesDistributionData(campaignId);
   return (
     <BasicWidget className="observed-themes-widget">
       <BasicWidget.Header
@@ -24,7 +30,7 @@ export const ProgressMonitoringWidget = () => {
               color: appTheme.colors.bySeverity.critical,
             }}
           >
-            25%
+            15
             <XL
               tag="span"
               isBold
@@ -40,7 +46,7 @@ export const ProgressMonitoringWidget = () => {
             // TODO: change the translation key
             i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_TOTAL_LABEL"
             defaults="out of <bold>{{total}}</bold> total observations"
-            count={15}
+            count={10}
             components={{
               bold: (
                 <Span
@@ -50,7 +56,7 @@ export const ProgressMonitoringWidget = () => {
               ),
             }}
             values={{
-              total: 35,
+              total: 8,
             }}
           />
         }

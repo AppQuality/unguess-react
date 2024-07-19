@@ -1,9 +1,9 @@
 import { LG } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { UserAnalysisWidget } from './Widgets/UserAnalysisWidget';
 import { ObservedThemesWidget } from './Widgets/ObservedThemesWidget';
 import { ProgressMonitoringWidget } from './Widgets/ProgressMonitoringWidget';
+import { UserAnalysisWidget } from './Widgets/UserAnalysisWidget';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
@@ -20,13 +20,17 @@ const Container = styled.div`
 `;
 
 const Widgets = () => {
-  const { t } = useTranslation();
+  const { campaignId } = useParams();
+
+  if (!campaignId) {
+    return null;
+  }
 
   return (
     <Container>
-      <UserAnalysisWidget />
-      <ObservedThemesWidget />
-      <ProgressMonitoringWidget />
+      <UserAnalysisWidget campaignId={campaignId} />
+      <ObservedThemesWidget campaignId={campaignId} />
+      <ProgressMonitoringWidget campaignId={campaignId} />
     </Container>
   );
 };
