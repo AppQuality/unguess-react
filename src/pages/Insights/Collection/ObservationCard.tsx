@@ -9,12 +9,12 @@ import {
 import { Field } from '@zendeskgarden/react-forms';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { Observation, UseCase, Video } from 'src/features/api';
+import { Grape, useGetVideosByVidQuery } from 'src/features/api';
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { Pipe } from 'src/common/components/Pipe';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
 import { LightboxContainer } from './Lightbox';
 
@@ -34,14 +34,26 @@ export function getDeviceIcon(device?: string) {
 export const ObservationCard = ({
   observation,
 }: {
-  observation: Observation & {
-    video: Video;
-    useCase: UseCase;
-  };
+  observation: Grape['observations'][number];
 }) => {
   const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const {
+    data: video,
+    isLoading,
+    isError,
+  } = useGetVideosByVidQuery({
+    vid: observation.mediaId.toString(),
+  });
+
+  const memoizedObservation = useMemo(
+    () => ({
+      ...observation,
+      video,
+    }),
+    [observation, video]
+  );
 
   const handleChange = () => {
     setChecked(!checked);
@@ -52,7 +64,11 @@ export const ObservationCard = ({
   );
 
   const tags = observation.tags.filter((tag) => tag.group.name !== 'severity');
+  console.log('tags', tags);
 
+  if (isLoading || isError || !video) {
+    return null;
+  }
   return (
     <>
       <SpecialCard
@@ -76,8 +92,8 @@ export const ObservationCard = ({
           </Field>
           <>
             <Pipe />
-            {getDeviceIcon(observation.video.tester.device.type)}
-            <Span>{observation.useCase.title}</Span>
+            {getDeviceIcon(video.tester.device.type)}
+            <Span>{observation.usecaseTitle}</Span>
           </>
         </SpecialCard.Meta>
 
@@ -105,12 +121,7 @@ export const ObservationCard = ({
               </>
             )}
             {tags.length > 0 && (
-              <Tag
-                color={tags[0].tag.style}
-                style={{
-                  backgroundColor: getColorWithAlpha(tags[0].tag.style, 0.1),
-                }}
-              >
+              <Tag>
                 {tags[0].tag.name}
                 {tags.length > 1 && ` +${tags.length - 1}`}
               </Tag>
@@ -131,7 +142,7 @@ export const ObservationCard = ({
       </SpecialCard>
       {isLightboxOpen && (
         <LightboxContainer
-          observation={observation}
+          observation={memoizedObservation}
           onClose={() => setIsLightboxOpen(false)}
         />
       )}

@@ -2,7 +2,7 @@ import { Accordion, LG, Tag } from '@appquality/unguess-design-system';
 import { v4 as uuidv4 } from 'uuid';
 import { useMemo } from 'react';
 import { styled } from 'styled-components';
-import { Grape as GrapeType, Observation } from 'src/features/api';
+import { Grape as GrapeType } from 'src/features/api';
 import { Grape } from './Grape';
 import { ObservationCard } from './ObservationCard';
 import { CardGrid } from './CardGrid';
@@ -11,7 +11,7 @@ interface UsecaseSectionProps {
   usecaseId: number;
   usecaseTitle: string;
   grapes: GrapeType[];
-  ungrouped: Observation[];
+  ungrouped: GrapeType['observations'];
 }
 
 const StyledSection = styled.section`
@@ -71,7 +71,7 @@ export const UsecaseSection = ({
         ))}
         <CardGrid>
           {ungrouped.map((observation) => (
-            <ObservationCard key={observation.id} quote={observation.quotes} />
+            <ObservationCard key={observation.id} observation={observation} />
           ))}
         </CardGrid>
       </Accordion>
