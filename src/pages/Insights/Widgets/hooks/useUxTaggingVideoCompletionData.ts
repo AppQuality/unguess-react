@@ -1,9 +1,9 @@
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
-const useUxTaggingVideoCompletionData = (campaignId: number) => {
+export const useUxTaggingVideoCompletionData = (campaignId: string) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: campaignId.toString(),
+      cid: campaignId,
       s: 'ux-tagging-video-completion',
     });
   const { data: results, kind } = data || {};

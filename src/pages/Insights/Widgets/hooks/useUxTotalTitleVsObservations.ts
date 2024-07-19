@@ -1,9 +1,9 @@
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
-const useUxTotalTitleVsObservations = (campaignId: number) => {
+export const useUxTotalTitleVsObservations = (campaignId: string) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: campaignId.toString(),
+      cid: campaignId,
       s: 'ux-total-title-vs-observation',
     });
 

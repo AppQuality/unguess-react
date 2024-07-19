@@ -4,9 +4,16 @@ import { appTheme } from 'src/app/theme';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 
 import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
+import { useUxTotalTitleVsObservations } from '../hooks/useUxTotalTitleVsObservations';
 
-export const ObservedThemesWidget = () => {
+export const ObservedThemesWidget = ({
+  campaignId,
+}: {
+  campaignId: string;
+}) => {
   const { t } = useTranslation();
+  const { countObservation, countTitleTag } =
+    useUxTotalTitleVsObservations(campaignId);
   return (
     <BasicWidget className="observed-themes-widget">
       <BasicWidget.Header
@@ -24,7 +31,7 @@ export const ObservedThemesWidget = () => {
               color: appTheme.palette.blue[600],
             }}
           >
-            14
+            {countTitleTag}
             <XL
               tag="span"
               isBold
@@ -35,7 +42,7 @@ export const ObservedThemesWidget = () => {
                 i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_COUNT_LABEL"
                 count={15}
               >
-                {' titoli'}
+                titles
               </Trans>
             </XL>
           </span>
@@ -45,7 +52,7 @@ export const ObservedThemesWidget = () => {
             // TODO: change the translation key
             i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_TOTAL_LABEL"
             defaults="out of <bold>{{total}}</bold> total observations"
-            count={15}
+            count={countObservation}
             components={{
               bold: (
                 <Span
@@ -55,7 +62,7 @@ export const ObservedThemesWidget = () => {
               ),
             }}
             values={{
-              total: 35,
+              total: countObservation,
             }}
           />
         }

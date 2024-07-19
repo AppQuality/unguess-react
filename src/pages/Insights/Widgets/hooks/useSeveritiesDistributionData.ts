@@ -1,25 +1,34 @@
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
-const useSeveritiesDistributionData = (campaignId: number) => {
+export const useSeveritiesDistributionData = (campaignId: string) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidWidgetsQuery({
-      cid: campaignId.toString(),
+      cid: campaignId,
       s: 'ux-severities-distribution',
     });
   const { data: results, kind } = data || {};
-  if (results && kind === 'uxSeveritiesDistribution') {
+  return {
+    results,
+    isLoading,
+    isFetching,
+    isError,
+  };
+  /* if (results && kind === 'uxSeveritiesDistribution') {
     if (results.severitiesDistribution) {
       const {
         countPositiveFindings,
         countMinorIssue,
         countMajorIssue,
-        countObservations,
+        countObservations: countObservationsSeverity,
       } = results.severitiesDistribution;
+
       return {
+        results,
+        countObservation:results.countObservation,
         countPositiveFindings,
         countMinorIssue,
         countMajorIssue,
-        countObservations,
+        countObservationsSeverity,
         isLoading,
         isFetching,
         isError,
@@ -27,6 +36,7 @@ const useSeveritiesDistributionData = (campaignId: number) => {
     }
   }
   return {
+    results,
     countPositiveFindings: 0,
     countMinorIssue: 0,
     countMajorIssue: 0,
@@ -34,5 +44,5 @@ const useSeveritiesDistributionData = (campaignId: number) => {
     isLoading,
     isFetching,
     isError,
-  };
+  }; */
 };
