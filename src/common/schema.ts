@@ -750,7 +750,12 @@ export interface components {
       title: string;
       severity: string;
       usersNumber: number;
-      observations: components['schemas']['Observation'][];
+      observations: (components['schemas']['Observation'] & {
+        uploaderId: number;
+        mediaId: number;
+        deviceType: string;
+        usecaseTitle: string;
+      })[];
     };
     /** Insight */
     Insight: {
@@ -1917,7 +1922,12 @@ export interface operations {
                   usecaseId: number;
                   usecaseTitle: string;
                   grapes: components['schemas']['Grapes'][];
-                  ungrouped: components['schemas']['Observation'][];
+                  ungrouped: (components['schemas']['Observation'] & {
+                    uploaderId: number;
+                    mediaId: number;
+                    deviceType: string;
+                    usecaseTitle: string;
+                  })[];
                 }[];
                 /**
                  * @default usecase-grapes
@@ -1927,7 +1937,12 @@ export interface operations {
                 kind: 'usecase-grapes';
               }
             | {
-                results: components['schemas']['Observation'][];
+                results: (components['schemas']['Observation'] & {
+                  uploaderId: number;
+                  mediaId: number;
+                  deviceType: string;
+                  usecaseTitle: string;
+                })[];
                 /**
                  * @default ungrouped
                  * @example ungrouped
