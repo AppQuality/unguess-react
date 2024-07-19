@@ -21,25 +21,30 @@ export const UserAnalysisWidget = () => {
         content={
           <span
             style={{
-              color: appTheme.colors.bySeverity.critical,
+              color: appTheme.palette.blue[600],
             }}
           >
             7
-            <XL tag="span" isBold color={appTheme.colors.bySeverity.critical}>
+            <XL
+              tag="span"
+              isBold
+              color={appTheme.palette.blue[600]}
+              style={{ marginLeft: appTheme.space.xs }}
+            >
               <Trans
-                i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_COUNT_LABEL"
+                i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_COUNT_LABEL"
                 count={15}
               >
-                video con osservazioni
+                videos with observations
               </Trans>
             </XL>
           </span>
         }
         footer={
           <Trans
-            i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL"
-            defaults="su <bold>{{total}}</bold> video totali"
-            count={15}
+            i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_TOTAL_LABEL"
+            defaults="on <bold>{{total}}</bold> total videos"
+            count={35}
             components={{
               bold: (
                 <Span
