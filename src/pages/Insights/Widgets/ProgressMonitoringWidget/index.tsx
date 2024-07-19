@@ -10,7 +10,7 @@ export const ProgressMonitoringWidget = () => {
   return (
     <BasicWidget className="observed-themes-widget">
       <BasicWidget.Header
-        tooltipContent={t('__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES')}
+        tooltipContent={t('_CAMPAIGN_WIDGET_UX_TEST_PROGRESS_MONITORING')}
       >
         <CapitalizeFirstLetter>
           {t('_CAMPAIGN_WIDGET_UX_TEST_PROGRESS_MONITORING_HEADER')}
@@ -21,25 +21,25 @@ export const ProgressMonitoringWidget = () => {
         content={
           <span
             style={{
-              color: appTheme.colors.bySeverity.low,
+              color: appTheme.colors.bySeverity.critical,
             }}
           >
             25%
-            <XL tag="span" isBold color={appTheme.colors.bySeverity.low}>
-              <Trans
-                i18nKey="__CAMPAIGN_WIDGET_OBSERVED_THEMES_COUNT_LABEL"
-                count={15}
-              >
-                Positive Findings
-              </Trans>
+            <XL
+              tag="span"
+              isBold
+              color={appTheme.colors.bySeverity.critical}
+              style={{ marginLeft: appTheme.space.xs }}
+            >
+              Major issue
             </XL>
           </span>
         }
         footer={
           <Trans
             // TODO: change the translation key
-            i18nKey="__CAMPAIGN_WIDGET_BUGDISTRIBUTION_TOTAL_LABEL_2"
-            defaults="per un totale di <bold>{{total}}</bold> osservazioni"
+            i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_TOTAL_LABEL"
+            defaults="out of <bold>{{total}}</bold> total observations"
             count={15}
             components={{
               bold: (
