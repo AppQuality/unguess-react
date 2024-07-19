@@ -1001,12 +1001,22 @@ export type GetCampaignsByCidObservationsApiResponse =
         usecaseId: number;
         usecaseTitle: string;
         grapes: Grape[];
-        ungrouped: Observation[];
+        ungrouped: (Observation & {
+          uploaderId: number;
+          mediaId: number;
+          deviceType: string;
+          usecaseTitle: string;
+        })[];
       }[];
       kind: 'usecase-grapes';
     }
   | {
-      results: Observation[];
+      results: (Observation & {
+        uploaderId: number;
+        mediaId: number;
+        deviceType: string;
+        usecaseTitle: string;
+      })[];
       kind: 'ungrouped';
     };
 export type GetCampaignsByCidObservationsApiArg = {
@@ -1863,7 +1873,12 @@ export type Grape = {
   title: string;
   severity: string;
   usersNumber: number;
-  observations: Observation[];
+  observations: (Observation & {
+    uploaderId: number;
+    mediaId: number;
+    deviceType: string;
+    usecaseTitle: string;
+  })[];
 };
 export type ReportExtensions =
   | 'pdf'
