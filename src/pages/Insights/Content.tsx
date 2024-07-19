@@ -8,7 +8,6 @@ import {
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
-import { useMemo } from 'react';
 import { appTheme } from 'src/app/theme';
 import { Widgets } from './Widgets';
 import { Collection } from './Collection';
