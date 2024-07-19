@@ -54,7 +54,7 @@ export const LightboxContainer = ({
         </Lightbox.Body.Main>
         {hideDetails === false && (
           <Lightbox.Body.Details style={{ flex: 1 }}>
-            adsa
+            Lightbox.Body.Details
           </Lightbox.Body.Details>
         )}
       </Lightbox.Body>
