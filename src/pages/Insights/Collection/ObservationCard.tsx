@@ -14,7 +14,7 @@ import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-sma
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { Pipe } from 'src/common/components/Pipe';
-import { useMemo, useState } from 'react';
+import { MouseEventHandler, useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
 import { LightboxContainer } from './Lightbox';
 
@@ -55,10 +55,6 @@ export const ObservationCard = ({
     [observation, video]
   );
 
-  const handleChange = () => {
-    setChecked(!checked);
-  };
-
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
   );
@@ -71,7 +67,10 @@ export const ObservationCard = ({
   return (
     <>
       <SpecialCard
-        onClick={handleChange}
+        onClick={(e) => {
+          e.preventDefault();
+          setChecked(!checked);
+        }}
         {...(checked && {
           style: { borderColor: appTheme.palette.blue[600], borderWidth: 2 },
         })}
@@ -84,8 +83,13 @@ export const ObservationCard = ({
             userSelect: 'none',
           }}
         >
-          <Field>
-            <Checkbox checked={checked} onChange={handleChange}>
+          <Field
+            onClick={(e) => {
+              e.preventDefault();
+              setChecked(!checked);
+            }}
+          >
+            <Checkbox checked={checked}>
               <Label>&nbsp;</Label>
             </Checkbox>
           </Field>
@@ -112,6 +116,7 @@ export const ObservationCard = ({
                   color={severity.tag.style}
                   style={{
                     backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
+                    marginTop: appTheme.space.xs,
                   }}
                 >
                   {severity.tag.name}
@@ -120,7 +125,12 @@ export const ObservationCard = ({
               </>
             )}
             {tags.length > 0 && (
-              <Tag>
+              <Tag
+                style={{
+                  backgroundColor: appTheme.palette.grey[200],
+                  marginTop: appTheme.space.xs,
+                }}
+              >
                 {tags[0].tag.name}
                 {tags.length > 1 && ` +${tags.length - 1}`}
               </Tag>
@@ -131,7 +141,8 @@ export const ObservationCard = ({
         <SpecialCard.Footer>
           <Anchor
             isExternal
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsLightboxOpen(true);
             }}
           >
