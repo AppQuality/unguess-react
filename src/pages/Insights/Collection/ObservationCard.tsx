@@ -64,7 +64,6 @@ export const ObservationCard = ({
   );
 
   const tags = observation.tags.filter((tag) => tag.group.name !== 'severity');
-  console.log('tags', tags);
 
   if (isLoading || isError || !video) {
     return null;
