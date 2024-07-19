@@ -13,6 +13,10 @@ const Container = styled.div`
   @media ${LG} {
     flex-direction: row;
   }
+
+  & > * {
+    flex: 0 1 33%;
+  }
 `;
 
 const Widgets = () => {

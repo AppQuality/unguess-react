@@ -13,7 +13,7 @@ export const ProgressMonitoringWidget = () => {
         tooltipContent={t('__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES')}
       >
         <CapitalizeFirstLetter>
-          {t('_CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_HEADER')}
+          {t('_CAMPAIGN_WIDGET_UX_TEST_PROGRESS_MONITORING_HEADER')}
         </CapitalizeFirstLetter>
       </BasicWidget.Header>
       <BasicWidget.Description
