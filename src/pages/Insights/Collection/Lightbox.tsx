@@ -8,7 +8,7 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
-import { Observation, UseCase, Video } from 'src/features/api';
+import { GetVideosByVidApiResponse, Grape } from 'src/features/api';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 
@@ -20,9 +20,8 @@ export const LightboxContainer = ({
   observation,
   onClose,
 }: {
-  observation: Observation & {
-    video: Video;
-    useCase: UseCase;
+  observation: Grape['observations'][number] & {
+    video?: GetVideosByVidApiResponse;
   };
   onClose?: () => void;
 }) => {
@@ -37,7 +36,7 @@ export const LightboxContainer = ({
       <Lightbox.Header>
         <MD isBold>
           <Grey600Span>
-            {observation.useCase.title}
+            {observation.usecaseTitle}
             <Pipe style={{ marginLeft: appTheme.space.sm }} />
             {observation.title}
           </Grey600Span>
@@ -47,7 +46,7 @@ export const LightboxContainer = ({
         <Lightbox.Body.Main style={{ flex: 2 }}>
           <Player
             ref={videoRef}
-            url={observation.video.url}
+            url={observation.video?.url || ''}
             start={observation.start}
             end={observation.end}
           />

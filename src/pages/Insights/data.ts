@@ -144,3 +144,195 @@ export const insights = [
     comment: 'comment #2',
   },
 ];
+
+export const usecaseGrapes = {
+  results: [
+    {
+      usecaseId: 2,
+      usecaseTitle: 'usecase-2',
+      grapes: [
+        {
+          title: 'title-grape-1',
+          severity: 'undetermined',
+          usersNumber: 5,
+          observations: [
+            {
+              id: 1,
+              title: 'obs1',
+              description: 'obs1 desc',
+              start: 2,
+              end: 15,
+              quotes: 'quotes',
+              uxNote: 'ux notes',
+              tags: [
+                {
+                  group: {
+                    id: 1,
+                    name: 'title',
+                  },
+                  tag: {
+                    id: 1,
+                    name: 'title-grape-1',
+                    style: 'white',
+                    usageNumber: 2,
+                  },
+                },
+                {
+                  group: {
+                    id: 2,
+                    name: 'severity',
+                  },
+                  tag: {
+                    id: 15,
+                    name: 'minor issue',
+                    style: 'white',
+                    usageNumber: 2,
+                  },
+                },
+              ],
+            },
+            {
+              id: 2,
+              title: 'obs2',
+              description: 'obs2 desc',
+              start: 2,
+              end: 10,
+              quotes: 'quotes',
+              uxNote: 'ux notes',
+              tags: [
+                {
+                  group: {
+                    id: 1,
+                    name: 'title',
+                  },
+                  tag: {
+                    id: 1,
+                    name: 'title-grape-1',
+                    style: 'white',
+                    usageNumber: 2,
+                  },
+                },
+                {
+                  group: {
+                    id: 2,
+                    name: 'severity',
+                  },
+                  tag: {
+                    id: 15,
+                    name: 'observation',
+                    style: 'white',
+                    usageNumber: 2,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      ungrouped: [
+        {
+          id: 3,
+          title: 'ungrouped-obs',
+          description: 'descript',
+          start: 1,
+          end: 54,
+          quotes: 'quotes',
+          uxNote: 'ux note',
+          tags: [
+            {
+              group: {
+                id: 1,
+                name: 'title',
+              },
+              tag: {
+                id: 5,
+                name: 'title-alone',
+                style: 'white',
+                usageNumber: 1,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  kind: 'usecase-grapes',
+};
+
+export const ungroupedObservations = {
+  value: {
+    results: [
+      {
+        id: 1,
+        title: 'obs1',
+        description: 'descri',
+        start: 1,
+        end: 10,
+        quotes: 'quotes',
+        uxNote: 'ux note',
+        tags: [
+          {
+            group: {
+              id: 1,
+              name: 'title',
+            },
+            tag: {
+              id: 1,
+              name: 'title-alone',
+              style: 'white',
+              usageNumber: 1,
+            },
+          },
+          {
+            group: {
+              id: 2,
+              name: 'severity',
+            },
+            tag: {
+              id: 59,
+              name: 'minor issue',
+              style: 'white',
+              usageNumber: 1,
+            },
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: 'obs2',
+        description: 'description',
+        start: 4,
+        end: 9,
+        quotes: 'quotes',
+        uxNote: 'ux note',
+        tags: [
+          {
+            group: {
+              id: 1,
+              name: 'title',
+            },
+            tag: {
+              id: 4,
+              name: 'title',
+              style: 'white',
+              usageNumber: 1,
+            },
+          },
+          {
+            group: {
+              id: 2,
+              name: 'severity',
+            },
+            tag: {
+              id: 59,
+              name: 'minor issue',
+              style: 'white',
+              usageNumber: 1,
+            },
+          },
+        ],
+      },
+    ],
+    kind: 'ungrouped',
+  },
+};

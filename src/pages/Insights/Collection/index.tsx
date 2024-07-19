@@ -2,31 +2,29 @@ import { Checkbox, LG, Label } from '@appquality/unguess-design-system';
 import { Field as ZendeskField } from '@zendeskgarden/react-forms';
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { styled } from 'styled-components';
 import { InsightFormValues } from '../FormProvider';
-import { ClusterCard } from './ClusterCard';
-import { ObservationCard } from './ObservationCard';
+import { UsecaseSection } from './UsecaseSection';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
 `;
 
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 25%);
-  grid-gap: 0;
-  blockquote {
-    font-style: italic;
-    padding: 0;
-    margin: 0;
-    color: ${({ theme }) => theme.palette.grey[800]};
-  }
-`;
-
 const Collection = () => {
   const { t } = useTranslation();
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
+  const { campaignId } = useParams<{ campaignId: string }>();
 
+  const { data, isLoading, isError } = useGetCampaignsByCidObservationsQuery({
+    cid: campaignId || '',
+    groupBy: 'usecase-grapes',
+  });
+
+  if (isLoading || isError || !data) {
+    return null;
+  }
   return (
     <Container>
       <LG>{t('__INSIGHTS_PAGE_COLLECTION_TITLE')}</LG>
@@ -94,164 +92,13 @@ const Collection = () => {
           <Label isRegular>Observation #2</Label>
         </Checkbox>
       </ZendeskField>
-      <Wrapper>
-        <ClusterCard
-          severity={2}
-          observations={[
-            {
-              id: 1,
-              title: 'observation #1',
-              description: 'observation #1 description',
-              /** Format: float */
-              start: 1,
-              /** Format: float */
-              end: 3,
-              tags: [
-                {
-                  group: {
-                    id: 1,
-                    name: 'group #1',
-                  },
-                  tag: {
-                    id: 1,
-                    name: 'tag #1',
-                    style: '#000000',
-                    usageNumber: 1,
-                  },
-                },
-                {
-                  group: {
-                    id: 1,
-                    name: 'group #1',
-                  },
-                  tag: {
-                    id: 2,
-                    name: 'tag #2',
-                    style: '#000000',
-                    usageNumber: 1,
-                  },
-                },
-                {
-                  group: {
-                    id: 2,
-                    name: 'severity',
-                  },
-                  tag: {
-                    id: 3,
-                    name: 'high',
-                    style: '#FF0000',
-                    usageNumber: 1,
-                  },
-                },
-              ],
-              quotes: 'lorem ipsum',
-              video: {
-                id: 1,
-                poster: 'https://via.placeholder.com/150',
-                url: 'https://via.placeholder.com/150',
-                streamUrl: 'https://via.placeholder.com/150',
-                tester: {
-                  id: 1,
-                  name: "tester's name",
-                  surname: "tester's surname",
-                  device: {
-                    type: 'smartphone',
-                  },
-                },
-              },
-              useCase: {
-                title: 'use case title',
-                description: 'use case description',
-              },
-            },
-          ]}
-        >
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-            pariatur officia, modi, quisquam nam repellendus commodi
-            exercitationem expedita distinctio harum et similique voluptatibus
-            asperiores iusto possimus! Autem aspernatur aut tenetur.
-          </p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        </ClusterCard>
-        <ClusterCard severity={2} observations={[]}>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-            pariatur officia, modi, quisquam nam repellendus commodi
-            exercitationem expedita distinctio harum et similique voluptatibus
-            asperiores iusto possimus! Autem aspernatur aut tenetur.
-          </p>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-        </ClusterCard>
-        <ObservationCard
-          observation={{
-            id: 1,
-            title: 'observation #1',
-            description: 'observation #1 description',
-            /** Format: float */
-            start: 1,
-            /** Format: float */
-            end: 3,
-            tags: [
-              {
-                group: {
-                  id: 1,
-                  name: 'group #1',
-                },
-                tag: {
-                  id: 1,
-                  name: 'tag #1',
-                  style: '#000000',
-                  usageNumber: 1,
-                },
-              },
-              {
-                group: {
-                  id: 1,
-                  name: 'group #1',
-                },
-                tag: {
-                  id: 2,
-                  name: 'tag #2',
-                  style: '#000000',
-                  usageNumber: 1,
-                },
-              },
-              {
-                group: {
-                  id: 2,
-                  name: 'severity',
-                },
-                tag: {
-                  id: 3,
-                  name: 'high',
-                  style: '#FF0000',
-                  usageNumber: 1,
-                },
-              },
-            ],
-            quotes: 'lorem ipsum',
-            video: {
-              id: 1,
-              poster: 'https://via.placeholder.com/150',
-              url: 'https://via.placeholder.com/150',
-              streamUrl: 'https://via.placeholder.com/150',
-              tester: {
-                id: 1,
-                name: "tester's name",
-                surname: "tester's surname",
-                device: {
-                  type: 'smartphone',
-                },
-              },
-            },
-            useCase: {
-              title: 'use case title',
-              description: 'use case description',
-            },
-          }}
-        />
-      </Wrapper>
+      {data.kind === 'usecase-grapes' && (
+        <>
+          {data.results.map((result) => (
+            <UsecaseSection {...result} />
+          ))}
+        </>
+      )}
     </Container>
   );
 };
