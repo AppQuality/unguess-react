@@ -46,6 +46,7 @@ const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
 
 export const Grape = ({ grape }: GrapeProps) => {
   const handleCheckboxChange = (value: any) => {
+    // eslint-disable-next-line no-alert
     alert(`secelt all obs ${value}`);
   };
   const memoizedGrape = useMemo(() => {
@@ -93,7 +94,7 @@ export const Grape = ({ grape }: GrapeProps) => {
       <Accordion.Panel>
         <CardGrid>
           {memoizedGrape.observations.map((observation) => (
-            <ObservationCard key={observation.id} quote={observation.quotes} />
+            <ObservationCard key={observation.id} observation={observation} />
           ))}
         </CardGrid>
       </Accordion.Panel>
