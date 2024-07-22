@@ -1,6 +1,7 @@
 import {
   Anchor,
   Checkbox,
+  Ellipsis,
   Label,
   Span,
   SpecialCard,
@@ -14,9 +15,20 @@ import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-sma
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { Pipe } from 'src/common/components/Pipe';
-import { MouseEventHandler, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
+import { styled } from 'styled-components';
 import { LightboxContainer } from './Lightbox';
+
+const StyledTag = styled(Tag)`
+  user-select: none;
+  margin-top: ${({ theme }) => theme.space.xs};
+  max-width: 110px;
+`;
+
+const StyledAnchor = styled(Anchor)`
+  user-select: none;
+`;
 
 export function getDeviceIcon(device?: string) {
   switch (device) {
@@ -101,45 +113,50 @@ export const ObservationCard = ({
         </SpecialCard.Meta>
 
         <SpecialCard.Header>
-          <SpecialCard.Header.Label>
+          <SpecialCard.Header.Label style={{ userSelect: 'none' }}>
             {observation.title}
           </SpecialCard.Header.Label>
-          <SpecialCard.Header.Title style={{ fontStyle: 'italic' }}>
+          <SpecialCard.Header.Title
+            style={{
+              fontStyle: 'italic',
+              cursor: 'text',
+              marginBottom: appTheme.space.md,
+            }}
+          >
             &quot;
             {observation.quotes}
             &quot;
           </SpecialCard.Header.Title>
           <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
             {severity && (
-              <>
-                <Tag
-                  color={severity.tag.style}
-                  style={{
-                    backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
-                    marginTop: appTheme.space.xs,
-                  }}
-                >
-                  {severity.tag.name}
-                </Tag>
-                <Pipe />
-              </>
-            )}
-            {tags.length > 0 && (
-              <Tag
+              <StyledTag
+                size="small"
+                color={severity.tag.style}
                 style={{
-                  backgroundColor: appTheme.palette.grey[200],
-                  marginTop: appTheme.space.xs,
+                  backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
                 }}
               >
-                {tags[0].tag.name}
-                {tags.length > 1 && ` +${tags.length - 1}`}
-              </Tag>
+                <Ellipsis>{severity.tag.name}</Ellipsis>
+              </StyledTag>
+            )}
+            {tags.length > 0 && (
+              <StyledTag
+                size="small"
+                style={{
+                  backgroundColor: appTheme.palette.grey[200],
+                }}
+              >
+                <Ellipsis>
+                  {tags[0].tag.name}
+                  {tags.length > 1 && ` +${tags.length - 1}`}
+                </Ellipsis>
+              </StyledTag>
             )}
           </SpecialCard.Header.Text>
         </SpecialCard.Header>
 
         <SpecialCard.Footer>
-          <Anchor
+          <StyledAnchor
             isExternal
             onClick={(e) => {
               e.stopPropagation();
@@ -147,7 +164,7 @@ export const ObservationCard = ({
             }}
           >
             {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_VIEW_DETAILS')}
-          </Anchor>
+          </StyledAnchor>
         </SpecialCard.Footer>
       </SpecialCard>
       {isLightboxOpen && (
