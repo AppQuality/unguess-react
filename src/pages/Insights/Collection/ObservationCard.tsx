@@ -1,6 +1,7 @@
 import {
   Anchor,
   Checkbox,
+  Ellipsis,
   Label,
   Span,
   SpecialCard,
@@ -16,7 +17,18 @@ import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-deskto
 import { Pipe } from 'src/common/components/Pipe';
 import { useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
+import { styled } from 'styled-components';
 import { LightboxContainer } from './Lightbox';
+
+const StyledTag = styled(Tag)`
+  user-select: none;
+  margin-top: ${({ theme }) => theme.space.xs};
+  max-width: 110px;
+`;
+
+const StyledAnchor = styled(Anchor)`
+  user-select: none;
+`;
 
 export function getDeviceIcon(device?: string) {
   switch (device) {
@@ -55,15 +67,17 @@ export const ObservationCard = ({
     [observation, video]
   );
 
-  const handleChange = () => {
-    setChecked(!checked);
-  };
-
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
   );
 
-  const tags = observation.tags.filter((tag) => tag.group.name !== 'severity');
+  const tags = observation.tags.filter(
+    (tag) => tag.group.name !== 'severity' && tag.group.name !== 'title'
+  );
+
+  const title =
+    observation.tags.find((tag) => tag.group.name === 'title')?.tag.name ||
+    observation.title;
 
   if (isLoading || isError || !video) {
     return null;
@@ -71,7 +85,10 @@ export const ObservationCard = ({
   return (
     <>
       <SpecialCard
-        onClick={handleChange}
+        onClick={(e) => {
+          e.preventDefault();
+          setChecked(!checked);
+        }}
         {...(checked && {
           style: { borderColor: appTheme.palette.blue[600], borderWidth: 2 },
         })}
@@ -84,8 +101,13 @@ export const ObservationCard = ({
             userSelect: 'none',
           }}
         >
-          <Field>
-            <Checkbox checked={checked} onChange={handleChange}>
+          <Field
+            onClick={(e) => {
+              e.preventDefault();
+              setChecked(!checked);
+            }}
+          >
+            <Checkbox checked={checked}>
               <Label>&nbsp;</Label>
             </Checkbox>
           </Field>
@@ -97,46 +119,58 @@ export const ObservationCard = ({
         </SpecialCard.Meta>
 
         <SpecialCard.Header>
-          <SpecialCard.Header.Label>
-            {observation.title}
+          <SpecialCard.Header.Label style={{ userSelect: 'none' }}>
+            {title}
           </SpecialCard.Header.Label>
-          <SpecialCard.Header.Title style={{ fontStyle: 'italic' }}>
+          <SpecialCard.Header.Title
+            style={{
+              fontStyle: 'italic',
+              cursor: 'text',
+              marginBottom: appTheme.space.md,
+            }}
+          >
             &quot;
             {observation.quotes}
             &quot;
           </SpecialCard.Header.Title>
           <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
             {severity && (
-              <>
-                <Tag
-                  color={severity.tag.style}
-                  style={{
-                    backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
-                  }}
-                >
-                  {severity.tag.name}
-                </Tag>
-                <Pipe />
-              </>
+              <StyledTag
+                size="small"
+                color={severity.tag.style}
+                style={{
+                  backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
+                }}
+              >
+                <Ellipsis>{severity.tag.name}</Ellipsis>
+              </StyledTag>
             )}
             {tags.length > 0 && (
-              <Tag>
-                {tags[0].tag.name}
-                {tags.length > 1 && ` +${tags.length - 1}`}
-              </Tag>
+              <StyledTag
+                size="small"
+                style={{
+                  backgroundColor: appTheme.palette.grey[200],
+                }}
+              >
+                <Ellipsis>
+                  {tags[0].tag.name}
+                  {tags.length > 1 && ` +${tags.length - 1}`}
+                </Ellipsis>
+              </StyledTag>
             )}
           </SpecialCard.Header.Text>
         </SpecialCard.Header>
 
         <SpecialCard.Footer>
-          <Anchor
+          <StyledAnchor
             isExternal
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setIsLightboxOpen(true);
             }}
           >
             {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_VIEW_DETAILS')}
-          </Anchor>
+          </StyledAnchor>
         </SpecialCard.Footer>
       </SpecialCard>
       {isLightboxOpen && (
