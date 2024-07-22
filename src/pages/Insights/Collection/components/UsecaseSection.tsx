@@ -3,8 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { useMemo } from 'react';
 import { styled } from 'styled-components';
 import { Grape as GrapeType } from 'src/features/api';
+import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/16/copy-stroke.svg';
+import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/16/tag-stroke.svg';
 import { Grape } from './Grape';
-import { ObservationCard } from './ObservationCard';
+import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 
 interface UsecaseSectionProps {
@@ -55,8 +57,14 @@ export const UsecaseSection = ({
           <h3>{usecaseTitle}</h3>
         </LG>
         <div style={{ flex: '0 0 auto' }}>
-          <Tag hue="" size="small" /> <small>{grapes.length} tit</small>{' '}
-          <Tag hue="" size="small" /> <small>{observationsCount} obs</small>
+          <Tag hue="" size="small">
+            <TitleIcon />
+          </Tag>{' '}
+          <small>{grapes.length} </small>{' '}
+          <Tag hue="" size="small">
+            <ObservationsIcon />
+          </Tag>{' '}
+          <small>{observationsCount} obs</small>
         </div>
       </UsecaseTitle>
       <Accordion
