@@ -1237,7 +1237,8 @@ export type GetCampaignsByCidWidgetsApiResponse =
   | WidgetBugsByDevice
   | WidgetCampaignProgress
   | WidgetCampaignUniqueBugs
-  | WidgetBugsByDuplicates;
+  | WidgetBugsByDuplicates
+  | WidgetCampaignUxProgress;
 export type GetCampaignsByCidWidgetsApiArg = {
   /** Campaign id */
   cid: string;
@@ -1247,7 +1248,11 @@ export type GetCampaignsByCidWidgetsApiArg = {
     | 'bugs-by-device'
     | 'cp-progress'
     | 'unique-bugs'
-    | 'bugs-by-duplicates';
+    | 'bugs-by-duplicates'
+    | 'ux-tagging-video-completion'
+    | 'ux-total-title-vs-observation'
+    | 'ux-severities-distribution'
+    | 'ux-most-used-titles';
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
 };
@@ -2012,6 +2017,31 @@ export type WidgetBugsByDuplicates = {
     duplicates: number;
   })[];
   kind: 'bugsByDuplicates';
+};
+export type WidgetCampaignUxProgress = {
+  data: {
+    countMediaWithObservation?: number;
+    countMedia?: number;
+    countTitleTag?: number;
+    countObservation?: number;
+    countObservationNoTitle?: number;
+    severitiesDistribution?: {
+      countPositiveFindings: number;
+      countMinorIssue: number;
+      countMajorIssue: number;
+      countObservations: number;
+    };
+    mostUsedTitles?: {
+      title: string;
+      usage: number;
+      mainSeverityAssignment: string;
+    }[];
+  };
+  kind:
+    | 'uxTaggingVideoCompletion'
+    | 'uxTotalTitleVsObservations'
+    | 'uxSeveritiesDistribution'
+    | 'uxMostUsedTitles';
 };
 export type Project = {
   id: number;
