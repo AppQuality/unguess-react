@@ -1100,6 +1100,40 @@ export interface components {
        */
       kind: 'campaignUniqueBugs';
     };
+    /**
+     * WidgetCampaignUxProgress
+     * @description Used to show an overview of Ux progress
+     */
+    WidgetCampaignUxProgress: {
+      data: {
+        countMediaWithObservation?: number;
+        countMedia?: number;
+        countTitleTag?: number;
+        countObservation?: number;
+        countObservationNoTitle?: number;
+        severitiesDistribution?: {
+          countPositiveFindings: number;
+          countMinorIssue: number;
+          countMajorIssue: number;
+          countObservations: number;
+        };
+        mostUsedTitles?: {
+          title: string;
+          usage: number;
+          mainSeverityAssignment: string;
+        }[];
+      };
+      /**
+       * @default uxTaggingVideoCompletion
+       * @example uxTaggingVideoCompletion
+       * @enum {string}
+       */
+      kind:
+        | 'uxTaggingVideoCompletion'
+        | 'uxTotalTitleVsObservations'
+        | 'uxSeveritiesDistribution'
+        | 'uxMostUsedTitles';
+    };
     Word: {
       start: number;
       end: number;
@@ -1166,7 +1200,11 @@ export interface components {
       | 'bugs-by-device'
       | 'cp-progress'
       | 'unique-bugs'
-      | 'bugs-by-duplicates';
+      | 'bugs-by-duplicates'
+      | 'ux-tagging-video-completion'
+      | 'ux-total-title-vs-observation'
+      | 'ux-severities-distribution'
+      | 'ux-most-used-titles';
     /** @description keywords to search */
     search: string;
     /** @description Custom Status id */
@@ -2380,7 +2418,8 @@ export interface operations {
             | components['schemas']['WidgetBugsByDevice']
             | components['schemas']['WidgetCampaignProgress']
             | components['schemas']['WidgetCampaignUniqueBugs']
-            | components['schemas']['WidgetBugsByDuplicates'];
+            | components['schemas']['WidgetBugsByDuplicates']
+            | components['schemas']['WidgetCampaignUxProgress'];
         };
       };
       400: components['responses']['Error'];
