@@ -71,7 +71,13 @@ export const ObservationCard = ({
     (tag) => tag.group.name === 'severity'
   );
 
-  const tags = observation.tags.filter((tag) => tag.group.name !== 'severity');
+  const tags = observation.tags.filter(
+    (tag) => tag.group.name !== 'severity' && tag.group.name !== 'title'
+  );
+
+  const title =
+    observation.tags.find((tag) => tag.group.name === 'title')?.tag.name ||
+    observation.title;
 
   if (isLoading || isError || !video) {
     return null;
@@ -114,7 +120,7 @@ export const ObservationCard = ({
 
         <SpecialCard.Header>
           <SpecialCard.Header.Label style={{ userSelect: 'none' }}>
-            {observation.title}
+            {title}
           </SpecialCard.Header.Label>
           <SpecialCard.Header.Title
             style={{
