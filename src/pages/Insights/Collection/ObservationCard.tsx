@@ -11,14 +11,11 @@ import { Field } from '@zendeskgarden/react-forms';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Grape, useGetVideosByVidQuery } from 'src/features/api';
-import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
-import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
-import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { Pipe } from 'src/common/components/Pipe';
 import { useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
 import { styled } from 'styled-components';
-import { LightboxContainer } from './Lightbox';
+import { LightboxContainer, getDeviceIcon } from './Lightbox';
 
 const StyledTag = styled(Tag)`
   user-select: none;
@@ -29,19 +26,6 @@ const StyledTag = styled(Tag)`
 const StyledAnchor = styled(Anchor)`
   user-select: none;
 `;
-
-export function getDeviceIcon(device?: string) {
-  switch (device) {
-    case 'smartphone':
-      return <SmartphoneIcon />;
-    case 'tablet':
-      return <TabletIcon />;
-    case 'desktop':
-      return <DesktopIcon />;
-    default:
-      return <TabletIcon />;
-  }
-}
 
 export const ObservationCard = ({
   observation,
