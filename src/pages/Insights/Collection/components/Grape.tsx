@@ -7,7 +7,7 @@ import {
 import styled from 'styled-components';
 import { Grape as GrapeType } from 'src/features/api';
 import { useMemo } from 'react';
-import { ObservationCard } from './ObservationCard';
+import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 
 interface GrapeProps {

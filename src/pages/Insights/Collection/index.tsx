@@ -1,12 +1,16 @@
-import { Checkbox, LG, Label } from '@appquality/unguess-design-system';
-import { Field as ZendeskField } from '@zendeskgarden/react-forms';
-import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
+import {
+  useGetCampaignsByCidObservationsQuery,
+  GetCampaignsByCidObservationsApiArg,
+} from 'src/features/api';
 import { styled } from 'styled-components';
-import { InsightFormValues } from '../FormProvider';
-import { UsecaseSection } from './UsecaseSection';
+import { UsecaseSection } from './components/UsecaseSection';
+import { ObservationCard } from './ObservationCard';
+import { CardGrid } from './components/CardGrid';
+import { SectionTitle } from './components/SectionTitle';
+import { GroupByToggle } from './components/GroupByToggle';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
@@ -14,90 +18,33 @@ const Container = styled.div`
 
 const Collection = () => {
   const { t } = useTranslation();
-  const { values, setFieldValue } = useFormikContext<InsightFormValues>();
   const { campaignId } = useParams<{ campaignId: string }>();
-
+  const [groupBy, setGroupBy] =
+    useState<GetCampaignsByCidObservationsApiArg['groupBy']>('usecase-grapes');
   const { data, isLoading, isError } = useGetCampaignsByCidObservationsQuery({
     cid: campaignId || '',
-    groupBy: 'usecase-grapes',
+    groupBy,
   });
-
-  if (isLoading || isError || !data) {
-    return null;
-  }
   return (
     <Container>
-      <LG>{t('__INSIGHTS_PAGE_COLLECTION_TITLE')}</LG>
-      <ZendeskField>
-        <Checkbox
-          name="observations-1"
-          checked={
-            !!values.observations.find((observation) => observation.id === 1)
-          }
-          onChange={(e) => {
-            const isChecked = e.target.checked;
-
-            if (isChecked) {
-              setFieldValue('observations', [
-                ...values.observations,
-                {
-                  id: 1,
-                  title: 'Observation #1',
-                  severity: 1,
-                  quotes: '',
-                },
-              ]);
-            } else {
-              setFieldValue(
-                'observations',
-                values.observations.filter(
-                  (observation) => observation.id !== 1
-                )
-              );
-            }
-          }}
-        >
-          <Label isRegular>Observation #1</Label>
-        </Checkbox>
-      </ZendeskField>
-      <ZendeskField>
-        <Checkbox
-          name="observations-2"
-          checked={
-            !!values.observations.find((observation) => observation.id === 2)
-          }
-          onChange={(e) => {
-            const isChecked = e.target.checked;
-
-            if (isChecked) {
-              setFieldValue('observations', [
-                ...values.observations,
-                {
-                  id: 2,
-                  title: 'Observation #2',
-                  severity: 1,
-                  quotes: '',
-                },
-              ]);
-            } else {
-              setFieldValue(
-                'observations',
-                values.observations.filter(
-                  (observation) => observation.id !== 2
-                )
-              );
-            }
-          }}
-        >
-          <Label isRegular>Observation #2</Label>
-        </Checkbox>
-      </ZendeskField>
-      {data.kind === 'usecase-grapes' && (
-        <>
-          {data.results.map((result) => (
-            <UsecaseSection {...result} />
+      {isLoading && 'Loading...'}
+      {isError && 'Error!'}
+      {!data && 'No data'}
+      <SectionTitle
+        title={t('INSIGHTS_PAGE_COLLECTION_TITLE')}
+        subtitle={t('INSIGHTS_PAGE_COLLECTION_SUBTITLE')}
+      />
+      <GroupByToggle groupBy={groupBy} setGroupBy={setGroupBy} />
+      {data?.kind === 'usecase-grapes' &&
+        data?.results.map((result) => (
+          <UsecaseSection key={result.usecaseId} {...result} />
+        ))}
+      {data?.kind === 'ungrouped' && (
+        <CardGrid>
+          {data?.results.map((observation) => (
+            <ObservationCard key={observation.id} observation={observation} />
           ))}
-        </>
+        </CardGrid>
       )}
     </Container>
   );
