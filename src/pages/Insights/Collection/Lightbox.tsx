@@ -93,6 +93,15 @@ export const LightboxContainer = ({
     `campaigns/${campaignId}/videos/${observation.mediaId}#observation-${observation.id}`
   );
 
+  const {
+    data: video,
+    isLoading,
+    isFetching,
+    isError,
+  } = useGetVideosByVidQuery({
+    vid: observation.mediaId.toString(),
+  });
+
   const navigateToObs = () => {
     navigate(observationUrl, {
       state: { from: location.pathname },
@@ -120,15 +129,6 @@ export const LightboxContainer = ({
     },
     [observation]
   );
-
-  const {
-    data: video,
-    isLoading,
-    isFetching,
-    isError,
-  } = useGetVideosByVidQuery({
-    vid: observation.mediaId.toString() || '',
-  });
 
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
@@ -178,17 +178,22 @@ export const LightboxContainer = ({
           <Lightbox.Body.Details style={{ flex: 1 }}>
             <DetailsHeader>
               {severity && (
-                <StyledTag
-                  size="small"
-                  color={severity.tag.style}
-                  style={{
-                    backgroundColor: getColorWithAlpha(severity.tag.style, 0.1),
-                  }}
-                >
-                  <Ellipsis>{severity.tag.name}</Ellipsis>
-                </StyledTag>
+                <>
+                  <StyledTag
+                    size="small"
+                    color={severity.tag.style}
+                    style={{
+                      backgroundColor: getColorWithAlpha(
+                        severity.tag.style,
+                        0.1
+                      ),
+                    }}
+                  >
+                    <Ellipsis>{severity.tag.name}</Ellipsis>
+                  </StyledTag>
+                  <StyledPipe />
+                </>
               )}
-              <StyledPipe />
               <SM isBold style={{ color: appTheme.palette.blue[600] }}>
                 {video?.tester.name} (T{video?.tester.id})
               </SM>
