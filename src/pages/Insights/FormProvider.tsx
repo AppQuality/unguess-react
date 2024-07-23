@@ -1,20 +1,32 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
+import { useParams } from 'react-router-dom';
+import {
+  GetCampaignsByCidInsightsApiResponse,
+  Grape,
+  usePatchInsightsByIidMutation,
+  usePostCampaignsByCidInsightsMutation,
+} from 'src/features/api';
 import * as Yup from 'yup';
 
-export type InsightFormValues = GetCampaignsByCidInsightsApiResponse[number];
+export type InsightFormValues = Omit<
+  Omit<GetCampaignsByCidInsightsApiResponse[number], 'severity'>,
+  'observations'
+> & {
+  severity: number;
+  observations: Grape['observations'];
+};
 
 const FormProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
+  const { campaignId } = useParams();
+  const [createInsight] = usePostCampaignsByCidInsightsMutation();
+  const [patchInsight] = usePatchInsightsByIidMutation();
   const initialValues: InsightFormValues = {
     id: 0,
     title: '',
     description: '',
-    severity: {
-      id: 0,
-      name: '',
-    },
+    severity: 0,
     observations: [],
   };
 
@@ -41,8 +53,51 @@ const FormProvider = ({ children }: { children: React.ReactNode }) => {
         values: InsightFormValues,
         { setSubmitting, resetForm }: FormikHelpers<InsightFormValues>
       ) => {
-        setSubmitting(false);
-        resetForm();
+        if (values.id === -1) {
+          // create
+          createInsight({
+            cid: campaignId || '',
+            body: {
+              title: values.title,
+              description: values.description,
+              severity_id: values.severity,
+              observations_ids: values.observations.map((o) => o.id),
+              comment: values.comment,
+              visible: 0,
+            },
+          })
+            .then(() => {
+              resetForm();
+              setSubmitting(false);
+            })
+            .catch((e) => {
+              setSubmitting(false);
+              // eslint-disable-next-line no-console
+              console.error(e);
+            });
+        } else if (values.id > 0) {
+          // update
+          patchInsight({
+            iid: values.id.toString(),
+            body: {
+              title: values.title,
+              description: values.description,
+              severity_id: values.severity,
+              observations_ids: values.observations.map((o) => o.id),
+              comment: values.comment,
+              visible: values.visible,
+            },
+          })
+            .then(() => {
+              resetForm();
+              setSubmitting(false);
+            })
+            .catch((e) => {
+              setSubmitting(false);
+              // eslint-disable-next-line no-console
+              console.error(e);
+            });
+        }
       }}
     >
       <Form>{children}</Form>

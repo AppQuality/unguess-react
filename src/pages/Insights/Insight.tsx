@@ -9,9 +9,14 @@ import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { useTranslation } from 'react-i18next';
+import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
 import { InsightFormValues } from './FormProvider';
 
-const Insight = ({ insight }: { insight: any }) => {
+const Insight = ({
+  insight,
+}: {
+  insight: GetCampaignsByCidInsightsApiResponse[number];
+}) => {
   const { t } = useTranslation();
   const { values, setValues, isSubmitting } =
     useFormikContext<InsightFormValues>();

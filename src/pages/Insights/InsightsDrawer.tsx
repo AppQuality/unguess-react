@@ -15,7 +15,6 @@ import { Insight } from './Insight';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
 import { InsightForm } from './InsightForm';
-import { NewInsightForm } from './NewInsight';
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -57,6 +56,8 @@ const InsightsDrawer = () => {
 
   if (isLoading || isError) return <Skeleton />;
 
+  console.log('values', values);
+
   return (
     <DetailContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -83,16 +84,12 @@ const InsightsDrawer = () => {
       <div
         style={{ marginTop: appTheme.space.md, opacity: isFetching ? 0.5 : 1 }}
       >
-        {values.id === 0 &&
+        {values.id === 0 ? (
           insights &&
-          // accordion
-          insights.map((insight) => <Insight insight={insight} />)}
-        {values.id === -1 && (
-          // new insight
-          <NewInsightForm />
-        )}
-        {values.id > 0 && (
-          // edit insight
+          // insights list
+          insights.map((insight) => <Insight insight={insight} />)
+        ) : (
+          // create or update insight
           <InsightForm />
         )}
       </div>
