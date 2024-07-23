@@ -1,17 +1,13 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Grape } from 'src/features/api';
 import * as Yup from 'yup';
 
 export interface InsightFormValues {
   id: number;
   title: string;
   severity: number;
-  observations: {
-    id: number;
-    title: string;
-    severity: number;
-    quotes: string;
-  }[];
+  observations: Grape['observations'];
 }
 
 const FormProvider = ({ children }: { children: React.ReactNode }) => {
