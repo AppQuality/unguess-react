@@ -45,14 +45,14 @@ export const ObservationCard = ({
     (tag) => tag.group.name !== 'severity' && tag.group.name !== 'title'
   );
 
-  const title =
-    observation.tags.find((tag) => tag.group.name === 'title')?.tag.name ||
-    observation.title;
-
   const isChecked = useMemo(
     () => values.observations.some((obs) => obs.id === observation.id),
     [values.observations, observation.id]
   );
+  
+  const title =
+    observation.tags.find((tag) => tag.group.name === 'title')?.tag.name ||
+    observation.title;
 
   const handleCheck = (
     e: React.MouseEvent,
