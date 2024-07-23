@@ -8,6 +8,7 @@ import { Insight } from './Insight';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
 import { InsightForm } from './InsightForm';
+import { NewInsight } from './NewInsight';
 
 const insightData = [
   {
@@ -84,7 +85,7 @@ const InsightsDrawer = () => {
           insightData.map((insight) => <Insight insight={insight} />)}
         {values.id === -1 && (
           // new insight
-          <Insight
+          <NewInsight
             insight={{
               id: -1,
               title: 'New Insight',
