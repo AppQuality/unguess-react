@@ -1,13 +1,15 @@
-import { Accordion, LG, Tag } from '@appquality/unguess-design-system';
+import { Accordion, LG, SM, Tag, XL } from '@appquality/unguess-design-system';
 import { v4 as uuidv4 } from 'uuid';
 import { useMemo } from 'react';
 import { styled } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { Grape as GrapeType } from 'src/features/api';
-import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/16/copy-stroke.svg';
-import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/16/tag-stroke.svg';
-import { Grape } from './Grape';
+import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-stroke.svg';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/12/tag-stroke.svg';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
+import { Grape } from './AccordionSection';
 
 interface UsecaseSectionProps {
   usecaseId: number;
@@ -27,6 +29,7 @@ export const UsecaseSection = ({
   grapes,
   ungrouped,
 }: UsecaseSectionProps) => {
+  const { t } = useTranslation();
   const memoizedGrapes = useMemo(
     () =>
       grapes.map((grape) => ({
@@ -52,21 +55,32 @@ export const UsecaseSection = ({
 
   return (
     <StyledSection>
-      <UsecaseTitle>
-        <LG style={{ flex: '1 0 auto' }}>
+      <UsecaseTitle style={{ marginBottom: appTheme.space.sm }}>
+        <XL style={{ flex: '1 0 auto' }}>
           <h3>{usecaseTitle}</h3>
-        </LG>
+        </XL>
         <div style={{ flex: '0 0 auto' }}>
-          <Tag hue="" size="small">
+          <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
             <TitleIcon />
           </Tag>{' '}
-          <small>{grapes.length} </small>{' '}
-          <Tag hue="" size="small">
+          <SM isBold style={{ display: 'inline', marginRight: '20px' }}>
+            {grapes.length}{' '}
+          </SM>
+          <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
             <ObservationsIcon />
           </Tag>{' '}
-          <small>{observationsCount} obs</small>
+          <SM isBold style={{ display: 'inline' }}>
+            {observationsCount} obs
+          </SM>
         </div>
       </UsecaseTitle>
+      <LG
+        isBold
+        color={appTheme.palette.grey[600]}
+        style={{ marginBottom: appTheme.space.md }}
+      >
+        {t('INSIGHT_PAGE_COLLECTION_USECASE_SUBTITTLE')}
+      </LG>
       <Accordion
         id={usecaseId.toString()}
         level={3}

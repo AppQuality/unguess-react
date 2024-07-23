@@ -1,12 +1,15 @@
 import {
   Accordion,
   Checkbox,
+  getColor,
   Label,
   LG,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { Grape as GrapeType } from 'src/features/api';
+import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
 import { useMemo } from 'react';
+import { appTheme } from 'src/app/theme';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 
@@ -14,34 +17,43 @@ interface GrapeProps {
   grape: GrapeType;
 }
 
+const getSeverityColor = (severity: string, theme: typeof appTheme) => {
+  switch (severity) {
+    case 'minor-issue':
+      return getColor(theme.colors.warningHue, 700);
+    case 'major-issue':
+      return getColor(theme.colors.dangerHue, 600);
+    case 'observation':
+      return getColor(theme.colors.primaryHue, 400);
+    case 'positive-finding':
+      return getColor(theme.colors.successHue, 700);
+    default:
+      return theme.palette.grey[500];
+  }
+};
+
+const getDropShadowColor = (severity: string, theme: typeof appTheme) => {
+  switch (severity) {
+    case 'minor-issue':
+      return getColor(theme.colors.warningHue, 200);
+    case 'major-issue':
+      return getColor(theme.colors.dangerHue, 200);
+    case 'observation':
+      return getColor(theme.colors.primaryHue, 200);
+    case 'positive-finding':
+      return getColor(theme.colors.successHue, 200);
+    default:
+      return theme.palette.grey[200];
+  }
+};
+
 const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
   margin-bottom: ${({ theme }) => theme.space.md};
-  border-radius: ${({ theme }) => theme.borderRadii.md};
-  border: 1px solid;
-  ${({ severity, theme }) => {
-    switch (severity) {
-      case 'Minor issue':
-        return `
-          border-color: ${theme.palette.orange[400]}66;
-        `;
-      case 'Major issue':
-        return `
-          border-color: ${theme.palette.crimson[400]}66;
-        `;
-      case 'Observation':
-        return `
-          border-color: ${theme.palette.royal[600]}66;
-        `;
-      case 'Positive':
-        return `
-          border-color: ${theme.palette.green[400]}66;
-        `;
-      default:
-        return `
-          border-color: ${theme.palette.grey[400]}66;
-        `;
-    }
-  }}
+  border-radius: ${({ theme }) => theme.borderRadii.lg};
+  border: 2px solid;
+  border-color: ${({ severity, theme }) => getSeverityColor(severity, theme)};
+  box-shadow: 4px 4px
+    ${({ severity, theme }) => getDropShadowColor(severity, theme)};
 `;
 
 export const Grape = ({ grape }: GrapeProps) => {
@@ -50,6 +62,7 @@ export const Grape = ({ grape }: GrapeProps) => {
     alert(`secelt all obs ${value}`);
   };
   const memoizedGrape = useMemo(() => {
+    const grapeSeverity = grape.severity.replace(' ', '-').toLowerCase();
     const observations = grape.observations.map((obs) => {
       // cerchiamo il tag severity in the middle of the shit
       const severity = obs.tags.find((tag) => tag.group.name === 'severity');
@@ -74,18 +87,22 @@ export const Grape = ({ grape }: GrapeProps) => {
 
     return {
       ...grape,
+      severity: grapeSeverity,
       observations,
       severityFrequencies,
     };
   }, [grape]);
 
   return (
-    <AccordionSection severity={grape.severity}>
+    <AccordionSection severity={memoizedGrape.severity}>
       <Accordion.Header>
         <Accordion.Label>
           <Checkbox checked={false} onChange={handleCheckboxChange}>
             <Label>
-              <LG isBold>{grape.title}</LG>
+              <TitleIcon
+                color={getSeverityColor(memoizedGrape.severity, appTheme)}
+              />
+              <LG isBold>{memoizedGrape.title}</LG>
               {memoizedGrape.observations.length} observations
             </Label>
           </Checkbox>
