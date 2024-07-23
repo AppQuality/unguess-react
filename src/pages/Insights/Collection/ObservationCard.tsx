@@ -7,10 +7,9 @@ import {
   SpecialCard,
   Tag,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-forms';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { Grape, useGetVideosByVidQuery } from 'src/features/api';
+import { Grape } from 'src/features/api';
 import { Pipe } from 'src/common/components/Pipe';
 import { useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
@@ -36,22 +35,7 @@ export const ObservationCard = ({
 }) => {
   const { t } = useTranslation();
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const {
-    data: video,
-    isLoading,
-    isError,
-  } = useGetVideosByVidQuery({
-    vid: observation.mediaId.toString(),
-  });
   const { values } = useFormikContext<InsightFormValues>();
-
-  const memoizedObservation = useMemo(
-    () => ({
-      ...observation,
-      video,
-    }),
-    [observation, video]
-  );
 
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
@@ -61,24 +45,19 @@ export const ObservationCard = ({
     (tag) => tag.group.name !== 'severity' && tag.group.name !== 'title'
   );
 
-  const isChecked = useMemo(
-    () => values.observations.some((obs) => obs.id === observation.id),
-    [values.observations, observation.id]
-  );
   const title =
     observation.tags.find((tag) => tag.group.name === 'title')?.tag.name ||
     observation.title;
 
-  if (isLoading || isError || !video) {
-    return null;
-  }
+  const isChecked = useMemo(
+    () => values.observations.some((obs) => obs.id === observation.id),
+    [values.observations, observation.id]
+  );
+
   const handleCheck = (
     e: React.MouseEvent,
     { remove, push }: FieldArrayRenderProps
   ) => {
-    console.log('checked', e);
-    console.log('checked', isChecked);
-    console.log('checked', typeof e);
     if (isChecked) {
       remove(values.observations.findIndex((obs) => obs.id === observation.id));
     } else {
@@ -110,10 +89,9 @@ export const ObservationCard = ({
               <Checkbox checked={isChecked}>
                 <Label>&nbsp;</Label>
               </Checkbox>
-
               <>
                 <Pipe />
-                {getDeviceIcon(video.tester.device.type)}
+                {getDeviceIcon(observation.deviceType)}
                 <Span>{observation.usecaseTitle}</Span>
               </>
             </SpecialCard.Meta>
@@ -178,7 +156,7 @@ export const ObservationCard = ({
           </SpecialCard>
           {isLightboxOpen && (
             <LightboxContainer
-              observation={memoizedObservation}
+              observation={observation}
               onClose={() => setIsLightboxOpen(false)}
             />
           )}
