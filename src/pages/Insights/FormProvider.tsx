@@ -1,21 +1,20 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Grape } from 'src/features/api';
+import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
 import * as Yup from 'yup';
 
-export interface InsightFormValues {
-  id: number;
-  title: string;
-  severity: number;
-  observations: Grape['observations'];
-}
+export type InsightFormValues = GetCampaignsByCidInsightsApiResponse[number];
 
 const FormProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
   const initialValues: InsightFormValues = {
     id: 0,
     title: '',
-    severity: 0,
+    description: '',
+    severity: {
+      id: 0,
+      name: '',
+    },
     observations: [],
   };
 
