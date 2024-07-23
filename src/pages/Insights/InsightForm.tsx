@@ -39,7 +39,7 @@ const InsightForm = () => {
   const [selectedSeverity, setSelectedSeverity] = useState<
     GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number] | undefined
   >();
-  const { values, isSubmitting, setFieldValue, errors } =
+  const { values, isSubmitting, setFieldValue, errors, resetForm } =
     useFormikContext<InsightFormValues>();
 
   const {
@@ -215,7 +215,9 @@ const InsightForm = () => {
           style={{
             marginRight: appTheme.space.sm,
           }}
-          onClick={() => {}}
+          onClick={() => {
+            resetForm();
+          }}
         >
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNDO')}
         </Button>
