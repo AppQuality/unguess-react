@@ -1,9 +1,19 @@
-import { Accordion, Button, LG, MD } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  Button,
+  LG,
+  MD,
+  useToast,
+  Notification,
+} from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { useTranslation } from 'react-i18next';
-import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
+import {
+  GetCampaignsByCidInsightsApiResponse,
+  useDeleteInsightsByIidMutation,
+} from 'src/features/api';
 import { InsightFormValues } from './FormProvider';
 
 const Insight = ({
@@ -12,9 +22,33 @@ const Insight = ({
   insight: GetCampaignsByCidInsightsApiResponse[number];
 }) => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const { values, setValues, isSubmitting } =
     useFormikContext<InsightFormValues>();
   const isCurrent = values.id === insight.id;
+
+  const [deleteInsight] = useDeleteInsightsByIidMutation();
+
+  const handleDelete = (insight_id: number) => {
+    deleteInsight({ iid: insight_id.toString() })
+      .unwrap()
+      .catch((e) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={
+                e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE')
+              }
+              closeText="X"
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
+  };
 
   return (
     <>
@@ -41,7 +75,9 @@ const Insight = ({
                 marginRight: appTheme.space.sm,
                 color: appTheme.palette.red[500],
               }}
-              onClick={() => {}}
+              onClick={() => {
+                handleDelete(insight.id);
+              }}
             >
               {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE')}
             </Button>
