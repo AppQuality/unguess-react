@@ -9,12 +9,17 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
 import { appTheme } from 'src/app/theme';
+import { styled } from 'styled-components';
 import { Widgets } from './Widgets';
 import { Collection } from './Collection';
 import { InsightsDrawer } from './InsightsDrawer';
 import { FormProvider } from './FormProvider';
 import { ActionBar } from './ActionBar';
 import { useInsightContext } from './InsightContext';
+
+const StyledCol = styled(Col)`
+  margin: 0;
+`;
 
 const InsightsPageContent = () => {
   const { t } = useTranslation();
@@ -28,17 +33,17 @@ const InsightsPageContent = () => {
       <FormProvider>
         <Grid gutters="xxl">
           <Row>
-            <Col lg={isDrawerOpen ? 6 : 11}>
+            <StyledCol lg={isDrawerOpen ? 6 : 11}>
               <ActionBar />
               <Widgets />
               <Collection />
-            </Col>
+            </StyledCol>
             {isDrawerOpen ? (
-              <Col lg={6}>
+              <StyledCol lg={6}>
                 <InsightsDrawer />
-              </Col>
+              </StyledCol>
             ) : (
-              <Col lg={1}>
+              <StyledCol lg={1}>
                 <Tooltip
                   content={t('__INSIGHTS_PAGE_OPEN_DRAWER_BUTTON')}
                   type="light"
@@ -52,7 +57,7 @@ const InsightsPageContent = () => {
                     <ArrowRight style={{ transform: 'rotate(180deg)' }} />
                   </IconButton>
                 </Tooltip>
-              </Col>
+              </StyledCol>
             )}
           </Row>
         </Grid>
