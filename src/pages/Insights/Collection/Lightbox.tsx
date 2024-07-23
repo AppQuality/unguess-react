@@ -15,7 +15,7 @@ import {
   Notification,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
@@ -30,6 +30,8 @@ import { ReactComponent as ExternalLinkIcon } from 'src/assets/icons/external-li
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useFormikContext } from 'formik';
+import { InsightFormValues } from '../FormProvider';
 
 const Grey600Span = styled.span`
   color: ${({ theme }) => theme.palette.grey[600]};
@@ -87,10 +89,16 @@ export const LightboxContainer = ({
   const hideDetails = width < breakpointSm;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { addToast } = useToast();
+  const { values, setFieldValue } = useFormikContext<InsightFormValues>();
   const navigate = useNavigate();
   const location = useLocation();
   const observationUrl = useLocalizeRoute(
     `campaigns/${campaignId}/videos/${observation.mediaId}#observation-${observation.id}`
+  );
+
+  const isChecked = useMemo(
+    () => values.observations.some((obs) => obs.id === observation.id),
+    [values.observations, observation.id]
   );
 
   const {
@@ -277,13 +285,54 @@ export const LightboxContainer = ({
           isPrimary
           isAccent
           onClick={() => {
-            // eslint-disable-next-line no-console
-            console.log('Select observation');
+            if (isChecked) {
+              setFieldValue(
+                'observations',
+                values.observations.filter((obs) => obs.id !== observation.id)
+              );
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="success"
+                    message={t(
+                      '__VIDEO_PAGE_OBSERVATION_DESELECTED_TOAST_MESSAGE'
+                    )}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+            } else {
+              setFieldValue('observations', [
+                ...values.observations,
+                observation,
+              ]);
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="success"
+                    message={t(
+                      '__VIDEO_PAGE_OBSERVATION_SELECTED_TOAST_MESSAGE'
+                    )}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+            }
           }}
         >
-          {t(
-            '__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_SELECT_BUTTON_LABEL'
-          )}
+          {!isChecked
+            ? t(
+                '__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_SELECT_BUTTON_LABEL'
+              )
+            : t(
+                '__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_DESELECT_BUTTON_LABEL'
+              )}
         </Button>
       </Lightbox.Footer>
       <Lightbox.Close />
