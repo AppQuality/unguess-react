@@ -4,10 +4,13 @@ import {
   getColor,
   Label,
   LG,
+  Tag,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { Grape as GrapeType } from 'src/features/api';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
+import { ReactComponent as UserIcon } from '@zendeskgarden/svg-icons/src/12/user-group-fill.svg';
+import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/12/tag-stroke.svg';
 import { useMemo } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ObservationCard } from '../ObservationCard';
@@ -56,10 +59,15 @@ const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
     ${({ severity, theme }) => getDropShadowColor(severity, theme)};
 `;
 
+const AccordionLabel = styled(Accordion.Label)`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: ${({ theme }) => theme.space.sm};
+`;
+
 export const Grape = ({ grape }: GrapeProps) => {
-  const handleCheckboxChange = (value: any) => {
-    // eslint-disable-next-line no-alert
-    alert(`secelt all obs ${value}`);
+  const handleCheckboxChange = (e: any) => {
+    console.log(e.target.checked);
   };
   const memoizedGrape = useMemo(() => {
     const grapeSeverity = grape.severity.replace(' ', '-').toLowerCase();
@@ -96,17 +104,39 @@ export const Grape = ({ grape }: GrapeProps) => {
   return (
     <AccordionSection severity={memoizedGrape.severity}>
       <Accordion.Header>
-        <Accordion.Label>
-          <Checkbox checked={false} onChange={handleCheckboxChange}>
-            <Label>
-              <TitleIcon
-                color={getSeverityColor(memoizedGrape.severity, appTheme)}
-              />
-              <LG isBold>{memoizedGrape.title}</LG>
-              {memoizedGrape.observations.length} observations
-            </Label>
-          </Checkbox>
-        </Accordion.Label>
+        <AccordionLabel>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: appTheme.space.sm,
+            }}
+          >
+            <Checkbox checked={false} onChange={handleCheckboxChange}>
+              <Label>
+                <span>
+                  <TitleIcon
+                    color={getSeverityColor(memoizedGrape.severity, appTheme)}
+                  />
+                </span>
+              </Label>
+            </Checkbox>
+            <LG isBold>{memoizedGrape.title}</LG>
+          </div>
+          <div>
+            <Tag
+              isPill
+              hue={getDropShadowColor(memoizedGrape.severity, appTheme)}
+            >
+              <ObservationIcon />
+              {memoizedGrape.observations.length}
+            </Tag>
+            <Tag isPill>
+              <UserIcon color={getColor(appTheme.colors.accentHue, 600)} />
+              {memoizedGrape.usersNumber}
+            </Tag>
+          </div>
+        </AccordionLabel>
       </Accordion.Header>
       <Accordion.Panel>
         <CardGrid>
