@@ -1,10 +1,4 @@
-import {
-  Accordion,
-  Button,
-  LG,
-  MD,
-  SM,
-} from '@appquality/unguess-design-system';
+import { Accordion, Button, LG, MD } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
@@ -40,13 +34,6 @@ const Insight = ({
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
             <MD>{insight.title}</MD>
-            <div style={{ marginTop: appTheme.space.sm }}>
-              <SM>
-                {insight.observations
-                  .map((observation: any) => observation.title)
-                  .join(', ')}
-              </SM>
-            </div>
             <Button
               isBasic
               disabled={isSubmitting}
@@ -61,7 +48,19 @@ const Insight = ({
             <Button
               style={{ marginTop: appTheme.space.md }}
               isPrimary
-              onClick={() => setValues(insight)}
+              onClick={() =>
+                setValues({
+                  ...insight,
+                  severity: insight.severity.id,
+                  observations: insight.observations.map((o) => ({
+                    ...o,
+                    uploaderId: 0,
+                    mediaId: o.video.id,
+                    deviceType: '',
+                    usecaseTitle: '',
+                  })),
+                })
+              }
             >
               {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
             </Button>
