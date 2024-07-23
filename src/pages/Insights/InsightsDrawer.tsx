@@ -8,7 +8,7 @@ import { Insight } from './Insight';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
 import { InsightForm } from './InsightForm';
-import { NewInsight } from './NewInsight';
+import { NewInsightForm } from './NewInsight';
 
 const insightData = [
   {
@@ -55,7 +55,7 @@ const DetailContainer = styled.div<{
 `;
 
 const InsightsDrawer = () => {
-  const { values } = useFormikContext<InsightFormValues>();
+  const { values, resetForm } = useFormikContext<InsightFormValues>();
   const { t } = useTranslation();
   const { setIsDrawerOpen } = useInsightContext();
 
@@ -73,6 +73,9 @@ const InsightsDrawer = () => {
             size="small"
             onClick={() => {
               setIsDrawerOpen(false);
+              if (values.id === -1) {
+                resetForm();
+              }
             }}
           >
             <CloseIcon />
@@ -85,14 +88,7 @@ const InsightsDrawer = () => {
           insightData.map((insight) => <Insight insight={insight} />)}
         {values.id === -1 && (
           // new insight
-          <NewInsight
-            insight={{
-              id: -1,
-              title: 'New Insight',
-              severity: 1,
-              observations: values.observations,
-            }}
-          />
+          <NewInsightForm />
         )}
         {values.id > 0 && (
           // edit insight

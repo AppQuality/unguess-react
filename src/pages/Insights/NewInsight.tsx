@@ -1,70 +1,112 @@
 import {
-  Accordion,
   Button,
-  LG,
-  MD,
-  SM,
+  Checkbox,
+  Input,
+  Label,
+  Message,
 } from '@appquality/unguess-design-system';
-import { useFormikContext } from 'formik';
-import { appTheme } from 'src/app/theme';
-import { Divider } from 'src/common/components/divider';
+import { Field, FieldProps, useFormikContext } from 'formik';
+import { Field as ZendeskField } from '@zendeskgarden/react-forms';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { InsightFormValues } from './FormProvider';
 
-const NewInsight = ({ insight }: { insight: any }) => {
+const NewInsightForm = () => {
   const { t } = useTranslation();
-  const { values, setValues, isSubmitting } =
-    useFormikContext<InsightFormValues>();
-  const isCurrent = values.id === insight.id;
+  const {
+    values: { observations },
+    isSubmitting,
+  } = useFormikContext<InsightFormValues>();
 
   return (
     <>
-      <Divider />
-      <Accordion
-        level={3}
-        style={{ padding: `${appTheme.space.md} 0` }}
-        key={`insight_accordion_${insight.id}_${isCurrent}`}
-        defaultExpandedSections={isCurrent ? [0, 1] : []}
-        id={`insight-accordion-${insight.id}`}
-      >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label style={{ padding: 0 }}>
-              <LG isBold>{insight.title}</LG>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: 0 }}>
-            <MD>{insight.title}</MD>
-            <div style={{ marginTop: appTheme.space.sm }}>
-              <SM>
-                {insight.observations
-                  .map((observation: any) => observation.title)
-                  .join(', ')}
-              </SM>
-            </div>
-            <Button
-              isBasic
-              disabled={isSubmitting}
-              style={{
-                marginRight: appTheme.space.sm,
-                color: appTheme.palette.red[500],
+      <Label>{t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_LABEL')}</Label>
+      <Field name="title">
+        {({ field, form, meta }: FieldProps) => (
+          <>
+            <Input
+              {...field}
+              placeholder={t(
+                '__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_PLACEHOLDER'
+              )}
+              onChange={(e) => {
+                form.setFieldValue('title', e.target.value);
               }}
-              onClick={() => {}}
-            >
-              {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE')}
-            </Button>
-            <Button
-              style={{ marginTop: appTheme.space.md }}
-              isPrimary
-              onClick={() => setValues(insight)}
-            >
-              {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
-            </Button>
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+            />
+            {meta.touched && meta.error && (
+              <Message
+                validation="error"
+                style={{ marginTop: appTheme.space.sm }}
+              >
+                {meta.error}
+              </Message>
+            )}
+          </>
+        )}
+      </Field>
+      <div style={{ margin: `${appTheme.space.md} 0` }}>
+        <Label>
+          {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
+        </Label>
+        <div style={{ marginTop: appTheme.space.sm }}>
+          {observations.map(
+            (observation: InsightFormValues['observations'][number]) => {
+              const title =
+                observation.tags.find((tag) => tag.group.name === 'title')?.tag
+                  .name || observation.title;
+
+              return (
+                <Field
+                  key={observation.id}
+                  name={`observations.${observation.id}`}
+                >
+                  {({ form }: FieldProps) => (
+                    <ZendeskField>
+                      <Checkbox
+                        checked={
+                          !!observations.find((o) => o.id === observation.id)
+                        }
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            form.setFieldValue('observations', [
+                              ...observations,
+                              observation,
+                            ]);
+                          } else {
+                            form.setFieldValue(
+                              'observations',
+                              observations.filter(
+                                (o) => o.id !== observation.id
+                              )
+                            );
+                          }
+                        }}
+                      >
+                        <Label isRegular>{title}</Label>
+                      </Checkbox>
+                    </ZendeskField>
+                  )}
+                </Field>
+              );
+            }
+          )}
+        </div>
+      </div>
+      <Button
+        type="reset"
+        isBasic
+        disabled={isSubmitting}
+        style={{
+          marginRight: appTheme.space.sm,
+        }}
+        onClick={() => {}}
+      >
+        {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNDO')}
+      </Button>
+      <Button isPrimary type="submit">
+        {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_SAVE')}
+      </Button>
     </>
   );
 };
-
-export { NewInsight };
+export { NewInsightForm };
