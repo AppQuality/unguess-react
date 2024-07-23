@@ -16,6 +16,7 @@ const InsightForm = () => {
   const {
     values: { observations },
     isSubmitting,
+    resetForm,
   } = useFormikContext<InsightFormValues>();
 
   return (
@@ -91,7 +92,9 @@ const InsightForm = () => {
         style={{
           marginRight: appTheme.space.sm,
         }}
-        onClick={() => {}}
+        onClick={() => {
+          resetForm();
+        }}
       >
         {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNDO')}
       </Button>
