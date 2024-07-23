@@ -12,9 +12,10 @@ export const ProgressMonitoringWidget = ({
   campaignId: string;
 }) => {
   const { t } = useTranslation();
-  const { results } = useSeveritiesDistributionData(campaignId);
+  const { countObservation, countMajorIssue } =
+    useSeveritiesDistributionData(campaignId);
   return (
-    <BasicWidget className="observed-themes-widget">
+    <BasicWidget className="progress-monitoring-widget">
       <BasicWidget.Header
         tooltipContent={t('_CAMPAIGN_WIDGET_UX_TEST_PROGRESS_MONITORING')}
       >
@@ -46,7 +47,7 @@ export const ProgressMonitoringWidget = ({
             // TODO: change the translation key
             i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_TOTAL_LABEL"
             defaults="out of <bold>{{total}}</bold> total observations"
-            count={10}
+            count={countObservation}
             components={{
               bold: (
                 <Span
@@ -56,7 +57,7 @@ export const ProgressMonitoringWidget = ({
               ),
             }}
             values={{
-              total: 8,
+              total: countObservation,
             }}
           />
         }
