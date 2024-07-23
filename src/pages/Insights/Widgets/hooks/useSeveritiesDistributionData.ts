@@ -7,13 +7,7 @@ export const useSeveritiesDistributionData = (campaignId: string) => {
       s: 'ux-severities-distribution',
     });
   const { data: results, kind } = data || {};
-  return {
-    results,
-    isLoading,
-    isFetching,
-    isError,
-  };
-  /* if (results && kind === 'uxSeveritiesDistribution') {
+  if (results && kind === 'uxSeveritiesDistribution') {
     if (results.severitiesDistribution) {
       const {
         countPositiveFindings,
@@ -23,8 +17,7 @@ export const useSeveritiesDistributionData = (campaignId: string) => {
       } = results.severitiesDistribution;
 
       return {
-        results,
-        countObservation:results.countObservation,
+        countObservation: results.countObservation,
         countPositiveFindings,
         countMinorIssue,
         countMajorIssue,
@@ -36,7 +29,6 @@ export const useSeveritiesDistributionData = (campaignId: string) => {
     }
   }
   return {
-    results,
     countPositiveFindings: 0,
     countMinorIssue: 0,
     countMajorIssue: 0,
@@ -44,5 +36,5 @@ export const useSeveritiesDistributionData = (campaignId: string) => {
     isLoading,
     isFetching,
     isError,
-  }; */
+  };
 };

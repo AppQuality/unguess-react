@@ -11,7 +11,7 @@ export const UserAnalysisWidget = ({ campaignId }: { campaignId: string }) => {
     useUxTaggingVideoCompletionData(campaignId);
   const { t } = useTranslation();
   return (
-    <BasicWidget className="bugs-distribution-widget">
+    <BasicWidget className="user-analysis-widget">
       <BasicWidget.Header
         tooltipContent={t('__CAMPAIGN_WIDGET_UX_USER_ANALYSIS')}
       >
