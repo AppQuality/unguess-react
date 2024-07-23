@@ -56,8 +56,6 @@ const InsightsDrawer = () => {
 
   if (isLoading || isError) return <Skeleton />;
 
-  console.log('values', values);
-
   return (
     <DetailContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -72,9 +70,7 @@ const InsightsDrawer = () => {
             size="small"
             onClick={() => {
               setIsDrawerOpen(false);
-              if (values.id === -1) {
-                resetForm();
-              }
+              resetForm();
             }}
           >
             <CloseIcon />
