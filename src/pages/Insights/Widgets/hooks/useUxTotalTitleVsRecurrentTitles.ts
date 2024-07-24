@@ -1,20 +1,20 @@
 import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
-export const useUxTotalTitleVsObservations = (campaignId: string) => {
+export const useUxTotalTitleVsRecurrentTitles = (campaignId: string) => {
   const { data, isLoading, isFetching, isError } =
     useGetCampaignsByCidWidgetsQuery({
       cid: campaignId,
-      s: 'ux-total-title-vs-observation',
+      s: 'ux-total-titles-vs-recurrent-titles',
     });
 
   const { data: results, kind } = data || {};
-  if (results && kind === 'uxTotalTitleVsObservations') {
-    const { countTitleTag, countObservation, countObservationNoTitle } =
+  if (results && kind === 'uxTotalTitlesVsRecurrentTitles') {
+    const { countTitleTag, countRecurrentTitles, countObservationNoTitle } =
       results;
 
     return {
       countTitleTag,
-      countObservation,
+      countRecurrentTitles,
       countObservationNoTitle,
       isLoading,
       isFetching,
@@ -23,7 +23,7 @@ export const useUxTotalTitleVsObservations = (campaignId: string) => {
   }
   return {
     countTitleTag: 0,
-    countObservation: 0,
+    countRecurrentTitles: 0,
     countObservationNoTitle: 0,
     isLoading,
     isFetching,

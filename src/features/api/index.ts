@@ -1250,7 +1250,7 @@ export type GetCampaignsByCidWidgetsApiArg = {
     | 'unique-bugs'
     | 'bugs-by-duplicates'
     | 'ux-tagging-video-completion'
-    | 'ux-total-title-vs-observation'
+    | 'ux-total-titles-vs-recurrent-titles'
     | 'ux-severities-distribution'
     | 'ux-most-used-titles';
   /** should update bug trend after request resolves? */
@@ -2025,6 +2025,7 @@ export type WidgetCampaignUxProgress = {
     countTitleTag?: number;
     countObservation?: number;
     countObservationNoTitle?: number;
+    countRecurrentTitles?: number;
     severitiesDistribution?: {
       countPositiveFindings: number;
       countMinorIssue: number;
@@ -2039,7 +2040,7 @@ export type WidgetCampaignUxProgress = {
   };
   kind:
     | 'uxTaggingVideoCompletion'
-    | 'uxTotalTitleVsObservations'
+    | 'uxTotalTitlesVsRecurrentTitles'
     | 'uxSeveritiesDistribution'
     | 'uxMostUsedTitles';
 };

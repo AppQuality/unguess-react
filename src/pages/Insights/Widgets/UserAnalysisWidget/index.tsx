@@ -19,49 +19,51 @@ export const UserAnalysisWidget = ({ campaignId }: { campaignId: string }) => {
           {t('_CAMPAIGN_WIDGET_UX_USER_ANALYSIS_HEADER')}
         </CapitalizeFirstLetter>
       </BasicWidget.Header>
-      <BasicWidget.Description
-        header=""
-        content={
-          <span
-            style={{
-              color: appTheme.palette.blue[600],
-            }}
-          >
-            {countMediaWithObservation}
-            <XL
-              tag="span"
-              isBold
-              color={appTheme.palette.blue[600]}
-              style={{ marginLeft: appTheme.space.xs }}
+      <div style={{ marginTop: appTheme.space.lg }}>
+        <BasicWidget.Description
+          header={t('_CAMPAIGN_WIDGET_UX_USER_ANALYSIS_DESCRIPTION_HEADER')}
+          content={
+            <span
+              style={{
+                color: appTheme.palette.blue[600],
+              }}
             >
-              <Trans
-                i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_COUNT_LABEL"
-                count={15}
+              {countMediaWithObservation}
+              <XL
+                tag="span"
+                isBold
+                color={appTheme.palette.blue[600]}
+                style={{ marginLeft: appTheme.space.xs }}
               >
-                videos with observations
-              </Trans>
-            </XL>
-          </span>
-        }
-        footer={
-          <Trans
-            i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_TOTAL_LABEL"
-            defaults="on <bold>{{total}}</bold> total videos"
-            count={countMedia}
-            components={{
-              bold: (
-                <Span
-                  isBold
-                  style={{ color: appTheme.components.text.primaryColor }}
-                />
-              ),
-            }}
-            values={{
-              total: countMedia,
-            }}
-          />
-        }
-      />
+                <Trans
+                  i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_COUNT_LABEL"
+                  count={15}
+                >
+                  videos
+                </Trans>
+              </XL>
+            </span>
+          }
+          footer={
+            <Trans
+              i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_TOTAL_LABEL"
+              defaults="on <bold>{{total}}total videos </bold>"
+              count={countMedia}
+              components={{
+                bold: (
+                  <Span
+                    isBold
+                    style={{ color: appTheme.components.text.primaryColor }}
+                  />
+                ),
+              }}
+              values={{
+                total: countMedia,
+              }}
+            />
+          }
+        />
+      </div>
     </BasicWidget>
   );
 };

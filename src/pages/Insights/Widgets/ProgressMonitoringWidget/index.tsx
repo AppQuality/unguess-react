@@ -1,4 +1,11 @@
-import { Span, XL } from '@appquality/unguess-design-system';
+import {
+  BarChart,
+  Col,
+  Grid,
+  Row,
+  Span,
+  XL,
+} from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
@@ -12,8 +19,24 @@ export const ProgressMonitoringWidget = ({
   campaignId: string;
 }) => {
   const { t } = useTranslation();
-  const { countObservation, countMajorIssue } =
-    useSeveritiesDistributionData(campaignId);
+  const {
+    countObservationsSeverity,
+    countPositiveFindings,
+    countMajorIssue,
+    countMinorIssue,
+    countObservation,
+  } = useSeveritiesDistributionData(campaignId);
+  const graphData = [
+    {
+      label: '',
+      keys: {
+        Observation: countObservationsSeverity,
+        Positive: countPositiveFindings,
+        Minor: countMinorIssue,
+        Major: countMajorIssue,
+      },
+    },
+  ];
   return (
     <BasicWidget className="progress-monitoring-widget">
       <BasicWidget.Header
@@ -23,45 +46,75 @@ export const ProgressMonitoringWidget = ({
           {t('_CAMPAIGN_WIDGET_UX_TEST_PROGRESS_MONITORING_HEADER')}
         </CapitalizeFirstLetter>
       </BasicWidget.Header>
-      <BasicWidget.Description
-        header=""
-        content={
-          <span
-            style={{
-              color: appTheme.colors.bySeverity.critical,
-            }}
+      <Grid style={{ marginTop: appTheme.space.lg }} gutters={false}>
+        <Row>
+          <Col
+            sm={5}
+            style={{ marginBottom: appTheme.space.md, overflow: 'hidden' }}
           >
-            15
-            <XL
-              tag="span"
-              isBold
-              color={appTheme.colors.bySeverity.critical}
-              style={{ marginLeft: appTheme.space.xs }}
-            >
-              Major issue
-            </XL>
-          </span>
-        }
-        footer={
-          <Trans
-            // TODO: change the translation key
-            i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_TOTAL_LABEL"
-            defaults="out of <bold>{{total}}</bold> total observations"
-            count={countObservation}
-            components={{
-              bold: (
-                <Span
-                  isBold
-                  style={{ color: appTheme.components.text.primaryColor }}
+            <BasicWidget.Description
+              header={t(
+                '_CAMPAIGN_WIDGET_UX_TEST_PROGRESS_MONITORING_DESCRIPTION_HEADER'
+              )}
+              content={
+                <span
+                  style={{
+                    color: appTheme.colors.bySeverity.critical,
+                  }}
+                >
+                  15
+                  <XL
+                    tag="span"
+                    isBold
+                    color={appTheme.colors.bySeverity.critical}
+                    style={{ marginLeft: appTheme.space.xs }}
+                  >
+                    Major issue
+                  </XL>
+                </span>
+              }
+              footer={
+                <Trans
+                  // TODO: change the translation key
+                  i18nKey="__CAMPAIGN_WIDGET_UX_PROGRESS_TOTAL_LABEL"
+                  defaults="out of <bold>{{total}}</bold> total observations"
+                  count={countObservation}
+                  components={{
+                    bold: (
+                      <Span
+                        isBold
+                        style={{ color: appTheme.components.text.primaryColor }}
+                      />
+                    ),
+                  }}
+                  values={{
+                    total: countObservation,
+                  }}
                 />
-              ),
-            }}
-            values={{
-              total: countObservation,
-            }}
-          />
-        }
-      />
+              }
+            />
+          </Col>
+          <Col sm={7} style={{ marginBottom: appTheme.space.md }}>
+            <div style={{ marginLeft: appTheme.space.md }}>
+              <BarChart
+                height="70px"
+                margin={{ left: 8, right: 8 }}
+                colors={[
+                  appTheme.colors.bySeverity.medium,
+                  appTheme.colors.bySeverity.low,
+                  appTheme.colors.bySeverity.high,
+                  appTheme.colors.bySeverity.critical,
+                ]}
+                data={graphData}
+                legend={{
+                  width: '100%',
+                  columns: 4,
+                }}
+              />
+            </div>
+          </Col>
+        </Row>
+      </Grid>
     </BasicWidget>
   );
 };
