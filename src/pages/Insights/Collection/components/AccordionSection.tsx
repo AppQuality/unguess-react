@@ -11,10 +11,9 @@ import { ReactComponent as UserIcon } from '@zendeskgarden/svg-icons/src/12/user
 import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/12/tag-stroke.svg';
 import { useMemo } from 'react';
 import { appTheme } from 'src/app/theme';
-import { ArrayHelpers, FieldArray, useFormikContext } from 'formik';
+import { ArrayHelpers, FieldArray } from 'formik';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
-import { InsightFormValues } from '../../FormProvider';
 import { GrapeCheckbox } from './GrapeCheckbox';
 
 interface GrapeProps {
