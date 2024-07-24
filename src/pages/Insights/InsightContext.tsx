@@ -1,8 +1,13 @@
 import { createContext, useContext, useMemo, useState } from 'react';
+import { GetCampaignsByCidObservationsApiArg } from 'src/features/api';
 
 interface InsightContextType {
   isDrawerOpen: boolean;
   setIsDrawerOpen: (isOpen: boolean) => void;
+  groupObservationsBy: GetCampaignsByCidObservationsApiArg['groupBy'];
+  setGroupObservationsBy: (
+    groupBy: GetCampaignsByCidObservationsApiArg['groupBy']
+  ) => void;
 }
 
 const InsightContext = createContext<InsightContextType | null>(null);
@@ -13,13 +18,17 @@ export const InsightContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [groupBy, setGroupBy] =
+    useState<GetCampaignsByCidObservationsApiArg['groupBy']>('usecase-grapes');
 
   const InsightContextValue = useMemo(
     () => ({
       isDrawerOpen,
       setIsDrawerOpen,
+      groupObservationsBy: groupBy,
+      setGroupObservationsBy: setGroupBy,
     }),
-    [isDrawerOpen, setIsDrawerOpen]
+    [isDrawerOpen, setIsDrawerOpen, groupBy, setGroupBy]
   );
 
   return (
