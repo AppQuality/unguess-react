@@ -12,6 +12,8 @@ import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 
 import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
 import { useSeveritiesDistributionData } from '../hooks/useSeveritiesDistributionData';
+import { getMaxSeverity } from '../utils/getMaxSeverity';
+import { getMaxSeverityColor } from '../utils/getMaxSeverityColor';
 
 export const ProgressMonitoringWidget = ({
   campaignId,
@@ -26,6 +28,7 @@ export const ProgressMonitoringWidget = ({
     countMinorIssue,
     countObservation,
   } = useSeveritiesDistributionData(campaignId);
+
   const graphData = [
     {
       label: '',
@@ -37,6 +40,12 @@ export const ProgressMonitoringWidget = ({
       },
     },
   ];
+  const maxSeverity = getMaxSeverity(
+    countMajorIssue,
+    countMinorIssue,
+    countPositiveFindings,
+    countObservationsSeverity
+  );
   return (
     <BasicWidget className="progress-monitoring-widget">
       <BasicWidget.Header
@@ -59,17 +68,17 @@ export const ProgressMonitoringWidget = ({
               content={
                 <span
                   style={{
-                    color: appTheme.colors.bySeverity.critical,
+                    color: getMaxSeverityColor(maxSeverity.name),
                   }}
                 >
-                  15
+                  {maxSeverity.count}
                   <XL
                     tag="span"
                     isBold
-                    color={appTheme.colors.bySeverity.critical}
+                    color={getMaxSeverityColor(maxSeverity.name)}
                     style={{ marginLeft: appTheme.space.xs }}
                   >
-                    Major issue
+                    {maxSeverity.name}
                   </XL>
                 </span>
               }
