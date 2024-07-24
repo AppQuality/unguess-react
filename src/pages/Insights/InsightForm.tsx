@@ -14,10 +14,7 @@ import {
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { Field as FormField } from '@zendeskgarden/react-forms';
 import { useTranslation } from 'react-i18next';
-import {
-  GetCampaignsByCidVideoTagsApiResponse,
-  useGetCampaignsByCidVideoTagsQuery,
-} from 'src/features/api';
+import { useGetCampaignsByCidVideoTagsQuery } from 'src/features/api';
 import { appTheme } from 'src/app/theme';
 import { useParams } from 'react-router-dom';
 import { getColorWithAlpha } from 'src/common/utils';
