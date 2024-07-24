@@ -79,6 +79,7 @@ const InsightForm = () => {
   useEffect(() => {
     setSelectedSeverity(values.severity);
   }, [values]);
+
   return (
     <FormContainer>
       <div>
