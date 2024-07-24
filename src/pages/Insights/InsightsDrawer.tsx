@@ -1,36 +1,20 @@
 import { useFormikContext } from 'formik';
 import { styled } from 'styled-components';
-import { IconButton, LG, Tooltip } from '@appquality/unguess-design-system';
+import {
+  IconButton,
+  LG,
+  Skeleton,
+  Tooltip,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
+import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
+import { useParams } from 'react-router-dom';
 import { Insight } from './Insight';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
 import { InsightForm } from './InsightForm';
-import { NewInsightForm } from './NewInsight';
-
-const insightData = [
-  {
-    id: 1,
-    title: 'Insight #1',
-    severity: 1,
-    observations: [
-      {
-        id: 1,
-        title: 'Observation #1',
-        severity: 1,
-        quotes: '',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Insight #2',
-    severity: 1,
-    observations: [],
-  },
-];
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -45,6 +29,8 @@ const DetailContainer = styled.div<{
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
   padding: ${({ theme }) => theme.space.md};
+  overflow-y: auto;
+  overflow-x: hidden;
 
   ${(p) =>
     p.isFetching &&
@@ -55,9 +41,20 @@ const DetailContainer = styled.div<{
 `;
 
 const InsightsDrawer = () => {
+  const { campaignId } = useParams();
   const { values, resetForm } = useFormikContext<InsightFormValues>();
   const { t } = useTranslation();
   const { setIsDrawerOpen } = useInsightContext();
+  const {
+    data: insights,
+    isFetching,
+    isLoading,
+    isError,
+  } = useGetCampaignsByCidInsightsQuery({
+    cid: campaignId || '',
+  });
+
+  if (isLoading || isError) return <Skeleton />;
 
   return (
     <DetailContainer>
@@ -73,25 +70,22 @@ const InsightsDrawer = () => {
             size="small"
             onClick={() => {
               setIsDrawerOpen(false);
-              if (values.id === -1) {
-                resetForm();
-              }
+              resetForm();
             }}
           >
             <CloseIcon />
           </IconButton>
         </Tooltip>
       </div>
-      <div style={{ marginTop: appTheme.space.md }}>
-        {values.id === 0 &&
-          // accordion
-          insightData.map((insight) => <Insight insight={insight} />)}
-        {values.id === -1 && (
-          // new insight
-          <NewInsightForm />
-        )}
-        {values.id > 0 && (
-          // edit insight
+      <div
+        style={{ marginTop: appTheme.space.md, opacity: isFetching ? 0.5 : 1 }}
+      >
+        {values.id === 0 ? (
+          insights &&
+          // insights list
+          insights.map((insight) => <Insight insight={insight} />)
+        ) : (
+          // create or update insight
           <InsightForm />
         )}
       </div>

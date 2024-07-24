@@ -45,7 +45,7 @@ const StyledLabel = styled(Label)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
-const RadioTag = styled(Tag)<{
+export const RadioTag = styled(Tag)<{
   color: string;
 }>`
   padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xxs};
