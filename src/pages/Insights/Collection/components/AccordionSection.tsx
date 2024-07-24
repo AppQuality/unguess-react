@@ -149,7 +149,13 @@ export const Grape = ({ grape }: GrapeProps) => {
 
                     if (e.target.checked) {
                       memoizedGrape.observations
-                        .filter((obs) => !selectedObservations.includes(obs))
+                        // filter out already selected observations looking at their id
+                        .filter(
+                          (obs) =>
+                            !selectedObservations
+                              .map((sel) => sel.id)
+                              .includes(obs.id)
+                        )
                         .forEach((obs) => {
                           push(obs);
                         });
