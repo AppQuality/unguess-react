@@ -21,7 +21,7 @@ import {
 import { appTheme } from 'src/app/theme';
 import { useParams } from 'react-router-dom';
 import { getColorWithAlpha } from 'src/common/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { InsightFormValues } from './FormProvider';
 import { RadioTag } from '../Video/components/ObservationForm';
@@ -37,7 +37,7 @@ const InsightForm = () => {
   const { t } = useTranslation();
   const { campaignId } = useParams();
   const [selectedSeverity, setSelectedSeverity] = useState<
-    GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number] | undefined
+    number | undefined
   >();
 
   const { values, isSubmitting, setFieldValue, errors, resetForm } =
@@ -78,6 +78,10 @@ const InsightForm = () => {
     ...severities,
     tags: mappedTags,
   };
+
+  useEffect(() => {
+    setSelectedSeverity(values.severity);
+  }, [values]);
   return (
     <FormContainer>
       <div>
@@ -162,9 +166,9 @@ const InsightForm = () => {
                     >
                       <FormField>
                         <Radio
-                          checked={selectedSeverity?.id === severity.id}
+                          checked={selectedSeverity === severity.id}
                           onChange={() => {
-                            setSelectedSeverity(severity);
+                            setSelectedSeverity(severity.id);
                             setFieldValue('severity', severity.id);
                           }}
                         >
