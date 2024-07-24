@@ -33,6 +33,7 @@ export const useSeveritiesDistributionData = (campaignId: string) => {
     countMinorIssue: 0,
     countMajorIssue: 0,
     countObservations: 0,
+    countObservationsSeverity: 0,
     isLoading,
     isFetching,
     isError,

@@ -32,7 +32,7 @@ export const ObservedThemesWidget = ({
                 color: appTheme.palette.blue[600],
               }}
             >
-              {countTitleTag}
+              {countRecurrentTitles}
               <XL
                 tag="span"
                 isBold
@@ -41,7 +41,7 @@ export const ObservedThemesWidget = ({
               >
                 <Trans
                   i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_COUNT_LABEL"
-                  count={15}
+                  count={countRecurrentTitles}
                 >
                   topics
                 </Trans>
