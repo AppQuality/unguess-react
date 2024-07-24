@@ -3,6 +3,7 @@ import {
   Checkbox,
   Ellipsis,
   Label,
+  SM,
   Span,
   SpecialCard,
   Tag,
@@ -20,7 +21,6 @@ import { InsightFormValues } from '../FormProvider';
 
 const StyledTag = styled(Tag)`
   user-select: none;
-  margin-top: ${({ theme }) => theme.space.xs};
   max-width: 110px;
 `;
 
@@ -112,33 +112,45 @@ export const ObservationCard = ({
                 &quot;
               </SpecialCard.Header.Title>
               <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
-                {severity && (
-                  <StyledTag
-                    size="small"
-                    color={severity.tag.style}
-                    style={{
-                      backgroundColor: getColorWithAlpha(
-                        severity.tag.style,
-                        0.1
-                      ),
-                    }}
-                  >
-                    <Ellipsis>{severity.tag.name}</Ellipsis>
-                  </StyledTag>
-                )}
-                {tags.length > 0 && (
-                  <StyledTag
-                    size="small"
-                    style={{
-                      backgroundColor: appTheme.palette.grey[200],
-                    }}
-                  >
-                    <Ellipsis>
-                      {tags[0].tag.name}
-                      {tags.length > 1 && ` +${tags.length - 1}`}
-                    </Ellipsis>
-                  </StyledTag>
-                )}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  {severity && (
+                    <StyledTag
+                      size="small"
+                      color={severity.tag.style}
+                      style={{
+                        backgroundColor: getColorWithAlpha(
+                          severity.tag.style,
+                          0.1
+                        ),
+                      }}
+                    >
+                      <Ellipsis>{severity.tag.name}</Ellipsis>
+                    </StyledTag>
+                  )}
+                  {tags.length === 1 && (
+                    <StyledTag
+                      size="small"
+                      style={{
+                        backgroundColor: appTheme.palette.grey[200],
+                      }}
+                    >
+                      <Ellipsis>{tags[0].tag.name}</Ellipsis>
+                      {`(${tags[0].tag.usageNumber})`}
+                    </StyledTag>
+                  )}
+                  {tags.length > 1 && (
+                    <SM>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <Ellipsis>
+                          {t(
+                            '__INSIGHTS_COLLECTION_OBSERVATION_CARD_EXTRA_TAGS_LABEL'
+                          )}
+                        </Ellipsis>
+                        {`+${tags.length}`}
+                      </div>
+                    </SM>
+                  )}
+                </div>
               </SpecialCard.Header.Text>
             </SpecialCard.Header>
 
