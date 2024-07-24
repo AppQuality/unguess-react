@@ -1,7 +1,11 @@
 import { MD, XXL } from '@appquality/unguess-design-system';
 import { styled } from 'styled-components';
+import { GroupByToggle } from './GroupByToggle';
 
 const Style = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: ${({ theme }) => theme.space.md};
   padding-top: ${({ theme }) => theme.space.xxs};
   margin-bottom: ${({ theme }) => theme.space.xs};
   ${XXL} {
@@ -20,7 +24,10 @@ export const SectionTitle = ({
   subtitle: string;
 }) => (
   <Style>
-    <XXL isBold>{title}</XXL>
-    <MD>{subtitle}</MD>
+    <div>
+      <XXL isBold>{title}</XXL>
+      <MD>{subtitle}</MD>
+    </div>
+    <GroupByToggle />
   </Style>
 );
