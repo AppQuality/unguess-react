@@ -1,23 +1,21 @@
 import {
   Accordion,
-  Checkbox,
   getColor,
-  Label,
   LG,
   Tag,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-forms';
 import styled from 'styled-components';
 import { Grape as GrapeType } from 'src/features/api';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
 import { ReactComponent as UserIcon } from '@zendeskgarden/svg-icons/src/12/user-group-fill.svg';
 import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/12/tag-stroke.svg';
-import { ChangeEvent, useMemo } from 'react';
+import { useMemo } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ArrayHelpers, FieldArray, useFormikContext } from 'formik';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 import { InsightFormValues } from '../../FormProvider';
+import { GrapeCheckbox } from './GrapeCheckbox';
 
 interface GrapeProps {
   grape: GrapeType;
@@ -101,32 +99,6 @@ export const Grape = ({ grape }: GrapeProps) => {
     };
   }, [grape]);
 
-  const { values } = useFormikContext<InsightFormValues>();
-
-  const selectedObservations = useMemo(() => {
-    const observationIds = memoizedGrape.observations.map((obs) => obs.id);
-    return values.observations.filter((obs) => observationIds.includes(obs.id));
-  }, [values.observations, memoizedGrape.observations]);
-
-  const checkboxState = useMemo(() => {
-    if (selectedObservations.length === memoizedGrape.observations.length) {
-      return {
-        checked: true,
-        indeterminate: false,
-      };
-    }
-    if (selectedObservations.length > 0) {
-      return {
-        checked: false,
-        indeterminate: true,
-      };
-    }
-    return {
-      checked: false,
-      indeterminate: false,
-    };
-  }, [memoizedGrape.observations, values.observations]);
-
   return (
     <AccordionSection severity={memoizedGrape.severity}>
       <Accordion.Header>
@@ -138,59 +110,18 @@ export const Grape = ({ grape }: GrapeProps) => {
               gap: appTheme.space.sm,
             }}
           >
-            <Field>
-              <FieldArray name="observations">
-                {({ push, remove }: ArrayHelpers) => {
-                  const handleCheckboxChange = (
-                    e: ChangeEvent<HTMLInputElement>
-                  ) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    if (e.target.checked) {
-                      memoizedGrape.observations
-                        // filter out already selected observations looking at their id
-                        .filter(
-                          (obs) =>
-                            !selectedObservations
-                              .map((sel) => sel.id)
-                              .includes(obs.id)
-                        )
-                        .forEach((obs) => {
-                          push(obs);
-                        });
-                    } else {
-                      selectedObservations.forEach((obs, i) => {
-                        // use i to update the index of the removed obs
-                        // because we are removing elements but values are not updated
-                        remove(values.observations.indexOf(obs) - i);
-                      });
-                    }
-                  };
-                  return (
-                    <Checkbox
-                      aria-checked={checkboxState.checked ? 'true' : 'false'}
-                      checked={checkboxState.checked}
-                      indeterminate={checkboxState.indeterminate}
-                      onChange={handleCheckboxChange}
-                      // use key to force re-render
-                      key={values.observations.length}
-                    >
-                      <Label>
-                        <span>
-                          <TitleIcon
-                            color={getSeverityColor(
-                              memoizedGrape.severity,
-                              appTheme
-                            )}
-                          />
-                        </span>
-                      </Label>
-                    </Checkbox>
-                  );
-                }}
-              </FieldArray>
-            </Field>
+            <FieldArray name="observations">
+              {({ push, remove }: ArrayHelpers) => (
+                <GrapeCheckbox
+                  push={push}
+                  remove={remove}
+                  grapeObservations={memoizedGrape.observations}
+                />
+              )}
+            </FieldArray>
+            <TitleIcon
+              color={getSeverityColor(memoizedGrape.severity, appTheme)}
+            />
             <LG isBold>{memoizedGrape.title}</LG>
           </div>
           <div>
