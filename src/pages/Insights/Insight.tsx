@@ -3,19 +3,52 @@ import {
   Button,
   LG,
   MD,
-  SM,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { useTranslation } from 'react-i18next';
+import {
+  GetCampaignsByCidInsightsApiResponse,
+  useDeleteInsightsByIidMutation,
+} from 'src/features/api';
 import { InsightFormValues } from './FormProvider';
 
-const Insight = ({ insight }: { insight: any }) => {
+const Insight = ({
+  insight,
+}: {
+  insight: GetCampaignsByCidInsightsApiResponse[number];
+}) => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const { values, setValues, isSubmitting } =
     useFormikContext<InsightFormValues>();
   const isCurrent = values.id === insight.id;
+
+  const [deleteInsight] = useDeleteInsightsByIidMutation();
+
+  const handleDelete = (insight_id: number) => {
+    deleteInsight({ iid: insight_id.toString() })
+      .unwrap()
+      .catch((e) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={
+                e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE')
+              }
+              closeText="X"
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
+  };
 
   return (
     <>
@@ -35,13 +68,6 @@ const Insight = ({ insight }: { insight: any }) => {
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
             <MD>{insight.title}</MD>
-            <div style={{ marginTop: appTheme.space.sm }}>
-              <SM>
-                {insight.observations
-                  .map((observation: any) => observation.title)
-                  .join(', ')}
-              </SM>
-            </div>
             <Button
               isBasic
               disabled={isSubmitting}
@@ -49,14 +75,28 @@ const Insight = ({ insight }: { insight: any }) => {
                 marginRight: appTheme.space.sm,
                 color: appTheme.palette.red[500],
               }}
-              onClick={() => {}}
+              onClick={() => {
+                handleDelete(insight.id);
+              }}
             >
               {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE')}
             </Button>
             <Button
               style={{ marginTop: appTheme.space.md }}
               isPrimary
-              onClick={() => setValues(insight)}
+              onClick={() =>
+                setValues({
+                  ...insight,
+                  severity: insight.severity.id,
+                  observations: insight.observations.map((o) => ({
+                    ...o,
+                    uploaderId: 0,
+                    mediaId: o.video.id,
+                    deviceType: '',
+                    usecaseTitle: '',
+                  })),
+                })
+              }
             >
               {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
             </Button>

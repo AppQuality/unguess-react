@@ -11,7 +11,7 @@ const FloatingContainer = styled.div`
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999;
+  z-index: ${({ theme }) => theme.levels.front};
   background-color: white;
   padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.md};
   border-radius: ${({ theme }) => theme.borderRadii.xl};
