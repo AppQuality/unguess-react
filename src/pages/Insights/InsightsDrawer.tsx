@@ -15,7 +15,6 @@ import { Insight } from './Insight';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
 import { InsightForm } from './InsightForm';
-import { NewInsightForm } from './NewInsight';
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
