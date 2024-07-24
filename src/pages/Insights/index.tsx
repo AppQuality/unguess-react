@@ -77,18 +77,18 @@ const InsightsPage = () => {
   }, [status, hasTaggingToolFeature]);
 
   return (
-    <Page
-      title={t('__INSIGHTS_PAGE_TITLE')}
-      className="insights-page"
-      pageHeader={<InsightsPageHeader />}
-      route="insights"
-      excludeMarginTop
-      excludeMarginBottom
-    >
-      <InsightContextProvider>
+    <InsightContextProvider>
+      <Page
+        title={t('__INSIGHTS_PAGE_TITLE')}
+        className="insights-page"
+        pageHeader={<InsightsPageHeader />}
+        route="insights"
+        excludeMarginTop
+        excludeMarginBottom
+      >
         <InsightsPageContent />
-      </InsightContextProvider>
-    </Page>
+      </Page>
+    </InsightContextProvider>
   );
 };
 

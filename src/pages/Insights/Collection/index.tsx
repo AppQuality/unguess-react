@@ -11,6 +11,7 @@ import { ObservationCard } from './ObservationCard';
 import { CardGrid } from './components/CardGrid';
 import { SectionTitle } from './components/SectionTitle';
 import { GroupByToggle } from './components/GroupByToggle';
+import { useInsightContext } from '../InsightContext';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.lg};
@@ -19,11 +20,10 @@ const Container = styled.div`
 const Collection = () => {
   const { t } = useTranslation();
   const { campaignId } = useParams<{ campaignId: string }>();
-  const [groupBy, setGroupBy] =
-    useState<GetCampaignsByCidObservationsApiArg['groupBy']>('usecase-grapes');
+  const { groupObservationsBy } = useInsightContext();
   const { data, isLoading, isError } = useGetCampaignsByCidObservationsQuery({
     cid: campaignId || '',
-    groupBy,
+    groupBy: groupObservationsBy,
   });
   return (
     <Container>
@@ -34,7 +34,6 @@ const Collection = () => {
         title={t('INSIGHTS_PAGE_COLLECTION_TITLE')}
         subtitle={t('INSIGHTS_PAGE_COLLECTION_SUBTITLE')}
       />
-      <GroupByToggle groupBy={groupBy} setGroupBy={setGroupBy} />
       {data?.kind === 'usecase-grapes' &&
         data?.results.map((result) => (
           <UsecaseSection key={result.usecaseId} {...result} />
