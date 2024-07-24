@@ -21,7 +21,7 @@ import {
 import { appTheme } from 'src/app/theme';
 import { useParams } from 'react-router-dom';
 import { getColorWithAlpha } from 'src/common/utils';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { InsightFormValues } from './FormProvider';
 import { RadioTag } from '../Video/components/ObservationForm';
@@ -37,8 +37,9 @@ const InsightForm = () => {
   const { t } = useTranslation();
   const { campaignId } = useParams();
   const [selectedSeverity, setSelectedSeverity] = useState<
-    GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number] | undefined
+    number | undefined
   >();
+
   const { values, isSubmitting, setFieldValue, errors, resetForm } =
     useFormikContext<InsightFormValues>();
 
@@ -51,7 +52,36 @@ const InsightForm = () => {
   });
 
   const severities = tags?.find((tag) => tag.group.name === 'severity');
+  const getMappedId = (tagName: string) => {
+    switch (tagName) {
+      case 'Minor issue':
+        return 1;
+      case 'Major Issue':
+        return 2;
+      case 'Positive Finding':
+        return 3;
+      case 'Observation':
+        return 4;
+      default:
+        return null;
+    }
+  };
+  const mappedTags = severities?.tags.map((tag) => {
+    const mappedId = getMappedId(tag.name);
+    return {
+      ...tag,
+      id: mappedId !== null ? mappedId : tag.id,
+    };
+  });
 
+  const mappedSeverities = {
+    ...severities,
+    tags: mappedTags,
+  };
+
+  useEffect(() => {
+    setSelectedSeverity(values.severity);
+  }, [values]);
   return (
     <FormContainer>
       <div>
@@ -110,61 +140,63 @@ const InsightForm = () => {
           )}
         </Field>
       </div>
-      {severities && severities.tags.length > 0 && (
-        <div
-          style={{
-            opacity: isFetching ? 0.5 : 1,
-          }}
-        >
-          <Label>
-            {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_LABEL')}
-          </Label>
-          {isLoading ? (
-            <Skeleton />
-          ) : (
-            <>
-              <div style={{ marginTop: appTheme.space.sm }}>
-                {severities.tags.map((severity) => (
-                  <RadioTag
-                    color={severity.style}
-                    style={{
-                      backgroundColor: getColorWithAlpha(severity.style, 0.1),
-                      marginBottom: appTheme.space.sm,
-                    }}
-                  >
-                    <FormField>
-                      <Radio
-                        checked={selectedSeverity?.id === severity.id}
-                        onChange={() => {
-                          setSelectedSeverity(severity);
-                          setFieldValue('severity', severity.id);
-                        }}
-                      >
-                        <Label
-                          style={{
-                            color: severity.style,
-                            paddingRight: appTheme.space.xxs,
+      {mappedSeverities &&
+        mappedSeverities.tags &&
+        mappedSeverities.tags.length > 0 && (
+          <div
+            style={{
+              opacity: isFetching ? 0.5 : 1,
+            }}
+          >
+            <Label>
+              {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_LABEL')}
+            </Label>
+            {isLoading ? (
+              <Skeleton />
+            ) : (
+              <>
+                <div style={{ marginTop: appTheme.space.sm }}>
+                  {mappedSeverities.tags.map((severity) => (
+                    <RadioTag
+                      color={severity.style}
+                      style={{
+                        backgroundColor: getColorWithAlpha(severity.style, 0.1),
+                        marginBottom: appTheme.space.sm,
+                      }}
+                    >
+                      <FormField>
+                        <Radio
+                          checked={selectedSeverity === severity.id}
+                          onChange={() => {
+                            setSelectedSeverity(severity.id);
+                            setFieldValue('severity', severity.id);
                           }}
                         >
-                          {severity.name}
-                        </Label>
-                      </Radio>
-                    </FormField>
-                  </RadioTag>
-                ))}
-              </div>
-              {errors.severity && (
-                <Message
-                  validation="error"
-                  style={{ marginTop: appTheme.space.sm }}
-                >
-                  {errors.severity}
-                </Message>
-              )}
-            </>
-          )}
-        </div>
-      )}
+                          <Label
+                            style={{
+                              color: severity.style,
+                              paddingRight: appTheme.space.xxs,
+                            }}
+                          >
+                            {severity.name}
+                          </Label>
+                        </Radio>
+                      </FormField>
+                    </RadioTag>
+                  ))}
+                </div>
+                {errors.severity && (
+                  <Message
+                    validation="error"
+                    style={{ marginTop: appTheme.space.sm }}
+                  >
+                    {errors.severity}
+                  </Message>
+                )}
+              </>
+            )}
+          </div>
+        )}
       <div>
         <Label>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
