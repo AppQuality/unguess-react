@@ -1,7 +1,6 @@
 import {
   Accordion,
   Button,
-  LG,
   MD,
   useToast,
   Notification,
@@ -14,7 +13,8 @@ import {
   GetCampaignsByCidInsightsApiResponse,
   useDeleteInsightsByIidMutation,
 } from 'src/features/api';
-import { InsightFormValues } from './FormProvider';
+import { InsightFormValues } from '../FormProvider';
+import { AccordionLabel } from './components/AccordionLabel';
 
 const Insight = ({
   insight,
@@ -62,9 +62,11 @@ const Insight = ({
       >
         <Accordion.Section>
           <Accordion.Header>
-            <Accordion.Label style={{ padding: 0 }}>
-              <LG isBold>{insight.title}</LG>
-            </Accordion.Label>
+            <AccordionLabel
+              title={insight.title}
+              isPublished={insight.visible}
+              id={insight.id.toString()}
+            />
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
             <MD>{insight.title}</MD>
