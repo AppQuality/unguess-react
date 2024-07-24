@@ -11,10 +11,10 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
 import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
 import { useParams } from 'react-router-dom';
-import { Insight } from './Insight';
-import { InsightFormValues } from './FormProvider';
-import { useInsightContext } from './InsightContext';
-import { InsightForm } from './InsightForm';
+import { Insight } from './InsightAccordion';
+import { InsightFormValues } from '../FormProvider';
+import { useInsightContext } from '../InsightContext';
+import { InsightForm } from '../InsightForm';
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -93,4 +93,4 @@ const InsightsDrawer = () => {
   );
 };
 
-export { InsightsDrawer };
+export default InsightsDrawer;

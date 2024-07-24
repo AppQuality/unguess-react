@@ -12,7 +12,7 @@ import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
 import { Widgets } from './Widgets';
 import { Collection } from './Collection';
-import { InsightsDrawer } from './InsightsDrawer';
+import InsightsDrawer from './InsightsDrawer';
 import { FormProvider } from './FormProvider';
 import { ActionBar } from './ActionBar';
 import { useInsightContext } from './InsightContext';
