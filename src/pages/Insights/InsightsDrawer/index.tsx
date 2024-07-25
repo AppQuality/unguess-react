@@ -1,6 +1,7 @@
 import { useFormikContext } from 'formik';
 import { styled } from 'styled-components';
 import {
+  getColor,
   IconButton,
   LG,
   Skeleton,
@@ -14,7 +15,7 @@ import { useParams } from 'react-router-dom';
 import { Insight } from './InsightAccordion';
 import { InsightFormValues } from '../FormProvider';
 import { useInsightContext } from '../InsightContext';
-import { InsightForm } from '../InsightForm';
+import { InsightForm } from './InsightForm';
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -31,6 +32,8 @@ const DetailContainer = styled.div<{
   padding: ${({ theme }) => theme.space.md};
   overflow-y: auto;
   overflow-x: hidden;
+  border: 1px solid ${getColor(appTheme.colors.neutralHue, 200)};
+  border-top: none;
 
   ${(p) =>
     p.isFetching &&
