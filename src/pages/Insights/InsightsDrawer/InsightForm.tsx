@@ -20,9 +20,9 @@ import { useParams } from 'react-router-dom';
 import { getColorWithAlpha } from 'src/common/utils';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { InsightFormValues } from './FormProvider';
-import { RadioTag } from '../Video/components/ObservationForm';
-import { ObservationCard } from './Collection/ObservationCard';
+import { InsightFormValues } from '../FormProvider';
+import { RadioTag } from '../../Video/components/ObservationForm';
+import { ObservationCard } from '../Collection/ObservationCard';
 
 const FormContainer = styled.div`
   display: flex;
@@ -228,7 +228,7 @@ const InsightForm = () => {
         >
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNDO')}
         </Button>
-        <Button isPrimary type="submit" disabled={isSubmitting}>
+        <Button isAccent isPrimary type="submit" disabled={isSubmitting}>
           {values.id === -1
             ? t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_CREATE')
             : t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UPDATE')}
