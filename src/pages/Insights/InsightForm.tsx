@@ -208,6 +208,11 @@ const InsightForm = () => {
             </Row>
           </Grid>
         )}
+        {errors.observations && (
+          <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
+            {errors.observations}
+          </Message>
+        )}
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button
