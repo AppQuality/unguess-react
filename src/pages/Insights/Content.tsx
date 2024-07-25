@@ -30,6 +30,8 @@ const Grid = styled.div<{ isDrawerOpen: boolean }>`
 
 const DrawerWrapper = styled.aside<{ isDrawerOpen: boolean }>`
   > button {
+    position: sticky;
+    top: 33px;
     margin-top: 33px;
     background-color: ${appTheme.palette.white};
     border: 1px solid ${getColor(appTheme.colors.neutralHue, 200)};
@@ -63,8 +65,8 @@ const InsightsPageContent = () => {
           <Tooltip
             content={
               isDrawerOpen
-                ? t('__INSIGHTS_PAGE_OPEN_DRAWER_BUTTON')
-                : t('__INSIGHTS_PAGE_CLOSE_DRAWER_BUTTON')
+                ? t('__INSIGHTS_PAGE_CLOSE_DRAWER_BUTTON')
+                : t('__INSIGHTS_PAGE_OPEN_DRAWER_BUTTON')
             }
             type="light"
             placement="auto"
