@@ -15,48 +15,18 @@ import { ArrayHelpers, FieldArray } from 'formik';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 import { GrapeCheckbox } from './GrapeCheckbox';
+import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
 
 interface GrapeProps {
   grape: GrapeType;
 }
 
-const getSeverityColor = (severity: string, theme: typeof appTheme) => {
-  switch (severity) {
-    case 'minor-issue':
-      return getColor(theme.colors.warningHue, 700);
-    case 'major-issue':
-      return getColor(theme.colors.dangerHue, 600);
-    case 'observation':
-      return getColor(theme.colors.primaryHue, 400);
-    case 'positive-finding':
-      return getColor(theme.colors.successHue, 700);
-    default:
-      return theme.palette.grey[500];
-  }
-};
-
-const getDropShadowColor = (severity: string, theme: typeof appTheme) => {
-  switch (severity) {
-    case 'minor-issue':
-      return getColor(theme.colors.warningHue, 200);
-    case 'major-issue':
-      return getColor(theme.colors.dangerHue, 200);
-    case 'observation':
-      return getColor(theme.colors.primaryHue, 200);
-    case 'positive-finding':
-      return getColor(theme.colors.successHue, 200);
-    default:
-      return theme.palette.grey[200];
-  }
-};
-
 const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
   margin-bottom: ${({ theme }) => theme.space.md};
   border-radius: ${({ theme }) => theme.borderRadii.lg};
   border: 2px solid;
-  border-color: ${({ severity, theme }) => getSeverityColor(severity, theme)};
-  box-shadow: 4px 4px
-    ${({ severity, theme }) => getDropShadowColor(severity, theme)};
+  border-color: ${({ severity }) => getSeverityColor(severity)};
+  box-shadow: 4px 4px ${({ severity }) => getBgColor(severity)};
 `;
 
 const AccordionLabel = styled(Accordion.Label)`
@@ -67,7 +37,6 @@ const AccordionLabel = styled(Accordion.Label)`
 
 export const Grape = ({ grape }: GrapeProps) => {
   const memoizedGrape = useMemo(() => {
-    const grapeSeverity = grape.severity.replace(' ', '-').toLowerCase();
     const observations = grape.observations.map((obs) => {
       // cerchiamo il tag severity in the middle of the shit
       const severity = obs.tags.find((tag) => tag.group.name === 'severity');
@@ -92,7 +61,6 @@ export const Grape = ({ grape }: GrapeProps) => {
 
     return {
       ...grape,
-      severity: grapeSeverity,
       observations,
       severityFrequencies,
     };
@@ -118,16 +86,11 @@ export const Grape = ({ grape }: GrapeProps) => {
                 />
               )}
             </FieldArray>
-            <TitleIcon
-              color={getSeverityColor(memoizedGrape.severity, appTheme)}
-            />
+            <TitleIcon color={getSeverityColor(memoizedGrape.severity)} />
             <LG isBold>{memoizedGrape.title}</LG>
           </div>
           <div>
-            <Tag
-              isPill
-              hue={getDropShadowColor(memoizedGrape.severity, appTheme)}
-            >
+            <Tag isPill hue={getBgColor(memoizedGrape.severity)}>
               <ObservationIcon />
               {memoizedGrape.observations.length}
             </Tag>

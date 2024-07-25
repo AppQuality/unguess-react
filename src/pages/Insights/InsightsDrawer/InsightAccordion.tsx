@@ -4,6 +4,10 @@ import {
   MD,
   useToast,
   Notification,
+  Tag,
+  Separator,
+  SM,
+  LG,
 } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
@@ -15,6 +19,7 @@ import {
 } from 'src/features/api';
 import { InsightFormValues } from '../FormProvider';
 import { AccordionLabel } from './components/AccordionLabel';
+import { getBgColor, getSeverityColor } from '../utils/getSeverityColor';
 
 const Insight = ({
   insight,
@@ -69,7 +74,41 @@ const Insight = ({
             />
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
-            <MD>{insight.title}</MD>
+            <div style={{ marginBottom: appTheme.space.xl }}>
+              <Tag
+                isPill
+                color={getSeverityColor(insight.severity.name)}
+                hue={getBgColor(insight.severity.name)}
+              >
+                {insight.severity.name}
+              </Tag>
+            </div>
+            <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+              Description
+            </MD>
+            <MD style={{ marginBottom: appTheme.space.sm }}>
+              {insight.description}
+            </MD>
+            <LG isBold style={{ marginBottom: appTheme.space.sm }}>
+              Observations
+            </LG>
+            <MD>
+              In this insight there are: {insight.observations.length}{' '}
+              observations
+            </MD>
+            {insight.observations.map((o) => (
+              <div
+                style={{
+                  borderLeft: `2px solid${appTheme.palette.grey[500]}`,
+                  paddingTop: appTheme.space.md,
+                  paddingLeft: appTheme.space.md,
+                  paddingBottom: appTheme.space.md,
+                  marginTop: appTheme.space.md,
+                }}
+              >
+                <SM isBold>&quot;{o.quotes}&quot;</SM>
+              </div>
+            ))}
             <Button
               isBasic
               disabled={isSubmitting}
@@ -86,6 +125,7 @@ const Insight = ({
             <Button
               style={{ marginTop: appTheme.space.md }}
               isPrimary
+              isAccent
               onClick={() =>
                 setValues({
                   ...insight,
