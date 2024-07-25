@@ -68,10 +68,12 @@ export function getDeviceIcon(device?: string) {
       return <SmartphoneIcon />;
     case 'tablet':
       return <TabletIcon />;
-    case 'desktop':
+    case 'PC':
+      return <DesktopIcon />;
+    case 'other':
       return <DesktopIcon />;
     default:
-      return <TabletIcon />;
+      return null;
   }
 }
 
