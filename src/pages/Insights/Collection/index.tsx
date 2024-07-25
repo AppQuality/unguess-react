@@ -1,16 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-  useGetCampaignsByCidObservationsQuery,
-  GetCampaignsByCidObservationsApiArg,
-} from 'src/features/api';
+import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { styled } from 'styled-components';
 import { UsecaseSection } from './components/UsecaseSection';
 import { ObservationCard } from './ObservationCard';
 import { CardGrid } from './components/CardGrid';
 import { SectionTitle } from './components/SectionTitle';
-import { GroupByToggle } from './components/GroupByToggle';
 import { useInsightContext } from '../InsightContext';
 
 const Container = styled.div`
