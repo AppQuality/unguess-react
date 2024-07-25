@@ -1,20 +1,14 @@
 import { useFormikContext } from 'formik';
 import { styled } from 'styled-components';
-import {
-  IconButton,
-  LG,
-  Skeleton,
-  Tooltip,
-} from '@appquality/unguess-design-system';
+import { getColor, Skeleton, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
+import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/12/lightbulb-stroke.svg';
 import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
 import { useParams } from 'react-router-dom';
 import { Insight } from './InsightAccordion';
 import { InsightFormValues } from '../FormProvider';
-import { useInsightContext } from '../InsightContext';
-import { InsightForm } from '../InsightForm';
+import { InsightForm } from './InsightForm';
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -31,6 +25,8 @@ const DetailContainer = styled.div<{
   padding: ${({ theme }) => theme.space.md};
   overflow-y: auto;
   overflow-x: hidden;
+  border: 1px solid ${getColor(appTheme.colors.neutralHue, 200)};
+  border-top: none;
 
   ${(p) =>
     p.isFetching &&
@@ -42,9 +38,8 @@ const DetailContainer = styled.div<{
 
 const InsightsDrawer = () => {
   const { campaignId } = useParams();
-  const { values, resetForm } = useFormikContext<InsightFormValues>();
+  const { values } = useFormikContext<InsightFormValues>();
   const { t } = useTranslation();
-  const { setIsDrawerOpen } = useInsightContext();
   const {
     data: insights,
     isFetching,
@@ -58,25 +53,12 @@ const InsightsDrawer = () => {
 
   return (
     <DetailContainer>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <LG isBold>{t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}</LG>
-        <Tooltip
-          content={t('__BUGS_PAGE_CLOSE_DETAILS_TOOLTIP')}
-          size="large"
-          type="light"
-          placement="auto"
-        >
-          <IconButton
-            size="small"
-            onClick={() => {
-              setIsDrawerOpen(false);
-              resetForm();
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
+      <XL isBold>
+        {values.id === 0 && (
+          <InsightIcon style={{ marginRight: appTheme.space.md }} />
+        )}
+        {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
+      </XL>
       <div
         style={{ marginTop: appTheme.space.md, opacity: isFetching ? 0.5 : 1 }}
       >
