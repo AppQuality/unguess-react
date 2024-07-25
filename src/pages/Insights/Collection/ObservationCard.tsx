@@ -89,11 +89,15 @@ export const ObservationCard = ({
               <Checkbox checked={isChecked}>
                 <Label>&nbsp;</Label>
               </Checkbox>
-              <>
-                <Pipe />
-                {getDeviceIcon(observation.deviceType)}
+              {observation.deviceType && (
+                <>
+                  <Pipe />
+                  {getDeviceIcon(observation.deviceType)}
+                </>
+              )}
+              {observation.usecaseTitle && (
                 <Span>{observation.usecaseTitle}</Span>
-              </>
+              )}
             </SpecialCard.Meta>
 
             <SpecialCard.Header>
