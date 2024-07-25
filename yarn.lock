@@ -4028,10 +4028,10 @@
     prism-react-renderer "^1.1.1"
     prop-types "^15.5.7"
 
-"@zendeskgarden/svg-icons@^6.31.1":
-  version "6.33.0"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/svg-icons/-/svg-icons-6.33.0.tgz#ab915654f1e089318b89fc5de2126812f9322e9c"
-  integrity sha512-RdHsM2EPFgFy0cRZ2jAEe0iqsyMAgetfMibpO9Pk+4fPE7NjFDk4Ul7OpVhadrZQ18RCzSmmD6j/isZBRVQr/w==
+"@zendeskgarden/svg-icons@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/svg-icons/-/svg-icons-7.2.0.tgz#3ce590ecf318775bef63c8bd1b8fa2f67e0d0b09"
+  integrity sha512-ah44b63SWcJmzuaRpHD773DD7anJQLsHJGkz5Vzf0k6vKner4MV+UPP3YLsidLTRkC7TEI0LLxh5Xyllg6JuQQ==
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"
