@@ -19,6 +19,7 @@ import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
 
 interface GrapeProps {
   grape: GrapeType;
+  isOpen: boolean;
 }
 
 const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
@@ -39,9 +40,7 @@ const AccordionLabel = styled(Accordion.Label)`
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-export const Grape = ({ grape }: GrapeProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+export const Grape = ({ grape, isOpen }: GrapeProps) => {
   const memoizedGrape = useMemo(() => {
     const observations = grape.observations.map((obs) => {
       // cerchiamo il tag severity in the middle of the shit
@@ -80,9 +79,6 @@ export const Grape = ({ grape }: GrapeProps) => {
           backgroundColor: appTheme.palette.white,
         },
       })}
-      onClick={() => {
-        setIsOpen(!isOpen);
-      }}
     >
       <Accordion.Header>
         <AccordionLabel>

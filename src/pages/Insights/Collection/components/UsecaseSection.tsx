@@ -1,6 +1,6 @@
 import { Accordion, LG, SM, Tag, XL } from '@appquality/unguess-design-system';
 import { v4 as uuidv4 } from 'uuid';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { styled } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { Grape as GrapeType } from 'src/features/api';
@@ -30,6 +30,8 @@ export const UsecaseSection = ({
   ungrouped,
 }: UsecaseSectionProps) => {
   const { t } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
+
   const memoizedGrapes = useMemo(
     () =>
       grapes.map((grape) => ({
@@ -86,10 +88,11 @@ export const UsecaseSection = ({
         level={3}
         isExpandable
         defaultExpandedSections={[]}
+        onChange={() => setIsOpen(!isOpen)}
         isBare
       >
         {memoizedGrapes.map((grape) => (
-          <Grape key={grape.internalId} grape={grape} />
+          <Grape isOpen={isOpen} key={grape.internalId} grape={grape} />
         ))}
         <CardGrid>
           {ungrouped.map((observation) => (
