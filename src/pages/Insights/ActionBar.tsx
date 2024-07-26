@@ -31,7 +31,7 @@ const ActionBar = () => {
     useFormikContext<InsightFormValues>();
   const { isDrawerOpen, setIsDrawerOpen } = useInsightContext();
 
-  // TODO: do not show action bar cta if in editing or creating mode
+  // Do not show action bar cta if in editing or creating mode
   const hideCta = (values.id > 0 || values.id === -1) && isDrawerOpen;
 
   if (values.observations.length === 0) return null;
