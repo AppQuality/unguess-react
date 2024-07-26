@@ -13,15 +13,15 @@ export const useSeveritiesDistributionData = (campaignId: string) => {
         countPositiveFindings,
         countMinorIssue,
         countMajorIssue,
-        countObservations: countObservationsSeverity,
+        countObservationSeverity,
       } = results.severitiesDistribution;
 
       return {
-        countObservation: results.countObservation,
+        countObservations: results.countObservations,
         countPositiveFindings,
         countMinorIssue,
         countMajorIssue,
-        countObservationsSeverity,
+        countObservationSeverity,
         isLoading,
         isFetching,
         isError,
@@ -33,7 +33,7 @@ export const useSeveritiesDistributionData = (campaignId: string) => {
     countMinorIssue: 0,
     countMajorIssue: 0,
     countObservations: 0,
-    countObservationsSeverity: 0,
+    countObservationSeverity: 0,
     isLoading,
     isFetching,
     isError,
