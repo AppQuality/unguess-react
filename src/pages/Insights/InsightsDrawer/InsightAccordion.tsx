@@ -5,7 +5,6 @@ import {
   useToast,
   Notification,
   Tag,
-  Separator,
   SM,
   LG,
 } from '@appquality/unguess-design-system';
