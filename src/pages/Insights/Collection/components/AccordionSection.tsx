@@ -9,7 +9,7 @@ import { Grape as GrapeType } from 'src/features/api';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
 import { ReactComponent as UserIcon } from '@zendeskgarden/svg-icons/src/12/user-group-fill.svg';
 import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/12/tag-stroke.svg';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ArrayHelpers, FieldArray } from 'formik';
 import { ObservationCard } from '../ObservationCard';
