@@ -9,7 +9,6 @@ import {
   Skeleton,
   Span,
   Tag,
-  Textarea,
   Tooltip,
   Label,
   Notification,
