@@ -882,6 +882,8 @@
   "__TAILORED_LABEL": "Tailored",
   "__TOAST_CLOSE_TEXT": "Dismiss",
   "__TOAST_GENERIC_ERROR_MESSAGE": "Something went wrong. Please try again later.",
+  "__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP": "Dashboard",
+  "__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP": "Playlist",
   "__VIDEO_LIST_META_SEVERITIES_COUNT_one": "<0>You have found <2>{{count}} observations:</2></0>",
   "__VIDEO_LIST_META_SEVERITIES_COUNT_other": "<0>You have found <2>{{count}} observations:</2></0>",
   "__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL": "Download report",
