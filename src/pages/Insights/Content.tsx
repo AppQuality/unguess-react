@@ -1,16 +1,16 @@
 import { Button, getColor, Tooltip } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/12/chevron-double-right-fill.svg';
 import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/12/chevron-double-left-fill.svg';
 import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
-import { Widgets } from './Widgets';
-import { Collection } from './Collection';
+import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
 import InsightsDrawer from './InsightsDrawer';
-import { FormProvider } from './FormProvider';
 import { ActionBar } from './ActionBar';
+import { Collection } from './Collection';
+import { FormProvider } from './FormProvider';
 import { useInsightContext } from './InsightContext';
+import { Widgets } from './Widgets';
 
 const Grid = styled.div<{ isDrawerOpen: boolean }>`
   transition: 300ms;

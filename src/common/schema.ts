@@ -762,7 +762,11 @@ export interface components {
       id: number;
       title: string;
       description: string;
-      severity: components['schemas']['BugSeverity'];
+      severity: {
+        id: number;
+        name: string;
+        style: string;
+      };
       visible?: number;
       comment?: string;
       observations: (components['schemas']['Observation'] & {
@@ -1111,6 +1115,7 @@ export interface components {
         countTitleTag?: number;
         countObservation?: number;
         countObservationNoTitle?: number;
+        countRecurrentTitles?: number;
         severitiesDistribution?: {
           countPositiveFindings: number;
           countMinorIssue: number;
@@ -1130,7 +1135,7 @@ export interface components {
        */
       kind:
         | 'uxTaggingVideoCompletion'
-        | 'uxTotalTitleVsObservations'
+        | 'uxTotalTitlesVsRecurrentTitles'
         | 'uxSeveritiesDistribution'
         | 'uxMostUsedTitles';
     };
@@ -1165,6 +1170,51 @@ export interface components {
       isShared?: boolean;
       /** @description Number of shared items */
       sharedItems?: number;
+    };
+    /** WidgetCampaignUxTaggingVideoCompletionData */
+    WidgetCampaignUxTaggingVideoCompletionData: {
+      data: {
+        countMediaWithObservation: number;
+        countMedia: number;
+      };
+      /** @enum {undefined} */
+      kind: 'uxTaggingVideoCompletion';
+    };
+    /** WidgetCampaignUxTotalTitlesVsRecurrentTitles */
+    WidgetCampaignUxTotalTitlesVsRecurrentTitles: {
+      data: {
+        countTitleTag: number;
+        countObservationNoTitle: number;
+        countRecurrentTitles: number;
+      };
+      /** @enum {undefined} */
+      kind: 'uxTotalTitlesVsRecurrentTitles';
+    };
+    /** WidgetCampaignUxSeveritiesDistribution */
+    WidgetCampaignUxSeveritiesDistribution: {
+      data: {
+        countObservations: number;
+        severitiesDistribution: {
+          countPositiveFindings: number;
+          countMinorIssue: number;
+          countMajorIssue: number;
+          countObservationSeverity: number;
+        };
+      };
+      /** @enum {undefined} */
+      kind: 'uxSeveritiesDistribution';
+    };
+    /** WidgetCampaignUxMostUsedTitles */
+    WidgetCampaignUxMostUsedTitles: {
+      data: {
+        mostUsedTitles: {
+          title: string;
+          usage: number;
+          mainSeverityAssignment: string;
+        }[];
+      };
+      /** @enum {undefined} */
+      kind: 'uxMostUsedTitles';
     };
   };
   responses: {
@@ -1202,7 +1252,7 @@ export interface components {
       | 'unique-bugs'
       | 'bugs-by-duplicates'
       | 'ux-tagging-video-completion'
-      | 'ux-total-title-vs-observation'
+      | 'ux-total-titles-vs-recurrent-titles'
       | 'ux-severities-distribution'
       | 'ux-most-used-titles';
     /** @description keywords to search */
@@ -2419,7 +2469,10 @@ export interface operations {
             | components['schemas']['WidgetCampaignProgress']
             | components['schemas']['WidgetCampaignUniqueBugs']
             | components['schemas']['WidgetBugsByDuplicates']
-            | components['schemas']['WidgetCampaignUxProgress'];
+            | components['schemas']['WidgetCampaignUxTaggingVideoCompletionData']
+            | components['schemas']['WidgetCampaignUxTotalTitlesVsRecurrentTitles']
+            | components['schemas']['WidgetCampaignUxSeveritiesDistribution']
+            | components['schemas']['WidgetCampaignUxMostUsedTitles'];
         };
       };
       400: components['responses']['Error'];

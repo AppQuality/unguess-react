@@ -1238,7 +1238,10 @@ export type GetCampaignsByCidWidgetsApiResponse =
   | WidgetCampaignProgress
   | WidgetCampaignUniqueBugs
   | WidgetBugsByDuplicates
-  | WidgetCampaignUxProgress;
+  | WidgetCampaignUxTaggingVideoCompletionData
+  | WidgetCampaignUxTotalTitlesVsRecurrentTitles
+  | WidgetCampaignUxSeveritiesDistribution
+  | WidgetCampaignUxMostUsedTitles;
 export type GetCampaignsByCidWidgetsApiArg = {
   /** Campaign id */
   cid: string;
@@ -1250,7 +1253,7 @@ export type GetCampaignsByCidWidgetsApiArg = {
     | 'unique-bugs'
     | 'bugs-by-duplicates'
     | 'ux-tagging-video-completion'
-    | 'ux-total-title-vs-observation'
+    | 'ux-total-titles-vs-recurrent-titles'
     | 'ux-severities-distribution'
     | 'ux-most-used-titles';
   /** should update bug trend after request resolves? */
@@ -1862,7 +1865,11 @@ export type Insight = {
   id: number;
   title: string;
   description: string;
-  severity: BugSeverity;
+  severity: {
+    id: number;
+    name: string;
+    style: string;
+  };
   visible?: number;
   comment?: string;
   observations: (Observation & {
@@ -2018,30 +2025,42 @@ export type WidgetBugsByDuplicates = {
   })[];
   kind: 'bugsByDuplicates';
 };
-export type WidgetCampaignUxProgress = {
+export type WidgetCampaignUxTaggingVideoCompletionData = {
   data: {
-    countMediaWithObservation?: number;
-    countMedia?: number;
-    countTitleTag?: number;
-    countObservation?: number;
-    countObservationNoTitle?: number;
-    severitiesDistribution?: {
+    countMediaWithObservation: number;
+    countMedia: number;
+  };
+  kind: 'uxTaggingVideoCompletion';
+};
+export type WidgetCampaignUxTotalTitlesVsRecurrentTitles = {
+  data: {
+    countTitleTag: number;
+    countObservationNoTitle: number;
+    countRecurrentTitles: number;
+  };
+  kind: 'uxTotalTitlesVsRecurrentTitles';
+};
+export type WidgetCampaignUxSeveritiesDistribution = {
+  data: {
+    countObservations: number;
+    severitiesDistribution: {
       countPositiveFindings: number;
       countMinorIssue: number;
       countMajorIssue: number;
-      countObservations: number;
+      countObservationSeverity: number;
     };
-    mostUsedTitles?: {
+  };
+  kind: 'uxSeveritiesDistribution';
+};
+export type WidgetCampaignUxMostUsedTitles = {
+  data: {
+    mostUsedTitles: {
       title: string;
       usage: number;
       mainSeverityAssignment: string;
     }[];
   };
-  kind:
-    | 'uxTaggingVideoCompletion'
-    | 'uxTotalTitleVsObservations'
-    | 'uxSeveritiesDistribution'
-    | 'uxMostUsedTitles';
+  kind: 'uxMostUsedTitles';
 };
 export type Project = {
   id: number;
