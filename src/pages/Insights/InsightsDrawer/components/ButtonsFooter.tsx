@@ -1,0 +1,90 @@
+import {
+  Button,
+  Notification,
+  useToast,
+} from '@appquality/unguess-design-system';
+import { useFormikContext } from 'formik';
+import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
+import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
+import {
+  GetCampaignsByCidInsightsApiResponse,
+  useDeleteInsightsByIidMutation,
+} from 'src/features/api';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { InsightFormValues } from '../../FormProvider';
+
+export const ButtonsFooter = ({
+  insight,
+}: {
+  insight: GetCampaignsByCidInsightsApiResponse[number];
+}) => {
+  const { t } = useTranslation();
+  const { addToast } = useToast();
+  const { isSubmitting, setValues } = useFormikContext<InsightFormValues>();
+  const [deleteInsight] = useDeleteInsightsByIidMutation();
+  const handleDelete = () => {
+    deleteInsight({ iid: insight.id.toString() })
+      .unwrap()
+      .catch((e) => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={
+                e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE')
+              }
+              closeText="X"
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
+  };
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr auto auto',
+        gap: appTheme.space.sm,
+      }}
+    >
+      <span>
+        <Button isBasic isDanger disabled={isSubmitting} onClick={handleDelete}>
+          {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE')}
+        </Button>
+      </span>
+      <Button
+        isBasic
+        onClick={() =>
+          setValues({
+            ...insight,
+            severity: insight.severity.id,
+            observations: insight.observations.map((o) => ({
+              ...o,
+              uploaderId: 0,
+              mediaId: o.video.id,
+              deviceType: '',
+              usecaseTitle: '',
+            })),
+          })
+        }
+      >
+        {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
+      </Button>
+      <Button isPrimary isAccent onClick={() => {}}>
+        {insight.visible ? (
+          <span>
+            <Published /> {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNPUBLISH')}
+          </span>
+        ) : (
+          <span>
+            <NotPublished /> {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_PUBLISH')}
+          </span>
+        )}
+      </Button>
+    </div>
+  );
+};

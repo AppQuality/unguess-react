@@ -8,52 +8,27 @@ import {
   SM,
   LG,
 } from '@appquality/unguess-design-system';
+import { Accordion, MD, Tag, SM, LG } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
-import { useTranslation } from 'react-i18next';
-import {
-  GetCampaignsByCidInsightsApiResponse,
-  useDeleteInsightsByIidMutation,
-} from 'src/features/api';
+import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
+import { useMemo } from 'react';
 import { InsightFormValues } from '../FormProvider';
 import { AccordionLabel } from './components/AccordionLabel';
 import { getBgColor, getSeverityColor } from '../utils/getSeverityColor';
+import { ButtonsFooter } from './components/ButtonsFooter';
 
 const Insight = ({
   insight,
 }: {
   insight: GetCampaignsByCidInsightsApiResponse[number];
 }) => {
-  const { t } = useTranslation();
-  const { addToast } = useToast();
-  const { values, setValues, isSubmitting } =
-    useFormikContext<InsightFormValues>();
-  const isCurrent = values.id === insight.id;
-
-  const [deleteInsight] = useDeleteInsightsByIidMutation();
-
-  const handleDelete = (insight_id: number) => {
-    deleteInsight({ iid: insight_id.toString() })
-      .unwrap()
-      .catch((e) => {
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="error"
-              message={
-                e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE')
-              }
-              closeText="X"
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-      });
-  };
-
+  const { values } = useFormikContext<InsightFormValues>();
+  const isCurrent = useMemo(
+    () => values.id === insight.id,
+    [values.id, insight.id]
+  );
   return (
     <>
       <Divider />
@@ -66,11 +41,7 @@ const Insight = ({
       >
         <Accordion.Section>
           <Accordion.Header>
-            <AccordionLabel
-              title={insight.title}
-              isPublished={insight.visible}
-              id={insight.id.toString()}
-            />
+            <AccordionLabel insight={insight} />
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
             <div style={{ marginBottom: appTheme.space.xl }}>
@@ -95,52 +66,22 @@ const Insight = ({
               In this insight there are: {insight.observations.length}{' '}
               observations
             </MD>
-            {insight.observations.map((o) => (
-              <div
-                style={{
-                  borderLeft: `2px solid${appTheme.palette.grey[500]}`,
-                  paddingTop: appTheme.space.md,
-                  paddingLeft: appTheme.space.md,
-                  paddingBottom: appTheme.space.md,
-                  marginTop: appTheme.space.md,
-                }}
-              >
-                <SM isBold>&quot;{o.quotes}&quot;</SM>
-              </div>
-            ))}
-            <Button
-              isBasic
-              disabled={isSubmitting}
-              style={{
-                marginRight: appTheme.space.sm,
-                color: appTheme.palette.red[500],
-              }}
-              onClick={() => {
-                handleDelete(insight.id);
-              }}
-            >
-              {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE')}
-            </Button>
-            <Button
-              style={{ marginTop: appTheme.space.md }}
-              isPrimary
-              isAccent
-              onClick={() =>
-                setValues({
-                  ...insight,
-                  severity: insight.severity.id,
-                  observations: insight.observations.map((o) => ({
-                    ...o,
-                    uploaderId: 0,
-                    mediaId: o.video.id,
-                    deviceType: o.video.deviceType,
-                    usecaseTitle: '',
-                  })),
-                })
-              }
-            >
-              {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
-            </Button>
+            <div style={{ marginBottom: appTheme.space.md }}>
+              {insight.observations.map((o) => (
+                <div
+                  style={{
+                    borderLeft: `2px solid${appTheme.palette.grey[500]}`,
+                    paddingTop: appTheme.space.md,
+                    paddingLeft: appTheme.space.md,
+                    paddingBottom: appTheme.space.md,
+                    marginTop: appTheme.space.md,
+                  }}
+                >
+                  <SM isBold>&quot;{o.quotes}&quot;</SM>
+                </div>
+              ))}
+            </div>
+            <ButtonsFooter insight={insight} />
           </Accordion.Panel>
         </Accordion.Section>
       </Accordion>
