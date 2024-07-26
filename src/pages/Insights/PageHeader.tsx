@@ -5,6 +5,7 @@ import {
   MD,
   PageHeader,
   Skeleton,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
@@ -20,7 +21,6 @@ import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
 
 const Wrapper = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -73,7 +73,9 @@ const VideoPageHeader = () => {
 
   return (
     <LayoutWrapper isNotBoxed>
-      <PageHeader style={{ padding: `${appTheme.space.xs} 0` }}>
+      <PageHeader
+        style={{ padding: `${appTheme.space.xl} 0 ${appTheme.space.md}` }}
+      >
         <PageHeader.Main mainTitle={t('__INSIGHTS_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
             <Link to={campaignRoute}>
@@ -93,15 +95,31 @@ const VideoPageHeader = () => {
               </MD>
               <CampaignSettings />
               <Link to={campaignDashboardLink}>
-                <IconButton isBasic={false}>
-                  <DashboardIcon />
-                </IconButton>
+                <Tooltip
+                  content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
+                  size="medium"
+                  type="light"
+                  placement="top"
+                >
+                  <IconButton isBasic={false}>
+                    <DashboardIcon />
+                  </IconButton>
+                </Tooltip>
               </Link>
               {hasTaggingToolFeature && (
                 <Link to={videoPlaylistLink}>
-                  <IconButton isBasic={false}>
-                    <VideoListIcon />
-                  </IconButton>
+                  <Tooltip
+                    content={t(
+                      '__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP'
+                    )}
+                    size="medium"
+                    type="light"
+                    placement="top"
+                  >
+                    <IconButton isBasic={false}>
+                      <VideoListIcon />
+                    </IconButton>
+                  </Tooltip>
                 </Link>
               )}
             </ButtonWrapper>
