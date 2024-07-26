@@ -772,9 +772,7 @@ export interface components {
       observations: (components['schemas']['Observation'] & {
         video: {
           id: number;
-          poster: string;
-          url: string;
-          streamUrl: string;
+          deviceType: string;
         };
       })[];
     };
@@ -1923,7 +1921,12 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': components['schemas']['Insight'][];
+          'application/json': (components['schemas']['Insight'] & {
+            usecases: {
+              id: number;
+              name: string;
+            }[];
+          })[];
         };
       };
       400: components['responses']['Error'];

@@ -980,7 +980,12 @@ export type PostCampaignsByCidInsightsApiArg = {
   };
 };
 export type GetCampaignsByCidInsightsApiResponse =
-  /** status 200 OK */ Insight[];
+  /** status 200 OK */ (Insight & {
+    usecases: {
+      id: number;
+      name: string;
+    }[];
+  })[];
 export type GetCampaignsByCidInsightsApiArg = {
   /** Campaign id */
   cid: string;
@@ -1875,9 +1880,7 @@ export type Insight = {
   observations: (Observation & {
     video: {
       id: number;
-      poster: string;
-      url: string;
-      streamUrl: string;
+      deviceType: string;
     };
   })[];
 };

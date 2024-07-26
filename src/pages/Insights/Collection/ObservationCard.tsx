@@ -49,7 +49,7 @@ export const ObservationCard = ({
     () => values.observations.some((obs) => obs.id === observation.id),
     [values.observations, observation.id]
   );
-  
+
   const title =
     observation.tags.find((tag) => tag.group.name === 'title')?.tag.name ||
     observation.title;
