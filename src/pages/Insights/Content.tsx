@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/12/chevron-double-left-fill.svg';
 import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
-import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
+import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/12/chevron-double-right-fill.svg';
 import InsightsDrawer from './InsightsDrawer';
 import { ActionBar } from './ActionBar';
 import { Collection } from './Collection';
