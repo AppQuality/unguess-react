@@ -22,18 +22,18 @@ export const ProgressMonitoringWidget = ({
 }) => {
   const { t } = useTranslation();
   const {
-    countObservationsSeverity,
+    countObservationSeverity,
     countPositiveFindings,
     countMajorIssue,
     countMinorIssue,
-    countObservation,
+    countObservations,
   } = useSeveritiesDistributionData(campaignId);
 
   const graphData = [
     {
       label: '',
       keys: {
-        Observation: countObservationsSeverity,
+        Observation: countObservationSeverity,
         Positive: countPositiveFindings,
         Minor: countMinorIssue,
         Major: countMajorIssue,
@@ -44,7 +44,7 @@ export const ProgressMonitoringWidget = ({
     countMajorIssue,
     countMinorIssue,
     countPositiveFindings,
-    countObservationsSeverity
+    countObservationSeverity
   );
   return (
     <BasicWidget className="progress-monitoring-widget">
@@ -87,7 +87,7 @@ export const ProgressMonitoringWidget = ({
                   // TODO: change the translation key
                   i18nKey="__CAMPAIGN_WIDGET_UX_PROGRESS_TOTAL_LABEL"
                   defaults="out of <bold>{{total}}</bold> total observations"
-                  count={countObservation}
+                  count={countObservations}
                   components={{
                     bold: (
                       <Span
@@ -97,7 +97,7 @@ export const ProgressMonitoringWidget = ({
                     ),
                   }}
                   values={{
-                    total: countObservation,
+                    total: countObservations,
                   }}
                 />
               }
