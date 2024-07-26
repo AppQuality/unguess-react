@@ -115,6 +115,18 @@ export const ObservationCard = ({
                 {observation.quotes}
                 &quot;
               </SpecialCard.Header.Title>
+              {observation.uploaderId > 0 && (
+                <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
+                  <SM
+                    style={{
+                      color: appTheme.palette.grey[600],
+                      marginBottom: appTheme.space.xs,
+                    }}
+                  >
+                    T{observation.uploaderId}
+                  </SM>
+                </SpecialCard.Header.Text>
+              )}
               <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   {severity && (
