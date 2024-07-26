@@ -10,9 +10,11 @@ import { useDeleteInsightsByIidMutation } from 'src/features/api';
 
 export const ConfirmDeleteModal = ({
   insightId,
+  title,
   setIsConfirmationModalOpen,
 }: {
   insightId: number;
+  title: string;
   setIsConfirmationModalOpen: (isOpen: boolean) => void;
 }) => {
   const { t } = useTranslation();
@@ -24,19 +26,29 @@ export const ConfirmDeleteModal = ({
   };
 
   const handleDelete = () => {
+    let notificationProps = {};
     deleteInsight({ iid: insightId.toString() })
       .unwrap()
+      .then(() => {
+        notificationProps = {
+          type: 'success',
+          message: `Insight "${title}" succesfully deleted`,
+        };
+      })
       .catch((e) => {
+        notificationProps = {
+          type: 'error',
+          message: e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE'),
+        };
+      })
+      .finally(() => {
         addToast(
           ({ close }) => (
             <Notification
               onClose={close}
-              type="error"
-              message={
-                e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE')
-              }
               closeText="X"
               isPrimary
+              {...notificationProps}
             />
           ),
           { placement: 'top' }
@@ -47,11 +59,9 @@ export const ConfirmDeleteModal = ({
   return (
     <Modal onClose={onQuit}>
       <Modal.Header isDanger>
-        {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_HEADER_TITLE')}
+        {t('__INSIGHTS_PAGE_DELETE_MODAL_HEADER_TITLE')}
       </Modal.Header>
-      <Modal.Body>
-        {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_BODY_TEXT')}
-      </Modal.Body>
+      <Modal.Body>{t('__INSIGHTS_PAGE_DELETE_MODAL_BODY_TEXT')}</Modal.Body>
       <Modal.Footer>
         <Button
           style={{ paddingRight: 20 }}
@@ -59,12 +69,10 @@ export const ConfirmDeleteModal = ({
           isLink
           onClick={handleDelete}
         >
-          {t(
-            '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_CONTINUE_BUTTON'
-          )}
+          {t('__INSIGHTS_PAGE_DELETE_MODAL_CONTINUE_BUTTON')}
         </Button>
         <Button isPrimary isAccent onClick={onQuit}>
-          {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_MODAL_QUIT_BUTTON')}
+          {t('__INSIGHTS_PAGE_DELETE_MODAL_QUIT_BUTTON')}
         </Button>
       </Modal.Footer>
       <ModalClose onClick={onQuit} />
