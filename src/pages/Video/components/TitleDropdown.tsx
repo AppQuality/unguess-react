@@ -45,6 +45,7 @@ export const TitleDropdown = ({
   const [matchingOptions, setMatchingOptions] = useState(titles);
   const debouncedInputValue = useDebounce<string>(inputValue, 300);
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
+  const titleMaxLength = 70;
 
   const filterMatchingOptions = (value: string) => {
     const matchedOptions = titles?.filter(
@@ -74,7 +75,7 @@ export const TitleDropdown = ({
       ) => {
         if (item)
           if (!item.id) {
-            if (item.name.length > 40) {
+            if (item.name.length > titleMaxLength) {
               formProps.setErrors({
                 title: t(
                   '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_MAX_ERROR'
