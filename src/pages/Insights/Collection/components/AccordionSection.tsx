@@ -9,7 +9,7 @@ import { Grape as GrapeType } from 'src/features/api';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
 import { ReactComponent as UserIcon } from '@zendeskgarden/svg-icons/src/12/user-group-fill.svg';
 import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/12/tag-stroke.svg';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ArrayHelpers, FieldArray } from 'formik';
 import { ObservationCard } from '../ObservationCard';
@@ -27,6 +27,10 @@ const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
   border: 2px solid;
   border-color: ${({ severity }) => getSeverityColor(severity)};
   box-shadow: 4px 4px ${({ severity }) => getBgColor(severity)};
+
+  svg[data-garden-id='accordions.rotate_icon'] {
+    color: ${({ severity }) => getSeverityColor(severity)};
+  }
 `;
 
 const AccordionLabel = styled(Accordion.Label)`
@@ -36,6 +40,8 @@ const AccordionLabel = styled(Accordion.Label)`
 `;
 
 export const Grape = ({ grape }: GrapeProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const memoizedGrape = useMemo(() => {
     const observations = grape.observations.map((obs) => {
       // cerchiamo il tag severity in the middle of the shit
@@ -67,7 +73,17 @@ export const Grape = ({ grape }: GrapeProps) => {
   }, [grape]);
 
   return (
-    <AccordionSection severity={memoizedGrape.severity}>
+    <AccordionSection
+      severity={memoizedGrape.severity}
+      {...(!isOpen && {
+        style: {
+          backgroundColor: appTheme.palette.white,
+        },
+      })}
+      onClick={() => {
+        setIsOpen(!isOpen);
+      }}
+    >
       <Accordion.Header>
         <AccordionLabel>
           <div
@@ -90,11 +106,11 @@ export const Grape = ({ grape }: GrapeProps) => {
             <LG isBold>{memoizedGrape.title}</LG>
           </div>
           <div>
-            <Tag isPill hue={getBgColor(memoizedGrape.severity)}>
+            <Tag isPill size="large" hue={getBgColor(memoizedGrape.severity)}>
               <ObservationIcon />
               {memoizedGrape.observations.length}
             </Tag>
-            <Tag isPill>
+            <Tag size="large" isPill>
               <UserIcon color={getColor(appTheme.colors.accentHue, 600)} />
               {memoizedGrape.usersNumber}
             </Tag>
