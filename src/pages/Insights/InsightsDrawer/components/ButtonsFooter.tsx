@@ -71,6 +71,7 @@ export const ButtonsFooter = ({
       {confirmDeleteModalOpen && (
         <ConfirmDeleteModal
           insightId={insight.id}
+          title={insight.title}
           setIsConfirmationModalOpen={setConfirmDeleteModalOpen}
         />
       )}
