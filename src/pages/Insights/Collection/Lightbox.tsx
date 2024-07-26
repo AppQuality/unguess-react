@@ -267,8 +267,8 @@ export const LightboxContainer = ({
               {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_NOTES_LABEL')}
             </Label>
             <MD style={{ marginTop: appTheme.space.xs }}>
-              {observation.uxNote && observation.uxNote.length > 0
-                ? observation.uxNote
+              {observation.description && observation.description.length > 0
+                ? observation.description
                 : '--'}
             </MD>
           </Lightbox.Body.Details>
