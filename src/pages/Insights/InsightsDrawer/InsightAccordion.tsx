@@ -133,7 +133,7 @@ const Insight = ({
                     ...o,
                     uploaderId: 0,
                     mediaId: o.video.id,
-                    deviceType: '',
+                    deviceType: o.video.deviceType,
                     usecaseTitle: '',
                   })),
                 })
