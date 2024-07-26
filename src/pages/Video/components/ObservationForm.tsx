@@ -14,6 +14,7 @@ import {
   Notification,
   Radio,
   Tag,
+  SM,
 } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import {
@@ -250,6 +251,11 @@ const ObservationForm = ({
             >
               <StyledLabel>
                 {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_LABEL')}
+                <SM style={{ color: appTheme.palette.grey[600] }}>
+                  {t(
+                    '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_DESCRIPTION'
+                  )}
+                </SM>
               </StyledLabel>
               <TitleDropdown
                 titles={titles?.tags}

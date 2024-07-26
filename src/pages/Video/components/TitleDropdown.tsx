@@ -20,6 +20,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { FormikProps } from 'formik';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 
 export interface ObservationFormValues {
   title: number;
@@ -121,7 +122,7 @@ export const TitleDropdown = ({
       }}
     >
       <Field>
-        <Autocomplete>
+        <Autocomplete start={<CopyIcon />}>
           {selectedItem ? (
             <Span>{selectedItem.name}</Span>
           ) : (
