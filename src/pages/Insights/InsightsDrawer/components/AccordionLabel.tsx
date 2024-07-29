@@ -37,8 +37,8 @@ export const AccordionLabel = ({ title, id, isPublished }: Props) => {
         notificationProps = {
           type: 'success',
           message: isPublished
-            ? `Insight "${title}" succesfully unpublished`
-            : `Insight "${title}" succesfully published`,
+            ? `${`Insight ${title}" ${t('_TOAST_UNPUBLISHED_MESSAGE')}`}`
+            : `${`Insight ${title}" ${t('_TOAST_PUBLISHED_MESSAGE')}`}`,
         };
       })
       .catch((e) => {
