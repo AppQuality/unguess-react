@@ -22,14 +22,12 @@ import { getColorWithAlpha } from 'src/common/utils';
 import { Grape, useGetVideosByVidQuery } from 'src/features/api';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
-import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
-import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
-import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
 import { ReactComponent as ExternalLinkIcon } from 'src/assets/icons/external-link-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useFormikContext } from 'formik';
+import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { InsightFormValues } from '../FormProvider';
 
 const Grey600Span = styled.span`
@@ -60,21 +58,6 @@ const TagsContainer = styled.div`
   gap: ${({ theme }) => theme.space.xs};
   margin: ${({ theme }) => theme.space.sm} 0;
 `;
-
-export function getDeviceIcon(device?: string) {
-  switch (device?.toLocaleLowerCase()) {
-    case 'smartphone':
-      return <SmartphoneIcon />;
-    case 'tablet':
-      return <TabletIcon />;
-    case 'pc':
-      return <DesktopIcon />;
-    case 'other':
-      return <DesktopIcon />;
-    default:
-      return null;
-  }
-}
 
 export const LightboxContainer = ({
   observation,
@@ -208,7 +191,7 @@ export const LightboxContainer = ({
               </SM>
               <StyledPipe />
               <SM style={{ display: 'flex', alignItems: 'center' }}>
-                {getDeviceIcon(video?.tester.device.type)}{' '}
+                {getDeviceIcon(video?.tester.device.type || '')}{' '}
                 <Span
                   style={{
                     textTransform: 'capitalize',

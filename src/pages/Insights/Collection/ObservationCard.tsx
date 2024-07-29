@@ -16,7 +16,8 @@ import { useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
 import { styled } from 'styled-components';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
-import { LightboxContainer, getDeviceIcon } from './Lightbox';
+import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
+import { LightboxContainer } from './Lightbox';
 import { InsightFormValues } from '../FormProvider';
 
 const StyledTag = styled(Tag)`
