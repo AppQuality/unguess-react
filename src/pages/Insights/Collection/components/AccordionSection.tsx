@@ -19,6 +19,7 @@ import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
 
 interface GrapeProps {
   grape: GrapeType;
+  isOpen: boolean;
 }
 
 const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
@@ -27,6 +28,9 @@ const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
   border: 2px solid;
   border-color: ${({ severity }) => getSeverityColor(severity)};
   box-shadow: 4px 4px ${({ severity }) => getBgColor(severity)};
+  svg[data-garden-id='accordions.rotate_icon'] {
+    color: ${({ severity }) => getSeverityColor(severity)};
+  }
 `;
 
 const AccordionLabel = styled(Accordion.Label)`
@@ -35,7 +39,7 @@ const AccordionLabel = styled(Accordion.Label)`
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-export const Grape = ({ grape }: GrapeProps) => {
+export const Grape = ({ grape, isOpen }: GrapeProps) => {
   const memoizedGrape = useMemo(() => {
     const observations = grape.observations.map((obs) => {
       // cerchiamo il tag severity in the middle of the shit
@@ -67,7 +71,14 @@ export const Grape = ({ grape }: GrapeProps) => {
   }, [grape]);
 
   return (
-    <AccordionSection severity={memoizedGrape.severity}>
+    <AccordionSection
+      severity={memoizedGrape.severity}
+      {...(!isOpen && {
+        style: {
+          backgroundColor: appTheme.palette.white,
+        },
+      })}
+    >
       <Accordion.Header>
         <AccordionLabel>
           <div
@@ -90,11 +101,11 @@ export const Grape = ({ grape }: GrapeProps) => {
             <LG isBold>{memoizedGrape.title}</LG>
           </div>
           <div>
-            <Tag isPill hue={getBgColor(memoizedGrape.severity)}>
+            <Tag isPill size="large" hue={getBgColor(memoizedGrape.severity)}>
               <ObservationIcon />
               {memoizedGrape.observations.length}
             </Tag>
-            <Tag isPill>
+            <Tag size="large" isPill>
               <UserIcon color={getColor(appTheme.colors.accentHue, 600)} />
               {memoizedGrape.usersNumber}
             </Tag>

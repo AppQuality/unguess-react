@@ -12,9 +12,10 @@ const FloatingContainer = styled.div`
   left: 50%;
   transform: translateX(-50%);
   z-index: ${({ theme }) => theme.levels.front};
-  background-color: white;
-  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.md};
-  border-radius: ${({ theme }) => theme.borderRadii.xl};
+  background-color: ${({ theme }) => theme.palette.blue[600]};
+  color: white;
+  padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xl};
+  border-radius: ${({ theme }) => theme.borderRadii.xxl};
   box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
   transition: all 0.3s ease-in-out;
 `;
@@ -26,36 +27,65 @@ const Container = styled.div`
 
 const ActionBar = () => {
   const { t } = useTranslation();
-  const { values, setValues } = useFormikContext<InsightFormValues>();
-  const { setIsDrawerOpen } = useInsightContext();
+  const { values, setValues, resetForm } =
+    useFormikContext<InsightFormValues>();
+  const { isDrawerOpen, setIsDrawerOpen } = useInsightContext();
 
-  if (values.id !== 0) return null;
+  // Do not show action bar cta if in editing or creating mode
+  const hideCta = (values.id > 0 || values.id === -1) && isDrawerOpen;
+
   if (values.observations.length === 0) return null;
 
   return (
     <FloatingContainer>
       <Container>
-        <MD style={{ marginRight: appTheme.space.md }}>
-          <Trans
-            count={values.observations.length}
-            i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_LABEL"
-          >
-            <Span isBold style={{ color: appTheme.palette.blue[600] }}>
-              {{ count: values.observations.length }}
-            </Span>{' '}
-            observations
-          </Trans>
-        </MD>
+        <div style={{ marginRight: appTheme.space.md }}>
+          <MD style={{ marginRight: appTheme.space.md }}>
+            <Trans
+              count={values.observations.length}
+              i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_LABEL"
+            >
+              Selected observations:
+              <Span isBold>{{ count: values.observations.length }}</Span>
+            </Trans>
+          </MD>
+        </div>
         <Button
-          isPrimary
+          isLink
           size="small"
           onClick={() => {
-            setIsDrawerOpen(true);
-            setValues({ ...values, id: -1 });
+            resetForm();
+          }}
+          style={{
+            marginRight: appTheme.space.md,
+            color: appTheme.palette.white,
           }}
         >
-          {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CREATE_INSIGHT')}
+          {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CANCEL')}
         </Button>
+        {!hideCta && (
+          <Button
+            isPrimary
+            isAccent
+            size="small"
+            onClick={() => {
+              setIsDrawerOpen(true);
+              if (values.id === 0) {
+                setValues({
+                  ...values,
+                  id: -1,
+                });
+              }
+              if (values.id > 0) {
+                setValues(values);
+              }
+            }}
+          >
+            {values.id === 0 || values.id === -1
+              ? t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CREATE_INSIGHT')
+              : t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_EDIT_INSIGHT')}
+          </Button>
+        )}
       </Container>
     </FloatingContainer>
   );

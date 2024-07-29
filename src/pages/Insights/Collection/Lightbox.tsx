@@ -9,7 +9,6 @@ import {
   Skeleton,
   Span,
   Tag,
-  Textarea,
   Tooltip,
   Label,
   Notification,
@@ -238,12 +237,13 @@ export const LightboxContainer = ({
                 '__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_QUOTES_LABEL'
               )}
             </Label>
-            <Textarea
-              value={observation.quotes}
-              style={{ marginTop: appTheme.space.sm }}
-              rows={10}
-              isResizable
-            />
+            <MD style={{ fontStyle: 'italic', paddingTop: appTheme.space.xs }}>
+              &quot;
+              {observation.quotes && observation.quotes.length > 0
+                ? observation.quotes
+                : '--'}
+              &quot;
+            </MD>
             <Label style={{ marginTop: appTheme.space.lg }}>
               {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_TAGS_LABEL')}
             </Label>
@@ -267,8 +267,8 @@ export const LightboxContainer = ({
               {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_NOTES_LABEL')}
             </Label>
             <MD style={{ marginTop: appTheme.space.xs }}>
-              {observation.uxNote && observation.uxNote.length > 0
-                ? observation.uxNote
+              {observation.description && observation.description.length > 0
+                ? observation.description
                 : '--'}
             </MD>
           </Lightbox.Body.Details>

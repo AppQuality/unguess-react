@@ -3,7 +3,6 @@ import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
-import { useMemo } from 'react';
 import { InsightFormValues } from '../FormProvider';
 import { AccordionLabel } from './components/AccordionLabel';
 import { getBgColor, getSeverityColor } from '../utils/getSeverityColor';
@@ -15,10 +14,7 @@ const Insight = ({
   insight: GetCampaignsByCidInsightsApiResponse[number];
 }) => {
   const { values } = useFormikContext<InsightFormValues>();
-  const isCurrent = useMemo(
-    () => values.id === insight.id,
-    [values.id, insight.id]
-  );
+  const isCurrent = values.id === insight.id;
   return (
     <>
       <Divider />
@@ -31,7 +27,11 @@ const Insight = ({
       >
         <Accordion.Section>
           <Accordion.Header>
-            <AccordionLabel insight={insight} />
+            <AccordionLabel
+              title={insight.title}
+              isPublished={insight.visible}
+              id={insight.id.toString()}
+            />
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
             <div style={{ marginBottom: appTheme.space.xl }}>

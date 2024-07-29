@@ -1,15 +1,13 @@
-import { Button, getColor, Tooltip } from '@appquality/unguess-design-system';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useTranslation } from 'react-i18next';
-import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/12/chevron-double-left-fill.svg';
+import { getColor } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
-import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/12/chevron-double-right-fill.svg';
-import InsightsDrawer from './InsightsDrawer';
 import { ActionBar } from './ActionBar';
 import { Collection } from './Collection';
+import { DrawerButton } from './DrawerButton';
 import { FormProvider } from './FormProvider';
 import { useInsightContext } from './InsightContext';
+import InsightsDrawer from './InsightsDrawer';
 import { Widgets } from './Widgets';
 
 const Grid = styled.div<{ isDrawerOpen: boolean }>`
@@ -50,8 +48,7 @@ const DrawerWrapper = styled.aside<{ isDrawerOpen: boolean }>`
 `;
 
 const InsightsPageContent = () => {
-  const { t } = useTranslation();
-  const { isDrawerOpen, setIsDrawerOpen } = useInsightContext();
+  const { isDrawerOpen } = useInsightContext();
 
   return (
     <FormProvider>
@@ -62,26 +59,7 @@ const InsightsPageContent = () => {
           <Collection />
         </LayoutWrapper>
         <DrawerWrapper isDrawerOpen={isDrawerOpen}>
-          <Tooltip
-            content={
-              isDrawerOpen
-                ? t('__INSIGHTS_PAGE_CLOSE_DRAWER_BUTTON')
-                : t('__INSIGHTS_PAGE_OPEN_DRAWER_BUTTON')
-            }
-            type="light"
-            placement="auto"
-          >
-            <Button
-              isPill={false}
-              onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-            >
-              {isDrawerOpen ? (
-                <ArrowRight color={appTheme.palette.grey[600]} />
-              ) : (
-                <ArrowLeft color={appTheme.palette.grey[600]} />
-              )}
-            </Button>
-          </Tooltip>
+          <DrawerButton />
           <InsightsDrawer />
         </DrawerWrapper>
       </Grid>

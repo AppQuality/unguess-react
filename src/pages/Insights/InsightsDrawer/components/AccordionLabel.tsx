@@ -4,11 +4,13 @@ import {
   IconButton,
   LG,
   Tooltip,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
-import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
-import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
-import { usePublishInsight } from '../hooks/usePublishInsight';
+import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
+import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
+import { usePatchInsightsByIidMutation } from 'src/features/api';
+import { useTranslation } from 'react-i18next';
 
 const Style = styled(Accordion.Label)`
   display: flex;
@@ -17,22 +19,54 @@ const Style = styled(Accordion.Label)`
   padding: 0;
 `;
 
-export const AccordionLabel = ({
-  insight,
-}: {
-  insight: GetCampaignsByCidInsightsApiResponse[number];
-}) => {
-  const { handlePublish, result } = usePublishInsight({
-    title: insight.title,
-    id: insight.id.toString(),
-    isPublished: insight.visible,
-  });
+interface Props {
+  title: string;
+  id: string;
+  isPublished?: number;
+}
+
+export const AccordionLabel = ({ title, id, isPublished }: Props) => {
+  const { t } = useTranslation();
+  const { addToast } = useToast();
+  const [patchInsight, result] = usePatchInsightsByIidMutation();
+  const handlePublish = () => {
+    let notificationProps = {};
+    patchInsight({ iid: id, body: { visible: isPublished ? 0 : 1 } })
+      .unwrap()
+      .then(() => {
+        notificationProps = {
+          type: 'success',
+          message: isPublished
+            ? `Insight "${title}" succesfully unpublished`
+            : `Insight "${title}" succesfully published`,
+        };
+      })
+      .catch((e) => {
+        notificationProps = {
+          type: 'error',
+          message: e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE'),
+        };
+      })
+      .finally(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              closeText="X"
+              isPrimary
+              {...notificationProps}
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
+  };
   return (
     <Style>
-      <LG isBold>{insight.title}</LG>
+      <LG isBold>{title}</LG>
       <Tooltip
         content={
-          insight.visible
+          isPublished
             ? 'Click to unpublish this insight'
             : 'Click to publish insight'
         }
@@ -41,7 +75,7 @@ export const AccordionLabel = ({
           onClick={handlePublish}
           disabled={result.status === 'pending'}
         >
-          {insight.visible ? <Published /> : <NotPublished />}
+          {isPublished ? <Published /> : <NotPublished />}
         </IconButton>
       </Tooltip>
     </Style>
