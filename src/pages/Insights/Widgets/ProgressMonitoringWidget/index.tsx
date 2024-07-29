@@ -13,7 +13,7 @@ import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
 import { useSeveritiesDistributionData } from '../hooks/useSeveritiesDistributionData';
 import { getMaxSeverity } from '../utils/getMaxSeverity';
-import { getMaxSeverityColor } from '../utils/getMaxSeverityColor';
+import { getSeverityColor } from '../../utils/getSeverityColor';
 
 export const ProgressMonitoringWidget = ({
   campaignId,
@@ -68,14 +68,14 @@ export const ProgressMonitoringWidget = ({
               content={
                 <span
                   style={{
-                    color: getMaxSeverityColor(maxSeverity.name),
+                    color: getSeverityColor(maxSeverity.name),
                   }}
                 >
                   {maxSeverity.count}
                   <XL
                     tag="span"
                     isBold
-                    color={getMaxSeverityColor(maxSeverity.name)}
+                    color={getSeverityColor(maxSeverity.name)}
                     style={{ marginLeft: appTheme.space.xs }}
                   >
                     {maxSeverity.name}
