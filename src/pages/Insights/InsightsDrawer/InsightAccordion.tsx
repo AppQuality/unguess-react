@@ -3,7 +3,6 @@ import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
-import { useMemo } from 'react';
 import { InsightFormValues } from '../FormProvider';
 import { AccordionLabel } from './components/AccordionLabel';
 import { getBgColor, getSeverityColor } from '../utils/getSeverityColor';
@@ -14,35 +13,8 @@ const Insight = ({
 }: {
   insight: GetCampaignsByCidInsightsApiResponse[number];
 }) => {
-  const { t } = useTranslation();
-  const { addToast } = useToast();
-  const { values, setValues, isSubmitting } =
-    useFormikContext<InsightFormValues>();
+  const { values } = useFormikContext<InsightFormValues>();
   const isCurrent = values.id === insight.id;
-
-  const [deleteInsight] = useDeleteInsightsByIidMutation();
-
-  const handleDelete = (insight_id: number) => {
-    deleteInsight({ iid: insight_id.toString() })
-      .unwrap()
-      .catch((e) => {
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="error"
-              message={
-                e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE')
-              }
-              closeText="X"
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-      });
-  };
-
   return (
     <>
       <Divider />
