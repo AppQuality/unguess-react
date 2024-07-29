@@ -10,7 +10,7 @@ import {
 import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
 import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { usePatchInsightsByIidMutation } from 'src/features/api';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next'
 
 const Style = styled(Accordion.Label)`
   display: flex;
@@ -67,6 +67,7 @@ export const AccordionLabel = ({ title, id, isPublished }: Props) => {
       <Tooltip
         content={
           isPublished
+
             ? 'Click to unpublish this insight'
             : 'Click to publish insight'
         }

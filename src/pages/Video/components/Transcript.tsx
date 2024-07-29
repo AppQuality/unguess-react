@@ -74,7 +74,7 @@ const Transcript = ({
 }: {
   currentTime: number;
   isSearchable: boolean;
-  setCurrentTime: (time: number) => void;
+  setCurrentTime: (time: number, forcePlay?: boolean) => void;
 }) => {
   const { t } = useTranslation();
   const { videoId } = useParams();
@@ -189,7 +189,7 @@ const Transcript = ({
                     start={p.start}
                     end={p.end}
                     speakerIndex={p.speaker || 0}
-                    setCurrentTime={setCurrentTime}
+                    setCurrentTime={(time) => setCurrentTime(time, true)}
                   >
                     {p.words.map((item, index) => (
                       <Highlight.Word

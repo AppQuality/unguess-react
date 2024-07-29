@@ -28,7 +28,6 @@ const AccordionSection = styled(Accordion.Section)<{ severity: string }>`
   border: 2px solid;
   border-color: ${({ severity }) => getSeverityColor(severity)};
   box-shadow: 4px 4px ${({ severity }) => getBgColor(severity)};
-
   svg[data-garden-id='accordions.rotate_icon'] {
     color: ${({ severity }) => getSeverityColor(severity)};
   }

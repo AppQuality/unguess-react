@@ -7,13 +7,11 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as ExternalIcon } from 'src/assets/icons/new-window-stroke.svg';
 import { Campaign } from 'src/features/api';
-import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
-import { ReactComponent as ExternalIcon } from 'src/assets/icons/new-window-stroke.svg';
 import { CampaignItem } from '../CampaignItem';
-import { CampaignActionProps } from '../types';
 
 const FloatRight = styled.div`
   float: right;
@@ -31,10 +29,6 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
         : `/${i18n.language}/projects/${projectId}`;
 
     navigate(localizedRoute);
-  };
-
-  const clickToggle = (props: CampaignActionProps) => {
-    window.location.href = getLocalizeDashboardRoute(props);
   };
 
   return (
@@ -58,7 +52,6 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
           <CampaignItem
             key={`campaign_${campaign.id}`}
             campaign={campaign}
-            onCampaignClicked={clickToggle}
             style={{ marginBottom: `${theme.space.base * 4}px` }}
           />
         </Col>

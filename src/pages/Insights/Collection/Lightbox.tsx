@@ -62,12 +62,12 @@ const TagsContainer = styled.div`
 `;
 
 export function getDeviceIcon(device?: string) {
-  switch (device) {
+  switch (device?.toLocaleLowerCase()) {
     case 'smartphone':
       return <SmartphoneIcon />;
     case 'tablet':
       return <TabletIcon />;
-    case 'PC':
+    case 'pc':
       return <DesktopIcon />;
     case 'other':
       return <DesktopIcon />;

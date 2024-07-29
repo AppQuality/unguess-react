@@ -31,7 +31,7 @@ const PlayerContainer = styled.div<{
   display: flex;
   position: relative;
   top: 0;
-  z-index: 101;
+  z-index: 3;
 
   ${({ isFetching }) =>
     isFetching &&
@@ -124,11 +124,14 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
   );
 
   const seekPlayer = useCallback(
-    (time: number) => {
+    (time: number, forcePlay?: boolean) => {
       if (videoRef && videoRef.current) {
         videoRef.current.currentTime = time;
-        setIsPlaying(true);
-        videoRef.current.play();
+
+        if (forcePlay) {
+          setIsPlaying(true);
+          videoRef.current.play();
+        }
       }
     },
     [videoRef]
@@ -159,8 +162,8 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
           />
         ),
         onClick: () => {
-          seekPlayer(obs.start);
           setOpenAccordion({ id: obs.id });
+          seekPlayer(obs.start);
         },
         tags: obs.tags,
       })),

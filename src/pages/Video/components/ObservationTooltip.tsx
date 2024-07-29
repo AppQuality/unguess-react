@@ -59,8 +59,8 @@ export const ObservationTooltip = ({
       size="large"
       color={color}
       onClick={() => {
-        seekPlayer?.(start);
         setOpenAccordion({ id: observationId });
+        seekPlayer?.(start);
       }}
       isSelecting={isSelecting}
     >

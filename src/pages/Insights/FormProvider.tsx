@@ -10,8 +10,8 @@ import {
 import * as Yup from 'yup';
 
 export type InsightFormValues = Omit<
-  Omit<GetCampaignsByCidInsightsApiResponse[number], 'severity'>,
-  'observations'
+  GetCampaignsByCidInsightsApiResponse[number],
+  'severity' | 'observations' | 'usecases'
 > & {
   severity: number;
   observations: Grape['observations'];

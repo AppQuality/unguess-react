@@ -6,6 +6,8 @@ import {
   useToast,
   Notification,
   Span,
+  IconButton,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
@@ -14,6 +16,8 @@ import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
+import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidVideosQuery,
@@ -86,13 +90,11 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { status } = campaign;
   const { campaignId } = useParams();
   const [totalVideos, setTotalVideos] = useState<number>(0);
+  const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+  const insightsRoute = useLocalizeRoute(`campaigns/${campaign.id}/insights`);
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { hasFeatureFlag } = useFeatureFlag();
-
-  const insightsDashboardLink = useLocalizeRoute(
-    `campaigns/${campaign.id}/insights`
-  );
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
@@ -240,11 +242,34 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
           </Button>
         )}
+        <MD color={appTheme.palette.blue[600]}>
+          {' '}
+          {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
+        </MD>
+        <Link to={campaignRoute}>
+          <Tooltip
+            content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
+            size="medium"
+            type="light"
+            placement="top"
+          >
+            <IconButton isBasic={false}>
+              <DashboardIcon />
+            </IconButton>
+          </Tooltip>
+        </Link>
         {hasTaggingToolFeature && totalVideos > 0 && (
-          <Link to={insightsDashboardLink}>
-            <Button id="button-bugs-list-header" isPrimary isAccent>
-              {t('__CAMPAIGN_PAGE_BUTTON_GO_TO_INSIGTHS')}
-            </Button>
+          <Link to={insightsRoute}>
+            <Tooltip
+              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP')}
+              size="medium"
+              type="light"
+              placement="top"
+            >
+              <IconButton isBasic={false}>
+                <InsightsIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
         )}
       </ButtonWrapper>

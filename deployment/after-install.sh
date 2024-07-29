@@ -13,6 +13,7 @@ DOCKER_IMAGE=$(cat "/home/ec2-user/unguess-react/docker-image.txt")
 DOCKER_COMPOSE_FILE="/home/ec2-user/$APPLICATION_NAME/docker-compose.yml"
 INSTANCE_ID=$(wget -q -O - http://169.254.169.254/latest/meta-data/instance-id)
 ENVIRONMENT=$(aws ec2 describe-tags --filters "Name=resource-id,Values=$INSTANCE_ID" "Name=key,Values=environment"  --output=text | cut -f5)
+VERSION=$(echo $DOCKER_IMAGE | cut -d: -f2)
 
 # pull docker image from ecr
 docker pull 163482350712.dkr.ecr.eu-west-1.amazonaws.com/$DOCKER_IMAGE
@@ -42,6 +43,13 @@ services:
       PORT: 80
       REACT_APP_ENVIRONMENT: $ENVIRONMENT
       REACT_APP_VERSION: $DOCKER_IMAGE
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-west-1
+        awslogs-group: "unguess-app-react-${ENVIRONMENT}"
+        awslogs-stream: ${VERSION}
+        awslogs-create-group: 'true'
 
 " > $DOCKER_COMPOSE_FILE
 

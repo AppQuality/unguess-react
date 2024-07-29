@@ -1,7 +1,9 @@
-import { getColor } from '@appquality/unguess-design-system';
+import { Button, getColor, Tooltip } from '@appquality/unguess-design-system';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/12/chevron-double-left-fill.svg';
 import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
+import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/12/chevron-double-right-fill.svg';
 import InsightsDrawer from './InsightsDrawer';
 import { ActionBar } from './ActionBar';
 import { Collection } from './Collection';
@@ -48,7 +50,7 @@ const DrawerWrapper = styled.aside<{ isDrawerOpen: boolean }>`
 `;
 
 const InsightsPageContent = () => {
-  const { isDrawerOpen } = useInsightContext();
+  const { isDrawerOpen, setIsDrawerOpen } = useInsightContext();
 
   return (
     <FormProvider>
