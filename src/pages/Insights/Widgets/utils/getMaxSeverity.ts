@@ -5,9 +5,9 @@ export const getMaxSeverity = (
   Observation: number
 ): { name: string; count: number } => {
   switch (true) {
-    case Major > 1:
+    case Major > 0:
       return { name: 'Major Issue', count: Major };
-    case Minor > 1:
+    case Minor > 0:
       return { name: 'Minor Issue', count: Minor };
     case Positive > 0:
       return { name: 'Positive Finding', count: Positive };
