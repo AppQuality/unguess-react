@@ -6,6 +6,8 @@ import {
   useToast,
   Notification,
   Span,
+  IconButton,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
@@ -14,6 +16,8 @@ import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
+import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidVideosQuery,
@@ -22,8 +26,11 @@ import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import queryString from 'query-string';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
@@ -83,8 +90,13 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { status } = campaign;
   const { campaignId } = useParams();
   const [totalVideos, setTotalVideos] = useState<number>(0);
+  const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+  const insightsRoute = useLocalizeRoute(`campaigns/${campaign.id}/insights`);
   const { t } = useTranslation();
   const { addToast } = useToast();
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   const {
     data: videos,
@@ -223,12 +235,42 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       <ButtonWrapper>
         <CampaignSettings />
         {totalVideos > 0 && (
-          <Button isAccent isPrimary size="small" onClick={handleUseCaseExport}>
+          <Button isAccent isPrimary onClick={handleUseCaseExport}>
             <Button.StartIcon>
               <DownloadIcon />
             </Button.StartIcon>
             {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
           </Button>
+        )}
+        <MD color={appTheme.palette.blue[600]}>
+          {' '}
+          {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
+        </MD>
+        <Link to={campaignRoute}>
+          <Tooltip
+            content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
+            size="medium"
+            type="light"
+            placement="top"
+          >
+            <IconButton isBasic={false}>
+              <DashboardIcon />
+            </IconButton>
+          </Tooltip>
+        </Link>
+        {hasTaggingToolFeature && totalVideos > 0 && (
+          <Link to={insightsRoute}>
+            <Tooltip
+              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP')}
+              size="medium"
+              type="light"
+              placement="top"
+            >
+              <IconButton isBasic={false}>
+                <InsightsIcon />
+              </IconButton>
+            </Tooltip>
+          </Link>
         )}
       </ButtonWrapper>
     </FooterContainer>

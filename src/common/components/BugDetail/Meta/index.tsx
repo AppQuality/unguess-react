@@ -30,7 +30,7 @@ const BugInfo = styled.div`
 `;
 
 export function getDeviceIcon(device: string) {
-  switch (device) {
+  switch (device.toLocaleLowerCase()) {
     case 'smartphone':
       return <SmartphoneIcon />;
     case 'tablet':

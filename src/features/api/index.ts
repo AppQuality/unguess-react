@@ -217,6 +217,15 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/meta` }),
     }),
+    getCampaignsByCidObservations: build.query<
+      GetCampaignsByCidObservationsApiResponse,
+      GetCampaignsByCidObservationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/observations`,
+        params: { groupBy: queryArg.groupBy },
+      }),
+    }),
     getCampaignsByCidOs: build.query<
       GetCampaignsByCidOsApiResponse,
       GetCampaignsByCidOsApiArg
@@ -921,8 +930,7 @@ export type PatchCampaignsByCidCustomStatusesApiArg = {
   /** Campaign id */
   cid: string;
   body: {
-    /** se esiste già questo parametro viene passato nel request body
-        se invece non esiste ed il custom status deve essere creato, non viene passato */
+    /** se esiste già questo parametro viene passato nel request body\r\nse invece non esiste ed il custom status deve essere creato, non viene passato */
     custom_status_id?: number;
     name: string;
     color: string;
@@ -968,10 +976,16 @@ export type PostCampaignsByCidInsightsApiArg = {
     severity_id: number;
     observations_ids: number[];
     comment?: string;
+    visible?: number;
   };
 };
 export type GetCampaignsByCidInsightsApiResponse =
-  /** status 200 OK */ Insight[];
+  /** status 200 OK */ (Insight & {
+    usecases: {
+      id: number;
+      name: string;
+    }[];
+  })[];
 export type GetCampaignsByCidInsightsApiArg = {
   /** Campaign id */
   cid: string;
@@ -984,6 +998,35 @@ export type GetCampaignsByCidMetaApiResponse = /** status 200 OK */ Campaign & {
 export type GetCampaignsByCidMetaApiArg = {
   /** Campaign id */
   cid: string;
+};
+export type GetCampaignsByCidObservationsApiResponse =
+  /** status 200 OK */
+  | {
+      results: {
+        usecaseId: number;
+        usecaseTitle: string;
+        grapes: Grape[];
+        ungrouped: (Observation & {
+          uploaderId: number;
+          mediaId: number;
+          deviceType: string;
+          usecaseTitle: string;
+        })[];
+      }[];
+      kind: 'usecase-grapes';
+    }
+  | {
+      results: (Observation & {
+        uploaderId: number;
+        mediaId: number;
+        deviceType: string;
+        usecaseTitle: string;
+      })[];
+      kind: 'ungrouped';
+    };
+export type GetCampaignsByCidObservationsApiArg = {
+  cid: string;
+  groupBy?: 'usecase-grapes';
 };
 export type GetCampaignsByCidOsApiResponse = /** status 200 OK */ {
   os: string;
@@ -1199,7 +1242,11 @@ export type GetCampaignsByCidWidgetsApiResponse =
   | WidgetBugsByDevice
   | WidgetCampaignProgress
   | WidgetCampaignUniqueBugs
-  | WidgetBugsByDuplicates;
+  | WidgetBugsByDuplicates
+  | WidgetCampaignUxTaggingVideoCompletionData
+  | WidgetCampaignUxTotalTitlesVsRecurrentTitles
+  | WidgetCampaignUxSeveritiesDistribution
+  | WidgetCampaignUxMostUsedTitles;
 export type GetCampaignsByCidWidgetsApiArg = {
   /** Campaign id */
   cid: string;
@@ -1209,7 +1256,11 @@ export type GetCampaignsByCidWidgetsApiArg = {
     | 'bugs-by-device'
     | 'cp-progress'
     | 'unique-bugs'
-    | 'bugs-by-duplicates';
+    | 'bugs-by-duplicates'
+    | 'ux-tagging-video-completion'
+    | 'ux-total-titles-vs-recurrent-titles'
+    | 'ux-severities-distribution'
+    | 'ux-most-used-titles';
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
 };
@@ -1233,6 +1284,7 @@ export type PatchInsightsByIidApiArg = {
     severity_id?: number;
     observations_ids?: number[];
     comment?: string;
+    visible?: number;
   };
 };
 export type GetMediaByIdApiResponse = unknown;
@@ -1810,23 +1862,39 @@ export type Observation = {
   description: string;
   start: number;
   end: number;
-  tags: VideoTag[];
   quotes: string;
+  uxNote?: string;
+  tags: VideoTag[];
 };
 export type Insight = {
   id: number;
   title: string;
   description: string;
-  severity: BugSeverity;
+  severity: {
+    id: number;
+    name: string;
+    style: string;
+  };
+  visible?: number;
+  comment?: string;
   observations: (Observation & {
     video: {
       id: number;
-      poster: string;
-      url: string;
-      streamUrl: string;
+      deviceType: string;
     };
+    uploaderId: number;
   })[];
-  comment?: string;
+};
+export type Grape = {
+  title: string;
+  severity: string;
+  usersNumber: number;
+  observations: (Observation & {
+    uploaderId: number;
+    mediaId: number;
+    deviceType: string;
+    usecaseTitle: string;
+  })[];
 };
 export type ReportExtensions =
   | 'pdf'
@@ -1961,6 +2029,43 @@ export type WidgetBugsByDuplicates = {
   })[];
   kind: 'bugsByDuplicates';
 };
+export type WidgetCampaignUxTaggingVideoCompletionData = {
+  data: {
+    countMediaWithObservation: number;
+    countMedia: number;
+  };
+  kind: 'uxTaggingVideoCompletion';
+};
+export type WidgetCampaignUxTotalTitlesVsRecurrentTitles = {
+  data: {
+    countTitleTag: number;
+    countObservationNoTitle: number;
+    countRecurrentTitles: number;
+  };
+  kind: 'uxTotalTitlesVsRecurrentTitles';
+};
+export type WidgetCampaignUxSeveritiesDistribution = {
+  data: {
+    countObservations: number;
+    severitiesDistribution: {
+      countPositiveFindings: number;
+      countMinorIssue: number;
+      countMajorIssue: number;
+      countObservationSeverity: number;
+    };
+  };
+  kind: 'uxSeveritiesDistribution';
+};
+export type WidgetCampaignUxMostUsedTitles = {
+  data: {
+    mostUsedTitles: {
+      title: string;
+      usage: number;
+      mainSeverityAssignment: string;
+    }[];
+  };
+  kind: 'uxMostUsedTitles';
+};
 export type Project = {
   id: number;
   name: string;
@@ -2047,6 +2152,7 @@ export const {
   usePostCampaignsByCidInsightsMutation,
   useGetCampaignsByCidInsightsQuery,
   useGetCampaignsByCidMetaQuery,
+  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidReplicabilitiesQuery,

@@ -170,6 +170,18 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/observations': {
+    /**
+     * Return all observations for a specificCampaigns.
+     * You can group by observations for usecase and grapes (observations with same title) or get an ungrouped list.
+     */
+    get: operations['get-campaigns-cid-observations'];
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/os': {
     get: operations['get-campaigns-cid-os'];
     parameters: {
@@ -733,21 +745,37 @@ export interface components {
       os_version?: string;
       type?: string;
     };
+    /** Grape */
+    Grapes: {
+      title: string;
+      severity: string;
+      usersNumber: number;
+      observations: (components['schemas']['Observation'] & {
+        uploaderId: number;
+        mediaId: number;
+        deviceType: string;
+        usecaseTitle: string;
+      })[];
+    };
     /** Insight */
     Insight: {
       id: number;
       title: string;
       description: string;
-      severity: components['schemas']['BugSeverity'];
+      severity: {
+        id: number;
+        name: string;
+        style: string;
+      };
+      visible?: number;
+      comment?: string;
       observations: (components['schemas']['Observation'] & {
         video: {
           id: number;
-          poster: string;
-          url: string;
-          streamUrl: string;
+          deviceType: string;
         };
+        uploaderId: number;
       })[];
-      comment?: string;
     };
     /** Observation */
     Observation: {
@@ -758,8 +786,9 @@ export interface components {
       start: number;
       /** Format: float */
       end: number;
-      tags: components['schemas']['VideoTag'][];
       quotes: string;
+      uxNote?: string;
+      tags: components['schemas']['VideoTag'][];
     };
     /**
      * Output
@@ -1074,6 +1103,41 @@ export interface components {
        */
       kind: 'campaignUniqueBugs';
     };
+    /**
+     * WidgetCampaignUxProgress
+     * @description Used to show an overview of Ux progress
+     */
+    WidgetCampaignUxProgress: {
+      data: {
+        countMediaWithObservation?: number;
+        countMedia?: number;
+        countTitleTag?: number;
+        countObservation?: number;
+        countObservationNoTitle?: number;
+        countRecurrentTitles?: number;
+        severitiesDistribution?: {
+          countPositiveFindings: number;
+          countMinorIssue: number;
+          countMajorIssue: number;
+          countObservations: number;
+        };
+        mostUsedTitles?: {
+          title: string;
+          usage: number;
+          mainSeverityAssignment: string;
+        }[];
+      };
+      /**
+       * @default uxTaggingVideoCompletion
+       * @example uxTaggingVideoCompletion
+       * @enum {string}
+       */
+      kind:
+        | 'uxTaggingVideoCompletion'
+        | 'uxTotalTitlesVsRecurrentTitles'
+        | 'uxSeveritiesDistribution'
+        | 'uxMostUsedTitles';
+    };
     Word: {
       start: number;
       end: number;
@@ -1105,6 +1169,51 @@ export interface components {
       isShared?: boolean;
       /** @description Number of shared items */
       sharedItems?: number;
+    };
+    /** WidgetCampaignUxTaggingVideoCompletionData */
+    WidgetCampaignUxTaggingVideoCompletionData: {
+      data: {
+        countMediaWithObservation: number;
+        countMedia: number;
+      };
+      /** @enum {undefined} */
+      kind: 'uxTaggingVideoCompletion';
+    };
+    /** WidgetCampaignUxTotalTitlesVsRecurrentTitles */
+    WidgetCampaignUxTotalTitlesVsRecurrentTitles: {
+      data: {
+        countTitleTag: number;
+        countObservationNoTitle: number;
+        countRecurrentTitles: number;
+      };
+      /** @enum {undefined} */
+      kind: 'uxTotalTitlesVsRecurrentTitles';
+    };
+    /** WidgetCampaignUxSeveritiesDistribution */
+    WidgetCampaignUxSeveritiesDistribution: {
+      data: {
+        countObservations: number;
+        severitiesDistribution: {
+          countPositiveFindings: number;
+          countMinorIssue: number;
+          countMajorIssue: number;
+          countObservationSeverity: number;
+        };
+      };
+      /** @enum {undefined} */
+      kind: 'uxSeveritiesDistribution';
+    };
+    /** WidgetCampaignUxMostUsedTitles */
+    WidgetCampaignUxMostUsedTitles: {
+      data: {
+        mostUsedTitles: {
+          title: string;
+          usage: number;
+          mainSeverityAssignment: string;
+        }[];
+      };
+      /** @enum {undefined} */
+      kind: 'uxMostUsedTitles';
     };
   };
   responses: {
@@ -1140,7 +1249,11 @@ export interface components {
       | 'bugs-by-device'
       | 'cp-progress'
       | 'unique-bugs'
-      | 'bugs-by-duplicates';
+      | 'bugs-by-duplicates'
+      | 'ux-tagging-video-completion'
+      | 'ux-total-titles-vs-recurrent-titles'
+      | 'ux-severities-distribution'
+      | 'ux-most-used-titles';
     /** @description keywords to search */
     search: string;
     /** @description Custom Status id */
@@ -1748,10 +1861,7 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          /**
-           * @description se esiste già questo parametro viene passato nel request body
-           * se invece non esiste ed il custom status deve essere creato, non viene passato
-           */
+          /** @description se esiste già questo parametro viene passato nel request body\r\nse invece non esiste ed il custom status deve essere creato, non viene passato */
           custom_status_id?: number;
           name: string;
           color: string;
@@ -1812,7 +1922,12 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': components['schemas']['Insight'][];
+          'application/json': (components['schemas']['Insight'] & {
+            usecases: {
+              id: number;
+              name: string;
+            }[];
+          })[];
         };
       };
       400: components['responses']['Error'];
@@ -1846,6 +1961,7 @@ export interface operations {
           severity_id: number;
           observations_ids: number[];
           comment?: string;
+          visible?: number;
         };
       };
     };
@@ -1873,6 +1989,61 @@ export interface operations {
       401: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  /**
+   * Return all observations for a specificCampaigns.
+   * You can group by observations for usecase and grapes (observations with same title) or get an ungrouped list.
+   */
+  'get-campaigns-cid-observations': {
+    parameters: {
+      path: {
+        cid: string;
+      };
+      query: {
+        groupBy?: 'usecase-grapes';
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json':
+            | {
+                results: {
+                  usecaseId: number;
+                  usecaseTitle: string;
+                  grapes: components['schemas']['Grapes'][];
+                  ungrouped: (components['schemas']['Observation'] & {
+                    uploaderId: number;
+                    mediaId: number;
+                    deviceType: string;
+                    usecaseTitle: string;
+                  })[];
+                }[];
+                /**
+                 * @default usecase-grapes
+                 * @example usecase-grapes
+                 * @enum {string}
+                 */
+                kind: 'usecase-grapes';
+              }
+            | {
+                results: (components['schemas']['Observation'] & {
+                  uploaderId: number;
+                  mediaId: number;
+                  deviceType: string;
+                  usecaseTitle: string;
+                })[];
+                /**
+                 * @default ungrouped
+                 * @example ungrouped
+                 * @enum {string}
+                 */
+                kind: 'ungrouped';
+              };
+        };
+      };
     };
   };
   'get-campaigns-cid-os': {
@@ -2301,7 +2472,11 @@ export interface operations {
             | components['schemas']['WidgetBugsByDevice']
             | components['schemas']['WidgetCampaignProgress']
             | components['schemas']['WidgetCampaignUniqueBugs']
-            | components['schemas']['WidgetBugsByDuplicates'];
+            | components['schemas']['WidgetBugsByDuplicates']
+            | components['schemas']['WidgetCampaignUxTaggingVideoCompletionData']
+            | components['schemas']['WidgetCampaignUxTotalTitlesVsRecurrentTitles']
+            | components['schemas']['WidgetCampaignUxSeveritiesDistribution']
+            | components['schemas']['WidgetCampaignUxMostUsedTitles'];
         };
       };
       400: components['responses']['Error'];
@@ -2370,6 +2545,7 @@ export interface operations {
           severity_id?: number;
           observations_ids?: number[];
           comment?: string;
+          visible?: number;
         };
       };
     };
