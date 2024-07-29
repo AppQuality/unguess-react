@@ -1,6 +1,5 @@
 import {
   Anchor,
-  Button,
   IconButton,
   MD,
   PageHeader,
@@ -54,10 +53,6 @@ const VideoPageHeader = () => {
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
-  const campaignDashboardLink = useLocalizeRoute(`campaigns/${campaignId}`);
-
-  const videoPlaylistLink = useLocalizeRoute(`campaigns/${campaignId}/videos`);
-
   const {
     data: campaign,
     isFetching: isFetchingCampaign,
@@ -89,12 +84,12 @@ const VideoPageHeader = () => {
           <Wrapper>
             <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
             <ButtonWrapper>
+              <CampaignSettings />
               <MD color={appTheme.palette.blue[600]}>
                 {' '}
                 {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
               </MD>
-              <CampaignSettings />
-              <Link to={campaignDashboardLink}>
+              <Link to={campaignRoute}>
                 <Tooltip
                   content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
                   size="medium"
@@ -107,7 +102,7 @@ const VideoPageHeader = () => {
                 </Tooltip>
               </Link>
               {hasTaggingToolFeature && (
-                <Link to={videoPlaylistLink}>
+                <Link to={videosRoute}>
                   <Tooltip
                     content={t(
                       '__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP'
