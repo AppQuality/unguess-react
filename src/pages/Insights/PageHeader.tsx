@@ -81,7 +81,6 @@ const VideoPageHeader = () => {
             </Link>
           </PageHeader.Breadcrumbs>
 
-
           <Wrapper>
             <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
             <ButtonWrapper>
