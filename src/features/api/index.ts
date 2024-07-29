@@ -1882,6 +1882,7 @@ export type Insight = {
       id: number;
       deviceType: string;
     };
+    uploaderId: number;
   })[];
 };
 export type Grape = {

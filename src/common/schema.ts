@@ -774,6 +774,7 @@ export interface components {
           id: number;
           deviceType: string;
         };
+        uploaderId: number;
       })[];
     };
     /** Observation */
