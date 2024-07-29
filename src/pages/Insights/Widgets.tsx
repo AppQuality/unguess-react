@@ -1,5 +1,6 @@
-import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
 import { ObservedThemesWidget } from './Widgets/ObservedThemesWidget';
 import { ProgressMonitoringWidget } from './Widgets/ProgressMonitoringWidget';
 import { UserAnalysisWidget } from './Widgets/UserAnalysisWidget';
@@ -11,20 +12,27 @@ const Widgets = () => {
     return null;
   }
 
+  const Grid = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-gap: ${appTheme.space.md};
+    @container (max-width: 1100px) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      .progress-monitoring-widget {
+        grid-column: 1 / -1;
+      }
+    }
+  `;
+
   return (
-    <Grid>
-      <Row>
-        <Col sm={3}>
-          <UserAnalysisWidget campaignId={campaignId} />
-        </Col>
-        <Col sm={3}>
-          <ObservedThemesWidget campaignId={campaignId} />
-        </Col>
-        <Col sm={6}>
-          <ProgressMonitoringWidget campaignId={campaignId} />
-        </Col>
-      </Row>
-    </Grid>
+    <div style={{ containerType: 'inline-size' }}>
+      <Grid style={{ paddingTop: appTheme.space.xxl }}>
+        <UserAnalysisWidget campaignId={campaignId} />
+        <ObservedThemesWidget campaignId={campaignId} />
+        <ProgressMonitoringWidget campaignId={campaignId} />
+      </Grid>
+    </div>
   );
 };
 
