@@ -1,8 +1,15 @@
-import { Button } from '@appquality/unguess-design-system';
+import {
+  Button,
+  Notification,
+  useToast,
+} from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
 import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
-import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
+import {
+  GetCampaignsByCidInsightsApiResponse,
+  usePatchInsightsByIidMutation,
+} from 'src/features/api';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useState } from 'react';
@@ -17,7 +24,41 @@ export const ButtonsFooter = ({
   const { t } = useTranslation();
   const [confirmDeleteModalOpen, setConfirmDeleteModalOpen] = useState(false);
   const { isSubmitting, setValues } = useFormikContext<InsightFormValues>();
-
+  const { addToast } = useToast();
+  const [patchInsight] = usePatchInsightsByIidMutation();
+  const handlePublish = () => {
+    let notificationProps = {};
+    const { id, title, visible: isPublished } = insight;
+    patchInsight({ iid: id.toString(), body: { visible: isPublished ? 0 : 1 } })
+      .unwrap()
+      .then(() => {
+        notificationProps = {
+          type: 'success',
+          message: isPublished
+            ? `Insight "${title}" succesfully unpublished`
+            : `Insight "${title}" succesfully published`,
+        };
+      })
+      .catch((e) => {
+        notificationProps = {
+          type: 'error',
+          message: e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE'),
+        };
+      })
+      .finally(() => {
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              closeText="X"
+              isPrimary
+              {...notificationProps}
+            />
+          ),
+          { placement: 'top' }
+        );
+      });
+  };
   return (
     <>
       <div
@@ -55,7 +96,7 @@ export const ButtonsFooter = ({
         >
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
         </Button>
-        <Button isPrimary isAccent onClick={() => {}}>
+        <Button isPrimary isAccent onClick={handlePublish}>
           {insight.visible ? (
             <span>
               <Published /> {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNPUBLISH')}
