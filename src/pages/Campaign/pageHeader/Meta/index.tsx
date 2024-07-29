@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Button, Skeleton } from '@appquality/unguess-design-system';
+import {
+  Button,
+  IconButton,
+  MD,
+  Skeleton,
+  Tooltip,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { PageMeta } from 'src/common/components/PageMeta';
@@ -14,7 +20,10 @@ import {
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useVideo } from 'src/pages/Videos/useVideos';
+import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
+import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { CampaignStatus } from 'src/types';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { CampaignDurationMeta } from './CampaignDurationMeta';
 import { DesktopMeta } from './DesktopMeta';
@@ -80,6 +89,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const videoDashboardLink = useLocalizeRoute(
     `campaigns/${campaign.id}/videos`
   );
+  const insightsRoute = useLocalizeRoute(`campaigns/${campaign.id}/insights`);
 
   useEffect(() => {
     if (videos) {
@@ -120,11 +130,36 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {hasTaggingToolFeature && totalVideos > 0 && (
+        <MD color={appTheme.palette.blue[600]}>
+          {' '}
+          {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
+        </MD>
+        {totalVideos > 0 && (
           <Link to={videoDashboardLink}>
-            <Button id="button-bugs-list-header" isPrimary isAccent>
-              {t('__CAMPAIGN_PAGE_BUTTON_DETAIL_VIDEO')}
-            </Button>
+            <Tooltip
+              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP')}
+              size="medium"
+              type="light"
+              placement="top"
+            >
+              <IconButton isBasic={false}>
+                <VideoListIcon />
+              </IconButton>
+            </Tooltip>
+          </Link>
+        )}
+        {hasTaggingToolFeature && totalVideos > 0 && (
+          <Link to={insightsRoute}>
+            <Tooltip
+              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP')}
+              size="medium"
+              type="light"
+              placement="top"
+            >
+              <IconButton isBasic={false}>
+                <InsightsIcon />
+              </IconButton>
+            </Tooltip>
           </Link>
         )}
       </ButtonWrapper>
