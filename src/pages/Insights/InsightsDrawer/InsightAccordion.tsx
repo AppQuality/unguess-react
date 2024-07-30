@@ -6,7 +6,6 @@ import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
 import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/16/speech-bubble-conversation-stroke.svg';
 import { InsightFormValues } from '../FormProvider';
 import { AccordionLabel } from './components/AccordionLabel';
-import { getBgColor, getSeverityColor } from '../utils/getSeverityColor';
 import { ButtonsFooter } from './components/ButtonsFooter';
 
 const Insight = ({
@@ -21,7 +20,7 @@ const Insight = ({
       <Divider />
       <Accordion
         level={3}
-        style={{ padding: `${appTheme.space.md} 0` }}
+        style={{ padding: `${appTheme.space.xxs} 0` }}
         key={`insight_accordion_${insight.id}_${isCurrent}`}
         defaultExpandedSections={isCurrent ? [0, 1] : []}
         id={`insight-accordion-${insight.id}`}
@@ -30,10 +29,16 @@ const Insight = ({
           <Accordion.Header>
             <AccordionLabel insight={insight} />
           </Accordion.Header>
-          <Accordion.Panel style={{ padding: 0 }}>
+          <Accordion.Panel style={{ padding: `0 0 0 ${appTheme.space.xxs}` }}>
             {insight.description && (
               <div style={{ marginBottom: appTheme.space.md }}>
-                <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+                <MD
+                  isBold
+                  style={{
+                    paddingTop: appTheme.space.xs,
+                    marginBottom: appTheme.space.xs,
+                  }}
+                >
                   Description
                 </MD>
                 <MD style={{ paddingBottom: appTheme.space.xs }}>
@@ -41,8 +46,15 @@ const Insight = ({
                 </MD>
               </div>
             )}
-            <LG isBold style={{ marginBottom: appTheme.space.sm }}>
-              <ObservationIcon /> Observations
+            <LG
+              isBold
+              style={{
+                marginBottom: appTheme.space.sm,
+                paddingTop: appTheme.space.sm,
+              }}
+            >
+              <ObservationIcon color={appTheme.palette.grey[600]} />{' '}
+              Observations
             </LG>
             <MD>Observations in this insight: {insight.observations.length}</MD>
             <div style={{ marginBottom: appTheme.space.md }}>
@@ -56,10 +68,10 @@ const Insight = ({
                     marginTop: appTheme.space.md,
                   }}
                 >
-                  <SM isBold style={{ marginBottom: appTheme.space.sm }}>
+                  <MD isBold style={{ marginBottom: appTheme.space.sm }}>
                     &quot;{o.quotes}&quot;
-                  </SM>
-                  <Tag isPill hue="">
+                  </MD>
+                  <Tag isPill hue={appTheme.palette.grey[100]}>
                     T{o.uploaderId}
                   </Tag>
                 </div>

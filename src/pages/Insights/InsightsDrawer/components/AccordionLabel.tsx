@@ -9,8 +9,8 @@ import {
   Tag,
   SM,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
-import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
+import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
+import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
 import {
   GetCampaignsByCidInsightsApiResponse,
   usePatchInsightsByIidMutation,
@@ -19,17 +19,33 @@ import { useTranslation } from 'react-i18next';
 import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
 
 const Style = styled(Accordion.Label)`
+  padding-right: 0;
+  padding-left: 0;
   display: grid;
   grid-template-areas:
     'title icon'
     'usecase icon';
   gap: ${({ theme }) => theme.space.sm};
+
   .icon-button-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     grid-area: icon;
     height: 100%;
+  }
+  .severity-usecase-wrapper {
+    display: flex;
+    grid-area: usecase;
+    align-items: center;
+
+    .usecase-name {
+      // flex: 1 0 auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 218px;
+    }
   }
 `;
 
@@ -83,6 +99,7 @@ export const AccordionLabel = ({
         <Tooltip
           size="small"
           type="light"
+          placement="top-end"
           content={
             visible
               ? t('__INSIGHTS_PAGE_DRAWER_UNPUBLISH')
@@ -97,7 +114,7 @@ export const AccordionLabel = ({
           </IconButton>
         </Tooltip>
       </div>
-      <div style={{ display: 'flex', gridArea: 'usecase' }}>
+      <div className="severity-usecase-wrapper">
         <Tag
           isPill
           color={getSeverityColor(insight.severity.name)}
@@ -105,8 +122,9 @@ export const AccordionLabel = ({
         >
           {insight.severity.name}
         </Tag>
+
         {insight.usecases.map((usecase) => (
-          <SM>{usecase.name}</SM>
+          <SM className="usecase-name">{usecase.name}</SM>
         ))}
       </div>
     </Style>
