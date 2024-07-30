@@ -1,7 +1,7 @@
 import { IconButton, Tooltip } from '@appquality/unguess-design-system';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
 import { ReactComponent as LightbulbIcon } from 'src/assets/icons/lightbulb-icon.svg';
-import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
+import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/16/chevron-double-right-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { useInsightContext } from './InsightContext';
