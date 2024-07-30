@@ -3,6 +3,7 @@ import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
+import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/16/speech-bubble-conversation-stroke.svg';
 import { InsightFormValues } from '../FormProvider';
 import { AccordionLabel } from './components/AccordionLabel';
 import { getBgColor, getSeverityColor } from '../utils/getSeverityColor';
@@ -47,34 +48,36 @@ const Insight = ({
               ))}
             </div>
             {insight.description && (
-              <>
+              <div style={{ marginBottom: appTheme.space.md }}>
                 <MD isBold style={{ marginBottom: appTheme.space.xs }}>
                   Description
                 </MD>
-                <MD style={{ marginBottom: appTheme.space.sm }}>
+                <MD style={{ paddingBottom: appTheme.space.xs }}>
                   {insight.description}
                 </MD>
-              </>
+              </div>
             )}
             <LG isBold style={{ marginBottom: appTheme.space.sm }}>
-              Observations
+              <ObservationIcon /> Observations
             </LG>
-            <MD>
-              In this insight there are: {insight.observations.length}{' '}
-              observations
-            </MD>
+            <MD>Observations in this insight: {insight.observations.length}</MD>
             <div style={{ marginBottom: appTheme.space.md }}>
               {insight.observations.map((o) => (
                 <div
                   style={{
                     borderLeft: `2px solid${appTheme.palette.grey[500]}`,
-                    paddingTop: appTheme.space.md,
-                    paddingLeft: appTheme.space.md,
-                    paddingBottom: appTheme.space.md,
+                    paddingTop: appTheme.space.sm,
+                    paddingLeft: appTheme.space.sm,
+                    paddingBottom: appTheme.space.sm,
                     marginTop: appTheme.space.md,
                   }}
                 >
-                  <SM isBold>&quot;{o.quotes}&quot;</SM>
+                  <SM isBold style={{ marginBottom: appTheme.space.sm }}>
+                    &quot;{o.quotes}&quot;
+                  </SM>
+                  <Tag isPill hue="">
+                    T{o.uploaderId}
+                  </Tag>
                 </div>
               ))}
             </div>
