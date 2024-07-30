@@ -12,12 +12,12 @@ import { appTheme } from 'src/app/theme';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
-import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
+import { useCampaign } from '../Campaign/pageHeader/useCampaign';
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,13 +38,13 @@ const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: ${({ theme }) => theme.space.xs};
+  gap: ${({ theme }) => theme.space.sm};
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
     justify-content: flex-start;
   }
 `;
 
-const VideoPageHeader = () => {
+const InsightsPageHeader = () => {
   const { campaignId } = useParams();
   const { t } = useTranslation();
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
@@ -53,18 +53,13 @@ const VideoPageHeader = () => {
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
-  const {
-    data: campaign,
-    isFetching: isFetchingCampaign,
-    isLoading: isLoadingCampaign,
-    isError: isErrorCampaign,
-  } = useGetCampaignsByCidQuery({
-    cid: campaignId || '',
-  });
+  const { isUserLoading, isLoading, isError, campaign, project } = useCampaign(
+    Number(campaignId)
+  );
 
-  if (!campaign || isErrorCampaign) return null;
+  if (!campaign || isError || isUserLoading) return null;
 
-  if (isFetchingCampaign || isLoadingCampaign) return <Skeleton />;
+  if (isLoading) return <Skeleton />;
 
   return (
     <LayoutWrapper isNotBoxed>
@@ -73,11 +68,15 @@ const VideoPageHeader = () => {
       >
         <PageHeader.Main mainTitle={t('__INSIGHTS_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
+            {project.hasAccess ? (
+              <Link to={project.route}>
+                <Anchor id="breadcrumb-project">{project.name}</Anchor>
+              </Link>
+            ) : (
+              project.name
+            )}
             <Link to={campaignRoute}>
               <Anchor id="breadcrumb-parent">{campaign.customer_title}</Anchor>
-            </Link>
-            <Link to={videosRoute}>
-              <Anchor id="breadcrumb-parent">{t('__VIDEOS_PAGE_TITLE')}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
 
@@ -92,7 +91,7 @@ const VideoPageHeader = () => {
               <Link to={campaignRoute}>
                 <Tooltip
                   content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
-                  size="medium"
+                  size="small"
                   type="light"
                   placement="top"
                 >
@@ -107,7 +106,7 @@ const VideoPageHeader = () => {
                     content={t(
                       '__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP'
                     )}
-                    size="medium"
+                    size="small"
                     type="light"
                     placement="top"
                   >
@@ -125,4 +124,4 @@ const VideoPageHeader = () => {
   );
 };
 
-export default VideoPageHeader;
+export default InsightsPageHeader;

@@ -24,7 +24,11 @@ export const GroupByToggle = () => {
 
   return (
     <Wrapper>
-      <Tooltip content={t('__INSIGHTS_PAGE_COLLECTION_GROUP_BY_USECASE')}>
+      <Tooltip
+        size="small"
+        type="light"
+        content={t('__INSIGHTS_PAGE_COLLECTION_GROUP_BY_USECASE')}
+      >
         <IconButton
           onClick={() => setGroupObservationsBy('usecase-grapes')}
           isPrimary={groupObservationsBy === 'usecase-grapes'}
@@ -36,7 +40,11 @@ export const GroupByToggle = () => {
           )}
         </IconButton>
       </Tooltip>
-      <Tooltip content={t('__INSIGHTS_PAGE_COLLECTION_UNGROUP')}>
+      <Tooltip
+        size="small"
+        type="light"
+        content={t('__INSIGHTS_PAGE_COLLECTION_UNGROUP')}
+      >
         <IconButton
           onClick={() => setGroupObservationsBy(undefined)}
           isPrimary={typeof groupObservationsBy === 'undefined'}

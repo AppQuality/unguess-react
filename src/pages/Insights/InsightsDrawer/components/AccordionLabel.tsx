@@ -81,6 +81,8 @@ export const AccordionLabel = ({
       </LG>
       <div className="icon-button-wrapper">
         <Tooltip
+          size="small"
+          type="light"
           content={
             visible
               ? 'Click to unpublish this insight'

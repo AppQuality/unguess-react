@@ -88,10 +88,10 @@ export const ButtonsFooter = ({
               severity: insight.severity.id,
               observations: insight.observations.map((o) => ({
                 ...o,
-                uploaderId: 0,
+                uploaderId: o.uploaderId,
                 mediaId: o.video.id,
-                deviceType: '',
-                usecaseTitle: '',
+                deviceType: o.video.deviceType,
+                usecaseTitle: '', // TODO: @sinatragianpaolo add usecaseTitle to API GET /campaigns/{cid}/insights observations
               })),
             })
           }

@@ -78,7 +78,7 @@ export const ProgressMonitoringWidget = ({
                     color={getSeverityColor(maxSeverity.name)}
                     style={{ marginLeft: appTheme.space.xs }}
                   >
-                    {maxSeverity.name}
+                    {maxSeverity.name.toLowerCase()}
                   </XL>
                 </span>
               }
@@ -114,6 +114,7 @@ export const ProgressMonitoringWidget = ({
                   appTheme.colors.bySeverity.high,
                   appTheme.colors.bySeverity.critical,
                 ]}
+                axisLeftLabel=" "
                 data={graphData}
                 legend={{
                   width: '100%',
