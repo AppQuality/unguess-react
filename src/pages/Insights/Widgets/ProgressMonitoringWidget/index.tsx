@@ -78,7 +78,7 @@ export const ProgressMonitoringWidget = ({
                     color={getSeverityColor(maxSeverity.name)}
                     style={{ marginLeft: appTheme.space.xs }}
                   >
-                    {maxSeverity.name}
+                    {maxSeverity.name.toLowerCase()}
                   </XL>
                 </span>
               }

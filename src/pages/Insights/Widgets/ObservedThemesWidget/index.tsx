@@ -43,7 +43,7 @@ export const ObservedThemesWidget = ({
                   i18nKey="__CAMPAIGN_WIDGET_UX_OBSERVED_THEMES_COUNT_LABEL"
                   count={countRecurrentTitles}
                 >
-                  topics
+                  themes
                 </Trans>
               </XL>
             </span>

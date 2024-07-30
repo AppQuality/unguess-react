@@ -47,7 +47,7 @@ export const UserAnalysisWidget = ({ campaignId }: { campaignId: string }) => {
           footer={
             <Trans
               i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_TOTAL_LABEL"
-              defaults="on <bold>{{total}}total videos </bold>"
+              defaults="out of <bold>{{total}}total videos </bold>"
               count={countMedia}
               components={{
                 bold: (
