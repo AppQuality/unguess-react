@@ -27,6 +27,7 @@ const ButtonWrapper = styled.div`
   background-color: white;
   padding: ${({ theme }) => theme.space.xxs};
   padding-right: 0;
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
 `;
 
 const StyledButton = styled(IconButton)`
