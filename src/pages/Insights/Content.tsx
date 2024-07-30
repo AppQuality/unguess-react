@@ -1,5 +1,3 @@
-import { getColor } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { ActionBar } from './ActionBar';
@@ -16,35 +14,16 @@ const Grid = styled.div<{ isDrawerOpen: boolean }>`
   grid-template-columns: 1fr 40%;
   grid-template-rows: auto;
   gap: 0;
-  ${({ isDrawerOpen }) =>
+  ${({ isDrawerOpen, theme }) =>
     isDrawerOpen
-      ? `
-    grid-template-columns: 1fr 40%;
-    `
-      : `
-    grid-template-columns: 1fr 52px;
-    `}
+      ? `grid-template-columns: 1fr 40%;`
+      : `grid-template-columns: 1fr ${theme.space.xxl};`}
 `;
 
-const DrawerWrapper = styled.aside<{ isDrawerOpen: boolean }>`
-  > button {
-    position: sticky;
-    top: 33px;
-    margin-top: 33px;
-    background-color: ${appTheme.palette.white};
-    border: 1px solid ${getColor(appTheme.colors.neutralHue, 200)};
-    border-radius: 0;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    border-right: none;
-    height: 52px;
-    width: 52px;
-    cursor: pointer;
-    transition: all 0.3s;
-    z-index: 100;
-  }
+const DrawerWrapper = styled.aside`
   display: grid;
-  grid-template-columns: 52px 1fr;
+  grid-template-columns: ${({ theme }) => theme.space.xxl} 1fr;
+  align-items: start;
 `;
 
 const InsightsPageContent = () => {
@@ -58,7 +37,7 @@ const InsightsPageContent = () => {
           <Widgets />
           <Collection />
         </LayoutWrapper>
-        <DrawerWrapper isDrawerOpen={isDrawerOpen}>
+        <DrawerWrapper>
           <DrawerButton />
           <InsightsDrawer />
         </DrawerWrapper>
