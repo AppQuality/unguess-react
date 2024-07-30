@@ -114,6 +114,7 @@ export const ProgressMonitoringWidget = ({
                   appTheme.colors.bySeverity.high,
                   appTheme.colors.bySeverity.critical,
                 ]}
+                axisLeftLabel=" "
                 data={graphData}
                 legend={{
                   width: '100%',
