@@ -34,7 +34,7 @@ const Insight = ({
             />
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
-            <div style={{ marginBottom: appTheme.space.xl }}>
+            <div style={{ marginBottom: appTheme.space.xl, display: 'flex' }}>
               <Tag
                 isPill
                 color={getSeverityColor(insight.severity.name)}
@@ -42,6 +42,9 @@ const Insight = ({
               >
                 {insight.severity.name}
               </Tag>
+              {insight.usecases.map((usecase) => (
+                <SM>{usecase.name}</SM>
+              ))}
             </div>
             <MD isBold style={{ marginBottom: appTheme.space.xs }}>
               Description
