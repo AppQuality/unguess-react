@@ -85,8 +85,8 @@ export const AccordionLabel = ({
           type="light"
           content={
             visible
-              ? 'Click to unpublish this insight'
-              : 'Click to publish insight'
+              ? t('__INSIGHTS_PAGE_DRAWER_UNPUBLISH')
+              : t('__INSIGHTS_PAGE_DRAWER_PUBLISH')
           }
         >
           <IconButton
