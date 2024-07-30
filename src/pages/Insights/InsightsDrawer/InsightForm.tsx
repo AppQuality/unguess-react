@@ -10,6 +10,7 @@ import {
   SM,
   Skeleton,
   Textarea,
+  XL,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { Field as FormField } from '@zendeskgarden/react-forms';
@@ -56,6 +57,7 @@ const InsightForm = () => {
 
   return (
     <FormContainer>
+      <XL isBold>{t('__INSIGHTS_PAGE_INSIGHT_FORM_TITLE')}</XL>
       <div>
         <Label>{t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_LABEL')}</Label>
         <Field name="title">

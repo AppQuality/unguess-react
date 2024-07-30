@@ -3,8 +3,8 @@ import { styled } from 'styled-components';
 import { getColor, Skeleton, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/12/lightbulb-stroke.svg';
 import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
+import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/12/lightbulb-stroke.svg';
 import { useParams } from 'react-router-dom';
 import { Insight } from './InsightAccordion';
 import { InsightFormValues } from '../FormProvider';
@@ -53,19 +53,21 @@ const InsightsDrawer = () => {
 
   return (
     <DetailContainer>
-      <XL isBold>
-        {values.id === 0 && (
-          <InsightIcon style={{ marginRight: appTheme.space.md }} />
-        )}
-        {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
-      </XL>
       <div
         style={{ marginTop: appTheme.space.md, opacity: isFetching ? 0.5 : 1 }}
       >
         {values.id === 0 ? (
-          insights &&
-          // insights list
-          insights.map((insight) => <Insight insight={insight} />)
+          <>
+            <XL isBold>
+              {values.id === 0 && (
+                <InsightIcon style={{ marginRight: appTheme.space.md }} />
+              )}
+              {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
+            </XL>
+            {insights &&
+              // insights list
+              insights.map((insight) => <Insight insight={insight} />)}
+          </>
         ) : (
           // create or update insight
           <InsightForm />
