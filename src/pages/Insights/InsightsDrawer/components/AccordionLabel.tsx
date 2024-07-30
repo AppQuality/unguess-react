@@ -7,8 +7,8 @@ import {
   useToast,
   Notification,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
-import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
+import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
+import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
 import { usePatchInsightsByIidMutation } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
 
