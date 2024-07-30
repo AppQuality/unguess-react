@@ -34,7 +34,7 @@ const StyledSpecialCard = styled(SpecialCard)<{
   isChecked: boolean;
   severity?: VideoTag;
 }>`
-  transition: border-color 0.2s;
+  transition: all 0.2s;
   ${({ severity }) =>
     severity &&
     `
@@ -46,6 +46,15 @@ const StyledSpecialCard = styled(SpecialCard)<{
     border-color: ${appTheme.palette.blue[600]};
   `}
   border-width: 2px;
+`;
+
+const Quotes = styled.span<{ isChecked: boolean }>`
+  font-style: italic;
+  cursor: text;
+  ${({ isChecked }) =>
+    `color: ${
+      isChecked ? appTheme.palette.blue[600] : appTheme.palette.grey[700]
+    };`}
 `;
 
 export const ObservationCard = ({
@@ -138,17 +147,15 @@ export const ObservationCard = ({
               </SpecialCard.Header.Label>
               <SpecialCard.Header.Title
                 style={{
-                  fontStyle: 'italic',
-                  cursor: 'text',
                   marginBottom: appTheme.space.md,
                 }}
               >
-                &quot;
-                {observation.quotes}
-                &quot;
+                <Quotes isChecked={isChecked}>
+                  &quot;{observation.quotes}&quot;
+                </Quotes>
               </SpecialCard.Header.Title>
-              {observation.uploaderId > 0 && (
-                <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
+              <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
+                {observation.uploaderId > 0 && (
                   <SM
                     style={{
                       color: appTheme.palette.grey[600],
@@ -157,9 +164,7 @@ export const ObservationCard = ({
                   >
                     T{observation.uploaderId}
                   </SM>
-                </SpecialCard.Header.Text>
-              )}
-              <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
+                )}
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   {severity && (
                     <StyledTag
