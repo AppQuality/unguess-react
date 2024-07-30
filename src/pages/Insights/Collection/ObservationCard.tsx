@@ -36,7 +36,7 @@ export const ObservationCard = ({
 }) => {
   const { t } = useTranslation();
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const { values } = useFormikContext<InsightFormValues>();
+  const { values, setFieldValue } = useFormikContext<InsightFormValues>();
 
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
@@ -61,8 +61,25 @@ export const ObservationCard = ({
   ) => {
     if (isChecked) {
       remove(values.observations.findIndex((obs) => obs.id === observation.id));
+      setFieldValue(
+        'usecases',
+        values.usecases.filter(
+          (usecase) => usecase.name !== observation.usecaseTitle
+        )
+      );
     } else {
       push(observation);
+      // Add usecase to the list of usecases avoiding duplicates
+      if (
+        !values.usecases.some(
+          (usecase) => usecase.name === observation.usecaseTitle
+        )
+      ) {
+        setFieldValue('usecases', [
+          ...values.usecases,
+          { name: observation.usecaseTitle },
+        ]);
+      }
     }
   };
 

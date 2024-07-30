@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  Ellipsis,
   Grid,
   Input,
   Label,
@@ -9,6 +10,7 @@ import {
   Row,
   SM,
   Skeleton,
+  Tag,
   Textarea,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
@@ -167,6 +169,24 @@ const InsightForm = () => {
           )}
         </div>
       )}
+      <div>
+        <Label>{t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_USECASE_LABEL')}</Label>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: appTheme.space.xs,
+            marginTop: appTheme.space.xs,
+            flexWrap: 'wrap',
+          }}
+        >
+          {values.usecases.map((usecase) => (
+            <Tag key={usecase.id}>
+              <Ellipsis>{usecase.name}</Ellipsis>
+            </Tag>
+          ))}
+        </div>
+      </div>
       <div>
         <Label>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
