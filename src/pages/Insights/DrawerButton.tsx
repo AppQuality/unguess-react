@@ -36,7 +36,12 @@ const DrawerButton = () => {
   };
 
   return (
-    <Tooltip content={getDrawerInfo().text} type="light" placement="auto">
+    <Tooltip
+      content={getDrawerInfo().text}
+      size="small"
+      type="light"
+      placement="auto"
+    >
       <IconButton onClick={() => setIsDrawerOpen(!isDrawerOpen)}>
         {getDrawerInfo().icon}
       </IconButton>

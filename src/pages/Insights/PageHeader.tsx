@@ -91,7 +91,7 @@ const InsightsPageHeader = () => {
               <Link to={campaignRoute}>
                 <Tooltip
                   content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
-                  size="medium"
+                  size="small"
                   type="light"
                   placement="top"
                 >
@@ -106,7 +106,7 @@ const InsightsPageHeader = () => {
                     content={t(
                       '__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP'
                     )}
-                    size="medium"
+                    size="small"
                     type="light"
                     placement="top"
                   >
