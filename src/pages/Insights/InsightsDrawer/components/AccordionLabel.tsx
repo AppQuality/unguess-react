@@ -65,6 +65,8 @@ export const AccordionLabel = ({ title, id, isPublished }: Props) => {
     <Style>
       <LG isBold>{title}</LG>
       <Tooltip
+        size="small"
+        type="light"
         content={
           isPublished
             ? 'Click to unpublish this insight'
