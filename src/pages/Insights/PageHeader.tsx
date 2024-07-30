@@ -38,7 +38,7 @@ const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: ${({ theme }) => theme.space.xs};
+  gap: ${({ theme }) => theme.space.sm};
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
     justify-content: flex-start;
   }
