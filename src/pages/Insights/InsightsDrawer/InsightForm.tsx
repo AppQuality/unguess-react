@@ -221,6 +221,7 @@ const InsightForm = () => {
                     <ObservationCard
                       key={observation.id}
                       observation={observation}
+                      hideCheckbox
                     />
                   </Col>
                 )
