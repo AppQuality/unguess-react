@@ -130,23 +130,25 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        <MD color={appTheme.palette.blue[600]}>
-          {' '}
-          {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
-        </MD>
         {totalVideos > 0 && (
-          <Link to={videoDashboardLink}>
-            <Tooltip
-              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP')}
-              size="medium"
-              type="light"
-              placement="top"
-            >
-              <IconButton isBasic={false}>
-                <VideoListIcon />
-              </IconButton>
-            </Tooltip>
-          </Link>
+          <>
+            <MD color={appTheme.palette.blue[600]}>
+              {' '}
+              {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
+            </MD>
+            <Link to={videoDashboardLink}>
+              <Tooltip
+                content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP')}
+                size="medium"
+                type="light"
+                placement="top"
+              >
+                <IconButton isBasic={false}>
+                  <VideoListIcon />
+                </IconButton>
+              </Tooltip>
+            </Link>
+          </>
         )}
         {hasTaggingToolFeature && totalVideos > 0 && (
           <Link to={insightsRoute}>
