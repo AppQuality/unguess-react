@@ -28,25 +28,9 @@ const Insight = ({
       >
         <Accordion.Section>
           <Accordion.Header>
-            <AccordionLabel
-              title={insight.title}
-              isPublished={insight.visible}
-              id={insight.id.toString()}
-            />
+            <AccordionLabel insight={insight} />
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
-            <div style={{ marginBottom: appTheme.space.xl, display: 'flex' }}>
-              <Tag
-                isPill
-                color={getSeverityColor(insight.severity.name)}
-                hue={getBgColor(insight.severity.name)}
-              >
-                {insight.severity.name}
-              </Tag>
-              {insight.usecases.map((usecase) => (
-                <SM>{usecase.name}</SM>
-              ))}
-            </div>
             {insight.description && (
               <div style={{ marginBottom: appTheme.space.md }}>
                 <MD isBold style={{ marginBottom: appTheme.space.xs }}>

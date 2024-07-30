@@ -6,37 +6,50 @@ import {
   Tooltip,
   useToast,
   Notification,
+  Tag,
+  SM,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
 import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
-import { usePatchInsightsByIidMutation } from 'src/features/api';
+import {
+  GetCampaignsByCidInsightsApiResponse,
+  usePatchInsightsByIidMutation,
+} from 'src/features/api';
 import { useTranslation } from 'react-i18next';
+import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
 
 const Style = styled(Accordion.Label)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0;
+  display: grid;
+  grid-template-areas:
+    'title icon'
+    'usecase icon';
+  gap: ${({ theme }) => theme.space.sm};
+  .icon-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: icon;
+    height: 100%;
+  }
 `;
 
-interface Props {
-  title: string;
-  id: string;
-  isPublished?: number;
-}
-
-export const AccordionLabel = ({ title, id, isPublished }: Props) => {
+export const AccordionLabel = ({
+  insight,
+}: {
+  insight: GetCampaignsByCidInsightsApiResponse[number];
+}) => {
   const { t } = useTranslation();
+  const { id, title, visible } = insight;
   const { addToast } = useToast();
   const [patchInsight, result] = usePatchInsightsByIidMutation();
   const handlePublish = () => {
     let notificationProps = {};
-    patchInsight({ iid: id, body: { visible: isPublished ? 0 : 1 } })
+    patchInsight({ iid: id.toString(), body: { visible: visible ? 0 : 1 } })
       .unwrap()
       .then(() => {
         notificationProps = {
           type: 'success',
-          message: isPublished
+          message: visible
             ? `${`Insight "${title}" ${t('_TOAST_UNPUBLISHED_MESSAGE')}`}`
             : `${`Insight "${title}" ${t('_TOAST_PUBLISHED_MESSAGE')}`}`,
         };
@@ -63,21 +76,37 @@ export const AccordionLabel = ({ title, id, isPublished }: Props) => {
   };
   return (
     <Style>
-      <LG isBold>{title}</LG>
-      <Tooltip
-        content={
-          isPublished
-            ? 'Click to unpublish this insight'
-            : 'Click to publish insight'
-        }
-      >
-        <IconButton
-          onClick={handlePublish}
-          disabled={result.status === 'pending'}
+      <LG isBold style={{ gridArea: 'title' }}>
+        {title}
+      </LG>
+      <div className="icon-button-wrapper">
+        <Tooltip
+          content={
+            visible
+              ? 'Click to unpublish this insight'
+              : 'Click to publish insight'
+          }
         >
-          {isPublished ? <Published /> : <NotPublished />}
-        </IconButton>
-      </Tooltip>
+          <IconButton
+            onClick={handlePublish}
+            disabled={result.status === 'pending'}
+          >
+            {visible ? <Published /> : <NotPublished />}
+          </IconButton>
+        </Tooltip>
+      </div>
+      <div style={{ display: 'flex', gridArea: 'usecase' }}>
+        <Tag
+          isPill
+          color={getSeverityColor(insight.severity.name)}
+          hue={getBgColor(insight.severity.name)}
+        >
+          {insight.severity.name}
+        </Tag>
+        {insight.usecases.map((usecase) => (
+          <SM>{usecase.name}</SM>
+        ))}
+      </div>
     </Style>
   );
 };
