@@ -46,12 +46,16 @@ const Insight = ({
                 <SM>{usecase.name}</SM>
               ))}
             </div>
-            <MD isBold style={{ marginBottom: appTheme.space.xs }}>
-              Description
-            </MD>
-            <MD style={{ marginBottom: appTheme.space.sm }}>
-              {insight.description}
-            </MD>
+            {insight.description && (
+              <>
+                <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+                  Description
+                </MD>
+                <MD style={{ marginBottom: appTheme.space.sm }}>
+                  {insight.description}
+                </MD>
+              </>
+            )}
             <LG isBold style={{ marginBottom: appTheme.space.sm }}>
               Observations
             </LG>
