@@ -70,7 +70,6 @@ const DrawerButton = () => {
         placement="auto"
       >
         <StyledButton
-          isAccent={isEditing && !isDrawerOpen}
           isPrimary={!isDrawerOpen}
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         >
