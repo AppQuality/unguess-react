@@ -2,21 +2,22 @@ import {
   Anchor,
   Checkbox,
   Ellipsis,
+  IconButton,
   Label,
   SM,
-  Span,
   SpecialCard,
   Tag,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { Grape } from 'src/features/api';
+import { Grape, VideoTag } from 'src/features/api';
 import { Pipe } from 'src/common/components/Pipe';
 import { useMemo, useState } from 'react';
 import { getColorWithAlpha } from 'src/common/utils';
 import { styled } from 'styled-components';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { LightboxContainer } from './Lightbox';
 import { InsightFormValues } from '../FormProvider';
 
@@ -29,10 +30,30 @@ const StyledAnchor = styled(Anchor)`
   user-select: none;
 `;
 
+const StyledSpecialCard = styled(SpecialCard)<{
+  isChecked: boolean;
+  severity?: VideoTag;
+}>`
+  transition: border-color 0.2s;
+  ${({ severity }) =>
+    severity &&
+    `
+    border-color: ${severity.tag.style};
+  `}
+  ${({ isChecked }) =>
+    isChecked &&
+    `
+    border-color: ${appTheme.palette.blue[600]};
+  `}
+  border-width: 2px;
+`;
+
 export const ObservationCard = ({
   observation,
+  hideCheckbox,
 }: {
   observation: Grape['observations'][number];
+  hideCheckbox?: boolean;
 }) => {
   const { t } = useTranslation();
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -55,10 +76,7 @@ export const ObservationCard = ({
     [values.observations, observation.id]
   );
 
-  const handleCheck = (
-    e: React.MouseEvent,
-    { remove, push }: FieldArrayRenderProps
-  ) => {
+  const handleCheck = ({ remove, push }: FieldArrayRenderProps) => {
     if (isChecked) {
       remove(values.observations.findIndex((obs) => obs.id === observation.id));
     } else {
@@ -70,34 +88,47 @@ export const ObservationCard = ({
     <FieldArray name="observations">
       {(arrayHelpers) => (
         <>
-          <SpecialCard
-            onClick={(e) => handleCheck(e, arrayHelpers)}
-            {...(isChecked && {
-              style: {
-                borderColor: appTheme.palette.blue[600],
-                borderWidth: 2,
-              },
+          <StyledSpecialCard
+            isChecked={isChecked}
+            severity={severity}
+            {...(!hideCheckbox && {
+              onClick: () => handleCheck(arrayHelpers),
             })}
           >
             <SpecialCard.Meta
-              justifyContent="start"
+              justifyContent={hideCheckbox ? 'space-between' : 'start'}
               style={{
                 fontSize: appTheme.fontSizes.sm,
                 alignContent: 'center',
                 userSelect: 'none',
               }}
             >
-              <Checkbox checked={isChecked}>
-                <Label>&nbsp;</Label>
-              </Checkbox>
-              {observation.deviceType && (
-                <>
-                  <Pipe />
-                  {getDeviceIcon(observation.deviceType)}
-                </>
+              {!hideCheckbox && (
+                <Checkbox checked={isChecked}>
+                  <Label>&nbsp;</Label>
+                </Checkbox>
               )}
-              {observation.usecaseTitle && (
-                <Span>{observation.usecaseTitle}</Span>
+              <>
+                {observation.deviceType && (
+                  <>
+                    {!hideCheckbox && <Pipe />}
+                    {getDeviceIcon(observation.deviceType)}
+                  </>
+                )}
+                {observation.usecaseTitle && (
+                  <Ellipsis style={{ padding: `0 ${appTheme.space.xxs}` }}>
+                    {observation.usecaseTitle}
+                  </Ellipsis>
+                )}
+              </>
+              {hideCheckbox && (
+                <IconButton
+                  isDanger
+                  size="small"
+                  onClick={() => handleCheck(arrayHelpers)}
+                >
+                  <TrashIcon />
+                </IconButton>
               )}
             </SpecialCard.Meta>
 
@@ -182,7 +213,7 @@ export const ObservationCard = ({
                 {t('__INSIGHTS_COLLECTION_OBSERVATION_CARD_VIEW_DETAILS')}
               </StyledAnchor>
             </SpecialCard.Footer>
-          </SpecialCard>
+          </StyledSpecialCard>
           {isLightboxOpen && (
             <LightboxContainer
               observation={observation}
