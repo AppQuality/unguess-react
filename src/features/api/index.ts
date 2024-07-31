@@ -1883,6 +1883,7 @@ export type Insight = {
       deviceType: string;
     };
     uploaderId: number;
+    usecaseTitle: string;
   })[];
 };
 export type Grape = {

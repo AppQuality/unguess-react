@@ -89,7 +89,7 @@ export const ButtonsFooter = ({
                 uploaderId: o.uploaderId,
                 mediaId: o.video.id,
                 deviceType: o.video.deviceType,
-                usecaseTitle: '', // TODO: @sinatragianpaolo add usecaseTitle to API GET /campaigns/{cid}/insights observations
+                usecaseTitle: o.usecaseTitle,
               })),
             })
           }
