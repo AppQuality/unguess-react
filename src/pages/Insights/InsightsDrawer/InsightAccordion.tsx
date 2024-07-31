@@ -1,9 +1,10 @@
-import { Accordion, MD, Tag, SM, LG } from '@appquality/unguess-design-system';
+import { Accordion, MD, Tag, LG } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { GetCampaignsByCidInsightsApiResponse } from 'src/features/api';
 import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/16/speech-bubble-conversation-stroke.svg';
+import { Trans, useTranslation } from 'react-i18next';
 import { InsightFormValues } from '../FormProvider';
 import { AccordionLabel } from './components/AccordionLabel';
 import { ButtonsFooter } from './components/ButtonsFooter';
@@ -13,6 +14,7 @@ const Insight = ({
 }: {
   insight: GetCampaignsByCidInsightsApiResponse[number];
 }) => {
+  const { t } = useTranslation();
   const { values } = useFormikContext<InsightFormValues>();
   const isCurrent = values.id === insight.id;
   return (
@@ -39,7 +41,7 @@ const Insight = ({
                     marginBottom: appTheme.space.xs,
                   }}
                 >
-                  Description
+                  {t('__INSIGHTS_PAGE_INSIGHT_ACCORDION_DESCRIPTION_LABEL')}
                 </MD>
                 <MD style={{ paddingBottom: appTheme.space.xs }}>
                   {insight.description}
@@ -54,9 +56,14 @@ const Insight = ({
               }}
             >
               <ObservationIcon color={appTheme.palette.grey[600]} />{' '}
-              Observations
+              {t('__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_LABEL')}
             </LG>
-            <MD>Observations in this insight: {insight.observations.length}</MD>
+            <Trans i18nKey="__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION">
+              <MD>
+                Observations in this insight:{' '}
+                {{ count: insight.observations.length }}
+              </MD>
+            </Trans>
             <div style={{ marginBottom: appTheme.space.md }}>
               {insight.observations.map((o) => (
                 <div
