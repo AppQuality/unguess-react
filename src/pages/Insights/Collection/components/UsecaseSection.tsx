@@ -70,7 +70,11 @@ export const UsecaseSection = ({
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline', marginRight: appTheme.space.md }}
           >
-            <Trans i18nKey="INSIGHT_PAGE_COLLECTION_THEMES_LABEL">
+            <Trans
+              i18nKey="INSIGHT_PAGE_COLLECTION_THEMES_LABEL"
+              values={{ count: grapes.length }}
+              count={grapes.length}
+            >
               Themes: {{ count: grapes.length }}
             </Trans>
           </SM>
@@ -82,7 +86,11 @@ export const UsecaseSection = ({
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline' }}
           >
-            <Trans i18nKey="INSIGHT_PAGE_COLLECTION_OBSERVATIONS_LABEL">
+            <Trans
+              i18nKey="INSIGHT_PAGE_COLLECTION_OBSERVATIONS_LABEL"
+              values={{ count: observationsCount }}
+              count={observationsCount}
+            >
               Observations: {{ count: observationsCount }}
             </Trans>
           </SM>
