@@ -12,6 +12,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
 import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
+import { ReactComponent as EmptyInsights } from 'src/assets/empty-insights.svg';
 import { useParams } from 'react-router-dom';
 import { Divider } from 'src/common/components/divider';
 import { useMemo } from 'react';
@@ -31,6 +32,7 @@ const DetailContainer = styled.div<{
   max-height: calc(
     100vh - ${({ theme }) => theme.components.chrome.header.height}
   );
+  height: 100%;
   padding: ${({ theme }) => theme.space.lg};
   overflow-y: auto;
   overflow-x: hidden;
@@ -78,7 +80,7 @@ const InsightsDrawer = () => {
               )}
               {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
             </XL>
-            {insights && insights.length > 0 && (
+            {insights && insights.length > 0 ? (
               <>
                 <Divider />
                 <div
@@ -104,10 +106,18 @@ const InsightsDrawer = () => {
                     </Trans>
                   </SM>
                 </div>
+                {insights &&
+                  insights.map((insight) => <Insight insight={insight} />)}
+              </>
+            ) : (
+              <>
+                <EmptyInsights />
+                <XL>{t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS')}</XL>
+                <MD>
+                  {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS_DESCRIPTION')}
+                </MD>
               </>
             )}
-            {insights &&
-              insights.map((insight) => <Insight insight={insight} />)}
           </>
         ) : (
           <InsightForm />
