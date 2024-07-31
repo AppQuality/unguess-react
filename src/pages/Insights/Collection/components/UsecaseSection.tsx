@@ -4,9 +4,9 @@ import { useMemo, useState } from 'react';
 import { styled } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { Grape as GrapeType } from 'src/features/api';
-import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-stroke.svg';
+import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
+import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/12/tag-fill.svg';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/12/tag-stroke.svg';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 import { Grape } from './AccordionSection';
@@ -63,16 +63,24 @@ export const UsecaseSection = ({
         </XL>
         <div style={{ flex: '0 0 auto' }}>
           <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
-            <TitleIcon />
+            <TitleIcon color={appTheme.palette.grey[600]} />
           </Tag>{' '}
-          <SM isBold style={{ display: 'inline', marginRight: '20px' }}>
-            {grapes.length}{' '}
+          <SM
+            isBold
+            color={appTheme.palette.grey[700]}
+            style={{ display: 'inline', marginRight: appTheme.space.md }}
+          >
+            Themes: {grapes.length}
           </SM>
           <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
-            <ObservationsIcon />
+            <ObservationsIcon color={appTheme.palette.grey[600]} />
           </Tag>{' '}
-          <SM isBold style={{ display: 'inline' }}>
-            {observationsCount} obs
+          <SM
+            isBold
+            color={appTheme.palette.grey[700]}
+            style={{ display: 'inline' }}
+          >
+            Observations: {observationsCount}
           </SM>
         </div>
       </UsecaseTitle>
