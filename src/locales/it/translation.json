@@ -814,7 +814,6 @@
   "__INSIGHTS_PAGE_DRAWER_PUBLISH": "Non pubblicato! Clicca per rendere visibile l'insight in dashboard.",
   "__INSIGHTS_PAGE_DRAWER_UNPUBLISH": "Pubblicato in dashboard! Clicca per nascondere l'insight.",
   "__INSIGHTS_PAGE_INSIGHT_ACCORDION_DESCRIPTION_LABEL": "",
-  "__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION": "<0>Observations in this insight: {{count}}</0>",
   "__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_LABEL": "",
   "__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_CREATE": "",
   "__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_DELETE": "",
