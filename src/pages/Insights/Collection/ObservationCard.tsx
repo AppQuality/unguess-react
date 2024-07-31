@@ -5,6 +5,7 @@ import {
   IconButton,
   Label,
   SM,
+  Span,
   SpecialCard,
   Tag,
 } from '@appquality/unguess-design-system';
@@ -67,6 +68,7 @@ export const ObservationCard = ({
   const { t } = useTranslation();
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
+  const quotesMaxChars = 50;
 
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
@@ -108,6 +110,13 @@ export const ObservationCard = ({
         ]);
       }
     }
+  };
+
+  const getQuotesWithEllipsis = (quotes: string, maxChars: number = 50) => {
+    if (quotes.length > maxChars) {
+      return `${quotes.slice(0, maxChars)}...`;
+    }
+    return quotes;
   };
 
   return (
@@ -168,7 +177,19 @@ export const ObservationCard = ({
                 }}
               >
                 <Quotes isChecked={isChecked}>
-                  &quot;{observation.quotes}&quot;
+                  &quot;
+                  {observation.quotes &&
+                  observation.quotes.length > quotesMaxChars ? (
+                    <Span title={observation.quotes}>
+                      {getQuotesWithEllipsis(
+                        observation.quotes,
+                        quotesMaxChars
+                      )}
+                    </Span>
+                  ) : (
+                    observation.quotes
+                  )}
+                  &quot;
                 </Quotes>
               </SpecialCard.Header.Title>
               <SpecialCard.Header.Text style={{ marginTop: 'auto' }}>
