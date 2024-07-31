@@ -1,4 +1,10 @@
-import { Accordion, MD, Tag, LG } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  MD,
+  Tag,
+  LG,
+  Span,
+} from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
@@ -61,7 +67,7 @@ const Insight = ({
             <Trans i18nKey="__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION">
               <MD>
                 Observations in this insight:{' '}
-                {{ count: insight.observations.length }}
+                <Span isBold>{{ counter: insight.observations.length }}</Span>
               </MD>
             </Trans>
             <div style={{ marginBottom: appTheme.space.md }}>

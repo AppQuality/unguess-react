@@ -5,9 +5,10 @@ import {
   MD,
   Skeleton,
   SM,
+  Span,
   XL,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
 import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
@@ -94,7 +95,13 @@ const InsightsDrawer = () => {
                     color={appTheme.palette.grey[600]}
                     style={{ paddingRight: appTheme.space.md }}
                   >
-                    {publishedInsights?.length} su {insights?.length}
+                    <Trans i18nKey="__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS_COUNTER">
+                      <Span isBold>
+                        {{ published: publishedInsights?.length || 0 }}
+                      </Span>{' '}
+                      out of{' '}
+                      <Span isBold>{{ total: insights?.length || 0 }}</Span>
+                    </Trans>
                   </SM>
                 </div>
               </>

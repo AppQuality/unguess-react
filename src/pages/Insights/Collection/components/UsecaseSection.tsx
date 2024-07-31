@@ -1,4 +1,11 @@
-import { Accordion, LG, SM, Tag, XL } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  LG,
+  SM,
+  Span,
+  Tag,
+  XL,
+} from '@appquality/unguess-design-system';
 import { v4 as uuidv4 } from 'uuid';
 import { useMemo, useState } from 'react';
 import { styled } from 'styled-components';
@@ -71,7 +78,7 @@ export const UsecaseSection = ({
             style={{ display: 'inline', marginRight: appTheme.space.md }}
           >
             <Trans i18nKey="INSIGHT_PAGE_COLLECTION_THEMES_LABEL">
-              Themes: {{ count: grapes.length }}
+              Themes: <Span isBold>{{ counter: grapes.length }}</Span>
             </Trans>
           </SM>
           <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
@@ -83,7 +90,7 @@ export const UsecaseSection = ({
             style={{ display: 'inline' }}
           >
             <Trans i18nKey="INSIGHT_PAGE_COLLECTION_OBSERVATIONS_LABEL">
-              Observations: {{ count: observationsCount }}
+              Observations: <Span isBold>{{ counter: observationsCount }}</Span>
             </Trans>
           </SM>
         </div>
