@@ -1,10 +1,4 @@
-import {
-  Accordion,
-  getColor,
-  LG,
-  MD,
-  Tag,
-} from '@appquality/unguess-design-system';
+import { Accordion, LG, MD, Tag } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { Grape as GrapeType } from 'src/features/api';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
