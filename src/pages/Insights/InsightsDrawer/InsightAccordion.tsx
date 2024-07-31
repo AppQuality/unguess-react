@@ -58,7 +58,11 @@ const Insight = ({
               <ObservationIcon color={appTheme.palette.grey[600]} />{' '}
               {t('__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_LABEL')}
             </LG>
-            <Trans i18nKey="__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION">
+            <Trans
+              i18nKey="__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION"
+              values={{ count: insight.observations.length }}
+              count={insight.observations.length}
+            >
               <MD>
                 Observations in this insight:{' '}
                 {{ count: insight.observations.length }}
