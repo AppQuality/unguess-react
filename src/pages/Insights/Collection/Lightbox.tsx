@@ -25,7 +25,7 @@ import styled from 'styled-components';
 import { ReactComponent as ExternalLinkIcon } from 'src/assets/icons/external-link-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useFormikContext } from 'formik';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { InsightFormValues } from '../FormProvider';
@@ -74,9 +74,7 @@ export const LightboxContainer = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { addToast } = useToast();
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const observationUrl = useLocalizeRoute(
+  const observationRoute = useLocalizeRoute(
     `campaigns/${campaignId}/videos/${observation.mediaId}#observation-${observation.id}`
   );
 
@@ -94,17 +92,11 @@ export const LightboxContainer = ({
     vid: observation.mediaId.toString(),
   });
 
-  const navigateToObs = () => {
-    navigate(observationUrl, {
-      state: { from: location.pathname },
-    });
-  };
-
   const copyLink = useCallback(
     (event: React.MouseEvent) => {
       event.stopPropagation();
       navigator.clipboard.writeText(
-        `${window.location.origin}${observationUrl}`
+        `${window.location.origin}${observationRoute}`
       );
       addToast(
         ({ close }) => (
@@ -202,18 +194,20 @@ export const LightboxContainer = ({
                 </Span>
               </SM>
               <StyledPipe />
-              <Tooltip
-                type="light"
-                size="small"
-                placement="auto"
-                content={t(
-                  '__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_OPEN_OBSERVATION_LINK'
-                )}
-              >
-                <IconButton onClick={navigateToObs}>
-                  <ExternalLinkIcon />
-                </IconButton>
-              </Tooltip>
+              <Link to={observationRoute}>
+                <Tooltip
+                  type="light"
+                  size="small"
+                  placement="auto"
+                  content={t(
+                    '__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_OPEN_OBSERVATION_LINK'
+                  )}
+                >
+                  <IconButton>
+                    <ExternalLinkIcon />
+                  </IconButton>
+                </Tooltip>
+              </Link>
             </DetailsHeader>
             <Label>
               {t(
