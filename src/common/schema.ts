@@ -775,6 +775,7 @@ export interface components {
           deviceType: string;
         };
         uploaderId: number;
+        usecaseTitle: string;
       })[];
     };
     /** Observation */
