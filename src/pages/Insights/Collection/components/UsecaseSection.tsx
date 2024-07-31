@@ -2,7 +2,7 @@ import { Accordion, LG, SM, Tag, XL } from '@appquality/unguess-design-system';
 import { v4 as uuidv4 } from 'uuid';
 import { useMemo, useState } from 'react';
 import { styled } from 'styled-components';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Grape as GrapeType } from 'src/features/api';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
 import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/12/tag-fill.svg';
@@ -70,7 +70,9 @@ export const UsecaseSection = ({
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline', marginRight: appTheme.space.md }}
           >
-            Themes: {grapes.length}
+            <Trans i18nKey="INSIGHT_PAGE_COLLECTION_THEMES_LABEL">
+              Themes: {{ count: grapes.length }}
+            </Trans>
           </SM>
           <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
             <ObservationsIcon color={appTheme.palette.grey[600]} />
@@ -80,7 +82,9 @@ export const UsecaseSection = ({
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline' }}
           >
-            Observations: {observationsCount}
+            <Trans i18nKey="INSIGHT_PAGE_COLLECTION_OBSERVATIONS_LABEL">
+              Observations: {{ count: observationsCount }}
+            </Trans>
           </SM>
         </div>
       </UsecaseTitle>
