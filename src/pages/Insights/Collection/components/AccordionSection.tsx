@@ -102,8 +102,11 @@ export const Grape = ({ grape, isOpen }: GrapeProps) => {
                 style={{ width: '24px' }}
               />
               <MD isBold color={getSeverityColor(memoizedGrape.severity)}>
-                {memoizedGrape.severity}{' '}
-                {memoizedGrape.severityFrequencies[memoizedGrape.severity] || 0}
+                {memoizedGrape.severity}
+                {memoizedGrape.severityFrequencies[memoizedGrape.severity] &&
+                  ` (${
+                    memoizedGrape.severityFrequencies[memoizedGrape.severity]
+                  })`}
               </MD>
             </Tag>
             <MD
@@ -111,7 +114,9 @@ export const Grape = ({ grape, isOpen }: GrapeProps) => {
               color={appTheme.palette.grey[700]}
               style={{ display: 'inline', marginRight: appTheme.space.sm }}
             >
-              /{memoizedGrape.observations.length} tot.
+              {memoizedGrape.severityFrequencies[memoizedGrape.severity]
+                ? `/${memoizedGrape.observations.length} tot.`
+                : `${memoizedGrape.observations.length} obs.`}
             </MD>
             <Tag size="large" isPill>
               <UserIcon
