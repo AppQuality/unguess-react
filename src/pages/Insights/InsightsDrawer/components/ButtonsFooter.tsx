@@ -4,8 +4,8 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
-import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
-import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
+import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
+import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
 import {
   GetCampaignsByCidInsightsApiResponse,
   usePatchInsightsByIidMutation,
@@ -60,7 +60,9 @@ export const ButtonsFooter = ({
       });
   };
   return (
-    <>
+    <div
+      style={{ paddingTop: appTheme.space.xs, marginBottom: appTheme.space.sm }}
+    >
       <div
         style={{
           display: 'grid',
@@ -96,7 +98,11 @@ export const ButtonsFooter = ({
         >
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_EDIT')}
         </Button>
-        <Button isPrimary isAccent onClick={handlePublish}>
+        <Button
+          isPrimary={!insight.visible}
+          isAccent={!insight.visible}
+          onClick={handlePublish}
+        >
           {insight.visible ? (
             <span>
               <Published /> {t('__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNPUBLISH')}
@@ -116,6 +122,6 @@ export const ButtonsFooter = ({
           setIsConfirmationModalOpen={setConfirmDeleteModalOpen}
         />
       )}
-    </>
+    </div>
   );
 };

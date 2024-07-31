@@ -5,10 +5,10 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
-import { ReactComponent as GroupedStroke } from '@zendeskgarden/svg-icons/src/16/rearrange-stroke.svg';
-import { ReactComponent as GroupedFill } from '@zendeskgarden/svg-icons/src/16/rearrange-fill.svg';
 import { ReactComponent as UngroupedFill } from '@zendeskgarden/svg-icons/src/16/grid-2x2-fill.svg';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as GroupedFill } from 'src/assets/icons/layers_icon.svg';
+import { ReactComponent as GroupedFillGrey } from 'src/assets/icons/layers_icon-grey.svg';
 import { useInsightContext } from '../../InsightContext';
 
 const Wrapper = styled.div`
@@ -34,9 +34,9 @@ export const GroupByToggle = () => {
           isPrimary={groupObservationsBy === 'usecase-grapes'}
         >
           {groupObservationsBy === 'usecase-grapes' ? (
-            <GroupedStroke />
+            <GroupedFill />
           ) : (
-            <GroupedFill color={getColor(appTheme.colors.neutralHue, 600)} />
+            <GroupedFillGrey />
           )}
         </IconButton>
       </Tooltip>
