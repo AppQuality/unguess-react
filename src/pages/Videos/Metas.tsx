@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  Button,
   MD,
   Skeleton,
   useToast,
@@ -234,43 +233,54 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       </PageMeta>
       <ButtonWrapper>
         <CampaignSettings />
-        {totalVideos > 0 && (
-          <Button isAccent isPrimary onClick={handleUseCaseExport}>
-            <Button.StartIcon>
-              <DownloadIcon />
-            </Button.StartIcon>
-            {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
-          </Button>
-        )}
-        <MD color={appTheme.palette.blue[600]}>
-          {' '}
-          {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
-        </MD>
-        <Link to={campaignRoute}>
-          <Tooltip
-            content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
-            size="medium"
-            type="light"
-            placement="top"
-          >
-            <IconButton isBasic={false}>
-              <DashboardIcon />
-            </IconButton>
-          </Tooltip>
-        </Link>
-        {hasTaggingToolFeature && totalVideos > 0 && (
-          <Link to={insightsRoute}>
+        <>
+          <MD color={appTheme.palette.blue[600]}>
+            {' '}
+            {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
+          </MD>
+          <Link to={campaignRoute}>
             <Tooltip
-              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP')}
+              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
               size="medium"
               type="light"
-              placement="top"
+              placement="auto"
             >
               <IconButton isBasic={false}>
-                <InsightsIcon />
+                <DashboardIcon />
               </IconButton>
             </Tooltip>
           </Link>
+          {hasTaggingToolFeature && totalVideos > 0 && (
+            <Link to={insightsRoute}>
+              <Tooltip
+                content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP')}
+                size="medium"
+                type="light"
+                placement="auto"
+              >
+                <IconButton isBasic={false}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            </Link>
+          )}
+        </>
+        {totalVideos > 0 && (
+          <Tooltip
+            content={t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
+            size="medium"
+            type="light"
+            placement="auto"
+          >
+            <IconButton
+              isAccent
+              isPrimary
+              onClick={handleUseCaseExport}
+              style={{ marginLeft: appTheme.space.xs }}
+            >
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
         )}
       </ButtonWrapper>
     </FooterContainer>
