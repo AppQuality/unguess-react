@@ -76,13 +76,7 @@ export const UsecaseSection = ({
           </SM>
         </div>
       </UsecaseTitle>
-      <LG
-        isBold
-        color={appTheme.palette.grey[600]}
-        style={{ marginBottom: appTheme.space.md }}
-      >
-        {t('INSIGHT_PAGE_COLLECTION_USECASE_SUBTITTLE')}
-      </LG>
+
       <Accordion
         id={usecaseId.toString()}
         level={3}
@@ -91,14 +85,39 @@ export const UsecaseSection = ({
         onChange={() => setIsOpen(!isOpen)}
         isBare
       >
-        {memoizedGrapes.map((grape) => (
-          <Grape isOpen={isOpen} key={grape.internalId} grape={grape} />
-        ))}
-        <CardGrid>
-          {ungrouped.map((observation) => (
-            <ObservationCard key={observation.id} observation={observation} />
-          ))}
-        </CardGrid>
+        {memoizedGrapes.length > 0 && (
+          <>
+            <LG
+              isBold
+              color={appTheme.palette.grey[600]}
+              style={{ marginBottom: appTheme.space.md }}
+            >
+              {t('INSIGHT_PAGE_COLLECTION_USECASE_SUBTITTLE')}
+            </LG>
+            {memoizedGrapes.map((grape) => (
+              <Grape isOpen={isOpen} key={grape.internalId} grape={grape} />
+            ))}
+          </>
+        )}
+        {ungrouped.length > 0 && (
+          <>
+            <LG
+              isBold
+              color={appTheme.palette.grey[600]}
+              style={{ marginBottom: appTheme.space.md }}
+            >
+              {t('INSIGHT_PAGE_COLLECTION_UNGROUPED_USECASE_SUBTITTLE')}
+            </LG>
+            <CardGrid>
+              {ungrouped.map((observation) => (
+                <ObservationCard
+                  key={observation.id}
+                  observation={observation}
+                />
+              ))}
+            </CardGrid>
+          </>
+        )}
       </Accordion>
     </StyledSection>
   );
