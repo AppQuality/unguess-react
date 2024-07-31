@@ -113,9 +113,14 @@ export const ObservationCard = ({
   };
 
   const getQuotesWithEllipsis = (quotes: string, maxChars: number = 50) => {
-    if (quotes.length > maxChars) {
-      return `${quotes.slice(0, maxChars)}...`;
+    // Convert the string into an array of characters to handle multibyte characters correctly
+    const characters = Array.from(quotes);
+
+    // If the length of the array exceeds maxChars, truncate and add ellipsis
+    if (characters.length > maxChars) {
+      return `${characters.slice(0, maxChars).join('')}...`;
     }
+
     return quotes;
   };
 
