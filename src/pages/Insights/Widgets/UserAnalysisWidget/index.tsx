@@ -37,7 +37,7 @@ export const UserAnalysisWidget = ({ campaignId }: { campaignId: string }) => {
               >
                 <Trans
                   i18nKey="__CAMPAIGN_WIDGET_UX_USER_ANALYSIS_COUNT_LABEL"
-                  count={15}
+                  values={{ count: countMediaWithObservation }}
                 >
                   videos
                 </Trans>
