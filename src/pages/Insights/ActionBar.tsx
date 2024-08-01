@@ -1,8 +1,10 @@
 import { useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, MD, Span } from '@appquality/unguess-design-system';
+import { Button, MD, SM, Span } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { VideoTag } from 'src/features/api';
+import { useMemo } from 'react';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
 
@@ -31,6 +33,21 @@ const ActionBar = () => {
     useFormikContext<InsightFormValues>();
   const { isDrawerOpen, setIsDrawerOpen } = useInsightContext();
 
+  const themesCount = useMemo(() => {
+    const tags = values.observations.flatMap((obs) => obs.tags);
+    const titles = tags.filter((tag) => tag.group.name === 'title');
+
+    // Get count of unique titles (tag.name)
+    const uniqueTitles = titles.reduce((acc, tag) => {
+      if (!acc.find((_t) => _t.tag.name === tag.tag.name)) {
+        acc.push(tag);
+      }
+      return acc;
+    }, [] as VideoTag[]);
+
+    return uniqueTitles.length;
+  }, [values.observations]);
+
   // Do not show action bar cta if in editing or creating mode
   const hideCta = (values.id > 0 || values.id === -1) && isDrawerOpen;
 
@@ -39,15 +56,26 @@ const ActionBar = () => {
   return (
     <FloatingContainer>
       <Container>
-        <MD style={{ marginRight: appTheme.space.md }}>
-          <Trans
-            count={values.observations.length}
-            i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_LABEL"
-          >
-            Selected observations:
-            <Span isBold>{{ count: values.observations.length }}</Span>
-          </Trans>
-        </MD>
+        <div style={{ marginRight: appTheme.space.md }}>
+          <MD>
+            <Trans
+              count={values.observations.length}
+              i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_OBSERVATIONS_LABEL"
+            >
+              Selected observations:
+              <Span isBold>{{ observations: values.observations.length }}</Span>
+            </Trans>
+          </MD>
+          <SM style={{ marginTop: appTheme.space.xs }}>
+            <Trans
+              count={values.observations.length}
+              i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_THEMES_LABEL"
+            >
+              Selected themes:
+              <Span isBold>{{ themes: themesCount }}</Span>
+            </Trans>
+          </SM>
+        </div>
         {!hideCta && (
           <div style={{ marginLeft: appTheme.space.md }}>
             <Button
