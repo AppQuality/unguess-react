@@ -62,7 +62,7 @@ const ActionBar = () => {
               count={values.observations.length}
               i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_OBSERVATIONS_LABEL"
             >
-              Selected observations:
+              Selected Observations:
               <Span isBold>{{ observations: values.observations.length }}</Span>
             </Trans>
           </MD>

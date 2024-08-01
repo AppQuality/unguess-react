@@ -154,7 +154,13 @@ export const Grape = ({ grape, id }: GrapeProps) => {
                       }}
                     />
                     <MD isBold color={getSeverityColor(memoizedGrape.severity)}>
-                      {memoizedGrape.severity}
+                      {`${memoizedGrape.severity}${
+                        memoizedGrape.severityFrequencies[
+                          memoizedGrape.severity
+                        ] > 1
+                          ? 's'
+                          : ''
+                      } `}
                       {memoizedGrape.severityFrequencies[
                         memoizedGrape.severity
                       ] &&
