@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { setGroupBy } from 'src/features/bugsPage/bugsPageSlice';
-import { ReactComponent as Icon } from './assets/layers_icon.svg';
+import { ReactComponent as Icon } from 'src/assets/icons/layers_icon.svg';
 import { DropdownLabel } from './DropdownLabel';
 
 export const GroupBy = () => {

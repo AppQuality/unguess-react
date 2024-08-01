@@ -20,6 +20,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { FormikProps } from 'formik';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 
 export interface ObservationFormValues {
   title: number;
@@ -45,6 +46,7 @@ export const TitleDropdown = ({
   const [matchingOptions, setMatchingOptions] = useState(titles);
   const debouncedInputValue = useDebounce<string>(inputValue, 300);
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
+  const titleMaxLength = 70;
 
   const filterMatchingOptions = (value: string) => {
     const matchedOptions = titles?.filter(
@@ -74,7 +76,7 @@ export const TitleDropdown = ({
       ) => {
         if (item)
           if (!item.id) {
-            if (item.name.length > 40) {
+            if (item.name.length > titleMaxLength) {
               formProps.setErrors({
                 title: t(
                   '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_MAX_ERROR'
@@ -120,7 +122,7 @@ export const TitleDropdown = ({
       }}
     >
       <Field>
-        <Autocomplete>
+        <Autocomplete start={<CopyIcon />}>
           {selectedItem ? (
             <Span>{selectedItem.name}</Span>
           ) : (

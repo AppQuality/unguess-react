@@ -14,6 +14,7 @@ import {
   Notification,
   Radio,
   Tag,
+  SM,
 } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import {
@@ -45,7 +46,7 @@ const StyledLabel = styled(Label)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
-const RadioTag = styled(Tag)<{
+export const RadioTag = styled(Tag)<{
   color: string;
 }>`
   padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xxs};
@@ -136,14 +137,13 @@ const ObservationForm = ({
               group.group.name.toLowerCase() !== 'severity' &&
               group.group.name.toLowerCase() !== 'title'
           )
-          .map((group) =>
-            group.tags.map((tag) => ({
-              id: tag.id,
-              label: `${tag.name} (${tag.usageNumber})`,
-              selected: selectedOptions.some((bt) => bt.id === tag.id),
-            }))
-          )
-          .flat()
+          .flatMap((group) => group.tags)
+          .sort((a, b) => b.usageNumber - a.usageNumber)
+          .map((tag) => ({
+            id: tag.id,
+            label: `${tag.name} (${tag.usageNumber})`,
+            selected: selectedOptions.some((bt) => bt.id === tag.id),
+          }))
       );
     }
   }, [tags, selectedOptions]);
@@ -154,9 +154,7 @@ const ObservationForm = ({
       .flatMap((paragraph) =>
         paragraph.words.filter(
           (word) =>
-            Number(word.start.toFixed(8)) >=
-              Number(observation.start.toFixed(8)) &&
-            Number(word.end.toFixed(8)) <= Number(observation.end.toFixed(8))
+            word.start >= observation.start && word.end <= observation.end
         )
       )
       .map((word) => word.word)
@@ -250,6 +248,11 @@ const ObservationForm = ({
             >
               <StyledLabel>
                 {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_LABEL')}
+                <SM style={{ color: appTheme.palette.grey[600] }}>
+                  {t(
+                    '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_DESCRIPTION'
+                  )}
+                </SM>
               </StyledLabel>
               <TitleDropdown
                 titles={titles?.tags}

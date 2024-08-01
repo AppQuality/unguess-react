@@ -31,6 +31,7 @@ export const apiSlice = createApi({
     'Preferences',
     'VideoTags',
     'Observations',
+    'Insights',
   ],
   endpoints: () => ({}),
 });
