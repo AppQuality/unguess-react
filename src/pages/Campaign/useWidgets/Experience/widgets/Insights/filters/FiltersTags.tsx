@@ -2,15 +2,16 @@ import { Button, Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import {
   getCurrentUxData,
   resetFilters,
   updateFilters,
 } from 'src/features/uxFilters';
 import { styled } from 'styled-components';
-import { getSeverity } from '../utils';
+import { useParams } from 'react-router-dom';
+import { getSeverityTag } from '../utils';
 import { useFilterData } from './useFilterData';
+import { useUxData } from '../../../useUxData';
 
 const Wrapper = styled.div`
   position: relative;
@@ -58,11 +59,15 @@ const ScrollingContainer = styled.div`
 `;
 
 export const FiltersTags = () => {
+  const { campaignId } = useParams();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const data = getCurrentUxData();
   const { counters: severitiesCounters } = useFilterData('severities');
   const { counters: clustersCounters } = useFilterData('clusters');
+  const { data: { filters } = {} } = useUxData({
+    campaignId: campaignId ? Number(campaignId) : 0,
+  });
 
   if (!data || !data.clusters || !data.severities) return null;
 
@@ -93,18 +98,16 @@ export const FiltersTags = () => {
       <Inner>
         <ScrollingContainer>
           {data.severities.selected.map((item) => (
-            <Tag
-              key={item.id}
-              hue={`${
-                getSeverityInfo(getSeverity(item) as Severities, t).color
-              }10`}
-              color={getSeverityInfo(getSeverity(item) as Severities, t).color}
-              size="large"
-            >
-              {data.severities.available.find((s) => s.id === item.id)?.name} (
-              {severitiesCounters[item.id] ?? 0})
-              <Tag.Close onClick={removeSeverity(item.id)} />
-            </Tag>
+            <>
+              {getSeverityTag(
+                filters?.severities?.find((s) => s.id === item.id),
+                undefined,
+                <>
+                  &nbsp;({severitiesCounters[item.id] ?? 0})
+                  <Tag.Close onClick={removeSeverity(item.id)} />
+                </>
+              )}
+            </>
           ))}
 
           {data.clusters.selected.map((item) => (

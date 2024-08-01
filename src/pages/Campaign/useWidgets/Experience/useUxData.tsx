@@ -3,6 +3,7 @@ import {
   GetCampaignsByCidUxApiResponse,
   useGetCampaignsByCidClustersQuery,
   useGetCampaignsByCidUxQuery,
+  useGetCampaignsByCidVideoTagsQuery,
 } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
 import { SeverityFilterType } from 'src/features/bugsPage/severityFilter';
@@ -27,12 +28,24 @@ export const useUxData = ({
     uxData?: GetCampaignsByCidUxApiResponse;
   }>();
 
-  const severitiesData = [
-    { id: 1, name: t('__INSIGHT_SEVERITY_MINOR') },
-    { id: 2, name: t('__INSIGHT_SEVERITY_MAJOR') },
-    { id: 3, name: t('__INSIGHT_SEVERITY_POSITIVE') },
-    { id: 4, name: t('__INSIGHT_SEVERITY_OBSERVATION') },
-  ];
+  const {
+    data: tags,
+    isLoading: isLoadingTags,
+    isFetching: isFetchingTags,
+    isError: isErrorTags,
+  } = useGetCampaignsByCidVideoTagsQuery({
+    cid: campaignId.toString(),
+  });
+
+  const severities = tags?.filter((tag) => tag.group.name === 'severity');
+  const severitiesData = severities
+    ?.map((severity) => severity.tags)
+    .flat()
+    .map((tag) => ({
+      id: tag.id,
+      name: tag.name,
+      style: tag.style,
+    }));
 
   const clustersData = [{ id: 0, name: t('__INSIGHT_CLUSTER_GENERAL') }];
 
@@ -71,8 +84,12 @@ export const useUxData = ({
   }, [uxData, clusters]);
 
   return {
-    isLoading: isLoadingCampaign || isFetchingCampaign,
-    isError: isErrorCampaign,
+    isLoading:
+      isLoadingCampaign ||
+      isFetchingCampaign ||
+      isLoadingTags ||
+      isFetchingTags,
+    isError: isErrorCampaign || isErrorTags,
     data: campaignData,
   };
 };

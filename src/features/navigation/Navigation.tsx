@@ -92,6 +92,7 @@ export const Navigation = ({
       case 'bug':
       case 'video':
       case 'videos':
+      case 'insights':
         dispatch(setSidebarOpen(false));
         break;
       default:
