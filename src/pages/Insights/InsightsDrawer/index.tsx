@@ -15,7 +15,7 @@ import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/16/l
 import { ReactComponent as EmptyInsights } from 'src/assets/empty-insights.svg';
 import { useParams } from 'react-router-dom';
 import { Divider } from 'src/common/components/divider';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Insight } from './InsightAccordion';
 import { InsightFormValues } from '../FormProvider';
 import { InsightForm } from './InsightForm';
@@ -51,6 +51,8 @@ const InsightsDrawer = () => {
   const { campaignId } = useParams();
   const { values } = useFormikContext<InsightFormValues>();
   const { t } = useTranslation();
+  const ref = useRef<HTMLDivElement>(null);
+
   const {
     data: insights,
     isFetching,
@@ -65,10 +67,17 @@ const InsightsDrawer = () => {
     [insights]
   );
 
+  // Reset drawer scroll on editing mode change
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTop = 0;
+    }
+  }, [values.id]);
+
   if (isLoading || isError) return <Skeleton />;
 
   return (
-    <DetailContainer>
+    <DetailContainer ref={ref}>
       <div
         style={{ paddingTop: appTheme.space.xs, opacity: isFetching ? 0.5 : 1 }}
       >
