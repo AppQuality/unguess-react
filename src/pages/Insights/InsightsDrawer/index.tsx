@@ -76,7 +76,10 @@ const InsightsDrawer = () => {
           <>
             <XL isBold style={{ marginBottom: appTheme.space.sm }}>
               {values.id === 0 && (
-                <InsightIcon style={{ marginRight: appTheme.space.xs }} />
+                <InsightIcon
+                  color={appTheme.palette.grey[600]}
+                  style={{ marginRight: appTheme.space.xs }}
+                />
               )}
               {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
             </XL>

@@ -42,6 +42,7 @@ const Insight = ({
               <div style={{ marginBottom: appTheme.space.md }}>
                 <MD
                   isBold
+                  color={appTheme.palette.grey[800]}
                   style={{
                     paddingTop: appTheme.space.xs,
                     marginBottom: appTheme.space.xs,
@@ -49,8 +50,35 @@ const Insight = ({
                 >
                   {t('__INSIGHTS_PAGE_INSIGHT_ACCORDION_DESCRIPTION_LABEL')}
                 </MD>
-                <MD style={{ paddingBottom: appTheme.space.xs }}>
+                <MD
+                  color={appTheme.palette.grey[700]}
+                  style={{ paddingBottom: appTheme.space.xs }}
+                >
                   {insight.description}
+                </MD>
+              </div>
+            )}
+            {insight.usecases.length > 0 && (
+              <div style={{ marginBottom: appTheme.space.md }}>
+                <MD
+                  isBold
+                  color={appTheme.palette.grey[800]}
+                  style={{
+                    paddingTop: appTheme.space.xs,
+                    marginBottom: appTheme.space.xs,
+                  }}
+                >
+                  {t('__INSIGHTS_PAGE_INSIGHT_ACCORDION_USECASES_LABEL')}
+                </MD>
+                <MD
+                  color={appTheme.palette.grey[700]}
+                  style={{ paddingBottom: appTheme.space.xs }}
+                >
+                  <ul style={{ listStyle: 'disc', paddingLeft: '1em' }}>
+                    {insight.usecases.map((usecase) => (
+                      <li key={usecase.id}>{usecase.name}</li>
+                    ))}
+                  </ul>
                 </MD>
               </div>
             )}
@@ -65,7 +93,7 @@ const Insight = ({
               {t('__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_LABEL')}
             </LG>
             <Trans i18nKey="__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION">
-              <MD>
+              <MD color={appTheme.palette.grey[700]}>
                 Observations in this insight:{' '}
                 <Span isBold>{{ counter: insight.observations.length }}</Span>
               </MD>

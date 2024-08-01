@@ -39,8 +39,7 @@ const Style = styled(Accordion.Label)`
     grid-area: usecase;
     align-items: center;
 
-    .usecase-name {
-      // flex: 1 0 auto;
+    .usecase-names {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -58,7 +57,8 @@ export const AccordionLabel = ({
   const { id, title, visible } = insight;
   const { addToast } = useToast();
   const [patchInsight, result] = usePatchInsightsByIidMutation();
-  const handlePublish = () => {
+  const handlePublish = (evt: any) => {
+    evt.stopPropagation();
     let notificationProps = {};
     patchInsight({ iid: id.toString(), body: { visible: visible ? 0 : 1 } })
       .unwrap()
@@ -122,10 +122,14 @@ export const AccordionLabel = ({
         >
           {insight.severity.name}
         </Tag>
-
-        {insight.usecases.map((usecase) => (
-          <SM className="usecase-name">{usecase.name}</SM>
-        ))}
+        <SM className="usecase-names">
+          {insight.usecases.map((usecase, i) => (
+            <span>
+              {i > 0 && ' - '}
+              {usecase.name}
+            </span>
+          ))}
+        </SM>
       </div>
     </Style>
   );
