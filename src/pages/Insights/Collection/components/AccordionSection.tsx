@@ -147,7 +147,11 @@ export const Grape = ({ grape, id }: GrapeProps) => {
                   >
                     <ObservationIcon
                       color={getSeverityColor(memoizedGrape.severity)}
-                      style={{ width: '24px' }}
+                      style={{
+                        width: appTheme.space.base * 4,
+                        height: appTheme.space.base * 4,
+                        marginRight: appTheme.space.xxs,
+                      }}
                     />
                     <MD isBold color={getSeverityColor(memoizedGrape.severity)}>
                       {memoizedGrape.severity}
@@ -177,7 +181,11 @@ export const Grape = ({ grape, id }: GrapeProps) => {
                   <Tag size="large" isPill>
                     <UserIcon
                       color={appTheme.palette.grey[600]}
-                      style={{ width: '24px' }}
+                      style={{
+                        width: appTheme.space.base * 5,
+                        height: appTheme.space.base * 5,
+                        marginRight: appTheme.space.xxs,
+                      }}
                     />
                     <MD>
                       Users:{' '}
