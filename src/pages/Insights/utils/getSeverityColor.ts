@@ -27,6 +27,6 @@ export const getBgColor = (severity: string) => {
     case 'positive-finding':
       return appTheme.colors.bySeverityHues.low;
     default:
-      return getColor(appTheme.colors.neutralHue, 200);
+      return getColor(appTheme.colors.neutralHue, 200) || 'transparent';
   }
 };

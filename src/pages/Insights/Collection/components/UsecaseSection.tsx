@@ -7,7 +7,7 @@ import {
   XL,
 } from '@appquality/unguess-design-system';
 import { v4 as uuidv4 } from 'uuid';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { styled } from 'styled-components';
 import { Trans, useTranslation } from 'react-i18next';
 import { Grape as GrapeType } from 'src/features/api';
@@ -37,7 +37,6 @@ export const UsecaseSection = ({
   ungrouped,
 }: UsecaseSectionProps) => {
   const { t } = useTranslation();
-  const [isOpen, setIsOpen] = useState(false);
 
   const memoizedGrapes = useMemo(
     () =>
@@ -96,48 +95,40 @@ export const UsecaseSection = ({
         </div>
       </UsecaseTitle>
 
-      <Accordion
-        id={usecaseId.toString()}
-        level={3}
-        isExpandable
-        defaultExpandedSections={[]}
-        onChange={() => setIsOpen(!isOpen)}
-        isBare
-      >
-        {memoizedGrapes.length > 0 && (
-          <>
-            <LG
-              isBold
-              color={appTheme.palette.grey[600]}
-              style={{ marginBottom: appTheme.space.md }}
-            >
-              {t('INSIGHT_PAGE_COLLECTION_USECASE_SUBTITTLE')}
-            </LG>
-            {memoizedGrapes.map((grape) => (
-              <Grape isOpen={isOpen} key={grape.internalId} grape={grape} />
+      {memoizedGrapes.length > 0 && (
+        <>
+          <LG
+            isBold
+            color={appTheme.palette.grey[600]}
+            style={{ marginBottom: appTheme.space.md }}
+          >
+            {t('INSIGHT_PAGE_COLLECTION_USECASE_SUBTITTLE')}
+          </LG>
+          {memoizedGrapes.map((grape) => (
+            <Grape
+              id={`accordion-${usecaseId.toString()}-${grape.internalId}`}
+              key={grape.internalId}
+              grape={grape}
+            />
+          ))}
+        </>
+      )}
+      {ungrouped.length > 0 && (
+        <>
+          <LG
+            isBold
+            color={appTheme.palette.grey[600]}
+            style={{ marginBottom: appTheme.space.md }}
+          >
+            {t('INSIGHT_PAGE_COLLECTION_UNGROUPED_USECASE_SUBTITTLE')}
+          </LG>
+          <CardGrid>
+            {ungrouped.map((observation) => (
+              <ObservationCard key={observation.id} observation={observation} />
             ))}
-          </>
-        )}
-        {ungrouped.length > 0 && (
-          <>
-            <LG
-              isBold
-              color={appTheme.palette.grey[600]}
-              style={{ marginBottom: appTheme.space.md }}
-            >
-              {t('INSIGHT_PAGE_COLLECTION_UNGROUPED_USECASE_SUBTITTLE')}
-            </LG>
-            <CardGrid>
-              {ungrouped.map((observation) => (
-                <ObservationCard
-                  key={observation.id}
-                  observation={observation}
-                />
-              ))}
-            </CardGrid>
-          </>
-        )}
-      </Accordion>
+          </CardGrid>
+        </>
+      )}
     </StyledSection>
   );
 };
