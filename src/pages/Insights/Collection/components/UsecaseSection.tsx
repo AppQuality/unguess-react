@@ -1,4 +1,4 @@
-import { LG, MD, Span, Tag, XL } from '@appquality/unguess-design-system';
+import { MD, Span, Tag, XL } from '@appquality/unguess-design-system';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
 import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/12/tag-fill.svg';
 import { useMemo } from 'react';
