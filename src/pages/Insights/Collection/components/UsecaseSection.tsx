@@ -1,11 +1,4 @@
-import {
-  Accordion,
-  LG,
-  SM,
-  Span,
-  Tag,
-  XL,
-} from '@appquality/unguess-design-system';
+import { LG, SM, Span, Tag, XL } from '@appquality/unguess-design-system';
 import { v4 as uuidv4 } from 'uuid';
 import { useMemo } from 'react';
 import { styled } from 'styled-components';

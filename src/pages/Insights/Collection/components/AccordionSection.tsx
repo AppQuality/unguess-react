@@ -13,6 +13,23 @@ import { CardGrid } from './CardGrid';
 import { GrapeCheckbox } from './GrapeCheckbox';
 import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
 
+const Grid = styled.div`
+  container-type: inline-size;
+
+  #container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: ${({ theme }) => theme.space.md};
+  }
+
+  @container (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    #container {
+      grid-template-columns: auto;
+      grid-template-rows: auto;
+    }
+  }
+`;
+
 interface GrapeProps {
   id: string;
   grape: GrapeType;
@@ -90,76 +107,88 @@ export const Grape = ({ grape, id }: GrapeProps) => {
       >
         <Accordion.Header>
           <Accordion.Label>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: appTheme.space.sm,
-                marginBottom: appTheme.space.xs,
-              }}
-            >
-              <FieldArray name="observations">
-                {({ push, remove }: ArrayHelpers) => (
-                  <GrapeCheckbox
-                    push={push}
-                    remove={remove}
-                    grapeObservations={memoizedGrape.observations}
-                  />
-                )}
-              </FieldArray>
-              <TitleIcon color={getSeverityColor(memoizedGrape.severity)} />
-              <LG
-                isBold
-                {...(isOpen && {
-                  style: {
-                    color: appTheme.palette.blue[600],
-                  },
-                })}
-              >
-                {memoizedGrape.title}
-              </LG>
-            </div>
-            <div style={{ marginLeft: appTheme.space.xxl }}>
-              <Tag
-                isPill
-                size="large"
-                hue={getBgColor(memoizedGrape.severity)}
-                style={{ marginLeft: appTheme.space.xxs }}
-              >
-                <ObservationIcon
-                  color={getSeverityColor(memoizedGrape.severity)}
-                  style={{ width: '24px' }}
-                />
-                <MD isBold color={getSeverityColor(memoizedGrape.severity)}>
-                  {memoizedGrape.severity}
-                  {memoizedGrape.severityFrequencies[memoizedGrape.severity] &&
-                    ` (${
-                      memoizedGrape.severityFrequencies[memoizedGrape.severity]
-                    })`}
-                </MD>
-              </Tag>
-              <MD
-                isBold
-                color={appTheme.palette.grey[700]}
-                style={{ display: 'inline', marginRight: appTheme.space.sm }}
-              >
-                {memoizedGrape.severityFrequencies[memoizedGrape.severity]
-                  ? `/${memoizedGrape.observations.length} tot.`
-                  : `${memoizedGrape.observations.length} obs.`}
-              </MD>
-              <Tag size="large" isPill>
-                <UserIcon
-                  color={appTheme.palette.grey[600]}
-                  style={{ width: '24px' }}
-                />
-                <MD>
-                  Users:{' '}
-                  <strong style={{ fontWeight: appTheme.fontWeights.semibold }}>
-                    {memoizedGrape.usersNumber}
-                  </strong>
-                </MD>
-              </Tag>
-            </div>
+            <Grid>
+              <div id="container">
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: appTheme.space.xs,
+                  }}
+                >
+                  <FieldArray name="observations">
+                    {({ push, remove }: ArrayHelpers) => (
+                      <GrapeCheckbox
+                        push={push}
+                        remove={remove}
+                        grapeObservations={memoizedGrape.observations}
+                      />
+                    )}
+                  </FieldArray>
+                  <TitleIcon color={getSeverityColor(memoizedGrape.severity)} />
+                  <LG
+                    isBold
+                    {...(isOpen && {
+                      style: {
+                        color: appTheme.palette.blue[600],
+                      },
+                    })}
+                  >
+                    {memoizedGrape.title}
+                  </LG>
+                </div>
+                <div style={{ marginLeft: appTheme.space.xxl }}>
+                  <Tag
+                    isPill
+                    size="large"
+                    hue={getBgColor(memoizedGrape.severity)}
+                    style={{ marginLeft: appTheme.space.xxs }}
+                  >
+                    <ObservationIcon
+                      color={getSeverityColor(memoizedGrape.severity)}
+                      style={{ width: '24px' }}
+                    />
+                    <MD isBold color={getSeverityColor(memoizedGrape.severity)}>
+                      {memoizedGrape.severity}
+                      {memoizedGrape.severityFrequencies[
+                        memoizedGrape.severity
+                      ] &&
+                        ` (${
+                          memoizedGrape.severityFrequencies[
+                            memoizedGrape.severity
+                          ]
+                        })`}
+                    </MD>
+                  </Tag>
+                  <MD
+                    isBold
+                    color={appTheme.palette.grey[700]}
+                    style={{
+                      display: 'inline',
+                      marginRight: appTheme.space.sm,
+                    }}
+                  >
+                    {memoizedGrape.severityFrequencies[memoizedGrape.severity]
+                      ? `/${memoizedGrape.observations.length} tot.`
+                      : `${memoizedGrape.observations.length} obs.`}
+                  </MD>
+                  <Tag size="large" isPill>
+                    <UserIcon
+                      color={appTheme.palette.grey[600]}
+                      style={{ width: '24px' }}
+                    />
+                    <MD>
+                      Users:{' '}
+                      <strong
+                        style={{ fontWeight: appTheme.fontWeights.semibold }}
+                      >
+                        {memoizedGrape.usersNumber}
+                      </strong>
+                    </MD>
+                  </Tag>
+                </div>
+              </div>
+            </Grid>
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel>
