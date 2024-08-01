@@ -8,6 +8,7 @@ import {
   Span,
   SpecialCard,
   Tag,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
 import { useMemo, useState } from 'react';
@@ -161,13 +162,20 @@ export const ObservationCard = ({
                 )}
               </>
               {hideCheckbox && (
-                <IconButton
-                  isDanger
+                <Tooltip
+                  content={t('__INSIGHTS_DELETE_ICON_LABEL')}
+                  placement="auto"
+                  type="light"
                   size="small"
-                  onClick={() => handleCheck(arrayHelpers)}
                 >
-                  <TrashIcon />
-                </IconButton>
+                  <IconButton
+                    isDanger
+                    size="small"
+                    onClick={() => handleCheck(arrayHelpers)}
+                  >
+                    <TrashIcon />
+                  </IconButton>
+                </Tooltip>
               )}
             </SpecialCard.Meta>
 

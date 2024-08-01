@@ -1,9 +1,15 @@
 import { useAppSelector } from 'src/app/hooks';
 
+type Tag = {
+  id: number;
+  name: string;
+  style?: string;
+};
+
 export type ClusterFilterType = {
   clusters: {
-    available: { id: number; name: string }[];
-    selected: { id: number; name: string }[];
+    available: Tag[];
+    selected: Tag[];
   };
 };
 
@@ -18,19 +24,13 @@ export const ClusterFilter = {
     available: state?.clusters?.available ? state.clusters.available : [],
     selected: state?.clusters?.selected ? state.clusters.selected : [],
   }),
-  setAvailable: (
-    state: ClusterFilterType,
-    clusters?: { id: number; name: string }[]
-  ) => ({
+  setAvailable: (state: ClusterFilterType, clusters?: Tag[]) => ({
     clusters: {
       ...ClusterFilter.getCurrent(state),
       ...(clusters ? { available: clusters } : {}),
     },
   }),
-  filter: (
-    state: ClusterFilterType,
-    clusters?: { id: number; name: string }[]
-  ) => ({
+  filter: (state: ClusterFilterType, clusters?: Tag[]) => ({
     clusters: {
       ...ClusterFilter.getCurrent(state),
       ...(clusters ? { selected: clusters } : {}),

@@ -1,9 +1,15 @@
 import { useAppSelector } from 'src/app/hooks';
 
+type Tag = {
+  id: number;
+  name: string;
+  style?: string;
+};
+
 export type SeverityFilterType = {
   severities: {
-    available: { id: number; name: string }[];
-    selected: { id: number; name: string }[];
+    available: Tag[];
+    selected: Tag[];
   };
 };
 
@@ -18,19 +24,13 @@ export const SeverityFilter = {
     available: state?.severities?.available ? state.severities.available : [],
     selected: state?.severities?.selected ? state.severities.selected : [],
   }),
-  setAvailable: (
-    state: SeverityFilterType,
-    severities?: { id: number; name: string }[]
-  ) => ({
+  setAvailable: (state: SeverityFilterType, severities?: Tag[]) => ({
     severities: {
       ...SeverityFilter.getCurrent(state),
       ...(severities ? { available: severities } : {}),
     },
   }),
-  filter: (
-    state: SeverityFilterType,
-    severities?: { id: number; name: string }[]
-  ) => ({
+  filter: (state: SeverityFilterType, severities?: Tag[]) => ({
     severities: {
       ...SeverityFilter.getCurrent(state),
       ...(severities ? { selected: severities } : {}),
