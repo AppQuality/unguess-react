@@ -1,5 +1,7 @@
 import { MD, XXL } from '@appquality/unguess-design-system';
 import { styled } from 'styled-components';
+import { appTheme } from 'src/app/theme';
+import { Divider } from 'src/common/components/divider';
 import { GroupByToggle } from './GroupByToggle';
 
 const Style = styled.div`
@@ -12,8 +14,11 @@ const Style = styled.div`
     margin-bottom: ${({ theme }) => theme.space.xs};
   }
   ${MD} {
-    padding-bottom: ${({ theme }) => theme.space.xxs};
+    margin-bottom: ${({ theme }) => theme.space.xs};
   }
+`;
+const StyledDivider = styled(Divider)`
+  grid-column: 1 / span 2;
 `;
 
 export const SectionTitle = ({
@@ -25,9 +30,12 @@ export const SectionTitle = ({
 }) => (
   <Style>
     <div>
-      <XXL isBold>{title}</XXL>
+      <XXL color={appTheme.palette.blue[600]} isBold>
+        {title}
+      </XXL>
       <MD>{subtitle}</MD>
     </div>
     <GroupByToggle />
+    <StyledDivider />
   </Style>
 );
