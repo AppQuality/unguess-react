@@ -16,6 +16,7 @@ interface Insight {
   severity: {
     id: number;
     name?: string;
+    style?: string;
   };
   cluster:
     | {

@@ -12,14 +12,15 @@ function getSeverityIcon(
     GetCampaignsByCidUxApiResponse['findings']
   >[number]['severity']
 ) {
-  switch (severity.id) {
-    case 1:
+  const severityName = severity.name?.toLowerCase().replaceAll(' ', '-');
+  switch (severityName) {
+    case 'minor-issue':
       return <MinorIssueIcon />;
-    case 2:
+    case 'major-issue':
       return <MajorIssueIcon />;
-    case 3:
+    case 'positive-finding':
       return <PositiveFindingIcon />;
-    case 4:
+    case 'observation':
       return <ObservationIcon />;
     default:
       return null;
@@ -27,34 +28,42 @@ function getSeverityIcon(
 }
 
 function getSeverityTag(
-  severity: NonNullable<
+  severity?: NonNullable<
     GetCampaignsByCidUxApiResponse['findings']
   >[number]['severity'],
-  text?: string
+  text?: string,
+  children?: React.ReactNode
 ) {
-  switch (severity.id) {
-    case 1:
+  if (!severity) return null;
+
+  const severityName = severity.name?.toLowerCase().replaceAll(' ', '-');
+  switch (severityName) {
+    case 'minor-issue':
       return (
         <SeverityTag hasBackground severity="high">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
+          {children}
         </SeverityTag>
       );
-    case 2:
+    case 'major-issue':
       return (
         <SeverityTag hasBackground severity="critical">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
+          {children}
         </SeverityTag>
       );
-    case 3:
+    case 'positive-finding':
       return (
         <SeverityTag hasBackground severity="low">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
+          {children}
         </SeverityTag>
       );
-    case 4:
+    case 'observation':
       return (
         <SeverityTag hasBackground severity="medium">
           <Ellipsis>{text ?? severity.name}</Ellipsis>
+          {children}
         </SeverityTag>
       );
 
@@ -92,14 +101,15 @@ function getSeverity(
     GetCampaignsByCidUxApiResponse['findings']
   >[number]['severity']
 ) {
-  switch (severity.id) {
-    case 1:
+  const severityName = severity.name?.toLowerCase().replaceAll(' ', '-');
+  switch (severityName) {
+    case 'minor-issue':
       return 'high'; // Minor
-    case 2:
+    case 'major-issue':
       return 'critical'; // Major
-    case 3:
+    case 'positive-finding':
       return 'low'; // Positive
-    case 4:
+    case 'observation':
       return 'medium'; // Observation
     default:
       return 'medium'; // Observation
