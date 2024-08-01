@@ -23,6 +23,7 @@ import { useParams } from 'react-router-dom';
 import { getColorWithAlpha } from 'src/common/utils';
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import { Divider } from 'src/common/components/divider';
 import { InsightFormValues } from '../FormProvider';
 import { RadioTag } from '../../Video/components/ObservationForm';
 import { ObservationCard } from '../Collection/ObservationCard';
@@ -60,6 +61,7 @@ const InsightForm = () => {
   return (
     <FormContainer>
       <XL isBold>{t('__INSIGHTS_PAGE_INSIGHT_FORM_TITLE')}</XL>
+      <Divider />
       <div>
         <Label>{t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_LABEL')}</Label>
         <Field name="title">
@@ -189,6 +191,7 @@ const InsightForm = () => {
           ))}
         </div>
       </div>
+      <Divider />
       <div>
         <Label>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
