@@ -1,15 +1,15 @@
-import { LG, SM, Span, Tag, XL } from '@appquality/unguess-design-system';
-import { v4 as uuidv4 } from 'uuid';
-import { useMemo } from 'react';
-import { styled } from 'styled-components';
-import { Trans, useTranslation } from 'react-i18next';
-import { Grape as GrapeType } from 'src/features/api';
+import { LG, MD, Span, Tag, XL } from '@appquality/unguess-design-system';
 import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
 import { ReactComponent as ObservationsIcon } from '@zendeskgarden/svg-icons/src/12/tag-fill.svg';
+import { useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { Grape as GrapeType } from 'src/features/api';
+import { styled } from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
 import { ObservationCard } from '../ObservationCard';
-import { CardGrid } from './CardGrid';
 import { Grape } from './AccordionSection';
+import { CardGrid } from './CardGrid';
 
 interface UsecaseSectionProps {
   usecaseId: number;
@@ -53,7 +53,6 @@ export const UsecaseSection = ({
     width: 100%;
     margin-bottom: ${({ theme }) => theme.space.md};
   `;
-
   return (
     <StyledSection>
       <UsecaseTitle style={{ marginBottom: appTheme.space.sm }}>
@@ -73,7 +72,7 @@ export const UsecaseSection = ({
           >
             <TitleIcon color={appTheme.palette.grey[600]} />
           </Tag>{' '}
-          <SM
+          <MD
             isBold
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline', marginRight: appTheme.space.md }}
@@ -81,11 +80,11 @@ export const UsecaseSection = ({
             <Trans i18nKey="INSIGHT_PAGE_COLLECTION_THEMES_LABEL">
               Themes: <Span isBold>{{ counter: grapes.length }}</Span>
             </Trans>
-          </SM>
+          </MD>
           <Tag style={{ marginRight: '4px' }} isRound size="medium">
-            <ObservationsIcon color={appTheme.palette.grey[600]} />
+            <ObservationsIcon width={24} color={appTheme.palette.grey[600]} />
           </Tag>{' '}
-          <SM
+          <MD
             isBold
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline' }}
@@ -93,19 +92,19 @@ export const UsecaseSection = ({
             <Trans i18nKey="INSIGHT_PAGE_COLLECTION_OBSERVATIONS_LABEL">
               Observations: <Span isBold>{{ counter: observationsCount }}</Span>
             </Trans>
-          </SM>
+          </MD>
         </div>
       </UsecaseTitle>
 
       {memoizedGrapes.length > 0 && (
         <>
-          <LG
+          <MD
             isBold
             color={appTheme.palette.grey[600]}
             style={{ marginBottom: appTheme.space.md }}
           >
-            {t('INSIGHT_PAGE_COLLECTION_USECASE_SUBTITTLE')}
-          </LG>
+            {t('INSIGHT_PAGE_COLLECTION_USECASE_SUBTITTLE').toUpperCase()}
+          </MD>
           {memoizedGrapes.map((grape) => (
             <Grape
               id={`accordion-${usecaseId.toString()}-${grape.internalId}`}
@@ -117,13 +116,18 @@ export const UsecaseSection = ({
       )}
       {ungrouped.length > 0 && (
         <>
-          <LG
+          <MD
             isBold
             color={appTheme.palette.grey[600]}
-            style={{ marginBottom: appTheme.space.md }}
+            style={{
+              marginBottom: appTheme.space.md,
+              marginTop: memoizedGrapes.length > 0 ? appTheme.space.lg : 0,
+            }}
           >
-            {t('INSIGHT_PAGE_COLLECTION_UNGROUPED_USECASE_SUBTITTLE')}
-          </LG>
+            {t(
+              'INSIGHT_PAGE_COLLECTION_UNGROUPED_USECASE_SUBTITTLE'
+            ).toUpperCase()}
+          </MD>
           <CardGrid>
             {ungrouped.map((observation) => (
               <ObservationCard key={observation.id} observation={observation} />
