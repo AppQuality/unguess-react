@@ -2,7 +2,6 @@ import { Button, Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { getSeverityInfo } from 'src/common/components/utils/getSeverityInfo';
 import {
   getCurrentUxData,
   resetFilters,
@@ -10,7 +9,7 @@ import {
 } from 'src/features/uxFilters';
 import { styled } from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { getSeverity, getSeverityTag } from '../utils';
+import { getSeverityTag } from '../utils';
 import { useFilterData } from './useFilterData';
 import { useUxData } from '../../../useUxData';
 
