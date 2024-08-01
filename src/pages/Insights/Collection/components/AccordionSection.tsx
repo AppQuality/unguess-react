@@ -8,6 +8,7 @@ import { useMemo, useState } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ArrayHelpers, FieldArray } from 'formik';
 import { getColorWithAlpha } from 'src/common/utils';
+import { Pipe } from 'src/common/components/Pipe';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 import { GrapeCheckbox } from './GrapeCheckbox';
@@ -172,6 +173,7 @@ export const Grape = ({ grape, id }: GrapeProps) => {
                       ? `/${memoizedGrape.observations.length} tot.`
                       : `${memoizedGrape.observations.length} obs.`}
                   </MD>
+                  <Pipe />
                   <Tag size="large" isPill>
                     <UserIcon
                       color={appTheme.palette.grey[600]}
