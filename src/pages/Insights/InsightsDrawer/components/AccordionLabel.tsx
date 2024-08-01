@@ -58,7 +58,8 @@ export const AccordionLabel = ({
   const { id, title, visible } = insight;
   const { addToast } = useToast();
   const [patchInsight, result] = usePatchInsightsByIidMutation();
-  const handlePublish = () => {
+  const handlePublish = (e: React.MouseEvent) => {
+    e.stopPropagation();
     let notificationProps = {};
     patchInsight({ iid: id.toString(), body: { visible: visible ? 0 : 1 } })
       .unwrap()
@@ -70,10 +71,12 @@ export const AccordionLabel = ({
             : `${`Insight "${title}" ${t('_TOAST_PUBLISHED_MESSAGE')}`}`,
         };
       })
-      .catch((e) => {
+      .catch((err) => {
         notificationProps = {
           type: 'error',
-          message: e.message ? e.message : t('_TOAST_GENERIC_ERROR_MESSAGE'),
+          message: err.message
+            ? err.message
+            : t('_TOAST_GENERIC_ERROR_MESSAGE'),
         };
       })
       .finally(() => {
@@ -107,7 +110,7 @@ export const AccordionLabel = ({
           }
         >
           <IconButton
-            onClick={handlePublish}
+            onClick={(e) => handlePublish(e)}
             disabled={result.status === 'pending'}
           >
             {visible ? <Published /> : <NotPublished />}
