@@ -60,8 +60,17 @@ export const UsecaseSection = ({
         <XL style={{ flex: '1 0 auto' }}>
           <h3>{usecaseTitle}</h3>
         </XL>
-        <div style={{ flex: '0 0 auto' }}>
-          <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <Tag
+            style={{ marginRight: appTheme.space.xxs }}
+            isRound
+            size="medium"
+          >
             <TitleIcon color={appTheme.palette.grey[600]} />
           </Tag>{' '}
           <SM
@@ -73,7 +82,7 @@ export const UsecaseSection = ({
               Themes: <Span isBold>{{ counter: grapes.length }}</Span>
             </Trans>
           </SM>
-          <Tag style={{ marginRight: '4px' }} isRound hue="" size="medium">
+          <Tag style={{ marginRight: '4px' }} isRound size="medium">
             <ObservationsIcon color={appTheme.palette.grey[600]} />
           </Tag>{' '}
           <SM
