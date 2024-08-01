@@ -79,7 +79,11 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
 
   const { start_date, end_date, type, status, outputs, family } = campaign;
   const { t } = useTranslation();
-  const { sorted: videos } = useVideo(campaign.id.toString() ?? '');
+  const {
+    sorted: videos,
+    isLoading: isLoadingVideos,
+    isFetching: isFetchingVideos,
+  } = useVideo(campaign.id.toString() ?? '');
   const { hasFeatureFlag } = useFeatureFlag();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
@@ -101,7 +105,8 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     }
   }, [videos]);
 
-  if (isLoading || isFetching) return <Skeleton width="200px" height="20px" />;
+  if (isLoading || isFetching || isLoadingVideos || isFetchingVideos)
+    return <Skeleton width="500px" height="20px" />;
 
   return (
     <FooterContainer>

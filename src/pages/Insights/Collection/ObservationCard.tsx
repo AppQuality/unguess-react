@@ -9,18 +9,18 @@ import {
   SpecialCard,
   Tag,
 } from '@appquality/unguess-design-system';
+import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { Grape, VideoTag } from 'src/features/api';
-import { Pipe } from 'src/common/components/Pipe';
-import { useMemo, useState } from 'react';
-import { getColorWithAlpha } from 'src/common/utils';
-import { styled } from 'styled-components';
-import { FieldArray, FieldArrayRenderProps, useFormikContext } from 'formik';
-import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { LightboxContainer } from './Lightbox';
+import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
+import { Pipe } from 'src/common/components/Pipe';
+import { getColorWithAlpha } from 'src/common/utils';
+import { Grape, VideoTag } from 'src/features/api';
+import { styled } from 'styled-components';
 import { InsightFormValues } from '../FormProvider';
+import { LightboxContainer } from './Lightbox';
 
 const StyledTag = styled(Tag)`
   user-select: none;
@@ -29,6 +29,7 @@ const StyledTag = styled(Tag)`
 
 const StyledAnchor = styled(Anchor)`
   user-select: none;
+  font-size: ${appTheme.fontSizes.sm};
 `;
 
 const StyledSpecialCard = styled(SpecialCard)<{
@@ -41,11 +42,6 @@ const StyledSpecialCard = styled(SpecialCard)<{
     `
     border-color: ${severity.tag.style};
   `}
-  ${({ isChecked }) =>
-    isChecked &&
-    `
-    border-color: ${appTheme.palette.blue[600]};
-  `}
   border-width: 2px;
 `;
 
@@ -54,8 +50,9 @@ const Quotes = styled.span<{ isChecked: boolean }>`
   cursor: text;
   ${({ isChecked }) =>
     `color: ${
-      isChecked ? appTheme.palette.blue[600] : appTheme.palette.grey[700]
+      isChecked ? appTheme.palette.blue[600] : appTheme.palette.grey[800]
     };`}
+  font-size: ${appTheme.fontSizes.md};
 `;
 
 export const ObservationCard = ({
@@ -152,7 +149,9 @@ export const ObservationCard = ({
                 {observation.deviceType && (
                   <>
                     {!hideCheckbox && <Pipe />}
-                    {getDeviceIcon(observation.deviceType)}
+                    <Tag size="large" isRound>
+                      {getDeviceIcon(observation.deviceType)}
+                    </Tag>
                   </>
                 )}
                 {observation.usecaseTitle && (
@@ -173,7 +172,12 @@ export const ObservationCard = ({
             </SpecialCard.Meta>
 
             <SpecialCard.Header>
-              <SpecialCard.Header.Label style={{ userSelect: 'none' }}>
+              <SpecialCard.Header.Label
+                style={{
+                  userSelect: 'none',
+                  color: appTheme.palette.grey[600],
+                }}
+              >
                 {title}
               </SpecialCard.Header.Label>
               <SpecialCard.Header.Title
@@ -201,7 +205,7 @@ export const ObservationCard = ({
                 {observation.uploaderId > 0 && (
                   <SM
                     style={{
-                      color: appTheme.palette.grey[600],
+                      color: appTheme.palette.grey[700],
                       marginBottom: appTheme.space.xs,
                     }}
                   >
@@ -211,7 +215,7 @@ export const ObservationCard = ({
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   {severity && (
                     <StyledTag
-                      size="small"
+                      size="medium"
                       color={severity.tag.style}
                       style={{
                         backgroundColor: getColorWithAlpha(
@@ -252,7 +256,6 @@ export const ObservationCard = ({
 
             <SpecialCard.Footer>
               <StyledAnchor
-                isExternal
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsLightboxOpen(true);
