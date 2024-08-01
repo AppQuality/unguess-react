@@ -8,7 +8,7 @@ import { useInsightContext } from './InsightContext';
 
 const FloatingContainer = styled.div`
   position: fixed;
-  bottom: 100px;
+  bottom: ${({ theme }) => theme.space.xxl};
   left: 50%;
   transform: translateX(-50%);
   z-index: ${({ theme }) => theme.levels.front};
