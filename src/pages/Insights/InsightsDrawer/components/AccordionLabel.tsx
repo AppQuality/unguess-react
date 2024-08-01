@@ -100,6 +100,7 @@ export const AccordionLabel = ({
           size="small"
           type="light"
           placement="top-end"
+          appendToNode={document.body}
           content={
             visible
               ? t('__INSIGHTS_PAGE_DRAWER_UNPUBLISH')
