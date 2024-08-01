@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ObservationCard } from '../ObservationCard';
 import { Grape } from './AccordionSection';
 import { CardGrid } from './CardGrid';
+import { capitalizeUsecaseTitle } from './utils/capitalizeUsecaseTitle';
 
 interface UsecaseSectionProps {
   usecaseId: number;
@@ -23,6 +24,11 @@ const StyledSection = styled.section`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
+const UsecaseTitle = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: ${({ theme }) => theme.space.md};
+`;
 export const UsecaseSection = ({
   usecaseId,
   usecaseTitle,
@@ -48,16 +54,11 @@ export const UsecaseSection = ({
     [ungrouped, memoizedGrapes]
   );
 
-  const UsecaseTitle = styled.div`
-    display: flex;
-    width: 100%;
-    margin-bottom: ${({ theme }) => theme.space.md};
-  `;
   return (
     <StyledSection>
       <UsecaseTitle style={{ marginBottom: appTheme.space.sm }}>
         <XL style={{ flex: '1 0 auto' }}>
-          <h3>{usecaseTitle}</h3>
+          <h3>{capitalizeUsecaseTitle(usecaseTitle)}</h3>
         </XL>
         <div
           style={{
