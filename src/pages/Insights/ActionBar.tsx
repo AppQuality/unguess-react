@@ -39,52 +39,52 @@ const ActionBar = () => {
   return (
     <FloatingContainer>
       <Container>
-        <div style={{ marginRight: appTheme.space.md }}>
-          <MD style={{ marginRight: appTheme.space.md }}>
-            <Trans
-              count={values.observations.length}
-              i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_LABEL"
-            >
-              Selected observations:
-              <Span isBold>{{ count: values.observations.length }}</Span>
-            </Trans>
-          </MD>
-        </div>
-        <Button
-          isLink
-          size="small"
-          onClick={() => {
-            resetForm();
-          }}
-          style={{
-            marginRight: appTheme.space.md,
-            color: appTheme.palette.white,
-          }}
-        >
-          {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CANCEL')}
-        </Button>
-        {!hideCta && (
-          <Button
-            isPrimary
-            isAccent
-            size="small"
-            onClick={() => {
-              setIsDrawerOpen(true);
-              if (values.id === 0) {
-                setValues({
-                  ...values,
-                  id: -1,
-                });
-              }
-              if (values.id > 0) {
-                setValues(values);
-              }
-            }}
+        <MD style={{ marginRight: appTheme.space.md }}>
+          <Trans
+            count={values.observations.length}
+            i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_LABEL"
           >
-            {values.id === 0 || values.id === -1
-              ? t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CREATE_INSIGHT')
-              : t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_EDIT_INSIGHT')}
-          </Button>
+            Selected observations:
+            <Span isBold>{{ count: values.observations.length }}</Span>
+          </Trans>
+        </MD>
+        {!hideCta && (
+          <div style={{ marginLeft: appTheme.space.md }}>
+            <Button
+              isLink
+              size="small"
+              onClick={() => {
+                resetForm();
+              }}
+              style={{
+                marginRight: appTheme.space.md,
+                color: appTheme.palette.white,
+              }}
+            >
+              {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CANCEL')}
+            </Button>
+            <Button
+              isPrimary
+              isAccent
+              size="small"
+              onClick={() => {
+                setIsDrawerOpen(true);
+                if (values.id === 0) {
+                  setValues({
+                    ...values,
+                    id: -1,
+                  });
+                }
+                if (values.id > 0) {
+                  setValues(values);
+                }
+              }}
+            >
+              {values.id === 0 || values.id === -1
+                ? t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CREATE_INSIGHT')
+                : t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_EDIT_INSIGHT')}
+            </Button>
+          </div>
         )}
       </Container>
     </FloatingContainer>
