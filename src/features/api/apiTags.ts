@@ -196,9 +196,11 @@ unguessApi.enhanceEndpoints({
     getCampaignsByCidInsights: {
       providesTags: ['Insights'],
     },
-
+    getCampaignsByCidClusters: {
+      providesTags: ['Clusters'],
+    },
     patchInsightsByIid: {
-      invalidatesTags: ['Insights'],
+      invalidatesTags: ['Insights', 'Clusters'],
     },
     deleteInsightsByIid: {
       invalidatesTags: ['Insights'],
