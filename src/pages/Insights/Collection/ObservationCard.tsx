@@ -65,7 +65,7 @@ export const ObservationCard = ({
   const { t } = useTranslation();
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
-  const quotesMaxChars = 50;
+  const quotesMaxChars = 250;
 
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
