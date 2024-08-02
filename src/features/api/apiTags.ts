@@ -160,7 +160,7 @@ unguessApi.enhanceEndpoints({
               }
             )
           );
-          dispatch(unguessApi.util.invalidateTags(['VideoTags']));
+          dispatch(unguessApi.util.invalidateTags(['VideoTags', 'Insights']));
         } catch {
           dispatch(unguessApi.util.invalidateTags(['Observations']));
         }
@@ -184,7 +184,7 @@ unguessApi.enhanceEndpoints({
               }
             )
           );
-          dispatch(unguessApi.util.invalidateTags(['VideoTags']));
+          dispatch(unguessApi.util.invalidateTags(['VideoTags', 'Insights']));
         } catch {
           dispatch(unguessApi.util.invalidateTags(['Observations']));
         }
