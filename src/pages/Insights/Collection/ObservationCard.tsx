@@ -26,6 +26,7 @@ import { LightboxContainer } from './Lightbox';
 const StyledTag = styled(Tag)`
   user-select: none;
   max-width: 110px;
+  margin-bottom: ${({ theme }) => theme.space.xxs};
 `;
 
 const StyledAnchor = styled(Anchor)`
@@ -220,7 +221,13 @@ export const ObservationCard = ({
                     T{observation.uploaderId}
                   </SM>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                  }}
+                >
                   {severity && (
                     <StyledTag
                       size="medium"
@@ -237,7 +244,7 @@ export const ObservationCard = ({
                   )}
                   {tags.length === 1 && (
                     <StyledTag
-                      size="small"
+                      size="medium"
                       style={{
                         backgroundColor: appTheme.palette.grey[200],
                       }}
