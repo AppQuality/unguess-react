@@ -33,8 +33,8 @@ export const ButtonsFooter = ({
         notificationProps = {
           type: 'success',
           message: isPublished
-            ? `${`Insight "${title}" ${t('_TOAST_UNPUBLISHED_MESSAGE')}`}`
-            : `${`Insight "${title}" ${t('_TOAST_PUBLISHED_MESSAGE')}`}`,
+            ? `${`Scoperta "${title}" ${t('_TOAST_UNPUBLISHED_MESSAGE')}`}`
+            : `${`Scoperta "${title}" ${t('_TOAST_PUBLISHED_MESSAGE')}`}`,
         };
       })
       .catch((e) => {

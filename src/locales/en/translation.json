@@ -810,7 +810,7 @@
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_PLACEHOLDER": "Insert a title",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_USECASE_LABEL": "Use Case",
   "__INSIGHTS_PAGE_INSIGHT_FORM_TITLE": "Insight crafting",
-  "__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS": "Start building your insights.",
+  "__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS": "Start crafting your insights.",
   "__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS_DESCRIPTION": "Select observations from the themes you find most interesting and shape your insights.",
   "__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS": "Published insights",
   "__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS_COUNTER": "<0>{{published}}</0> out of <4>{{total}}</4>",

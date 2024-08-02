@@ -66,8 +66,8 @@ export const AccordionLabel = ({
         notificationProps = {
           type: 'success',
           message: visible
-            ? `${`Insight "${title}" ${t('_TOAST_UNPUBLISHED_MESSAGE')}`}`
-            : `${`Insight "${title}" ${t('_TOAST_PUBLISHED_MESSAGE')}`}`,
+            ? `${`Scoperta "${title}" ${t('_TOAST_UNPUBLISHED_MESSAGE')}`}`
+            : `${`Scoperta "${title}" ${t('_TOAST_PUBLISHED_MESSAGE')}`}`,
         };
       })
       .catch((e) => {
