@@ -149,12 +149,13 @@ export const ObservationCard = ({
               )}
               <>
                 {observation.deviceType && (
-                  <>
-                    {!hideCheckbox && <Pipe />}
-                    <Tag size="large" isRound>
-                      {getDeviceIcon(observation.deviceType)}
-                    </Tag>
-                  </>
+                  <Tag
+                    size="large"
+                    isRound
+                    style={{ backgroundColor: 'inherit' }}
+                  >
+                    {getDeviceIcon(observation.deviceType)}
+                  </Tag>
                 )}
                 {observation.usecaseTitle && (
                   <Ellipsis style={{ padding: `0 ${appTheme.space.xxs}` }}>
@@ -215,7 +216,7 @@ export const ObservationCard = ({
                   <SM
                     style={{
                       color: appTheme.palette.grey[700],
-                      marginBottom: appTheme.space.xs,
+                      marginBottom: appTheme.space.md,
                     }}
                   >
                     T{observation.uploaderId}
@@ -242,26 +243,44 @@ export const ObservationCard = ({
                       <Ellipsis>{severity.tag.name}</Ellipsis>
                     </StyledTag>
                   )}
+                  {tags.length > 0 && (
+                    <Pipe
+                      size="regular"
+                      style={{ marginRight: appTheme.space.xs }}
+                    />
+                  )}
                   {tags.length === 1 && (
                     <StyledTag
                       size="medium"
                       style={{
-                        backgroundColor: appTheme.palette.grey[200],
+                        backgroundColor: appTheme.palette.grey[100],
                       }}
                     >
                       <Ellipsis>{tags[0].tag.name}</Ellipsis>
-                      {`(${tags[0].tag.usageNumber})`}
                     </StyledTag>
                   )}
                   {tags.length > 1 && (
                     <SM>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Ellipsis>
+                        <StyledTag
+                          size="medium"
+                          style={{
+                            backgroundColor: appTheme.palette.grey[100],
+                          }}
+                        >
+                          <Ellipsis>{tags[0].tag.name}</Ellipsis>
+                        </StyledTag>
+                        <StyledTag
+                          size="medium"
+                          style={{
+                            backgroundColor: appTheme.palette.grey[100],
+                          }}
+                        >
                           {t(
                             '__INSIGHTS_COLLECTION_OBSERVATION_CARD_EXTRA_TAGS_LABEL'
                           )}
-                        </Ellipsis>
-                        {`+${tags.length}`}
+                          {`${tags.length}`}
+                        </StyledTag>
                       </div>
                     </SM>
                   )}
