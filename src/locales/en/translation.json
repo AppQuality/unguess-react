@@ -797,6 +797,7 @@
   "__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNDO": "Cancel",
   "__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UNPUBLISH": "Hide",
   "__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UPDATE": "Update insight",
+  "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_ERROR": "Description is required",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_LABEL": "Description",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_PLACEHOLDER": "example: The majority of participants (9) preferred option C\u00a0mainly because it offers\u00a0a\u00a0double navigation option......",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_ERROR": "At least one observation is required",
