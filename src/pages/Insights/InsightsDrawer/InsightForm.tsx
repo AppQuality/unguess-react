@@ -27,6 +27,7 @@ import { Divider } from 'src/common/components/divider';
 import { InsightFormValues } from '../FormProvider';
 import { RadioTag } from '../../Video/components/ObservationForm';
 import { ObservationCard } from '../Collection/ObservationCard';
+import { getUsecasesFromObservations } from '../utils/getUsecasesFromObservations';
 
 const FormContainer = styled.div`
   display: flex;
@@ -184,9 +185,9 @@ const InsightForm = () => {
             flexWrap: 'wrap',
           }}
         >
-          {values.usecases.map((usecase) => (
-            <Tag key={usecase.id}>
-              <Ellipsis>{usecase.name}</Ellipsis>
+          {getUsecasesFromObservations(values.observations).map((usecase) => (
+            <Tag key={usecase.replace(' ', '-').toLowerCase()}>
+              <Ellipsis>{usecase}</Ellipsis>
             </Tag>
           ))}
         </div>
