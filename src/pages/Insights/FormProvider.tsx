@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 
 export type InsightFormValues = Omit<
   GetCampaignsByCidInsightsApiResponse[number],
-  'severity' | 'observations'
+  'severity' | 'observations' | 'usecases'
 > & {
   severity: number;
   observations: Grape['observations'];
@@ -28,7 +28,6 @@ const FormProvider = ({ children }: { children: React.ReactNode }) => {
     description: '',
     severity: 0,
     observations: [],
-    usecases: [],
   };
 
   const validationSchema = Yup.object().shape({
