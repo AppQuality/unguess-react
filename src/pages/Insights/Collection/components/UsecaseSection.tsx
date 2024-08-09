@@ -21,7 +21,7 @@ interface UsecaseSectionProps {
 
 const StyledSection = styled.section`
   margin-top: ${({ theme }) => theme.space.md};
-  margin-bottom: ${({ theme }) => theme.space.md};
+  margin-bottom: ${({ theme }) => theme.space.xl};
 `;
 
 const UsecaseTitle = styled.div`
@@ -56,7 +56,7 @@ export const UsecaseSection = ({
 
   return (
     <StyledSection>
-      <UsecaseTitle style={{ marginBottom: appTheme.space.sm }}>
+      <UsecaseTitle style={{ margin: `${appTheme.space.xs} 0` }}>
         <XL style={{ flex: '1 0 auto' }}>
           <h3>{capitalizeUsecaseTitle(usecaseTitle)}</h3>
         </XL>
@@ -67,7 +67,10 @@ export const UsecaseSection = ({
           }}
         >
           <Tag
-            style={{ marginRight: appTheme.space.xxs }}
+            style={{
+              marginRight: appTheme.space.xxs,
+              backgroundColor: appTheme.palette.grey[200],
+            }}
             isRound
             size="medium"
           >
@@ -82,7 +85,14 @@ export const UsecaseSection = ({
               Themes: <Span isBold>{{ counter: grapes.length }}</Span>
             </Trans>
           </MD>
-          <Tag style={{ marginRight: '4px' }} isRound size="medium">
+          <Tag
+            style={{
+              marginRight: appTheme.space.xxs,
+              backgroundColor: appTheme.palette.grey[200],
+            }}
+            isRound
+            size="medium"
+          >
             <ObservationsIcon width={24} color={appTheme.palette.grey[600]} />
           </Tag>{' '}
           <MD

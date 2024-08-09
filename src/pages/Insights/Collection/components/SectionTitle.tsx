@@ -28,14 +28,24 @@ export const SectionTitle = ({
   title: string;
   subtitle: string;
 }) => (
-  <Style>
-    <div>
-      <XXL color={appTheme.palette.blue[600]} isBold>
-        {title}
-      </XXL>
-      <MD>{subtitle}</MD>
-    </div>
-    <GroupByToggle />
+  <>
+    <Style>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          paddingBottom: appTheme.space.xxs,
+        }}
+      >
+        <div>
+          <XXL color={appTheme.palette.blue[600]} isBold>
+            {title}
+          </XXL>
+          <MD color={appTheme.palette.grey[700]}>{subtitle}</MD>
+        </div>
+      </div>
+      <GroupByToggle />
+    </Style>
     <StyledDivider />
-  </Style>
+  </>
 );
