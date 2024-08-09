@@ -192,6 +192,7 @@ export const ObservationCard = ({
               <SpecialCard.Header.Title
                 style={{
                   marginBottom: appTheme.space.md,
+                  marginTop: appTheme.space.xs,
                 }}
               >
                 <Quotes isChecked={isChecked}>
@@ -226,6 +227,7 @@ export const ObservationCard = ({
                     display: 'flex',
                     alignItems: 'center',
                     flexWrap: 'wrap',
+                    marginTop: appTheme.space.sm,
                   }}
                 >
                   {severity && (
