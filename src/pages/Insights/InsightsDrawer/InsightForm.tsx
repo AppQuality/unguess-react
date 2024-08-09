@@ -202,6 +202,7 @@ const InsightForm = () => {
             alignItems: 'center',
             gap: appTheme.space.xs,
             marginTop: appTheme.space.xs,
+            marginBottom: appTheme.space.md,
           }}
         >
           <SM color={appTheme.palette.grey[600]}>
@@ -222,7 +223,7 @@ const InsightForm = () => {
             <Row>
               {values.observations.map(
                 (observation: InsightFormValues['observations'][number]) => (
-                  <Col sm={6}>
+                  <Col sm={6} style={{ marginBottom: appTheme.space.sm }}>
                     <ObservationCard
                       key={observation.id}
                       observation={observation}
