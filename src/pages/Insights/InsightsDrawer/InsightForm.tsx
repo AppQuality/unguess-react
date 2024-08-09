@@ -219,7 +219,7 @@ const InsightForm = () => {
           </SM>
         </div>
         {values.observations.length > 0 && (
-          <Grid style={{ marginTop: appTheme.space.sm }}>
+          <Grid style={{ marginTop: appTheme.space.sm }} gutters="sm">
             <Row>
               {values.observations.map(
                 (observation: InsightFormValues['observations'][number]) => (
