@@ -225,42 +225,35 @@ export const ObservationCard = ({
                     </StyledTag>
                   )}
                   {tags.length > 0 && (
-                    <Pipe
-                      size="regular"
-                      style={{ marginRight: appTheme.space.xs }}
-                    />
-                  )}
-                  {tags.length === 1 && (
-                    <StyledTag
-                      size="medium"
-                      style={{
-                        backgroundColor: appTheme.palette.grey[100],
-                      }}
-                    >
-                      <Ellipsis>{tags[0].tag.name}</Ellipsis>
-                    </StyledTag>
-                  )}
-                  {tags.length > 1 && (
-                    <SM>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <StyledTag
-                          size="medium"
-                          style={{
-                            backgroundColor: appTheme.palette.grey[100],
-                          }}
-                        >
-                          <Ellipsis>{tags[0].tag.name}</Ellipsis>
-                        </StyledTag>
-                        <StyledTag
-                          size="medium"
-                          style={{
-                            backgroundColor: appTheme.palette.grey[100],
-                          }}
-                        >
-                          +{`${tags.length}`}
-                        </StyledTag>
-                      </div>
-                    </SM>
+                    <>
+                      <Pipe
+                        size="regular"
+                        style={{ marginRight: appTheme.space.xs }}
+                      />
+
+                      <SM>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <StyledTag
+                            size="medium"
+                            style={{
+                              backgroundColor: appTheme.palette.grey[100],
+                            }}
+                          >
+                            <Ellipsis>{tags[0].tag.name}</Ellipsis>
+                          </StyledTag>
+                          {tags.length > 1 && (
+                            <StyledTag
+                              size="medium"
+                              style={{
+                                backgroundColor: appTheme.palette.grey[100],
+                              }}
+                            >
+                              +{`${tags.length}`}
+                            </StyledTag>
+                          )}
+                        </div>
+                      </SM>
+                    </>
                   )}
                 </div>
               </SpecialCard.Header.Text>
