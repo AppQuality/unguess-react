@@ -902,7 +902,7 @@
   "__TOAST_CLOSE_TEXT": "Chiudi",
   "__TOAST_GENERIC_ERROR_MESSAGE": "Qualcosa è andato storto, riprova più tardi.",
   "__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP": "Dashboard",
-  "__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP": "Temi e insight",
+  "__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP": "Temi e scoperte",
   "__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP": "Lista Video",
   "__VIDEO_LIST_META_SEVERITIES_COUNT_one": "<0>Hai trovato <2>{{count}} osservazione:</2></0>",
   "__VIDEO_LIST_META_SEVERITIES_COUNT_other": "<0>Hai trovato <2>{{count}} osservazioni:</2></0>",
