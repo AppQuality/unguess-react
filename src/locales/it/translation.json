@@ -809,7 +809,7 @@
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_USECASE_LABEL": "Use Case",
   "__INSIGHTS_PAGE_INSIGHT_FORM_TITLE": "La tua scoperta",
   "__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS": "Inizia a creare la tua scoperta.",
-  "__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS_DESCRIPTION": "Selezione le osservazioni dai temi che trovi più interessanti e modella i tuoi insights.",
+  "__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS_DESCRIPTION": "Seleziona le osservazioni dai temi che trovi più interessanti e modella la tua scoperta.",
   "__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS": "Insight pubblicati",
   "__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS_COUNTER": "<0>{{published}}</0> su <4>{{total}}</4>",
   "__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE": "Scoperte",
