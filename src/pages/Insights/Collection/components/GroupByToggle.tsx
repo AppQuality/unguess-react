@@ -14,7 +14,6 @@ import { useInsightContext } from '../../InsightContext';
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.space.md};
   gap: ${({ theme }) => theme.space.sm};
 `;
 
