@@ -5,4 +5,7 @@ export const CardGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xl};
+  background-color: ${({ theme }) => theme.palette.grey[100]};
+  border-radius: ${({ theme }) => theme.borderRadii.lg};
+  padding: ${({ theme }) => theme.space.sm};
 `;

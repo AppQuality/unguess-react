@@ -135,7 +135,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </Button>
           </Link>
         )}
-        {totalVideos > 0 && (
+        {hasTaggingToolFeature && totalVideos > 0 && (
           <>
             <MD color={appTheme.palette.blue[600]}>
               {' '}
@@ -153,21 +153,19 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
                 </IconButton>
               </Tooltip>
             </Link>
+            <Link to={insightsRoute}>
+              <Tooltip
+                content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP')}
+                size="medium"
+                type="light"
+                placement="top"
+              >
+                <IconButton isBasic={false}>
+                  <InsightsIcon />
+                </IconButton>
+              </Tooltip>
+            </Link>
           </>
-        )}
-        {hasTaggingToolFeature && totalVideos > 0 && (
-          <Link to={insightsRoute}>
-            <Tooltip
-              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP')}
-              size="medium"
-              type="light"
-              placement="top"
-            >
-              <IconButton isBasic={false}>
-                <InsightsIcon />
-              </IconButton>
-            </Tooltip>
-          </Link>
         )}
       </ButtonWrapper>
     </FooterContainer>
