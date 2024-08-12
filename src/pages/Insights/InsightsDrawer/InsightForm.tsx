@@ -64,7 +64,10 @@ const InsightForm = () => {
       <XL isBold>{t('__INSIGHTS_PAGE_INSIGHT_FORM_TITLE')}</XL>
       <Divider />
       <div>
-        <Label>{t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_LABEL')}</Label>
+        <Label>
+          {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_LABEL')}
+          <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
+        </Label>
         <Field name="title">
           {({ field, form, meta }: FieldProps) => (
             <div style={{ marginTop: appTheme.space.sm }}>
@@ -76,6 +79,7 @@ const InsightForm = () => {
                 onChange={(e) => {
                   form.setFieldValue('title', e.target.value);
                 }}
+                validation={errors.title ? 'error' : undefined}
               />
               {meta.touched && meta.error && (
                 <Message
@@ -92,6 +96,7 @@ const InsightForm = () => {
       <div>
         <Label>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_LABEL')}
+          <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
         </Label>
         <Field name="description">
           {({ field, form, meta }: FieldProps) => (
@@ -106,6 +111,7 @@ const InsightForm = () => {
                 }}
                 isResizable
                 rows={2}
+                validation={errors.description ? 'error' : undefined}
               />
               {meta.touched && meta.error && (
                 <Message
@@ -127,6 +133,7 @@ const InsightForm = () => {
         >
           <Label>
             {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_LABEL')}
+            <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
           </Label>
           {isLoading ? (
             <Skeleton />
@@ -196,6 +203,7 @@ const InsightForm = () => {
       <div>
         <Label>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
+          <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
         </Label>
         <div
           style={{
