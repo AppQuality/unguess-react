@@ -23,7 +23,7 @@ jobs:
         continue-on-error: true
 
       - name: Save current coverage
-        run: echo ::set-output name=coverage_curr::$(cat coverage-ts/typescript-coverage.json)
+        run: cat coverage-ts/typescript-coverage.json > coverage-src.json
 
       - name: Checkout destination branch
         uses: actions/checkout@v3
@@ -42,12 +42,12 @@ jobs:
         continue-on-error: true
 
       - name: Save destination coverage
-        run: echo ::set-output name=coverage_dest::$(cat coverage-ts/typescript-coverage.json)
+        run: cat coverage-ts/typescript-coverage.json > coverage-dest.json
 
       - name: Compare coverage
         run: |
           yarn add -D json-diff
-          npx json-diff ${{ steps.validate.outputs.coverage_curr }} ${{ steps.validate.outputs.coverage_dest }}
+          npx json-diff coverage-src.json coverage-dest.json
       
       # - name: Compare coverages
       #   uses: Drafteame/json-diff-action@main
