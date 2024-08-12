@@ -19,6 +19,7 @@ import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { getColorWithAlpha } from 'src/common/utils';
 import { Grape, VideoTag } from 'src/features/api';
 import { styled } from 'styled-components';
+import { Pipe } from 'src/common/components/Pipe';
 import { Meta } from 'src/common/components/Meta';
 import { InsightFormValues } from '../FormProvider';
 import { LightboxContainer } from './Lightbox';
@@ -256,10 +257,7 @@ export const ObservationCard = ({
                             backgroundColor: appTheme.palette.grey[100],
                           }}
                         >
-                          {t(
-                            '__INSIGHTS_COLLECTION_OBSERVATION_CARD_EXTRA_TAGS_LABEL'
-                          )}
-                          {`${tags.length}`}
+                          +{`${tags.length}`}
                         </StyledTag>
                       </div>
                     </SM>
