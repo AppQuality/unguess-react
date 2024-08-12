@@ -83,7 +83,7 @@ const InsightsDrawer = () => {
       >
         {values.id === 0 ? (
           <>
-            <XL isBold style={{ marginBottom: appTheme.space.sm }}>
+            <XL isBold style={{ marginBottom: appTheme.space.md }}>
               {values.id === 0 && (
                 <InsightIcon
                   color={appTheme.palette.grey[600]}
@@ -92,9 +92,9 @@ const InsightsDrawer = () => {
               )}
               {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
             </XL>
+            <Divider />
             {insights && insights.length > 0 ? (
               <>
-                <Divider />
                 <div
                   style={{
                     padding: `${appTheme.space.lg} 0`,
@@ -118,13 +118,22 @@ const InsightsDrawer = () => {
                     </Trans>
                   </SM>
                 </div>
-                {insights &&
-                  insights.map((insight) => <Insight insight={insight} />)}
+                {insights.map((insight) => (
+                  <Insight insight={insight} />
+                ))}
               </>
             ) : (
               <>
-                <EmptyInsights />
-                <XL>{t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS')}</XL>
+                <EmptyInsights style={{ marginTop: appTheme.space.lg }} />
+                <XL
+                  isBold
+                  style={{
+                    marginTop: appTheme.space.lg,
+                    marginBottom: appTheme.space.xs,
+                  }}
+                >
+                  {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS')}
+                </XL>
                 <MD>
                   {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_NO_INSIGHTS_DESCRIPTION')}
                 </MD>

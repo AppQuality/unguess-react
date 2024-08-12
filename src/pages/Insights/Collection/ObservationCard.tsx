@@ -16,10 +16,10 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
-import { Pipe } from 'src/common/components/Pipe';
 import { getColorWithAlpha } from 'src/common/utils';
 import { Grape, VideoTag } from 'src/features/api';
 import { styled } from 'styled-components';
+import { Meta } from 'src/common/components/Meta';
 import { InsightFormValues } from '../FormProvider';
 import { LightboxContainer } from './Lightbox';
 
@@ -66,7 +66,7 @@ export const ObservationCard = ({
 }) => {
   const { t } = useTranslation();
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const { values, setFieldValue } = useFormikContext<InsightFormValues>();
+  const { values } = useFormikContext<InsightFormValues>();
   const quotesMaxChars = 250;
 
   const severity = observation.tags.find(
@@ -89,25 +89,8 @@ export const ObservationCard = ({
   const handleCheck = ({ remove, push }: FieldArrayRenderProps) => {
     if (isChecked) {
       remove(values.observations.findIndex((obs) => obs.id === observation.id));
-      setFieldValue(
-        'usecases',
-        values.usecases.filter(
-          (usecase) => usecase.name !== observation.usecaseTitle
-        )
-      );
     } else {
       push(observation);
-      // Add usecase to the list of usecases avoiding duplicates
-      if (
-        !values.usecases.some(
-          (usecase) => usecase.name === observation.usecaseTitle
-        )
-      ) {
-        setFieldValue('usecases', [
-          ...values.usecases,
-          { name: observation.usecaseTitle },
-        ]);
-      }
     }
   };
 
@@ -149,18 +132,13 @@ export const ObservationCard = ({
               )}
               <>
                 {observation.deviceType && (
-                  <Tag
+                  <Meta
                     size="large"
-                    isRound
-                    style={{ backgroundColor: 'inherit' }}
-                  >
-                    {getDeviceIcon(observation.deviceType)}
-                  </Tag>
+                    icon={getDeviceIcon(observation.deviceType)}
+                  />
                 )}
                 {observation.usecaseTitle && (
-                  <Ellipsis style={{ padding: `0 ${appTheme.space.xxs}` }}>
-                    {observation.usecaseTitle}
-                  </Ellipsis>
+                  <Ellipsis>{observation.usecaseTitle}</Ellipsis>
                 )}
               </>
               {hideCheckbox && (
@@ -193,6 +171,7 @@ export const ObservationCard = ({
               <SpecialCard.Header.Title
                 style={{
                   marginBottom: appTheme.space.md,
+                  marginTop: appTheme.space.xs,
                 }}
               >
                 <Quotes isChecked={isChecked}>
@@ -227,6 +206,7 @@ export const ObservationCard = ({
                     display: 'flex',
                     alignItems: 'center',
                     flexWrap: 'wrap',
+                    marginTop: appTheme.space.sm,
                   }}
                 >
                   {severity && (
