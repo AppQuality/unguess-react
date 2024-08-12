@@ -6,7 +6,7 @@ on:
       - 'develop'
 
 jobs:
-  validate:
+  generate-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -46,7 +46,15 @@ jobs:
 
       - name: Compare coverage
         run: |
+          yarn add -D json-diff
           npx json-diff ${{ steps.validate.outputs.coverage_curr }} ${{ steps.validate.outputs.coverage_dest }}
+      
+      # - name: Compare coverages
+      #   uses: Drafteame/json-diff-action@main
+      #   with:
+      #     files: |
+      #       ${{ steps.validate.outputs.coverage_curr }}
+      #       ${{ steps.validate.outputs.coverage_dest }}
 
       - name: Comment on PR
         uses: thollander/actions-comment-pull-request@v2
