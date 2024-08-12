@@ -19,6 +19,7 @@ import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { getColorWithAlpha } from 'src/common/utils';
 import { Grape, VideoTag } from 'src/features/api';
 import { styled } from 'styled-components';
+import { Pipe } from 'src/common/components/Pipe';
 import { Meta } from 'src/common/components/Meta';
 import { InsightFormValues } from '../FormProvider';
 import { LightboxContainer } from './Lightbox';
@@ -195,7 +196,7 @@ export const ObservationCard = ({
                   <SM
                     style={{
                       color: appTheme.palette.grey[700],
-                      marginBottom: appTheme.space.xs,
+                      marginBottom: appTheme.space.md,
                     }}
                   >
                     T{observation.uploaderId}
@@ -223,28 +224,36 @@ export const ObservationCard = ({
                       <Ellipsis>{severity.tag.name}</Ellipsis>
                     </StyledTag>
                   )}
-                  {tags.length === 1 && (
-                    <StyledTag
-                      size="medium"
-                      style={{
-                        backgroundColor: appTheme.palette.grey[200],
-                      }}
-                    >
-                      <Ellipsis>{tags[0].tag.name}</Ellipsis>
-                      {`(${tags[0].tag.usageNumber})`}
-                    </StyledTag>
-                  )}
-                  {tags.length > 1 && (
-                    <SM>
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Ellipsis>
-                          {t(
-                            '__INSIGHTS_COLLECTION_OBSERVATION_CARD_EXTRA_TAGS_LABEL'
+                  {tags.length > 0 && (
+                    <>
+                      <Pipe
+                        size="regular"
+                        style={{ marginRight: appTheme.space.xs }}
+                      />
+
+                      <SM>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <StyledTag
+                            size="medium"
+                            style={{
+                              backgroundColor: appTheme.palette.grey[100],
+                            }}
+                          >
+                            <Ellipsis>{tags[0].tag.name}</Ellipsis>
+                          </StyledTag>
+                          {tags.length > 1 && (
+                            <StyledTag
+                              size="medium"
+                              style={{
+                                backgroundColor: appTheme.palette.grey[100],
+                              }}
+                            >
+                              +{`${tags.length}`}
+                            </StyledTag>
                           )}
-                        </Ellipsis>
-                        {`+${tags.length}`}
-                      </div>
-                    </SM>
+                        </div>
+                      </SM>
+                    </>
                   )}
                 </div>
               </SpecialCard.Header.Text>
