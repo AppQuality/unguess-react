@@ -208,13 +208,7 @@ const InsightForm = () => {
             {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_SELECTED')}
           </SM>
           <SM isBold color={appTheme.palette.grey[600]}>
-            {values.observations.length}{' '}
-            {t(
-              '__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_SELECTED_COUNT',
-              {
-                count: values.observations.length,
-              }
-            )}
+            {values.observations.length}
           </SM>
         </div>
         {values.observations.length > 0 && (
