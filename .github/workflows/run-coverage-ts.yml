@@ -1,0 +1,54 @@
+name: Check coverage-ts
+
+on:
+  pull_request:
+    branches:
+      - 'develop'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js 18.x and install dependencies
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+      - run: yarn --frozen-lockfile
+
+      - name: Run TypeScript Coverage Report
+        run: yarn ts-coverage
+        continue-on-error: true
+
+      - name: Save current coverage
+        run: echo ::set-output name=coverage_curr::$(cat coverage-ts/typescript-coverage.json)
+
+      - name: Checkout destination branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          fetch-depth: 0
+
+      - name: Use Node.js 18.x and install dependencies
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+      - run: yarn --frozen-lockfile
+
+      - name: Run Destination TypeScript Coverage Report
+        run: yarn ts-coverage
+        continue-on-error: true
+
+      - name: Save destination coverage
+        run: echo ::set-output name=coverage_dest::$(cat coverage-ts/typescript-coverage.json)
+
+      - name: Compare coverage
+        run: |
+          npx json-diff ${{ steps.validate.outputs.coverage_curr }} ${{ steps.validate.outputs.coverage_dest }}
+
+      - name: Comment on PR
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: ${{ steps.validate.outputs.json-diff }}
