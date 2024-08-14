@@ -1,0 +1,17 @@
+[
+  {
+    "group": {
+      "id": 0,
+      "name": "string"
+    },
+    "tags": [
+      {
+        "id": 0,
+        "name": "string",
+        "color": "string",
+        "usageNumber": 0,
+        "style": "white"
+      }
+    ]
+  }
+]
