@@ -1,0 +1,12 @@
+[
+  {
+    "id": 0,
+    "name": "string",
+    "color": "string",
+    "phase": {
+      "id": 0,
+      "name": "string"
+    },
+    "is_default": 0
+  }
+]

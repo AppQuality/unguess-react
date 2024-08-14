@@ -1,0 +1,38 @@
+{
+  "id": 0,
+  "url": "string",
+  "streamUrl": "string",
+  "poster": "string",
+  "duration": 0,
+  "tester": {
+    "id": 0,
+    "name": "string",
+    "surname": "string",
+    "device": {
+      "type": "smartphone"
+    }
+  },
+  "transcript": {
+    "speakers": 0,
+    "paragraphs": [
+      {
+        "text": "string",
+        "start": 0,
+        "end": 0,
+        "speaker": 0,
+        "words": [
+          {
+            "start": 0,
+            "end": 0,
+            "speaker": 0,
+            "word": "string"
+          }
+        ]
+      }
+    ]
+  },
+  "usecase": {
+    "id": 0,
+    "name": "string"
+  }
+}

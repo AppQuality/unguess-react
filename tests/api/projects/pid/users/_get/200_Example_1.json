@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": 1234,
+      "email": "user@example.com",
+      "name": "string",
+      "profile_id": 999,
+      "invitationPending": true
+    }
+  ],
+  "start": 0,
+  "limit": 0,
+  "size": 1,
+  "total": 1
+}
