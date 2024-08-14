@@ -33,3 +33,7 @@ generate-devel-token-*.json
 .vscode
 # Sentry Config File
 .sentryclirc
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
