@@ -1,10 +1,15 @@
 import { type Page } from '@playwright/test';
+import { i18n } from 'i18next';
+import { getI18nInstance } from 'playwright-i18next-fixture';
 
 export class UnguessPage {
   readonly page: Page;
 
+  readonly i18n: i18n;
+
   constructor(page: Page) {
     this.page = page;
+    this.i18n = getI18nInstance();
   }
 
   async loggedIn() {
@@ -15,15 +20,8 @@ export class UnguessPage {
     });
   }
 
-  async loggedOut() {
-    // await this.page.route(
-    //   "*/**/api/users/me?fields=name%2Csurname%2Cimage%2Conboarding_completed%2Cemail%2Cwp_user_id",
-    //   async (route) => {
-    //     await route.fulfill({
-    //       status: 403,
-    //       json: { err: "unauthorized" },
-    //     });
-    //   }
-    // );
+  // eslint-disable-next-line class-methods-use-this
+  elements() {
+    return {};
   }
 }
