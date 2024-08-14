@@ -39,12 +39,11 @@ export const widgets = ({
     }
   }, [filters, cid]);
 
-  const showExperience = !!campaign?.outputs?.includes('insights') || isPreview;
+  if (!campaign || !uxData) return [];
 
-  if (!showExperience || !campaign || !uxData) return [];
-
-  const widgetsToShow = [
-    {
+  const widgetsToShow = [];
+  if (uxData?.methodology)
+    widgetsToShow.push({
       id: 'exp-campaign-methodology',
       title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_METHODOLOGY_LABEL'),
       content: (
@@ -55,12 +54,17 @@ export const widgets = ({
         />
       ),
       type: 'item' as const,
-    },
-    {
+    });
+
+  if (
+    (uxData.findings && uxData.findings.length > 0) ||
+    (uxData.sentiment && uxData.sentiment.length > 0)
+  ) {
+    widgetsToShow.push({
       title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_GROUP_INSIGHTS_LABEL'),
       type: 'title' as const,
-    },
-  ];
+    });
+  }
 
   if (uxData?.sentiment && uxData.sentiment.length > 0) {
     widgetsToShow.push({
