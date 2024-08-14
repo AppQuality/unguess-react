@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": 0,
+      "profile_id": 0,
+      "name": "string",
+      "email": "string",
+      "invitationPending": true,
+      "permissionFrom": {
+        "type": "workspace",
+        "id": 0
+      }
+    }
+  ]
+}
