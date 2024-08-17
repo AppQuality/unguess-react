@@ -1,5 +1,6 @@
 import { test, expect } from '../fixtures/app';
 import { Insights } from '../fixtures/Insights';
+import insightsData from '../api/campaigns/cid/insights/_get/200_Example_1.json';
 
 test.describe('Insights page', () => {
   let insightsPage: Insights;
@@ -15,6 +16,10 @@ test.describe('Insights page', () => {
 
   test('has a drawer button that open a sidebar with saved insights', async () => {
     await insightsPage.showSavedInsightsSection();
-    await expect(insightsPage.elements().drawer()).toBeVisible();
+    const drawer = insightsPage.elements().drawer();
+    await expect(drawer).toBeVisible();
+    expect(await insightsPage.elements().insights().count()).toBe(
+      insightsData.length
+    );
   });
 });
