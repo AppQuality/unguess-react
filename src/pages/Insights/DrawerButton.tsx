@@ -28,6 +28,16 @@ const ButtonWrapper = styled.div`
   padding: ${({ theme }) => theme.space.xxs};
   padding-right: 0;
   box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 `;
 
 const StyledButton = styled(IconButton)`
@@ -70,10 +80,12 @@ const DrawerButton = () => {
         placement="auto"
       >
         <StyledButton
+          data-testid="drawer-button"
           isPrimary={!isDrawerOpen}
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         >
           {getDrawerInfo().icon}
+          <span className="sr-only">{getDrawerInfo().text}</span>
         </StyledButton>
       </Tooltip>
     </ButtonWrapper>
