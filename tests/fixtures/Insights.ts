@@ -22,7 +22,10 @@ export class Insights extends UnguessPage {
           name: this.i18n.t('__INSIGHTS_PAGE_CLOSE_DRAWER_BUTTON'),
         }),
       drawer: () =>
-        this.page.getByRole('complementary', { name: 'insights drawer' }),
+        this.page.getByRole('list', {
+          name: this.i18n.t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE'),
+        }),
+      insights: () => this.elements().drawer().getByRole('listitem'),
     };
   }
 
