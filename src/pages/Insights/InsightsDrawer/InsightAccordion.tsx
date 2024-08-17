@@ -32,6 +32,7 @@ const Insight = ({
         key={`insight_accordion_${insight.id}_${isCurrent}`}
         defaultExpandedSections={isCurrent ? [0, 1] : []}
         id={`insight-accordion-${insight.id}`}
+        role="listitem"
       >
         <Accordion.Section>
           <Accordion.Header>

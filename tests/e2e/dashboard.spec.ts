@@ -10,7 +10,7 @@ test.describe('Home page', () => {
     await dashboard.loggedIn();
     await dashboard.open();
   });
-  test('has title', async ({ page, i18n }) => {
+  test('has title', async ({ i18n }) => {
     const title = dashboard.elements().title();
     await expect(title).toBeVisible();
     await expect(title).toHaveText(i18n.t('__PAGE_TITLE_PRIMARY_DASHBOARD'));
