@@ -84,8 +84,10 @@ const DrawerButton = () => {
           isPrimary={!isDrawerOpen}
           onClick={() => setIsDrawerOpen(!isDrawerOpen)}
         >
-          {getDrawerInfo().icon}
-          <span className="sr-only">{getDrawerInfo().text}</span>
+          <>
+            {getDrawerInfo().icon}
+            <span className="sr-only">{getDrawerInfo().text}</span>
+          </>
         </StyledButton>
       </Tooltip>
     </ButtonWrapper>
