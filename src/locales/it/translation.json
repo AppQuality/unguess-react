@@ -994,7 +994,7 @@
   "_CAMPAIGN_WIDGET_UX_USER_ANALYSIS_HEADER": "Contributi utente analizzati",
   "_TOAST_DELETED_MESSAGE": "cancellato con successo",
   "_TOAST_GENERIC_ERROR_MESSAGE": "Qualcosa è andato storto",
-  "_TOAST_PUBLISHED_MESSAGE": "publicata con successo",
+  "_TOAST_PUBLISHED_MESSAGE": "pubblicata con successo",
   "_TOAST_UNPUBLISHED_MESSAGE": "nascosta con successo",
   "Devices ({{count}})_one": "Dispositivi ({{count}})",
   "Devices ({{count}})_other": "Dispositivi ({{count}})",
