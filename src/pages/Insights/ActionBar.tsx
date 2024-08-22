@@ -87,6 +87,7 @@ const ActionBar = () => {
               style={{
                 marginRight: appTheme.space.md,
                 color: appTheme.palette.white,
+                fontSize: appTheme.fontSizes.sm,
               }}
             >
               {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CANCEL')}

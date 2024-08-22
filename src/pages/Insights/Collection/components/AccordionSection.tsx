@@ -60,6 +60,19 @@ const AccordionSection = styled(Accordion.Section)<{
               : appTheme.palette.grey[200]
           }`
     };`}
+
+  &:hover {
+    ${({ isOpen, severity }) =>
+      `box-shadow: ${
+        !isOpen &&
+        `4px 4px ${
+          severity && severity !== 'undetermined'
+            ? getColorWithAlpha(getBgColor(severity), 0.2)
+            : appTheme.palette.grey[400]
+        }`
+      };`}
+  }
+
   svg[data-garden-id='accordions.rotate_icon'] {
     color: ${({ severity }) => getSeverityColor(severity)};
   }
@@ -145,7 +158,6 @@ export const Grape = ({ grape, id }: GrapeProps) => {
                     isPill
                     size="large"
                     hue={getBgColor(memoizedGrape.severity)}
-                    style={{ marginLeft: appTheme.space.xxs }}
                   >
                     <ObservationIcon
                       color={getSeverityColor(memoizedGrape.severity)}
@@ -210,7 +222,7 @@ export const Grape = ({ grape, id }: GrapeProps) => {
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel>
-          <Divider style={{ marginBottom: appTheme.space.lg }} />
+          <Divider style={{ marginBottom: appTheme.space.md }} />
           <CardGrid>
             {memoizedGrape.observations.map((observation) => (
               <ObservationCard key={observation.id} observation={observation} />
