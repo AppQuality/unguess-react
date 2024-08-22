@@ -28,7 +28,7 @@ export const SectionTitle = ({
   title: string;
   subtitle: string;
 }) => (
-  <>
+  <div style={{ marginBottom: appTheme.space.xl }}>
     <Style>
       <div
         style={{
@@ -47,5 +47,5 @@ export const SectionTitle = ({
       <GroupByToggle />
     </Style>
     <StyledDivider />
-  </>
+  </div>
 );
