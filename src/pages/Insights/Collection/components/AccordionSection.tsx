@@ -9,6 +9,7 @@ import { appTheme } from 'src/app/theme';
 import { ArrayHelpers, FieldArray } from 'formik';
 import { getColorWithAlpha } from 'src/common/utils';
 import { Pipe } from 'src/common/components/Pipe';
+import { Divider } from 'src/common/components/divider';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
 import { GrapeCheckbox } from './GrapeCheckbox';
@@ -20,7 +21,7 @@ const Grid = styled.div`
   #container {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-gap: ${({ theme }) => theme.space.md};
+    grid-gap: ${({ theme }) => theme.space.sm};
   }
 
   @container (max-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -40,6 +41,7 @@ const AccordionSection = styled(Accordion.Section)<{
   severity: string;
   isOpen: boolean;
 }>`
+  background-color: white;
   margin-bottom: ${({ theme }) => theme.space.md};
   border-radius: ${({ theme }) => theme.borderRadii.lg};
   border: 2px solid;
@@ -47,9 +49,30 @@ const AccordionSection = styled(Accordion.Section)<{
   ${({ isOpen, severity }) =>
     `box-shadow: ${
       isOpen
-        ? `4px 4px ${getColorWithAlpha(getBgColor(severity), 0.2)}`
-        : `4px 4px ${getBgColor(severity)}`
+        ? `4px 4px ${
+            severity && severity !== 'undetermined'
+              ? getColorWithAlpha(getBgColor(severity), 0.2)
+              : appTheme.palette.grey[400]
+          }`
+        : `4px 4px ${
+            severity && severity !== 'undetermined'
+              ? getBgColor(severity)
+              : appTheme.palette.grey[200]
+          }`
     };`}
+
+  &:hover {
+    ${({ isOpen, severity }) =>
+      `box-shadow: ${
+        !isOpen &&
+        `4px 4px ${
+          severity && severity !== 'undetermined'
+            ? getColorWithAlpha(getBgColor(severity), 0.2)
+            : appTheme.palette.grey[400]
+        }`
+      };`}
+  }
+
   svg[data-garden-id='accordions.rotate_icon'] {
     color: ${({ severity }) => getSeverityColor(severity)};
   }
@@ -97,15 +120,7 @@ export const Grape = ({ grape, id }: GrapeProps) => {
       id={id}
       onChange={() => setIsOpen(!isOpen)}
     >
-      <AccordionSection
-        severity={memoizedGrape.severity}
-        isOpen={isOpen}
-        {...(!isOpen && {
-          style: {
-            backgroundColor: appTheme.palette.white,
-          },
-        })}
-      >
+      <AccordionSection severity={memoizedGrape.severity} isOpen={isOpen}>
         <Accordion.Header>
           <Accordion.Label>
             <Grid>
@@ -143,7 +158,6 @@ export const Grape = ({ grape, id }: GrapeProps) => {
                     isPill
                     size="large"
                     hue={getBgColor(memoizedGrape.severity)}
-                    style={{ marginLeft: appTheme.space.xxs }}
                   >
                     <ObservationIcon
                       color={getSeverityColor(memoizedGrape.severity)}
@@ -208,6 +222,7 @@ export const Grape = ({ grape, id }: GrapeProps) => {
           </Accordion.Label>
         </Accordion.Header>
         <Accordion.Panel>
+          <Divider style={{ marginBottom: appTheme.space.md }} />
           <CardGrid>
             {memoizedGrape.observations.map((observation) => (
               <ObservationCard key={observation.id} observation={observation} />

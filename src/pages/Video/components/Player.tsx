@@ -32,6 +32,7 @@ const PlayerContainer = styled.div<{
   position: relative;
   top: 0;
   z-index: 3;
+  overflow: hidden;
 
   ${({ isFetching }) =>
     isFetching &&

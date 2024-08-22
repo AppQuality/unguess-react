@@ -27,6 +27,7 @@ import { Divider } from 'src/common/components/divider';
 import { InsightFormValues } from '../FormProvider';
 import { RadioTag } from '../../Video/components/ObservationForm';
 import { ObservationCard } from '../Collection/ObservationCard';
+import { getUsecasesFromObservations } from '../utils/getUsecasesFromObservations';
 
 const FormContainer = styled.div`
   display: flex;
@@ -63,7 +64,10 @@ const InsightForm = () => {
       <XL isBold>{t('__INSIGHTS_PAGE_INSIGHT_FORM_TITLE')}</XL>
       <Divider />
       <div>
-        <Label>{t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_LABEL')}</Label>
+        <Label>
+          {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_TITLE_LABEL')}
+          <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
+        </Label>
         <Field name="title">
           {({ field, form, meta }: FieldProps) => (
             <div style={{ marginTop: appTheme.space.sm }}>
@@ -75,6 +79,7 @@ const InsightForm = () => {
                 onChange={(e) => {
                   form.setFieldValue('title', e.target.value);
                 }}
+                validation={errors.title ? 'error' : undefined}
               />
               {meta.touched && meta.error && (
                 <Message
@@ -91,6 +96,7 @@ const InsightForm = () => {
       <div>
         <Label>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_LABEL')}
+          <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
         </Label>
         <Field name="description">
           {({ field, form, meta }: FieldProps) => (
@@ -105,6 +111,7 @@ const InsightForm = () => {
                 }}
                 isResizable
                 rows={2}
+                validation={errors.description ? 'error' : undefined}
               />
               {meta.touched && meta.error && (
                 <Message
@@ -126,6 +133,7 @@ const InsightForm = () => {
         >
           <Label>
             {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_LABEL')}
+            <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
           </Label>
           {isLoading ? (
             <Skeleton />
@@ -184,9 +192,9 @@ const InsightForm = () => {
             flexWrap: 'wrap',
           }}
         >
-          {values.usecases.map((usecase) => (
-            <Tag key={usecase.id}>
-              <Ellipsis>{usecase.name}</Ellipsis>
+          {getUsecasesFromObservations(values.observations).map((usecase) => (
+            <Tag key={usecase.replace(' ', '-').toLowerCase()}>
+              <Ellipsis>{usecase}</Ellipsis>
             </Tag>
           ))}
         </div>
@@ -195,6 +203,7 @@ const InsightForm = () => {
       <div>
         <Label>
           {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL')}
+          <Label style={{ color: appTheme.palette.red[600] }}>*</Label>
         </Label>
         <div
           style={{
@@ -202,27 +211,22 @@ const InsightForm = () => {
             alignItems: 'center',
             gap: appTheme.space.xs,
             marginTop: appTheme.space.xs,
+            marginBottom: appTheme.space.md,
           }}
         >
           <SM color={appTheme.palette.grey[600]}>
             {t('__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_SELECTED')}
           </SM>
           <SM isBold color={appTheme.palette.grey[600]}>
-            {values.observations.length}{' '}
-            {t(
-              '__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_SELECTED_COUNT',
-              {
-                count: values.observations.length,
-              }
-            )}
+            {values.observations.length}
           </SM>
         </div>
         {values.observations.length > 0 && (
-          <Grid style={{ marginTop: appTheme.space.sm }}>
+          <Grid style={{ marginTop: appTheme.space.sm }} gutters="sm">
             <Row>
               {values.observations.map(
                 (observation: InsightFormValues['observations'][number]) => (
-                  <Col sm={6}>
+                  <Col sm={6} style={{ marginBottom: appTheme.space.sm }}>
                     <ObservationCard
                       key={observation.id}
                       observation={observation}

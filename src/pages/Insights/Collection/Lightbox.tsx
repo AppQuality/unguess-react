@@ -36,7 +36,7 @@ const Grey600Span = styled.span`
 
 const StyledTag = styled(Tag)`
   user-select: none;
-  max-width: 110px;
+  max-width: fit-content;
   margin: 0;
 `;
 
@@ -164,7 +164,7 @@ export const LightboxContainer = ({
               {severity && (
                 <>
                   <StyledTag
-                    size="small"
+                    size="medium"
                     color={severity.tag.style}
                     style={{
                       backgroundColor: getColorWithAlpha(
@@ -228,14 +228,12 @@ export const LightboxContainer = ({
               {tags.length > 0
                 ? tags.map(({ tag }) => (
                     <StyledTag
-                      size="small"
+                      size="medium"
                       style={{
                         backgroundColor: appTheme.palette.grey[200],
                       }}
                     >
-                      <Ellipsis>
-                        {tag.name} ({tag.usageNumber})
-                      </Ellipsis>
+                      {tag.name}
                     </StyledTag>
                   ))
                 : '--'}
