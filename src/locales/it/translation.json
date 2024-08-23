@@ -993,6 +993,7 @@
   "_CAMPAIGN_WIDGET_UX_USER_ANALYSIS_DESCRIPTION_HEADER": "Hai aggiunto osservazioni su",
   "_CAMPAIGN_WIDGET_UX_USER_ANALYSIS_HEADER": "Contributi utente analizzati",
   "_TOAST_DELETED_MESSAGE": "cancellato con successo",
+  "_TOAST_DELETED_MESSAGE_SUBJECT": "Scoperta",
   "_TOAST_GENERIC_ERROR_MESSAGE": "Qualcosa è andato storto",
   "_TOAST_PUBLISHED_MESSAGE": "publicato con successo",
   "_TOAST_UNPUBLISHED_MESSAGE": "nascosto con successo",
