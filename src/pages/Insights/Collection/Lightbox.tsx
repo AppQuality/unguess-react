@@ -179,7 +179,7 @@ export const LightboxContainer = ({
                 </>
               )}
               <SM isBold style={{ color: appTheme.palette.blue[600] }}>
-                {video?.tester.name} (T{video?.tester.id})
+                T{video?.tester.id}
               </SM>
               <StyledPipe />
               <SM style={{ display: 'flex', alignItems: 'center' }}>
