@@ -248,6 +248,13 @@ const ObservationForm = ({
             >
               <StyledLabel>
                 {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_LABEL')}
+                <Label
+                  style={{
+                    color: appTheme.palette.red[600],
+                  }}
+                >
+                  *
+                </Label>
                 <SM style={{ color: appTheme.palette.grey[600] }}>
                   {t(
                     '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_DESCRIPTION'
@@ -282,6 +289,13 @@ const ObservationForm = ({
                     {t(
                       '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_SEVERITY_LABEL'
                     )}
+                    <Label
+                      style={{
+                        color: appTheme.palette.red[600],
+                      }}
+                    >
+                      *
+                    </Label>
                   </StyledLabel>
                   {isLoading ? (
                     <Skeleton />
@@ -405,6 +419,13 @@ const ObservationForm = ({
               <div style={{ marginTop: appTheme.space.md }}>
                 <StyledLabel>
                   {t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_QUOTS_LABEL')}
+                  <Label
+                    style={{
+                      color: appTheme.palette.red[600],
+                    }}
+                  >
+                    *
+                  </Label>
                 </StyledLabel>
                 <Textarea
                   style={{ margin: 0 }}
