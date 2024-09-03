@@ -25,4 +25,6 @@ test.describe('Home page', () => {
     await newPage.waitForLoadState();
     expect(newPage.url()).toContain(JOTFORM_URL);
   });
+
+  test('if the client is feature flagged "new-express" see the new CP CTA that open the service page /service', async () => {});
 });
