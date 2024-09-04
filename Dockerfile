@@ -1,6 +1,6 @@
 ARG STAGE_ENV
 
-FROM node:18.20-alpine3.19 as base
+FROM node:16.19-alpine3.17 as base
 
 ARG STRAPI_TOKEN
 ARG SENTRY_AUTH_TOKEN
