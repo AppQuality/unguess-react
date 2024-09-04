@@ -42,8 +42,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "craco start",
-    "start:ssl": "craco --openssl-legacy-provider start",
+    "start": "craco --openssl-legacy-provider start",
+    "start:node16": "craco start",
     "build": "craco build",
     "test": "react-scripts test",
     "test:e2e:ui": "npx playwright test --headed",
