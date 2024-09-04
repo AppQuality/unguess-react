@@ -4,8 +4,6 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { locizePlugin } from 'locize';
 import Locize from 'i18next-locize-backend';
 import { initReactI18next } from 'react-i18next';
-import en from './locales/en/translation.json';
-import it from './locales/it/translation.json';
 import { isDev } from './common/isDevEnvironment';
 
 // the translations
