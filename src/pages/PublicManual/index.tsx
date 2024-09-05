@@ -1,10 +1,10 @@
 const PublicManual = () => (
   <>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. A tempore
-    dignissimos sit veniam, quisquam maiores assumenda dolor quae fugit
-    reiciendis excepturi quia asperiores adipisci. Esse fugit sunt natus sequi
-    fuga!
+    <h6>password</h6>
+    <input type="password" />
+    <button type="submit">Submit</button>
   </>
 );
 
+// PostPublicManualApiResponse
 export default PublicManual;
