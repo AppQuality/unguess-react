@@ -1131,9 +1131,8 @@ export type DeleteCampaignsByCidUsersApiArg = {
   };
 };
 export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
-  version: number;
-  goal: string;
-  users: number;
+  goal?: string;
+  users?: number;
   findings?: {
     /** this field is the Finding ID */
     id: number;
@@ -1142,7 +1141,8 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
     comment?: string;
     severity: {
       id: number;
-      name?: string;
+      name: string;
+      style: string;
     };
     cluster:
       | {
@@ -1167,11 +1167,11 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
     value: number;
     comment: string;
   }[];
-  methodology: {
+  methodology?: {
     type: string;
     description: string;
   };
-  questions: {
+  questions?: {
     text: string;
   }[];
 };

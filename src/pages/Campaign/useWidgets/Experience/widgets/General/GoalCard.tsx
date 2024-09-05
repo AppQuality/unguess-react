@@ -1,20 +1,20 @@
 import {
+  Accordion,
+  Col,
   ContainerCard,
+  Grid,
   MD,
   Row,
-  Col,
   getColor,
-  Accordion,
-  Grid,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import { Divider } from 'src/common/components/divider';
+import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
-import { ReactComponent as TargetIcon } from './assets/target.svg';
+import styled from 'styled-components';
 import { CircleList } from './List';
+import { ReactComponent as TargetIcon } from './assets/target.svg';
 
 const CardContent = styled.div`
   padding: ${({ theme }) => theme.space.base * 2}px 0;
@@ -86,11 +86,12 @@ export const GoalCard = ({
           </Accordion.Header>
           <Accordion.Panel style={{ padding: 0 }}>
             <CircleList>
-              {data.questions.map((question) => (
-                <CircleList.Item>
-                  <MD isBold>{question.text}</MD>
-                </CircleList.Item>
-              ))}
+              {data.questions &&
+                data.questions.map((question) => (
+                  <CircleList.Item>
+                    <MD isBold>{question.text}</MD>
+                  </CircleList.Item>
+                ))}
             </CircleList>
           </Accordion.Panel>
         </Accordion.Section>
