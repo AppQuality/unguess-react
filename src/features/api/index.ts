@@ -533,6 +533,16 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    postVideosByVidTranslation: build.mutation<
+      PostVideosByVidTranslationApiResponse,
+      PostVideosByVidTranslationApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/videos/${queryArg.pathVid}/translation`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -646,6 +656,16 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/workspaces/${queryArg.wid}/users`,
         method: 'DELETE',
+        body: queryArg.body,
+      }),
+    }),
+    postPublicManual: build.mutation<
+      PostPublicManualApiResponse,
+      PostPublicManualApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/public-manual`,
+        method: 'POST',
         body: queryArg.body,
       }),
     }),
@@ -1450,6 +1470,20 @@ export type DeleteVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
 };
+export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ {
+  sentences: {
+    start: number;
+    text: string;
+    end: number;
+  }[];
+};
+export type PostVideosByVidTranslationApiArg = {
+  pathVid: string;
+  _pathVid: string;
+  body: {
+    language: string;
+  };
+};
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
   start?: number;
@@ -1610,6 +1644,14 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     /** Tryber WP USER ID */
     user_id: number;
     include_shared?: boolean;
+  };
+};
+export type PostPublicManualApiResponse = /** status 200 OK */ {
+  text: string;
+};
+export type PostPublicManualApiArg = {
+  body: {
+    password: string;
   };
 };
 export type Error = {
@@ -2190,6 +2232,7 @@ export const {
   usePostVideosByVidObservationsMutation,
   usePatchVideosByVidObservationsAndOidMutation,
   useDeleteVideosByVidObservationsAndOidMutation,
+  usePostVideosByVidTranslationMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
@@ -2201,4 +2244,5 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
+  usePostPublicManualMutation,
 } = injectedRtkApi;
