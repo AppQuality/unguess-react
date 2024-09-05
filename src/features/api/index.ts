@@ -659,14 +659,13 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    postPublicManual: build.mutation<
-      PostPublicManualApiResponse,
-      PostPublicManualApiArg
+    getPublicManual: build.query<
+      GetPublicManualApiResponse,
+      GetPublicManualApiArg
     >({
       query: (queryArg) => ({
         url: `/public-manual`,
-        method: 'POST',
-        body: queryArg.body,
+        params: { pass: queryArg.pass },
       }),
     }),
   }),
@@ -1646,13 +1645,11 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     include_shared?: boolean;
   };
 };
-export type PostPublicManualApiResponse = /** status 200 OK */ {
-  text: string;
+export type GetPublicManualApiResponse = /** status 200 OK */ {
+  text?: string;
 };
-export type PostPublicManualApiArg = {
-  body: {
-    password: string;
-  };
+export type GetPublicManualApiArg = {
+  pass?: string;
 };
 export type Error = {
   message: string;
@@ -2244,5 +2241,5 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
-  usePostPublicManualMutation,
+  useGetPublicManualQuery,
 } = injectedRtkApi;

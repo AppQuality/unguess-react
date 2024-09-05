@@ -1,28 +1,39 @@
 import { useState } from 'react';
-import { usePostPublicManualMutation } from 'src/features/api';
+import { useGetPublicManualQuery } from 'src/features/api';
 
 const PublicManual = () => {
   const [password, setPassword] = useState('');
+  const [finalPassword, setFinalPassword] = useState('');
 
-  const [getPublicManual] = usePostPublicManualMutation();
+  const { data, error } = useGetPublicManualQuery({
+    pass: finalPassword,
+  });
 
   return (
     <>
-      <h6>password</h6>
-      <input
-        type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <button
-        type="submit"
-        onClick={() => {
-          getPublicManual({ body: { password } });
-        }}
-      >
-        Submit
-      </button>
+      {error && finalPassword !== '' && <div>{JSON.stringify(error)}</div>}
+      {data ? (
+        <>{JSON.stringify(data)}</>
+      ) : (
+        <>
+          <h6>password</h6>
+          <input
+            type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <button
+            type="submit"
+            onClick={() => {
+              setFinalPassword(password);
+            }}
+          >
+            Submit
+          </button>
+        </>
+      )}
+      {JSON.stringify(data)}
     </>
   );
 };
