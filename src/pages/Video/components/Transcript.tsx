@@ -24,6 +24,8 @@ import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
 import { ParagraphMeta } from './ParagraphMeta';
+import { Tools } from './Tools';
+import { ToolsContextProvider } from './context/toolsContext';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -172,6 +174,10 @@ const Transcript = ({
               onChange={(e) => setSearchValue(e.target.value)}
             />
           )}
+
+          <ToolsContextProvider mediaId={videoId ?? ''}>
+            <Tools />
+          </ToolsContextProvider>
         </TranscriptHeader>
         <div ref={containerRef}>
           <HighlightContainer ref={wrapperRef}>
