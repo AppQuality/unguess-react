@@ -38,23 +38,25 @@ const PublicManual = () => {
     localStorage.getItem('manualPassword') || ''
   );
 
+  const isPasswordSet = localStorage.getItem('password');
   const { data, error } = useGetPublicManualQuery({
-    pass: password,
+    pass: isPasswordSet || password,
   });
 
-  if (data) {
-    localStorage.setItem('manualPassword', password);
+  if (data && !error) {
+    if (!isPasswordSet) {
+      // password is correct, save it to local storage
+      localStorage.setItem('password', password);
+    }
     return <Content data={data} />;
   }
 
+  const isLogged = localStorage.getItem('password');
   return (
     <>
-      {error && password !== '' && <div>{JSON.stringify(error)}</div>}
-      <PasswordInput
-        setPassword={(pass) => {
-          setPassword(pass);
-        }}
-      />
+      {(error && password !== '' && <div>{JSON.stringify(error)}</div>) ||
+        !!isLogged}
+      <PasswordInput setPassword={setPassword} />
     </>
   );
 };
