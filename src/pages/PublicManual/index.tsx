@@ -34,18 +34,27 @@ const Content = ({ data }: { data: { text?: string } }) => (
 );
 
 const PublicManual = () => {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(
+    localStorage.getItem('manualPassword') || ''
+  );
 
   const { data, error } = useGetPublicManualQuery({
     pass: password,
   });
 
-  if (data) return <Content data={data} />;
+  if (data) {
+    localStorage.setItem('manualPassword', password);
+    return <Content data={data} />;
+  }
 
   return (
     <>
       {error && password !== '' && <div>{JSON.stringify(error)}</div>}
-      <PasswordInput setPassword={setPassword} />
+      <PasswordInput
+        setPassword={(pass) => {
+          setPassword(pass);
+        }}
+      />
     </>
   );
 };
