@@ -538,7 +538,7 @@ const injectedRtkApi = api.injectEndpoints({
       PostVideosByVidTranslationApiArg
     >({
       query: (queryArg) => ({
-        url: `/videos/${queryArg.pathVid}/translation`,
+        url: `/videos/${queryArg.vid}/translation`,
         method: 'POST',
         body: queryArg.body,
       }),
@@ -1470,8 +1470,7 @@ export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ {
   }[];
 };
 export type PostVideosByVidTranslationApiArg = {
-  pathVid: string;
-  _pathVid: string;
+  vid: string;
   body: {
     language: string;
   };
