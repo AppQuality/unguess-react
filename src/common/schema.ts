@@ -414,6 +414,14 @@ export interface paths {
       };
     };
   };
+  '/videos/{vid}/translation': {
+    post: operations['post-videos-vid-translation'];
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+  };
   '/workspaces': {
     get: operations['get-workspaces'];
     /** This endpoint is useful to add a new workspace. Only admin can use this. */
@@ -2304,9 +2312,8 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            version: number;
-            goal: string;
-            users: number;
+            goal?: string;
+            users?: number;
             findings?: {
               /** @description this field is the Finding ID */
               id: number;
@@ -2315,7 +2322,8 @@ export interface operations {
               comment?: string;
               severity: {
                 id: number;
-                name?: string;
+                name: string;
+                style: string;
               };
               cluster:
                 | {
@@ -2340,11 +2348,11 @@ export interface operations {
               value: number;
               comment: string;
             }[];
-            methodology: {
+            methodology?: {
               type: string;
               description: string;
             };
-            questions: {
+            questions?: {
               text: string;
             }[];
           };
@@ -2955,6 +2963,37 @@ export interface operations {
           end?: number;
           quotes?: string;
           tags?: number[];
+        };
+      };
+    };
+  };
+  'post-videos-vid-translation': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            sentences: {
+              start: number;
+              text: string;
+              end: number;
+            }[];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          language: string;
         };
       };
     };

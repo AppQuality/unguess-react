@@ -533,6 +533,16 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    postVideosByVidTranslation: build.mutation<
+      PostVideosByVidTranslationApiResponse,
+      PostVideosByVidTranslationApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/videos/${queryArg.pathVid}/translation`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -1450,6 +1460,20 @@ export type DeleteVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
 };
+export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ {
+  sentences: {
+    start: number;
+    text: string;
+    end: number;
+  }[];
+};
+export type PostVideosByVidTranslationApiArg = {
+  pathVid: string;
+  _pathVid: string;
+  body: {
+    language: string;
+  };
+};
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
   start?: number;
@@ -2190,6 +2214,7 @@ export const {
   usePostVideosByVidObservationsMutation,
   usePatchVideosByVidObservationsAndOidMutation,
   useDeleteVideosByVidObservationsAndOidMutation,
+  usePostVideosByVidTranslationMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
