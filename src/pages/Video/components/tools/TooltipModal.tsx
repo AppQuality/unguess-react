@@ -1,16 +1,16 @@
 import { TooltipModal } from '@appquality/unguess-design-system';
-import { AiMenu } from './ToolsMenu';
-import { TranslationSettings } from './ToolsMenuTranslations';
+import { Menu } from './Menu';
+import { TranslationSettings } from './MenuItemTranslations';
 import { useToolsContext } from './context/toolsContext';
 
 const getItemBySlug = (slug: string) => {
   switch (slug) {
     case 'menu':
-      return <AiMenu />;
+      return <Menu />;
     case 'translations':
       return <TranslationSettings />;
     default:
-      return <AiMenu />;
+      return <Menu />;
   }
 };
 
