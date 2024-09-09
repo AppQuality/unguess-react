@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useGetPublicManualQuery } from 'src/features/api';
+import { useParams } from 'react-router-dom';
+import { useGetCampaignsByCidPublicManualQuery } from 'src/features/api';
 
 const PasswordInput = ({
   setPassword,
@@ -29,8 +30,15 @@ const PasswordInput = ({
   );
 };
 
-const Content = ({ data }: { data: { text?: string } }) => (
-  <div>{data.text}</div>
+const Content = ({
+  data,
+}: {
+  data: { title?: string; description?: string };
+}) => (
+  <>
+    <h1>Title: {data.title}</h1>
+    <p>Description: {data.description}</p>
+  </>
 );
 
 const PublicManual = () => {
@@ -38,9 +46,12 @@ const PublicManual = () => {
     localStorage.getItem('manualPassword') || ''
   );
 
+  const { campaignId } = useParams();
+
   const isPasswordSet = localStorage.getItem('password');
-  const { data, error } = useGetPublicManualQuery({
+  const { data, error } = useGetCampaignsByCidPublicManualQuery({
     pass: isPasswordSet || password,
+    cid: campaignId?.toString() || '0',
   });
 
   if (data && !error) {
