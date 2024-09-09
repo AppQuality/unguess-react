@@ -24,8 +24,8 @@ import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
 import { ParagraphMeta } from './ParagraphMeta';
-import { Tools } from './Tools';
-import { ToolsContextProvider } from './context/toolsContext';
+import { Tools } from './tools';
+import { ToolsContextProvider } from './tools/context/toolsContext';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
