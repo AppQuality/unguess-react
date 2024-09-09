@@ -238,6 +238,15 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/priorities` }),
     }),
+    getCampaignsByCidPublicManual: build.query<
+      GetCampaignsByCidPublicManualApiResponse,
+      GetCampaignsByCidPublicManualApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/public-manual`,
+        params: { pass: queryArg.pass },
+      }),
+    }),
     getCampaignsByCidReplicabilities: build.query<
       GetCampaignsByCidReplicabilitiesApiResponse,
       GetCampaignsByCidReplicabilitiesApiArg
@@ -659,15 +668,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    getPublicManual: build.query<
-      GetPublicManualApiResponse,
-      GetPublicManualApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/public-manual`,
-        params: { pass: queryArg.pass },
-      }),
-    }),
   }),
   overrideExisting: false,
 });
@@ -1059,6 +1059,15 @@ export type GetCampaignsByCidPrioritiesApiResponse =
 export type GetCampaignsByCidPrioritiesApiArg = {
   /** Campaign id */
   cid: string;
+};
+export type GetCampaignsByCidPublicManualApiResponse = /** status 200 OK */ {
+  title?: string;
+  description?: string;
+};
+export type GetCampaignsByCidPublicManualApiArg = {
+  /** Campaign id */
+  cid: string;
+  pass?: string;
 };
 export type GetCampaignsByCidReplicabilitiesApiResponse =
   /** status 200 OK */ BugReplicability[];
@@ -1645,12 +1654,6 @@ export type DeleteWorkspacesByWidUsersApiArg = {
     include_shared?: boolean;
   };
 };
-export type GetPublicManualApiResponse = /** status 200 OK */ {
-  text?: string;
-};
-export type GetPublicManualApiArg = {
-  pass?: string;
-};
 export type Error = {
   message: string;
   code: number;
@@ -2195,6 +2198,7 @@ export const {
   useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
+  useGetCampaignsByCidPublicManualQuery,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidSeveritiesQuery,
@@ -2241,5 +2245,4 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeleteWorkspacesByWidUsersMutation,
-  useGetPublicManualQuery,
 } = injectedRtkApi;
