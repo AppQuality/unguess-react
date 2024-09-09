@@ -1,8 +1,22 @@
 import { Button } from '@appquality/unguess-design-system';
+import { usePostVideosByVidTranslationMutation } from 'src/features/api';
 import { useToolsContext } from './context/toolsContext';
 
 export const AiMenu = () => {
-  const { setActiveItem } = useToolsContext();
+  const { setActiveItem, mediaId } = useToolsContext();
+  const [postVideosByVidTranslation] = usePostVideosByVidTranslationMutation();
+
+  const translation = () => {
+    postVideosByVidTranslation({
+      pathVid: mediaId,
+      _pathVid: mediaId,
+      body: {
+        language: 'fr',
+      },
+    })
+      .unwrap()
+      .then(() => setActiveItem('list'));
+  };
   return (
     <>
       <Button

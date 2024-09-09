@@ -533,21 +533,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
-    getVideosByVidTranslation: build.query<
-      GetVideosByVidTranslationApiResponse,
-      GetVideosByVidTranslationApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/videos/${queryArg.vid}/translation`,
-        params: { lang: queryArg.lang },
-      }),
-    }),
     postVideosByVidTranslation: build.mutation<
       PostVideosByVidTranslationApiResponse,
       PostVideosByVidTranslationApiArg
     >({
       query: (queryArg) => ({
-        url: `/videos/${queryArg.vid}/translation`,
+        url: `/videos/${queryArg.pathVid}/translation`,
         method: 'POST',
         body: queryArg.body,
       }),
@@ -1471,22 +1462,16 @@ export type DeleteVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
 };
-export type GetVideosByVidTranslationApiResponse = /** status 200 OK */ {
-  language: string;
+export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ {
   sentences: {
-    text: string;
     start: number;
+    text: string;
     end: number;
   }[];
 };
-export type GetVideosByVidTranslationApiArg = {
-  vid: string;
-  /** language */
-  lang?: string;
-};
-export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ object;
 export type PostVideosByVidTranslationApiArg = {
-  vid: string;
+  pathVid: string;
+  _pathVid: string;
   body: {
     language: string;
   };
@@ -2231,7 +2216,6 @@ export const {
   usePostVideosByVidObservationsMutation,
   usePatchVideosByVidObservationsAndOidMutation,
   useDeleteVideosByVidObservationsAndOidMutation,
-  useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
