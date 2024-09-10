@@ -247,6 +247,16 @@ const injectedRtkApi = api.injectEndpoints({
         params: { pass: queryArg.pass },
       }),
     }),
+    postCampaignsByCidUser: build.mutation<
+      PostCampaignsByCidUserApiResponse,
+      PostCampaignsByCidUserApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/user`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidReplicabilities: build.query<
       GetCampaignsByCidReplicabilitiesApiResponse,
       GetCampaignsByCidReplicabilitiesApiArg
@@ -1068,6 +1078,21 @@ export type GetCampaignsByCidPublicManualApiArg = {
   /** Campaign id */
   cid: string;
   pass?: string;
+};
+export type PostCampaignsByCidUserApiResponse =
+  /** status 200 OK */
+  | {
+      token?: string;
+    }
+  | /** status 201 Created */ {
+      token?: string;
+    };
+export type PostCampaignsByCidUserApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    password?: string;
+  };
 };
 export type GetCampaignsByCidReplicabilitiesApiResponse =
   /** status 200 OK */ BugReplicability[];
@@ -2199,6 +2224,7 @@ export const {
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
   useGetCampaignsByCidPublicManualQuery,
+  usePostCampaignsByCidUserMutation,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidSeveritiesQuery,

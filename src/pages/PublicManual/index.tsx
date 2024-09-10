@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetCampaignsByCidPublicManualQuery } from 'src/features/api';
+import {
+  useGetCampaignsByCidPublicManualQuery,
+  usePostCampaignsByCidUserMutation,
+} from 'src/features/api';
 
 const PasswordInput = ({
   setPassword,
@@ -32,14 +35,30 @@ const PasswordInput = ({
 
 const Content = ({
   data,
+  campaignId,
 }: {
   data: { title?: string; description?: string };
-}) => (
-  <>
-    <h1>Title: {data.title}</h1>
-    <p>Description: {data.description}</p>
-  </>
-);
+  campaignId: string;
+}) => {
+  const [createUser] = usePostCampaignsByCidUserMutation();
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    createUser({ cid: campaignId, body: { password: 'Pippo' } })
+      .unwrap()
+      .then((res) => {
+        setToken(res?.token || '');
+      });
+  }, []);
+
+  return (
+    <>
+      <h1>Title: {data.title}</h1>
+      <p>Description: {data.description}</p>
+      <p>Token: {token}</p>
+    </>
+  );
+};
 
 const PublicManual = () => {
   const [password, setPassword] = useState(
@@ -59,7 +78,7 @@ const PublicManual = () => {
       // password is correct, save it to local storage
       localStorage.setItem('password', password);
     }
-    return <Content data={data} />;
+    return <Content data={data} campaignId={campaignId || ''} />;
   }
 
   const isLogged = localStorage.getItem('password');
