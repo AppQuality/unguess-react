@@ -1,9 +1,13 @@
 import {
+  Col,
   ContainerCard,
+  Grid,
   Highlight,
   LG,
   Notification,
+  Row,
   SM,
+  Separator,
   Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
@@ -67,6 +71,10 @@ const TagsWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xs};
+`;
+
+const StyledCol = styled(Col)`
+  user-select: none;
 `;
 
 const Transcript = ({
@@ -158,7 +166,13 @@ const Transcript = ({
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
-        <TranscriptHeader>
+        <TranscriptHeader
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
           <TitleWrapper>
             <IconTitleContainer>
               <InfoIcon />
@@ -174,77 +188,94 @@ const Transcript = ({
               onChange={(e) => setSearchValue(e.target.value)}
             />
           )}
-
+          <Separator />
           <ToolsContextProvider mediaId={videoId ?? ''}>
             <Tools />
           </ToolsContextProvider>
         </TranscriptHeader>
-        <div ref={containerRef}>
-          <HighlightContainer ref={wrapperRef}>
-            <Highlight
-              search={sanitizeInput(debouncedValue)}
-              onSelectionButtonClick={handleAddObservation}
-              i18n={{
-                selectionButtonLabel: t('__VIDEO_PAGE_ADD_OBSERVATION'),
-              }}
-            >
-              <ChipsWrap id="chips-wrap">
-                {video.transcript?.paragraphs.map((p) => (
-                  <ParagraphMeta
-                    speakers={video.transcript?.speakers || 0}
-                    start={p.start}
-                    end={p.end}
-                    speakerIndex={p.speaker || 0}
-                    setCurrentTime={(time) => setCurrentTime(time, true)}
-                  >
-                    {p.words.map((item, index) => (
-                      <Highlight.Word
-                        size="md"
-                        key={`${item.word + index}`}
-                        start={item.start}
-                        end={item.end}
-                        observations={observations?.map((o) => ({
-                          id: o.id,
-                          start: o.start,
-                          end: o.end,
-                          color:
-                            o.tags.find(
-                              (tag) =>
-                                tag.group.name.toLowerCase() === 'severity'
-                            )?.tag.style || appTheme.palette.grey[600],
-                          hue: getColorWithAlpha(
-                            o.tags.find(
-                              (tag) =>
-                                tag.group.name.toLowerCase() === 'severity'
-                            )?.tag.style || appTheme.palette.grey[600],
-                            0.1
-                          ),
-                          label: o.title,
-                          tags: o.tags,
-                        }))}
-                        currentTime={currentTime}
-                        text={item.word}
-                        tooltipContent={(obs) => (
-                          <TagsWrapper>
-                            {obs.map((o) => (
-                              <ObservationTooltip
-                                observationId={o.id}
-                                start={o.start}
-                                color={o.color}
-                                label={o.label}
-                                seekPlayer={setCurrentTime}
-                              />
-                            ))}
-                          </TagsWrapper>
-                        )}
-                      />
-                    ))}
-                  </ParagraphMeta>
-                ))}
-              </ChipsWrap>
-            </Highlight>
-          </HighlightContainer>
-        </div>
+        <Grid>
+          <div ref={containerRef}>
+            <HighlightContainer ref={wrapperRef}>
+              <Highlight
+                search={sanitizeInput(debouncedValue)}
+                onSelectionButtonClick={handleAddObservation}
+                i18n={{
+                  selectionButtonLabel: t('__VIDEO_PAGE_ADD_OBSERVATION'),
+                }}
+              >
+                <ChipsWrap id="chips-wrap">
+                  {video.transcript?.paragraphs.map((p) => (
+                    <ParagraphMeta
+                      speakers={video.transcript?.speakers || 0}
+                      start={p.start}
+                      end={p.end}
+                      speakerIndex={p.speaker || 0}
+                      setCurrentTime={(time) => setCurrentTime(time, true)}
+                    >
+                      <Row>
+                        <Col size={6}>
+                          {p.words.map((item, index) => (
+                            <Highlight.Word
+                              size="md"
+                              key={`${item.word + index}`}
+                              start={item.start}
+                              end={item.end}
+                              observations={observations?.map((o) => ({
+                                id: o.id,
+                                start: o.start,
+                                end: o.end,
+                                color:
+                                  o.tags.find(
+                                    (tag) =>
+                                      tag.group.name.toLowerCase() ===
+                                      'severity'
+                                  )?.tag.style || appTheme.palette.grey[600],
+                                hue: getColorWithAlpha(
+                                  o.tags.find(
+                                    (tag) =>
+                                      tag.group.name.toLowerCase() ===
+                                      'severity'
+                                  )?.tag.style || appTheme.palette.grey[600],
+                                  0.1
+                                ),
+                                label: o.title,
+                                tags: o.tags,
+                              }))}
+                              currentTime={currentTime}
+                              text={item.word}
+                              tooltipContent={(obs) => (
+                                <TagsWrapper>
+                                  {obs.map((o) => (
+                                    <ObservationTooltip
+                                      observationId={o.id}
+                                      start={o.start}
+                                      color={o.color}
+                                      label={o.label}
+                                      seekPlayer={setCurrentTime}
+                                    />
+                                  ))}
+                                </TagsWrapper>
+                              )}
+                            />
+                          ))}
+                        </Col>
+                        <StyledCol size={6}>
+                          {' '}
+                          Lorem Ipsum Lorem IpsumLorem IpsumLorem Ipsum Lorem
+                          Ipsum Lorem Ipsum Lorem IpsumLorem IpsumLorem Ipsum
+                          Lorem IpsumLorem Ipsum Lorem IpsumLorem IpsumLorem
+                          Ipsum Lorem IpsumLorem Ipsum Lorem IpsumLorem
+                          IpsumLorem Ipsum Lorem IpsumLorem Ipsum Lorem
+                          IpsumLorem IpsumLorem Ipsum Lorem IpsumLorem Ipsum
+                        </StyledCol>
+                      </Row>
+                    </ParagraphMeta>
+                  ))}
+                </ChipsWrap>
+              </Highlight>
+            </HighlightContainer>
+          </div>
+        </Grid>
       </StyledContainerCard>
     </div>
   );
