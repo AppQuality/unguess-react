@@ -1073,6 +1073,10 @@ export type GetCampaignsByCidPrioritiesApiArg = {
 export type GetCampaignsByCidPublicManualApiResponse = /** status 200 OK */ {
   title?: string;
   description?: string;
+  data?: {
+    name?: string;
+    type?: string;
+  }[];
 };
 export type GetCampaignsByCidPublicManualApiArg = {
   /** Campaign id */
