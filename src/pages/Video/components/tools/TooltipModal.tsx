@@ -1,5 +1,5 @@
 import { TooltipModal } from '@appquality/unguess-design-system';
-import { Menu } from './Menu';
+import { Menu } from './MenuItems';
 import { TranslationSettings } from './MenuItemTranslations';
 import { useToolsContext } from './context/toolsContext';
 
