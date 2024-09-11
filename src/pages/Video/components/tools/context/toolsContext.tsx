@@ -6,6 +6,8 @@ interface ToolsContextType {
   referenceElement: HTMLButtonElement | null;
   setReferenceElement: (element: HTMLButtonElement | null) => void;
   mediaId: string;
+  showMenuPanel: boolean;
+  setShowMenuPanel: (show: boolean) => void;
 }
 
 const ToolsContext = createContext<ToolsContextType | null>(null);
@@ -21,6 +23,8 @@ export const ToolsContextProvider = ({
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
 
+  const [showMenuPanel, setShowMenuPanel] = useState(false);
+
   const toolsContextValue = useMemo(
     () => ({
       activeItem,
@@ -28,8 +32,18 @@ export const ToolsContextProvider = ({
       referenceElement,
       setReferenceElement,
       mediaId,
+      showMenuPanel,
+      setShowMenuPanel,
     }),
-    [activeItem, setActiveItem, referenceElement, setReferenceElement, mediaId]
+    [
+      activeItem,
+      setActiveItem,
+      referenceElement,
+      setReferenceElement,
+      mediaId,
+      showMenuPanel,
+      setShowMenuPanel,
+    ]
   );
 
   return (
