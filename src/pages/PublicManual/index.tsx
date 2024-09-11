@@ -4,47 +4,19 @@ import {
   useGetCampaignsByCidPublicManualQuery,
   usePostCampaignsByCidUserMutation,
 } from 'src/features/api';
+import { PasswordInput } from './PasswordInput';
+import {
+  PublicManualContextProvider,
+  usePublicManualContext,
+} from './PublicManualContext';
 
-const PasswordInput = ({
-  setPassword,
-}: {
-  setPassword: (password: string) => void;
-}) => {
-  const [value, setValue] = useState('');
-
-  return (
-    <>
-      <h6>password</h6>
-      <input
-        type="password"
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-      />
-      <button
-        type="submit"
-        onClick={() => {
-          setPassword(value);
-        }}
-      >
-        Submit
-      </button>
-    </>
-  );
-};
-
-const Content = ({
-  data,
-  campaignId,
-}: {
-  data: { title?: string; description?: string };
-  campaignId: string;
-}) => {
+const Content = () => {
+  const { campaignId } = useParams();
   const [createUser] = usePostCampaignsByCidUserMutation();
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    createUser({ cid: campaignId, body: { password: 'Pippo' } })
+    createUser({ cid: campaignId || '0', body: { password: 'Pippo' } })
       .unwrap()
       .then((res) => {
         setToken(res?.token || '');
@@ -53,43 +25,66 @@ const Content = ({
 
   return (
     <>
-      <h1>Title: {data.title}</h1>
-      <p>Description: {data.description}</p>
+      <br />
       <p>Token: {token}</p>
+      <br />
+      <div>Form XpsCpData</div>
     </>
   );
 };
 
-const PublicManual = () => {
-  const [password, setPassword] = useState(
-    localStorage.getItem('manualPassword') || ''
-  );
-
+const useIsPasswordCorrect = (password: string) => {
   const { campaignId } = useParams();
 
-  const isPasswordSet = localStorage.getItem('password');
   const { data, error } = useGetCampaignsByCidPublicManualQuery({
-    pass: isPasswordSet || password,
+    pass: password,
     cid: campaignId?.toString() || '0',
   });
 
-  if (data && !error) {
-    if (!isPasswordSet) {
-      // password is correct, save it to local storage
-      localStorage.setItem('password', password);
-    }
-    return <Content data={data} campaignId={campaignId || ''} />;
+  return data && !error;
+};
+
+const useHasXpsCpData = (password: string) => {
+  const { campaignId } = useParams();
+
+  const { data, error } = useGetCampaignsByCidPublicManualQuery({
+    pass: password,
+    cid: campaignId?.toString() || '0',
+  });
+
+  if (!data || error) {
+    return false;
   }
 
-  const isLogged = localStorage.getItem('password');
+  return false;
+  //  return !! data?.data
+};
+
+const PublicManualContent = () => {
+  const { password, setPassword } = usePublicManualContext();
+  const passwordIsCorrect = useIsPasswordCorrect(password);
+  const hasXpsCpData = useHasXpsCpData(password);
+  const isNotLogged = true;
+
+  if (passwordIsCorrect) {
+    if (hasXpsCpData && isNotLogged) {
+      return <div>Form XpsCpData</div>;
+    }
+    return <Content />;
+  }
+
   return (
     <>
-      {(error && password !== '' && <div>{JSON.stringify(error)}</div>) ||
-        !!isLogged}
+      {password !== '' && <div>Errore ci fu</div>}
       <PasswordInput setPassword={setPassword} />
     </>
   );
 };
 
-// PostPublicManualApiResponse
+const PublicManual = () => (
+  <PublicManualContextProvider>
+    <PublicManualContent />
+  </PublicManualContextProvider>
+);
+
 export default PublicManual;

@@ -1092,6 +1092,10 @@ export type PostCampaignsByCidUserApiArg = {
   cid: string;
   body: {
     password?: string;
+    data?: {
+      name?: string;
+      value?: string;
+    }[];
   };
 };
 export type GetCampaignsByCidReplicabilitiesApiResponse =
