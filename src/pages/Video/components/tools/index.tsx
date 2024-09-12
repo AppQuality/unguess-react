@@ -1,7 +1,6 @@
 import {
   Button,
   Dropdown,
-  Item,
   Menu,
   Trigger,
   Label,

@@ -15,7 +15,10 @@ export const TranslationSettings = () => {
       },
     })
       .unwrap()
-      .then((res) => console.log(res.sentences));
+      .then((res) => {
+        // eslint-disable-next-line no-console
+        console.log(res.sentences);
+      });
 
     setReferenceElement(null);
   }, []);
