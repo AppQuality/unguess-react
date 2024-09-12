@@ -1,16 +1,16 @@
 import { TooltipModal } from '@appquality/unguess-design-system';
-import { Menu } from './MenuItems';
+import { MenuItems } from './MenuItems';
 import { TranslationSettings } from './MenuItemTranslations';
 import { useToolsContext } from './context/toolsContext';
 
 const getItemBySlug = (slug: string) => {
   switch (slug) {
     case 'menu':
-      return <Menu />;
+      return <MenuItems />;
     case 'translations':
       return <TranslationSettings />;
     default:
-      return <Menu />;
+      return <MenuItems />;
   }
 };
 
