@@ -29,6 +29,7 @@ import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
 import { ParagraphMeta } from './ParagraphMeta';
 import { Tools } from './tools';
+import { ToolsContextProvider } from './tools/context/ToolsContext';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -188,7 +189,9 @@ const Transcript = ({
             />
           )}
           <Separator />
-          <Tools />
+          <ToolsContextProvider>
+            <Tools />
+          </ToolsContextProvider>
         </TranscriptHeader>
         <Grid>
           <div ref={containerRef}>
