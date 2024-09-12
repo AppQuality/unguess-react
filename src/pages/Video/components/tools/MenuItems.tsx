@@ -32,6 +32,7 @@ export const MenuItems = () => {
           value="sentiment"
           onClick={() => {
             setActiveItem('sentiment');
+            // eslint-disable-next-line no-alert
             alert("Hello, I'm the sentiment");
           }}
         >
@@ -52,6 +53,7 @@ export const MenuItems = () => {
         value="autotag"
         onClick={() => {
           setActiveItem('autotag');
+          // eslint-disable-next-line no-alert
           alert("Hello, I'm the autotag");
         }}
       >
@@ -71,6 +73,7 @@ export const MenuItems = () => {
         value="translations"
         onClick={() => {
           setActiveItem('translations');
+          // eslint-disable-next-line no-alert
           alert("Hello, I'm the translations");
         }}
       >
