@@ -1,43 +1,23 @@
-import {
-  Button,
-  Dropdown,
-  Menu,
-  Trigger,
-  Label,
-} from '@appquality/unguess-design-system';
-import { useRef } from 'react';
-
+import { Button, Dropdown, Trigger } from '@appquality/unguess-design-system';
 import { ReactComponent as AIMenuIcon } from 'src/assets/icons/ai-icon.svg';
-
-import { useToolsContext } from './context/toolsContext';
-import { MenuItems } from './MenuItems';
+import { appTheme } from 'src/app/theme';
+import { useTranslation } from 'react-i18next';
+import { ToolsMenu } from './ToolsMenu';
 
 export const Tools = () => {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const { setReferenceElement, showMenuPanel, setShowMenuPanel } =
-    useToolsContext();
+  const { t } = useTranslation();
 
   return (
     <Dropdown>
       <Trigger>
-        <Button
-          isBasic
-          size="large"
-          ref={buttonRef}
-          onClick={() => {
-            setReferenceElement(buttonRef.current);
-            setShowMenuPanel(!showMenuPanel);
-          }}
-        >
-          <AIMenuIcon />
-          <Label style={{ marginLeft: '0.5rem' }} isRegular>
-            Generate AI
-          </Label>
+        <Button isBasic size="large" style={{ marginLeft: appTheme.space.md }}>
+          <Button.StartIcon>
+            <AIMenuIcon />
+          </Button.StartIcon>
+          {t('__TOOLS_MENU_ITEM_BUTTON_LABEL')}
         </Button>
       </Trigger>
-      <Menu hasArrow>
-        <MenuItems />
-      </Menu>
+      <ToolsMenu />
     </Dropdown>
   );
 };
