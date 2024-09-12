@@ -29,7 +29,6 @@ import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
 import { ParagraphMeta } from './ParagraphMeta';
 import { Tools } from './tools';
-import { ToolsContextProvider } from './tools/context/toolsContext';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -189,9 +188,7 @@ const Transcript = ({
             />
           )}
           <Separator />
-          <ToolsContextProvider mediaId={videoId ?? ''}>
-            <Tools />
-          </ToolsContextProvider>
+          <Tools />
         </TranscriptHeader>
         <Grid>
           <div ref={containerRef}>
