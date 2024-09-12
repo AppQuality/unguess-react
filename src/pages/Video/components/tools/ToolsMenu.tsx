@@ -7,6 +7,8 @@ import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { FEATURE_FLAG_AI } from 'src/constants';
 
 const StyledButton = styled(Button)`
   display: flex;
@@ -39,6 +41,8 @@ const ButtonLabels = ({
 export const ToolsMenu = () => {
   const { t } = useTranslation();
   const [activeItem, setActiveItem] = useState<string>('menu');
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
 
   // case 1: no feature flag
   // case 2: feature flag enabled
