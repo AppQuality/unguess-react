@@ -1,18 +1,6 @@
 import { TooltipModal } from '@appquality/unguess-design-system';
-import { MenuItems } from './MenuItems';
-import { TranslationSettings } from './MenuItemTranslations';
+import { ToolsMenu } from './ToolsMenu';
 import { useToolsContext } from './context/toolsContext';
-
-const getItemBySlug = (slug: string) => {
-  switch (slug) {
-    case 'menu':
-      return <MenuItems />;
-    case 'translations':
-      return <TranslationSettings />;
-    default:
-      return <MenuItems />;
-  }
-};
 
 export const ToolsTooltipModal = () => {
   const { referenceElement, setReferenceElement, activeItem, setActiveItem } =
@@ -28,7 +16,7 @@ export const ToolsTooltipModal = () => {
       hasArrow={false}
       placement="bottom"
     >
-      {getItemBySlug(activeItem as string)}
+      <ToolsMenu />
     </TooltipModal>
   );
 };
