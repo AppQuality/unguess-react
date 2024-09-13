@@ -10,6 +10,7 @@ import {
   Label,
   Toggle,
   LG,
+  Spinner,
 } from '@appquality/unguess-design-system';
 import { Field as ZendeskDropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as ZendeskFormField } from '@zendeskgarden/react-forms';
@@ -17,7 +18,7 @@ import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { usePostVideosByVidTranslationMutation } from 'src/features/api';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
@@ -52,7 +53,8 @@ const ToolsTranslate = () => {
     { value: 'fr', label: t('__TOOLS_TRANSLATE_LANGUAGE_FR_LABEL') },
     { value: 'de', label: t('__TOOLS_TRANSLATE_LANGUAGE_DE_LABEL') },
   ];
-  const [requestTranslation] = usePostVideosByVidTranslationMutation();
+  const [requestTranslation, { isLoading, isError, isSuccess }] =
+    usePostVideosByVidTranslationMutation();
 
   if (activeItem !== 'translate') return null;
 
@@ -127,7 +129,7 @@ const ToolsTranslate = () => {
           <Button
             isPrimary
             isAccent
-            disabled={!language}
+            disabled={!language || isLoading}
             onClick={async () => {
               if (!videoId) return;
               if (!language) return;
@@ -142,7 +144,18 @@ const ToolsTranslate = () => {
               setActiveItem(null);
             }}
           >
-            {t('__TOOLS_TRANSLATE_BUTTON_SEND')}
+            {isLoading
+              ? t('__TOOLS_TRANSLATE_BUTTON_SEND_LOADING')
+              : t('__TOOLS_TRANSLATE_BUTTON_SEND')}
+            {isLoading && (
+              <Button.EndIcon>
+                <Spinner
+                  size={appTheme.space.md}
+                  color={appTheme.palette.grey[400]}
+                  style={{ marginLeft: appTheme.space.sm }}
+                />
+              </Button.EndIcon>
+            )}
           </Button>
         </ButtonsWrapper>
       </Body>

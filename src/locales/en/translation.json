@@ -910,6 +910,7 @@
   "__TOOLS_SENTIMENT_PREVIOUS_ITEM": "Back",
   "__TOOLS_TRANSLATE_BUTTON_CANCEL": "Cancel",
   "__TOOLS_TRANSLATE_BUTTON_SEND": "Translate",
+  "__TOOLS_TRANSLATE_BUTTON_SEND_LOADING": "Translating",
   "__TOOLS_TRANSLATE_CONTENT": "Translate",
   "__TOOLS_TRANSLATE_DESCRIPTION": "Select the language to translate the transcript. You can choose to set it as the default!",
   "__TOOLS_TRANSLATE_LANGUAGE_DE_LABEL": "German",
