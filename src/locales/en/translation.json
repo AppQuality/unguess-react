@@ -922,6 +922,8 @@
   "__TOOLS_TRANSLATE_LANGUAGE_IT_LABEL": "Italian",
   "__TOOLS_TRANSLATE_PREVIOUS_ITEM": "Back",
   "__TOOLS_TRANSLATE_TITLE": "Translate transcript",
+  "__TOOLS_TRANSLATE_TOAST_ERROR_MESSAGE": "Something went wrong, try again",
+  "__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE": "Translation completed, it will be available soon",
   "__TOOLS_TRANSLATE_TOGGLE_TEXT": "Set as preferred language",
   "__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP": "Dashboard",
   "__UX_CAMPAIGN_PAGE_NAVIGATION_INSIGHTS_TOOLTIP": "Topics & insights",

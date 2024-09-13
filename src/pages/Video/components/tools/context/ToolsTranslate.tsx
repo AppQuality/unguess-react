@@ -11,6 +11,8 @@ import {
   Toggle,
   LG,
   Spinner,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { Field as ZendeskDropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as ZendeskFormField } from '@zendeskgarden/react-forms';
@@ -18,7 +20,7 @@ import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { usePostVideosByVidTranslationMutation } from 'src/features/api';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
@@ -46,6 +48,7 @@ const ToolsTranslate = () => {
   const { t } = useTranslation();
   const { activeItem, setActiveItem } = useToolsContext();
   const [language, setLanguage] = useState<Lang>();
+  const { addToast } = useToast();
   const allowedLanguages: Lang[] = [
     { value: 'en', label: t('__TOOLS_TRANSLATE_LANGUAGE_EN_LABEL') },
     { value: 'it', label: t('__TOOLS_TRANSLATE_LANGUAGE_IT_LABEL') },
@@ -53,7 +56,7 @@ const ToolsTranslate = () => {
     { value: 'fr', label: t('__TOOLS_TRANSLATE_LANGUAGE_FR_LABEL') },
     { value: 'de', label: t('__TOOLS_TRANSLATE_LANGUAGE_DE_LABEL') },
   ];
-  const [requestTranslation, { isLoading, isError, isSuccess }] =
+  const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
 
   if (activeItem !== 'translate') return null;
@@ -130,18 +133,50 @@ const ToolsTranslate = () => {
             isPrimary
             isAccent
             disabled={!language || isLoading}
-            onClick={async () => {
+            onClick={() => {
               if (!videoId) return;
               if (!language) return;
 
-              await requestTranslation({
+              requestTranslation({
                 vid: videoId || '',
                 body: {
                   language: language.value,
                 },
-              });
+              })
+                .unwrap()
+                .then(() => {
+                  setActiveItem(null);
 
-              setActiveItem(null);
+                  addToast(
+                    ({ close }) => (
+                      <Notification
+                        onClose={close}
+                        type="success"
+                        message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
+                        closeText={t('__TOAST_CLOSE_TEXT')}
+                        isPrimary
+                      />
+                    ),
+                    { placement: 'top' }
+                  );
+                })
+                .catch((e) => {
+                  // eslint-disable-next-line no-console
+                  console.error(e);
+
+                  addToast(
+                    ({ close }) => (
+                      <Notification
+                        onClose={close}
+                        type="error"
+                        message={t('__TOOLS_TRANSLATE_TOAST_ERROR_MESSAGE')}
+                        closeText={t('__TOAST_CLOSE_TEXT')}
+                        isPrimary
+                      />
+                    ),
+                    { placement: 'top' }
+                  );
+                });
             }}
           >
             {isLoading
