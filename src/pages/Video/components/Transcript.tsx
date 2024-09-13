@@ -24,6 +24,8 @@ import {
 } from 'src/features/api';
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { FEATURE_FLAG_AI } from 'src/constants';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
@@ -73,7 +75,11 @@ const TagsWrapper = styled.div`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
-const StyledCol = styled(Col)`
+const NoMarginCol = styled(Col)`
+  margin: 0;
+`;
+
+const StyledCol = styled(NoMarginCol)`
   user-select: none;
 `;
 
@@ -95,6 +101,9 @@ const Transcript = ({
   const { setOpenAccordion } = useVideoContext();
   const debouncedValue = useDebounce(searchValue, 300);
   const { addToast } = useToast();
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
+
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -213,7 +222,7 @@ const Transcript = ({
                       setCurrentTime={(time) => setCurrentTime(time, true)}
                     >
                       <Row>
-                        <Col size={6}>
+                        <NoMarginCol size={hasAIFeatureFlag ? 6 : 12}>
                           {p.words.map((item, index) => (
                             <Highlight.Word
                               size="md"
@@ -258,16 +267,12 @@ const Transcript = ({
                               )}
                             />
                           ))}
-                        </Col>
-                        <StyledCol size={6}>
-                          {' '}
-                          Lorem Ipsum Lorem IpsumLorem IpsumLorem Ipsum Lorem
-                          Ipsum Lorem Ipsum Lorem IpsumLorem IpsumLorem Ipsum
-                          Lorem IpsumLorem Ipsum Lorem IpsumLorem IpsumLorem
-                          Ipsum Lorem IpsumLorem Ipsum Lorem IpsumLorem
-                          IpsumLorem Ipsum Lorem IpsumLorem Ipsum Lorem
-                          IpsumLorem IpsumLorem Ipsum Lorem IpsumLorem Ipsum
-                        </StyledCol>
+                        </NoMarginCol>
+                        {hasAIFeatureFlag && (
+                          <StyledCol size={6}>
+                            {p.words.map(() => 'text ')}
+                          </StyledCol>
+                        )}
                       </Row>
                     </ParagraphMeta>
                   ))}
