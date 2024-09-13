@@ -1,8 +1,8 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
 interface ToolsContextType {
-  activeItem: string;
-  setActiveItem: (item: string) => void;
+  activeItem: string | null;
+  setActiveItem: (item: string | null) => void;
 }
 
 const ToolsContext = createContext<ToolsContextType | null>(null);
@@ -12,7 +12,7 @@ export const ToolsContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [activeItem, setActiveItem] = useState<string>('menu');
+  const [activeItem, setActiveItem] = useState<string | null>('menu');
 
   const toolsContextValue = useMemo(
     () => ({
