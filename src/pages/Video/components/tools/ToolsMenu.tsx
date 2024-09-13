@@ -46,49 +46,48 @@ export const ToolsMenu = () => {
   return (
     <Menu hasArrow zIndex={appTheme.levels.front}>
       <div style={{ padding: appTheme.space.xs }}>
-        {!activeItem ||
-          (activeItem === 'menu' && (
-            <>
-              <MenuButton onClick={() => setActiveItem('sentiment')}>
-                <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
-                  <SmileyIcon />
-                </Button.StartIcon>
-                <ButtonLabels
-                  title={t('__TOOLS_MENU_ITEM_SENTIMENT_TITLE')}
-                  subtitle={t('__TOOLS_MENU_ITEM_SENTIMENT_SUBTITLE')}
-                />
-                <Button.EndIcon style={{ marginLeft: 'auto' }}>
-                  <ArrowRight />
-                </Button.EndIcon>
-              </MenuButton>
-              <MenuButton onClick={() => setActiveItem('autotag')}>
-                <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
-                  <BoltIcon />
-                </Button.StartIcon>
-                <ButtonLabels
-                  title={t('__TOOLS_MENU_ITEM_AUTOTAG_TITLE')}
-                  subtitle={t('__TOOLS_MENU_ITEM_AUTOTAG_SUBTITLE')}
-                />
-                <Button.EndIcon style={{ marginLeft: 'auto' }}>
-                  <ArrowRight />
-                </Button.EndIcon>
-              </MenuButton>
-              <MenuButton onClick={() => setActiveItem('translate')}>
-                <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
-                  <TranslateIcon />
-                </Button.StartIcon>
-                <ButtonLabels
-                  title={t('__TOOLS_MENU_ITEM_TRANSLATE_TITLE')}
-                  {...(!hasAIFeatureFlag && {
-                    subtitle: t('__TOOLS_MENU_ITEM_TRANSLATE_SUBTITLE'),
-                  })}
-                />
-                <Button.EndIcon style={{ marginLeft: 'auto' }}>
-                  <ArrowRight />
-                </Button.EndIcon>
-              </MenuButton>
-            </>
-          ))}
+        {activeItem === 'menu' && (
+          <>
+            <MenuButton onClick={() => setActiveItem('sentiment')}>
+              <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
+                <SmileyIcon />
+              </Button.StartIcon>
+              <ButtonLabels
+                title={t('__TOOLS_MENU_ITEM_SENTIMENT_TITLE')}
+                subtitle={t('__TOOLS_MENU_ITEM_SENTIMENT_SUBTITLE')}
+              />
+              <Button.EndIcon style={{ marginLeft: 'auto' }}>
+                <ArrowRight />
+              </Button.EndIcon>
+            </MenuButton>
+            <MenuButton onClick={() => setActiveItem('autotag')}>
+              <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
+                <BoltIcon />
+              </Button.StartIcon>
+              <ButtonLabels
+                title={t('__TOOLS_MENU_ITEM_AUTOTAG_TITLE')}
+                subtitle={t('__TOOLS_MENU_ITEM_AUTOTAG_SUBTITLE')}
+              />
+              <Button.EndIcon style={{ marginLeft: 'auto' }}>
+                <ArrowRight />
+              </Button.EndIcon>
+            </MenuButton>
+            <MenuButton onClick={() => setActiveItem('translate')}>
+              <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
+                <TranslateIcon />
+              </Button.StartIcon>
+              <ButtonLabels
+                title={t('__TOOLS_MENU_ITEM_TRANSLATE_TITLE')}
+                {...(!hasAIFeatureFlag && {
+                  subtitle: t('__TOOLS_MENU_ITEM_TRANSLATE_SUBTITLE'),
+                })}
+              />
+              <Button.EndIcon style={{ marginLeft: 'auto' }}>
+                <ArrowRight />
+              </Button.EndIcon>
+            </MenuButton>
+          </>
+        )}
         {activeItem === 'sentiment' && <ToolsSentimentFlag />}
         {activeItem === 'autotag' && <ToolsAutotagFlag />}
         {activeItem === 'translate' && hasAIFeatureFlag ? (

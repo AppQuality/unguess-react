@@ -7,7 +7,7 @@ import { useToolsContext } from './context/ToolsContext';
 
 export const Tools = () => {
   const { t } = useTranslation();
-  const { setActiveItem } = useToolsContext();
+  const { activeItem, setActiveItem } = useToolsContext();
 
   return (
     <Dropdown>
@@ -24,7 +24,7 @@ export const Tools = () => {
           {t('__TOOLS_MENU_ITEM_BUTTON_LABEL')}
         </Button>
       </Trigger>
-      <ToolsMenu />
+      {activeItem && <ToolsMenu />}
     </Dropdown>
   );
 };
