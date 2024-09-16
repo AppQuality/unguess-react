@@ -533,6 +533,15 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    getVideosByVidTranslation: build.query<
+      GetVideosByVidTranslationApiResponse,
+      GetVideosByVidTranslationApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/videos/${queryArg.vid}/translation`,
+        params: { lang: queryArg.lang },
+      }),
+    }),
     postVideosByVidTranslation: build.mutation<
       PostVideosByVidTranslationApiResponse,
       PostVideosByVidTranslationApiArg
@@ -1415,7 +1424,7 @@ export type PutUsersMePreferencesByPrefidApiResponse =
 export type PutUsersMePreferencesByPrefidApiArg = {
   prefid: string;
   body: {
-    value: number;
+    value: string;
   };
 };
 export type GetVideosByVidApiResponse = /** status 200 OK */ Video & {
@@ -1460,13 +1469,20 @@ export type DeleteVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
 };
-export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ {
+export type GetVideosByVidTranslationApiResponse = /** status 200 OK */ {
+  language: string;
   sentences: {
-    start: number;
     text: string;
+    start: number;
     end: number;
   }[];
 };
+export type GetVideosByVidTranslationApiArg = {
+  vid: string;
+  /** language */
+  lang?: string;
+};
+export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ object;
 export type PostVideosByVidTranslationApiArg = {
   vid: string;
   body: {
@@ -2114,7 +2130,7 @@ export type User = {
 };
 export type UserPreference = {
   preference_id: number;
-  value: number;
+  value: string;
   name: string;
 };
 export type Workspace = {
@@ -2213,6 +2229,7 @@ export const {
   usePostVideosByVidObservationsMutation,
   usePatchVideosByVidObservationsAndOidMutation,
   useDeleteVideosByVidObservationsAndOidMutation,
+  useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
