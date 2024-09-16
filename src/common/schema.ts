@@ -415,6 +415,20 @@ export interface paths {
     };
   };
   '/videos/{vid}/translation': {
+    /** Return, if exists, a valid translation in the user preferred language or in the requested language (if provided) */
+    get: operations['get-videos-vid-translation'];
+    /**
+     * This endpoint generates a new translation for the provided video if it does not already exist.
+     *
+     * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+     *
+     * **Path Parameters**:
+     *
+     * vid (string, required): The ID of the video for which the translation is to be generated.
+     * Request Body (application/json):
+     *
+     * language (string, required): The language code for the desired translation.
+     */
     post: operations['post-videos-vid-translation'];
     parameters: {
       path: {
@@ -2969,6 +2983,48 @@ export interface operations {
       };
     };
   };
+  /** Return, if exists, a valid translation in the user preferred language or in the requested language (if provided) */
+  'get-videos-vid-translation': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+      query: {
+        /** language */
+        lang?: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            language: string;
+            sentences: {
+              text: string;
+              start: number;
+              end: number;
+            }[];
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  /**
+   * This endpoint generates a new translation for the provided video if it does not already exist.
+   *
+   * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+   *
+   * **Path Parameters**:
+   *
+   * vid (string, required): The ID of the video for which the translation is to be generated.
+   * Request Body (application/json):
+   *
+   * language (string, required): The language code for the desired translation.
+   */
   'post-videos-vid-translation': {
     parameters: {
       path: {
@@ -2979,13 +3035,7 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': {
-            sentences: {
-              start: number;
-              text: string;
-              end: number;
-            }[];
-          };
+          'application/json': { [key: string]: unknown };
         };
       };
       400: components['responses']['Error'];
