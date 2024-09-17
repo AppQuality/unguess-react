@@ -13,6 +13,7 @@ import {
   Spinner,
   useToast,
   Notification,
+  Skeleton,
 } from '@appquality/unguess-design-system';
 import { Field as ZendeskDropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as ZendeskFormField } from '@zendeskgarden/react-forms';
@@ -20,8 +21,12 @@ import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useState } from 'react';
-import { usePostVideosByVidTranslationMutation } from 'src/features/api';
+import { useEffect, useState } from 'react';
+import {
+  useGetUsersMePreferencesQuery,
+  usePostVideosByVidTranslationMutation,
+  usePutUsersMePreferencesByPrefidMutation,
+} from 'src/features/api';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MenuButton } from '../MenuButton';
@@ -46,8 +51,9 @@ const ButtonsWrapper = styled.div`
 const ToolsTranslate = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
-  const { activeItem, setActiveItem } = useToolsContext();
-  const [language, setLanguage] = useState<Lang>();
+  const [internalLanguage, setInternalLanguage] = useState<Lang | null>(null);
+  const { activeItem, setActiveItem, setLanguage } = useToolsContext();
+  const [isLangChecked, setIsLangChecked] = useState(true);
   const { addToast } = useToast();
   const allowedLanguages: Lang[] = [
     { value: 'en', label: t('__TOOLS_TRANSLATE_LANGUAGE_EN_LABEL') },
@@ -58,6 +64,18 @@ const ToolsTranslate = () => {
   ];
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
+  const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
+
+  const {
+    data: preferences,
+    isLoading: isLoadingPrefs,
+    isFetching: isFetchingPrefs,
+    isError: isErrorPrefs,
+  } = useGetUsersMePreferencesQuery();
+
+  const languagePreference = preferences?.items?.find(
+    (preference) => preference?.name === 'translations_language'
+  );
 
   if (activeItem !== 'translate') return null;
 
@@ -87,41 +105,48 @@ const ToolsTranslate = () => {
           {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
         </Label>
         <div style={{ marginBottom: appTheme.space.sm }}>
-          <Dropdown
-            selectedItem={language?.value}
-            onSelect={(item: string) => {
-              if (item) {
-                const lang = allowedLanguages.find(
-                  ({ value }) => value === item
-                );
-                if (lang) {
-                  setLanguage(lang);
+          {isLoadingPrefs || isFetchingPrefs ? (
+            <Skeleton height="40px" style={{ borderRadius: '4px' }} />
+          ) : (
+            <Dropdown
+              selectedItem={internalLanguage?.value}
+              onSelect={(item: string) => {
+                if (item) {
+                  const lang = allowedLanguages.find(
+                    ({ value }) => value === item
+                  );
+                  if (lang) {
+                    setInternalLanguage(lang);
+                  }
                 }
-              }
-            }}
-          >
-            <ZendeskDropdownField>
-              <Select start={<TranslateIcon />}>
-                {language ? (
-                  language.label
-                ) : (
-                  <Span style={{ opacity: 0.5 }}>
-                    {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
-                  </Span>
-                )}
-              </Select>
-            </ZendeskDropdownField>
-            <Menu>
-              {allowedLanguages.map(({ value, label }) => (
-                <Item key={`language-${value}-option`} value={value}>
-                  {label}
-                </Item>
-              ))}
-            </Menu>
-          </Dropdown>
+              }}
+            >
+              <ZendeskDropdownField>
+                <Select start={<TranslateIcon />}>
+                  {internalLanguage ? (
+                    internalLanguage.label
+                  ) : (
+                    <Span style={{ opacity: 0.5 }}>
+                      {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
+                    </Span>
+                  )}
+                </Select>
+              </ZendeskDropdownField>
+              <Menu>
+                {allowedLanguages.map(({ value, label }) => (
+                  <Item key={`language-${value}-option`} value={value}>
+                    {label}
+                  </Item>
+                ))}
+              </Menu>
+            </Dropdown>
+          )}
         </div>
         <ZendeskFormField>
-          <Toggle defaultChecked>
+          <Toggle
+            checked={isLangChecked}
+            onChange={() => setIsLangChecked(!isLangChecked)}
+          >
             <Label>{t('__TOOLS_TRANSLATE_TOGGLE_TEXT')}</Label>
           </Toggle>
         </ZendeskFormField>
@@ -132,15 +157,61 @@ const ToolsTranslate = () => {
           <Button
             isPrimary
             isAccent
-            disabled={!language || isLoading}
+            disabled={!internalLanguage || isLoading}
             onClick={() => {
               if (!videoId) return;
-              if (!language) return;
+              if (!internalLanguage) return;
+
+              setLanguage(internalLanguage);
+
+              if (isLangChecked)
+                updatePreference({
+                  prefid: languagePreference?.preference_id.toString() || '',
+                  body: {
+                    value: internalLanguage.value,
+                  },
+                })
+                  .unwrap()
+                  .then(() => {
+                    addToast(
+                      ({ close }) => (
+                        <Notification
+                          onClose={close}
+                          type="success"
+                          message={t(
+                            '__TOOLS_TRANSLATE_TOAST_LANGUAGE_SUCCESS_MESSAGE'
+                          )}
+                          closeText={t('__TOAST_CLOSE_TEXT')}
+                          isPrimary
+                        />
+                      ),
+                      { placement: 'top' }
+                    );
+                  })
+                  .catch((e) => {
+                    // eslint-disable-next-line no-console
+                    console.error(e);
+
+                    addToast(
+                      ({ close }) => (
+                        <Notification
+                          onClose={close}
+                          type="error"
+                          message={t(
+                            '__TOOLS_TRANSLATE_TOAST_LANGUAGE_ERROR_MESSAGE'
+                          )}
+                          closeText={t('__TOAST_CLOSE_TEXT')}
+                          isPrimary
+                        />
+                      ),
+                      { placement: 'top' }
+                    );
+                  });
 
               requestTranslation({
                 vid: videoId || '',
                 body: {
-                  language: language.value,
+                  language: internalLanguage.value,
                 },
               })
                 .unwrap()
