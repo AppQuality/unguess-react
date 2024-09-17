@@ -21,7 +21,7 @@ import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   useGetUsersMePreferencesQuery,
   usePostVideosByVidTranslationMutation,
@@ -105,7 +105,7 @@ const ToolsTranslate = () => {
           {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
         </Label>
         <div style={{ marginBottom: appTheme.space.sm }}>
-          {isLoadingPrefs || isFetchingPrefs ? (
+          {isLoadingPrefs || isFetchingPrefs || isErrorPrefs ? (
             <Skeleton height="40px" style={{ borderRadius: '4px' }} />
           ) : (
             <Dropdown
