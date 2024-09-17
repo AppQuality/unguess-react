@@ -153,7 +153,8 @@ const Transcript = ({
     }
   );
 
-  const showTranslation = hasAIFeatureFlag && translation;
+  const showTranslation =
+    hasAIFeatureFlag && translation && !isErrorTranslation;
 
   const handleAddObservation = async (part: {
     from: number;
@@ -301,19 +302,27 @@ const Transcript = ({
                         </NoMarginCol>
                         {showTranslation && (
                           <StyledCol size={6}>
-                            {translation?.sentences.map(
-                              (sentence) =>
-                                sentence.start >= p.start &&
-                                sentence.end <= p.end && (
-                                  <StyledSM
-                                    isActive={
-                                      currentTime >= sentence.start &&
-                                      currentTime <= sentence.end
-                                    }
-                                  >
-                                    {sentence.text}
-                                  </StyledSM>
-                                )
+                            {isFetchingTranslation || isLoadingTranslation ? (
+                              <>
+                                <Skeleton height="15px" />
+                                <Skeleton height="15px" />
+                                <Skeleton height="15px" />
+                              </>
+                            ) : (
+                              translation?.sentences.map(
+                                (sentence) =>
+                                  sentence.start >= p.start &&
+                                  sentence.end <= p.end && (
+                                    <StyledSM
+                                      isActive={
+                                        currentTime >= sentence.start &&
+                                        currentTime <= sentence.end
+                                      }
+                                    >
+                                      {sentence.text}
+                                    </StyledSM>
+                                  )
+                              )
                             )}
                           </StyledCol>
                         )}
