@@ -23,11 +23,19 @@ export const StyledButton = styled(Button)<{ readonly: boolean }>`
 export const MenuButton = ({
   children,
   onClick,
+  disabled,
 }: {
   children: React.ReactNode | React.ReactNode[];
   onClick: () => void;
+  disabled?: boolean;
 }) => (
-  <StyledButton isBasic size="large" isStretched onClick={onClick}>
+  <StyledButton
+    disabled={disabled}
+    isBasic
+    size="large"
+    isStretched
+    onClick={onClick}
+  >
     {children}
   </StyledButton>
 );

@@ -1,19 +1,34 @@
-import { Button, MD, Menu } from '@appquality/unguess-design-system';
+import {
+  Button,
+  MD,
+  Menu,
+  Span,
+  Notification,
+  useToast,
+  Spinner,
+} from '@appquality/unguess-design-system';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { ReactComponent as BoltIcon } from '@zendeskgarden/svg-icons/src/16/lightning-bolt-stroke.svg';
 import { ReactComponent as SmileyIcon } from '@zendeskgarden/svg-icons/src/16/smiley-stroke.svg';
 import { ReactComponent as ArrowRight } from 'src/assets/icons/chevron-right-icon.svg';
 import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_AI } from 'src/constants';
+import {
+  useGetUsersMePreferencesQuery,
+  usePostVideosByVidTranslationMutation,
+} from 'src/features/api';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { useToolsContext } from './context/ToolsContext';
 import { MenuButton } from './MenuButton';
 import { ToolsSentimentFlag } from './context/ToolsSentimentFlag';
 import { ToolsAutotagFlag } from './context/ToolsAutotagFlag';
 import { ToolsTranslateFlag } from './context/ToolsTranslateFlag';
 import { ToolsTranslate } from './context/ToolsTranslate';
+import { getLanguages } from './languages';
 
 const Labels = styled.div`
   display: flex;
@@ -26,8 +41,8 @@ const ButtonLabels = ({
   title,
   subtitle,
 }: {
-  title: string;
-  subtitle?: string;
+  title: string | React.ReactNode;
+  subtitle?: string | React.ReactNode;
 }) => (
   <Labels>
     <MD style={{ color: appTheme.palette.grey[800] }}>{title}</MD>
@@ -38,10 +53,30 @@ const ButtonLabels = ({
 );
 
 export const ToolsMenu = () => {
+  const { videoId } = useParams();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
-  const { activeItem, setActiveItem } = useToolsContext();
+  const { activeItem, setActiveItem, setLanguage } = useToolsContext();
+  const languages = getLanguages();
+  const { addToast } = useToast();
+  const [requestTranslation, { isLoading }] =
+    usePostVideosByVidTranslationMutation();
+
+  const {
+    data: preferences,
+    isLoading: isLoadingPrefs,
+    isFetching: isFetchingPrefs,
+    isError: isErrorPrefs,
+  } = useGetUsersMePreferencesQuery();
+
+  const languagePreference = preferences?.items?.find(
+    (preference) => preference?.name === 'translations_language'
+  );
+
+  const preferredLanguage = languages.find(
+    (lang) => lang.value === languagePreference?.value
+  );
 
   return (
     <Menu hasArrow zIndex={appTheme.levels.front}>
@@ -86,6 +121,88 @@ export const ToolsMenu = () => {
                 <ArrowRight />
               </Button.EndIcon>
             </MenuButton>
+            {preferredLanguage && (
+              <MenuButton
+                disabled={
+                  isLoadingPrefs || isFetchingPrefs || isErrorPrefs || isLoading
+                }
+                onClick={() => {
+                  requestTranslation({
+                    vid: videoId || '',
+                    body: {
+                      language: preferredLanguage.value,
+                    },
+                  })
+                    .unwrap()
+                    .then(() => {
+                      setActiveItem(null);
+
+                      setLanguage(preferredLanguage);
+
+                      addToast(
+                        ({ close }) => (
+                          <Notification
+                            onClose={close}
+                            type="success"
+                            message={t(
+                              '__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE'
+                            )}
+                            closeText={t('__TOAST_CLOSE_TEXT')}
+                            isPrimary
+                          />
+                        ),
+                        { placement: 'top' }
+                      );
+                    })
+                    .catch((e) => {
+                      // eslint-disable-next-line no-console
+                      console.error(e);
+
+                      addToast(
+                        ({ close }) => (
+                          <Notification
+                            onClose={close}
+                            type="error"
+                            message={t('__TOOLS_TRANSLATE_TOAST_ERROR_MESSAGE')}
+                            closeText={t('__TOAST_CLOSE_TEXT')}
+                            isPrimary
+                          />
+                        ),
+                        { placement: 'top' }
+                      );
+                    });
+                }}
+              >
+                <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
+                  <TranslateIcon />
+                </Button.StartIcon>
+                <ButtonLabels
+                  title={
+                    isLoading ? (
+                      t('__TOOLS_TRANSLATE_BUTTON_SEND_LOADING')
+                    ) : (
+                      <Trans i18nKey="__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE">
+                        Translate in{' '}
+                        <Span style={{ textTransform: 'lowercase' }}>
+                          {{
+                            language: preferredLanguage?.label,
+                          }}
+                        </Span>
+                      </Trans>
+                    )
+                  }
+                />
+                {isLoading && (
+                  <Button.EndIcon>
+                    <Spinner
+                      size={appTheme.space.md}
+                      color={appTheme.palette.grey[400]}
+                      style={{ marginLeft: appTheme.space.sm }}
+                    />
+                  </Button.EndIcon>
+                )}
+              </MenuButton>
+            )}
           </>
         )}
         {activeItem === 'sentiment' && <ToolsSentimentFlag />}
