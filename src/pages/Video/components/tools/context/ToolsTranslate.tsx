@@ -31,11 +31,7 @@ import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MenuButton } from '../MenuButton';
 import { useToolsContext } from './ToolsContext';
-
-interface Lang {
-  value: string;
-  label: string;
-}
+import { getLanguages } from '../languages';
 
 const Body = styled.div`
   padding: ${({ theme }) => theme.space.md};
@@ -51,20 +47,17 @@ const ButtonsWrapper = styled.div`
 const ToolsTranslate = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
-  const [internalLanguage, setInternalLanguage] = useState<Lang | null>(null);
+  const [internalLanguage, setInternalLanguage] = useState<{
+    label: string;
+    value: string;
+  } | null>(null);
   const { activeItem, setActiveItem, setLanguage } = useToolsContext();
   const [isLangChecked, setIsLangChecked] = useState(true);
   const { addToast } = useToast();
-  const allowedLanguages: Lang[] = [
-    { value: 'en', label: t('__TOOLS_TRANSLATE_LANGUAGE_EN_LABEL') },
-    { value: 'it', label: t('__TOOLS_TRANSLATE_LANGUAGE_IT_LABEL') },
-    { value: 'es', label: t('__TOOLS_TRANSLATE_LANGUAGE_ES_LABEL') },
-    { value: 'fr', label: t('__TOOLS_TRANSLATE_LANGUAGE_FR_LABEL') },
-    { value: 'de', label: t('__TOOLS_TRANSLATE_LANGUAGE_DE_LABEL') },
-  ];
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
+  const allowedLanguages = getLanguages();
 
   const {
     data: preferences,
