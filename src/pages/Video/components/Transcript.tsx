@@ -20,6 +20,7 @@ import { getColorWithAlpha } from 'src/common/utils';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
+  useGetVideosByVidTranslationQuery,
   usePostVideosByVidObservationsMutation,
 } from 'src/features/api';
 import useDebounce from 'src/hooks/useDebounce';
@@ -31,7 +32,7 @@ import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
 import { ParagraphMeta } from './ParagraphMeta';
 import { Tools } from './tools';
-import { ToolsContextProvider } from './tools/context/ToolsContext';
+import { useToolsContext } from './tools/context/ToolsContext';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -83,6 +84,20 @@ const StyledCol = styled(NoMarginCol)`
   user-select: none;
 `;
 
+const StyledSM = styled(SM)<{
+  isActive?: boolean;
+}>`
+  font-style: italic;
+  color: ${({ theme }) => theme.palette.blue[600]};
+  line-height: 2;
+
+  ${({ isActive, theme }) =>
+    isActive &&
+    `
+      background-color: ${getColorWithAlpha(theme.palette.fuschia[400], 0.4)};
+  `}
+`;
+
 const Transcript = ({
   currentTime,
   isSearchable,
@@ -103,6 +118,7 @@ const Transcript = ({
   const { addToast } = useToast();
   const { hasFeatureFlag } = useFeatureFlag();
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
+  const { language } = useToolsContext();
 
   const {
     data: video,
@@ -121,6 +137,23 @@ const Transcript = ({
   } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
+
+  const {
+    data: translation,
+    isLoading: isLoadingTranslation,
+    isFetching: isFetchingTranslation,
+    isError: isErrorTranslation,
+  } = useGetVideosByVidTranslationQuery(
+    {
+      vid: videoId || '',
+      ...(language && { lang: language.value }),
+    },
+    {
+      skip: !hasAIFeatureFlag,
+    }
+  );
+
+  const showTranslation = hasAIFeatureFlag && translation;
 
   const handleAddObservation = async (part: {
     from: number;
@@ -198,9 +231,7 @@ const Transcript = ({
             />
           )}
           <Separator />
-          <ToolsContextProvider>
-            <Tools />
-          </ToolsContextProvider>
+          <Tools />
         </TranscriptHeader>
         <Grid>
           <div ref={containerRef}>
@@ -222,7 +253,7 @@ const Transcript = ({
                       setCurrentTime={(time) => setCurrentTime(time, true)}
                     >
                       <Row>
-                        <NoMarginCol size={hasAIFeatureFlag ? 6 : 12}>
+                        <NoMarginCol size={showTranslation ? 6 : 12}>
                           {p.words.map((item, index) => (
                             <Highlight.Word
                               size="md"
@@ -268,9 +299,22 @@ const Transcript = ({
                             />
                           ))}
                         </NoMarginCol>
-                        {hasAIFeatureFlag && (
+                        {showTranslation && (
                           <StyledCol size={6}>
-                            {p.words.map(() => 'text ')}
+                            {translation?.sentences.map(
+                              (sentence) =>
+                                sentence.start >= p.start &&
+                                sentence.end <= p.end && (
+                                  <StyledSM
+                                    isActive={
+                                      currentTime >= sentence.start &&
+                                      currentTime <= sentence.end
+                                    }
+                                  >
+                                    {sentence.text}
+                                  </StyledSM>
+                                )
+                            )}
                           </StyledCol>
                         )}
                       </Row>
