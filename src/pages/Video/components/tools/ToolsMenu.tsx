@@ -90,7 +90,7 @@ export const ToolsMenu = () => {
       <div style={{ padding: appTheme.space.xs }}>
         {activeItem === 'menu' && (
           <>
-            <MenuButton onClick={() => setActiveItem('sentiment')}>
+            {/* <MenuButton onClick={() => setActiveItem('sentiment')}>
               <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
                 <SmileyIcon />
               </Button.StartIcon>
@@ -113,21 +113,7 @@ export const ToolsMenu = () => {
               <Button.EndIcon style={{ marginLeft: 'auto' }}>
                 <ArrowRight />
               </Button.EndIcon>
-            </MenuButton>
-            <MenuButton onClick={() => setActiveItem('translate')}>
-              <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
-                <TranslateIcon />
-              </Button.StartIcon>
-              <ButtonLabels
-                title={t('__TOOLS_MENU_ITEM_TRANSLATE_TITLE')}
-                {...(!hasAIFeatureFlag && {
-                  subtitle: t('__TOOLS_MENU_ITEM_TRANSLATE_SUBTITLE'),
-                })}
-              />
-              <Button.EndIcon style={{ marginLeft: 'auto' }}>
-                <ArrowRight />
-              </Button.EndIcon>
-            </MenuButton>
+            </MenuButton> */}
             {preferredLanguage && preferredLanguage.value !== videoLanguage && (
               <MenuButton
                 disabled={
@@ -210,6 +196,20 @@ export const ToolsMenu = () => {
                 )}
               </MenuButton>
             )}
+            <MenuButton onClick={() => setActiveItem('translate')}>
+              <Button.StartIcon style={{ marginRight: appTheme.space.md }}>
+                <TranslateIcon />
+              </Button.StartIcon>
+              <ButtonLabels
+                title={t('__TOOLS_MENU_ITEM_TRANSLATE_TITLE')}
+                {...(!hasAIFeatureFlag && {
+                  subtitle: t('__TOOLS_MENU_ITEM_TRANSLATE_SUBTITLE'),
+                })}
+              />
+              <Button.EndIcon style={{ marginLeft: 'auto' }}>
+                <ArrowRight />
+              </Button.EndIcon>
+            </MenuButton>
           </>
         )}
         {activeItem === 'sentiment' && <ToolsSentimentFlag />}
