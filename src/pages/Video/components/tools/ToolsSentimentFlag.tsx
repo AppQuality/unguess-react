@@ -2,8 +2,8 @@ import { Button, MD, Separator, Span } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
 import { styled } from 'styled-components';
-import { MenuButton } from '../MenuButton';
-import { useToolsContext } from './ToolsContext';
+import { MenuButton } from './MenuButton';
+import { useToolsContext } from './context/ToolsContext';
 
 const Body = styled.div`
   padding: ${({ theme }) => theme.space.md};
