@@ -3,6 +3,8 @@ import { ReactComponent as AIMenuIcon } from 'src/assets/icons/ai-icon.svg';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { FEATURE_FLAG_AI } from 'src/constants';
 import { ToolsMenu } from './ToolsMenu';
 import { useToolsContext } from './context/ToolsContext';
 
@@ -10,10 +12,14 @@ export const Tools = () => {
   const { t } = useTranslation();
   const { activeItem, setActiveItem } = useToolsContext();
   const [isOpen, setIsOpen] = useState(false);
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
 
   useEffect(() => {
     if (!activeItem) setIsOpen(false);
   }, [activeItem]);
+
+  if (!hasAIFeatureFlag) return null;
 
   return (
     <Dropdown isOpen={isOpen} onStateChange={() => setIsOpen(!isOpen)}>
