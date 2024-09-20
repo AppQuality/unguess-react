@@ -42,8 +42,9 @@ export const StyledContainerCard = styled(ContainerCard)`
 
 export const TranscriptHeader = styled.div`
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: ${({ theme }) => theme.space.xl};
   z-index: 200;
 `;
@@ -209,13 +210,7 @@ const Transcript = ({
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
-        <TranscriptHeader
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
+        <TranscriptHeader>
           <TitleWrapper>
             <IconTitleContainer>
               <InfoIcon />
@@ -231,8 +226,12 @@ const Transcript = ({
               onChange={(e) => setSearchValue(e.target.value)}
             />
           )}
-          <Separator />
-          <Tools />
+          {hasAIFeatureFlag && (
+            <>
+              <Separator />
+              <Tools />
+            </>
+          )}
         </TranscriptHeader>
         <Grid>
           <div ref={containerRef}>
