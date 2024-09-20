@@ -24,14 +24,15 @@ import { appTheme } from 'src/app/theme';
 import { useState } from 'react';
 import {
   useGetUsersMePreferencesQuery,
+  useGetVideosByVidQuery,
   usePostVideosByVidTranslationMutation,
   usePutUsersMePreferencesByPrefidMutation,
 } from 'src/features/api';
 import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { MenuButton } from '../MenuButton';
-import { useToolsContext } from './ToolsContext';
-import { getLanguages } from '../languages';
+import { MenuButton } from './MenuButton';
+import { useToolsContext } from './context/ToolsContext';
+import { getLanguages } from './languages';
 
 const Body = styled.div`
   padding: ${({ theme }) => theme.space.md};
@@ -58,6 +59,22 @@ const ToolsTranslate = () => {
     usePostVideosByVidTranslationMutation();
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
   const allowedLanguages = getLanguages();
+
+  const {
+    data: video,
+    isFetching: isFetchingVideo,
+    isLoading: isLoadingVideo,
+    isError: isErrorVideo,
+  } = useGetVideosByVidQuery({
+    vid: videoId || '',
+  });
+
+  const videoLanguage = video?.language ?? '';
+
+  // Remove videoLanguage from allowedLanguages
+  const filteredLanguages = allowedLanguages.filter(
+    ({ value }) => value !== videoLanguage
+  );
 
   const {
     data: preferences,
@@ -98,14 +115,19 @@ const ToolsTranslate = () => {
           {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
         </Label>
         <div style={{ marginBottom: appTheme.space.sm }}>
-          {isLoadingPrefs || isFetchingPrefs || isErrorPrefs ? (
+          {isLoadingVideo ||
+          isFetchingVideo ||
+          isErrorVideo ||
+          isLoadingPrefs ||
+          isFetchingPrefs ||
+          isErrorPrefs ? (
             <Skeleton height="40px" style={{ borderRadius: '4px' }} />
           ) : (
             <Dropdown
               selectedItem={internalLanguage?.value}
               onSelect={(item: string) => {
                 if (item) {
-                  const lang = allowedLanguages.find(
+                  const lang = filteredLanguages.find(
                     ({ value }) => value === item
                   );
                   if (lang) {
@@ -126,7 +148,7 @@ const ToolsTranslate = () => {
                 </Select>
               </ZendeskDropdownField>
               <Menu>
-                {allowedLanguages.map(({ value, label }) => (
+                {filteredLanguages.map(({ value, label }) => (
                   <Item key={`language-${value}-option`} value={value}>
                     {label}
                   </Item>

@@ -18,16 +18,17 @@ import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_AI } from 'src/constants';
 import {
   useGetUsersMePreferencesQuery,
+  useGetVideosByVidQuery,
   usePostVideosByVidTranslationMutation,
 } from 'src/features/api';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useToolsContext } from './context/ToolsContext';
 import { MenuButton } from './MenuButton';
-import { ToolsSentimentFlag } from './context/ToolsSentimentFlag';
-import { ToolsAutotagFlag } from './context/ToolsAutotagFlag';
-import { ToolsTranslateFlag } from './context/ToolsTranslateFlag';
-import { ToolsTranslate } from './context/ToolsTranslate';
+import { ToolsSentimentFlag } from './ToolsSentimentFlag';
+import { ToolsAutotagFlag } from './ToolsAutotagFlag';
+import { ToolsTranslateFlag } from './ToolsTranslateFlag';
+import { ToolsTranslate } from './ToolsTranslate';
 import { getLanguages } from './languages';
 
 const Labels = styled.div`
@@ -78,6 +79,12 @@ export const ToolsMenu = () => {
     (lang) => lang.value === languagePreference?.value
   );
 
+  const { data: video } = useGetVideosByVidQuery({
+    vid: videoId || '',
+  });
+
+  const videoLanguage = video?.language ?? '';
+
   return (
     <Menu hasArrow zIndex={appTheme.levels.front}>
       <div style={{ padding: appTheme.space.xs }}>
@@ -121,7 +128,7 @@ export const ToolsMenu = () => {
                 <ArrowRight />
               </Button.EndIcon>
             </MenuButton>
-            {preferredLanguage && (
+            {preferredLanguage && preferredLanguage.value !== videoLanguage && (
               <MenuButton
                 disabled={
                   isLoadingPrefs || isFetchingPrefs || isErrorPrefs || isLoading
