@@ -202,9 +202,9 @@ export const ToolsMenu = () => {
               </Button.StartIcon>
               <ButtonLabels
                 title={t('__TOOLS_MENU_ITEM_TRANSLATE_TITLE')}
-                {...(!hasAIFeatureFlag && {
-                  subtitle: t('__TOOLS_MENU_ITEM_TRANSLATE_SUBTITLE'),
-                })}
+                // {...(!hasAIFeatureFlag && {
+                //   subtitle: t('__TOOLS_MENU_ITEM_TRANSLATE_SUBTITLE'),
+                // })}
               />
               <Button.EndIcon style={{ marginLeft: 'auto' }}>
                 <ArrowRight />
