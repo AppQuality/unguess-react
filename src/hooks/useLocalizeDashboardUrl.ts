@@ -38,7 +38,6 @@ export function getLocalizeoFirstLevelDashboardRoute(
 }
 
 export function getLocalizeDashboardRoute(props: CampaignActionProps): string {
-  console.log('count');
   const { campaignId, outputs } = props;
   const { hasFeatureFlag } = useFeatureFlag();
 
