@@ -93,7 +93,7 @@ export const UsecaseSection = ({
             isRound
             size="medium"
           >
-            <ObservationsIcon width={24} color={appTheme.palette.grey[600]} />
+            <ObservationsIcon color={appTheme.palette.grey[600]} />
           </Tag>{' '}
           <MD
             isBold

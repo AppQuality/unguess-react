@@ -28,9 +28,7 @@ function getSeverityIcon(
 }
 
 function getSeverityTag(
-  severity?: NonNullable<
-    GetCampaignsByCidUxApiResponse['findings']
-  >[number]['severity'],
+  severity?: { name?: string },
   text?: string,
   children?: React.ReactNode
 ) {
@@ -96,11 +94,7 @@ function getClusterTag(
   return null;
 }
 
-function getSeverity(
-  severity: NonNullable<
-    GetCampaignsByCidUxApiResponse['findings']
-  >[number]['severity']
-) {
+function getSeverity(severity: { name?: string }) {
   const severityName = severity.name?.toLowerCase().replaceAll(' ', '-');
   switch (severityName) {
     case 'minor-issue':
@@ -134,9 +128,9 @@ function getClusterName(
 }
 
 export {
-  getSeverityIcon,
-  getSeverityTag,
+  getClusterName,
   getClusterTag,
   getSeverity,
-  getClusterName,
+  getSeverityIcon,
+  getSeverityTag,
 };

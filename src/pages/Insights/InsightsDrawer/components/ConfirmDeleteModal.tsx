@@ -32,7 +32,9 @@ export const ConfirmDeleteModal = ({
       .then(() => {
         notificationProps = {
           type: 'success',
-          message: `${`Insight "${title}" ${t('_TOAST_DELETED_MESSAGE')}`}`,
+          message: `${`${t('_TOAST_DELETED_MESSAGE_SUBJECT')} "${title}" ${t(
+            '_TOAST_DELETED_MESSAGE'
+          )}`}`,
         };
       })
       .catch((e) => {
