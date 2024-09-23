@@ -6,6 +6,7 @@ import { PageTitle } from 'src/common/components/PageTitle';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { Counters } from './Counters';
+import { JOTFORM_URL } from './const';
 
 export const DashboardHeaderContent = ({
   pageTitle,
@@ -15,8 +16,6 @@ export const DashboardHeaderContent = ({
   const { t } = useTranslation();
   const { status } = useAppSelector((state) => state.user);
   const { hasFeatureFlag } = useFeatureFlag();
-
-  const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
 
   const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
 

@@ -1,0 +1,24 @@
+{
+  "id": 1,
+  "email": "luca.cannarozzo@unguess.io",
+  "role": "administrator",
+  "profile_id": 32,
+  "tryber_wp_user_id": 1,
+  "unguess_wp_user_id": 1,
+  "name": "Luca Cannarozzo",
+  "picture": "https://www.gravatar.com/avatar/04c5df6d27d87476fe9dee853e1142bd",
+  "features": [
+      {
+          "slug": "exploratory-express",
+          "name": "Exploratory Express"
+      },
+      {
+          "slug": "catalog-pages",
+          "name": "Catalog pages"
+      },
+      {
+          "slug": "tagging-tool",
+          "name": "UX Tagging Tool"
+      }
+  ]
+}

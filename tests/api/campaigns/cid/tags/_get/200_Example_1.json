@@ -1,0 +1,12 @@
+[
+  {
+    "tag_id": 1,
+    "display_name": "tag1",
+    "slug": "string"
+  },
+  {
+    "tag_id": 2,
+    "display_name": "tag2",
+    "slug": "tag2"
+  }
+]
