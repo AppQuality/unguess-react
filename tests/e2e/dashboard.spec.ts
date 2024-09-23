@@ -8,6 +8,9 @@ test.describe('Home page', () => {
   test.beforeEach(async ({ page }) => {
     dashboard = new Dashboard(page);
     await dashboard.loggedIn();
+    await dashboard.mockPreferences();
+    await dashboard.mockWorkspace();
+    await dashboard.mockWorkspacesList();
     await dashboard.open();
   });
   test('has title', async ({ i18n }) => {

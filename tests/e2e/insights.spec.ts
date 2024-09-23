@@ -8,7 +8,9 @@ test.describe('Insights page', () => {
   test.beforeEach(async ({ page }) => {
     insightsPage = new Insights(page);
     await insightsPage.loggedIn();
-    await insightsPage.insideWorkspace();
+    await insightsPage.mockPreferences();
+    await insightsPage.mockWorkspace();
+    await insightsPage.mockWorkspacesList();
     await insightsPage.mockCampaign();
     await insightsPage.mockInsights();
     await insightsPage.open();

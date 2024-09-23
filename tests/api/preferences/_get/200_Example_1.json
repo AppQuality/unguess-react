@@ -1,0 +1,14 @@
+{
+  "items": [
+      {
+          "preference_id": 1,
+          "name": "notifications_enabled",
+          "value": "1"
+      },
+      {
+          "preference_id": 2,
+          "name": "translations_language",
+          "value": "it"
+      }
+  ]
+}
