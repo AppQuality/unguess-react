@@ -238,6 +238,25 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/priorities` }),
     }),
+    getCampaignsByCidPublicManual: build.query<
+      GetCampaignsByCidPublicManualApiResponse,
+      GetCampaignsByCidPublicManualApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/public-manual`,
+        params: { pass: queryArg.pass },
+      }),
+    }),
+    postCampaignsByCidUser: build.mutation<
+      PostCampaignsByCidUserApiResponse,
+      PostCampaignsByCidUserApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/user`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidReplicabilities: build.query<
       GetCampaignsByCidReplicabilitiesApiResponse,
       GetCampaignsByCidReplicabilitiesApiArg
@@ -531,6 +550,16 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/videos/${queryArg.vid}/observations/${queryArg.oid}`,
         method: 'DELETE',
+      }),
+    }),
+    postVideosByVidTranslation: build.mutation<
+      PostVideosByVidTranslationApiResponse,
+      PostVideosByVidTranslationApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/videos/${queryArg.pathVid}/translation`,
+        method: 'POST',
+        body: queryArg.body,
       }),
     }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
@@ -1041,6 +1070,38 @@ export type GetCampaignsByCidPrioritiesApiArg = {
   /** Campaign id */
   cid: string;
 };
+export type GetCampaignsByCidPublicManualApiResponse = /** status 200 OK */ {
+  title?: string;
+  description?: string;
+  data?: {
+    name?: string;
+    type?: string;
+  }[];
+};
+export type GetCampaignsByCidPublicManualApiArg = {
+  /** Campaign id */
+  cid: string;
+  pass?: string;
+};
+export type PostCampaignsByCidUserApiResponse =
+  /** status 200 OK */
+  | {
+      token?: string;
+    }
+  | /** status 201 Created */ {
+      token?: string;
+    };
+export type PostCampaignsByCidUserApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    password?: string;
+    data?: {
+      name?: string;
+      value?: string;
+    }[];
+  };
+};
 export type GetCampaignsByCidReplicabilitiesApiResponse =
   /** status 200 OK */ BugReplicability[];
 export type GetCampaignsByCidReplicabilitiesApiArg = {
@@ -1449,6 +1510,20 @@ export type DeleteVideosByVidObservationsAndOidApiResponse = unknown;
 export type DeleteVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
+};
+export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ {
+  sentences: {
+    start: number;
+    text: string;
+    end: number;
+  }[];
+};
+export type PostVideosByVidTranslationApiArg = {
+  pathVid: string;
+  _pathVid: string;
+  body: {
+    language: string;
+  };
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
@@ -2156,6 +2231,8 @@ export const {
   useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidOsQuery,
   useGetCampaignsByCidPrioritiesQuery,
+  useGetCampaignsByCidPublicManualQuery,
+  usePostCampaignsByCidUserMutation,
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidSeveritiesQuery,
@@ -2190,6 +2267,7 @@ export const {
   usePostVideosByVidObservationsMutation,
   usePatchVideosByVidObservationsAndOidMutation,
   useDeleteVideosByVidObservationsAndOidMutation,
+  usePostVideosByVidTranslationMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,

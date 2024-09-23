@@ -23,6 +23,7 @@ import Catalog from 'src/pages/Services';
 import Manual from 'src/pages/Manual';
 import Videos from 'src/pages/Videos';
 import Video from 'src/pages/Video';
+import PublicManual from 'src/pages/PublicManual';
 import InsightsPage from 'src/pages/Insights';
 import SentryWrapper from 'src/features/SentryWrapper';
 import { Redirect } from './Redirect';
@@ -106,7 +107,6 @@ const Pages = () => {
                   <Route index element={<Dashboard />} />
                 </Route>
               ))}
-
               <Route
                 path="/it/dashboard-campagne-funzionali"
                 element={
@@ -123,6 +123,10 @@ const Pages = () => {
                   />
                 }
                 errorElement={<ErrorBoundaryPage />}
+              />
+              <Route
+                path="/campaigns/:campaignId/public-manual"
+                element={<PublicManual />}
               />
               <Route
                 path="/functional-customer-dashboard"
