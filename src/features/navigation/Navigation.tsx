@@ -204,6 +204,7 @@ export const Navigation = ({
         { placement: 'top' }
       );
     },
+    disableMenuLanguageSettings: true,
   };
 
   const toggleSidebarState = () => {
