@@ -35,19 +35,24 @@ export class UnguessPage {
   }
 
   async mockWorkspacesList() {
-    await this.page.route('*/**/api/workspaces', async (route) => {
+    await this.page.route(
+      '*/**/api/workspaces?orderBy=company',
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/workspaces/_get/200_ordeby_company.json',
+        });
+      }
+    );
+  }
+
+  async mockPreferences() {
+    await this.page.route('*/**/api/users/me/preferences', async (route) => {
       await route.fulfill({
-        path: 'tests/api/workspaces/_get/200_ordeby_company.json',
+        path: 'tests/api/preferences/_get/200_Example_1.json',
       });
     });
   }
 
-  async insideWorkspace() {
-    await this.mockWorkspacesList();
-    await this.mockWorkspace();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   elements() {
     return {
       title: () => this.page.getByRole('heading', { level: 1 }),
