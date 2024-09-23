@@ -2,33 +2,33 @@ import {
   Button,
   Dropdown,
   Item,
+  LG,
+  Label,
+  Menu,
+  Notification,
   SM,
   Select,
   Separator,
-  Span,
-  Menu,
-  Label,
-  Toggle,
-  LG,
-  Spinner,
-  useToast,
-  Notification,
   Skeleton,
+  Span,
+  Spinner,
+  Toggle,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { Field as ZendeskDropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as ZendeskFormField } from '@zendeskgarden/react-forms';
-import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
 import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
   usePostVideosByVidTranslationMutation,
   usePutUsersMePreferencesByPrefidMutation,
 } from 'src/features/api';
-import { useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { MenuButton } from './MenuButton';
 import { useToolsContext } from './context/ToolsContext';
@@ -52,7 +52,7 @@ const ToolsTranslate = () => {
     label: string;
     value: string;
   } | null>(null);
-  const { activeItem, setActiveItem, setLanguage } = useToolsContext();
+  const { setLanguage, setIsOpen } = useToolsContext();
   const [isLangChecked, setIsLangChecked] = useState(true);
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
@@ -87,11 +87,9 @@ const ToolsTranslate = () => {
     (preference) => preference?.name === 'translations_language'
   );
 
-  if (activeItem !== 'translate') return null;
-
   return (
     <>
-      <MenuButton onClick={() => setActiveItem('menu')}>
+      <MenuButton onClick={() => setIsOpen(false)}>
         <Button.StartIcon>
           <ArrowLeft />
         </Button.StartIcon>
@@ -166,7 +164,7 @@ const ToolsTranslate = () => {
           </Toggle>
         </ZendeskFormField>
         <ButtonsWrapper>
-          <Button isBasic onClick={() => setActiveItem(null)}>
+          <Button isBasic onClick={() => setIsOpen(false)}>
             {t('__TOOLS_TRANSLATE_BUTTON_CANCEL')}
           </Button>
           <Button
@@ -231,7 +229,7 @@ const ToolsTranslate = () => {
               })
                 .unwrap()
                 .then(() => {
-                  setActiveItem(null);
+                  setIsOpen(false);
 
                   addToast(
                     ({ close }) => (

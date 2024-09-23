@@ -8,6 +8,8 @@ interface Lang {
 interface ToolsContextType {
   activeItem: string | null;
   setActiveItem: (item: string | null) => void;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
   language: Lang | null;
   setLanguage: (lang: Lang) => void;
 }
@@ -19,7 +21,8 @@ export const ToolsContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [activeItem, setActiveItem] = useState<string | null>('menu');
+  const [activeItem, setActiveItem] = useState<string | null>('translate');
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<Lang | null>(null);
 
   const toolsContextValue = useMemo(
@@ -28,8 +31,10 @@ export const ToolsContextProvider = ({
       setActiveItem,
       language,
       setLanguage,
+      isOpen,
+      setIsOpen,
     }),
-    [activeItem, setActiveItem, language, setLanguage]
+    [activeItem, setActiveItem, language, setLanguage, isOpen, setIsOpen]
   );
 
   return (
