@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { Link } from 'react-scroll';
 import { IconButton, Tooltip } from '@appquality/unguess-design-system';
-import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-scroll';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
 import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/linked.svg';
+import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
-import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 const FlexComponent = styled.div`
   width: 100%;
@@ -43,7 +43,7 @@ export const AnchorButtons = ({
             placement="bottom"
             type="light"
             size="medium"
-            onClick={(e) => {
+            onClick={(e: any) => {
               e.stopPropagation();
             }}
           >
@@ -69,7 +69,7 @@ export const AnchorButtons = ({
           placement="bottom"
           type="light"
           size="medium"
-          onClick={(e) => {
+          onClick={(e: any) => {
             e.stopPropagation();
           }}
         >
@@ -94,7 +94,7 @@ export const AnchorButtons = ({
           placement="bottom"
           type="light"
           size="medium"
-          onClick={(e) => {
+          onClick={(e: any) => {
             e.stopPropagation();
           }}
         >
