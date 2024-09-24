@@ -1399,7 +1399,7 @@
 
 "@currents/commit-info@1.0.1-beta.0":
   version "1.0.1-beta.0"
-  resolved "https://registry.npmjs.org/@currents/commit-info/-/commit-info-1.0.1-beta.0.tgz#c33112685c27896bba29064234fd2341ec9134e6"
+  resolved "https://registry.yarnpkg.com/@currents/commit-info/-/commit-info-1.0.1-beta.0.tgz#c33112685c27896bba29064234fd2341ec9134e6"
   integrity sha512-gkn8E3UC+F4/fCla7QAGMGgGPzxZUL9bU9+4I+KZf9PtCU3DdQCdy7a+er2eg4ewfUzZ2Ic1HcfnHuPkuLPKIw==
   dependencies:
     bluebird "3.5.5"
@@ -1411,7 +1411,7 @@
 
 "@currents/playwright@^1.5.6":
   version "1.5.11"
-  resolved "https://registry.npmjs.org/@currents/playwright/-/playwright-1.5.11.tgz#accd7f6f90bcfb8c727647223b864737890ea7fa"
+  resolved "https://registry.yarnpkg.com/@currents/playwright/-/playwright-1.5.11.tgz#accd7f6f90bcfb8c727647223b864737890ea7fa"
   integrity sha512-uJSmXnUbKoCEORwk/k8a6Blsgpp8dj34in86nuCpaPQevrA1TDEws1tG6wSyJWSUVB4e3ELmy3dgJTS7vUL+MA==
   dependencies:
     "@babel/code-frame" "^7.18.6"
@@ -4631,7 +4631,7 @@ axe-core@^4.6.2:
 
 axios-retry@^3.4.0:
   version "3.9.1"
-  resolved "https://registry.npmjs.org/axios-retry/-/axios-retry-3.9.1.tgz#c8924a8781c8e0a2c5244abf773deb7566b3830d"
+  resolved "https://registry.yarnpkg.com/axios-retry/-/axios-retry-3.9.1.tgz#c8924a8781c8e0a2c5244abf773deb7566b3830d"
   integrity sha512-8PJDLJv7qTTMMwdnbMvrLYuvB47M81wRtxQmEdV5w4rgbTXTt+vtPkXwajOfOdSyv/wZICJOC+/UhXH4aQ/R+w==
   dependencies:
     "@babel/runtime" "^7.15.4"
@@ -4639,7 +4639,7 @@ axios-retry@^3.4.0:
 
 axios@^1.7.4:
   version "1.7.7"
-  resolved "https://registry.npmjs.org/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.7.tgz#2f554296f9892a72ac8d8e4c5b79c14a91d0a47f"
   integrity sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==
   dependencies:
     follow-redirects "^1.15.6"
@@ -4914,7 +4914,7 @@ bl@^4.1.0:
 
 bluebird@3.5.5:
   version "3.5.5"
-  resolved "https://registry.npmjs.org/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.5.tgz#a8d0afd73251effbbd5fe384a77d73003c17a71f"
   integrity sha512-5am6HnnfN+urzt4yfg7IgTbotDjIT/u8AJpEt0sIU9FtXfVeezXAPKswrG+xKUCOYAINpSdgZVDU6QFh+cuH3w==
 
 bluebird@^3.5.5:
@@ -5393,7 +5393,7 @@ chardet@^0.7.0:
 
 check-more-types@2.24.0:
   version "2.24.0"
-  resolved "https://registry.npmjs.org/check-more-types/-/check-more-types-2.24.0.tgz#1420ffb10fd444dcfc79b43891bbfffd32a84600"
+  resolved "https://registry.yarnpkg.com/check-more-types/-/check-more-types-2.24.0.tgz#1420ffb10fd444dcfc79b43891bbfffd32a84600"
   integrity sha512-Pj779qHxV2tuapviy1bSZNEL1maXr13bPYpsvSDB68HlYcYuhlDrmGd63i0JHMCLKzc7rUSNIrpdJlhVlNwrxA==
 
 check-types@^11.1.1:
@@ -5705,7 +5705,7 @@ commander@^10.0.0, commander@~10.0.0:
 
 commander@^11.1.0:
   version "11.1.0"
-  resolved "https://registry.npmjs.org/commander/-/commander-11.1.0.tgz#62fdce76006a68e5c1ab3314dc92e800eb83d906"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-11.1.0.tgz#62fdce76006a68e5c1ab3314dc92e800eb83d906"
   integrity sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==
 
 commander@^2.20.0:
@@ -7633,7 +7633,7 @@ execa@^7.0.0:
 
 execa@^7.2.0:
   version "7.2.0"
-  resolved "https://registry.npmjs.org/execa/-/execa-7.2.0.tgz#657e75ba984f42a70f38928cedc87d6f2d4fe4e9"
+  resolved "https://registry.yarnpkg.com/execa/-/execa-7.2.0.tgz#657e75ba984f42a70f38928cedc87d6f2d4fe4e9"
   integrity sha512-UduyVP7TLB5IcAQl+OzLyLcS/l32W/GLg+AhHJ+ow40FOk2U3SAllPwR44v4vmdFwIWqpdwxxpQbF1n5ta9seA==
   dependencies:
     cross-spawn "^7.0.3"
@@ -10387,7 +10387,7 @@ levn@~0.3.0:
 
 lil-http-terminator@^1.2.3:
   version "1.2.3"
-  resolved "https://registry.npmjs.org/lil-http-terminator/-/lil-http-terminator-1.2.3.tgz#594ef0f3c2b2f7d43a8f2989b2b3de611bf507eb"
+  resolved "https://registry.yarnpkg.com/lil-http-terminator/-/lil-http-terminator-1.2.3.tgz#594ef0f3c2b2f7d43a8f2989b2b3de611bf507eb"
   integrity sha512-vQcHSwAFq/kTR2cG6peOVS7SjgksGgSPeH0G2lkw+buue33thE/FCHdn10wJXXshc5RswFy0Iaz48qA2Busw5Q==
 
 lilconfig@2.1.0, lilconfig@^2.0.6:
@@ -11412,7 +11412,7 @@ object-keys@^1.1.1:
 
 object-sizeof@^2.6.5:
   version "2.6.5"
-  resolved "https://registry.npmjs.org/object-sizeof/-/object-sizeof-2.6.5.tgz#84ea0760e38876532ab811987dab58a6bbf61230"
+  resolved "https://registry.yarnpkg.com/object-sizeof/-/object-sizeof-2.6.5.tgz#84ea0760e38876532ab811987dab58a6bbf61230"
   integrity sha512-Mu3udRqIsKpneKjIEJ2U/s1KmEgpl+N6cEX1o+dDl2aZ+VW5piHqNgomqAk5YMsDoSkpcA8HnIKx1eqGTKzdfw==
   dependencies:
     buffer "^6.0.3"
@@ -12829,7 +12829,7 @@ pretty-format@^29.0.0, pretty-format@^29.5.0:
 
 pretty-ms@^7.0.1:
   version "7.0.1"
-  resolved "https://registry.npmjs.org/pretty-ms/-/pretty-ms-7.0.1.tgz#7d903eaab281f7d8e03c66f867e239dc32fb73e8"
+  resolved "https://registry.yarnpkg.com/pretty-ms/-/pretty-ms-7.0.1.tgz#7d903eaab281f7d8e03c66f867e239dc32fb73e8"
   integrity sha512-973driJZvxiGOQ5ONsFhOF/DtzPMOMtgC11kCpUrPGMTgqp2q/1gwzCquocrN33is0VZ5GFHXZYMM9l6h67v2Q==
   dependencies:
     parse-ms "^2.1.0"
@@ -14137,7 +14137,7 @@ safe-regex@^2.1.1:
 
 safe-stable-stringify@^2.3.1:
   version "2.5.0"
-  resolved "https://registry.npmjs.org/safe-stable-stringify/-/safe-stable-stringify-2.5.0.tgz#4ca2f8e385f2831c432a719b108a3bf7af42a1dd"
+  resolved "https://registry.yarnpkg.com/safe-stable-stringify/-/safe-stable-stringify-2.5.0.tgz#4ca2f8e385f2831c432a719b108a3bf7af42a1dd"
   integrity sha512-b3rppTKm9T+PsVCBEOUR46GWI7fdOs00VKZ1+9c1EWDaDMvjQc6tUwuFyIprgGgTcWoVHSKrU8H31ZHA2e0RHA==
 
 "safer-buffer@>= 2.1.2 < 3", safer-buffer@^2.1.0:
@@ -16567,7 +16567,7 @@ ws@^7.4.6:
 
 ws@^8.16.0:
   version "8.18.0"
-  resolved "https://registry.npmjs.org/ws/-/ws-8.18.0.tgz#0d7505a6eafe2b0e712d232b42279f53bc289bbc"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.0.tgz#0d7505a6eafe2b0e712d232b42279f53bc289bbc"
   integrity sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==
 
 xml-name-validator@^3.0.0:
