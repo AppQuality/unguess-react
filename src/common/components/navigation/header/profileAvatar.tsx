@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { prepareGravatar } from 'src/common/utils';
 import { toggleProfileModal } from 'src/features/navigation/navigationSlice';
 import { ReactComponent as ChevronIcon } from 'src/assets/icons/chevron-down-stroke.svg';
+import { ReactComponent as Crown } from 'src/assets/icons/crown.svg';
 import styled from 'styled-components';
 import { getInitials } from './utils';
 
@@ -38,6 +39,15 @@ export const ProfileAvatar = () => {
           />
         ) : (
           <>
+            {user.role === 'administrator' && (
+              <Crown
+                style={{
+                  maxHeight: '40px',
+                  maxWidth: '40px',
+                  marginRight: '15px',
+                }}
+              />
+            )}
             <Avatar avatarType={user.picture ? 'image' : 'text'}>
               {user.picture
                 ? prepareGravatar(user.picture, 64)
