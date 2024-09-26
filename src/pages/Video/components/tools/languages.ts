@@ -1,5 +1,5 @@
-// This file is only needed to generate the translation keys for the languages used for the translation feature.
-// Issue reference: https://github.com/i18next/i18next-parser?tab=readme-ov-file#caveats
+/* This file is only needed to generate the translation keys for the languages used for the translation feature.
+    Issue reference: https://github.com/i18next/i18next-parser?tab=readme-ov-file#caveats */
 import { useTranslation } from 'react-i18next';
 
 export const languages = () => {
