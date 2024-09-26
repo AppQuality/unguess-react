@@ -1,11 +1,8 @@
 import {
   Button,
-  Dropdown,
   IconButton,
-  Menu,
   Notification,
   Span,
-  Trigger,
   useToast,
   Spinner,
 } from '@appquality/unguess-design-system';
