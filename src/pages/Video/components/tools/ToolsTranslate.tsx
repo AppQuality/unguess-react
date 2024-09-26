@@ -4,7 +4,10 @@ import {
   Item,
   LG,
   Label,
+  MD,
   Menu,
+  Modal,
+  ModalClose,
   Notification,
   SM,
   Select,
@@ -31,7 +34,6 @@ import {
 } from 'src/features/api';
 import { styled } from 'styled-components';
 import { getAllLanguageTags } from '@appquality/languages-lib';
-import { MenuButton } from './MenuButton';
 import { useToolsContext } from './context/ToolsContext';
 
 const Body = styled.div`
@@ -85,31 +87,17 @@ const ToolsTranslate = () => {
   );
 
   return (
-    <>
-      <MenuButton onClick={() => setIsOpen(false)}>
-        <Button.StartIcon>
-          <ArrowLeft />
-        </Button.StartIcon>
-        <Span isBold>{t('__TOOLS_TRANSLATE_PREVIOUS_ITEM')}</Span>
-      </MenuButton>
-      <Separator />
-      <Body>
-        <LG
-          isBold
-          style={{
-            color: appTheme.palette.grey[800],
-            marginBottom: appTheme.space.md,
-          }}
-        >
-          {t('__TOOLS_TRANSLATE_TITLE')}
-        </LG>
-        <SM style={{ marginBottom: appTheme.space.sm }}>
+    <Modal onClose={() => setIsOpen(false)}>
+      <ModalClose onClick={() => setIsOpen(false)} />
+      <Modal.Header>
+        <LG isBold>{t('__TOOLS_TRANSLATE_TITLE')}</LG>
+      </Modal.Header>
+      <Modal.Body>
+        <MD style={{ marginBottom: appTheme.space.md }}>
           {t('__TOOLS_TRANSLATE_DESCRIPTION')}
-        </SM>
-        <Label style={{ marginBottom: appTheme.space.xxs }}>
-          {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
-        </Label>
-        <div style={{ marginBottom: appTheme.space.sm }}>
+        </MD>
+        <Label>{t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}</Label>
+        <div style={{ margin: `${appTheme.space.xs} 0` }}>
           {isLoadingVideo ||
           isFetchingVideo ||
           isErrorVideo ||
@@ -146,7 +134,7 @@ const ToolsTranslate = () => {
                   )}
                 </Select>
               </ZendeskDropdownField>
-              <Menu>
+              <Menu style={{ maxHeight: 250 }}>
                 {filteredLanguages.map((lang) => (
                   <Item key={`language-${lang}-option`} value={lang}>
                     {t(
@@ -166,80 +154,38 @@ const ToolsTranslate = () => {
             <Label>{t('__TOOLS_TRANSLATE_TOGGLE_TEXT')}</Label>
           </Toggle>
         </ZendeskFormField>
-        <ButtonsWrapper>
-          <Button isBasic onClick={() => setIsOpen(false)}>
-            {t('__TOOLS_TRANSLATE_BUTTON_CANCEL')}
-          </Button>
-          <Button
-            isPrimary
-            isAccent
-            disabled={!internalLanguage || isLoading}
-            onClick={() => {
-              if (!videoId) return;
-              if (!internalLanguage) return;
+      </Modal.Body>
+      <Modal.Footer>
+        <Button isBasic onClick={() => setIsOpen(false)}>
+          {t('__TOOLS_TRANSLATE_BUTTON_CANCEL')}
+        </Button>
+        <Button
+          isPrimary
+          isAccent
+          disabled={!internalLanguage || isLoading}
+          onClick={() => {
+            if (!videoId) return;
+            if (!internalLanguage) return;
 
-              setLanguage(internalLanguage);
+            setLanguage(internalLanguage);
 
-              if (isLangChecked)
-                updatePreference({
-                  prefid: languagePreference?.preference_id.toString() || '',
-                  body: {
-                    value: internalLanguage,
-                  },
-                })
-                  .unwrap()
-                  .then(() => {
-                    addToast(
-                      ({ close }) => (
-                        <Notification
-                          onClose={close}
-                          type="success"
-                          message={t(
-                            '__TOOLS_TRANSLATE_TOAST_LANGUAGE_SUCCESS_MESSAGE'
-                          )}
-                          closeText={t('__TOAST_CLOSE_TEXT')}
-                          isPrimary
-                        />
-                      ),
-                      { placement: 'top' }
-                    );
-                  })
-                  .catch((e) => {
-                    // eslint-disable-next-line no-console
-                    console.error(e);
-
-                    addToast(
-                      ({ close }) => (
-                        <Notification
-                          onClose={close}
-                          type="error"
-                          message={t(
-                            '__TOOLS_TRANSLATE_TOAST_LANGUAGE_ERROR_MESSAGE'
-                          )}
-                          closeText={t('__TOAST_CLOSE_TEXT')}
-                          isPrimary
-                        />
-                      ),
-                      { placement: 'top' }
-                    );
-                  });
-
-              requestTranslation({
-                vid: videoId || '',
+            if (isLangChecked)
+              updatePreference({
+                prefid: languagePreference?.preference_id.toString() || '',
                 body: {
-                  language: internalLanguage,
+                  value: internalLanguage,
                 },
               })
                 .unwrap()
                 .then(() => {
-                  setIsOpen(false);
-
                   addToast(
                     ({ close }) => (
                       <Notification
                         onClose={close}
                         type="success"
-                        message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
+                        message={t(
+                          '__TOOLS_TRANSLATE_TOAST_LANGUAGE_SUCCESS_MESSAGE'
+                        )}
                         closeText={t('__TOAST_CLOSE_TEXT')}
                         isPrimary
                       />
@@ -256,7 +202,9 @@ const ToolsTranslate = () => {
                       <Notification
                         onClose={close}
                         type="error"
-                        message={t('__TOOLS_TRANSLATE_TOAST_ERROR_MESSAGE')}
+                        message={t(
+                          '__TOOLS_TRANSLATE_TOAST_LANGUAGE_ERROR_MESSAGE'
+                        )}
                         closeText={t('__TOAST_CLOSE_TEXT')}
                         isPrimary
                       />
@@ -264,24 +212,65 @@ const ToolsTranslate = () => {
                     { placement: 'top' }
                   );
                 });
-            }}
-          >
-            {isLoading
-              ? t('__TOOLS_TRANSLATE_BUTTON_SEND_LOADING')
-              : t('__TOOLS_TRANSLATE_BUTTON_SEND')}
-            {isLoading && (
-              <Button.EndIcon>
-                <Spinner
-                  size={appTheme.space.md}
-                  color={appTheme.palette.grey[400]}
-                  style={{ marginLeft: appTheme.space.sm }}
-                />
-              </Button.EndIcon>
-            )}
-          </Button>
-        </ButtonsWrapper>
-      </Body>
-    </>
+
+            requestTranslation({
+              vid: videoId || '',
+              body: {
+                language: internalLanguage,
+              },
+            })
+              .unwrap()
+              .then(() => {
+                setIsOpen(false);
+
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="success"
+                      message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              })
+              .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.error(e);
+
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={t('__TOOLS_TRANSLATE_TOAST_ERROR_MESSAGE')}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              });
+          }}
+          style={{ marginLeft: appTheme.space.md }}
+        >
+          {isLoading
+            ? t('__TOOLS_TRANSLATE_BUTTON_SEND_LOADING')
+            : t('__TOOLS_TRANSLATE_BUTTON_SEND')}
+          {isLoading && (
+            <Button.EndIcon>
+              <Spinner
+                size={appTheme.space.md}
+                color={appTheme.palette.grey[400]}
+                style={{ marginLeft: appTheme.space.sm }}
+              />
+            </Button.EndIcon>
+          )}
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
