@@ -9,9 +9,7 @@ import {
   Modal,
   ModalClose,
   Notification,
-  SM,
   Select,
-  Separator,
   Skeleton,
   Span,
   Spinner,
@@ -25,27 +23,14 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as ArrowLeft } from 'src/assets/icons/chevron-left-icon.svg';
 import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
   usePostVideosByVidTranslationMutation,
   usePutUsersMePreferencesByPrefidMutation,
 } from 'src/features/api';
-import { styled } from 'styled-components';
 import { getAllLanguageTags } from '@appquality/languages-lib';
 import { useToolsContext } from './context/ToolsContext';
-
-const Body = styled.div`
-  padding: ${({ theme }) => theme.space.md};
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  gap: ${({ theme }) => theme.space.md};
-  margin-top: ${({ theme }) => theme.space.md};
-`;
 
 const ToolsTranslate = () => {
   const { videoId } = useParams();
