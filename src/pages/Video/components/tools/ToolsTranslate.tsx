@@ -26,23 +26,39 @@ import { appTheme } from 'src/app/theme';
 import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
+  useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
   usePutUsersMePreferencesByPrefidMutation,
 } from 'src/features/api';
 import { getAllLanguageTags } from '@appquality/languages-lib';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { FEATURE_FLAG_AI } from 'src/constants';
 import { useToolsContext } from './context/ToolsContext';
 
 const ToolsTranslate = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
   const [internalLanguage, setInternalLanguage] = useState<string>('');
-  const { setLanguage, setIsOpen } = useToolsContext();
+  const { language, setLanguage, setIsOpen } = useToolsContext();
   const [isLangChecked, setIsLangChecked] = useState(true);
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
   const allowedLanguages = getAllLanguageTags();
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
+
+  const { data: translation, isLoading: isLoadingTranslation } =
+    useGetVideosByVidTranslationQuery(
+      {
+        vid: videoId || '',
+        ...(language && { lang: language }),
+      },
+      {
+        skip: !hasAIFeatureFlag,
+      }
+    );
 
   const {
     data: video,
@@ -55,9 +71,9 @@ const ToolsTranslate = () => {
 
   const videoLanguage = video?.language ?? '';
 
-  // Remove videoLanguage from allowedLanguages
+  // Remove videoLanguage and current translation language from allowedLanguages
   const filteredLanguages = allowedLanguages.filter(
-    (lang) => lang !== videoLanguage
+    (lang) => lang !== videoLanguage && lang !== translation?.language
   );
 
   const {
@@ -83,7 +99,8 @@ const ToolsTranslate = () => {
         </MD>
         <Label>{t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}</Label>
         <div style={{ margin: `${appTheme.space.xs} 0` }}>
-          {isLoadingVideo ||
+          {isLoadingTranslation ||
+          isLoadingVideo ||
           isFetchingVideo ||
           isErrorVideo ||
           isLoadingPrefs ||
@@ -95,11 +112,11 @@ const ToolsTranslate = () => {
               selectedItem={internalLanguage}
               onSelect={(item: string) => {
                 if (item) {
-                  const language = filteredLanguages.find(
+                  const currentLanguage = filteredLanguages.find(
                     (lang) => lang === item
                   );
-                  if (language) {
-                    setInternalLanguage(language);
+                  if (currentLanguage) {
+                    setInternalLanguage(currentLanguage);
                   }
                 }
               }}
