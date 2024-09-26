@@ -18,6 +18,7 @@ import { FEATURE_FLAG_AI } from 'src/constants';
 import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
+  useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
 } from 'src/features/api';
 import { getAllLanguageTags } from '@appquality/languages-lib';
@@ -35,6 +36,17 @@ export const Tools = () => {
 
   const { addToast } = useToast();
   const [requestTranslation] = usePostVideosByVidTranslationMutation();
+
+  const { data: translation, isLoading: isLoadingTranslation } =
+    useGetVideosByVidTranslationQuery(
+      {
+        vid: videoId || '',
+        ...(language && { lang: language }),
+      },
+      {
+        skip: !hasAIFeatureFlag,
+      }
+    );
 
   const { data: preferences } = useGetUsersMePreferencesQuery();
 
@@ -54,11 +66,11 @@ export const Tools = () => {
     vid: videoId || '',
   });
 
-  if (!hasAIFeatureFlag) return null;
+  if (!hasAIFeatureFlag || isLoadingTranslation) return null;
 
-  // A preferred language is set and it's different from the video language
+  // A preferred language is set and it's different from the video language and it's not already translated
   const canTranslate =
-    language && language.localeCompare(video?.language ?? '');
+    language && language.localeCompare(video?.language ?? '') && !translation;
 
   return (
     <>
