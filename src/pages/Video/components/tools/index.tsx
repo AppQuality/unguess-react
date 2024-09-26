@@ -7,6 +7,7 @@ import {
   Span,
   Trigger,
   useToast,
+  Spinner,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useEffect } from 'react';
@@ -35,7 +36,8 @@ export const Tools = () => {
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
 
   const { addToast } = useToast();
-  const [requestTranslation] = usePostVideosByVidTranslationMutation();
+  const [requestTranslation, { isLoading: isLoadingRequestTranslation }] =
+    usePostVideosByVidTranslationMutation();
 
   const { data: translation, isLoading: isLoadingTranslation } =
     useGetVideosByVidTranslationQuery(
@@ -78,6 +80,7 @@ export const Tools = () => {
         <Trigger>
           <Button
             isBasic
+            disabled={isLoadingRequestTranslation}
             onClick={() => {
               if (canTranslate) {
                 requestTranslation({
@@ -138,6 +141,15 @@ export const Tools = () => {
               </Span>
             ) : (
               t('__TOOLS_MENU_ITEM_BUTTON_LABEL')
+            )}
+            {isLoadingRequestTranslation && (
+              <Button.EndIcon>
+                <Spinner
+                  size={appTheme.space.md}
+                  color={appTheme.palette.grey[400]}
+                  style={{ marginLeft: appTheme.space.sm }}
+                />
+              </Button.EndIcon>
             )}
           </Button>
         </Trigger>

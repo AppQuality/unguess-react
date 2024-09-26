@@ -200,6 +200,7 @@ const Transcript = ({
 
   if (!video || isErrorVideo || !video.transcript || isErrorObservations)
     return null;
+
   if (
     isFetchingVideo ||
     isLoadingVideo ||
@@ -207,6 +208,7 @@ const Transcript = ({
     isLoadingObservations
   )
     return <Skeleton />;
+
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
@@ -301,14 +303,17 @@ const Transcript = ({
                         </NoMarginCol>
                         {showTranslation && (
                           <StyledCol size={6}>
-                            {isFetchingTranslation || isLoadingTranslation ? (
+                            {isFetchingTranslation ||
+                            isLoadingTranslation ||
+                            isErrorTranslation ? (
                               <>
                                 <Skeleton height="15px" />
                                 <Skeleton height="15px" />
                                 <Skeleton height="15px" />
                               </>
                             ) : (
-                              translation?.sentences.map(
+                              translation &&
+                              translation.sentences.map(
                                 (sentence) =>
                                   sentence.start >= p.start &&
                                   sentence.end <= p.end && (
