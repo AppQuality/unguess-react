@@ -62,7 +62,7 @@ export const Navigation = ({
 
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
 
-  const onSetSettings = async (value: string) => {
+  const onSetSettings = async (value: number) => {
     await updatePreference({
       prefid: `${notificationsPreference?.preference_id}`,
       body: { value: value.toString() },
