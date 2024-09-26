@@ -62,10 +62,10 @@ export const Navigation = ({
 
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
 
-  const onSetSettings = async (value: number) => {
+  const onSetSettings = async (value: string) => {
     await updatePreference({
       prefid: `${notificationsPreference?.preference_id}`,
-      body: { value: value.toString() },
+      body: { value },
     })
       .unwrap()
       .then(() => {
@@ -153,7 +153,7 @@ export const Navigation = ({
       title: t('__PROFILE_MODAL_PRIVACY_ITEM_LABEL'),
       url: 'https://www.iubenda.com/privacy-policy/833252/full-legal',
     },
-    settingValue: Number.parseInt(notificationsPreference?.value ?? '0', 10),
+    settingValue: notificationsPreference?.value ?? '0',
     i18n: {
       settingsTitle: t('__PROFILE_MODAL_NOTIFICATIONS_TITLE'),
       settingsIntroText: t('__PROFILE_MODAL_NOTIFICATIONS_INTRO'),
