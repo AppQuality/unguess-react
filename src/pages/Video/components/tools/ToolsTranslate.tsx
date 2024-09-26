@@ -32,7 +32,7 @@ import {
 } from 'src/features/api';
 import { getAllLanguageTags } from '@appquality/languages-lib';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { FEATURE_FLAG_AI } from 'src/constants';
+import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useToolsContext } from './context/ToolsContext';
 
 const ToolsTranslate = () => {
@@ -47,7 +47,7 @@ const ToolsTranslate = () => {
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
   const allowedLanguages = getAllLanguageTags();
   const { hasFeatureFlag } = useFeatureFlag();
-  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
 
   const { data: translation, isLoading: isLoadingTranslation } =
     useGetVideosByVidTranslationQuery(

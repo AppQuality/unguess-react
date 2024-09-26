@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AIMenuIcon } from 'src/assets/icons/ai-icon.svg';
-import { FEATURE_FLAG_AI } from 'src/constants';
+import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
@@ -30,7 +30,7 @@ export const Tools = () => {
   const { isOpen, setIsOpen, language, setLanguage } = useToolsContext();
   const languages = getAllLanguageTags();
   const { hasFeatureFlag } = useFeatureFlag();
-  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
 
   const { addToast } = useToast();
   const [requestTranslation, { isLoading: isLoadingRequestTranslation }] =

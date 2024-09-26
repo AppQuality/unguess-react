@@ -26,7 +26,7 @@ import {
 import useDebounce from 'src/hooks/useDebounce';
 import { styled } from 'styled-components';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { FEATURE_FLAG_AI } from 'src/constants';
+import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { SearchBar } from './SearchBar';
@@ -118,7 +118,7 @@ const Transcript = ({
   const debouncedValue = useDebounce(searchValue, 300);
   const { addToast } = useToast();
   const { hasFeatureFlag } = useFeatureFlag();
-  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
   const { language } = useToolsContext();
 
   const {
