@@ -1,17 +1,12 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
-interface Lang {
-  value: string;
-  label: string;
-}
-
 interface ToolsContextType {
   activeItem: string | null;
   setActiveItem: (item: string | null) => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  language: Lang | null;
-  setLanguage: (lang: Lang) => void;
+  language: string;
+  setLanguage: (lang: string) => void;
 }
 
 const ToolsContext = createContext<ToolsContextType | null>(null);
@@ -23,7 +18,7 @@ export const ToolsContextProvider = ({
 }) => {
   const [activeItem, setActiveItem] = useState<string | null>('translate');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [language, setLanguage] = useState<Lang | null>(null);
+  const [language, setLanguage] = useState<string>('');
 
   const toolsContextValue = useMemo(
     () => ({

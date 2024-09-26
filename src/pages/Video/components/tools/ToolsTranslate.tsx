@@ -30,9 +30,9 @@ import {
   usePutUsersMePreferencesByPrefidMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { getAllLanguageTags } from '@appquality/languages-lib';
 import { MenuButton } from './MenuButton';
 import { useToolsContext } from './context/ToolsContext';
-import { getLanguages } from './languages';
 
 const Body = styled.div`
   padding: ${({ theme }) => theme.space.md};
@@ -48,17 +48,14 @@ const ButtonsWrapper = styled.div`
 const ToolsTranslate = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
-  const [internalLanguage, setInternalLanguage] = useState<{
-    label: string;
-    value: string;
-  } | null>(null);
+  const [internalLanguage, setInternalLanguage] = useState<string>('');
   const { setLanguage, setIsOpen } = useToolsContext();
   const [isLangChecked, setIsLangChecked] = useState(true);
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
-  const allowedLanguages = getLanguages();
+  const allowedLanguages = getAllLanguageTags();
 
   const {
     data: video,
@@ -73,7 +70,7 @@ const ToolsTranslate = () => {
 
   // Remove videoLanguage from allowedLanguages
   const filteredLanguages = allowedLanguages.filter(
-    ({ value }) => value !== videoLanguage
+    (lang) => lang !== videoLanguage
   );
 
   const {
@@ -122,14 +119,14 @@ const ToolsTranslate = () => {
             <Skeleton height="40px" style={{ borderRadius: '4px' }} />
           ) : (
             <Dropdown
-              selectedItem={internalLanguage?.value}
+              selectedItem={internalLanguage}
               onSelect={(item: string) => {
                 if (item) {
-                  const lang = filteredLanguages.find(
-                    ({ value }) => value === item
+                  const language = filteredLanguages.find(
+                    (lang) => lang === item
                   );
-                  if (lang) {
-                    setInternalLanguage(lang);
+                  if (language) {
+                    setInternalLanguage(language);
                   }
                 }
               }}
@@ -137,7 +134,11 @@ const ToolsTranslate = () => {
               <ZendeskDropdownField>
                 <Select start={<TranslateIcon />}>
                   {internalLanguage ? (
-                    internalLanguage.label
+                    <Span>
+                      {t(
+                        `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${internalLanguage.toUpperCase()}_LABEL`
+                      )}
+                    </Span>
                   ) : (
                     <Span style={{ opacity: 0.5 }}>
                       {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
@@ -146,9 +147,11 @@ const ToolsTranslate = () => {
                 </Select>
               </ZendeskDropdownField>
               <Menu>
-                {filteredLanguages.map(({ value, label }) => (
-                  <Item key={`language-${value}-option`} value={value}>
-                    {label}
+                {filteredLanguages.map((lang) => (
+                  <Item key={`language-${lang}-option`} value={lang}>
+                    {t(
+                      `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${lang.toUpperCase()}_LABEL`
+                    )}
                   </Item>
                 ))}
               </Menu>
@@ -181,7 +184,7 @@ const ToolsTranslate = () => {
                 updatePreference({
                   prefid: languagePreference?.preference_id.toString() || '',
                   body: {
-                    value: internalLanguage.value,
+                    value: internalLanguage,
                   },
                 })
                   .unwrap()
@@ -224,7 +227,7 @@ const ToolsTranslate = () => {
               requestTranslation({
                 vid: videoId || '',
                 body: {
-                  language: internalLanguage.value,
+                  language: internalLanguage,
                 },
               })
                 .unwrap()
