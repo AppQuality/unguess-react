@@ -76,89 +76,81 @@ export const Tools = () => {
 
   return (
     <>
-      <Dropdown isOpen={isOpen}>
-        <Trigger>
-          <Button
-            isBasic
-            disabled={isLoadingRequestTranslation}
-            onClick={() => {
-              if (canTranslate) {
-                requestTranslation({
-                  vid: videoId || '',
-                  body: {
-                    language,
-                  },
-                })
-                  .unwrap()
-                  .then(() => {
-                    setIsOpen(false);
+      <Button
+        isBasic
+        disabled={isLoadingRequestTranslation}
+        onClick={() => {
+          if (canTranslate) {
+            requestTranslation({
+              vid: videoId || '',
+              body: {
+                language,
+              },
+            })
+              .unwrap()
+              .then(() => {
+                setIsOpen(false);
 
-                    addToast(
-                      ({ close }) => (
-                        <Notification
-                          onClose={close}
-                          type="success"
-                          message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
-                          closeText={t('__TOAST_CLOSE_TEXT')}
-                          isPrimary
-                        />
-                      ),
-                      { placement: 'top' }
-                    );
-                  })
-                  .catch((e) => {
-                    // eslint-disable-next-line no-console
-                    console.error(e);
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="success"
+                      message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              })
+              .catch((e) => {
+                // eslint-disable-next-line no-console
+                console.error(e);
 
-                    addToast(
-                      ({ close }) => (
-                        <Notification
-                          onClose={close}
-                          type="error"
-                          message={t('__TOOLS_TRANSLATE_TOAST_ERROR_MESSAGE')}
-                          closeText={t('__TOAST_CLOSE_TEXT')}
-                          isPrimary
-                        />
-                      ),
-                      { placement: 'top' }
-                    );
-                  });
-              } else {
-                setIsOpen(true);
-              }
-            }}
-            style={{ margin: `0 ${appTheme.space.md}` }}
-          >
-            <Button.StartIcon>
-              <AIMenuIcon />
-            </Button.StartIcon>
-            {canTranslate ? (
-              <Span>
-                {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
-                {t(
-                  `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${language.toUpperCase()}_LABEL`
-                )}
-              </Span>
-            ) : (
-              t('__TOOLS_MENU_ITEM_BUTTON_LABEL')
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={t('__TOOLS_TRANSLATE_TOAST_ERROR_MESSAGE')}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              });
+          } else {
+            setIsOpen(true);
+          }
+        }}
+        style={{ margin: `0 ${appTheme.space.md}` }}
+      >
+        <Button.StartIcon>
+          <AIMenuIcon />
+        </Button.StartIcon>
+        {canTranslate ? (
+          <Span>
+            {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
+            {t(
+              `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${language.toUpperCase()}_LABEL`
             )}
-            {isLoadingRequestTranslation && (
-              <Button.EndIcon>
-                <Spinner
-                  size={appTheme.space.md}
-                  color={appTheme.palette.grey[400]}
-                  style={{ marginLeft: appTheme.space.sm }}
-                />
-              </Button.EndIcon>
-            )}
-          </Button>
-        </Trigger>
-        <Menu hasArrow zIndex={appTheme.levels.front}>
-          <div style={{ padding: appTheme.space.xs }}>
-            <ToolsTranslate />
-          </div>
-        </Menu>
-      </Dropdown>
+          </Span>
+        ) : (
+          t('__TOOLS_MENU_ITEM_BUTTON_LABEL')
+        )}
+        {isLoadingRequestTranslation && (
+          <Button.EndIcon>
+            <Spinner
+              size={appTheme.space.md}
+              color={appTheme.palette.grey[400]}
+              style={{ marginLeft: appTheme.space.sm }}
+            />
+          </Button.EndIcon>
+        )}
+      </Button>
+      {isOpen && <ToolsTranslate />}
       {!!canTranslate && (
         <IconButton
           onClick={() => {
