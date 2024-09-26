@@ -147,7 +147,7 @@ const Transcript = ({
   } = useGetVideosByVidTranslationQuery(
     {
       vid: videoId || '',
-      ...(language && { lang: language.value }),
+      ...(language && { lang: language }),
     },
     {
       skip: !hasAIFeatureFlag,

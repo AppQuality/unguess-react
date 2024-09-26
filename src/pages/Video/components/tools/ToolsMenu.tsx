@@ -23,13 +23,13 @@ import {
 } from 'src/features/api';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { getAllLanguageTags } from '@appquality/languages-lib';
 import { useToolsContext } from './context/ToolsContext';
 import { MenuButton } from './MenuButton';
 import { ToolsSentimentFlag } from './ToolsSentimentFlag';
 import { ToolsAutotagFlag } from './ToolsAutotagFlag';
 import { ToolsTranslateFlag } from './ToolsTranslateFlag';
 import { ToolsTranslate } from './ToolsTranslate';
-import { getLanguages } from './languages';
 
 const Labels = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ export const ToolsMenu = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
   const { activeItem, setActiveItem, setLanguage } = useToolsContext();
-  const languages = getLanguages();
+  const languages = getAllLanguageTags();
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
@@ -76,7 +76,7 @@ export const ToolsMenu = () => {
   );
 
   const preferredLanguage = languages.find(
-    (lang) => lang.value === languagePreference?.value
+    (lang) => lang === languagePreference?.value
   );
 
   const { data: video } = useGetVideosByVidQuery({
@@ -114,7 +114,7 @@ export const ToolsMenu = () => {
                 <ArrowRight />
               </Button.EndIcon>
             </MenuButton> */}
-            {preferredLanguage && preferredLanguage.value !== videoLanguage && (
+            {preferredLanguage && preferredLanguage !== videoLanguage && (
               <MenuButton
                 disabled={
                   isLoadingPrefs || isFetchingPrefs || isErrorPrefs || isLoading
@@ -123,7 +123,7 @@ export const ToolsMenu = () => {
                   requestTranslation({
                     vid: videoId || '',
                     body: {
-                      language: preferredLanguage.value,
+                      language: preferredLanguage,
                     },
                   })
                     .unwrap()
@@ -178,7 +178,7 @@ export const ToolsMenu = () => {
                         Translate in{' '}
                         <Span style={{ textTransform: 'lowercase' }}>
                           {{
-                            language: preferredLanguage?.label,
+                            language: preferredLanguage,
                           }}
                         </Span>
                       </Trans>

@@ -10,7 +10,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useEffect } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AIMenuIcon } from 'src/assets/icons/ai-icon.svg';
@@ -20,16 +20,16 @@ import {
   useGetVideosByVidQuery,
   usePostVideosByVidTranslationMutation,
 } from 'src/features/api';
+import { getAllLanguageTags } from '@appquality/languages-lib';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useToolsContext } from './context/ToolsContext';
-import { getLanguages } from './languages';
 import { ToolsTranslate } from './ToolsTranslate';
 
 export const Tools = () => {
   const { t } = useTranslation();
   const { videoId } = useParams();
   const { isOpen, setIsOpen, language, setLanguage } = useToolsContext();
-  const languages = getLanguages();
+  const languages = getAllLanguageTags();
   const { hasFeatureFlag } = useFeatureFlag();
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI);
 
@@ -43,7 +43,7 @@ export const Tools = () => {
   );
 
   const preferredLanguage = languages.find(
-    (lang) => lang.value === languagePreference?.value
+    (lang) => lang === languagePreference?.value
   );
 
   useEffect(() => {
@@ -58,9 +58,7 @@ export const Tools = () => {
 
   // A preferred language is set and it's different from the video language
   const canTranslate =
-    language &&
-    language.value &&
-    language.value.localeCompare(video?.language ?? '');
+    language && language.localeCompare(video?.language ?? '');
 
   return (
     <>
@@ -68,13 +66,12 @@ export const Tools = () => {
         <Trigger>
           <Button
             isBasic
-            size="large"
             onClick={() => {
               if (canTranslate) {
                 requestTranslation({
                   vid: videoId || '',
                   body: {
-                    language: language.value,
+                    language,
                   },
                 })
                   .unwrap()
@@ -115,20 +112,18 @@ export const Tools = () => {
                 setIsOpen(true);
               }
             }}
-            style={{ marginLeft: appTheme.space.md }}
+            style={{ margin: `0 ${appTheme.space.md}` }}
           >
             <Button.StartIcon>
               <AIMenuIcon />
             </Button.StartIcon>
             {canTranslate ? (
-              <Trans i18nKey="__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE">
-                Translate in &nbsp;
-                <Span style={{ textTransform: 'lowercase' }}>
-                  {{
-                    language: language?.label,
-                  }}
-                </Span>
-              </Trans>
+              <Span>
+                {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
+                {t(
+                  `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${language.toUpperCase()}_LABEL`
+                )}
+              </Span>
             ) : (
               t('__TOOLS_MENU_ITEM_BUTTON_LABEL')
             )}
