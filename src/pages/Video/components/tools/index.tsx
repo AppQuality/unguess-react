@@ -36,17 +36,6 @@ export const Tools = () => {
   const [requestTranslation, { isLoading: isLoadingRequestTranslation }] =
     usePostVideosByVidTranslationMutation();
 
-  const { data: translation, isLoading: isLoadingTranslation } =
-    useGetVideosByVidTranslationQuery(
-      {
-        vid: videoId || '',
-        ...(language && { lang: language }),
-      },
-      {
-        skip: !hasAIFeatureFlag,
-      }
-    );
-
   const { data: preferences } = useGetUsersMePreferencesQuery();
 
   const languagePreference = preferences?.items?.find(
@@ -61,6 +50,17 @@ export const Tools = () => {
     if (!language && preferredLanguage) setLanguage(preferredLanguage);
   }, [preferredLanguage]);
 
+  const { data: translation, isLoading: isLoadingTranslation } =
+    useGetVideosByVidTranslationQuery(
+      {
+        vid: videoId || '',
+        ...(language && { lang: language }),
+      },
+      {
+        skip: !hasAIFeatureFlag || !preferredLanguage,
+      }
+    );
+
   const { data: video } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
@@ -69,7 +69,9 @@ export const Tools = () => {
 
   // A preferred language is set and it's different from the video language and it's not already translated
   const canTranslate =
-    language && language.localeCompare(video?.language ?? '') && !translation;
+    language &&
+    language.localeCompare(video?.language ?? '') &&
+    language.localeCompare(languagePreference?.value ?? '');
 
   return (
     <>
@@ -78,15 +80,17 @@ export const Tools = () => {
         disabled={isLoadingRequestTranslation}
         onClick={() => {
           if (canTranslate) {
+            if (!languagePreference) return;
+
             requestTranslation({
               vid: videoId || '',
               body: {
-                language,
+                language: languagePreference.value,
               },
             })
               .unwrap()
               .then(() => {
-                setIsOpen(false);
+                setLanguage(languagePreference.value);
 
                 addToast(
                   ({ close }) => (
@@ -131,7 +135,7 @@ export const Tools = () => {
           <Span>
             {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
             {t(
-              `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${language.toUpperCase()}_LABEL`
+              `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${languagePreference?.value.toUpperCase()}_LABEL`
             )}
           </Span>
         ) : (
@@ -147,7 +151,11 @@ export const Tools = () => {
           </Button.EndIcon>
         )}
       </Button>
-      {isOpen && <ToolsTranslate />}
+      {isOpen && (
+        <ToolsTranslate
+          {...(translation && { currentLanguage: translation.language })}
+        />
+      )}
       {!!canTranslate && (
         <IconButton
           onClick={() => {
