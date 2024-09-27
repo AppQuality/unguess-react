@@ -1,10 +1,11 @@
 import {
   Notification,
-  useVideoContext as usePlayerContext,
   PlayerProvider,
   Skeleton,
+  useVideoContext as usePlayerContext,
   useToast,
 } from '@appquality/unguess-design-system';
+import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -18,12 +19,9 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
 import { useVideoContext } from '../context/VideoContext';
-import { EmptyTranscript } from './EmptyTranscript';
+import { NewTranscript } from './NewTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
-import { Transcript } from './Transcript';
-import { ToolsContextProvider } from './tools/context/ToolsContext';
 
 const PlayerContainer = styled.div<{
   isFetching: boolean;
@@ -206,17 +204,18 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
           }}
         />
       </PlayerContainer>
-      {video.transcript ? (
-        <ToolsContextProvider>
-          <Transcript
-            currentTime={currentTime}
-            isSearchable
-            setCurrentTime={seekPlayer}
-          />
-        </ToolsContextProvider>
+      {video.transcript && (
+        <NewTranscript currentTime={currentTime} setCurrentTime={seekPlayer} />
+      )}
+      {/* {video.transcript ? (
+        <Transcript
+          currentTime={currentTime}
+          isSearchable
+          setCurrentTime={seekPlayer}
+        />
       ) : (
         <EmptyTranscript />
-      )}
+      )} */}
     </>
   );
 };
