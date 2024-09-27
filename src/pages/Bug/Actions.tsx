@@ -160,7 +160,7 @@ export const Actions = () => {
   };
 
   const createCommentHandler = useCallback(
-    (editor, mentions) => {
+    (editor: any, mentions: any) => {
       if (editor) {
         createComment({
           cid,

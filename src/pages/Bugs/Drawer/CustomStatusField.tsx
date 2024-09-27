@@ -198,15 +198,12 @@ export const CustomStatusField = ({
                   <Trans
                     count={available.length - maxItemsToShow}
                     i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUSES_SHOW_MORE_LABEL"
-                  >
-                    Show{' '}
-                    <Span isBold>
-                      {{
-                        count: available.length - maxItemsToShow,
-                      }}
-                    </Span>{' '}
-                    more statuses
-                  </Trans>
+                    values={{ count: available.length - maxItemsToShow }}
+                    components={{
+                      span: <Span isBold />,
+                    }}
+                    defaults="Show <span>{{count}}</span> more statuses"
+                  />
                 ) : (
                   t(
                     '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUSES_SHOW_LESS_LABEL'

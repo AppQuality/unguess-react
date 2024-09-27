@@ -18,6 +18,7 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
+import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
 import { useVideoContext } from '../context/VideoContext';
 import { EmptyTranscript } from './EmptyTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
@@ -171,7 +172,7 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
     [observations]
   );
 
-  const handleBookmarksUpdate = useCallback(async (bookmark) => {
+  const handleBookmarksUpdate = useCallback(async (bookmark: IBookmark) => {
     await patchObservation({
       vid: videoId || '',
       oid: bookmark.id.toString(),
@@ -179,7 +180,7 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         title: bookmark.label,
         start: bookmark.start,
         end: bookmark.end,
-        tags: bookmark.tags.map((item: any) => item.tag.id),
+        tags: bookmark.tags?.map((item: any) => item.tag.id),
       },
     }).unwrap();
   }, []);

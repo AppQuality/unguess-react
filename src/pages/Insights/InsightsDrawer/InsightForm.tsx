@@ -240,7 +240,9 @@ const InsightForm = () => {
         )}
         {errors.observations && (
           <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
-            {errors.observations}
+            {typeof errors.observations === 'string'
+              ? errors.observations
+              : JSON.stringify(errors.observations)}
           </Message>
         )}
       </div>
