@@ -10,7 +10,6 @@ import {
   ModalClose,
   Notification,
   Select,
-  Skeleton,
   Span,
   Spinner,
   Toggle,
@@ -26,39 +25,23 @@ import { appTheme } from 'src/app/theme';
 import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
-  useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
   usePutUsersMePreferencesByPrefidMutation,
 } from 'src/features/api';
 import { getAllLanguageTags } from '@appquality/languages-lib';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useToolsContext } from './context/ToolsContext';
 
-const ToolsTranslate = () => {
+const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const { videoId } = useParams();
   const { t } = useTranslation();
   const [internalLanguage, setInternalLanguage] = useState<string>('');
-  const { language, setLanguage, setIsOpen } = useToolsContext();
+  const { setLanguage, setIsOpen } = useToolsContext();
   const [isLangChecked, setIsLangChecked] = useState(true);
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
   const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
   const allowedLanguages = getAllLanguageTags();
-  const { hasFeatureFlag } = useFeatureFlag();
-  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
-
-  const { data: translation, isLoading: isLoadingTranslation } =
-    useGetVideosByVidTranslationQuery(
-      {
-        vid: videoId || '',
-        ...(language && { lang: language }),
-      },
-      {
-        skip: !hasAIFeatureFlag,
-      }
-    );
 
   const {
     data: video,
@@ -71,11 +54,6 @@ const ToolsTranslate = () => {
 
   const videoLanguage = video?.language ?? '';
 
-  // Remove videoLanguage and current translation language from allowedLanguages
-  const filteredLanguages = allowedLanguages.filter(
-    (lang) => lang !== videoLanguage && lang !== translation?.language
-  );
-
   const {
     data: preferences,
     isLoading: isLoadingPrefs,
@@ -86,6 +64,22 @@ const ToolsTranslate = () => {
   const languagePreference = preferences?.items?.find(
     (preference) => preference?.name === 'translations_language'
   );
+
+  // Remove videoLanguage and current translation language from allowedLanguages
+  const filteredLanguages = allowedLanguages.filter(
+    (lang) => lang !== videoLanguage && lang !== currentLanguage
+  );
+
+  if (
+    isLoadingPrefs ||
+    isLoadingVideo ||
+    isFetchingPrefs ||
+    isFetchingVideo ||
+    isErrorPrefs ||
+    isErrorVideo
+  ) {
+    return null;
+  }
 
   return (
     <Modal onClose={() => setIsOpen(false)}>
@@ -99,54 +93,42 @@ const ToolsTranslate = () => {
         </MD>
         <Label>{t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}</Label>
         <div style={{ margin: `${appTheme.space.xs} 0` }}>
-          {isLoadingTranslation ||
-          isLoadingVideo ||
-          isFetchingVideo ||
-          isErrorVideo ||
-          isLoadingPrefs ||
-          isFetchingPrefs ||
-          isErrorPrefs ? (
-            <Skeleton height="40px" style={{ borderRadius: '4px' }} />
-          ) : (
-            <Dropdown
-              selectedItem={internalLanguage}
-              onSelect={(item: string) => {
-                if (item) {
-                  const currentLanguage = filteredLanguages.find(
-                    (lang) => lang === item
-                  );
-                  if (currentLanguage) {
-                    setInternalLanguage(currentLanguage);
-                  }
+          <Dropdown
+            selectedItem={internalLanguage}
+            onSelect={(item: string) => {
+              if (item) {
+                const l = filteredLanguages.find((lang) => lang === item);
+                if (l) {
+                  setInternalLanguage(l);
                 }
-              }}
-            >
-              <ZendeskDropdownField>
-                <Select start={<TranslateIcon />}>
-                  {internalLanguage ? (
-                    <Span>
-                      {t(
-                        `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${internalLanguage.toUpperCase()}_LABEL`
-                      )}
-                    </Span>
-                  ) : (
-                    <Span style={{ opacity: 0.5 }}>
-                      {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
-                    </Span>
-                  )}
-                </Select>
-              </ZendeskDropdownField>
-              <Menu style={{ maxHeight: 250 }}>
-                {filteredLanguages.map((lang) => (
-                  <Item key={`language-${lang}-option`} value={lang}>
+              }
+            }}
+          >
+            <ZendeskDropdownField>
+              <Select start={<TranslateIcon />}>
+                {internalLanguage ? (
+                  <Span>
                     {t(
-                      `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${lang.toUpperCase()}_LABEL`
+                      `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${internalLanguage.toUpperCase()}_LABEL`
                     )}
-                  </Item>
-                ))}
-              </Menu>
-            </Dropdown>
-          )}
+                  </Span>
+                ) : (
+                  <Span style={{ opacity: 0.5 }}>
+                    {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
+                  </Span>
+                )}
+              </Select>
+            </ZendeskDropdownField>
+            <Menu style={{ maxHeight: 250 }}>
+              {filteredLanguages.map((lang) => (
+                <Item key={`language-${lang}-option`} value={lang}>
+                  {t(
+                    `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${lang.toUpperCase()}_LABEL`
+                  )}
+                </Item>
+              ))}
+            </Menu>
+          </Dropdown>
         </div>
         <ZendeskFormField>
           <Toggle
@@ -168,8 +150,6 @@ const ToolsTranslate = () => {
           onClick={() => {
             if (!videoId) return;
             if (!internalLanguage) return;
-
-            setLanguage(internalLanguage);
 
             if (isLangChecked)
               updatePreference({
@@ -224,6 +204,8 @@ const ToolsTranslate = () => {
               .unwrap()
               .then(() => {
                 setIsOpen(false);
+
+                setLanguage(internalLanguage);
 
                 addToast(
                   ({ close }) => (
