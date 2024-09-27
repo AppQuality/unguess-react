@@ -18,7 +18,7 @@ const resolvedAliases = Object.fromEntries(
 
 module.exports = {
   webpack: {
-    alias: resolvedAliases,
+    // alias: resolvedAliases,
     configure: (webpackConfig) => {
       webpackConfig.module.rules.push({
         test: /\.mjs$/,
