@@ -13,21 +13,22 @@ export const useAddObservation = ({ videoId }: { videoId: string }) => {
     from: number;
     to: number;
     text: string;
-  }) => {
+  }): Promise<number | false> => {
     const body = {
       start: part.from,
       end: part.to,
       text: part.text,
     };
-    await postVideoByVidObservations({
+    return postVideoByVidObservations({
       vid: videoId || '',
       body,
     })
       .unwrap()
       .then((res) => {
         setOpenAccordion({ id: res.id });
+        return res.id;
       })
-      .catch((err) => {
+      .catch(() => {
         addToast(
           ({ close }) => (
             <Notification
@@ -40,6 +41,7 @@ export const useAddObservation = ({ videoId }: { videoId: string }) => {
           ),
           { placement: 'top' }
         );
+        return false;
       });
   };
 

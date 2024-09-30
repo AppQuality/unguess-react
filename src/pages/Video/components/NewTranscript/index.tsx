@@ -116,9 +116,13 @@ export const NewTranscript = ({
         <EditorWithHighlight.FloatingMenu
           editor={editor}
           onClick={(ed, { start, end }) => {
-            handleAddObservation({ from: start, to: end, text: '' });
-            // @ts-ignore
-            ed.commands.addObservation({ title: '' });
+            handleAddObservation({ from: start, to: end, text: '' }).then(
+              (id) => {
+                if (!id) return;
+                // @ts-ignore
+                ed.commands.addObservation({ id, title: '' });
+              }
+            );
           }}
         />
         <EditorWithHighlight editor={editor} />
