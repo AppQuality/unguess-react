@@ -93,9 +93,16 @@ export const SingleServicePageHeader = ({
               )}
               <Meta size="large" icon={<TimeIcon />}>
                 <Paragraph>
-                  <Trans i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL">
-                    First results in <Span isBold>{{ hours }}</Span>h
-                  </Trans>
+                  <Trans
+                    i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL"
+                    components={{
+                      span: <Span isBold />,
+                    }}
+                    values={{
+                      hours,
+                    }}
+                    default="First results in <span>{{ hours }}</span>h"
+                  />
                 </Paragraph>
               </Meta>
               {service.environment && (
