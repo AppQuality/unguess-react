@@ -122,15 +122,14 @@ export const TypeField = ({
                   <Trans
                     count={available.length - maxItemsToShow}
                     i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_MORE_LABEL"
-                  >
-                    Show{' '}
-                    <Span isBold>
-                      {{
-                        typologies: available.length - maxItemsToShow,
-                      }}
-                    </Span>{' '}
-                    more typologies
-                  </Trans>
+                    values={{
+                      typologies: available.length - maxItemsToShow,
+                    }}
+                    components={{
+                      span: <Span isBold />,
+                    }}
+                    default="Show <span>{{ typologies }} more typologies</span>"
+                  />
                 ) : (
                   t(
                     '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TYPOLOGY_SHOW_LESS_LABEL'
