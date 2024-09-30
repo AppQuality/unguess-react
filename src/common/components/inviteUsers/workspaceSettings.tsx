@@ -228,7 +228,14 @@ export const WorkspaceSettings = () => {
               <Trans
                 i18nKey="__PERMISSION_SETTINGS_BODY_TITLE"
                 components={{
-                  span: <Span />,
+                  span: (
+                    <Span
+                      isBold
+                      style={{
+                        color: getColor(appTheme.colors.primaryHue, 600),
+                      }}
+                    />
+                  ),
                 }}
                 defaults="Already shared with <span>{{users_count}}</span> people"
                 values={{
