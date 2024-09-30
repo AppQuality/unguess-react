@@ -134,15 +134,14 @@ export const PriorityField = ({
                   <Trans
                     count={available.length - maxItemsToShow}
                     i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITIES_SHOW_MORE_LABEL"
-                  >
-                    Show{' '}
-                    <Span isBold>
-                      {{
-                        count: available.length - maxItemsToShow,
-                      }}
-                    </Span>{' '}
-                    more priorities
-                  </Trans>
+                    values={{
+                      count: available.length - maxItemsToShow,
+                    }}
+                    components={{
+                      span: <Span />,
+                    }}
+                    default="Show <span>{{count}}</span> more priorities"
+                  />
                 ) : (
                   t(
                     '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_PRIORITIES_SHOW_LESS_LABEL'
