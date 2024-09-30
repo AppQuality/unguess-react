@@ -38,7 +38,7 @@ const VideosPage = () => {
   useEffect(() => {
     if (status === 'idle' || status === 'loading') return;
 
-    if (!hasTaggingToolFeature) {
+    if (!hasTaggingToolFeature && status === 'logged') {
       navigate(notFoundRoute, {
         state: { from: location.pathname },
       });
