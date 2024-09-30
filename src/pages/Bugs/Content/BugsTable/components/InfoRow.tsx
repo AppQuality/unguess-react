@@ -1,4 +1,4 @@
-import { MD } from '@appquality/unguess-design-system';
+import { MD, Span } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -51,10 +51,17 @@ export const InfoRow = ({
           ))}
       </StyledMD>
       <StyledSM accent={appTheme.palette.blue[600]}>
-        <Trans i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER">
-          (Unread: <span>{{ unreadBugs: unreadBugs.length }}</span>/
-          {{ uniqueBugs: totalBugs }})
-        </Trans>
+        <Trans
+          i18nKey="__BUGS_PAGE_TABLE_HEADER_UNREAD_BUGS_COUNTER"
+          components={{
+            span: <Span />,
+          }}
+          defaults="(Unread: <span>{{unreadBugs}}</span>/{{uniqueBugs}})"
+          values={{
+            unreadBugs: unreadBugs.length,
+            uniqueBugs: totalBugs,
+          }}
+        />
       </StyledSM>
     </StyledDiv>
   );

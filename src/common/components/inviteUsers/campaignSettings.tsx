@@ -277,20 +277,23 @@ export const CampaignSettings = () => {
           <SettingsDivider />
           <Modal.Body style={{ paddingTop: 0, paddingBottom: 0 }}>
             <Label style={{ color: appTheme.palette.grey[700] }}>
-              <Trans i18nKey="__PERMISSION_SETTINGS_BODY_TITLE">
-                Already shared with{' '}
-                <Span
-                  isBold
-                  style={{
-                    color: getColor(appTheme.colors.primaryHue, 600),
-                  }}
-                >
-                  {{
-                    users_count: usersCount,
-                  }}{' '}
-                  people
-                </Span>
-              </Trans>
+              <Trans
+                i18nKey="__PERMISSION_SETTINGS_BODY_TITLE"
+                components={{
+                  span: (
+                    <Span
+                      isBold
+                      style={{
+                        color: getColor(appTheme.colors.primaryHue, 600),
+                      }}
+                    />
+                  ),
+                }}
+                values={{
+                  users_count: usersCount,
+                }}
+                default="Already shared with <span>{{users_count}}</span> people"
+              />
             </Label>
             <FlexContainer
               isLoading={

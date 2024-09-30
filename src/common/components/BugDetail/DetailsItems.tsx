@@ -43,14 +43,16 @@ export default ({
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME_LABEL')}
         </MD>
         <MD>
-          <Trans i18nKey="__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME">
-            Bug found on{' '}
-            <Span>
-              {{
-                bug_created: formattedDate,
-              }}
-            </Span>
-          </Trans>
+          <Trans
+            i18nKey="__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_TIME"
+            components={{
+              span: <Span />,
+            }}
+            default="Bug found on <span>{{bug_created}}</span>"
+            values={{
+              bug_created: formattedDate,
+            }}
+          />
         </MD>
       </DetailsItem>
       <DetailsItem>
