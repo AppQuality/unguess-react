@@ -72,6 +72,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.25.2",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-nullish-coalescing-operator": "^7.24.7",
