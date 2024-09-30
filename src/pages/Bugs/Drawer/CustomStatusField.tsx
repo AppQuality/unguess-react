@@ -202,7 +202,7 @@ export const CustomStatusField = ({
                     components={{
                       span: <Span isBold />,
                     }}
-                    defaults="Show <span>{{count}}</span> more statuses"
+                    default="Show <span>{{count}}</span> more statuses"
                   />
                 ) : (
                   t(

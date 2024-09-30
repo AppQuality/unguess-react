@@ -124,15 +124,14 @@ export const SeverityField = ({
                   <Trans
                     count={available.length - maxItemsToShow}
                     i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITIES_SHOW_MORE_LABEL"
-                  >
-                    Show{' '}
-                    <Span isBold>
-                      {{
-                        count: available.length - maxItemsToShow,
-                      }}
-                    </Span>{' '}
-                    more severities
-                  </Trans>
+                    values={{
+                      count: available.length - maxItemsToShow,
+                    }}
+                    components={{
+                      Span: <Span isBold />,
+                    }}
+                    defaults="Show <Span>{{count}}</Span> more severities"
+                  />
                 ) : (
                   t(
                     '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_SEVERITIES_SHOW_LESS_LABEL'

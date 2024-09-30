@@ -206,17 +206,18 @@ export const MigrationModal = ({
             <Trans
               count={deleteCustomStatusUnused.length}
               i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS"
-            >
-              Currently{' '}
-              <Span isBold style={{ textTransform: 'capitalize' }}>
-                {{
-                  custom_statuses: deleteCustomStatusUnused
-                    .map((cs) => cs.name)
-                    .join(', '),
-                }}
-              </Span>{' '}
-              are not associated with any bugs.
-            </Trans>
+              components={{
+                custom_statuses: (
+                  <Span isBold style={{ textTransform: 'capitalize' }} />
+                ),
+              }}
+              defaults="Currently <span>{{ custom_statuses }}</span> are not associated with any bugs."
+              values={{
+                custom_statuses: deleteCustomStatusUnused
+                  .map((cs) => cs.name)
+                  .join(', '),
+              }}
+            />
           </Paragraph>
         )}
         {cpCustomStatuses && deleteCustomStatusUsed.length > 0 && (
@@ -225,11 +226,10 @@ export const MigrationModal = ({
               <Trans
                 count={deleteCustomStatusUsed.length}
                 i18nKey="__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_BUGS"
-              >
-                Before confirming and deleting, choose how to handle{' '}
-                <Span isBold>{{ custom_statuses_num: bugsCount }} bugs</Span> in
-                this campaign associated with these status:
-              </Trans>
+                values={{ custom_statuses_num: bugsCount }}
+                components={{ span: <Span isBold /> }}
+                defaults="Before confirming and deleting, choose how to handle <span>{{ custom_statuses_num }}</span> bugs in this campaign associated with these status:"
+              />
             </Paragraph>
             <MigrationItemsList>
               {deleteCustomStatusUsed.map((cs) => (
