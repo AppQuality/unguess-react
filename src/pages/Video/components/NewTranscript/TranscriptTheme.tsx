@@ -16,7 +16,6 @@ const StyledSM = styled(SM)`
   gap: ${({ theme }) => theme.space.xs};
   user-select: none;
   margin-bottom: ${({ theme }) => theme.space.sm};
-  line-height: ${({ theme }) => theme.lineHeights.md};
 
   & > b {
     margin-right: ${({ theme }) => theme.space.xxs};
@@ -35,10 +34,9 @@ const ActiveWrapper = styled.span`
 const WordWrapper = styled.span`
   display: inline-block;
   font-size: ${({ theme }) => theme.fontSizes.md};
-  padding: ${({ theme }) => theme.space.xxs} 0;
   position: relative;
   color: ${({ theme }) => theme.palette.grey[700]};
-  line-height: 32px;
+  line-height: 40px;
 `;
 
 const TagWrapper = styled.div`
@@ -67,13 +65,15 @@ export const TranscriptTheme = Theme.configure({
   activeWrapper: ({ children }) => <ActiveWrapper>{children}</ActiveWrapper>,
   wordWrapper: ({ children }) => <WordWrapper>{children}</WordWrapper>,
   observationWrapper: ({ title, color, children, observations }) => {
-    const background = `${color}50`;
+    const background = `${color}33`;
     return (
       <span
         data-title={title}
         style={{
           background,
           display: 'inline-block',
+          color,
+          fontWeight: '500',
         }}
       >
         <Tooltip
