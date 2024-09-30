@@ -69,9 +69,11 @@ export const Tools = () => {
 
   // A preferred language is set and it's different from the video language and it's not already translated
   const canTranslate =
-    language &&
-    language.localeCompare(video?.language ?? '') &&
-    language.localeCompare(languagePreference?.value ?? '');
+    !!preferredLanguage &&
+    video &&
+    video.language.localeCompare(preferredLanguage) !== 0 &&
+    (!translation ||
+      translation.language.localeCompare(preferredLanguage) !== 0);
 
   return (
     <>
