@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const ActiveWrapper = styled.span`
-  background-color: rgba(214, 83, 194, 0.4);
+  background-color: ${({ theme }) => theme.palette.fuschia[400]}66;
   display: inline-block;
 `;
 
