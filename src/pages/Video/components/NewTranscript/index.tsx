@@ -1,24 +1,18 @@
 import {
   ContainerCard,
   EditorWithHighlight,
-  LG,
-  Notification,
-  SM,
   Skeleton,
-  useToast,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
-  usePostVideosByVidObservationsMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
-import { useVideoContext } from '../../context/VideoContext';
+import { Header } from './Header';
 import { TranscriptTheme } from './TranscriptTheme';
+import { useAddObservation } from './useAddObservation';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -41,12 +35,6 @@ export const TitleWrapper = styled.div`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
-const IconTitleContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: ${({ theme }) => theme.space.xxs};
-`;
-
 export const NewTranscript = ({
   currentTime,
   setCurrentTime,
@@ -55,64 +43,32 @@ export const NewTranscript = ({
   setCurrentTime: (time: number, forcePlay: boolean) => void;
 }) => {
   const { videoId } = useParams();
-  const { data: video } = useGetVideosByVidQuery({
+  const {
+    data: video,
+    isError: isErrorVideo,
+    isFetching: isFetchingVideo,
+    isLoading: isLoadingVideo,
+  } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
-  const { data: observations } = useGetVideosByVidObservationsQuery({
+  const {
+    data: observations,
+    isError: isErrorObservations,
+    isFetching: isFetchingObservations,
+    isLoading: isLoadingObservations,
+  } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
-  const [postVideoByVidObservations] = usePostVideosByVidObservationsMutation();
-  const { setOpenAccordion } = useVideoContext();
-  const { addToast } = useToast();
-  const { t } = useTranslation();
-
-  const handleAddObservation = async (part: {
-    from: number;
-    to: number;
-    text: string;
-  }) => {
-    const body = {
-      start: part.from,
-      end: part.to,
-      text: part.text,
-    };
-    await postVideoByVidObservations({
-      vid: videoId || '',
-      body,
-    })
-      .unwrap()
-      .then((res) => {
-        setOpenAccordion({ id: res.id });
-      })
-      .catch((err) => {
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="error"
-              message={t('__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION')}
-              closeText={t('__TOAST_CLOSE_TEXT')}
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-        // eslint-disable-next-line no-console
-        console.error(err);
-      });
-  };
+  const handleAddObservation = useAddObservation({ videoId: videoId || '' });
 
   const editor = EditorWithHighlight.useEditor(
     {
       currentTime: currentTime * 1000,
-      onSetCurrentTime: (time) => {
-        setCurrentTime(time, false);
-      },
+      onSetCurrentTime: (time) => setCurrentTime(time, false),
       content:
         video && video?.transcript
           ? video.transcript.paragraphs.map((p) => ({
               ...p,
-              sentences: [],
               speaker: p.speaker ? p.speaker : 0,
             }))
           : undefined,
@@ -143,23 +99,20 @@ export const NewTranscript = ({
   );
 
   if (!editor || !video) return <Skeleton />;
+  if (!video || isErrorVideo || !video.transcript || isErrorObservations)
+    return null;
+  if (
+    isFetchingVideo ||
+    isLoadingVideo ||
+    isFetchingObservations ||
+    isLoadingObservations
+  )
+    return <Skeleton />;
+
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
-        <TranscriptHeader>
-          <TitleWrapper>
-            <IconTitleContainer>
-              <InfoIcon />
-              <LG color={appTheme.palette.grey[800]} isBold>
-                {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
-              </LG>
-            </IconTitleContainer>
-            <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
-          </TitleWrapper>
-          <div>
-            <EditorWithHighlight.Search editor={editor} />
-          </div>
-        </TranscriptHeader>
+        <Header editor={editor} />
         <EditorWithHighlight.FloatingMenu
           editor={editor}
           onClick={(ed, { start, end }) => {
