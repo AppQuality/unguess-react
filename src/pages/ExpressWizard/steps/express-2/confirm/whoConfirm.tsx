@@ -36,10 +36,16 @@ export const WhoConfirm = (props: FormikProps<WizardModel>) => {
         <WizardCol xs={12} sm={11}>
           <StyledLabel>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</StyledLabel>
           <StyledParagraph>
-            <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT">
-              Testers speak&nbsp;
-              <Span isBold>{{ campaign_language: lang.label }}</Span>.
-            </Trans>
+            <Trans
+              i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT"
+              values={{
+                campaign_language: lang.label,
+              }}
+              components={{
+                span: <Span isBold />,
+              }}
+              default="Testers speak <span>{{ campaign_language }}</span>."
+            />
           </StyledParagraph>
         </WizardCol>
       </Row>
