@@ -109,17 +109,18 @@ const VideoPageHeader = () => {
                   <Trans
                     i18nKey="__VIDEO_LIST_META_SEVERITIES_COUNT"
                     count={observations.length}
-                  >
-                    <MD>
-                      You have found{' '}
-                      <Span
-                        isBold
-                        style={{ color: appTheme.palette.blue[600] }}
-                      >
-                        {{ count: observations.length }} observations:
-                      </Span>
-                    </MD>
-                  </Trans>
+                    values={{ count: observations.length }}
+                    components={{
+                      span: (
+                        <Span
+                          isBold
+                          style={{ color: appTheme.palette.blue[600] }}
+                        />
+                      ),
+                      md: <MD />,
+                    }}
+                    default="<md>You have found <span>{{ count }}</span> observations:</md>"
+                  />
                 </SeveritiesMetaText>
                 <SeveritiesMetaContainer>
                   {severities.map((severity) => (
