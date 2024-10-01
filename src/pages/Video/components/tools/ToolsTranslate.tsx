@@ -1,4 +1,8 @@
 import {
+  getAllLanguageTags,
+  getLanguageNameByFullTag,
+} from '@appquality/languages-lib';
+import {
   Button,
   Dropdown,
   Item,
@@ -28,7 +32,6 @@ import {
   usePostVideosByVidTranslationMutation,
   usePutUsersMePreferencesByPrefidMutation,
 } from 'src/features/api';
-import { getAllLanguageTags } from '@appquality/languages-lib';
 import { useToolsContext } from './context/ToolsContext';
 
 const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
@@ -107,11 +110,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
             <ZendeskDropdownField>
               <Select start={<TranslateIcon />}>
                 {internalLanguage ? (
-                  <Span>
-                    {t(
-                      `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${internalLanguage.toUpperCase()}_LABEL`
-                    )}
-                  </Span>
+                  <Span>{getLanguageNameByFullTag(internalLanguage)}</Span>
                 ) : (
                   <Span style={{ opacity: 0.5 }}>
                     {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
@@ -122,9 +121,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
             <Menu style={{ maxHeight: 250 }}>
               {filteredLanguages.map((lang) => (
                 <Item key={`language-${lang}-option`} value={lang}>
-                  {t(
-                    `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${lang.toUpperCase()}_LABEL`
-                  )}
+                  {getLanguageNameByFullTag(lang)}
                 </Item>
               ))}
             </Menu>
