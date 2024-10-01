@@ -1,10 +1,14 @@
 import {
+  getAllLanguageTags,
+  getLanguageNameByFullTag,
+} from '@appquality/languages-lib';
+import {
   Button,
   IconButton,
   Notification,
   Span,
-  useToast,
   Spinner,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useEffect } from 'react';
@@ -19,10 +23,9 @@ import {
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
 } from 'src/features/api';
-import { getAllLanguageTags } from '@appquality/languages-lib';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { useToolsContext } from './context/ToolsContext';
 import { ToolsTranslate } from './ToolsTranslate';
+import { useToolsContext } from './context/ToolsContext';
 
 export const Tools = () => {
   const { t } = useTranslation();
@@ -133,12 +136,10 @@ export const Tools = () => {
         <Button.StartIcon>
           <AIMenuIcon />
         </Button.StartIcon>
-        {canTranslate ? (
+        {canTranslate && languagePreference?.value ? (
           <Span>
             {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
-            {t(
-              `__TOOLS_TRANSLATE_LANGUAGE_TRANSLATION_${languagePreference?.value.toUpperCase()}_LABEL`
-            )}
+            {getLanguageNameByFullTag(languagePreference.value)}
           </Span>
         ) : (
           t('__TOOLS_MENU_ITEM_BUTTON_LABEL')
