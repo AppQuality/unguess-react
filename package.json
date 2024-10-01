@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@appquality/unguess-design-system": "3.1.108",
-    "@appquality/languages-lib": "^1.4.0",
+    "@appquality/languages-lib": "1.4.1",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@rtk-query/codegen-openapi": "1.2.0",

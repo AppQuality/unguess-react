@@ -4,6 +4,7 @@ const alias = () => ({
   react: `./node_modules/react`,
   'styled-components': `./node_modules/styled-components`,
   '@zendeskgarden/react-theming': `./node_modules/@zendeskgarden/react-theming`,
+  '@zendeskgarden/react-forms': `./node_modules/@zendeskgarden/react-forms`,
 });
 
 const SRC = `./src`;
