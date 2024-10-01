@@ -157,7 +157,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
             isAccent
             onClick={() => {
               onCtaClick();
-              onClose();
+              dispatch(closeDrawer());
             }}
             {...(!project && { disabled: true })}
           >
