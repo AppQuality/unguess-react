@@ -1,32 +1,32 @@
-import { useTranslation } from 'react-i18next';
 import {
-  theme,
-  Drawer,
-  XXL,
-  Paragraph,
-  MD,
-  UnorderedList,
-  Tag,
   Button,
+  Drawer,
+  MD,
+  Paragraph,
+  Tag,
+  UnorderedList,
+  XXL,
+  theme,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { getLocalizedStrapiData, toggleChat } from 'src/common/utils';
+import { STRAPI_URL } from 'src/constants';
+import {
+  TagItem,
+  useGeti18nExpressTypesByIdQuery,
+} from 'src/features/backoffice/strapi';
 import {
   closeDrawer,
   resetExpressTypeId,
   resetWizard,
 } from 'src/features/express/expressSlice';
-import { getLocalizedStrapiData, toggleChat } from 'src/common/utils';
-import {
-  useGeti18nExpressTypesByIdQuery,
-  TagItem,
-} from 'src/features/backoffice/strapi';
-import { extractStrapiData } from 'src/common/getStrapiData';
-import { STRAPI_URL } from 'src/constants';
 import i18n from 'src/i18n';
-import { ProjectDropdown } from './projectDropdown';
+import styled from 'styled-components';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
+import { ProjectDropdown } from './projectDropdown';
 
 const SelectTitle = styled(MD)`
   padding-top: ${theme.space.base * 3}px;
@@ -104,8 +104,13 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
     return null;
   }
 
-  return !isLoading ? (
-    <Drawer isOpen={isDrawerOpen} onClose={onClose} restoreFocus={false}>
+  return !isLoading && isDrawerOpen ? (
+    <Drawer
+      isOpen={isDrawerOpen}
+      onClose={onClose}
+      restoreFocus={false}
+      focusOnMount={false}
+    >
       <Drawer.Header>{t('__WIZARD_EXPRESS_HEADER_TITLE')}</Drawer.Header>
       <Drawer.Body>
         <BodyTitle>{expressData.title}</BodyTitle>
@@ -150,7 +155,10 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
             id="express-drawer-start-button"
             isPrimary
             isAccent
-            onClick={onCtaClick}
+            onClick={() => {
+              onCtaClick();
+              onClose();
+            }}
             {...(!project && { disabled: true })}
           >
             {t('__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON')}
