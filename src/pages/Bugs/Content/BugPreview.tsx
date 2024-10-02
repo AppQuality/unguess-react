@@ -54,6 +54,12 @@ const ScrollingContainer = styled.div`
   overflow-y: auto;
 `;
 
+const GridWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.md};
+`;
 export const BugPreview = ({
   campaignId,
   bugId,
@@ -94,12 +100,6 @@ export const BugPreview = ({
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
 
-  const GridWrapper = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: ${({ theme }) => theme.space.sm};
-    margin-bottom: ${({ theme }) => theme.space.md};
-  `;
   return (
     <DetailContainer isFetching={isFetching}>
       <BugHeader bug={bug} comments={comments} />
