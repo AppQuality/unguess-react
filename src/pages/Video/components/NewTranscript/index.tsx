@@ -5,11 +5,15 @@ import {
 } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
+  useGetVideosByVidTranslationQuery,
 } from 'src/features/api';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { useToolsContext } from '../tools/context/ToolsContext';
 import { Header } from './Header';
 import { TranscriptTheme } from './TranscriptTheme';
 import { useAddObservation } from './useAddObservation';
@@ -43,6 +47,10 @@ export const NewTranscript = ({
   setCurrentTime: (time: number, forcePlay: boolean) => void;
 }) => {
   const { videoId } = useParams();
+  const { language } = useToolsContext();
+
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
   const {
     data: video,
     isError: isErrorVideo,
@@ -59,6 +67,22 @@ export const NewTranscript = ({
   } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
+
+  const {
+    data: translation,
+    isLoading: isLoadingTranslation,
+    isFetching: isFetchingTranslation,
+    isError: isErrorTranslation,
+  } = useGetVideosByVidTranslationQuery(
+    {
+      vid: videoId || '',
+      ...(language && { lang: language }),
+    },
+    {
+      skip: !hasAIFeatureFlag,
+    }
+  );
+
   const handleAddObservation = useAddObservation({ videoId: videoId || '' });
 
   const editor = Transcript.useEditor(
@@ -72,6 +96,7 @@ export const NewTranscript = ({
               speaker: p.speaker ? p.speaker : 0,
             }))
           : undefined,
+      translations: translation?.sentences,
       themeExtension: TranscriptTheme,
       observations: observations?.map((o) => {
         function isHexColor(color: string): color is `#${string}` {
@@ -95,7 +120,7 @@ export const NewTranscript = ({
         };
       }),
     },
-    [observations]
+    [observations, translation?.sentences]
   );
 
   if (!editor || !video) return <Skeleton />;
