@@ -140,8 +140,6 @@ export const NewTranscript = ({
   )
     return <Skeleton />;
 
-  console.log('newtr');
-
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
