@@ -51,10 +51,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@3.1.108":
-  version "3.1.108"
-  resolved "https://registry.npmjs.org/@appquality/unguess-design-system/-/unguess-design-system-3.1.108.tgz#2439cdefb7ca0b5ba099df5f5e22c04161dfa31d"
-  integrity sha512-8hyqR9Hp/n6WIW3OdRPNIzHfkkNNijATohkfqbUGO58vRcBlPvGiYGDfNl2gh6JBC3k2P1gSf47XLtIydGk5Zw==
+"@appquality/unguess-design-system@3.1.110":
+  version "3.1.110"
+  resolved "https://registry.npmjs.org/@appquality/unguess-design-system/-/unguess-design-system-3.1.110.tgz#e1128110d493da368e5622baff1337d12cc3a2d9"
+  integrity sha512-qOpJkEE8t4BN3fLVxLkQpV3ybskpmbjugtMHbk4JbgG+duTX4CWnZ7kQ4P5gGZEFVDy6qgpoaoW10k8TwBsOOw==
   dependencies:
     "@appquality/stream-player" "^1.0.6"
     "@nivo/bar" "^0.80.0"
@@ -66,19 +66,23 @@
     "@nivo/sunburst" "^0.80.0"
     "@nivo/tooltip" "^0.80.0"
     "@nivo/waffle" "^0.80.0"
-    "@tiptap/extension-bubble-menu" "2.1.16"
-    "@tiptap/extension-character-count" "2.1.16"
+    "@sereneinserenade/tiptap-search-and-replace" "^0.1.1"
+    "@tiptap/extension-bubble-menu" "2.4.0"
+    "@tiptap/extension-character-count" "2.2.4"
     "@tiptap/extension-dropcursor" "^2.2.4"
+    "@tiptap/extension-floating-menu" "^2.4.0"
+    "@tiptap/extension-highlight" "^2.4.0"
     "@tiptap/extension-image" "^2.2.4"
-    "@tiptap/extension-link" "2.1.16"
-    "@tiptap/extension-mention" "2.1.16"
-    "@tiptap/extension-placeholder" "2.1.16"
-    "@tiptap/extension-typography" "2.1.16"
-    "@tiptap/pm" "2.1.16"
-    "@tiptap/react" "2.1.16"
-    "@tiptap/starter-kit" "2.1.16"
-    "@tiptap/suggestion" "2.1.16"
+    "@tiptap/extension-link" "2.2.4"
+    "@tiptap/extension-mention" "2.2.4"
+    "@tiptap/extension-placeholder" "2.2.4"
+    "@tiptap/extension-typography" "2.2.4"
+    "@tiptap/pm" "2.2.4"
+    "@tiptap/react" "2.2.4"
+    "@tiptap/starter-kit" "2.2.4"
+    "@tiptap/suggestion" "2.2.4"
     "@types/react-slick" "^0.23.10"
+    "@zendeskgarden/container-utilities" "^2.0.0"
     "@zendeskgarden/css-bedrock" "^9.0.0"
     "@zendeskgarden/react-accordions" "^8.49.0"
     "@zendeskgarden/react-avatars" "^8.49.0"

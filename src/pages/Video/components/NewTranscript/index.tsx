@@ -1,7 +1,7 @@
 import {
   ContainerCard,
-  EditorWithHighlight,
   Skeleton,
+  Transcript,
 } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -61,7 +61,7 @@ export const NewTranscript = ({
   });
   const handleAddObservation = useAddObservation({ videoId: videoId || '' });
 
-  const editor = EditorWithHighlight.useEditor(
+  const editor = Transcript.useEditor(
     {
       currentTime: currentTime * 1000,
       onSetCurrentTime: (time) => setCurrentTime(time, false),
@@ -113,19 +113,18 @@ export const NewTranscript = ({
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <StyledContainerCard>
         <Header editor={editor} />
-        <EditorWithHighlight.FloatingMenu
+        <Transcript.FloatingMenu
           editor={editor}
           onClick={(ed, { start, end }) => {
             handleAddObservation({ from: start, to: end, text: '' }).then(
               (id) => {
                 if (!id) return;
-                // @ts-ignore
                 ed.commands.addObservation({ id, title: '' });
               }
             );
           }}
         />
-        <EditorWithHighlight editor={editor} />
+        <Transcript editor={editor} />
       </StyledContainerCard>
     </div>
   );
