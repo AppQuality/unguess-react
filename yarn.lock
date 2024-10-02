@@ -39,24 +39,24 @@
     ajv-draft-04 "^1.0.0"
     call-me-maybe "^1.0.1"
 
-"@appquality/languages-lib@1.4.1":
+"@appquality/languages@1.4.1":
   version "1.4.1"
-  resolved "https://registry.npmjs.org/@appquality/languages-lib/-/languages-lib-1.4.1.tgz#e67d8d9f7c3ba2dcee97c09e2aca99c378dc2851"
-  integrity sha512-VpghFkd7el1yUTEtjRQdpJ5zPfJ8IDnH8GQslVioznvwhwyJIgyCJPHiblZJ2L0EsiSk/p8GNYJIZckT1o+pHw==
+  resolved "https://registry.npmjs.org/@appquality/languages/-/languages-1.4.1.tgz#dfcc77f4f7fbce014839c2df6ee5dd84c37de02f"
+  integrity sha512-91C2FNtgAzUtAno04XRNM3iEyXamq9KC2pPZUL0YVP/At8o/eWIJtQJVBf80tZCka7xmVA9XUhI/I+F8UA6Dmw==
 
-"@appquality/stream-player@^1.0.6":
-  version "1.0.101"
-  resolved "https://registry.npmjs.org/@appquality/stream-player/-/stream-player-1.0.101.tgz#884e73aee4b518ea12434e1bee473d60d849b3ce"
-  integrity sha512-s1kU4kbZ2L0hnbYrN3rSw4kDfiuYaAcS0CMGfQEAP/kr0CQYbQtv8LQ3irsYnspJYX+SC6oTin1ZVgFSmJeHxQ==
+"@appquality/stream-player@1.0.6":
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/@appquality/stream-player/-/stream-player-1.0.6.tgz#b48d195b77ae0070b4d10384eb28573069b79605"
+  integrity sha512-OuAkU3oX7nsJk7nD4MOce0qJeVPG3xij5gibteD0f/lIgNOMnqhL3azaQ/xdk+1KuA5uKVKORwnKK5m/7CyfDA==
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@3.1.111":
-  version "3.1.111"
-  resolved "https://registry.npmjs.org/@appquality/unguess-design-system/-/unguess-design-system-3.1.111.tgz#67e41e31a58c57ed6fb54363ff7f84ed62ff9532"
-  integrity sha512-gU3Kd/uIxt4tkIY2YB1OcImtRQLCc01oOxTKKXLozc9jhwtM/lpgTh3LOx4CoL4a9W0IsNKAJD56P59r+ZZXDA==
+"@appquality/unguess-design-system@3.1.112":
+  version "3.1.112"
+  resolved "https://registry.npmjs.org/@appquality/unguess-design-system/-/unguess-design-system-3.1.112.tgz#94906ff926796d79de093608ac752721f3232744"
+  integrity sha512-5+3dGyca8YkSUAqIXWbGAMr/awD4KZk/4cdjXucFASZXsk+6jyEoI5PsauWoWuc0NEnDf21I3g5pAGyc/s6Lyw==
   dependencies:
-    "@appquality/stream-player" "^1.0.6"
+    "@appquality/stream-player" "1.0.6"
     "@nivo/bar" "^0.80.0"
     "@nivo/bullet" "^0.80.0"
     "@nivo/core" "^0.80.0"

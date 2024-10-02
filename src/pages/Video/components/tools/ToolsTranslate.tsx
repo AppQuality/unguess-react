@@ -1,7 +1,7 @@
 import {
   getAllLanguageTags,
   getLanguageNameByFullTag,
-} from '@appquality/languages-lib';
+} from '@appquality/languages';
 import {
   Button,
   Dropdown,
