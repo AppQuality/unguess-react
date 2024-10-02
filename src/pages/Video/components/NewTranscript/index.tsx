@@ -3,6 +3,7 @@ import {
   Skeleton,
   Transcript,
 } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
@@ -83,19 +84,24 @@ export const NewTranscript = ({
     }
   );
 
+  const content = useMemo(
+    () =>
+      video && video?.transcript
+        ? video.transcript.paragraphs.map((p) => ({
+            ...p,
+            speaker: p.speaker ? p.speaker : 0,
+          }))
+        : undefined,
+    [video]
+  );
+
   const handleAddObservation = useAddObservation({ videoId: videoId || '' });
 
   const editor = Transcript.useEditor(
     {
       currentTime: currentTime * 1000,
       onSetCurrentTime: (time) => setCurrentTime(time, false),
-      content:
-        video && video?.transcript
-          ? video.transcript.paragraphs.map((p) => ({
-              ...p,
-              speaker: p.speaker ? p.speaker : 0,
-            }))
-          : undefined,
+      content,
       translations: translation?.sentences,
       themeExtension: TranscriptTheme,
       observations: observations?.map((o) => {
@@ -133,6 +139,8 @@ export const NewTranscript = ({
     isLoadingObservations
   )
     return <Skeleton />;
+
+  console.log('newtr');
 
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
