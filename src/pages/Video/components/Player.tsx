@@ -22,6 +22,7 @@ import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
 import { NewTranscript } from './NewTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
+import { ToolsContextProvider } from './tools/context/ToolsContext';
 
 const PlayerContainer = styled.div<{
   isFetching: boolean;
@@ -205,7 +206,12 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         />
       </PlayerContainer>
       {video.transcript && (
-        <NewTranscript currentTime={currentTime} setCurrentTime={seekPlayer} />
+        <ToolsContextProvider>
+          <NewTranscript
+            currentTime={currentTime}
+            setCurrentTime={seekPlayer}
+          />
+        </ToolsContextProvider>
       )}
       {/* {video.transcript ? (
         <Transcript

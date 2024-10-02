@@ -2,12 +2,16 @@ import {
   ContainerCard,
   LG,
   SM,
+  Separator,
   Transcript,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
+import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { Tools } from '../tools';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -41,6 +45,8 @@ type Editor = React.ComponentProps<typeof Transcript.Search>['editor'];
 export const Header = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
 
+  const { hasFeatureFlag } = useFeatureFlag();
+
   return (
     <TranscriptHeader>
       <TitleWrapper>
@@ -55,6 +61,12 @@ export const Header = ({ editor }: { editor: Editor }) => {
       <div>
         <Transcript.Search editor={editor} />
       </div>
+      {hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION) && (
+        <>
+          <Separator />
+          <Tools />
+        </>
+      )}
     </TranscriptHeader>
   );
 };

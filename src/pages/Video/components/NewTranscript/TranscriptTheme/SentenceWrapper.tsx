@@ -1,8 +1,7 @@
-import { MD } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { styled } from 'styled-components';
 
-const Wrapper = styled(MD)<{ isActive?: boolean }>`
+const Wrapper = styled.span<{ isActive?: boolean }>`
   ${({ isActive, theme }) =>
     isActive ? `background:${theme.palette.fuschia[400]}66` : ``}
   line-height: 40px;

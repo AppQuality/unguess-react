@@ -8,8 +8,8 @@ const Component = ({
   translations: ReactNode;
 }) => (
   <div style={{ display: 'flex', gap: '20px' }}>
-    <div>{content}</div>
-    <div>{translations}</div>
+    <div style={{ width: '50%' }}>{content}</div>
+    <div style={{ width: '50%' }}>{translations}</div>
   </div>
 );
 
