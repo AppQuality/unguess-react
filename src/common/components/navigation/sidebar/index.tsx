@@ -19,9 +19,9 @@ import { appTheme } from 'src/app/theme';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
-import useWindowSize from 'src/hooks/useWindowSize';
 import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
@@ -165,14 +165,18 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
                   {t('__APP_SIDEBAR_PROJECTS_DIVIDER_LABEL')}{' '}
                 </NavAccordionItem.Label>
               </NavAccordionItem.Header>
-              <NavAccordionItem.Panel style={{ padding: 0 }}>
+              <NavAccordionItem.Panel
+                style={{ padding: 0, maxHeight: '180px' }}
+              >
                 {projects.items.map((project) => (
                   <NavItemProject
                     className="sidebar-project-item"
                     key={project.id}
                     isExpanded={isSidebarOpen}
                     isCurrent={route === `projects/${project.id}`}
-                    {...(route === `projects/${project.id}` && { ref: prjRef })}
+                    {...(route === `projects/${project.id}` && {
+                      ref: prjRef,
+                    })}
                     onClick={() =>
                       navigateTo('projects', project.id.toString())
                     }
