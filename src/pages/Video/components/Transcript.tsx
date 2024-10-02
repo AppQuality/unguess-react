@@ -3,7 +3,7 @@ import {
   ContainerCard,
   Grid,
   Highlight,
-  LG,
+  MD,
   Notification,
   Row,
   SM,
@@ -17,6 +17,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import { getColorWithAlpha } from 'src/common/utils';
+import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -24,13 +25,12 @@ import {
   usePostVideosByVidObservationsMutation,
 } from 'src/features/api';
 import useDebounce from 'src/hooks/useDebounce';
-import { styled } from 'styled-components';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
+import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
-import { SearchBar } from './SearchBar';
 import { ParagraphMeta } from './ParagraphMeta';
+import { SearchBar } from './SearchBar';
 import { Tools } from './tools';
 import { useToolsContext } from './tools/context/ToolsContext';
 
@@ -45,7 +45,7 @@ export const TranscriptHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.space.xl};
+  margin-bottom: ${({ theme }) => theme.space.md};
   z-index: 200;
 `;
 
@@ -97,6 +97,12 @@ const StyledSM = styled(SM)<{
     `
       background-color: ${getColorWithAlpha(theme.palette.fuschia[400], 0.4)};
   `}
+`;
+const TranscriptActionsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.space.xl};
 `;
 
 const Transcript = ({
@@ -215,26 +221,22 @@ const Transcript = ({
         <TranscriptHeader>
           <TitleWrapper>
             <IconTitleContainer>
-              <InfoIcon />
-              <LG color={appTheme.palette.grey[800]} isBold>
+              <MD color={appTheme.palette.grey[800]} isBold>
                 {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
-              </LG>
+              </MD>
             </IconTitleContainer>
             <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
           </TitleWrapper>
+        </TranscriptHeader>
+        <TranscriptActionsWrapper>
           {isSearchable && (
             <SearchBar
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
           )}
-          {hasAIFeatureFlag && (
-            <>
-              <Separator />
-              <Tools />
-            </>
-          )}
-        </TranscriptHeader>
+          {hasAIFeatureFlag && <Tools />}
+        </TranscriptActionsWrapper>
         <Grid>
           <div ref={containerRef}>
             <HighlightContainer ref={wrapperRef}>

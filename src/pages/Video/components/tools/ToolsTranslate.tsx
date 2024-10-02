@@ -6,7 +6,6 @@ import {
   Button,
   Dropdown,
   Item,
-  LG,
   Label,
   MD,
   Menu,
@@ -39,7 +38,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const { t } = useTranslation();
   const [internalLanguage, setInternalLanguage] = useState<string>('');
   const { setLanguage, setIsOpen } = useToolsContext();
-  const [isLangChecked, setIsLangChecked] = useState(true);
+  const [isLangChecked, setIsLangChecked] = useState(false);
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
@@ -88,10 +87,10 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
     <Modal onClose={() => setIsOpen(false)}>
       <ModalClose onClick={() => setIsOpen(false)} />
       <Modal.Header>
-        <LG isBold>{t('__TOOLS_TRANSLATE_TITLE')}</LG>
+        <MD isBold>{t('__TOOLS_TRANSLATE_TITLE')}</MD>
       </Modal.Header>
       <Modal.Body>
-        <MD style={{ marginBottom: appTheme.space.md }}>
+        <MD style={{ marginBottom: appTheme.space.sm }}>
           {t('__TOOLS_TRANSLATE_DESCRIPTION')}
         </MD>
         <Label>{t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}</Label>
