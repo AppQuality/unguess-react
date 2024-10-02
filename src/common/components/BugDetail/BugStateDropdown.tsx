@@ -1,31 +1,31 @@
 import {
   Dropdown,
-  Select,
   Item,
-  Menu,
-  Tooltip,
-  Separator,
   MD,
-  useToast,
+  Menu,
   Notification,
+  Select,
+  Separator,
+  Tooltip,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { Field } from '@zendeskgarden/react-dropdowns';
-import { useState } from 'react';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
+import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import {
   Bug,
   BugCustomStatus,
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
-import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
-import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
-import { useAppDispatch } from 'src/app/hooks';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
-import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import styled from 'styled-components';
 
 const StyledMenu = styled(Menu)`
   &::-webkit-scrollbar {
@@ -164,6 +164,9 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   );
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
 
+  useEffect(() => {
+    setSelectedItem(bug.custom_status);
+  }, [bug.custom_status]);
   const {
     currentData: cpCustomStatus,
     isLoading: isLoadingCustomStatus,
@@ -260,4 +263,4 @@ const BugStateDropdown = ({ bug }: { bug: Bug }) => {
   );
 };
 
-export { BugStateDropdown, BugStateDropdownMenu, BugStateDropdownItem };
+export { BugStateDropdown, BugStateDropdownItem, BugStateDropdownMenu };
