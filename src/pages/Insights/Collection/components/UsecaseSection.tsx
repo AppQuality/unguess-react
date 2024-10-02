@@ -81,9 +81,14 @@ export const UsecaseSection = ({
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline', marginRight: appTheme.space.md }}
           >
-            <Trans i18nKey="INSIGHT_PAGE_COLLECTION_THEMES_LABEL">
-              Themes: <Span isBold>{{ counter: grapes.length }}</Span>
-            </Trans>
+            <Trans
+              i18nKey="INSIGHT_PAGE_COLLECTION_THEMES_LABEL"
+              values={{ counter: grapes.length }}
+              components={{
+                span: <Span isBold />,
+              }}
+              defaults="Themes: <span>{{ counter }}</span>"
+            />
           </MD>
           <Tag
             style={{
@@ -100,9 +105,14 @@ export const UsecaseSection = ({
             color={appTheme.palette.grey[700]}
             style={{ display: 'inline' }}
           >
-            <Trans i18nKey="INSIGHT_PAGE_COLLECTION_OBSERVATIONS_LABEL">
-              Observations: <Span isBold>{{ counter: observationsCount }}</Span>
-            </Trans>
+            <Trans
+              i18nKey="INSIGHT_PAGE_COLLECTION_OBSERVATIONS_LABEL"
+              values={{ counter: observationsCount }}
+              components={{
+                span: <Span isBold />,
+              }}
+              defaults="Observations: <span>{{ counter }}</span>"
+            />
           </MD>
         </div>
       </UsecaseTitle>

@@ -205,15 +205,19 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             <SeveritiesMetaText>
               <Trans
                 i18nKey="__VIDEO_LIST_META_SEVERITIES_COUNT"
+                values={{ count: observationsCount }}
                 count={observationsCount}
-              >
-                <MD>
-                  You have found{' '}
-                  <Span isBold style={{ color: appTheme.palette.blue[600] }}>
-                    {{ count: observationsCount }} observations:
-                  </Span>
-                </MD>
-              </Trans>
+                components={{
+                  md: <MD />,
+                  span: (
+                    <Span
+                      isBold
+                      style={{ color: appTheme.palette.blue[600] }}
+                    />
+                  ),
+                }}
+                defaults="<md>You have found <span>{{count}} observations:</span></md>"
+              />
             </SeveritiesMetaText>
             <SeveritiesMetaContainer>
               {severities.map((severity) => (

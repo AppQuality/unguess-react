@@ -1,4 +1,4 @@
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { ReactComponent as PriorityHighest } from 'src/assets/icons/priority-highest.svg';
 import { ReactComponent as PriorityHigh } from 'src/assets/icons/priority-high.svg';
 import { ReactComponent as PriorityMedium } from 'src/assets/icons/priority-medium.svg';

@@ -1,34 +1,34 @@
-import { FormikProps } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { ReactComponent as ChevronDownIcon } from 'src/assets/icons/chevron-down-stroke.svg';
-import { ReactComponent as CheckIcon } from 'src/assets/icons/check-lg-stroke.svg';
-import { ReactComponent as EmptyIcon } from 'src/assets/icons/empty.svg';
 import {
+  Button,
   MD,
   Paragraph,
   Spinner,
   SplitButton,
+  TextLabel,
   Timeline,
   TooltipModal,
-  Button,
-  TextLabel,
   getColor,
 } from '@appquality/unguess-design-system';
-import i18n from 'src/i18n';
-import { useCallback, useRef, useState } from 'react';
-import styled from 'styled-components';
 import {
   addBusinessDays,
   differenceInBusinessDays,
   format,
   formatRelative,
 } from 'date-fns';
-import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
+import { FormikProps } from 'formik';
+import { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { WizardModel } from './wizardModel';
-import { getLanguage } from './getLanguage';
+import { ReactComponent as CheckIcon } from 'src/assets/icons/check-lg-stroke.svg';
+import { ReactComponent as ChevronDownIcon } from 'src/assets/icons/chevron-down-stroke.svg';
+import { ReactComponent as EmptyIcon } from 'src/assets/icons/empty.svg';
+import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
+import i18n from 'src/i18n';
+import styled from 'styled-components';
 import { CardDivider } from './cardDivider';
+import { getLanguage } from './getLanguage';
 import { PlanningModal } from './planningModal';
+import { WizardModel } from './wizardModel';
 
 const StyledDiv = styled.div`
   /** Horizontal Align */
@@ -55,7 +55,7 @@ const HelpText = styled(TextLabel)`
   }
 `;
 
-const InteractiveTimelineItem = styled(Timeline.Item)`
+const InteractiveTimelineItem: typeof Timeline.Item = styled(Timeline.Item)`
   cursor: pointer;
 
   &:hover {

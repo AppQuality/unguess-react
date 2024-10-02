@@ -29,7 +29,7 @@ const BugCardContainer = styled(ContainerCard)<
   }
 `;
 
-type BugCardArgs = React.HTMLAttributes<HTMLDivElement> & {
+type BugCardArgs = Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
   children: (severity?: Severities) => React.ReactNode | React.ReactElement;
   url?: string;
 } & (

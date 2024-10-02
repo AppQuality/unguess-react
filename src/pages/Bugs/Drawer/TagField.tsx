@@ -163,15 +163,14 @@ export const TagField = ({
                   <Trans
                     count={available.length - maxItemsToShow + 1}
                     i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_MORE_LABEL"
-                  >
-                    Show{' '}
-                    <Span isBold>
-                      {{
-                        count: available.length - maxItemsToShow + 1,
-                      }}
-                    </Span>{' '}
-                    more tags
-                  </Trans>
+                    values={{
+                      count: available.length - maxItemsToShow + 1,
+                    }}
+                    components={{
+                      span: <Span isBold />,
+                    }}
+                    default="Show <span>{{ count }} more tags</span>"
+                  />
                 ) : (
                   t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAG_SHOW_LESS_LABEL')
                 )}

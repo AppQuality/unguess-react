@@ -116,13 +116,17 @@ const InsightsDrawer = () => {
                     color={appTheme.palette.grey[600]}
                     style={{ paddingRight: appTheme.space.md }}
                   >
-                    <Trans i18nKey="__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS_COUNTER">
-                      <Span isBold>
-                        {{ published: publishedInsights?.length || 0 }}
-                      </Span>{' '}
-                      out of{' '}
-                      <Span isBold>{{ total: insights?.length || 0 }}</Span>
-                    </Trans>
+                    <Trans
+                      i18nKey="__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS_COUNTER"
+                      components={{
+                        Span: <Span isBold />,
+                      }}
+                      values={{
+                        published: publishedInsights?.length || 0,
+                        total: insights?.length || 0,
+                      }}
+                      defaults="<span>{{published}}</span> out of <span>{{total}}</span>"
+                    />
                   </SM>
                 </div>
                 {insights.map((insight) => (

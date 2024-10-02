@@ -1,5 +1,5 @@
 import { Ellipsis, Tag } from '@appquality/unguess-design-system';
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { ReactComponent as MajorIssueIcon } from 'src/assets/icons/insight-major-issue-icon.svg';
 import { ReactComponent as MinorIssueIcon } from 'src/assets/icons/insight-minor-issue-icon.svg';
 import { ReactComponent as ObservationIcon } from 'src/assets/icons/insight-observation-icon.svg';
