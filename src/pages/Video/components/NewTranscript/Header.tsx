@@ -1,8 +1,8 @@
 import {
   ContainerCard,
-  EditorWithHighlight,
   LG,
   SM,
+  Transcript,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -36,7 +36,7 @@ const IconTitleContainer = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
-type Editor = React.ComponentProps<typeof EditorWithHighlight.Search>['editor'];
+type Editor = React.ComponentProps<typeof Transcript.Search>['editor'];
 
 export const Header = ({ editor }: { editor: Editor }) => {
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ export const Header = ({ editor }: { editor: Editor }) => {
         <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
       </TitleWrapper>
       <div>
-        <EditorWithHighlight.Search editor={editor} />
+        <Transcript.Search editor={editor} />
       </div>
     </TranscriptHeader>
   );
