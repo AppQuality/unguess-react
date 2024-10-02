@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import {
-  Output,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
@@ -20,13 +19,11 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
     cid: campaignId.toString(),
   });
 
-  function hasBugs(outputs: Output[] = []) {
-    return outputs.includes('bugs');
-  }
-
   const reportList = [
     ...(reports && reports.length ? reports : []),
-    ...(hasBugs(campaign?.outputs) ? ['bugreport' as const] : []),
+    ...(campaign?.family.name.toLocaleLowerCase() === 'functional'
+      ? ['bugreport' as const]
+      : []),
   ];
 
   const showReport = !!(
