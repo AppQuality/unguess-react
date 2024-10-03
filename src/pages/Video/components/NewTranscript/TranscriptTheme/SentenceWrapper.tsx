@@ -5,6 +5,8 @@ const Wrapper = styled.span<{ isActive?: boolean }>`
   ${({ isActive, theme }) =>
     isActive ? `background:${theme.palette.fuschia[400]}66;` : ``}
   line-height: 2;
+  display: inline-block;
+  margin-right: ${({ theme }) => theme.space.xxs};
 `;
 
 const Component = ({
