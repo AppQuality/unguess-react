@@ -1,7 +1,6 @@
-import { Tag, Tooltip } from '@appquality/unguess-design-system';
-import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { useVideoContext } from 'src/pages/Video/context/VideoContext';
+import { Tooltip } from '@appquality/unguess-design-system';
 import { styled } from 'styled-components';
+import { ObservationTooltip } from '../../ObservationTooltip';
 
 const TagWrapper = styled.div`
   display: flex;
@@ -26,7 +25,6 @@ const ObservationWrapper = ({
     color: string;
   }[];
 }) => {
-  const { setOpenAccordion } = useVideoContext();
   const background = `${color}33`;
   return (
     <span
@@ -45,17 +43,11 @@ const ObservationWrapper = ({
           <TagWrapper>
             {observations.map((o) => (
               <div>
-                <Tag
-                  style={{ cursor: 'pointer' }}
-                  size="large"
-                  hue={o.color}
-                  color="white"
-                  onClick={() => {
-                    setOpenAccordion({ id: o.id });
-                  }}
-                >
-                  <TagIcon /> {o.title}
-                </Tag>
+                <ObservationTooltip
+                  observationId={o.id}
+                  color={o.color}
+                  label={o.title}
+                />
               </div>
             ))}
           </TagWrapper>

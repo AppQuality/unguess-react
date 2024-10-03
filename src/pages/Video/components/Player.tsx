@@ -19,7 +19,6 @@ import {
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
-import { EmptyTranscript } from './EmptyTranscript';
 import { NewTranscript } from './NewTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
 import { ToolsContextProvider } from './tools/context/ToolsContext';
@@ -161,14 +160,12 @@ const CorePlayer = () => {
         tooltipContent: (
           <ObservationTooltip
             observationId={obs.id}
-            start={obs.start}
             color={
               obs.tags.find(
                 (tag) => tag.group.name.toLowerCase() === 'severity'
               )?.tag.style || appTheme.palette.grey[600]
             }
             label={obs.title}
-            seekPlayer={seekPlayer}
           />
         ),
         onClick: () => {
@@ -213,20 +210,11 @@ const CorePlayer = () => {
           }}
         />
       </PlayerContainer>
-      {video.transcript ? (
-        <NewTranscript currentTime={currentTime} setCurrentTime={seekPlayer} />
-      ) : (
-        <EmptyTranscript />
-      )}
-      {/* {video.transcript ? (
-        <Transcript
-          currentTime={currentTime}
-          isSearchable
-          setCurrentTime={seekPlayer}
-        />
-      ) : (
-        <EmptyTranscript />
-      )} */}
+      <NewTranscript
+        currentTime={currentTime}
+        setCurrentTime={seekPlayer}
+        videoId={videoId}
+      />
     </ToolsContextProvider>
   );
 };

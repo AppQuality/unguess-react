@@ -3,26 +3,56 @@ import {
   Skeleton,
   Transcript,
 } from '@appquality/unguess-design-system';
-import { useParams } from 'react-router-dom';
+import { ReactNode } from 'react';
 import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
-import { useGetVideosByVidTranslationQuery } from 'src/features/api';
+import {
+  useGetVideosByVidQuery,
+  useGetVideosByVidTranslationQuery,
+} from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useToolsContext } from '../tools/context/ToolsContext';
+import { EmptyState } from './EmptyState';
 import { Header } from './Header';
 import { TranscriptTheme } from './TranscriptTheme';
 import { useAddObservation } from './useAddObservation';
 import { useContent } from './useContent';
 import { useObservations } from './useObservations';
 
+const TranscriptWrapper = ({
+  videoId,
+  children,
+  editor,
+}: {
+  editor: any;
+  videoId?: string;
+  children: ReactNode;
+}) => {
+  const { data: video } = useGetVideosByVidQuery({
+    vid: videoId || '',
+  });
+
+  const isEmpty = !video?.transcript;
+
+  return (
+    <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
+      <ContainerCard>
+        <Header editor={isEmpty ? undefined : editor} isEmpty={isEmpty} />
+        {video?.transcript ? children : <EmptyState />}
+      </ContainerCard>
+    </div>
+  );
+};
+
 export const NewTranscript = ({
+  videoId,
   currentTime,
   setCurrentTime,
 }: {
+  videoId?: string;
   currentTime: number;
   setCurrentTime: (time: number, forcePlay: boolean) => void;
 }) => {
-  const { videoId } = useParams();
   const { language } = useToolsContext();
 
   const { hasFeatureFlag } = useFeatureFlag();
@@ -57,28 +87,27 @@ export const NewTranscript = ({
   );
 
   return (
-    <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
-      <ContainerCard>
-        {editor ? (
-          <>
-            <Header editor={editor} />
-            <Transcript.FloatingMenu
-              editor={editor}
-              onClick={(ed, { start, end }) => {
-                handleAddObservation({ from: start, to: end, text: '' }).then(
-                  (id) => {
-                    if (!id) return;
-                    ed.commands.addObservation({ id, title: '' });
-                  }
-                );
-              }}
-            />
-            <Transcript editor={editor} />
-          </>
-        ) : (
-          <Skeleton height="40px" />
-        )}
-      </ContainerCard>
-    </div>
+    <TranscriptWrapper videoId={videoId} editor={editor}>
+      {editor ? (
+        <>
+          <Transcript.FloatingMenu
+            editor={editor}
+            onClick={(ed, { start, end }) => {
+              handleAddObservation({
+                from: start,
+                to: end,
+                text: '',
+              }).then((id) => {
+                if (!id) return;
+                ed.commands.addObservation({ id, title: '' });
+              });
+            }}
+          />
+          <Transcript editor={editor} />
+        </>
+      ) : (
+        <Skeleton height="40px" />
+      )}
+    </TranscriptWrapper>
   );
 };

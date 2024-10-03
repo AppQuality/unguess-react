@@ -1,5 +1,4 @@
 import {
-  ContainerCard,
   LG,
   SM,
   Separator,
@@ -12,12 +11,6 @@ import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { Tools } from '../tools';
-
-export const StyledContainerCard = styled(ContainerCard)`
-  margin: ${({ theme }) => theme.space.xl} 0;
-  padding: ${({ theme }) => theme.space.xl};
-  gap: ${({ theme }) => theme.space.sm};
-`;
 
 export const TranscriptHeader = styled.div`
   display: flex;
@@ -42,7 +35,13 @@ const IconTitleContainer = styled.div`
 
 type Editor = React.ComponentProps<typeof Transcript.Search>['editor'];
 
-export const Header = ({ editor }: { editor: Editor }) => {
+export const Header = ({
+  editor,
+  isEmpty,
+}: {
+  editor?: Editor;
+  isEmpty?: boolean;
+}) => {
   const { t } = useTranslation();
 
   const { hasFeatureFlag } = useFeatureFlag();
@@ -58,15 +57,19 @@ export const Header = ({ editor }: { editor: Editor }) => {
         </IconTitleContainer>
         <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
       </TitleWrapper>
-      <div>
-        <Transcript.Search editor={editor} />
-      </div>
-      {hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION) && (
+      {editor && !isEmpty ? (
         <>
-          <Separator />
-          <Tools />
+          <div>
+            <Transcript.Search editor={editor} />
+          </div>
+          {hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION) && (
+            <>
+              <Separator />
+              <Tools />
+            </>
+          )}
         </>
-      )}
+      ) : null}
     </TranscriptHeader>
   );
 };
