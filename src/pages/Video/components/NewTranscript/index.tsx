@@ -3,21 +3,18 @@ import {
   Skeleton,
   Transcript,
 } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
-import {
-  useGetVideosByVidObservationsQuery,
-  useGetVideosByVidQuery,
-  useGetVideosByVidTranslationQuery,
-} from 'src/features/api';
+import { useGetVideosByVidTranslationQuery } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { useToolsContext } from '../tools/context/ToolsContext';
 import { Header } from './Header';
 import { TranscriptTheme } from './TranscriptTheme';
 import { useAddObservation } from './useAddObservation';
+import { useContent } from './useContent';
+import { useObservations } from './useObservations';
 
 export const StyledContainerCard = styled(ContainerCard)`
   margin: ${({ theme }) => theme.space.xl} 0;
@@ -52,29 +49,22 @@ export const NewTranscript = ({
 
   const { hasFeatureFlag } = useFeatureFlag();
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
+
   const {
-    data: video,
+    data: content,
     isError: isErrorVideo,
     isFetching: isFetchingVideo,
     isLoading: isLoadingVideo,
-  } = useGetVideosByVidQuery({
-    vid: videoId || '',
-  });
+  } = useContent(videoId || '');
+
   const {
     data: observations,
     isError: isErrorObservations,
     isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
-  } = useGetVideosByVidObservationsQuery({
-    vid: videoId || '',
-  });
+  } = useObservations(videoId || '');
 
-  const {
-    data: translation,
-    isLoading: isLoadingTranslation,
-    isFetching: isFetchingTranslation,
-    isError: isErrorTranslation,
-  } = useGetVideosByVidTranslationQuery(
+  const { data: translation } = useGetVideosByVidTranslationQuery(
     {
       vid: videoId || '',
       ...(language && { lang: language }),
@@ -82,17 +72,6 @@ export const NewTranscript = ({
     {
       skip: !hasAIFeatureFlag,
     }
-  );
-
-  const content = useMemo(
-    () =>
-      video && video?.transcript
-        ? video.transcript.paragraphs.map((p) => ({
-            ...p,
-            speaker: p.speaker ? p.speaker : 0,
-          }))
-        : undefined,
-    [video]
   );
 
   const handleAddObservation = useAddObservation({ videoId: videoId || '' });
@@ -104,34 +83,13 @@ export const NewTranscript = ({
       content,
       translations: translation?.sentences,
       themeExtension: TranscriptTheme,
-      observations: observations?.map((o) => {
-        function isHexColor(color: string): color is `#${string}` {
-          return /^#[0-9A-F]{6}$/i.test(color);
-        }
-
-        const defaultColor = appTheme.palette.grey[600] as `#${string}`;
-
-        const color =
-          o.tags.find((tag) => tag.group.name.toLowerCase() === 'severity')?.tag
-            .style || defaultColor;
-
-        return {
-          id: o.id,
-          title: o.title,
-          text: o.title,
-          type: '',
-          start: o.start,
-          end: o.end,
-          color: isHexColor(color) ? color : defaultColor,
-        };
-      }),
+      observations,
     },
     [observations, translation?.sentences]
   );
 
-  if (!editor || !video) return <Skeleton />;
-  if (!video || isErrorVideo || !video.transcript || isErrorObservations)
-    return null;
+  if (!editor || !content) return <Skeleton />;
+  if (isErrorVideo || isErrorObservations) return null;
   if (
     isFetchingVideo ||
     isLoadingVideo ||
