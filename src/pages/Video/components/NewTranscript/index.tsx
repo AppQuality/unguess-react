@@ -22,21 +22,6 @@ export const StyledContainerCard = styled(ContainerCard)`
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-export const TranscriptHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: ${({ theme }) => theme.space.xl};
-  z-index: 200;
-`;
-
-export const TitleWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: ${({ theme }) => theme.space.xs};
-`;
-
 export const NewTranscript = ({
   currentTime,
   setCurrentTime,
@@ -88,13 +73,15 @@ export const NewTranscript = ({
     [observations, translation?.sentences]
   );
 
-  if (!editor || !content) return <Skeleton />;
-  if (isErrorVideo || isErrorObservations) return null;
   if (
+    !editor ||
+    !content ||
     isFetchingVideo ||
     isLoadingVideo ||
     isFetchingObservations ||
-    isLoadingObservations
+    isLoadingObservations ||
+    isErrorVideo ||
+    isErrorObservations
   )
     return <Skeleton />;
 
