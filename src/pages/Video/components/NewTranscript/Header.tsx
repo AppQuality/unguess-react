@@ -1,13 +1,11 @@
 import {
   ContainerCard,
-  LG,
+  MD,
   SM,
-  Separator,
   Transcript,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
@@ -21,8 +19,8 @@ export const StyledContainerCard = styled(ContainerCard)`
 
 export const TranscriptHeader = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.sm};
   margin-bottom: ${({ theme }) => theme.space.xl};
   z-index: 200;
 `;
@@ -40,6 +38,12 @@ const IconTitleContainer = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
+const ActionsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
 type Editor = React.ComponentProps<typeof Transcript.Search>['editor'];
 
 export const Header = ({ editor }: { editor: Editor }) => {
@@ -51,22 +55,18 @@ export const Header = ({ editor }: { editor: Editor }) => {
     <TranscriptHeader>
       <TitleWrapper>
         <IconTitleContainer>
-          <InfoIcon />
-          <LG color={appTheme.palette.grey[800]} isBold>
+          <MD color={appTheme.palette.grey[800]} isBold>
             {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
-          </LG>
+          </MD>
         </IconTitleContainer>
         <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
       </TitleWrapper>
-      <div>
-        <Transcript.Search editor={editor} />
-      </div>
-      {hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION) && (
-        <>
-          <Separator />
-          <Tools />
-        </>
-      )}
+      <ActionsWrapper>
+        <div>
+          <Transcript.Search editor={editor} />
+        </div>
+        {hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION) && <Tools />}
+      </ActionsWrapper>
     </TranscriptHeader>
   );
 };
