@@ -19,8 +19,8 @@ import {
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
-import { NewTranscript } from './NewTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
+import { Transcript } from './Transcript';
 import { ToolsContextProvider } from './tools/context/ToolsContext';
 
 const PlayerContainer = styled.div<{
@@ -204,7 +204,7 @@ const CorePlayer = () => {
           }}
         />
       </PlayerContainer>
-      <NewTranscript
+      <Transcript
         currentTime={currentTime}
         setCurrentTime={seekPlayer}
         videoId={videoId}
