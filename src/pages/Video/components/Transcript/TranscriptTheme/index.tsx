@@ -2,6 +2,7 @@ import { Theme } from '@appquality/unguess-design-system';
 import { styled } from 'styled-components';
 import ActiveWrapper from './ActiveWrapper';
 import ObservationWrapper from './ObservationWrapper';
+import ParagraphWrapper from './ParagraphWrapper';
 import SentenceWrapper from './SentenceWrapper';
 import SentencesWrapper from './SentencesWrapper';
 import SpeakerWrapper from './SpeakerWrapper';
@@ -21,4 +22,5 @@ export const TranscriptTheme = Theme.configure({
   sentencesWrapper: SentencesWrapper,
   sentenceWrapper: SentenceWrapper,
   translationWrapper: TranslationWrapper,
+  paragraphWrapper: ParagraphWrapper,
 });
