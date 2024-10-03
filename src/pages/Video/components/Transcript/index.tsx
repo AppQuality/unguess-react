@@ -1,7 +1,7 @@
 import {
   ContainerCard,
   Skeleton,
-  Transcript,
+  Transcript as TranscriptComponent,
 } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { appTheme } from 'src/app/theme';
@@ -44,7 +44,7 @@ const TranscriptWrapper = ({
   );
 };
 
-export const NewTranscript = ({
+export const Transcript = ({
   videoId,
   currentTime,
   setCurrentTime,
@@ -74,7 +74,7 @@ export const NewTranscript = ({
     }
   );
 
-  const editor = Transcript.useEditor(
+  const editor = TranscriptComponent.useEditor(
     {
       currentTime: currentTime * 1000,
       onSetCurrentTime: (time) => setCurrentTime(time, false),
@@ -90,7 +90,7 @@ export const NewTranscript = ({
     <TranscriptWrapper videoId={videoId} editor={editor}>
       {editor ? (
         <>
-          <Transcript.FloatingMenu
+          <TranscriptComponent.FloatingMenu
             editor={editor}
             onClick={(ed, { start, end }) => {
               handleAddObservation({
@@ -103,7 +103,7 @@ export const NewTranscript = ({
               });
             }}
           />
-          <Transcript editor={editor} />
+          <TranscriptComponent editor={editor} />
         </>
       ) : (
         <Skeleton height="40px" />
