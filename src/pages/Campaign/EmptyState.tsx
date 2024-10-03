@@ -18,7 +18,7 @@ export const EmptyState = () => {
 
   return (
     <CenteredContent>
-      <EmptyReportsImage />
+      <EmptyReportsImage style={{ marginTop: appTheme.space.lg }} />
       <XL
         style={{
           fontWeight: appTheme.fontWeights.medium,
