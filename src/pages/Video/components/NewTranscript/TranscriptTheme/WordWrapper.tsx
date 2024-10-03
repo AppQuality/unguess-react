@@ -6,7 +6,7 @@ const WordWrapper = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.md};
   position: relative;
   color: ${({ theme }) => theme.palette.grey[700]};
-  line-height: 40px;
+  line-height: 2;
 `;
 
 const Component = ({ children }: { children: ReactNode }) => (

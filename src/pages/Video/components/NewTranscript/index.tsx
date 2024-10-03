@@ -8,19 +8,12 @@ import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useGetVideosByVidTranslationQuery } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import styled from 'styled-components';
 import { useToolsContext } from '../tools/context/ToolsContext';
 import { Header } from './Header';
 import { TranscriptTheme } from './TranscriptTheme';
 import { useAddObservation } from './useAddObservation';
 import { useContent } from './useContent';
 import { useObservations } from './useObservations';
-
-export const StyledContainerCard = styled(ContainerCard)`
-  margin: ${({ theme }) => theme.space.xl} 0;
-  padding: ${({ theme }) => theme.space.xl};
-  gap: ${({ theme }) => theme.space.sm};
-`;
 
 export const NewTranscript = ({
   currentTime,
@@ -87,7 +80,7 @@ export const NewTranscript = ({
 
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
-      <StyledContainerCard>
+      <ContainerCard>
         <Header editor={editor} />
         <Transcript.FloatingMenu
           editor={editor}
@@ -101,7 +94,7 @@ export const NewTranscript = ({
           }}
         />
         <Transcript editor={editor} />
-      </StyledContainerCard>
+      </ContainerCard>
     </div>
   );
 };
