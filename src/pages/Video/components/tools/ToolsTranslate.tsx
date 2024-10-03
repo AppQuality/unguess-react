@@ -21,7 +21,7 @@ import {
 import { Field as ZendeskDropdownField } from '@zendeskgarden/react-dropdowns';
 import { Field as ZendeskFormField } from '@zendeskgarden/react-forms';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -71,6 +71,12 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const filteredLanguages = allowedLanguages.filter(
     (lang) => lang !== videoLanguage && lang !== currentLanguage
   );
+
+  useEffect(() => {
+    if (languagePreference?.value) {
+      setInternalLanguage(languagePreference.value);
+    }
+  }, [languagePreference]);
 
   if (
     isLoadingPrefs ||
