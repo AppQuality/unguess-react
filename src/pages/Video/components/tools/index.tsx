@@ -1,7 +1,4 @@
-import {
-  getAllLanguageTags,
-  getLanguageNameByFullTag,
-} from '@appquality/languages';
+import { getLanguageNameByFullTag } from '@appquality/languages';
 import {
   Button,
   IconButton,
@@ -11,14 +8,12 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AIMenuIcon } from 'src/assets/icons/ai-icon.svg';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import {
-  useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
@@ -26,12 +21,12 @@ import {
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { ToolsTranslate } from './ToolsTranslate';
 import { useToolsContext } from './context/ToolsContext';
+import { usePreferredLanguage } from './usePreferredLanguage';
 
 export const Tools = () => {
   const { t } = useTranslation();
   const { videoId } = useParams();
   const { isOpen, setIsOpen, language, setLanguage } = useToolsContext();
-  const languages = getAllLanguageTags();
   const { hasFeatureFlag } = useFeatureFlag();
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
 
@@ -39,19 +34,7 @@ export const Tools = () => {
   const [requestTranslation, { isLoading: isLoadingRequestTranslation }] =
     usePostVideosByVidTranslationMutation();
 
-  const { data: preferences } = useGetUsersMePreferencesQuery();
-
-  const languagePreference = preferences?.items?.find(
-    (preference) => preference?.name === 'translations_language'
-  );
-
-  const preferredLanguage = languages.find(
-    (lang) => lang === languagePreference?.value
-  );
-
-  useEffect(() => {
-    if (!language && preferredLanguage) setLanguage(preferredLanguage);
-  }, [preferredLanguage]);
+  const preferredLanguage = usePreferredLanguage();
 
   const { data: translation, isLoading: isLoadingTranslation } =
     useGetVideosByVidTranslationQuery(
@@ -85,17 +68,17 @@ export const Tools = () => {
         disabled={isLoadingRequestTranslation}
         onClick={() => {
           if (canTranslate) {
-            if (!languagePreference) return;
+            if (!preferredLanguage) return;
 
             requestTranslation({
               vid: videoId || '',
               body: {
-                language: languagePreference.value,
+                language: preferredLanguage,
               },
             })
               .unwrap()
               .then(() => {
-                setLanguage(languagePreference.value);
+                setLanguage(preferredLanguage);
 
                 addToast(
                   ({ close }) => (
@@ -136,10 +119,10 @@ export const Tools = () => {
         <Button.StartIcon>
           <AIMenuIcon />
         </Button.StartIcon>
-        {canTranslate && languagePreference?.value ? (
+        {canTranslate && preferredLanguage ? (
           <Span>
             {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
-            {getLanguageNameByFullTag(languagePreference.value)}
+            {getLanguageNameByFullTag(preferredLanguage)}
           </Span>
         ) : (
           t('__TOOLS_MENU_ITEM_BUTTON_LABEL')

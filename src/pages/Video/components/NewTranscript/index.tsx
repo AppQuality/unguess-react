@@ -28,19 +28,11 @@ export const NewTranscript = ({
   const { hasFeatureFlag } = useFeatureFlag();
   const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
 
-  const {
-    data: content,
-    isError: isErrorVideo,
-    isFetching: isFetchingVideo,
-    isLoading: isLoadingVideo,
-  } = useContent(videoId || '');
+  const handleAddObservation = useAddObservation({ videoId: videoId || '' });
 
-  const {
-    data: observations,
-    isError: isErrorObservations,
-    isFetching: isFetchingObservations,
-    isLoading: isLoadingObservations,
-  } = useObservations(videoId || '');
+  const { data: content } = useContent(videoId || '');
+
+  const { data: observations } = useObservations(videoId || '');
 
   const { data: translation } = useGetVideosByVidTranslationQuery(
     {
@@ -51,8 +43,6 @@ export const NewTranscript = ({
       skip: !hasAIFeatureFlag,
     }
   );
-
-  const handleAddObservation = useAddObservation({ videoId: videoId || '' });
 
   const editor = Transcript.useEditor(
     {
@@ -66,34 +56,28 @@ export const NewTranscript = ({
     [observations, translation?.sentences]
   );
 
-  if (
-    !editor ||
-    !content ||
-    isFetchingVideo ||
-    isLoadingVideo ||
-    isFetchingObservations ||
-    isLoadingObservations ||
-    isErrorVideo ||
-    isErrorObservations
-  )
-    return <Skeleton />;
-
   return (
     <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
       <ContainerCard>
-        <Header editor={editor} />
-        <Transcript.FloatingMenu
-          editor={editor}
-          onClick={(ed, { start, end }) => {
-            handleAddObservation({ from: start, to: end, text: '' }).then(
-              (id) => {
-                if (!id) return;
-                ed.commands.addObservation({ id, title: '' });
-              }
-            );
-          }}
-        />
-        <Transcript editor={editor} />
+        {editor ? (
+          <>
+            <Header editor={editor} />
+            <Transcript.FloatingMenu
+              editor={editor}
+              onClick={(ed, { start, end }) => {
+                handleAddObservation({ from: start, to: end, text: '' }).then(
+                  (id) => {
+                    if (!id) return;
+                    ed.commands.addObservation({ id, title: '' });
+                  }
+                );
+              }}
+            />
+            <Transcript editor={editor} />
+          </>
+        ) : (
+          <Skeleton height="40px" />
+        )}
       </ContainerCard>
     </div>
   );
