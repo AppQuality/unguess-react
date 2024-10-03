@@ -65,18 +65,12 @@ const CorePlayer = () => {
 
   const {
     data: observations,
-    isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
     isError: isErrorObservations,
   } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
-  const {
-    data: video,
-    isFetching: isFetchingVideo,
-    isLoading: isLoadingVideo,
-    isError: isErrorVideo,
-  } = useGetVideosByVidQuery({
+  const { data: video, isFetching: isFetchingVideo } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
 
