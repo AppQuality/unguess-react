@@ -7,7 +7,6 @@ import {
   Notification,
   Row,
   SM,
-  Separator,
   Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
@@ -15,7 +14,6 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as InfoIcon } from 'src/assets/info-transcript.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import {
