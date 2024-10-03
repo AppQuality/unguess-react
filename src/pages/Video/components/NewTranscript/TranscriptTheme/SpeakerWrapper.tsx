@@ -24,10 +24,10 @@ const SpeakerWrapper = ({
   start: number;
   end: number;
   setCurrentTime?: (time: { start: number; end: number }) => void;
-  speaker: string;
+  speaker: number;
 }) => (
   <Wrapper>
-    <SM isBold>{speaker}</SM>
+    <SM isBold>Speaker {speaker + 1}</SM>
     <Button
       isBasic
       size="small"
