@@ -7,11 +7,11 @@ import {
   Spinner,
   useToast,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
+import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-fill.svg';
+import { ReactComponent as SettingsIcon } from '@zendeskgarden/svg-icons/src/16/gear-fill.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as AIMenuIcon } from 'src/assets/icons/ai-icon.svg';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import {
   useGetVideosByVidQuery,
@@ -62,7 +62,7 @@ export const Tools = () => {
       translation.language.localeCompare(preferredLanguage) !== 0);
 
   return (
-    <>
+    <div>
       <Button
         isBasic
         disabled={isLoadingRequestTranslation}
@@ -114,10 +114,9 @@ export const Tools = () => {
             setIsOpen(true);
           }
         }}
-        style={{ margin: `0 ${appTheme.space.md}` }}
       >
         <Button.StartIcon>
-          <AIMenuIcon />
+          <TranslateIcon />
         </Button.StartIcon>
         {canTranslate && preferredLanguage ? (
           <Span>
@@ -148,9 +147,9 @@ export const Tools = () => {
             setIsOpen(!isOpen);
           }}
         >
-          <TranslateIcon />
+          <SettingsIcon color={appTheme.palette.blue[600]} />
         </IconButton>
       )}
-    </>
+    </div>
   );
 };

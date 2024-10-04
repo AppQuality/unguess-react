@@ -1,4 +1,4 @@
-import { MD, SM, Transcript } from '@appquality/unguess-design-system';
+import { SM, Transcript, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
@@ -9,8 +9,8 @@ import { Tools } from '../tools';
 export const TranscriptHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.xl};
+  gap: ${({ theme }) => theme.space.md};
+  margin-bottom: ${({ theme }) => theme.space.md};
   z-index: 200;
 `;
 
@@ -50,11 +50,13 @@ export const Header = ({
     <TranscriptHeader>
       <TitleWrapper>
         <IconTitleContainer>
-          <MD color={appTheme.palette.grey[800]} isBold>
+          <XL color={appTheme.palette.grey[800]} isBold>
             {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
-          </MD>
+          </XL>
         </IconTitleContainer>
-        <SM>{t('__VIDEO_PAGE_TRANSCRIPT_INFO')}</SM>
+        <SM color={appTheme.palette.grey[700]}>
+          {t('__VIDEO_PAGE_TRANSCRIPT_INFO')}
+        </SM>
       </TitleWrapper>
       {editor && !isEmpty ? (
         <ActionsWrapper>
