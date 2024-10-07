@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as EmptyReportsImage } from 'src/assets/emptyReports.svg';
+import EmptyStatePicture from 'src/assets/emptyReports.png';
 import { Paragraph, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -18,7 +18,15 @@ export const EmptyState = () => {
 
   return (
     <CenteredContent>
-      <EmptyReportsImage style={{ marginTop: appTheme.space.lg }} />
+      <img
+        src={EmptyStatePicture}
+        alt="no data"
+        style={{
+          marginTop: appTheme.space.lg,
+          width: '100%',
+          maxWidth: '380px',
+        }}
+      />
       <XL
         style={{
           fontWeight: appTheme.fontWeights.medium,
