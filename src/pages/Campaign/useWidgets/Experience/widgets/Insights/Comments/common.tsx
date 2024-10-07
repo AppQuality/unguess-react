@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 export const COMPACT_CHARACTERS_MAX_SIZE = 90;
 
-export const StyledCard = styled(WidgetSpecialCard)`
+export const StyledCard: typeof WidgetSpecialCard = styled(WidgetSpecialCard)`
   padding-top: ${({ theme }) => theme.space.base * 2}px;
   padding-bottom: ${({ theme }) => theme.space.base * 2}px;
 `;

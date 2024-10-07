@@ -14,14 +14,13 @@ const SentryWrapper = ({ children }: { children: React.ReactNode }) => {
     Sentry.init({
       dsn: 'https://b8e8d4b25974eb9d50f15b067cbce9d0@o1087982.ingest.sentry.io/4506349729873920',
       integrations: [
-        new Sentry.BrowserTracing({
-          routingInstrumentation: Sentry.reactRouterV6Instrumentation(
-            React.useEffect,
-            useLocation,
-            useNavigationType,
-            createRoutesFromChildren,
-            matchRoutes
-          ),
+        Sentry.browserTracingIntegration(),
+        Sentry.reactRouterV6BrowserTracingIntegration({
+          useEffect: React.useEffect,
+          useLocation,
+          useNavigationType,
+          createRoutesFromChildren,
+          matchRoutes,
         }),
       ],
       environment: react_env.REACT_APP_ENVIRONMENT,

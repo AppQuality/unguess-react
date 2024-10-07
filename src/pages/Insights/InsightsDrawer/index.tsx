@@ -77,7 +77,12 @@ const InsightsDrawer = () => {
   if (isLoading || isError) return <Skeleton />;
 
   return (
-    <DetailContainer ref={ref}>
+    <DetailContainer
+      ref={ref}
+      data-qa="insight-drawer"
+      role="list"
+      aria-labelledby="drawer-title"
+    >
       <div
         style={{ paddingTop: appTheme.space.xs, opacity: isFetching ? 0.5 : 1 }}
       >
@@ -90,7 +95,9 @@ const InsightsDrawer = () => {
                   style={{ marginRight: appTheme.space.xs }}
                 />
               )}
-              {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
+              <span id="drawer-title">
+                {t('__INSIGHTS_PAGE_INSIGHTS_DRAWER_TITLE')}
+              </span>
             </XL>
             <Divider />
             {insights && insights.length > 0 ? (
@@ -109,13 +116,17 @@ const InsightsDrawer = () => {
                     color={appTheme.palette.grey[600]}
                     style={{ paddingRight: appTheme.space.md }}
                   >
-                    <Trans i18nKey="__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS_COUNTER">
-                      <Span isBold>
-                        {{ published: publishedInsights?.length || 0 }}
-                      </Span>{' '}
-                      out of{' '}
-                      <Span isBold>{{ total: insights?.length || 0 }}</Span>
-                    </Trans>
+                    <Trans
+                      i18nKey="__INSIGHTS_PAGE_INSIGHTS_DRAWER_PUBLISHED_INSIGHTS_COUNTER"
+                      components={{
+                        Span: <Span isBold />,
+                      }}
+                      values={{
+                        published: publishedInsights?.length || 0,
+                        total: insights?.length || 0,
+                      }}
+                      defaults="<span>{{published}}</span> out of <span>{{total}}</span>"
+                    />
                   </SM>
                 </div>
                 {insights.map((insight) => (

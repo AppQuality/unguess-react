@@ -37,12 +37,16 @@ export const HowConfirm = (props: FormikProps<WizardModel>) => {
         <WizardCol xs={12} sm={11}>
           <StyledLabel>{t('__EXPRESS_WIZARD_STEP_HOW_LABEL')}</StyledLabel>
           <StyledParagraph>
-            <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_HOW_CONTENT_TEXT">
-              You inserted&nbsp;
-              <Span isBold>
-                {{ use_cases_count: useCasesCount }}&nbsp;test cases:
-              </Span>
-            </Trans>
+            <Trans
+              i18nKey="__EXPRESS_WIZARD_STEP_RECAP_HOW_CONTENT_TEXT"
+              components={{
+                span: <Span isBold />,
+              }}
+              values={{
+                use_cases_count: useCasesCount,
+              }}
+              default="You inserted <span>{{ use_cases_count }} test cases:</span>"
+            />
             <OrderedList>
               {useCases.map((useCase) => (
                 <OrderedList.Item>

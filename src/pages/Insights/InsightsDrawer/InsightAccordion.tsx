@@ -32,6 +32,7 @@ const Insight = ({
         key={`insight_accordion_${insight.id}_${isCurrent}`}
         defaultExpandedSections={isCurrent ? [0, 1] : []}
         id={`insight-accordion-${insight.id}`}
+        role="listitem"
       >
         <Accordion.Section>
           <Accordion.Header>
@@ -92,12 +93,15 @@ const Insight = ({
               <ObservationIcon color={appTheme.palette.grey[600]} />{' '}
               {t('__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_LABEL')}
             </LG>
-            <Trans i18nKey="__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION">
-              <MD color={appTheme.palette.grey[700]}>
-                Observations in this insight:{' '}
-                <Span isBold>{{ counter: insight.observations.length }}</Span>
-              </MD>
-            </Trans>
+            <Trans
+              i18nKey="__INSIGHTS_PAGE_INSIGHT_ACCORDION_OBSERVATIONS_DESCRIPTION"
+              components={{
+                span: <Span isBold />,
+                md: <MD color={appTheme.palette.grey[700]} />,
+              }}
+              values={{ counter: insight.observations.length }}
+              default="Observations in this insight: <span>{{ counter }}</span>"
+            />
             <div style={{ marginBottom: appTheme.space.md }}>
               {insight.observations.map((o) => (
                 <div

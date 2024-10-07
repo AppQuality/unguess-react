@@ -166,14 +166,14 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
               <Tag.Avatar>
                 <UserTaskIcon />
               </Tag.Avatar>
-              <Trans i18nKey="__EXPRESS_WIZARD_STEP_HOW_TAG_USER_TASKS_LABEL">
-                <Span>
-                  N° User Tasks{' '}
-                  <Span isBold>
-                    {{ express_use_cases_limit: EXPRESS_USE_CASES_LIMIT }}
-                  </Span>
-                </Span>
-              </Trans>
+              <Trans
+                i18nKey="__EXPRESS_WIZARD_STEP_HOW_TAG_USER_TASKS_LABEL"
+                components={{
+                  span: <Span isBold />,
+                }}
+                defaults="N° User Tasks <span>{{ express_use_cases_limit }}</span>"
+                values={{ express_use_cases_limit: EXPRESS_USE_CASES_LIMIT }}
+              />
             </Tag>
             <Tag size="large">
               <Tag.Avatar>

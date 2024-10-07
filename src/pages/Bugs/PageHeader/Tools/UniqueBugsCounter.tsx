@@ -20,28 +20,38 @@ export const UniqueBugsCounter = ({
 
   return (
     <CounterContainer {...props}>
-      <Trans i18nKey="__BUGS_PAGE_HEADER_UNIQUE_BUGS_ON_TOTAL">
-        <MD>
-          <Span isBold style={{ color: appTheme.components.text.primaryColor }}>
-            {{ numerator: uniqueBugs }}{' '}
-          </Span>
-          <Span isBold style={{ color: appTheme.components.text.primaryColor }}>
-            unique bugs
-          </Span>
-          <Span style={{ color: appTheme.palette.grey['700'] }}>
-            /{{ denominator: totalBugs }} tot.
-          </Span>
-          <Span
-            style={{
-              color: appTheme.palette.grey['600'],
-              marginLeft: appTheme.space.xs,
-            }}
-          >
-            {' '}
-            of which
-          </Span>
-        </MD>
-      </Trans>
+      <Trans
+        i18nKey="__BUGS_PAGE_HEADER_UNIQUE_BUGS_ON_TOTAL"
+        components={{
+          md: <MD />,
+          span: (
+            <Span
+              isBold
+              style={{ color: appTheme.components.text.primaryColor }}
+            />
+          ),
+          greySpan: <Span style={{ color: appTheme.palette.grey['700'] }} />,
+          lastSpan: (
+            <Span
+              style={{
+                color: appTheme.palette.grey['600'],
+                marginLeft: appTheme.space.xs,
+              }}
+            />
+          ),
+        }}
+        values={{
+          numerator: uniqueBugs,
+          denominator: totalBugs,
+        }}
+        defaults="
+        
+        <md>
+          <span>{{numerator}} </span>
+          <span>unique bugs</span>
+          <greySpan>{{denominator}} tot.</greySpan>
+          <lastSpan> of which</lastSpan>"
+      />
     </CounterContainer>
   );
 };

@@ -25,7 +25,7 @@ const UseCaseLabel = styled.div`
   grid-template-columns: 1fr fit-content(100%);
   align-items: center;
 `;
-const StyledBugCard = styled(BugCard)`
+const StyledBugCard: typeof BugCard = styled(BugCard)`
   margin-bottom: ${({ theme }) => theme.space.base * 4}px;
 `;
 const StyledSM = styled(SM)`

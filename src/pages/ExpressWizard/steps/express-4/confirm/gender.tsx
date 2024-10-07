@@ -22,8 +22,13 @@ export const Gender = (props: FormikProps<WizardModel>) => {
       : t('__EXPRESS_4_WIZARD_STEP_WHO_GENDER_FEMALE_PLURAL');
 
   return (
-    <Trans i18nKey="__EXPRESS_4_WIZARD_STEP_RECAP_WHO_GENDER_TEXT">
-      Are <Span isBold>{{ gender: translatedGender }}</Span>.
-    </Trans>
+    <Trans
+      i18nKey="__EXPRESS_4_WIZARD_STEP_RECAP_WHO_GENDER_TEXT"
+      components={{
+        span: <Span isBold />,
+      }}
+      values={{ gender: translatedGender }}
+      default="Are <span>{{gender}}</span>."
+    />
   );
 };

@@ -43,7 +43,7 @@ export const AnchorButtons = ({
             placement="bottom"
             type="light"
             size="medium"
-            onClick={(e) => {
+            onClick={(e: any) => {
               e.stopPropagation();
             }}
           >
@@ -69,7 +69,7 @@ export const AnchorButtons = ({
           placement="bottom"
           type="light"
           size="medium"
-          onClick={(e) => {
+          onClick={(e: any) => {
             e.stopPropagation();
           }}
         >
@@ -94,7 +94,7 @@ export const AnchorButtons = ({
           placement="bottom"
           type="light"
           size="medium"
-          onClick={(e) => {
+          onClick={(e: any) => {
             e.stopPropagation();
           }}
         >
