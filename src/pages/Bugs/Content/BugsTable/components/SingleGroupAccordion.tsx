@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as ChevronDownStroke } from '@zendeskgarden/svg-icons/src/16/chevron-down-stroke.svg';
+import { ReactComponent as ChevronUpStroke } from '@zendeskgarden/svg-icons/src/16/chevron-up-stroke.svg';
 import { BugByStateType, BugByUsecaseType } from '../types';
 import { InfoRow } from './InfoRow';
 import BugCards from './BugCards';
@@ -81,11 +83,17 @@ const SingleGroupAccordion = ({
             >
               {isPreview ? (
                 <>
+                  <ChevronDownStroke
+                    style={{ marginRight: appTheme.space.xs }}
+                  />
                   {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
                   {` (${item.bugs.length})`}
                 </>
               ) : (
-                t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')
+                <>
+                  <ChevronUpStroke style={{ marginRight: appTheme.space.xs }} />
+                  {t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')}
+                </>
               )}
             </Button>
           )}
