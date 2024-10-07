@@ -16,7 +16,7 @@ export const CampaignWidgets = () => {
   });
   const { all, footers, items, itemsWithTitles } = widgets;
 
-  return all.length !== 0 ? (
+  return all.length === 0 ? (
     <EmptyState />
   ) : (
     <Grid gutters="xl">
