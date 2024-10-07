@@ -2,6 +2,7 @@
   "name": "unguess-react",
   "version": "1.4.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@appquality/unguess-design-system": "3.1.115",
     "@appquality/languages": "1.4.3",
@@ -29,7 +30,6 @@
     "react-i18next": "^15.0.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.4.0",
-    "react-scripts": "4.0.3",
     "react-scroll": "^1.9.0",
     "styled-components": "^6.1.1",
     "typescript": "^4.6.2",
@@ -38,9 +38,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "craco start",
+    "start": "vite",
     "start:ssl": "craco --openssl-legacy-provider start",
-    "build": "craco build",
+    "build": "vite build",
     "test": "react-scripts test",
     "test:e2e:ui": "npx playwright test --headed",
     "test:watch": "react-scripts test --watch",
@@ -58,7 +58,8 @@
     "lint": "eslint --ext .tsx,.ts .",
     "validate": "run-p lint type:check format:check",
     "prepare": "husky install",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org appquality-srl --project unguess-react ./build && sentry-cli sourcemaps upload --org appquality-srl --project unguess-react ./build"
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org appquality-srl --project unguess-react ./build && sentry-cli sourcemaps upload --org appquality-srl --project unguess-react ./build",
+    "dev": "vite"
   },
   "browserslist": {
     "production": [
@@ -85,7 +86,7 @@
     "@sentry/cli": "^2.23.0",
     "@sentry/types": "^8.32.0",
     "@testing-library/jest-dom": "^5.16.2",
-    "@types/node": "^22.7.4",
+    "@types/node": "^20.14.2",
     "@types/qs": "^6.9.7",
     "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",
@@ -114,7 +115,12 @@
     "openapi-typescript": "^5.1.0",
     "playwright-i18next-fixture": "^1.0.0",
     "prettier": "^2.6.2",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.2.13",
+    "vite-tsconfig-paths": "^4.3.2"
   },
   "config": {
     "commitizen": {
