@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
-import { Accordion, Button, theme } from '@appquality/unguess-design-system';
+import { Accordion, Button } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -18,7 +18,7 @@ const StyledAccordionLabel = styled(Accordion.Label)`
 `;
 const StyledAccordionHeader = styled(Accordion.Header)`
   svg {
-    padding: ${theme.space.xs};
+    padding: ${appTheme.space.xs};
   }
 `;
 
@@ -26,6 +26,8 @@ const AccordionFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: ${appTheme.space.xxs} ${appTheme.space.sm};
+  margin-bottom: ${appTheme.space.sm};
 `;
 
 interface SingleGroupAccordionProps {
@@ -56,14 +58,23 @@ const SingleGroupAccordion = ({
     if (isLgBreakpoint) dispatch(selectBug({ bug_id: undefined }));
   }, [isLgBreakpoint]);
 
+  const AccordionPanel = styled(Accordion.Panel)`
+    padding: 0;
+    background-color: white;
+    border-radius: ${({ theme }) => theme.borderRadii.lg};
+    border: 1px solid ${({ theme }) => theme.palette.grey[300]};
+    padding-left: ${({ theme }) => theme.space.xxs};
+    padding-right: ${({ theme }) => theme.space.xxs};
+  `;
+
   return (
-    <Accordion.Section style={{ marginBottom: theme.space.lg }}>
+    <Accordion.Section style={{ marginBottom: appTheme.space.lg }}>
       <StyledAccordionHeader>
         <StyledAccordionLabel>
           <InfoRow title={title} bugs={item.bugs} />
         </StyledAccordionLabel>
       </StyledAccordionHeader>
-      <Accordion.Panel style={{ padding: 0 }}>
+      <AccordionPanel>
         {isMdBreakpoint ? (
           <BugCards bugs={isPreview ? item.bugs.slice(0, 3) : item.bugs} />
         ) : (
@@ -98,7 +109,7 @@ const SingleGroupAccordion = ({
             </Button>
           )}
         </AccordionFooter>
-      </Accordion.Panel>
+      </AccordionPanel>
     </Accordion.Section>
   );
 };
