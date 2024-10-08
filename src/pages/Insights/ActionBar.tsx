@@ -61,19 +61,23 @@ const ActionBar = () => {
             <Trans
               count={values.observations.length}
               i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_OBSERVATIONS_LABEL"
-            >
-              Selected Observations:
-              <Span isBold>{{ observations: values.observations.length }}</Span>
-            </Trans>
+              components={{
+                span: <Span isBold />,
+              }}
+              values={{ observations: values.observations.length }}
+              defaults="Selected Observations: <span>{{observations}}</span>"
+            />
           </MD>
           <SM style={{ marginTop: appTheme.space.xs }}>
             <Trans
               count={values.observations.length}
               i18nKey="__INSIGHTS_PAGE_ACTION_BAR_INSIGHTS_COUNT_THEMES_LABEL"
-            >
-              Selected themes:
-              <Span isBold>{{ themes: themesCount }}</Span>
-            </Trans>
+              values={{ themes: themesCount }}
+              components={{
+                span: <Span isBold />,
+              }}
+              defaults="Selected themes: <span>{{themes}}</span>"
+            />
           </SM>
         </div>
         {!hideCta && (
@@ -87,6 +91,7 @@ const ActionBar = () => {
               style={{
                 marginRight: appTheme.space.md,
                 color: appTheme.palette.white,
+                fontSize: appTheme.fontSizes.sm,
               }}
             >
               {t('__INSIGHTS_PAGE_ACTION_BAR_BUTTON_CANCEL')}

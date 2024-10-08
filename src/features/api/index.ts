@@ -533,6 +533,25 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    getVideosByVidTranslation: build.query<
+      GetVideosByVidTranslationApiResponse,
+      GetVideosByVidTranslationApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/videos/${queryArg.vid}/translation`,
+        params: { lang: queryArg.lang },
+      }),
+    }),
+    postVideosByVidTranslation: build.mutation<
+      PostVideosByVidTranslationApiResponse,
+      PostVideosByVidTranslationApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/videos/${queryArg.vid}/translation`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -1131,9 +1150,8 @@ export type DeleteCampaignsByCidUsersApiArg = {
   };
 };
 export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
-  version: number;
-  goal: string;
-  users: number;
+  goal?: string;
+  users?: number;
   findings?: {
     /** this field is the Finding ID */
     id: number;
@@ -1142,7 +1160,8 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
     comment?: string;
     severity: {
       id: number;
-      name?: string;
+      name: string;
+      style: string;
     };
     cluster:
       | {
@@ -1167,11 +1186,11 @@ export type GetCampaignsByCidUxApiResponse = /** status 200 OK */ {
     value: number;
     comment: string;
   }[];
-  methodology: {
+  methodology?: {
     type: string;
     description: string;
   };
-  questions: {
+  questions?: {
     text: string;
   }[];
 };
@@ -1405,7 +1424,7 @@ export type PutUsersMePreferencesByPrefidApiResponse =
 export type PutUsersMePreferencesByPrefidApiArg = {
   prefid: string;
   body: {
-    value: number;
+    value: string;
   };
 };
 export type GetVideosByVidApiResponse = /** status 200 OK */ Video & {
@@ -1413,6 +1432,8 @@ export type GetVideosByVidApiResponse = /** status 200 OK */ Video & {
     id: number;
     name: string;
   };
+} & {
+  language: string;
 };
 export type GetVideosByVidApiArg = {
   vid: string;
@@ -1449,6 +1470,26 @@ export type DeleteVideosByVidObservationsAndOidApiResponse = unknown;
 export type DeleteVideosByVidObservationsAndOidApiArg = {
   vid: string;
   oid: string;
+};
+export type GetVideosByVidTranslationApiResponse = /** status 200 OK */ {
+  language: string;
+  sentences: {
+    text: string;
+    start: number;
+    end: number;
+  }[];
+};
+export type GetVideosByVidTranslationApiArg = {
+  vid: string;
+  /** language */
+  lang?: string;
+};
+export type PostVideosByVidTranslationApiResponse = /** status 200 OK */ object;
+export type PostVideosByVidTranslationApiArg = {
+  vid: string;
+  body: {
+    language: string;
+  };
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
@@ -2091,7 +2132,7 @@ export type User = {
 };
 export type UserPreference = {
   preference_id: number;
-  value: number;
+  value: string;
   name: string;
 };
 export type Workspace = {
@@ -2190,6 +2231,8 @@ export const {
   usePostVideosByVidObservationsMutation,
   usePatchVideosByVidObservationsAndOidMutation,
   useDeleteVideosByVidObservationsAndOidMutation,
+  useGetVideosByVidTranslationQuery,
+  usePostVideosByVidTranslationMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,

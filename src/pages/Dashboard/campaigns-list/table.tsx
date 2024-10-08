@@ -1,15 +1,9 @@
-import {
-  Anchor,
-  GroupedTable,
-  Span,
-  theme,
-  Tooltip,
-} from '@appquality/unguess-design-system';
+import { GroupedTable, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
-import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { getStatusInfo } from 'src/common/components/utils/getStatusInfo';
 import { CampaignStatus } from 'src/types';
+import { CampaignAnchorTitle } from './CampaignAnchorTitle';
 
 export const TableList = ({
   campaigns,
@@ -43,22 +37,10 @@ export const TableList = ({
           t
         );
 
-        const cpUrl = getLocalizeDashboardRoute({
-          campaignId: campaign.id,
-          cpFamily: campaign.family.name,
-          outputs: campaign.outputs || [],
-        });
-
         const cpStartDate = new Date(campaign.start_date).toLocaleDateString();
 
         return {
-          name: (
-            <Anchor href={cpUrl}>
-              <Span isBold style={{ color: theme.palette.grey[800] }}>
-                {campaign.customer_title ?? campaign.title}
-              </Span>
-            </Anchor>
-          ),
+          name: <CampaignAnchorTitle campaign={campaign} />,
           type: campaign.family.name,
           testType: campaign.type.name,
           startDate: cpStartDate,

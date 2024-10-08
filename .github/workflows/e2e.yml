@@ -1,0 +1,61 @@
+name: Run E2E Tests
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+  push:
+    branches: [main, master, develop]
+
+jobs:
+  basicTests:
+    if: ${{ (github.event.pull_request.draft == false) || (github.event_name == 'push' ) || github.event_name == 'workflow_dispatch'  }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # run 2 copies of the job in parallel
+        shard: [1, 2]
+
+    name: "Playwright Tests - pwc"
+    timeout-minutes: 20
+    runs-on: ubuntu-22.04
+    container: mcr.microsoft.com/playwright:v1.39.0-jammy
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      # https://github.com/actions/runner-images/issues/6775
+      - run: |
+          echo "$GITHUB_WORKSPACE"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Extract hash commit
+        shell: bash
+        run: |
+          COMMIT=$(git rev-parse --short HEAD)
+          echo "##[set-output name=commit;]$COMMIT"
+        id: extract_commit
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Install dependencies
+        run: |
+          echo //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }} > .npmrc
+          npm install -g yarn && yarn install --frozen-lockfile
+          npx playwright install chrome
+
+      - name: Run Tests
+        continue-on-error: false
+        env:
+          CURRENTS_PROJECT_ID: ${{ secrets.CURRENTS_PROJECT_ID }}
+          CURRENTS_RECORD_KEY: ${{ secrets.CURRENTS_RECORD_KEY }}
+
+        run: |
+          npx pwc --ci-build-id ${{ steps.extract_commit.outputs.commit }} --shard=${{ matrix.shard }}/${{ strategy.job-total }}

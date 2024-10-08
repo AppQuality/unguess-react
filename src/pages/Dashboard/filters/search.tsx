@@ -37,8 +37,12 @@ export const SearchInput = () => {
     dispatch(searchFilterChanged(text));
   };
 
+  interface SearchProps {
+    searchValue: string;
+  }
+
   const Search = useCallback(
-    ({ searchValue }) => (
+    ({ searchValue }: SearchProps) => (
       <StyledField>
         <MediaInput
           key="search-input"

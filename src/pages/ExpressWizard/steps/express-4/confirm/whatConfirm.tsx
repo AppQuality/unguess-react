@@ -41,14 +41,18 @@ export const WhatConfirm = (props: FormikProps<WizardModel>) => {
         <WizardCol xs={12} sm={11}>
           <StyledLabel>{t('__EXPRESS_WIZARD_STEP_WHAT_LABEL')}</StyledLabel>
           <StyledParagraph>
-            <Trans i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT">
-              Stai lanciando la campagna&nbsp;
-              <Span isBold>{{ campaign_name: values.campaign_name }}</Span>
-              &nbsp; all&apos;interno del progetto&nbsp;
-              <Span isBold>{{ project_name: project?.name }}</Span>&nbsp;
-              per&nbsp;
-              <Span isBold>{{ product_type: productType }}</Span>.
-            </Trans>
+            <Trans
+              i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT"
+              components={{
+                span: <Span isBold />,
+              }}
+              values={{
+                campaign_name: values.campaign_name,
+                project_name: project?.name,
+                product_type: productType,
+              }}
+              default="Stai lanciando la campagna <span>{{ campaign_name }}</span> all'interno del progetto <span>{{ project_name }}</span> per <span>{{ product_type }}</span>."
+            />
           </StyledParagraph>
         </WizardCol>
       </Row>

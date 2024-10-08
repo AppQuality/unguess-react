@@ -1,27 +1,27 @@
 import {
+  Anchor,
+  Col,
+  Grid,
   MD,
   Row,
-  Col,
   SM,
-  getColor,
-  Grid,
-  Anchor,
   Skeleton,
+  getColor,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { Divider } from 'src/common/components/divider';
 import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidUxQuery,
 } from 'src/features/api';
-import { Divider } from 'src/common/components/divider';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { Link } from 'react-router-dom';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
+import styled from 'styled-components';
+import { MethodologyNote } from './Note';
 import { ReactComponent as CampaignInfo } from './assets/campaignInfo.svg';
 import { ReactComponent as UserGroup } from './assets/userGroup.svg';
-import { MethodologyNote } from './Note';
 
 const Summary = styled.div`
   margin: ${({ theme }) => theme.space.base * 2}px 0;
@@ -106,10 +106,12 @@ export const Methodology = ({
               <CampaignInfo />
             </Col>
             <Col xs={12} sm={9} alignSelf="start" style={{ margin: 0 }}>
-              <MethodologyNote
-                title={cpData.type.name}
-                text={data.methodology.description}
-              />
+              {data.methodology && (
+                <MethodologyNote
+                  title={cpData.type.name}
+                  text={data.methodology.description}
+                />
+              )}
             </Col>
           </StyledRow>
         </Summary>
@@ -128,12 +130,14 @@ export const Methodology = ({
               <UserGroup />
             </Col>
             <Col xs={12} sm={9} style={{ margin: 0 }}>
-              <MethodologyNote
-                title={`${t('__CAMPAIGN_PAGE_METHODOLOGY_USERS_NUMBER', {
-                  count: data.users,
-                })}`}
-                text={getStudyText(data.methodology.type)}
-              />
+              {data.methodology && (
+                <MethodologyNote
+                  title={`${t('__CAMPAIGN_PAGE_METHODOLOGY_USERS_NUMBER', {
+                    count: data.users,
+                  })}`}
+                  text={getStudyText(data.methodology.type)}
+                />
+              )}
             </Col>
           </StyledRow>
         </Summary>

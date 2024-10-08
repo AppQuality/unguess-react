@@ -8,7 +8,7 @@ ARG SENTRY_AUTH_TOKEN
 
 COPY package.json ./
 COPY yarn.lock ./
-RUN ["yarn", "install", "--frozen-lockfile", "--ignore-scripts"]
+RUN ["yarn", "install", "--frozen-lockfile", "--ignore-scripts", "--ignore-engines"]
 RUN rm -f .npmrc
 
 COPY . .

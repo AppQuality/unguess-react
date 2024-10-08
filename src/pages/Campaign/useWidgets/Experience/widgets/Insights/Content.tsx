@@ -245,16 +245,12 @@ export const InsightsContent = ({
                             <Trans
                               count={insight.video.length - 1}
                               i18nKey="__CAMPAIGN_PAGE_INSIGHTS_SHOW_MORE_LABEL"
-                            >
-                              Show more highlights{' '}
-                              <Span isBold>
-                                (
-                                {{
-                                  video_count: insight.video.length - 1,
-                                }}
-                                )
-                              </Span>
-                            </Trans>
+                              values={{ video_count: insight.video.length - 1 }}
+                              components={{
+                                span: <Span isBold />,
+                              }}
+                              default="Show more highlights <span>({{video_count}})</span>"
+                            />
                           </Anchor>
                         </Col>
                       )}

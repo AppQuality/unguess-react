@@ -18,12 +18,16 @@ export const AgeRange = (props: FormikProps<WizardModel>) => {
   const range = ageRange?.split('-') || [];
 
   return range.length ? (
-    <Trans i18nKey="__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT">
-      Are aged between
-      <Span isBold>
-        {{ age_range_start: range[0] }} and {{ age_range_end: range[1] }}
-      </Span>
-      years.
-    </Trans>
+    <Trans
+      i18nKey="__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT"
+      components={{
+        span: <Span isBold />,
+      }}
+      values={{
+        age_range_start: range[0],
+        age_range_end: range[1],
+      }}
+      default="Are aged between <span>{{age_range_start}} and {{age_range_end}}</span> years."
+    />
   ) : null;
 };

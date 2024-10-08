@@ -29,10 +29,17 @@ export const CampaignDurationMeta = ({
       color={appTheme.palette.azure[600]}
       icon={<ClockIcon />}
       secondaryText={
-        <Trans i18nKey="__CAMPAIGN_PAGE_INFO_HEADER_FROM_DATE_TO_DATE">
-          <Span>{{ start_date: formattedStartDate }}</Span> to{' '}
-          <Span>{{ end_date: formattedEndDate }}</Span>
-        </Trans>
+        <Trans
+          i18nKey="__CAMPAIGN_PAGE_INFO_HEADER_FROM_DATE_TO_DATE"
+          components={{
+            span: <Span />,
+          }}
+          values={{
+            start_date: formattedStartDate,
+            end_date: formattedEndDate,
+          }}
+          default="{{ start_date }} to {{ end_date }}"
+        />
       }
     >
       {t('__CAMPAIGN_PAGE_INFO_HEADER_TEST_TIMING')}

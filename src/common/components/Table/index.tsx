@@ -12,7 +12,7 @@ import { SM } from '@appquality/unguess-design-system';
 import { TableRow } from './TableRow';
 import { LoadingState } from './LoadingState';
 
-interface TableData {
+interface TableData extends Record<string, ReactNode> {
   id: string;
   isHighlighted?: boolean;
   borderColor?: string;

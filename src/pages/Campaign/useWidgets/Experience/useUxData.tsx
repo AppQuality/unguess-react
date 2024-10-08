@@ -68,14 +68,13 @@ export const useUxData = ({
       setCampaignData({
         cid: campaignId,
         filters: {
-          clusters:
-            [
-              ...clustersData,
-              ...(clusters?.items?.map((c) => ({
-                id: c.id,
-                name: c.name,
-              })) || []),
-            ] || [],
+          clusters: [
+            ...clustersData,
+            ...(clusters?.items?.map((c) => ({
+              id: c.id,
+              name: c.name,
+            })) || []),
+          ],
           severities: severitiesData,
         },
         uxData,

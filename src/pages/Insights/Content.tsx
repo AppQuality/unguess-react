@@ -16,7 +16,7 @@ const Grid = styled.div<{ isDrawerOpen: boolean }>`
   gap: 0;
   ${({ isDrawerOpen, theme }) =>
     isDrawerOpen
-      ? `grid-template-columns: 1fr 40%;`
+      ? `grid-template-columns: 1fr 1fr;`
       : `grid-template-columns: 1fr ${theme.space.xxl};`}
 `;
 

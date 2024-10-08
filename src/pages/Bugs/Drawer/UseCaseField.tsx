@@ -122,15 +122,14 @@ export const UseCaseField = ({
                   <Trans
                     count={available.length - maxItemsToShow}
                     i18nKey="__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_MORE_LABEL"
-                  >
-                    Show{' '}
-                    <Span isBold>
-                      {{
-                        useCases: available.length - maxItemsToShow,
-                      }}
-                    </Span>{' '}
-                    more Use Cases
-                  </Trans>
+                    values={{
+                      useCases: available.length - maxItemsToShow,
+                    }}
+                    components={{
+                      span: <Span isBold />,
+                    }}
+                    default="Show <span>{{useCases}}</span> more Use Cases"
+                  />
                 ) : (
                   t(
                     '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_SHOW_LESS_LABEL'

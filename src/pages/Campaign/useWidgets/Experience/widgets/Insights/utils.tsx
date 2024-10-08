@@ -1,5 +1,5 @@
 import { Ellipsis, Tag } from '@appquality/unguess-design-system';
-import { TFunction } from 'react-i18next';
+import { TFunction } from 'i18next';
 import { ReactComponent as MajorIssueIcon } from 'src/assets/icons/insight-major-issue-icon.svg';
 import { ReactComponent as MinorIssueIcon } from 'src/assets/icons/insight-minor-issue-icon.svg';
 import { ReactComponent as ObservationIcon } from 'src/assets/icons/insight-observation-icon.svg';
@@ -28,9 +28,7 @@ function getSeverityIcon(
 }
 
 function getSeverityTag(
-  severity?: NonNullable<
-    GetCampaignsByCidUxApiResponse['findings']
-  >[number]['severity'],
+  severity?: { name?: string },
   text?: string,
   children?: React.ReactNode
 ) {
@@ -96,11 +94,7 @@ function getClusterTag(
   return null;
 }
 
-function getSeverity(
-  severity: NonNullable<
-    GetCampaignsByCidUxApiResponse['findings']
-  >[number]['severity']
-) {
+function getSeverity(severity: { name?: string }) {
   const severityName = severity.name?.toLowerCase().replaceAll(' ', '-');
   switch (severityName) {
     case 'minor-issue':
@@ -134,9 +128,9 @@ function getClusterName(
 }
 
 export {
-  getSeverityIcon,
-  getSeverityTag,
+  getClusterName,
   getClusterTag,
   getSeverity,
-  getClusterName,
+  getSeverityIcon,
+  getSeverityTag,
 };
