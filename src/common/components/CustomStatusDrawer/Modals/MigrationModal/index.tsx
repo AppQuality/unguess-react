@@ -1,21 +1,28 @@
 import {
   Button,
   Col,
+  Dropdown,
+  DropdownField as Field,
   Grid,
   Modal,
   ModalClose,
+  Notification,
   Paragraph,
   Row,
-  Span,
-  Dropdown,
   Select,
+  Span,
   useToast,
-  Notification,
 } from '@appquality/unguess-design-system';
 import { Label, MediaInput } from '@zendeskgarden/react-forms';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
-import styled from 'styled-components';
+import {
+  BugStateDropdownItem,
+  BugStateDropdownMenu,
+} from 'src/common/components/BugDetail/BugStateDropdown';
 import {
   BugCustomStatus,
   useDeleteCampaignsByCidCustomStatusesMutation,
@@ -23,15 +30,8 @@ import {
   useGetCampaignsByCidCustomStatusesQuery,
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { Field } from '@zendeskgarden/react-dropdowns';
-import {
-  BugStateDropdownItem,
-  BugStateDropdownMenu,
-} from 'src/common/components/BugDetail/BugStateDropdown';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
-import { useAppDispatch } from 'src/app/hooks';
+import styled from 'styled-components';
 import { Circle } from '../../Circle';
 
 const MigrationItemsList = styled.ul`

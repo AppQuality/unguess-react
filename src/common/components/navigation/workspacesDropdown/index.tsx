@@ -2,12 +2,12 @@ import {
   Autocomplete,
   Dropdown,
   Ellipsis,
+  DropdownField as Field,
   HeaderItemText,
   Item,
   ItemContent,
   Menu,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useEffect, useState } from 'react';
 import TagManager from 'react-gtm-module';

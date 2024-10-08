@@ -965,7 +965,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.14.8", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.2", "@babel/runtime@^7.17.8", "@babel/runtime@^7.20.6", "@babel/runtime@^7.21.0", "@babel/runtime@^7.23.2", "@babel/runtime@^7.25.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.15.4", "@babel/runtime@^7.17.2", "@babel/runtime@^7.17.8", "@babel/runtime@^7.20.6", "@babel/runtime@^7.21.0", "@babel/runtime@^7.23.2", "@babel/runtime@^7.25.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.4", "@babel/runtime@^7.8.7", "@babel/runtime@^7.9.2":
   version "7.25.7"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.25.7.tgz#7ffb53c37a8f247c8c4d335e89cdf16a2e0d0fb6"
   integrity sha512-FjoyLe754PMiYsFaN5C94ttGiOmBNYTf6pLr4xXHAT5uctHb092PBszndLDR5XA/jghQvn4n7JMHl7dmTgbm9w==
@@ -2837,14 +2837,6 @@
     lodash.debounce "^4.0.8"
     prop-types "^15.7.2"
 
-"@zendeskgarden/container-selection@^1.3.8":
-  version "1.3.18"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/container-selection/-/container-selection-1.3.18.tgz#de2ac533c8dad2d3eee6b472802013b9e0b04920"
-  integrity sha512-FyDSaoUDKJ4WdmkHzPfFmhLYI0Yk+mqIywmLBpXwzD6AYmDMdtqhFg1N4a5zNmrqVKscyAwNnBsJ+M/3mGdgvw==
-  dependencies:
-    "@babel/runtime" "^7.8.4"
-    "@zendeskgarden/container-utilities" "^0.7.1"
-
 "@zendeskgarden/container-selection@^2.0.6":
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/container-selection/-/container-selection-2.0.6.tgz#7a78edb831f584e84dca87c2a9ee1bbe3f2801d1"
@@ -2896,7 +2888,7 @@
     "@zendeskgarden/container-utilities" "^2.0.2"
     react-uid "^2.2.0"
 
-"@zendeskgarden/container-utilities@^0.7.0", "@zendeskgarden/container-utilities@^0.7.1":
+"@zendeskgarden/container-utilities@^0.7.0":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/container-utilities/-/container-utilities-0.7.1.tgz#de9d02b82e9e29dfa209aac1bfad83ff868aeb9e"
   integrity sha512-L+OOI2FfqlNb1LVDtGFrnxNEwxaM+LrL1dy1r3wKakUZ2ww1FbrcHWjnF07WLHa56l7ufNjLvqahZdpHNHEE6Q==
@@ -3009,20 +3001,6 @@
     prop-types "^15.5.7"
     react-popper "^1.3.4"
 
-"@zendeskgarden/react-dropdowns@8.49.0":
-  version "8.49.0"
-  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-dropdowns/-/react-dropdowns-8.49.0.tgz#de40d79f117a3638ec1133a33eccd900a040eb1c"
-  integrity sha512-R4GaaQ+YlA5m/f91MfTfIBJx1fQSKzBmZZBErHLlOD1sZmLv6hhOaC3wmm1Q7tvo08FWnd39Lm1vzymVioMNTQ==
-  dependencies:
-    "@zendeskgarden/container-selection" "^1.3.8"
-    "@zendeskgarden/container-utilities" "^0.7.0"
-    "@zendeskgarden/react-forms" "^8.49.0"
-    downshift "^6.0.0"
-    polished "^4.0.0"
-    prop-types "^15.5.7"
-    react-merge-refs "^1.1.0"
-    react-popper "^1.3.4"
-
 "@zendeskgarden/react-forms@8.49.0":
   version "8.49.0"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-forms/-/react-forms-8.49.0.tgz#10d8d8f52fd6f66a46016fdbfd315427b357c1bb"
@@ -3035,7 +3013,7 @@
     prop-types "^15.5.7"
     react-merge-refs "^1.1.0"
 
-"@zendeskgarden/react-forms@^8.49.0", "@zendeskgarden/react-forms@^8.76.8":
+"@zendeskgarden/react-forms@^8.76.8":
   version "8.76.8"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-forms/-/react-forms-8.76.8.tgz#0774f21ac02f4a88906764eff65ef77c1720b503"
   integrity sha512-iilF+Uo/AsC3ppPzyQZgvVB8n2mmSct/Td7yo7RdIcVU3qPmo9ygMe6itImWgjgwEvr7FZK2mLcdv5dYU/e4Yw==
@@ -3914,11 +3892,6 @@ commitizen@^4.0.3:
     strip-bom "4.0.0"
     strip-json-comments "3.1.1"
 
-compute-scroll-into-view@^1.0.17:
-  version "1.0.20"
-  resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.20.tgz#1768b5522d1172754f5d0c9b02de3af6be506a43"
-  integrity sha512-UCB0ioiyj8CRjtrvaceBLqqhZCVP+1B8+NWQhmdsm0VXOJtobBCf1dBQmebCCo34qZmUwZfIH2MZLqNHazrfjg==
-
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -4438,17 +4411,6 @@ dotenv@^16.0.3:
   version "16.4.5"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.5.tgz#cdd3b3b604cb327e286b4762e13502f717cb099f"
   integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
-
-downshift@^6.0.0:
-  version "6.1.12"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-6.1.12.tgz#f14476b41a6f6fd080c340bad1ddf449f7143f6f"
-  integrity sha512-7XB/iaSJVS4T8wGFT3WRXmSF1UlBHAA40DshZtkrIscIN+VC+Lh363skLxFTvJwtNgHxAMDGEHT4xsyQFWL+UA==
-  dependencies:
-    "@babel/runtime" "^7.14.8"
-    compute-scroll-into-view "^1.0.17"
-    prop-types "^15.7.2"
-    react-is "^17.0.2"
-    tslib "^2.3.0"
 
 duplexify@^3.6.0:
   version "3.7.1"

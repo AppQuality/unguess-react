@@ -1,16 +1,16 @@
 import {
   Dropdown,
+  DropdownField as Field,
   Item,
   Menu,
   Select,
   Span,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { setGroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import { ReactComponent as Icon } from 'src/assets/icons/layers_icon.svg';
+import { setGroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import { DropdownLabel } from './DropdownLabel';
 
 export const GroupBy = () => {
