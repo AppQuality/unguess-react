@@ -1,10 +1,14 @@
-import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
+import {
+  Dropdown,
+  DropdownField as Field,
+  Item,
+  Select,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { typeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { DropdownItem, DropdownItems, getItemText } from './utils';
 import { UgMenu } from './styledMenu';
+import { DropdownItem, DropdownItems, getItemText } from './utils';
 
 export const CampaignTypeDropdown = ({
   availableTypes,

@@ -1,20 +1,20 @@
 import {
   Button,
   Dropdown,
+  DropdownField as Field,
   Menu,
   Select,
   Span,
 } from '@appquality/unguess-design-system';
-import { styled } from 'styled-components';
-import { ReactComponent as DotsIcon } from 'src/assets/icons/dots-icon.svg';
-import { useTranslation } from 'react-i18next';
-import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { appTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-dropdowns';
-import { useRef } from 'react';
 import { ArrayHelpers, FormikProps } from 'formik';
-import { ColorPicker } from './ColorPicker';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as DotsIcon } from 'src/assets/icons/dots-icon.svg';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
+import { styled } from 'styled-components';
 import { Circle } from './Circle';
+import { ColorPicker } from './ColorPicker';
 import { CustomStatusFormProps } from './formModel';
 
 const DotsButton = styled(DotsIcon)`

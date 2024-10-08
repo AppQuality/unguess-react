@@ -9,7 +9,6 @@ import {
   Tooltip,
   useToast,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -11,7 +11,6 @@
     "@rtk-query/codegen-openapi": "1.2.0",
     "@sentry/react": "^8.32.0",
     "@zendeskgarden/react-datepickers": "8.49.0",
-    "@zendeskgarden/react-dropdowns": "8.49.0",
     "@zendeskgarden/react-forms": "8.49.0",
     "@zendeskgarden/react-tables": "8.62.0",
     "@zendeskgarden/react-theming": "8.76.7",
