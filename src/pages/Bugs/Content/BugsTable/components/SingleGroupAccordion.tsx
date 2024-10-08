@@ -60,11 +60,13 @@ const SingleGroupAccordion = ({
 
   const AccordionPanel = styled(Accordion.Panel)`
     padding: 0;
-    background-color: white;
-    border-radius: ${({ theme }) => theme.borderRadii.lg};
-    border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-    padding-left: ${({ theme }) => theme.space.xxs};
-    padding-right: ${({ theme }) => theme.space.xxs};
+    .bordered-content {
+      background-color: white;
+      border-radius: ${({ theme }) => theme.borderRadii.lg};
+      border: 1px solid ${({ theme }) => theme.palette.grey[300]};
+      padding-left: ${({ theme }) => theme.space.xxs};
+      padding-right: ${({ theme }) => theme.space.xxs};
+    }
   `;
 
   return (
@@ -75,40 +77,44 @@ const SingleGroupAccordion = ({
         </StyledAccordionLabel>
       </StyledAccordionHeader>
       <AccordionPanel>
-        {isMdBreakpoint ? (
-          <BugCards bugs={isPreview ? item.bugs.slice(0, 3) : item.bugs} />
-        ) : (
-          <SingleGroupTable
-            campaignId={campaignId}
-            item={item}
-            isPreview={isPreview}
-          />
-        )}
-        <AccordionFooter>
-          {footer || <div />}
-          {item.bugs.length > 3 && (
-            <Button
-              isBasic
-              size="small"
-              onClick={() => setIsPreview(!isPreview)}
-            >
-              {isPreview ? (
-                <>
-                  <ChevronDownStroke
-                    style={{ marginRight: appTheme.space.xs }}
-                  />
-                  {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
-                  {` (${item.bugs.length})`}
-                </>
-              ) : (
-                <>
-                  <ChevronUpStroke style={{ marginRight: appTheme.space.xs }} />
-                  {t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')}
-                </>
-              )}
-            </Button>
+        <div className="bordered-content">
+          {isMdBreakpoint ? (
+            <BugCards bugs={isPreview ? item.bugs.slice(0, 3) : item.bugs} />
+          ) : (
+            <SingleGroupTable
+              campaignId={campaignId}
+              item={item}
+              isPreview={isPreview}
+            />
           )}
-        </AccordionFooter>
+          <AccordionFooter>
+            {footer || <div />}
+            {item.bugs.length > 3 && (
+              <Button
+                isBasic
+                size="small"
+                onClick={() => setIsPreview(!isPreview)}
+              >
+                {isPreview ? (
+                  <>
+                    <ChevronDownStroke
+                      style={{ marginRight: appTheme.space.xs }}
+                    />
+                    {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
+                    {` (${item.bugs.length})`}
+                  </>
+                ) : (
+                  <>
+                    <ChevronUpStroke
+                      style={{ marginRight: appTheme.space.xs }}
+                    />
+                    {t('__BUGS_PAGE_TABLE_SEE_LESS', 'see less')}
+                  </>
+                )}
+              </Button>
+            )}
+          </AccordionFooter>
+        </div>
       </AccordionPanel>
     </Accordion.Section>
   );
