@@ -1,6 +1,8 @@
 import {
   Col,
+  ContainerCard,
   Dropdown,
+  DropdownField,
   Grid,
   Item,
   Label,
@@ -12,26 +14,24 @@ import {
   Span,
   XL,
   XXL,
-  ContainerCard,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { Field as FormField } from '@zendeskgarden/react-forms';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
+import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { FormikProps } from 'formik';
-import * as Yup from 'yup';
-import styled from 'styled-components';
 import { t } from 'i18next';
-import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
-import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-active.svg';
-import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
-import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
-import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
-import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
+import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
+import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
+import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-active.svg';
+import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
 interface Reasons {
   [key: string]: string;

@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import {
   Dropdown,
+  DropdownField as Field,
   Item,
   Menu,
   Select,
   Span,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
-import { Field } from '@zendeskgarden/react-dropdowns';
-import { setOrder, setOrderBy } from 'src/features/bugsPage/bugsPageSlice';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
+import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
+import { setOrder, setOrderBy } from 'src/features/bugsPage/bugsPageSlice';
 import { DropdownLabel } from './DropdownLabel';
 import ItemGroup from './ItemGroup';
 

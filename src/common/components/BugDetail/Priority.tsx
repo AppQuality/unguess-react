@@ -1,13 +1,15 @@
 import {
   Dropdown,
-  Select,
+  DropdownField as Field,
   Item,
-  Menu,
-  Skeleton,
   MD,
+  Menu,
+  Select,
+  Skeleton,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { DEFAULT_BUG_PRIORITY } from 'src/constants';
 import {
   Bug,
@@ -15,8 +17,6 @@ import {
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
 
 const StyledItem = styled(Item)`

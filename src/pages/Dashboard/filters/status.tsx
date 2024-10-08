@@ -1,14 +1,18 @@
-import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
+import {
+  Dropdown,
+  DropdownField as Field,
+  Item,
+  Select,
+} from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.svg';
-import { Field } from '@zendeskgarden/react-dropdowns';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { statusFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { CampaignStatus } from 'src/features/campaigns';
-import { DropdownItem, DropdownItems, getItemText } from './utils';
+import { statusFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import styled from 'styled-components';
 import { UgMenu } from './styledMenu';
+import { DropdownItem, DropdownItems, getItemText } from './utils';
 
 const Circle = styled(CircleFill)`
   width: auto;

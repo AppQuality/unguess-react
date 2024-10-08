@@ -1,16 +1,16 @@
 import {
   Dropdown,
-  Select,
-  Menu,
+  DropdownField as Field,
   Item,
+  Menu,
+  Select,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
 import {
   getCurrentCampaignData,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'src/app/hooks';
 import { useFilterData } from '../Drawer/useFilterData';
 
 export const UniqueFilter = () => {

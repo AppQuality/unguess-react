@@ -1,19 +1,20 @@
+import react from '@vitejs/plugin-react';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { readFileSync, existsSync } from 'node:fs';
 import {
-  defineConfig,
-  loadEnv,
   Plugin,
   createFilter,
+  defineConfig,
+  loadEnv,
   transformWithEsbuild,
 } from 'vite';
-import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   setEnv(mode);
   return {
+    optimizeDeps: { exclude: ['@appquality/unguess-design-system'] },
     plugins: [
       react(),
       tsconfigPaths(),
