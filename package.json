@@ -123,7 +123,8 @@
   },
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "@babel/core": "7.16.0"
   },
   "lint-staged": {
     "*.{tsx,ts,js,css,md}": "prettier --write"
