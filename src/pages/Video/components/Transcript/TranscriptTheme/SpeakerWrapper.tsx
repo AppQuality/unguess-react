@@ -20,14 +20,18 @@ const SpeakerWrapper = ({
   end,
   setCurrentTime,
   speaker,
+  totalSpeakers,
 }: {
   start: number;
   end: number;
   setCurrentTime?: (time: { start: number; end: number }) => void;
   speaker: number;
+  totalSpeakers: number | null;
 }) => (
   <Wrapper>
-    <SM isBold>Speaker {speaker + 1}</SM>
+    {totalSpeakers && totalSpeakers > 1 ? (
+      <SM isBold>Speaker {speaker + 1}</SM>
+    ) : null}
     <Button
       isBasic
       size="small"

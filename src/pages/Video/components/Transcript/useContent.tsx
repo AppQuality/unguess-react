@@ -22,8 +22,11 @@ export const useContent = (videoId: string) => {
     [video]
   );
 
+  const speakers = useMemo(() => video?.transcript?.speakers || null, [video]);
+
   return {
     data: content,
+    speakers,
     isError: isErrorVideo,
     isFetching: isFetchingVideo,
     isLoading: isLoadingVideo,

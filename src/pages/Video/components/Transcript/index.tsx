@@ -60,7 +60,7 @@ export const Transcript = ({
 
   const handleAddObservation = useAddObservation({ videoId: videoId || '' });
 
-  const { data: content } = useContent(videoId || '');
+  const { data: content, speakers } = useContent(videoId || '');
 
   const { data: observations } = useObservations(videoId || '');
 
@@ -82,6 +82,8 @@ export const Transcript = ({
       translations: translation?.sentences,
       themeExtension: TranscriptTheme,
       observations,
+      // @ts-ignore
+      numberOfSpeakers: speakers,
     },
     [observations, translation?.sentences]
   );
