@@ -1,11 +1,11 @@
 import {
   Notification,
-  useVideoContext as usePlayerContext,
   PlayerProvider,
   Skeleton,
+  useVideoContext as usePlayerContext,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -18,7 +18,6 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
 import { useVideoContext } from '../context/VideoContext';
 import { EmptyTranscript } from './EmptyTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
@@ -172,7 +171,9 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
     [observations]
   );
 
-  const handleBookmarksUpdate = useCallback(async (bookmark: IBookmark) => {
+  const handleBookmarksUpdateFunction: ComponentProps<
+    typeof PlayerProvider.Core
+  >['handleBookmarkUpdate'] = async (bookmark) => {
     await patchObservation({
       vid: videoId || '',
       oid: bookmark.id.toString(),
@@ -183,7 +184,9 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         tags: bookmark.tags?.map((item: any) => item.tag.id),
       },
     }).unwrap();
-  }, []);
+  };
+
+  const handleBookmarksUpdate = useCallback(handleBookmarksUpdateFunction, []);
 
   if (!observations || isErrorObservations) return null;
 
