@@ -1,6 +1,4 @@
 import {
-  Anchor,
-  Span,
   Table,
   TableHead,
   HeaderRow,
@@ -8,14 +6,13 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  theme,
   Tooltip,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
-import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { getStatusInfo } from 'src/common/components/utils/getStatusInfo';
 import { CampaignStatus } from 'src/types';
+import { ProjectAnchor } from './ProjectAnchor';
 
 export const TableList = ({
   campaigns,
@@ -46,21 +43,12 @@ export const TableList = ({
       <TableBody>
         {campaigns.map((cp) => {
           const statusInfo = getStatusInfo(cp.status.name as CampaignStatus, t);
-          const cpUrl = getLocalizeDashboardRoute({
-            campaignId: cp.id,
-            cpFamily: cp.family.name,
-            outputs: cp.outputs || [],
-          });
           const cpStartDate = new Date(cp.start_date).toLocaleDateString();
 
           return (
             <TableRow key={cp.id}>
               <TableCell>
-                <Anchor href={cpUrl}>
-                  <Span isBold style={{ color: theme.palette.grey[800] }}>
-                    {cp.customer_title ?? cp.title}
-                  </Span>
-                </Anchor>
+                <ProjectAnchor campaign={cp} />
               </TableCell>
               <TableCell>{cp.family.name}</TableCell>
               <TableCell>{cp.type.name}</TableCell>
