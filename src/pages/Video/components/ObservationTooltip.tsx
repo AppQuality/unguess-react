@@ -60,7 +60,7 @@ export const ObservationTooltip = ({
       }}
       isSelecting={isSelecting}
     >
-      <TagIcon width={16} />
+      <TagIcon />
       {label}
     </StyledTag>
   );
