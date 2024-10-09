@@ -57,7 +57,7 @@
     "validate": "run-p lint type:check format:check",
     "prepare": "husky install",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org appquality-srl --project unguess-react ./build && sentry-cli sourcemaps upload --org appquality-srl --project unguess-react ./build",
-    "dev": "vite"
+    "dev": "vite --mode development"
   },
   "browserslist": {
     "production": [
