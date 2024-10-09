@@ -33,6 +33,7 @@ const StyledTag = styled(Tag)<{
   }
 
   > svg {
+    width: 16px;
     min-width: 0;
     margin-right: ${({ theme }) => theme.space.xxs};
   }
@@ -40,18 +41,14 @@ const StyledTag = styled(Tag)<{
 
 export const ObservationTooltip = ({
   observationId,
-  start,
   color,
   label,
   isSelecting,
-  seekPlayer,
 }: {
   observationId: number;
-  start: number;
   color?: string;
   label?: string;
   isSelecting?: boolean;
-  seekPlayer?: (time: number) => void;
 }) => {
   const { setOpenAccordion } = useVideoContext();
   return (
@@ -60,7 +57,6 @@ export const ObservationTooltip = ({
       color={color}
       onClick={() => {
         setOpenAccordion({ id: observationId });
-        seekPlayer?.(start);
       }}
       isSelecting={isSelecting}
     >

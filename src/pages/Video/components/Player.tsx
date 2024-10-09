@@ -1,16 +1,16 @@
 import {
   Notification,
-  useVideoContext as usePlayerContext,
   PlayerProvider,
   Skeleton,
+  useVideoContext as usePlayerContext,
   useToast,
 } from '@appquality/unguess-design-system';
+import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
-  GetVideosByVidApiResponse,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
   usePatchVideosByVidObservationsAndOidMutation,
@@ -18,14 +18,13 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
 import { useVideoContext } from '../context/VideoContext';
-import { EmptyTranscript } from './EmptyTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
 import { Transcript } from './Transcript';
+import { ToolsContextProvider } from './tools/context/ToolsContext';
 
 const PlayerContainer = styled.div<{
-  isFetching: boolean;
+  isFetching?: boolean;
 }>`
   width: 100%;
   height: 55vh;
@@ -46,7 +45,7 @@ const PlayerContainer = styled.div<{
   }
 `;
 
-const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
+const CorePlayer = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -66,10 +65,12 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
 
   const {
     data: observations,
-    isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
     isError: isErrorObservations,
   } = useGetVideosByVidObservationsQuery({
+    vid: videoId || '',
+  });
+  const { data: video, isFetching: isFetchingVideo } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
 
@@ -153,14 +154,12 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         tooltipContent: (
           <ObservationTooltip
             observationId={obs.id}
-            start={obs.start}
             color={
               obs.tags.find(
                 (tag) => tag.group.name.toLowerCase() === 'severity'
               )?.tag.style || appTheme.palette.grey[600]
             }
             label={obs.title}
-            seekPlayer={seekPlayer}
           />
         ),
         onClick: () => {
@@ -185,12 +184,12 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
     }).unwrap();
   }, []);
 
-  if (!observations || isErrorObservations) return null;
+  if (!observations || isErrorObservations || !video) return null;
 
   if (isLoadingObservations) return <Skeleton />;
   return (
-    <>
-      <PlayerContainer isFetching={isFetchingObservations}>
+    <ToolsContextProvider>
+      <PlayerContainer isFetching={isFetchingVideo}>
         <PlayerProvider.Core
           ref={videoRef}
           pipMode="auto"
@@ -205,16 +204,12 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
           }}
         />
       </PlayerContainer>
-      {video.transcript ? (
-        <Transcript
-          currentTime={currentTime}
-          isSearchable
-          setCurrentTime={seekPlayer}
-        />
-      ) : (
-        <EmptyTranscript />
-      )}
-    </>
+      <Transcript
+        currentTime={currentTime}
+        setCurrentTime={seekPlayer}
+        videoId={videoId}
+      />
+    </ToolsContextProvider>
   );
 };
 
@@ -244,7 +239,7 @@ const VideoPlayer = () => {
 
   return (
     <PlayerProvider url={video.streamUrl ?? video.url}>
-      <CorePlayer video={video} />
+      <CorePlayer />
     </PlayerProvider>
   );
 };
