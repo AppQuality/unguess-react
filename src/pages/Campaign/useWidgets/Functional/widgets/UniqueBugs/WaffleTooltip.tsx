@@ -7,6 +7,9 @@ const WaffleTooltipContainer = styled.div<{ width: string }>`
   ${(props) => retrieveComponentStyles('text.primary', props)};
   width: ${({ width }) => width};
   text-align: center;
+  background: white;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 2px;
 `;
 
 const WaffleTooltip = ({
