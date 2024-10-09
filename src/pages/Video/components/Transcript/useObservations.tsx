@@ -12,13 +12,13 @@ export const useObservations = (videoId: string) => {
     vid: videoId,
   });
 
+  function isHexColor(color: string): color is `#${string}` {
+    return /^#[0-9A-F]{6}$/i.test(color);
+  }
+
   const observationList = useMemo(
     () =>
       observations?.map((o) => {
-        function isHexColor(color: string): color is `#${string}` {
-          return /^#[0-9A-F]{6}$/i.test(color);
-        }
-
         const defaultColor = appTheme.palette.grey[600] as `#${string}`;
 
         const color =
