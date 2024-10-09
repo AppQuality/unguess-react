@@ -4,7 +4,7 @@ import { formatDuration } from 'src/pages/Videos/utils/formatDuration';
 import { styled } from 'styled-components';
 
 const Wrapper = styled.div`
-  margin-bottom: ${({ theme }) => theme.space.xxs};
+  padding: ${({ theme }) => theme.space.xs} 0;
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.space.xs};
