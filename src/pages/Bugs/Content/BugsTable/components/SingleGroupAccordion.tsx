@@ -61,11 +61,13 @@ const SingleGroupAccordion = ({
   const AccordionPanel = styled(Accordion.Panel)`
     padding: 0;
     .bordered-content {
-      background-color: white;
-      border-radius: ${({ theme }) => theme.borderRadii.lg};
-      border: 1px solid ${({ theme }) => theme.palette.grey[300]};
-      padding-left: ${({ theme }) => theme.space.xxs};
-      padding-right: ${({ theme }) => theme.space.xxs};
+      @media (min-width: ${appTheme.breakpoints.md}) {
+        background-color: white;
+        border-radius: ${({ theme }) => theme.borderRadii.lg};
+        border: 1px solid ${({ theme }) => theme.palette.grey[300]};
+        padding-left: ${({ theme }) => theme.space.xxs};
+        padding-right: ${({ theme }) => theme.space.xxs};
+      }
     }
   `;
 
