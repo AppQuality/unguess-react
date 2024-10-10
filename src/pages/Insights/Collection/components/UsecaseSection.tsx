@@ -54,6 +54,10 @@ export const UsecaseSection = ({
     [ungrouped, memoizedGrapes]
   );
 
+  if (memoizedGrapes.length === 0 && ungrouped.length === 0) {
+    return null;
+  }
+
   return (
     <StyledSection>
       <UsecaseTitle style={{ margin: `${appTheme.space.xs} 0` }}>
