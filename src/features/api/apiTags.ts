@@ -205,6 +205,12 @@ unguessApi.enhanceEndpoints({
     deleteInsightsByIid: {
       invalidatesTags: ['Insights'],
     },
+    postVideosByVidTranslation: {
+      invalidatesTags: ['Translation'],
+    },
+    getVideosByVidTranslation: {
+      providesTags: ['Translation'],
+    },
   },
 });
 

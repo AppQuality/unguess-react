@@ -33,6 +33,7 @@ export const apiSlice = createApi({
     'Observations',
     'Insights',
     'Clusters',
+    'Translation',
   ],
   endpoints: () => ({}),
 });
