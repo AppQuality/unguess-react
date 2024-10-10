@@ -20,6 +20,7 @@ const ObservationWrapper = ({
   color: string;
   children: React.ReactNode;
   observations: {
+    start: number;
     id: number;
     title: string;
     color: string;
@@ -44,6 +45,7 @@ const ObservationWrapper = ({
             {observations.map((o) => (
               <div>
                 <ObservationTooltip
+                  start={o.start}
                   observationId={o.id}
                   color={o.color}
                   label={o.title}

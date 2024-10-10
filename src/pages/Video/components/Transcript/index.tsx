@@ -51,7 +51,7 @@ export const Transcript = ({
 }: {
   videoId?: string;
   currentTime: number;
-  setCurrentTime: (time: number, forcePlay: boolean) => void;
+  setCurrentTime: (time: number) => void;
 }) => {
   const { language } = useToolsContext();
 
@@ -77,7 +77,7 @@ export const Transcript = ({
   const editor = TranscriptComponent.useEditor(
     {
       currentTime: currentTime * 1000,
-      onSetCurrentTime: (time) => setCurrentTime(time, false),
+      onSetCurrentTime: (time) => setCurrentTime(time),
       content,
       translations: translation?.sentences,
       themeExtension: TranscriptTheme,

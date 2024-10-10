@@ -128,16 +128,15 @@ const CorePlayer = () => {
 
   const seekPlayer = useCallback(
     (time: number, forcePlay?: boolean) => {
-      if (videoRef && videoRef.current) {
-        videoRef.current.currentTime = time;
+      if (!context.player?.ref?.current) return;
 
-        if (forcePlay) {
-          setIsPlaying(true);
-          videoRef.current.play();
-        }
+      context.player.ref.current.currentTime = time;
+      if (forcePlay) {
+        context.player.ref.current.play();
+        setIsPlaying(true);
       }
     },
-    [videoRef]
+    [context, context.player?.ref?.current]
   );
 
   const mappedObservations = useMemo(
@@ -153,6 +152,7 @@ const CorePlayer = () => {
         label: obs.title,
         tooltipContent: (
           <ObservationTooltip
+            start={obs.start}
             observationId={obs.id}
             color={
               obs.tags.find(
@@ -206,7 +206,9 @@ const CorePlayer = () => {
       </PlayerContainer>
       <Transcript
         currentTime={currentTime}
-        setCurrentTime={seekPlayer}
+        setCurrentTime={(time) => {
+          seekPlayer(time, false);
+        }}
         videoId={videoId}
       />
     </ToolsContextProvider>
