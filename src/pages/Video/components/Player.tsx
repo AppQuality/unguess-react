@@ -126,18 +126,15 @@ const CorePlayer = () => {
     [start]
   );
 
-  const seekPlayer = useCallback(
-    (time: number, forcePlay?: boolean) => {
-      if (!context.player?.ref?.current) return;
+  const seekPlayer = (time: number, forcePlay?: boolean) => {
+    if (!videoRef?.current) return;
 
-      context.player.ref.current.currentTime = time;
-      if (forcePlay) {
-        context.player.ref.current.play();
-        setIsPlaying(true);
-      }
-    },
-    [context, context.player?.ref?.current]
-  );
+    videoRef.current.currentTime = time;
+    if (forcePlay) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
 
   const mappedObservations = useMemo(
     () =>
