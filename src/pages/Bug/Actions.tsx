@@ -9,7 +9,7 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
+import ChangeStatusDropdown from 'src/common/components/BugDetail/BugStateSelect/ChangeStatusDropdown';
 import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
@@ -205,7 +205,11 @@ export const Actions = () => {
       ) : (
         <>
           <GridWrapper>
-            <BugStateDropdown bug={bug} />
+            <ChangeStatusDropdown
+              currentStatusId={bug.custom_status.id}
+              campaignId={cid}
+              bugId={bid}
+            />
             <BugPriority bug={bug} />
           </GridWrapper>
           <BugTags bug={bug} refetchBugTags={refetch} />
