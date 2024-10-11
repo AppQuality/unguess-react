@@ -26,6 +26,7 @@ export const GroupBy = () => {
     <SelectNew
       style={{ minWidth: '140px' }}
       inputValue={groupBy}
+      selectionValue={groupBy}
       renderValue={({ inputValue }) => (
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <Icon />
