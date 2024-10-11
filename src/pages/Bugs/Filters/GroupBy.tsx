@@ -1,25 +1,13 @@
-import {
-  Dropdown,
-  DropdownField as Field,
-  Item,
-  Menu,
-  Select,
-  Span,
-} from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { SelectNew } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { ReactComponent as Icon } from 'src/assets/icons/layers_icon.svg';
 import { setGroupBy } from 'src/features/bugsPage/bugsPageSlice';
-import { DropdownLabel } from './DropdownLabel';
 
 export const GroupBy = () => {
   const groupBy = useAppSelector((state) => state.bugsPage.groupBy);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  const groupByOptions: Array<typeof groupBy> = ['usecase', 'bugState'];
-  const [label, setLabel] = useState<string>(groupByOptions[0]);
 
   const getTranslatedLabel = (view: string) => {
     switch (view) {
@@ -35,51 +23,43 @@ export const GroupBy = () => {
   };
 
   return (
-    <Dropdown
-      selectedItem={groupBy}
+    <SelectNew
+      style={{ minWidth: '140px' }}
+      inputValue={groupBy}
+      renderValue={({ inputValue }) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Icon />
+          {getTranslatedLabel(inputValue || '')}
+        </div>
+      )}
       onSelect={(item) => {
-        setLabel(item);
-        dispatch(setGroupBy(item));
+        function isAGroupByOption(s: string): s is typeof groupBy {
+          return ['usecase', 'bugState', 'ungrouped'].includes(s);
+        }
+
+        if (isAGroupByOption(item)) {
+          dispatch(setGroupBy(item));
+        }
       }}
+      isCompact
+      isPrimary
     >
-      <Field className="dropdown-group-by">
-        <Select isCompact isPrimary>
-          <DropdownLabel>
-            <Icon />
-            <Span>{getTranslatedLabel(label)}</Span>
-          </DropdownLabel>
-        </Select>
-      </Field>
-      <Menu>
-        <Dropdown.HeaderItem>
-          {t('__BUGS_GROUP_BY_OPEN_MENU')}:
-        </Dropdown.HeaderItem>
-
-        <Dropdown.Separator />
-
-        <Item
-          key="bugState"
+      <SelectNew.OptionGroup label={`${t('__BUGS_GROUP_BY_OPEN_MENU')}:`}>
+        <SelectNew.Option
           value="bugState"
-          className="dropdown-group-by-item-status"
-        >
-          {t('__BUGS_GROUP_BY_STATE_ITEM')}
-        </Item>
-        <Item
-          key="usecase"
+          label={t('__BUGS_GROUP_BY_STATE_ITEM')}
+        />
+        <SelectNew.Option
           value="usecase"
-          className="dropdown-group-by-item-usecase"
-        >
-          {t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
-        </Item>
-        <Dropdown.Separator />
-        <Item
-          key="ungrouped"
+          label={t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
+        />
+      </SelectNew.OptionGroup>
+      <SelectNew.OptionGroup>
+        <SelectNew.Option
           value="ungrouped"
-          className="dropdown-group-by-item-ungroup"
-        >
-          {getTranslatedLabel('ungrouped')}
-        </Item>
-      </Menu>
-    </Dropdown>
+          label={getTranslatedLabel('ungrouped')}
+        />
+      </SelectNew.OptionGroup>
+    </SelectNew>
   );
 };
