@@ -134,7 +134,10 @@ export const mapBugsToTableData = (bugs: TableBugType[]) => {
             )}
             <Pipe size="small" />
             <Tag isRegular={!isPillBold} hue="rgba(0,0,0,0)">
-              <Circle color={`#${bug.custom_status.color}`} />
+              <Circle
+                color={`#${bug.custom_status.color}`}
+                style={{ marginRight: appTheme.space.xs }}
+              />
               <Span
                 style={{ textTransform: 'capitalize', fontWeight: 'normal' }}
               >
