@@ -1,15 +1,12 @@
 import {
   Button,
   Col,
-  Dropdown,
-  DropdownField as Field,
   Grid,
   Modal,
   ModalClose,
   Notification,
   Paragraph,
   Row,
-  Select,
   Span,
   useToast,
 } from '@appquality/unguess-design-system';
@@ -20,10 +17,6 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
 import {
-  BugStateDropdownItem,
-  BugStateDropdownMenu,
-} from 'src/common/components/BugDetail/BugStateDropdown';
-import {
   BugCustomStatus,
   useDeleteCampaignsByCidCustomStatusesMutation,
   useGetCampaignsByCidBugsQuery,
@@ -33,6 +26,7 @@ import {
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
 import { Circle } from '../../Circle';
+import { MigrateStatusDropdown } from './MigrateStatusDropdown';
 
 const MigrationItemsList = styled.ul`
   margin-top: ${({ theme }) => theme.space.lg};
@@ -272,47 +266,21 @@ export const MigrationModal = ({
                       <ArrowRight width={28} />
                     </StyledCol>
                     <StyledCol>
-                      <Dropdown
-                        selectedItem={cpCustomStatuses.find(
-                          (c) =>
-                            c.id ===
-                            (selectedItems.find(
-                              (i) => i.custom_status_id === cs.id
-                            )?.to_custom_status_id ?? 1)
-                        )}
-                        downshiftProps={{
-                          itemToString: (item: BugCustomStatus) => item,
-                        }}
-                        onSelect={(item: BugCustomStatus) => {
+                      <MigrateStatusDropdown
+                        statusToMigrate={cs.id}
+                        campaignId={campaignId || ''}
+                        onChange={(toCustomStatusId) => {
                           setSelectedItems([
                             ...selectedItems.filter(
                               (i) => i.custom_status_id !== cs.id
                             ),
                             {
                               custom_status_id: cs.id,
-                              to_custom_status_id: item.id,
+                              to_custom_status_id: toCustomStatusId,
                             },
                           ]);
                         }}
-                      >
-                        <Field className="bug-dropdown-custom-status">
-                          <Select isCompact>
-                            <BugStateDropdownItem
-                              customStatus={cpCustomStatuses.find(
-                                (c) =>
-                                  c.id ===
-                                  (selectedItems.find(
-                                    (i) => i.custom_status_id === cs.id
-                                  )?.to_custom_status_id ?? 1)
-                              )}
-                            />
-                          </Select>
-                        </Field>
-                        <BugStateDropdownMenu
-                          isEditable={false}
-                          customStatusesByPhase={customStatusesByPhase ?? []}
-                        />
-                      </Dropdown>
+                      />
                     </StyledCol>
                   </Row>
                 </Grid>
