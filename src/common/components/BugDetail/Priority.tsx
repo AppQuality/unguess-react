@@ -1,10 +1,7 @@
 import {
-  Dropdown,
-  DropdownField as Field,
   Item,
   MD,
-  Menu,
-  Select,
+  SelectNew,
   Skeleton,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
@@ -100,43 +97,41 @@ const Priority = ({ bug }: { bug: Bug }) => {
           style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
-        <Dropdown
-          selectedItem={selectedItem}
-          onSelect={async (item: DropdownItem) => {
+        <SelectNew
+          renderValue={(value) => {
+            const selectedStatus = options.find(
+              (s) => s.id === Number(value.inputValue)
+            );
+            return (
+              <SelectedItem>
+                {selectedStatus?.icon} {selectedStatus?.text}
+              </SelectedItem>
+            );
+          }}
+          isCompact
+          inputValue={selectedItem.id.toString()}
+          selectionValue={selectedItem.id.toString()}
+          onSelect={async (value) => {
             await patchBug({
               cid: bug.campaign_id.toString(),
               bid: bug.id.toString(),
               body: {
-                priority_id: item.id,
+                priority_id: Number(value),
               },
             });
-
-            setSelectedItem(item);
-          }}
-          downshiftProps={{
-            itemToString: (item: DropdownItem) => item && item.slug,
           }}
         >
-          <Field className="bug-dropdown-custom-priority">
-            <Select isCompact>
-              <SelectedItem>
-                {selectedItem.icon} {selectedItem.text}
-              </SelectedItem>
-            </Select>
-          </Field>
-          <Menu>
-            {options &&
-              options.map((item) => (
-                <StyledItem
-                  key={item.slug}
-                  value={item}
-                  className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
-                >
-                  {item.icon} {item.text}
-                </StyledItem>
-              ))}
-          </Menu>
-        </Dropdown>
+          {options &&
+            options.map((item) => (
+              <SelectNew.Option
+                key={item.slug}
+                value={item.id.toString()}
+                label={item.text}
+                icon={<>{item.icon}</>}
+                className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
+              />
+            ))}
+        </SelectNew>
       )}
     </div>
   );
