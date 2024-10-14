@@ -2,6 +2,8 @@ import {
   Button,
   Col,
   Grid,
+  Label,
+  MediaInput,
   Modal,
   ModalClose,
   Notification,
@@ -10,7 +12,6 @@ import {
   Span,
   useToast,
 } from '@appquality/unguess-design-system';
-import { Label, MediaInput } from '@zendeskgarden/react-forms';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';

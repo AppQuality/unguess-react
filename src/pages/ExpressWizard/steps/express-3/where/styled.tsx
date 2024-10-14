@@ -1,5 +1,8 @@
-import { Row, Span } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-forms';
+import {
+  FormField as Field,
+  Row,
+  Span,
+} from '@appquality/unguess-design-system';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 

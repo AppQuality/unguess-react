@@ -1,18 +1,18 @@
 import {
   Accordion,
+  FormField as Field,
   MD,
   Radio,
   TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
-import { UniqueFilterType } from 'src/features/bugsPage/uniqueFilter';
 import { appTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-forms';
-import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
+import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { UniqueFilterType } from 'src/features/bugsPage/uniqueFilter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 import { useFilterData } from './useFilterData';
-import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
 
 export const UniqueField = ({
   unique,

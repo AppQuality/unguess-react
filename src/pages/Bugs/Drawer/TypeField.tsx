@@ -1,6 +1,7 @@
 import {
   Accordion,
   Checkbox,
+  FormField as Field,
   MD,
   Span,
   TextDescription,
@@ -9,13 +10,12 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-forms';
-import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
+import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { TypeFilterType } from 'src/features/bugsPage/typeFilter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
 
 export const TypeField = ({
   types,

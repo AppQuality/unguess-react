@@ -1,6 +1,7 @@
 import {
   Col,
   ContainerCard,
+  FormField,
   Grid,
   Paragraph,
   RadioCard,
@@ -10,7 +11,6 @@ import {
   XL,
   XXL,
 } from '@appquality/unguess-design-system';
-import { Field as FormField } from '@zendeskgarden/react-forms';
 import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { FormikProps } from 'formik';
 import { t } from 'i18next';
