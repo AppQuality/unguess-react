@@ -210,6 +210,46 @@ unguessApi.enhanceEndpoints({
     },
     getVideosByVidTranslation: {
       providesTags: ['Translation'],
+      async onCacheEntryAdded(
+        vid,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
+      ) {
+        let intervalId: ReturnType<typeof setInterval> | null = null;
+        try {
+          await cacheDataLoaded;
+
+          intervalId = setInterval(async () => {
+            const result = await dispatch(
+              unguessApi.endpoints.getVideosByVidTranslation.initiate(vid, {
+                subscriptionOptions: {
+                  pollingInterval: 5000,
+                },
+              })
+            );
+
+            if (result.data) {
+              console.log('Entra?');
+              updateCachedData((draft) => {
+                Object.assign(draft, result.data);
+              });
+
+              if (!result.data.processing && intervalId) {
+                console.log('Forse Entra?', result.data);
+                clearInterval(intervalId);
+              }
+            } else if (intervalId) {
+              console.log('Clear?');
+              clearInterval(intervalId);
+            }
+          }, 5000);
+        } catch (error) {
+          console.error('Polling error:', error);
+        }
+        await cacheEntryRemoved;
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+      },
     },
   },
 });
