@@ -16,7 +16,7 @@ export const TestTypeDropdown = ({
 
   const items: DropdownItems = {
     0: {
-      label: t('__DASHABOAR D_CAMPAIGN_TEST_NAME_FILTER_ALL'),
+      label: t('__DASHABOARD_CAMPAIGN_TEST_NAME_FILTER_ALL'),
       value: 'all',
     },
   };
