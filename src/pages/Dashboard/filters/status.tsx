@@ -1,9 +1,4 @@
-import {
-  Dropdown,
-  DropdownField as Field,
-  Item,
-  Select,
-} from '@appquality/unguess-design-system';
+import { SelectNew } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -11,20 +6,13 @@ import { ReactComponent as CircleFill } from 'src/assets/icons/circle-full-fill.
 import { CampaignStatus } from 'src/features/campaigns';
 import { statusFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import styled from 'styled-components';
-import { UgMenu } from './styledMenu';
-import { DropdownItem, DropdownItems, getItemText } from './utils';
+import { DropdownItems, getItemText } from './utils';
 
 const Circle = styled(CircleFill)`
   width: auto;
   height: 100%;
   max-height: 10px;
   margin: 0 2px;
-`;
-
-const StyledItem = styled(Item)`
-  svg {
-    margin-right: ${({ theme }) => theme.space.xs};
-  }
 `;
 
 export const StatusDropdown = ({
@@ -59,42 +47,30 @@ export const StatusDropdown = ({
     },
   };
 
-  const onSelectItem = (item: DropdownItem) => {
-    dispatch(statusFilterChanged(item.value));
-  };
-
   return (
-    <Dropdown
-      selectedItem={items[`${status}`]}
-      onSelect={onSelectItem}
-      downshiftProps={{
-        itemToString: (item: DropdownItem) => item && item.value,
+    <SelectNew
+      isPrimary={items[`${status}`].value === 'all'}
+      renderValue={() =>
+        getItemText(
+          items[`${status}`],
+          t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_LABEL Max:10')
+        )
+      }
+      inputValue={items[`${status}`].value}
+      selectionValue={items[`${status}`].value}
+      onSelect={async (item) => {
+        dispatch(statusFilterChanged(item));
       }}
     >
-      <Field>
-        <Select
-          {...(items[`${status}`].value !== 'all' && { isPrimary: true })}
-        >
-          {getItemText(
-            items[`${status}`],
-            t('__DASHABOARD_CAMPAIGN_STATUS_FILTER_LABEL Max:10')
-          )}
-        </Select>
-      </Field>
-      <UgMenu hasArrow>
-        {Object.keys(items).map((key) => (
-          <StyledItem
-            key={items[`${key}`].value}
-            value={items[`${key}`]}
-            {...(availableStatuses.indexOf(items[`${key}`].value) === -1 && {
-              disabled: true,
-            })}
-          >
-            {items[`${key}`].icon ?? ''}
-            {` ${items[`${key}`].label}`}
-          </StyledItem>
-        ))}
-      </UgMenu>
-    </Dropdown>
+      {Object.keys(items).map((key) => (
+        <SelectNew.Option
+          key={items[`${key}`].value}
+          value={items[`${key}`].value}
+          isDisabled={availableStatuses.indexOf(items[`${key}`].value) === -1}
+          label={items[`${key}`].label}
+          icon={items[`${key}`].icon}
+        />
+      ))}
+    </SelectNew>
   );
 };
