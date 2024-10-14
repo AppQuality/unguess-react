@@ -1,10 +1,4 @@
-import {
-  Dropdown,
-  DropdownField as Field,
-  Item,
-  Menu,
-  Select,
-} from '@appquality/unguess-design-system';
+import { SelectNew } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import {
@@ -29,9 +23,17 @@ export const UniqueFilter = () => {
     return null;
 
   return (
-    <Dropdown
-      selectedItem={data.unique.selected ?? 'all'}
-      onSelect={(item) => {
+    <SelectNew
+      isCompact
+      isPrimary={data.unique.selected === 'unique'}
+      inputValue={data.unique.selected ? data.unique.selected : 'all'}
+      selectionValue={data.unique.selected ? data.unique.selected : 'all'}
+      renderValue={() =>
+        data.unique.selected === 'unique'
+          ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
+          : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')
+      }
+      onSelect={async (item) => {
         dispatch(
           updateFilters({
             filters: {
@@ -41,28 +43,16 @@ export const UniqueFilter = () => {
         );
       }}
     >
-      <Field className="dropdown-unique-bugs">
-        <Select isCompact isPrimary={data.unique.selected === 'unique'}>
-          {data.unique.selected === 'unique'
-            ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
-            : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
-        </Select>
-      </Field>
-      <Menu>
-        {data.unique.available.map((item) => (
-          <Item
-            className={`dropdown-unique-bugs-item-${
-              item === 'unique' ? 'unique' : 'all'
-            }`}
-            value={item}
-            disabled={!counters[item as string]}
-          >
-            {item === 'unique'
+      {data.unique.available.map((item) => (
+        <SelectNew.Option
+          value={item}
+          label={
+            item === 'unique'
               ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
-              : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')}
-          </Item>
-        ))}
-      </Menu>
-    </Dropdown>
+              : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')
+          }
+        />
+      ))}
+    </SelectNew>
   );
 };
