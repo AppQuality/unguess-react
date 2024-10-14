@@ -1,36 +1,36 @@
 import {
-  Label,
-  Span,
-  MediaInput,
-  Paragraph,
-  Toggle,
-  LG,
-  Editor,
   Button,
   Col,
-  Row,
+  Editor,
+  FormField,
   InputToggle,
+  LG,
+  Label,
+  MediaInput,
+  Paragraph,
+  Row,
+  Span,
+  Toggle,
 } from '@appquality/unguess-design-system';
-import { Field as FormField } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
-import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
-import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
-import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
+import i18n from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
-import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
+import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { AnimatedContainer } from 'src/common/components/animatedContainer';
 import { Divider } from 'src/common/components/divider';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
-import { UseCaseTemplate } from 'src/features/api/api';
-import { useAppSelector } from 'src/app/hooks';
 import { getLocalizedStrapiData } from 'src/common/utils';
-import { appTheme } from 'src/app/theme';
+import { UseCaseTemplate } from 'src/features/api/api';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
-import i18n from 'i18next';
+import { UseCase, emptyUseCase } from 'src/pages/ExpressWizard/fields/how';
+import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
-import { AnimatedContainer } from 'src/common/components/animatedContainer';
+import styled from 'styled-components';
 import { TemplateDropdown } from './templateDropdown';
 
 const StyledFormField = styled.div`
