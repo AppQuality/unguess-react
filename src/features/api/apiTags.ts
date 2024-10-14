@@ -215,40 +215,49 @@ unguessApi.enhanceEndpoints({
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
       ) {
         let intervalId: ReturnType<typeof setInterval> | null = null;
+        const POLLING_INTERVAL = 5000;
         try {
-          await cacheDataLoaded;
+          const promise = dispatch(
+            unguessApi.endpoints.getVideosByVidTranslation.initiate(vid)
+          );
 
           intervalId = setInterval(async () => {
-            const result = await dispatch(
-              unguessApi.endpoints.getVideosByVidTranslation.initiate(vid, {
-                subscriptionOptions: {
-                  pollingInterval: 5000,
-                },
-              })
-            );
+            const { data: results, isError } = await promise.refetch();
 
-            if (result.data) {
-              console.log('Entra?');
+            if (isError) {
+              console.error('Polling error:', results);
+              if (intervalId) {
+                clearInterval(intervalId);
+                promise.unsubscribe();
+              }
+            }
+
+            if (results) {
+              console.log('Entra?', results);
               updateCachedData((draft) => {
-                Object.assign(draft, result.data);
+                Object.assign(draft, results);
               });
 
-              if (!result.data.processing && intervalId) {
-                console.log('Forse Entra?', result.data);
+              if (!results.processing && intervalId) {
+                console.log('Forse Entra?', results, intervalId);
                 clearInterval(intervalId);
+                promise.unsubscribe();
               }
-            } else if (intervalId) {
-              console.log('Clear?');
-              clearInterval(intervalId);
+
+              console.log('data end', results);
+            } else {
+              console.log('No data', results);
+
+              if (intervalId) {
+                clearInterval(intervalId);
+                console.log('no data and intervalId', intervalId);
+              }
             }
-          }, 5000);
+          }, POLLING_INTERVAL);
         } catch (error) {
           console.error('Polling error:', error);
         }
         await cacheEntryRemoved;
-        if (intervalId) {
-          clearInterval(intervalId);
-        }
       },
     },
   },
