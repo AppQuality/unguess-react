@@ -1,16 +1,11 @@
 import {
   Col,
   ContainerCard,
-  Dropdown,
-  DropdownField,
   Grid,
-  Item,
-  Label,
-  Menu,
   Paragraph,
   RadioCard,
   Row,
-  Select,
+  SelectNew,
   Span,
   XL,
   XXL,
@@ -142,36 +137,29 @@ export const WhatStep = ({
         </Grid>
       </StyledFormField>
       <StyledFormField>
-        <Dropdown
-          {...props.getFieldProps('campaign_reason')}
-          {...(errors.campaign_reason && { validation: 'error' })}
-          onSelect={(item) => {
-            props.setFieldValue('campaign_reason', item);
-            setSelectedItem(item);
-          }}
-          selectedItem={selectedItem}
-        >
-          <DropdownField style={{ marginTop: appTheme.space.lg }}>
-            <Label>
-              {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
-            </Label>
-            <Select start={<FlagIcon />}>
-              {selectedItem && reasonItems[`${selectedItem}`]}
-            </Select>
-            {errors.campaign_reason && (
-              <HelpTextMessage validation="error">
-                {errors.campaign_reason}
-              </HelpTextMessage>
-            )}
-          </DropdownField>
-          <Menu>
+        <div style={{ marginTop: appTheme.space.lg }}>
+          <SelectNew
+            {...props.getFieldProps('campaign_reason')}
+            {...(errors.campaign_reason && { validation: 'error' })}
+            onSelect={async (item) => {
+              props.setFieldValue('campaign_reason', item);
+              setSelectedItem(item);
+            }}
+            inputValue={selectedItem}
+            selectionValue={selectedItem}
+            startIcon={<FlagIcon />}
+            renderValue={() => reasonItems[`${selectedItem}`]}
+            label={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
+          >
             {Object.keys(reasonItems).map((key) => (
-              <Item key={key} value={key}>
-                {reasonItems[`${key}`]}
-              </Item>
+              <SelectNew.Option
+                key={key}
+                value={key}
+                label={reasonItems[`${key}`]}
+              />
             ))}
-          </Menu>
-        </Dropdown>
+          </SelectNew>
+        </div>
       </StyledFormField>
     </ContainerCard>
   );
