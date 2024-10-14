@@ -1,13 +1,17 @@
-import { Skeleton, MultiSelect, MD } from '@appquality/unguess-design-system';
+import {
+  MD,
+  MultiSelectNew,
+  Skeleton,
+} from '@appquality/unguess-design-system';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import {
   Bug,
   BugTag,
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
-import { appTheme } from 'src/app/theme';
-import { useEffect, useState } from 'react';
 
 export default ({
   bug,
@@ -81,7 +85,7 @@ export default ({
           className="max-width-6-sm bug-preview-search-tags"
           style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}
         >
-          <MultiSelect
+          <MultiSelectNew
             options={options}
             selectedItems={options.filter((o) => o.selected)}
             creatable
