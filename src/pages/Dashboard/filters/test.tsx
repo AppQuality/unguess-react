@@ -32,7 +32,7 @@ export const TestTypeDropdown = ({
 
   return (
     <SelectNew
-      isPrimary={items[testNameId as number].value === 'all'}
+      isPrimary={items[testNameId as number].value !== 'all'}
       renderValue={() =>
         getItemText(
           items[testNameId as number],

@@ -49,7 +49,7 @@ export const StatusDropdown = ({
 
   return (
     <SelectNew
-      isPrimary={items[`${status}`].value === 'all'}
+      isPrimary={items[`${status}`].value !== 'all'}
       renderValue={() =>
         getItemText(
           items[`${status}`],
