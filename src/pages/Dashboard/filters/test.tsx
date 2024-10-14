@@ -1,15 +1,9 @@
-import {
-  Dropdown,
-  DropdownField as Field,
-  Item,
-  Select,
-} from '@appquality/unguess-design-system';
+import { SelectNew } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { TestName } from 'src/features/campaigns';
 import { testTypeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { UgMenu } from './styledMenu';
-import { DropdownItem, DropdownItems, getItemText } from './utils';
+import { DropdownItems, getItemText } from './utils';
 
 export const TestTypeDropdown = ({
   availableTests,
@@ -22,15 +16,9 @@ export const TestTypeDropdown = ({
 
   const items: DropdownItems = {
     0: {
-      label: t('__DASHABOARD_CAMPAIGN_TEST_NAME_FILTER_ALL'),
+      label: t('__DASHABOAR D_CAMPAIGN_TEST_NAME_FILTER_ALL'),
       value: 'all',
     },
-  };
-
-  const onSelectItem = (item: DropdownItem) => {
-    dispatch(
-      testTypeFilterChanged(item.value === 'all' ? 0 : Number(item.value))
-    );
   };
 
   if (availableTests.length) {
@@ -43,33 +31,27 @@ export const TestTypeDropdown = ({
   }
 
   return (
-    <Dropdown
-      selectedItem={items[testNameId as number]}
-      onSelect={onSelectItem}
-      downshiftProps={{
-        itemToString: (item: DropdownItem) => item && item.value,
+    <SelectNew
+      isPrimary={items[testNameId as number].value === 'all'}
+      renderValue={() =>
+        getItemText(
+          items[testNameId as number],
+          t('__DASHABOARD_CAMPAIGN_TEST_NAME_LABEL Max:10')
+        )
+      }
+      inputValue={items[testNameId as number].value}
+      selectionValue={items[testNameId as number].value}
+      onSelect={async (item) => {
+        dispatch(testTypeFilterChanged(item === 'all' ? 0 : Number(item)));
       }}
     >
-      <Field>
-        <Select
-          {...(items[testNameId as number].value !== 'all' && {
-            isPrimary: true,
-          })}
-        >
-          {getItemText(
-            items[testNameId as number],
-            t('__DASHABOARD_CAMPAIGN_TEST_NAME_LABEL Max:10')
-          )}
-        </Select>
-      </Field>
-      <UgMenu hasArrow>
-        {Object.keys(items).map((key) => (
-          <Item key={items[`${key}`].value} value={items[`${key}`]}>
-            {items[`${key}`].icon ?? ''}
-            {` ${items[`${key}`].label}`}
-          </Item>
-        ))}
-      </UgMenu>
-    </Dropdown>
+      {Object.keys(items).map((key) => (
+        <SelectNew.Option
+          key={items[`${key}`].value}
+          value={items[`${key}`].value}
+          label={items[`${key}`].label}
+        />
+      ))}
+    </SelectNew>
   );
 };
