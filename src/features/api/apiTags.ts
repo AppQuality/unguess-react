@@ -233,7 +233,6 @@ unguessApi.enhanceEndpoints({
             }
 
             if (results) {
-              console.log('Entra?', results);
               updateCachedData((draft) => {
                 Object.assign(draft, results);
               });
@@ -243,14 +242,9 @@ unguessApi.enhanceEndpoints({
                 clearInterval(intervalId);
                 promise.unsubscribe();
               }
-
-              console.log('data end', results);
             } else {
-              console.log('No data', results);
-
               if (intervalId) {
                 clearInterval(intervalId);
-                console.log('no data and intervalId', intervalId);
               }
             }
           }, POLLING_INTERVAL);
