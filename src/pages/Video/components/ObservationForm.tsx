@@ -3,7 +3,7 @@ import {
   FormField,
   Label,
   Message,
-  MultiSelect,
+  MultiSelectNew,
   Notification,
   Radio,
   SM,
@@ -361,7 +361,7 @@ const ObservationForm = ({
                 {isLoading ? (
                   <Skeleton />
                 ) : (
-                  <MultiSelect
+                  <MultiSelectNew
                     options={options}
                     selectedItems={options.filter((o) => o.selected)}
                     creatable
