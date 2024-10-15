@@ -16,10 +16,10 @@ import {
   Span,
   Spinner,
   Toggle,
+  DropdownField as ZendeskDropdownField,
+  FormField as ZendeskFormField,
   useToast,
 } from '@appquality/unguess-design-system';
-import { Field as ZendeskDropdownField } from '@zendeskgarden/react-dropdowns';
-import { Field as ZendeskFormField } from '@zendeskgarden/react-forms';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
