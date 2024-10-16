@@ -43,7 +43,7 @@ export const Tools = () => {
         ...(language && { lang: language }),
       },
       {
-        skip: !hasAIFeatureFlag || !preferredLanguage,
+        skip: !hasAIFeatureFlag || !language || !preferredLanguage,
       }
     );
 
