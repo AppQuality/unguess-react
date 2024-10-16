@@ -1,5 +1,4 @@
 import { createContext, useContext, useMemo, useState } from 'react';
-import { usePreferredLanguage } from '../usePreferredLanguage';
 
 interface ToolsContextType {
   isOpen: boolean;
@@ -16,8 +15,7 @@ export const ToolsContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const preferredLanguage = usePreferredLanguage();
-  const [language, setLanguage] = useState<string>(preferredLanguage || '');
+  const [language, setLanguage] = useState<string>('');
 
   const toolsContextValue = useMemo(
     () => ({
