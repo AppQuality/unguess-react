@@ -52,8 +52,6 @@ export const Tools = () => {
   });
 
   if (!hasAIFeatureFlag || isLoadingTranslation) return null;
-
-  // A preferred language is set and it's different from the video language and it's not already translated
   const canTranslate =
     !!preferredLanguage &&
     video &&
@@ -65,11 +63,10 @@ export const Tools = () => {
     <div>
       <Button
         isBasic
-        disabled={isLoadingRequestTranslation}
+        disabled={translation?.processing === 1 || isLoadingRequestTranslation}
         onClick={() => {
           if (canTranslate) {
             if (!preferredLanguage) return;
-
             requestTranslation({
               vid: videoId || '',
               body: {
@@ -118,7 +115,7 @@ export const Tools = () => {
         <Button.StartIcon>
           <TranslateIcon />
         </Button.StartIcon>
-        {canTranslate && preferredLanguage ? (
+        {canTranslate && preferredLanguage && !translation?.processing ? (
           <Span>
             {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
             {getLanguageNameByFullTag(preferredLanguage)}
@@ -141,7 +138,7 @@ export const Tools = () => {
           {...(translation && { currentLanguage: translation.language })}
         />
       )}
-      {!!canTranslate && (
+      {!!canTranslate && !translation?.processing && (
         <IconButton
           onClick={() => {
             setIsOpen(!isOpen);
