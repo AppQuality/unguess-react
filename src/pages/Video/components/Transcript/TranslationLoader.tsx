@@ -3,9 +3,15 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useGetVideosByVidTranslationQuery } from 'src/features/api';
+import styled from 'styled-components';
 import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useToolsContext } from '../tools/context/ToolsContext';
 import { usePreferredLanguage } from '../tools/usePreferredLanguage';
+
+const LoaderWrapper = styled.div`
+  margin-top: ${appTheme.space.xs};
+  margin-bottom: ${appTheme.space.sm};
+`;
 
 export const TranslationLoader = () => {
   const { videoId } = useParams();
@@ -26,11 +32,11 @@ export const TranslationLoader = () => {
   if (!data?.processing) return null;
 
   return (
-    <div>
+    <LoaderWrapper>
       <SM
         isBold
         color={appTheme.palette.grey[700]}
-        style={{ marginBottom: appTheme.space.md }}
+        style={{ marginBottom: appTheme.space.sm }}
       >
         Translation in progress....
       </SM>
@@ -42,6 +48,6 @@ export const TranslationLoader = () => {
           borderRadius: appTheme.borderRadii.lg,
         }}
       />
-    </div>
+    </LoaderWrapper>
   );
 };

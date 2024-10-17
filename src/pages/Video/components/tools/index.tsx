@@ -140,6 +140,7 @@ export const Tools = () => {
       )}
       {!!canTranslate && !translation?.processing && (
         <IconButton
+          style={{ marginLeft: appTheme.space.sm }}
           onClick={() => {
             setIsOpen(!isOpen);
           }}
