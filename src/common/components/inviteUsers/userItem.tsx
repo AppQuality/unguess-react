@@ -40,7 +40,6 @@ export const UserItem = ({
   showRemoveConfirm?: boolean;
 }) => {
   const { t } = useTranslation();
-  const [rotated, setRotated] = useState<boolean>();
   const { userData } = useAppSelector((state) => state.user);
   const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
 

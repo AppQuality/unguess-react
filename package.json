@@ -2,13 +2,11 @@
   "name": "unguess-react",
   "version": "1.4.0",
   "private": true,
-  "type": "module",
   "dependencies": {
     "@appquality/unguess-design-system": "3.1.115",
     "@appquality/languages": "1.4.3",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
-    "@rtk-query/codegen-openapi": "1.2.0",
     "@sentry/react": "^8.32.0",
     "@zendeskgarden/react-datepickers": "8.49.0",
     "@zendeskgarden/react-tables": "8.62.0",
@@ -37,11 +35,8 @@
   },
   "scripts": {
     "start": "vite",
-    "start:ssl": "craco --openssl-legacy-provider start",
     "build": "vite build",
-    "test": "react-scripts test",
     "test:e2e:ui": "npx playwright test --headed",
-    "test:watch": "react-scripts test --watch",
     "test:e2e": "npx playwright test",
     "recover": "yarn install --check-files",
     "translate": "i18next 'src/**/*.{js,jsx,ts,tsx}' ",
@@ -72,13 +67,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "7.16.0",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@babel/plugin-transform-logical-assignment-operators": "^7.24.7",
-    "@babel/plugin-transform-nullish-coalescing-operator": "^7.24.7",
-    "@babel/plugin-transform-optional-chaining": "^7.24.8",
-    "@babel/preset-env": "7.16.0",
-    "@craco/craco": "6.4.2",
+    "@rtk-query/codegen-openapi": "1.2.0",
     "@currents/playwright": "^1.5.6",
     "@playwright/test": "^1.46.0",
     "@sentry/cli": "^2.23.0",
@@ -93,10 +82,10 @@
     "@types/react-scroll": "^1.8.10",
     "@types/react-transition-group": "^4.4.5",
     "@types/uuid": "^10.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
     "cz-conventional-changelog": "3.3.0",
-    "eslint": "^7.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.1.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",
@@ -113,7 +102,6 @@
     "openapi-typescript": "^5.1.0",
     "playwright-i18next-fixture": "^1.0.0",
     "prettier": "^2.6.2",
-    "ts-node": "^10.9.1",
     "@svgr/core": "^8.1.0",
     "@svgr/plugin-jsx": "^8.1.0",
     "@vitejs/plugin-react": "^4.3.1",
@@ -127,8 +115,7 @@
   },
   "resolutions": {
     "//": "See https://github.com/facebook/create-react-app/issues/11773",
-    "react-error-overlay": "6.0.9",
-    "@babel/core": "7.16.0"
+    "react-error-overlay": "6.0.9"
   },
   "lint-staged": {
     "*.{tsx,ts,js,css,md}": "prettier --write"

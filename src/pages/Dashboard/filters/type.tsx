@@ -4,11 +4,7 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { typeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { DropdownItems, getItemText } from './utils';
 
-export const CampaignTypeDropdown = ({
-  availableTypes,
-}: {
-  availableTypes: string[];
-}) => {
+export const CampaignTypeDropdown = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { type } = useAppSelector((state) => state.filters);

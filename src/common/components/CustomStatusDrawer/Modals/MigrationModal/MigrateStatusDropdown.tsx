@@ -32,13 +32,11 @@ const MigrateStatusDropdown = ({
     ?.statuses.find(() => true);
 
   return (
-    <>
-      <BugStateSelect
-        currentStatusId={firstStatus?.id}
-        phases={filteredStatuses}
-        onChange={onChange}
-      />
-    </>
+    <BugStateSelect
+      currentStatusId={firstStatus?.id}
+      phases={filteredStatuses}
+      onChange={onChange}
+    />
   );
 };
 
