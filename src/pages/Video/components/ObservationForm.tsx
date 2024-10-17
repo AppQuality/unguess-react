@@ -1,22 +1,23 @@
-import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import { styled } from 'styled-components';
-import { appTheme } from 'src/app/theme';
 import {
   Button,
+  FormField,
   Label,
   Message,
   MultiSelect,
-  Skeleton,
-  Textarea,
-  useToast,
   Notification,
   Radio,
-  Tag,
   SM,
+  Skeleton,
+  Tag,
+  Textarea,
+  useToast,
 } from '@appquality/unguess-design-system';
+import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { getColorWithAlpha } from 'src/common/utils';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   GetVideosByVidObservationsApiResponse,
@@ -25,9 +26,8 @@ import {
   usePatchVideosByVidObservationsAndOidMutation,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
-import { Field as FormField } from '@zendeskgarden/react-forms';
-import { useEffect, useRef, useState } from 'react';
-import { getColorWithAlpha } from 'src/common/utils';
+import { styled } from 'styled-components';
+import * as Yup from 'yup';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
 import { ObservationFormValues, TitleDropdown } from './TitleDropdown';
 

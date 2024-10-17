@@ -1,5 +1,6 @@
 import {
   ContainerCard,
+  FormField as Field,
   Label,
   Message,
   Paragraph,
@@ -8,19 +9,18 @@ import {
   Span,
   XL,
   XXL,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-forms';
+import { addBusinessDays } from 'date-fns';
 import { FormikProps } from 'formik';
-import styled from 'styled-components';
-import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
-import { addBusinessDays } from 'date-fns';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;

@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Dropdown,
+  DropdownField as Field,
   Item,
   MediaBody,
   MediaFigure,
@@ -8,19 +9,18 @@ import {
   Separator,
   Span,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
+import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
-import useDebounce from 'src/hooks/useDebounce';
-import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
+import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
-import { useParams } from 'react-router-dom';
-import { FormikProps } from 'formik';
-import { appTheme } from 'src/app/theme';
-import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
+import useDebounce from 'src/hooks/useDebounce';
 
 export interface ObservationFormValues {
   title: number;

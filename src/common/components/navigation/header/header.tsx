@@ -1,16 +1,16 @@
 import {
-  Header as UgHeader,
   HeaderItem,
+  Header as UgHeader,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
 import { WorkspacesDropdown } from '../workspacesDropdown';
+import { PermissionItem } from '../workspacesDropdown/PermissionItem';
 import { MobileToggle } from './MobileToggle';
 import { BrandLogo } from './brandLogo';
 import { Changelog } from './changelog';
 import { ProfileAvatar } from './profileAvatar';
-import { PermissionItem } from '../workspacesDropdown/PermissionItem';
 
 const DropdownItem = styled(HeaderItem)`
   margin-right: auto;

@@ -1,28 +1,26 @@
 import {
   ChatProvider,
   LG,
+  Notification,
   Skeleton,
   useToast,
-  Notification,
 } from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
+import ChangeStatusDropdown from 'src/common/components/BugDetail/BugStateSelect/ChangeStatusDropdown';
 import BugPriority from 'src/common/components/BugDetail/Priority';
 import BugTags from 'src/common/components/BugDetail/Tags';
 import { Divider } from 'src/common/components/divider';
 import {
   PostCampaignsByCidBugsAndBidMediaApiResponse,
+  useDeleteMediaCommentByMcidMutation,
   useGetCampaignsByCidBugsAndBidQuery,
   usePostCampaignsByCidBugsAndBidCommentsMutation,
   usePostCampaignsByCidBugsAndBidMediaMutation,
-  useDeleteMediaCommentByMcidMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
-import { Data } from '@appquality/unguess-design-system/build/stories/chat/context/chatContext';
-import { CommentMedia } from '@appquality/unguess-design-system/build/stories/chat/_types';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
 
@@ -103,40 +101,42 @@ export const Actions = () => {
     media: string | string[];
   }
 
-  const handleMediaUpload = (files: (File & CommentMedia)[]) =>
-    new Promise<Data>((resolve, reject) => {
-      let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
-      files.forEach(async (f) => {
-        const formData: MyFormData = new FormData() as MyFormData;
-        // normalize filename
-        const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
-        formData.append('media', f, filename);
-        try {
-          data = await uploadMedia({
-            cid,
-            bid,
-            body: formData,
-          }).unwrap();
-          if (
-            data &&
-            'uploaded_ids' in data &&
-            typeof data.uploaded_ids !== 'undefined' &&
-            typeof data.uploaded_ids !== 'string'
-          ) {
-            const newIds = data.uploaded_ids.map((uploaded) => ({
-              id: uploaded.id,
-              internal_id: f.id,
-            }));
-            setMediaIds((prev) => [...prev, ...newIds]);
+  const handleMediaUpload = (files: (File & { id: string })[]) =>
+    new Promise<PostCampaignsByCidBugsAndBidMediaApiResponse>(
+      (resolve, reject) => {
+        let data: PostCampaignsByCidBugsAndBidMediaApiResponse = {};
+        files.forEach(async (f) => {
+          const formData: MyFormData = new FormData() as MyFormData;
+          // normalize filename
+          const filename = f.name.normalize('NFD').replace(/\s+/g, '-');
+          formData.append('media', f, filename);
+          try {
+            data = await uploadMedia({
+              cid,
+              bid,
+              body: formData,
+            }).unwrap();
+            if (
+              data &&
+              'uploaded_ids' in data &&
+              typeof data.uploaded_ids !== 'undefined' &&
+              typeof data.uploaded_ids !== 'string'
+            ) {
+              const newIds = data.uploaded_ids.map((uploaded) => ({
+                id: uploaded.id,
+                internal_id: f.id,
+              }));
+              setMediaIds((prev) => [...prev, ...newIds]);
+            }
+            resolve(data);
+          } catch (e) {
+            // eslint-disable-next-line no-console
+            console.error('Error upload failed: ', e);
+            reject(data);
           }
-          resolve(data);
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.error('Error upload failed: ', e);
-          reject(data);
-        }
-      });
-    });
+        });
+      }
+    );
 
   // return data;
 
@@ -205,7 +205,11 @@ export const Actions = () => {
       ) : (
         <>
           <GridWrapper>
-            <BugStateDropdown bug={bug} />
+            <ChangeStatusDropdown
+              currentStatusId={bug.custom_status.id}
+              campaignId={cid}
+              bugId={bid}
+            />
             <BugPriority bug={bug} />
           </GridWrapper>
           <BugTags bug={bug} refetchBugTags={refetch} />

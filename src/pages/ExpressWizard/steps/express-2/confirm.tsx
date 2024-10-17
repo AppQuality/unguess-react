@@ -1,29 +1,29 @@
-import * as Yup from 'yup';
-import { FormikProps } from 'formik';
-import { t } from 'i18next';
 import {
+  ContainerCard,
+  Grid,
   Label,
   Paragraph,
-  Span,
-  XXL,
-  Grid,
   Row,
-  ContainerCard,
+  Span,
+  Textarea,
+  XXL,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { FormikProps } from 'formik';
+import { t } from 'i18next';
+import { useEffect } from 'react';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as NotAllowedIcon } from 'src/assets/icons/not-allowed-icon.svg';
-import { Textarea } from '@zendeskgarden/react-forms';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-import { appTheme } from 'src/app/theme';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { useEffect } from 'react';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
+import * as Yup from 'yup';
+import { HowConfirm } from './confirm/howConfirm';
+import { WhatConfirm } from './confirm/whatConfirm';
 import { WhereConfirm } from './confirm/whereConfirm';
 import { WhoConfirm } from './confirm/whoConfirm';
-import { WhatConfirm } from './confirm/whatConfirm';
-import { HowConfirm } from './confirm/howConfirm';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;

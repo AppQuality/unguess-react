@@ -1,27 +1,27 @@
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { closeUseCaseModal } from 'src/features/express/expressSlice';
 import {
-  Col,
-  Grid,
-  ModalFullScreen,
-  Row,
-  ContainerCard,
   Button,
+  Col,
+  ContainerCard,
+  Grid,
   LG,
+  ModalFullScreen,
   Paragraph,
+  Row,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
-import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FieldArray, FormikProps } from 'formik';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
+import { ReactComponent as EmptyImg } from 'src/assets/modal-use-case-empty.svg';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { closeUseCaseModal } from 'src/features/express/expressSlice';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
-import { ScrollingContainer, ModalUseCaseHelp } from './modalUseCaseHelp';
+import { ModalUseCaseHelp, ScrollingContainer } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
 import { UseCaseDetails } from './useCaseDetails';
 

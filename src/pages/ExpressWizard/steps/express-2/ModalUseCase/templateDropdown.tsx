@@ -1,27 +1,27 @@
 import {
-  Label,
-  Span,
+  Autocomplete,
   Dropdown,
-  Menu,
+  DropdownField,
   Item,
   ItemContent,
-  Autocomplete,
-  Skeleton,
-  Separator,
-  MediaFigure,
+  Label,
   MediaBody,
+  MediaFigure,
+  Menu,
+  Separator,
+  Skeleton,
+  Span,
 } from '@appquality/unguess-design-system';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
-import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
-import { useGetTemplatesQuery } from 'src/features/api';
-import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
-import { UseCaseTemplate } from 'src/features/api/api';
-import i18n from 'src/i18n';
-import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useState } from 'react';
-import useDebounce from 'src/hooks/useDebounce';
-import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
+import { ReactComponent as AddIcon } from 'src/assets/icons/grid-add.svg';
+import { useGetTemplatesQuery } from 'src/features/api';
+import { UseCaseTemplate } from 'src/features/api/api';
+import useDebounce from 'src/hooks/useDebounce';
+import i18n from 'src/i18n';
+import styled from 'styled-components';
 
 const StyledItem = styled(Item)`
   padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.lg};

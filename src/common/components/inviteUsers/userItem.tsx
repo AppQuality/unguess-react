@@ -1,23 +1,18 @@
 import {
   Avatar,
-  Span,
-  Trigger,
-  Menu,
-  Button,
-  Dropdown,
-  Item,
+  ButtonMenu,
   Ellipsis,
-  SM,
   MD,
+  SM,
+  Span,
   getColor,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as ChevronIcon } from 'src/assets/icons/chevron-down-stroke.svg';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import { GetWorkspacesByWidUsersApiResponse } from 'src/features/api';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useAppSelector } from 'src/app/hooks';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 import { getInitials } from '../navigation/header/utils';
 import RemoveConfirmModal from './modals/RemoveConfirmModal';
 
@@ -45,7 +40,6 @@ export const UserItem = ({
   showRemoveConfirm?: boolean;
 }) => {
   const { t } = useTranslation();
-  const [rotated, setRotated] = useState<boolean>();
   const { userData } = useAppSelector((state) => state.user);
   const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
 
@@ -88,47 +82,43 @@ export const UserItem = ({
         {onResendInvite && onRemoveUser ? (
           <div style={{ marginLeft: 'auto' }}>
             {!isMe && (
-              <Dropdown
-                onStateChange={(options) =>
-                  Object.hasOwn(options, 'isOpen') && setRotated(options.isOpen)
+              <ButtonMenu
+                label={
+                  user.invitationPending
+                    ? t('__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL')
+                    : t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
                 }
-              >
-                <Trigger>
-                  <Button isBasic aria-label="user management actions">
-                    {user.invitationPending ? (
-                      <Span hue={appTheme.palette.orange[600]}>
-                        {t(
-                          '__WORKSPACE_SETTINGS_MEMBER_INVITATION_PENDING_LABEL'
-                        )}
-                      </Span>
-                    ) : (
-                      t('__WORKSPACE_SETTINGS_MEMBER_ACTIONS_LABEL')
-                    )}
-                    <Button.EndIcon isRotated={rotated}>
-                      <ChevronIcon />
-                    </Button.EndIcon>
-                  </Button>
-                </Trigger>
-                <Menu placement="bottom-end">
-                  {user.invitationPending && (
-                    <Item value="invite" onClick={onResendInvite}>
-                      {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
-                    </Item>
-                  )}
-                  <Item
-                    value="remove"
-                    onClick={
-                      showRemoveConfirm
-                        ? handleRemoveUser
-                        : () => onRemoveUser()
+                buttonProps={{
+                  style: user.invitationPending
+                    ? { color: appTheme.palette.orange[600] }
+                    : {},
+                }}
+                onSelect={(value) => {
+                  if (value === 'invite') {
+                    onResendInvite();
+                    return;
+                  }
+
+                  if (value === 'remove') {
+                    if (showRemoveConfirm) {
+                      handleRemoveUser();
+                    } else {
+                      onRemoveUser();
                     }
-                  >
-                    <Span hue={appTheme.components.text.dangerColor}>
-                      {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
-                    </Span>
-                  </Item>
-                </Menu>
-              </Dropdown>
+                  }
+                }}
+              >
+                {user.invitationPending && (
+                  <ButtonMenu.Item value="invite" onClick={onResendInvite}>
+                    {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
+                  </ButtonMenu.Item>
+                )}
+                <ButtonMenu.Item value="remove">
+                  <Span hue={appTheme.components.text.dangerColor}>
+                    {t('__WORKSPACE_SETTINGS_MEMBER_REMOVE_USER_ACTION')}
+                  </Span>
+                </ButtonMenu.Item>
+              </ButtonMenu>
             )}
           </div>
         ) : (

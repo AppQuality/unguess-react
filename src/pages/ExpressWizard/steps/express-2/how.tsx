@@ -8,29 +8,29 @@ import {
   Textarea,
   XL,
   XXL,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import styled from 'styled-components';
-import * as Yup from 'yup';
-import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
-import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
-import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
-import { ReactComponent as SuccessIcon } from 'src/assets/icons/success-icon.svg';
-import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
-import { openUseCaseModal } from 'src/features/express/expressSlice';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as RightArrow } from 'src/assets/icons/chevron-right-icon.svg';
+import { ReactComponent as ErrorIcon } from 'src/assets/icons/error-icon.svg';
+import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
+import { ReactComponent as SuccessIcon } from 'src/assets/icons/success-icon.svg';
+import { ReactComponent as WarningIcon } from 'src/assets/icons/warning-icon.svg';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
-import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
 import { getLocalizedStrapiData } from 'src/common/utils';
 import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
-import { appTheme } from 'src/app/theme';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
+import { openUseCaseModal } from 'src/features/express/expressSlice';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
-import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { UseCase, emptyUseCase } from 'src/pages/ExpressWizard/fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 import { ModalUseCase } from './ModalUseCase/modalUseCase';
 import { HowLoading } from './howLoading';
 
