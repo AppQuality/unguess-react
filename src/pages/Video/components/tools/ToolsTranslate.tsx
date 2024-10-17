@@ -4,19 +4,14 @@ import {
 } from '@appquality/languages';
 import {
   Button,
-  Dropdown,
-  Item,
   Label,
   MD,
-  Menu,
   Modal,
   ModalClose,
   Notification,
-  Select,
-  Span,
+  SelectNew,
   Spinner,
   Toggle,
-  DropdownField as ZendeskDropdownField,
   FormField as ZendeskFormField,
   useToast,
 } from '@appquality/unguess-design-system';
@@ -99,38 +94,21 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
         <MD style={{ marginBottom: appTheme.space.sm }}>
           {t('__TOOLS_TRANSLATE_DESCRIPTION')}
         </MD>
-        <Label>{t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}</Label>
         <div style={{ margin: `${appTheme.space.xs} 0` }}>
-          <Dropdown
-            selectedItem={internalLanguage}
-            onSelect={(item: string) => {
-              if (item) {
-                const l = filteredLanguages.find((lang) => lang === item);
-                if (l) {
-                  setInternalLanguage(l);
-                }
-              }
-            }}
+          <SelectNew
+            label={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
+            startIcon={<TranslateIcon />}
+            placeholder={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
           >
-            <ZendeskDropdownField>
-              <Select start={<TranslateIcon />}>
-                {internalLanguage ? (
-                  <Span>{getLanguageNameByFullTag(internalLanguage)}</Span>
-                ) : (
-                  <Span style={{ opacity: 0.5 }}>
-                    {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
-                  </Span>
-                )}
-              </Select>
-            </ZendeskDropdownField>
-            <Menu style={{ maxHeight: 250 }}>
-              {filteredLanguages.map((lang) => (
-                <Item key={`language-${lang}-option`} value={lang}>
-                  {getLanguageNameByFullTag(lang)}
-                </Item>
-              ))}
-            </Menu>
-          </Dropdown>
+            {filteredLanguages.map((lang) => (
+              <SelectNew.Option
+                key={`language-${lang}-option`}
+                value={lang}
+                label={getLanguageNameByFullTag(lang) || ''}
+                isSelected={internalLanguage === lang}
+              />
+            ))}
+          </SelectNew>
         </div>
         <ZendeskFormField>
           <Toggle
