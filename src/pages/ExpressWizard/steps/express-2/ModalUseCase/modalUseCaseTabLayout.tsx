@@ -1,17 +1,21 @@
-import { Card, Span, getColor } from '@appquality/unguess-design-system';
+import {
+  Card,
+  Span,
+  getColor,
+  retrieveComponentStyles,
+} from '@appquality/unguess-design-system';
 import { FieldArray, FormikProps } from 'formik';
+import i18n from 'i18next';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
-import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
+import { ReactComponent as AddIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import { getLocalizedStrapiData } from 'src/common/utils';
+import { EXPRESS_USE_CASES_LIMIT } from 'src/constants';
 import { useGeti18nExpressTypesByIdQuery } from 'src/features/backoffice/strapi';
-import i18n from 'i18next';
+import { UseCase, emptyUseCase } from 'src/pages/ExpressWizard/fields/how';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { emptyUseCase, UseCase } from 'src/pages/ExpressWizard/fields/how';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;

@@ -1,15 +1,15 @@
 // TODO: Structure the menu in this components instead of using the children
 
-import styled from 'styled-components';
-import { Divider } from 'src/common/components/divider';
-import { Link } from 'react-scroll';
 import {
   Anchor,
   ContainerCard,
   MD,
   Skeleton,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { Link } from 'react-scroll';
+import { Divider } from 'src/common/components/divider';
+import styled from 'styled-components';
 
 export const StickyNavContainer = styled(ContainerCard)`
   position: sticky;

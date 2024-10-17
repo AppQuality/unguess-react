@@ -13,8 +13,8 @@ import {
   Span,
   XL,
   XXL,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { FormikProps } from 'formik';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';

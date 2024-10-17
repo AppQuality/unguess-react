@@ -2,8 +2,8 @@ import {
   FormField as Field,
   Row,
   Span,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import styled from 'styled-components';
 
 export const StyledRow = styled(Row)`

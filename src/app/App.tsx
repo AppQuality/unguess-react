@@ -1,11 +1,14 @@
-import '../i18n';
-import { GlobalStyle, ToastProvider } from '@appquality/unguess-design-system';
-import { ThemeProvider } from '@zendeskgarden/react-theming';
-import { useTranslation } from 'react-i18next';
+import {
+  GlobalStyle,
+  ThemeProvider,
+  ToastProvider,
+} from '@appquality/unguess-design-system';
 import Helmet from 'react-helmet';
-import Pages from 'src/common/Pages';
-import { appTheme } from 'src/app/theme';
+import { useTranslation } from 'react-i18next';
 import { Provider } from 'react-redux';
+import { appTheme } from 'src/app/theme';
+import Pages from 'src/common/Pages';
+import '../i18n';
 import { store } from './store';
 
 const App = () => {

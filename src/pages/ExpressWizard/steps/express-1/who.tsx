@@ -9,8 +9,8 @@ import {
   Span,
   XL,
   XXL,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { addBusinessDays } from 'date-fns';
 import { FormikProps } from 'formik';
 import { t } from 'i18next';

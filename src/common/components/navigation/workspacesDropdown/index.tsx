@@ -7,8 +7,8 @@ import {
   Item,
   ItemContent,
   Menu,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useEffect, useState } from 'react';
 import TagManager from 'react-gtm-module';
 import { useTranslation } from 'react-i18next';

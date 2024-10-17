@@ -10,8 +10,8 @@ import {
   Span,
   XL,
   XXL,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { FormikProps } from 'formik';
 import { t } from 'i18next';
 import { useState } from 'react';
