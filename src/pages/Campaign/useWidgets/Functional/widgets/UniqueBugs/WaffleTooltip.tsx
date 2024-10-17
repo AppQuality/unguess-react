@@ -1,4 +1,4 @@
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { retrieveComponentStyles } from '@appquality/unguess-design-system';
 import { Trans } from 'react-i18next';
 import styled from 'styled-components';
 

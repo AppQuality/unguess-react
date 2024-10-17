@@ -2,8 +2,8 @@ import {
   HeaderItem,
   HeaderItemIcon,
   HeaderItemText,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as MenuIcon } from 'src/assets/icons/menu-stroke.svg';

@@ -1,17 +1,13 @@
-import { ReactNode } from 'react';
 import {
-  Table as ZendeskTable,
-  HeaderRow,
-  Head,
-  HeaderCell,
-  Body,
-  Cell,
-} from '@zendeskgarden/react-tables';
+  SM,
+  TableNew as ZendeskTable,
+} from '@appquality/unguess-design-system';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { SM } from '@appquality/unguess-design-system';
-import { TableRow } from './TableRow';
 import { LoadingState } from './LoadingState';
+import { TableRow } from './TableRow';
 
+const { HeaderRow, Head, HeaderCell, Body, Cell } = ZendeskTable;
 interface TableData extends Record<string, ReactNode> {
   id: string;
   isHighlighted?: boolean;

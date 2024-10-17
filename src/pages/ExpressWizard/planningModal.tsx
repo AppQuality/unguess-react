@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  Datepicker,
   FormField as Field,
   Input,
   Label,
@@ -10,7 +11,6 @@ import {
   Paragraph,
   Row,
 } from '@appquality/unguess-design-system';
-import { Datepicker } from '@zendeskgarden/react-datepickers';
 import { addBusinessDays, format, isToday } from 'date-fns';
 import { t } from 'i18next';
 import { useState } from 'react';
