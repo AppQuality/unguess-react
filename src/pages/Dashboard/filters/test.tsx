@@ -1,4 +1,4 @@
-import { SelectNew } from '@appquality/unguess-design-system';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { TestName } from 'src/features/campaigns';
@@ -31,7 +31,7 @@ export const TestTypeDropdown = ({
   }
 
   return (
-    <SelectNew
+    <Select
       isPrimary={items[testNameId as number].value !== 'all'}
       renderValue={() =>
         getItemText(
@@ -46,12 +46,12 @@ export const TestTypeDropdown = ({
       }}
     >
       {Object.keys(items).map((key) => (
-        <SelectNew.Option
+        <Select.Option
           key={items[`${key}`].value}
           value={items[`${key}`].value}
           label={items[`${key}`].label}
         />
       ))}
-    </SelectNew>
+    </Select>
   );
 };

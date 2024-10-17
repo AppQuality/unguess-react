@@ -1,8 +1,4 @@
-import {
-  MD,
-  MultiSelectNew,
-  Skeleton,
-} from '@appquality/unguess-design-system';
+import { MD, MultiSelect, Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -73,7 +69,7 @@ export default ({
           className="max-width-6-sm bug-preview-search-tags"
           style={{ opacity: isFetchingCampaignTags ? 0.5 : 1 }}
         >
-          <MultiSelectNew
+          <MultiSelect
             options={options}
             creatable
             maxItems={4}

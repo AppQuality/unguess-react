@@ -1,4 +1,4 @@
-import { SelectNew, Separator } from '@appquality/unguess-design-system';
+import { Select, Separator } from '@appquality/unguess-design-system';
 import React, { useMemo } from 'react';
 import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import styled from 'styled-components';
@@ -37,7 +37,7 @@ const BugStateSelect = ({
       phases.map((phase) => (
         <div key={JSON.stringify(phase.statuses)}>
           {phase.statuses.map((status) => (
-            <SelectNew.Option
+            <Select.Option
               key={status.id}
               value={status.id.toString()}
               icon={<Circle color={status.color} />}
@@ -51,7 +51,7 @@ const BugStateSelect = ({
   );
 
   return (
-    <SelectNew
+    <Select
       isCompact
       renderValue={(value) => {
         const selectedStatus = phases
@@ -72,7 +72,7 @@ const BugStateSelect = ({
     >
       {options}
       {additionalOptions}
-    </SelectNew>
+    </Select>
   );
 };
 

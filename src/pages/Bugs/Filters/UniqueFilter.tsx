@@ -1,4 +1,4 @@
-import { SelectNew } from '@appquality/unguess-design-system';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import {
@@ -23,7 +23,7 @@ export const UniqueFilter = () => {
     return null;
 
   return (
-    <SelectNew
+    <Select
       isCompact
       isPrimary={data.unique.selected === 'unique'}
       inputValue={data.unique.selected ? data.unique.selected : 'all'}
@@ -44,7 +44,7 @@ export const UniqueFilter = () => {
       }}
     >
       {data.unique.available.map((item) => (
-        <SelectNew.Option
+        <Select.Option
           value={item}
           label={
             item === 'unique'
@@ -53,6 +53,6 @@ export const UniqueFilter = () => {
           }
         />
       ))}
-    </SelectNew>
+    </Select>
   );
 };

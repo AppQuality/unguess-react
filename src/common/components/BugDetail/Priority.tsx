@@ -1,4 +1,4 @@
-import { MD, SelectNew, Skeleton } from '@appquality/unguess-design-system';
+import { MD, Select, Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -76,7 +76,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
           style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
-        <SelectNew
+        <Select
           renderValue={(value) => {
             const selectedStatus = options.find(
               (s) => s.id === Number(value.inputValue)
@@ -102,7 +102,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
         >
           {options &&
             options.map((item) => (
-              <SelectNew.Option
+              <Select.Option
                 key={item.slug}
                 value={item.id.toString()}
                 label={item.text}
@@ -110,7 +110,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
                 className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
               />
             ))}
-        </SelectNew>
+        </Select>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { SelectNew } from '@appquality/unguess-design-system';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import {
@@ -24,7 +24,7 @@ export const ReadFilter = () => {
 
   return (
     <div style={{ minWidth: '130px' }}>
-      <SelectNew
+      <Select
         isCompact
         inputValue={data.read.selected ? data.read.selected : 'all'}
         selectionValue={data.read.selected ? data.read.selected : 'all'}
@@ -49,15 +49,12 @@ export const ReadFilter = () => {
           );
         }}
       >
-        <SelectNew.Option
-          value="all"
-          label={t('__BUGS_READ_FILTER_ITEM_ALL')}
-        />
-        <SelectNew.Option
+        <Select.Option value="all" label={t('__BUGS_READ_FILTER_ITEM_ALL')} />
+        <Select.Option
           value="unread"
           label={t('__BUGS_READ_FILTER_ITEM_UNREAD')}
         />
-      </SelectNew>
+      </Select>
     </div>
   );
 };
