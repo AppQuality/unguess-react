@@ -14,7 +14,7 @@ import useStatusByPhase from './useStatusByPhase';
 
 import BugStateSelect from '.';
 
-const OpenEditStatusDrawer = ({}) => {
+const OpenEditStatusDrawer = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 

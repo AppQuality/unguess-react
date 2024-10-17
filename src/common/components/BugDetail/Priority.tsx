@@ -1,9 +1,4 @@
-import {
-  Item,
-  MD,
-  SelectNew,
-  Skeleton,
-} from '@appquality/unguess-design-system';
+import { MD, SelectNew, Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -16,15 +11,6 @@ import {
 import styled from 'styled-components';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
 
-const StyledItem = styled(Item)`
-  display: flex;
-  align-items: center;
-
-  > svg {
-    margin-right: ${({ theme }) => theme.space.xs};
-  }
-`;
-
 const SelectedItem = styled.div`
   display: flex;
   align-items: center;
@@ -33,23 +19,16 @@ const SelectedItem = styled.div`
   }
 `;
 
-type DropdownItem = {
-  id: number;
-  text: string;
-  slug: string;
-  icon: React.ReactNode;
-};
-
 const Priority = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
   const { priority: bugPriority } = bug;
-  const [selectedItem, setSelectedItem] = useState<DropdownItem>({
+  const [selectedItem, setSelectedItem] = useState({
     id: DEFAULT_BUG_PRIORITY.id,
     slug: DEFAULT_BUG_PRIORITY.name,
     text: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).text,
     icon: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).icon,
   });
-  const [options, setOptions] = useState<DropdownItem[]>([]);
+  const [options, setOptions] = useState<(typeof selectedItem)[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const {
     data: cpPriorities,
@@ -127,7 +106,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
                 key={item.slug}
                 value={item.id.toString()}
                 label={item.text}
-                icon={<>{item.icon}</>}
+                icon={item.icon}
                 className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
               />
             ))}

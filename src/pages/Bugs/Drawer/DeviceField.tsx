@@ -16,6 +16,7 @@ import { DeviceFilterType } from 'src/features/bugsPage/deviceFilter';
 import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
+
 export const DeviceField = ({
   devices,
   maxItemsToShow = 5,

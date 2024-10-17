@@ -32,21 +32,23 @@ const BugStateSelect = ({
   onChange?: (statusId: number) => void;
   additionalOptions?: React.ReactNode;
 }) => {
-  const options = useMemo(() => {
-    return phases.map((phase, i) => (
-      <div key={i}>
-        {phase.statuses.map((status) => (
-          <SelectNew.Option
-            key={status.id}
-            value={status.id.toString()}
-            icon={<Circle color={status.color} />}
-            label={ToTileCase(status.name)}
-          />
-        ))}
-        <Separator />
-      </div>
-    ));
-  }, [currentStatusId, phases]);
+  const options = useMemo(
+    () =>
+      phases.map((phase) => (
+        <div key={JSON.stringify(phase.statuses)}>
+          {phase.statuses.map((status) => (
+            <SelectNew.Option
+              key={status.id}
+              value={status.id.toString()}
+              icon={<Circle color={status.color} />}
+              label={ToTileCase(status.name)}
+            />
+          ))}
+          <Separator />
+        </div>
+      )),
+    [currentStatusId, phases]
+  );
 
   return (
     <SelectNew

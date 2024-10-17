@@ -48,9 +48,7 @@ export default ({
         cpTags.map((tag) => ({
           id: tag.tag_id,
           label: tag.display_name,
-          selected: bug.tags?.find((bugTag) => bugTag.tag_id === tag.tag_id)
-            ? true
-            : false,
+          selected: !!bug.tags?.find((bugTag) => bugTag.tag_id === tag.tag_id),
         }))
       );
     }

@@ -75,9 +75,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: process.env.CI
-      ? 'export NODE_ENV=test && yarn start:ssl'
-      : 'export NODE_ENV=test && yarn start:ssl',
+    command: 'export NODE_ENV=test && yarn dev',
     url: 'http://127.0.0.1:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,

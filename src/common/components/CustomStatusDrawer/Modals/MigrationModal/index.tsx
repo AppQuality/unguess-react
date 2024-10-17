@@ -112,29 +112,6 @@ export const MigrationModal = ({
     );
   }, [customStatusesToDelete, bugs]);
 
-  // Split custom statuses by phase into an object with multiple arrays
-  const customStatusesByPhase = cpCustomStatuses?.reduce((acc, cs) => {
-    // Skip if cs is in deleteCustomStatusUnused or deleteCustomStatusUsed
-    if (
-      deleteCustomStatusUnused.find((dcs) => dcs.id === cs.id) ||
-      deleteCustomStatusUsed.find((dcs) => dcs.id === cs.id)
-    ) {
-      return acc;
-    }
-
-    const phase = acc.find((p) => p.id === cs.phase.id);
-    if (phase) {
-      phase.customStatuses.push(cs);
-    } else {
-      acc.push({
-        id: cs.phase.id,
-        name: cs.phase.name,
-        customStatuses: [cs],
-      });
-    }
-    return acc;
-  }, [] as { id: number; name: string; customStatuses: typeof cpCustomStatuses }[]);
-
   const onQuit = () => {
     setIsMigrationModalOpen(false);
   };
