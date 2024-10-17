@@ -6,7 +6,7 @@ import {
   Paragraph,
   RadioCard,
   Row,
-  SelectNew,
+  Select,
   Span,
   XL,
   XXL,
@@ -87,7 +87,7 @@ export const WhatStep = ({
       <CardDivider />
       <StyledFormField>
         <div>
-          <SelectNew
+          <Select
             {...props.getFieldProps('campaign_reason')}
             {...(errors.campaign_reason && { validation: 'error' })}
             onSelect={async (item) => {
@@ -101,13 +101,13 @@ export const WhatStep = ({
             label={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
           >
             {Object.keys(reasonItems).map((key) => (
-              <SelectNew.Option
+              <Select.Option
                 key={key}
                 value={key}
                 label={reasonItems[`${key}`]}
               />
             ))}
-          </SelectNew>
+          </Select>
         </div>
       </StyledFormField>
       <StyledFormField style={{ marginTop: appTheme.space.lg }}>

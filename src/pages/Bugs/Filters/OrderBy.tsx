@@ -1,4 +1,4 @@
-import { SelectNew } from '@appquality/unguess-design-system';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
@@ -28,7 +28,7 @@ export const SortBy = () => {
   };
 
   return (
-    <SelectNew
+    <Select
       style={{ minWidth: '220px' }}
       inputValue={`${orderBy}-${order}`}
       selectionValue={`${orderBy}-${order}`}
@@ -46,31 +46,31 @@ export const SortBy = () => {
       isCompact
       isPrimary
     >
-      <SelectNew.OptionGroup label={`${t('__BUGS_ORDER_BY')}:`}>
-        <SelectNew.OptionTitle>
+      <Select.OptionGroup label={`${t('__BUGS_ORDER_BY')}:`}>
+        <Select.OptionTitle>
           {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
-        </SelectNew.OptionTitle>
-        <SelectNew.Option
+        </Select.OptionTitle>
+        <Select.Option
           value="severity_id-DESC"
           label={t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
         />
-        <SelectNew.Option
+        <Select.Option
           value="severity_id-ASC"
           label={t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
         />
 
-        <SelectNew.OptionTitle>
+        <Select.OptionTitle>
           {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
-        </SelectNew.OptionTitle>
-        <SelectNew.Option
+        </Select.OptionTitle>
+        <Select.Option
           value="priority_id-DESC"
           label={t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
         />
-        <SelectNew.Option
+        <Select.Option
           value="priority_id-ASC"
           label={t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
         />
-      </SelectNew.OptionGroup>
-    </SelectNew>
+      </Select.OptionGroup>
+    </Select>
   );
 };

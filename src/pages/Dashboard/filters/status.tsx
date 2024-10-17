@@ -1,4 +1,4 @@
-import { SelectNew } from '@appquality/unguess-design-system';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -48,7 +48,7 @@ export const StatusDropdown = ({
   };
 
   return (
-    <SelectNew
+    <Select
       isPrimary={items[`${status}`].value !== 'all'}
       renderValue={() =>
         getItemText(
@@ -63,7 +63,7 @@ export const StatusDropdown = ({
       }}
     >
       {Object.keys(items).map((key) => (
-        <SelectNew.Option
+        <Select.Option
           key={items[`${key}`].value}
           value={items[`${key}`].value}
           isDisabled={availableStatuses.indexOf(items[`${key}`].value) === -1}
@@ -71,6 +71,6 @@ export const StatusDropdown = ({
           icon={items[`${key}`].icon}
         />
       ))}
-    </SelectNew>
+    </Select>
   );
 };

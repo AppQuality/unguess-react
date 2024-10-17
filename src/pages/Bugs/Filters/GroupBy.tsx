@@ -1,4 +1,4 @@
-import { SelectNew } from '@appquality/unguess-design-system';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { ReactComponent as Icon } from 'src/assets/icons/layers_icon.svg';
@@ -23,7 +23,7 @@ export const GroupBy = () => {
   };
 
   return (
-    <SelectNew
+    <Select
       style={{ minWidth: '140px' }}
       inputValue={groupBy}
       selectionValue={groupBy}
@@ -45,22 +45,22 @@ export const GroupBy = () => {
       isCompact
       isPrimary
     >
-      <SelectNew.OptionGroup label={`${t('__BUGS_GROUP_BY_OPEN_MENU')}:`}>
-        <SelectNew.Option
+      <Select.OptionGroup label={`${t('__BUGS_GROUP_BY_OPEN_MENU')}:`}>
+        <Select.Option
           value="bugState"
           label={t('__BUGS_GROUP_BY_STATE_ITEM')}
         />
-        <SelectNew.Option
+        <Select.Option
           value="usecase"
           label={t('__BUGS_GROUP_BY_USE_CASE_ITEM')}
         />
-      </SelectNew.OptionGroup>
-      <SelectNew.OptionGroup>
-        <SelectNew.Option
+      </Select.OptionGroup>
+      <Select.OptionGroup>
+        <Select.Option
           value="ungrouped"
           label={getTranslatedLabel('ungrouped')}
         />
-      </SelectNew.OptionGroup>
-    </SelectNew>
+      </Select.OptionGroup>
+    </Select>
   );
 };

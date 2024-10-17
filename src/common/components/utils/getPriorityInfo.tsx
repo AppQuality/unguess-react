@@ -1,4 +1,4 @@
-import { SelectNew } from '@appquality/unguess-design-system';
+import { Select } from '@appquality/unguess-design-system';
 import { TFunction } from 'i18next';
 import { ComponentProps } from 'react';
 import { ReactComponent as PriorityHigh } from 'src/assets/icons/priority-high.svg';
@@ -7,7 +7,7 @@ import { ReactComponent as PriorityLow } from 'src/assets/icons/priority-low.svg
 import { ReactComponent as PriorityLowest } from 'src/assets/icons/priority-lowest.svg';
 import { ReactComponent as PriorityMedium } from 'src/assets/icons/priority-medium.svg';
 
-type IconType = ComponentProps<typeof SelectNew.Option>['icon'];
+type IconType = ComponentProps<typeof Select.Option>['icon'];
 
 type PriorityInfo = {
   icon: IconType;

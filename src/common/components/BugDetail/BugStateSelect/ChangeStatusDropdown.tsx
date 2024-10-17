@@ -1,7 +1,7 @@
 import {
   MD,
   Notification,
-  SelectNew,
+  Select,
   useToast,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +23,7 @@ const OpenEditStatusDrawer = () => {
   };
 
   return (
-    <SelectNew.MenuOption
+    <Select.MenuOption
       value="manage"
       label={t('__BUGS_PAGE_BUG_DETAIL_CUSTOM_STATUS_DROPDOWN_MANAGE_LABEL')}
       icon={<GearIcon />}

@@ -9,7 +9,7 @@ import {
   Modal,
   ModalClose,
   Notification,
-  SelectNew,
+  Select,
   Spinner,
   Toggle,
   FormField as ZendeskFormField,
@@ -95,20 +95,20 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
           {t('__TOOLS_TRANSLATE_DESCRIPTION')}
         </MD>
         <div style={{ margin: `${appTheme.space.xs} 0` }}>
-          <SelectNew
+          <Select
             label={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
             startIcon={<TranslateIcon />}
             placeholder={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
           >
             {filteredLanguages.map((lang) => (
-              <SelectNew.Option
+              <Select.Option
                 key={`language-${lang}-option`}
                 value={lang}
                 label={getLanguageNameByFullTag(lang) || ''}
                 isSelected={internalLanguage === lang}
               />
             ))}
-          </SelectNew>
+          </Select>
         </div>
         <ZendeskFormField>
           <Toggle
