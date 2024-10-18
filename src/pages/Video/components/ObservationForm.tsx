@@ -29,7 +29,7 @@ import {
 import { styled } from 'styled-components';
 import * as Yup from 'yup';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
-import { ObservationFormValues, TitleDropdown } from './TitleDropdown';
+import { ObservationFormValues, TitleDropdown } from './TitleDropdownNew';
 
 const FormContainer = styled.div`
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xxs};
@@ -261,15 +261,7 @@ const ObservationForm = ({
                   )}
                 </SM>
               </StyledLabel>
-              <TitleDropdown
-                titles={titles?.tags}
-                title={
-                  observation.tags?.find(
-                    (tag) => tag.group.name.toLowerCase() === 'title'
-                  )?.tag
-                }
-                formProps={formProps}
-              />
+              <TitleDropdown titles={titles?.tags} formProps={formProps} />
               {formProps.errors.title && (
                 <Message
                   validation="error"
