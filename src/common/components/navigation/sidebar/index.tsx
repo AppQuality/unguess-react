@@ -22,7 +22,7 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
-import { WorkspacesDropdown } from '../workspacesDropdownNew';
+import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
