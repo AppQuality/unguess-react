@@ -14,7 +14,10 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig(({ mode }) => {
   setEnv(mode);
   return {
-    optimizeDeps: { exclude: ['@appquality/unguess-design-system'] },
+    optimizeDeps: {
+      include: ['react-dom'],
+      exclude: ['@appquality/unguess-design-system'],
+    },
     plugins: [
       react(),
       tsconfigPaths(),
