@@ -1473,6 +1473,7 @@ export type DeleteVideosByVidObservationsAndOidApiArg = {
 };
 export type GetVideosByVidTranslationApiResponse = /** status 200 OK */ {
   language: string;
+  processing: number;
   sentences: {
     text: string;
     start: number;

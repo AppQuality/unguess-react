@@ -4,7 +4,6 @@ import {
   IconButton,
   Notification,
   Span,
-  Spinner,
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-fill.svg';
@@ -43,7 +42,7 @@ export const Tools = () => {
         ...(language && { lang: language }),
       },
       {
-        skip: !hasAIFeatureFlag || !preferredLanguage,
+        skip: !hasAIFeatureFlag || !language || !preferredLanguage,
       }
     );
 
@@ -52,24 +51,29 @@ export const Tools = () => {
   });
 
   if (!hasAIFeatureFlag || isLoadingTranslation) return null;
-
-  // A preferred language is set and it's different from the video language and it's not already translated
   const canTranslate =
     !!preferredLanguage &&
     video &&
     video.language.localeCompare(preferredLanguage) !== 0 &&
     (!translation ||
       translation.language.localeCompare(preferredLanguage) !== 0);
+  const isTranslating =
+    translation &&
+    translation.language === preferredLanguage &&
+    translation.processing === 1;
 
   return (
     <div>
       <Button
         isBasic
-        disabled={isLoadingRequestTranslation}
+        disabled={
+          translation?.processing === 1 ||
+          isLoadingRequestTranslation ||
+          translation?.language === preferredLanguage
+        }
         onClick={() => {
           if (canTranslate) {
             if (!preferredLanguage) return;
-
             requestTranslation({
               vid: videoId || '',
               body: {
@@ -79,19 +83,6 @@ export const Tools = () => {
               .unwrap()
               .then(() => {
                 setLanguage(preferredLanguage);
-
-                addToast(
-                  ({ close }) => (
-                    <Notification
-                      onClose={close}
-                      type="success"
-                      message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
-                      closeText={t('__TOAST_CLOSE_TEXT')}
-                      isPrimary
-                    />
-                  ),
-                  { placement: 'top' }
-                );
               })
               .catch((e) => {
                 // eslint-disable-next-line no-console
@@ -118,7 +109,8 @@ export const Tools = () => {
         <Button.StartIcon>
           <TranslateIcon />
         </Button.StartIcon>
-        {canTranslate && preferredLanguage ? (
+        {preferredLanguage &&
+        video?.language.localeCompare(preferredLanguage) !== 0 ? (
           <Span>
             {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
             {getLanguageNameByFullTag(preferredLanguage)}
@@ -126,30 +118,25 @@ export const Tools = () => {
         ) : (
           t('__TOOLS_MENU_ITEM_BUTTON_LABEL')
         )}
-        {isLoadingRequestTranslation && (
-          <Button.EndIcon>
-            <Spinner
-              size={appTheme.space.md}
-              color={appTheme.palette.grey[400]}
-              style={{ marginLeft: appTheme.space.sm }}
-            />
-          </Button.EndIcon>
-        )}
       </Button>
       {isOpen && (
         <ToolsTranslate
           {...(translation && { currentLanguage: translation.language })}
         />
       )}
-      {!!canTranslate && (
+      {(preferredLanguage &&
+        video?.language.localeCompare(preferredLanguage) !== 0) ||
+      isTranslating ? (
         <IconButton
+          disabled={translation?.processing === 1}
+          style={{ marginLeft: appTheme.space.sm }}
           onClick={() => {
             setIsOpen(!isOpen);
           }}
         >
           <SettingsIcon color={appTheme.palette.blue[600]} />
         </IconButton>
-      )}
+      ) : null}
     </div>
   );
 };

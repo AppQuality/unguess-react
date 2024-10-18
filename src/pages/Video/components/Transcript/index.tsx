@@ -70,7 +70,7 @@ export const Transcript = ({
       ...(language && { lang: language }),
     },
     {
-      skip: !hasAIFeatureFlag,
+      skip: !hasAIFeatureFlag || !language,
     }
   );
 
