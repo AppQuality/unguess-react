@@ -10,7 +10,6 @@ import { usePreferredLanguage } from '../tools/usePreferredLanguage';
 
 const LoaderWrapper = styled.div`
   margin-top: ${appTheme.space.xs};
-  margin-bottom: ${appTheme.space.sm};
 `;
 
 export const TranslationLoader = () => {
@@ -36,7 +35,7 @@ export const TranslationLoader = () => {
       <SM
         isBold
         color={appTheme.palette.grey[700]}
-        style={{ marginBottom: appTheme.space.sm }}
+        style={{ marginBottom: appTheme.space.xxs }}
       >
         Translation in progress....
       </SM>

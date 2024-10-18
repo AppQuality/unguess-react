@@ -66,7 +66,11 @@ export const Tools = () => {
     <div>
       <Button
         isBasic
-        disabled={translation?.processing === 1 || isLoadingRequestTranslation}
+        disabled={
+          translation?.processing === 1 ||
+          isLoadingRequestTranslation ||
+          translation?.language === preferredLanguage
+        }
         onClick={() => {
           if (canTranslate) {
             if (!preferredLanguage) return;
@@ -105,7 +109,8 @@ export const Tools = () => {
         <Button.StartIcon>
           <TranslateIcon />
         </Button.StartIcon>
-        {(canTranslate && preferredLanguage) || isTranslating ? (
+        {preferredLanguage &&
+        video?.language.localeCompare(preferredLanguage) !== 0 ? (
           <Span>
             {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
             {getLanguageNameByFullTag(preferredLanguage)}
@@ -119,9 +124,11 @@ export const Tools = () => {
           {...(translation && { currentLanguage: translation.language })}
         />
       )}
-      {(canTranslate && preferredLanguage) || isTranslating ? (
+      {(preferredLanguage &&
+        video?.language.localeCompare(preferredLanguage) !== 0) ||
+      isTranslating ? (
         <IconButton
-          disabled={isTranslating}
+          disabled={translation?.processing === 1}
           style={{ marginLeft: appTheme.space.sm }}
           onClick={() => {
             setIsOpen(!isOpen);
