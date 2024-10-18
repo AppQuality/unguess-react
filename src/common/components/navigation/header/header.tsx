@@ -5,7 +5,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
-import { WorkspacesDropdown } from '../workspacesDropdown';
+import { WorkspacesDropdown } from '../workspacesDropdownNew';
 import { PermissionItem } from '../workspacesDropdown/PermissionItem';
 import { MobileToggle } from './MobileToggle';
 import { BrandLogo } from './brandLogo';
