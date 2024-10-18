@@ -1,40 +1,17 @@
 import {
   Autocomplete,
   DropdownFieldNew as DropdownField,
-  Item,
+  ItemContent,
   Label,
   Skeleton,
   Span,
 } from '@appquality/unguess-design-system';
-import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FunctionalityIcon } from 'src/assets/icons/functionality-icon.svg';
 import { useGetTemplatesQuery } from 'src/features/api';
 import { UseCaseTemplate } from 'src/features/api/api';
-import useDebounce from 'src/hooks/useDebounce';
 import i18n from 'src/i18n';
-import styled from 'styled-components';
-
-const StyledItem = styled(Item)`
-  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.lg};
-
-  &:first-child {
-    margin-top: 0;
-  }
-`;
-
-const GroupLabel = styled(StyledItem)`
-  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[600]};
-  text-transform: uppercase;
-
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-
-  &:not(:first-child) {
-    margin-top: ${({ theme }) => theme.space.sm};
-  }
-`;
 
 export const TemplateDropdown = (props: TemplateDropdownProps) => {
   const { selectedItem, onSelect, deviceType } = props;
@@ -62,39 +39,7 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
     []
   );
 
-  const [inputValue, setInputValue] = useState<string>('');
-  const [matchingOptions, setMatchingOptions] = useState(groupedTemplates);
-
-  const debouncedInputValue = useDebounce<string>(inputValue, 300);
-
-  const filterMatchingOptions = useCallback(
-    (value: string) => {
-      const matchedOptions = groupedTemplates.reduce(
-        (acc: UseCaseTemplate[][], group: UseCaseTemplate[]) => {
-          const categoryId = group[0]?.category?.id ?? -1;
-          const matchGroup = group.filter(
-            (template: UseCaseTemplate) =>
-              template.title
-                .trim()
-                .toLowerCase()
-                .indexOf(value.trim().toLowerCase()) !== -1
-          );
-          if (matchGroup.length) {
-            acc[categoryId as number] = matchGroup;
-          }
-          return acc;
-        },
-        []
-      );
-
-      setMatchingOptions(matchedOptions);
-    },
-    [templates]
-  );
-
-  useEffect(() => {
-    filterMatchingOptions(debouncedInputValue);
-  }, [debouncedInputValue, templates]);
+  if (!groupedTemplates) return null;
 
   return isLoading || isFetching ? (
     <Skeleton height="32px" width="100%" />
@@ -104,7 +49,40 @@ export const TemplateDropdown = (props: TemplateDropdownProps) => {
         {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_TITLE')}
         <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
       </Label>
-      <Autocomplete startIcon={<FunctionalityIcon />} options={[]} />
+      <Autocomplete
+        selectionValue={selectedItem?.id?.toString()}
+        placeholder={t(
+          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_PRODUCT_FIELD_PLACEHOLDER'
+        )}
+        onOptionClick={({ selectionValue }) => {
+          const item = templates.find(
+            (template) => template.id === Number(selectionValue)
+          );
+          if (!item || !item.title) return;
+          onSelect(item);
+        }}
+        startIcon={<FunctionalityIcon />}
+        options={(groupedTemplates || []).map((group) => {
+          const category = group[0].category || { name: 'No category', id: 0 };
+          return {
+            id: (category.id || 0).toString(),
+            label: category.name,
+            options: group.map((template) => ({
+              id: (template.id || 0).toString(),
+              value: (template.id || 0).toString(),
+              label: template.title,
+              isSelected: selectedItem?.id === template.id,
+              children: (
+                <ItemContent
+                  thumbSrc={template.image}
+                  description={template.description}
+                  label={template.title}
+                />
+              ),
+            })),
+          };
+        })}
+      />
     </DropdownField>
   );
 };
