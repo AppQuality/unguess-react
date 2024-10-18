@@ -31,7 +31,7 @@ import { UseCase, emptyUseCase } from 'src/pages/ExpressWizard/fields/how';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import styled from 'styled-components';
-import { TemplateDropdown } from './templateDropdown';
+import { TemplateDropdown } from './templateDropdownNew';
 
 const StyledFormField = styled.div`
   margin-top: ${({ theme }) => theme.space.md};

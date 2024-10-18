@@ -26,7 +26,7 @@ import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
-import { ProjectDropdown } from './projectDropdown';
+import { ProjectDropdown } from './projectDropdownNew';
 
 const SelectTitle = styled(MD)`
   padding-top: ${theme.space.base * 3}px;
