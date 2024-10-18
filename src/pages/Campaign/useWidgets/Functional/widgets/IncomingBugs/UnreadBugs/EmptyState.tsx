@@ -1,7 +1,6 @@
-import { LG } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { LG, retrieveComponentStyles } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import styled from 'styled-components';
 import { ReactComponent as Empty } from './assets/empty.svg';
 
 const EmptyContainer = styled.div`

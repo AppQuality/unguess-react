@@ -1,30 +1,30 @@
 import {
-  XXL,
-  MD,
-  Span,
-  Message,
-  Row,
-  Label,
-  Hint,
-  MediaInput,
   ContainerCard,
+  FormField,
+  Hint,
+  Label,
+  MD,
+  MediaInput,
+  Message,
   RadioCard,
+  Row,
+  Span,
+  XXL,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { FormikProps } from 'formik';
-import * as Yup from 'yup';
-import { Field as FormField } from '@zendeskgarden/react-forms';
-import { useTranslation, Trans } from 'react-i18next';
-import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
-import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
-import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg';
-import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tablet-active.svg';
-import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg';
+import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as LaptopIconActive } from 'src/assets/icons/device-laptop-active.svg';
+import { ReactComponent as LaptopIcon } from 'src/assets/icons/device-laptop.svg';
+import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
+import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
+import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tablet-active.svg';
+import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import * as Yup from 'yup';
 import { PrimarySpan, StyledRow } from './where/styled';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {

@@ -1,32 +1,33 @@
 import {
+  CheckboxCard,
+  ContainerCard,
+  Fieldset,
+  FormField,
+  Hint,
+  Label,
+  MD,
+  MediaInput,
+  Message,
+  Radio,
+  Row,
+  Span,
   XL,
   XXL,
-  MD,
-  Span,
-  Message,
-  Row,
-  CheckboxCard,
-  Radio,
-  Label,
-  MediaInput,
-  Hint,
-  ContainerCard,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { Field as FormField, Fieldset } from '@zendeskgarden/react-forms';
-import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
-import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
-import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg';
-import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tablet-active.svg';
-import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { FormikProps } from 'formik';
-import { useTranslation, Trans } from 'react-i18next';
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as SmartphoneIconActive } from 'src/assets/icons/device-smartphone-active.svg';
+import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/device-smartphone.svg';
+import { ReactComponent as TabletIconActive } from 'src/assets/icons/device-tablet-active.svg';
+import { ReactComponent as TabletIcon } from 'src/assets/icons/device-tablet.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-import { appTheme } from 'src/app/theme';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
 
 const StyledRow = styled(Row)`
   margin-top: ${({ theme }) => theme.space.md};

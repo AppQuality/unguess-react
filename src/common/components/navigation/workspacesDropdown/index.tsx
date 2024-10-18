@@ -1,17 +1,12 @@
 import {
   Autocomplete,
-  Dropdown,
+  DropdownFieldNew,
   Ellipsis,
   HeaderItemText,
-  Item,
-  ItemContent,
-  Menu,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import TagManager from 'react-gtm-module';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
@@ -24,7 +19,6 @@ import {
 } from 'src/features/navigation/navigationSlice';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import useDebounce from 'src/hooks/useDebounce';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -38,23 +32,51 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
   ${(props) => retrieveComponentStyles('text.primary', props)};
 `;
 
-const StyledItem = styled(Item)`
-  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.lg};
+const useOptions = () => {
+  const { activeWorkspace } = useActiveWorkspace();
 
-  &:first-child {
-    margin-top: 0;
-  }
-`;
+  const workspaces = useAppSelector(selectWorkspaces);
+  const sharedWorkspace = workspaces.filter((ws) => ws.isShared);
+  const personalWorkspaces = workspaces.filter((ws) => !ws.isShared);
 
-const GroupLabel = styled(StyledItem)`
-  padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.grey[600]};
-  text-transform: uppercase;
+  return {
+    isSingle: workspaces.length === 1,
+    options: [
+      ...(personalWorkspaces && personalWorkspaces.length
+        ? [
+            {
+              id: 'personal',
+              label: 'Personal workspaces',
+              options: personalWorkspaces.map((ws) => ({
+                id: ws.id.toString(),
+                label: ws.company,
+                value: ws,
+                isSelected: ws.id === activeWorkspace?.id,
+              })),
+            },
+          ]
+        : []),
+      ...(sharedWorkspace && sharedWorkspace.length
+        ? [
+            {
+              id: 'shared',
+              label: 'Shared workspaces',
+              options: personalWorkspaces.map((ws) => ({
+                id: ws.id.toString(),
+                label: ws.company,
+                value: ws,
+                isSelected: ws.id === activeWorkspace?.id,
+              })),
+            },
+          ]
+        : []),
+    ],
+  };
+};
 
-  font-size: ${({ theme }) => theme.fontSizes.sm};
-
-  &:not(:first-child) {
-    margin-top: ${({ theme }) => theme.space.sm};
+const Wrapper = styled.div<{ isExpanded: boolean }>`
+  [data-garden-id='dropdowns.combobox.value'][hidden] {
+    ${({ isExpanded }) => !isExpanded && 'display: inherit !important;'}
   }
 `;
 
@@ -68,46 +90,15 @@ const BrandName = styled(HeaderItemText)`
   `;
 
 export const WorkspacesDropdown = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { activeWorkspace } = useActiveWorkspace();
+  const [inputValue, setInputValue] = useState('');
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
+  const { isSingle, options } = useOptions();
+  const { userData: user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const homeRoute = useLocalizeRoute('');
-
-  const { activeWorkspace } = useActiveWorkspace();
-  const { userData: user } = useAppSelector((state) => state.user);
-  const workspaces = useAppSelector(selectWorkspaces);
-
-  const [selectedItem, setSelectedItem] = useState<Workspace>();
-  const [inputValue, setInputValue] = useState<string>('');
-  const [matchingPersonal, setMatchingPersonal] = useState(workspaces);
-  const [matchingShared, setMatchingShared] = useState(workspaces);
-
-  const debouncedInputValue = useDebounce<string>(inputValue, 300);
-
-  const filterMatchingOptions = (value: string) => {
-    const matchedOptions = workspaces.filter(
-      (ws: Workspace) =>
-        ws.company.trim().toLowerCase().indexOf(value.trim().toLowerCase()) !==
-        -1
-    );
-
-    // Group workspaces by isShared property (true | false)
-    const sharedWorkspaces = matchedOptions.filter((ws) => ws.isShared);
-    const personalWorkspaces = matchedOptions.filter((ws) => !ws.isShared);
-
-    setMatchingPersonal(personalWorkspaces);
-    setMatchingShared(sharedWorkspaces);
-  };
-
-  useEffect(() => {
-    if (activeWorkspace) {
-      setSelectedItem(activeWorkspace);
-    }
-  }, [activeWorkspace]);
-
-  useEffect(() => {
-    filterMatchingOptions(debouncedInputValue);
-  }, [debouncedInputValue, activeWorkspace, workspaces]);
 
   const toggleGtmWorkspaceChange = (workspaceName: string) => {
     TagManager.dataLayer({
@@ -135,85 +126,46 @@ export const WorkspacesDropdown = () => {
     }
   };
 
-  if (!activeWorkspace || !user) return null;
+  if (!activeWorkspace) return null;
 
-  return workspaces.length > 1 ? (
-    <div id="workspace-dropdown-item">
-      <Dropdown
-        inputValue={inputValue}
-        selectedItem={selectedItem}
-        onSelect={(item: Workspace) => {
-          if (item && item.id) {
-            setSelectedItem(item);
-            setInputValue('');
-            handleWorkspaceChange(item);
-          }
-        }}
-        onInputValueChange={(value) => {
-          setInputValue(value);
-        }}
-        downshiftProps={{
-          itemToString: (item: Workspace) => item && item.company,
-        }}
-      >
-        <Field>
-          <Autocomplete start={<WorkspacesIcon />}>
+  if (isSingle)
+    return <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>;
+
+  return (
+    <Wrapper ref={ref} isExpanded={isExpanded}>
+      <DropdownFieldNew>
+        <Autocomplete
+          onClick={() => {
+            setIsExpanded(!isExpanded);
+          }}
+          onBlur={(e) => {
+            if (!ref.current?.contains(e.relatedTarget as Node)) {
+              setIsExpanded(false);
+            }
+          }}
+          isExpanded={isExpanded}
+          inputProps={{
+            hidden: !isExpanded,
+          }}
+          inputValue={inputValue}
+          onInputChange={setInputValue}
+          startIcon={<WorkspacesIcon />}
+          renderValue={() => (
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
             </StyledEllipsis>
-          </Autocomplete>
-        </Field>
-        <Menu>
-          {matchingPersonal.length > 0 && (
-            <>
-              <GroupLabel disabled>
-                {t(
-                  '__APP_MOBILE_NAVIGATION_PERSONAL_WORKSPACES_DROPDOWN_GROUP_LABEL'
-                )}
-              </GroupLabel>
-              {matchingPersonal.map((item) => (
-                <StyledItem key={`workspace_${item.id}`} value={item}>
-                  <ItemContent label={item.company} />
-                </StyledItem>
-              ))}
-            </>
           )}
-
-          {matchingShared.length > 0 && (
-            <>
-              <GroupLabel disabled>
-                {t(
-                  '__APP_MOBILE_NAVIGATION_SHARED_WORKSPACES_DROPDOWN_GROUP_LABEL'
-                )}
-              </GroupLabel>
-              {matchingShared.map((item) => (
-                <StyledItem key={`workspace_${item.id}`} value={item}>
-                  <ItemContent
-                    // description={`${item.sharedItems} shared items`}
-                    description={t(
-                      '__APP_MOBILE_NAVIGATION_SHARED_WORKSPACES_COUNTER_LABEL',
-                      { count: item.sharedItems || 0 }
-                    )}
-                    label={item.company}
-                  />
-                </StyledItem>
-              ))}
-            </>
-          )}
-
-          {!matchingPersonal.length && !matchingShared.length && (
-            <StyledItem disabled>
-              <span>
-                {t(
-                  '__APP_MOBILE_NAVIGATION_WORKSPACES_DROPDOWN_LABEL_NO_MATCHING_ITEMS'
-                )}
-              </span>
-            </StyledItem>
-          )}
-        </Menu>
-      </Dropdown>
-    </div>
-  ) : (
-    <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>
+          options={options}
+          onOptionClick={({ selectionValue }) => {
+            const workspace = selectionValue as Workspace;
+            if (selectionValue && workspace.id) {
+              setInputValue('');
+              handleWorkspaceChange(workspace);
+              setIsExpanded(false);
+            }
+          }}
+        />
+      </DropdownFieldNew>
+    </Wrapper>
   );
 };

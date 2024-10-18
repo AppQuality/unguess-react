@@ -1,20 +1,20 @@
-import { useTranslation } from 'react-i18next';
-import { Field } from '@zendeskgarden/react-forms';
 import {
-  XL,
-  MD,
-  Toggle,
-  Textarea,
-  Span,
-  Message,
+  FormField as Field,
   Label,
+  MD,
+  Message,
+  Span,
+  Textarea,
+  Toggle,
+  XL,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { Notes } from 'src/pages/ExpressWizard/notesCard';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { StyledRow } from './styled';
 
 export const OutOfScopeSection = ({

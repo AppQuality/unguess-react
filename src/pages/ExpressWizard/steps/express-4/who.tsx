@@ -1,5 +1,6 @@
 import {
   ContainerCard,
+  FormField as Field,
   Hint,
   Label,
   Message,
@@ -7,24 +8,23 @@ import {
   Radio,
   Row,
   Span,
+  Tag,
   XL,
   XXL,
-  Tag,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-forms';
 import { FormikProps } from 'formik';
-import styled from 'styled-components';
-import * as Yup from 'yup';
 import { t } from 'i18next';
 import { useState } from 'react';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
-import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as TranslationIcon } from 'src/assets/icons/translation-icon.svg';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-icon.svg';
 import { ReactComponent as WorldIcon } from 'src/assets/icons/world-icon.svg';
-import { ReactComponent as TranslationIcon } from 'src/assets/icons/translation-icon.svg';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
+import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
 const StepTitle = styled(XXL)`
   margin-bottom: ${({ theme }) => theme.space.base * 2}px;

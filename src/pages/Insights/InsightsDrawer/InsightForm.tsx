@@ -2,6 +2,7 @@ import {
   Button,
   Col,
   Ellipsis,
+  FormField,
   Grid,
   Input,
   Label,
@@ -15,18 +16,17 @@ import {
   XL,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
-import { Field as FormField } from '@zendeskgarden/react-forms';
-import { useTranslation } from 'react-i18next';
-import { useGetCampaignsByCidVideoTagsQuery } from 'src/features/api';
-import { appTheme } from 'src/app/theme';
-import { useParams } from 'react-router-dom';
-import { getColorWithAlpha } from 'src/common/utils';
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
-import { InsightFormValues } from '../FormProvider';
+import { getColorWithAlpha } from 'src/common/utils';
+import { useGetCampaignsByCidVideoTagsQuery } from 'src/features/api';
+import { styled } from 'styled-components';
 import { RadioTag } from '../../Video/components/ObservationForm';
 import { ObservationCard } from '../Collection/ObservationCard';
+import { InsightFormValues } from '../FormProvider';
 import { getUsecasesFromObservations } from '../utils/getUsecasesFromObservations';
 
 const FormContainer = styled.div`

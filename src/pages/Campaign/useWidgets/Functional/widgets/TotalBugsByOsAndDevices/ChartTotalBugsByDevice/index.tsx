@@ -1,11 +1,14 @@
-import { SunburstChart, SM } from '@appquality/unguess-design-system';
+import {
+  SM,
+  SunburstChart,
+  retrieveComponentStyles,
+} from '@appquality/unguess-design-system';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { useBugsByDevices } from './useBugsByDevices';
-import { getChildrenValue } from './getChildrenValue';
 import { WidgetLoader } from '../../widgetLoader';
+import { getChildrenValue } from './getChildrenValue';
+import { useBugsByDevices } from './useBugsByDevices';
 
 const StyledSM = styled(SM)`
   ${(props) => retrieveComponentStyles('text.primary', props)};

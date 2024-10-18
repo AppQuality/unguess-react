@@ -1,16 +1,10 @@
-import { Dropdown, Select, Item } from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { typeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { DropdownItem, DropdownItems, getItemText } from './utils';
-import { UgMenu } from './styledMenu';
+import { DropdownItems, getItemText } from './utils';
 
-export const CampaignTypeDropdown = ({
-  availableTypes,
-}: {
-  availableTypes: string[];
-}) => {
+export const CampaignTypeDropdown = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { type } = useAppSelector((state) => state.filters);
@@ -30,39 +24,28 @@ export const CampaignTypeDropdown = ({
     },
   };
 
-  const onSelectItem = (item: DropdownItem) => {
-    dispatch(typeFilterChanged(item.value));
-  };
-
   return (
-    <Dropdown
-      selectedItem={items[`${type}`]}
-      onSelect={onSelectItem}
-      downshiftProps={{
-        itemToString: (item: DropdownItem) => item && item.value,
+    <Select
+      isPrimary={items[`${type}`].value !== 'all'}
+      renderValue={() =>
+        getItemText(
+          items[`${type}`],
+          t('__DASHABOARD_CAMPAIGN_CAMPAIGN_TYPE_FILTER_LABEL Max:10')
+        )
+      }
+      inputValue={items[`${type}`].value}
+      selectionValue={items[`${type}`].value}
+      onSelect={async (item) => {
+        dispatch(typeFilterChanged(item));
       }}
     >
-      <Field>
-        <Select {...(items[`${type}`].value !== 'all' && { isPrimary: true })}>
-          {getItemText(
-            items[`${type}`],
-            t('__DASHABOARD_CAMPAIGN_CAMPAIGN_TYPE_FILTER_LABEL Max:10')
-          )}
-        </Select>
-      </Field>
-      <UgMenu hasArrow>
-        {Object.keys(items).map((key) => (
-          <Item
-            key={items[`${key}`].value}
-            value={items[`${key}`]}
-            {...(availableTypes.indexOf(items[`${key}`].value) === -1 && {
-              disabled: true,
-            })}
-          >
-            {items[`${key}`].label}
-          </Item>
-        ))}
-      </UgMenu>
-    </Dropdown>
+      {Object.keys(items).map((key) => (
+        <Select.Option
+          key={items[`${key}`].value}
+          value={items[`${key}`].value}
+          label={items[`${key}`].label}
+        />
+      ))}
+    </Select>
   );
 };

@@ -1,5 +1,7 @@
-import { Anchor } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import {
+  Anchor,
+  retrieveComponentStyles,
+} from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
 export const ShowMore = styled(Anchor)`

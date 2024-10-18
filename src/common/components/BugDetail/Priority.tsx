@@ -1,13 +1,7 @@
-import {
-  Dropdown,
-  Select,
-  Item,
-  Menu,
-  Skeleton,
-  MD,
-} from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
+import { MD, Select, Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { DEFAULT_BUG_PRIORITY } from 'src/constants';
 import {
   Bug,
@@ -15,18 +9,7 @@ import {
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
 import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
 import { getPriorityInfo } from '../utils/getPriorityInfo';
-
-const StyledItem = styled(Item)`
-  display: flex;
-  align-items: center;
-
-  > svg {
-    margin-right: ${({ theme }) => theme.space.xs};
-  }
-`;
 
 const SelectedItem = styled.div`
   display: flex;
@@ -36,23 +19,16 @@ const SelectedItem = styled.div`
   }
 `;
 
-type DropdownItem = {
-  id: number;
-  text: string;
-  slug: string;
-  icon: React.ReactNode;
-};
-
 const Priority = ({ bug }: { bug: Bug }) => {
   const { t } = useTranslation();
   const { priority: bugPriority } = bug;
-  const [selectedItem, setSelectedItem] = useState<DropdownItem>({
+  const [selectedItem, setSelectedItem] = useState({
     id: DEFAULT_BUG_PRIORITY.id,
     slug: DEFAULT_BUG_PRIORITY.name,
     text: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).text,
     icon: getPriorityInfo(DEFAULT_BUG_PRIORITY.name as Priority, t).icon,
   });
-  const [options, setOptions] = useState<DropdownItem[]>([]);
+  const [options, setOptions] = useState<(typeof selectedItem)[]>([]);
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const {
     data: cpPriorities,
@@ -100,43 +76,41 @@ const Priority = ({ bug }: { bug: Bug }) => {
           style={{ borderRadius: appTheme.borderRadii.md }}
         />
       ) : (
-        <Dropdown
-          selectedItem={selectedItem}
-          onSelect={async (item: DropdownItem) => {
+        <Select
+          renderValue={(value) => {
+            const selectedStatus = options.find(
+              (s) => s.id === Number(value.inputValue)
+            );
+            return (
+              <SelectedItem>
+                {selectedStatus?.icon} {selectedStatus?.text}
+              </SelectedItem>
+            );
+          }}
+          isCompact
+          inputValue={selectedItem.id.toString()}
+          selectionValue={selectedItem.id.toString()}
+          onSelect={async (value) => {
             await patchBug({
               cid: bug.campaign_id.toString(),
               bid: bug.id.toString(),
               body: {
-                priority_id: item.id,
+                priority_id: Number(value),
               },
             });
-
-            setSelectedItem(item);
-          }}
-          downshiftProps={{
-            itemToString: (item: DropdownItem) => item && item.slug,
           }}
         >
-          <Field className="bug-dropdown-custom-priority">
-            <Select isCompact>
-              <SelectedItem>
-                {selectedItem.icon} {selectedItem.text}
-              </SelectedItem>
-            </Select>
-          </Field>
-          <Menu>
-            {options &&
-              options.map((item) => (
-                <StyledItem
-                  key={item.slug}
-                  value={item}
-                  className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
-                >
-                  {item.icon} {item.text}
-                </StyledItem>
-              ))}
-          </Menu>
-        </Dropdown>
+          {options &&
+            options.map((item) => (
+              <Select.Option
+                key={item.slug}
+                value={item.id.toString()}
+                label={item.text}
+                icon={item.icon}
+                className={`bug-dropdown-custom-priority-item-${item.slug.toLowerCase()}`}
+              />
+            ))}
+        </Select>
       )}
     </div>
   );
