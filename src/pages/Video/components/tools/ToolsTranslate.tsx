@@ -96,6 +96,8 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
         </MD>
         <div style={{ margin: `${appTheme.space.xs} 0` }}>
           <Select
+            fullWidthOption
+            listboxAppendToNode={document.body}
             label={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
             startIcon={<TranslateIcon />}
             placeholder={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
