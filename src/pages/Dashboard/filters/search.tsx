@@ -1,9 +1,11 @@
+import {
+  FormField as Field,
+  MediaInput,
+} from '@appquality/unguess-design-system';
 import { useCallback, useEffect, useState } from 'react';
-import { MediaInput } from '@appquality/unguess-design-system';
-import { ReactComponent as SearchIcon } from 'src/assets/icons/search-stroke.svg';
-import { Field } from '@zendeskgarden/react-forms';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { ReactComponent as SearchIcon } from 'src/assets/icons/search-stroke.svg';
 import { searchFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import styled from 'styled-components';
 

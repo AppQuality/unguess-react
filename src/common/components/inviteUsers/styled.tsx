@@ -1,5 +1,9 @@
-import { Accordion, MD, Modal } from '@appquality/unguess-design-system';
-import { getColor } from '@zendeskgarden/react-theming';
+import {
+  Accordion,
+  MD,
+  Modal,
+  getColor,
+} from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
 export const FlexContainer = styled.div<{ isLoading?: boolean }>`

@@ -29,10 +29,20 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    const { hasError } = this.state;
+    const { hasError, error } = this.state;
     const { children } = this.props;
 
     if (hasError) {
+      if (process.env.NODE_ENV === 'development') {
+        return (
+          <div>
+            {error?.message}
+            <br />
+            <code>{error?.stack}</code>
+          </div>
+        );
+      }
+
       return <ErrorBoundaryPage />;
     }
 

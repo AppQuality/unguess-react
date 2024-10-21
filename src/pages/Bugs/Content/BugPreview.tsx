@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
-import { BugStateDropdown } from 'src/common/components/BugDetail/BugStateDropdown';
+import ChangeStatusDropdown from 'src/common/components/BugDetail/BugStateSelect/ChangeStatusDropdown';
 import BugDescription from 'src/common/components/BugDetail/Description';
 import BugDetails from 'src/common/components/BugDetail/Details';
 import BugMeta from 'src/common/components/BugDetail/Meta';
@@ -108,7 +108,11 @@ export const BugPreview = ({
           <BugMeta bug={bug} />
           <AnchorButtons bug={bug} scrollerBoxId={scrollerBoxId} />
           <GridWrapper>
-            <BugStateDropdown bug={bug} />
+            <ChangeStatusDropdown
+              currentStatusId={bug.custom_status.id}
+              campaignId={campaignId.toString()}
+              bugId={currentBugId ? currentBugId.toString() : ''}
+            />
             <BugPriority bug={bug} />
           </GridWrapper>
           <BugTags bug={bug} refetchBugTags={refetch} />

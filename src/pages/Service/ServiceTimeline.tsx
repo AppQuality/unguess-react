@@ -1,6 +1,6 @@
 import {
-  ContainerCard,
   Col,
+  ContainerCard,
   Grid,
   MD,
   OrderedList,
@@ -9,19 +9,19 @@ import {
   Span,
   Timeline,
   XXL,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
-import { ServiceResponse } from 'src/features/backoffice';
 import { Link } from 'react-scroll';
-import { extractStrapiData } from 'src/common/getStrapiData';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import { getLocalizedStrapiData } from 'src/common/utils';
-import i18n from 'src/i18n';
+import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
 import { StyledDivider } from 'src/common/components/navigation/asideNav';
-import { ServiceExpressCta } from './ServiceExpressCta';
+import { extractStrapiData } from 'src/common/getStrapiData';
+import { getLocalizedStrapiData } from 'src/common/utils';
+import { ServiceResponse } from 'src/features/backoffice';
+import i18n from 'src/i18n';
+import styled from 'styled-components';
 import { ServiceContactUsCta } from './ServiceContactUsCta';
+import { ServiceExpressCta } from './ServiceExpressCta';
 
 const StickyContainer = styled.div`
   position: sticky;

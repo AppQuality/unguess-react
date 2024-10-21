@@ -1,13 +1,13 @@
 import {
-  Modal,
-  FooterItem,
   Button,
+  FooterItem,
+  Modal,
   ModalClose,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import styled from 'styled-components';
-import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
+import styled from 'styled-components';
 
 const DangerHeader = styled(Modal.Header)`
   display: flex;
