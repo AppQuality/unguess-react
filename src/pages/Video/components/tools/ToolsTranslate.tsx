@@ -188,19 +188,6 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
                 setIsOpen(false);
 
                 setLanguage(internalLanguage);
-
-                addToast(
-                  ({ close }) => (
-                    <Notification
-                      onClose={close}
-                      type="success"
-                      message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
-                      closeText={t('__TOAST_CLOSE_TEXT')}
-                      isPrimary
-                    />
-                  ),
-                  { placement: 'top' }
-                );
               })
               .catch((e) => {
                 // eslint-disable-next-line no-console
