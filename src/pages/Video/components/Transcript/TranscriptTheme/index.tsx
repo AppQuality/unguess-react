@@ -7,16 +7,21 @@ import SentenceWrapper from './SentenceWrapper';
 import SentencesWrapper from './SentencesWrapper';
 import SpeakerWrapper from './SpeakerWrapper';
 import TranslationWrapper from './TranslationsWrapper';
-import WordWrapper from './WordWrapper';
 
 export const TranscriptTheme = Theme.configure({
   speakerWrapper: SpeakerWrapper,
   activeWrapper: ActiveWrapper,
-  wordWrapper: WordWrapper,
   observationWrapper: ObservationWrapper,
   searchStyleWrapper: styled.div`
     .search-result {
       background-color: ${({ theme }) => theme.palette.product.talk};
+    }
+    word {
+      display: inline-block;
+      font-size: ${({ theme }) => theme.fontSizes.md};
+      position: relative;
+      color: ${({ theme }) => theme.palette.grey[700]};
+      line-height: 2;
     }
   `,
   sentencesWrapper: SentencesWrapper,
