@@ -62,13 +62,9 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
     (preference) => preference?.name === 'translations_language'
   );
 
-  // Remove videoLanguage and current translation language from allowedLanguages
-  const filteredLanguages = allowedLanguages.filter(
-    (lang) => lang !== videoLanguage && lang !== currentLanguage
-  );
-
   useEffect(() => {
-    if (languagePreference?.value) {
+    const lang = languagePreference?.value;
+    if (lang && lang !== videoLanguage && lang !== currentLanguage) {
       setInternalLanguage(languagePreference.value);
     }
   }, [languagePreference]);
@@ -101,13 +97,16 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
             label={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
             startIcon={<TranslateIcon />}
             placeholder={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
+            onSelect={(value) => setInternalLanguage(value)}
+            selectionValue={internalLanguage}
+            inputValue={getLanguageNameByFullTag(internalLanguage) ?? ''}
           >
-            {filteredLanguages.map((lang) => (
+            {allowedLanguages.map((lang) => (
               <Select.Option
                 key={`language-${lang}-option`}
                 value={lang}
+                isDisabled={lang === videoLanguage || lang === currentLanguage}
                 label={getLanguageNameByFullTag(lang) || ''}
-                isSelected={internalLanguage === lang}
               />
             ))}
           </Select>
