@@ -53,7 +53,7 @@ export const Header = ({
             {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
           </XL>
         </IconTitleContainer>
-        <SM color={appTheme.palette.grey[700]}>
+        <SM color={appTheme.palette.grey[600]}>
           {t('__VIDEO_PAGE_TRANSCRIPT_INFO')}
         </SM>
       </TitleWrapper>
