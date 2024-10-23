@@ -12,78 +12,40 @@ import { ReactComponent as SettingsIcon } from '@zendeskgarden/svg-icons/src/16/
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
-import {
-  useGetVideosByVidQuery,
-  useGetVideosByVidTranslationQuery,
-  usePostVideosByVidTranslationMutation,
-} from 'src/features/api';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { usePostVideosByVidTranslationMutation } from 'src/features/api';
 import { ToolsTranslate } from './ToolsTranslate';
 import { useToolsContext } from './context/ToolsContext';
-import { usePreferredLanguage } from './usePreferredLanguage';
+import { useTranslationTools } from './hooks/useTranslationTools';
 
 export const Tools = () => {
   const { t } = useTranslation();
   const { videoId } = useParams();
-  const { isOpen, setIsOpen, language, setLanguage } = useToolsContext();
-  const { hasFeatureFlag } = useFeatureFlag();
-  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
-
   const { addToast } = useToast();
-  const [requestTranslation, { isLoading: isLoadingRequestTranslation }] =
-    usePostVideosByVidTranslationMutation();
+  const { isError, isProcessing, data } = useTranslationTools();
+  const { isOpen, setIsOpen, setLanguage } = useToolsContext();
+  const [requestTranslation] = usePostVideosByVidTranslationMutation();
 
-  const preferredLanguage = usePreferredLanguage();
+  if (isError) return null;
 
-  const { data: translation, isLoading: isLoadingTranslation } =
-    useGetVideosByVidTranslationQuery(
-      {
-        vid: videoId || '',
-        ...(language && { lang: language }),
-      },
-      {
-        skip: !hasAIFeatureFlag || !language || !preferredLanguage,
-      }
-    );
+  if (data.hasQuickTranslate && data.preferredLanguage) {
+    // 2 buttons
+    return (
+      <div>
+        <Button
+          isBasic
+          disabled={isProcessing || !data.canQuickTranslate}
+          onClick={() => {
+            if (!data.preferredLanguage) return;
 
-  const { data: video } = useGetVideosByVidQuery({
-    vid: videoId || '',
-  });
-
-  if (!hasAIFeatureFlag || isLoadingTranslation) return null;
-  const canTranslate =
-    !!preferredLanguage &&
-    video &&
-    video.language.localeCompare(preferredLanguage) !== 0 &&
-    (!translation ||
-      translation.language.localeCompare(preferredLanguage) !== 0);
-  const isTranslating =
-    translation &&
-    translation.language === preferredLanguage &&
-    translation.processing === 1;
-
-  return (
-    <div>
-      <Button
-        isBasic
-        disabled={
-          translation?.processing === 1 ||
-          isLoadingRequestTranslation ||
-          translation?.language === preferredLanguage
-        }
-        onClick={() => {
-          if (canTranslate) {
-            if (!preferredLanguage) return;
             requestTranslation({
               vid: videoId || '',
               body: {
-                language: preferredLanguage,
+                language: data.preferredLanguage,
               },
             })
               .unwrap()
               .then(() => {
-                setLanguage(preferredLanguage);
+                setLanguage(data.preferredLanguage || '');
               })
               .catch((e) => {
                 // eslint-disable-next-line no-console
@@ -102,32 +64,23 @@ export const Tools = () => {
                   { placement: 'top' }
                 );
               });
-          } else {
-            setIsOpen(true);
-          }
-        }}
-      >
-        <Button.StartIcon>
-          <TranslateIcon />
-        </Button.StartIcon>
-        {preferredLanguage &&
-        video?.language.localeCompare(preferredLanguage) !== 0 ? (
+          }}
+        >
+          <Button.StartIcon>
+            <TranslateIcon />
+          </Button.StartIcon>
           <Span>
             {t('__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE')}{' '}
-            {getLanguageNameByFullTag(preferredLanguage)}
+            {getLanguageNameByFullTag(data.preferredLanguage)}
           </Span>
-        ) : (
-          t('__TOOLS_MENU_ITEM_BUTTON_LABEL')
-        )}
-      </Button>
-      {isOpen && (
-        <ToolsTranslate
-          {...(translation && { currentLanguage: translation.language })}
-        />
-      )}
-      {(preferredLanguage &&
-        video?.language.localeCompare(preferredLanguage) !== 0) ||
-      isTranslating ? (
+        </Button>
+        {isOpen && (
+          <ToolsTranslate
+            {...(data.translation && {
+              currentLanguage: data.translation.language,
+            })}
+          />
+        )}        
         <Tooltip
           content={t('__TOOLS_MENU_ITEM_LANGUAGE_SETTINGS_TOOLTIP')}
           type="light"
@@ -137,7 +90,7 @@ export const Tools = () => {
           }}
         >
           <IconButton
-            disabled={translation?.processing === 1}
+            disabled={isProcessing}
             style={{ marginLeft: appTheme.space.sm }}
             onClick={() => {
               setIsOpen(!isOpen);
@@ -146,7 +99,32 @@ export const Tools = () => {
             <SettingsIcon color={appTheme.palette.blue[600]} />
           </IconButton>
         </Tooltip>
-      ) : null}
+      </div>
+    );
+  }
+
+  // 1 button
+  return (
+    <div>
+      <Button
+        isBasic
+        disabled={isProcessing}
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        <Button.StartIcon>
+          <TranslateIcon />
+        </Button.StartIcon>
+        {t('__TOOLS_MENU_ITEM_BUTTON_LABEL')}
+      </Button>
+      {isOpen && (
+        <ToolsTranslate
+          {...(data.translation && {
+            currentLanguage: data.translation.language,
+          })}
+        />
+      )}
     </div>
   );
 };
