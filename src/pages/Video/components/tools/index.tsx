@@ -4,6 +4,7 @@ import {
   IconButton,
   Notification,
   Span,
+  Tooltip,
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-fill.svg';
@@ -80,15 +81,24 @@ export const Tools = () => {
             })}
           />
         )}
-        <IconButton
-          disabled={isProcessing}
-          style={{ marginLeft: appTheme.space.sm }}
-          onClick={() => {
-            setIsOpen(!isOpen);
+        <Tooltip
+          content={t('__TOOLS_MENU_ITEM_LANGUAGE_SETTINGS_TOOLTIP')}
+          type="light"
+          size="medium"
+          onClick={(e: any) => {
+            e.stopPropagation();
           }}
         >
-          <SettingsIcon color={appTheme.palette.blue[600]} />
-        </IconButton>
+          <IconButton
+            disabled={isProcessing}
+            style={{ marginLeft: appTheme.space.sm }}
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+          >
+            <SettingsIcon color={appTheme.palette.blue[600]} />
+          </IconButton>
+        </Tooltip>
       </div>
     );
   }
