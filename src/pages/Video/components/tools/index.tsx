@@ -80,7 +80,7 @@ export const Tools = () => {
               currentLanguage: data.translation.language,
             })}
           />
-        )}        
+        )}
         <Tooltip
           content={t('__TOOLS_MENU_ITEM_LANGUAGE_SETTINGS_TOOLTIP')}
           type="light"
