@@ -898,6 +898,7 @@
   "__TOAST_CLOSE_TEXT": "Chiudi",
   "__TOAST_GENERIC_ERROR_MESSAGE": "Qualcosa è andato storto, riprova più tardi.",
   "__TOOLS_MENU_ITEM_BUTTON_LABEL": "Translate",
+  "__TOOLS_MENU_ITEM_LANGUAGE_SETTINGS_TOOLTIP": "Language settings",
   "__TOOLS_MENU_ITEM_TRANSLATE_PREFERENCE_TITLE": "Traduci in",
   "__TOOLS_TRANSLATE_BUTTON_CANCEL": "Cancel",
   "__TOOLS_TRANSLATE_BUTTON_SEND": "Translate",
