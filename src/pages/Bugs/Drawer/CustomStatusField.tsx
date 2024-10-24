@@ -1,28 +1,29 @@
 import {
   Accordion,
   Checkbox,
+  FormField as Field,
   MD,
   Span,
   TextLabel,
+  Toggle,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { Field, Toggle } from '@zendeskgarden/react-forms';
+import { Divider } from 'src/common/components/divider';
+import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
+import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
+import { BugCustomStatus } from 'src/features/api';
 import {
   getIsNaBugExcluded,
   setIsNaBugExcluded,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { Divider } from 'src/common/components/divider';
 import { CustomStatusFilterType } from 'src/features/bugsPage/customStatusFilter';
-import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
-import { getExcludeNotABugInfo } from 'src/common/components/utils/getExcludeNotABugInfo';
-import { BugCustomStatus } from 'src/features/api';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 
 export const CustomStatusField = ({
   customStatuses,

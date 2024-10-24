@@ -1,19 +1,9 @@
-import { useState } from 'react';
+import { Select } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import {
-  Dropdown,
-  Item,
-  Menu,
-  Select,
-  Span,
-} from '@appquality/unguess-design-system';
-import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
-import { Field } from '@zendeskgarden/react-dropdowns';
-import { setOrder, setOrderBy } from 'src/features/bugsPage/bugsPageSlice';
 import { useAppSelector } from 'src/app/hooks';
-import { DropdownLabel } from './DropdownLabel';
-import ItemGroup from './ItemGroup';
+import { ReactComponent as SortIcon } from 'src/assets/icons/sort-2.svg';
+import { setOrder, setOrderBy } from 'src/features/bugsPage/bugsPageSlice';
 
 export const SortBy = () => {
   const { t } = useTranslation();
@@ -21,8 +11,6 @@ export const SortBy = () => {
 
   const orderBy = useAppSelector((state) => state.bugsPage.orderBy);
   const order = useAppSelector((state) => state.bugsPage.order);
-
-  const [selected, setSelected] = useState<string>(`${orderBy}-${order}`);
 
   const getTranslatedLabel = (key: string) => {
     switch (key) {
@@ -40,63 +28,49 @@ export const SortBy = () => {
   };
 
   return (
-    <Dropdown
-      selectedItem={selected}
-      onSelect={(item: string) => {
+    <Select
+      style={{ minWidth: '220px' }}
+      inputValue={`${orderBy}-${order}`}
+      selectionValue={`${orderBy}-${order}`}
+      renderValue={({ inputValue }) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <SortIcon />
+          {getTranslatedLabel(inputValue || '')}
+        </div>
+      )}
+      onSelect={(item) => {
         const [orderByValue, orderValue] = item.split('-');
         dispatch(setOrderBy(orderByValue as typeof orderBy));
         dispatch(setOrder(orderValue as typeof order));
-        setSelected(item);
       }}
+      isCompact
+      isPrimary
     >
-      <Field className="dropdown-sort-by">
-        <Select isCompact isPrimary>
-          <DropdownLabel>
-            <SortIcon />
-            <Span>{getTranslatedLabel(selected)}</Span>
-          </DropdownLabel>
-        </Select>
-      </Field>
-      <Menu>
-        <Dropdown.HeaderItem>{t('__BUGS_ORDER_BY')}:</Dropdown.HeaderItem>
-        <Dropdown.Separator />
+      <Select.OptionGroup label={`${t('__BUGS_ORDER_BY')}:`}>
+        <Select.OptionTitle>
+          {t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
+        </Select.OptionTitle>
+        <Select.Option
+          value="severity_id-DESC"
+          label={t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
+        />
+        <Select.Option
+          value="severity_id-ASC"
+          label={t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
+        />
 
-        <ItemGroup
-          title={t('__BUGS_PAGE_BUG_DETAIL_DETAILS_BUG_SEVERITY_LABEL')}
-        >
-          <Item
-            key="severity_id-DESC"
-            value="severity_id-DESC"
-            className="dropdown-sort-by-severity-high-to-low"
-          >
-            {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
-          </Item>
-          <Item
-            key="severity_id-ASC"
-            value="severity_id-ASC"
-            className="dropdown-sort-by-severity-low-to-high"
-          >
-            {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
-          </Item>
-        </ItemGroup>
-        <ItemGroup title={t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}>
-          <Item
-            key="priority_id-DESC"
-            value="priority_id-DESC"
-            className="dropdown-sort-by-priority-high-to-low"
-          >
-            {t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
-          </Item>
-
-          <Item
-            key="priority_id-ASC"
-            value="priority_id-ASC"
-            className="dropdown-sort-by-priority-low-to-high"
-          >
-            {t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
-          </Item>
-        </ItemGroup>
-      </Menu>
-    </Dropdown>
+        <Select.OptionTitle>
+          {t('__BUGS_PAGE_BUG_DETAIL_PRIORITY_LABEL')}
+        </Select.OptionTitle>
+        <Select.Option
+          value="priority_id-DESC"
+          label={t('__BUGS_ORDER_HIGHEST_TO_LOWEST')}
+        />
+        <Select.Option
+          value="priority_id-ASC"
+          label={t('__BUGS_ORDER_LOWEST_TO_HIGHEST')}
+        />
+      </Select.OptionGroup>
+    </Select>
   );
 };

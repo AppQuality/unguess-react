@@ -14,7 +14,7 @@ RUN rm -f .npmrc
 COPY . .
 
 RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env.local
-
+ENV PUBLIC_URL=/
 RUN ["yarn", "build"]
 RUN ["yarn", "sentry:sourcemaps"]
 

@@ -1,10 +1,8 @@
 import {
   Col,
-  Dropdown,
+  ContainerCard,
+  FormField,
   Grid,
-  Item,
-  Label,
-  Menu,
   Paragraph,
   RadioCard,
   Row,
@@ -12,26 +10,23 @@ import {
   Span,
   XL,
   XXL,
-  ContainerCard,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
-import { Field as FormField } from '@zendeskgarden/react-forms';
-import { Field as DropdownField } from '@zendeskgarden/react-dropdowns';
 import { FormikProps } from 'formik';
-import * as Yup from 'yup';
-import styled from 'styled-components';
 import { t } from 'i18next';
-import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
-import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-active.svg';
-import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
-import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
-import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
-import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { useState } from 'react';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as FlagIcon } from 'src/assets/icons/flag-icon.svg';
+import { ReactComponent as MobileappIconActive } from 'src/assets/icons/mobileapp-active.svg';
+import { ReactComponent as MobileappIcon } from 'src/assets/icons/mobileapp.svg';
+import { ReactComponent as WebappIconActive } from 'src/assets/icons/webapp-active.svg';
+import { ReactComponent as WebappIcon } from 'src/assets/icons/webapp.svg';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import styled from 'styled-components';
+import * as Yup from 'yup';
 
 interface Reasons {
   [key: string]: string;
@@ -142,36 +137,29 @@ export const WhatStep = ({
         </Grid>
       </StyledFormField>
       <StyledFormField>
-        <Dropdown
-          {...props.getFieldProps('campaign_reason')}
-          {...(errors.campaign_reason && { validation: 'error' })}
-          onSelect={(item) => {
-            props.setFieldValue('campaign_reason', item);
-            setSelectedItem(item);
-          }}
-          selectedItem={selectedItem}
-        >
-          <DropdownField style={{ marginTop: appTheme.space.lg }}>
-            <Label>
-              {t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
-            </Label>
-            <Select start={<FlagIcon />}>
-              {selectedItem && reasonItems[`${selectedItem}`]}
-            </Select>
-            {errors.campaign_reason && (
-              <HelpTextMessage validation="error">
-                {errors.campaign_reason}
-              </HelpTextMessage>
-            )}
-          </DropdownField>
-          <Menu>
+        <div style={{ marginTop: appTheme.space.lg }}>
+          <Select
+            {...props.getFieldProps('campaign_reason')}
+            {...(errors.campaign_reason && { validation: 'error' })}
+            onSelect={async (item) => {
+              props.setFieldValue('campaign_reason', item);
+              setSelectedItem(item);
+            }}
+            inputValue={selectedItem}
+            selectionValue={selectedItem}
+            startIcon={<FlagIcon />}
+            renderValue={() => reasonItems[`${selectedItem}`]}
+            label={t('__EXPRESS_WIZARD_STEP_WHAT_FIELD_CAMPAIGN_REASON_LABEL')}
+          >
             {Object.keys(reasonItems).map((key) => (
-              <Item key={key} value={key}>
-                {reasonItems[`${key}`]}
-              </Item>
+              <Select.Option
+                key={key}
+                value={key}
+                label={reasonItems[`${key}`]}
+              />
             ))}
-          </Menu>
-        </Dropdown>
+          </Select>
+        </div>
       </StyledFormField>
     </ContainerCard>
   );

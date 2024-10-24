@@ -1,23 +1,23 @@
 import {
+  Button,
+  FormField as Field,
   Label,
   MediaInput,
   Paragraph,
-  Button,
 } from '@appquality/unguess-design-system';
+import { FieldArray, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
+import { Divider } from 'src/common/components/divider';
 import { useGetCampaignsByCidCustomStatusesQuery } from 'src/features/api';
 import styled from 'styled-components';
-import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
-import { Field } from '@zendeskgarden/react-forms';
-import { Divider } from 'src/common/components/divider';
-import { FieldArray, Form, FormikProps } from 'formik';
-import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
-import { DotsMenu } from './DotsMenu';
 import { Circle } from './Circle';
-import { CustomStatusFormProps } from './formModel';
+import { DotsMenu } from './DotsMenu';
 import { StatusValidationMessage } from './StatusValidationMessage';
+import { CustomStatusFormProps } from './formModel';
+import { getCustomStatusPhaseName } from './getCustomStatusPhaseName';
 
 const FakeInput = styled.div`
   padding: ${({ theme }) => theme.space.xs} ${({ theme }) => theme.space.sm};

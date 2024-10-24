@@ -1,16 +1,10 @@
-import {
-  Dropdown,
-  Select,
-  Menu,
-  Item,
-} from '@appquality/unguess-design-system';
-import { Field } from '@zendeskgarden/react-dropdowns';
+import { Select } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch } from 'src/app/hooks';
 import {
   getCurrentCampaignData,
   updateFilters,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'src/app/hooks';
 import { useFilterData } from '../Drawer/useFilterData';
 
 export const ReadFilter = () => {
@@ -29,9 +23,22 @@ export const ReadFilter = () => {
     return null;
 
   return (
-    <div style={{ maxWidth: '150px' }}>
-      <Dropdown
-        selectedItem={data.read.selected ?? 'all'}
+    <div style={{ minWidth: '130px' }}>
+      <Select
+        isCompact
+        inputValue={data.read.selected ? data.read.selected : 'all'}
+        selectionValue={data.read.selected ? data.read.selected : 'all'}
+        isPrimary={data.read.selected === 'unread'}
+        renderValue={({ inputValue }) => {
+          switch (inputValue) {
+            case 'unread':
+              return t('__BUGS_READ_FILTER_ITEM_UNREAD');
+            case 'all':
+              return t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER');
+            default:
+              return t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER');
+          }
+        }}
         onSelect={(item) => {
           dispatch(
             updateFilters({
@@ -42,29 +49,12 @@ export const ReadFilter = () => {
           );
         }}
       >
-        <Field className="dropdown-un-read-bugs">
-          <Select isCompact isPrimary={data.read.selected === 'unread'}>
-            {data.read.selected === 'unread'
-              ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-              : t('__BUGS_READ_FILTER_ITEM_PLACEHOLDER')}
-          </Select>
-        </Field>
-        <Menu>
-          {data.read.available.map((item) => (
-            <Item
-              className={`dropdown-un-read-bugs-item-${
-                item === 'unread' ? 'unread' : 'all'
-              }`}
-              value={item}
-              disabled={!counters[item as string]}
-            >
-              {item === 'unread'
-                ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-                : t('__BUGS_READ_FILTER_ITEM_ALL')}
-            </Item>
-          ))}
-        </Menu>
-      </Dropdown>
+        <Select.Option value="all" label={t('__BUGS_READ_FILTER_ITEM_ALL')} />
+        <Select.Option
+          value="unread"
+          label={t('__BUGS_READ_FILTER_ITEM_UNREAD')}
+        />
+      </Select>
     </div>
   );
 };

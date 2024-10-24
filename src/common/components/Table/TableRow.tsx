@@ -1,6 +1,7 @@
-import { Row } from '@zendeskgarden/react-tables';
+import { TableNew } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
+const { Row } = TableNew;
 interface TableRowProps {
   children: React.ReactNode;
   id: string;

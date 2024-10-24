@@ -1,4 +1,7 @@
-import { Tag } from '@appquality/unguess-design-system';
+import {
+  Tag,
+  useVideoContext as usePlayerContext,
+} from '@appquality/unguess-design-system';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import styled from 'styled-components';
@@ -33,6 +36,7 @@ const StyledTag = styled(Tag)<{
   }
 
   > svg {
+    width: 16px;
     min-width: 0;
     margin-right: ${({ theme }) => theme.space.xxs};
   }
@@ -40,19 +44,18 @@ const StyledTag = styled(Tag)<{
 
 export const ObservationTooltip = ({
   observationId,
-  start,
   color,
   label,
   isSelecting,
-  seekPlayer,
+  start,
 }: {
+  start?: number;
   observationId: number;
-  start: number;
   color?: string;
   label?: string;
   isSelecting?: boolean;
-  seekPlayer?: (time: number) => void;
 }) => {
+  const { context, setIsPlaying } = usePlayerContext();
   const { setOpenAccordion } = useVideoContext();
   return (
     <StyledTag
@@ -60,7 +63,11 @@ export const ObservationTooltip = ({
       color={color}
       onClick={() => {
         setOpenAccordion({ id: observationId });
-        seekPlayer?.(start);
+        if (start && context?.player?.ref.current) {
+          context.player.ref.current.currentTime = start;
+          context.player.ref.current.play();
+          setIsPlaying(true);
+        }
       }}
       isSelecting={isSelecting}
     >

@@ -1,16 +1,15 @@
 import {
   Notification,
-  useVideoContext as usePlayerContext,
   PlayerProvider,
   Skeleton,
+  useVideoContext as usePlayerContext,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
-  GetVideosByVidApiResponse,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
   usePatchVideosByVidObservationsAndOidMutation,
@@ -18,14 +17,13 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
 import { useVideoContext } from '../context/VideoContext';
-import { EmptyTranscript } from './EmptyTranscript';
 import { ObservationTooltip } from './ObservationTooltip';
 import { Transcript } from './Transcript';
+import { ToolsContextProvider } from './tools/context/ToolsContext';
 
 const PlayerContainer = styled.div<{
-  isFetching: boolean;
+  isFetching?: boolean;
 }>`
   width: 100%;
   height: 55vh;
@@ -46,7 +44,7 @@ const PlayerContainer = styled.div<{
   }
 `;
 
-const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
+const CorePlayer = () => {
   const { videoId } = useParams();
   const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -66,10 +64,12 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
 
   const {
     data: observations,
-    isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
     isError: isErrorObservations,
   } = useGetVideosByVidObservationsQuery({
+    vid: videoId || '',
+  });
+  const { data: video, isFetching: isFetchingVideo } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
 
@@ -125,19 +125,15 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
     [start]
   );
 
-  const seekPlayer = useCallback(
-    (time: number, forcePlay?: boolean) => {
-      if (videoRef && videoRef.current) {
-        videoRef.current.currentTime = time;
+  const seekPlayer = (time: number, forcePlay?: boolean) => {
+    if (!videoRef?.current) return;
 
-        if (forcePlay) {
-          setIsPlaying(true);
-          videoRef.current.play();
-        }
-      }
-    },
-    [videoRef]
-  );
+    videoRef.current.currentTime = time;
+    if (forcePlay) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
 
   const mappedObservations = useMemo(
     () =>
@@ -152,15 +148,14 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         label: obs.title,
         tooltipContent: (
           <ObservationTooltip
-            observationId={obs.id}
             start={obs.start}
+            observationId={obs.id}
             color={
               obs.tags.find(
                 (tag) => tag.group.name.toLowerCase() === 'severity'
               )?.tag.style || appTheme.palette.grey[600]
             }
             label={obs.title}
-            seekPlayer={seekPlayer}
           />
         ),
         onClick: () => {
@@ -172,7 +167,9 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
     [observations]
   );
 
-  const handleBookmarksUpdate = useCallback(async (bookmark: IBookmark) => {
+  const handleBookmarksUpdateFunction: ComponentProps<
+    typeof PlayerProvider.Core
+  >['handleBookmarkUpdate'] = async (bookmark) => {
     await patchObservation({
       vid: videoId || '',
       oid: bookmark.id.toString(),
@@ -183,14 +180,16 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
         tags: bookmark.tags?.map((item: any) => item.tag.id),
       },
     }).unwrap();
-  }, []);
+  };
 
-  if (!observations || isErrorObservations) return null;
+  const handleBookmarksUpdate = useCallback(handleBookmarksUpdateFunction, []);
+
+  if (!observations || isErrorObservations || !video) return null;
 
   if (isLoadingObservations) return <Skeleton />;
   return (
-    <>
-      <PlayerContainer isFetching={isFetchingObservations}>
+    <ToolsContextProvider>
+      <PlayerContainer isFetching={isFetchingVideo}>
         <PlayerProvider.Core
           ref={videoRef}
           pipMode="auto"
@@ -205,16 +204,14 @@ const CorePlayer = ({ video }: { video: GetVideosByVidApiResponse }) => {
           }}
         />
       </PlayerContainer>
-      {video.transcript ? (
-        <Transcript
-          currentTime={currentTime}
-          isSearchable
-          setCurrentTime={seekPlayer}
-        />
-      ) : (
-        <EmptyTranscript />
-      )}
-    </>
+      <Transcript
+        currentTime={currentTime}
+        setCurrentTime={(time) => {
+          seekPlayer(time, false);
+        }}
+        videoId={videoId}
+      />
+    </ToolsContextProvider>
   );
 };
 
@@ -244,7 +241,7 @@ const VideoPlayer = () => {
 
   return (
     <PlayerProvider url={video.streamUrl ?? video.url}>
-      <CorePlayer video={video} />
+      <CorePlayer />
     </PlayerProvider>
   );
 };

@@ -1,6 +1,7 @@
 import {
   Accordion,
   Checkbox,
+  FormField as Field,
   MD,
   Span,
   TextDescription,
@@ -9,15 +10,14 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-forms';
-import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
-import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
 import { getPriorityInfo } from 'src/common/components/utils/getPriorityInfo';
+import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
+import { PriorityFilterType } from 'src/features/bugsPage/priorityFilter';
 import styled from 'styled-components';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 import { ShowMore } from './ShowMore';
 import { useFilterData } from './useFilterData';
-import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 
 const CenterAlignedDiv = styled.div`
   display: flex;
