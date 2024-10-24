@@ -238,7 +238,6 @@ unguessApi.enhanceEndpoints({
               });
 
               if (!results.processing && intervalId) {
-                console.log('Forse Entra?', results, intervalId);
                 clearInterval(intervalId);
                 promise.unsubscribe();
               }
