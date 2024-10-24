@@ -448,6 +448,7 @@ const ObservationForm = ({
               </div>
               <PullRight>
                 <Button
+                  isBasic
                   isDanger
                   disabled={formProps.isSubmitting}
                   style={{
