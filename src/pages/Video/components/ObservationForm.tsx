@@ -448,11 +448,10 @@ const ObservationForm = ({
               </div>
               <PullRight>
                 <Button
-                  isBasic
+                  isDanger
                   disabled={formProps.isSubmitting}
                   style={{
                     marginRight: appTheme.space.sm,
-                    color: appTheme.palette.red[500],
                   }}
                   onClick={() => {
                     setIsConfirmationModalOpen(true);
