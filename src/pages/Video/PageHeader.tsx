@@ -2,22 +2,25 @@ import {
   Anchor,
   MD,
   PageHeader,
+  Pagination,
   Skeleton,
   Span,
 } from '@appquality/unguess-design-system';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { Meta } from 'src/common/components/Meta';
 import {
   useGetCampaignsByCidQuery,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { Meta } from 'src/common/components/Meta';
-import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { styled } from 'styled-components';
+import { useVideo } from '../Videos/useVideos';
 import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
 
 const SeveritiesMetaContainer = styled.div`
@@ -43,9 +46,20 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 
 const VideoPageHeader = () => {
   const { campaignId, videoId } = useParams();
+  const [paginationData, setPaginationData] = useState<{
+    items: Array<{ id: number }>;
+    total: number;
+    currentPage: number;
+  }>({
+    items: [],
+    total: 0,
+    currentPage: 1,
+  });
   const { t } = useTranslation();
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+  const navigate = useNavigate();
+  const { sorted } = useVideo(campaignId || '');
 
   const {
     data: campaign,
@@ -64,6 +78,36 @@ const VideoPageHeader = () => {
   } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
+
+  useEffect(() => {
+    if (sorted && video) {
+      // Get item object from data where usecase id is equal to video usecase id
+      const group = sorted.find((item) => item.usecase.id === video.usecase.id);
+
+      if (group) {
+        console.log('🚀 ~ useEffect ~ group:', group);
+
+        // Create a new array with the video ordered (desktop, tablet, smartphone, other)
+        const videos = [
+          ...group.videos.desktop.map((item) => ({ id: item.id })),
+          ...group.videos.tablet.map((item) => ({ id: item.id })),
+          ...group.videos.smartphone.map((item) => ({ id: item.id })),
+          ...group.videos.other.map((item) => ({ id: item.id })),
+        ];
+
+        console.log('🚀 ~ useEffect ~ videos:', videos);
+        const index = videos.findIndex((item) => item.id === video.id);
+        console.log('🚀 ~ useEffect ~ index:', index);
+
+        setPaginationData({
+          items: videos,
+          total: videos.length,
+          currentPage: index + 1,
+        });
+      }
+    }
+  }, [sorted, video]);
+
   const {
     data: observations,
     isLoading: isLoadingObservations,
@@ -101,6 +145,22 @@ const VideoPageHeader = () => {
             <Span isBold>
               T{video.tester.id} | {video.tester.name}
             </Span>
+            <div>
+              {video && (
+                <Pagination
+                  totalPages={paginationData.total}
+                  currentPage={paginationData.currentPage}
+                  onChange={(page) => {
+                    // eslint-disable-next-line no-console
+                    const targetId = paginationData.items[page - 1].id;
+                    console.log('Voglio il video:', targetId);
+                    navigate(`/campaigns/${campaignId}/videos/${targetId}`, {
+                      replace: true,
+                    });
+                  }}
+                />
+              )}
+            </div>
           </PageHeader.Description>
           <StyledPageHeaderMeta>
             {severities && severities.length > 0 && (
