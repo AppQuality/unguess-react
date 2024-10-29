@@ -25,7 +25,7 @@ import { Header } from '../../common/components/navigation/header/header';
 import { usePathWithoutLocale } from './usePathWithoutLocale';
 import {
   useGetUsersMePreferencesQuery,
-  usePutUsersMePreferencesByPrefidMutation,
+  usePutUsersMePreferencesBySlugMutation,
 } from '../api';
 
 const StyledContent = styled(Content)`
@@ -60,11 +60,11 @@ export const Navigation = ({
     (preference) => preference?.name === 'notifications_enabled'
   );
 
-  const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
+  const [updatePreference] = usePutUsersMePreferencesBySlugMutation();
 
   const onSetSettings = async (value: string) => {
     await updatePreference({
-      prefid: `${notificationsPreference?.preference_id}`,
+      slug: `${notificationsPreference?.name}`,
       body: { value },
     })
       .unwrap()
