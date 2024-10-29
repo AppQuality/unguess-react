@@ -375,11 +375,11 @@ export interface paths {
   '/users/me/preferences': {
     get: operations['get-users-me-preferences'];
   };
-  '/users/me/preferences/{prefid}': {
-    put: operations['put-users-me-preferences-prefid'];
+  '/users/me/preferences/{slug}': {
+    put: operations['put-users-me-preferences-slug'];
     parameters: {
       path: {
-        prefid: string;
+        slug: string;
       };
     };
   };
@@ -2850,10 +2850,10 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  'put-users-me-preferences-prefid': {
+  'put-users-me-preferences-slug': {
     parameters: {
       path: {
-        prefid: string;
+        slug: string;
       };
     };
     responses: {
@@ -3000,6 +3000,8 @@ export interface operations {
         content: {
           'application/json': {
             language: string;
+            /** @default 0 */
+            processing: number;
             sentences: {
               text: string;
               start: number;
