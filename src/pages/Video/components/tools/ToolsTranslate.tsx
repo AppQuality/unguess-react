@@ -134,7 +134,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
 
             if (isLangChecked)
               updatePreference({
-                prefid: languagePreference?.preference_id.toString() || '',
+                prefid: languagePreference?.name || '',
                 body: {
                   value: internalLanguage,
                 },
