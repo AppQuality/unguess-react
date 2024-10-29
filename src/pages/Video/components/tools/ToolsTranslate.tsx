@@ -24,7 +24,7 @@ import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
   usePostVideosByVidTranslationMutation,
-  usePutUsersMePreferencesByPrefidMutation,
+  usePutUsersMePreferencesBySlugMutation,
 } from 'src/features/api';
 import { useToolsContext } from './context/ToolsContext';
 
@@ -37,7 +37,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
-  const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
+  const [updatePreference] = usePutUsersMePreferencesBySlugMutation();
   const allowedLanguages = getAllLanguageTags();
 
   const {
@@ -134,7 +134,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
 
             if (isLangChecked)
               updatePreference({
-                prefid: languagePreference?.name || '',
+                slug: languagePreference?.name || '',
                 body: {
                   value: internalLanguage,
                 },
@@ -156,7 +156,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
                     { placement: 'top' }
                   );
                 })
-                .catch((e) => {
+                .catch((e: string) => {
                   // eslint-disable-next-line no-console
                   console.error(e);
 
