@@ -482,12 +482,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/users/me/preferences` }),
     }),
-    putUsersMePreferencesByPrefid: build.mutation<
-      PutUsersMePreferencesByPrefidApiResponse,
-      PutUsersMePreferencesByPrefidApiArg
+    putUsersMePreferencesBySlug: build.mutation<
+      PutUsersMePreferencesBySlugApiResponse,
+      PutUsersMePreferencesBySlugApiArg
     >({
       query: (queryArg) => ({
-        url: `/users/me/preferences/${queryArg.prefid}`,
+        url: `/users/me/preferences/${queryArg.slug}`,
         method: 'PUT',
         body: queryArg.body,
       }),
@@ -1419,10 +1419,10 @@ export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
   items?: UserPreference[];
 };
 export type GetUsersMePreferencesApiArg = void;
-export type PutUsersMePreferencesByPrefidApiResponse =
+export type PutUsersMePreferencesBySlugApiResponse =
   /** status 200 OK */ UserPreference;
-export type PutUsersMePreferencesByPrefidApiArg = {
-  prefid: string;
+export type PutUsersMePreferencesBySlugApiArg = {
+  slug: string;
   body: {
     value: string;
   };
@@ -2226,7 +2226,7 @@ export const {
   useGetTemplatesQuery,
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
-  usePutUsersMePreferencesByPrefidMutation,
+  usePutUsersMePreferencesBySlugMutation,
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,
   usePostVideosByVidObservationsMutation,
