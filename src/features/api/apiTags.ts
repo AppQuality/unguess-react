@@ -92,7 +92,7 @@ unguessApi.enhanceEndpoints({
     getUsersMePreferences: {
       providesTags: ['Preferences'],
     },
-    putUsersMePreferencesByPrefid: {
+    putUsersMePreferencesBySlug: {
       invalidatesTags: ['Preferences'],
     },
     getVideosByVidObservations: {
