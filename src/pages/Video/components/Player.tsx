@@ -77,6 +77,17 @@ const CorePlayer = () => {
     async (time: number) => {
       if (!start) {
         setStart(time);
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="info"
+              message={`observation started at ${time}`}
+              isPrimary
+            />
+          ),
+          { placement: 'bottom' }
+        );
         return;
       }
 
