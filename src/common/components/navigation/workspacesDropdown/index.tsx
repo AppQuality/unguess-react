@@ -61,7 +61,7 @@ const useOptions = () => {
             {
               id: 'shared',
               label: 'Shared workspaces',
-              options: personalWorkspaces.map((ws) => ({
+              options: sharedWorkspace.map((ws) => ({
                 id: ws.id.toString(),
                 label: ws.company,
                 value: ws,
