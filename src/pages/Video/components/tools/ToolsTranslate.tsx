@@ -28,6 +28,8 @@ import {
 } from 'src/features/api';
 import { useToolsContext } from './context/ToolsContext';
 
+const TRANSLATION_SLUG = 'translations_language';
+
 const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const { videoId } = useParams();
   const { t } = useTranslation();
@@ -59,7 +61,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   } = useGetUsersMePreferencesQuery();
 
   const languagePreference = preferences?.items?.find(
-    (preference) => preference?.name === 'translations_language'
+    (preference) => preference?.name === TRANSLATION_SLUG
   );
 
   useEffect(() => {
@@ -134,7 +136,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
 
             if (isLangChecked)
               updatePreference({
-                slug: languagePreference?.name || '',
+                slug: TRANSLATION_SLUG,
                 body: {
                   value: internalLanguage,
                 },
