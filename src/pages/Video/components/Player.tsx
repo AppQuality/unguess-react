@@ -82,8 +82,7 @@ const CorePlayer = () => {
             <Notification
               onClose={close}
               type="info"
-              message={`observation started at ${time}`}
-              isPrimary
+              message="Observation started"
             />
           ),
           { placement: 'bottom' }
@@ -103,6 +102,16 @@ const CorePlayer = () => {
           videoRef?.current?.pause();
           exitFullscreen();
           setOpenAccordion({ id: res.id });
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="info"
+                message="Observation ended"
+              />
+            ),
+            { placement: 'bottom' }
+          );
         } catch (err) {
           addToast(
             ({ close }) => (
