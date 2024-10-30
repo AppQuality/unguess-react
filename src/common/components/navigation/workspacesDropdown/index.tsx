@@ -33,8 +33,6 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
 `;
 
 const useOptions = () => {
-  const { activeWorkspace } = useActiveWorkspace();
-
   const workspaces = useAppSelector(selectWorkspaces);
   const sharedWorkspace = workspaces.filter((ws) => ws.isShared);
   const personalWorkspaces = workspaces.filter((ws) => !ws.isShared);
