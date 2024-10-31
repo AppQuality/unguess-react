@@ -1,39 +1,42 @@
-import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
+import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 
 export const useSeveritiesDistributionData = (campaignId: string) => {
   const { data, isLoading, isFetching, isError } =
-    useGetCampaignsByCidWidgetsQuery({
+    useGetCampaignsByCidObservationsQuery({
       cid: campaignId,
-      s: 'ux-severities-distribution',
     });
-  const { data: results, kind } = data || {};
-  if (results && kind === 'uxSeveritiesDistribution') {
-    if (results.severitiesDistribution) {
-      const {
-        countPositiveFindings,
-        countMinorIssue,
-        countMajorIssue,
-        countObservationSeverity,
-      } = results.severitiesDistribution;
 
-      return {
-        countObservations: results.countObservations,
-        countPositiveFindings,
-        countMinorIssue,
-        countMajorIssue,
-        countObservationSeverity,
-        isLoading,
-        isFetching,
-        isError,
-      };
-    }
+  const countByType = {
+    positive: 0,
+    minor: 0,
+    major: 0,
+    observation: 0,
+  };
+
+  if (data && data.kind === 'ungrouped') {
+    countByType.minor = data.results.filter((o) => {
+      const severity = o.tags.find((t) => t.group.name === 'severity');
+      return severity && severity.tag.name === 'Minor issue';
+    }).length;
+    countByType.major = data.results.filter((o) => {
+      const severity = o.tags.find((t) => t.group.name === 'severity');
+      return severity && severity.tag.name === 'Major issue';
+    }).length;
+    countByType.positive = data.results.filter((o) => {
+      const severity = o.tags.find((t) => t.group.name === 'severity');
+      return severity && severity.tag.name === 'Positive Finding';
+    }).length;
+    countByType.observation = data.results.filter((o) => {
+      const severity = o.tags.find((t) => t.group.name === 'severity');
+      return severity && severity.tag.name === 'Observation';
+    }).length;
   }
+
+  const total = Object.values(countByType).reduce((a, v) => a + v, 0);
   return {
-    countPositiveFindings: 0,
-    countMinorIssue: 0,
-    countMajorIssue: 0,
-    countObservations: 0,
-    countObservationSeverity: 0,
+    countObservations: total,
+    countByType,
+    byType: countByType,
     isLoading,
     isFetching,
     isError,
