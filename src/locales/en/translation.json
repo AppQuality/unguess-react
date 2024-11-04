@@ -671,7 +671,7 @@
   "__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_BROWSERS_EMPTY": "You didn't select any browser.",
   "__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_DEVICES": "The test will be executed on:",
   "__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_OS": "On the following operating system:",
-  "__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT": "Testers speak: <1><0>{{campaign_language}}</0></1>.",
+  "__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT": "Testers speak: <0>{{campaign_language}}</0>.",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON": "Go back to dashboard",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE": "Keep track of your campaign in realtime, directly from your dashboard.",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE_USE_CASES": "Our tester leaders will soon reach out to you about the campaign launch.",
