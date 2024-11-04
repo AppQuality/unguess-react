@@ -21,7 +21,9 @@ export const AgeRange = (props: FormikProps<WizardModel>) => {
     <Trans
       i18nKey="__EXPRESS_3_WIZARD_STEP_RECAP_WHO_AGE_RANGE_TEXT"
       components={{
-        span: <Span isBold />,
+        age_start_span: <Span isBold />,
+        age_end_span: <Span isBold />,
+        label_span: <Span />,
       }}
       values={{
         age_range_start: range[0],
