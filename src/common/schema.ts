@@ -2196,6 +2196,10 @@ export interface operations {
         /** Campaign id */
         cid: components['parameters']['cid'];
       };
+      query: {
+        /** bugs, videos */
+        filterBy?: string;
+      };
     };
     responses: {
       /** OK */
@@ -2450,6 +2454,8 @@ export interface operations {
         order?: components['parameters']['order'];
         /** Order by accepted field */
         orderBy?: components['parameters']['orderBy'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
       };
     };
     responses: {
@@ -2457,17 +2463,9 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items: {
-              usecase: {
-                id: number;
-                title: string;
-                description: string;
-                completion: number;
-              };
-              videos: (components['schemas']['Video'] & {
-                observations?: components['schemas']['Observation'][];
-              })[];
-            }[];
+            items: (components['schemas']['Video'] & {
+              usecaseId: number;
+            })[];
           } & components['schemas']['PaginationData'];
         };
       };

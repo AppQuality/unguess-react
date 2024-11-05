@@ -19,7 +19,7 @@ import {
 } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useVideo } from 'src/pages/Videos/useVideos';
+import { useVideos } from 'src/pages/Videos/useVideos';
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { CampaignStatus } from 'src/types';
@@ -83,7 +83,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     sorted: videos,
     isLoading: isLoadingVideos,
     isFetching: isFetchingVideos,
-  } = useVideo(campaign.id.toString() ?? '');
+  } = useVideos(campaign.id.toString() ?? '');
   const { hasFeatureFlag } = useFeatureFlag();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 

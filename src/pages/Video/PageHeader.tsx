@@ -20,8 +20,8 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { useVideo } from '../Videos/useVideos';
 import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
+import { useVideos } from '../Videos/useVideos';
 
 const SeveritiesMetaContainer = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ const VideoPageHeader = () => {
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const navigate = useNavigate();
-  const { sorted } = useVideo(campaignId || '');
+  const { sorted } = useVideos(campaignId || '');
 
   const {
     data: campaign,
@@ -81,24 +81,16 @@ const VideoPageHeader = () => {
 
   useEffect(() => {
     if (sorted && video) {
-      // Get item object from data where usecase id is equal to video usecase id
       const group = sorted.find((item) => item.usecase.id === video.usecase.id);
-
       if (group) {
-        console.log('🚀 ~ useEffect ~ group:', group);
-
-        // Create a new array with the video ordered (desktop, tablet, smartphone, other)
         const videos = [
-          ...group.videos.desktop.map((item) => ({ id: item.id })),
-          ...group.videos.tablet.map((item) => ({ id: item.id })),
-          ...group.videos.smartphone.map((item) => ({ id: item.id })),
-          ...group.videos.other.map((item) => ({ id: item.id })),
-        ];
+          ...group.videos.desktop,
+          ...group.videos.tablet,
+          ...group.videos.smartphone,
+          ...group.videos.other,
+        ].map((item) => ({ id: item.id }));
 
-        console.log('🚀 ~ useEffect ~ videos:', videos);
         const index = videos.findIndex((item) => item.id === video.id);
-        console.log('🚀 ~ useEffect ~ index:', index);
-
         setPaginationData({
           items: videos,
           total: videos.length,
@@ -130,7 +122,7 @@ const VideoPageHeader = () => {
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
   return (
-    <LayoutWrapper isNotBoxed>
+    <LayoutWrapper isNotBoxed style={{ paddingTop: appTheme.space.xl }}>
       <PageHeader style={{ padding: `${appTheme.space.xs} 0` }}>
         <PageHeader.Main mainTitle={t('__VIDEO_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
@@ -141,19 +133,21 @@ const VideoPageHeader = () => {
               <Anchor id="breadcrumb-parent">{t('__VIDEOS_PAGE_TITLE')}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
-          <PageHeader.Description>
-            <Span isBold>
-              T{video.tester.id} | {video.tester.name}
-            </Span>
-            <div>
+          <PageHeader.Description style={{ width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Span isBold>
+                T{video.tester.id} | {video.tester.name}
+              </Span>
+
               {video && (
                 <Pagination
                   totalPages={paginationData.total}
                   currentPage={paginationData.currentPage}
+                  pageGap={2}
+                  pagePadding={0}
                   onChange={(page) => {
                     // eslint-disable-next-line no-console
                     const targetId = paginationData.items[page - 1].id;
-                    console.log('Voglio il video:', targetId);
                     navigate(`/campaigns/${campaignId}/videos/${targetId}`, {
                       replace: true,
                     });
@@ -195,10 +189,10 @@ const VideoPageHeader = () => {
                 </SeveritiesMetaContainer>
               </>
             )}
-            <StyledUseCaseName>
+            {/*   <StyledUseCaseName>
               {capitalizeFirstLetter(video.usecase.name)} -{' '}
               {capitalizeFirstLetter(video.tester.device.type)}
-            </StyledUseCaseName>
+            </StyledUseCaseName> */}
           </StyledPageHeaderMeta>
         </PageHeader.Main>
       </PageHeader>

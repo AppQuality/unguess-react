@@ -1,5 +1,5 @@
 import {
-  GetCampaignsByCidVideosApiResponse,
+  GetCampaignsByCidObservationsApiResponse,
   Observation,
   VideoTag,
 } from 'src/features/api';
@@ -45,27 +45,22 @@ export function getSeverityTagsByVideoCount(
 }
 
 export function getAllSeverityTags(
-  items: GetCampaignsByCidVideosApiResponse['items']
+  items: GetCampaignsByCidObservationsApiResponse
 ): TagWithCount[] {
   const globalTagCount: { [key: string]: { count: number; style: string } } =
     {};
+  if (items.kind !== 'ungrouped') return [];
 
-  // Iterate over each item
-  items.forEach((item) => {
-    // Iterate over each video in the item
-    item.videos.forEach((video) => {
-      const tagsWithCounts = video.observations
-        ? getSeverityTagsByVideoCount(video.observations)
-        : [];
+  const tagsWithCounts = items.results
+    ? getSeverityTagsByVideoCount(items.results)
+    : [];
 
-      tagsWithCounts.forEach((tag) => {
-        if (globalTagCount[tag.name]) {
-          globalTagCount[tag.name].count += tag.count;
-        } else {
-          globalTagCount[tag.name] = { count: tag.count, style: tag.style };
-        }
-      });
-    });
+  tagsWithCounts.forEach((tag) => {
+    if (globalTagCount[tag.name]) {
+      globalTagCount[tag.name].count += tag.count;
+    } else {
+      globalTagCount[tag.name] = { count: tag.count, style: tag.style };
+    }
   });
 
   const summedTagsArray: TagWithCount[] = Object.keys(globalTagCount).map(
