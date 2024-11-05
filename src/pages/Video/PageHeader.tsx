@@ -15,13 +15,13 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import {
   useGetCampaignsByCidQuery,
+  useGetCampaignsByCidVideosQuery,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
-import { useVideos } from '../Videos/useVideos';
 
 const SeveritiesMetaContainer = styled.div`
   display: flex;
@@ -59,16 +59,6 @@ const VideoPageHeader = () => {
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const navigate = useNavigate();
-  const { sorted } = useVideos(campaignId || '');
-
-  const {
-    data: campaign,
-    isFetching: isFetchingCampaign,
-    isLoading: isLoadingCampaign,
-    isError: isErrorCampaign,
-  } = useGetCampaignsByCidQuery({
-    cid: campaignId || '',
-  });
 
   const {
     data: video,
@@ -79,15 +69,41 @@ const VideoPageHeader = () => {
     vid: videoId || '',
   });
 
+  const {
+    data: videosList,
+    isLoading: isLoadingVideoList,
+    isFetching: isFetchingVideoList,
+    isError: isErrorVideoList,
+  } = useGetCampaignsByCidVideosQuery(
+    {
+      cid: campaignId || '',
+      filterBy: {
+        usecase: video?.usecase.id || 0,
+      },
+    },
+    { skip: !video || !campaignId }
+  );
+
+  const {
+    data: campaign,
+    isFetching: isFetchingCampaign,
+    isLoading: isLoadingCampaign,
+    isError: isErrorCampaign,
+  } = useGetCampaignsByCidQuery({
+    cid: campaignId || '',
+  });
+
   useEffect(() => {
-    if (sorted && video) {
-      const group = sorted.find((item) => item.usecase.id === video.usecase.id);
+    if (videosList && video) {
+      const group = videosList.items.filter(
+        (item) => item.usecaseId === video.usecase.id
+      );
       if (group) {
         const videos = [
-          ...group.videos.desktop,
-          ...group.videos.tablet,
-          ...group.videos.smartphone,
-          ...group.videos.other,
+          ...group.filter((item) => item.tester.device.type === 'desktop'),
+          ...group.filter((item) => item.tester.device.type === 'tablet'),
+          ...group.filter((item) => item.tester.device.type === 'smartphone'),
+          ...group.filter((item) => item.tester.device.type === 'other'),
         ].map((item) => ({ id: item.id }));
 
         const index = videos.findIndex((item) => item.id === video.id);
@@ -98,7 +114,7 @@ const VideoPageHeader = () => {
         });
       }
     }
-  }, [sorted, video]);
+  }, [videosList, video]);
 
   const {
     data: observations,
