@@ -6,7 +6,7 @@ import {
   Skeleton,
   Span,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -46,15 +46,6 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 
 const VideoPageHeader = () => {
   const { campaignId, videoId } = useParams();
-  const [paginationData, setPaginationData] = useState<{
-    items: Array<{ id: number }>;
-    total: number;
-    currentPage: number;
-  }>({
-    items: [],
-    total: 0,
-    currentPage: 1,
-  });
   const { t } = useTranslation();
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
@@ -69,12 +60,7 @@ const VideoPageHeader = () => {
     vid: videoId || '',
   });
 
-  const {
-    data: videosList,
-    isLoading: isLoadingVideoList,
-    isFetching: isFetchingVideoList,
-    isError: isErrorVideoList,
-  } = useGetCampaignsByCidVideosQuery(
+  const { data: videosList } = useGetCampaignsByCidVideosQuery(
     {
       cid: campaignId || '',
       filterBy: {
@@ -93,27 +79,26 @@ const VideoPageHeader = () => {
     cid: campaignId || '',
   });
 
-  useEffect(() => {
+  const paginationData = useMemo(() => {
     if (videosList && video) {
       const group = videosList.items.filter(
         (item) => item.usecaseId === video.usecase.id
       );
-      if (group) {
-        const videos = [
-          ...group.filter((item) => item.tester.device.type === 'desktop'),
-          ...group.filter((item) => item.tester.device.type === 'tablet'),
-          ...group.filter((item) => item.tester.device.type === 'smartphone'),
-          ...group.filter((item) => item.tester.device.type === 'other'),
-        ].map((item) => ({ id: item.id }));
+      const videos = [
+        ...group.filter((item) => item.tester.device.type === 'desktop'),
+        ...group.filter((item) => item.tester.device.type === 'tablet'),
+        ...group.filter((item) => item.tester.device.type === 'smartphone'),
+        ...group.filter((item) => item.tester.device.type === 'other'),
+      ].map((item) => ({ id: item.id }));
 
-        const index = videos.findIndex((item) => item.id === video.id);
-        setPaginationData({
-          items: videos,
-          total: videos.length,
-          currentPage: index + 1,
-        });
-      }
+      const index = videos.findIndex((item) => item.id === video.id);
+      return {
+        items: videos,
+        total: videos.length,
+        currentPage: index + 1,
+      };
     }
+    return { items: [], total: 0, currentPage: 1 };
   }, [videosList, video]);
 
   const {
@@ -132,7 +117,6 @@ const VideoPageHeader = () => {
   if (!video || isErrorVideo) return null;
   if (!campaign || isErrorCampaign) return null;
   if (!observations || isErrorObservations) return null;
-
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingCampaign || isLoadingCampaign) return <Skeleton />;
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
@@ -155,7 +139,7 @@ const VideoPageHeader = () => {
                 T{video.tester.id} | {video.tester.name}
               </Span>
 
-              {video && (
+              {video && paginationData.items.length > 0 && (
                 <Pagination
                   totalPages={paginationData.total}
                   currentPage={paginationData.currentPage}
@@ -205,10 +189,6 @@ const VideoPageHeader = () => {
                 </SeveritiesMetaContainer>
               </>
             )}
-            {/*   <StyledUseCaseName>
-              {capitalizeFirstLetter(video.usecase.name)} -{' '}
-              {capitalizeFirstLetter(video.tester.device.type)}
-            </StyledUseCaseName> */}
           </StyledPageHeaderMeta>
         </PageHeader.Main>
       </PageHeader>
