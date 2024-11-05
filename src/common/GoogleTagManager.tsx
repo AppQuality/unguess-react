@@ -3,6 +3,8 @@ import TagManager, { TagManagerArgs } from 'react-gtm-module';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from 'src/app/hooks';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import Analytics from 'analytics';
+import googleAnalytics from '@analytics/google-analytics';
 
 const tagManagerArgs: TagManagerArgs = {
   gtmId: process.env.REACT_APP_GTM_ID || 'GTM-WVXPS94',
@@ -19,6 +21,15 @@ const tagManagerArgs: TagManagerArgs = {
   },
 };
 TagManager.initialize(tagManagerArgs);
+
+const analytics = Analytics({
+  app: 'Unguess',
+  plugins: [
+    googleAnalytics({
+      measurementIds: ['G-2M29YVTK78'],
+    }),
+  ],
+});
 
 export const GoogleTagManager = ({
   title,
@@ -52,6 +63,15 @@ export const GoogleTagManager = ({
 
       TagManager.dataLayer({
         dataLayer: tagManagerDataLayer,
+      });
+
+      analytics.identify(userData.id.toString(), {
+        role: userData.role,
+        wp_user_id: userData.tryber_wp_user_id,
+        tester_id: userData.id,
+        name: userData.name,
+        email: userData.email,
+        company: activeWorkspace.company,
       });
     }
   }, [userData, activeWorkspace]);
