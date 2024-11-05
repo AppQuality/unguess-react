@@ -50,7 +50,6 @@ export const useVideos = (cid: string) => {
   useEffect(() => {
     if (data && data.items && observations && usecases) {
       if (observations.kind !== 'ungrouped') return;
-      console.log(observations);
       const observationsByMediaId = observations.results.reduce(
         (acc, observation) => {
           if (!acc[observation.mediaId]) {
@@ -87,6 +86,7 @@ export const useVideos = (cid: string) => {
             ...video,
             observations: observationsByMediaId[video.id] || [],
           };
+          // eslint-disable-next-line
           ordered.videos[deviceType].push(videoWithObservations);
         });
 
