@@ -105,7 +105,6 @@ const VideoPageHeader = () => {
     data: observations,
     isLoading: isLoadingObservations,
     isFetching: isFetchingObservations,
-    isError: isErrorObservations,
   } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
@@ -116,7 +115,6 @@ const VideoPageHeader = () => {
 
   if (!video || isErrorVideo) return null;
   if (!campaign || isErrorCampaign) return null;
-  if (!observations || isErrorObservations) return null;
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingCampaign || isLoadingCampaign) return <Skeleton />;
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
@@ -157,7 +155,7 @@ const VideoPageHeader = () => {
             </div>
           </PageHeader.Description>
           <StyledPageHeaderMeta>
-            {severities && severities.length > 0 && (
+            {observations && severities && severities.length > 0 && (
               <>
                 <SeveritiesMetaText>
                   <Trans
