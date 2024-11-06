@@ -6,8 +6,8 @@ import {
 } from '@appquality/unguess-design-system';
 import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
+import { GetCampaignsByCidVideosApiResponse } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
-import { IVideo } from '../types';
 import { Video } from './VideoItem';
 
 const Container = styled.div`
@@ -35,7 +35,7 @@ export const VideoContainer = ({
 }: {
   title: string;
   videosCount: number;
-  video: IVideo[];
+  video: GetCampaignsByCidVideosApiResponse['items'];
 }) => {
   const { t } = useTranslation();
 
