@@ -1,12 +1,12 @@
-import { Anchor, Tabs, SM } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
+import { Anchor, SM, Tabs } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import i18n from 'src/i18n';
+import { appTheme } from 'src/app/theme';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import i18n from 'src/i18n';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
-import { UnreadBugs } from './UnreadBugs';
 import { DuplicateBugs } from './DuplicateBugs';
 import { useBugsByDuplicates } from './DuplicateBugs/useBugsByDuplicates';
+import { UnreadBugs } from './UnreadBugs';
 import { UnreadBugsWrapper } from './UnreadBugs/UnreadBugsWrapper';
 
 const IncomingBugs = ({
@@ -33,7 +33,9 @@ const IncomingBugs = ({
             id="tab-unread-bugs-incoming-bugs-widget"
             title={t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_TAB_TITLE')}
           >
-            <UnreadBugs campaignId={campaignId} />
+            <UnreadBugsWrapper>
+              <UnreadBugs campaignId={campaignId} />
+            </UnreadBugsWrapper>
           </Tabs.Panel>
           <Tabs.Panel
             id="tab-most-submitted-bugs-incoming-bugs-widget"
@@ -45,7 +47,7 @@ const IncomingBugs = ({
           </Tabs.Panel>
         </Tabs>
       ) : (
-        <UnreadBugsWrapper marginTop={appTheme.space.md}>
+        <UnreadBugsWrapper style={{ marginTop: appTheme.space.md }}>
           <UnreadBugs campaignId={campaignId} />
         </UnreadBugsWrapper>
       )}
