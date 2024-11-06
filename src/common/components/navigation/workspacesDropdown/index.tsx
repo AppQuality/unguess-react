@@ -33,8 +33,6 @@ const StyledEllipsis = styled(Ellipsis)<{ isCompact?: boolean }>`
 `;
 
 const useOptions = () => {
-  const { activeWorkspace } = useActiveWorkspace();
-
   const workspaces = useAppSelector(selectWorkspaces);
   const sharedWorkspace = workspaces.filter((ws) => ws.isShared);
   const personalWorkspaces = workspaces.filter((ws) => !ws.isShared);
@@ -51,7 +49,6 @@ const useOptions = () => {
                 id: ws.id.toString(),
                 label: ws.company,
                 value: ws,
-                isSelected: ws.id === activeWorkspace?.id,
               })),
             },
           ]
@@ -65,7 +62,6 @@ const useOptions = () => {
                 id: ws.id.toString(),
                 label: ws.company,
                 value: ws,
-                isSelected: ws.id === activeWorkspace?.id,
               })),
             },
           ]
@@ -150,6 +146,11 @@ export const WorkspacesDropdown = () => {
           inputValue={inputValue}
           onInputChange={setInputValue}
           startIcon={<WorkspacesIcon />}
+          selectionValue={
+            options
+              .flatMap((o) => o.options)
+              .find((o) => o.value?.id === activeWorkspace.id)?.value
+          }
           renderValue={() => (
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
