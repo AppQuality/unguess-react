@@ -15,7 +15,11 @@ enum DeviceTypeEnum {
   desktop = 'desktop',
   other = 'other',
 }
-type VideoWithObservations = Video & { observations: Observation[] | [] };
+export type VideoWithObservations = Video & {
+  observations: Observation[] | [];
+} & {
+  usecaseId: number;
+};
 type ObservationWithMediaId = Observation & { mediaId: number };
 type OrderedVideo = Record<DeviceTypeEnum, VideoWithObservations[]>;
 type VideosWithTotal = OrderedVideo & { total: number };

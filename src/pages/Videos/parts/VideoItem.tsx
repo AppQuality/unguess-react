@@ -1,7 +1,6 @@
 import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { GetCampaignsByCidVideosApiResponse } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
@@ -9,6 +8,7 @@ import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder
 import { Pipe } from 'src/common/components/Pipe';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 import { formatDuration } from '../utils/formatDuration';
+import { VideoWithObservations } from '../useVideos';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
@@ -58,11 +58,7 @@ const TagsContainer = styled.div`
   align-items: flex-start;
 `;
 
-const Poster = ({
-  video,
-}: {
-  video: GetCampaignsByCidVideosApiResponse['items'][number]['videos'][number];
-}) => (
+const Poster = ({ video }: { video: VideoWithObservations }) => (
   <ThumbnailContainer>
     {video.poster ? (
       <img src={video.poster} alt={`Video ${video.id}`} />
@@ -72,11 +68,7 @@ const Poster = ({
   </ThumbnailContainer>
 );
 
-const Video = ({
-  video,
-}: {
-  video: GetCampaignsByCidVideosApiResponse['items'][number]['videos'][number];
-}) => {
+const Video = ({ video }: { video: VideoWithObservations }) => {
   const { campaignId } = useParams();
   const videoUrl = useLocalizeRoute(
     `campaigns/${campaignId}/videos/${video.id}`

@@ -120,7 +120,7 @@ const VideoPageHeader = () => {
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
   return (
-    <LayoutWrapper isNotBoxed style={{ paddingTop: appTheme.space.xl }}>
+    <LayoutWrapper isNotBoxed>
       <PageHeader style={{ padding: `${appTheme.space.xs} 0` }}>
         <PageHeader.Main mainTitle={t('__VIDEO_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
@@ -137,7 +137,7 @@ const VideoPageHeader = () => {
                 T{video.tester.id} | {video.tester.name}
               </Span>
 
-              {video && paginationData.items.length > 0 && (
+              {video && paginationData.items.length > 0 ? (
                 <Pagination
                   totalPages={paginationData.total}
                   currentPage={paginationData.currentPage}
@@ -151,6 +151,8 @@ const VideoPageHeader = () => {
                     });
                   }}
                 />
+              ) : (
+                <Skeleton width="200px" height="20px" />
               )}
             </div>
           </PageHeader.Description>

@@ -83,7 +83,6 @@ const VideoPage = () => {
       route="video"
       excludeMarginTop
       excludeMarginBottom
-      isMinimal
     >
       <VideoPageContent />
     </Page>
