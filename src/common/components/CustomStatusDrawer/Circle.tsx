@@ -8,7 +8,7 @@ export const Circle = styled(CircleFill)<{
   height: ${({ theme }) => theme.space.sm};
   min-width: ${({ theme }) => theme.space.sm};
   min-height: ${({ theme }) => theme.space.sm};
-  margin: auto 0;
+  margin-right: ${({ theme }) => theme.space.xs};
   border-radius: 50%;
   color: ${({ color }) => color};
   ${({ theme, color }) =>
