@@ -7,8 +7,8 @@ import {
 import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
-import { IVideo } from '../types';
 import { Video } from './VideoItem';
+import { VideoWithObservations } from '../useVideos';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.sm};
@@ -35,7 +35,7 @@ export const VideoContainer = ({
 }: {
   title: string;
   videosCount: number;
-  video: IVideo[];
+  video: VideoWithObservations[];
 }) => {
   const { t } = useTranslation();
 
