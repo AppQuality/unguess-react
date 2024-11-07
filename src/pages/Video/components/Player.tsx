@@ -77,6 +77,17 @@ const CorePlayer = () => {
     async (time: number) => {
       if (!start) {
         setStart(time);
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="info"
+              message={t('__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_STARTED')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+            />
+          ),
+          { placement: 'bottom' }
+        );
         return;
       }
 
@@ -92,6 +103,17 @@ const CorePlayer = () => {
           videoRef?.current?.pause();
           exitFullscreen();
           setOpenAccordion({ id: res.id });
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="info"
+                message={t('__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_ADDED')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+              />
+            ),
+            { placement: 'bottom' }
+          );
         } catch (err) {
           addToast(
             ({ close }) => (

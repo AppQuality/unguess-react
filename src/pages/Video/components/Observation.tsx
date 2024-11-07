@@ -118,6 +118,7 @@ const Observation = ({
               top: activeElement.offsetTop,
               behavior: 'smooth',
             });
+            activeElement.querySelectorAll('input')[0]?.focus();
           }
           setOpenAccordion(undefined);
         }, 100);
