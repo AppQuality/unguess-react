@@ -986,6 +986,8 @@
   "__VIDEO_PAGE_PLAYER_ERROR_OBSERVATION_TIME": "The observation you are trying to create is too short.",
   "__VIDEO_PAGE_PLAYER_START_ADD_OBSERVATION": "Start observation",
   "__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION": "End observation",
+  "__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_ADDED": "Observation added",
+  "__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_STARTED": "Observation started",
   "__VIDEO_PAGE_TITLE": "UX Tagging Tool",
   "__VIDEO_PAGE_TRANSCRIPT_EMPTY_STATE": "For this video, there is no available transcript.",
   "__VIDEO_PAGE_TRANSCRIPT_INFO": "Select some text to create an observation or use the button on the video player.",

@@ -82,7 +82,8 @@ const CorePlayer = () => {
             <Notification
               onClose={close}
               type="info"
-              message="Observation started"
+              message={t('__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_STARTED')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
             />
           ),
           { placement: 'bottom' }
@@ -107,7 +108,8 @@ const CorePlayer = () => {
               <Notification
                 onClose={close}
                 type="info"
-                message="Observation ended"
+                message={t('__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_ADDED')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
               />
             ),
             { placement: 'bottom' }
