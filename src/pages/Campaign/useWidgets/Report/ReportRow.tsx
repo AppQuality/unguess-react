@@ -102,7 +102,7 @@ export const ReportRow = ({
                 />
               </Col>
             ) : (
-              <Col xs={12} sm={6} md={4} xl={3}>
+              <Col xs="auto">
                 <SpecialCard>
                   <SpecialCard.Meta
                     justifyContent="start"
