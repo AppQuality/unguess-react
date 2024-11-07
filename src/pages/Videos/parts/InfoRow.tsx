@@ -19,7 +19,7 @@ export const InfoRow = ({ uc }: { uc: CampaignVideos[number] }) => {
   return (
     <StyledDiv>
       <MD>
-        <Span isBold>{usecase.title} </Span>
+        <Span isBold>{usecase.title.full} </Span>
         <Span style={{ color: appTheme.palette.grey[600] }}>
           {`(${videos.total} ${t('__VIDEOS_LIST_USECASE_INFO', {
             count: videos.total,

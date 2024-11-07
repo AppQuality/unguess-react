@@ -6,12 +6,11 @@ import {
   Tag,
   TextLabel,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { BugCard } from 'src/common/components/BugCard';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
-import { UnreadBugsWrapper } from './UnreadBugsWrapper';
+import styled from 'styled-components';
 import { EmptyState } from './EmptyState';
 import { useUnreadBugs } from './useUnreadBugs';
 
@@ -61,7 +60,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
   if (isError) return <EmptyState />;
 
   return (
-    <UnreadBugsWrapper>
+    <>
       <StyledSM>
         {t('__CAMPAIGN_WIDGET_INCOMING_BUGS_UNREAD_DESCRIPTION')}
       </StyledSM>
@@ -110,7 +109,7 @@ const UnreadBugs = ({ campaignId }: { campaignId: number }) => {
           </Accordion.Section>
         ))}
       </Accordion>
-    </UnreadBugsWrapper>
+    </>
   );
 };
 

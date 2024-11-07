@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import {
-  GetCampaignsByCidVideosApiResponse,
+  GetCampaignsByCidUsecasesApiResponse,
+  Observation,
   Video,
+  useGetCampaignsByCidObservationsQuery,
+  useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 
@@ -12,16 +15,21 @@ enum DeviceTypeEnum {
   desktop = 'desktop',
   other = 'other',
 }
-
-type OrderedVideo = Record<DeviceTypeEnum, Video[]>;
+export type VideoWithObservations = Video & {
+  observations: Observation[] | [];
+} & {
+  usecaseId: number;
+};
+type ObservationWithMediaId = Observation & { mediaId: number };
+type OrderedVideo = Record<DeviceTypeEnum, VideoWithObservations[]>;
 type VideosWithTotal = OrderedVideo & { total: number };
 
 export type CampaignVideos = Array<{
-  usecase: GetCampaignsByCidVideosApiResponse['items'][number]['usecase'];
+  usecase: GetCampaignsByCidUsecasesApiResponse[number];
   videos: VideosWithTotal;
 }>;
 
-export const useVideo = (cid: string) => {
+export const useVideos = (cid: string) => {
   const [sorted, setSorted] = useState<CampaignVideos>();
 
   const { data, isFetching, isLoading, isError } =
@@ -29,39 +37,74 @@ export const useVideo = (cid: string) => {
       cid,
     });
 
-  useEffect(() => {
-    if (data && data.items) {
-      const orderedVideos: CampaignVideos = [];
+  const {
+    data: observations,
+    isLoading: isLoadingObservations,
+    isFetching: isFetchingObservations,
+    isError: isErrorObservations,
+  } = useGetCampaignsByCidObservationsQuery({ cid });
 
-      data.items.forEach((item) => {
-        const ordered = {
-          usecase: item.usecase,
+  const {
+    data: usecases,
+    isLoading: isLoadingUsecases,
+    isFetching: isFetchingUsecases,
+    isError: isErrorUsecases,
+  } = useGetCampaignsByCidUsecasesQuery({ cid, filterBy: 'videos' });
+
+  useEffect(() => {
+    if (data && data.items && observations && usecases) {
+      if (observations.kind !== 'ungrouped') return;
+      const observationsByMediaId = observations.results.reduce(
+        (acc, observation) => {
+          if (!acc[observation.mediaId]) {
+            acc[observation.mediaId] = [];
+          }
+          acc[observation.mediaId].push(observation);
+          return acc;
+        },
+        {} as { [key: number]: ObservationWithMediaId[] }
+      );
+
+      const videosByUsecase = usecases.map((usecase) => {
+        const videos = data.items.filter(
+          (item) => item.usecaseId === usecase.id
+        );
+
+        const ordered: {
+          usecase: GetCampaignsByCidUsecasesApiResponse[number];
+          videos: VideosWithTotal;
+        } = {
+          usecase,
           videos: {
             smartphone: [],
             tablet: [],
             desktop: [],
             other: [],
-            total: item.videos.length,
-          } as VideosWithTotal,
+            total: videos.length,
+          },
         };
 
-        item.videos.forEach((video) => {
+        videos.forEach((video) => {
           const deviceType = video.tester.device.type as DeviceTypeEnum;
-          // eslint-disable-next-line security/detect-object-injection
-          ordered.videos[deviceType].push(video);
+          const videoWithObservations: VideoWithObservations = {
+            ...video,
+            observations: observationsByMediaId[video.id] || [],
+          };
+          // eslint-disable-next-line
+          ordered.videos[deviceType].push(videoWithObservations);
         });
 
-        orderedVideos.push(ordered);
+        return ordered;
       });
 
-      setSorted(orderedVideos);
+      setSorted(videosByUsecase);
     }
-  }, [data]);
+  }, [data, observations, usecases]);
 
   return {
-    isFetching,
-    isLoading,
-    isError,
+    isFetching: isFetching || isFetchingObservations || isFetchingUsecases,
+    isLoading: isLoading || isLoadingObservations || isLoadingUsecases,
+    isError: isError || isErrorObservations || isErrorUsecases,
     sorted,
   };
 };

@@ -32,7 +32,8 @@ export const CampaignDurationMeta = ({
         <Trans
           i18nKey="__CAMPAIGN_PAGE_INFO_HEADER_FROM_DATE_TO_DATE"
           components={{
-            span: <Span />,
+            span_start: <Span />,
+            span_end: <Span />,
           }}
           values={{
             start_date: formattedStartDate,

@@ -11,9 +11,9 @@ import { appTheme } from 'src/app/theme';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 
 import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
+import { getSeverityColor } from '../../utils/getSeverityColor';
 import { useSeveritiesDistributionData } from '../hooks/useSeveritiesDistributionData';
 import { getMaxSeverity } from '../utils/getMaxSeverity';
-import { getSeverityColor } from '../../utils/getSeverityColor';
 
 export const ProgressMonitoringWidget = ({
   campaignId,
@@ -21,30 +21,25 @@ export const ProgressMonitoringWidget = ({
   campaignId: string;
 }) => {
   const { t } = useTranslation();
-  const {
-    countObservationSeverity,
-    countPositiveFindings,
-    countMajorIssue,
-    countMinorIssue,
-    countObservations,
-  } = useSeveritiesDistributionData(campaignId);
+  const { countObservations, countByType } =
+    useSeveritiesDistributionData(campaignId);
 
   const graphData = [
     {
       label: '',
       keys: {
-        Observation: countObservationSeverity,
-        Positive: countPositiveFindings,
-        Minor: countMinorIssue,
-        Major: countMajorIssue,
+        Observation: countByType.observation,
+        Positive: countByType.positive,
+        Minor: countByType.minor,
+        Major: countByType.major,
       },
     },
   ];
   const maxSeverity = getMaxSeverity(
-    countMajorIssue,
-    countMinorIssue,
-    countPositiveFindings,
-    countObservationSeverity
+    countByType.major,
+    countByType.minor,
+    countByType.positive,
+    countByType.observation
   );
   return (
     <BasicWidget className="progress-monitoring-widget">

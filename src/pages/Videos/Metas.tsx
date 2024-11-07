@@ -19,6 +19,7 @@ import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import {
   CampaignWithOutput,
+  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 import { CampaignStatus } from 'src/types';
@@ -104,28 +105,28 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isError,
   } = useGetCampaignsByCidVideosQuery({ cid: campaign.id.toString() });
 
+  const {
+    data: observations,
+    isFetching: isFetchingObservations,
+    isLoading: isLoadingObservations,
+  } = useGetCampaignsByCidObservationsQuery(
+    {
+      cid: campaignId ?? '',
+    },
+    {
+      skip: !campaignId,
+    }
+  );
+
   useEffect(() => {
     if (videos && videos.items.length > 0) {
-      const groupedVideos = videos?.items.reduce(
-        (total, item) => total + item.videos.length,
-        0
-      );
-      setTotalVideos(groupedVideos);
+      setTotalVideos(videos.items.length);
     }
   }, [videos]);
 
-  const severities = videos ? getAllSeverityTags(videos.items) : [];
+  const severities = observations ? getAllSeverityTags(observations) : [];
 
-  const observationsCount = videos?.items.reduce(
-    (total, item) =>
-      total +
-      item.videos.reduce(
-        (tot, video) =>
-          video.observations ? tot + video.observations.length : 0,
-        0
-      ),
-    0
-  );
+  const observationsCount = observations ? observations.results.length : 0;
 
   const handleUseCaseExport = () => {
     fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
@@ -167,8 +168,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             ),
             { placement: 'top' }
           );
-          // eslint-disable-next-line no-console
-          console.error(res);
         }
       })
       .catch((e) => {
@@ -189,7 +188,13 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       });
   };
 
-  if (isFetching || isLoading) return <Skeleton width="200px" height="20px" />;
+  if (
+    isFetching ||
+    isLoading ||
+    isFetchingObservations ||
+    isLoadingObservations
+  )
+    return <Skeleton width="200px" height="20px" />;
   if (isError) return null;
 
   return (

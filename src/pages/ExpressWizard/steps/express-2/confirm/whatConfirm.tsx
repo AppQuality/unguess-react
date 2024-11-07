@@ -44,7 +44,8 @@ export const WhatConfirm = (props: FormikProps<WizardModel>) => {
             <Trans
               i18nKey="__EXPRESS_WIZARD_STEP_RECAP_WHAT_CONTENT_TEXT"
               components={{
-                span: <Span isBold />,
+                span_label: <Span isBold />,
+                span_count: <Span isBold />,
               }}
               values={{
                 campaign_name: values.campaign_name,
