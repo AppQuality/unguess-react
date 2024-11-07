@@ -262,7 +262,7 @@ const VideoPlayer = () => {
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
 
   return (
-    <PlayerProvider url={video.streamUrl ?? video.url}>
+    <PlayerProvider key={video.id} url={video.streamUrl ?? video.url}>
       <CorePlayer />
     </PlayerProvider>
   );
