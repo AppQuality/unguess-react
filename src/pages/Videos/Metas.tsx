@@ -109,10 +109,14 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     data: observations,
     isFetching: isFetchingObservations,
     isLoading: isLoadingObservations,
-    isError: isErrorObservations,
-  } = useGetCampaignsByCidObservationsQuery({
-    cid: campaignId ?? '',
-  });
+  } = useGetCampaignsByCidObservationsQuery(
+    {
+      cid: campaignId ?? '',
+    },
+    {
+      skip: !campaignId,
+    }
+  );
 
   useEffect(() => {
     if (videos && videos.items.length > 0) {
@@ -164,8 +168,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             ),
             { placement: 'top' }
           );
-          // eslint-disable-next-line no-console
-          console.error(res);
         }
       })
       .catch((e) => {
@@ -193,7 +195,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isLoadingObservations
   )
     return <Skeleton width="200px" height="20px" />;
-  if (isError || isErrorObservations) return null;
+  if (isError) return null;
 
   return (
     <FooterContainer>
