@@ -1,17 +1,13 @@
-import { ReactNode } from 'react';
 import {
-  Table as ZendeskTable,
-  HeaderRow,
-  Head,
-  HeaderCell,
-  Body,
-  Cell,
-} from '@zendeskgarden/react-tables';
+  SM,
+  TableNew as ZendeskTable,
+} from '@appquality/unguess-design-system';
+import { ReactNode } from 'react';
 import styled from 'styled-components';
-import { SM } from '@appquality/unguess-design-system';
-import { TableRow } from './TableRow';
 import { LoadingState } from './LoadingState';
+import { TableRow } from './TableRow';
 
+const { HeaderRow, Head, HeaderCell, Body, Cell } = ZendeskTable;
 interface TableData extends Record<string, ReactNode> {
   id: string;
   isHighlighted?: boolean;
@@ -43,12 +39,7 @@ type TableProps<T extends TableData, K extends keyof T> = {
 
 const TableWrapper = styled.div<{ maxHeight?: string }>`
   width: 100%;
-  background-color: white;
-  border-radius: ${({ theme }) => theme.borderRadii.lg};
-  border: 1px solid ${({ theme }) => theme.palette.grey[300]};
   padding-bottom: ${({ theme }) => theme.space.sm};
-  padding-left: ${({ theme }) => theme.space.xxs};
-  padding-right: ${({ theme }) => theme.space.xxs};
   ${({ maxHeight }) =>
     maxHeight && `max-height: ${maxHeight}; overflow-y: auto;`}
 `;

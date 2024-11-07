@@ -1,13 +1,18 @@
-import { Accordion, MD, Radio, SM } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  FormField as Field,
+  MD,
+  Radio,
+  SM,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { Field } from '@zendeskgarden/react-forms';
-import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { Divider } from 'src/common/components/divider';
+import { updateFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { ReadFilterType } from 'src/features/bugsPage/readFilter';
+import { LabelSpaceBetween, disabledStyle } from './LabelWithCounter';
 import { useFilterData } from './useFilterData';
-import { disabledStyle, LabelSpaceBetween } from './LabelWithCounter';
 
 export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
   const dispatch = useAppDispatch();

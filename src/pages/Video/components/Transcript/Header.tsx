@@ -5,6 +5,7 @@ import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { Tools } from '../tools';
+import { TranslationLoader } from './TranslationLoader';
 
 export const TranscriptHeader = styled.div`
   display: flex;
@@ -43,9 +44,7 @@ export const Header = ({
   isEmpty?: boolean;
 }) => {
   const { t } = useTranslation();
-
   const { hasFeatureFlag } = useFeatureFlag();
-
   return (
     <TranscriptHeader>
       <TitleWrapper>
@@ -54,7 +53,7 @@ export const Header = ({
             {t('__VIDEO_PAGE_TRANSCRIPT_TITLE')}
           </XL>
         </IconTitleContainer>
-        <SM color={appTheme.palette.grey[700]}>
+        <SM color={appTheme.palette.grey[600]}>
           {t('__VIDEO_PAGE_TRANSCRIPT_INFO')}
         </SM>
       </TitleWrapper>
@@ -66,6 +65,7 @@ export const Header = ({
           {hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION) && <Tools />}
         </ActionsWrapper>
       ) : null}
+      <TranslationLoader />
     </TranscriptHeader>
   );
 };

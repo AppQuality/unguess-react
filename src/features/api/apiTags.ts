@@ -92,7 +92,7 @@ unguessApi.enhanceEndpoints({
     getUsersMePreferences: {
       providesTags: ['Preferences'],
     },
-    putUsersMePreferencesByPrefid: {
+    putUsersMePreferencesBySlug: {
       invalidatesTags: ['Preferences'],
     },
     getVideosByVidObservations: {
@@ -210,6 +210,48 @@ unguessApi.enhanceEndpoints({
     },
     getVideosByVidTranslation: {
       providesTags: ['Translation'],
+      async onCacheEntryAdded(
+        vid,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved, dispatch }
+      ) {
+        let intervalId: ReturnType<typeof setInterval> | null = null;
+        const POLLING_INTERVAL = 5000;
+        try {
+          const promise = dispatch(
+            unguessApi.endpoints.getVideosByVidTranslation.initiate(vid)
+          );
+
+          intervalId = setInterval(async () => {
+            const { data: results, isError } = await promise.refetch();
+
+            if (isError) {
+              console.error('Polling error:', results);
+              if (intervalId) {
+                clearInterval(intervalId);
+                promise.unsubscribe();
+              }
+            }
+
+            if (results) {
+              updateCachedData((draft) => {
+                Object.assign(draft, results);
+              });
+
+              if (!results.processing && intervalId) {
+                clearInterval(intervalId);
+                promise.unsubscribe();
+              }
+            } else {
+              if (intervalId) {
+                clearInterval(intervalId);
+              }
+            }
+          }, POLLING_INTERVAL);
+        } catch (error) {
+          console.error('Polling error:', error);
+        }
+        await cacheEntryRemoved;
+      },
     },
   },
 });

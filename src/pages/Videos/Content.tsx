@@ -16,7 +16,7 @@ import { Empty } from './Empty';
 import { InfoRow } from './parts/InfoRow';
 import { VideoContainer } from './parts/VideoContainer';
 import { Wrapper } from './parts/Wrapper';
-import { useVideo } from './useVideos';
+import { useVideos } from './useVideos';
 
 const StyledAccordionLabel = styled(Accordion.Label)`
   padding: 0;
@@ -43,8 +43,7 @@ const VideosPageContent = () => {
     isFetching,
     isLoading,
     isError,
-  } = useVideo(campaignId ?? '');
-
+  } = useVideos(campaignId ?? '');
   useEffect(() => {
     if (videos) {
       const groupedVideos = videos?.reduce(

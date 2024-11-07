@@ -1,8 +1,11 @@
-import { Field } from '@zendeskgarden/react-forms';
+import {
+  Checkbox,
+  FormField as Field,
+  Label,
+} from '@appquality/unguess-design-system';
 import { ArrayHelpers, useFormikContext } from 'formik';
 import { ChangeEvent, useCallback, useMemo } from 'react';
 import { Grape as GrapeType } from 'src/features/api';
-import { Checkbox, Label } from '@appquality/unguess-design-system';
 import { InsightFormValues } from '../../FormProvider';
 
 interface Props {

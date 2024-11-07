@@ -4,22 +4,17 @@ import {
 } from '@appquality/languages';
 import {
   Button,
-  Dropdown,
-  Item,
   Label,
   MD,
-  Menu,
   Modal,
   ModalClose,
   Notification,
   Select,
-  Span,
   Spinner,
   Toggle,
+  FormField as ZendeskFormField,
   useToast,
 } from '@appquality/unguess-design-system';
-import { Field as ZendeskDropdownField } from '@zendeskgarden/react-dropdowns';
-import { Field as ZendeskFormField } from '@zendeskgarden/react-forms';
 import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,9 +24,11 @@ import {
   useGetUsersMePreferencesQuery,
   useGetVideosByVidQuery,
   usePostVideosByVidTranslationMutation,
-  usePutUsersMePreferencesByPrefidMutation,
+  usePutUsersMePreferencesBySlugMutation,
 } from 'src/features/api';
 import { useToolsContext } from './context/ToolsContext';
+
+const TRANSLATION_SLUG = 'translations_language';
 
 const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const { videoId } = useParams();
@@ -42,7 +39,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const { addToast } = useToast();
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
-  const [updatePreference] = usePutUsersMePreferencesByPrefidMutation();
+  const [updatePreference] = usePutUsersMePreferencesBySlugMutation();
   const allowedLanguages = getAllLanguageTags();
 
   const {
@@ -64,16 +61,12 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   } = useGetUsersMePreferencesQuery();
 
   const languagePreference = preferences?.items?.find(
-    (preference) => preference?.name === 'translations_language'
-  );
-
-  // Remove videoLanguage and current translation language from allowedLanguages
-  const filteredLanguages = allowedLanguages.filter(
-    (lang) => lang !== videoLanguage && lang !== currentLanguage
+    (preference) => preference?.name === TRANSLATION_SLUG
   );
 
   useEffect(() => {
-    if (languagePreference?.value) {
+    const lang = languagePreference?.value;
+    if (lang && lang !== videoLanguage && lang !== currentLanguage) {
       setInternalLanguage(languagePreference.value);
     }
   }, [languagePreference]);
@@ -99,38 +92,26 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
         <MD style={{ marginBottom: appTheme.space.sm }}>
           {t('__TOOLS_TRANSLATE_DESCRIPTION')}
         </MD>
-        <Label>{t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}</Label>
         <div style={{ margin: `${appTheme.space.xs} 0` }}>
-          <Dropdown
-            selectedItem={internalLanguage}
-            onSelect={(item: string) => {
-              if (item) {
-                const l = filteredLanguages.find((lang) => lang === item);
-                if (l) {
-                  setInternalLanguage(l);
-                }
-              }
-            }}
+          <Select
+            fullWidthOption
+            listboxAppendToNode={document.body}
+            label={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_LABEL')}
+            startIcon={<TranslateIcon />}
+            placeholder={t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
+            onSelect={(value) => setInternalLanguage(value)}
+            selectionValue={internalLanguage}
+            inputValue={getLanguageNameByFullTag(internalLanguage) ?? ''}
           >
-            <ZendeskDropdownField>
-              <Select start={<TranslateIcon />}>
-                {internalLanguage ? (
-                  <Span>{getLanguageNameByFullTag(internalLanguage)}</Span>
-                ) : (
-                  <Span style={{ opacity: 0.5 }}>
-                    {t('__TOOLS_TRANSLATE_LANGUAGE_DROPDOWN_PLACEHOLDER')}
-                  </Span>
-                )}
-              </Select>
-            </ZendeskDropdownField>
-            <Menu style={{ maxHeight: 250 }}>
-              {filteredLanguages.map((lang) => (
-                <Item key={`language-${lang}-option`} value={lang}>
-                  {getLanguageNameByFullTag(lang)}
-                </Item>
-              ))}
-            </Menu>
-          </Dropdown>
+            {allowedLanguages.map((lang) => (
+              <Select.Option
+                key={`language-${lang}-option`}
+                value={lang}
+                isDisabled={lang === videoLanguage || lang === currentLanguage}
+                label={getLanguageNameByFullTag(lang) || ''}
+              />
+            ))}
+          </Select>
         </div>
         <ZendeskFormField>
           <Toggle
@@ -155,7 +136,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
 
             if (isLangChecked)
               updatePreference({
-                prefid: languagePreference?.preference_id.toString() || '',
+                slug: TRANSLATION_SLUG,
                 body: {
                   value: internalLanguage,
                 },
@@ -177,7 +158,7 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
                     { placement: 'top' }
                   );
                 })
-                .catch((e) => {
+                .catch((e: string) => {
                   // eslint-disable-next-line no-console
                   console.error(e);
 
@@ -208,19 +189,6 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
                 setIsOpen(false);
 
                 setLanguage(internalLanguage);
-
-                addToast(
-                  ({ close }) => (
-                    <Notification
-                      onClose={close}
-                      type="success"
-                      message={t('__TOOLS_TRANSLATE_TOAST_SUCCESS_MESSAGE')}
-                      closeText={t('__TOAST_CLOSE_TEXT')}
-                      isPrimary
-                    />
-                  ),
-                  { placement: 'top' }
-                );
               })
               .catch((e) => {
                 // eslint-disable-next-line no-console

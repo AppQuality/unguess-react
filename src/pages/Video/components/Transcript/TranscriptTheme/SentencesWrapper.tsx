@@ -9,10 +9,11 @@ const Wrapper = styled.div`
   color: ${({ theme }) => theme.palette.blue[600]};
   line-height: 2;
   font-style: italic;
+  user-select: none;
 `;
 
 const Component = ({ children }: { children: ReactNode }) => (
-  <Wrapper>{children}</Wrapper>
+  <Wrapper contentEditable="false">{children}</Wrapper>
 );
 
 export default Component;

@@ -5,8 +5,7 @@ import {
   useVideoContext as usePlayerContext,
   useToast,
 } from '@appquality/unguess-design-system';
-import { IBookmark } from '@appquality/unguess-design-system/build/stories/player/_types';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -78,6 +77,17 @@ const CorePlayer = () => {
     async (time: number) => {
       if (!start) {
         setStart(time);
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="info"
+              message={t('__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_STARTED')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+            />
+          ),
+          { placement: 'bottom' }
+        );
         return;
       }
 
@@ -93,6 +103,17 @@ const CorePlayer = () => {
           videoRef?.current?.pause();
           exitFullscreen();
           setOpenAccordion({ id: res.id });
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="info"
+                message={t('__VIDEO_PAGE_PLAYER_SHORTCUT_OBSERVATION_ADDED')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+              />
+            ),
+            { placement: 'bottom' }
+          );
         } catch (err) {
           addToast(
             ({ close }) => (
@@ -126,18 +147,15 @@ const CorePlayer = () => {
     [start]
   );
 
-  const seekPlayer = useCallback(
-    (time: number, forcePlay?: boolean) => {
-      if (!context.player?.ref?.current) return;
+  const seekPlayer = (time: number, forcePlay?: boolean) => {
+    if (!videoRef?.current) return;
 
-      context.player.ref.current.currentTime = time;
-      if (forcePlay) {
-        context.player.ref.current.play();
-        setIsPlaying(true);
-      }
-    },
-    [context, context.player?.ref?.current]
-  );
+    videoRef.current.currentTime = time;
+    if (forcePlay) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    }
+  };
 
   const mappedObservations = useMemo(
     () =>
@@ -171,7 +189,9 @@ const CorePlayer = () => {
     [observations]
   );
 
-  const handleBookmarksUpdate = useCallback(async (bookmark: IBookmark) => {
+  const handleBookmarksUpdateFunction: ComponentProps<
+    typeof PlayerProvider.Core
+  >['handleBookmarkUpdate'] = async (bookmark) => {
     await patchObservation({
       vid: videoId || '',
       oid: bookmark.id.toString(),
@@ -182,7 +202,9 @@ const CorePlayer = () => {
         tags: bookmark.tags?.map((item: any) => item.tag.id),
       },
     }).unwrap();
-  }, []);
+  };
+
+  const handleBookmarksUpdate = useCallback(handleBookmarksUpdateFunction, []);
 
   if (!observations || isErrorObservations || !video) return null;
 

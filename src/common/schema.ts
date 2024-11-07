@@ -375,11 +375,11 @@ export interface paths {
   '/users/me/preferences': {
     get: operations['get-users-me-preferences'];
   };
-  '/users/me/preferences/{prefid}': {
-    put: operations['put-users-me-preferences-prefid'];
+  '/users/me/preferences/{slug}': {
+    put: operations['put-users-me-preferences-slug'];
     parameters: {
       path: {
-        prefid: string;
+        slug: string;
       };
     };
   };
@@ -2196,6 +2196,10 @@ export interface operations {
         /** Campaign id */
         cid: components['parameters']['cid'];
       };
+      query: {
+        /** bugs, videos */
+        filterBy?: string;
+      };
     };
     responses: {
       /** OK */
@@ -2450,6 +2454,8 @@ export interface operations {
         order?: components['parameters']['order'];
         /** Order by accepted field */
         orderBy?: components['parameters']['orderBy'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
       };
     };
     responses: {
@@ -2457,17 +2463,9 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items: {
-              usecase: {
-                id: number;
-                title: string;
-                description: string;
-                completion: number;
-              };
-              videos: (components['schemas']['Video'] & {
-                observations?: components['schemas']['Observation'][];
-              })[];
-            }[];
+            items: (components['schemas']['Video'] & {
+              usecaseId: number;
+            })[];
           } & components['schemas']['PaginationData'];
         };
       };
@@ -2850,10 +2848,10 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  'put-users-me-preferences-prefid': {
+  'put-users-me-preferences-slug': {
     parameters: {
       path: {
-        prefid: string;
+        slug: string;
       };
     };
     responses: {
@@ -3000,6 +2998,8 @@ export interface operations {
         content: {
           'application/json': {
             language: string;
+            /** @default 0 */
+            processing: number;
             sentences: {
               text: string;
               start: number;

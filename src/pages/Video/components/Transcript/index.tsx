@@ -5,13 +5,8 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactNode } from 'react';
 import { appTheme } from 'src/app/theme';
-import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
-import {
-  useGetVideosByVidQuery,
-  useGetVideosByVidTranslationQuery,
-} from 'src/features/api';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { useToolsContext } from '../tools/context/ToolsContext';
+import { useGetVideosByVidQuery } from 'src/features/api';
+import { useTranslationTools } from '../tools/hooks/useTranslationTools';
 import { EmptyState } from './EmptyState';
 import { Header } from './Header';
 import { TranscriptTheme } from './TranscriptTheme';
@@ -53,39 +48,23 @@ export const Transcript = ({
   currentTime: number;
   setCurrentTime: (time: number) => void;
 }) => {
-  const { language } = useToolsContext();
-
-  const { hasFeatureFlag } = useFeatureFlag();
-  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
-
   const handleAddObservation = useAddObservation({ videoId: videoId || '' });
-
   const { data: content, speakers } = useContent(videoId || '');
-
   const { data: observations } = useObservations(videoId || '');
-
-  const { data: translation } = useGetVideosByVidTranslationQuery(
-    {
-      vid: videoId || '',
-      ...(language && { lang: language }),
-    },
-    {
-      skip: !hasAIFeatureFlag,
-    }
-  );
+  const { data: translationData } = useTranslationTools();
 
   const editor = TranscriptComponent.useEditor(
     {
       currentTime: currentTime * 1000,
       onSetCurrentTime: (time) => setCurrentTime(time),
       content,
-      translations: translation?.sentences,
+      translations: translationData.translation?.sentences,
       themeExtension: TranscriptTheme,
       observations,
       // @ts-ignore
       numberOfSpeakers: speakers,
     },
-    [observations, translation?.sentences]
+    [observations, translationData.translation?.sentences]
   );
 
   return (

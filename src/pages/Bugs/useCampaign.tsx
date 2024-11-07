@@ -70,6 +70,7 @@ export const useCampaign = (cid: number) => {
 
   const { data: campaignUseCases } = useGetCampaignsByCidUsecasesQuery({
     cid: cid.toString(),
+    filterBy: 'bugs',
   });
 
   const { data: campaignDevices } = useGetCampaignsByCidDevicesQuery({

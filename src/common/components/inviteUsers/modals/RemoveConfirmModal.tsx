@@ -1,19 +1,19 @@
 import {
-  Modal,
-  FooterItem,
   Button,
+  Checkbox,
+  FormField as Field,
+  FooterItem,
+  Label,
+  Modal,
   ModalClose,
   Paragraph,
-  Checkbox,
-  Label,
+  retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { retrieveComponentStyles } from '@zendeskgarden/react-theming';
-import styled from 'styled-components';
-import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { useTranslation } from 'react-i18next';
-import { Field } from '@zendeskgarden/react-forms';
-import { appTheme } from 'src/app/theme';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
+import styled from 'styled-components';
 
 const DangerHeader = styled(Modal.Header)`
   display: flex;

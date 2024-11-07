@@ -268,7 +268,10 @@ const injectedRtkApi = api.injectEndpoints({
       GetCampaignsByCidUsecasesApiResponse,
       GetCampaignsByCidUsecasesApiArg
     >({
-      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/usecases` }),
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/usecases`,
+        params: { filterBy: queryArg.filterBy },
+      }),
     }),
     getCampaignsByCidUsers: build.query<
       GetCampaignsByCidUsersApiResponse,
@@ -343,6 +346,7 @@ const injectedRtkApi = api.injectEndpoints({
           start: queryArg.start,
           order: queryArg.order,
           orderBy: queryArg.orderBy,
+          filterBy: queryArg.filterBy,
         },
       }),
     }),
@@ -482,12 +486,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/users/me/preferences` }),
     }),
-    putUsersMePreferencesByPrefid: build.mutation<
-      PutUsersMePreferencesByPrefidApiResponse,
-      PutUsersMePreferencesByPrefidApiArg
+    putUsersMePreferencesBySlug: build.mutation<
+      PutUsersMePreferencesBySlugApiResponse,
+      PutUsersMePreferencesBySlugApiArg
     >({
       query: (queryArg) => ({
-        url: `/users/me/preferences/${queryArg.prefid}`,
+        url: `/users/me/preferences/${queryArg.slug}`,
         method: 'PUT',
         body: queryArg.body,
       }),
@@ -1100,6 +1104,8 @@ export type GetCampaignsByCidUsecasesApiResponse = /** status 200 OK */ {
 export type GetCampaignsByCidUsecasesApiArg = {
   /** Campaign id */
   cid: string;
+  /** bugs, videos */
+  filterBy?: string;
 };
 export type GetCampaignsByCidUsersApiResponse = /** status 200 OK */ {
   items: Tenant[];
@@ -1232,17 +1238,9 @@ export type PostCampaignsByCidVideoTagsApiArg = {
   };
 };
 export type GetCampaignsByCidVideosApiResponse = /** status 200 OK */ {
-  items: {
-    usecase: {
-      id: number;
-      title: string;
-      description: string;
-      completion: number;
-    };
-    videos: (Video & {
-      observations?: Observation[];
-    })[];
-  }[];
+  items: (Video & {
+    usecaseId: number;
+  })[];
 } & PaginationData;
 export type GetCampaignsByCidVideosApiArg = {
   cid: string;
@@ -1254,6 +1252,8 @@ export type GetCampaignsByCidVideosApiArg = {
   order?: string;
   /** Order by accepted field */
   orderBy?: string;
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
 };
 export type GetCampaignsByCidWidgetsApiResponse =
   /** status 200 OK */
@@ -1419,10 +1419,10 @@ export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
   items?: UserPreference[];
 };
 export type GetUsersMePreferencesApiArg = void;
-export type PutUsersMePreferencesByPrefidApiResponse =
+export type PutUsersMePreferencesBySlugApiResponse =
   /** status 200 OK */ UserPreference;
-export type PutUsersMePreferencesByPrefidApiArg = {
-  prefid: string;
+export type PutUsersMePreferencesBySlugApiArg = {
+  slug: string;
   body: {
     value: string;
   };
@@ -1473,6 +1473,7 @@ export type DeleteVideosByVidObservationsAndOidApiArg = {
 };
 export type GetVideosByVidTranslationApiResponse = /** status 200 OK */ {
   language: string;
+  processing: number;
   sentences: {
     text: string;
     start: number;
@@ -2225,7 +2226,7 @@ export const {
   useGetTemplatesQuery,
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
-  usePutUsersMePreferencesByPrefidMutation,
+  usePutUsersMePreferencesBySlugMutation,
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,
   usePostVideosByVidObservationsMutation,

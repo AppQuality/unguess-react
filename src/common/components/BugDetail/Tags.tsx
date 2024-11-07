@@ -1,13 +1,13 @@
-import { Skeleton, MultiSelect, MD } from '@appquality/unguess-design-system';
+import { MD, MultiSelect, Skeleton } from '@appquality/unguess-design-system';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import {
   Bug,
   BugTag,
   useGetCampaignsByCidTagsQuery,
   usePatchCampaignsByCidBugsAndBidMutation,
 } from 'src/features/api';
-import { appTheme } from 'src/app/theme';
-import { useEffect, useState } from 'react';
 
 export default ({
   bug,
@@ -27,9 +27,6 @@ export default ({
   const [options, setOptions] = useState<
     { id: number; label: string; selected?: boolean }[]
   >([]);
-  const [selectedOptions, setSelectedOptions] = useState<
-    { id: number; label: string }[]
-  >([]);
 
   const {
     isLoading: isLoadingCampaignTags,
@@ -42,25 +39,16 @@ export default ({
   });
 
   useEffect(() => {
-    if (cpTags) {
+    if (cpTags && bugTags) {
       setOptions(
         cpTags.map((tag) => ({
           id: tag.tag_id,
           label: tag.display_name,
-          selected: selectedOptions.some((bt) => bt.id === tag.tag_id),
+          selected: !!bug.tags?.find((bugTag) => bugTag.tag_id === tag.tag_id),
         }))
       );
     }
-  }, [cpTags, selectedOptions]);
-
-  useEffect(() => {
-    setSelectedOptions(
-      bug.tags?.map((tag) => ({
-        id: tag.tag_id,
-        label: tag.name,
-      })) ?? []
-    );
-  }, [bugTags]);
+  }, [cpTags, bugTags]);
 
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
 
@@ -83,7 +71,6 @@ export default ({
         >
           <MultiSelect
             options={options}
-            selectedItems={options.filter((o) => o.selected)}
             creatable
             maxItems={4}
             size="small"
@@ -123,9 +110,6 @@ export default ({
                         label: tag.tag_name,
                       }))
                     : [];
-
-                  // Update bug tags
-                  setSelectedOptions(selectedTags);
 
                   const unselectedTags = options.filter(
                     (o) => !selectedTags.find((r) => r.id === o.id)
