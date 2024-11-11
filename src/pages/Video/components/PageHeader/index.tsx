@@ -2,20 +2,17 @@ import {
   Anchor,
   MD,
   PageHeader,
-  Pagination,
   Skeleton,
   Span,
 } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import {
   useGetCampaignsByCidQuery,
-  useGetCampaignsByCidVideosQuery,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
@@ -23,6 +20,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getSeverityTagsByVideoCount } from '../../../Videos/utils/getSeverityTagsWithCount';
 import UsecaseSelect from './UsecaseSelect';
+import VideoPagination from './VideoPagination';
 
 const SeveritiesMetaContainer = styled.div`
   display: flex;
@@ -50,7 +48,6 @@ const VideoPageHeader = () => {
   const { t } = useTranslation();
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
-  const navigate = useNavigate();
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -66,20 +63,6 @@ const VideoPageHeader = () => {
     video?.usecase.id || Number(queryParams.get('usecase')) || 0;
 
   const {
-    data: videosListCurrentUsecase,
-    isFetching: isFetchingVideosCU,
-    isLoading: isLoadingVideos,
-  } = useGetCampaignsByCidVideosQuery(
-    {
-      cid: campaignId || '',
-      filterBy: {
-        usecase: usecaseId,
-      },
-    },
-    { skip: !video || !campaignId }
-  );
-
-  const {
     data: campaign,
     isFetching: isFetchingCampaign,
     isLoading: isLoadingCampaign,
@@ -87,28 +70,6 @@ const VideoPageHeader = () => {
   } = useGetCampaignsByCidQuery({
     cid: campaignId || '',
   });
-
-  const paginationData = useMemo(() => {
-    if (videosListCurrentUsecase && video) {
-      const group = videosListCurrentUsecase.items.filter(
-        (item) => item.usecaseId === video.usecase.id
-      );
-      const videos = [
-        ...group.filter((item) => item.tester.device.type === 'desktop'),
-        ...group.filter((item) => item.tester.device.type === 'tablet'),
-        ...group.filter((item) => item.tester.device.type === 'smartphone'),
-        ...group.filter((item) => item.tester.device.type === 'other'),
-      ].map((item) => ({ id: item.id }));
-
-      const index = videos.findIndex((item) => item.id === video.id);
-      return {
-        items: videos,
-        total: videos.length,
-        currentPage: index + 1,
-      };
-    }
-    return { items: [], total: 0, currentPage: 1 };
-  }, [videosListCurrentUsecase, video]);
 
   const {
     data: observations,
@@ -153,22 +114,12 @@ const VideoPageHeader = () => {
                 />
               )}
 
-              {video && paginationData.items.length > 0 ? (
-                <Pagination
-                  totalPages={paginationData.total}
-                  currentPage={paginationData.currentPage}
-                  pageGap={2}
-                  pagePadding={0}
-                  onChange={(page) => {
-                    // eslint-disable-next-line no-console
-                    const targetId = paginationData.items[page - 1].id;
-                    navigate(`/campaigns/${campaignId}/videos/${targetId}`, {
-                      replace: true,
-                    });
-                  }}
+              {video && (
+                <VideoPagination
+                  currentUsecaseId={usecaseId}
+                  campaignId={campaignId}
+                  video={video}
                 />
-              ) : (
-                <Skeleton width="200px" height="20px" />
               )}
             </div>
           </PageHeader.Description>
