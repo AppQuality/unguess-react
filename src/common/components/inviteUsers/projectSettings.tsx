@@ -264,10 +264,9 @@ export const ProjectSettings = () => {
                   ),
                 }}
                 values={{
-                  project_name: permissionSettingsTitle,
-                  project_url: projectRoute,
+                  users_count: usersCount,
                 }}
-                defaults="This project is shared with <span>{{users_count}}</span> people. Share the project with more people by sending them the link: <a href='{{project_url}}' target='_blank' rel='noreferrer'>{{project_name}}</a>."
+                defaults="Already shared with <span>{{users_count}}</span> people"
               />
             </Label>
             <FlexContainer
