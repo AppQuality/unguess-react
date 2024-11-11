@@ -8,13 +8,14 @@ import {
 } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import {
   useGetCampaignsByCidQuery,
+  useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidVideosQuery,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -22,6 +23,7 @@ import {
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
+import UsecaseSelect from './UsecaseSelect';
 
 const SeveritiesMetaContainer = styled.div`
   display: flex;
@@ -50,7 +52,6 @@ const VideoPageHeader = () => {
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const navigate = useNavigate();
-
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -60,11 +61,28 @@ const VideoPageHeader = () => {
     vid: videoId || '',
   });
 
-  const { data: videosList } = useGetCampaignsByCidVideosQuery(
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const usecaseId = video?.usecase.id || queryParams.get('usecase') || 0;
+
+  const {
+    data: usecases,
+    isFetching: isFetchingUsecases,
+    isLoading: isLoadingUsecases,
+  } = useGetCampaignsByCidUsecasesQuery({
+    cid: campaignId || '',
+    filterBy: 'videos',
+  });
+
+  const {
+    data: videosListCurrentUsecase,
+    isFetching: isFetchingVideosCU,
+    isLoading: isLoadingVideos,
+  } = useGetCampaignsByCidVideosQuery(
     {
       cid: campaignId || '',
       filterBy: {
-        usecase: video?.usecase.id || 0,
+        usecase: usecaseId,
       },
     },
     { skip: !video || !campaignId }
@@ -80,8 +98,8 @@ const VideoPageHeader = () => {
   });
 
   const paginationData = useMemo(() => {
-    if (videosList && video) {
-      const group = videosList.items.filter(
+    if (videosListCurrentUsecase && video) {
+      const group = videosListCurrentUsecase.items.filter(
         (item) => item.usecaseId === video.usecase.id
       );
       const videos = [
@@ -99,7 +117,7 @@ const VideoPageHeader = () => {
       };
     }
     return { items: [], total: 0, currentPage: 1 };
-  }, [videosList, video]);
+  }, [videosListCurrentUsecase, video]);
 
   const {
     data: observations,
@@ -136,6 +154,22 @@ const VideoPageHeader = () => {
               <Span isBold>
                 T{video.tester.id} | {video.tester.name}
               </Span>
+
+              {usecaseId &&
+              usecases &&
+              !isFetchingUsecases &&
+              !isLoadingUsecases &&
+              videosListCurrentUsecase &&
+              !isLoadingVideos &&
+              !isFetchingVideosCU ? (
+                <UsecaseSelect
+                  usecases={usecases}
+                  currentUsecaseId={Number(usecaseId)}
+                  campaignId={campaignId}
+                />
+              ) : (
+                <Skeleton width="200px" height="20px" />
+              )}
 
               {video && paginationData.items.length > 0 ? (
                 <Pagination

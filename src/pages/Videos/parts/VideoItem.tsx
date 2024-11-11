@@ -9,6 +9,7 @@ import { Pipe } from 'src/common/components/Pipe';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 import { formatDuration } from '../utils/formatDuration';
 import { VideoWithObservations } from '../useVideos';
+import addQueryParamToRoute from 'src/common/addQueryParamToRoute';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
@@ -70,8 +71,10 @@ const Poster = ({ video }: { video: VideoWithObservations }) => (
 
 const Video = ({ video }: { video: VideoWithObservations }) => {
   const { campaignId } = useParams();
-  const videoUrl = useLocalizeRoute(
-    `campaigns/${campaignId}/videos/${video.id}`
+  const videoUrl = addQueryParamToRoute(
+    useLocalizeRoute(`campaigns/${campaignId}/videos/${video.id}`),
+    'usecase',
+    video.usecaseId.toString()
   );
 
   const severityTotals = video.observations
