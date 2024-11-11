@@ -35,19 +35,23 @@ const UsecaseSelect = ({
     filterBy: 'videos',
   });
 
-  useCallback(() => {
-    if (currentUsecaseId !== selectedItem?.id) {
+  /**
+   * Navigate to the video page with the selected usecase
+   */
+  const handleNavigate = useCallback(
+    (useCaseId: string) => {
       const filteredVideos = videosCampaigns?.items.filter(
-        (item) => item.usecaseId === selectedItem?.id
+        (item) => item.usecaseId === Number.parseInt(useCaseId, 10)
       );
       if (filteredVideos?.length) {
         const videoId = filteredVideos[0].id;
         navigate(
-          `/campaigns/${campaignId}/videos/${videoId}/?usecase=${selectedItem?.id}`
+          `/campaigns/${campaignId}/videos/${videoId}/?usecase=${useCaseId}`
         );
       }
-    }
-  }, [videosCampaigns]);
+    },
+    [videosCampaigns, selectedItem]
+  );
 
   useEffect(() => {
     const selectedUsecase = usecases?.find(
@@ -67,13 +71,10 @@ const UsecaseSelect = ({
     <Select
       isCompact
       onSelect={(item) => {
-        console.log('selectedItem', selectedItem);
-        console.log(usecases.find((usecase) => usecase.id === parseInt(item)));
         setSelectedItem(
-          usecases.find((usecase) => usecase.id === parseInt(item))
+          usecases.find((usecase) => usecase.id === parseInt(item, 10))
         );
-        console.log('usecases', usecases);
-        console.log('selectedItem', selectedItem);
+        handleNavigate(item);
       }}
       inputValue={selectedItem?.title?.full}
       selectionValue={selectedItem}
