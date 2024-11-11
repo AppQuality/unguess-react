@@ -6,10 +6,10 @@ import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { Pipe } from 'src/common/components/Pipe';
+import addQueryParamToRoute from 'src/common/addQueryParamToRoute';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 import { formatDuration } from '../utils/formatDuration';
 import { VideoWithObservations } from '../useVideos';
-import addQueryParamToRoute from 'src/common/addQueryParamToRoute';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};

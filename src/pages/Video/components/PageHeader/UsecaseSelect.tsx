@@ -66,6 +66,7 @@ const UsecaseSelect = ({
     !isLoadingVideos &&
     !isFetchingVideos &&
     usecases &&
+    selectedItem &&
     !isLoadingUsecases &&
     !isFetchingUsecases ? (
     <Select
