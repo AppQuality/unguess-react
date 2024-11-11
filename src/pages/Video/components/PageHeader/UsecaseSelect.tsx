@@ -40,9 +40,18 @@ const UsecaseSelect = ({
    */
   const handleNavigate = useCallback(
     (useCaseId: string) => {
-      const filteredVideos = videosCampaigns?.items.filter(
-        (item) => item.usecaseId === Number.parseInt(useCaseId, 10)
+      const videosDesktop = videosCampaigns?.items.filter(
+        (item) =>
+          item.usecaseId === Number.parseInt(useCaseId, 10) &&
+          item.tester.device.type === 'desktop'
       );
+
+      const filteredVideos =
+        videosDesktop && videosDesktop?.length > 0
+          ? videosDesktop
+          : videosCampaigns?.items.filter(
+              (item) => item.usecaseId === Number.parseInt(useCaseId, 10)
+            );
       if (filteredVideos?.length) {
         const videoId = filteredVideos[0].id;
         navigate(
