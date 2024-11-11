@@ -15,7 +15,6 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import {
   useGetCampaignsByCidQuery,
-  useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidVideosQuery,
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -65,15 +64,6 @@ const VideoPageHeader = () => {
   const queryParams = new URLSearchParams(location.search);
   const usecaseId =
     video?.usecase.id || Number(queryParams.get('usecase')) || 0;
-
-  const {
-    data: usecases,
-    isFetching: isFetchingUsecases,
-    isLoading: isLoadingUsecases,
-  } = useGetCampaignsByCidUsecasesQuery({
-    cid: campaignId || '',
-    filterBy: 'videos',
-  });
 
   const {
     data: videosListCurrentUsecase,
@@ -156,20 +146,11 @@ const VideoPageHeader = () => {
                 T{video.tester.id} | {video.tester.name}
               </Span>
 
-              {usecaseId &&
-              usecases &&
-              !isFetchingUsecases &&
-              !isLoadingUsecases &&
-              videosListCurrentUsecase &&
-              !isLoadingVideos &&
-              !isFetchingVideosCU ? (
+              {usecaseId && (
                 <UsecaseSelect
-                  usecases={usecases}
                   currentUsecaseId={usecaseId}
                   campaignId={campaignId}
                 />
-              ) : (
-                <Skeleton width="200px" height="20px" />
               )}
 
               {video && paginationData.items.length > 0 ? (

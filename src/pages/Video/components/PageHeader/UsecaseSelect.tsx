@@ -1,17 +1,16 @@
-import { Select } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
+import { Select, Skeleton } from '@appquality/unguess-design-system';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   GetCampaignsByCidUsecasesApiResponse,
+  useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 
 const UsecaseSelect = ({
-  usecases,
   currentUsecaseId,
   campaignId,
 }: {
-  usecases: GetCampaignsByCidUsecasesApiResponse;
   currentUsecaseId: number;
   campaignId: string | undefined;
 }) => {
@@ -19,23 +18,36 @@ const UsecaseSelect = ({
   const [selectedItem, setSelectedItem] =
     useState<GetCampaignsByCidUsecasesApiResponse[0]>();
 
-  const videos = useGetCampaignsByCidVideosQuery({
+  const {
+    data: videosCampaigns,
+    isLoading: isLoadingVideos,
+    isFetching: isFetchingVideos,
+  } = useGetCampaignsByCidVideosQuery({
     cid: campaignId || '',
-    filterBy: {
-      usecase: selectedItem?.id,
-    },
   });
 
-  useEffect(() => {
+  const {
+    data: usecases,
+    isFetching: isFetchingUsecases,
+    isLoading: isLoadingUsecases,
+  } = useGetCampaignsByCidUsecasesQuery({
+    cid: campaignId || '',
+    filterBy: 'videos',
+  });
+
+  useCallback(() => {
     if (currentUsecaseId !== selectedItem?.id) {
-      if (videos && videos.data && videos.data?.items.length > 0) {
-        const videoId = videos.data.items[0].id;
+      const filteredVideos = videosCampaigns?.items.filter(
+        (item) => item.usecaseId === selectedItem?.id
+      );
+      if (filteredVideos?.length) {
+        const videoId = filteredVideos[0].id;
         navigate(
           `/campaigns/${campaignId}/videos/${videoId}/?usecase=${selectedItem?.id}`
         );
       }
     }
-  }, [videos, selectedItem?.id, currentUsecaseId, campaignId, navigate]);
+  }, [videosCampaigns]);
 
   useEffect(() => {
     const selectedUsecase = usecases?.find(
@@ -46,14 +58,23 @@ const UsecaseSelect = ({
     }
   }, [currentUsecaseId, usecases]);
 
-  return (
+  return videosCampaigns &&
+    !isLoadingVideos &&
+    !isFetchingVideos &&
+    usecases &&
+    !isLoadingUsecases &&
+    !isFetchingUsecases ? (
     <Select
       isCompact
-      onSelect={(item) =>
+      onSelect={(item) => {
+        console.log('selectedItem', selectedItem);
+        console.log(usecases.find((usecase) => usecase.id === parseInt(item)));
         setSelectedItem(
           usecases.find((usecase) => usecase.id === parseInt(item))
-        )
-      }
+        );
+        console.log('usecases', usecases);
+        console.log('selectedItem', selectedItem);
+      }}
       inputValue={selectedItem?.title?.full}
       selectionValue={selectedItem}
       renderValue={() => selectedItem?.title?.full}
@@ -66,6 +87,8 @@ const UsecaseSelect = ({
         />
       ))}
     </Select>
+  ) : (
+    <Skeleton width="200px" height="20px" />
   );
 };
 
