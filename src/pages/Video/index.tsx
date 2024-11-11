@@ -14,7 +14,7 @@ import {
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import VideoPageContent from './Content';
-import VideoPageHeader from './PageHeader';
+import VideoPageHeader from './components/PageHeader';
 
 const VideoPage = () => {
   const { t } = useTranslation();

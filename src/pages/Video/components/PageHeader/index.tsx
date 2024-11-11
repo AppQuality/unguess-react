@@ -22,7 +22,7 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
+import { getSeverityTagsByVideoCount } from '../../../Videos/utils/getSeverityTagsWithCount';
 import UsecaseSelect from './UsecaseSelect';
 
 const SeveritiesMetaContainer = styled.div`
