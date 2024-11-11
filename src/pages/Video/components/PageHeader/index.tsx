@@ -63,7 +63,8 @@ const VideoPageHeader = () => {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const usecaseId = video?.usecase.id || queryParams.get('usecase') || 0;
+  const usecaseId =
+    video?.usecase.id || Number(queryParams.get('usecase')) || 0;
 
   const {
     data: usecases,
@@ -164,7 +165,7 @@ const VideoPageHeader = () => {
               !isFetchingVideosCU ? (
                 <UsecaseSelect
                   usecases={usecases}
-                  currentUsecaseId={Number(usecaseId)}
+                  currentUsecaseId={usecaseId}
                   campaignId={campaignId}
                 />
               ) : (
