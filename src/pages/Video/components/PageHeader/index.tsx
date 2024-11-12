@@ -106,21 +106,22 @@ const VideoPageHeader = () => {
               <Span isBold>
                 T{video.tester.id} | {video.tester.name}
               </Span>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {usecaseId && (
+                  <UsecaseSelect
+                    currentUsecaseId={usecaseId}
+                    campaignId={campaignId}
+                  />
+                )}
 
-              {usecaseId && (
-                <UsecaseSelect
-                  currentUsecaseId={usecaseId}
-                  campaignId={campaignId}
-                />
-              )}
-
-              {video && (
-                <VideoPagination
-                  currentUsecaseId={usecaseId}
-                  campaignId={campaignId}
-                  video={video}
-                />
-              )}
+                {video && (
+                  <VideoPagination
+                    currentUsecaseId={usecaseId}
+                    campaignId={campaignId}
+                    video={video}
+                  />
+                )}
+              </div>
             </div>
           </PageHeader.Description>
           <StyledPageHeaderMeta>
