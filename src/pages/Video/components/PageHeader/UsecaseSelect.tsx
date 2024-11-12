@@ -1,6 +1,7 @@
-import { Select, Skeleton } from '@appquality/unguess-design-system';
+import { MD, Select, Skeleton, SM } from '@appquality/unguess-design-system';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import {
   GetCampaignsByCidUsecasesApiResponse,
   useGetCampaignsByCidUsecasesQuery,
@@ -33,6 +34,16 @@ const UsecaseSelect = ({
   } = useGetCampaignsByCidUsecasesQuery({
     cid: campaignId || '',
     filterBy: 'videos',
+  });
+
+  const usecasesWithVideoCounter = usecases?.map((usecase) => {
+    const videos = videosCampaigns?.items.filter(
+      (item) => item.usecaseId === usecase.id
+    );
+    return {
+      ...usecase,
+      videoCount: videos?.length || 0,
+    };
   });
 
   /**
@@ -75,6 +86,7 @@ const UsecaseSelect = ({
     !isLoadingVideos &&
     !isFetchingVideos &&
     usecases &&
+    usecasesWithVideoCounter &&
     selectedItem &&
     !isLoadingUsecases &&
     !isFetchingUsecases ? (
@@ -86,16 +98,17 @@ const UsecaseSelect = ({
         );
         handleNavigate(item);
       }}
-      inputValue={selectedItem?.title?.full}
-      selectionValue={selectedItem}
+      inputValue={selectedItem?.id.toString()}
+      selectionValue={selectedItem?.id.toString()}
       renderValue={() => selectedItem?.title?.full}
     >
-      {usecases?.map((usecase) => (
-        <Select.Option
-          key={usecase.id}
-          value={usecase.id.toString()}
-          label={usecase.title.full}
-        />
+      {usecasesWithVideoCounter?.map((usecase) => (
+        <Select.Option key={usecase.id} value={usecase.id.toString()}>
+          <MD>{usecase.title.full}</MD>
+          <SM style={{ color: appTheme.palette.grey[600] }}>
+            {usecase.videoCount} video
+          </SM>
+        </Select.Option>
       ))}
     </Select>
   ) : (
