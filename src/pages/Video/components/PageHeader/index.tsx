@@ -106,7 +106,13 @@ const VideoPageHeader = () => {
               <Span isBold>
                 T{video.tester.id} | {video.tester.name}
               </Span>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: appTheme.space.lg,
+                }}
+              >
                 {usecaseId && (
                   <UsecaseSelect
                     currentUsecaseId={usecaseId}
