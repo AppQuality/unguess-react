@@ -4,6 +4,7 @@ import {
   PageHeader,
   Skeleton,
   Span,
+  XL,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -103,9 +104,12 @@ const VideoPageHeader = () => {
           </PageHeader.Breadcrumbs>
           <PageHeader.Description style={{ width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Span isBold>
+              {/* <Span isBold>
                 T{video.tester.id} | {video.tester.name}
-              </Span>
+              </Span> */}
+              <XL isBold style={{ color: appTheme.palette.blue[600] }}>
+                {capitalizeFirstLetter(video.tester.name)}
+              </XL>
               <div
                 style={{
                   display: 'flex',
@@ -130,7 +134,7 @@ const VideoPageHeader = () => {
               </div>
             </div>
           </PageHeader.Description>
-          <StyledPageHeaderMeta>
+          {/* <StyledPageHeaderMeta>
             {observations && severities && severities.length > 0 && (
               <>
                 <SeveritiesMetaText>
@@ -163,7 +167,7 @@ const VideoPageHeader = () => {
                 </SeveritiesMetaContainer>
               </>
             )}
-          </StyledPageHeaderMeta>
+          </StyledPageHeaderMeta> */}
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>
