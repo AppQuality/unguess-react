@@ -59,6 +59,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
               ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_CONTENT')
               : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_CONTENT')
           }
+          footer=""
         />
         <BasicWidget.Footer>
           <Link
