@@ -27,6 +27,10 @@ const FakeInput = styled.div`
   text-transform: capitalize;
 `;
 
+const StyledCircle = styled(Circle)`
+  margin-right: ${({ theme }) => theme.space.xs};
+`;
+
 export const CustomStatusForm = ({
   formikProps,
 }: {
@@ -88,7 +92,7 @@ export const CustomStatusForm = ({
                     <div style={{ marginBottom: appTheme.space.xs }}>
                       {!!cs.is_default && (
                         <FakeInput>
-                          <Circle color={`#${cs.color}`} />
+                          <StyledCircle color={`#${cs.color}`} />
                           <Paragraph>{cs.name}</Paragraph>
                         </FakeInput>
                       )}

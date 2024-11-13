@@ -3,14 +3,13 @@ import TagManager, { TagManagerArgs } from 'react-gtm-module';
 import { Helmet } from 'react-helmet';
 import { useAppSelector } from 'src/app/hooks';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { isDev } from './isDevEnvironment';
 
 const tagManagerArgs: TagManagerArgs = {
   gtmId: process.env.REACT_APP_GTM_ID || 'GTM-WVXPS94',
-  ...(process.env.REACT_APP_GTM_AUTH && {
-    auth: process.env.REACT_APP_GTM_AUTH,
-  }),
-  ...(process.env.REACT_APP_GTM_ENV && {
-    preview: process.env.REACT_APP_GTM_ENV,
+  ...(isDev() && {
+    auth: 'HjeAxSQB9e685mi-_8YiDw',
+    preview: 'env-4',
   }),
   events: {
     unguess_loaded: 'unguess_loaded',

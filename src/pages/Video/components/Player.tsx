@@ -6,6 +6,7 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { ComponentProps, useCallback, useMemo, useRef, useState } from 'react';
+import TagManager from 'react-gtm-module';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -215,6 +216,13 @@ const CorePlayer = () => {
         <PlayerProvider.Core
           ref={videoRef}
           pipMode="auto"
+          onShortcut={(key) => {
+            TagManager.dataLayer({
+              dataLayer: {
+                event: `player:${key}`,
+              },
+            });
+          }}
           url={video.streamUrl ?? video.url}
           onCutHandler={handleCut}
           handleBookmarkUpdate={handleBookmarksUpdate}
@@ -262,7 +270,7 @@ const VideoPlayer = () => {
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
 
   return (
-    <PlayerProvider url={video.streamUrl ?? video.url}>
+    <PlayerProvider key={video.id} url={video.streamUrl ?? video.url}>
       <CorePlayer />
     </PlayerProvider>
   );
