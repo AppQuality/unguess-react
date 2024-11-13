@@ -1,13 +1,11 @@
 import {
   Button,
   IconButton,
-  Label,
   SpecialCard,
   Tag,
 } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 import { ReactComponent as ImgExperience } from 'src/assets/banner_suggestions/experience.svg';
 import { ReactComponent as ImgAutomation } from 'src/assets/banner_suggestions/testing_automation.svg';
@@ -37,9 +35,15 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
         <StyledTagNew
           isPill
           size="medium"
-          title={t('__CAMPAIGN_PAGE_SUGGESTIONS_TAG')}
+          title={
+            suggestions.suggestion === 'banner_testing_automation'
+              ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_TAG')
+              : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_TAG')
+          }
         >
-          {t('__CAMPAIGN_PAGE_SUGGESTIONS_TAG')}
+          {suggestions.suggestion === 'banner_testing_automation'
+            ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_TAG')
+            : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_TAG')}
         </StyledTagNew>
       </SpecialCard.Meta>
       <>
@@ -65,17 +69,15 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
           <Link
             to={
               suggestions.suggestion === 'banner_testing_automation'
-                ? '/testing-automation'
-                : '/experience'
+                ? 'https://app.unguess.io/services/22'
+                : 'https://app.unguess.io/services/22'
             }
           >
             <IconButton>
               <IconService />
             </IconButton>
           </Link>
-          <Button size="small">
-            {t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_CTA')}
-          </Button>
+          <Button size="small">{t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}</Button>
         </BasicWidget.Footer>
       </>
     </BasicWidget>
