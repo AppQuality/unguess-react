@@ -102,13 +102,7 @@ export const ReportRow = ({
                 />
               </Col>
             ) : (
-              <Col
-                xs={12}
-                sm={6}
-                md={4}
-                xl={3}
-                style={{ overflowWrap: 'anywhere' }}
-              >
+              <Col xs={12} sm={6} md={4} xl={3}>
                 <SpecialCard>
                   <SpecialCard.Meta
                     justifyContent="start"
@@ -142,7 +136,9 @@ export const ReportRow = ({
                       )}
                     </SpecialCard.Header.Label>
                     <SpecialCard.Header.Title>
-                      {report.title}
+                      <span style={{ overflowWrap: 'anywhere' }}>
+                        {report.title}
+                      </span>
                     </SpecialCard.Header.Title>
                   </SpecialCard.Header>
 
