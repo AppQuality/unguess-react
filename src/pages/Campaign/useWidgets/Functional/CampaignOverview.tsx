@@ -3,7 +3,7 @@ import { Campaign } from 'src/features/api';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { Progress } from './widgets/Progress';
 import { UniqueBugs } from './widgets/UniqueBugs';
-import { BookACall } from './widgets/BookACall';
+import { Suggestions } from './widgets/Suggestions';
 import { WidgetSectionNew } from '../../WidgetSection';
 
 export const CampaignOverview = ({
@@ -22,7 +22,7 @@ export const CampaignOverview = ({
       <Progress campaign={campaign} />
       <UniqueBugs campaignId={campaign ? campaign.id : 0} />
       <BugDistributionCard campaignId={campaign ? campaign.id : 0} />
-      <BookACall />
+      <Suggestions campaignId={campaign.id.toString()} />
     </WidgetSectionNew>
   );
 };
