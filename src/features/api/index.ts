@@ -258,6 +258,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/severities` }),
     }),
+    getCampaignsByCidSuggestions: build.query<
+      GetCampaignsByCidSuggestionsApiResponse,
+      GetCampaignsByCidSuggestionsApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/suggestions` }),
+    }),
     getCampaignsByCidTags: build.query<
       GetCampaignsByCidTagsApiResponse,
       GetCampaignsByCidTagsApiArg
@@ -1078,6 +1084,13 @@ export type GetCampaignsByCidReportsApiArg = {
 export type GetCampaignsByCidSeveritiesApiResponse =
   /** status 200 OK */ BugSeverity[];
 export type GetCampaignsByCidSeveritiesApiArg = {
+  /** Campaign id */
+  cid: string;
+};
+export type GetCampaignsByCidSuggestionsApiResponse = /** status 200 OK */ {
+  suggestion?: 'banner_testing_automation' | 'banner_user_experience';
+};
+export type GetCampaignsByCidSuggestionsApiArg = {
   /** Campaign id */
   cid: string;
 };
@@ -2201,6 +2214,7 @@ export const {
   useGetCampaignsByCidReplicabilitiesQuery,
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidSeveritiesQuery,
+  useGetCampaignsByCidSuggestionsQuery,
   useGetCampaignsByCidTagsQuery,
   useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidUsersQuery,
