@@ -8,6 +8,7 @@ import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
 import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
+import { appTheme } from 'src/app/theme';
 import { EmptyState } from './components/EmptyState';
 import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';
@@ -87,24 +88,27 @@ export const BugsByUsecase = ({
                 )
               }
             />
-            {i === 1 &&
-              suggestions?.suggestion === 'banner_testing_automation' && (
-                <GlobalAlert
-                  type="primary"
-                  title={t('__BANNER_CROSS_FUNCTIONAL_TITLE')}
-                  message={
-                    <Trans
-                      i18nKey="__BANNER_CROSS_FUNCTIONAL_MESSAGE"
-                      components={{
-                        Anchor: <Anchor isExternal />,
-                      }}
-                      default="Try out our testing automation services <Anchor>Discover more</Anchor>"
-                    />
-                  }
-                  cta={t('__BANNER_CROSS_FUNCTIONAL_CTA')}
-                  style={{ marginBottom: '24px' }}
-                />
-              )}
+            {i === 1 && suggestions && (
+              <GlobalAlert
+                type={
+                  suggestions.suggestion === 'banner_testing_automation'
+                    ? 'primary'
+                    : 'accent'
+                }
+                title={t('__BANNER_CROSS_FUNCTIONAL_TITLE')}
+                message={
+                  <Trans
+                    i18nKey="__BANNER_CROSS_FUNCTIONAL_MESSAGE"
+                    components={{
+                      Anchor: <Anchor isExternal />,
+                    }}
+                    default="Try out our testing automation services <Anchor>Discover more</Anchor>"
+                  />
+                }
+                cta={t('__BANNER_CROSS_FUNCTIONAL_CTA')}
+                style={{ marginBottom: appTheme.space.lg }}
+              />
+            )}
           </>
         ))}
         {isDefaultView ? (
