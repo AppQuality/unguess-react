@@ -1,7 +1,13 @@
-import { Accordion, MD } from '@appquality/unguess-design-system';
+import {
+  Accordion,
+  MD,
+  GlobalAlert,
+  Anchor,
+} from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
+import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
 import { EmptyState } from './components/EmptyState';
 import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';
@@ -31,6 +37,9 @@ export const BugsByUsecase = ({
 }) => {
   const { t } = useTranslation();
   const { data, isError, isFetching, isLoading } = useBugsByUseCase(campaignId);
+  const { data: suggestions } = useGetCampaignsByCidSuggestionsQuery({
+    cid: campaignId.toString(),
+  });
   const { bugsByUseCases } = data;
 
   const emptyUseCases = useMemo(
@@ -58,25 +67,45 @@ export const BugsByUsecase = ({
         isExpandable
         isBare
       >
-        {useCases.map((item) => (
-          <BugsByUseCaseAccordion
-            campaignId={campaignId}
-            key={item.useCase.id}
-            title={
-              <>
-                {item.useCase?.id === -1
-                  ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
-                  : item.useCase.title.full}
-                <MD tag="span">{` (${item.bugs.length})`}</MD>
-              </>
-            }
-            item={item}
-            footer={
-              item.useCase?.id !== -1 && (
-                <CompletionTooltip percentage={item.useCase.completion} />
-              )
-            }
-          />
+        {useCases.map((item, i) => (
+          <>
+            <BugsByUseCaseAccordion
+              campaignId={campaignId}
+              key={item.useCase.id}
+              title={
+                <>
+                  {item.useCase?.id === -1
+                    ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
+                    : item.useCase.title.full}
+                  <MD tag="span">{` (${item.bugs.length})`}</MD>
+                </>
+              }
+              item={item}
+              footer={
+                item.useCase?.id !== -1 && (
+                  <CompletionTooltip percentage={item.useCase.completion} />
+                )
+              }
+            />
+            {i === 1 &&
+              suggestions?.suggestion === 'banner_testing_automation' && (
+                <GlobalAlert
+                  type="primary"
+                  title={t('__BANNER_CROSS_FUNCTIONAL_TITLE')}
+                  message={
+                    <Trans
+                      i18nKey="__BANNER_CROSS_FUNCTIONAL_MESSAGE"
+                      components={{
+                        Anchor: <Anchor isExternal />,
+                      }}
+                      default="Try out our testing automation services <Anchor>Discover more</Anchor>"
+                    />
+                  }
+                  cta={t('__BANNER_CROSS_FUNCTIONAL_CTA')}
+                  style={{ marginBottom: '24px' }}
+                />
+              )}
+          </>
         ))}
         {isDefaultView ? (
           <EmptyGroup isBold>
