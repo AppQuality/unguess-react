@@ -6,7 +6,6 @@ import { styled } from 'styled-components';
 import { getColorWithAlpha } from 'src/common/utils';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { Pipe } from 'src/common/components/Pipe';
-import addQueryParamToRoute from 'src/common/addQueryParamToRoute';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 import { formatDuration } from '../utils/formatDuration';
 import { VideoWithObservations } from '../useVideos';
@@ -71,12 +70,9 @@ const Poster = ({ video }: { video: VideoWithObservations }) => (
 
 const Video = ({ video }: { video: VideoWithObservations }) => {
   const { campaignId } = useParams();
-  const videoUrl = addQueryParamToRoute(
-    useLocalizeRoute(`campaigns/${campaignId}/videos/${video.id}`),
-    'usecase',
-    video.usecaseId.toString()
+  const videoUrl = useLocalizeRoute(
+    `campaigns/${campaignId}/videos/${video.id}`
   );
-
   const severityTotals = video.observations
     ? getSeverityTagsByVideoCount(video.observations)
     : [];

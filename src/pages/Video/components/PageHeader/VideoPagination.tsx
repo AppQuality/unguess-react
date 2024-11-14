@@ -57,12 +57,9 @@ const VideoPagination = ({
       onChange={(page) => {
         // eslint-disable-next-line no-console
         const targetId = paginationData.items[page - 1].id;
-        navigate(
-          `/campaigns/${campaignId}/videos/${targetId}/?usecase=${currentUsecaseId}`,
-          {
-            replace: true,
-          }
-        );
+        navigate(`/campaigns/${campaignId}/videos/${targetId}/`, {
+          replace: true,
+        });
       }}
     />
   ) : (

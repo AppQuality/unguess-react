@@ -72,9 +72,7 @@ const UsecaseSelect = ({
             );
       if (filteredVideos?.length) {
         const videoId = filteredVideos[0].id;
-        navigate(
-          `/campaigns/${campaignId}/videos/${videoId}/?usecase=${useCaseId}`
-        );
+        navigate(`/campaigns/${campaignId}/videos/${videoId}/`);
       }
     },
     [videosCampaigns, selectedItem]
