@@ -1,4 +1,10 @@
-import { MD, Select, Skeleton, SM } from '@appquality/unguess-design-system';
+import {
+  Ellipsis,
+  MD,
+  Select,
+  Skeleton,
+  SM,
+} from '@appquality/unguess-design-system';
 import { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -101,11 +107,15 @@ const UsecaseSelect = ({
       }}
       inputValue={selectedItem?.id.toString()}
       selectionValue={selectedItem?.id.toString()}
-      renderValue={() => selectedItem?.title?.full}
+      renderValue={() => (
+        <Ellipsis style={{ width: 220 }}>{selectedItem?.title?.full}</Ellipsis>
+      )}
     >
       {usecasesWithVideoCounter?.map((usecase) => (
         <Select.Option key={usecase.id} value={usecase.id.toString()}>
-          <MD>{usecase.title.full}</MD>
+          <MD>
+            <Ellipsis style={{ width: 220 }}>{usecase.title.full}</Ellipsis>
+          </MD>
           <SM style={{ color: appTheme.palette.grey[600] }}>
             <Trans count={usecase.videoCount} i18nKey="__VIDEOS_COUNT">
               video {{ count: usecase.videoCount }}
