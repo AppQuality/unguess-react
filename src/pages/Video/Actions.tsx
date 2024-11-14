@@ -67,7 +67,7 @@ const Actions = () => {
     <Container ref={refScroll}>
       <XL isBold>{video.tester.name}</XL>
       <MetaContainer>
-        <Meta size="medium">Tester ID : {video.tester.id}</Meta>
+        <Meta size="medium">Tester ID: {video.tester.id}</Meta>
         <Pipe />
         {video.tester.device && (
           <Tag hue="white" style={{ textTransform: 'capitalize' }}>
