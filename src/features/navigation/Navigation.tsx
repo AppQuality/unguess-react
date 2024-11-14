@@ -5,7 +5,7 @@ import {
   Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useEffect } from 'react';
+import { ComponentProps, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -28,8 +28,16 @@ import {
   usePutUsersMePreferencesBySlugMutation,
 } from '../api';
 
-const StyledContent = styled(Content)`
-  height: calc(100% - ${({ theme }) => theme.components.chrome.header.height});
+const StyledContent = styled(Content)<
+  ComponentProps<typeof Content> & {
+    isMinimal?: boolean;
+    children?: React.ReactNode;
+  }
+>`
+  height: ${({ isMinimal, theme }) =>
+    isMinimal
+      ? '100%'
+      : `calc(100% - ${theme.components.chrome.header.height})`};
 `;
 
 export const Navigation = ({
@@ -233,7 +241,7 @@ export const Navigation = ({
       {isProfileModalOpen && (
         <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
       )}
-      <StyledContent>
+      <StyledContent isMinimal={isMinimal}>
         <AppSidebar
           route={
             route === 'projects' && parameter !== ''

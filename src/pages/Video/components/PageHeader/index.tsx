@@ -3,15 +3,13 @@ import {
   MD,
   PageHeader,
   Skeleton,
-  Span,
   XL,
 } from '@appquality/unguess-design-system';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { Meta } from 'src/common/components/Meta';
 import {
   useGetCampaignsByCidQuery,
   useGetVideosByVidObservationsQuery,
@@ -92,7 +90,7 @@ const VideoPageHeader = () => {
 
   return (
     <LayoutWrapper isNotBoxed>
-      <PageHeader style={{ padding: `${appTheme.space.xs} 0` }}>
+      <PageHeader style={{ padding: `${appTheme.space.lg} 0 0` }}>
         <PageHeader.Main mainTitle={t('__VIDEO_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
             <Link to={campaignRoute}>
@@ -104,17 +102,20 @@ const VideoPageHeader = () => {
           </PageHeader.Breadcrumbs>
           <PageHeader.Description style={{ width: '100%' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              {/* <Span isBold>
-                T{video.tester.id} | {video.tester.name}
-              </Span> */}
-              <XL isBold style={{ color: appTheme.palette.blue[600] }}>
+              <XL
+                isBold
+                style={{
+                  color: appTheme.palette.blue[600],
+                  padding: `${appTheme.space.xs} 0 ${appTheme.space.md}`,
+                }}
+              >
                 {capitalizeFirstLetter(video.tester.name)}
               </XL>
               <div
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: appTheme.space.lg,
+                  gap: appTheme.space.md,
                 }}
               >
                 {usecaseId && (
