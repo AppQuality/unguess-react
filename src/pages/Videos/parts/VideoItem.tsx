@@ -73,6 +73,7 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
   const videoUrl = useLocalizeRoute(
     `campaigns/${campaignId}/videos/${video.id}`
   );
+
   const severityTotals = video.observations
     ? getSeverityTagsByVideoCount(video.observations)
     : [];
