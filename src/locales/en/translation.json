@@ -953,6 +953,8 @@
   "__VIDEO_PAGE_TRANSCRIPT_EMPTY_STATE": "For this video, there is no available transcript.",
   "__VIDEO_PAGE_TRANSCRIPT_INFO": "Select some text to create an observation or use the button on the video player.",
   "__VIDEO_PAGE_TRANSCRIPT_TITLE": "Transcript",
+  "__VIDEOS_COUNT_one": "{{count}} video",
+  "__VIDEOS_COUNT_other": "{{count}} videos",
   "__VIDEOS_LIST_DESKTOP_TITLE": "Desktop",
   "__VIDEOS_LIST_META_VIDEO_COUNT_one": "video uploaded",
   "__VIDEOS_LIST_META_VIDEO_COUNT_many": "videos uploaded",

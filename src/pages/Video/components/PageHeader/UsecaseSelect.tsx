@@ -1,5 +1,6 @@
 import { MD, Select, Skeleton, SM } from '@appquality/unguess-design-system';
 import { useCallback, useEffect, useState } from 'react';
+import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
@@ -106,7 +107,9 @@ const UsecaseSelect = ({
         <Select.Option key={usecase.id} value={usecase.id.toString()}>
           <MD>{usecase.title.full}</MD>
           <SM style={{ color: appTheme.palette.grey[600] }}>
-            {usecase.videoCount} video
+            <Trans count={usecase.videoCount} i18nKey="__VIDEOS_COUNT">
+              video {{ count: usecase.videoCount }}
+            </Trans>
           </SM>
         </Select.Option>
       ))}
