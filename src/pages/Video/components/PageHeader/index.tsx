@@ -1,6 +1,5 @@
 import {
   Anchor,
-  MD,
   PageHeader,
   Skeleton,
   XL,
@@ -12,35 +11,11 @@ import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import {
   useGetCampaignsByCidQuery,
-  useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { styled } from 'styled-components';
-import { getSeverityTagsByVideoCount } from '../../../Videos/utils/getSeverityTagsWithCount';
 import UsecaseSelect from './UsecaseSelect';
 import VideoPagination from './VideoPagination';
-
-const SeveritiesMetaContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-const SeveritiesMetaText = styled.div`
-  margin-right: ${({ theme }) => theme.space.sm};
-`;
-const StyledUseCaseName = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-  margin-left: auto;
-`;
-const StyledPageHeaderMeta = styled(PageHeader.Meta)`
-  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    ${StyledUseCaseName} {
-      display: block;
-      width: 100%;
-      margin-top: ${({ theme }) => theme.space.xs};
-    }
-  }
-`;
 
 const VideoPageHeader = () => {
   const { campaignId, videoId } = useParams();
@@ -70,23 +45,10 @@ const VideoPageHeader = () => {
     cid: campaignId || '',
   });
 
-  const {
-    data: observations,
-    isLoading: isLoadingObservations,
-    isFetching: isFetchingObservations,
-  } = useGetVideosByVidObservationsQuery({
-    vid: videoId || '',
-  });
-
-  const severities = observations
-    ? getSeverityTagsByVideoCount(observations)
-    : [];
-
   if (!video || isErrorVideo) return null;
   if (!campaign || isErrorCampaign) return null;
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingCampaign || isLoadingCampaign) return <Skeleton />;
-  if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
   return (
     <LayoutWrapper isNotBoxed>
@@ -135,40 +97,6 @@ const VideoPageHeader = () => {
               </div>
             </div>
           </PageHeader.Description>
-          {/* <StyledPageHeaderMeta>
-            {observations && severities && severities.length > 0 && (
-              <>
-                <SeveritiesMetaText>
-                  <Trans
-                    i18nKey="__VIDEO_LIST_META_SEVERITIES_COUNT"
-                    count={observations.length}
-                    values={{ count: observations.length }}
-                    components={{
-                      span: (
-                        <Span
-                          isBold
-                          style={{ color: appTheme.palette.blue[600] }}
-                        />
-                      ),
-                      md: <MD />,
-                    }}
-                    default="<md>You have found <span>{{ count }}</span> observations:</md>"
-                  />
-                </SeveritiesMetaText>
-                <SeveritiesMetaContainer>
-                  {severities.map((severity) => (
-                    <Meta
-                      size="large"
-                      color={severity.style}
-                      secondaryText={severity.count}
-                    >
-                      {capitalizeFirstLetter(severity.name)}
-                    </Meta>
-                  ))}
-                </SeveritiesMetaContainer>
-              </>
-            )}
-          </StyledPageHeaderMeta> */}
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>
