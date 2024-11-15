@@ -51,9 +51,15 @@ const VideoPageHeader = () => {
   if (isFetchingCampaign || isLoadingCampaign) return <Skeleton />;
 
   return (
-    <LayoutWrapper isNotBoxed>
+    <LayoutWrapper
+      isNotBoxed
+      style={{ borderBottom: `1px solid ${appTheme.palette.grey[300]}` }}
+    >
       <PageHeader
-        style={{ padding: `${appTheme.space.lg} 0 ${appTheme.space.md}` }}
+        style={{
+          padding: `${appTheme.space.lg} 0 ${appTheme.space.md}`,
+          border: 'none',
+        }}
       >
         <PageHeader.Main mainTitle={t('__VIDEO_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
