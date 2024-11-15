@@ -1,10 +1,8 @@
 import { Pagination, Skeleton } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  GetVideosByVidApiResponse,
-  useGetCampaignsByCidVideosQuery,
-} from 'src/features/api';
+import { GetVideosByVidApiResponse } from 'src/features/api';
+import useUsecaseWithCounter from './useUsecaseWithCounter';
 
 const VideoPagination = ({
   currentUsecaseId,
@@ -16,39 +14,31 @@ const VideoPagination = ({
   video: GetVideosByVidApiResponse;
 }) => {
   const navigate = useNavigate();
-  const { data: videosListCurrentUsecase } = useGetCampaignsByCidVideosQuery(
-    {
-      cid: campaignId || '',
-      filterBy: {
-        usecase: currentUsecaseId,
-      },
-    },
-    { skip: !video || !campaignId }
-  );
+
+  const {
+    usecasesWithVideoCounter: useCasesWithVideoCount,
+    isLoading,
+    isFetching,
+  } = useUsecaseWithCounter(campaignId || '');
 
   const paginationData = useMemo(() => {
-    if (videosListCurrentUsecase && video) {
-      const group = videosListCurrentUsecase.items.filter(
-        (item) => item.usecaseId === video.usecase.id
+    const videosCurrentUsecase = useCasesWithVideoCount?.find(
+      (usecase) => usecase.id === currentUsecaseId
+    )?.videos;
+    if (videosCurrentUsecase && videosCurrentUsecase.length > 0) {
+      const index = videosCurrentUsecase.findIndex(
+        (item) => item.id === video.id
       );
-      const videos = [
-        ...group.filter((item) => item.tester.device.type === 'desktop'),
-        ...group.filter((item) => item.tester.device.type === 'tablet'),
-        ...group.filter((item) => item.tester.device.type === 'smartphone'),
-        ...group.filter((item) => item.tester.device.type === 'other'),
-      ].map((item) => ({ id: item.id }));
-
-      const index = videos.findIndex((item) => item.id === video.id);
       return {
-        items: videos,
-        total: videos.length,
+        items: videosCurrentUsecase,
+        total: videosCurrentUsecase.length,
         currentPage: index + 1,
       };
     }
     return { items: [], total: 0, currentPage: 1 };
-  }, [videosListCurrentUsecase, video]);
+  }, [useCasesWithVideoCount, video]);
 
-  return paginationData.items.length > 0 ? (
+  return paginationData.items.length > 0 && !isLoading && !isFetching ? (
     <Pagination
       totalPages={paginationData.total}
       currentPage={paginationData.currentPage}
@@ -56,6 +46,7 @@ const VideoPagination = ({
       pagePadding={0}
       onChange={(page) => {
         // eslint-disable-next-line no-console
+        if (!page) return;
         const targetId = paginationData.items[page - 1].id;
         navigate(`/campaigns/${campaignId}/videos/${targetId}/`, {
           replace: true,

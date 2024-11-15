@@ -9,11 +9,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import {
-  GetCampaignsByCidUsecasesApiResponse,
-  useGetCampaignsByCidUsecasesQuery,
-  useGetCampaignsByCidVideosQuery,
-} from 'src/features/api';
+import { GetCampaignsByCidUsecasesApiResponse } from 'src/features/api';
+import useUsecaseWithCounter from './useUsecaseWithCounter';
 
 const UsecaseSelect = ({
   currentUsecaseId,
@@ -27,89 +24,57 @@ const UsecaseSelect = ({
     useState<GetCampaignsByCidUsecasesApiResponse[0]>();
 
   const {
-    data: videosCampaigns,
-    isLoading: isLoadingVideos,
-    isFetching: isFetchingVideos,
-  } = useGetCampaignsByCidVideosQuery({
-    cid: campaignId || '',
-  });
-
-  const {
-    data: usecases,
-    isFetching: isFetchingUsecases,
-    isLoading: isLoadingUsecases,
-  } = useGetCampaignsByCidUsecasesQuery({
-    cid: campaignId || '',
-    filterBy: 'videos',
-  });
-
-  const usecasesWithVideoCounter = usecases?.map((usecase) => {
-    const videos = videosCampaigns?.items.filter(
-      (item) => item.usecaseId === usecase.id
-    );
-    return {
-      ...usecase,
-      videoCount: videos?.length || 0,
-    };
-  });
+    usecasesWithVideoCounter: useCasesWithVideoCount,
+    isLoading,
+    isFetching,
+  } = useUsecaseWithCounter(campaignId || '');
 
   /**
    * Navigate to the video page with the selected usecase
    */
   const handleNavigate = useCallback(
     (useCaseId: string) => {
-      const videosDesktop = videosCampaigns?.items.filter(
-        (item) =>
-          item.usecaseId === Number.parseInt(useCaseId, 10) &&
-          item.tester.device.type === 'desktop'
+      const usecase = useCasesWithVideoCount?.find(
+        (u) => u.id === parseInt(useCaseId, 10)
       );
+      if (usecase) {
+        const videoId = usecase?.videos[0]?.id;
+        if (!videoId) return;
 
-      const filteredVideos =
-        videosDesktop && videosDesktop?.length > 0
-          ? videosDesktop
-          : videosCampaigns?.items.filter(
-              (item) => item.usecaseId === Number.parseInt(useCaseId, 10)
-            );
-      if (filteredVideos?.length) {
-        const videoId = filteredVideos[0].id;
         navigate(`/campaigns/${campaignId}/videos/${videoId}/`);
       }
     },
-    [videosCampaigns, selectedItem]
+    [useCasesWithVideoCount, selectedItem]
   );
 
   useEffect(() => {
-    const selectedUsecase = usecases?.find(
+    const selectedUsecase = useCasesWithVideoCount?.find(
       (usecase) => usecase.id === currentUsecaseId
     );
     if (selectedUsecase) {
       setSelectedItem(selectedUsecase);
     }
-  }, [currentUsecaseId, usecases]);
+  }, [currentUsecaseId, useCasesWithVideoCount]);
 
-  return videosCampaigns &&
-    !isLoadingVideos &&
-    !isFetchingVideos &&
-    usecases &&
-    usecasesWithVideoCounter &&
-    selectedItem &&
-    !isLoadingUsecases &&
-    !isFetchingUsecases ? (
+  return !isLoading && !isFetching && useCasesWithVideoCount && selectedItem ? (
     <Select
       isCompact
       onSelect={(item) => {
         setSelectedItem(
-          usecases.find((usecase) => usecase.id === parseInt(item, 10))
+          useCasesWithVideoCount.find(
+            (usecase) => usecase.id === parseInt(item, 10)
+          )
         );
         handleNavigate(item);
       }}
+      key={JSON.stringify(useCasesWithVideoCount)}
       inputValue={selectedItem?.id.toString()}
       selectionValue={selectedItem?.id.toString()}
       renderValue={() => (
         <Ellipsis style={{ width: 220 }}>{selectedItem?.title?.full}</Ellipsis>
       )}
     >
-      {usecasesWithVideoCounter?.map((usecase) => (
+      {useCasesWithVideoCount?.map((usecase) => (
         <Select.Option key={usecase.id} value={usecase.id.toString()}>
           <MD>
             <Ellipsis style={{ width: 220 }}>{usecase.title.full}</Ellipsis>
