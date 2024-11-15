@@ -52,7 +52,9 @@ const VideoPageHeader = () => {
 
   return (
     <LayoutWrapper isNotBoxed>
-      <PageHeader style={{ padding: `${appTheme.space.lg} 0 0` }}>
+      <PageHeader
+        style={{ padding: `${appTheme.space.lg} 0 ${appTheme.space.md}` }}
+      >
         <PageHeader.Main mainTitle={t('__VIDEO_PAGE_TITLE')}>
           <PageHeader.Breadcrumbs>
             <Link to={campaignRoute}>
@@ -62,13 +64,14 @@ const VideoPageHeader = () => {
               <Anchor id="breadcrumb-parent">{t('__VIDEOS_PAGE_TITLE')}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
-          <PageHeader.Description style={{ width: '100%' }}>
+          <PageHeader.Description
+            style={{ width: '100%', marginBottom: appTheme.space.sm }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <XL
                 isBold
                 style={{
                   color: appTheme.palette.blue[600],
-                  padding: `${appTheme.space.xs} 0 ${appTheme.space.md}`,
                 }}
               >
                 {capitalizeFirstLetter(video.tester.name)}
