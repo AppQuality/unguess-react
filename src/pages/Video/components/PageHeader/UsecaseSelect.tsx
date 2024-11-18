@@ -5,12 +5,11 @@ import {
   Skeleton,
   SM,
 } from '@appquality/unguess-design-system';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { GetCampaignsByCidUsecasesApiResponse } from 'src/features/api';
-import useUsecaseWithCounter from './useUsecaseWithCounter';
+import useUsecaseWithVideos from './useUsecaseWithVideos';
 
 const UsecaseSelect = ({
   currentUsecaseId,
@@ -20,21 +19,22 @@ const UsecaseSelect = ({
   campaignId: string | undefined;
 }) => {
   const navigate = useNavigate();
-  const [selectedItem, setSelectedItem] =
-    useState<GetCampaignsByCidUsecasesApiResponse[0]>();
+  const [selectedItem, setSelectedItem] = useState<string>(
+    currentUsecaseId.toString()
+  );
 
   const {
-    usecasesWithVideoCounter: useCasesWithVideoCount,
+    usecasesWithVideos: useUsecasesWithVideos,
     isLoading,
     isFetching,
-  } = useUsecaseWithCounter(campaignId || '');
+  } = useUsecaseWithVideos(campaignId || '');
 
   /**
    * Navigate to the video page with the selected usecase
    */
   const handleNavigate = useCallback(
     (useCaseId: string) => {
-      const usecase = useCasesWithVideoCount?.find(
+      const usecase = useUsecasesWithVideos?.find(
         (u) => u.id === parseInt(useCaseId, 10)
       );
       if (usecase) {
@@ -44,44 +44,41 @@ const UsecaseSelect = ({
         navigate(`/campaigns/${campaignId}/videos/${videoId}/`);
       }
     },
-    [useCasesWithVideoCount, selectedItem]
+    [useUsecasesWithVideos]
   );
 
-  useEffect(() => {
-    const selectedUsecase = useCasesWithVideoCount?.find(
-      (usecase) => usecase.id === currentUsecaseId
-    );
-    if (selectedUsecase) {
-      setSelectedItem(selectedUsecase);
-    }
-  }, [currentUsecaseId, useCasesWithVideoCount]);
-
-  return !isLoading && !isFetching && useCasesWithVideoCount && selectedItem ? (
+  return !isLoading && !isFetching && useUsecasesWithVideos ? (
     <Select
       isCompact
-      onSelect={(item) => {
-        setSelectedItem(
-          useCasesWithVideoCount.find(
-            (usecase) => usecase.id === parseInt(item, 10)
-          )
-        );
-        handleNavigate(item);
+      onSelect={(value) => {
+        const usecaseId = useUsecasesWithVideos
+          .find((usecase) => usecase.id === Number(value))
+          ?.id.toString();
+
+        if (!usecaseId) return;
+
+        setSelectedItem(usecaseId);
+        handleNavigate(value);
       }}
-      key={JSON.stringify(useCasesWithVideoCount)}
-      inputValue={selectedItem?.id.toString()}
-      selectionValue={selectedItem?.id.toString()}
-      renderValue={() => (
-        <Ellipsis style={{ width: 220 }}>{selectedItem?.title?.full}</Ellipsis>
-      )}
+      inputValue={selectedItem}
+      selectionValue={selectedItem}
+      renderValue={({ inputValue }) => {
+        const usecase = useUsecasesWithVideos?.find(
+          (u) => u.id === Number(inputValue)
+        );
+        return (
+          <Ellipsis style={{ width: 220 }}>{usecase?.title?.full}</Ellipsis>
+        );
+      }}
     >
-      {useCasesWithVideoCount?.map((usecase) => (
+      {useUsecasesWithVideos?.map((usecase) => (
         <Select.Option key={usecase.id} value={usecase.id.toString()}>
           <MD>
             <Ellipsis style={{ width: 220 }}>{usecase.title.full}</Ellipsis>
           </MD>
           <SM style={{ color: appTheme.palette.grey[600] }}>
-            <Trans count={usecase.videoCount} i18nKey="__VIDEOS_COUNT">
-              video {{ count: usecase.videoCount }}
+            <Trans count={usecase.videos.length} i18nKey="__VIDEOS_COUNT">
+              video {{ count: usecase.videos.length }}
             </Trans>
           </SM>
         </Select.Option>

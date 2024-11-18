@@ -2,7 +2,7 @@ import { Pagination, Skeleton } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetVideosByVidApiResponse } from 'src/features/api';
-import useUsecaseWithCounter from './useUsecaseWithCounter';
+import useUsecaseWithCounter from './useUsecaseWithVideos';
 
 const VideoPagination = ({
   currentUsecaseId,
@@ -16,7 +16,7 @@ const VideoPagination = ({
   const navigate = useNavigate();
 
   const {
-    usecasesWithVideoCounter: useCasesWithVideoCount,
+    usecasesWithVideos: useCasesWithVideoCount,
     isLoading,
     isFetching,
   } = useUsecaseWithCounter(campaignId || '');
