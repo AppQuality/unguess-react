@@ -25,7 +25,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
       ${({ theme }) => theme.space.base * 2}px;
   `;
 
-  if (!suggestions) {
+  if (!suggestions?.suggestion) {
     return null;
   }
 
@@ -69,7 +69,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
           <Link
             to={
               suggestions.suggestion === 'banner_testing_automation'
-                ? 'https://app.unguess.io/services/22'
+                ? 'https://app.unguess.io/services/41'
                 : 'https://app.unguess.io/services/22'
             }
           >
@@ -77,7 +77,19 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
               <IconService />
             </IconButton>
           </Link>
-          <Button size="small">{t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}</Button>
+          <Button
+            size="small"
+            onClick={() =>
+              window.open(
+                suggestions.suggestion === 'banner_testing_automation'
+                  ? 'https://app.unguess.io/services/41'
+                  : 'https://app.unguess.io/services/22',
+                '_blank'
+              )
+            }
+          >
+            {t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}
+          </Button>
         </BasicWidget.Footer>
       </>
     </BasicWidget>

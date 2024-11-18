@@ -26,7 +26,7 @@ export const Reccomendation = ({
             <Anchor
               href={
                 suggestion === 'banner_testing_automation'
-                  ? 'https://app.unguess.io/services/22'
+                  ? 'https://app.unguess.io/services/41'
                   : 'https://app.unguess.io/services/22'
               }
               isExternal
@@ -44,7 +44,7 @@ export const Reccomendation = ({
       onClick: () => {
         window.open(
           suggestion === 'banner_testing_automation'
-            ? 'https://app.unguess.io/services/22'
+            ? 'https://app.unguess.io/services/41'
             : 'https://app.unguess.io/services/22',
           '_blank'
         );
