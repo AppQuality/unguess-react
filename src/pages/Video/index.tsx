@@ -14,7 +14,7 @@ import {
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import VideoPageContent from './Content';
-import VideoPageHeader from './PageHeader';
+import VideoPageHeader from './components/PageHeader';
 
 const VideoPage = () => {
   const { t } = useTranslation();
@@ -37,9 +37,14 @@ const VideoPage = () => {
   useCampaignAnalytics(campaignId);
 
   const { isError: isErrorCampaign, data: { campaign, workspace } = {} } =
-    useGetCampaignWithWorkspaceQuery({
-      cid: campaignId?.toString() ?? '0',
-    });
+    useGetCampaignWithWorkspaceQuery(
+      {
+        cid: campaignId?.toString() ?? '0',
+      },
+      {
+        skip: !campaignId,
+      }
+    );
 
   useEffect(() => {
     if (workspace) {
@@ -83,6 +88,7 @@ const VideoPage = () => {
       route="video"
       excludeMarginTop
       excludeMarginBottom
+      isMinimal
     >
       <VideoPageContent />
     </Page>

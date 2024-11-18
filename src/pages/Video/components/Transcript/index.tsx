@@ -30,7 +30,12 @@ const TranscriptWrapper = ({
   const isEmpty = !video?.transcript;
 
   return (
-    <div style={{ padding: `0 ${appTheme.space.xxl}` }}>
+    <div
+      style={{
+        padding: `0 ${appTheme.space.xxl}`,
+        marginBottom: appTheme.space.xl,
+      }}
+    >
       <ContainerCard>
         <Header editor={isEmpty ? undefined : editor} isEmpty={isEmpty} />
         {video?.transcript ? children : <EmptyState />}

@@ -30,6 +30,7 @@ const PlayerContainer = styled.div<{
   height: 55vh;
   display: flex;
   position: relative;
+  padding-bottom: ${({ theme }) => theme.space.xxl};
   top: 0;
   z-index: 3;
   overflow: hidden;
@@ -212,7 +213,7 @@ const CorePlayer = () => {
   if (isLoadingObservations) return <Skeleton />;
   return (
     <ToolsContextProvider>
-      <PlayerContainer isFetching={isFetchingVideo}>
+      <PlayerContainer isFetching={isFetchingVideo} style={{ marginTop: 130 }}>
         <PlayerProvider.Core
           ref={videoRef}
           pipMode="auto"

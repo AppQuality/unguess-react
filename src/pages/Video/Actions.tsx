@@ -22,13 +22,7 @@ const Container = styled.div`
   top: 0;
   width: 100%;
   background-color: white;
-  height: 100%;
-  min-height: calc(
-    100vh - ${({ theme }) => theme.components.chrome.header.height}
-  );
-  max-height: calc(
-    100vh - ${({ theme }) => theme.components.chrome.header.height}
-  );
+  height: 100vh;
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.md};
   overflow-y: auto;
   border-left: 1px solid ${({ theme }) => theme.palette.grey[200]};
@@ -71,9 +65,11 @@ const Actions = () => {
 
   return (
     <Container ref={refScroll}>
-      <XL isBold>{video.tester.name}</XL>
+      <XL isBold style={{ marginTop: 130 }}>
+        {video.tester.name}
+      </XL>
       <MetaContainer>
-        <Meta size="medium">T{video.tester.id}</Meta>
+        <Meta size="medium">Tester ID: {video.tester.id}</Meta>
         <Pipe />
         {video.tester.device && (
           <Tag hue="white" style={{ textTransform: 'capitalize' }}>
