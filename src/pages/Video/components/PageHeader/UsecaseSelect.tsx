@@ -5,11 +5,10 @@ import {
   Skeleton,
   SM,
 } from '@appquality/unguess-design-system';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { GetCampaignsByCidUsecasesApiResponse } from 'src/features/api';
 import useUsecaseWithVideos from './useUsecaseWithVideos';
 
 const UsecaseSelect = ({
@@ -20,8 +19,9 @@ const UsecaseSelect = ({
   campaignId: string | undefined;
 }) => {
   const navigate = useNavigate();
-  const [selectedItem, setSelectedItem] =
-    useState<GetCampaignsByCidUsecasesApiResponse[0]>();
+  const [selectedItem, setSelectedItem] = useState<string>(
+    currentUsecaseId.toString()
+  );
 
   const {
     usecasesWithVideos: useUsecasesWithVideos,
@@ -44,35 +44,32 @@ const UsecaseSelect = ({
         navigate(`/campaigns/${campaignId}/videos/${videoId}/`);
       }
     },
-    [useUsecasesWithVideos, selectedItem]
+    [useUsecasesWithVideos]
   );
 
-  useEffect(() => {
-    const selectedUsecase = useUsecasesWithVideos?.find(
-      (usecase) => usecase.id === currentUsecaseId
-    );
-    if (selectedUsecase) {
-      setSelectedItem(selectedUsecase);
-    }
-  }, [currentUsecaseId, useUsecasesWithVideos]);
-
-  return !isLoading && !isFetching && useUsecasesWithVideos && selectedItem ? (
+  return !isLoading && !isFetching && useUsecasesWithVideos ? (
     <Select
       isCompact
-      onSelect={(item) => {
-        setSelectedItem(
-          useUsecasesWithVideos.find(
-            (usecase) => usecase.id === parseInt(item, 10)
-          )
-        );
-        handleNavigate(item);
+      onSelect={(value) => {
+        const usecaseId = useUsecasesWithVideos
+          .find((usecase) => usecase.id === Number(value))
+          ?.id.toString();
+
+        if (!usecaseId) return;
+
+        setSelectedItem(usecaseId);
+        handleNavigate(value);
       }}
-      key={JSON.stringify(useUsecasesWithVideos)}
-      inputValue={selectedItem?.id.toString()}
-      selectionValue={selectedItem?.id.toString()}
-      renderValue={() => (
-        <Ellipsis style={{ width: 220 }}>{selectedItem?.title?.full}</Ellipsis>
-      )}
+      inputValue={selectedItem}
+      selectionValue={selectedItem}
+      renderValue={({ inputValue }) => {
+        const usecase = useUsecasesWithVideos?.find(
+          (u) => u.id === Number(inputValue)
+        );
+        return (
+          <Ellipsis style={{ width: 220 }}>{usecase?.title?.full}</Ellipsis>
+        );
+      }}
     >
       {useUsecasesWithVideos?.map((usecase) => (
         <Select.Option key={usecase.id} value={usecase.id.toString()}>
