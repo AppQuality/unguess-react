@@ -20,6 +20,8 @@ import {
 } from 'src/features/api';
 import { Link } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { useEffect } from 'react';
+import TagManager from 'react-gtm-module';
 
 export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const { t } = useTranslation();
@@ -34,6 +36,20 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
     padding: ${({ theme }) => theme.space.base}px
       ${({ theme }) => theme.space.base * 2}px;
   `;
+
+  useEffect(() => {
+    if (!suggestions?.suggestion) {
+      return;
+    }
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'reccomendation',
+        page: 'campaign',
+        action: 'view',
+        label: suggestions.suggestion.slug,
+      },
+    });
+  }, [suggestions]);
 
   const handleCtaClick = async () => {
     if (!suggestions?.suggestion || isLoading) {

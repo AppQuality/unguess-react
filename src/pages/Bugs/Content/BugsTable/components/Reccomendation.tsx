@@ -5,6 +5,9 @@ import {
   Notification,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
+import { useEffect } from 'react';
+import TagManager from 'react-gtm-module';
+import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import {
@@ -17,6 +20,21 @@ export const Reccomendation = ({
 }: GetCampaignsByCidSuggestionsApiResponse) => {
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
+
+  useEffect(() => {
+    if (!suggestion?.slug) {
+      return;
+    }
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'reccomendation',
+        page: 'bugs',
+        action: 'view',
+        label: suggestion.slug,
+      },
+    });
+  }, [suggestion?.slug]);
+
   const handleCtaClick = async () => {
     if (!suggestion || isLoading) {
       return;
