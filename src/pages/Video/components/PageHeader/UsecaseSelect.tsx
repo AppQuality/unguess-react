@@ -10,7 +10,7 @@ import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { GetCampaignsByCidUsecasesApiResponse } from 'src/features/api';
-import useUsecaseWithCounter from './useUsecaseWithCounter';
+import useUsecaseWithVideos from './useUsecaseWithVideos';
 
 const UsecaseSelect = ({
   currentUsecaseId,
@@ -24,17 +24,17 @@ const UsecaseSelect = ({
     useState<GetCampaignsByCidUsecasesApiResponse[0]>();
 
   const {
-    usecasesWithVideoCounter: useCasesWithVideoCount,
+    usecasesWithVideos: useUsecasesWithVideos,
     isLoading,
     isFetching,
-  } = useUsecaseWithCounter(campaignId || '');
+  } = useUsecaseWithVideos(campaignId || '');
 
   /**
    * Navigate to the video page with the selected usecase
    */
   const handleNavigate = useCallback(
     (useCaseId: string) => {
-      const usecase = useCasesWithVideoCount?.find(
+      const usecase = useUsecasesWithVideos?.find(
         (u) => u.id === parseInt(useCaseId, 10)
       );
       if (usecase) {
@@ -44,44 +44,44 @@ const UsecaseSelect = ({
         navigate(`/campaigns/${campaignId}/videos/${videoId}/`);
       }
     },
-    [useCasesWithVideoCount, selectedItem]
+    [useUsecasesWithVideos, selectedItem]
   );
 
   useEffect(() => {
-    const selectedUsecase = useCasesWithVideoCount?.find(
+    const selectedUsecase = useUsecasesWithVideos?.find(
       (usecase) => usecase.id === currentUsecaseId
     );
     if (selectedUsecase) {
       setSelectedItem(selectedUsecase);
     }
-  }, [currentUsecaseId, useCasesWithVideoCount]);
+  }, [currentUsecaseId, useUsecasesWithVideos]);
 
-  return !isLoading && !isFetching && useCasesWithVideoCount && selectedItem ? (
+  return !isLoading && !isFetching && useUsecasesWithVideos && selectedItem ? (
     <Select
       isCompact
       onSelect={(item) => {
         setSelectedItem(
-          useCasesWithVideoCount.find(
+          useUsecasesWithVideos.find(
             (usecase) => usecase.id === parseInt(item, 10)
           )
         );
         handleNavigate(item);
       }}
-      key={JSON.stringify(useCasesWithVideoCount)}
+      key={JSON.stringify(useUsecasesWithVideos)}
       inputValue={selectedItem?.id.toString()}
       selectionValue={selectedItem?.id.toString()}
       renderValue={() => (
         <Ellipsis style={{ width: 220 }}>{selectedItem?.title?.full}</Ellipsis>
       )}
     >
-      {useCasesWithVideoCount?.map((usecase) => (
+      {useUsecasesWithVideos?.map((usecase) => (
         <Select.Option key={usecase.id} value={usecase.id.toString()}>
           <MD>
             <Ellipsis style={{ width: 220 }}>{usecase.title.full}</Ellipsis>
           </MD>
           <SM style={{ color: appTheme.palette.grey[600] }}>
-            <Trans count={usecase.videoCount} i18nKey="__VIDEOS_COUNT">
-              video {{ count: usecase.videoCount }}
+            <Trans count={usecase.videos.length} i18nKey="__VIDEOS_COUNT">
+              video {{ count: usecase.videos.length }}
             </Trans>
           </SM>
         </Select.Option>

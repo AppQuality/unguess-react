@@ -3,7 +3,7 @@ import {
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 
-const useUsecaseWithCounter = (campaignId: string) => {
+const useUsecaseWithVideos = (campaignId: string) => {
   const {
     data: videosCampaigns,
     isLoading: isLoadingVideos,
@@ -21,7 +21,7 @@ const useUsecaseWithCounter = (campaignId: string) => {
     filterBy: 'videos',
   });
 
-  const usecasesWithVideoCounter = usecases
+  const usecasesWithVideos = usecases
     ?.map((usecase) => {
       const videos = videosCampaigns?.items.filter(
         (item) => item.usecaseId === usecase.id
@@ -29,7 +29,6 @@ const useUsecaseWithCounter = (campaignId: string) => {
       return {
         ...usecase,
         videos: videos || [],
-        videoCount: videos?.length || 0,
       };
     })
     .map((usecase) => {
@@ -54,13 +53,11 @@ const useUsecaseWithCounter = (campaignId: string) => {
       };
     });
 
-  // add
-
   return {
-    usecasesWithVideoCounter,
+    usecasesWithVideos,
     isLoading: isLoadingVideos || isLoadingUsecases,
     isFetching: isFetchingVideos || isFetchingUsecases,
   };
 };
 
-export default useUsecaseWithCounter;
+export default useUsecaseWithVideos;
