@@ -37,9 +37,14 @@ const VideoPage = () => {
   useCampaignAnalytics(campaignId);
 
   const { isError: isErrorCampaign, data: { campaign, workspace } = {} } =
-    useGetCampaignWithWorkspaceQuery({
-      cid: campaignId?.toString() ?? '0',
-    });
+    useGetCampaignWithWorkspaceQuery(
+      {
+        cid: campaignId?.toString() ?? '0',
+      },
+      {
+        skip: !campaignId,
+      }
+    );
 
   useEffect(() => {
     if (workspace) {
