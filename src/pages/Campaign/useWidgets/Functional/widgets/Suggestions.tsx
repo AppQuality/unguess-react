@@ -21,7 +21,7 @@ import {
 import { Link } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useEffect } from 'react';
-import TagManager from 'react-gtm-module';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const { t } = useTranslation();
@@ -30,6 +30,8 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   });
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
+
+  const sendGTMEvent = useSendGTMevent();
 
   const StyledTagNew = styled(Tag)`
     height: ${({ theme }) => theme.space.base * 6}px;
@@ -41,13 +43,11 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
     if (!suggestions?.suggestion) {
       return;
     }
-    TagManager.dataLayer({
-      dataLayer: {
-        event: 'reccomendation',
-        page: 'campaign',
-        action: 'view',
-        label: suggestions.suggestion.slug,
-      },
+    sendGTMEvent({
+      event: 'reccomendation',
+      category: 'campaign',
+      action: 'view',
+      content: suggestions.suggestion.slug,
     });
   }, [suggestions]);
 
@@ -137,6 +137,15 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
           {suggestions.suggestion.serviceId && (
             <Link
               to={`https://app.unguess.io/services/${suggestions.suggestion.serviceId}`}
+              onClick={() => {
+                sendGTMEvent({
+                  event: 'reccomendation',
+                  category: 'campaign',
+                  action: 'click',
+                  target: 'service',
+                  content: suggestions.suggestion?.slug,
+                });
+              }}
             >
               <IconButton>
                 <IconService />

@@ -6,7 +6,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useEffect } from 'react';
-import TagManager from 'react-gtm-module';
 import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
@@ -14,6 +13,7 @@ import {
   GetCampaignsByCidSuggestionsApiResponse,
   usePostCampaignsByCidSuggestionsMutation,
 } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 export const Reccomendation = ({
   suggestion,
@@ -21,17 +21,16 @@ export const Reccomendation = ({
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
 
+  const sendGTMEvent = useSendGTMevent();
   useEffect(() => {
     if (!suggestion?.slug) {
       return;
     }
-    TagManager.dataLayer({
-      dataLayer: {
-        event: 'reccomendation',
-        page: 'bugs',
-        action: 'view',
-        label: suggestion.slug,
-      },
+    sendGTMEvent({
+      event: 'reccomendation',
+      category: 'bugs',
+      action: 'view',
+      content: suggestion.slug,
     });
   }, [suggestion?.slug]);
 
@@ -39,6 +38,14 @@ export const Reccomendation = ({
     if (!suggestion || isLoading) {
       return;
     }
+
+    sendGTMEvent({
+      event: 'reccomendation',
+      category: 'bugs',
+      action: 'click',
+      content: suggestion.slug,
+      target: 'get_in_touch',
+    });
 
     sendMail({ cid: '1', body: { slug: suggestion.slug } })
       .unwrap()
@@ -112,6 +119,15 @@ export const Reccomendation = ({
           {suggestion.serviceId && (
             <Anchor
               href={`https://app.unguess.io/services/${suggestion.serviceId}`}
+              onClick={() => {
+                sendGTMEvent({
+                  event: 'reccomendation',
+                  category: 'bugs',
+                  action: 'click',
+                  content: suggestion.slug,
+                  target: 'view_more',
+                });
+              }}
               isExternal
             >
               {suggestion.slug === 'banner_testing_automation'
