@@ -213,7 +213,7 @@ const CorePlayer = () => {
   if (isLoadingObservations) return <Skeleton />;
   return (
     <ToolsContextProvider>
-      <PlayerContainer isFetching={isFetchingVideo}>
+      <PlayerContainer isFetching={isFetchingVideo} style={{ marginTop: 130 }}>
         <PlayerProvider.Core
           ref={videoRef}
           pipMode="auto"

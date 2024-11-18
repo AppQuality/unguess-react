@@ -53,7 +53,14 @@ const VideoPageHeader = () => {
   return (
     <LayoutWrapper
       isNotBoxed
-      style={{ borderBottom: `1px solid ${appTheme.palette.grey[300]}` }}
+      style={{
+        borderBottom: `1px solid ${appTheme.palette.grey[300]}`,
+        position: 'fixed',
+        top: 0,
+        zIndex: appTheme.levels.front,
+        backgroundColor: appTheme.palette.white,
+        height: 130,
+      }}
     >
       <PageHeader
         style={{

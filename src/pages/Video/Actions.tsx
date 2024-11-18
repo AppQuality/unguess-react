@@ -65,7 +65,9 @@ const Actions = () => {
 
   return (
     <Container ref={refScroll}>
-      <XL isBold>{video.tester.name}</XL>
+      <XL isBold style={{ marginTop: 130 }}>
+        {video.tester.name}
+      </XL>
       <MetaContainer>
         <Meta size="medium">Tester ID: {video.tester.id}</Meta>
         <Pipe />
