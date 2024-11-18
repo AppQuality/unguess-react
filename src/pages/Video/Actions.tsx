@@ -1,16 +1,20 @@
-import { Skeleton, Tag, XL } from '@appquality/unguess-design-system';
+import { LG, Skeleton, Tag, XL } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
+import { Divider } from 'src/common/components/divider';
+import { useTranslation } from 'react-i18next';
+import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import styled from 'styled-components';
 import { useRef } from 'react';
+import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
 import { formatDuration } from '../Videos/utils/formatDuration';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
@@ -35,10 +39,19 @@ const MetaContainer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
+const ObservationsCountWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: ${({ theme }) => theme.space.xxs};
+  margin-top: ${({ theme }) => theme.space.sm};
+  margin-bottom: ${({ theme }) => theme.space.xs};
+`;
+
 const Actions = () => {
   const { videoId } = useParams();
   const refScroll = useRef<HTMLDivElement>(null);
-
+  const { t } = useTranslation();
   const {
     data: video,
     isFetching: isFetchingVideo,
@@ -56,6 +69,10 @@ const Actions = () => {
   } = useGetVideosByVidObservationsQuery({
     vid: videoId || '',
   });
+
+  const severities = observations
+    ? getSeverityTagsByVideoCount(observations)
+    : [];
 
   if (!video || isErrorVideo) return null;
   if (!observations || isErrorObservations) return null;
@@ -85,6 +102,27 @@ const Actions = () => {
             {formatDuration(video.duration)}
           </Tag>
         )}
+      </MetaContainer>
+      <Divider />
+      <MetaContainer>
+        <div style={{ marginTop: appTheme.space.xs }}>
+          <LG isBold>
+            {t('__OBSERVATIONS_DRAWER_TOTAL')}:{observations.length}
+          </LG>
+          {observations && severities && severities.length > 0 && (
+            <ObservationsCountWrapper>
+              {severities.map((severity) => (
+                <Meta
+                  size="large"
+                  color={severity.style}
+                  secondaryText={severity.count}
+                >
+                  {capitalizeFirstLetter(severity.name)}
+                </Meta>
+              ))}
+            </ObservationsCountWrapper>
+          )}
+        </div>
       </MetaContainer>
       {observations && observations.length ? (
         observations.map((observation) => (
