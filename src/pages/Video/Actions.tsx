@@ -45,7 +45,6 @@ const ObservationsCountWrapper = styled.div`
   flex-wrap: wrap;
   row-gap: ${({ theme }) => theme.space.xxs};
   margin-top: ${({ theme }) => theme.space.sm};
-  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 const Actions = () => {
@@ -104,26 +103,24 @@ const Actions = () => {
         )}
       </MetaContainer>
       <Divider />
-      <MetaContainer>
-        <div style={{ marginTop: appTheme.space.xs }}>
-          <LG isBold>
-            {t('__OBSERVATIONS_DRAWER_TOTAL')}:{observations.length}
-          </LG>
-          {observations && severities && severities.length > 0 && (
-            <ObservationsCountWrapper>
-              {severities.map((severity) => (
-                <Meta
-                  size="large"
-                  color={severity.style}
-                  secondaryText={severity.count}
-                >
-                  {capitalizeFirstLetter(severity.name)}
-                </Meta>
-              ))}
-            </ObservationsCountWrapper>
-          )}
-        </div>
-      </MetaContainer>
+      <div style={{ padding: `${appTheme.space.md} 0` }}>
+        <LG isBold>
+          {t('__OBSERVATIONS_DRAWER_TOTAL')}: {observations.length}
+        </LG>
+        {observations && severities && severities.length > 0 && (
+          <ObservationsCountWrapper>
+            {severities.map((severity) => (
+              <Meta
+                size="large"
+                color={severity.style}
+                secondaryText={severity.count}
+              >
+                {capitalizeFirstLetter(severity.name)}
+              </Meta>
+            ))}
+          </ObservationsCountWrapper>
+        )}
+      </div>
       {observations && observations.length ? (
         observations.map((observation) => (
           <Observation
