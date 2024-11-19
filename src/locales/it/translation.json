@@ -824,6 +824,7 @@
   "__MEDIA_404_PAGE_TITLE MAX:10": "Aspetta un attimo.",
   "__NOTIFICATION_CLOSE_TEXT": "Chiudi",
   "__NOTIFICATION_PROFILE_MODAL_COPY_EMAIL_MESSAGE": "Hai copiato l’indirizzo email",
+  "__OBSERVATIONS_DRAWER_TOTAL": "Totale osservazioni",
   "__PAGE_BUG_EMPTY_STATE_CTA": "Fai una nuova ricerca",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC": "Non ci sono risultati per questa parola chiave",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_SUB": "Prova con parole chiave diverse o più comuni",
