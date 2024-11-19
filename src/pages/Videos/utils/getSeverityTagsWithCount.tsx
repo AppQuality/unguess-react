@@ -33,12 +33,11 @@ export function getSeverityTagsByVideoCount(
     return acc;
   }, {} as { [key: string]: { count: number; style: string } });
 
-  /* prettier-ignore */
   const orderMap: { [key: string]: number } = {
     'major issue': 0,
     'minor issue': 1,
     'positive finding': 2,
-    'observation': 3,
+    observation: 3,
   };
 
   const summedTagsArray: TagWithCount[] = Object.keys(tagCount)
