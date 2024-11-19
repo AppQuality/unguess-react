@@ -43,7 +43,9 @@ export function getSeverityTagsByVideoCount(
   const summedTagsArray: TagWithCount[] = Object.keys(tagCount)
     .map((tagName) => ({
       name: tagName,
+      // eslint-disable-next-line
       style: tagCount[tagName].style,
+      // eslint-disable-next-line
       count: tagCount[tagName].count,
     }))
     .sort(
