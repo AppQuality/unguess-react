@@ -36,8 +36,8 @@ export function getSeverityTagsByVideoCount(
   const orderMap: { [key: string]: number } = {
     'major issue': 0,
     'minor issue': 1,
-    observation: 2,
-    'positive finding': 3,
+    'positive finding': 2,
+    observation: 3,
   };
 
   const summedTagsArray: TagWithCount[] = Object.keys(tagCount)
