@@ -264,6 +264,16 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/suggestions` }),
     }),
+    postCampaignsByCidSuggestions: build.mutation<
+      PostCampaignsByCidSuggestionsApiResponse,
+      PostCampaignsByCidSuggestionsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/suggestions`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidTags: build.query<
       GetCampaignsByCidTagsApiResponse,
       GetCampaignsByCidTagsApiArg
@@ -1088,11 +1098,19 @@ export type GetCampaignsByCidSeveritiesApiArg = {
   cid: string;
 };
 export type GetCampaignsByCidSuggestionsApiResponse = /** status 200 OK */ {
-  suggestion?: 'banner_testing_automation' | 'banner_user_experience';
+  suggestion?: BannerType;
 };
 export type GetCampaignsByCidSuggestionsApiArg = {
   /** Campaign id */
   cid: string;
+};
+export type PostCampaignsByCidSuggestionsApiResponse = /** status 200 OK */ {};
+export type PostCampaignsByCidSuggestionsApiArg = {
+  /** Campaign id */
+  cid: string;
+  body: {
+    slug: BannerType;
+  };
 };
 export type GetCampaignsByCidTagsApiResponse = /** status 200 OK */ {
   tag_id: number;
@@ -1980,6 +1998,7 @@ export type Report = {
   creation_date?: string;
   update_date?: string;
 };
+export type BannerType = 'banner_testing_automation' | 'banner_user_experience';
 export type Tenant = {
   /** tryber wp_user_id */
   id: number;
@@ -2215,6 +2234,7 @@ export const {
   useGetCampaignsByCidReportsQuery,
   useGetCampaignsByCidSeveritiesQuery,
   useGetCampaignsByCidSuggestionsQuery,
+  usePostCampaignsByCidSuggestionsMutation,
   useGetCampaignsByCidTagsQuery,
   useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidUsersQuery,
