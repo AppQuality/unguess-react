@@ -1,12 +1,13 @@
 import { useAppDispatch } from 'src/app/hooks';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Anchor,
-  Button,
+  DotsMenu,
   PageHeader,
   Skeleton,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { ShareModal } from 'src/common/components/BugDetail/ShareModal';
+import { BugShortcutModal } from 'src/common/components/BugDetail/BugShortcutModal';
 import { Link } from 'react-router-dom';
 import {
   GetCampaignsByCidApiResponse,
@@ -14,11 +15,10 @@ import {
   useGetCampaignsByCidQuery,
   useGetProjectsByPidQuery,
 } from 'src/features/api';
-import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
+import { t } from 'i18next';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
@@ -43,8 +43,6 @@ const BreadCrumbs = ({
   campaign: GetCampaignsByCidApiResponse;
   children?: React.ReactNode;
 }) => {
-  const { t } = useTranslation();
-
   const projectRoute = useLocalizeRoute(`projects/${campaign.project.id}`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaign.id}`);
   const bugsRoute = useLocalizeRoute(`campaigns/${campaign.id}/bugs`);
@@ -88,6 +86,10 @@ const StyledContainer = styled(LayoutWrapper)`
 `;
 
 export const Header = ({ campaignId, bug }: Props) => {
+  const [isShareModalOpen, setShareModalOpen] = useState(false);
+
+  const [isShortcutModalOpen, setShortcutModalOpen] = useState(false);
+
   const dispatch = useAppDispatch();
   const {
     isLoading: isCampaignLoading,
@@ -97,7 +99,20 @@ export const Header = ({ campaignId, bug }: Props) => {
   } = useGetCampaignsByCidQuery({
     cid: campaignId,
   });
-  const { t } = useTranslation();
+
+  const handleClickMenu = (value: string | undefined) => {
+    if (value === 'share') {
+      setShareModalOpen(true);
+    }
+    if (value === 'copy') {
+      navigator.clipboard.writeText(window.location.href);
+    }
+    if (value === 'shortcut') {
+      setShortcutModalOpen(true);
+    }
+
+    return null;
+  };
 
   useEffect(() => {
     if (campaign) {
@@ -125,17 +140,24 @@ export const Header = ({ campaignId, bug }: Props) => {
     <StyledContainer isNotBoxed>
       <PageHeader style={{ border: 'none' }}>
         <BreadCrumbs campaign={campaign}>
-          <ShareButton bug={bug}>
-            {(setModalOpen) => (
-              <Button onClick={() => setModalOpen(true)}>
-                <Button.StartIcon>
-                  <ShareIcon />
-                </Button.StartIcon>
-                {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
-              </Button>
-            )}
-          </ShareButton>
+          <DotsMenu onSelect={(value) => handleClickMenu(value)}>
+            <DotsMenu.Item value="share">
+              {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
+            </DotsMenu.Item>
+            <DotsMenu.Item value="copy">
+              {t('__BUG_PAGE_HEADER_COPY_LINK_CTA', 'Copy link')}
+            </DotsMenu.Item>
+            <DotsMenu.Item value="shortcut">
+              {t('__BUG_PAGE_HEADER_SHORTCUT_LINK_CTA', 'Keyboard shortcuts')}
+            </DotsMenu.Item>
+          </DotsMenu>
         </BreadCrumbs>
+        {isShareModalOpen && (
+          <ShareModal bug={bug} onClose={() => setShareModalOpen(false)} />
+        )}
+        {isShortcutModalOpen && (
+          <BugShortcutModal onClose={() => setShortcutModalOpen(false)} />
+        )}
       </PageHeader>
     </StyledContainer>
   );
