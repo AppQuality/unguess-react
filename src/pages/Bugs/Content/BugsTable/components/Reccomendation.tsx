@@ -6,7 +6,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useEffect } from 'react';
-import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import {
@@ -14,12 +13,14 @@ import {
   usePostCampaignsByCidSuggestionsMutation,
 } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useParams } from 'react-router-dom';
 
 export const Reccomendation = ({
   suggestion,
 }: GetCampaignsByCidSuggestionsApiResponse) => {
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
+  const { campaignId } = useParams();
 
   const sendGTMEvent = useSendGTMevent();
   useEffect(() => {
@@ -47,7 +48,7 @@ export const Reccomendation = ({
       target: 'get_in_touch',
     });
 
-    sendMail({ cid: '1', body: { slug: suggestion.slug } })
+    sendMail({ cid: campaignId || '0', body: { slug: suggestion.slug } })
       .unwrap()
       .then(() =>
         addToast(

@@ -56,7 +56,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
       return;
     }
 
-    sendMail({ cid: '1', body: { slug: suggestions.suggestion.slug } })
+    sendMail({ cid: campaignId, body: { slug: suggestions.suggestion.slug } })
       .unwrap()
       .then(() =>
         addToast(
