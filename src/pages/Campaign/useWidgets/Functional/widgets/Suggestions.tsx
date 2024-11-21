@@ -5,6 +5,7 @@ import {
   Tag,
   useToast,
   Notification,
+  XL,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -101,14 +102,18 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
         )}
         <BasicWidget.Description
           header={
-            suggestions.suggestion.slug === 'banner_testing_automation'
-              ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_HEADER')
-              : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_HEADER')
+            <div style={{ textAlign: 'center' }}>
+              {suggestions.suggestion.slug === 'banner_testing_automation'
+                ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_HEADER')
+                : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_HEADER')}
+            </div>
           }
           content={
-            suggestions.suggestion.slug === 'banner_testing_automation'
-              ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_CONTENT')
-              : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_CONTENT')
+            <XL isBold style={{ textAlign: 'center' }}>
+              {suggestions.suggestion.slug === 'banner_testing_automation'
+                ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_CONTENT')
+                : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_CONTENT')}
+            </XL>
           }
           footer=""
         />
