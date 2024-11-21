@@ -5,7 +5,6 @@ import {
   Notification,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
-import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import {
   GetCampaignsByCidSuggestionsApiResponse,
@@ -22,7 +21,7 @@ export const Reccomendation = ({
       return;
     }
 
-    sendMail({ cid: '1', body: { slug: suggestion } })
+    sendMail({ cid: '1', body: { slug: suggestion.slug } })
       .unwrap()
       .then(() =>
         addToast(
@@ -60,38 +59,36 @@ export const Reccomendation = ({
   }
   return (
     <GlobalAlert
-      type={suggestion === 'banner_testing_automation' ? 'primary' : 'accent'}
+      type={
+        suggestion.slug === 'banner_testing_automation' ? 'primary' : 'accent'
+      }
       title={
-        suggestion === 'banner_testing_automation'
+        suggestion.slug === 'banner_testing_automation'
           ? t('__BANNER_CROSS_FUNCTIONAL_TITLE_AUTOMATION')
           : t('__BANNER_CROSS_FUNCTIONAL_TITLE_EXPERIENCE')
       }
       message={
-        <Trans
-          i18nKey={
-            suggestion === 'banner_testing_automation'
-              ? '__BANNER_CROSS_FUNCTIONAL_MESSAGE_AUTOMATION'
-              : '__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE'
-          }
-          components={{
-            Anchor: (
-              <Anchor
-                href={
-                  suggestion === 'banner_testing_automation'
-                    ? 'https://app.unguess.io/services/41'
-                    : 'https://app.unguess.io/services/22'
-                }
-                isExternal
-              />
-            ),
-          }}
-          default="Try out our testing automation services <Anchor>Discover more</Anchor>"
-        />
+        <>
+          {suggestion.slug === 'banner_testing_automation'
+            ? t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_AUTOMATION')
+            : t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE')}
+          ${' '}
+          {suggestion.serviceId && (
+            <Anchor
+              href={`https://app.unguess.io/services/${suggestion.serviceId}`}
+              isExternal
+            >
+              {suggestion.slug === 'banner_testing_automation'
+                ? t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_AUTOMATION_ANCHOR')
+                : t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE_ANCHOR')}
+            </Anchor>
+          )}
+        </>
       }
       cta={{
         label: (() => {
           if (isLoading) return t('__BANNER_CROSS_FUNCTIONAL_CTA_LOADING');
-          if (suggestion === 'banner_testing_automation')
+          if (suggestion.slug === 'banner_testing_automation')
             return t('__BANNER_CROSS_FUNCTIONAL_CTA_AUTOMATION');
           return t('__BANNER_CROSS_FUNCTIONAL_CTA_EXPERIENCE');
         })(),

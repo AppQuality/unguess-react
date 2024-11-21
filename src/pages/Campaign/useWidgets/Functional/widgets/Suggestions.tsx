@@ -12,11 +12,13 @@ import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 import { ReactComponent as ImgExperience } from 'src/assets/banner_suggestions/experience.svg';
 import { ReactComponent as ImgAutomation } from 'src/assets/banner_suggestions/testing_automation.svg';
 import { ReactComponent as IconService } from '@zendeskgarden/svg-icons/src/16/book-open-stroke.svg';
+import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import {
   useGetCampaignsByCidSuggestionsQuery,
   usePostCampaignsByCidSuggestionsMutation,
 } from 'src/features/api';
 import { Link } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 
 export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const { t } = useTranslation();
@@ -37,7 +39,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
       return;
     }
 
-    sendMail({ cid: '1', body: { slug: suggestions.suggestion } })
+    sendMail({ cid: '1', body: { slug: suggestions.suggestion.slug } })
       .unwrap()
       .then(() =>
         addToast(
@@ -81,49 +83,48 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
           isPill
           size="medium"
           title={
-            suggestions.suggestion === 'banner_testing_automation'
+            suggestions.suggestion.slug === 'banner_testing_automation'
               ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_TAG')
               : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_TAG')
           }
         >
-          {suggestions.suggestion === 'banner_testing_automation'
+          {suggestions.suggestion.slug === 'banner_testing_automation'
             ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_TAG')
             : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_TAG')}
         </StyledTagNew>
       </SpecialCard.Meta>
       <>
-        {suggestions.suggestion === 'banner_testing_automation' ? (
+        {suggestions.suggestion.slug === 'banner_testing_automation' ? (
           <ImgAutomation style={{ width: '100%', height: 'auto' }} />
         ) : (
           <ImgExperience style={{ width: '100%', height: 'auto' }} />
         )}
         <BasicWidget.Description
           header={
-            suggestions.suggestion === 'banner_testing_automation'
+            suggestions.suggestion.slug === 'banner_testing_automation'
               ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_HEADER')
               : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_HEADER')
           }
           content={
-            suggestions.suggestion === 'banner_testing_automation'
+            suggestions.suggestion.slug === 'banner_testing_automation'
               ? t('__CAMPAIGN_PAGE_SUGGESTIONS_AUTOMATION_CONTENT')
               : t('__CAMPAIGN_PAGE_SUGGESTIONS_EXPERIENCE_CONTENT')
           }
           footer=""
         />
         <BasicWidget.Footer>
-          <Link
-            to={
-              suggestions.suggestion === 'banner_testing_automation'
-                ? 'https://app.unguess.io/services/41'
-                : 'https://app.unguess.io/services/22'
-            }
-          >
-            <IconButton>
-              <IconService />
-            </IconButton>
-          </Link>
+          {suggestions.suggestion.serviceId && (
+            <Link
+              to={`https://app.unguess.io/services/${suggestions.suggestion.serviceId}`}
+            >
+              <IconButton>
+                <IconService />
+              </IconButton>
+            </Link>
+          )}
           <Button size="small" onClick={handleCtaClick}>
-            {t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}
+            {t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}{' '}
+            <IconMail style={{ marginLeft: appTheme.space.xxs }} />
           </Button>
         </BasicWidget.Footer>
       </>
