@@ -6,6 +6,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import {
   GetCampaignsByCidSuggestionsApiResponse,
   usePostCampaignsByCidSuggestionsMutation,
@@ -54,6 +55,24 @@ export const Reccomendation = ({
       );
   };
 
+  const getCtaLabel = (slug: string) => {
+    if (isLoading) return t('__BANNER_CROSS_FUNCTIONAL_CTA_LOADING');
+    if (slug === 'banner_testing_automation') {
+      return (
+        <>
+          {t('__BANNER_CROSS_FUNCTIONAL_CTA_AUTOMATION')}{' '}
+          <IconMail style={{ marginLeft: appTheme.space.xxs }} />
+        </>
+      );
+    }
+    return (
+      <>
+        {t('__BANNER_CROSS_FUNCTIONAL_CTA_EXPERIENCE')}{' '}
+        <IconMail style={{ marginLeft: appTheme.space.xxs }} />
+      </>
+    );
+  };
+
   if (!suggestion) {
     return null;
   }
@@ -71,8 +90,7 @@ export const Reccomendation = ({
         <>
           {suggestion.slug === 'banner_testing_automation'
             ? t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_AUTOMATION')
-            : t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE')}
-          ${' '}
+            : t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE')}{' '}
           {suggestion.serviceId && (
             <Anchor
               href={`https://app.unguess.io/services/${suggestion.serviceId}`}
@@ -86,12 +104,7 @@ export const Reccomendation = ({
         </>
       }
       cta={{
-        label: (() => {
-          if (isLoading) return t('__BANNER_CROSS_FUNCTIONAL_CTA_LOADING');
-          if (suggestion.slug === 'banner_testing_automation')
-            return t('__BANNER_CROSS_FUNCTIONAL_CTA_AUTOMATION');
-          return t('__BANNER_CROSS_FUNCTIONAL_CTA_EXPERIENCE');
-        })(),
+        label: getCtaLabel(suggestion.slug),
         onClick: handleCtaClick,
       }}
       style={{ marginBottom: appTheme.space.lg }}
