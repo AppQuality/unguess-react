@@ -103,14 +103,23 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
             selectionValue={internalLanguage}
             inputValue={getLanguageNameByFullTag(internalLanguage) ?? ''}
           >
-            {allowedLanguages.map((lang) => (
-              <Select.Option
-                key={`language-${lang}-option`}
-                value={lang}
-                isDisabled={lang === videoLanguage || lang === currentLanguage}
-                label={getLanguageNameByFullTag(lang) || ''}
-              />
-            ))}
+            {[...allowedLanguages]
+              .sort((a, b) => {
+                // Sort getLanguageNameByFullTag(lang) values in alphabetical order
+                const nameA = getLanguageNameByFullTag(a)?.toLowerCase() ?? '';
+                const nameB = getLanguageNameByFullTag(b)?.toLowerCase() ?? '';
+                return nameA.localeCompare(nameB);
+              })
+              .map((lang) => (
+                <Select.Option
+                  key={`language-${lang}-option`}
+                  value={lang}
+                  isDisabled={
+                    lang === videoLanguage || lang === currentLanguage
+                  }
+                  label={getLanguageNameByFullTag(lang) || ''}
+                />
+              ))}
           </Select>
         </div>
         <ZendeskFormField>
