@@ -1098,7 +1098,11 @@ export type GetCampaignsByCidSeveritiesApiArg = {
   cid: string;
 };
 export type GetCampaignsByCidSuggestionsApiResponse = /** status 200 OK */ {
-  suggestion?: BannerType;
+  suggestion?: {
+    slug: BannerType;
+    /** ServiceId from strapi */
+    serviceId?: number;
+  };
 };
 export type GetCampaignsByCidSuggestionsApiArg = {
   /** Campaign id */

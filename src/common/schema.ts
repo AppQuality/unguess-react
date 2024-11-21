@@ -2193,7 +2193,11 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            suggestion?: components['schemas']['BannerType'];
+            suggestion?: {
+              slug: components['schemas']['BannerType'];
+              /** @description ServiceId from strapi */
+              serviceId?: number;
+            };
           };
         };
       };
