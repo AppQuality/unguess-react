@@ -112,7 +112,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
           }
           footer=""
         />
-        <BasicWidget.Footer>
+        <BasicWidget.Footer noDivider>
           {suggestions.suggestion.serviceId && (
             <Link
               to={`https://app.unguess.io/services/${suggestions.suggestion.serviceId}`}
