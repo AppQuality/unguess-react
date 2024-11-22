@@ -1026,5 +1026,12 @@
   "Use Cases ({{count}})_one": "Use Cases ({{count}})",
   "Use Cases ({{count}})_other": "Use Cases ({{count}})",
   "UseCase ({{count}})_one": "Use Case ({{count}})",
-  "UseCase ({{count}})_other": "Use Cases ({{count}})"
+  "UseCase ({{count}})_other": "Use Cases ({{count}})",
+  "UX_SHORTCUT_ADD_OBSERVATION": "Start/Stop new observation",
+  "UX_SHORTCUT_FORWARD": "Fast Forward",
+  "UX_SHORTCUT_MODAL_CONTENT_TITLE": "Essential Keyboard shortcuts for Videos",
+  "UX_SHORTCUT_MODAL_TITLE": "Keyboard Shortcuts",
+  "UX_SHORTCUT_MUTE": "Mute",
+  "UX_SHORTCUT_PLAY_PAUSE": "Play/Pause",
+  "UX_SHORTCUT_REWIND": "Rewind"
 }
