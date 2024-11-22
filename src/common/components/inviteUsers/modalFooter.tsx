@@ -1,12 +1,8 @@
-import {
-  Modal,
-  Button,
-  useToast,
-  Notification,
-} from '@appquality/unguess-design-system';
+import { Modal, Button } from '@appquality/unguess-design-system';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { copyLinkToClipboard } from '../utils/copyLink';
 
 const FooterWithBorder = styled(Modal.Footer)`
   padding: ${({ theme }) =>
@@ -18,28 +14,13 @@ const FooterWithBorder = styled(Modal.Footer)`
 
 export const PermissionSettingsFooter = () => {
   const { t } = useTranslation();
-  const { addToast } = useToast();
-
-  const url = new URL(window.location.href);
 
   return (
     <FooterWithBorder>
       <Button
         isBasic
         onClick={() => {
-          navigator.clipboard.writeText(`${url.origin}${url.pathname}`);
-          addToast(
-            ({ close }) => (
-              <Notification
-                onClose={close}
-                type="success"
-                message={t('__PERMISSION_SETTINGS_TOAST_COPY_MESSAGE')}
-                closeText={t('__TOAST_CLOSE_TEXT')}
-                isPrimary
-              />
-            ),
-            { placement: 'top' }
-          );
+          copyLinkToClipboard();
         }}
       >
         <Button.StartIcon>
