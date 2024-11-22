@@ -19,6 +19,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { t } from 'i18next';
+import { copyLinkToClipboard } from 'src/common/components/utils/copyLink';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
@@ -87,7 +88,6 @@ const StyledContainer = styled(LayoutWrapper)`
 
 export const Header = ({ campaignId, bug }: Props) => {
   const [isShareModalOpen, setShareModalOpen] = useState(false);
-
   const [isShortcutModalOpen, setShortcutModalOpen] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -105,7 +105,7 @@ export const Header = ({ campaignId, bug }: Props) => {
       setShareModalOpen(true);
     }
     if (value === 'copy') {
-      navigator.clipboard.writeText(window.location.href);
+      copyLinkToClipboard();
     }
     if (value === 'shortcut') {
       setShortcutModalOpen(true);
@@ -144,7 +144,7 @@ export const Header = ({ campaignId, bug }: Props) => {
             <DotsMenu.Item value="share">
               {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
             </DotsMenu.Item>
-            <DotsMenu.Item value="copy">
+            <DotsMenu.Item value="copy" onClick={() => {}}>
               {t('__BUG_PAGE_HEADER_COPY_LINK_CTA', 'Copy link')}
             </DotsMenu.Item>
             <DotsMenu.Item value="shortcut">
