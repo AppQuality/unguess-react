@@ -3,7 +3,7 @@ import { Campaign } from 'src/features/api';
 import BugDistributionCard from './widgets/BugDistributionCard';
 import { Progress } from './widgets/Progress';
 import { UniqueBugs } from './widgets/UniqueBugs';
-import { Suggestions } from './widgets/Suggestions';
+import { Suggestions } from './widgets/Reccomendations';
 import { WidgetSectionNew } from '../../WidgetSection';
 
 export const CampaignOverview = ({
