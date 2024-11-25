@@ -23,6 +23,12 @@ import { appTheme } from 'src/app/theme';
 import { useEffect } from 'react';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
+const StyledTagNew = styled(Tag)`
+  height: ${({ theme }) => theme.space.base * 6}px;
+  padding: ${({ theme }) => theme.space.base}px
+    ${({ theme }) => theme.space.base * 2}px;
+`;
+
 export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const { t } = useTranslation();
   const { data: suggestions } = useGetCampaignsByCidSuggestionsQuery({
@@ -32,12 +38,6 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const { addToast } = useToast();
 
   const sendGTMEvent = useSendGTMevent();
-
-  const StyledTagNew = styled(Tag)`
-    height: ${({ theme }) => theme.space.base * 6}px;
-    padding: ${({ theme }) => theme.space.base}px
-      ${({ theme }) => theme.space.base * 2}px;
-  `;
 
   useEffect(() => {
     if (!suggestions?.suggestion) {
