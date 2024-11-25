@@ -43,9 +43,6 @@ export const SingleServicePageHeader = ({
   const { activeWorkspace } = useActiveWorkspace();
 
   // Strapi response
-  const days = service.duration_in_days ?? 3;
-  const hours = (days || 3) * 24;
-
   const outputImage = extractStrapiData(service.output_image);
   const bannerImg = outputImage.url;
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
@@ -91,20 +88,22 @@ export const SingleServicePageHeader = ({
                   <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
                 </Meta>
               )}
-              <Meta size="large" icon={<TimeIcon />}>
-                <Paragraph>
-                  <Trans
-                    i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL"
-                    components={{
-                      span: <Span isBold />,
-                    }}
-                    values={{
-                      hours,
-                    }}
-                    default="First results in <span>{{ hours }}</span>h"
-                  />
-                </Paragraph>
-              </Meta>
+              {!!service.duration_in_days && (
+                <Meta size="large" icon={<TimeIcon />}>
+                  <Paragraph>
+                    <Trans
+                      i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL"
+                      components={{
+                        span: <Span isBold />,
+                      }}
+                      values={{
+                        hours: service.duration_in_days * 24,
+                      }}
+                      default="First results in <span>{{ hours }}</span>h"
+                    />
+                  </Paragraph>
+                </Meta>
+              )}
               {service.environment && (
                 <Meta size="large" icon={<EnvironmentIcon />}>
                   <Paragraph>{service.environment}</Paragraph>

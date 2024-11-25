@@ -76,9 +76,14 @@ export const CampaignSettings = () => {
     data: projectUsers,
     refetch: refetchProjectUsers,
     error: projectUsersError,
-  } = useGetProjectsByPidUsersQuery({
-    pid: campaign?.project.id.toString() || '0',
-  });
+  } = useGetProjectsByPidUsersQuery(
+    {
+      pid: campaign?.project.id.toString() || '0',
+    },
+    {
+      skip: !campaign?.project.id,
+    }
+  );
 
   const {
     isLoading: isLoadingWorkspaceUsers,
@@ -86,9 +91,14 @@ export const CampaignSettings = () => {
     data: workspaceUsers,
     refetch: refetchWorkspaceUsers,
     error: workspaceUsersError,
-  } = useGetWorkspacesByWidUsersQuery({
-    wid: activeWorkspace?.id.toString() || '0',
-  });
+  } = useGetWorkspacesByWidUsersQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '0',
+    },
+    {
+      skip: !activeWorkspace?.id,
+    }
+  );
 
   const workspaceCount = workspaceUsers?.items.length || 0;
   const projectCount = projectUsers?.items.length || 0;

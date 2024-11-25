@@ -55,9 +55,14 @@ export const ProjectSettings = () => {
     isFetching: isFetchingProjectUsers,
     data: projectUsers,
     refetch: refetchProjectUsers,
-  } = useGetProjectsByPidUsersQuery({
-    pid: projectId?.toString() || '0',
-  });
+  } = useGetProjectsByPidUsersQuery(
+    {
+      pid: projectId?.toString() || '0',
+    },
+    {
+      skip: !projectId,
+    }
+  );
 
   const {
     isLoading: isLoadingWorkspaceUsers,
@@ -65,9 +70,14 @@ export const ProjectSettings = () => {
     data: workspaceUsers,
     refetch: refetchWorkspaceUsers,
     error: workspaceUsersError,
-  } = useGetWorkspacesByWidUsersQuery({
-    wid: activeWorkspace?.id.toString() || '0',
-  });
+  } = useGetWorkspacesByWidUsersQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '0',
+    },
+    {
+      skip: !activeWorkspace?.id,
+    }
+  );
 
   const workspaceCount = workspaceUsers?.items.length || 0;
   const projectCount = projectUsers?.items.length || 0;

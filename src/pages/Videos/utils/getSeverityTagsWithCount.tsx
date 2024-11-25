@@ -33,14 +33,24 @@ export function getSeverityTagsByVideoCount(
     return acc;
   }, {} as { [key: string]: { count: number; style: string } });
 
-  const summedTagsArray: TagWithCount[] = Object.keys(tagCount).map(
-    (tagName) => ({
-      name: tagName,
-      style: tagCount[`${tagName}`].style,
-      count: tagCount[`${tagName}`].count,
-    })
-  );
+  const orderMap: { [key: string]: number } = {
+    'major issue': 0,
+    'minor issue': 1,
+    'positive finding': 2,
+    observation: 3,
+  };
 
+  const summedTagsArray: TagWithCount[] = Object.keys(tagCount)
+    .map((tagName) => ({
+      name: tagName,
+      // eslint-disable-next-line
+      style: tagCount[tagName].style,
+      // eslint-disable-next-line
+      count: tagCount[tagName].count,
+    }))
+    .sort(
+      (a, b) => orderMap[a.name.toLowerCase()] - orderMap[b.name.toLowerCase()]
+    );
   return summedTagsArray;
 }
 
