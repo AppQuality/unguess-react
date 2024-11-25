@@ -153,7 +153,9 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
             </Link>
           )}
           <Button size="small" onClick={handleCtaClick}>
-            {t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}{' '}
+            {isLoading
+              ? t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA_LOADING')
+              : t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}
             <IconMail style={{ marginLeft: appTheme.space.xxs }} />
           </Button>
         </BasicWidget.Footer>
