@@ -1,12 +1,14 @@
 import { appTheme } from 'src/app/theme';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { styled } from 'styled-components';
+import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
 import { InfoRow } from './components/InfoRow';
 import AllBugsTable from './components/SingleGroupTable';
 import BugCards from './components/BugCards';
 import { useBugs } from './hooks/useBugs';
 import { LoadingState } from './components/LoadingState';
 import { EmptyState } from './components/EmptyState';
+import { Reccomendation } from './components/Reccomendation';
 
 const Wrapper = styled.div<{
   isFetching?: boolean;
@@ -26,6 +28,9 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
   const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
   const isMdBreakpoint = width < breakpointMd;
   const { data, isLoading, isFetching, isError } = useBugs(campaignId);
+  const { data: suggestions } = useGetCampaignsByCidSuggestionsQuery({
+    cid: campaignId.toString(),
+  });
   const { allBugs: bugs } = data;
 
   if (isLoading || isError) {
@@ -38,6 +43,7 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <Wrapper isFetching={isFetching}>
+      <Reccomendation suggestion={suggestions?.suggestion} />
       <InfoRow bugs={bugs} />
       {isMdBreakpoint ? (
         <BugCards bugs={bugs} />

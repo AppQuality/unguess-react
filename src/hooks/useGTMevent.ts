@@ -5,7 +5,10 @@ import { useActiveWorkspace } from './useActiveWorkspace';
 
 export interface GTMEventData {
   event: string;
+  category?: string;
   content?: string;
+  action?: string;
+  target?: string;
 }
 
 export const useSendGTMevent = () => {
@@ -25,6 +28,9 @@ export const useSendGTMevent = () => {
             email: user.email,
             company: activeWorkspace.company,
             ...(data?.content && { content: data.content }),
+            ...(data?.category && { category: data.category }),
+            ...(data?.action && { action: data.action }),
+            ...(data?.target && { target: data.target }),
           },
         });
       }
