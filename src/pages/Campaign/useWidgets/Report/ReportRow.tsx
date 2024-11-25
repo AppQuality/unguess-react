@@ -136,7 +136,9 @@ export const ReportRow = ({
                       )}
                     </SpecialCard.Header.Label>
                     <SpecialCard.Header.Title>
-                      {report.title}
+                      <span style={{ overflowWrap: 'anywhere' }}>
+                        {report.title}
+                      </span>
                     </SpecialCard.Header.Title>
                   </SpecialCard.Header>
 

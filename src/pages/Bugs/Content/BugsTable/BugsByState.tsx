@@ -3,11 +3,13 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { styled } from 'styled-components';
+import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
 import { EmptyState } from './components/EmptyState';
 import { EmptyGroup } from './components/EmptyGroup';
 import { useBugsByState } from './hooks/useBugsByState';
 import { LoadingState } from './components/LoadingState';
 import BugStateAccordion from './components/SingleGroupAccordion';
+import { Reccomendation } from './components/Reccomendation';
 
 const Wrapper = styled.div<{
   isFetching?: boolean;
@@ -32,6 +34,9 @@ export const BugsByState = ({
   const { t } = useTranslation();
   const { data, isError, isFetching, isLoading } = useBugsByState(campaignId);
   const { bugsByStates } = data;
+  const { data: suggestions } = useGetCampaignsByCidSuggestionsQuery({
+    cid: campaignId.toString(),
+  });
 
   const emptyBugStates = useMemo(
     () => bugsByStates.filter((item) => item.bugs.length === 0),
@@ -58,19 +63,27 @@ export const BugsByState = ({
         isExpandable
         isBare
       >
-        {bugStates.map((item) => (
-          <BugStateAccordion
-            campaignId={campaignId}
-            key={item.state.id}
-            title={
-              <>
-                {t('__BUG_STATUS')}:{' '}
-                {getCustomStatusInfo(item.state.name as BugState, t).text}
-                <MD tag="span">{` (${item.bugs.length})`}</MD>
-              </>
-            }
-            item={item}
-          />
+        {bugStates.map((item, i) => (
+          <>
+            <BugStateAccordion
+              campaignId={campaignId}
+              key={item.state.id}
+              title={
+                <>
+                  {t('__BUG_STATUS')}:{' '}
+                  {getCustomStatusInfo(item.state.name as BugState, t).text}
+                  <MD tag="span">{` (${item.bugs.length})`}</MD>
+                </>
+              }
+              item={item}
+            />
+            {i === 0 && suggestions && (
+              <Reccomendation
+                key="suggestion"
+                suggestion={suggestions.suggestion}
+              />
+            )}
+          </>
         ))}
         {isDefaultView ? (
           <EmptyGroup isBold>

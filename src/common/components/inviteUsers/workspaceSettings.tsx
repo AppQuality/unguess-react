@@ -45,9 +45,14 @@ export const WorkspaceSettings = () => {
     isFetching: isFetchingWorkspaceUsers,
     data: workspaceUsers,
     refetch: refetchWorkspaceUsers,
-  } = useGetWorkspacesByWidUsersQuery({
-    wid: activeWorkspace?.id.toString() || '0',
-  });
+  } = useGetWorkspacesByWidUsersQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '0',
+    },
+    {
+      skip: !activeWorkspace?.id,
+    }
+  );
 
   const workspaceCount = workspaceUsers?.items.length || 0;
   const usersCount = workspaceCount;
