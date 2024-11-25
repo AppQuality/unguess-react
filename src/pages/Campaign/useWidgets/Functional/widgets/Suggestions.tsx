@@ -136,7 +136,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
         <BasicWidget.Footer noDivider>
           {suggestions.suggestion.serviceId && (
             <Link
-              to={`https://app.unguess.io/services/${suggestions.suggestion.serviceId}`}
+              to={`/services/${suggestions.suggestion.serviceId}`}
               onClick={() => {
                 sendGTMEvent({
                   event: 'reccomendation',

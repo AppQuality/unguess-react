@@ -119,7 +119,7 @@ export const Reccomendation = ({
             : t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE')}{' '}
           {suggestion.serviceId && (
             <Anchor
-              href={`https://app.unguess.io/services/${suggestion.serviceId}`}
+              href={`/services/${suggestion.serviceId}`}
               onClick={() => {
                 sendGTMEvent({
                   event: 'reccomendation',
