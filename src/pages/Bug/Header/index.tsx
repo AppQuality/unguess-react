@@ -6,9 +6,10 @@ import {
   PageHeader,
   Skeleton,
   Tooltip,
+  Pagination,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
@@ -25,6 +26,7 @@ import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs
 import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
 import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
+import { BugByUsecaseType } from 'src/pages/Bugs/Content/BugsTable/types';
 import { BreadCrumbs } from './Breadcrumb';
 
 interface Props {
@@ -45,6 +47,7 @@ const Wrapper = styled.div`
 
 const Header = ({ campaignId, bug }: Props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     isLoading: isCampaignLoading,
     isFetching: isCampaignFetching,
@@ -54,17 +57,17 @@ const Header = ({ campaignId, bug }: Props) => {
     cid: campaignId,
   });
   const {
-    data: bugsByUseCase,
+    data: { bugsByUseCases },
     isError: isUsecaseError,
     isLoading: isUsecaseLoading,
   } = useBugsByUseCase(Number(campaignId));
   const {
-    data: bugsByState,
+    data: { bugsByStates },
     isError: isStateError,
     isLoading: isStateLoading,
   } = useBugsByState(Number(campaignId));
   const {
-    data: ungroupedBugs,
+    data: { allBugs: ungroupedBugs },
     isLoading: isUngroupedLoading,
     isError: isUngroupedError,
   } = useBugs(Number(campaignId));
@@ -90,16 +93,16 @@ const Header = ({ campaignId, bug }: Props) => {
 
   useEffect(() => {
     console.log('current Bug', bug);
-    if (groupBy === 'usecase' && bugsByUseCase) {
-      console.log('bugsByUseCase', bugsByUseCase);
+    if (groupBy === 'usecase' && bugsByUseCases) {
+      console.log('bugsByUseCase', bugsByUseCases);
     }
-    if (groupBy === 'bugState' && bugsByState) {
-      console.log('bugsByState', bugsByState);
+    if (groupBy === 'bugState' && bugsByStates) {
+      console.log('bugsByState', bugsByStates);
     }
     if (groupBy === 'ungrouped' && ungroupedBugs) {
       console.log('ungroupedBugs', ungroupedBugs);
     }
-  }, [groupBy, bugsByUseCase, bugsByState, ungroupedBugs]);
+  }, [groupBy, bugsByUseCases, bugsByStates, ungroupedBugs]);
 
   useEffect(() => {
     if (campaign) {
@@ -113,12 +116,42 @@ const Header = ({ campaignId, bug }: Props) => {
     };
   }, [campaign]);
 
-  const handlePagination = useCallback(() => {
-    console.log(
-      'searchParams',
-      searchParams.forEach((value, key) => {})
-    );
-  }, [searchParams]);
+  const paginationItems = useMemo(() => {
+    switch (groupBy) {
+      case 'usecase':
+        return bugsByUseCases.find(
+          (useCaseBugs: BugByUsecaseType) =>
+            useCaseBugs.useCase.id === bug.application_section.id
+        )?.bugs;
+      case 'bugState':
+        return bugsByStates.find(
+          (stateBugs) => stateBugs.state.id === bug.status.id
+        )?.bugs;
+      case 'ungrouped':
+        return ungroupedBugs;
+      default:
+        return [];
+    }
+  }, [groupBy, bugsByUseCases, bugsByStates, ungroupedBugs]);
+
+  console.log('paginationItems', paginationItems);
+  const currentPage = useMemo(
+    () => paginationItems?.findIndex((item) => item.id === bug.id),
+    [paginationItems, bug]
+  );
+
+  const handlePagination = useCallback(
+    (v: number) => {
+      if (paginationItems && paginationItems[v]) {
+        const bugId = encodeURIComponent(paginationItems[v].id);
+        navigate({
+          pathname: `/campaigns/${campaignId}/bugs/${bugId}`,
+          search: searchParams.toString(),
+        });
+      }
+    },
+    [searchParams, paginationItems, campaignId]
+  );
 
   if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
     return (
@@ -148,6 +181,15 @@ const Header = ({ campaignId, bug }: Props) => {
               <span>(i)</span>
             </Tooltip>
           </span>
+          {paginationItems &&
+            paginationItems.length > 1 &&
+            typeof currentPage !== 'undefined' && (
+              <Pagination
+                onChange={handlePagination}
+                currentPage={currentPage}
+                totalPages={paginationItems.length}
+              />
+            )}
           <ShareButton bug={bug}>
             {(setModalOpen) => (
               <Button onClick={() => setModalOpen(true)}>
