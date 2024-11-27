@@ -1,11 +1,11 @@
 export const mapLanguages = (language: string[]) =>
   language
     .map((lang) => {
-      if (lang === 'en') return 46;
-      if (lang === 'it') return 118;
-      return 0;
+      if (lang === 'en') return 'English';
+      if (lang === 'it') return 'Italian';
+      return '';
     })
-    .filter((id) => id > 0);
+    .filter((lang) => !lang);
 
 export const mapProductType = (productType: string) => {
   if (productType === 'webapp') return 1;
