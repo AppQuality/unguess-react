@@ -21,6 +21,10 @@ import {
   setCampaignId,
   setPermissionSettingsTitle,
 } from 'src/features/navigation/navigationSlice';
+import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByUseCase';
+import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
+import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
+import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import { BreadCrumbs } from './Breadcrumb';
 
 interface Props {
@@ -49,6 +53,21 @@ const Header = ({ campaignId, bug }: Props) => {
   } = useGetCampaignsByCidQuery({
     cid: campaignId,
   });
+  const {
+    data: bugsByUseCase,
+    isError: isUsecaseError,
+    isLoading: isUsecaseLoading,
+  } = useBugsByUseCase(Number(campaignId));
+  const {
+    data: bugsByState,
+    isError: isStateError,
+    isLoading: isStateLoading,
+  } = useBugsByState(Number(campaignId));
+  const {
+    data: ungroupedBugs,
+    isLoading: isUngroupedLoading,
+    isError: isUngroupedError,
+  } = useBugs(Number(campaignId));
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -58,6 +77,29 @@ const Header = ({ campaignId, bug }: Props) => {
     () => searchParams.getAll('filterBy'),
     [searchParams]
   );
+  const groupBy: GroupBy = useMemo(() => {
+    switch (searchParams.get('groupBy')) {
+      case 'usecase':
+        return 'usecase';
+      case 'bugState':
+        return 'bugState';
+      default:
+        return 'ungrouped';
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    console.log('current Bug', bug);
+    if (groupBy === 'usecase' && bugsByUseCase) {
+      console.log('bugsByUseCase', bugsByUseCase);
+    }
+    if (groupBy === 'bugState' && bugsByState) {
+      console.log('bugsByState', bugsByState);
+    }
+    if (groupBy === 'ungrouped' && ungroupedBugs) {
+      console.log('ungroupedBugs', ungroupedBugs);
+    }
+  }, [groupBy, bugsByUseCase, bugsByState, ungroupedBugs]);
 
   useEffect(() => {
     if (campaign) {
