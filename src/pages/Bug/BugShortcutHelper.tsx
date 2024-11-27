@@ -87,25 +87,25 @@ export const BugShortcutHelper = ({ onClose }: { onClose: () => void }) => {
         <ContentWrapper>
           <MD isBold>
             {t(
-              'BUGS_PAGE_SHORTCUT_MODAL_CONTENT_TITLE',
+              '__BUGS_PAGE_SHORTCUT_MODAL_CONTENT_TITLE',
               'Essential Keyboard shortcut for Messages'
             )}
           </MD>
           <div>
             <ShortcutItem icon={<BoldIcon />} shortcut={['ctrl', 'B']}>
-              {t('BUGS_PAGE_SHORTCUT_BOLD_TEXT', 'Bold Text')}
+              {t('__BUGS_PAGE_SHORTCUT_BOLD_TEXT', 'Bold Text')}
             </ShortcutItem>
             <ShortcutItem icon={<ItalicIcon />} shortcut={['ctrl', 'i']}>
-              {t('BUGS_PAGE_SHORTCUT_OBLIQUE_TEXT', 'Oblique Text')}
+              {t('__BUGS_PAGE_SHORTCUT_OBLIQUE_TEXT', 'Oblique Text')}
             </ShortcutItem>
             <ShortcutItem icon={<UserGroupIcon />} shortcut={[<MentionIcon />]}>
-              {t('BUGS_PAGE_SHORTCUT_MENTION', 'Mention')}
+              {t('__BUGS_PAGE_SHORTCUT_MENTION', 'Mention')}
             </ShortcutItem>
             <ShortcutItem
               icon={<DoubleCheck />}
               shortcut={['ctrl', <EnterStroke />]}
             >
-              {t('BUGS_PAGE_SHORTCUT_SEND_TEXT', 'Send')}
+              {t('__BUGS_PAGE_SHORTCUT_SEND_TEXT', 'Send')}
             </ShortcutItem>
           </div>
         </ContentWrapper>
