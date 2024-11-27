@@ -2,7 +2,7 @@ import { Modal, Button } from '@appquality/unguess-design-system';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
-import { copyLinkToClipboard } from '../utils/copyLink';
+import { useCopyLink } from '../utils/useCopyLink';
 
 const FooterWithBorder = styled(Modal.Footer)`
   padding: ${({ theme }) =>
@@ -14,6 +14,8 @@ const FooterWithBorder = styled(Modal.Footer)`
 
 export const PermissionSettingsFooter = () => {
   const { t } = useTranslation();
+
+  const copyLinkToClipboard = useCopyLink();
 
   return (
     <FooterWithBorder>

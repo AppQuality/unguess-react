@@ -19,7 +19,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { t } from 'i18next';
-import { copyLinkToClipboard } from 'src/common/components/utils/copyLink';
+import { useCopyLink } from 'src/common/components/utils/useCopyLink';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
@@ -89,6 +89,7 @@ const StyledContainer = styled(LayoutWrapper)`
 export const Header = ({ campaignId, bug }: Props) => {
   const [isShareModalOpen, setShareModalOpen] = useState(false);
   const [isShortcutModalOpen, setShortcutModalOpen] = useState(false);
+  const copyLinkToClipboard = useCopyLink();
 
   const dispatch = useAppDispatch();
   const {
