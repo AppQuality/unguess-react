@@ -72,7 +72,7 @@ const ShortcutItem = ({
 );
 
 const ShortcutHelper = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
   return (
     <>
