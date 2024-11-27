@@ -7,7 +7,6 @@ import {
   Skeleton,
 } from '@appquality/unguess-design-system';
 import { ShareModal } from 'src/common/components/BugDetail/ShareModal';
-import { BugShortcutModal } from 'src/common/components/BugDetail/BugShortcutModal';
 import { Link } from 'react-router-dom';
 import {
   GetCampaignsByCidApiResponse,
@@ -24,6 +23,7 @@ import {
   setCampaignId,
   setPermissionSettingsTitle,
 } from '../../features/navigation/navigationSlice';
+import { BugShortcutHelper } from './BugShortcutHelper';
 
 interface Props {
   campaignId: string;
@@ -157,7 +157,7 @@ export const Header = ({ campaignId, bug }: Props) => {
           <ShareModal bug={bug} onClose={() => setShareModalOpen(false)} />
         )}
         {isShortcutModalOpen && (
-          <BugShortcutModal onClose={() => setShortcutModalOpen(false)} />
+          <BugShortcutHelper onClose={() => setShortcutModalOpen(false)} />
         )}
       </PageHeader>
     </StyledContainer>
