@@ -104,13 +104,22 @@ const Header = ({ campaignId, bug }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState();
 
-  const order = useMemo(() => searchParams.get('order'), [searchParams]);
-  const orderBy = useMemo(() => searchParams.get('orderBy'), [searchParams]);
+  const order = useMemo(
+    () => searchParams.get('order') || 'DESC',
+    [searchParams]
+  );
+  const orderBy = useMemo(
+    () => searchParams.get('orderBy') || 'severity_id',
+    [searchParams]
+  );
   const filterBy = useMemo(() => {
+    console.log(searchParams.get('unique'));
     const filtersFromParams = {
       severities: searchParams.getAll('severities'),
       devices: searchParams.getAll('devices'),
-      unique: searchParams.get('unique') === 'true',
+      unique:
+        searchParams.get('unique') === 'true' ||
+        searchParams.get('unique') === null,
       unread: searchParams.get('unread') === 'true',
       os: searchParams.getAll('os'),
       priorities: searchParams.getAll('priorities'),
