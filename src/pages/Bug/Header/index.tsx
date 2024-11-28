@@ -1,12 +1,11 @@
 import { useAppDispatch } from 'src/app/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import {
   Button,
   XL,
   PageHeader,
   Skeleton,
   Tooltip,
-  Pagination,
   CursorPagination,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +29,7 @@ import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import { BugByUsecaseType } from 'src/pages/Bugs/Content/BugsTable/types';
 import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
+import { UsecaseSelect } from './UsecaseSelect';
 
 interface Props {
   campaignId: string;
@@ -248,6 +248,12 @@ const Header = ({ campaignId, bug }: Props) => {
               </Tooltip>
             )}
           </span>
+          {groupBy === 'usecase' && (
+            <UsecaseSelect
+              usecases={bugsByUseCases}
+              currentUsecase={bug.application_section.id?.toString()}
+            />
+          )}
           {paginationItems &&
             paginationItems.length > 1 &&
             `${paginationItems.length} bugs`}
