@@ -1,19 +1,18 @@
 import {
-  IconButton,
   MD,
   Modal,
   ModalClose,
   ShortcutTag,
 } from '@appquality/unguess-design-system';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/ai-icon.svg';
 import { ReactComponent as DoubleCheck } from 'src/assets/icons/check-double-stroke.svg';
 import { ReactComponent as MentionIcon } from 'src/assets/icons/at-stroke.svg';
 import { ReactComponent as UserGroupIcon } from 'src/assets/icons/user-group-stroke.svg';
 import { ReactComponent as EnterStroke } from 'src/assets/icons/enter-stroke.svg';
-import { ReactComponent as BoldIcon } from 'src/assets/icons/bold-fill.svg';
-import { ReactComponent as ItalicIcon } from 'src/assets/icons/italic-fill.svg';
+import { ReactComponent as BoldIcon } from 'src/assets/icons/bold-stroke.svg';
+import { ReactComponent as ItalicIcon } from 'src/assets/icons/italic-stroke.svg';
 
 import styled from 'styled-components';
 
@@ -95,7 +94,7 @@ export const BugShortcutHelper = ({ onClose }: { onClose: () => void }) => {
             <ShortcutItem icon={<BoldIcon />} shortcut={['ctrl', 'B']}>
               {t('__BUGS_PAGE_SHORTCUT_BOLD_TEXT', 'Bold Text')}
             </ShortcutItem>
-            <ShortcutItem icon={<ItalicIcon />} shortcut={['ctrl', 'i']}>
+            <ShortcutItem icon={<ItalicIcon />} shortcut={['ctrl', 'I']}>
               {t('__BUGS_PAGE_SHORTCUT_OBLIQUE_TEXT', 'Oblique Text')}
             </ShortcutItem>
             <ShortcutItem icon={<UserGroupIcon />} shortcut={[<MentionIcon />]}>
