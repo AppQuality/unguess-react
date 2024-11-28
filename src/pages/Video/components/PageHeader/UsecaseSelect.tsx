@@ -9,6 +9,7 @@ import { useCallback, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import TagManager from 'react-gtm-module';
 import useUsecaseWithVideos from './useUsecaseWithVideos';
 
 const UsecaseSelect = ({
@@ -56,6 +57,15 @@ const UsecaseSelect = ({
           ?.id.toString();
 
         if (!usecaseId) return;
+
+        // Tracking change usecase event
+        TagManager.dataLayer({
+          dataLayer: {
+            event: 'video_change_use_case',
+            category: 'video_navigation',
+            target: usecaseId,
+          },
+        });
 
         setSelectedItem(usecaseId);
         handleNavigate(value);
