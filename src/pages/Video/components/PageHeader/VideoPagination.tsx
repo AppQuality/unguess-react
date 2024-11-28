@@ -2,6 +2,7 @@ import { Pagination, Skeleton } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetVideosByVidApiResponse } from 'src/features/api';
+import TagManager from 'react-gtm-module';
 import useUsecaseWithCounter from './useUsecaseWithVideos';
 
 const VideoPagination = ({
@@ -48,6 +49,26 @@ const VideoPagination = ({
         // eslint-disable-next-line no-console
         if (!page) return;
         const targetId = paginationData.items[page - 1].id;
+
+        // Tracking video navigation
+        if (page > paginationData.currentPage) {
+          TagManager.dataLayer({
+            dataLayer: {
+              event: 'video_next',
+              category: 'video_navigation',
+              target: targetId,
+            },
+          });
+        } else if (page < paginationData.currentPage) {
+          TagManager.dataLayer({
+            dataLayer: {
+              event: 'video_previous',
+              category: 'video_navigation',
+              target: targetId,
+            },
+          });
+        }
+
         navigate(`/campaigns/${campaignId}/videos/${targetId}/`, {
           replace: true,
         });
