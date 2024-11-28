@@ -92,19 +92,6 @@ const Header = ({ campaignId, bug }: Props) => {
   }, [searchParams]);
 
   useEffect(() => {
-    console.log('current Bug', bug);
-    if (groupBy === 'usecase' && bugsByUseCases) {
-      console.log('bugsByUseCase', bugsByUseCases);
-    }
-    if (groupBy === 'bugState' && bugsByStates) {
-      console.log('bugsByState', bugsByStates);
-    }
-    if (groupBy === 'ungrouped' && ungroupedBugs) {
-      console.log('ungroupedBugs', ungroupedBugs);
-    }
-  }, [groupBy, bugsByUseCases, bugsByStates, ungroupedBugs]);
-
-  useEffect(() => {
     if (campaign) {
       dispatch(setPermissionSettingsTitle(campaign.customer_title));
       dispatch(setCampaignId(campaign.id));
@@ -125,7 +112,7 @@ const Header = ({ campaignId, bug }: Props) => {
         )?.bugs;
       case 'bugState':
         return bugsByStates.find(
-          (stateBugs) => stateBugs.state.id === bug.status.id
+          (stateBugs) => stateBugs.state.id === bug.custom_status.id
         )?.bugs;
       case 'ungrouped':
         return ungroupedBugs;
@@ -134,8 +121,7 @@ const Header = ({ campaignId, bug }: Props) => {
     }
   }, [groupBy, bugsByUseCases, bugsByStates, ungroupedBugs]);
 
-  console.log('paginationItems', paginationItems);
-  const currentPage = useMemo(
+  const currentIndex = useMemo(
     () => paginationItems?.findIndex((item) => item.id === bug.id),
     [paginationItems, bug]
   );
@@ -183,10 +169,10 @@ const Header = ({ campaignId, bug }: Props) => {
           </span>
           {paginationItems &&
             paginationItems.length > 1 &&
-            typeof currentPage !== 'undefined' && (
+            typeof currentIndex !== 'undefined' && (
               <Pagination
                 onChange={handlePagination}
-                currentPage={currentPage}
+                currentPage={currentIndex + 1}
                 totalPages={paginationItems.length}
               />
             )}

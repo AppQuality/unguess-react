@@ -1,7 +1,9 @@
 import { IconButton, Tag, Tooltip } from '@appquality/unguess-design-system';
+import { get } from 'http';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from 'src/app/hooks';
+import { Link, createSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
@@ -12,7 +14,12 @@ import {
   Bug,
   GetCampaignsByCidBugsAndBidCommentsApiResponse,
 } from 'src/features/api';
-import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  getCurrentCampaignData,
+  selectBug,
+} from 'src/features/bugsPage/bugsPageSlice';
+import { DeviceFilter } from 'src/features/bugsPage/deviceFilter';
+import { SeverityFilter } from 'src/features/bugsPage/severityFilter';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -75,6 +82,39 @@ export default ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const { orderBy, order, groupBy } = useAppSelector((state) => state.bugsPage);
+  const data = getCurrentCampaignData();
+
+  const searchParams = useMemo(() => {
+    const getFilterBy = () => {
+      if (!data) return {};
+      console.log(data);
+      const filters: { [key: string]: string | string[] } = {};
+      (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
+        if (key === 'severities') {
+          if (Array.isArray(data[key].selected)) {
+            filters[key] = data[key].selected.map((item) => item.id.toString());
+          }
+        }
+        if (key === 'devices') {
+          if (Array.isArray(data[key].selected)) {
+            filters[key] = data[key].selected.map((item) => item.device);
+          }
+        }
+        if (key === 'unique') {
+          filters[key] = data[key].selected === 'unique' ? 'true' : 'false';
+        }
+      });
+      return filters;
+    };
+    return createSearchParams({
+      order,
+      orderBy,
+      groupBy,
+      ...getFilterBy(),
+    });
+  }, [order, orderBy, groupBy, data]);
+
   return (
     <Container>
       <Tag
@@ -127,7 +167,9 @@ export default ({
           </Tooltip>
         </Link>
         <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+          to={`${useLocalizeRoute(
+            `campaigns/${bug.campaign_id}/bugs/${bug.id}`
+          )}?${searchParams.toString()}`}
         >
           <Tooltip
             content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
