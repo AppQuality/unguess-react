@@ -61,7 +61,7 @@ const renderFilterItems = (
   filterBy: Partial<Record<keyof typeof filterLabels, any>>
 ) =>
   (Object.keys(filterLabels) as Array<keyof typeof filterLabels>).map((key) => {
-    if (key in filterBy) {
+    if (key in filterBy && filterBy[key]) {
       return (
         <li key={key}>
           <strong>{filterLabels[key]}:</strong>{' '}
@@ -113,33 +113,41 @@ const Header = ({ campaignId, bug }: Props) => {
   );
   const filterBy = useMemo(() => {
     const filtersFromParams = {
-      severities: searchParams.getAll('severities'),
-      devices: searchParams.getAll('devices'),
       unique:
         searchParams.get('unique') === 'true' ||
         searchParams.get('unique') === null,
       unread: searchParams.get('unread') === 'true',
-      os: searchParams.getAll('os'),
-      priorities: searchParams.getAll('priorities'),
-      replicabilities: searchParams.getAll('replicabilities'),
-      types: searchParams.getAll('types'),
-      tags: searchParams.getAll('tags'),
+      severities:
+        searchParams.getAll('severities').length > 0
+          ? searchParams.getAll('severities')
+          : null,
+      devices:
+        searchParams.getAll('devices').length > 0
+          ? searchParams.getAll('devices')
+          : null,
+      os:
+        searchParams.getAll('os').length > 0 ? searchParams.getAll('os') : null,
+      priorities:
+        searchParams.getAll('priorities').length > 0
+          ? searchParams.getAll('priorities')
+          : null,
+      replicabilities:
+        searchParams.getAll('replicabilities').length > 0
+          ? searchParams.getAll('replicabilities')
+          : null,
+      types:
+        searchParams.getAll('types').length > 0
+          ? searchParams.getAll('types')
+          : null,
+      tags:
+        searchParams.getAll('tags').length > 0
+          ? searchParams.getAll('tags')
+          : null,
     };
-    return (
-      Object.keys(filtersFromParams) as Array<keyof typeof filtersFromParams>
-    ).reduce((acc, key) => {
-      if (
-        Array.isArray(filtersFromParams[key]) &&
-        'lenght' in filtersFromParams &&
-        filtersFromParams[key].length
-      ) {
-        acc[key] = filtersFromParams[key];
-      }
-      if (!Array.isArray(filtersFromParams[key]) && filtersFromParams[key]) {
-        acc[key] = filtersFromParams[key];
-      }
-      return acc;
-    }, {} as Partial<Record<keyof typeof filtersFromParams, any>>);
+    // remove null and undefined values
+    return Object.fromEntries(
+      Object.entries(filtersFromParams).filter(([_, v]) => v)
+    );
   }, [searchParams]);
 
   const groupBy: GroupBy = useMemo(() => {
