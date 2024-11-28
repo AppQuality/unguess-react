@@ -40,7 +40,12 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
   const [updatePreference] = usePutUsersMePreferencesBySlugMutation();
-  const allowedLanguages = getAllLanguageTags();
+
+  const allowedLanguages = [...getAllLanguageTags()].sort((a, b) => {
+    const nameA = getLanguageNameByFullTag(a)?.toLowerCase() ?? '';
+    const nameB = getLanguageNameByFullTag(b)?.toLowerCase() ?? '';
+    return nameA.localeCompare(nameB);
+  });
 
   const {
     data: video,
@@ -103,23 +108,14 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
             selectionValue={internalLanguage}
             inputValue={getLanguageNameByFullTag(internalLanguage) ?? ''}
           >
-            {[...allowedLanguages]
-              .sort((a, b) => {
-                // Sort getLanguageNameByFullTag(lang) values in alphabetical order
-                const nameA = getLanguageNameByFullTag(a)?.toLowerCase() ?? '';
-                const nameB = getLanguageNameByFullTag(b)?.toLowerCase() ?? '';
-                return nameA.localeCompare(nameB);
-              })
-              .map((lang) => (
-                <Select.Option
-                  key={`language-${lang}-option`}
-                  value={lang}
-                  isDisabled={
-                    lang === videoLanguage || lang === currentLanguage
-                  }
-                  label={getLanguageNameByFullTag(lang) || ''}
-                />
-              ))}
+            {allowedLanguages.map((lang) => (
+              <Select.Option
+                key={`language-${lang}-option`}
+                value={lang}
+                isDisabled={lang === videoLanguage || lang === currentLanguage}
+                label={getLanguageNameByFullTag(lang) || ''}
+              />
+            ))}
           </Select>
         </div>
         <ZendeskFormField>
