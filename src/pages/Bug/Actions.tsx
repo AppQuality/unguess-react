@@ -7,7 +7,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import ChangeStatusDropdown from 'src/common/components/BugDetail/BugStateSelect/ChangeStatusDropdown';
 import BugPriority from 'src/common/components/BugDetail/Priority';
@@ -23,6 +23,7 @@ import {
 import { styled } from 'styled-components';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
+import { useBugsByState } from '../Bugs/Content/BugsTable/hooks/useBugsByState';
 
 const Container = styled.div`
   display: flex;
@@ -53,6 +54,12 @@ export const Actions = () => {
     isFetching: isFetchingUsers,
   } = useGetMentionableUsers();
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { campaignId, bugId } = useParams();
+  const {
+    data: { bugsByStates },
+  } = useBugsByState(Number(campaignId));
   const mentionableUsers = useCallback(
     ({ query }: { query: string }) => {
       const mentions = users.filter((user) => {
@@ -74,7 +81,6 @@ export const Actions = () => {
   const [mediaIds, setMediaIds] = useState<
     { id: number; internal_id: string }[]
   >([]);
-  const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
@@ -194,6 +200,22 @@ export const Actions = () => {
     [cid, bid, bug, mediaIds]
   );
 
+  const handleNavigationOnStatusChange = useCallback(() => {
+    const currentState = bugsByStates.find(
+      (u) => u.state.id === bug?.custom_status.id
+    )?.bugs;
+    if (!currentState) return;
+    const currentIndex = currentState.findIndex((b) => b.id === bug?.id);
+    if (currentIndex === -1) return;
+    const nextIndex = currentIndex + 1;
+    const previousIndex = currentIndex - 1;
+    let target = currentState[nextIndex];
+    if (!target.id) {
+      target = currentState[previousIndex];
+    }
+    if (!target.id) return;
+    navigate(`/campaigns/${cid}/bugs/${target.id}?${searchParams.toString()}`);
+  }, [searchParams, navigate, cid, bug, bugsByStates]);
   if (!bug || isError) return null;
 
   return (
@@ -206,6 +228,7 @@ export const Actions = () => {
         <>
           <GridWrapper>
             <ChangeStatusDropdown
+              onChangeBefore={handleNavigationOnStatusChange}
               currentStatusId={bug.custom_status.id}
               campaignId={cid}
               bugId={bid}

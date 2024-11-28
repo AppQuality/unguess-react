@@ -78,6 +78,9 @@ const renderFilterItems = (
 const Header = ({ campaignId, bug }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+
   const {
     isLoading: isCampaignLoading,
     isFetching: isCampaignFetching,
@@ -101,8 +104,6 @@ const Header = ({ campaignId, bug }: Props) => {
     isLoading: isUngroupedLoading,
     isError: isUngroupedError,
   } = useBugs(Number(campaignId));
-  const { t } = useTranslation();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const order = useMemo(
     () => searchParams.get('order') || 'DESC',
@@ -262,7 +263,7 @@ const Header = ({ campaignId, bug }: Props) => {
             />
           )}
           {paginationItems &&
-            paginationItems.length > 1 &&
+            paginationItems.length > 0 &&
             `${paginationItems.length} bugs`}
           {paginationItems &&
             paginationItems.length > 1 &&
