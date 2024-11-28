@@ -85,7 +85,7 @@ export default ({
   const searchParams = useMemo(() => {
     const getFilterBy = () => {
       if (!data) return {};
-      console.log(data);
+
       const filters: { [key: string]: string | string[] } = {};
       (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
         if (key === 'severities') {

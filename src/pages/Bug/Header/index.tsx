@@ -102,7 +102,6 @@ const Header = ({ campaignId, bug }: Props) => {
   } = useBugs(Number(campaignId));
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState();
 
   const order = useMemo(
     () => searchParams.get('order') || 'DESC',
@@ -113,7 +112,6 @@ const Header = ({ campaignId, bug }: Props) => {
     [searchParams]
   );
   const filterBy = useMemo(() => {
-    console.log(searchParams.get('unique'));
     const filtersFromParams = {
       severities: searchParams.getAll('severities'),
       devices: searchParams.getAll('devices'),
@@ -132,6 +130,7 @@ const Header = ({ campaignId, bug }: Props) => {
     ).reduce((acc, key) => {
       if (
         Array.isArray(filtersFromParams[key]) &&
+        'lenght' in filtersFromParams &&
         filtersFromParams[key].length
       ) {
         acc[key] = filtersFromParams[key];
