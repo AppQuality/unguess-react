@@ -30,6 +30,7 @@ import { BugByUsecaseType } from 'src/pages/Bugs/Content/BugsTable/types';
 import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 import { UsecaseSelect } from './UsecaseSelect';
+import { StatusSelect } from './StatusSelect';
 
 interface Props {
   campaignId: string;
@@ -252,6 +253,12 @@ const Header = ({ campaignId, bug }: Props) => {
             <UsecaseSelect
               usecases={bugsByUseCases}
               currentUsecase={bug.application_section.id?.toString()}
+            />
+          )}
+          {groupBy === 'bugState' && (
+            <StatusSelect
+              statuses={bugsByStates}
+              currentStatus={bug.custom_status.id?.toString()}
             />
           )}
           {paginationItems &&

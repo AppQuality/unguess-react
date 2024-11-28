@@ -1,46 +1,44 @@
 import { Select } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { SelectedItem } from 'src/common/components/BugDetail/BugStateSelect';
-import { BugByUsecaseType } from 'src/pages/Bugs/Content/BugsTable/types';
+import { BugByStateType } from 'src/pages/Bugs/Content/BugsTable/types';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-export const UsecaseSelect = ({
-  usecases,
-  currentUsecase,
+export const StatusSelect = ({
+  statuses,
+  currentStatus,
 }: {
-  usecases: BugByUsecaseType[];
-  currentUsecase?: string;
+  statuses: BugByStateType[];
+  currentStatus?: string;
 }) => {
   const navigate = useNavigate();
   const { campaignId } = useParams();
   const [searchParams] = useSearchParams();
   const renderOptions = useMemo(
     () =>
-      usecases.map(({ useCase, bugs }) => (
+      statuses.map(({ state, bugs }) => (
         <Select.Option
-          key={useCase.id}
-          value={useCase.id.toString()}
-          label={`${useCase.title.full} (${bugs.length} bugs)`}
+          key={state.id}
+          value={state.id.toString()}
+          label={`${state.name} (${bugs.length} bugs)`}
         />
       )),
-    [usecases]
+    [statuses]
   );
 
   return (
     <Select
       renderValue={(value) => {
-        const selectedStatus = usecases.find(
-          (u) => u.useCase.id === Number(value.inputValue)
+        const selectedStatus = statuses.find(
+          (u) => u.state.id === Number(value.inputValue)
         );
-        return (
-          <SelectedItem>{selectedStatus?.useCase.title.full}</SelectedItem>
-        );
+        return <SelectedItem>{selectedStatus?.state.name}</SelectedItem>;
       }}
       isCompact
-      inputValue={currentUsecase}
-      selectionValue={currentUsecase}
-      onSelect={async (usecaseId) => {
-        const target = usecases.find((u) => u.useCase.id === Number(usecaseId))
+      inputValue={currentStatus}
+      selectionValue={currentStatus}
+      onSelect={async (stateId) => {
+        const target = statuses.find((u) => u.state.id === Number(stateId))
           ?.bugs[0].id;
         if (target) {
           navigate(
