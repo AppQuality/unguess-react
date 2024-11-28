@@ -1,5 +1,5 @@
 import { useAppDispatch } from 'src/app/hooks';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Button,
   XL,
@@ -7,6 +7,7 @@ import {
   Skeleton,
   Tooltip,
   Pagination,
+  CursorPagination,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -27,6 +28,7 @@ import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsBy
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
 import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import { BugByUsecaseType } from 'src/pages/Bugs/Content/BugsTable/types';
+import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 
 interface Props {
@@ -44,6 +46,33 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
+
+const filterLabels = {
+  unique: 'Unique only',
+  unread: 'Unread only',
+  severities: 'Severities',
+  devices: 'Devices',
+  os: 'OS',
+  priorities: 'Priorities',
+  replicabilities: 'Replicabilities',
+};
+
+const renderFilterItems = (
+  filterBy: Partial<Record<keyof typeof filterLabels, any>>
+) =>
+  (Object.keys(filterLabels) as Array<keyof typeof filterLabels>).map((key) => {
+    if (key in filterBy) {
+      return (
+        <li key={key}>
+          <strong>{filterLabels[key]}:</strong>{' '}
+          {Array.isArray(filterBy[key])
+            ? filterBy[key].map((item: any) => item).join(', ')
+            : null}
+        </li>
+      );
+    }
+    return null;
+  });
 
 const Header = ({ campaignId, bug }: Props) => {
   const dispatch = useAppDispatch();
@@ -73,13 +102,38 @@ const Header = ({ campaignId, bug }: Props) => {
   } = useBugs(Number(campaignId));
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = useState();
 
   const order = useMemo(() => searchParams.get('order'), [searchParams]);
   const orderBy = useMemo(() => searchParams.get('orderBy'), [searchParams]);
-  const filterBy = useMemo(
-    () => searchParams.getAll('filterBy'),
-    [searchParams]
-  );
+  const filterBy = useMemo(() => {
+    const filtersFromParams = {
+      severities: searchParams.getAll('severities'),
+      devices: searchParams.getAll('devices'),
+      unique: searchParams.get('unique') === 'true',
+      unread: searchParams.get('unread') === 'true',
+      os: searchParams.getAll('os'),
+      priorities: searchParams.getAll('priorities'),
+      replicabilities: searchParams.getAll('replicabilities'),
+      types: searchParams.getAll('types'),
+      tags: searchParams.getAll('tags'),
+    };
+    return (
+      Object.keys(filtersFromParams) as Array<keyof typeof filtersFromParams>
+    ).reduce((acc, key) => {
+      if (
+        Array.isArray(filtersFromParams[key]) &&
+        filtersFromParams[key].length
+      ) {
+        acc[key] = filtersFromParams[key];
+      }
+      if (!Array.isArray(filtersFromParams[key]) && filtersFromParams[key]) {
+        acc[key] = filtersFromParams[key];
+      }
+      return acc;
+    }, {} as Partial<Record<keyof typeof filtersFromParams, any>>);
+  }, [searchParams]);
+
   const groupBy: GroupBy = useMemo(() => {
     switch (searchParams.get('groupBy')) {
       case 'usecase':
@@ -158,23 +212,53 @@ const Header = ({ campaignId, bug }: Props) => {
             orderBy: {orderBy} {order}
           </span>
           <span>
-            applied filters: {filterBy.length}{' '}
-            <Tooltip
-              content={
-                <span>{filterBy.map((filter) => filter).join(', ')}</span>
-              }
-            >
-              <span>(i)</span>
-            </Tooltip>
+            applied filters: {Object.keys(filterBy).length}{' '}
+            {Object.keys(filterBy).length > 0 && (
+              <Tooltip
+                size="large"
+                type="light"
+                content={
+                  <ul
+                    style={{
+                      listStyleType: 'disc',
+                      paddingLeft: appTheme.space.sm,
+                    }}
+                  >
+                    {renderFilterItems(filterBy)}
+                  </ul>
+                }
+              >
+                <span>(i)</span>
+              </Tooltip>
+            )}
           </span>
           {paginationItems &&
             paginationItems.length > 1 &&
+            `${paginationItems.length} bugs`}
+          {paginationItems &&
+            paginationItems.length > 1 &&
             typeof currentIndex !== 'undefined' && (
-              <Pagination
-                onChange={handlePagination}
-                currentPage={currentIndex + 1}
-                totalPages={paginationItems.length}
-              />
+              <CursorPagination
+                aria-label="Cursor pagination"
+                style={{ justifyContent: 'end' }}
+              >
+                <CursorPagination.Previous
+                  onClick={() => {
+                    handlePagination(currentIndex - 1);
+                  }}
+                  disabled={currentIndex === 0}
+                >
+                  {t('__LIST_PAGE_PREVIOUS')}
+                </CursorPagination.Previous>
+                <CursorPagination.Next
+                  onClick={() => {
+                    handlePagination(currentIndex + 1);
+                  }}
+                  disabled={currentIndex === paginationItems.length - 1}
+                >
+                  {t('__LIST_PAGE_NEXT')}
+                </CursorPagination.Next>
+              </CursorPagination>
             )}
           <ShareButton bug={bug}>
             {(setModalOpen) => (

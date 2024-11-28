@@ -1,5 +1,4 @@
 import { IconButton, Tag, Tooltip } from '@appquality/unguess-design-system';
-import { get } from 'http';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, createSearchParams } from 'react-router-dom';
@@ -18,8 +17,6 @@ import {
   getCurrentCampaignData,
   selectBug,
 } from 'src/features/bugsPage/bugsPageSlice';
-import { DeviceFilter } from 'src/features/bugsPage/deviceFilter';
-import { SeverityFilter } from 'src/features/bugsPage/severityFilter';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -93,7 +90,7 @@ export default ({
       (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
         if (key === 'severities') {
           if (Array.isArray(data[key].selected)) {
-            filters[key] = data[key].selected.map((item) => item.id.toString());
+            filters[key] = data[key].selected.map((item) => item.name);
           }
         }
         if (key === 'devices') {
@@ -103,6 +100,28 @@ export default ({
         }
         if (key === 'unique') {
           filters[key] = data[key].selected === 'unique' ? 'true' : 'false';
+        }
+        if (key === 'read') {
+          filters.unread = data[key].selected === 'unread' ? 'true' : 'false';
+        }
+        if (key === 'os') {
+          if (Array.isArray(data[key].selected)) {
+            filters[key] = data[key].selected.map((item) => item.os);
+          }
+        }
+        if (
+          key === 'priorities' ||
+          key === 'replicabilities' ||
+          key === 'types'
+        ) {
+          if (Array.isArray(data[key].selected)) {
+            filters[key] = data[key].selected.map((item) => item.name);
+          }
+        }
+        if (key === 'tags') {
+          if (Array.isArray(data[key].selected)) {
+            filters[key] = data[key].selected.map((item) => item.display_name);
+          }
         }
       });
       return filters;
