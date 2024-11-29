@@ -101,7 +101,7 @@ export const BugPreview = ({
   const scrollerBoxId = 'bug-preview-container';
 
   return (
-    <DetailContainer isFetching={isFetching}>
+    <DetailContainer isFetching={isFetching} style={{ overflow: 'hidden' }}>
       <BugHeader bug={bug} comments={comments} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
