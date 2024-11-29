@@ -201,26 +201,26 @@ export const Actions = () => {
   );
 
   const handleNavigationOnStatusChange = useCallback(() => {
-    if (
-      !searchParams.has('groupBy') ||
-      searchParams.get('groupBy') !== 'bugState'
-    ) {
-      return;
-    }
-    const currentState = bugsByStates.find(
-      (u) => u.state.id === bug?.custom_status.id
-    )?.bugs;
-    if (!currentState) return;
-    const currentIndex = currentState.findIndex((b) => b.id === bug?.id);
-    if (currentIndex === -1) return;
-    const nextIndex = currentIndex + 1;
-    const previousIndex = currentIndex - 1;
-    let target = currentState[nextIndex];
-    if (!target.id) {
-      target = currentState[previousIndex];
-    }
-    if (!target.id) return;
-    navigate(`/campaigns/${cid}/bugs/${target.id}?${searchParams.toString()}`);
+    // if (
+    //   !searchParams.has('groupBy') ||
+    //   searchParams.get('groupBy') !== 'bugState'
+    // ) {
+    //   return;
+    // }
+    // const currentState = bugsByStates.find(
+    //   (u) => u.state.id === bug?.custom_status.id
+    // )?.bugs;
+    // if (!currentState) return;
+    // const currentIndex = currentState.findIndex((b) => b.id === bug?.id);
+    // if (currentIndex === -1) return;
+    // const nextIndex = currentIndex + 1;
+    // const previousIndex = currentIndex - 1;
+    // let target = currentState[nextIndex];
+    // if (!target.id) {
+    //   target = currentState[previousIndex];
+    // }
+    // if (!target.id) return;
+    // navigate(`/campaigns/${cid}/bugs/${target.id}?${searchParams.toString()}`);
   }, [searchParams, navigate, cid, bug, bugsByStates]);
   if (!bug || isError) return null;
 
