@@ -229,6 +229,16 @@ export interface paths {
       };
     };
   };
+  '/campaigns/{cid}/suggestions': {
+    get: operations['get-campaigns-cid-suggestions'];
+    post: operations['post-campaigns-cid-suggestions'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+  };
   '/campaigns/{cid}/tags': {
     get: operations['get-campaigns-cid-tags'];
     parameters: {
@@ -1238,6 +1248,11 @@ export interface components {
       /** @enum {undefined} */
       kind: 'uxMostUsedTitles';
     };
+    /**
+     * BannerType
+     * @enum {string}
+     */
+    BannerType: 'banner_testing_automation' | 'banner_user_experience';
   };
   responses: {
     /** Shared error response */
@@ -2164,6 +2179,54 @@ export interface operations {
       400: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'get-campaigns-cid-suggestions': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            suggestion?: {
+              slug: components['schemas']['BannerType'];
+              /** @description ServiceId from strapi */
+              serviceId?: number;
+            };
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'post-campaigns-cid-suggestions': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          slug: components['schemas']['BannerType'];
+        };
+      };
     };
   };
   'get-campaigns-cid-tags': {
