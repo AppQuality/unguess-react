@@ -182,10 +182,13 @@ const Header = ({ campaignId, bug }: Props) => {
           (useCaseBugs: BugByUsecaseType) =>
             useCaseBugs.useCase.id === bug.application_section.id
         )?.bugs;
-      case 'bugState':
+      case 'bugState': {
+        const currentState =
+          searchParams.get('currentState') || bug.custom_status.id;
         return bugsByStates.find(
-          (stateBugs) => stateBugs.state.id === bug.custom_status.id
+          (stateBugs) => stateBugs.state.id === Number(currentState)
         )?.bugs;
+      }
       case 'ungrouped':
         return ungroupedBugs;
       default:
@@ -259,7 +262,10 @@ const Header = ({ campaignId, bug }: Props) => {
           {groupBy === 'bugState' && (
             <StatusSelect
               statuses={bugsByStates}
-              currentStatus={bug.custom_status.id?.toString()}
+              currentStatus={
+                searchParams.get('currentState') ||
+                bug.custom_status.id?.toString()
+              }
             />
           )}
           {paginationItems &&

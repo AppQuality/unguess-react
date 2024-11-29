@@ -126,12 +126,16 @@ export default ({
       });
       return filters;
     };
-    return createSearchParams({
+    const newSearchParams = createSearchParams({
       order,
       orderBy,
       groupBy,
       ...getFilterBy(),
     });
+    if (groupBy === 'bugState') {
+      newSearchParams.set('currentState', bug.custom_status.id.toString());
+    }
+    return newSearchParams;
   }, [order, orderBy, groupBy, data]);
 
   return (
