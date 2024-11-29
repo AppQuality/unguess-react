@@ -1,6 +1,6 @@
 import { Chat, MD, Modal, ModalClose } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as ArrowLeft } from 'src/assets/icons/ai-icon.svg';
+import { ReactComponent as KeyboardIcon } from 'src/assets/icons/keyboard.svg';
 import { ReactComponent as DoubleCheck } from 'src/assets/icons/check-double-stroke.svg';
 import { ReactComponent as UserGroupIcon } from 'src/assets/icons/user-group-stroke.svg';
 import { ReactComponent as BoldIcon } from 'src/assets/icons/bold-stroke.svg';
@@ -39,7 +39,7 @@ export const BugShortcutHelper = ({ onClose }: { onClose: () => void }) => {
     <Modal onClose={onClose}>
       <Modal.Header>
         <TitleWrapper>
-          <ArrowLeft />
+          <KeyboardIcon />
           <span>
             {t('__BUGS_PAGE_SHORTCUT_BUG_MODAL_TITLE', 'Keyboard Shortcut')}
           </span>
