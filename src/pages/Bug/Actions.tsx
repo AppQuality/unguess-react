@@ -201,6 +201,12 @@ export const Actions = () => {
   );
 
   const handleNavigationOnStatusChange = useCallback(() => {
+    if (
+      !searchParams.has('groupBy') ||
+      searchParams.get('groupBy') !== 'bugState'
+    ) {
+      return;
+    }
     const currentState = bugsByStates.find(
       (u) => u.state.id === bug?.custom_status.id
     )?.bugs;
