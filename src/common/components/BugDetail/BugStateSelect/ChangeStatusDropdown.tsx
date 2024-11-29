@@ -36,12 +36,10 @@ const ChangeStatusDropdown = ({
   currentStatusId,
   campaignId,
   bugId,
-  onChangeBefore,
 }: {
   currentStatusId: number;
   campaignId: string;
   bugId: string;
-  onChangeBefore?: (statusId: number) => void;
 }) => {
   const [patchBug] = usePatchCampaignsByCidBugsAndBidMutation();
   const { addToast } = useToast();
@@ -67,9 +65,6 @@ const ChangeStatusDropdown = ({
         phases={customStatusesByPhase}
         additionalOptions={<OpenEditStatusDrawer />}
         onChange={(statusId) => {
-          if (onChangeBefore) {
-            onChangeBefore(statusId);
-          }
           patchBug({
             cid: campaignId,
             bid: bugId,

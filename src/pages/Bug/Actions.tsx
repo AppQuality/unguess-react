@@ -212,7 +212,6 @@ export const Actions = () => {
         <>
           <GridWrapper>
             <ChangeStatusDropdown
-              onChangeBefore={handleNavigationOnStatusChange}
               currentStatusId={bug.custom_status.id}
               campaignId={cid}
               bugId={bid}
