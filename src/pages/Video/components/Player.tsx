@@ -232,6 +232,11 @@ const CorePlayer = () => {
           i18n={{
             beforeHighlight: t('__VIDEO_PAGE_PLAYER_START_ADD_OBSERVATION'),
             onHighlight: t('__VIDEO_PAGE_PLAYER_STOP_ADD_OBSERVATION'),
+            mute: t('UX_SHORTCUT_MUTE'),
+            playpause: t('UX_SHORTCUT_PLAY_PAUSE'),
+            forward: t('UX_SHORTCUT_FORWARD'),
+            backward: t('UX_SHORTCUT_REWIND'),
+            observations: t('UX_SHORTCUT_ADD_OBSERVATION'),
           }}
         />
       </PlayerContainer>

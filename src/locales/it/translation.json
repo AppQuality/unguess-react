@@ -162,6 +162,7 @@
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_INTRO_one": "Stai per eleminare uno stato.",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_INTRO_other": "Stai per eliminare più di uno stato.",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS_one": "Attualmente <2>{{custom_statuses}}</2> non è associato a nessun bug.",
+  "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS_many": "Currently <span>{{ custom_statuses }}</span> are not associated with any bugs.",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_BODY_TEXT_STATUS_NO_BUGS_other": "Attualmente <2>{{custom_statuses}}</2> non sono associati a nessun bug.",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_CANCEL_BUTTON": "Annulla",
   "__BUGS_PAGE_CUSTOM_STATUS_MIGRATION_MODAL_CONFIRM_BUTTON": "Conferma",
@@ -1049,5 +1050,13 @@
   "Use Cases ({{count}})_one": "Use Case ({{count}})",
   "Use Cases ({{count}})_other": "Use Case ({{count}})",
   "UseCase ({{count}})_one": "Use Case ({{count}})",
-  "UseCase ({{count}})_other": "Use Case ({{count}})"
+  "UseCase ({{count}})_many": "",
+  "UseCase ({{count}})_other": "Use Case ({{count}})",
+  "UX_SHORTCUT_ADD_OBSERVATION": "",
+  "UX_SHORTCUT_FORWARD": "",
+  "UX_SHORTCUT_MODAL_CONTENT_TITLE": "",
+  "UX_SHORTCUT_MODAL_TITLE": "",
+  "UX_SHORTCUT_MUTE": "",
+  "UX_SHORTCUT_PLAY_PAUSE": "",
+  "UX_SHORTCUT_REWIND": ""
 }
