@@ -153,11 +153,18 @@ const Header = ({ campaignId, bug }: Props) => {
     };
   }, [campaign]);
 
-  const [paginationItems, setPaginationItems] = useState<
-    | BugByUsecaseType['bugs']
-    | BugByStateType['bugs']
-    | GetCampaignsByCidBugsApiResponse['items']
-  >(undefined);
+  const paginationItems = useMemo(
+    () =>
+      getGroupedBugs(
+        groupBy,
+        bugsByUseCases,
+        bugsByStates,
+        ungroupedBugs,
+        bug,
+        searchParams
+      ),
+    [bug.id]
+  ); // with this we update the paginationItems when the bug changes, ie when the user navigates to a different bug
 
   const currentIndex = useMemo(
     () => paginationItems?.findIndex((item) => item.id === bug.id),
@@ -176,19 +183,6 @@ const Header = ({ campaignId, bug }: Props) => {
       )?.length,
     [bugsByStates, bugsByUseCases, ungroupedBugs, groupBy, bug]
   );
-
-  useEffect(() => {
-    setPaginationItems(
-      getGroupedBugs(
-        groupBy,
-        bugsByUseCases,
-        bugsByStates,
-        ungroupedBugs,
-        bug,
-        searchParams
-      )
-    );
-  }, [bug.id]); // with this we update the paginationItems when the bug changes, ie when the user navigates to a different bug
 
   const handlePagination = useCallback(
     (v: number) => {
