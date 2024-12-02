@@ -35,7 +35,6 @@ import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 import { UsecaseSelect } from './UsecaseSelect';
 import { StatusSelect } from './StatusSelect';
-import { set } from 'date-fns';
 
 interface Props {
   campaignId: string;
@@ -61,6 +60,7 @@ const filterLabels = {
   os: 'OS',
   priorities: 'Priorities',
   replicabilities: 'Replicabilities',
+  status: 'Status',
 };
 
 const renderFilterItems = (
@@ -150,6 +150,10 @@ const Header = ({ campaignId, bug }: Props) => {
         searchParams.getAll('tags').length > 0
           ? searchParams.getAll('tags')
           : null,
+      status:
+        searchParams.getAll('customStatuses').length > 0
+          ? searchParams.getAll('customStatuses')
+          : null,
     };
     // remove null and undefined values
     return Object.fromEntries(
@@ -189,10 +193,6 @@ const Header = ({ campaignId, bug }: Props) => {
   >(undefined);
 
   useEffect(() => {
-    console.log('paginationItems prev', paginationItems);
-    // we do non want to reset paginationItems when orderBy is priority_id because we want to keep the order as it is
-    if (orderBy === 'priority_id' && typeof paginationItems !== 'undefined')
-      return;
     let next;
     switch (groupBy) {
       case 'usecase':
@@ -214,9 +214,8 @@ const Header = ({ campaignId, bug }: Props) => {
       default:
         next = [];
     }
-    console.log('paginationItems next', next);
     setPaginationItems(next);
-  }, [groupBy, bugsByUseCases, bugsByStates, ungroupedBugs, bug]);
+  }, [bug.id]); // with this we update the paginationItems when the bug changes, ie when the user navigates to a different bug
 
   const currentIndex = useMemo(
     () => paginationItems?.findIndex((item) => item.id === bug.id),
@@ -300,7 +299,7 @@ const Header = ({ campaignId, bug }: Props) => {
                 onClick={() => {
                   handlePagination(currentIndex - 1);
                 }}
-                disabled={currentIndex <= 1}
+                disabled={currentIndex < 1}
               >
                 {t('__LIST_PAGE_PREVIOUS')}
               </CursorPagination.Previous>

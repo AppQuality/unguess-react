@@ -112,7 +112,8 @@ export default ({
         if (
           key === 'priorities' ||
           key === 'replicabilities' ||
-          key === 'types'
+          key === 'types' ||
+          key === 'customStatuses'
         ) {
           if (Array.isArray(data[key].selected)) {
             filters[key] = data[key].selected.map((item) => item.name);
