@@ -35,8 +35,10 @@ import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 import { UsecaseSelect } from './UsecaseSelect';
 import { StatusSelect } from './StatusSelect';
+import { getGroupedBugs } from './getGroupedBugs';
+import { getFiltersFromParams } from './getFiltersFromParams';
 
-interface Props {
+export interface Props {
   campaignId: string;
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
 }
@@ -119,42 +121,7 @@ const Header = ({ campaignId, bug }: Props) => {
     [searchParams]
   );
   const filterBy = useMemo(() => {
-    const filtersFromParams = {
-      unique:
-        searchParams.get('unique') === 'true' ||
-        searchParams.get('unique') === null,
-      unread: searchParams.get('unread') === 'true',
-      severities:
-        searchParams.getAll('severities').length > 0
-          ? searchParams.getAll('severities')
-          : null,
-      devices:
-        searchParams.getAll('devices').length > 0
-          ? searchParams.getAll('devices')
-          : null,
-      os:
-        searchParams.getAll('os').length > 0 ? searchParams.getAll('os') : null,
-      priorities:
-        searchParams.getAll('priorities').length > 0
-          ? searchParams.getAll('priorities')
-          : null,
-      replicabilities:
-        searchParams.getAll('replicabilities').length > 0
-          ? searchParams.getAll('replicabilities')
-          : null,
-      types:
-        searchParams.getAll('types').length > 0
-          ? searchParams.getAll('types')
-          : null,
-      tags:
-        searchParams.getAll('tags').length > 0
-          ? searchParams.getAll('tags')
-          : null,
-      status:
-        searchParams.getAll('customStatuses').length > 0
-          ? searchParams.getAll('customStatuses')
-          : null,
-    };
+    const filtersFromParams = getFiltersFromParams(searchParams);
     // remove null and undefined values
     return Object.fromEntries(
       Object.entries(filtersFromParams).filter(([_, v]) => v)
@@ -192,35 +159,25 @@ const Header = ({ campaignId, bug }: Props) => {
     | GetCampaignsByCidBugsApiResponse['items']
   >(undefined);
 
-  useEffect(() => {
-    let next;
-    switch (groupBy) {
-      case 'usecase':
-        next = bugsByUseCases.find(
-          (useCaseBugs) => useCaseBugs.useCase.id === bug.application_section.id
-        )?.bugs;
-        break;
-      case 'bugState': {
-        const currentState =
-          searchParams.get('currentState') || bug.custom_status.id;
-        next = bugsByStates.find(
-          (stateBugs) => stateBugs.state.id === Number(currentState)
-        )?.bugs;
-        break;
-      }
-      case 'ungrouped':
-        next = ungroupedBugs;
-        break;
-      default:
-        next = [];
-    }
-    setPaginationItems(next);
-  }, [bug.id]); // with this we update the paginationItems when the bug changes, ie when the user navigates to a different bug
-
   const currentIndex = useMemo(
     () => paginationItems?.findIndex((item) => item.id === bug.id),
-    [paginationItems, bug]
+    [bug.id]
   );
+
+  const bugsNumber = useMemo(() => paginationItems?.length, [paginationItems]);
+
+  useEffect(() => {
+    setPaginationItems(
+      getGroupedBugs(
+        groupBy,
+        bugsByUseCases,
+        bugsByStates,
+        ungroupedBugs,
+        bug,
+        searchParams
+      )
+    );
+  }, [bug.id]); // with this we update the paginationItems when the bug changes, ie when the user navigates to a different bug
 
   const handlePagination = useCallback(
     (v: number) => {
@@ -289,7 +246,7 @@ const Header = ({ campaignId, bug }: Props) => {
               }
             />
           )}
-          {paginationItems && `${paginationItems.length || 1} bugs`}
+          {`${bugsNumber} bugs`}
           {paginationItems && typeof currentIndex !== 'undefined' && (
             <CursorPagination
               aria-label="Cursor pagination"
