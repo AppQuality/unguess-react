@@ -164,7 +164,18 @@ const Header = ({ campaignId, bug }: Props) => {
     [bug.id]
   );
 
-  const bugsNumber = useMemo(() => paginationItems?.length, [paginationItems]);
+  const bugsNumber = useMemo(
+    () =>
+      getGroupedBugs(
+        groupBy,
+        bugsByUseCases,
+        bugsByStates,
+        ungroupedBugs,
+        bug,
+        searchParams
+      )?.length,
+    [bugsByStates, bugsByUseCases, ungroupedBugs, groupBy, bug]
+  );
 
   useEffect(() => {
     setPaginationItems(
