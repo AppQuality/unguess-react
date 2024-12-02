@@ -1,5 +1,5 @@
 import { useAppDispatch } from 'src/app/hooks';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Button,
   XL,
@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   GetCampaignsByCidBugsAndBidApiResponse,
+  GetCampaignsByCidBugsApiResponse,
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
@@ -26,11 +27,15 @@ import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs
 import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
 import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
-import { BugByUsecaseType } from 'src/pages/Bugs/Content/BugsTable/types';
+import {
+  BugByStateType,
+  BugByUsecaseType,
+} from 'src/pages/Bugs/Content/BugsTable/types';
 import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 import { UsecaseSelect } from './UsecaseSelect';
 import { StatusSelect } from './StatusSelect';
+import { set } from 'date-fns';
 
 interface Props {
   campaignId: string;
@@ -152,14 +157,16 @@ const Header = ({ campaignId, bug }: Props) => {
     );
   }, [searchParams]);
 
-  const groupBy: GroupBy = useMemo(() => {
+  const groupBy: GroupBy | undefined = useMemo(() => {
     switch (searchParams.get('groupBy')) {
       case 'usecase':
         return 'usecase';
       case 'bugState':
         return 'bugState';
-      default:
+      case 'ungrouped':
         return 'ungrouped';
+      default:
+        return undefined;
     }
   }, [searchParams]);
 
@@ -175,26 +182,41 @@ const Header = ({ campaignId, bug }: Props) => {
     };
   }, [campaign]);
 
-  const paginationItems = useMemo(() => {
+  const [paginationItems, setPaginationItems] = useState<
+    | BugByUsecaseType['bugs']
+    | BugByStateType['bugs']
+    | GetCampaignsByCidBugsApiResponse['items']
+  >(undefined);
+
+  useEffect(() => {
+    console.log('paginationItems prev', paginationItems);
+    // we do non want to reset paginationItems when orderBy is priority_id because we want to keep the order as it is
+    if (orderBy === 'priority_id' && typeof paginationItems !== 'undefined')
+      return;
+    let next;
     switch (groupBy) {
       case 'usecase':
-        return bugsByUseCases.find(
-          (useCaseBugs: BugByUsecaseType) =>
-            useCaseBugs.useCase.id === bug.application_section.id
+        next = bugsByUseCases.find(
+          (useCaseBugs) => useCaseBugs.useCase.id === bug.application_section.id
         )?.bugs;
+        break;
       case 'bugState': {
         const currentState =
           searchParams.get('currentState') || bug.custom_status.id;
-        return bugsByStates.find(
+        next = bugsByStates.find(
           (stateBugs) => stateBugs.state.id === Number(currentState)
         )?.bugs;
+        break;
       }
       case 'ungrouped':
-        return ungroupedBugs;
+        next = ungroupedBugs;
+        break;
       default:
-        return [];
+        next = [];
     }
-  }, [groupBy, bugsByUseCases, bugsByStates, ungroupedBugs]);
+    console.log('paginationItems next', next);
+    setPaginationItems(next);
+  }, [groupBy, bugsByUseCases, bugsByStates, ungroupedBugs, bug]);
 
   const currentIndex = useMemo(
     () => paginationItems?.findIndex((item) => item.id === bug.id),
@@ -268,34 +290,32 @@ const Header = ({ campaignId, bug }: Props) => {
               }
             />
           )}
-          {paginationItems &&
-            paginationItems.length > 0 &&
-            `${paginationItems.length} bugs`}
-          {paginationItems &&
-            paginationItems.length > 0 &&
-            typeof currentIndex !== 'undefined' && (
-              <CursorPagination
-                aria-label="Cursor pagination"
-                style={{ justifyContent: 'end' }}
+          {paginationItems && `${paginationItems.length || 1} bugs`}
+          {paginationItems && typeof currentIndex !== 'undefined' && (
+            <CursorPagination
+              aria-label="Cursor pagination"
+              style={{ justifyContent: 'end' }}
+            >
+              <CursorPagination.Previous
+                onClick={() => {
+                  handlePagination(currentIndex - 1);
+                }}
+                disabled={currentIndex <= 1}
               >
-                <CursorPagination.Previous
-                  onClick={() => {
-                    handlePagination(currentIndex - 1);
-                  }}
-                  disabled={currentIndex === 1}
-                >
-                  {t('__LIST_PAGE_PREVIOUS')}
-                </CursorPagination.Previous>
-                <CursorPagination.Next
-                  onClick={() => {
-                    handlePagination(currentIndex + 1);
-                  }}
-                  disabled={currentIndex === paginationItems.length - 1}
-                >
-                  {t('__LIST_PAGE_NEXT')}
-                </CursorPagination.Next>
-              </CursorPagination>
-            )}
+                {t('__LIST_PAGE_PREVIOUS')}
+              </CursorPagination.Previous>
+              <CursorPagination.Next
+                onClick={() => {
+                  handlePagination(currentIndex + 1);
+                }}
+                disabled={
+                  currentIndex >= paginationItems.length || currentIndex < 0
+                }
+              >
+                {t('__LIST_PAGE_NEXT')}
+              </CursorPagination.Next>
+            </CursorPagination>
+          )}
           <ShareButton bug={bug}>
             {(setModalOpen) => (
               <Button onClick={() => setModalOpen(true)}>
