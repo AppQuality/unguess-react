@@ -1,17 +1,19 @@
-import { GetCampaignsByCidBugsApiResponse } from 'src/features/api';
+import {
+  GetCampaignsByCidBugsAndBidApiResponse,
+  GetCampaignsByCidBugsApiResponse,
+} from 'src/features/api';
 import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import {
   BugByUsecaseType,
   BugByStateType,
 } from 'src/pages/Bugs/Content/BugsTable/types';
-import { Props } from '.';
 
 export const getGroupedBugs = (
   groupBy: GroupBy | undefined,
   bugsByUseCases: BugByUsecaseType[],
   bugsByStates: BugByStateType[],
   ungroupedBugs: GetCampaignsByCidBugsApiResponse['items'],
-  bug: Props['bug'],
+  bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>,
   searchParams: URLSearchParams
 ) => {
   switch (groupBy) {

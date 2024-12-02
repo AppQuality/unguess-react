@@ -1,5 +1,5 @@
 import { useAppDispatch } from 'src/app/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import {
   Button,
   XL,
@@ -12,7 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   GetCampaignsByCidBugsAndBidApiResponse,
-  GetCampaignsByCidBugsApiResponse,
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
@@ -27,10 +26,6 @@ import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs
 import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
 import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
-import {
-  BugByStateType,
-  BugByUsecaseType,
-} from 'src/pages/Bugs/Content/BugsTable/types';
 import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 import { UsecaseSelect } from './UsecaseSelect';
