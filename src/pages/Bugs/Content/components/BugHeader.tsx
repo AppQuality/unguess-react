@@ -28,7 +28,7 @@ const Container = styled.div`
   top: 0;
   background-color: white;
   width: 100%;
-  z-index: 1002;
+  z-index: ${({ theme }) => theme.levels.front};
 `;
 
 const ActionDetailPreview = styled.div`
