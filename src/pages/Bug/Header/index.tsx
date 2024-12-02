@@ -272,7 +272,7 @@ const Header = ({ campaignId, bug }: Props) => {
             paginationItems.length > 0 &&
             `${paginationItems.length} bugs`}
           {paginationItems &&
-            paginationItems.length > 1 &&
+            paginationItems.length > 0 &&
             typeof currentIndex !== 'undefined' && (
               <CursorPagination
                 aria-label="Cursor pagination"
@@ -282,7 +282,7 @@ const Header = ({ campaignId, bug }: Props) => {
                   onClick={() => {
                     handlePagination(currentIndex - 1);
                   }}
-                  disabled={currentIndex === 0}
+                  disabled={currentIndex === 1}
                 >
                   {t('__LIST_PAGE_PREVIOUS')}
                 </CursorPagination.Previous>
