@@ -19,6 +19,11 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { t } from 'i18next';
 import { useCopyLink } from 'src/common/components/utils/useCopyLink';
+import { ReactComponent as KeyboardIcon } from 'src/assets/icons/keyboard.svg';
+import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
+
+import { appTheme } from 'src/app/theme';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
@@ -141,13 +146,40 @@ export const Header = ({ campaignId, bug }: Props) => {
         <BreadCrumbs campaign={campaign}>
           <DotsMenu onSelect={handleClickMenu}>
             <DotsMenu.Item value="share">
-              {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: appTheme.space.xs,
+                }}
+              >
+                <ShareIcon />
+                {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
+              </div>
             </DotsMenu.Item>
             <DotsMenu.Item value="copy">
-              {t('__BUG_PAGE_HEADER_COPY_LINK_CTA', 'Copy link')}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: appTheme.space.xs,
+                }}
+              >
+                <CopyIcon />
+                {t('__BUG_PAGE_HEADER_COPY_LINK_CTA', 'Copy link')}
+              </div>
             </DotsMenu.Item>
             <DotsMenu.Item value="shortcut">
-              {t('__BUG_PAGE_HEADER_SHORTCUT_LINK_CTA', 'Keyboard shortcuts')}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: appTheme.space.xs,
+                }}
+              >
+                <KeyboardIcon />
+                {t('__BUG_PAGE_HEADER_SHORTCUT_LINK_CTA', 'Keyboard shortcuts')}
+              </div>
             </DotsMenu.Item>
           </DotsMenu>
         </BreadCrumbs>
