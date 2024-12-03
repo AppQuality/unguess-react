@@ -12,6 +12,7 @@ import { Campaign } from 'src/features/api';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { CampaignItem } from '../CampaignItem';
+import { useCampaignsGroupedByProject } from './useCampaignsGroupedByProject';
 
 const FloatRight = styled.div`
   float: right;
@@ -77,16 +78,19 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
   );
 };
 
-export const CardList = ({
-  campaigns,
-}: {
-  campaigns: Array<Array<Campaign>>;
-}) => (
-  <>
-    {campaigns.map((group) => (
-      <Row key={`cards_row_start_${group[0].id}`}>
-        <CardGroup key={`cards_group_start_${group[0].id}`} items={group} />
-      </Row>
-    ))}
-  </>
-);
+export const CardList = () => {
+  const { campaigns, isLoading, isFetching, isError } =
+    useCampaignsGroupedByProject();
+
+  if (!campaigns.length || isLoading || isFetching || isError) return null;
+
+  return (
+    <>
+      {campaigns.map(({ project, items }) => (
+        <Row key={`cards_row_start_${project.id}`}>
+          <CardGroup key={`cards_group_start_${project.id}`} items={items} />
+        </Row>
+      ))}
+    </>
+  );
+};
