@@ -28,8 +28,8 @@ const ContentWrapper = styled.div`
 `;
 
 const ShortcutItemWrapper = styled.div`
-  margin: ${({ theme }) => theme.space.sm} 0;
-  padding: ${({ theme }) => theme.space.xxs} 0;
+  padding: ${({ theme }) => theme.space.sm} 0;
+  margin: ${({ theme }) => theme.space.xxs} 0;
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
 `;
 
