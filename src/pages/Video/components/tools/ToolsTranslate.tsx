@@ -40,7 +40,12 @@ const ToolsTranslate = ({ currentLanguage }: { currentLanguage?: string }) => {
   const [requestTranslation, { isLoading }] =
     usePostVideosByVidTranslationMutation();
   const [updatePreference] = usePutUsersMePreferencesBySlugMutation();
-  const allowedLanguages = getAllLanguageTags();
+
+  const allowedLanguages = [...getAllLanguageTags()].sort((a, b) => {
+    const nameA = getLanguageNameByFullTag(a)?.toLowerCase() ?? '';
+    const nameB = getLanguageNameByFullTag(b)?.toLowerCase() ?? '';
+    return nameA.localeCompare(nameB);
+  });
 
   const {
     data: video,
