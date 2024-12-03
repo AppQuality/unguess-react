@@ -43,7 +43,7 @@ export const Filters = () => {
   const { campaigns, isLoading, isFetching, isError } =
     useCampaignsGroupedByProject();
 
-  if (!campaigns.length || isError || isLoading || isFetching) return null;
+  if (isError || isLoading || isFetching) return null;
 
   const filtered = campaigns.flatMap((campaign) => campaign.items);
 
