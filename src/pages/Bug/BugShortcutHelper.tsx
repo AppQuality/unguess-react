@@ -1,10 +1,10 @@
 import { Chat, MD, Modal, ModalClose } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as KeyboardIcon } from 'src/assets/icons/keyboard.svg';
-import { ReactComponent as DoubleCheck } from 'src/assets/icons/check-double-stroke.svg';
-import { ReactComponent as UserGroupIcon } from 'src/assets/icons/user-group-stroke.svg';
 import { ReactComponent as BoldIcon } from 'src/assets/icons/bold-stroke.svg';
+import { ReactComponent as DoubleCheck } from 'src/assets/icons/check-double-stroke.svg';
 import { ReactComponent as ItalicIcon } from 'src/assets/icons/italic-stroke.svg';
+import { ReactComponent as KeyboardIcon } from 'src/assets/icons/keyboard.svg';
+import { ReactComponent as UserGroupIcon } from 'src/assets/icons/user-group-stroke.svg';
 
 import styled from 'styled-components';
 
@@ -21,16 +21,9 @@ const ContentWrapper = styled.div`
 `;
 
 const ShortcutItemWrapper = styled.div`
-  display: flex;
   margin: ${({ theme }) => theme.space.sm} 0;
   padding: ${({ theme }) => theme.space.xxs} 0;
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  justify-content: space-between;
-  .description {
-    display: flex;
-    gap: ${({ theme }) => theme.space.xs};
-    align-items: center;
-  }
 `;
 
 export const BugShortcutHelper = ({ onClose }: { onClose: () => void }) => {
