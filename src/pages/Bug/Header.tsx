@@ -111,8 +111,6 @@ export const Header = ({ campaignId, bug }: Props) => {
     if (value === 'shortcut') {
       setShortcutModalOpen(true);
     }
-
-    return null;
   };
 
   useEffect(() => {
@@ -141,11 +139,11 @@ export const Header = ({ campaignId, bug }: Props) => {
     <StyledContainer isNotBoxed>
       <PageHeader style={{ border: 'none' }}>
         <BreadCrumbs campaign={campaign}>
-          <DotsMenu onSelect={(value) => handleClickMenu(value)}>
+          <DotsMenu onSelect={handleClickMenu}>
             <DotsMenu.Item value="share">
               {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
             </DotsMenu.Item>
-            <DotsMenu.Item value="copy" onClick={() => {}}>
+            <DotsMenu.Item value="copy">
               {t('__BUG_PAGE_HEADER_COPY_LINK_CTA', 'Copy link')}
             </DotsMenu.Item>
             <DotsMenu.Item value="shortcut">
