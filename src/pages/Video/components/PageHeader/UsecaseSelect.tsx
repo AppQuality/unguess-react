@@ -9,7 +9,6 @@ import { useCallback, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import TagManager from 'react-gtm-module';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithVideos from './useUsecaseWithVideos';
 

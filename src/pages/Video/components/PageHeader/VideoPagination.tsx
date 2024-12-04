@@ -2,7 +2,6 @@ import { Pagination, Skeleton } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetVideosByVidApiResponse } from 'src/features/api';
-import TagManager from 'react-gtm-module';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithCounter from './useUsecaseWithVideos';
 
