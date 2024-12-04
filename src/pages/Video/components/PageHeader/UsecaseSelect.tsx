@@ -10,6 +10,7 @@ import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import TagManager from 'react-gtm-module';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithVideos from './useUsecaseWithVideos';
 
 const UsecaseSelect = ({
@@ -19,6 +20,7 @@ const UsecaseSelect = ({
   currentUsecaseId: number;
   campaignId: string | undefined;
 }) => {
+  const sendGTMEvent = useSendGTMevent();
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState<string>(
     currentUsecaseId.toString()
@@ -59,12 +61,11 @@ const UsecaseSelect = ({
         if (!usecaseId) return;
 
         // Tracking change usecase event
-        TagManager.dataLayer({
-          dataLayer: {
-            event: 'video_change_use_case',
-            category: 'video_navigation',
-            target: usecaseId,
-          },
+
+        sendGTMEvent({
+          event: 'video_change_use_case',
+          category: 'video_navigation',
+          target: usecaseId,
         });
 
         setSelectedItem(usecaseId);

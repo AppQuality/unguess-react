@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetVideosByVidApiResponse } from 'src/features/api';
 import TagManager from 'react-gtm-module';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithCounter from './useUsecaseWithVideos';
 
 const VideoPagination = ({
@@ -15,6 +16,7 @@ const VideoPagination = ({
   video: GetVideosByVidApiResponse;
 }) => {
   const navigate = useNavigate();
+  const sendGTMEvent = useSendGTMevent();
 
   const {
     usecasesWithVideos: useCasesWithVideoCount,
@@ -52,20 +54,16 @@ const VideoPagination = ({
 
         // Tracking video navigation
         if (page > paginationData.currentPage) {
-          TagManager.dataLayer({
-            dataLayer: {
-              event: 'video_next',
-              category: 'video_navigation',
-              target: targetId,
-            },
+          sendGTMEvent({
+            event: 'video_next',
+            category: 'video_navigation',
+            target: targetId.toString(),
           });
         } else if (page < paginationData.currentPage) {
-          TagManager.dataLayer({
-            dataLayer: {
-              event: 'video_previous',
-              category: 'video_navigation',
-              target: targetId,
-            },
+          sendGTMEvent({
+            event: 'video_previous',
+            category: 'video_navigation',
+            target: targetId.toString(),
           });
         }
 
