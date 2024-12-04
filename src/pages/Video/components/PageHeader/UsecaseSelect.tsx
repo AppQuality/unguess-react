@@ -9,6 +9,7 @@ import { useCallback, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithVideos from './useUsecaseWithVideos';
 
 const UsecaseSelect = ({
@@ -18,6 +19,7 @@ const UsecaseSelect = ({
   currentUsecaseId: number;
   campaignId: string | undefined;
 }) => {
+  const sendGTMEvent = useSendGTMevent();
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState<string>(
     currentUsecaseId.toString()
@@ -56,6 +58,15 @@ const UsecaseSelect = ({
           ?.id.toString();
 
         if (!usecaseId) return;
+
+        // Tracking change usecase event
+
+        sendGTMEvent({
+          action: 'video_change_use_case',
+          event: 'video_navigation',
+          category: 'bugs',
+          content: usecaseId,
+        });
 
         setSelectedItem(usecaseId);
         handleNavigate(value);
