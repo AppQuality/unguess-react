@@ -62,9 +62,10 @@ const UsecaseSelect = ({
         // Tracking change usecase event
 
         sendGTMEvent({
-          event: 'video_change_use_case',
-          category: 'video_navigation',
-          target: usecaseId,
+          action: 'video_change_use_case',
+          event: 'video_navigation',
+          category: 'bugs',
+          content: usecaseId,
         });
 
         setSelectedItem(usecaseId);

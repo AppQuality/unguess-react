@@ -54,15 +54,17 @@ const VideoPagination = ({
         // Tracking video navigation
         if (page > paginationData.currentPage) {
           sendGTMEvent({
-            event: 'video_next',
-            category: 'video_navigation',
-            target: targetId.toString(),
+            action: 'video_next',
+            event: 'video_navigation',
+            category: 'bugs',
+            content: targetId.toString(),
           });
         } else if (page < paginationData.currentPage) {
           sendGTMEvent({
-            event: 'video_previous',
-            category: 'video_navigation',
-            target: targetId.toString(),
+            action: 'video_previous',
+            event: 'video_navigation',
+            category: 'bugs',
+            content: targetId.toString(),
           });
         }
 
