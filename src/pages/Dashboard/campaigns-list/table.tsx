@@ -1,16 +1,15 @@
 import { GroupedTable, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { CampaignWithOutput } from 'src/features/api';
 import { getStatusInfo } from 'src/common/components/utils/getStatusInfo';
 import { CampaignStatus } from 'src/types';
 import { CampaignAnchorTitle } from './CampaignAnchorTitle';
+import { useCampaignsGroupedByProject } from './useCampaignsGroupedByProject';
 
-export const TableList = ({
-  campaigns,
-}: {
-  campaigns: Array<Array<CampaignWithOutput>>;
-}) => {
+export const TableList = () => {
   const { t } = useTranslation();
+
+  const { campaigns, isLoading, isFetching, isError } =
+    useCampaignsGroupedByProject();
 
   const columns = [
     { name: t('__CAMPAIGNS_TABLE_COLUMN_NAME'), field: 'name' },
@@ -20,55 +19,38 @@ export const TableList = ({
     { name: t('__CAMPAIGNS_TABLE_COLUMN_STATUS'), field: 'status' },
   ];
 
-  // Colonne Nome Campagna, Tipologia, Tipo Test, StartDate, Status
+  if (!Object.keys(campaigns).length || isLoading || isFetching || isError)
+    return null;
 
-  if (!campaigns.length) return null;
+  const groupesCampaigns = campaigns.map(({ project, items }) => ({
+    groupName: project.name,
+    groupIcon: undefined as unknown as 'circle',
+    items: items.map((campaign) => {
+      const statusInfo = getStatusInfo(
+        campaign.status.name as CampaignStatus,
+        t
+      );
 
-  // group campaigns by project
-  const groupesCampaigns = campaigns.reduce(
-    // acc must be any because the ds component has too strict types without any sense
-    (acc: any[], curr: CampaignWithOutput[]) => {
-      const projectName = curr[0].project.name;
-      const groupExists = acc.find((group) => group.groupName === projectName);
+      const cpStartDate = new Date(campaign.start_date).toLocaleDateString();
 
-      const items = curr.map((campaign) => {
-        const statusInfo = getStatusInfo(
-          campaign.status.name as CampaignStatus,
-          t
-        );
-
-        const cpStartDate = new Date(campaign.start_date).toLocaleDateString();
-
-        return {
-          name: <CampaignAnchorTitle campaign={campaign} />,
-          type: campaign.family.name,
-          testType: campaign.type.name,
-          startDate: cpStartDate,
-          status: (
-            <Tooltip
-              type="light"
-              placement="auto"
-              size="medium"
-              content={statusInfo.text}
-            >
-              <span style={{ height: '1em' }}>{statusInfo.icon}</span>
-            </Tooltip>
-          ),
-        };
-      });
-
-      if (groupExists) {
-        groupExists.items = [...groupExists.items, ...items];
-      } else {
-        acc.push({
-          groupName: projectName,
-          items,
-        });
-      }
-      return acc;
-    },
-    []
-  );
+      return {
+        name: <CampaignAnchorTitle campaign={campaign} />,
+        type: campaign.family.name,
+        testType: campaign.type.name,
+        startDate: cpStartDate,
+        status: (
+          <Tooltip
+            type="light"
+            placement="auto"
+            size="medium"
+            content={statusInfo.text}
+          >
+            <span style={{ height: '1em' }}>{statusInfo.icon}</span>
+          </Tooltip>
+        ),
+      };
+    }),
+  }));
 
   return (
     <GroupedTable
