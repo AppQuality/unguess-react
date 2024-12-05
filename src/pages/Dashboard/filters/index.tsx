@@ -1,7 +1,7 @@
 import { Col, Row } from '@appquality/unguess-design-system';
-import { Campaign } from 'src/features/api';
 import { selectStatuses, selectTestNames } from 'src/features/campaigns';
 import styled from 'styled-components';
+import { useCampaignsGroupedByProject } from '../campaigns-list/useCampaignsGroupedByProject';
 import { SearchInput } from './search';
 import { StatusDropdown } from './status';
 import { TestTypeDropdown } from './test';
@@ -39,31 +39,40 @@ const FilterInputContainer = styled.div`
   }
 `;
 
-export const Filters = ({ campaigns }: { campaigns: Campaign[] }) => (
-  <FiltersRow>
-    <FiltersContainer>
-      <Row>
-        <Col xs={12} md={6} lg={3}>
-          <FilterInputContainer>
-            <StatusDropdown availableStatuses={selectStatuses(campaigns)} />
-          </FilterInputContainer>
-        </Col>
-        <Col xs={12} md={6} lg={3}>
-          <FilterInputContainer>
-            <CampaignTypeDropdown />
-          </FilterInputContainer>
-        </Col>
-        <Col xs={12} md={6} lg={3}>
-          <FilterInputContainer>
-            <TestTypeDropdown availableTests={selectTestNames(campaigns)} />
-          </FilterInputContainer>
-        </Col>
-        <Col xs={12} md={6} lg={3}>
-          <FilterInputContainer>
-            <SearchInput />
-          </FilterInputContainer>
-        </Col>
-      </Row>
-    </FiltersContainer>
-  </FiltersRow>
-);
+export const Filters = () => {
+  const { campaigns, isLoading, isFetching, isError } =
+    useCampaignsGroupedByProject();
+
+  if (isError || isLoading || isFetching) return null;
+
+  const filtered = campaigns.flatMap((campaign) => campaign.items);
+
+  return (
+    <FiltersRow>
+      <FiltersContainer>
+        <Row>
+          <Col xs={12} md={6} lg={3}>
+            <FilterInputContainer>
+              <StatusDropdown availableStatuses={selectStatuses(filtered)} />
+            </FilterInputContainer>
+          </Col>
+          <Col xs={12} md={6} lg={3}>
+            <FilterInputContainer>
+              <CampaignTypeDropdown />
+            </FilterInputContainer>
+          </Col>
+          <Col xs={12} md={6} lg={3}>
+            <FilterInputContainer>
+              <TestTypeDropdown availableTests={selectTestNames(filtered)} />
+            </FilterInputContainer>
+          </Col>
+          <Col xs={12} md={6} lg={3}>
+            <FilterInputContainer>
+              <SearchInput />
+            </FilterInputContainer>
+          </Col>
+        </Row>
+      </FiltersContainer>
+    </FiltersRow>
+  );
+};

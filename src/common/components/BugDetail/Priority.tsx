@@ -88,6 +88,7 @@ const Priority = ({ bug }: { bug: Bug }) => {
             );
           }}
           isCompact
+          listboxAppendToNode={document.body}
           inputValue={selectedItem.id.toString()}
           selectionValue={selectedItem.id.toString()}
           onSelect={async (value) => {
