@@ -10,12 +10,13 @@ import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { setExpressProject } from 'src/features/express/expressSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 export const ProjectDropdown = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { activeWorkspace } = useActiveWorkspace();
-
+  const canAccessWorkspace = useCanAccessToActiveWorkspace();
   const { project, projectLocked } = useAppSelector((state) => state.express);
 
   // Get workspaces projects from rtk query
@@ -32,7 +33,7 @@ export const ProjectDropdown = () => {
   ) : (
     <Field>
       <Autocomplete
-        isCreatable
+        isCreatable={canAccessWorkspace}
         startIcon={<FolderIcon />}
         {...(projectLocked && project && { isDisabled: true })}
         onCreateNewOption={async (value) => {
