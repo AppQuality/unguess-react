@@ -7,7 +7,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import ChangeStatusDropdown from 'src/common/components/BugDetail/BugStateSelect/ChangeStatusDropdown';
 import BugPriority from 'src/common/components/BugDetail/Priority';
@@ -23,6 +23,7 @@ import {
 import { styled } from 'styled-components';
 import { ChatBox } from './Chat';
 import { useGetMentionableUsers } from './hooks/getMentionableUsers';
+import { useBugsByState } from '../Bugs/Content/BugsTable/hooks/useBugsByState';
 
 const Container = styled.div`
   display: flex;
@@ -53,6 +54,7 @@ export const Actions = () => {
     isFetching: isFetchingUsers,
   } = useGetMentionableUsers();
   const { t } = useTranslation();
+  const { campaignId, bugId } = useParams();
   const mentionableUsers = useCallback(
     ({ query }: { query: string }) => {
       const mentions = users.filter((user) => {
@@ -74,7 +76,6 @@ export const Actions = () => {
   const [mediaIds, setMediaIds] = useState<
     { id: number; internal_id: string }[]
   >([]);
-  const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
