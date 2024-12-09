@@ -14,7 +14,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { CustomStatusDrawer } from 'src/common/components/CustomStatusDrawer';
 import { Content } from './Content';
-import { Header } from './Header';
+import Header from './Header';
 import { LoadingSkeleton } from './LoadingSkeleton';
 import { Actions } from './Actions';
 

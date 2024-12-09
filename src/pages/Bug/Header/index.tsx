@@ -1,7 +1,6 @@
 import { useAppDispatch } from 'src/app/hooks';
 import { useCallback, useEffect, useMemo } from 'react';
 import {
-  Button,
   XL,
   PageHeader,
   Skeleton,
@@ -14,8 +13,6 @@ import {
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
-import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
-import { ShareButton } from 'src/common/components/BugDetail/ShareBug';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import {
@@ -32,6 +29,7 @@ import { UsecaseSelect } from './UsecaseSelect';
 import { StatusSelect } from './StatusSelect';
 import { getGroupedBugs } from './getGroupedBugs';
 import { getFiltersFromParams } from './getFiltersFromParams';
+import { ActionsMenu } from './ActionsMenu';
 
 export interface Props {
   campaignId: string;
@@ -272,16 +270,7 @@ const Header = ({ campaignId, bug }: Props) => {
               </CursorPagination.Next>
             </CursorPagination>
           )}
-          <ShareButton bug={bug}>
-            {(setModalOpen) => (
-              <Button onClick={() => setModalOpen(true)}>
-                <Button.StartIcon>
-                  <ShareIcon />
-                </Button.StartIcon>
-                {t('__BUG_PAGE_HEADER_SHARE_LINK_CTA', 'Share public link')}
-              </Button>
-            )}
-          </ShareButton>
+          <ActionsMenu bug={bug} />
         </Wrapper>
       </PageHeader>
     </StyledContainer>
