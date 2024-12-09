@@ -1,5 +1,6 @@
 // import { LoginForm } from "@appquality/unguess-design-system";
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -8,6 +9,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
 import { CampaignsList } from './campaigns-list';
 import { DashboardHeaderContent } from './headerContent';
+import { CreateProjectModal } from './Modals/CreateProjectModal';
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -16,12 +18,14 @@ const Dashboard = () => {
   const { status } = useAppSelector((state) => state.user);
 
   if (status === 'logged') dispatch(projectFilterChanged(0)); // Reset filters
+  const [openCreateProjectModal, setOpenCreateProjectModal] = useState(false);
 
   return (
     <Page
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
       pageHeader={
         <DashboardHeaderContent
+          handleOpenModal={() => setOpenCreateProjectModal(true)}
           pageTitle={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
         />
       }
@@ -31,6 +35,9 @@ const Dashboard = () => {
         <Grid>
           <SuggestedCampaigns />
           <CampaignsList />
+          {openCreateProjectModal ? (
+            <CreateProjectModal setOpen={setOpenCreateProjectModal} />
+          ) : null}
         </Grid>
       </LayoutWrapper>
     </Page>

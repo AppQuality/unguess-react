@@ -6,12 +6,13 @@ import { PageTitle } from 'src/common/components/PageTitle';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { Counters } from './Counters';
-import { JOTFORM_URL } from './const';
 
 export const DashboardHeaderContent = ({
   pageTitle,
+  handleOpenModal,
 }: {
   pageTitle?: string;
+  handleOpenModal: () => void;
 }) => {
   const { t } = useTranslation();
   const { status } = useAppSelector((state) => state.user);
@@ -32,14 +33,8 @@ export const DashboardHeaderContent = ({
         </PageHeader.Main>
         {hasSkyJotformFeature && (
           <PageHeader.Footer>
-            <Button
-              isPrimary
-              onClick={() => {
-                // eslint-disable-next-line security/detect-non-literal-fs-filename
-                window.open(JOTFORM_URL, '_blank')?.focus(); // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)
-              }}
-            >
-              {t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON')}
+            <Button isPrimary onClick={handleOpenModal}>
+              {t('__DASHBOARD_CREATE_NEW_PROJECT')}
             </Button>
           </PageHeader.Footer>
         )}
