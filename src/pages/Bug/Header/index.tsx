@@ -4,7 +4,6 @@ import {
   XL,
   PageHeader,
   Skeleton,
-  Tooltip,
   CursorPagination,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -23,12 +22,10 @@ import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs
 import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
 import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
-import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 import { UsecaseSelect } from './UsecaseSelect';
 import { StatusSelect } from './StatusSelect';
 import { getGroupedBugs } from './getGroupedBugs';
-import { getFiltersFromParams } from './getFiltersFromParams';
 import { ActionsMenu } from './ActionsMenu';
 
 export interface Props {
@@ -46,34 +43,6 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-
-const filterLabels = {
-  unique: 'Unique only',
-  unread: 'Unread only',
-  severities: 'Severities',
-  devices: 'Devices',
-  os: 'OS',
-  priorities: 'Priorities',
-  replicabilities: 'Replicabilities',
-  status: 'Status',
-};
-
-const renderFilterItems = (
-  filterBy: Partial<Record<keyof typeof filterLabels, any>>
-) =>
-  (Object.keys(filterLabels) as Array<keyof typeof filterLabels>).map((key) => {
-    if (key in filterBy && filterBy[key]) {
-      return (
-        <li key={key}>
-          <strong>{filterLabels[key]}:</strong>{' '}
-          {Array.isArray(filterBy[key])
-            ? filterBy[key].map((item: any) => item).join(', ')
-            : null}
-        </li>
-      );
-    }
-    return null;
-  });
 
 const Header = ({ campaignId, bug }: Props) => {
   const dispatch = useAppDispatch();
@@ -113,13 +82,6 @@ const Header = ({ campaignId, bug }: Props) => {
     () => searchParams.get('orderBy') || 'severity_id',
     [searchParams]
   );
-  const filterBy = useMemo(() => {
-    const filtersFromParams = getFiltersFromParams(searchParams);
-    // remove null and undefined values
-    return Object.fromEntries(
-      Object.entries(filtersFromParams).filter(([_, v]) => v)
-    );
-  }, [searchParams]);
 
   const groupBy: GroupBy | undefined = useMemo(() => {
     switch (searchParams.get('groupBy')) {
@@ -208,27 +170,7 @@ const Header = ({ campaignId, bug }: Props) => {
           <span>
             orderBy: {orderBy} {order}
           </span>
-          <span>
-            applied filters: {Object.keys(filterBy).length}{' '}
-            {Object.keys(filterBy).length > 0 && (
-              <Tooltip
-                size="large"
-                type="light"
-                content={
-                  <ul
-                    style={{
-                      listStyleType: 'disc',
-                      paddingLeft: appTheme.space.sm,
-                    }}
-                  >
-                    {renderFilterItems(filterBy)}
-                  </ul>
-                }
-              >
-                <span>(i)</span>
-              </Tooltip>
-            )}
-          </span>
+
           {groupBy === 'usecase' && (
             <UsecaseSelect
               usecases={bugsByUseCases}
