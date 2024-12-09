@@ -34,7 +34,7 @@ type CampaignType = {
   OsFilterType &
   ReplicabilityFilterType;
 
-type GroupBy = 'usecase' | 'bugState' | 'ungrouped';
+export type GroupBy = 'usecase' | 'bugState' | 'ungrouped';
 export type OrderBy = 'severity_id' | 'priority_id';
 export type Order = 'DESC' | 'ASC';
 
