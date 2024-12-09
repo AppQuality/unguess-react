@@ -1,13 +1,7 @@
 import { useAppDispatch } from 'src/app/hooks';
-import { useCallback, useEffect, useMemo } from 'react';
-import {
-  XL,
-  PageHeader,
-  Skeleton,
-  CursorPagination,
-} from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useMemo } from 'react';
+import { XL, PageHeader, Skeleton } from '@appquality/unguess-design-system';
+import { useSearchParams } from 'react-router-dom';
 import {
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
@@ -27,6 +21,8 @@ import { UsecaseSelect } from './UsecaseSelect';
 import { StatusSelect } from './StatusSelect';
 import { getGroupedBugs } from './getGroupedBugs';
 import { ActionsMenu } from './ActionsMenu';
+import { AppliedFilters } from './AppliedFilters';
+import { Pagination } from './Pagination';
 
 export interface Props {
   campaignId: string;
@@ -46,8 +42,6 @@ const Wrapper = styled.div`
 
 const Header = ({ campaignId, bug }: Props) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
 
   const {
@@ -119,7 +113,7 @@ const Header = ({ campaignId, bug }: Props) => {
         searchParams
       ),
     [bug.id]
-  ); // with this we update the paginationItems when the bug changes, ie when the user navigates to a different bug
+  ); // with this we update paginationItems only when the bug changes, ie when the user navigates to a different bug
 
   const currentIndex = useMemo(
     () => paginationItems?.findIndex((item) => item.id === bug.id),
@@ -137,19 +131,6 @@ const Header = ({ campaignId, bug }: Props) => {
         searchParams
       )?.length,
     [bugsByStates, bugsByUseCases, ungroupedBugs, groupBy, bug]
-  );
-
-  const handlePagination = useCallback(
-    (v: number) => {
-      if (paginationItems && paginationItems[v]) {
-        const bugId = encodeURIComponent(paginationItems[v].id);
-        navigate({
-          pathname: `/campaigns/${campaignId}/bugs/${bugId}`,
-          search: searchParams.toString(),
-        });
-      }
-    },
-    [searchParams, paginationItems, campaignId]
   );
 
   if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
@@ -170,7 +151,7 @@ const Header = ({ campaignId, bug }: Props) => {
           <span>
             orderBy: {orderBy} {order}
           </span>
-
+          <AppliedFilters />
           {groupBy === 'usecase' && (
             <UsecaseSelect
               usecases={bugsByUseCases}
@@ -188,29 +169,11 @@ const Header = ({ campaignId, bug }: Props) => {
           )}
           {`${bugsNumber} bugs`}
           {paginationItems && typeof currentIndex !== 'undefined' && (
-            <CursorPagination
-              aria-label="Cursor pagination"
-              style={{ justifyContent: 'end' }}
-            >
-              <CursorPagination.Previous
-                onClick={() => {
-                  handlePagination(currentIndex - 1);
-                }}
-                disabled={currentIndex < 1}
-              >
-                {t('__LIST_PAGE_PREVIOUS')}
-              </CursorPagination.Previous>
-              <CursorPagination.Next
-                onClick={() => {
-                  handlePagination(currentIndex + 1);
-                }}
-                disabled={
-                  currentIndex >= paginationItems.length || currentIndex < 0
-                }
-              >
-                {t('__LIST_PAGE_NEXT')}
-              </CursorPagination.Next>
-            </CursorPagination>
+            <Pagination
+              paginationItems={paginationItems}
+              campaignId={campaignId}
+              currentIndex={currentIndex}
+            />
           )}
           <ActionsMenu bug={bug} />
         </Wrapper>
