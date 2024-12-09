@@ -45,6 +45,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { status } = useAppSelector((state) => state.user);
   const [itemTitle, setItemTitle] = useState<string>();
+  const [itemDescription, setItemDescription] = useState<string>();
 
   const {
     isLoading,
@@ -73,6 +74,37 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
 
   const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
+
+  const InputToggleMemoDescription = useMemo(
+    () => (
+      <InputToggle>
+        <InputToggle.Item
+          textSize="xl"
+          maxLength={256}
+          value={itemDescription}
+          onChange={(e) => setItemDescription(e.target.value)}
+          onBlur={async (e) => {
+            try {
+              if (
+                e.currentTarget.value &&
+                e.currentTarget.value !== project?.description
+              ) {
+                await patchProject({
+                  pid: projectId.toString(),
+                  body: { description: e.currentTarget.value },
+                }).unwrap();
+              }
+            } catch {
+              // eslint-disable-next-line
+              alert(t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR'));
+            }
+          }}
+          style={{ paddingLeft: 0 }}
+        />
+      </InputToggle>
+    ),
+    [project, itemDescription]
+  );
 
   // Memoize InputToggle component to avoid re-rendering
   const InputToggleMemo = useMemo(
@@ -117,6 +149,13 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               InputToggleMemo
             )}
           </PageHeader.Title>
+          <PageHeader.Description>
+            {isLoading || isFetching || status === 'loading' ? (
+              <Skeleton width="60%" height="44px" />
+            ) : (
+              InputToggleMemoDescription
+            )}
+          </PageHeader.Description>
           <StyledPageHeaderMeta>
             <Counters />
             <ProjectSettings />
