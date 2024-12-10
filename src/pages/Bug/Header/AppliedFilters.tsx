@@ -31,9 +31,8 @@ export const AppliedFilters = () => {
           return (
             <li key={key}>
               <strong>{filterLabels[key]}:</strong>{' '}
-              {Array.isArray(filterBy[key])
-                ? filterBy[key].map((item: any) => item).join(', ')
-                : null}
+              {Array.isArray(filterBy[key]) &&
+                filterBy[key].map((item: any) => item).join(', ')}
             </li>
           );
         }
