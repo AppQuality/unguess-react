@@ -62,7 +62,9 @@ export const AppliedFilters = () => {
               </ul>
             }
           >
-            <InfoIcon />
+            <span>
+              <InfoIcon />
+            </span>
           </Tooltip>
         )}
       </Tag.SecondaryText>
