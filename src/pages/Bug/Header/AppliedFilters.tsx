@@ -23,6 +23,8 @@ export const AppliedFilters = () => {
     devices: t('__BUG_PAGE_HEADER_FILTER_DEVICES'),
     os: t('__BUG_PAGE_HEADER_FILTER_OS'),
     priorities: t('__BUG_PAGE_HEADER_FILTER_PRIORITIES'),
+    tags: t('__BUG_PAGE_HEADER_FILTER_TAGS'),
+    types: t('__BUG_PAGE_HEADER_FILTER_TYPES'),
     replicabilities: t('__BUG_PAGE_HEADER_FILTER_REPLICABILITIES'),
     status: t('__BUG_PAGE_HEADER_FILTER_STATUS'),
   };
