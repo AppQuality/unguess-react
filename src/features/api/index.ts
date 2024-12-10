@@ -1354,6 +1354,7 @@ export type PostProjectsApiArg = {
   body: {
     name: string;
     customer_id: number;
+    description?: string;
   };
 };
 export type GetProjectsByPidApiResponse = /** status 200 OK */ Project;
