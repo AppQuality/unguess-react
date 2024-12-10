@@ -1,6 +1,7 @@
 import {
   Button,
   InputToggle,
+  Message,
   PageHeader,
   Skeleton,
 } from '@appquality/unguess-design-system';
@@ -60,6 +61,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   useEffect(() => {
     if (isSuccess && project) {
       setItemTitle(project.name);
+      setItemDescription(project.description);
     }
   }, [project]);
 
@@ -79,24 +81,23 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     () => (
       <InputToggle>
         <InputToggle.Item
-          textSize="xl"
-          maxLength={256}
+          textSize="lg"
+          placeholder=""
           value={itemDescription}
           onChange={(e) => setItemDescription(e.target.value)}
           onBlur={async (e) => {
             try {
-              if (
-                e.currentTarget.value &&
-                e.currentTarget.value !== project?.description
-              ) {
+              if (e.currentTarget.value !== project?.description) {
                 await patchProject({
                   pid: projectId.toString(),
-                  body: { description: e.currentTarget.value },
+                  body: { description: e.currentTarget.value ?? '' },
                 }).unwrap();
               }
             } catch {
               // eslint-disable-next-line
-              alert(t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR'));
+              alert(
+                t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR', 'Error')
+              );
             }
           }}
           style={{ paddingLeft: 0 }}
@@ -107,19 +108,20 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   );
 
   // Memoize InputToggle component to avoid re-rendering
-  const InputToggleMemo = useMemo(
+  const InputToggleMemoTitle = useMemo(
     () => (
       <InputToggle>
         <InputToggle.Item
+          placeholder=""
           textSize="xxxl"
-          maxLength={64}
           value={itemTitle}
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
               if (
                 e.currentTarget.value &&
-                e.currentTarget.value !== project?.name
+                e.currentTarget.value !== project?.name &&
+                e.currentTarget.value.length <= 64
               ) {
                 await patchProject({
                   pid: projectId.toString(),
@@ -133,6 +135,22 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
           }}
           style={{ paddingLeft: 0 }}
         />
+        {itemTitle && itemTitle.length > 64 && (
+          <Message validation="error" style={{ marginTop: '8px' }}>
+            {t(
+              '__PROJECT_PAGE_UPDATE_PROJECT_NAME_TOO_LONG',
+              'This name is a bit long. We advise you to stay within 64 characters including spaces.'
+            )}
+          </Message>
+        )}
+        {itemTitle?.length === 0 && (
+          <Message validation="error" style={{ marginTop: '8px' }}>
+            {t(
+              '__PROJECT_PAGE_UPDATE_PROJECT_NAME_REQUIRED',
+              'Mandatory field'
+            )}
+          </Message>
+        )}
       </InputToggle>
     ),
     [project, itemTitle]
@@ -146,7 +164,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             {isLoading || isFetching || status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (
-              InputToggleMemo
+              InputToggleMemoTitle
             )}
           </PageHeader.Title>
           <PageHeader.Description>

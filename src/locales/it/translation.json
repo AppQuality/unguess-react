@@ -910,6 +910,8 @@
   "__PROFILE_MODAL_NOTIFICATIONS_UPDATED": "Modifiche salvate",
   "__PROFILE_MODAL_PRIVACY_ITEM_LABEL": "Opzioni Privacy",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Errore",
+  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_TOO_LONG": "Nome troppo lungo. Il numero massimo di caratteri consentiti è 64, spazi inclusi.",
+  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_REQUIRED": "Campo obbligatorio",
   "__PROJECT_SETTINGS_CTA_TEXT": "Invita",
   "__PUBLIC_MANUAL_CTA_GOTO_BUG_FORM": "Compila il bug form",
   "__PUBLIC_MANUAL_HELP_MODAL_BUTTON_SUPPORT_CENTER": "Vai al support center",
