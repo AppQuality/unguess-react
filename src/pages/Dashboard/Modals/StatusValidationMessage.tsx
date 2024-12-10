@@ -1,54 +1,50 @@
-/* const ProjectFormStatusValidationMessage = ({ status }: { status: string }) => {
-  const { t } = useTranslation();
-  const { errors, touched, values, initialValues } = formikProps;];
-  const initialStatus = initialValues.custom_statuses.find(
-    (cs) => cs.id === status.id
-  );
-  const isChanged =
-    initialStatus &&
-    initialStatus.name &&
-    initialStatus.name.localeCompare(status.name) !== 0;
-  const isTouched =
-    touched.custom_statuses && touched.custom_statuses[`${field_id}`];
+import { FormikProps } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { Message } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
+import { ProjectFormProps } from './ProjectFormModel';
 
-  // If is a newly created custom status, add it's not touched I want to show a warning message
-  if (!isTouched && !status?.id && status.name === '') {
+export const ProjectStatusValidationMessage = ({
+  formikProps,
+  field_name,
+}: {
+  formikProps: FormikProps<ProjectFormProps>;
+  field_name: keyof ProjectFormProps;
+}) => {
+  const { t } = useTranslation();
+  const { errors, touched, values, initialValues } = formikProps;
+  const status = values[`${field_name}`];
+  const isTouched = touched[`${field_name}`];
+  const isChanged =
+    initialValues &&
+    initialValues[`${field_name}`] &&
+    initialValues[`${field_name}`].localeCompare(status) !== 0;
+
+  if (!isTouched && !status && status === '') {
     return (
       <Message
         validation="warning"
         style={{ margin: `${appTheme.space.xs} 0` }}
       >
-        {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED')}
+        {field_name === 'name'
+          ? t(`__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_WARNING`)
+          : t(`__DASHBOARD_CREATE_NEW_PROJECT_FORM_DESCRIPTION_WARNING`)}
       </Message>
     );
   }
 
-  // If there are errors, show them
-  if (errors.custom_statuses && errors.custom_statuses[`${field_id}`]) {
-    const errObj = errors.custom_statuses[
-      `${field_id}`
-    ] as FormikErrors<BugCustomStatus>;
-
+  if (errors[`${field_name}`]) {
     return (
       <Message validation="error" style={{ margin: `${appTheme.space.xs} 0` }}>
-        {t(
-          errObj.name ??
-            '__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_REQUIRED'
-        )}
+        {errors[`${field_name}`]}
       </Message>
     );
   }
-
   if (isChanged === false) return null;
 
-  // Show success message otherwise
-  return (
+  return field_name === 'name' ? (
     <Message validation="success" style={{ margin: `${appTheme.space.xs} 0` }}>
-      {status.id
-        ? t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_CUSTOM_STATUS_SUCCESS')
-        : t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_NEW_CUSTOM_STATUS_SUCCESS')}
+      {t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_SUCCESS')}
     </Message>
-  );
+  ) : null;
 };
-
-}; */
