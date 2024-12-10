@@ -62,6 +62,16 @@ const appTheme = {
   },
   components: {
     ...baseTheme.components,
+    'cursor_pagination.cursor': ({ disabled }: { disabled: boolean }) => ({
+      ...(disabled && {
+        color: appTheme.palette.grey[400],
+        '&:hover, &:active': {
+          color: appTheme.palette.grey[400],
+          backgroundColor: 'transparent',
+          cursor: 'auto',
+        },
+      }),
+    }),
     text: {
       neutralColor: baseTheme.colors.foreground,
       primaryColor: getColor(baseTheme.colors.primaryHue, 600),
