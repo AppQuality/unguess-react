@@ -10,6 +10,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { ProjectFormProps } from './ProjectFormModel';
+import { ProjectStatusValidationMessage } from './StatusValidationMessage';
 
 export const CreateProjectForm = ({
   formikProps,
@@ -18,7 +19,7 @@ export const CreateProjectForm = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <Form onSubmit={formikProps.handleSubmit}>
+    <Form>
       <Label>
         {t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_LABEL')}
         <Span style={{ color: appTheme.colors.dangerHue }}>*</Span>
@@ -34,6 +35,13 @@ export const CreateProjectForm = ({
           placeholder={t(
             '__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_PLACEHOLDER'
           )}
+          onChange={(e) => {
+            formikProps.setFieldValue('name', e.target.value);
+          }}
+        />
+        <ProjectStatusValidationMessage
+          formikProps={formikProps}
+          field_name="name"
         />
       </Field>
       <Label>
@@ -44,6 +52,9 @@ export const CreateProjectForm = ({
       </Hint>
       <Field>
         <Textarea
+          onChange={(e) => {
+            formikProps.setFieldValue('description', e.target.value);
+          }}
           isResizable
           rows={5}
           style={{ marginTop: appTheme.space.xs }}
@@ -51,6 +62,10 @@ export const CreateProjectForm = ({
           placeholder={t(
             '__DASHBOARD_CREATE_NEW_PROJECT_FORM_DESCRIPTION_PLACEHOLDER'
           )}
+        />
+        <ProjectStatusValidationMessage
+          formikProps={formikProps}
+          field_name="description"
         />
       </Field>
     </Form>

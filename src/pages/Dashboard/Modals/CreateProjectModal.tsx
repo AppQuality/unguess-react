@@ -3,12 +3,17 @@ import {
   MD,
   Modal,
   ModalClose,
+  Notification,
   Paragraph,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
+import { usePostProjectsMutation } from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useNavigate } from 'react-router-dom';
 import { ProjectFormProps, validationProjectSchema } from './ProjectFormModel';
 import { CreateProjectForm } from './CreateProjectForm';
 
@@ -24,6 +29,9 @@ export const CreateProjectModal = ({
   setOpen: (open: boolean) => void;
 }) => {
   const { t } = useTranslation();
+  const { activeWorkspace } = useActiveWorkspace();
+  const { addToast } = useToast();
+  const navigate = useNavigate();
   const onClose = () => {
     setOpen(false);
   };
@@ -31,13 +39,56 @@ export const CreateProjectModal = ({
     name: '',
     description: '',
   };
+  const [createProject] = usePostProjectsMutation();
+  const handleSubmit = async (
+    values: ProjectFormProps,
+    formikProps: FormikHelpers<ProjectFormProps>
+  ) => {
+    await createProject({
+      body: {
+        name: values.name,
+        customer_id: activeWorkspace?.id ?? -1,
+        description: values.description,
+      },
+    })
+      .unwrap()
+      .then((newProject) => {
+        setOpen(false);
+        navigate(`/projects/${newProject.id}`);
+      })
+      .catch((err) => {
+        if (err.status === 500) {
+          formikProps.setFieldError(
+            'name',
+            t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_UNIQUE_ERROR')
+          );
+        } else {
+          setOpen(false);
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="error"
+                message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }
+      });
+  };
+
   return (
     <Formik
       initialValues={formInitialValues}
       validateOnChange
       validateOnBlur
       validationSchema={validationProjectSchema}
-      onSubmit={() => console.log('suchino')}
+      onSubmit={handleSubmit}
     >
       {(formProps: FormikProps<ProjectFormProps>) => (
         <Modal onClose={onClose}>
@@ -70,7 +121,7 @@ export const CreateProjectModal = ({
               id="custom-status-close-drawer-continue"
               isPrimary
               isAccent
-              onClick={() => console.log('suchino')}
+              onClick={formProps.submitForm}
             >
               {t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_CREATE_BUTTON')}
             </Button>
