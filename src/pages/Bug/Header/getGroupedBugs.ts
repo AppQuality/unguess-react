@@ -22,8 +22,7 @@ export const getGroupedBugs = (
         (useCaseBugs) => useCaseBugs.useCase.id === bug.application_section.id
       )?.bugs;
     case 'bugState': {
-      const currentState =
-        searchParams.get('currentState') || bug.custom_status.id;
+      const currentState = bug.custom_status.id;
       return bugsByStates.find(
         (stateBugs) => stateBugs.state.id === Number(currentState)
       )?.bugs;

@@ -193,10 +193,7 @@ const Header = ({ campaignId, bug }: Props) => {
           {groupBy === 'bugState' && (
             <StatusSelect
               statuses={bugsByStates}
-              currentStatus={
-                searchParams.get('currentState') ||
-                bug.custom_status.id?.toString()
-              }
+              currentStatus={bug.custom_status.id?.toString()}
             />
           )}
           {`${bugsNumber || 1} bugs`}

@@ -21,6 +21,7 @@ export const StatusSelect = ({
           key={state.id}
           value={state.id.toString()}
           label={`${state.name} (${bugs.length} bugs)`}
+          isDisabled={bugs.length === 0}
         />
       )),
     [statuses]

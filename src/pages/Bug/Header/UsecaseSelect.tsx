@@ -21,6 +21,7 @@ export const UsecaseSelect = ({
           key={useCase.id}
           value={useCase.id.toString()}
           label={`${useCase.title.full} (${bugs.length} bugs)`}
+          isDisabled={bugs.length === 0}
         />
       )),
     [usecases]

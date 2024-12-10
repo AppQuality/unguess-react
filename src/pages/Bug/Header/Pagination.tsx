@@ -52,7 +52,9 @@ export const Pagination = ({
         onClick={() => {
           handlePagination(currentIndex + 1);
         }}
-        disabled={currentIndex >= paginationItems.length || currentIndex < 0}
+        disabled={
+          currentIndex + 1 >= paginationItems.length || currentIndex < 0
+        }
       >
         {t('__LIST_PAGE_NEXT')}
       </CursorPagination.Next>

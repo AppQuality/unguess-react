@@ -133,9 +133,6 @@ export default ({
       groupBy,
       ...getFilterBy(),
     });
-    if (groupBy === 'bugState') {
-      newSearchParams.set('currentState', bug.custom_status.id.toString());
-    }
     return newSearchParams;
   }, [order, orderBy, groupBy, data]);
 
