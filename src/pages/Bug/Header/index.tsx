@@ -1,6 +1,11 @@
 import { useAppDispatch } from 'src/app/hooks';
 import { useEffect, useMemo } from 'react';
-import { XL, PageHeader, Skeleton } from '@appquality/unguess-design-system';
+import {
+  XL,
+  PageHeader,
+  Skeleton,
+  getColor,
+} from '@appquality/unguess-design-system';
 import { useSearchParams } from 'react-router-dom';
 import {
   GetCampaignsByCidBugsAndBidApiResponse,
@@ -15,7 +20,8 @@ import {
 import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByUseCase';
 import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
-import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
+import { GroupBy, Order, OrderBy } from 'src/features/bugsPage/bugsPageSlice';
+import { appTheme } from 'src/app/theme';
 import { BreadCrumbs } from './Breadcrumb';
 import { UsecaseSelect } from './UsecaseSelect';
 import { StatusSelect } from './StatusSelect';
@@ -23,6 +29,7 @@ import { getGroupedBugs } from './getGroupedBugs';
 import { ActionsMenu } from './ActionsMenu';
 import { AppliedFilters } from './AppliedFilters';
 import { Pagination } from './Pagination';
+import { OrderbyTag } from './OrderbyTag';
 
 export interface Props {
   campaignId: string;
@@ -38,6 +45,17 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: ${({ theme }) => theme.space.md};
+
+  > * {
+    flex: 0 0 auto;
+    margin-right: 0;
+    padding: 0;
+
+    &.title {
+      flex-grow: 1;
+    }
+  }
 `;
 
 const Header = ({ campaignId, bug }: Props) => {
@@ -68,14 +86,24 @@ const Header = ({ campaignId, bug }: Props) => {
     isError: isUngroupedError,
   } = useBugs(Number(campaignId));
 
-  const order = useMemo(
-    () => searchParams.get('order') || 'DESC',
-    [searchParams]
-  );
-  const orderBy = useMemo(
-    () => searchParams.get('orderBy') || 'severity_id',
-    [searchParams]
-  );
+  const order: Order = useMemo(() => {
+    switch (searchParams.get('order')) {
+      case 'ASC':
+        return 'ASC';
+      default:
+        return 'DESC';
+    }
+  }, [searchParams]);
+  const orderBy: OrderBy = useMemo(() => {
+    switch (searchParams.get('orderBy')) {
+      case 'severity_id':
+        return 'severity_id';
+      case 'priority_id':
+        return 'priority_id';
+      default:
+        return 'severity_id';
+    }
+  }, [searchParams]);
 
   const groupBy: GroupBy | undefined = useMemo(() => {
     switch (searchParams.get('groupBy')) {
@@ -147,10 +175,14 @@ const Header = ({ campaignId, bug }: Props) => {
       <PageHeader style={{ border: 'none' }}>
         <BreadCrumbs campaign={campaign} />
         <Wrapper>
-          <XL>BUGID: {bug.id}</XL>
-          <span>
-            orderBy: {orderBy} {order}
-          </span>
+          <XL
+            className="title"
+            isBold
+            color={getColor(appTheme.colors.primaryHue, 600)}
+          >
+            BUGID: {bug.id}
+          </XL>
+          <OrderbyTag orderBy={orderBy} order={order} />
           <AppliedFilters />
           {groupBy === 'usecase' && (
             <UsecaseSelect
