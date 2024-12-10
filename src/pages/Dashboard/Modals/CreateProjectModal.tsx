@@ -8,7 +8,7 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
-import { Formik, FormikHelpers, FormikProps } from 'formik';
+import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { usePostProjectsMutation } from 'src/features/api';
