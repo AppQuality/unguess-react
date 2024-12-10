@@ -167,7 +167,7 @@ const Header = ({ campaignId, bug }: Props) => {
               }
             />
           )}
-          {`${bugsNumber} bugs`}
+          {`${bugsNumber || 1} bugs`}
           {paginationItems && typeof currentIndex !== 'undefined' && (
             <Pagination
               paginationItems={paginationItems}
