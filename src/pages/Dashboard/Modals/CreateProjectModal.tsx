@@ -40,10 +40,7 @@ export const CreateProjectModal = ({
     description: '',
   };
   const [createProject] = usePostProjectsMutation();
-  const handleSubmit = async (
-    values: ProjectFormProps,
-    formikProps: FormikHelpers<ProjectFormProps>
-  ) => {
+  const handleSubmit = async (values: ProjectFormProps) => {
     await createProject({
       body: {
         name: values.name,
@@ -57,28 +54,21 @@ export const CreateProjectModal = ({
         navigate(`/projects/${newProject.id}`);
       })
       .catch((err) => {
-        if (err.status === 500) {
-          formikProps.setFieldError(
-            'name',
-            t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_UNIQUE_ERROR')
-          );
-        } else {
-          setOpen(false);
-          addToast(
-            ({ close }) => (
-              <Notification
-                onClose={close}
-                type="error"
-                message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
-                closeText={t('__TOAST_CLOSE_TEXT')}
-                isPrimary
-              />
-            ),
-            { placement: 'top' }
-          );
-          // eslint-disable-next-line no-console
-          console.error(err);
-        }
+        setOpen(false);
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={t('__TOAST_GENERIC_ERROR_MESSAGE')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+        // eslint-disable-next-line no-console
+        console.error(err);
       });
   };
 

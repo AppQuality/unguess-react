@@ -1,5 +1,6 @@
 import { Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import {
   FormField as Field,
   Hint,
@@ -9,6 +10,7 @@ import {
   Textarea,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { ProjectFormProps } from './ProjectFormModel';
 import { ProjectStatusValidationMessage } from './StatusValidationMessage';
 
@@ -18,6 +20,25 @@ export const CreateProjectForm = ({
   formikProps: FormikProps<ProjectFormProps>;
 }) => {
   const { t } = useTranslation();
+  const { activeWorkspace } = useActiveWorkspace();
+  const { currentData: projects } = useGetWorkspacesByWidProjectsQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    { skip: !activeWorkspace?.id }
+  );
+  const validateProjectName = (value: string) => {
+    if (
+      projects &&
+      projects.items &&
+      projects.items.find((p) => p.name === value)
+    ) {
+      formikProps.setFieldError(
+        'name',
+        t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_UNIQUE_ERROR')
+      );
+    }
+  };
   return (
     <Form>
       <Label>
@@ -37,6 +58,9 @@ export const CreateProjectForm = ({
           )}
           onChange={(e) => {
             formikProps.setFieldValue('name', e.target.value);
+          }}
+          onBlur={(e) => {
+            validateProjectName(e.target.value);
           }}
         />
         <ProjectStatusValidationMessage
