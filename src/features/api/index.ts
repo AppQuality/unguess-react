@@ -1365,9 +1365,13 @@ export type PatchProjectsByPidApiResponse = /** status 200 OK */ Project;
 export type PatchProjectsByPidApiArg = {
   /** Project id */
   pid: string;
-  body: {
-    display_name: string;
-  };
+  body:
+    | {
+        display_name: string;
+      }
+    | {
+        description: string;
+      };
 };
 export type GetProjectsByPidCampaignsApiResponse = /** status 200 OK */ {
   items?: CampaignWithOutput[];
@@ -2150,6 +2154,7 @@ export type Project = {
   name: string;
   campaigns_count: number;
   workspaceId: number;
+  description?: string;
 };
 export type Feature = {
   slug?: string;
