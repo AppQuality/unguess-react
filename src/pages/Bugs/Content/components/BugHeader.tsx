@@ -1,7 +1,9 @@
+/* eslint-disable security/detect-object-injection */
 import { IconButton, Tag, Tooltip } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
-import { useAppDispatch } from 'src/app/hooks';
+import { Link, createSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
@@ -12,7 +14,10 @@ import {
   Bug,
   GetCampaignsByCidBugsAndBidCommentsApiResponse,
 } from 'src/features/api';
-import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  getCurrentCampaignData,
+  selectBug,
+} from 'src/features/bugsPage/bugsPageSlice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -75,6 +80,65 @@ export default ({
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
+  const { orderBy, order, groupBy } = useAppSelector((state) => state.bugsPage);
+  const data = getCurrentCampaignData();
+
+  const searchParams = useMemo(() => {
+    const getFilterBy = () => {
+      if (!data) return {};
+
+      const filters: { [key: string]: string | string[] } = {};
+      (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
+        if (key === 'severities') {
+          if (Array.isArray(data.severities.selected)) {
+            filters.severities = data.severities.selected.map(
+              (item) => item.name
+            );
+          }
+        }
+        if (key === 'devices') {
+          if (Array.isArray(data.devices.selected)) {
+            filters.devices = data.devices.selected.map((item) => item.device);
+          }
+        }
+        if (key === 'unique') {
+          filters.unique = data.unique.selected === 'unique' ? 'true' : 'false';
+        }
+        if (key === 'read') {
+          filters.unread = data.read.selected === 'unread' ? 'true' : 'false';
+        }
+        if (key === 'os') {
+          if (Array.isArray(data.os.selected)) {
+            filters.os = data.os.selected.map((item) => item.os);
+          }
+        }
+        if (
+          key === 'priorities' ||
+          key === 'replicabilities' ||
+          key === 'types' ||
+          key === 'customStatuses'
+        ) {
+          if (Array.isArray(data[key].selected)) {
+            filters[key] = data[key].selected.map((item) => item.name);
+          }
+        }
+        if (key === 'tags') {
+          if (Array.isArray(data.tags.selected)) {
+            filters.tags = data.tags.selected.map((item) => item.display_name);
+          }
+        }
+      });
+      return filters;
+    };
+    const newSearchParams = createSearchParams({
+      order,
+      orderBy,
+      groupBy,
+      ...getFilterBy(),
+    });
+    return newSearchParams;
+  }, [order, orderBy, groupBy, data]);
+
   return (
     <Container>
       <Tag
@@ -127,7 +191,9 @@ export default ({
           </Tooltip>
         </Link>
         <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+          to={`${useLocalizeRoute(
+            `campaigns/${bug.campaign_id}/bugs/${bug.id}`
+          )}?${searchParams.toString()}`}
         >
           <Tooltip
             content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
