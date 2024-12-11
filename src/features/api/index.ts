@@ -1038,8 +1038,7 @@ export type GetCampaignsByCidMetaApiArg = {
   /** Campaign id */
   cid: string;
 };
-export type GetCampaignsByCidObservationsApiResponse =
-  /** status 200 OK */
+export type GetCampaignsByCidObservationsApiResponse = /** status 200 OK */
   | {
       results: {
         usecaseId: number;
@@ -1290,8 +1289,7 @@ export type GetCampaignsByCidVideosApiArg = {
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
 };
-export type GetCampaignsByCidWidgetsApiResponse =
-  /** status 200 OK */
+export type GetCampaignsByCidWidgetsApiResponse = /** status 200 OK */
   | WidgetBugsByUseCase
   | WidgetBugsByDevice
   | WidgetCampaignProgress
@@ -1365,9 +1363,13 @@ export type PatchProjectsByPidApiResponse = /** status 200 OK */ Project;
 export type PatchProjectsByPidApiArg = {
   /** Project id */
   pid: string;
-  body: {
-    display_name: string;
-  };
+  body:
+    | {
+        display_name: string;
+      }
+    | {
+        description: string;
+      };
 };
 export type GetProjectsByPidCampaignsApiResponse = /** status 200 OK */ {
   items?: CampaignWithOutput[];
@@ -2150,6 +2152,7 @@ export type Project = {
   name: string;
   campaigns_count: number;
   workspaceId: number;
+  description?: string;
 };
 export type Feature = {
   slug?: string;
