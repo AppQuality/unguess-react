@@ -72,18 +72,15 @@ const Header = ({ campaignId, bug }: Props) => {
   });
   const {
     data: { bugsByUseCases },
-    isError: isUsecaseError,
     isLoading: isUsecaseLoading,
   } = useBugsByUseCase(Number(campaignId));
   const {
     data: { bugsByStates },
-    isError: isStateError,
     isLoading: isStateLoading,
   } = useBugsByState(Number(campaignId));
   const {
     data: { allBugs: ungroupedBugs },
     isLoading: isUngroupedLoading,
-    isError: isUngroupedError,
   } = useBugs(Number(campaignId));
 
   const order: Order = useMemo(() => {
