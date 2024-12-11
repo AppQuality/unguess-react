@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { getColor, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -13,7 +14,7 @@ export const AppliedFilters = () => {
     const filtersFromParams = getFiltersFromParams(searchParams);
     // remove null and undefined values
     return Object.fromEntries(
-      Object.entries(filtersFromParams).filter(([_, v]) => v)
+      Object.entries(filtersFromParams).filter(([, v]) => v)
     );
   }, [searchParams]);
   const filterLabels = {
@@ -32,12 +33,19 @@ export const AppliedFilters = () => {
   const renderFilterItems = () =>
     (Object.keys(filterLabels) as Array<keyof typeof filterLabels>).map(
       (key) => {
-        if (key in filterBy && filterBy[key]) {
+        if (
+          filterBy &&
+          typeof filterBy === 'object' &&
+          key in filterBy &&
+          filterBy[key]
+        ) {
           return (
             <li key={key}>
               <strong>{filterLabels[key]}:</strong>{' '}
               {Array.isArray(filterBy[key]) &&
-                filterBy[key].map((item: any) => item).join(', ')}
+                (filterBy[key] as string[])
+                  .map((item: string) => item)
+                  .join(', ')}
             </li>
           );
         }
