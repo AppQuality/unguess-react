@@ -1038,7 +1038,8 @@ export type GetCampaignsByCidMetaApiArg = {
   /** Campaign id */
   cid: string;
 };
-export type GetCampaignsByCidObservationsApiResponse = /** status 200 OK */
+export type GetCampaignsByCidObservationsApiResponse =
+  /** status 200 OK */
   | {
       results: {
         usecaseId: number;
@@ -1289,7 +1290,8 @@ export type GetCampaignsByCidVideosApiArg = {
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
 };
-export type GetCampaignsByCidWidgetsApiResponse = /** status 200 OK */
+export type GetCampaignsByCidWidgetsApiResponse =
+  /** status 200 OK */
   | WidgetBugsByUseCase
   | WidgetBugsByDevice
   | WidgetCampaignProgress
