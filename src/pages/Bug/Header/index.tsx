@@ -130,6 +130,8 @@ const Header = ({ campaignId, bug }: Props) => {
     };
   }, [campaign]);
 
+  // with this we update paginationItems only when bug.id changes (or at first load from api), ie when the user navigates to a different bug
+  // to keep track of next and prev even when the user update bug properties like status or usecase
   const paginationItems = useMemo(
     () =>
       getGroupedBugs(
@@ -137,17 +139,32 @@ const Header = ({ campaignId, bug }: Props) => {
         bugsByUseCases,
         bugsByStates,
         ungroupedBugs,
-        bug,
-        searchParams
+        bug.custom_status.id,
+        bug.application_section.id
       ),
-    [bug.id]
-  ); // with this we update paginationItems only when the bug changes, ie when the user navigates to a different bug
+    [bug.id, isUsecaseLoading, isStateLoading, isUngroupedLoading]
+  );
 
   const currentIndex = useMemo(
     () => paginationItems?.findIndex((item) => item.id === bug.id),
-    [bug.id]
+    [paginationItems]
   );
 
+  // we need to compute the current status (or current usecase) from the paginationItems array
+  // because bug properties can change due to user actions (like changing status or usecase)
+  // however, the header should keep the info of the bug as they where when the user navigated to it
+  const currentStatus = useMemo(
+    () => paginationItems?.find((item) => item.id === bug.id)?.custom_status.id,
+    [paginationItems]
+  );
+  const currentUsecase = useMemo(
+    () =>
+      paginationItems?.find((item) => item.id === bug.id)?.application_section
+        .id,
+    [paginationItems]
+  );
+
+  // still, bugsNumber should be updated with live data
   const bugsNumber = useMemo(
     () =>
       getGroupedBugs(
@@ -155,8 +172,8 @@ const Header = ({ campaignId, bug }: Props) => {
         bugsByUseCases,
         bugsByStates,
         ungroupedBugs,
-        bug,
-        searchParams
+        currentStatus,
+        currentUsecase
       )?.length,
     [bugsByStates, bugsByUseCases, ungroupedBugs, groupBy, bug]
   );
@@ -187,13 +204,13 @@ const Header = ({ campaignId, bug }: Props) => {
           {groupBy === 'usecase' && (
             <UsecaseSelect
               usecases={bugsByUseCases}
-              currentUsecase={bug.application_section.id?.toString()}
+              currentUsecase={currentUsecase?.toString()}
             />
           )}
           {groupBy === 'bugState' && (
             <StatusSelect
               statuses={bugsByStates}
-              currentStatus={bug.custom_status.id?.toString()}
+              currentStatus={currentStatus?.toString()}
             />
           )}
           {`${bugsNumber || 1} bugs`}

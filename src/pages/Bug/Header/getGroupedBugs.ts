@@ -1,7 +1,4 @@
-import {
-  GetCampaignsByCidBugsAndBidApiResponse,
-  GetCampaignsByCidBugsApiResponse,
-} from 'src/features/api';
+import { GetCampaignsByCidBugsApiResponse } from 'src/features/api';
 import { GroupBy } from 'src/features/bugsPage/bugsPageSlice';
 import {
   BugByUsecaseType,
@@ -13,18 +10,17 @@ export const getGroupedBugs = (
   bugsByUseCases: BugByUsecaseType[],
   bugsByStates: BugByStateType[],
   ungroupedBugs: GetCampaignsByCidBugsApiResponse['items'],
-  bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>,
-  searchParams: URLSearchParams
+  currentState?: number,
+  currentUsecase?: number
 ) => {
   switch (groupBy) {
     case 'usecase':
       return bugsByUseCases.find(
-        (useCaseBugs) => useCaseBugs.useCase.id === bug.application_section.id
+        (useCaseBugs) => useCaseBugs.useCase.id === currentUsecase
       )?.bugs;
     case 'bugState': {
-      const currentState = bug.custom_status.id;
       return bugsByStates.find(
-        (stateBugs) => stateBugs.state.id === Number(currentState)
+        (stateBugs) => stateBugs.state.id === currentState
       )?.bugs;
     }
     case 'ungrouped':
