@@ -909,7 +909,7 @@
   "__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_TITLE": "Vuoi ricevere le notifiche?",
   "__PROFILE_MODAL_NOTIFICATIONS_UPDATED": "Modifiche salvate",
   "__PROFILE_MODAL_PRIVACY_ITEM_LABEL": "Opzioni Privacy",
-  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Errore",
+  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Nome del progetto già in uso. Sceglierne uno diverso.",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_TOO_LONG": "Nome troppo lungo. Il numero massimo di caratteri consentiti è 64, spazi inclusi.",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_REQUIRED": "Campo obbligatorio",
   "__PROJECT_SETTINGS_CTA_TEXT": "Invita",

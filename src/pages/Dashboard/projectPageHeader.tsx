@@ -4,6 +4,8 @@ import {
   Message,
   PageHeader,
   Skeleton,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -41,6 +43,7 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
   const { hasFeatureFlag } = useFeatureFlag();
@@ -129,8 +132,19 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                 }).unwrap();
               }
             } catch {
-              // eslint-disable-next-line
-              alert(t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR'));
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="error"
+                    message={t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR')}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+              setItemTitle(project?.name);
             }
           }}
           style={{ paddingLeft: 0 }}
