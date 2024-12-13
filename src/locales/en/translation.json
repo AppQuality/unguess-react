@@ -921,7 +921,7 @@
   "__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_TITLE": "Allow notifications",
   "__PROFILE_MODAL_NOTIFICATIONS_UPDATED": "Changes saved",
   "__PROFILE_MODAL_PRIVACY_ITEM_LABEL": "Privacy settings",
-  "__PROJECT_FORM_DESCRIPTION_MAX": "This description is a bit long. It is recommended not to exceed 299 characters, including spaces.",
+  "__PROJECT_FORM_DESCRIPTION_MAX": "This description is a bit long. It is recommended not to exceed 234 characters, including spaces.",
   "__PROJECT_FORM_NAME_MAX": "This name is a bit long. We advise you to stay within 64 characters including spaces.",
   "__PROJECT_FORM_NAME_REQUIRED": "Choose a name before creating the project",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Error",
