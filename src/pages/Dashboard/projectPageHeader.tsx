@@ -85,12 +85,17 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
       <InputToggle>
         <InputToggle.Item
           textSize="lg"
-          placeholder=""
+          placeholder={t(
+            '__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER'
+          )}
           value={itemDescription}
           onChange={(e) => setItemDescription(e.target.value)}
           onBlur={async (e) => {
             try {
-              if (e.currentTarget.value !== project?.description) {
+              if (
+                e.currentTarget.value !== project?.description &&
+                e.currentTarget.value.length <= 234
+              ) {
                 await patchProject({
                   pid: projectId.toString(),
                   body: { description: e.currentTarget.value ?? '' },
@@ -105,6 +110,11 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
           }}
           style={{ paddingLeft: 0 }}
         />
+        {itemDescription && itemDescription.length > 234 && (
+          <Message validation="error" style={{ marginTop: '8px' }}>
+            {t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_MAX_LENGTH')}
+          </Message>
+        )}
       </InputToggle>
     ),
     [project, itemDescription]
@@ -149,20 +159,17 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
           }}
           style={{ paddingLeft: 0 }}
         />
-        {itemTitle && itemTitle.length > 64 && (
-          <Message validation="error" style={{ marginTop: '8px' }}>
-            {t(
-              '__PROJECT_PAGE_UPDATE_PROJECT_NAME_TOO_LONG',
-              'This name is a bit long. We advise you to stay within 64 characters including spaces.'
-            )}
-          </Message>
-        )}
         {itemTitle?.length === 0 && (
           <Message validation="error" style={{ marginTop: '8px' }}>
             {t(
               '__PROJECT_PAGE_UPDATE_PROJECT_NAME_REQUIRED',
               'Mandatory field'
             )}
+          </Message>
+        )}
+        {itemTitle && itemTitle.length > 64 && (
+          <Message validation="error" style={{ marginTop: '8px' }}>
+            {t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_MAX_LENGTH')}
           </Message>
         )}
       </InputToggle>
@@ -181,7 +188,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               InputToggleMemoTitle
             )}
           </PageHeader.Title>
-          <PageHeader.Description>
+          <PageHeader.Description style={{ width: '100%' }}>
             {isLoading || isFetching || status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (
