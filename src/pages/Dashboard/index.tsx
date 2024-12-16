@@ -34,7 +34,7 @@ const Dashboard = () => {
               event: 'project_creation',
               category: 'projects_dashboard',
               action: 'create_project_click',
-              content: `Create new project clicked at ${new Date().toISOString()}`,
+              content: `${new Date().toISOString()}`,
             });
           }}
           pageTitle={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
