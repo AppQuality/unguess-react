@@ -88,7 +88,8 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
         <InputToggle.Item
           textSize="lg"
           placeholder={t(
-            '__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER'
+            '__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER',
+            'Write a description'
           )}
           value={itemDescription}
           onChange={(e) => setItemDescription(e.target.value)}
