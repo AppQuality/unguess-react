@@ -6,6 +6,7 @@ import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { projectFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
 import { CampaignsList } from './campaigns-list';
 import { DashboardHeaderContent } from './headerContent';
@@ -16,6 +17,7 @@ const Dashboard = () => {
   const dispatch = useAppDispatch();
 
   const { status } = useAppSelector((state) => state.user);
+  const sendGTMEvent = useSendGTMevent();
 
   if (status === 'logged') dispatch(projectFilterChanged(0)); // Reset filters
   const [openCreateProjectModal, setOpenCreateProjectModal] = useState(false);
@@ -25,7 +27,16 @@ const Dashboard = () => {
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
       pageHeader={
         <DashboardHeaderContent
-          handleOpenModal={() => setOpenCreateProjectModal(true)}
+          handleOpenModal={() => {
+            setOpenCreateProjectModal(true);
+
+            sendGTMEvent({
+              event: 'project_creation',
+              category: 'projects_dashboard',
+              action: 'create_project_click',
+              content: `Create new project clicked at ${new Date().toISOString()}`,
+            });
+          }}
           pageTitle={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
         />
       }

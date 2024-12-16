@@ -12,6 +12,7 @@ import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { usePostProjectsMutation } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useNavigate } from 'react-router-dom';
 import { ProjectFormProps, validationProjectSchema } from './ProjectFormModel';
@@ -22,6 +23,8 @@ const TitleWrapper = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.space.xs};
 `;
+
+const sendGTMEvent = useSendGTMevent();
 
 export const CreateProjectModal = ({
   setOpen,
@@ -52,6 +55,15 @@ export const CreateProjectModal = ({
       .then((newProject) => {
         setOpen(false);
         navigate(`/projects/${newProject.id}`);
+
+        sendGTMEvent({
+          event: 'project_creation',
+          category: 'projects_dashboard',
+          action: 'project_creation_success',
+          content: `date:${new Date().toISOString()} - ID:${
+            newProject.id
+          } - name:${newProject.name} - description:${newProject.description}`,
+        });
       })
       .catch((err) => {
         setOpen(false);
