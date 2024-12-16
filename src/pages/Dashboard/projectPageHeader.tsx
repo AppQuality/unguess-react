@@ -1,8 +1,11 @@
 import {
   Button,
   InputToggle,
+  Message,
   PageHeader,
   Skeleton,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -40,11 +43,13 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
   const { hasFeatureFlag } = useFeatureFlag();
   const { status } = useAppSelector((state) => state.user);
   const [itemTitle, setItemTitle] = useState<string>();
+  const [itemDescription, setItemDescription] = useState<string>();
 
   const {
     isLoading,
@@ -59,6 +64,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   useEffect(() => {
     if (isSuccess && project) {
       setItemTitle(project.name);
+      setItemDescription(project.description);
     }
   }, [project]);
 
@@ -74,20 +80,61 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
 
   const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
 
-  // Memoize InputToggle component to avoid re-rendering
-  const InputToggleMemo = useMemo(
+  const InputToggleMemoDescription = useMemo(
     () => (
       <InputToggle>
         <InputToggle.Item
+          textSize="lg"
+          placeholder={t(
+            '__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER'
+          )}
+          value={itemDescription}
+          onChange={(e) => setItemDescription(e.target.value)}
+          onBlur={async (e) => {
+            try {
+              if (
+                e.currentTarget.value !== project?.description &&
+                e.currentTarget.value.length <= 234
+              ) {
+                await patchProject({
+                  pid: projectId.toString(),
+                  body: { description: e.currentTarget.value ?? '' },
+                }).unwrap();
+              }
+            } catch {
+              // eslint-disable-next-line
+              alert(
+                t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR', 'Error')
+              );
+            }
+          }}
+          style={{ paddingLeft: 0 }}
+        />
+        {itemDescription && itemDescription.length > 234 && (
+          <Message validation="error" style={{ marginTop: '8px' }}>
+            {t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_MAX_LENGTH')}
+          </Message>
+        )}
+      </InputToggle>
+    ),
+    [project, itemDescription]
+  );
+
+  // Memoize InputToggle component to avoid re-rendering
+  const InputToggleMemoTitle = useMemo(
+    () => (
+      <InputToggle>
+        <InputToggle.Item
+          placeholder=""
           textSize="xxxl"
-          maxLength={64}
           value={itemTitle}
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
             try {
               if (
                 e.currentTarget.value &&
-                e.currentTarget.value !== project?.name
+                e.currentTarget.value !== project?.name &&
+                e.currentTarget.value.length <= 64
               ) {
                 await patchProject({
                   pid: projectId.toString(),
@@ -95,12 +142,36 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                 }).unwrap();
               }
             } catch {
-              // eslint-disable-next-line
-              alert(t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR'));
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="error"
+                    message={t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR')}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+              setItemTitle(project?.name);
             }
           }}
           style={{ paddingLeft: 0 }}
         />
+        {itemTitle?.length === 0 && (
+          <Message validation="error" style={{ marginTop: '8px' }}>
+            {t(
+              '__PROJECT_PAGE_UPDATE_PROJECT_NAME_REQUIRED',
+              'Mandatory field'
+            )}
+          </Message>
+        )}
+        {itemTitle && itemTitle.length > 64 && (
+          <Message validation="error" style={{ marginTop: '8px' }}>
+            {t('__PROJECT_PAGE_UPDATE_PROJECT_NAME_MAX_LENGTH')}
+          </Message>
+        )}
       </InputToggle>
     ),
     [project, itemTitle]
@@ -114,9 +185,16 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             {isLoading || isFetching || status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (
-              InputToggleMemo
+              InputToggleMemoTitle
             )}
           </PageHeader.Title>
+          <PageHeader.Description style={{ width: '100%' }}>
+            {isLoading || isFetching || status === 'loading' ? (
+              <Skeleton width="60%" height="44px" />
+            ) : (
+              InputToggleMemoDescription
+            )}
+          </PageHeader.Description>
           <StyledPageHeaderMeta>
             <Counters />
             <ProjectSettings />
