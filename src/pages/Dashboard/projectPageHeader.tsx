@@ -13,6 +13,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import {
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
@@ -75,6 +76,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   }
 
   const [patchProject] = usePatchProjectsByPidMutation();
+  const sendGTMEvent = useSendGTMevent();
 
   const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
 
@@ -101,11 +103,24 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   body: { description: e.currentTarget.value ?? '' },
                 }).unwrap();
               }
+              sendGTMEvent({
+                event: 'project_description',
+                category: 'projects_dashboard',
+                action: 'change_description_success',
+                content: e.currentTarget.value,
+              });
             } catch {
               // eslint-disable-next-line
               alert(
                 t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR', 'Error')
               );
+
+              sendGTMEvent({
+                event: 'project_description',
+                category: 'projects_dashboard',
+                action: 'change_description_error',
+                content: e.currentTarget.value,
+              });
             }
           }}
           style={{ paddingLeft: 0 }}
@@ -141,6 +156,12 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   body: { display_name: e.currentTarget.value },
                 }).unwrap();
               }
+              sendGTMEvent({
+                event: 'project_name',
+                category: 'projects_dashboard',
+                action: 'change_name_success',
+                content: e.currentTarget.value,
+              });
             } catch {
               addToast(
                 ({ close }) => (
@@ -155,6 +176,12 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                 { placement: 'top' }
               );
               setItemTitle(project?.name);
+              sendGTMEvent({
+                event: 'project_name',
+                category: 'projects_dashboard',
+                action: 'change_description_error',
+                content: e.currentTarget.value,
+              });
             }
           }}
           style={{ paddingLeft: 0 }}
