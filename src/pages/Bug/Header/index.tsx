@@ -1,35 +1,35 @@
-import { useAppDispatch } from 'src/app/hooks';
-import { useEffect, useMemo } from 'react';
 import {
-  XL,
   PageHeader,
   Skeleton,
+  XL,
   getColor,
 } from '@appquality/unguess-design-system';
+import { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useAppDispatch } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import {
   GetCampaignsByCidBugsAndBidApiResponse,
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { styled } from 'styled-components';
+import { GroupBy, Order, OrderBy } from 'src/features/bugsPage/bugsPageSlice';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
 } from 'src/features/navigation/navigationSlice';
-import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByUseCase';
-import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
-import { GroupBy, Order, OrderBy } from 'src/features/bugsPage/bugsPageSlice';
-import { appTheme } from 'src/app/theme';
-import { BreadCrumbs } from './Breadcrumb';
-import { UsecaseSelect } from './UsecaseSelect';
-import { StatusSelect } from './StatusSelect';
-import { getGroupedBugs } from './getGroupedBugs';
+import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
+import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByUseCase';
+import { styled } from 'styled-components';
 import { ActionsMenu } from './ActionsMenu';
 import { AppliedFilters } from './AppliedFilters';
-import { Pagination } from './Pagination';
+import { BreadCrumbs } from './Breadcrumb';
 import { OrderbyTag } from './OrderbyTag';
+import { Pagination } from './Pagination';
+import { StatusSelect } from './StatusSelect';
+import { UsecaseSelect } from './UsecaseSelect';
+import { getGroupedBugs } from './getGroupedBugs';
 
 export interface Props {
   campaignId: string;
@@ -196,27 +196,31 @@ const Header = ({ campaignId, bug }: Props) => {
           >
             BUGID: {bug.id}
           </XL>
-          <OrderbyTag orderBy={orderBy} order={order} />
-          <AppliedFilters />
-          {groupBy === 'usecase' && (
-            <UsecaseSelect
-              usecases={bugsByUseCases}
-              currentUsecase={currentUsecase?.toString()}
-            />
-          )}
-          {groupBy === 'bugState' && (
-            <StatusSelect
-              statuses={bugsByStates}
-              currentStatus={currentStatus?.toString()}
-            />
-          )}
-          {`${bugsNumber || 1} bugs`}
-          {paginationItems && typeof currentIndex !== 'undefined' && (
-            <Pagination
-              paginationItems={paginationItems}
-              campaignId={campaignId}
-              currentIndex={currentIndex}
-            />
+          {searchParams.size > 0 && (
+            <>
+              <OrderbyTag orderBy={orderBy} order={order} />
+              <AppliedFilters />
+              {groupBy === 'usecase' && (
+                <UsecaseSelect
+                  usecases={bugsByUseCases}
+                  currentUsecase={currentUsecase?.toString()}
+                />
+              )}
+              {groupBy === 'bugState' && (
+                <StatusSelect
+                  statuses={bugsByStates}
+                  currentStatus={currentStatus?.toString()}
+                />
+              )}
+              {`${bugsNumber || 1} bugs`}
+              {paginationItems && typeof currentIndex !== 'undefined' && (
+                <Pagination
+                  paginationItems={paginationItems}
+                  campaignId={campaignId}
+                  currentIndex={currentIndex}
+                />
+              )}
+            </>
           )}
           <ActionsMenu bug={bug} />
         </Wrapper>
