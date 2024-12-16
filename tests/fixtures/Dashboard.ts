@@ -14,10 +14,15 @@ export class Dashboard extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
-      launchNewCPButton: () =>
+      launchNewPJButton: () =>
         this.page.getByRole('button', {
-          name: this.i18n.t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON'),
+          name: this.i18n.t('__DASHBOARD_CREATE_NEW_PROJECT'),
         }),
+      createPJModal: () => {
+        this.page.getByRole('dialog', {
+          name: this.i18n.t('__DASHBOARD_CREATE_NEW_PROJECT_TITLE'),
+        });
+      },
     };
   }
 }
