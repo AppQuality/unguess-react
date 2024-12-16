@@ -12,6 +12,7 @@ import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { usePostProjectsMutation } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useNavigate } from 'react-router-dom';
 import { ProjectFormProps, validationProjectSchema } from './ProjectFormModel';
@@ -32,6 +33,7 @@ export const CreateProjectModal = ({
   const { activeWorkspace } = useActiveWorkspace();
   const { addToast } = useToast();
   const navigate = useNavigate();
+  const sendGTMEvent = useSendGTMevent();
   const onClose = () => {
     setOpen(false);
   };
@@ -51,7 +53,17 @@ export const CreateProjectModal = ({
       .unwrap()
       .then((newProject) => {
         setOpen(false);
+
         navigate(`/projects/${newProject.id}`);
+
+        sendGTMEvent({
+          event: 'project_creation',
+          category: 'projects_dashboard',
+          action: 'project_creation_success',
+          content: `date:${new Date().toISOString()} - ID:${
+            newProject.id
+          } - name:${newProject.name} - description:${newProject.description}`,
+        });
       })
       .catch((err) => {
         setOpen(false);
