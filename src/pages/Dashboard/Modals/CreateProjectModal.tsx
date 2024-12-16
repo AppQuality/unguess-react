@@ -24,8 +24,6 @@ const TitleWrapper = styled.div`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
-const sendGTMEvent = useSendGTMevent();
-
 export const CreateProjectModal = ({
   setOpen,
 }: {
@@ -35,6 +33,7 @@ export const CreateProjectModal = ({
   const { activeWorkspace } = useActiveWorkspace();
   const { addToast } = useToast();
   const navigate = useNavigate();
+  const sendGTMEvent = useSendGTMevent();
   const onClose = () => {
     setOpen(false);
   };
@@ -54,6 +53,7 @@ export const CreateProjectModal = ({
       .unwrap()
       .then((newProject) => {
         setOpen(false);
+
         navigate(`/projects/${newProject.id}`);
 
         sendGTMEvent({

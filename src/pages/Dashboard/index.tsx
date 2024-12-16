@@ -29,6 +29,13 @@ const Dashboard = () => {
         <DashboardHeaderContent
           handleOpenModal={() => {
             setOpenCreateProjectModal(true);
+
+            sendGTMEvent({
+              event: 'project_creation',
+              category: 'projects_dashboard',
+              action: 'create_project_click',
+              content: `${new Date().toISOString()}`,
+            });
           }}
           pageTitle={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
         />
