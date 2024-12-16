@@ -41,6 +41,8 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   }
 `;
 
+const sendGTMEvent = useSendGTMevent();
+
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -76,7 +78,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   }
 
   const [patchProject] = usePatchProjectsByPidMutation();
-  const sendGTMEvent = useSendGTMevent();
 
   const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
 
@@ -103,6 +104,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   body: { description: e.currentTarget.value ?? '' },
                 }).unwrap();
               }
+
               sendGTMEvent({
                 event: 'project_description',
                 category: 'projects_dashboard',
