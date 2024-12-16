@@ -20,6 +20,6 @@ test.describe('Home page', () => {
 
   test('has a create new PJ CTA that open an modal', async () => {
     await dashboard.elements().launchNewPJButton().click();
-    await dashboard.elements().createPJModal();
+    await expect(dashboard.page.getByRole('dialog')).toBeVisible();
   });
 });
