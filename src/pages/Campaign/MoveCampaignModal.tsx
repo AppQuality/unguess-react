@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Col,
   Grid,
@@ -40,11 +41,14 @@ const MoveCampaignModal = ({
         {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_TITLE')}
       </Modal.Header>
       <Modal.Body>
-        <MD style={{ marginBottom: appTheme.space.sm }}>
-          <Trans i18nKey="__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_DESCRIPTION">
-            The {{ name: cpTitle }} campaign will be removed from the current
+        <MD style={{ marginBottom: appTheme.space.md }}>
+          <Trans i18nKey="__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_DESCRIPTION_1">
+            You are about to remove {{ name: cpTitle }} from the current
             project.
           </Trans>
+        </MD>
+        <MD style={{ marginBottom: appTheme.space.md }}>
+          {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_DESCRIPTION_2')}
         </MD>
         <Grid style={{ margin: `${appTheme.space.md} auto` }}>
           <Row>
@@ -92,6 +96,12 @@ const MoveCampaignModal = ({
             </Col>
           </Row>
         </Grid>
+        <Alert type="info">
+          <Alert.Title>
+            {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_ALERT_TITLE')}
+          </Alert.Title>
+          {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_ALERT_MESSAGE')}
+        </Alert>
       </Modal.Body>
       <Modal.Footer>
         <Button isBasic isDanger onClick={onClose}>
