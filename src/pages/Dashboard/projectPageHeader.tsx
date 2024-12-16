@@ -179,7 +179,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               sendGTMEvent({
                 event: 'project_name',
                 category: 'projects_dashboard',
-                action: 'change_description_error',
+                action: 'change_name_error',
                 content: e.currentTarget.value,
               });
             }
