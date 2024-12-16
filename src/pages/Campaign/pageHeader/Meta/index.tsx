@@ -202,7 +202,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
       </FooterContainer>
       {isMoveModalOpen && (
         <MoveCampaignModal
-          cpTitle={customer_title}
+          campaign={campaign}
           onClose={() => setIsMoveModalOpen(false)}
         />
       )}

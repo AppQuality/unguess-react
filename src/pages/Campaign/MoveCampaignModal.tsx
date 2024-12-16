@@ -13,27 +13,40 @@ import {
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
+import {
+  CampaignWithOutput,
+  useGetWorkspacesByWidProjectsQuery,
+  usePatchCampaignsByCidMutation,
+} from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { ReactComponent as RightArrow } from 'src/assets/icons/arrow-right.svg';
 import { useState } from 'react';
 
 const MoveCampaignModal = ({
-  cpTitle,
+  campaign,
   onClose,
 }: {
-  cpTitle: string;
+  campaign: CampaignWithOutput;
   onClose: () => void;
 }) => {
+  const {
+    id: cpId,
+    title: cpTitle,
+    project: { id: prjId, name: prjName },
+  } = campaign;
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
   const [selectedProjectId, setSelectedProjectId] = useState<number>();
+  const [patchCampaign] = usePatchCampaignsByCidMutation();
 
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id.toString() || '',
   });
 
   const projects = data?.items;
+
+  // Filter out the current project
+  const filteredProjects = projects?.filter((item) => item.id !== prjId);
 
   return (
     <Modal onClose={onClose}>
@@ -56,7 +69,7 @@ const MoveCampaignModal = ({
               <Label>
                 {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_LABEL_PROJECT')}
               </Label>
-              <MD style={{ marginTop: appTheme.space.xs }}>{cpTitle}</MD>
+              <MD style={{ marginTop: appTheme.space.xs }}>{prjName}</MD>
             </Col>
             <Col
               size={2}
@@ -68,7 +81,7 @@ const MoveCampaignModal = ({
               <RightArrow style={{ marginTop: appTheme.space.xs }} />
             </Col>
             <Col size={5} style={{ margin: 0 }}>
-              {!projects || isLoading || isFetching ? (
+              {!filteredProjects || isLoading || isFetching ? (
                 <Skeleton />
               ) : (
                 <Select
@@ -77,11 +90,11 @@ const MoveCampaignModal = ({
                   placeholder={t(
                     '__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_SELECT_PLACEHOLDER'
                   )}
-                  onSelect={(prjId) => {
-                    setSelectedProjectId(parseInt(prjId, 10));
+                  onSelect={(pId) => {
+                    setSelectedProjectId(parseInt(pId, 10));
                   }}
                 >
-                  {projects.map((item) => (
+                  {filteredProjects.map((item) => (
                     <Select.Option
                       key={item.id}
                       value={item.id.toString()}
@@ -108,11 +121,16 @@ const MoveCampaignModal = ({
           {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_BUTTON_CANCEL')}
         </Button>
         <Button
+          disabled={!selectedProjectId}
           isPrimary
           isAccent
-          onClick={() => {
-            // eslint-disable-next-line no-alert
-            alert(`Move campaign action with project id ${selectedProjectId}`);
+          onClick={async () => {
+            await patchCampaign({
+              cid: cpId?.toString() ?? '0',
+              body: {
+                project_id: selectedProjectId,
+              },
+            }).unwrap();
           }}
         >
           {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_BUTTON_CONFIRM')}
