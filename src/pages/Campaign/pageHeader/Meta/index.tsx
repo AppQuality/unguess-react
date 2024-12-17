@@ -73,15 +73,7 @@ const FooterContainer = styled.div`
 `;
 
 export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
-  const {
-    start_date,
-    end_date,
-    type,
-    status,
-    outputs,
-    family,
-    customer_title,
-  } = campaign;
+  const { start_date, end_date, type, status, outputs, family } = campaign;
   const { t } = useTranslation();
   const [totalVideos, setTotalVideos] = useState<number>(0);
   const [isMoveModalOpen, setIsMoveModalOpen] = useState<boolean>(false);
@@ -182,22 +174,22 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
                   </IconButton>
                 </Tooltip>
               </Link>
-              <DotsMenu style={{ zIndex: appTheme.levels.front }}>
-                <Button
-                  isBasic
-                  isPill={false}
-                  onClick={() => {
-                    setIsMoveModalOpen(true);
-                  }}
-                >
-                  <Button.StartIcon>
-                    <MoveIcon />
-                  </Button.StartIcon>
-                  {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
-                </Button>
-              </DotsMenu>
             </>
           )}
+          <DotsMenu style={{ zIndex: appTheme.levels.front }}>
+            <Button
+              isBasic
+              isPill={false}
+              onClick={() => {
+                setIsMoveModalOpen(true);
+              }}
+            >
+              <Button.StartIcon>
+                <MoveIcon />
+              </Button.StartIcon>
+              {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
+            </Button>
+          </DotsMenu>
         </ButtonWrapper>
       </FooterContainer>
       {isMoveModalOpen && (
