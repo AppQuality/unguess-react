@@ -176,7 +176,12 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
               </Link>
             </>
           )}
-          <DotsMenu style={{ zIndex: appTheme.levels.front }}>
+          <DotsMenu
+            style={{
+              zIndex: appTheme.levels.front,
+              padding: appTheme.space.sm,
+            }}
+          >
             <Button
               isBasic
               isPill={false}
