@@ -11,12 +11,20 @@ import { appTheme } from 'src/app/theme';
 import { Formik, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { usePostProjectsMutation } from 'src/features/api';
+import {
+  useGetWorkspacesByWidProjectsQuery,
+  usePostProjectsMutation,
+} from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useNavigate } from 'react-router-dom';
-import { ProjectFormProps, validationProjectSchema } from './ProjectFormModel';
+import * as Yup from 'yup';
 import { CreateProjectForm } from './CreateProjectForm';
+
+export interface ProjectFormProps {
+  name: string;
+  description: string;
+}
 
 const TitleWrapper = styled.div`
   display: flex;
@@ -37,6 +45,28 @@ export const CreateProjectModal = ({
   const onClose = () => {
     setOpen(false);
   };
+  const { currentData: projects } = useGetWorkspacesByWidProjectsQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    { skip: !activeWorkspace?.id }
+  );
+
+  const validationProjectSchema = Yup.object().shape({
+    name: Yup.string()
+      .test(
+        'test-name',
+        t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_UNIQUE_ERROR'),
+        (value) => {
+          if (!projects) return true;
+          return !projects.items?.find((project) => project.name === value);
+        }
+      )
+      .required(t('__PROJECT_FORM_NAME_REQUIRED'))
+      .max(64, t('__PROJECT_FORM_NAME_MAX')),
+    description: Yup.string().max(234, t('__PROJECT_FORM_DESCRIPTION_MAX')),
+  });
+
   const formInitialValues = {
     name: '',
     description: '',
@@ -123,6 +153,7 @@ export const CreateProjectModal = ({
               id="custom-status-close-drawer-continue"
               isPrimary
               isAccent
+              disabled={!formProps.isValid}
               onClick={formProps.submitForm}
             >
               {t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_CREATE_BUTTON')}

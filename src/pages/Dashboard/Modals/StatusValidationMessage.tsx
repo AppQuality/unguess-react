@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Message } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
-import { ProjectFormProps } from './ProjectFormModel';
+import { ProjectFormProps } from './CreateProjectModal';
 
 export const ProjectStatusValidationMessage = ({
   formikProps,
@@ -41,8 +41,7 @@ export const ProjectStatusValidationMessage = ({
     );
   }
   if (isChanged === false) return null;
-
-  return field_name === 'name' ? (
+  return field_name === 'name' && !errors.name ? (
     <Message validation="success" style={{ margin: `${appTheme.space.xs} 0` }}>
       {t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_SUCCESS')}
     </Message>
