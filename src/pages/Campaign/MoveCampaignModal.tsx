@@ -31,7 +31,7 @@ const MoveCampaignModal = ({
 }) => {
   const {
     id: cpId,
-    title: cpTitle,
+    customer_title: cpTitle,
     project: { id: prjId, name: prjName },
   } = campaign;
   const { t } = useTranslation();
