@@ -149,7 +149,6 @@ export const CreateProjectModal = ({
               id="custom-status-close-drawer-continue"
               isPrimary
               isAccent
-              disabled={!formProps.isValid}
               onClick={formProps.submitForm}
             >
               {t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_CREATE_BUTTON')}
