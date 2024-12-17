@@ -201,16 +201,10 @@ const Header = ({ campaignId, bug }: Props) => {
               <OrderbyTag orderBy={orderBy} order={order} />
               <AppliedFilters />
               {groupBy === 'usecase' && (
-                <UsecaseSelect
-                  usecases={bugsByUseCases}
-                  currentUsecase={currentUsecase?.toString()}
-                />
+                <UsecaseSelect usecases={bugsByUseCases} />
               )}
               {groupBy === 'bugState' && (
-                <StatusSelect
-                  statuses={bugsByStates}
-                  currentStatus={currentStatus?.toString()}
-                />
+                <StatusSelect statuses={bugsByStates} />
               )}
               {`${bugsNumber || 1} bugs`}
               {paginationItems && typeof currentIndex !== 'undefined' && (
