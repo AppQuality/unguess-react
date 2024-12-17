@@ -30,7 +30,7 @@ export const DashboardHeaderContent = ({
         </PageHeader.Main>
         {hasWorksPacePermission && (
           <PageHeader.Footer>
-            <Button isPrimary onClick={handleOpenModal}>
+            <Button isAccent isPrimary onClick={handleOpenModal}>
               {t('__DASHBOARD_CREATE_NEW_PROJECT')}
             </Button>
           </PageHeader.Footer>
