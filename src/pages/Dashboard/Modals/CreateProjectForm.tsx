@@ -1,6 +1,6 @@
 import { Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+
 import {
   FormField as Field,
   Hint,
@@ -10,9 +10,8 @@ import {
   Textarea,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
-import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
-import { ProjectFormProps } from './ProjectFormModel';
 import { ProjectStatusValidationMessage } from './StatusValidationMessage';
+import { ProjectFormProps } from './types';
 
 export const CreateProjectForm = ({
   formikProps,
@@ -20,25 +19,7 @@ export const CreateProjectForm = ({
   formikProps: FormikProps<ProjectFormProps>;
 }) => {
   const { t } = useTranslation();
-  const { activeWorkspace } = useActiveWorkspace();
-  const { currentData: projects } = useGetWorkspacesByWidProjectsQuery(
-    {
-      wid: activeWorkspace?.id.toString() || '',
-    },
-    { skip: !activeWorkspace?.id }
-  );
-  const validateProjectName = (value: string) => {
-    if (
-      projects &&
-      projects.items &&
-      projects.items.find((p) => p.name === value)
-    ) {
-      formikProps.setFieldError(
-        'name',
-        t('__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_UNIQUE_ERROR')
-      );
-    }
-  };
+
   return (
     <Form>
       <Label>
@@ -52,16 +33,11 @@ export const CreateProjectForm = ({
       >
         <Input
           style={{ marginTop: appTheme.space.xs }}
-          name="name"
           placeholder={t(
             '__DASHBOARD_CREATE_NEW_PROJECT_FORM_NAME_PLACEHOLDER'
           )}
-          onChange={(e) => {
-            formikProps.setFieldValue('name', e.target.value);
-          }}
-          onBlur={(e) => {
-            validateProjectName(e.target.value);
-          }}
+          {...formikProps.getFieldProps('name')}
+          {...(formikProps.errors.name && { validation: 'error' })}
         />
         <ProjectStatusValidationMessage
           formikProps={formikProps}
@@ -76,16 +52,14 @@ export const CreateProjectForm = ({
       </Hint>
       <Field>
         <Textarea
-          onChange={(e) => {
-            formikProps.setFieldValue('description', e.target.value);
-          }}
           isResizable
           rows={5}
           style={{ marginTop: appTheme.space.xs }}
-          name="description"
           placeholder={t(
             '__DASHBOARD_CREATE_NEW_PROJECT_FORM_DESCRIPTION_PLACEHOLDER'
           )}
+          {...formikProps.getFieldProps('description')}
+          {...(formikProps.errors.description && { validation: 'error' })}
         />
         <ProjectStatusValidationMessage
           formikProps={formikProps}
