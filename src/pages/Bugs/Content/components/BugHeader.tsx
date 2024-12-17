@@ -101,6 +101,20 @@ export default ({
             filters.devices = data.devices.selected.map((item) => item.device);
           }
         }
+        if (key === 'useCases') {
+          if (Array.isArray(data.useCases.selected)) {
+            filters.useCases = data.useCases.selected.map((item) =>
+              item.id.toString()
+            );
+          }
+        }
+        if (key === 'customStatuses') {
+          if (Array.isArray(data.customStatuses.selected)) {
+            filters.customStatuses = data.customStatuses.selected.map((item) =>
+              item.id.toString()
+            );
+          }
+        }
         if (key === 'unique') {
           filters.unique = data.unique.selected === 'unique' ? 'true' : 'false';
         }
@@ -115,8 +129,7 @@ export default ({
         if (
           key === 'priorities' ||
           key === 'replicabilities' ||
-          key === 'types' ||
-          key === 'customStatuses'
+          key === 'types'
         ) {
           if (Array.isArray(data[key].selected)) {
             filters[key] = data[key].selected.map((item) => item.name);

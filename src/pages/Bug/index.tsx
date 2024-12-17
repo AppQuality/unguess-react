@@ -3,20 +3,21 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { CustomStatusDrawer } from 'src/common/components/CustomStatusDrawer';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
-import styled from 'styled-components';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
-import { CustomStatusDrawer } from 'src/common/components/CustomStatusDrawer';
+import styled from 'styled-components';
+import { Actions } from './Actions';
 import { Content } from './Content';
 import Header from './Header';
 import { LoadingSkeleton } from './LoadingSkeleton';
-import { Actions } from './Actions';
+import { useSetFilters } from './useSetFilters';
 
 const BugContainer = styled.div<{ isFetching?: boolean }>`
   ${(p) =>
@@ -42,6 +43,7 @@ const Bug = () => {
 
   const [hideDrawer, setHideDrawer] = useState(width < breakpointSm);
   const [hideActions, setHideActions] = useState(width < breakpointLg);
+  useSetFilters({ campaignId: campaignId || '0' });
 
   if (
     !campaignId ||
