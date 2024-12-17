@@ -3,6 +3,7 @@ import {
   Notification,
   ProfileModal,
   Skeleton,
+  TextDescription,
   useToast,
 } from '@appquality/unguess-design-system';
 import { ComponentProps, useEffect } from 'react';
@@ -27,6 +28,7 @@ import {
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
 } from '../api';
+import { WrappedText } from 'src/common/components/WrappedText';
 
 const StyledContent = styled(Content)<
   ComponentProps<typeof Content> & {
@@ -38,6 +40,11 @@ const StyledContent = styled(Content)<
     isMinimal
       ? '100%'
       : `calc(100% - ${theme.components.chrome.header.height})`};
+`;
+
+const Text = styled(TextDescription)`
+  margin: ${({ theme }) => theme.space.lg};
+  margin-left: ${({ theme }) => theme.space.lg};
 `;
 
 export const Navigation = ({
@@ -223,7 +230,36 @@ export const Navigation = ({
     dispatch(setProfileModalOpen(false));
   };
 
-  if (!activeWorkspace) return null;
+  if (!activeWorkspace)
+    return (
+      <>
+        <Header
+          {...(isMinimal && {
+            style: { display: 'none', opacity: isFetchingPrefs ? 0.5 : 1 },
+          })}
+        />
+        {isProfileModalOpen && (
+          <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
+        )}
+        <StyledContent isMinimal={isMinimal}>
+          <AppSidebar
+            route={
+              route === 'projects' && parameter !== ''
+                ? `${route}/${parameter}`
+                : route
+            }
+            onSidebarToggle={toggleSidebarState}
+            {...(isMinimal && { style: { display: 'none' } })}
+          />
+          <Text>
+            <WrappedText>
+              I&apos;m so sorry, but it seems that you don&apos;t have an active
+              workspace.
+            </WrappedText>
+          </Text>
+        </StyledContent>
+      </>
+    );
 
   if (isLoadingPrefs) {
     return <Skeleton />;
