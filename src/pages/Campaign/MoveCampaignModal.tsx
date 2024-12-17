@@ -10,6 +10,8 @@ import {
   Row,
   Select,
   Skeleton,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -38,6 +40,7 @@ const MoveCampaignModal = ({
   const { activeWorkspace } = useActiveWorkspace();
   const [selectedProjectId, setSelectedProjectId] = useState<number>();
   const [patchCampaign] = usePatchCampaignsByCidMutation();
+  const { addToast } = useToast();
 
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id.toString() || '',
@@ -81,12 +84,21 @@ const MoveCampaignModal = ({
               <RightArrow style={{ marginTop: appTheme.space.xs }} />
             </Col>
             <Col size={5} style={{ margin: 0 }}>
+              <Label
+                style={{ display: 'block', marginBottom: appTheme.space.xs }}
+              >
+                {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_SELECT_LABEL')}
+              </Label>
               {!filteredProjects || isLoading || isFetching ? (
-                <Skeleton />
+                <Skeleton
+                  style={{
+                    height: appTheme.space.lg,
+                    borderRadius: appTheme.borderRadii.md,
+                  }}
+                />
               ) : (
                 <Select
                   isCompact
-                  label={t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_SELECT_LABEL')}
                   placeholder={t(
                     '__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_SELECT_PLACEHOLDER'
                   )}
@@ -130,7 +142,40 @@ const MoveCampaignModal = ({
               body: {
                 project_id: selectedProjectId,
               },
-            }).unwrap();
+            })
+              .unwrap()
+              .then(() => {
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="success"
+                      message={t(
+                        '__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MOVE_CAMPAIGN_TOAST_SUCCESS'
+                      )}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              })
+              .catch(() => {
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={t(
+                        '__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MOVE_CAMPAIGN_TOAST_ERROR'
+                      )}
+                      closeText={t('__TOAST_CLOSE_TEXT')}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              });
           }}
         >
           {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_BUTTON_CONFIRM')}
