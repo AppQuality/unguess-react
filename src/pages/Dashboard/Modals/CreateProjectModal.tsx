@@ -20,11 +20,7 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { CreateProjectForm } from './CreateProjectForm';
-
-export interface ProjectFormProps {
-  name: string;
-  description: string;
-}
+import { ProjectFormProps } from './types';
 
 const TitleWrapper = styled.div`
   display: flex;

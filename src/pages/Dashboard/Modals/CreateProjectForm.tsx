@@ -11,7 +11,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { ProjectStatusValidationMessage } from './StatusValidationMessage';
-import { ProjectFormProps } from './CreateProjectModal';
+import { ProjectFormProps } from './types';
 
 export const CreateProjectForm = ({
   formikProps,

@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { Message } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
-import { ProjectFormProps } from './CreateProjectModal';
+import { ProjectFormProps } from './types';
 
 export const ProjectStatusValidationMessage = ({
   formikProps,
