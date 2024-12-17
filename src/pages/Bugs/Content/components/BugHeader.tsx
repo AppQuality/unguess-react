@@ -134,13 +134,13 @@ export default ({
     const newSearchParams = createSearchParams({
       order,
       orderBy,
-      ...{
-        groupBy,
+      groupBy,
+      ...(groupBy !== 'ungrouped' && {
         groupByValue:
           groupBy === 'usecase'
             ? (bug.application_section.id || -1).toString()
             : bug.custom_status.id.toString(),
-      },
+      }),
       ...getFilterBy(),
     });
     return newSearchParams;
