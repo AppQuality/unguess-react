@@ -130,10 +130,17 @@ export default ({
       });
       return filters;
     };
+
     const newSearchParams = createSearchParams({
       order,
       orderBy,
-      groupBy,
+      ...{
+        groupBy,
+        groupByValue:
+          groupBy === 'usecase'
+            ? (bug.application_section.id || -1).toString()
+            : bug.custom_status.id.toString(),
+      },
       ...getFilterBy(),
     });
     return newSearchParams;

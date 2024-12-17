@@ -1,16 +1,10 @@
 import { Select } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { SelectedItem } from 'src/common/components/BugDetail/BugStateSelect';
 import { BugByStateType } from 'src/pages/Bugs/Content/BugsTable/types';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-export const StatusSelect = ({
-  statuses,
-  currentStatus,
-}: {
-  statuses: BugByStateType[];
-  currentStatus?: string;
-}) => {
+export const StatusSelect = ({ statuses }: { statuses: BugByStateType[] }) => {
   const navigate = useNavigate();
   const { campaignId } = useParams();
   const [searchParams] = useSearchParams();
@@ -36,11 +30,12 @@ export const StatusSelect = ({
         return <SelectedItem>{selectedStatus?.state.name}</SelectedItem>;
       }}
       isCompact
-      inputValue={currentStatus}
-      selectionValue={currentStatus}
+      inputValue={searchParams.get('groupByValue') || ''}
+      selectionValue={searchParams.get('groupByValue') || ''}
       onSelect={async (stateId) => {
         const target = statuses.find((u) => u.state.id === Number(stateId))
           ?.bugs[0].id;
+        searchParams.set('groupByValue', stateId);
         if (target) {
           navigate(
             `/campaigns/${campaignId}/bugs/${target}?${searchParams.toString()}`

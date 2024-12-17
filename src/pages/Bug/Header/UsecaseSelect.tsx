@@ -1,15 +1,13 @@
 import { Select } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { SelectedItem } from 'src/common/components/BugDetail/BugStateSelect';
 import { BugByUsecaseType } from 'src/pages/Bugs/Content/BugsTable/types';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 export const UsecaseSelect = ({
   usecases,
-  currentUsecase,
 }: {
   usecases: BugByUsecaseType[];
-  currentUsecase?: string;
 }) => {
   const navigate = useNavigate();
   const { campaignId } = useParams();
@@ -38,11 +36,12 @@ export const UsecaseSelect = ({
         );
       }}
       isCompact
-      inputValue={currentUsecase}
-      selectionValue={currentUsecase}
+      inputValue={searchParams.get('groupByValue') || ''}
+      selectionValue={searchParams.get('groupByValue') || ''}
       onSelect={async (usecaseId) => {
         const target = usecases.find((u) => u.useCase.id === Number(usecaseId))
           ?.bugs[0].id;
+        searchParams.set('groupByValue', usecaseId);
         if (target) {
           navigate(
             `/campaigns/${campaignId}/bugs/${target}?${searchParams.toString()}`
