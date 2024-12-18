@@ -17,6 +17,7 @@ import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
+  useGetWorkspacesByWidProjectsQuery,
 } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -27,6 +28,8 @@ import { CampaignStatus } from 'src/types';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { ReactComponent as MoveIcon } from 'src/assets/icons/move-icon.svg';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { CampaignDurationMeta } from './CampaignDurationMeta';
 import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
@@ -77,7 +80,9 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { t } = useTranslation();
   const [totalVideos, setTotalVideos] = useState<number>(0);
   const [isMoveModalOpen, setIsMoveModalOpen] = useState<boolean>(false);
-
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
+  const { activeWorkspace } = useActiveWorkspace();
   const functionalDashboardRoute = useLocalizeRoute(
     `campaigns/${campaign.id}/bugs`
   );
@@ -85,6 +90,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     `campaigns/${campaign.id}/videos`
   );
   const insightsRoute = useLocalizeRoute(`campaigns/${campaign.id}/insights`);
+  const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
 
   const {
     data: meta,
@@ -96,8 +102,22 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
     isLoading: isLoadingVideos,
     isFetching: isFetchingVideos,
   } = useVideos(campaign.id.toString() ?? '');
-  const { hasFeatureFlag } = useFeatureFlag();
-  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
+
+  const {
+    data: projectsData,
+    isLoading: isLoadingProjects,
+    isFetching: isFetchingProjects,
+    isError: isErrorProjects,
+  } = useGetWorkspacesByWidProjectsQuery({
+    wid: activeWorkspace?.id.toString() || '',
+  });
+
+  const projects = projectsData?.items;
+
+  // Filter out the current project
+  const filteredProjects = projects?.filter(
+    (item) => item.id !== campaign.project.id
+  );
 
   useEffect(() => {
     if (videos) {
@@ -176,25 +196,32 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
               </Link>
             </>
           )}
-          <DotsMenu
-            style={{
-              zIndex: appTheme.levels.front,
-              padding: appTheme.space.sm,
-            }}
-          >
-            <Button
-              isBasic
-              isPill={false}
-              onClick={() => {
-                setIsMoveModalOpen(true);
-              }}
-            >
-              <Button.StartIcon>
-                <MoveIcon />
-              </Button.StartIcon>
-              {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
-            </Button>
-          </DotsMenu>
+          {hasWorkspaceAccess &&
+            filteredProjects &&
+            filteredProjects.length > 0 &&
+            !isErrorProjects &&
+            !isLoadingProjects &&
+            !isFetchingProjects && (
+              <DotsMenu
+                style={{
+                  zIndex: appTheme.levels.front,
+                  padding: appTheme.space.sm,
+                }}
+              >
+                <Button
+                  isBasic
+                  isPill={false}
+                  onClick={() => {
+                    setIsMoveModalOpen(true);
+                  }}
+                >
+                  <Button.StartIcon>
+                    <MoveIcon />
+                  </Button.StartIcon>
+                  {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
+                </Button>
+              </DotsMenu>
+            )}
         </ButtonWrapper>
       </FooterContainer>
       {isMoveModalOpen && (
