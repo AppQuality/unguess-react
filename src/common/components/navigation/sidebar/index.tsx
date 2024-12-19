@@ -28,12 +28,12 @@ import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
 import { ReactComponent as ServicesIconActive } from './icons/services-active.svg';
 import { ReactComponent as ServicesIcon } from './icons/services.svg';
+import { ReactComponent as ArchiveIcon } from './icons/project-archive.svg';
 import { SidebarSkeleton } from './skeleton';
 
 const ScrollingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  order: 1;
   height: 100%;
 `;
 
@@ -55,6 +55,17 @@ const DropdownItem = styled.div`
   }
 `;
 
+const NavItemArchive = styled(NavItemText)`
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    ${SM} {
+      color: ${({ theme }) => theme.palette.grey[600]};
+    }
+  }
+`;
+
 export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const { route, onSidebarToggle } = props;
   const { t } = useTranslation();
@@ -67,7 +78,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const prjRef = useRef<HTMLButtonElement>(null);
 
   const {
-    currentData: projects,
+    currentData: allProjects,
     isLoading,
     isFetching,
   } = useGetWorkspacesByWidProjectsQuery(
@@ -76,6 +87,14 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     },
     { skip: !activeWorkspace?.id }
   );
+  const projects =
+    allProjects && allProjects.items
+      ? allProjects?.items.filter((project) => !project.is_archive)
+      : [];
+  const archive =
+    allProjects &&
+    allProjects.items &&
+    allProjects?.items.find((project) => project.is_archive);
 
   const navigateTo = (destination: string, parameter?: string) => {
     let localizedRoute = '';
@@ -150,7 +169,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         </NavItem>
 
         {/** Projects Accordion */}
-        {projects?.items && projects.items.length ? (
+        {projects && projects.length ? (
           <NavAccordionItem
             className="sidebar-project-accordion-first-item"
             level={4}
@@ -168,7 +187,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
               <NavAccordionItem.Panel
                 style={{ padding: 0, maxHeight: '180px' }}
               >
-                {projects.items.map((project) => (
+                {projects.map((project) => (
                   <NavItemProject
                     className="sidebar-project-item"
                     key={project.id}
@@ -205,13 +224,33 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           isExpanded={isSidebarOpen}
           isCurrent={route === 'services'}
           onClick={() => navigateTo('services')}
-          style={{ marginBottom: '16px' }}
         >
           <NavItemIcon isStyled>
             {route === 'services' ? <ServicesIconActive /> : <ServicesIcon />}
           </NavItemIcon>
           <NavItemText>{t('__APP_SIDEBAR_SERVICES_ITEM_LABEL')}</NavItemText>
         </NavItem>
+        {archive && (
+          <NavItem
+            className="sidebar-first-level-item"
+            title="Archive"
+            isExpanded={isSidebarOpen}
+            isCurrent={route === `projects/${archive.id}`}
+            onClick={() => navigateTo(`projects/${archive.id}`)}
+          >
+            <NavItemIcon isStyled style={{ alignSelf: 'center' }}>
+              <ArchiveIcon />
+            </NavItemIcon>
+            <NavItemArchive>
+              <div className="content">
+                Archive
+                <SM>
+                  {archive.campaigns_count} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
+                </SM>
+              </div>
+            </NavItemArchive>
+          </NavItem>
+        )}
       </ScrollingContainer>
       {/* Footer Logo */}
       <NavItem

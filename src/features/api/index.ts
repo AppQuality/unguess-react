@@ -752,6 +752,7 @@ export type PatchCampaignsByCidApiArg = {
   cid: string;
   body: {
     customer_title?: string;
+    project_id?: number;
   };
 };
 export type GetCampaignsByCidApiResponse =
@@ -2156,6 +2157,7 @@ export type Project = {
   campaigns_count: number;
   workspaceId: number;
   description?: string;
+  is_archive?: number;
 };
 export type Feature = {
   slug?: string;
