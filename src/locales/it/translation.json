@@ -956,7 +956,7 @@
   "__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR": "Errore",
   "__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_MAX_LENGTH": "Inserisci una descrizione con una lunghezza massima di 234 caratteri.",
   "__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER": "Aggiungi una descrizione",
-  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Errore",
+  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Il nome del progetto è già in uso. Scegline un altro.",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_MAX_LENGTH": "Questo nome è troppo lungo. Raccomandiamo di utilizzare massimo 64 caratteri spazi inclusi.",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_REQUIRED": "Campo obbligatorio",
   "__PROJECT_SETTINGS_CTA_TEXT": "Invita",
