@@ -28,6 +28,7 @@ import { CampaignStatus } from 'src/types';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { ReactComponent as MoveIcon } from 'src/assets/icons/move-icon.svg';
+import { ReactComponent as ArchiveIcon } from 'src/assets/icons/project-archive.svg';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { CampaignDurationMeta } from './CampaignDurationMeta';
@@ -36,6 +37,8 @@ import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
 import { TvMeta } from './TvMeta';
 import { MoveCampaignModal } from '../../MoveCampaignModal';
+import { Divider } from 'src/common/components/divider';
+import { ArchiveCampaignModal } from '../../ArchiveCampaignModal';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -80,6 +83,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   const { t } = useTranslation();
   const [totalVideos, setTotalVideos] = useState<number>(0);
   const [isMoveModalOpen, setIsMoveModalOpen] = useState<boolean>(false);
+  const [isArchiveModalOpen, setIsArchiveModalOpen] = useState<boolean>(false);
   const { hasFeatureFlag } = useFeatureFlag();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
   const { activeWorkspace } = useActiveWorkspace();
@@ -117,6 +121,10 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
   // Filter out the current project
   const filteredProjects = projects?.filter(
     (item) => item.id !== campaign.project.id
+  );
+
+  const currentProject = projects?.find(
+    (project) => project.id === campaign.project.id
   );
 
   useEffect(() => {
@@ -199,7 +207,8 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
           {hasWorkspaceAccess &&
             !isErrorProjects &&
             !isLoadingProjects &&
-            !isFetchingProjects && (
+            !isFetchingProjects &&
+            !currentProject?.is_archive && (
               <DotsMenu
                 style={{
                   zIndex: appTheme.levels.front,
@@ -219,6 +228,20 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
                   </Button.StartIcon>
                   {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
                 </Button>
+                <Divider />
+                <Button
+                  disabled={!(filteredProjects && filteredProjects.length > 0)}
+                  isBasic
+                  isPill={false}
+                  onClick={() => {
+                    setIsArchiveModalOpen(true);
+                  }}
+                >
+                  <Button.StartIcon>
+                    <ArchiveIcon />
+                  </Button.StartIcon>
+                  {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
+                </Button>
               </DotsMenu>
             )}
         </ButtonWrapper>
@@ -227,6 +250,12 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         <MoveCampaignModal
           campaign={campaign}
           onClose={() => setIsMoveModalOpen(false)}
+        />
+      )}
+      {isArchiveModalOpen && (
+        <ArchiveCampaignModal
+          campaign={campaign}
+          onClose={() => setIsArchiveModalOpen(false)}
         />
       )}
     </>
