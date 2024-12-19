@@ -12,6 +12,10 @@ export const getFiltersFromParams = (searchParams: URLSearchParams) => ({
       ? searchParams.getAll('devices')
       : null,
   os: searchParams.getAll('os').length > 0 ? searchParams.getAll('os') : null,
+  usecase:
+    searchParams.getAll('useCases').length > 0
+      ? searchParams.getAll('useCases')
+      : null,
   priorities:
     searchParams.getAll('priorities').length > 0
       ? searchParams.getAll('priorities')
