@@ -53,6 +53,7 @@ export const Actions = () => {
     isFetching: isFetchingUsers,
   } = useGetMentionableUsers();
   const { t } = useTranslation();
+  const { campaignId, bugId } = useParams();
   const mentionableUsers = useCallback(
     ({ query }: { query: string }) => {
       const mentions = users.filter((user) => {
@@ -74,7 +75,6 @@ export const Actions = () => {
   const [mediaIds, setMediaIds] = useState<
     { id: number; internal_id: string }[]
   >([]);
-  const { campaignId, bugId } = useParams();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const cid = campaignId ? campaignId.toString() : '';
   const bid = bugId ? bugId.toString() : '';
