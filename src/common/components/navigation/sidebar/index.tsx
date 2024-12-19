@@ -28,7 +28,7 @@ import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
 import { ReactComponent as ServicesIconActive } from './icons/services-active.svg';
 import { ReactComponent as ServicesIcon } from './icons/services.svg';
-import { ReactComponent as ArchiveIcon } from './icons/project-archive.svg';
+import { ReactComponent as ArchiveIcon } from '../../../../assets/icons/project-archive.svg';
 import { SidebarSkeleton } from './skeleton';
 
 const ScrollingContainer = styled.div`
