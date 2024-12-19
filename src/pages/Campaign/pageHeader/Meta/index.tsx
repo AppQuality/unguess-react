@@ -197,8 +197,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
             </>
           )}
           {hasWorkspaceAccess &&
-            filteredProjects &&
-            filteredProjects.length > 0 &&
             !isErrorProjects &&
             !isLoadingProjects &&
             !isFetchingProjects && (
@@ -209,6 +207,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
                 }}
               >
                 <Button
+                  disabled={filteredProjects && filteredProjects.length <= 1}
                   isBasic
                   isPill={false}
                   onClick={() => {
