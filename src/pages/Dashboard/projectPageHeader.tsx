@@ -83,7 +83,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
 
   useEffect(() => {
-    // se il nome del progetto è stato cambiato con successo, allora invia l'evento GTM
     if (itemTitle) {
       sendGTMEvent({
         event: 'project_name',
@@ -93,7 +92,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
       });
     }
 
-    // se la descrizione del progetto è stata cambiata con successo, allora invia l'evento GTM
     sendGTMEvent({
       event: 'project_description',
       category: 'projects_dashboard',
@@ -178,12 +176,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                 { placement: 'top' }
               );
               setItemTitle(project?.name);
-              sendGTMEvent({
-                event: 'project_name',
-                category: 'projects_dashboard',
-                action: 'change_name_error',
-                content: e.currentTarget.value,
-              });
             }
           }}
           style={{ paddingLeft: 0 }}
