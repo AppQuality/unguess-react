@@ -33,7 +33,7 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['Campaigns'],
     },
     patchCampaignsByCid: {
-      invalidatesTags: ['Campaigns'],
+      invalidatesTags: ['Campaigns', 'Projects'],
     },
     postProjects: {
       invalidatesTags: ['Projects'],
