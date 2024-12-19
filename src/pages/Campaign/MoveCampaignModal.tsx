@@ -23,6 +23,7 @@ import {
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { ReactComponent as RightArrow } from 'src/assets/icons/arrow-right.svg';
 import { useState } from 'react';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 const MoveCampaignModal = ({
   campaign,
@@ -50,7 +51,7 @@ const MoveCampaignModal = ({
 
   // Filter out the current project
   const filteredProjects = projects?.filter((item) => item.id !== prjId);
-
+  const sendGTMEvent = useSendGTMevent();
   return (
     <Modal onClose={onClose}>
       <Modal.Header isDanger>
@@ -145,6 +146,12 @@ const MoveCampaignModal = ({
             })
               .unwrap()
               .then(() => {
+                sendGTMEvent({
+                  event: 'workspaces-action',
+                  category: '',
+                  action: 'move',
+                  content: 'campaign',
+                });
                 addToast(
                   ({ close }) => (
                     <Notification
