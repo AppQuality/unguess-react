@@ -2,6 +2,7 @@
 import {
   getColor,
   IconButton,
+  MD,
   Tooltip,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoIcon } from '@zendeskgarden/svg-icons/src/12/info-stroke.svg';
@@ -55,16 +56,22 @@ export const AppliedFilters = () => {
 
           const getValue = () => {
             const value = filterBy[key];
-            if (!Array.isArray(value) || !value) return '-';
+            if (!Array.isArray(value) || !value) return '';
 
-            if (key === 'usecase') return value.length;
+            if (key === 'usecase') return value.length.toString();
 
             return value.map((item: string) => item).join(', ');
           };
 
+          const value = getValue();
+
           return (
             <li key={key}>
-              <strong>{name}:</strong> {getValue()}
+              <strong>
+                {name}
+                {value.length > 0 ? ':' : ''}
+              </strong>{' '}
+              {value}
             </li>
           );
         }
@@ -85,14 +92,19 @@ export const AppliedFilters = () => {
           size="large"
           type="light"
           content={
-            <ul
-              style={{
-                listStyleType: 'disc',
-                paddingLeft: appTheme.space.sm,
-              }}
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
             >
-              {renderFilterItems()}
-            </ul>
+              <MD isBold>{t('__BUG_PAGE_HEADER_FILTERS_APPLIED_HEADER')}:</MD>
+              <ul
+                style={{
+                  listStyleType: 'disc',
+                  paddingLeft: appTheme.space.sm,
+                }}
+              >
+                {renderFilterItems()}
+              </ul>
+            </div>
           }
         >
           <IconButton size="small">
