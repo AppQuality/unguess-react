@@ -78,7 +78,7 @@ export const UniqueField = ({
                   >
                     {item === 'unique'
                       ? t('__BUGS_UNIQUE_FILTER_ITEM_UNIQUE')
-                      : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
+                      : t('__BUGS_UNIQUE_FILTER_ITEM_ALL')}
                     <MD>{counters[item as string] || 0}</MD>
                   </LabelSpaceBetween>
                 </Radio>
