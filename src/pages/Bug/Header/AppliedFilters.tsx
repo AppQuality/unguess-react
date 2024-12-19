@@ -39,6 +39,7 @@ export const AppliedFilters = () => {
     types: t('__BUG_PAGE_HEADER_FILTER_TYPES'),
     replicabilities: t('__BUG_PAGE_HEADER_FILTER_REPLICABILITIES'),
     status: t('__BUG_PAGE_HEADER_FILTER_STATUS'),
+    usecase: t('__BUG_PAGE_HEADER_FILTER_USECASE'),
   };
 
   const renderFilterItems = () =>
@@ -54,9 +55,11 @@ export const AppliedFilters = () => {
             <li key={key}>
               <strong>{filterLabels[key]}:</strong>{' '}
               {Array.isArray(filterBy[key]) &&
-                (filterBy[key] as string[])
-                  .map((item: string) => item)
-                  .join(', ')}
+                (key === 'usecase'
+                  ? filterBy[key].length
+                  : (filterBy[key] as string[])
+                      .map((item: string) => item)
+                      .join(', '))}
             </li>
           );
         }
