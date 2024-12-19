@@ -51,15 +51,20 @@ export const AppliedFilters = () => {
           key in filterBy &&
           filterBy[key]
         ) {
+          const name = filterLabels[key];
+
+          const getValue = () => {
+            const value = filterBy[key];
+            if (!Array.isArray(value) || !value) return '-';
+
+            if (key === 'usecase') return value.length;
+
+            return value.map((item: string) => item).join(', ');
+          };
+
           return (
             <li key={key}>
-              <strong>{filterLabels[key]}:</strong>{' '}
-              {Array.isArray(filterBy[key]) &&
-                (key === 'usecase'
-                  ? filterBy[key].length
-                  : (filterBy[key] as string[])
-                      .map((item: string) => item)
-                      .join(', '))}
+              <strong>{name}:</strong> {getValue()}
             </li>
           );
         }
