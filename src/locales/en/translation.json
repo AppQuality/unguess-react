@@ -72,6 +72,7 @@
   "__BUG_PAGE_HEADER_FILTER_UNREAD": "Unread only",
   "__BUG_PAGE_HEADER_FILTER_USECASE": "Usecases",
   "__BUG_PAGE_HEADER_FILTERS_APPLIED": "Applied filters",
+  "__BUG_PAGE_HEADER_FILTERS_APPLIED_HEADER": "Filters currently applied",
   "__BUG_PAGE_HEADER_HIGHEST_PRIORITY": "Highest priority",
   "__BUG_PAGE_HEADER_HIGHEST_SEVERITY": "Highest severity",
   "__BUG_PAGE_HEADER_LOWEST_PRIORITY": "Lowest priority",
