@@ -2172,6 +2172,7 @@ export type Project = {
   campaigns_count: number;
   workspaceId: number;
   description?: string;
+  is_archive?: number;
 };
 export type Feature = {
   slug?: string;
