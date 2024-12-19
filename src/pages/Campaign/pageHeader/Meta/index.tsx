@@ -207,7 +207,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
                 }}
               >
                 <Button
-                  disabled={filteredProjects && filteredProjects.length > 0}
+                  disabled={!(filteredProjects && filteredProjects.length > 0)}
                   isBasic
                   isPill={false}
                   onClick={() => {
