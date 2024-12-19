@@ -1,10 +1,12 @@
 import {
+  MD,
   PageHeader,
   Skeleton,
   XL,
   getColor,
 } from '@appquality/unguess-design-system';
 import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -21,7 +23,7 @@ import {
 import { useBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugs';
 import { useBugsByState } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByState';
 import { useBugsByUseCase } from 'src/pages/Bugs/Content/BugsTable/hooks/useBugsByUseCase';
-import { styled } from 'styled-components';
+import { styled, useTheme } from 'styled-components';
 import { ActionsMenu } from './ActionsMenu';
 import { AppliedFilters } from './AppliedFilters';
 import { BreadCrumbs } from './Breadcrumb';
@@ -58,7 +60,14 @@ const Wrapper = styled.div`
   }
 `;
 
+const RecapWrapper = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.space.md};
+`;
+
 const Header = ({ campaignId, bug }: Props) => {
+  const theme = useTheme();
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
 
@@ -194,19 +203,26 @@ const Header = ({ campaignId, bug }: Props) => {
             isBold
             color={getColor(appTheme.colors.primaryHue, 600)}
           >
-            BUGID: {bug.id}
+            Bug ID: {bug.id}
           </XL>
           {searchParams.size > 0 && (
             <>
-              <OrderbyTag orderBy={orderBy} order={order} />
-              <AppliedFilters />
+              <RecapWrapper>
+                <OrderbyTag orderBy={orderBy} order={order} />
+                <AppliedFilters />
+              </RecapWrapper>
               {groupBy === 'usecase' && (
                 <UsecaseSelect usecases={bugsByUseCases} />
               )}
               {groupBy === 'bugState' && (
                 <StatusSelect statuses={bugsByStates} />
               )}
-              {`${bugsNumber || 1} bugs`}
+              <MD
+                isBold
+                style={{ color: getColor(theme.colors.primaryHue, 600) }}
+              >
+                {t('{{count}} bugs', { count: bugsNumber || 1 })}
+              </MD>
               {paginationItems && typeof currentIndex !== 'undefined' && (
                 <Pagination
                   paginationItems={paginationItems}

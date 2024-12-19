@@ -1,7 +1,8 @@
-import { Tag, getColor } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
-import { Order, OrderBy } from 'src/features/bugsPage/bugsPageSlice';
+import { getColor } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { Meta } from 'src/common/components/Meta';
+import { Order, OrderBy } from 'src/features/bugsPage/bugsPageSlice';
+import { useTheme } from 'styled-components';
 
 interface OrderbyTagProps {
   orderBy: OrderBy;
@@ -9,6 +10,7 @@ interface OrderbyTagProps {
 }
 
 export const OrderbyTag = ({ orderBy, order }: OrderbyTagProps) => {
+  const theme = useTheme();
   const { t } = useTranslation();
 
   const mapOrderBy: { [key: string]: string } = {
@@ -19,11 +21,12 @@ export const OrderbyTag = ({ orderBy, order }: OrderbyTagProps) => {
   };
 
   return (
-    <Tag color={getColor(appTheme.colors.infoHue, 600)} hue="transparent">
-      {t('__BUG_PAGE_HEADER_ORDERBY')}:{' '}
-      <Tag.SecondaryText color={appTheme.palette.grey[700]} isBold>
-        {mapOrderBy[`${orderBy} ${order}`]}
-      </Tag.SecondaryText>
-    </Tag>
+    <Meta
+      size="large"
+      color={getColor(theme.colors.infoHue, 600)}
+      secondaryText={mapOrderBy[`${orderBy} ${order}`]}
+    >
+      {t('__BUG_PAGE_HEADER_ORDERBY')}:
+    </Meta>
   );
 };

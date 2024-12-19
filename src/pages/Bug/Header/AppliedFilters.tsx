@@ -1,13 +1,24 @@
 /* eslint-disable security/detect-object-injection */
-import { getColor, Tag, Tooltip } from '@appquality/unguess-design-system';
+import {
+  getColor,
+  IconButton,
+  Tooltip,
+} from '@appquality/unguess-design-system';
+import { ReactComponent as InfoIcon } from '@zendeskgarden/svg-icons/src/12/info-stroke.svg';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as InfoIcon } from '@zendeskgarden/svg-icons/src/12/info-stroke.svg';
-import { useTranslation } from 'react-i18next';
+import { Meta } from 'src/common/components/Meta';
+import styled, { useTheme } from 'styled-components';
 import { getFiltersFromParams } from './getFiltersFromParams';
 
+const Wrapper = styled.div`
+  display: flex;
+`;
+
 export const AppliedFilters = () => {
+  const theme = useTheme();
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const filterBy = useMemo(() => {
@@ -53,31 +64,34 @@ export const AppliedFilters = () => {
       }
     );
   return (
-    <Tag color={getColor(appTheme.colors.infoHue, 600)} hue="transparent">
-      {t('__BUG_PAGE_HEADER_FILTERS_APPLIED')}
-      <Tag.SecondaryText color={appTheme.palette.grey[700]} isBold>
-        {Object.keys(filterBy).length}{' '}
-        {Object.keys(filterBy).length > 0 && (
-          <Tooltip
-            size="large"
-            type="light"
-            content={
-              <ul
-                style={{
-                  listStyleType: 'disc',
-                  paddingLeft: appTheme.space.sm,
-                }}
-              >
-                {renderFilterItems()}
-              </ul>
-            }
-          >
-            <span>
-              <InfoIcon />
-            </span>
-          </Tooltip>
-        )}
-      </Tag.SecondaryText>
-    </Tag>
+    <Wrapper>
+      <Meta
+        size="large"
+        color={getColor(theme.colors.infoHue, 600)}
+        secondaryText={Object.keys(filterBy).length}
+      >
+        {t('__BUG_PAGE_HEADER_FILTERS_APPLIED')}
+      </Meta>
+      {Object.keys(filterBy).length > 0 && (
+        <Tooltip
+          size="large"
+          type="light"
+          content={
+            <ul
+              style={{
+                listStyleType: 'disc',
+                paddingLeft: appTheme.space.sm,
+              }}
+            >
+              {renderFilterItems()}
+            </ul>
+          }
+        >
+          <IconButton size="small">
+            <InfoIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+    </Wrapper>
   );
 };
