@@ -85,7 +85,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   useEffect(() => {
     if (itemTitle) {
       sendGTMEvent({
-        event: 'project_name',
+        event: 'workspaces-action',
         category: 'projects_dashboard',
         action: 'change_name_success',
         content: itemTitle,
@@ -93,7 +93,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     }
 
     sendGTMEvent({
-      event: 'project_description',
+      event: 'workspaces-action',
       category: 'projects_dashboard',
       action: 'change_description_success',
       content: itemDescription,
