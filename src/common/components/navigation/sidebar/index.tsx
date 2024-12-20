@@ -1,4 +1,5 @@
 import {
+  getColor,
   Logo,
   Nav,
   NavAccordionItem,
@@ -21,13 +22,15 @@ import { toggleSidebar } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
 import { ReactComponent as ServicesIconActive } from './icons/services-active.svg';
 import { ReactComponent as ServicesIcon } from './icons/services.svg';
+import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
+import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
 import { SidebarSkeleton } from './skeleton';
 
 const ScrollingContainer = styled.div`
@@ -56,6 +59,7 @@ const DropdownItem = styled.div`
 `;
 
 export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
+  const theme = useTheme();
   const { route, onSidebarToggle } = props;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -76,6 +80,16 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     },
     { skip: !activeWorkspace?.id }
   );
+
+  const archiveId =
+    projects &&
+    projects.items &&
+    projects?.items.find((p) => p.is_archive === 1)?.id;
+
+  const archivedCampaignsCount =
+    projects &&
+    projects.items &&
+    projects?.items.find((p) => p.is_archive === 1)?.campaigns_count;
 
   const navigateTo = (destination: string, parameter?: string) => {
     let localizedRoute = '';
@@ -212,6 +226,34 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           </NavItemIcon>
           <NavItemText>{t('__APP_SIDEBAR_SERVICES_ITEM_LABEL')}</NavItemText>
         </NavItem>
+
+        {/** Archive */}
+        {archiveId && (
+          <NavItem
+            className="sidebar-first-level-item"
+            title="Archive"
+            isExpanded={isSidebarOpen}
+            isCurrent={route === `projects/${archiveId}`}
+            onClick={() => navigateTo('projects/1584')}
+            style={{ marginBottom: '16px' }}
+          >
+            <NavItemIcon isStyled>
+              {route === `projects/${archiveId}` ? (
+                <ArchiveIconActive />
+              ) : (
+                <ArchiveIcon />
+              )}
+            </NavItemIcon>
+            <NavItemText>
+              {t('__APP_SIDEBAR_ARCHIVE_ITEM_LABEL')}
+              <div>
+                <SM style={{ color: getColor(theme.colors.neutralHue, 500) }}>
+                  {archivedCampaignsCount} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
+                </SM>
+              </div>
+            </NavItemText>
+          </NavItem>
+        )}
       </ScrollingContainer>
       {/* Footer Logo */}
       <NavItem

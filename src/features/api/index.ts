@@ -572,16 +572,6 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    postVideosByVidSentiment: build.mutation<
-      PostVideosByVidSentimentApiResponse,
-      PostVideosByVidSentimentApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/videos/${queryArg.vid}/sentiment`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -1543,11 +1533,6 @@ export type PostVideosByVidTranslationApiArg = {
     language: string;
   };
 };
-export type PostVideosByVidSentimentApiResponse = /** status 200 OK */ object;
-export type PostVideosByVidSentimentApiArg = {
-  vid: string;
-  body: object;
-};
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
   start?: number;
@@ -1581,7 +1566,9 @@ export type GetWorkspacesByWidApiArg = {
   wid: string;
 };
 export type GetWorkspacesByWidCampaignsApiResponse = /** status 200 OK */ {
-  items?: CampaignWithOutput[];
+  items?: (CampaignWithOutput & {
+    is_archived: number;
+  })[];
   start?: number;
   limit?: number;
   size?: number;
@@ -2172,6 +2159,7 @@ export type Project = {
   campaigns_count: number;
   workspaceId: number;
   description?: string;
+  is_archive?: number;
 };
 export type Feature = {
   slug?: string;
@@ -2294,7 +2282,6 @@ export const {
   useDeleteVideosByVidObservationsAndOidMutation,
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
-  usePostVideosByVidSentimentMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
