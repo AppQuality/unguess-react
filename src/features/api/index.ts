@@ -1566,7 +1566,9 @@ export type GetWorkspacesByWidApiArg = {
   wid: string;
 };
 export type GetWorkspacesByWidCampaignsApiResponse = /** status 200 OK */ {
-  items?: CampaignWithOutput[];
+  items?: (CampaignWithOutput & {
+    is_archived: number;
+  })[];
   start?: number;
   limit?: number;
   size?: number;
