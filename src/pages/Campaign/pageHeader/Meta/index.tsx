@@ -232,7 +232,6 @@ export const Metas = ({
                 </Button>
                 <Divider />
                 <Button
-                  disabled={!(filteredProjects && filteredProjects.length > 0)}
                   isBasic
                   isPill={false}
                   onClick={() => {
