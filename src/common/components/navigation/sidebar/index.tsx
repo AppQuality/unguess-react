@@ -17,20 +17,23 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
+import {
+  useGetWorkspacesByWidArchiveQuery,
+  useGetWorkspacesByWidProjectsQuery,
+} from 'src/features/api';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
 import styled, { useTheme } from 'styled-components';
 import { WorkspacesDropdown } from '../workspacesDropdown';
+import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
+import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
 import { ReactComponent as ServicesIconActive } from './icons/services-active.svg';
 import { ReactComponent as ServicesIcon } from './icons/services.svg';
-import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
-import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
 import { SidebarSkeleton } from './skeleton';
 
 const ScrollingContainer = styled.div`
@@ -81,15 +84,15 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     { skip: !activeWorkspace?.id }
   );
 
-  const archiveId =
-    projects &&
-    projects.items &&
-    projects?.items.find((p) => p.is_archive === 1)?.id;
+  const { data: archive } = useGetWorkspacesByWidArchiveQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    { skip: !activeWorkspace?.id }
+  );
+  const archiveId = archive?.id;
 
-  const archivedCampaignsCount =
-    projects &&
-    projects.items &&
-    projects?.items.find((p) => p.is_archive === 1)?.campaigns_count;
+  const archivedCampaignsCount = archive?.campaignsCounter || 0;
 
   const navigateTo = (destination: string, parameter?: string) => {
     let localizedRoute = '';
@@ -234,7 +237,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
             title="Archive"
             isExpanded={isSidebarOpen}
             isCurrent={route === `projects/${archiveId}`}
-            onClick={() => navigateTo('projects/1584')}
+            onClick={() => navigateTo(`projects/${archiveId}`)}
             style={{ marginBottom: '16px' }}
           >
             <NavItemIcon isStyled>
