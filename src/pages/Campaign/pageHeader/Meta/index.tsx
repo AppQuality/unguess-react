@@ -33,7 +33,7 @@ import { useVideos } from 'src/pages/Videos/useVideos';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { ArchiveCampaignModal } from '../../ArchiveCampaignModal';
-import { MoveCampaignModal } from '../../MoveCampaignModal';
+import { useMoveCampaignModalContext } from '../../MoveCampaignModal';
 import { CampaignDurationMeta } from './CampaignDurationMeta';
 import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
@@ -87,7 +87,7 @@ export const Metas = ({
     campaign;
   const { t } = useTranslation();
   const [totalVideos, setTotalVideos] = useState<number>(0);
-  const [isMoveModalOpen, setIsMoveModalOpen] = useState<boolean>(false);
+  const { setIsOpen: setIsMoveModalOpen } = useMoveCampaignModalContext();
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState<boolean>(false);
   const { hasFeatureFlag } = useFeatureFlag();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
@@ -140,7 +140,6 @@ export const Metas = ({
 
   if (isLoading || isFetching || isLoadingVideos || isFetchingVideos)
     return <Skeleton width="500px" height="20px" />;
-  const hasArchive = projects?.find((project) => project.is_archive) ?? false;
 
   return (
     <>
@@ -247,12 +246,6 @@ export const Metas = ({
             )}
         </ButtonWrapper>
       </FooterContainer>
-      {isMoveModalOpen && (
-        <MoveCampaignModal
-          campaign={campaign}
-          onClose={() => setIsMoveModalOpen(false)}
-        />
-      )}
       {isArchiveModalOpen && (
         <ArchiveCampaignModal
           campaign={campaign}

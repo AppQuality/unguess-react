@@ -289,6 +289,7 @@
   "__BUGS_USECASES_FILTER_ITEM_NO_ITEMS": "Use Case",
   "__CAMPAIGN_ARCHIVE_HEADER_ALERT_1": "Archived campaign",
   "__CAMPAIGN_ARCHIVE_HEADER_ALERT_2": "This campaign was archived. You can retrieve it at any time.",
+  "__CAMPAIGN_ARCHIVE_UNARCHIVE_BUTTON": "Unarchive",
   "__CAMPAIGN_CARD_EMPTY_TITLE_LABEL": "Untitled",
   "__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_DESCRIPTION": "Here you can see the users’ sentiments throughout the Use Cases, evaluated on this rating scale:",
   "__CAMPAIGN_EXP_WIDGET_SENTIMENT_CARD_PRE_TITLE": "About this chart",

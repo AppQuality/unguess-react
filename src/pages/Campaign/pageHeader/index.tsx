@@ -4,13 +4,14 @@ import {
   MD,
   PageHeader,
 } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { Metas } from './Meta';
-import { HeaderSkeleton } from './HeaderSkeleton';
+import { useMoveCampaignModalContext } from '../MoveCampaignModal';
 import { EditableTitle } from './EditableTitle';
+import { HeaderSkeleton } from './HeaderSkeleton';
+import { Metas } from './Meta';
 import { useCampaign } from './useCampaign';
 
 const StyledAlertTextWrapper = styled.div`
@@ -21,6 +22,7 @@ const StyledAlertTextWrapper = styled.div`
 `;
 
 const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
+  const { setIsOpen } = useMoveCampaignModalContext();
   const navigate = useNavigate();
   const { isUserLoading, isLoading, isError, campaign, project } =
     useCampaign(campaignId);
@@ -42,6 +44,14 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
               <MD>{t('__CAMPAIGN_ARCHIVE_HEADER_ALERT_2')}</MD>
             </StyledAlertTextWrapper>
           }
+          cta={{
+            label: t('__CAMPAIGN_ARCHIVE_UNARCHIVE_BUTTON'),
+            buttonProps: {
+              onClick: () => {
+                setIsOpen(true);
+              },
+            },
+          }}
         />
       )}
       <LayoutWrapper>
