@@ -182,7 +182,9 @@ export default ({
       </Tag>
       <ActionDetailPreview>
         <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+          to={`${useLocalizeRoute(
+            `campaigns/${bug.campaign_id}/bugs/${bug.id}`
+          )}?${searchParams.toString()}`}
         >
           <Tooltip
             content={
