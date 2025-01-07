@@ -6,6 +6,8 @@ import {
   Skeleton,
   useToast,
   Notification,
+  XXXL,
+  LG,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +24,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import styled from 'styled-components';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { appTheme } from 'src/app/theme';
 import { Counters } from './Counters';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
@@ -197,7 +200,18 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     ),
     [project, itemTitle]
   );
-
+  const titleContent = project?.is_archive ? (
+    <XXXL isBold>{project.name}</XXXL>
+  ) : (
+    InputToggleMemoTitle
+  );
+  const descriptionContent = project?.is_archive ? (
+    <LG isBold color={appTheme.palette.grey[600]}>
+      {project.description}
+    </LG>
+  ) : (
+    InputToggleMemoDescription
+  );
   return (
     <LayoutWrapper>
       <PageHeader>
@@ -206,16 +220,18 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             {isLoading || isFetching || status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (
-              InputToggleMemoTitle
+              titleContent
             )}
           </PageHeader.Title>
-          <PageHeader.Description style={{ width: '100%' }}>
-            {isLoading || isFetching || status === 'loading' ? (
-              <Skeleton width="60%" height="44px" />
-            ) : (
-              InputToggleMemoDescription
-            )}
-          </PageHeader.Description>
+          {project?.description && (
+            <PageHeader.Description style={{ width: '100%' }}>
+              {isLoading || isFetching || status === 'loading' ? (
+                <Skeleton width="60%" height="44px" />
+              ) : (
+                descriptionContent
+              )}
+            </PageHeader.Description>
+          )}
           <StyledPageHeaderMeta>
             <Counters />
             <ProjectSettings />
