@@ -223,7 +223,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               titleContent
             )}
           </PageHeader.Title>
-          {project?.description && (
+          {!project?.is_archive && (
             <PageHeader.Description style={{ width: '100%' }}>
               {isLoading || isFetching || status === 'loading' ? (
                 <Skeleton width="60%" height="44px" />
@@ -232,6 +232,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               )}
             </PageHeader.Description>
           )}
+
           <StyledPageHeaderMeta>
             <Counters />
             <ProjectSettings />
