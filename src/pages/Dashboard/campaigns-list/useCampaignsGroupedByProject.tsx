@@ -81,7 +81,6 @@ const useCampaignsGroupedByProject = () => {
     },
     {} as { [key: string]: (typeof filtered)[number][] }
   );
-  console.log(grouped);
   const sorted = Object.entries(grouped)
     .sort(([, a], [, b]) => {
       const maxDateA = Math.max(
