@@ -83,7 +83,7 @@ export const CreateProjectModal = ({
         navigate(`/projects/${newProject.id}`);
 
         sendGTMEvent({
-          event: 'project_creation',
+          event: 'workspaces-action',
           category: 'projects_dashboard',
           action: 'project_creation_success',
           content: `date:${new Date().toISOString()} - ID:${

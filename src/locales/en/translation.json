@@ -951,7 +951,7 @@
   "__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR": "Error",
   "__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_MAX_LENGTH": "You may enter a description with a maximum length of 234 characters.",
   "__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER": "Write a description",
-  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Error",
+  "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "The project name is already taken. Choose another name.",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_MAX_LENGTH": "This name is a bit long. We recommend sticking to a maximum of 64 characters including spaces.",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_REQUIRED": "Mandatory field",
   "__PROJECT_SETTINGS_CTA_TEXT": "Invite",

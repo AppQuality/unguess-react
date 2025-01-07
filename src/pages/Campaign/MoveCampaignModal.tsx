@@ -23,6 +23,7 @@ import {
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 const MoveCampaignModalContext = createContext<{
   isOpen: boolean;
@@ -89,7 +90,7 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
 
   // Filter out the current project
   const filteredProjects = projects?.filter((item) => item.id !== prjId);
-
+  const sendGTMEvent = useSendGTMevent();
   return (
     <Modal onClose={() => setIsOpen(false)}>
       <Modal.Header isDanger>
@@ -184,6 +185,12 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
             })
               .unwrap()
               .then(() => {
+                sendGTMEvent({
+                  event: 'workspaces-action',
+                  category: '',
+                  action: 'move',
+                  content: 'campaign',
+                });
                 addToast(
                   ({ close }) => (
                     <Notification
