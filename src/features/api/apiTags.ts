@@ -33,7 +33,7 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['Campaigns'],
     },
     patchCampaignsByCid: {
-      invalidatesTags: ['Campaigns', 'Projects'],
+      invalidatesTags: ['Campaigns', 'Projects', 'Archive'],
     },
     postProjects: {
       invalidatesTags: ['Projects'],
@@ -252,6 +252,9 @@ unguessApi.enhanceEndpoints({
         }
         await cacheEntryRemoved;
       },
+    },
+    getWorkspacesByWidArchive: {
+      providesTags: ['Archive'],
     },
   },
 });
