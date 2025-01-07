@@ -78,6 +78,8 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
     wid: activeWorkspace?.id.toString() || '',
   });
 
+  const sendGTMEvent = useSendGTMevent();
+
   if (!isOpen) return null;
   if (!campaign) return null;
 
@@ -90,7 +92,6 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
 
   // Filter out the current project
   const filteredProjects = projects?.filter((item) => item.id !== prjId);
-  const sendGTMEvent = useSendGTMevent();
   return (
     <Modal onClose={() => setIsOpen(false)}>
       <Modal.Header isDanger>
