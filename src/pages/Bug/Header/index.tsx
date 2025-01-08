@@ -138,6 +138,7 @@ const Header = ({ campaignId, bug }: Props) => {
 
   // with this we update paginationItems only when bug.id changes (or at first load from api), ie when the user navigates to a different bug
   // to keep track of next and prev even when the user update bug properties like status or usecase
+  // fix UN-633: we also need to update paginationItems when the user changes some filters/search params from status select or usecaseselect
   const paginationItems = useMemo(
     () =>
       getGroupedBugs(
@@ -148,7 +149,7 @@ const Header = ({ campaignId, bug }: Props) => {
         bug.custom_status.id,
         bug.application_section.id
       ),
-    [bug.id, isUsecaseLoading, isStateLoading, isUngroupedLoading]
+    [bug.id, isUsecaseLoading, isStateLoading, isUngroupedLoading, searchParams]
   );
 
   const currentIndex = useMemo(
