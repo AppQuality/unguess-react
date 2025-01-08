@@ -10,6 +10,10 @@ export const useSelectCampaigns = (project_id?: number) => {
     { skip: !project_id }
   );
 
+  if (!project_id) {
+    return useCampaignsGroupedByProject();
+  }
+
   if (!data || isLoading || isFetching || isError) {
     return {
       campaigns: [],
