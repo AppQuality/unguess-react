@@ -6,6 +6,8 @@ import {
   Skeleton,
   useToast,
   Notification,
+  XXXL,
+  LG,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +24,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import styled from 'styled-components';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { appTheme } from 'src/app/theme';
 import { Counters } from './Counters';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
@@ -82,6 +85,24 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
 
   const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
 
+  useEffect(() => {
+    if (itemTitle) {
+      sendGTMEvent({
+        event: 'workspaces-action',
+        category: 'projects_dashboard',
+        action: 'change_name_success',
+        content: itemTitle,
+      });
+    }
+
+    sendGTMEvent({
+      event: 'workspaces-action',
+      category: 'projects_dashboard',
+      action: 'change_description_success',
+      content: itemDescription,
+    });
+  }, [itemTitle, itemDescription]);
+
   const InputToggleMemoDescription = useMemo(
     () => (
       <InputToggle>
@@ -104,24 +125,11 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   body: { description: e.currentTarget.value ?? '' },
                 }).unwrap();
               }
-              sendGTMEvent({
-                event: 'project_description',
-                category: 'projects_dashboard',
-                action: 'change_description_success',
-                content: e.currentTarget.value,
-              });
             } catch {
               // eslint-disable-next-line
               alert(
                 t('__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_ERROR', 'Error')
               );
-
-              sendGTMEvent({
-                event: 'project_description',
-                category: 'projects_dashboard',
-                action: 'change_description_error',
-                content: e.currentTarget.value,
-              });
             }
           }}
           style={{ paddingLeft: 0 }}
@@ -157,12 +165,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   body: { display_name: e.currentTarget.value },
                 }).unwrap();
               }
-              sendGTMEvent({
-                event: 'project_name',
-                category: 'projects_dashboard',
-                action: 'change_name_success',
-                content: e.currentTarget.value,
-              });
             } catch {
               addToast(
                 ({ close }) => (
@@ -177,12 +179,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                 { placement: 'top' }
               );
               setItemTitle(project?.name);
-              sendGTMEvent({
-                event: 'project_name',
-                category: 'projects_dashboard',
-                action: 'change_name_error',
-                content: e.currentTarget.value,
-              });
             }
           }}
           style={{ paddingLeft: 0 }}
@@ -204,7 +200,18 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     ),
     [project, itemTitle]
   );
-
+  const titleContent = project?.is_archive ? (
+    <XXXL isBold>{project.name}</XXXL>
+  ) : (
+    InputToggleMemoTitle
+  );
+  const descriptionContent = project?.is_archive ? (
+    <LG isBold color={appTheme.palette.grey[600]}>
+      {project.description}
+    </LG>
+  ) : (
+    InputToggleMemoDescription
+  );
   return (
     <LayoutWrapper>
       <PageHeader>
@@ -213,16 +220,19 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             {isLoading || isFetching || status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (
-              InputToggleMemoTitle
+              titleContent
             )}
           </PageHeader.Title>
-          <PageHeader.Description style={{ width: '100%' }}>
-            {isLoading || isFetching || status === 'loading' ? (
-              <Skeleton width="60%" height="44px" />
-            ) : (
-              InputToggleMemoDescription
-            )}
-          </PageHeader.Description>
+          {!project?.is_archive && (
+            <PageHeader.Description style={{ width: '100%' }}>
+              {isLoading || isFetching || status === 'loading' ? (
+                <Skeleton width="60%" height="44px" />
+              ) : (
+                descriptionContent
+              )}
+            </PageHeader.Description>
+          )}
+
           <StyledPageHeaderMeta>
             <Counters />
             <ProjectSettings />

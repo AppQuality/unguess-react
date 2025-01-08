@@ -867,6 +867,7 @@ export interface components {
       campaigns_count: number;
       workspaceId: number;
       description?: string;
+      is_archive?: number;
     };
     /** Report */
     Report: {
@@ -1353,6 +1354,7 @@ export interface components {
         'application/json': {
           name: string;
           customer_id: number;
+          description?: string;
         };
       };
     };
@@ -1470,6 +1472,7 @@ export interface operations {
       content: {
         'application/json': {
           customer_title?: string;
+          project_id?: number;
         };
       };
     };
@@ -3218,7 +3221,9 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items?: components['schemas']['CampaignWithOutput'][];
+            items?: (components['schemas']['CampaignWithOutput'] & {
+              is_archived: number;
+            })[];
             start?: number;
             limit?: number;
             size?: number;

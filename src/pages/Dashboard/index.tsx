@@ -31,7 +31,7 @@ const Dashboard = () => {
             setOpenCreateProjectModal(true);
 
             sendGTMEvent({
-              event: 'project_creation',
+              event: 'workspaces-action',
               category: 'projects_dashboard',
               action: 'create_project_click',
               content: `${new Date().toISOString()}`,

@@ -599,6 +599,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/workspaces/${queryArg.wid}` }),
     }),
+    getWorkspacesByWidArchive: build.query<
+      GetWorkspacesByWidArchiveApiResponse,
+      GetWorkspacesByWidArchiveApiArg
+    >({
+      query: (queryArg) => ({ url: `/workspaces/${queryArg.wid}/archive` }),
+    }),
     getWorkspacesByWidCampaigns: build.query<
       GetWorkspacesByWidCampaignsApiResponse,
       GetWorkspacesByWidCampaignsApiArg
@@ -756,7 +762,9 @@ export type PatchCampaignsByCidApiArg = {
   };
 };
 export type GetCampaignsByCidApiResponse =
-  /** status 200 OK */ CampaignWithOutput;
+  /** status 200 OK */ CampaignWithOutput & {
+    isArchived?: boolean;
+  };
 export type GetCampaignsByCidApiArg = {
   /** Campaign id */
   cid: string;
@@ -1565,8 +1573,20 @@ export type GetWorkspacesByWidApiArg = {
   /** Workspace (company, customer) id */
   wid: string;
 };
+export type GetWorkspacesByWidArchiveApiResponse = /** status 200 OK */ {
+  id: number;
+  name: string;
+  description: string;
+  campaignsCounter: number;
+};
+export type GetWorkspacesByWidArchiveApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+};
 export type GetWorkspacesByWidCampaignsApiResponse = /** status 200 OK */ {
-  items?: CampaignWithOutput[];
+  items?: (CampaignWithOutput & {
+    is_archived: number;
+  })[];
   start?: number;
   limit?: number;
   size?: number;
@@ -2283,6 +2303,7 @@ export const {
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
+  useGetWorkspacesByWidArchiveQuery,
   useGetWorkspacesByWidCampaignsQuery,
   useGetWorkspacesByWidCoinsQuery,
   useGetWorkspacesByWidProjectsQuery,

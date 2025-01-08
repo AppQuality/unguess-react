@@ -1,4 +1,5 @@
 import {
+  getColor,
   Logo,
   Nav,
   NavAccordionItem,
@@ -16,13 +17,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
+import {
+  useGetWorkspacesByWidArchiveQuery,
+  useGetWorkspacesByWidProjectsQuery,
+} from 'src/features/api';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { WorkspacesDropdown } from '../workspacesDropdown';
+import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
+import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
@@ -67,6 +73,7 @@ const NavItemArchive = styled(NavItemText)`
 `;
 
 export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
+  const theme = useTheme();
   const { route, onSidebarToggle } = props;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -95,6 +102,16 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     allProjects &&
     allProjects.items &&
     allProjects?.items.find((project) => project.is_archive);
+
+  const { data: archive } = useGetWorkspacesByWidArchiveQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    { skip: !activeWorkspace?.id }
+  );
+  const archiveId = archive?.id;
+
+  const archivedCampaignsCount = archive?.campaignsCounter || 0;
 
   const navigateTo = (destination: string, parameter?: string) => {
     let localizedRoute = '';
@@ -230,25 +247,31 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           </NavItemIcon>
           <NavItemText>{t('__APP_SIDEBAR_SERVICES_ITEM_LABEL')}</NavItemText>
         </NavItem>
-        {archive && (
+        {/** Archive */}
+        {archiveId && (
           <NavItem
             className="sidebar-first-level-item"
             title="Archive"
             isExpanded={isSidebarOpen}
-            isCurrent={route === `projects/${archive.id}`}
-            onClick={() => navigateTo(`projects/${archive.id}`)}
+            isCurrent={route === `projects/${archiveId}`}
+            onClick={() => navigateTo(`projects/${archiveId}`)}
+            style={{ marginBottom: '16px' }}
           >
-            <NavItemIcon isStyled style={{ alignSelf: 'center' }}>
-              <ArchiveIcon />
+            <NavItemIcon isStyled>
+              {route === `projects/${archiveId}` ? (
+                <ArchiveIconActive />
+              ) : (
+                <ArchiveIcon />
+              )}
             </NavItemIcon>
-            <NavItemArchive>
-              <div className="content">
-                Archive
-                <SM>
-                  {archive.campaigns_count} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
+            <NavItemText>
+              {t('__APP_SIDEBAR_ARCHIVE_ITEM_LABEL')}
+              <div>
+                <SM style={{ color: getColor(theme.colors.neutralHue, 500) }}>
+                  {archivedCampaignsCount} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
                 </SM>
               </div>
-            </NavItemArchive>
+            </NavItemText>
           </NavItem>
         )}
       </ScrollingContainer>
