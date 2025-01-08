@@ -90,7 +90,9 @@ export const Tools = ({
         {status && <StatusMeta status={status.name as CampaignStatus} />}
       </PageMeta>
       <ButtonsWrapper>
-        {campaignData?.isArchived !== true && <CampaignSettings />}
+        {campaignData && campaignData.isArchived !== true && (
+          <CampaignSettings />
+        )}
         <Button
           isBasic
           className="header-dowlnoad-report"
