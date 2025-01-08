@@ -1,9 +1,8 @@
 /* eslint-disable security/detect-object-injection */
 import { IconButton, Tag, Tooltip } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, createSearchParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { Link } from 'react-router-dom';
+import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-icon.svg';
@@ -14,10 +13,7 @@ import {
   Bug,
   GetCampaignsByCidBugsAndBidCommentsApiResponse,
 } from 'src/features/api';
-import {
-  getCurrentCampaignData,
-  selectBug,
-} from 'src/features/bugsPage/bugsPageSlice';
+import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -68,6 +64,7 @@ const CommentsBadge = styled.span`
 export default ({
   bug,
   comments,
+  searchParams,
 }: {
   bug: Bug & {
     reporter: {
@@ -76,88 +73,10 @@ export default ({
     };
   };
   comments: GetCampaignsByCidBugsAndBidCommentsApiResponse | undefined;
+  searchParams: URLSearchParams;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  const { orderBy, order, groupBy } = useAppSelector((state) => state.bugsPage);
-  const data = getCurrentCampaignData();
-
-  const searchParams = useMemo(() => {
-    const getFilterBy = () => {
-      if (!data) return {};
-
-      const filters: { [key: string]: string | string[] } = {};
-      (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
-        if (key === 'severities') {
-          if (Array.isArray(data.severities.selected)) {
-            filters.severities = data.severities.selected.map(
-              (item) => item.name
-            );
-          }
-        }
-        if (key === 'devices') {
-          if (Array.isArray(data.devices.selected)) {
-            filters.devices = data.devices.selected.map((item) => item.device);
-          }
-        }
-        if (key === 'useCases') {
-          if (Array.isArray(data.useCases.selected)) {
-            filters.useCases = data.useCases.selected.map((item) =>
-              item.id.toString()
-            );
-          }
-        }
-        if (key === 'customStatuses') {
-          if (Array.isArray(data.customStatuses.selected)) {
-            filters.customStatuses = data.customStatuses.selected.map((item) =>
-              item.id.toString()
-            );
-          }
-        }
-        if (key === 'unique') {
-          filters.unique = data.unique.selected === 'unique' ? 'true' : 'false';
-        }
-        if (key === 'read') {
-          filters.unread = data.read.selected === 'unread' ? 'true' : 'false';
-        }
-        if (key === 'os') {
-          if (Array.isArray(data.os.selected)) {
-            filters.os = data.os.selected.map((item) => item.os);
-          }
-        }
-        if (
-          key === 'priorities' ||
-          key === 'replicabilities' ||
-          key === 'types'
-        ) {
-          if (Array.isArray(data[key].selected)) {
-            filters[key] = data[key].selected.map((item) => item.name);
-          }
-        }
-        if (key === 'tags') {
-          if (Array.isArray(data.tags.selected)) {
-            filters.tags = data.tags.selected.map((item) => item.display_name);
-          }
-        }
-      });
-      return filters;
-    };
-
-    const newSearchParams = createSearchParams({
-      order,
-      orderBy,
-      groupBy,
-      ...(groupBy !== 'ungrouped' && {
-        groupByValue:
-          groupBy === 'usecase'
-            ? (bug.application_section.id || -1).toString()
-            : bug.custom_status.id.toString(),
-      }),
-      ...getFilterBy(),
-    });
-    return newSearchParams;
-  }, [order, orderBy, groupBy, data]);
 
   return (
     <Container>

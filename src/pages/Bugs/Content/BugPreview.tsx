@@ -1,5 +1,5 @@
 import { Skeleton } from '@appquality/unguess-design-system';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
@@ -13,8 +13,13 @@ import {
   useGetCampaignsByCidBugsAndBidCommentsQuery,
   useGetCampaignsByCidBugsAndBidQuery,
 } from 'src/features/api';
-import { getSelectedBugId } from 'src/features/bugsPage/bugsPageSlice';
+import {
+  getCurrentCampaignData,
+  getSelectedBugId,
+} from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
+import { useAppSelector } from 'src/app/hooks';
+import { createSearchParams } from 'react-router-dom';
 import { BugCommentsDetail } from './components/BugCommentsDetails';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
@@ -94,15 +99,94 @@ export const BugPreview = ({
       refScroll.current.scrollTop = 0;
     }
   }, [currentBugId]);
+  const data = getCurrentCampaignData();
 
   if (isLoading || isError || !bug) return <Skeleton />;
+
+  const { orderBy, order, groupBy } = useAppSelector((state) => state.bugsPage);
+
+  const searchParams = useMemo(() => {
+    const getFilterBy = () => {
+      if (!data) return {};
+
+      const filters: { [key: string]: string | string[] } = {};
+      (Object.keys(data) as (keyof typeof data)[]).forEach((key) => {
+        if (key === 'severities') {
+          if (Array.isArray(data.severities.selected)) {
+            filters.severities = data.severities.selected.map(
+              (item) => item.name
+            );
+          }
+        }
+        if (key === 'devices') {
+          if (Array.isArray(data.devices.selected)) {
+            filters.devices = data.devices.selected.map((item) => item.device);
+          }
+        }
+        if (key === 'useCases') {
+          if (Array.isArray(data.useCases.selected)) {
+            filters.useCases = data.useCases.selected.map((item) =>
+              item.id.toString()
+            );
+          }
+        }
+        if (key === 'customStatuses') {
+          if (Array.isArray(data.customStatuses.selected)) {
+            filters.customStatuses = data.customStatuses.selected.map((item) =>
+              item.id.toString()
+            );
+          }
+        }
+        if (key === 'unique') {
+          filters.unique = data.unique.selected === 'unique' ? 'true' : 'false';
+        }
+        if (key === 'read') {
+          filters.unread = data.read.selected === 'unread' ? 'true' : 'false';
+        }
+        if (key === 'os') {
+          if (Array.isArray(data.os.selected)) {
+            filters.os = data.os.selected.map((item) => item.os);
+          }
+        }
+        if (
+          key === 'priorities' ||
+          key === 'replicabilities' ||
+          key === 'types'
+        ) {
+          if (Array.isArray(data[key].selected)) {
+            filters[key] = data[key].selected.map((item) => item.name);
+          }
+        }
+        if (key === 'tags') {
+          if (Array.isArray(data.tags.selected)) {
+            filters.tags = data.tags.selected.map((item) => item.display_name);
+          }
+        }
+      });
+      return filters;
+    };
+
+    const newSearchParams = createSearchParams({
+      order,
+      orderBy,
+      groupBy,
+      ...(groupBy !== 'ungrouped' && {
+        groupByValue:
+          groupBy === 'usecase'
+            ? (bug.application_section.id || -1).toString()
+            : bug.application_section.id?.toString() || '-1',
+      }),
+      ...getFilterBy(),
+    });
+    return newSearchParams;
+  }, [order, orderBy, groupBy, data]);
 
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
 
   return (
     <DetailContainer isFetching={isFetching}>
-      <BugHeader bug={bug} comments={comments} />
+      <BugHeader bug={bug} comments={comments} searchParams={searchParams} />
       <ScrollingContainer ref={refScroll} id={scrollerBoxId}>
         <BugPreviewContextProvider>
           <BugMeta bug={bug} />
@@ -122,6 +206,7 @@ export const BugPreview = ({
             commentsCount={comments?.items.length ?? 0}
             bugId={bugId}
             campaignId={campaignId}
+            searchParams={searchParams}
           />
           <BugDetails bug={bug} />
           {currentBugId && (
