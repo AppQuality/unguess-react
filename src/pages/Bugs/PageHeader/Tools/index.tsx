@@ -61,7 +61,7 @@ export const Tools = ({
     status,
   } = useCampaignBugs(campaignId);
 
-  const campaignData = useGetCampaignsByCidQuery({
+  const { data: campaignData } = useGetCampaignsByCidQuery({
     cid: campaignId.toString(),
   });
 
@@ -90,7 +90,7 @@ export const Tools = ({
         {status && <StatusMeta status={status.name as CampaignStatus} />}
       </PageMeta>
       <ButtonsWrapper>
-        {campaignData.data?.isArchived !== true && <CampaignSettings />}
+        {campaignData?.isArchived !== true && <CampaignSettings />}
         <Button
           isBasic
           className="header-dowlnoad-report"
