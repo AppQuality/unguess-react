@@ -12,13 +12,20 @@ import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
 import styled, { useTheme } from 'styled-components';
+import { UseCaseType } from 'src/pages/Bugs/Content/BugsTable/types';
+import { BugCustomStatus } from 'src/features/api';
 import { getFiltersFromParams } from './getFiltersFromParams';
 
 const Wrapper = styled.div`
   display: flex;
 `;
 
-export const AppliedFilters = () => {
+interface AppliedFiltersParams {
+  states: BugCustomStatus[];
+  useCases: UseCaseType[];
+}
+
+export const AppliedFilters = ({ states, useCases }: AppliedFiltersParams) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -57,9 +64,23 @@ export const AppliedFilters = () => {
           const getValue = () => {
             const value = filterBy[key];
             if (!Array.isArray(value) || !value) return '';
-
-            if (key === 'usecase') return value.length.toString();
-
+            if (key === 'status' && states.length > 0) {
+              return value
+                .map(
+                  (item) =>
+                    states.find((state) => state.id === Number(item))?.name
+                )
+                .join(', ');
+            }
+            if (key === 'usecase' && useCases.length > 0) {
+              return value
+                .map(
+                  (item) =>
+                    useCases.find((usecase) => usecase.id === Number(item))
+                      ?.title.full
+                )
+                .join(', ');
+            }
             return value.map((item: string) => item).join(', ');
           };
 
@@ -92,10 +113,10 @@ export const AppliedFilters = () => {
           size="large"
           type="light"
           content={
-            <div
-              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
-            >
-              <MD isBold>{t('__BUG_PAGE_HEADER_FILTERS_APPLIED_HEADER')}:</MD>
+            <div>
+              <MD style={{ marginBottom: appTheme.space.xs }} isBold>
+                {t('__BUG_PAGE_HEADER_FILTERS_APPLIED_HEADER')}:
+              </MD>
               <ul
                 style={{
                   listStyleType: 'disc',
