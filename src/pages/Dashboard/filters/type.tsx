@@ -4,7 +4,11 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { typeFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { DropdownItems, getItemText } from './utils';
 
-export const CampaignTypeDropdown = () => {
+export const CampaignTypeDropdown = ({
+  availableTypes,
+}: {
+  availableTypes: string[];
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { type } = useAppSelector((state) => state.filters);
@@ -43,6 +47,7 @@ export const CampaignTypeDropdown = () => {
         <Select.Option
           key={items[`${key}`].value}
           value={items[`${key}`].value}
+          isDisabled={availableTypes.indexOf(items[`${key}`].value) === -1}
           label={items[`${key}`].label}
         />
       ))}

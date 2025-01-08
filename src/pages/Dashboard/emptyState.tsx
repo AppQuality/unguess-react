@@ -30,14 +30,14 @@ export const EmptyResults = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { status, type, testNameId, search } = useAppSelector(
+  const { status, type, testType, search } = useAppSelector(
     (state) => state.filters
   );
 
   const hasFilters =
     status !== 'all' ||
     type !== 'all' ||
-    testNameId > 0 ||
+    testType.value !== 'all' ||
     (search && search !== '');
 
   return (
