@@ -446,26 +446,6 @@ export interface paths {
       };
     };
   };
-  '/videos/{vid}/sentiment': {
-    /**
-     * This endpoint generates a new sentiment for the provided video if it does not already exist.
-     *
-     * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
-     *
-     * **Path Parameters**:
-     *
-     * vid (string, required): The ID of the video for which the translation is to be generated.
-     * Request Body (application/json):
-     *
-     * language (string, required): The language code for the desired translation.
-     */
-    post: operations['post-videos-vid-sentiment'];
-    parameters: {
-      path: {
-        vid: string;
-      };
-    };
-  };
   '/workspaces': {
     get: operations['get-workspaces'];
     /** This endpoint is useful to add a new workspace. Only admin can use this. */
@@ -887,6 +867,7 @@ export interface components {
       campaigns_count: number;
       workspaceId: number;
       description?: string;
+      is_archive?: number;
     };
     /** Report */
     Report: {
@@ -3139,41 +3120,6 @@ export interface operations {
       };
     };
   };
-  /**
-   * This endpoint generates a new sentiment for the provided video if it does not already exist.
-   *
-   * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
-   *
-   * **Path Parameters**:
-   *
-   * vid (string, required): The ID of the video for which the translation is to be generated.
-   * Request Body (application/json):
-   *
-   * language (string, required): The language code for the desired translation.
-   */
-  'post-videos-vid-sentiment': {
-    parameters: {
-      path: {
-        vid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': { [key: string]: unknown };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': { [key: string]: unknown };
-      };
-    };
-  };
   'get-workspaces': {
     parameters: {
       query: {
@@ -3275,7 +3221,9 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items?: components['schemas']['CampaignWithOutput'][];
+            items?: (components['schemas']['CampaignWithOutput'] & {
+              is_archived: number;
+            })[];
             start?: number;
             limit?: number;
             size?: number;

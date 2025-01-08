@@ -65,7 +65,9 @@ const useCampaignsGroupedByProject = () => {
     }
   );
 
-  const grouped = filtered.reduce(
+  const noArchivedCampaigns = filtered.filter((cp) => cp.is_archived !== 1);
+
+  const grouped = noArchivedCampaigns.reduce(
     (
       acc: { [key: string]: (typeof filtered)[number][] },
       campaign: (typeof filtered)[number]
@@ -79,7 +81,6 @@ const useCampaignsGroupedByProject = () => {
     },
     {} as { [key: string]: (typeof filtered)[number][] }
   );
-
   const sorted = Object.entries(grouped)
     .sort(([, a], [, b]) => {
       const maxDateA = Math.max(
