@@ -12,8 +12,8 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as MoveIcon } from 'src/assets/icons/move-icon.svg';
-import { ReactComponent as ArchiveIcon } from 'src/assets/icons/project-archive.svg';
+import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
+import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { Divider } from 'src/common/components/divider';
@@ -225,7 +225,7 @@ export const Metas = ({
                   }}
                 >
                   <Button.StartIcon>
-                    <MoveIcon />
+                    <EditRedoStroke />
                   </Button.StartIcon>
                   {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
                 </Button>
@@ -238,7 +238,7 @@ export const Metas = ({
                   }}
                 >
                   <Button.StartIcon>
-                    <ArchiveIcon />
+                    <InboxFill />
                   </Button.StartIcon>
                   {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
                 </Button>
