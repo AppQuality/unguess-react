@@ -235,7 +235,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
 
           <StyledPageHeaderMeta>
             <Counters />
-            <ProjectSettings />
+            {!project?.is_archive && <ProjectSettings />}
           </StyledPageHeaderMeta>
         </PageHeader.Main>
         {hasSkyJotformFeature && (
