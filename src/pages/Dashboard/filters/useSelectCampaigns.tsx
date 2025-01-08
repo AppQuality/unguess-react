@@ -1,6 +1,6 @@
 import { useGetProjectsByPidQuery } from 'src/features/api';
-import { useCampaignsGroupedByProject } from '../campaigns-list/useCampaignsGroupedByProject';
 import { useArchivedCampaigns } from '../campaigns-list/useArchivedCampaigns';
+import { useCampaignsGroupedByProject } from '../campaigns-list/useCampaignsGroupedByProject';
 
 export const useSelectCampaigns = (project_id?: number) => {
   const { data, isLoading, isFetching, isError } = useGetProjectsByPidQuery(
@@ -9,9 +9,11 @@ export const useSelectCampaigns = (project_id?: number) => {
     },
     { skip: !project_id }
   );
+  const campaignGroupedByProject = useCampaignsGroupedByProject();
+  const archivedCampaigns = useArchivedCampaigns();
 
   if (!project_id) {
-    return useCampaignsGroupedByProject();
+    return campaignGroupedByProject;
   }
 
   if (!data || isLoading || isFetching || isError) {
@@ -24,8 +26,8 @@ export const useSelectCampaigns = (project_id?: number) => {
     };
   }
   if (!data.is_archive) {
-    return useCampaignsGroupedByProject();
+    return campaignGroupedByProject;
   }
 
-  return useArchivedCampaigns();
+  return archivedCampaigns;
 };
