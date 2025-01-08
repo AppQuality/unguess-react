@@ -231,7 +231,7 @@ const Header = ({ campaignId, bug }: Props) => {
                 isBold
                 style={{ color: getColor(theme.colors.primaryHue, 600) }}
               >
-                {t('{{count}} bugs', { count: bugsNumber || 1 })}
+                {t('{{count}} bugs', { count: bugsNumber || 0 })}
               </MD>
               {paginationItems && typeof currentIndex !== 'undefined' && (
                 <Pagination
