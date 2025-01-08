@@ -49,8 +49,11 @@ const useCampaignsGroupedByProject = () => {
       if (filters.type !== 'all' && family.name.toLowerCase() !== filters.type)
         return false;
 
-      // Check Test Type
-      if (filters.testNameId && type.id !== filters.testNameId) return false;
+      if (
+        filters.testType.label !== 'all' &&
+        type.id !== Number.parseInt(filters.testType.value, 10)
+      )
+        return false;
 
       // Check Search
       if (
