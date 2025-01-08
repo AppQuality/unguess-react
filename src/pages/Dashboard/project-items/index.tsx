@@ -112,7 +112,7 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
         )}
       </Row>
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
-      <Filters />
+      <Filters project_id={projectId} />
 
       {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={filteredCampaigns as Campaign[]} />
