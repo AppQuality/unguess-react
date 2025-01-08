@@ -29,14 +29,18 @@ const useSetFilters = ({ campaignId }: { campaignId: string }) => {
   }, [campaign]);
 
   useEffect(() => {
-    if (currentCampaign) {
-      const usecaseFilters = searchParams.getAll('useCases');
-      const customStatusFilters = searchParams.getAll('customStatuses');
+    if (currentCampaign && campaign) {
+      const usecaseFiltersIds = searchParams.getAll('useCases');
+      const customStatusFiltersIds = searchParams.getAll('customStatuses');
       dispatch(
         updateFilters({
           filters: {
-            useCases: usecaseFilters.map((u) => ({ id: u })),
-            customStatuses: customStatusFilters.map((c) => ({
+            useCases: usecaseFiltersIds.map((u) =>
+              campaign.filters.useCases?.find(
+                (useCase) => useCase.id.toString() === u
+              )
+            ),
+            customStatuses: customStatusFiltersIds.map((c) => ({
               id: c,
               name:
                 customStatuses?.find((cs) => cs.id.toString() === c)?.name ??
