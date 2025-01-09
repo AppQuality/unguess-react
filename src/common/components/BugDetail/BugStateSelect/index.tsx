@@ -53,6 +53,7 @@ const BugStateSelect = ({
   return (
     <Select
       isCompact
+      listboxAppendToNode={document.body}
       renderValue={(value) => {
         const selectedStatus = phases
           .flatMap((p) => p.statuses)

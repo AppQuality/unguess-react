@@ -1,27 +1,27 @@
 import {
   Col,
-  theme,
-  Row,
   IconButton,
+  Row,
   Span,
   TextDescription,
+  theme,
 } from '@appquality/unguess-design-system';
+import { createSelector } from '@reduxjs/toolkit';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
-import styled from 'styled-components';
 import { ReactComponent as GridIcon } from 'src/assets/icons/grid.svg';
 import { ReactComponent as ListIcon } from 'src/assets/icons/list.svg';
-import { useEffect, useMemo, useState } from 'react';
-import { selectFilteredCampaigns } from 'src/features/campaigns';
 import { Campaign, useGetProjectsByPidCampaignsQuery } from 'src/features/api';
-import { createSelector } from '@reduxjs/toolkit';
+import { selectFilteredCampaigns } from 'src/features/campaigns';
 import useWindowSize from 'src/hooks/useWindowSize';
+import styled from 'styled-components';
+import { CardRowLoading } from '../CardRowLoading';
+import { Separator } from '../Separator';
+import { EmptyResults } from '../emptyState';
+import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
-import { Separator } from '../Separator';
-import { Filters } from '../filters';
-import { EmptyResults } from '../emptyState';
-import { CardRowLoading } from '../CardRowLoading';
 
 const FloatRight = styled.div`
   float: right;
@@ -112,7 +112,7 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
         )}
       </Row>
       <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
-      <Filters campaigns={filteredCampaigns} />
+      <Filters project_id={projectId} />
 
       {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={filteredCampaigns as Campaign[]} />

@@ -2,6 +2,7 @@ import { Pagination, Skeleton } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GetVideosByVidApiResponse } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithCounter from './useUsecaseWithVideos';
 
 const VideoPagination = ({
@@ -14,6 +15,7 @@ const VideoPagination = ({
   video: GetVideosByVidApiResponse;
 }) => {
   const navigate = useNavigate();
+  const sendGTMEvent = useSendGTMevent();
 
   const {
     usecasesWithVideos: useCasesWithVideoCount,
@@ -48,6 +50,24 @@ const VideoPagination = ({
         // eslint-disable-next-line no-console
         if (!page) return;
         const targetId = paginationData.items[page - 1].id;
+
+        // Tracking video navigation
+        if (page > paginationData.currentPage) {
+          sendGTMEvent({
+            action: 'video_next',
+            event: 'video_navigation',
+            category: 'bugs',
+            content: targetId.toString(),
+          });
+        } else if (page < paginationData.currentPage) {
+          sendGTMEvent({
+            action: 'video_previous',
+            event: 'video_navigation',
+            category: 'bugs',
+            content: targetId.toString(),
+          });
+        }
+
         navigate(`/campaigns/${campaignId}/videos/${targetId}/`, {
           replace: true,
         });

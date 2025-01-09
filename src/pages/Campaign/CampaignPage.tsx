@@ -13,6 +13,10 @@ import {
   setPermissionSettingsTitle,
   setWorkspace,
 } from '../../features/navigation/navigationSlice';
+import {
+  MoveCampaignModal,
+  MoveCampaignModalContextProvider,
+} from './MoveCampaignModal';
 import CampaignPageHeader from './pageHeader';
 import { HeaderLoader } from './pageHeaderLoading';
 
@@ -65,25 +69,32 @@ const CampaignPage = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <Page
-      title={(campaign && campaign.customer_title) ?? 'Campaign'}
-      pageHeader={
-        isLoadingCampaign || isFetchingCampaign ? (
-          <HeaderLoader />
-        ) : (
-          <CampaignPageHeader campaignId={Number(campaign ? campaign.id : 0)} />
-        )
-      }
-      route="campaigns"
-    >
-      <LayoutWrapper>
-        <Grid>
-          <Row>
-            <Col>{children}</Col>
-          </Row>
-        </Grid>
-      </LayoutWrapper>
-    </Page>
+    <MoveCampaignModalContextProvider>
+      <Page
+        title={(campaign && campaign.customer_title) ?? 'Campaign'}
+        pageHeader={
+          isLoadingCampaign || isFetchingCampaign ? (
+            <HeaderLoader />
+          ) : (
+            <CampaignPageHeader
+              campaignId={Number(campaign ? campaign.id : 0)}
+            />
+          )
+        }
+        route="campaigns"
+      >
+        <LayoutWrapper>
+          <Grid>
+            <Row>
+              <Col>
+                {campaignId && <MoveCampaignModal campaignId={campaignId} />}
+                {children}
+              </Col>
+            </Row>
+          </Grid>
+        </LayoutWrapper>
+      </Page>
+    </MoveCampaignModalContextProvider>
   );
 };
 

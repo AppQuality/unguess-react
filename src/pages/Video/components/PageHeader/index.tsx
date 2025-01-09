@@ -14,6 +14,7 @@ import {
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { ShortcutHelper } from './ShortcutHelper';
 import UsecaseSelect from './UsecaseSelect';
 import VideoPagination from './VideoPagination';
 
@@ -110,6 +111,10 @@ const VideoPageHeader = () => {
                     video={video}
                   />
                 )}
+
+                <div>
+                  <ShortcutHelper />
+                </div>
               </div>
             </div>
           </PageHeader.Description>
