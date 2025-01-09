@@ -1,4 +1,5 @@
 import {
+  getColor,
   Logo,
   Nav,
   NavAccordionItem,
@@ -16,13 +17,21 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
-import { toggleSidebar } from 'src/features/navigation/navigationSlice';
+import {
+  useGetWorkspacesByWidArchiveQuery,
+  useGetWorkspacesByWidProjectsQuery,
+} from 'src/features/api';
+import {
+  closeSidebar,
+  toggleSidebar,
+} from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { WorkspacesDropdown } from '../workspacesDropdown';
+import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
+import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
@@ -33,7 +42,6 @@ import { SidebarSkeleton } from './skeleton';
 const ScrollingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  order: 1;
   height: 100%;
 `;
 
@@ -55,7 +63,19 @@ const DropdownItem = styled.div`
   }
 `;
 
+const NavItemArchive = styled(NavItemText)`
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    ${SM} {
+      color: ${({ theme }) => theme.palette.grey[600]};
+    }
+  }
+`;
+
 export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
+  const theme = useTheme();
   const { route, onSidebarToggle } = props;
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -67,7 +87,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const prjRef = useRef<HTMLButtonElement>(null);
 
   const {
-    currentData: projects,
+    currentData: allProjects,
     isLoading,
     isFetching,
   } = useGetWorkspacesByWidProjectsQuery(
@@ -76,6 +96,20 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     },
     { skip: !activeWorkspace?.id }
   );
+  const projects =
+    allProjects && allProjects.items
+      ? allProjects?.items.filter((project) => !project.is_archive)
+      : [];
+
+  const { data: archive } = useGetWorkspacesByWidArchiveQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    { skip: !activeWorkspace?.id }
+  );
+  const archiveId = archive?.id;
+
+  const archivedCampaignsCount = archive?.campaignsCounter || 0;
 
   const navigateTo = (destination: string, parameter?: string) => {
     let localizedRoute = '';
@@ -93,10 +127,10 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     }
 
     if (isMobile) {
-      dispatch(toggleSidebar());
+      dispatch(closeSidebar());
     }
 
-    navigate(localizedRoute, { replace: true });
+    navigate(localizedRoute);
   };
 
   useEffect(() => {
@@ -150,7 +184,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         </NavItem>
 
         {/** Projects Accordion */}
-        {projects?.items && projects.items.length ? (
+        {projects && projects.length ? (
           <NavAccordionItem
             className="sidebar-project-accordion-first-item"
             level={4}
@@ -168,7 +202,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
               <NavAccordionItem.Panel
                 style={{ padding: 0, maxHeight: '180px' }}
               >
-                {projects.items.map((project) => (
+                {projects.map((project) => (
                   <NavItemProject
                     className="sidebar-project-item"
                     key={project.id}
@@ -205,13 +239,39 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           isExpanded={isSidebarOpen}
           isCurrent={route === 'services'}
           onClick={() => navigateTo('services')}
-          style={{ marginBottom: '16px' }}
         >
           <NavItemIcon isStyled>
             {route === 'services' ? <ServicesIconActive /> : <ServicesIcon />}
           </NavItemIcon>
           <NavItemText>{t('__APP_SIDEBAR_SERVICES_ITEM_LABEL')}</NavItemText>
         </NavItem>
+        {/** Archive */}
+        {archiveId && (
+          <NavItem
+            className="sidebar-first-level-item"
+            title="Archive"
+            isExpanded={isSidebarOpen}
+            isCurrent={route === `projects/${archiveId}`}
+            onClick={() => navigateTo(`projects/${archiveId}`)}
+            style={{ marginBottom: '16px' }}
+          >
+            <NavItemIcon isStyled>
+              {route === `projects/${archiveId}` ? (
+                <ArchiveIconActive />
+              ) : (
+                <ArchiveIcon />
+              )}
+            </NavItemIcon>
+            <NavItemText>
+              {t('__APP_SIDEBAR_ARCHIVE_ITEM_LABEL')}
+              <div>
+                <SM style={{ color: getColor(theme.colors.neutralHue, 500) }}>
+                  {archivedCampaignsCount} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
+                </SM>
+              </div>
+            </NavItemText>
+          </NavItem>
+        )}
       </ScrollingContainer>
       {/* Footer Logo */}
       <NavItem

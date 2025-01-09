@@ -572,6 +572,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postVideosByVidSentiment: build.mutation<
+      PostVideosByVidSentimentApiResponse,
+      PostVideosByVidSentimentApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/videos/${queryArg.vid}/sentiment`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -598,6 +608,12 @@ const injectedRtkApi = api.injectEndpoints({
       GetWorkspacesByWidApiArg
     >({
       query: (queryArg) => ({ url: `/workspaces/${queryArg.wid}` }),
+    }),
+    getWorkspacesByWidArchive: build.query<
+      GetWorkspacesByWidArchiveApiResponse,
+      GetWorkspacesByWidArchiveApiArg
+    >({
+      query: (queryArg) => ({ url: `/workspaces/${queryArg.wid}/archive` }),
     }),
     getWorkspacesByWidCampaigns: build.query<
       GetWorkspacesByWidCampaignsApiResponse,
@@ -752,10 +768,13 @@ export type PatchCampaignsByCidApiArg = {
   cid: string;
   body: {
     customer_title?: string;
+    project_id?: number;
   };
 };
 export type GetCampaignsByCidApiResponse =
-  /** status 200 OK */ CampaignWithOutput;
+  /** status 200 OK */ CampaignWithOutput & {
+    isArchived?: boolean;
+  };
 export type GetCampaignsByCidApiArg = {
   /** Campaign id */
   cid: string;
@@ -1354,6 +1373,7 @@ export type PostProjectsApiArg = {
   body: {
     name: string;
     customer_id: number;
+    description?: string;
   };
 };
 export type GetProjectsByPidApiResponse = /** status 200 OK */ Project;
@@ -1365,9 +1385,13 @@ export type PatchProjectsByPidApiResponse = /** status 200 OK */ Project;
 export type PatchProjectsByPidApiArg = {
   /** Project id */
   pid: string;
-  body: {
-    display_name: string;
-  };
+  body:
+    | {
+        display_name: string;
+      }
+    | {
+        description: string;
+      };
 };
 export type GetProjectsByPidCampaignsApiResponse = /** status 200 OK */ {
   items?: CampaignWithOutput[];
@@ -1527,6 +1551,11 @@ export type PostVideosByVidTranslationApiArg = {
     language: string;
   };
 };
+export type PostVideosByVidSentimentApiResponse = /** status 200 OK */ object;
+export type PostVideosByVidSentimentApiArg = {
+  vid: string;
+  body: object;
+};
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
   start?: number;
@@ -1556,6 +1585,16 @@ export type PostWorkspacesApiArg = {
 };
 export type GetWorkspacesByWidApiResponse = /** status 200 OK */ Workspace;
 export type GetWorkspacesByWidApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+};
+export type GetWorkspacesByWidArchiveApiResponse = /** status 200 OK */ {
+  id: number;
+  name: string;
+  description: string;
+  campaignsCounter: number;
+};
+export type GetWorkspacesByWidArchiveApiArg = {
   /** Workspace (company, customer) id */
   wid: string;
 };
@@ -2150,6 +2189,8 @@ export type Project = {
   name: string;
   campaigns_count: number;
   workspaceId: number;
+  description?: string;
+  is_archive?: number;
 };
 export type Feature = {
   slug?: string;
@@ -2272,9 +2313,11 @@ export const {
   useDeleteVideosByVidObservationsAndOidMutation,
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
+  usePostVideosByVidSentimentMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
+  useGetWorkspacesByWidArchiveQuery,
   useGetWorkspacesByWidCampaignsQuery,
   useGetWorkspacesByWidCoinsQuery,
   useGetWorkspacesByWidProjectsQuery,

@@ -12,12 +12,12 @@ export const TestTypeDropdown = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { testNameId } = useAppSelector((state) => state.filters);
+  const { testType } = useAppSelector((state) => state.filters);
 
   const items: DropdownItems = {
     0: {
       label: t('__DASHABOARD_CAMPAIGN_TEST_NAME_FILTER_ALL'),
-      value: 'all',
+      value: '0',
     },
   };
 
@@ -30,19 +30,23 @@ export const TestTypeDropdown = ({
     });
   }
 
+  const selectedItem = items[testType.value] || testType;
+
   return (
     <Select
-      isPrimary={items[testNameId as number].value !== 'all'}
+      isPrimary={selectedItem.value !== '0'}
       renderValue={() =>
         getItemText(
-          items[testNameId as number],
+          selectedItem,
           t('__DASHABOARD_CAMPAIGN_TEST_NAME_LABEL Max:10')
         )
       }
-      inputValue={items[testNameId as number].value}
-      selectionValue={items[testNameId as number].value}
+      inputValue={selectedItem.value}
+      selectionValue={selectedItem.value}
       onSelect={async (item) => {
-        dispatch(testTypeFilterChanged(item === 'all' ? 0 : Number(item)));
+        if (items[Number.parseInt(item, 10)]) {
+          dispatch(testTypeFilterChanged(items[Number.parseInt(item, 10)]));
+        }
       }}
     >
       {Object.keys(items).map((key) => (

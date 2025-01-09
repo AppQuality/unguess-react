@@ -1,11 +1,15 @@
 import { Col, Row } from '@appquality/unguess-design-system';
-import { selectStatuses, selectTestNames } from 'src/features/campaigns';
+import {
+  selectStatuses,
+  selectTestNames,
+  selectTypes,
+} from 'src/features/campaigns';
 import styled from 'styled-components';
-import { useCampaignsGroupedByProject } from '../campaigns-list/useCampaignsGroupedByProject';
 import { SearchInput } from './search';
 import { StatusDropdown } from './status';
 import { TestTypeDropdown } from './test';
 import { CampaignTypeDropdown } from './type';
+import { useSelectCampaigns } from './useSelectCampaigns';
 
 const FiltersRow = styled.div`
   display: flex;
@@ -39,9 +43,9 @@ const FilterInputContainer = styled.div`
   }
 `;
 
-export const Filters = () => {
+export const Filters = ({ project_id }: { project_id?: number }) => {
   const { campaigns, isLoading, isFetching, isError } =
-    useCampaignsGroupedByProject();
+    useSelectCampaigns(project_id);
 
   if (isError || isLoading || isFetching) return null;
 
@@ -58,7 +62,7 @@ export const Filters = () => {
           </Col>
           <Col xs={12} md={6} lg={3}>
             <FilterInputContainer>
-              <CampaignTypeDropdown />
+              <CampaignTypeDropdown availableTypes={selectTypes(filtered)} />
             </FilterInputContainer>
           </Col>
           <Col xs={12} md={6} lg={3}>

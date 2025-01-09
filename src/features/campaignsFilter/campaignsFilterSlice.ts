@@ -10,7 +10,10 @@ export const StatusFilters = {
 export interface FilterState {
   status: string;
   type: string;
-  testNameId: number;
+  testType: {
+    label: string;
+    value: string;
+  };
   search?: string;
   projectId?: number;
 }
@@ -18,7 +21,10 @@ export interface FilterState {
 const initialState: FilterState = {
   status: StatusFilters.All,
   type: 'all',
-  testNameId: 0,
+  testType: {
+    value: '0',
+    label: 'all',
+  },
 };
 
 const filtersSlice = createSlice({
@@ -32,7 +38,7 @@ const filtersSlice = createSlice({
       state.type = action.payload;
     },
     testTypeFilterChanged(state, action) {
-      state.testNameId = action.payload;
+      state.testType = action.payload;
     },
     searchFilterChanged(state, action) {
       state.search = action.payload;
@@ -43,7 +49,7 @@ const filtersSlice = createSlice({
     resetFilters(state) {
       state.status = initialState.status;
       state.type = initialState.type;
-      state.testNameId = initialState.testNameId;
+      state.testType = initialState.testType;
       state.search = initialState.search;
       state.projectId = initialState.projectId;
     },

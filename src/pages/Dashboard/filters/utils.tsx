@@ -10,7 +10,8 @@ export interface DropdownItem {
 }
 
 export const getItemText = (selectedItem: DropdownItem, label: string) => {
-  if (selectedItem.value === 'all') return selectedItem.label;
+  if (selectedItem.value === 'all' || selectedItem.value === '0')
+    return selectedItem.label;
 
   const icon = selectedItem.icon ? selectedItem.icon : '';
 

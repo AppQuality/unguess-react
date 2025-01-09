@@ -11,6 +11,7 @@ import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { CampaignStatus } from 'src/types';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaignBugs } from './useCampaignBugs';
 
@@ -60,6 +61,10 @@ export const Tools = ({
     status,
   } = useCampaignBugs(campaignId);
 
+  const { data: campaignData } = useGetCampaignsByCidQuery({
+    cid: campaignId.toString(),
+  });
+
   if (isCampaignLoading || isCampaignBugsLoading) {
     return <Skeleton width="200px" height="30px" />;
   }
@@ -85,7 +90,9 @@ export const Tools = ({
         {status && <StatusMeta status={status.name as CampaignStatus} />}
       </PageMeta>
       <ButtonsWrapper>
-        <CampaignSettings />
+        {campaignData && campaignData.isArchived !== true && (
+          <CampaignSettings />
+        )}
         <Button
           isBasic
           className="header-dowlnoad-report"

@@ -3,11 +3,8 @@ import { useParams } from 'react-router-dom';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
-import {
-  Campaign,
-  useGetWorkspacesByWidCampaignsQuery,
-} from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { Campaign } from 'src/features/api';
+import { useSelectCampaigns } from './filters/useSelectCampaigns';
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const prjId =
@@ -43,19 +40,17 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
 };
 
 export const Counters = () => {
-  const { activeWorkspace } = useActiveWorkspace();
-
   const { projectId } = useParams();
+  const { campaigns, isLoading, isFetching, isError } = useSelectCampaigns(
+    projectId ? Number(projectId) : undefined
+  );
 
-  const { data, isLoading, isFetching, isError } =
-    useGetWorkspacesByWidCampaignsQuery({
-      wid: activeWorkspace?.id.toString() || '',
-    });
+  const items = campaigns.flatMap((c) => c.items);
 
   if (isError) return null; // TODO: Improve error handling
 
   const { running, completed, inComing, functional, experiential } =
-    getCounterValues(data?.items ?? [], projectId) || 0;
+    getCounterValues(items ?? [], projectId) || 0;
 
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />

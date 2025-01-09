@@ -54,7 +54,11 @@ export const useCampaign = (campaignId: number) => {
     campaign,
     project: {
       ...(campaign && { ...campaign.project, hasAccess: false }),
-      ...(project && { ...project, hasAccess: true }),
+      ...(project && {
+        ...project,
+        hasAccess: true,
+        is_archive: campaign.isArchived,
+      }),
       route: projectRoute,
     },
   };
