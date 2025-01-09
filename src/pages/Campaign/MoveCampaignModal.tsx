@@ -7,36 +7,67 @@ import {
   MD,
   Modal,
   ModalClose,
+  Notification,
   Row,
   Select,
   Skeleton,
   useToast,
-  Notification,
 } from '@appquality/unguess-design-system';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as RightArrow } from 'src/assets/icons/arrow-right.svg';
 import {
-  CampaignWithOutput,
+  useGetCampaignsByCidQuery,
   useGetWorkspacesByWidProjectsQuery,
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { ReactComponent as RightArrow } from 'src/assets/icons/arrow-right.svg';
-import { useState } from 'react';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
-const MoveCampaignModal = ({
-  campaign,
-  onClose,
+const MoveCampaignModalContext = createContext<{
+  isOpen: boolean;
+  setIsOpen: (val: boolean) => void;
+}>({
+  isOpen: false,
+  setIsOpen: () => {},
+});
+
+export const MoveCampaignModalContextProvider = ({
+  children,
 }: {
-  campaign: CampaignWithOutput;
-  onClose: () => void;
+  children: React.ReactNode;
 }) => {
-  const {
-    id: cpId,
-    customer_title: cpTitle,
-    project: { id: prjId, name: prjName },
-  } = campaign;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const value = useMemo(() => ({ isOpen, setIsOpen }), [isOpen]);
+
+  return (
+    <MoveCampaignModalContext.Provider value={value}>
+      {children}
+    </MoveCampaignModalContext.Provider>
+  );
+};
+
+export const useMoveCampaignModalContext = () => {
+  const context = useContext(MoveCampaignModalContext);
+
+  if (!context) {
+    throw new Error(
+      'useMoveCampaignModal must be used within a MoveCampaignModalContextProvider'
+    );
+  }
+
+  return context;
+};
+
+const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
+  const { data: campaign } = useGetCampaignsByCidQuery({
+    cid: campaignId,
+  });
+
+  const { isOpen, setIsOpen } = useMoveCampaignModalContext();
+
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
   const [selectedProjectId, setSelectedProjectId] = useState<number>();
@@ -47,13 +78,22 @@ const MoveCampaignModal = ({
     wid: activeWorkspace?.id.toString() || '',
   });
 
+  const sendGTMEvent = useSendGTMevent();
+
+  if (!isOpen) return null;
+  if (!campaign) return null;
+
+  const {
+    id: cpId,
+    customer_title: cpTitle,
+    project: { id: prjId, name: prjName },
+  } = campaign;
   const projects = data?.items;
 
   // Filter out the current project
   const filteredProjects = projects?.filter((item) => item.id !== prjId);
-  const sendGTMEvent = useSendGTMevent();
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={() => setIsOpen(false)}>
       <Modal.Header isDanger>
         {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_TITLE')}
       </Modal.Header>
@@ -130,7 +170,7 @@ const MoveCampaignModal = ({
         </Alert>
       </Modal.Body>
       <Modal.Footer>
-        <Button isBasic isDanger onClick={onClose}>
+        <Button isBasic isDanger onClick={() => setIsOpen(false)}>
           {t('__CAMPAIGN_PAGE_MOVE_CAMPAIGN_MODAL_BUTTON_CANCEL')}
         </Button>
         <Button
@@ -166,6 +206,7 @@ const MoveCampaignModal = ({
                   ),
                   { placement: 'top' }
                 );
+                setIsOpen(false);
               })
               .catch(() => {
                 addToast(

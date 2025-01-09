@@ -34,6 +34,7 @@ export const apiSlice = createApi({
     'Insights',
     'Clusters',
     'Translation',
+    'Archive',
   ],
   endpoints: () => ({}),
 });

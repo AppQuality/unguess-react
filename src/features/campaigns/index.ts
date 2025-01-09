@@ -29,7 +29,11 @@ export const selectFilteredCampaigns = (
       return false;
 
     // Check Test Type
-    if (filters.testNameId && type.id !== filters.testNameId) return false;
+    if (
+      filters.testType.value !== '0' &&
+      type.id !== Number.parseInt(filters.testType.value, 10)
+    )
+      return false;
 
     // Check Search
     if (

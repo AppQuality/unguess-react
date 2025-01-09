@@ -1,19 +1,39 @@
 import { useAppSelector } from 'src/app/hooks';
-import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
+import {
+  useGetProjectsByPidCampaignsQuery,
+  useGetWorkspacesByWidArchiveQuery,
+} from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
-const useCampaignsGroupedByProject = () => {
+const useArchivedCampaigns = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const filters = useAppSelector((state) => state.filters);
 
-  const { data, isLoading, isFetching, isError } =
-    useGetWorkspacesByWidCampaignsQuery({
+  const {
+    data: archive,
+    isLoading: isArchiveLoading,
+    isFetching: isArchiveFetching,
+    isError: isArchiveError,
+  } = useGetWorkspacesByWidArchiveQuery(
+    {
       wid: activeWorkspace?.id.toString() || '',
-      orderBy: 'start_date',
-      order: 'DESC',
-    });
+    },
+    {
+      skip: !activeWorkspace?.id,
+    }
+  );
 
-  if (!data || isLoading || isFetching || isError) {
+  const { data, isLoading, isFetching, isError } =
+    useGetProjectsByPidCampaignsQuery(
+      {
+        pid: archive?.id.toString() || '',
+      },
+      {
+        skip: !archive?.id,
+      }
+    );
+
+  if (!archive || isArchiveLoading || isArchiveFetching || isArchiveError) {
     return {
       campaigns: [],
       isLoading,
@@ -23,7 +43,7 @@ const useCampaignsGroupedByProject = () => {
     };
   }
 
-  if (!data.items) {
+  if (!data || !data.items) {
     return {
       campaigns: [],
       isLoading,
@@ -49,6 +69,7 @@ const useCampaignsGroupedByProject = () => {
       if (filters.type !== 'all' && family.name.toLowerCase() !== filters.type)
         return false;
 
+      // Check Test Type
       if (
         filters.testType.value !== '0' &&
         type.id !== Number.parseInt(filters.testType.value, 10)
@@ -82,6 +103,7 @@ const useCampaignsGroupedByProject = () => {
     },
     {} as { [key: string]: (typeof filtered)[number][] }
   );
+
   const sorted = Object.entries(grouped)
     .sort(([, a], [, b]) => {
       const maxDateA = Math.max(
@@ -109,4 +131,4 @@ const useCampaignsGroupedByProject = () => {
   };
 };
 
-export { useCampaignsGroupedByProject };
+export { useArchivedCampaigns };

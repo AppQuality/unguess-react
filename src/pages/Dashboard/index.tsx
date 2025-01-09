@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { projectFilterChanged } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
@@ -19,7 +19,8 @@ const Dashboard = () => {
   const { status } = useAppSelector((state) => state.user);
   const sendGTMEvent = useSendGTMevent();
 
-  if (status === 'logged') dispatch(projectFilterChanged(0)); // Reset filters
+  if (status === 'logged') dispatch(resetFilters()); // Reset filters
+
   const [openCreateProjectModal, setOpenCreateProjectModal] = useState(false);
 
   return (
