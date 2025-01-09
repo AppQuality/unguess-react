@@ -33,7 +33,19 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['Campaigns'],
     },
     patchCampaignsByCid: {
-      invalidatesTags: ['Campaigns', 'Projects', 'Archive'],
+      invalidatesTags: ['Campaigns', 'Projects', 'Archive', 'Users'],
+    },
+    postCampaignsByCidUsers: {
+      invalidatesTags: ['Users'],
+    },
+    getProjectsByPidUsers: {
+      providesTags: ['Users'],
+    },
+    getCampaignsByCidUsers: {
+      providesTags: ['Users'],
+    },
+    getWorkspacesByWidUsers: {
+      providesTags: ['Users'],
     },
     postProjects: {
       invalidatesTags: ['Projects'],
@@ -64,9 +76,6 @@ unguessApi.enhanceEndpoints({
     },
     getCampaignsByCidBugsAndBid: {
       providesTags: ['Tags', 'Bug'],
-    },
-    getWorkspacesByWidUsers: {
-      providesTags: ['Users'],
     },
     postWorkspacesByWidUsers: {
       invalidatesTags: ['Users'],
