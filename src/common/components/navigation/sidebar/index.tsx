@@ -21,7 +21,10 @@ import {
   useGetWorkspacesByWidArchiveQuery,
   useGetWorkspacesByWidProjectsQuery,
 } from 'src/features/api';
-import { toggleSidebar } from 'src/features/navigation/navigationSlice';
+import {
+  closeSidebar,
+  toggleSidebar,
+} from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
@@ -124,10 +127,10 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
     }
 
     if (isMobile) {
-      dispatch(toggleSidebar());
+      dispatch(closeSidebar());
     }
 
-    navigate(localizedRoute, { replace: true });
+    navigate(localizedRoute);
   };
 
   useEffect(() => {
