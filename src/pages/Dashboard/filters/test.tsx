@@ -17,7 +17,7 @@ export const TestTypeDropdown = ({
   const items: DropdownItems = {
     0: {
       label: t('__DASHABOARD_CAMPAIGN_TEST_NAME_FILTER_ALL'),
-      value: 'all',
+      value: '0',
     },
   };
 
@@ -34,7 +34,7 @@ export const TestTypeDropdown = ({
 
   return (
     <Select
-      isPrimary={selectedItem.value !== 'all'}
+      isPrimary={selectedItem.value !== '0'}
       renderValue={() =>
         getItemText(
           selectedItem,
