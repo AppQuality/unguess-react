@@ -171,13 +171,13 @@ export const BugPreview = ({
       ...(groupBy !== 'ungrouped' && {
         groupByValue:
           groupBy === 'usecase'
-            ? (bug.application_section.id || -1).toString()
-            : bug.application_section.id?.toString() || '-1',
+            ? (bug?.application_section.id || -1).toString()
+            : bug?.application_section.id?.toString() || '-1',
       }),
       ...getFilterBy(),
     });
     return newSearchParams;
-  }, [order, orderBy, groupBy, data]);
+  }, [order, orderBy, groupBy, data, bug]);
 
   if (isLoading || isError || !bug) return <Skeleton />;
 
