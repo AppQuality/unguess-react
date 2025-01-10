@@ -172,7 +172,7 @@ export const BugPreview = ({
         groupByValue:
           groupBy === 'usecase'
             ? (bug?.application_section.id || -1).toString()
-            : bug?.application_section.id?.toString() || '-1',
+            : bug?.custom_status.id?.toString() || '-1',
       }),
       ...getFilterBy(),
     });
