@@ -101,8 +101,6 @@ export const BugPreview = ({
   }, [currentBugId]);
   const data = getCurrentCampaignData();
 
-  if (isLoading || isError || !bug) return <Skeleton />;
-
   const { orderBy, order, groupBy } = useAppSelector((state) => state.bugsPage);
 
   const searchParams = useMemo(() => {
@@ -180,6 +178,8 @@ export const BugPreview = ({
     });
     return newSearchParams;
   }, [order, orderBy, groupBy, data]);
+
+  if (isLoading || isError || !bug) return <Skeleton />;
 
   const { media } = bug;
   const scrollerBoxId = 'bug-preview-container';
