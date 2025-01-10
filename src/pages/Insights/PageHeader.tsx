@@ -9,7 +9,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
@@ -83,7 +82,6 @@ const InsightsPageHeader = () => {
           <Wrapper>
             <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
             <ButtonWrapper>
-              <CampaignSettings />
               <MD color={appTheme.palette.blue[600]}>
                 {' '}
                 {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}

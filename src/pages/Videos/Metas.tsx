@@ -13,7 +13,6 @@ import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
-import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
@@ -241,7 +240,6 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         <StatusMeta status={status.name as CampaignStatus} />
       </PageMeta>
       <ButtonWrapper>
-        <CampaignSettings />
         <>
           <MD color={appTheme.palette.blue[600]}>
             {' '}
