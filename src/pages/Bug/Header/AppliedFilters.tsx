@@ -43,6 +43,7 @@ export const AppliedFilters = () => {
     replicabilities: t('__BUG_PAGE_HEADER_FILTER_REPLICABILITIES'),
     customStatuses: t('__BUG_PAGE_HEADER_FILTER_STATUS'),
     useCases: t('__BUG_PAGE_HEADER_FILTER_USECASE'),
+    search: t('__BUG_PAGE_HEADER_FILTER_SEARCH'),
   };
 
   const renderFilterItems = () =>
@@ -61,6 +62,7 @@ export const AppliedFilters = () => {
             if (!Array.isArray(value) || !value) return '';
             return value
               .map((item) => {
+                if (typeof item === 'string') return item;
                 if ('name' in item) return item.name;
                 if ('display_name' in item) return item.display_name;
                 if ('device' in item) return item.device;

@@ -34,4 +34,8 @@ export const getFiltersFromParams = (searchParams: URLSearchParams) => ({
     searchParams.getAll('customStatuses').length > 0
       ? searchParams.getAll('customStatuses')
       : null,
+  search:
+    searchParams.getAll('search').length > 0
+      ? searchParams.getAll('search')
+      : null,
 });

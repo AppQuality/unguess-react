@@ -160,6 +160,9 @@ export const BugPreview = ({
             filters.tags = data.tags.selected.map((item) => item.display_name);
           }
         }
+        if (key === 'search' && data.search) {
+          filters.search = data.search;
+        }
       });
       return filters;
     };
