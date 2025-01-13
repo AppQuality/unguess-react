@@ -6,15 +6,13 @@ import {
   Tooltip,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoIcon } from '@zendeskgarden/svg-icons/src/12/info-stroke.svg';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSearchParams } from 'react-router-dom';
+import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
 import styled, { useTheme } from 'styled-components';
 import { UseCaseType } from 'src/pages/Bugs/Content/BugsTable/types';
 import { BugCustomStatus } from 'src/features/api';
-import { getFiltersFromParams } from './getFiltersFromParams';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,17 +26,10 @@ interface AppliedFiltersParams {
 export const AppliedFilters = ({ states, useCases }: AppliedFiltersParams) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const [searchParams] = useSearchParams();
-  const filterBy = useMemo(() => {
-    const filtersFromParams = getFiltersFromParams(searchParams);
-    // remove null and undefined values
-    return Object.fromEntries(
-      Object.entries(filtersFromParams).filter(([, v]) => v)
-    );
-  }, [searchParams]);
+  const filterBy = getSelectedFilters();
   const filterLabels = {
     unique: t('__BUG_PAGE_HEADER_FILTER_UNIQUE'),
-    unread: t('__BUG_PAGE_HEADER_FILTER_UNREAD'),
+    read: t('__BUG_PAGE_HEADER_FILTER_UNREAD'),
     severities: t('__BUG_PAGE_HEADER_FILTER_SEVERITIES'),
     devices: t('__BUG_PAGE_HEADER_FILTER_DEVICES'),
     os: t('__BUG_PAGE_HEADER_FILTER_OS'),
@@ -46,8 +37,8 @@ export const AppliedFilters = ({ states, useCases }: AppliedFiltersParams) => {
     tags: t('__BUG_PAGE_HEADER_FILTER_TAGS'),
     types: t('__BUG_PAGE_HEADER_FILTER_TYPES'),
     replicabilities: t('__BUG_PAGE_HEADER_FILTER_REPLICABILITIES'),
-    status: t('__BUG_PAGE_HEADER_FILTER_STATUS'),
-    usecase: t('__BUG_PAGE_HEADER_FILTER_USECASE'),
+    customStatuses: t('__BUG_PAGE_HEADER_FILTER_STATUS'),
+    useCases: t('__BUG_PAGE_HEADER_FILTER_USECASE'),
   };
 
   const renderFilterItems = () =>
@@ -64,24 +55,17 @@ export const AppliedFilters = ({ states, useCases }: AppliedFiltersParams) => {
           const getValue = () => {
             const value = filterBy[key];
             if (!Array.isArray(value) || !value) return '';
-            if (key === 'status' && states.length > 0) {
-              return value
-                .map(
-                  (item) =>
-                    states.find((state) => state.id === Number(item))?.name
-                )
-                .join(', ');
-            }
-            if (key === 'usecase' && useCases.length > 0) {
-              return value
-                .map(
-                  (item) =>
-                    useCases.find((usecase) => usecase.id === Number(item))
-                      ?.title.full
-                )
-                .join(', ');
-            }
-            return value.map((item: string) => item).join(', ');
+            return value
+              .map((item) => {
+                if (typeof item === 'string') return item;
+                if ('name' in item) return item.name;
+                if ('display_name' in item) return item.display_name;
+                if ('device' in item) return item.device;
+                if ('os' in item) return item.os;
+                if ('title' in item) return item.title.full;
+                return '';
+              })
+              .join(', ');
           };
 
           const value = getValue();
