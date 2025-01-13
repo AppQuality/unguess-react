@@ -26,7 +26,9 @@ export const AppliedFilters = () => {
     if (
       filterBy[key] === 'all' ||
       filterBy[key] === undefined ||
-      (Array.isArray(filterBy[key]) && filterBy[key].length === 0)
+      (Array.isArray(filterBy[key]) &&
+        filterBy[key] !== undefined &&
+        (filterBy[key] as any[]).length === 0)
     ) {
       delete filterBy[key];
     }
