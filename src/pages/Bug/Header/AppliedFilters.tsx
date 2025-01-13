@@ -11,22 +11,26 @@ import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
 import styled, { useTheme } from 'styled-components';
-import { UseCaseType } from 'src/pages/Bugs/Content/BugsTable/types';
-import { BugCustomStatus } from 'src/features/api';
 
 const Wrapper = styled.div`
   display: flex;
 `;
 
-interface AppliedFiltersParams {
-  states: BugCustomStatus[];
-  useCases: UseCaseType[];
-}
-
-export const AppliedFilters = ({ states, useCases }: AppliedFiltersParams) => {
+export const AppliedFilters = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const filterBy = getSelectedFilters();
+  // remove empty filters
+  (Object.keys(filterBy) as Array<keyof typeof filterBy>).forEach((key) => {
+    // remove empty values
+    if (
+      filterBy[key] === 'all' ||
+      filterBy[key] === undefined ||
+      (Array.isArray(filterBy[key]) && filterBy[key].length === 0)
+    ) {
+      delete filterBy[key];
+    }
+  });
   const filterLabels = {
     unique: t('__BUG_PAGE_HEADER_FILTER_UNIQUE'),
     read: t('__BUG_PAGE_HEADER_FILTER_UNREAD'),
@@ -57,7 +61,6 @@ export const AppliedFilters = ({ states, useCases }: AppliedFiltersParams) => {
             if (!Array.isArray(value) || !value) return '';
             return value
               .map((item) => {
-                if (typeof item === 'string') return item;
                 if ('name' in item) return item.name;
                 if ('display_name' in item) return item.display_name;
                 if ('device' in item) return item.device;

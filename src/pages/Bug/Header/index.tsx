@@ -185,16 +185,6 @@ const Header = ({ campaignId, bug }: Props) => {
     [bugsByStates, bugsByUseCases, ungroupedBugs, groupBy, bug]
   );
 
-  const states = useMemo(
-    () => bugsByStates.map((group) => group.state),
-    [bugsByStates]
-  );
-
-  const useCases = useMemo(
-    () => bugsByUseCases.map((group) => group.useCase),
-    [bugsByUseCases]
-  );
-
   if (isCampaignLoading || isCampaignFetching || isCampaignError || !campaign) {
     return (
       <LayoutWrapper>
@@ -220,7 +210,7 @@ const Header = ({ campaignId, bug }: Props) => {
             <>
               <RecapWrapper>
                 <OrderbyTag orderBy={orderBy} order={order} />
-                <AppliedFilters states={states} useCases={useCases} />
+                <AppliedFilters />
               </RecapWrapper>
               {groupBy === 'usecase' && (
                 <UsecaseSelect usecases={bugsByUseCases} />
