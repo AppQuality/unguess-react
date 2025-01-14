@@ -61,7 +61,8 @@ export const AppliedFilters = () => {
 
           const getValue = () => {
             const value = filterBy[key];
-            if (!Array.isArray(value) || !value) return '';
+            if (!value) return '';
+            if (typeof value === 'string') return value;
             return value
               .map((item) => {
                 if (typeof item === 'string') return item;

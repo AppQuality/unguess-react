@@ -97,7 +97,7 @@ const useSetFilters = ({ campaignId }: { campaignId: string }) => {
           : [],
         unique: filtersFromParams.unique ? 'unique' : 'all',
         read: filtersFromParams.unread ? 'unread' : 'all',
-        search: filtersFromParams.search || undefined,
+        search: filtersFromParams.search?.join(' ') || undefined,
       };
       dispatch(
         updateFilters({
