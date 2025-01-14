@@ -46,53 +46,67 @@ const useSetFilters = ({ campaignId }: { campaignId: string }) => {
       const filters = {
         useCases: usecases
           ? filtersFromParams.usecase?.map((u) =>
-              usecases?.find((useCase) => useCase.id.toString() === u)
+              usecases?.find(
+                (useCase) =>
+                  useCase.id.toString().toLowerCase() === u.toLowerCase()
+              )
             )
           : [],
         customStatuses: customStatuses
           ? filtersFromParams.status?.map((c) =>
-              customStatuses?.find((cs) => cs.id.toString() === c)
+              customStatuses?.find(
+                (cs) => cs.id.toString().toLowerCase() === c.toLowerCase()
+              )
             )
           : [],
         devices: filtersFromParams.devices
           ? filtersFromParams.devices.map((d) =>
-              availableFilters.devices?.find((device) => device.device === d)
+              availableFilters.devices?.find(
+                (device) => device.device.toLowerCase() === d.toLowerCase()
+              )
             )
           : [],
         os: filtersFromParams.os
           ? filtersFromParams.os.map((o) =>
-              availableFilters.os?.find((os) => os.os === o)
+              availableFilters.os?.find(
+                (os) => os.os.toLowerCase() === o.toLowerCase()
+              )
             )
           : [],
         priorities: filtersFromParams.priorities
           ? filtersFromParams.priorities.map((p) =>
               availableFilters.priorities?.find(
-                (priority) => priority.name === p
+                (priority) => priority.name.toLowerCase() === p.toLowerCase()
               )
             )
           : [],
         replicabilities: filtersFromParams.replicabilities
           ? filtersFromParams.replicabilities.map((r) =>
               availableFilters.replicabilities?.find(
-                (replicability) => replicability.name === r
+                (replicability) =>
+                  replicability.name.toLowerCase() === r.toLowerCase()
               )
             )
           : [],
         severities: filtersFromParams.severities
           ? filtersFromParams.severities.map((s) =>
               availableFilters.severities?.find(
-                (severity) => severity.name === s
+                (severity) => severity.name.toLowerCase() === s.toLowerCase()
               )
             )
           : [],
         tags: filtersFromParams.tags
           ? filtersFromParams.tags.map((t) =>
-              availableFilters.tags?.find((tag) => tag.display_name === t)
+              availableFilters.tags?.find(
+                (tag) => tag.display_name.toLowerCase() === t.toLowerCase()
+              )
             )
           : [],
         types: filtersFromParams.types
           ? filtersFromParams.types.map((t) =>
-              availableFilters.types?.find((type) => type.name === t)
+              availableFilters.types?.find(
+                (type) => type.name.toLowerCase() === t.toLowerCase()
+              )
             )
           : [],
         unique: filtersFromParams.unique ? 'unique' : 'all',
