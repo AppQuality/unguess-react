@@ -62,7 +62,10 @@ export const AppliedFilters = () => {
           const getValue = () => {
             const value = filterBy[key];
             if (!value) return '';
-            if (typeof value === 'string') return value;
+            if (typeof value === 'string') {
+              // esclude unique and read filters
+              return key === 'search' ? value : '';
+            }
             return value
               .map((item) => {
                 if (typeof item === 'string') return item;
