@@ -463,7 +463,7 @@ export const ExpressWizardContainer = () => {
             )}
           </Formik>
         ) : (
-          <ThankYouStep values={formValues} />
+          <ThankYouStep />
         )}
       </StyledModal>
       {showDiscardChangesModal && (
