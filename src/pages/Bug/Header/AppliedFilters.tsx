@@ -25,7 +25,7 @@ export const AppliedFilters = () => {
     // remove empty values
     if (
       filterBy[key] === 'all' ||
-      filterBy[key] === undefined ||
+      !filterBy[key] ||
       (Array.isArray(filterBy[key]) &&
         filterBy[key] !== undefined &&
         (filterBy[key] as any[]).length === 0)
