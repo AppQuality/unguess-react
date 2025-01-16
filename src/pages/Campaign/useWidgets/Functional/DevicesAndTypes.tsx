@@ -4,7 +4,7 @@ import { Campaign } from 'src/features/api';
 import { WidgetSection } from '../../WidgetSection';
 import BugsByType from './widgets/BugsByType';
 import TotalBugsByOsAndDevices from './widgets/TotalBugsByOsAndDevices';
-import { SectionTitle } from '../../SectionTitle';
+import { SectionTitle } from '../../../../common/components/SectionTitle';
 
 export const DevicesAndTypes = ({
   id,

@@ -19,7 +19,7 @@ import { ReactComponent as PresentationIcon } from 'src/assets/icons/file-icon-p
 import { ReactComponent as OpenLinkIcon } from 'src/assets/icons/new-window-stroke.svg';
 import { BugsReportCard } from 'src/common/components/BugsReportCard';
 import { Campaign, Report } from 'src/features/api';
-import { SectionTitle } from '../../SectionTitle';
+import { SectionTitle } from '../../../../common/components/SectionTitle';
 
 const getFileTypeName = (type: string, url: string) => {
   const urlHostname = new URL(url).hostname;

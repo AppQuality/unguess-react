@@ -1,7 +1,7 @@
 import { Col } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
-import { SectionTitle } from '../../SectionTitle';
+import { SectionTitle } from '../../../../common/components/SectionTitle';
 import { WidgetSection } from '../../WidgetSection';
 import IncomingBugs from './widgets/IncomingBugs';
 import UniqueBugs4UseCase from './widgets/UniqueBugs4UseCase';

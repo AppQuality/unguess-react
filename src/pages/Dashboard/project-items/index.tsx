@@ -1,11 +1,4 @@
-import {
-  Col,
-  IconButton,
-  Row,
-  Span,
-  TextDescription,
-  theme,
-} from '@appquality/unguess-design-system';
+import { Col, IconButton, Row, theme } from '@appquality/unguess-design-system';
 import { createSelector } from '@reduxjs/toolkit';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +9,8 @@ import { Campaign, useGetProjectsByPidCampaignsQuery } from 'src/features/api';
 import { selectFilteredCampaigns } from 'src/features/campaigns';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
+import { SectionTitle } from 'src/common/components/SectionTitle';
+import { appTheme } from 'src/app/theme';
 import { CardRowLoading } from '../CardRowLoading';
 import { Separator } from '../Separator';
 import { EmptyResults } from '../emptyState';
@@ -82,17 +77,14 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
           marginBottom: theme.space.xxs,
         }}
       >
-        <Col xs={12} md={8}>
-          <Span>
-            <TextDescription>
-              {`${t(
-                '__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5'
-              ).toUpperCase()} (${campaignsCount})`}
-            </TextDescription>
-          </Span>
+        <Col xs={12} md={8} style={{ marginBottom: 0 }}>
+          <SectionTitle
+            title={t('_PROJECT_PAGE_TOTAL_CAMPAIGN_TITLE')}
+            subtitle={t('_PROJECT_PAGE_TOTAL_CAMPAIGN_SUBTITLE')}
+          />
         </Col>
         {width >= breakpointMd && (
-          <Col md={4}>
+          <Col md={4} style={{ marginBottom: 0 }}>
             <FloatRight>
               <IconButton
                 {...(viewType === 'list' && { isPrimary: true })}
@@ -111,16 +103,14 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
           </Col>
         )}
       </Row>
-      <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
+      <Separator style={{ margin: `${appTheme.space.md} 0` }} />
       <Filters project_id={projectId} />
-
       {campaignsCount > 0 && viewType === 'list' && (
         <TableList campaigns={filteredCampaigns as Campaign[]} />
       )}
       {campaignsCount > 0 && viewType === 'grid' && (
         <CardList campaigns={filteredCampaigns as Campaign[]} />
       )}
-
       {!campaignsCount && <EmptyResults />}
     </>
   );

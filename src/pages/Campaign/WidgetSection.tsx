@@ -1,7 +1,7 @@
 import { Row } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
-import { SectionTitle } from './SectionTitle';
+import { SectionTitle } from '../../common/components/SectionTitle';
 
 const WidgetSection = styled(Row)`
   margin-bottom: ${({ theme }) => theme.space.base * 4}px;
