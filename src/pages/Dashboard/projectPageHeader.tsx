@@ -1,30 +1,27 @@
 import {
-  Button,
   InputToggle,
+  LG,
   Message,
+  Notification,
   PageHeader,
   Skeleton,
   useToast,
-  Notification,
   XXXL,
-  LG,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'src/app/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
-import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import {
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
 } from 'src/features/api';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { appTheme } from 'src/app/theme';
 import { Counters } from './Counters';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
@@ -50,7 +47,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { addToast } = useToast();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
-  const { hasFeatureFlag } = useFeatureFlag();
   const { status } = useAppSelector((state) => state.user);
   const [itemTitle, setItemTitle] = useState<string>();
   const [itemDescription, setItemDescription] = useState<string>();
@@ -80,10 +76,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
 
   const [patchProject] = usePatchProjectsByPidMutation();
   const sendGTMEvent = useSendGTMevent();
-
-  const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
-
-  const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
 
   useEffect(() => {
     if (itemTitle) {
@@ -238,19 +230,6 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             {!project?.is_archive && <ProjectSettings />}
           </StyledPageHeaderMeta>
         </PageHeader.Main>
-        {hasSkyJotformFeature && (
-          <PageHeader.Footer>
-            <Button
-              isPrimary
-              onClick={() => {
-                // eslint-disable-next-line security/detect-non-literal-fs-filename
-                window.open(JOTFORM_URL, '_blank')?.focus(); // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)
-              }}
-            >
-              {t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON')}
-            </Button>
-          </PageHeader.Footer>
-        )}
       </PageHeader>
     </LayoutWrapper>
   );
