@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-object-injection */
 import { IconButton, Tag, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -63,6 +64,7 @@ const CommentsBadge = styled.span`
 export default ({
   bug,
   comments,
+  searchParams,
 }: {
   bug: Bug & {
     reporter: {
@@ -71,6 +73,7 @@ export default ({
     };
   };
   comments: GetCampaignsByCidBugsAndBidCommentsApiResponse | undefined;
+  searchParams: URLSearchParams;
 }) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -98,7 +101,9 @@ export default ({
       </Tag>
       <ActionDetailPreview>
         <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+          to={`${useLocalizeRoute(
+            `campaigns/${bug.campaign_id}/bugs/${bug.id}`
+          )}?${searchParams.toString()}`}
         >
           <Tooltip
             content={
@@ -127,7 +132,9 @@ export default ({
           </Tooltip>
         </Link>
         <Link
-          to={useLocalizeRoute(`campaigns/${bug.campaign_id}/bugs/${bug.id}`)}
+          to={`${useLocalizeRoute(
+            `campaigns/${bug.campaign_id}/bugs/${bug.id}`
+          )}?${searchParams.toString()}`}
         >
           <Tooltip
             content={t('__BUGS_PAGE_VIEW_BUG_TOOLTIP')}
