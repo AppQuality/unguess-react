@@ -21,10 +21,7 @@ import {
   useGetWorkspacesByWidArchiveQuery,
   useGetWorkspacesByWidProjectsQuery,
 } from 'src/features/api';
-import {
-  closeSidebar,
-  toggleSidebar,
-} from 'src/features/navigation/navigationSlice';
+import { closeSidebar } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
@@ -60,17 +57,6 @@ const DropdownItem = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
-  }
-`;
-
-const NavItemArchive = styled(NavItemText)`
-  .content {
-    display: flex;
-    flex-direction: column;
-
-    ${SM} {
-      color: ${({ theme }) => theme.palette.grey[600]};
-    }
   }
 `;
 
