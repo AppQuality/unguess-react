@@ -6,6 +6,7 @@ const useCampaignTemplates = () => {
     // @ts-ignore
     populate: {
       icon: '*',
+      Price: '*',
       output: {
         populate: '*',
       },
