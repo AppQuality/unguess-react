@@ -18,6 +18,7 @@ import {
   setSidebarOpen,
   toggleSidebar,
 } from 'src/features/navigation/navigationSlice';
+import { NoActiveWorkSpaceState } from 'src/features/templates/NoActiveWorkspaceState';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
 import { styled } from 'styled-components';
@@ -223,7 +224,7 @@ export const Navigation = ({
     dispatch(setProfileModalOpen(false));
   };
 
-  if (!activeWorkspace) return null;
+  if (activeWorkspace) return <NoActiveWorkSpaceState />;
 
   if (isLoadingPrefs) {
     return <Skeleton />;

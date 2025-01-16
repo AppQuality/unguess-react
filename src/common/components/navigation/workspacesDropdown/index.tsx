@@ -122,7 +122,7 @@ export const WorkspacesDropdown = () => {
     }
   };
 
-  if (!activeWorkspace) return null;
+  if (!activeWorkspace) return null; // here?
 
   if (isSingle)
     return <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>;
