@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { Page } from 'src/features/templates/Page';
-import { useCampaignTemplates } from 'src/hooks/useCampaignTemplates';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { CampaignsList } from './campaigns-list';
 import { DashboardHeaderContent } from './headerContent';
@@ -15,7 +15,6 @@ import { SuggestedCampaigns } from './SuggestedCampaigns';
 const Dashboard = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { data } = useCampaignTemplates();
 
   const { status } = useAppSelector((state) => state.user);
   const sendGTMEvent = useSendGTMevent();
@@ -47,12 +46,7 @@ const Dashboard = () => {
       <LayoutWrapper>
         <Grid>
           <SuggestedCampaigns />
-          {data.map((template) => (
-            <div>
-              <pre>{JSON.stringify(template, null, 2)}</pre>
-              <img alt="" src={template.iconUrl} />
-            </div>
-          ))}
+          <ServiceTiles />
           <CampaignsList />
           {openCreateProjectModal ? (
             <CreateProjectModal setOpen={setOpenCreateProjectModal} />
