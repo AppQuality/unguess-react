@@ -40,7 +40,7 @@ const useCampaignTemplates = () => {
           icon: iconUrl ? `${STRAPI_URL}${iconUrl}` : '',
           output: output || [],
           expressId: Number(
-            //@ts-ignore
+            // @ts-ignore
             item.attributes?.express?.data?.attributes?.express_type?.data
               ?.id || '0'
           ),

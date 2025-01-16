@@ -1,5 +1,4 @@
 import { ServiceTile, Tag } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
 import {
   openDrawer,
@@ -24,7 +23,6 @@ const CardWrapper = styled.div`
 const ServiceTiles = () => {
   const { data } = useCampaignTemplates();
   const theme = useTheme();
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   return (
