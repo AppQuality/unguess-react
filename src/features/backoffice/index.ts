@@ -1892,7 +1892,6 @@ export type CategoryListResponse = {
                             attributes?: {};
                           }[];
                         };
-                        is_featured?: boolean;
                         sort_order?: number;
                         express?: {
                           data?: {
@@ -2192,6 +2191,7 @@ export type CategoryListResponse = {
                           id?: string;
                           price?: string;
                           previous_price?: string;
+                          is_strikethrough?: boolean;
                         };
                         output?: {
                           id?: string;
@@ -3557,7 +3557,6 @@ export type CategoryResponse = {
                             attributes?: {};
                           }[];
                         };
-                        is_featured?: boolean;
                         sort_order?: number;
                         express?: {
                           data?: {
@@ -3857,6 +3856,7 @@ export type CategoryResponse = {
                           id?: string;
                           price?: string;
                           previous_price?: string;
+                          is_strikethrough?: boolean;
                         };
                         output?: {
                           id?: string;
@@ -5210,7 +5210,6 @@ export type CategoryLocalizationResponse = {
                         attributes?: {};
                       }[];
                     };
-                    is_featured?: boolean;
                     sort_order?: number;
                     express?: {
                       data?: {
@@ -5510,6 +5509,7 @@ export type CategoryLocalizationResponse = {
                       id?: string;
                       price?: string;
                       previous_price?: string;
+                      is_strikethrough?: boolean;
                     };
                     output?: {
                       id?: string;
@@ -10236,7 +10236,6 @@ export type ServiceListResponse = {
                       attributes?: {};
                     }[];
                   };
-                  is_featured?: boolean;
                   sort_order?: number;
                   express?: {
                     data?: {
@@ -10248,6 +10247,7 @@ export type ServiceListResponse = {
                     id?: string;
                     price?: string;
                     previous_price?: string;
+                    is_strikethrough?: boolean;
                   };
                   output?: {
                     id?: string;
@@ -12435,7 +12435,6 @@ export type ServiceResponse = {
                       attributes?: {};
                     }[];
                   };
-                  is_featured?: boolean;
                   sort_order?: number;
                   express?: {
                     data?: {
@@ -12447,6 +12446,7 @@ export type ServiceResponse = {
                     id?: string;
                     price?: string;
                     previous_price?: string;
+                    is_strikethrough?: boolean;
                   };
                   output?: {
                     id?: string;
@@ -14636,7 +14636,6 @@ export type ServiceLocalizationResponse = {
                   attributes?: {};
                 }[];
               };
-              is_featured?: boolean;
               sort_order?: number;
               express?: {
                 data?: {
@@ -14648,6 +14647,7 @@ export type ServiceLocalizationResponse = {
                 id?: string;
                 price?: string;
                 previous_price?: string;
+                is_strikethrough?: boolean;
               };
               output?: {
                 id?: string;
@@ -16834,7 +16834,6 @@ export type TemplateListResponse = {
                       attributes?: {};
                     }[];
                   };
-                  is_featured?: boolean;
                   sort_order?: number;
                   express?: {
                     data?: {
@@ -16846,6 +16845,7 @@ export type TemplateListResponse = {
                     id?: string;
                     price?: string;
                     previous_price?: string;
+                    is_strikethrough?: boolean;
                   };
                   output?: {
                     id?: string;
@@ -17018,7 +17018,6 @@ export type TemplateListResponse = {
           };
         }[];
       };
-      is_featured?: boolean;
       sort_order?: number;
       express?: {
         data?: {
@@ -17030,6 +17029,7 @@ export type TemplateListResponse = {
         id?: string;
         price?: string;
         previous_price?: string;
+        is_strikethrough?: boolean;
       };
       output?: {
         id?: string;
@@ -19169,7 +19169,6 @@ export type TemplateResponse = {
                       attributes?: {};
                     }[];
                   };
-                  is_featured?: boolean;
                   sort_order?: number;
                   express?: {
                     data?: {
@@ -19181,6 +19180,7 @@ export type TemplateResponse = {
                     id?: string;
                     price?: string;
                     previous_price?: string;
+                    is_strikethrough?: boolean;
                   };
                   output?: {
                     id?: string;
@@ -19353,7 +19353,6 @@ export type TemplateResponse = {
           };
         }[];
       };
-      is_featured?: boolean;
       sort_order?: number;
       express?: {
         data?: {
@@ -19365,6 +19364,7 @@ export type TemplateResponse = {
         id?: string;
         price?: string;
         previous_price?: string;
+        is_strikethrough?: boolean;
       };
       output?: {
         id?: string;
@@ -19525,11 +19525,11 @@ export type TemplateRequest = {
     description?: string;
     template_slug?: string;
     is_functional?: boolean;
-    is_featured?: boolean;
     sort_order?: number;
     Price?: {
       price?: string;
       previous_price?: string;
+      is_strikethrough?: boolean;
     };
     output?: {
       Icon?: number | string;
@@ -21514,7 +21514,6 @@ export type TemplateLocalizationResponse = {
                   attributes?: {};
                 }[];
               };
-              is_featured?: boolean;
               sort_order?: number;
               express?: {
                 data?: {
@@ -21526,6 +21525,7 @@ export type TemplateLocalizationResponse = {
                 id?: string;
                 price?: string;
                 previous_price?: string;
+                is_strikethrough?: boolean;
               };
               output?: {
                 id?: string;
@@ -21698,7 +21698,6 @@ export type TemplateLocalizationResponse = {
       };
     }[];
   };
-  is_featured?: boolean;
   sort_order?: number;
   express?: {
     data?: {
@@ -21710,6 +21709,7 @@ export type TemplateLocalizationResponse = {
     id?: string;
     price?: string;
     previous_price?: string;
+    is_strikethrough?: boolean;
   };
   output?: {
     id?: string;
@@ -21866,11 +21866,11 @@ export type TemplateLocalizationRequest = {
   description?: string;
   template_slug?: string;
   is_functional?: boolean;
-  is_featured?: boolean;
   sort_order?: number;
   Price?: {
     price?: string;
     previous_price?: string;
+    is_strikethrough?: boolean;
   };
   output?: {
     Icon?: number | string;

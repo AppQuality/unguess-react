@@ -876,7 +876,7 @@
   "__INSIGHTS_PAGE_INSIGHT_FORM_BUTTON_UPDATE": "Update insight",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_ERROR": "Description is required",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_LABEL": "Description",
-  "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_PLACEHOLDER": "Example: The majority of participants (9) preferred option C\u00a0mainly because it offers\u00a0a\u00a0double navigation option......",
+  "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_DESCRIPTION_PLACEHOLDER": "Example: The majority of participants (9) preferred option C mainly because it offers a double navigation option......",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_ERROR": "At least one observation is required",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_LABEL": "Linked Highlights",
   "__INSIGHTS_PAGE_INSIGHT_FORM_FIELD_OBSERVATIONS_SELECTED": "Observation selected:",
@@ -1134,5 +1134,6 @@
   "UX_SHORTCUT_MODAL_TITLE": "Keyboard Shortcuts",
   "UX_SHORTCUT_MUTE": "Mute",
   "UX_SHORTCUT_PLAY_PAUSE": "Play/Pause",
-  "UX_SHORTCUT_REWIND": "Rewind"
+  "UX_SHORTCUT_REWIND": "Rewind",
+  "__SERVICE_TILES_HEADER": "LAUNCH NEW TEST"
 }
