@@ -10,14 +10,20 @@ const useCampaignTemplates = () => {
       output: {
         populate: '*',
       },
-      express: '*',
+      express: {
+        populate: '*',
+      },
     },
     sort: 'sort_order',
   });
 
   return {
     data: (data?.data || [])
-      .filter((item) => item?.attributes?.express?.data)
+      .filter(
+        (item) =>
+          // @ts-ignore
+          item.attributes?.express?.data?.attributes?.express_type?.data
+      )
       .map((item) => {
         const iconUrl = item.attributes?.icon?.data?.attributes?.url;
 
@@ -33,7 +39,11 @@ const useCampaignTemplates = () => {
           ...item.attributes,
           icon: iconUrl ? `${STRAPI_URL}${iconUrl}` : '',
           output: output || [],
-          expressId: Number(item.attributes?.express?.data?.id || '0'),
+          expressId: Number(
+            //@ts-ignore
+            item.attributes?.express?.data?.attributes?.express_type?.data
+              ?.id || '0'
+          ),
         };
       }),
     isLoading,
