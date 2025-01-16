@@ -47,7 +47,12 @@ const Dashboard = () => {
       <LayoutWrapper>
         <Grid>
           <SuggestedCampaigns />
-          {JSON.stringify(data)}
+          {data.map((template) => (
+            <div>
+              <pre>{JSON.stringify(template, null, 2)}</pre>
+              <img alt="" src={template.iconUrl} />
+            </div>
+          ))}
           <CampaignsList />
           {openCreateProjectModal ? (
             <CreateProjectModal setOpen={setOpenCreateProjectModal} />
