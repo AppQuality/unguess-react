@@ -23,7 +23,13 @@ const FloatRight = styled.div`
   margin-bottom: ${theme.space.xs};
 `;
 
-export const ProjectItems = ({ projectId }: { projectId: number }) => {
+export const ProjectItems = ({
+  projectId,
+  isArchive,
+}: {
+  projectId: number;
+  isArchive: boolean;
+}) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const breakpointMd = parseInt(theme.breakpoints.md, 10);
@@ -111,7 +117,8 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
       {campaignsCount > 0 && viewType === 'grid' && (
         <CardList campaigns={filteredCampaigns as Campaign[]} />
       )}
-      {!campaignsCount && <EmptyResults />}
+
+      {!campaignsCount && <EmptyResults isArchive={isArchive} />}
     </>
   );
 };

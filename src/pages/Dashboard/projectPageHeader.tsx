@@ -205,8 +205,8 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     InputToggleMemoTitle
   );
   const descriptionContent = project?.is_archive ? (
-    <LG isBold color={appTheme.palette.grey[600]}>
-      {project.description}
+    <LG color={appTheme.palette.grey[700]}>
+      {t('__PROJECT_PAGE_ARCHIVE_DESCRIPTION')}
     </LG>
   ) : (
     InputToggleMemoDescription
@@ -222,20 +222,19 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               titleContent
             )}
           </PageHeader.Title>
+          <PageHeader.Description style={{ width: '100%' }}>
+            {isLoading || isFetching || status === 'loading' ? (
+              <Skeleton width="60%" height="44px" />
+            ) : (
+              descriptionContent
+            )}
+          </PageHeader.Description>
           {!project?.is_archive && (
-            <PageHeader.Description style={{ width: '100%' }}>
-              {isLoading || isFetching || status === 'loading' ? (
-                <Skeleton width="60%" height="44px" />
-              ) : (
-                descriptionContent
-              )}
-            </PageHeader.Description>
+            <StyledPageHeaderMeta>
+              <Counters />
+              <ProjectSettings />
+            </StyledPageHeaderMeta>
           )}
-
-          <StyledPageHeaderMeta>
-            <Counters />
-            {!project?.is_archive && <ProjectSettings />}
-          </StyledPageHeaderMeta>
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>

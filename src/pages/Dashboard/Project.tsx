@@ -80,7 +80,10 @@ const Project = () => {
       <LayoutWrapper>
         <Grid>
           {isSuccess ? (
-            <ProjectItems projectId={Number(projectId) || 0} />
+            <ProjectItems
+              projectId={Number(projectId) || 0}
+              isArchive={!!project?.is_archive}
+            />
           ) : (
             <CardRowLoading />
           )}
