@@ -1,9 +1,9 @@
 import { Campaign } from 'src/features/api';
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
-import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
 import { Divider } from 'src/common/components/divider';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
+import { SectionTitle } from 'src/common/components/SectionTitle';
 import { Sentiment } from './Sentiment';
 
 export const Overview = ({

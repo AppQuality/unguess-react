@@ -51,10 +51,12 @@ export const BugCommentsDetail = ({
   commentsCount,
   bugId,
   campaignId,
+  searchParams,
 }: {
   commentsCount: number;
   bugId: number;
   campaignId: number;
+  searchParams: URLSearchParams;
 }) => {
   const { t } = useTranslation();
   return (
@@ -93,7 +95,11 @@ export const BugCommentsDetail = ({
         </Paragraph>
         {commentsCount > 0 ? <ExistingComments /> : <EmptyComments />}
 
-        <Link to={useLocalizeRoute(`campaigns/${campaignId}/bugs/${bugId}`)}>
+        <Link
+          to={useLocalizeRoute(
+            `campaigns/${campaignId}/bugs/${bugId}?${searchParams.toString()}`
+          )}
+        >
           <Button isPrimary isAccent>
             {commentsCount > 0
               ? t('__BUG_PAGE_BUG_COMMENTS_BUTTON_TEXT_EXISTING')

@@ -83,7 +83,7 @@ const InsightsPageHeader = () => {
           <Wrapper>
             <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
             <ButtonWrapper>
-              <CampaignSettings />
+              {!campaign.isArchived && <CampaignSettings />}
               <MD color={appTheme.palette.blue[600]}>
                 {' '}
                 {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}

@@ -2,12 +2,13 @@ import {
   Col,
   Paragraph,
   Row,
-  TextDescription,
-  theme,
+  Separator,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { SectionTitle } from 'src/common/components/SectionTitle';
+import { appTheme } from 'src/app/theme';
 import { CampaignItem } from './CampaignItem';
 import { CardsContainer, StyledRow } from './CardContainer';
 import { CardRowLoading } from './CardRowLoading';
@@ -33,11 +34,13 @@ export const SuggestedCampaigns = () => {
   ) : (
     <>
       <Row>
-        <Col xs={12} style={{ marginBottom: `${theme.space.base * 4}px` }}>
+        <Col xs={12} style={{ marginBottom: 0 }}>
           <Paragraph>
-            <TextDescription>
-              {t('__DASHABOARD_SUGGESTED_CAMPAIGN_TITLE MAX:12').toUpperCase()}
-            </TextDescription>
+            <SectionTitle
+              title={t('__DASHABOARD_SUGGESTED_CAMPAIGN_TITLE')}
+              subtitle={t('__DASHABOARD_SUGGESTED_CAMPAIGN_SUBTITLE')}
+            />
+            <Separator style={{ margin: `${appTheme.space.md} 0` }} />
           </Paragraph>
         </Col>
       </Row>
