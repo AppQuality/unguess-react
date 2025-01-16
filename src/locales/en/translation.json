@@ -1139,5 +1139,6 @@
   "UX_SHORTCUT_MUTE": "Mute",
   "UX_SHORTCUT_PLAY_PAUSE": "Play/Pause",
   "UX_SHORTCUT_REWIND": "Rewind",
-  "__SERVICE_TILES_HEADER": "LAUNCH NEW TEST"
+  "__SERVICE_TILES_HEADER": "Launch new tests",
+  "__SERVICE_TILES_SUBTITLE": "Collect feedback from real users in no time"
 }
