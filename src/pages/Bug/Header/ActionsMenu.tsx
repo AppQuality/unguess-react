@@ -8,6 +8,7 @@ import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 import { useCopyLink } from 'src/common/components/utils/useCopyLink';
 import { ShareModal } from 'src/common/components/BugDetail/ShareModal';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { BugShortcutHelper } from '../BugShortcutHelper';
 
 export const ActionsMenu = ({
@@ -16,16 +17,34 @@ export const ActionsMenu = ({
   bug: GetCampaignsByCidBugsAndBidApiResponse;
 }) => {
   const copyLinkToClipboard = useCopyLink();
+  const sendGTMEvent = useSendGTMevent();
   const [isShareModalOpen, setShareModalOpen] = useState(false);
   const [isShortcutModalOpen, setShortcutModalOpen] = useState(false);
   const handleClickMenu = (value: string | undefined) => {
+    sendGTMEvent({
+      event: 'bug_header_action',
+      action: 'openDotsMenu',
+    });
+
     if (value === 'share') {
+      sendGTMEvent({
+        event: 'bug_header_action',
+        action: 'setShareModalOpen',
+      });
       setShareModalOpen(true);
     }
     if (value === 'copy') {
+      sendGTMEvent({
+        event: 'bug_header_action',
+        action: 'copyLinkToClipboard',
+      });
       copyLinkToClipboard();
     }
     if (value === 'shortcut') {
+      sendGTMEvent({
+        event: 'bug_header_action',
+        action: 'setShortcutModalOpen',
+      });
       setShortcutModalOpen(true);
     }
   };

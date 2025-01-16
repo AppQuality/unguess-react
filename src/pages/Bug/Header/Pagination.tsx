@@ -3,6 +3,7 @@ import { t } from 'i18next';
 import { useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Bug } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 interface Props {
   paginationItems: (Bug & {
@@ -21,11 +22,18 @@ export const Pagination = ({
 }: Props) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const sendGTMEvent = useSendGTMevent();
 
   const handlePagination = useCallback(
     (v: number) => {
       if (paginationItems && paginationItems[Number(v)]) {
         const bugId = encodeURIComponent(paginationItems[Number(v)].id);
+
+        sendGTMEvent({
+          event: 'bug_header_action',
+          action: 'navigation',
+        });
+
         navigate({
           pathname: `/campaigns/${campaignId}/bugs/${bugId}`,
           search: searchParams.toString(),
