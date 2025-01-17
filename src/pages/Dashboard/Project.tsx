@@ -78,7 +78,7 @@ const Project = () => {
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
     >
       <LayoutWrapper>
-        <Grid>
+        <Grid style={{ padding: 0 }}>
           {isSuccess ? (
             <ProjectItems
               projectId={Number(projectId) || 0}
