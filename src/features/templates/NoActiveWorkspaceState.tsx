@@ -1,12 +1,8 @@
-import { useEffect } from 'react';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
-import { PageLoader } from 'src/common/components/PageLoader';
-import * as Sentry from '@sentry/react';
 import { ReactComponent as Background } from 'src/assets/icons/lost-in-the-space.svg';
 import { Button, MD, theme, XL } from '@appquality/unguess-design-system';
+import WPAPI from 'src/common/wpapi';
+import { useTranslation } from 'react-i18next';
 
 const PageContainer = styled.div`
   background-color: ${theme.palette.grey[100]};
@@ -29,55 +25,45 @@ const Column = styled.div`
   padding: 20px;
 `;
 
+const VerticalColumn = styled(Column)`
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+`;
+
 export const NoActiveWorkSpaceState = () => {
-  const { pathname, state: locationState } = useLocation();
-  const loginRoute = useLocalizeRoute('login');
-  const navigate = useNavigate();
-
-  const { status, userData } = useAppSelector((state) => state.user);
-
-  useEffect(() => {
-    if (status === 'failed') {
-      navigate(loginRoute, {
-        state: { from: locationState?.from ?? pathname },
-      });
-    }
-  }, [status]);
-
-  if (status === 'idle' || status === 'loading') {
-    return <PageLoader />;
-  }
-
-  Sentry.setUser({
-    id: userData.id ?? 0,
-    email: userData.email ?? 'unknown',
-    wp_user_id: userData.unguess_wp_user_id ?? 0,
-    tryber_id: userData.tryber_wp_user_id ?? 0,
-    role: userData.role ?? 'unknown',
-  });
-
+  const { t } = useTranslation();
   return (
     <PageContainer>
       <Container>
         <Column>
           <Background />
         </Column>
-        <Column>
-          <XL>It is currently not possible to access this page.</XL>
-          <MD>
-            It would appear that you no longer have access to the workspace. If
-            you need help, please contact our help centre.
-          </MD>
-          <Column>
-            <Button isAccent isPrimary color={theme.palette.kale[600]}>
-              Logout
-            </Button>
-            <Button isBasic color={theme.palette.blue[600]}>
-              Get help
-            </Button>
-          </Column>
-          <Column />
-        </Column>
+
+        <VerticalColumn>
+          <XL>{t('__PAGE_NOT_ACCESIBLE_TITLE')}</XL>
+          <MD>{t('__PAGE_NOT_ACCESIBLE_DESCRIPTION')}</MD>
+          <Button
+            isAccent
+            isPrimary
+            color={theme.palette.kale[600]}
+            onClick={async () => {
+              await WPAPI.logout();
+            }}
+          >
+            {t('__PAGE_NOT_ACCESIBLE_BUTTON_LOGOUT')}
+          </Button>
+          <Button
+            isBasic
+            color={theme.palette.blue[600]}
+            onClick={() => {
+              window.location.href =
+                'mailto:help@unguess.io?subject=Page%20not%20accessible';
+            }}
+          >
+            {t('__PAGE_NOT_ACCESIBLE_BUTTON_GET_HELP')}
+          </Button>
+        </VerticalColumn>
       </Container>
     </PageContainer>
   );
