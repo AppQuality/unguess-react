@@ -13,10 +13,11 @@ import { SectionTitle } from 'src/common/components/SectionTitle';
 import { appTheme } from 'src/app/theme';
 import { CardRowLoading } from '../CardRowLoading';
 import { Separator } from '../Separator';
-import { EmptyResults } from '../emptyState';
+import { EmptyResults } from '../empty-state/EmptyResults';
 import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
+import { EmptyProjectOrArchive } from '../empty-state';
 
 const FloatRight = styled.div`
   float: right;
@@ -42,24 +43,21 @@ export const ProjectItems = ({
     []
   );
 
-  const { filteredCampaigns, isLoading, isFetching } =
-    useGetProjectsByPidCampaignsQuery(
-      {
-        pid: projectId.toString(),
-        limit: 10000,
-        orderBy: 'start_date',
-        order: 'DESC',
-      },
-      {
-        selectFromResult: (result) => ({
-          ...result,
-          filteredCampaigns: getFilteredCampaigns(
-            result?.data?.items || [],
-            filters
-          ),
-        }),
-      }
-    );
+  const {
+    data: campaigns,
+    isLoading,
+    isFetching,
+  } = useGetProjectsByPidCampaignsQuery({
+    pid: projectId.toString(),
+    limit: 10000,
+    orderBy: 'start_date',
+    order: 'DESC',
+  });
+
+  const filteredCampaigns = getFilteredCampaigns(
+    campaigns?.items || [],
+    filters
+  );
 
   const campaignsCount = filteredCampaigns.length;
   const [viewType, setViewType] = useState('list');
@@ -73,8 +71,7 @@ export const ProjectItems = ({
   if (isLoading || isFetching) {
     return <CardRowLoading />;
   }
-
-  return (
+  return campaigns?.items && campaigns?.items.length > 0 ? (
     <>
       <Row
         alignItems="center"
@@ -118,7 +115,9 @@ export const ProjectItems = ({
         <CardList campaigns={filteredCampaigns as Campaign[]} />
       )}
 
-      {!campaignsCount && <EmptyResults isArchive={isArchive} />}
+      {!campaignsCount && <EmptyResults />}
     </>
+  ) : (
+    <EmptyProjectOrArchive isArchive={!!isArchive} />
   );
 };

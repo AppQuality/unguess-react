@@ -26,7 +26,7 @@ const CenteredXYContainer = styled.div`
   flex-direction: column;
 `;
 
-export const EmptyResults = ({ isArchive }: { isArchive?: boolean }) => {
+export const EmptyResults = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -44,28 +44,15 @@ export const EmptyResults = ({ isArchive }: { isArchive?: boolean }) => {
     <Row>
       <Col>
         <CenteredXYContainer>
-          {!isArchive ? (
-            <>
-              <Illustration />
-              <Paragraph style={{ textAlign: 'center' }}>
-                <LG color={appTheme.palette.blue[600]}>
-                  {t('__DASHBOARD_EMPTY_SEARCH_RESULTS_TITLE')}
-                </LG>
-                <MD color={appTheme.palette.grey[500]}>
-                  {t('__DASHBOARD_EMPTY_SEARCH_RESULTS_DESCRIPTION')}
-                </MD>
-              </Paragraph>
-            </>
-          ) : (
-            <>
-              <Illustration />
-              <Paragraph style={{ textAlign: 'center' }}>
-                <LG color={appTheme.palette.grey[800]}>
-                  {t('__DASHBOARD_EMPTY_ARCHIVE')}
-                </LG>
-              </Paragraph>
-            </>
-          )}
+          <Illustration />
+          <Paragraph style={{ textAlign: 'center' }}>
+            <LG color={appTheme.palette.blue[600]}>
+              {t('__DASHBOARD_EMPTY_SEARCH_RESULTS_TITLE')}
+            </LG>
+            <MD color={appTheme.palette.grey[500]}>
+              {t('__DASHBOARD_EMPTY_SEARCH_RESULTS_DESCRIPTION')}
+            </MD>
+          </Paragraph>
           {hasFilters && (
             <Paragraph style={{ marginTop: `${appTheme.space.base * 6}px` }}>
               <Button onClick={() => dispatch(resetFilters())}>
