@@ -5,11 +5,8 @@ import {
   Separator,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'src/app/hooks';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
-import { openWizard } from 'src/features/express/expressSlice';
-import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import styled, { useTheme } from 'styled-components';
 
 const Wrapper = styled.div`
@@ -20,15 +17,8 @@ const Wrapper = styled.div`
 const LaunchCampaignCards = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-
   return (
     <Wrapper>
-      <ExpressDrawer
-        onCtaClick={() => {
-          dispatch(openWizard());
-        }}
-      />
       <Row>
         <Col xs={12} style={{ marginBottom: 0 }}>
           <Paragraph>
