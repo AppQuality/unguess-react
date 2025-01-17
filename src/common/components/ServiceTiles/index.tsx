@@ -6,6 +6,7 @@ import {
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
 import { useCampaignTemplates } from 'src/hooks/useCampaignTemplates';
+import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import styled, { useTheme } from 'styled-components';
 
@@ -32,6 +33,7 @@ const ServiceTiles = () => {
           dispatch(openWizard());
         }}
       />
+      <ExpressWizardContainer />
       <CardWrapper>
         {data.map((template) => {
           const icon = <img alt={template.title || ''} src={template.icon} />;
