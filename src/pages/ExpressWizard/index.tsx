@@ -205,12 +205,31 @@ export const ExpressWizardContainer = () => {
   };
 
   useEffect(() => {
-    setStepperTitle(
-      t('__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE')
-        .replace('{current_step}', (activeStep + 1).toString())
-        .replace('{total_steps}', steps.length.toString())
-    );
-  }, [activeStep]);
+    if (isWizardOpen) {
+      setStepperTitle(
+        t('__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE')
+          .replace('{current_step}', (activeStep + 1).toString())
+          .replace('{total_steps}', steps.length.toString())
+      );
+
+      sendGTMEvent({
+        action: `express_step_${activeStep + 1}_of_${steps.length}`,
+        event: 'express_navigation',
+        category: 'express',
+        content: expressTypeMeta.slug,
+      });
+    }
+  }, [isWizardOpen, activeStep]);
+
+  useEffect(() => {
+    if (isWizardOpen && isThankyou)
+      sendGTMEvent({
+        action: 'express_end',
+        event: 'express_navigation',
+        category: 'express',
+        content: expressTypeMeta.slug,
+      });
+  }, [isWizardOpen, isThankyou]);
 
   // Form actions
   const handleSubmit = async (
@@ -357,14 +376,18 @@ export const ExpressWizardContainer = () => {
 
       // Send error to GTM
       sendGTMEvent({
-        event: 'generic_error',
-        content: JSON.stringify(e),
+        action: 'express_error',
+        event: 'express_navigation',
+        category: 'express',
+        content: expressTypeMeta.slug,
       });
     }
   };
 
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
-  const closeExpressWizard = () => setShowDiscardChangesModal(true);
+  const closeExpressWizard = () => {
+    setShowDiscardChangesModal(true);
+  };
 
   return isWizardOpen ? (
     <>
@@ -480,6 +503,12 @@ export const ExpressWizardContainer = () => {
               formRef.current?.resetForm();
             }
             toggleChat(true);
+            sendGTMEvent({
+              action: 'express_close',
+              event: 'express_navigation',
+              category: 'express',
+              content: expressTypeMeta.slug,
+            });
           }}
         />
       )}
