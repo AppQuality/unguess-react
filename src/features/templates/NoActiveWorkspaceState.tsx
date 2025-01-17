@@ -1,52 +1,40 @@
 import styled from 'styled-components';
-import { ReactComponent as Background } from 'src/assets/icons/lost-in-the-space.svg';
-import { Button, MD, theme, XL } from '@appquality/unguess-design-system';
+import { ReactComponent as BackgroundImage } from 'src/assets/icons/lost-in-the-space.svg';
+import { Button, MD, XL, Col, Row } from '@appquality/unguess-design-system';
 import WPAPI from 'src/common/wpapi';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 
-const PageContainer = styled.div`
-  background-color: ${theme.palette.grey[100]};
-  background-color: ${theme.palette.red[100]};
-  margin: 0;
-  padding: 0;
-  height: 100%;
-`;
-const Container = styled.div`
-  display: flex;
+const StyledRow = styled(Row)`
+  background-color: ${appTheme.palette.grey[100]};
   height: 100vh;
-  width: 100vw;
+  padding: 48px 120px;
 `;
-
-const Column = styled.div`
-  flex: 1;
+const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-`;
-
-const VerticalColumn = styled(Column)`
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
+  gap: ${appTheme.space.sm};
+  margin-top: ${appTheme.space.md};
 `;
 
 export const NoActiveWorkSpaceState = () => {
   const { t } = useTranslation();
   return (
-    <PageContainer>
-      <Container>
-        <Column>
-          <Background />
-        </Column>
+    <StyledRow alignItems="center" justifyContent="center">
+      <Col>
+        <BackgroundImage />
+      </Col>
 
-        <VerticalColumn>
-          <XL>{t('__PAGE_NOT_ACCESIBLE_TITLE')}</XL>
-          <MD>{t('__PAGE_NOT_ACCESIBLE_DESCRIPTION')}</MD>
+      <Col style={{ paddingRight: appTheme.space.md }}>
+        <XL isBold style={{ marginBottom: appTheme.space.xs }}>
+          {t('__PAGE_NOT_ACCESIBLE_TITLE')}
+        </XL>
+        <MD>{t('__PAGE_NOT_ACCESIBLE_DESCRIPTION')}</MD>
+        <ButtonWrapper>
           <Button
             isAccent
             isPrimary
-            color={theme.palette.kale[600]}
+            style={{ flex: 1 }}
+            color={appTheme.palette.kale[600]}
             onClick={async () => {
               await WPAPI.logout();
             }}
@@ -55,7 +43,8 @@ export const NoActiveWorkSpaceState = () => {
           </Button>
           <Button
             isBasic
-            color={theme.palette.blue[600]}
+            color={appTheme.palette.blue[600]}
+            style={{ flex: 1 }}
             onClick={() => {
               window.location.href =
                 'mailto:help@unguess.io?subject=Page%20not%20accessible';
@@ -63,8 +52,8 @@ export const NoActiveWorkSpaceState = () => {
           >
             {t('__PAGE_NOT_ACCESIBLE_BUTTON_GET_HELP')}
           </Button>
-        </VerticalColumn>
-      </Container>
-    </PageContainer>
+        </ButtonWrapper>
+      </Col>
+    </StyledRow>
   );
 };
