@@ -13,7 +13,7 @@ import { SectionTitle } from 'src/common/components/SectionTitle';
 import { appTheme } from 'src/app/theme';
 import { CardRowLoading } from '../CardRowLoading';
 import { Separator } from '../Separator';
-import { EmptyResults } from '../emptyState';
+import { EmptyResults } from '../empty-state/EmptyResults';
 import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
@@ -36,24 +36,21 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
     []
   );
 
-  const { filteredCampaigns, isLoading, isFetching } =
-    useGetProjectsByPidCampaignsQuery(
-      {
-        pid: projectId.toString(),
-        limit: 10000,
-        orderBy: 'start_date',
-        order: 'DESC',
-      },
-      {
-        selectFromResult: (result) => ({
-          ...result,
-          filteredCampaigns: getFilteredCampaigns(
-            result?.data?.items || [],
-            filters
-          ),
-        }),
-      }
-    );
+  const {
+    data: campaigns,
+    isLoading,
+    isFetching,
+  } = useGetProjectsByPidCampaignsQuery({
+    pid: projectId.toString(),
+    limit: 10000,
+    orderBy: 'start_date',
+    order: 'DESC',
+  });
+
+  const filteredCampaigns = getFilteredCampaigns(
+    campaigns?.items || [],
+    filters
+  );
 
   const campaignsCount = filteredCampaigns.length;
   const [viewType, setViewType] = useState('list');
@@ -67,7 +64,6 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
   if (isLoading || isFetching) {
     return <CardRowLoading />;
   }
-
   return (
     <>
       <Row
@@ -111,6 +107,7 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
       {campaignsCount > 0 && viewType === 'grid' && (
         <CardList campaigns={filteredCampaigns as Campaign[]} />
       )}
+
       {!campaignsCount && <EmptyResults />}
     </>
   );

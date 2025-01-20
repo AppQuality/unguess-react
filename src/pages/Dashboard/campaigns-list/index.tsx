@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { appTheme } from 'src/app/theme';
 import { Separator } from '../Separator';
-import { EmptyResults } from '../emptyState';
+import { EmptyResults } from '../empty-state/EmptyResults';
 import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
