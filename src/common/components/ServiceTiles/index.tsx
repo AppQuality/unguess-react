@@ -6,6 +6,7 @@ import {
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
 import { useCampaignTemplates } from 'src/hooks/useCampaignTemplates';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import styled, { useTheme } from 'styled-components';
@@ -23,8 +24,11 @@ const CardWrapper = styled.div`
 
 const ServiceTiles = () => {
   const { data } = useCampaignTemplates();
+  const { hasFeatureFlag } = useFeatureFlag();
   const theme = useTheme();
   const dispatch = useAppDispatch();
+
+  if (!hasFeatureFlag('express')) return null;
 
   return (
     <>
