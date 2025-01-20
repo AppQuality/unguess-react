@@ -1,9 +1,9 @@
 import {
-  Accordion,
   MD,
   Tag,
   LG,
   Span,
+  AccordionNew,
 } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
@@ -26,7 +26,7 @@ const Insight = ({
   return (
     <>
       <Divider />
-      <Accordion
+      <AccordionNew
         level={3}
         style={{ padding: `${appTheme.space.xxs} 0` }}
         key={`insight_accordion_${insight.id}_${isCurrent}`}
@@ -34,11 +34,17 @@ const Insight = ({
         id={`insight-accordion-${insight.id}`}
         role="listitem"
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <AccordionLabel insight={insight} />
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: `0 0 0 ${appTheme.space.xxs}` }}>
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionLabel
+              insight={
+                insight
+              } /* try to avoid this custom component in favor of AccordionNew component */
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel
+            style={{ padding: `0 0 0 ${appTheme.space.xxs}` }}
+          >
             {insight.description && (
               <div style={{ marginBottom: appTheme.space.md }}>
                 <MD
@@ -123,9 +129,9 @@ const Insight = ({
               ))}
             </div>
             <ButtonsFooter insight={insight} />
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
     </>
   );
 };
