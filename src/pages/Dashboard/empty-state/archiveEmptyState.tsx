@@ -1,7 +1,8 @@
-import { LG } from '@appquality/unguess-design-system';
+import { LG, MD, Paragraph } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ReactComponent as EmptyArchive } from 'src/assets/empty-archive.svg';
+import { appTheme } from 'src/app/theme';
 
 const EmptyArchiveContainer = styled.div`
   display: flex;
@@ -10,10 +11,7 @@ const EmptyArchiveContainer = styled.div`
   flex-direction: column;
   text-align: center;
 `;
-const StyledLG = styled(LG)`
-  color: ${({ theme }) => theme.palette.grey[800]};
-  width: 70%;
-`;
+
 const ImageWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -25,7 +23,18 @@ export const ArchiveEmptyState = () => {
     <EmptyArchiveContainer>
       <ImageWrapper>
         <EmptyArchive />
-        <StyledLG>{t('__DASHBOARD_EMPTY_ARCHIVE')}</StyledLG>
+        <Paragraph style={{ textAlign: 'center', width: '70%' }}>
+          <LG
+            isBold
+            color={appTheme.palette.grey[800]}
+            style={{ marginBottom: appTheme.space.xxs }}
+          >
+            {t('__DASHBOARD_EMPTY_ARCHIVE_TITLE')}
+          </LG>
+          <MD color={appTheme.palette.grey[800]}>
+            {t('__DASHBOARD_EMPTY_ARCHIVE_SUBTITLE')}
+          </MD>
+        </Paragraph>
       </ImageWrapper>
     </EmptyArchiveContainer>
   );
