@@ -49,7 +49,7 @@ export const EmptyResults = () => {
             <LG color={appTheme.palette.blue[600]}>
               {t('__DASHBOARD_EMPTY_SEARCH_RESULTS_TITLE')}
             </LG>
-            <MD color={appTheme.palette.grey[500]}>
+            <MD color={appTheme.palette.grey[700]}>
               {t('__DASHBOARD_EMPTY_SEARCH_RESULTS_DESCRIPTION')}
             </MD>
           </Paragraph>

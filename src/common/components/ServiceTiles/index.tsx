@@ -20,6 +20,7 @@ const AdditionalInfoTag = styled(Tag)`
 const CardWrapper = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.space.md};
+  z-index: ${({ theme }) => theme.levels.front};
 `;
 
 const ServiceTiles = () => {

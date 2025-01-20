@@ -10,6 +10,7 @@ const EmptyArchiveContainer = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: center;
+  padding: ${({ theme }) => `${theme.space.xl} ${theme.space.xxl}`};
 `;
 
 const ImageWrapper = styled.div`
@@ -25,13 +26,12 @@ export const ArchiveEmptyState = () => {
         <EmptyArchive />
         <Paragraph style={{ textAlign: 'center', width: '70%' }}>
           <LG
-            isBold
-            color={appTheme.palette.grey[800]}
+            color={appTheme.palette.blue[600]}
             style={{ marginBottom: appTheme.space.xxs }}
           >
             {t('__DASHBOARD_EMPTY_ARCHIVE_TITLE')}
           </LG>
-          <MD color={appTheme.palette.grey[800]}>
+          <MD color={appTheme.palette.grey[700]}>
             {t('__DASHBOARD_EMPTY_ARCHIVE_SUBTITLE')}
           </MD>
         </Paragraph>
