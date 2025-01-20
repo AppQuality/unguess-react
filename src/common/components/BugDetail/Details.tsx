@@ -1,4 +1,4 @@
-import { Accordion, LG } from '@appquality/unguess-design-system';
+import { AccordionNew } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import styled from 'styled-components';
@@ -47,32 +47,32 @@ export default ({
 
   return (
     <Container id="bug-preview-details">
-      <Accordion
+      <AccordionNew
         level={3}
         style={{ padding: 0 }}
         key={`details_accordion_${isOpen}`}
         defaultExpandedSections={isOpen ? [0, 1] : []}
         onChange={handleAccordionChange}
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label style={{ padding: 0 }}>
-              <Title>
-                <DetailsIcon
-                  style={{
-                    marginRight: appTheme.space.base * 3,
-                    color: appTheme.palette.grey[600],
-                  }}
-                />
-                <LG isBold>{t('__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL')}</LG>
-              </Title>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: 0 }}>
+        <AccordionNew.Section>
+          <AccordionNew.Header
+            icon={
+              <DetailsIcon
+                style={{
+                  marginTop: appTheme.space.base,
+                }}
+              />
+            }
+          >
+            <AccordionNew.Label
+              label={t('__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL')}
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel style={{ padding: 0 }}>
             <DetailsItems bug={bug} />
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
     </Container>
   );
 };
