@@ -17,20 +17,13 @@ import { EmptyResults } from '../empty-state/EmptyResults';
 import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
-import { EmptyProjectOrArchive } from '../empty-state';
 
 const FloatRight = styled.div`
   float: right;
   margin-bottom: ${theme.space.xs};
 `;
 
-export const ProjectItems = ({
-  projectId,
-  isArchive,
-}: {
-  projectId: number;
-  isArchive: boolean;
-}) => {
+export const ProjectItems = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const breakpointMd = parseInt(theme.breakpoints.md, 10);
@@ -71,7 +64,7 @@ export const ProjectItems = ({
   if (isLoading || isFetching) {
     return <CardRowLoading />;
   }
-  return campaigns?.items && campaigns?.items.length > 0 ? (
+  return (
     <>
       <Row
         alignItems="center"
@@ -117,7 +110,5 @@ export const ProjectItems = ({
 
       {!campaignsCount && <EmptyResults />}
     </>
-  ) : (
-    <EmptyProjectOrArchive isArchive={!!isArchive} />
   );
 };

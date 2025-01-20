@@ -19,6 +19,7 @@ import {
   setProjectId,
   setWorkspace,
 } from '../../features/navigation/navigationSlice';
+import { EmptyProjectOrArchive } from './empty-state';
 
 const Project = () => {
   const { t } = useTranslation();
@@ -70,25 +71,27 @@ const Project = () => {
       state: { from: location.pathname },
     });
   }
-
   return (
     <Page
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
+      excludeMarginBottom={!!project && project?.campaigns_count === 0}
+      excludeMarginTop={!!project && project?.campaigns_count === 0}
     >
-      <LayoutWrapper>
-        <Grid style={{ padding: 0 }}>
-          {isSuccess ? (
-            <ProjectItems
-              projectId={Number(projectId) || 0}
-              isArchive={!!project?.is_archive}
-            />
-          ) : (
-            <CardRowLoading />
-          )}
-        </Grid>
-      </LayoutWrapper>
+      {project && project?.campaigns_count > 0 ? (
+        <LayoutWrapper>
+          <Grid style={{ padding: 0 }}>
+            {isSuccess ? (
+              <ProjectItems projectId={Number(projectId) || 0} />
+            ) : (
+              <CardRowLoading />
+            )}
+          </Grid>
+        </LayoutWrapper>
+      ) : (
+        <EmptyProjectOrArchive isArchive={!!project?.is_archive} />
+      )}
     </Page>
   );
 };
