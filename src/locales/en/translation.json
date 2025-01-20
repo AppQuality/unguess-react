@@ -755,7 +755,7 @@
   "__EXPRESS_WIZARD_STEP_RECAP_WHERE_CONTENT_TEXT_OS": "On the following operating system:",
   "__EXPRESS_WIZARD_STEP_RECAP_WHO_CONTENT_TEXT": "Testers speak: <0>{{campaign_language}}</0>.",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_BUTTON": "Go to project",
-  "__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE": "Great! Your test request is now with your CSM for review. We'll notify you once it's approved or if we need any clarification. Meanwhile, you can track your test status in the Project area.",
+  "__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE": "Great! Your test request is now with the UNGUESS team for review. We'll notify you once it's approved or if we need any clarification. Meanwhile, you can track your test status in the Project area.",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE_USE_CASES": "Our tester leaders will soon reach out to you about the campaign launch.",
   "__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE": "Request received.",
   "__EXPRESS_WIZARD_STEP_WHAT_DESCRIPTION": "What is the campaign about?",
