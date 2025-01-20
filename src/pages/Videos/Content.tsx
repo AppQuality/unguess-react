@@ -1,5 +1,5 @@
 import {
-  Accordion,
+  AccordionNew,
   Col,
   Grid,
   Row,
@@ -13,15 +13,14 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
 import { Empty } from './Empty';
-import { InfoRow } from './parts/InfoRow';
 import { VideoContainer } from './parts/VideoContainer';
 import { Wrapper } from './parts/Wrapper';
 import { useVideos } from './useVideos';
 
-const StyledAccordionLabel = styled(Accordion.Label)`
+const StyledAccordionLabel = styled(AccordionNew.Label)`
   padding: 0;
 `;
-const StyledAccordionHeader = styled(Accordion.Header)`
+const StyledAccordionHeader = styled(AccordionNew.Header)`
   svg {
     padding: ${({ theme }) => theme.space.xs};
   }
@@ -71,22 +70,27 @@ const VideosPageContent = () => {
             <Row>
               <Col>
                 <Wrapper isFetching={isFetching}>
-                  <Accordion
+                  <AccordionNew
                     level={3}
                     isExpandable
                     isBare
                     defaultExpandedSections={[]}
                   >
                     {usecases.map((uc) => (
-                      <Accordion.Section
+                      <AccordionNew.Section
                         style={{ marginBottom: appTheme.space.lg }}
                       >
                         <StyledAccordionHeader>
-                          <StyledAccordionLabel>
-                            <InfoRow uc={uc} />
-                          </StyledAccordionLabel>
+                          <StyledAccordionLabel
+                            label={`${uc.usecase.title.full} (${
+                              uc.videos.total
+                            } ${t('__VIDEOS_LIST_USECASE_INFO', {
+                              count: uc.videos.total,
+                            })})`}
+                            // removed InfoRow component defined in videos/parts/InfoRow.tsx - maybe to be deleted because deprecated
+                          />
                         </StyledAccordionHeader>
-                        <Accordion.Panel style={{ padding: 0 }}>
+                        <AccordionNew.Panel style={{ padding: 0 }}>
                           {!!uc.videos.desktop.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
@@ -120,10 +124,10 @@ const VideosPageContent = () => {
                               percentage={uc.usecase.completion}
                             />
                           </AccordionFooter>
-                        </Accordion.Panel>
-                      </Accordion.Section>
+                        </AccordionNew.Panel>
+                      </AccordionNew.Section>
                     ))}
-                  </Accordion>
+                  </AccordionNew>
                 </Wrapper>
               </Col>
             </Row>
