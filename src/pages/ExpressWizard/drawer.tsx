@@ -5,7 +5,7 @@ import {
   Paragraph,
   Tag,
   UnorderedList,
-  XXL,
+  XL,
   theme,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -41,9 +41,9 @@ const TagsContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const BodyTitle = styled(XXL)`
-  margin-top: ${theme.space.base * 6}px;
-  margin-bottom: ${theme.space.base * 2}px;
+const BodyTitle = styled(XL)`
+  margin-top: ${theme.space.xxs};
+  margin-bottom: ${theme.space.sm};
 `;
 
 const StyledTag = styled(Tag)`
@@ -113,7 +113,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
     >
       <Drawer.Header>{t('__WIZARD_EXPRESS_HEADER_TITLE')}</Drawer.Header>
       <Drawer.Body>
-        <BodyTitle>{expressData.title}</BodyTitle>
+        <BodyTitle isBold>{expressData.title}</BodyTitle>
         <Paragraph>{expressData.description}</Paragraph>
         <TagsContainer>
           {expressData.tags.map((tag: TagItem) => {

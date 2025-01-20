@@ -1,18 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { stringify } from 'qs';
 import {
-  GetServicesApiResponse,
-  GetServicesByIdApiResponse,
   GetCategoriesApiResponse,
-  GetServicesApiArg,
   GetCategoriesByIdApiArg,
   GetCategoriesByIdApiResponse,
-  GetExpressesApiResponse,
   GetExpressesApiArg,
-  GetExpressTypesByIdApiResponse,
+  GetExpressesApiResponse,
   GetExpressTypesByIdApiArg,
-  GetManualsApiResponse,
+  GetExpressTypesByIdApiResponse,
   GetManualsApiArg,
+  GetManualsApiResponse,
+  GetServicesApiArg,
+  GetServicesApiResponse,
+  GetServicesByIdApiResponse,
 } from '.';
 
 interface GetFullServicesByIdArgs {
@@ -72,6 +72,8 @@ export const strapiSlice = createApi({
 
       return headers;
     },
+
+    paramsSerializer: (params) => stringify(params, { encodeValuesOnly: true }),
   }),
   endpoints: (builder) => ({
     geti18nServices: builder.query<GetServicesApiResponse, GetServicesApiArgs>({
