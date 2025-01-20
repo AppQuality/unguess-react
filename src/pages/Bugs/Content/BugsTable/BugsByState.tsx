@@ -1,4 +1,4 @@
-import { Accordion, MD } from '@appquality/unguess-design-system';
+import { AccordionNew, MD } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
@@ -57,7 +57,7 @@ export const BugsByState = ({
 
   return (
     <Wrapper isFetching={isFetching}>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={Array.from(bugsByStates, (_, i) => i)}
         isExpandable
@@ -68,13 +68,9 @@ export const BugsByState = ({
             <BugStateAccordion
               campaignId={campaignId}
               key={item.state.id}
-              title={
-                <>
-                  {t('__BUG_STATUS')}:{' '}
-                  {getCustomStatusInfo(item.state.name as BugState, t).text}
-                  <MD tag="span">{` (${item.bugs.length})`}</MD>
-                </>
-              }
+              title={`${t('__BUG_STATUS')}: ${
+                getCustomStatusInfo(item.state.name as BugState, t).text
+              } ${`(${item.bugs.length})`}`}
               item={item}
             />
             {i === 0 && suggestions && (
@@ -103,7 +99,7 @@ export const BugsByState = ({
             )}
           </>
         )}
-      </Accordion>
+      </AccordionNew>
     </Wrapper>
   );
 };

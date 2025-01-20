@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
-import { Accordion, Button } from '@appquality/unguess-design-system';
+import { AccordionNew, Button } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -13,15 +13,6 @@ import { InfoRow } from './InfoRow';
 import BugCards from './BugCards';
 import SingleGroupTable from './SingleGroupTable';
 
-const StyledAccordionLabel = styled(Accordion.Label)`
-  padding: 0;
-`;
-const StyledAccordionHeader = styled(Accordion.Header)`
-  svg {
-    padding: ${appTheme.space.xs};
-  }
-`;
-
 const AccordionFooter = styled.div`
   display: flex;
   justify-content: space-between;
@@ -32,7 +23,7 @@ const AccordionFooter = styled.div`
 
 interface SingleGroupAccordionProps {
   campaignId: number;
-  title?: ReactNode;
+  title?: string | undefined;
   item: BugByStateType | BugByUsecaseType;
   footer?: ReactNode;
 }
@@ -58,7 +49,7 @@ const SingleGroupAccordion = ({
     if (isLgBreakpoint) dispatch(selectBug({ bug_id: undefined }));
   }, [isLgBreakpoint]);
 
-  const AccordionPanel = styled(Accordion.Panel)`
+  const AccordionPanel = styled(AccordionNew.Panel)`
     padding: 0;
     .bordered-content {
       @media (min-width: ${appTheme.breakpoints.md}) {
@@ -72,14 +63,15 @@ const SingleGroupAccordion = ({
   `;
 
   return (
-    <Accordion.Section style={{ marginBottom: appTheme.space.lg }}>
-      <StyledAccordionHeader>
-        <StyledAccordionLabel>
-          <InfoRow title={title} bugs={item.bugs} />
-        </StyledAccordionLabel>
-      </StyledAccordionHeader>
+    <AccordionNew.Section style={{ marginBottom: appTheme.space.lg }}>
+      <AccordionNew.Header>
+        <AccordionNew.Label label={title} />
+        {/* There is a blank title for not rendering the trans in InfoRow */}
+        <InfoRow title=" " bugs={item.bugs} />
+      </AccordionNew.Header>
       <AccordionPanel>
         <div className="bordered-content">
+          {' '}
           {isMdBreakpoint ? (
             <BugCards bugs={isPreview ? item.bugs.slice(0, 3) : item.bugs} />
           ) : (
@@ -118,7 +110,7 @@ const SingleGroupAccordion = ({
           </AccordionFooter>
         </div>
       </AccordionPanel>
-    </Accordion.Section>
+    </AccordionNew.Section>
   );
 };
 
