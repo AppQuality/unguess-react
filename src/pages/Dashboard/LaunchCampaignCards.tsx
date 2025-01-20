@@ -7,6 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled, { useTheme } from 'styled-components';
 
 const Wrapper = styled.div`
@@ -17,6 +18,10 @@ const Wrapper = styled.div`
 const LaunchCampaignCards = () => {
   const theme = useTheme();
   const { t } = useTranslation();
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  if (!hasFeatureFlag('express')) return null;
+
   return (
     <Wrapper>
       <Row>
