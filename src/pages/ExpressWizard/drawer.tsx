@@ -91,9 +91,6 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
     },
   });
 
-  // Get localized strapi data
-  if (!data) return null;
-
   const expressData = getLocalizedStrapiData({
     item: data,
     language: i18n.language,
