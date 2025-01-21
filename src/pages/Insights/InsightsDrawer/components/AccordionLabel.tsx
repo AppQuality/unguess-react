@@ -1,13 +1,10 @@
-import styled from 'styled-components';
 import {
-  Accordion,
+  AccordionNew,
   IconButton,
-  LG,
   Tooltip,
   useToast,
   Notification,
   Tag,
-  SM,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as NotPublished } from '@zendeskgarden/svg-icons/src/16/lock-locked-stroke.svg';
 import { ReactComponent as Published } from '@zendeskgarden/svg-icons/src/16/lock-unlocked-fill.svg';
@@ -17,36 +14,6 @@ import {
 } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
 import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
-
-const Style = styled(Accordion.Label)`
-  padding-right: 0;
-  padding-left: 0;
-  display: grid;
-  grid-template-areas:
-    'title icon'
-    'usecase icon';
-  gap: ${({ theme }) => theme.space.sm};
-
-  .icon-button-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    grid-area: icon;
-    height: 100%;
-  }
-  .severity-usecase-wrapper {
-    display: flex;
-    grid-area: usecase;
-    align-items: center;
-
-    .usecase-names {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 218px;
-    }
-  }
-`;
 
 export const AccordionLabel = ({
   insight,
@@ -91,11 +58,19 @@ export const AccordionLabel = ({
       });
   };
   return (
-    <Style>
-      <LG isBold style={{ gridArea: 'title' }}>
-        {title}
-      </LG>
-      <div className="icon-button-wrapper">
+    <>
+      <AccordionNew.Label
+        label={title}
+        subtitle={insight.usecases.map((usecase) => usecase.name).join(' - ')}
+      />
+      <AccordionNew.Meta>
+        <Tag
+          isPill
+          color={getSeverityColor(insight.severity.name)}
+          hue={getBgColor(insight.severity.name)}
+        >
+          {insight.severity.name}
+        </Tag>
         <Tooltip
           size="small"
           type="light"
@@ -114,24 +89,7 @@ export const AccordionLabel = ({
             {visible ? <Published /> : <NotPublished />}
           </IconButton>
         </Tooltip>
-      </div>
-      <div className="severity-usecase-wrapper">
-        <Tag
-          isPill
-          color={getSeverityColor(insight.severity.name)}
-          hue={getBgColor(insight.severity.name)}
-        >
-          {insight.severity.name}
-        </Tag>
-        <SM className="usecase-names">
-          {insight.usecases.map((usecase, i) => (
-            <span>
-              {i > 0 && ' - '}
-              {usecase.name}
-            </span>
-          ))}
-        </SM>
-      </div>
-    </Style>
+      </AccordionNew.Meta>
+    </>
   );
 };
