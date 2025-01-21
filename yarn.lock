@@ -59,10 +59,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@4.0.16":
-  version "4.0.16"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-4.0.16.tgz#2d15f45104ee70e94dca0ae614aa1e5b128841a1"
-  integrity sha512-tyyebtzCyjEttnLbkVTlAOk7Tzq79DQBXa1+i2XTrGwr13z+C+O9NK59gXr3EijEymNQfmpw7CHFu6mrrRMCSQ==
+"@appquality/unguess-design-system@4.0.22":
+  version "4.0.22"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-4.0.22.tgz#8f872ded0909abf29602ed027cef03c9051b9c94"
+  integrity sha512-F0MoID3sBSKUKohEyCiDvR8FTVamxdMhU8QKSg0Ve9t/jGFLzSm8Gh7Pplco0vzNHB765xX4CU4lhqoz1F0H9Q==
   dependencies:
     "@appquality/stream-player" "1.0.6"
     "@nivo/bar" "^0.87.0"
