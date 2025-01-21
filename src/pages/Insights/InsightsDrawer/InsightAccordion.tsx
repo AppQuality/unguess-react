@@ -36,11 +36,7 @@ const Insight = ({
       >
         <AccordionNew.Section>
           <AccordionNew.Header>
-            <AccordionLabel
-              insight={
-                insight
-              } /* try to avoid this custom component in favor of AccordionNew component */
-            />
+            <AccordionLabel insight={insight} />
           </AccordionNew.Header>
           <AccordionNew.Panel
             style={{ padding: `0 0 0 ${appTheme.space.xxs}` }}
