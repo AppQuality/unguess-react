@@ -66,8 +66,9 @@ const SingleGroupAccordion = ({
     <AccordionNew.Section style={{ marginBottom: appTheme.space.lg }}>
       <AccordionNew.Header>
         <AccordionNew.Label label={title} />
-        {/* There is a blank title for not rendering the trans in InfoRow */}
-        <InfoRow title=" " bugs={item.bugs} />
+        <AccordionNew.Meta>
+          <InfoRow bugs={item.bugs} />
+        </AccordionNew.Meta>
       </AccordionNew.Header>
       <AccordionPanel>
         <div className="bordered-content">
