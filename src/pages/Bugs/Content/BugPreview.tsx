@@ -151,8 +151,10 @@ export const BugPreview = ({
           key === 'replicabilities' ||
           key === 'types'
         ) {
-          if (Array.isArray(data[key].selected)) {
-            filters[key] = data[key].selected.map((item) => item.name);
+          if (Array.isArray(data[`${key}`].selected)) {
+            filters[`${key}`] = data[`${key}`].selected.map(
+              (item) => item.name
+            );
           }
         }
         if (key === 'tags') {
