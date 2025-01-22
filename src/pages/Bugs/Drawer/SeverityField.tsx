@@ -39,6 +39,7 @@ export const SeverityField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-severity"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

@@ -38,6 +38,7 @@ export const DeviceField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-devices"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

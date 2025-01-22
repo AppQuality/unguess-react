@@ -38,6 +38,7 @@ export const TagField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-tags"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

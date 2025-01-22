@@ -78,6 +78,7 @@ export const CustomStatusField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-custom-status"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

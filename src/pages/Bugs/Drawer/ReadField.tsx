@@ -28,6 +28,7 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-read"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

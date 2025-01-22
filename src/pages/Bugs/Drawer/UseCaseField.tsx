@@ -38,6 +38,7 @@ export const UseCaseField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-usecase"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>
