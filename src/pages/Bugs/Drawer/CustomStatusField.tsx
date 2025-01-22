@@ -1,5 +1,5 @@
 import {
-  Accordion,
+  AccordionNew,
   Checkbox,
   FormField as Field,
   MD,
@@ -74,25 +74,19 @@ export const CustomStatusField = ({
 
   return (
     <>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-custom-status"
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label>
-              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
-                {t(
-                  '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUSE_TITLE'
-                )}
-              </MD>
-              <TextLabel
-                style={{
-                  textTransform: 'capitalize',
-                }}
-              >
-                {selectedWithNaB && selectedWithNaB.length
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t(
+                '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUSES_TITLE'
+              )}
+              subtitle={
+                selectedWithNaB && selectedWithNaB.length
                   ? `${selectedWithNaB
                       .slice(0, maxItemsToShow)
                       .map((item) =>
@@ -108,11 +102,11 @@ export const CustomStatusField = ({
                     }`
                   : t(
                       '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_CUSTOM_STATUS_ALL_LABEL'
-                    )}
-              </TextLabel>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel>
+                    )
+              }
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             <Field
               style={{ marginBottom: appTheme.space.md }}
               className="bugs-drawer-toogle-exclude-na-bug"
@@ -212,9 +206,9 @@ export const CustomStatusField = ({
                 )}
               </ShowMore>
             ) : null}
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       <Divider />
     </>
   );

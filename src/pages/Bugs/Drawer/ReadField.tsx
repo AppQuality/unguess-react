@@ -1,5 +1,5 @@
 import {
-  Accordion,
+  AccordionNew,
   FormField as Field,
   MD,
   Radio,
@@ -24,30 +24,23 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
 
   return (
     <>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-read"
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label>
-              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
-                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_READ_TITLE')}
-              </MD>
-              <SM
-                style={{
-                  color: appTheme.palette.grey[600],
-                  textTransform: 'capitalize',
-                }}
-              >
-                {selected === 'unread'
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_READ_TITLE')}
+              subtitle={
+                selected === 'unread'
                   ? t('__BUGS_READ_FILTER_ITEM_UNREAD')
-                  : t('__BUGS_READ_FILTER_ITEM_DRAWER_ALL')}
-              </SM>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel>
+                  : t('__BUGS_READ_FILTER_ITEM_DRAWER_ALL')
+              }
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             {available.map((item) => (
               <Field
                 className={`bugs-drawer-accordion-read-item-${item.toLowerCase()}`}
@@ -85,9 +78,9 @@ export const ReadField = ({ read }: { read: ReadFilterType['read'] }) => {
                 </Radio>
               </Field>
             ))}
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       <Divider />
     </>
   );
