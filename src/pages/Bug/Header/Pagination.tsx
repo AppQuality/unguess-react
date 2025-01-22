@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Bug } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useCampaignBugs } from 'src/pages/Bugs/Content/BugsTable/hooks/useCampaignBugs';
 
 interface Props {
   paginationItems: (Bug & {
@@ -23,12 +24,12 @@ export const Pagination = ({
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const sendGTMEvent = useSendGTMevent();
-
+  const { refetch } = useCampaignBugs(Number(campaignId));
   const handlePagination = useCallback(
     (v: number) => {
       if (paginationItems && paginationItems[Number(v)]) {
         const bugId = encodeURIComponent(paginationItems[Number(v)].id);
-
+        refetch();
         sendGTMEvent({
           event: 'bug_header_action',
           action: 'navigation',
