@@ -1,5 +1,5 @@
 import {
-  Accordion,
+  AccordionNew,
   Checkbox,
   FormField as Field,
   MD,
@@ -34,24 +34,17 @@ export const TagField = ({
 
   return (
     <>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-tags"
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label>
-              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
-                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE')}
-              </MD>
-              <SM
-                style={{
-                  color: appTheme.palette.grey[600],
-                  textTransform: 'capitalize',
-                }}
-              >
-                {selected && selected.length
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_TITLE')}
+              subtitle={
+                selected && selected.length
                   ? `${selected
                       .slice(0, maxItemsToShow)
                       .map((item) => item.display_name)
@@ -61,11 +54,11 @@ export const TagField = ({
                         ? `+${selected.length - maxItemsToShow}`
                         : ''
                     }`
-                  : t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_ALL_LABEL')}
-              </SM>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel>
+                  : t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_TAGS_ALL_LABEL')
+              }
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             <Field
               style={{ marginBottom: appTheme.space.xs }}
               className="bugs-drawer-accordion-no-tags"
@@ -176,9 +169,9 @@ export const TagField = ({
                 )}
               </ShowMore>
             ) : null}
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       <Divider />
     </>
   );

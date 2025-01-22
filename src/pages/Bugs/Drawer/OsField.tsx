@@ -1,5 +1,5 @@
 import {
-  Accordion,
+  AccordionNew,
   Checkbox,
   FormField as Field,
   MD,
@@ -34,24 +34,17 @@ export const OsField = ({
 
   return (
     <>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-os"
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label>
-              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
-                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_TITLE')}
-              </MD>
-              <TextDescription
-                isSmall
-                style={{
-                  textTransform: 'capitalize',
-                }}
-              >
-                {selected && selected.length
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_TITLE')}
+              subtitle={
+                selected && selected.length
                   ? `${selected
                       .slice(0, maxItemsToShow)
                       .map((item) => item.os)
@@ -61,11 +54,11 @@ export const OsField = ({
                         ? `+${selected.length - maxItemsToShow}`
                         : ''
                     }`
-                  : t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_ALL_LABEL')}
-              </TextDescription>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel>
+                  : t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_OS_ALL_LABEL')
+              }
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             {available.length
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
@@ -137,9 +130,9 @@ export const OsField = ({
                 )}
               </ShowMore>
             ) : null}
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       <Divider />
     </>
   );
