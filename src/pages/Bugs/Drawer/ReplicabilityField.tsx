@@ -38,6 +38,7 @@ export const ReplicabilityField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-replicability"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

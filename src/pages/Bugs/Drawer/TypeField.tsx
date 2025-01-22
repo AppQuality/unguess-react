@@ -38,6 +38,7 @@ export const TypeField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-type"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

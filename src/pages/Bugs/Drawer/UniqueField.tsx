@@ -32,6 +32,7 @@ export const UniqueField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-unique"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

@@ -38,6 +38,7 @@ export const OsField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-os"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>

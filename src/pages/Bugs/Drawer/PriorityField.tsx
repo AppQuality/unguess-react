@@ -47,6 +47,7 @@ export const PriorityField = ({
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-custom-priority"
+        isCompact
       >
         <AccordionNew.Section>
           <AccordionNew.Header>
