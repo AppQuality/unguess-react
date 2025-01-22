@@ -10,10 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import {
   CampaignWithOutput,
-  useGetWorkspacesByWidProjectsQuery,
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
 const ArchiveCampaignModal = ({
   campaign,
@@ -22,24 +20,10 @@ const ArchiveCampaignModal = ({
   campaign: CampaignWithOutput;
   onClose: () => void;
 }) => {
-  const {
-    id: cpId,
-    customer_title: cpTitle,
-    project: { id: prjId, name: prjName },
-  } = campaign;
+  const { id: cpId } = campaign;
   const { t } = useTranslation();
-  const { activeWorkspace } = useActiveWorkspace();
   const [patchCampaign] = usePatchCampaignsByCidMutation();
   const { addToast } = useToast();
-
-  const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
-
-  const projects = data?.items;
-
-  // Filter out the current project
-  const filteredProjects = projects?.filter((item) => item.id !== prjId);
 
   return (
     <Modal onClose={onClose}>

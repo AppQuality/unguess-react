@@ -161,7 +161,6 @@ export const ExpressWizardContainer = () => {
   const expressTypeData = extractStrapiData(data);
   const expressTypeMeta = extractStrapiData(expressTypeData.express);
 
-  const [formValues, setFormValues] = useState<WizardModel>(defaultValues);
   const [activeStep, setStep] = useState<number>(0);
   const [isThankyou, setThankyou] = useState<boolean>(false);
   const [createCampaign] = usePostCampaignsMutation();
@@ -204,22 +203,11 @@ export const ExpressWizardContainer = () => {
     }
   };
 
-  useEffect(() => {
-    setStepperTitle(
-      t('__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE')
-        .replace('{current_step}', (activeStep + 1).toString())
-        .replace('{total_steps}', steps.length.toString())
-    );
-  }, [activeStep]);
-
   // Form actions
   const handleSubmit = async (
     values: WizardModel,
     { setSubmitting, setStatus }: FormikHelpers<WizardModel>
   ) => {
-    // Save submitted form values
-    setFormValues(values);
-
     const projectHandle = async () => {
       // Create project if it doesn't exist
       if (
@@ -357,14 +345,45 @@ export const ExpressWizardContainer = () => {
 
       // Send error to GTM
       sendGTMEvent({
-        event: 'generic_error',
-        content: JSON.stringify(e),
+        action: 'express_error',
+        event: 'express_navigation',
+        category: 'express',
+        content: expressTypeMeta.slug,
       });
     }
   };
 
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
-  const closeExpressWizard = () => setShowDiscardChangesModal(true);
+  const closeExpressWizard = () => {
+    setShowDiscardChangesModal(true);
+  };
+
+  useEffect(() => {
+    if (isWizardOpen) {
+      setStepperTitle(
+        t('__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE')
+          .replace('{current_step}', (activeStep + 1).toString())
+          .replace('{total_steps}', steps.length.toString())
+      );
+
+      sendGTMEvent({
+        action: `express_step_${activeStep + 1}_of_${steps.length}`,
+        event: 'express_navigation',
+        category: 'express',
+        content: expressTypeMeta.slug,
+      });
+    }
+  }, [isWizardOpen, activeStep]);
+
+  useEffect(() => {
+    if (isWizardOpen && isThankyou)
+      sendGTMEvent({
+        action: 'express_end',
+        event: 'express_navigation',
+        category: 'express',
+        content: expressTypeMeta.slug,
+      });
+  }, [isWizardOpen, isThankyou]);
 
   return isWizardOpen ? (
     <>
@@ -463,7 +482,7 @@ export const ExpressWizardContainer = () => {
             )}
           </Formik>
         ) : (
-          <ThankYouStep values={formValues} />
+          <ThankYouStep />
         )}
       </StyledModal>
       {showDiscardChangesModal && (
@@ -480,6 +499,12 @@ export const ExpressWizardContainer = () => {
               formRef.current?.resetForm();
             }
             toggleChat(true);
+            sendGTMEvent({
+              action: 'express_close',
+              event: 'express_navigation',
+              category: 'express',
+              content: expressTypeMeta.slug,
+            });
           }}
         />
       )}
