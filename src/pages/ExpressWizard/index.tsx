@@ -161,7 +161,6 @@ export const ExpressWizardContainer = () => {
   const expressTypeData = extractStrapiData(data);
   const expressTypeMeta = extractStrapiData(expressTypeData.express);
 
-  const [formValues, setFormValues] = useState<WizardModel>(defaultValues);
   const [activeStep, setStep] = useState<number>(0);
   const [isThankyou, setThankyou] = useState<boolean>(false);
   const [createCampaign] = usePostCampaignsMutation();
@@ -209,9 +208,6 @@ export const ExpressWizardContainer = () => {
     values: WizardModel,
     { setSubmitting, setStatus }: FormikHelpers<WizardModel>
   ) => {
-    // Save submitted form values
-    setFormValues(values);
-
     const projectHandle = async () => {
       // Create project if it doesn't exist
       if (
