@@ -196,7 +196,7 @@ const Header = ({ campaignId, bug }: Props) => {
   }
   return (
     <StyledContainer isNotBoxed>
-      <PageHeader style={{ border: 'none' }}>
+      <PageHeader style={{ border: 'none' }} data-qa="page-header">
         <BreadCrumbs campaign={campaign} />
         <Wrapper>
           <XL

@@ -11,7 +11,7 @@ test.describe('Insights page', () => {
     await insightsPage.mockPreferences();
     await insightsPage.mockWorkspace();
     await insightsPage.mockWorkspacesList();
-    await insightsPage.mockCampaign();
+    await insightsPage.mockExperientialCampaign();
     await insightsPage.mockInsights();
     await insightsPage.open();
   });
