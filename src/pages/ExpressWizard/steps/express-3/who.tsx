@@ -78,6 +78,10 @@ export const WhoStep = ({
     props.setFieldValue('campaign_language', value);
   };
 
+  const handleLanguageClick = (value: string) => {
+    props.setFieldValue('campaign_language', value);
+  };
+
   const handleAgeClick = (value: string) => {
     setAge(value);
     props.setFieldValue('age_range', value);
