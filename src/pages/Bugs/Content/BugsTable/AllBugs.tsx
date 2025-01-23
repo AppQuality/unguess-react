@@ -51,28 +51,32 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
     <Wrapper isFetching={isFetching}>
       <Reccomendation suggestion={suggestions?.suggestion} />
       <AccordionNew level={2}>
-        <AccordionNew.Header>
-          <AccordionNew.Label
-            label={
-              filterBy?.unique && filterBy.unique === 'unique'
-                ? t('__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER', {
-                    uniqueBugs: totalBugs,
-                  })
-                : t('__BUGS_PAGE_TABLE_HEADER_WITH_DUPLICATED_BUGS_COUNTER', {
-                    uniqueBugs: totalBugs,
-                  })
-            }
-          />
-          <AccordionNew.Meta>
-            <InfoRow bugs={bugs} />
-          </AccordionNew.Meta>
-        </AccordionNew.Header>
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={
+                filterBy?.unique && filterBy.unique === 'unique'
+                  ? t('__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER', {
+                      uniqueBugs: totalBugs,
+                    })
+                  : t('__BUGS_PAGE_TABLE_HEADER_WITH_DUPLICATED_BUGS_COUNTER', {
+                      uniqueBugs: totalBugs,
+                    })
+              }
+            />
+            <AccordionNew.Meta>
+              <InfoRow bugs={bugs} />
+            </AccordionNew.Meta>
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
+            {isMdBreakpoint ? (
+              <BugCards bugs={bugs} />
+            ) : (
+              <AllBugsTable campaignId={campaignId} item={{ bugs }} />
+            )}
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
       </AccordionNew>
-      {isMdBreakpoint ? (
-        <BugCards bugs={bugs} />
-      ) : (
-        <AllBugsTable campaignId={campaignId} item={{ bugs }} />
-      )}
     </Wrapper>
   );
 };
