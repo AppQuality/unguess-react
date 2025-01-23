@@ -56,11 +56,10 @@ export const ProjectEmptyState = () => {
       ref={containerRef}
       style={{
         height: `calc(100vh - ${distanceFromTop}px)`,
-        backgroundColor: !hasExpress ? '#f9feff' : 'transparent',
+        backgroundColor: hasExpress ? '#f9feff' : 'transparent',
       }}
     >
-      {' '}
-      {!hasExpress ? (
+      {hasExpress ? (
         <>
           <Paragraph style={{ textAlign: 'center', width: '100%' }}>
             <SectionTitle
