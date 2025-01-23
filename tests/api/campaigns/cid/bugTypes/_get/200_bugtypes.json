@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Crash"
+  },
+  {
+    "id": 3,
+    "name": "Graphic"
+  },
+  {
+    "id": 5,
+    "name": "Performance"
+  },
+  {
+    "id": 6,
+    "name": "Malfunction"
+  },
+  {
+    "id": 7,
+    "name": "Typo"
+  },
+  {
+    "id": 8,
+    "name": "Other"
+  },
+  {
+    "id": 9,
+    "name": "Security"
+  },
+  {
+    "id": 10,
+    "name": "Usability"
+  }
+]

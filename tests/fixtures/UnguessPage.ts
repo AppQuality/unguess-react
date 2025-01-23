@@ -53,6 +53,22 @@ export class UnguessPage {
     });
   }
 
+  async mockExperientialCampaign() {
+    await this.page.route('*/**/api/campaigns/1', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/campaigns/cid/_get/200_Bughunting.json',
+      });
+    });
+  }
+
+  async mockFunctionalCampaign() {
+    await this.page.route('*/**/api/campaigns/1', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/campaigns/cid/_get/200_Example_1.json',
+      });
+    });
+  }
+
   elements() {
     return {
       title: () => this.page.getByRole('heading', { level: 1 }),
