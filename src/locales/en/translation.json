@@ -588,6 +588,7 @@
   "__DASHBOARD_EMPTY_SEARCH_RESULTS_RESET_FILTERS": "Reset filters",
   "__DASHBOARD_EMPTY_SEARCH_RESULTS_TITLE": "We couldn't find any campaigns",
   "__DASHBOARD_SEARCH_INPUT_PLACEHOLDER": "Start typing...",
+  "__EMPTY_SPACE_NO_FEATURE": "Manage your own projects and test campaigns!",
   "__ERROR_PAGE_BUTTON": "Refresh the page",
   "__ERROR_PAGE_SUBTITLE": "Let's try to solve it with the simplest trick.",
   "__ERROR_PAGE_TITLE": "This is unexpected.",
