@@ -40,15 +40,7 @@ export const BugDuplicates = ({
       onChange={handleAccordionChange}
     >
       <AccordionNew.Section>
-        <AccordionNew.Header
-          icon={
-            <LinkIcon
-              style={{
-                marginTop: appTheme.space.base,
-              }}
-            />
-          }
-        >
+        <AccordionNew.Header icon={<LinkIcon />}>
           <AccordionNew.Label
             label={t('__BUGS_PAGE_BUG_DETAIL_DUPLICATES_ACCORDION_TITLE')}
           />

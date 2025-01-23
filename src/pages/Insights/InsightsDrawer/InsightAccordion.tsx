@@ -28,7 +28,6 @@ const Insight = ({
       <Divider />
       <AccordionNew
         level={3}
-        style={{ padding: `${appTheme.space.xxs} 0` }}
         key={`insight_accordion_${insight.id}_${isCurrent}`}
         defaultExpandedSections={isCurrent ? [0, 1] : []}
         id={`insight-accordion-${insight.id}`}
@@ -38,9 +37,7 @@ const Insight = ({
           <AccordionNew.Header>
             <AccordionLabel insight={insight} />
           </AccordionNew.Header>
-          <AccordionNew.Panel
-            style={{ padding: `0 0 0 ${appTheme.space.xxs}` }}
-          >
+          <AccordionNew.Panel>
             {insight.description && (
               <div style={{ marginBottom: appTheme.space.md }}>
                 <MD
