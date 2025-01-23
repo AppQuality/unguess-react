@@ -13,6 +13,7 @@ import {
   usePatchInsightsByIidMutation,
 } from 'src/features/api';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
 
 export const AccordionLabel = ({
@@ -68,6 +69,7 @@ export const AccordionLabel = ({
           isPill
           color={getSeverityColor(insight.severity.name)}
           hue={getBgColor(insight.severity.name)}
+          style={{ marginRight: appTheme.space.xs }}
         >
           {insight.severity.name}
         </Tag>

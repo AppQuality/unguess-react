@@ -12,15 +12,6 @@ const Container = styled.div`
   width: 100%;
   margin-bottom: ${({ theme }) => theme.space.lg};
 `;
-const Title = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  > svg {
-    fill: ${({ theme }) => theme.palette.grey[600]};
-  }
-`;
 
 export default ({
   bug,
@@ -55,15 +46,7 @@ export default ({
         onChange={handleAccordionChange}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={
-              <DetailsIcon
-                style={{
-                  marginTop: appTheme.space.base,
-                }}
-              />
-            }
-          >
+          <AccordionNew.Header icon={<DetailsIcon />}>
             <AccordionNew.Label
               label={t('__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL')}
             />
