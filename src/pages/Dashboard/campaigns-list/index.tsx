@@ -38,7 +38,7 @@ export const CampaignsList = () => {
       <Row
         alignItems="center"
         style={{
-          marginTop: `${theme.space.base * 8}px`,
+          marginTop: theme.space.md,
           marginBottom: theme.space.xxs,
         }}
       >

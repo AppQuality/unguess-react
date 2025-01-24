@@ -24,6 +24,8 @@ import {
 } from 'src/features/express/expressSlice';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useEffect } from 'react';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
 import { ProjectDropdown } from './projectDropdown';
@@ -59,6 +61,7 @@ const StyledTag = styled(Tag)`
 export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const sendGTMEvent = useSendGTMevent();
   const { isDrawerOpen, project, expressTypeId } = useAppSelector(
     (state) => state.express
   );
@@ -82,14 +85,19 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           },
         },
       },
+      express: {
+        populate: '*',
+      },
     },
   });
 
-  // Get localized strapi data
-  if (!data) return null;
-
   const expressData = getLocalizedStrapiData({
     item: data,
+    language: i18n.language,
+  });
+
+  const express = getLocalizedStrapiData({
+    item: expressData.express,
     language: i18n.language,
   });
 
@@ -100,6 +108,17 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
     toggleChat(true);
   };
 
+  useEffect(() => {
+    if (isDrawerOpen) {
+      sendGTMEvent({
+        action: 'drawer_open',
+        event: 'express_navigation',
+        category: 'express',
+        content: express.slug,
+      });
+    }
+  }, [isDrawerOpen]);
+
   if (isError) {
     return null;
   }
@@ -107,7 +126,15 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   return !isLoading && isDrawerOpen ? (
     <Drawer
       isOpen={isDrawerOpen}
-      onClose={onClose}
+      onClose={() => {
+        sendGTMEvent({
+          action: 'drawer_close',
+          event: 'express_navigation',
+          category: 'express',
+          content: express.slug,
+        });
+        onClose();
+      }}
       restoreFocus={false}
       focusOnMount={false}
     >
@@ -158,6 +185,12 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
             onClick={() => {
               onCtaClick();
               dispatch(closeDrawer());
+              sendGTMEvent({
+                action: 'express_start',
+                event: 'express_navigation',
+                category: 'express',
+                content: express.slug,
+              });
             }}
             {...(!project && { disabled: true })}
           >

@@ -1,12 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from 'src/app/hooks';
 import { Workspace, useGetWorkspacesQuery } from 'src/features/api';
-import { getWorkspaceFromLS } from 'src/features/navigation/cachedStorage';
+import {
+  getWorkspaceFromLS,
+  saveWorkspaceToLs,
+} from 'src/features/navigation/cachedStorage';
 
 export const useActiveWorkspace = () => {
-  const [result, setResult] = useState<Workspace>();
+  const cachedWorkspace = getWorkspaceFromLS();
   const { data: workspaces, isLoading } = useGetWorkspacesQuery({
     orderBy: 'company',
+  });
+  const [result, setResult] = useState<Workspace | undefined>(() => {
+    if (
+      cachedWorkspace &&
+      workspaces &&
+      workspaces.items &&
+      workspaces.items.map((w) => w.id).includes(cachedWorkspace.id)
+    ) {
+      return cachedWorkspace;
+    }
+    return undefined;
   });
   const activeWorkspace = useAppSelector(
     (state) => state.navigation.activeWorkspace
@@ -28,7 +42,6 @@ export const useActiveWorkspace = () => {
     )
       return;
 
-    const cachedWorkspace = getWorkspaceFromLS();
     if (
       cachedWorkspace &&
       workspaces.items.map((w) => w.id).includes(cachedWorkspace.id)
@@ -43,6 +56,7 @@ export const useActiveWorkspace = () => {
       workspaces.items &&
       workspaces.items.length > 0
     ) {
+      saveWorkspaceToLs(workspaces.items[0]);
       setResult(workspaces.items[0]);
     }
   }, [activeWorkspace, workspaces, isLoading]);
