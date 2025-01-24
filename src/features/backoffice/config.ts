@@ -10,6 +10,7 @@ const config: ConfigFile = {
     /express/i,
     /express-types/i,
     /manuals/i,
+    /templates/i,
   ],
   outputFile: 'index.ts',
   exportName: 'unguessStrapi',

@@ -11,6 +11,7 @@ import {
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { useGetProjectWithWorkspaceQuery } from 'src/features/api/customEndpoints/getProjectWithWorkspace';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { Project as IProject } from 'src/features/api';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
 import { CardRowLoading } from './CardRowLoading';
@@ -19,6 +20,37 @@ import {
   setProjectId,
   setWorkspace,
 } from '../../features/navigation/navigationSlice';
+import { EmptyProjectOrArchive } from './empty-state';
+
+const Items = ({
+  project,
+  isLoading,
+}: {
+  project?: IProject;
+  isLoading?: boolean;
+}) => {
+  if (!project || isLoading) {
+    return (
+      <LayoutWrapper>
+        <Grid style={{ padding: 0 }}>
+          <CardRowLoading />
+        </Grid>
+      </LayoutWrapper>
+    );
+  }
+
+  if (project.campaigns_count > 0) {
+    return (
+      <LayoutWrapper>
+        <Grid style={{ padding: 0 }}>
+          <ProjectItems projectId={Number(project.id) || 0} />
+        </Grid>
+      </LayoutWrapper>
+    );
+  }
+
+  return <EmptyProjectOrArchive isArchive={!!project?.is_archive} />;
+};
 
 const Project = () => {
   const { t } = useTranslation();
@@ -37,10 +69,17 @@ const Project = () => {
   const {
     data: { project, workspace } = {},
     isSuccess,
+    isLoading,
+    isFetching,
     isError,
-  } = useGetProjectWithWorkspaceQuery({
-    pid: projectId ?? '0',
-  });
+  } = useGetProjectWithWorkspaceQuery(
+    {
+      pid: projectId ?? '0',
+    },
+    {
+      skip: !projectId,
+    }
+  );
 
   useEffect(() => {
     if (isSuccess) {
@@ -76,16 +115,10 @@ const Project = () => {
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
+      excludeMarginBottom={!!project && project?.campaigns_count === 0}
+      excludeMarginTop={!!project && project?.campaigns_count === 0}
     >
-      <LayoutWrapper>
-        <Grid>
-          {isSuccess ? (
-            <ProjectItems projectId={Number(projectId) || 0} />
-          ) : (
-            <CardRowLoading />
-          )}
-        </Grid>
-      </LayoutWrapper>
+      <Items project={project} isLoading={isLoading || isFetching} />
     </Page>
   );
 };
