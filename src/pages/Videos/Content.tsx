@@ -2,10 +2,14 @@ import {
   AccordionNew,
   Col,
   Grid,
+  MD,
   Row,
   Skeleton,
+  Span,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
+import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -16,15 +20,6 @@ import { Empty } from './Empty';
 import { VideoContainer } from './parts/VideoContainer';
 import { Wrapper } from './parts/Wrapper';
 import { useVideos } from './useVideos';
-
-const StyledAccordionLabel = styled(AccordionNew.Label)`
-  padding: 0;
-`;
-const StyledAccordionHeader = styled(AccordionNew.Header)`
-  svg {
-    padding: ${({ theme }) => theme.space.xs};
-  }
-`;
 
 const AccordionFooter = styled.div`
   display: flex;
@@ -80,16 +75,27 @@ const VideosPageContent = () => {
                       <AccordionNew.Section
                         style={{ marginBottom: appTheme.space.lg }}
                       >
-                        <StyledAccordionHeader>
-                          <StyledAccordionLabel
-                            label={`${uc.usecase.title.full} (${
-                              uc.videos.total
-                            } ${t('__VIDEOS_LIST_USECASE_INFO', {
-                              count: uc.videos.total,
-                            })})`}
+                        <AccordionNew.Header>
+                          <AccordionNew.Label
+                            label={`${uc.usecase.title.full} `}
                             // removed InfoRow component defined in videos/parts/InfoRow.tsx - maybe to be deleted because deprecated
                           />
-                        </StyledAccordionHeader>
+                          <AccordionNew.Meta>
+                            <Tag
+                              isPill
+                              hue={appTheme.palette.blue[100]}
+                              size="large"
+                            >
+                              <Tag.Avatar>
+                                <PlayIcon color={appTheme.palette.grey[600]} />
+                              </Tag.Avatar>
+                              {t('__VIDEOS_LIST_META_LABEL', 'Videos')}:
+                              <Tag.SecondaryText>
+                                {uc.videos.total}
+                              </Tag.SecondaryText>
+                            </Tag>
+                          </AccordionNew.Meta>
+                        </AccordionNew.Header>
                         <AccordionNew.Panel style={{ padding: 0 }}>
                           {!!uc.videos.desktop.length && (
                             <VideoContainer
