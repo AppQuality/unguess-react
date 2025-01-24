@@ -3,7 +3,7 @@
     {
       "id": 275455,
       "internal_id": "internal_id275455",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Sovrapposizione grafica in tutte le pagine del processo di apertura conto",
         "compact": "Sovrapposizione grafica in tutte le pagine del processo di apertura conto",
@@ -70,7 +70,7 @@
     {
       "id": 275454,
       "internal_id": "internal_id275454",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Impossibile procedere dopo aver dato i consensi nella pagina di \"Autocertificazione\"",
         "compact": "Impossibile procedere dopo aver dato i consensi nella pagina di \"Autocertificazione\"",
@@ -136,7 +136,7 @@
     {
       "id": 275427,
       "internal_id": "internal_id275427",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Nel verificare il numero posso cliccare quante volte voglio sul comando \"Invia di nuovo\"",
         "compact": "Nel verificare il numero posso cliccare quante volte voglio sul comando \"Invia di nuovo\"",
@@ -202,7 +202,7 @@
     {
       "id": 275425,
       "internal_id": "internal_id275425",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Non mi esce la guida quando clicco su \"?\"",
         "compact": "Non mi esce la guida quando clicco su \"?\"",
@@ -269,7 +269,7 @@
     {
       "id": 275424,
       "internal_id": "internal_id275424",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoidati] - Mi accetta un numero di telefono composto da numeri in quantità maggiore",
         "compact": "Mi accetta un numero di telefono composto da numeri in quantità maggiore",
@@ -335,7 +335,7 @@
     {
       "id": 275422,
       "internal_id": "internal_id275422",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Il comando \"Usa un altro numero\" riporta all'inizio della procedura",
         "compact": "Il comando \"Usa un altro numero\" riporta all'inizio della procedura",
@@ -401,7 +401,7 @@
     {
       "id": 275421,
       "internal_id": "internal_id275421",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Non c'è notifica di errore sull'inserimento di un'email non valida formalmente",
         "compact": "Non c'è notifica di errore sull'inserimento di un'email non valida formalmente",
@@ -467,7 +467,7 @@
     {
       "id": 275406,
       "internal_id": "internal_id275406",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura nuovo conto] - L'app non carica la pagina per l'apertura del conto impostazione schermo diviso Android",
         "compact": "L'app non carica la pagina per l'apertura del conto impostazione schermo diviso Android",
@@ -533,7 +533,7 @@
     {
       "id": 275402,
       "internal_id": "internal_id275402",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Stress test] - L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
         "compact": "L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
@@ -599,7 +599,7 @@
     {
       "id": 275399,
       "internal_id": "internal_id275399",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Il codice OTP non è immediatamente visibile dal popup/notifica dell'SMS",
         "compact": "Il codice OTP non è immediatamente visibile dal popup/notifica dell'SMS",
@@ -665,7 +665,7 @@
     {
       "id": 275393,
       "internal_id": "internal_id275393",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Mail annullamento] - Nessuna ricezione mail annullamento conto ",
         "compact": "Nessuna ricezione mail annullamento conto",
@@ -732,7 +732,7 @@
     {
       "id": 275387,
       "internal_id": "internal_id275387",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Documenti] - Il testo informativo sul flag obbligatorio è graficamente impaginato male",
         "compact": "Il testo informativo sul flag obbligatorio è graficamente impaginato male",
@@ -799,7 +799,7 @@
     {
       "id": 275386,
       "internal_id": "internal_id275386",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
         "compact": "Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
@@ -865,7 +865,7 @@
     {
       "id": 275385,
       "internal_id": "internal_id275385",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Mail annullamento] - Nessuna mail di conferma annullamento conto ricevuta",
         "compact": "Nessuna mail di conferma annullamento conto ricevuta",
@@ -932,7 +932,7 @@
     {
       "id": 275384,
       "internal_id": "internal_id275384",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
         "compact": "Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
@@ -998,7 +998,7 @@
     {
       "id": 275382,
       "internal_id": "internal_id275382",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Il prefisso del numero cellulare è graficamente fuori posto ",
         "compact": "Il prefisso del numero cellulare è graficamente fuori posto",
@@ -1065,7 +1065,7 @@
     {
       "id": 275370,
       "internal_id": "internal_id275370",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - Impossibile scaricare documentazione contrattuale",
         "compact": "Impossibile scaricare documentazione contrattuale",
@@ -1131,7 +1131,7 @@
     {
       "id": 275368,
       "internal_id": "internal_id275368",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - In fase di registrane l'app mi dice che c'è già una richiesta di attivazione conto",
         "compact": "In fase di registrane l'app mi dice che c'è già una richiesta di attivazione conto",
@@ -1197,7 +1197,7 @@
     {
       "id": 275367,
       "internal_id": "internal_id275367",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Mail annullamento] - Le mail per annullamento non sono pervenute",
         "compact": "Le mail per annullamento non sono pervenute",
@@ -1264,7 +1264,7 @@
     {
       "id": 275365,
       "internal_id": "internal_id275365",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Mail annullamento] - Non è stata ricevuta la mail di annullamento del conto",
         "compact": "Non è stata ricevuta la mail di annullamento del conto",
@@ -1330,7 +1330,7 @@
     {
       "id": 275357,
       "internal_id": "internal_id275357",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - Impossibile visualizzare il materiale informativo ",
         "compact": "Impossibile visualizzare il materiale informativo",
@@ -1397,7 +1397,7 @@
     {
       "id": 275351,
       "internal_id": "internal_id275351",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - Impossibile spuntare il consenso alla documentazione informativa",
         "compact": "Impossibile spuntare il consenso alla documentazione informativa",
@@ -1470,7 +1470,7 @@
     {
       "id": 275350,
       "internal_id": "internal_id275350",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - L'app non abilita il microfono dello smartphone per la verifica",
         "compact": "L'app non abilita il microfono dello smartphone per la verifica",
@@ -1536,7 +1536,7 @@
     {
       "id": 275347,
       "internal_id": "internal_id275347",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[AutocertificAZIONE] - Impossibile proseguire oltre il questionario antiriciclaggio",
         "compact": "Impossibile proseguire oltre il questionario antiriciclaggio",
@@ -1603,7 +1603,7 @@
     {
       "id": 275345,
       "internal_id": "internal_id275345",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Dopo autenticazione con SPID la procedura continua su browser web invece che su app",
         "compact": "Dopo autenticazione con SPID la procedura continua su browser web invece che su app",
@@ -1669,7 +1669,7 @@
     {
       "id": 275337,
       "internal_id": "internal_id275337",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Mail annullamento] - Alcune mail non sono arrivate",
         "compact": "Alcune mail non sono arrivate",
@@ -1736,7 +1736,7 @@
     {
       "id": 275336,
       "internal_id": "internal_id275336",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Aprendo Sielte ID appare del codice informatico nella pagina dell'app Sella dove inserire i propri dati",
         "compact": "Aprendo Sielte ID appare del codice informatico nella pagina dell'app Sella dove inserire i propri dati",
@@ -1803,7 +1803,7 @@
     {
       "id": 275334,
       "internal_id": "internal_id275334",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Richiesta] - Pagina indica di riprendere conto Start invece del conto Premium iniziato in precedenza",
         "compact": "Pagina indica di riprendere conto Start invece del conto Premium iniziato in precedenza",
@@ -1869,7 +1869,7 @@
     {
       "id": 275333,
       "internal_id": "internal_id275333",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Onboarding] - Facendo rapidi tap sulla CTA per passare allo step successivo l'app non prosegue oltre",
         "compact": "Facendo rapidi tap sulla CTA per passare allo step successivo l'app non prosegue oltre",
@@ -1935,7 +1935,7 @@
     {
       "id": 275330,
       "internal_id": "internal_id275330",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Impossibile aprire il menu di assistenza",
         "compact": "Impossibile aprire il menu di assistenza",
@@ -2002,7 +2002,7 @@
     {
       "id": 275328,
       "internal_id": "internal_id275328",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Stress test] - L'avviso di connessione internet assente ha tutte le lettere iniziali in maiuscolo",
         "compact": "L'avviso di connessione internet assente ha tutte le lettere iniziali in maiuscolo",
@@ -2068,7 +2068,7 @@
     {
       "id": 275327,
       "internal_id": "internal_id275327",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Stress test] - L'app carica in loop dopo aver tentato di aprire un conto con modalità aereo attiva",
         "compact": "L'app carica in loop dopo aver tentato di aprire un conto con modalità aereo attiva",
@@ -2134,7 +2134,7 @@
     {
       "id": 275326,
       "internal_id": "internal_id275326",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Impossibile scegliere la Tessera Sanitaria come secondo documento per completare l'iscrizione",
         "compact": "Impossibile scegliere la Tessera Sanitaria come secondo documento per completare l'iscrizione",
@@ -2201,7 +2201,7 @@
     {
       "id": 275325,
       "internal_id": "internal_id275325",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Ogni volta che si preme un pulsante sull'app viene aperta la pagina web ma gli step procedono anche in app",
         "compact": "Ogni volta che si preme un pulsante sull'app viene aperta la pagina web ma gli step procedono anche in app",
@@ -2267,7 +2267,7 @@
     {
       "id": 275324,
       "internal_id": "internal_id275324",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - L'app va in crash dopo aver caricato la foto del documento e si apre una pagina bianca",
         "compact": "L'app va in crash dopo aver caricato la foto del documento e si apre una pagina bianca",
@@ -2333,7 +2333,7 @@
     {
       "id": 275323,
       "internal_id": "internal_id275323",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura conto Premium] - Impossibile procedere con apertura conto",
         "compact": "Impossibile procedere con apertura conto",
@@ -2410,7 +2410,7 @@
     {
       "id": 275322,
       "internal_id": "internal_id275322",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - Nella pagina certificazione il menu regione e la cta prosegui non sono attivi",
         "compact": "Nella pagina certificazione il menu regione e la cta prosegui non sono attivi",
@@ -2477,7 +2477,7 @@
     {
       "id": 275320,
       "internal_id": "internal_id275320",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Verifica bonifico] - Il testo informativo è tagliato nella pagina per verificare tramite bonifico",
         "compact": "Il testo informativo è tagliato nella pagina per verificare tramite bonifico",
@@ -2543,7 +2543,7 @@
     {
       "id": 275319,
       "internal_id": "internal_id275319",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
         "compact": "La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
@@ -2609,7 +2609,7 @@
     {
       "id": 275318,
       "internal_id": "internal_id275318",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Back da pagina carica secondo doc. va a pag. conferma dati",
         "compact": "Back da pagina carica secondo doc. va a pag. conferma dati",
@@ -2676,7 +2676,7 @@
     {
       "id": 275317,
       "internal_id": "internal_id275317",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Le opzioni per il secondo documento non sono congruenti",
         "compact": "Le opzioni per il secondo documento non sono congruenti",
@@ -2743,7 +2743,7 @@
     {
       "id": 275311,
       "internal_id": "internal_id275311",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Richiesta] - Quando si riprende l'apertura non si atterra all'ultimo step raggiunto",
         "compact": "Quando si riprende l'apertura non si atterra all'ultimo step raggiunto",
@@ -2809,7 +2809,7 @@
     {
       "id": 275308,
       "internal_id": "internal_id275308",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Firma] - Errore numero di passaggi da completare per terminare l'apertura conto",
         "compact": "Errore numero di passaggi da completare per terminare l'apertura conto",
@@ -2876,7 +2876,7 @@
     {
       "id": 275306,
       "internal_id": "internal_id275306",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Il campo città accetta singoli numeri",
         "compact": "Il campo città accetta singoli numeri",
@@ -2942,7 +2942,7 @@
     {
       "id": 275305,
       "internal_id": "internal_id275305",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Codice fiscale non valido se utilizzata compilazione automatica con google ",
         "compact": "Codice fiscale non valido se utilizzata compilazione automatica con google",
@@ -3009,7 +3009,7 @@
     {
       "id": 275301,
       "internal_id": "internal_id275301",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - Vari elementi sono disallineati nella pagina altro da aggiungere",
         "compact": "Vari elementi sono disallineati nella pagina altro da aggiungere",
@@ -3075,7 +3075,7 @@
     {
       "id": 275300,
       "internal_id": "internal_id275300",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
         "compact": "Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
@@ -3141,7 +3141,7 @@
     {
       "id": 275299,
       "internal_id": "internal_id275299",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - Una frase è incompleta nell'area del consenso",
         "compact": "Una frase è incompleta nell'area del consenso",
@@ -3207,7 +3207,7 @@
     {
       "id": 275275,
       "internal_id": "internal_id275275",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - L'app va in crash e si riavvia da sola durante alcuni step del flusso",
         "compact": "L'app va in crash e si riavvia da sola durante alcuni step del flusso",
@@ -3273,7 +3273,7 @@
     {
       "id": 275272,
       "internal_id": "internal_id275272",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Compare il messaggio “connessione internet assente”",
         "compact": "Compare il messaggio “connessione internet assente”",
@@ -3339,7 +3339,7 @@
     {
       "id": 275207,
       "internal_id": "internal_id275207",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Richiesta in sospeso] - Box per inserimento numero telefonico piccolo e prefisso decentrato",
         "compact": "Box per inserimento numero telefonico piccolo e prefisso decentrato",
@@ -3405,7 +3405,7 @@
     {
       "id": 275206,
       "internal_id": "internal_id275206",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Impossibile accedere con SPID",
         "compact": "Impossibile accedere con SPID",
@@ -3472,7 +3472,7 @@
     {
       "id": 275179,
       "internal_id": "internal_id275179",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Il testo per il consenso fuoriesce dal bordo ipostato",
         "compact": "Il testo per il consenso fuoriesce dal bordo ipostato",
@@ -3538,7 +3538,7 @@
     {
       "id": 275178,
       "internal_id": "internal_id275178",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - I link SPID Italia e Lepeda portano a messaggi di errore",
         "compact": "I link SPID Italia e Lepeda portano a messaggi di errore",
@@ -3605,7 +3605,7 @@
     {
       "id": 275176,
       "internal_id": "internal_id275176",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura conto] - Andando indietro da pagina di login SPID si torna alla pagina login dell'App",
         "compact": "Andando indietro da pagina di login SPID si torna alla pagina login dell'App",
@@ -3671,7 +3671,7 @@
     {
       "id": 275169,
       "internal_id": "internal_id275169",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Chiudendo l'app si ritorna nella pagina di onboarding",
         "compact": "Chiudendo l'app si ritorna nella pagina di onboarding",
@@ -3738,7 +3738,7 @@
     {
       "id": 275168,
       "internal_id": "internal_id275168",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Cookie policy] - Impossibile leggere l'informativa prima di accettarla",
         "compact": "Impossibile leggere l'informativa prima di accettarla",
@@ -3804,7 +3804,7 @@
     {
       "id": 275167,
       "internal_id": "internal_id275167",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Informativa privacy] - I contatti della Banca non sono cliccabili ma semplice testo",
         "compact": "I contatti della Banca non sono cliccabili ma semplice testo",
@@ -3870,7 +3870,7 @@
     {
       "id": 275165,
       "internal_id": "internal_id275165",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Onboarding] - Le immagini del carosello e della pagina iniziale richiedono del tempo per caricarsi",
         "compact": "Le immagini del carosello e della pagina iniziale richiedono del tempo per caricarsi",
@@ -3936,7 +3936,7 @@
     {
       "id": 275102,
       "internal_id": "internal_id275102",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Refusi ed errori typo nella procedura di apertura del conto",
         "compact": "Refusi ed errori typo nella procedura di apertura del conto",
@@ -4002,7 +4002,7 @@
     {
       "id": 275100,
       "internal_id": "internal_id275100",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
         "compact": "Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
@@ -4068,7 +4068,7 @@
     {
       "id": 275098,
       "internal_id": "internal_id275098",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Discordanza nella richiesta di documenti all'interno della procedura",
         "compact": "Discordanza nella richiesta di documenti all'interno della procedura",
@@ -4135,7 +4135,7 @@
     {
       "id": 275096,
       "internal_id": "internal_id275096",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - La procedura si blocca all'autocertificazione e non si conclude l'apertura conto",
         "compact": "La procedura si blocca all'autocertificazione e non si conclude l'apertura conto",
@@ -4202,7 +4202,7 @@
     {
       "id": 275092,
       "internal_id": "internal_id275092",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Impossibile selezionare altri Paesi se non l'Italia nel calcolatore del codice fiscale ",
         "compact": "Impossibile selezionare altri Paesi se non l'Italia nel calcolatore del codice fiscale",
@@ -4269,7 +4269,7 @@
     {
       "id": 275091,
       "internal_id": "internal_id275091",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Calcola CF] - Con smartphone a tema scuro la bandiera italiana ha colori non corretti ",
         "compact": "Con smartphone a tema scuro la bandiera italiana ha colori non corretti",
@@ -4335,7 +4335,7 @@
     {
       "id": 275090,
       "internal_id": "internal_id275090",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - App non accetta codice fiscale corretto per la registrazione ",
         "compact": "App non accetta codice fiscale corretto per la registrazione",
@@ -4401,7 +4401,7 @@
     {
       "id": 275080,
       "internal_id": "internal_id275080",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - I campi Nome e Cognome accettano singole lettere e non c'è verifica sul formato del CF",
         "compact": "I campi Nome e Cognome accettano singole lettere e non c'è verifica sul formato del CF",
@@ -4467,7 +4467,7 @@
     {
       "id": 275079,
       "internal_id": "internal_id275079",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Premendo login con SPID la pagina si corrompe",
         "compact": "Premendo login con SPID la pagina si corrompe",
@@ -4534,7 +4534,7 @@
     {
       "id": 275073,
       "internal_id": "internal_id275073",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura conto Start] - Alcuni Paesi non sono in ordine alfabetico nel menu cittadinanza",
         "compact": "Alcuni Paesi non sono in ordine alfabetico nel menu cittadinanza",
@@ -4601,7 +4601,7 @@
     {
       "id": 275070,
       "internal_id": "internal_id275070",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Impossibile scattare foto del documento da app",
         "compact": "Impossibile scattare foto del documento da app",
@@ -4667,7 +4667,7 @@
     {
       "id": 275068,
       "internal_id": "internal_id275068",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Una label all'interno del pulsante occupa uno spazio eccessivo",
         "compact": "Una label all'interno del pulsante occupa uno spazio eccessivo",
@@ -4733,7 +4733,7 @@
     {
       "id": 275067,
       "internal_id": "internal_id275067",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Il pulsante \"?\" non è attivo",
         "compact": "Il pulsante \"?\" non è attivo",
@@ -4800,7 +4800,7 @@
     {
       "id": 275064,
       "internal_id": "internal_id275064",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - La casella \"É previsto un apporto iniziale\" non filtra i caratteri alfabetici",
         "compact": "La casella \"É previsto un apporto iniziale\" non filtra i caratteri alfabetici",
@@ -4866,7 +4866,7 @@
     {
       "id": 275063,
       "internal_id": "internal_id275063",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
         "compact": "Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
@@ -4932,7 +4932,7 @@
     {
       "id": 275062,
       "internal_id": "internal_id275062",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Compare la scritta \"Inviate 1 OTP...\" invece di \"Inviato/a 1 OTP\"",
         "compact": "Compare la scritta \"Inviate 1 OTP...\" invece di \"Inviato/a 1 OTP\"",
@@ -4998,7 +4998,7 @@
     {
       "id": 275061,
       "internal_id": "internal_id275061",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Il campo di inserimento date di emissione e scadenza del documento non funziona correttamente",
         "compact": "Il campo di inserimento date di emissione e scadenza del documento non funziona correttamente",
@@ -5064,7 +5064,7 @@
     {
       "id": 275060,
       "internal_id": "internal_id275060",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura conto start] - Il conteggio delle schermate è eccedente arrivati alla firma",
         "compact": "Il conteggio delle schermate è eccedente arrivati alla firma",
@@ -5131,7 +5131,7 @@
     {
       "id": 275059,
       "internal_id": "internal_id275059",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
         "compact": "Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
@@ -5197,7 +5197,7 @@
     {
       "id": 275057,
       "internal_id": "internal_id275057",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - Compare un errore ortografico nella schermata di autocertificazione ",
         "compact": "Compare un errore ortografico nella schermata di autocertificazione",
@@ -5263,7 +5263,7 @@
     {
       "id": 275056,
       "internal_id": "internal_id275056",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - Selezionando \"Italia\" compaiono elencate anche Province non italiane",
         "compact": "Selezionando \"Italia\" compaiono elencate anche Province non italiane",
@@ -5329,7 +5329,7 @@
     {
       "id": 275055,
       "internal_id": "internal_id275055",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - É possibile non selezionare nessun indirizzo di spedizione della carta",
         "compact": "É possibile non selezionare nessun indirizzo di spedizione della carta",
@@ -5395,7 +5395,7 @@
     {
       "id": 275054,
       "internal_id": "internal_id275054",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - Non c'è controllo se residenza e domicilio corrispondono nel form",
         "compact": "Non c'è controllo se residenza e domicilio corrispondono nel form",
@@ -5461,7 +5461,7 @@
     {
       "id": 275051,
       "internal_id": "internal_id275051",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - L'opzione \"Si\" non presenta l'accento sulla i",
         "compact": "L'opzione \"Si\" non presenta l'accento sulla i",
@@ -5527,7 +5527,7 @@
     {
       "id": 275049,
       "internal_id": "internal_id275049",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Ci sono alcuni errori nella lista delle cittadinanze selezionabili",
         "compact": "Ci sono alcuni errori nella lista delle cittadinanze selezionabili",
@@ -5593,7 +5593,7 @@
     {
       "id": 275046,
       "internal_id": "internal_id275046",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Manca uno spazio tra i pulsanti di selezione Maschio e Femmina",
         "compact": "Manca uno spazio tra i pulsanti di selezione Maschio e Femmina",
@@ -5660,7 +5660,7 @@
     {
       "id": 275045,
       "internal_id": "internal_id275045",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Impossibile selezionare uno stato diverso da \"Italia\" nel calcolo CF",
         "compact": "Impossibile selezionare uno stato diverso da \"Italia\" nel calcolo CF",
@@ -5736,7 +5736,7 @@
     {
       "id": 275044,
       "internal_id": "internal_id275044",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Contatore degli step non corretto",
         "compact": "Contatore degli step non corretto",
@@ -5803,7 +5803,7 @@
     {
       "id": 275042,
       "internal_id": "internal_id275042",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Impossibile accedere con lo SPID di Poste",
         "compact": "Impossibile accedere con lo SPID di Poste",
@@ -5870,7 +5870,7 @@
     {
       "id": 275039,
       "internal_id": "internal_id275039",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Carattere speciale in inserimento codice promozionale",
         "compact": "Carattere speciale in inserimento codice promozionale",
@@ -5936,7 +5936,7 @@
     {
       "id": 275034,
       "internal_id": "internal_id275034",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Assistenza] - Il bottone per chiudere la pagina help non è visibile",
         "compact": "Il bottone per chiudere la pagina help non è visibile",
@@ -6002,7 +6002,7 @@
     {
       "id": 275033,
       "internal_id": "internal_id275033",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Input di sviluppo visibili",
         "compact": "Input di sviluppo visibili",
@@ -6069,7 +6069,7 @@
     {
       "id": 275031,
       "internal_id": "internal_id275031",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autentificazione] - Impossibile accedere via SPID con SielteID",
         "compact": "Impossibile accedere via SPID con SielteID",
@@ -6136,7 +6136,7 @@
     {
       "id": 275028,
       "internal_id": "internal_id275028",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autentificazione] - Se apro il conto con SPID compare del codice a schermo che non si toglie",
         "compact": "Se apro il conto con SPID compare del codice a schermo che non si toglie",
@@ -6203,7 +6203,7 @@
     {
       "id": 275027,
       "internal_id": "internal_id275027",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autentificazione] - Registrazione tramite SPID poste non funzionante",
         "compact": "Registrazione tramite SPID poste non funzionante",
@@ -6270,7 +6270,7 @@
     {
       "id": 275025,
       "internal_id": "internal_id275025",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Firma] - Presenza di uno step aggiuntivo non previsto",
         "compact": "Presenza di uno step aggiuntivo non previsto",
@@ -6337,7 +6337,7 @@
     {
       "id": 275021,
       "internal_id": "internal_id275021",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”",
         "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
@@ -6403,7 +6403,7 @@
     {
       "id": 275020,
       "internal_id": "internal_id275020",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Slideshow iniziale] - La slideshow iniziale non è disattivabile e viene riproposta ad ogni nuovo accesso all'app",
         "compact": "La slideshow iniziale non è disattivabile e viene riproposta ad ogni nuovo accesso all'app",
@@ -6469,7 +6469,7 @@
     {
       "id": 275019,
       "internal_id": "internal_id275019",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Mail salvataggio richiesta] - Il link presente nella mail non rimanda all’app ma il sito web",
         "compact": "Il link presente nella mail non rimanda all’app ma il sito web",
@@ -6535,7 +6535,7 @@
     {
       "id": 275015,
       "internal_id": "internal_id275015",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Bottone non funzionante per assistenza",
         "compact": "Bottone non funzionante per assistenza",
@@ -6602,7 +6602,7 @@
     {
       "id": 275013,
       "internal_id": "internal_id275013",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - L'icona dell'occhio per visualizzare in chiaro la password inserita non funziona",
         "compact": "L'icona dell'occhio per visualizzare in chiaro la password inserita non funziona",
@@ -6668,7 +6668,7 @@
     {
       "id": 275011,
       "internal_id": "internal_id275011",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Impossibile chiudere la schermata di assistenza",
         "compact": "Impossibile chiudere la schermata di assistenza",
@@ -6735,7 +6735,7 @@
     {
       "id": 275006,
       "internal_id": "internal_id275006",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
         "compact": "Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
@@ -6801,7 +6801,7 @@
     {
       "id": 274981,
       "internal_id": "internal_id274981",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Durante l'apertura conto compare una casella con un codice alfanumerico modificabile",
         "compact": "Durante l'apertura conto compare una casella con un codice alfanumerico modificabile",
@@ -6868,7 +6868,7 @@
     {
       "id": 274979,
       "internal_id": "internal_id274979",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Apertura conto con autenticazione SPID non funzionante",
         "compact": "Apertura conto con autenticazione SPID non funzionante",
@@ -6935,7 +6935,7 @@
     {
       "id": 274964,
       "internal_id": "internal_id274964",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Sezione non apribile al primo step",
         "compact": "Sezione non apribile al primo step",
@@ -7002,7 +7002,7 @@
     {
       "id": 274940,
       "internal_id": "internal_id274940",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Il tuo conto] - Il pulsante “?” non è funzionante all'interno dello step 3 ",
         "compact": "Il pulsante “?” non è funzionante all'interno dello step 3",
@@ -7068,7 +7068,7 @@
     {
       "id": 274936,
       "internal_id": "internal_id274936",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[I tuoi dati] - Presenza di stringhe sovrapposte alle schermate",
         "compact": "Presenza di stringhe sovrapposte alle schermate",
@@ -7135,7 +7135,7 @@
     {
       "id": 274935,
       "internal_id": "internal_id274935",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - La funzione di autenticazione con SPID non è disponibile ",
         "compact": "La funzione di autenticazione con SPID non è disponibile",
@@ -7202,7 +7202,7 @@
     {
       "id": 274899,
       "internal_id": "internal_id274899",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Identificazione] - Il pulsante per tornare indietro se tappato torna indietro di due step",
         "compact": "Il pulsante per tornare indietro se tappato torna indietro di due step",
@@ -7268,7 +7268,7 @@
     {
       "id": 274893,
       "internal_id": "internal_id274893",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Verifica numero] - Metodo di inserimento veloce del codice di sicurezza tramite tastiera non funzionante",
         "compact": "Metodo di inserimento veloce del codice di sicurezza tramite tastiera non funzionante",
@@ -7334,7 +7334,7 @@
     {
       "id": 274888,
       "internal_id": "internal_id274888",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
         "compact": "Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
@@ -7400,7 +7400,7 @@
     {
       "id": 274886,
       "internal_id": "internal_id274886",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - I pulsanti di selezione \"Sì\" e \"No\" presentano testo non perfettamente allineato",
         "compact": "I pulsanti di selezione \"Sì\" e \"No\" presentano testo non perfettamente allineato",
@@ -7466,7 +7466,7 @@
     {
       "id": 274883,
       "internal_id": "internal_id274883",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Al primo tap su \"Procedi\" l'app impiega qualche secondo ad aprirsi",
         "compact": "Al primo tap su \"Procedi\" l'app impiega qualche secondo ad aprirsi",
@@ -7532,7 +7532,7 @@
     {
       "id": 274881,
       "internal_id": "internal_id274881",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Compaiono stringhe di codice alfanumeriche tornando in app dopo aver selezionato provider SPID",
         "compact": "Compaiono stringhe di codice alfanumeriche tornando in app dopo aver selezionato provider SPID",
@@ -7598,7 +7598,7 @@
     {
       "id": 274875,
       "internal_id": "internal_id274875",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Autenticazione] - Impossibile utilizzare SPID per effettuare l'autenticazione",
         "compact": "Impossibile utilizzare SPID per effettuare l'autenticazione",
@@ -7664,7 +7664,7 @@
     {
       "id": 274873,
       "internal_id": "internal_id274873",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Il pulsante \"?\" non è funzionante nella prima pagina",
         "compact": "Il pulsante \"?\" non è funzionante nella prima pagina",
@@ -7731,7 +7731,7 @@
     {
       "id": 274870,
       "internal_id": "internal_id274870",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Tacche telefoniche e tacche wifi non visibili su iOS",
         "compact": "Tacche telefoniche e tacche wifi non visibili su iOS",
@@ -7798,7 +7798,7 @@
     {
       "id": 274866,
       "internal_id": "internal_id274866",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Firma] - Conteggio errato nel complessivo degli step del flusso di apertura",
         "compact": "Conteggio errato nel complessivo degli step del flusso di apertura",
@@ -7864,7 +7864,7 @@
     {
       "id": 274856,
       "internal_id": "internal_id274856",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Nella prima schermata non si apre il tasto di assistenza seppur sia presente",
         "compact": "Nella prima schermata non si apre il tasto di assistenza seppur sia presente",
@@ -7930,7 +7930,7 @@
     {
       "id": 274852,
       "internal_id": "internal_id274852",
-      "campaign_id": 1,
+      "campaign_id": 4997,
       "title": {
         "full": "[Apertura Conto] - Status bar di iOS non visibile nella pagina informativa dei conti",
         "compact": "Status bar di iOS non visibile nella pagina informativa dei conti",

@@ -37,6 +37,7 @@ export const UsecaseSelect = ({
   return (
     <div style={{ width: '270px' }}>
       <Select
+        data-qa="usecase-select"
         renderValue={(value) => {
           const selectedStatus = usecases.find(
             (u) => u.useCase.id === Number(value.inputValue)

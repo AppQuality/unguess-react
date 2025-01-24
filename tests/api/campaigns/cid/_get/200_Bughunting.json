@@ -1,5 +1,5 @@
 {
-   "id": 1,
+   "id": 4997,
    "start_date": "Thu Dec 01 2022 17:00:00 GMT+0000 (Coordinated Universal Time)",
    "end_date": "Mon Dec 05 2022 18:00:00 GMT+0000 (Coordinated Universal Time)",
    "close_date": "Mon Dec 12 2022 15:17:16 GMT+0000 (Coordinated Universal Time)",
@@ -20,11 +20,11 @@
       "name": "Functional"
    },
    "project":{
-      "id":61,
+      "id":11,
       "name":"Demo Internal"
    },
    "workspace":{
-      "id":38,
+      "id":1,
       "name":"Demo Internal"
    },
    "description": "Bug Hunting Campaign Description",
