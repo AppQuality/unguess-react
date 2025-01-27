@@ -34,6 +34,7 @@ export const StatusSelect = ({ statuses }: { statuses: BugByStateType[] }) => {
   return (
     <div style={{ width: '270px' }}>
       <Select
+        data-qa="status-select"
         renderValue={(value) => {
           const selectedStatus = statuses.find(
             (u) => u.state.id === Number(value.inputValue)
