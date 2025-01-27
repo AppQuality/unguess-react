@@ -39,7 +39,6 @@ export default ({
     <Container id="bug-preview-details">
       <AccordionNew
         level={3}
-        style={{ padding: 0 }}
         key={`details_accordion_${isOpen}`}
         defaultExpandedSections={isOpen ? [0, 1] : []}
         onChange={handleAccordionChange}
@@ -50,7 +49,7 @@ export default ({
               label={t('__BUGS_PAGE_BUG_DETAIL_DETAILS_LABEL')}
             />
           </AccordionNew.Header>
-          <AccordionNew.Panel style={{ padding: 0 }}>
+          <AccordionNew.Panel>
             <DetailsItems bug={bug} />
           </AccordionNew.Panel>
         </AccordionNew.Section>
