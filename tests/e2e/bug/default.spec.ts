@@ -1,6 +1,5 @@
-import { test, expect } from '../fixtures/app';
-import { BugPage } from '../fixtures/Bug';
-import bugData from '../api/campaigns/cid/bugs/bid/_get/200_274852.json';
+import { test, expect } from '../../fixtures/app';
+import { BugPage } from '../../fixtures/Bug';
 
 test.describe('Bug page', () => {
   let bugPage: BugPage;
@@ -18,47 +17,44 @@ test.describe('Bug page', () => {
     await bugPage.mockSeverities();
     await bugPage.mockUsecases();
     await bugPage.mockBugtypes();
-    await bugPage.mockBugs();
-    await bugPage.mockBug();
-    await bugPage.open();
   });
 
   test('shows the page header with a breadcrumb to go back to the buglist and bug id as title', async () => {
+    await bugPage.mockBugs();
+    await bugPage.mockBug();
+    await bugPage.open();
+
     await expect(bugPage.elements().pageHeader()).toBeVisible();
     await expect(bugPage.elements().breadcrumb()).toBeVisible();
     await expect(bugPage.elements().linkToBugCollection()).toHaveAttribute(
       'href',
-      '/campaigns/1/bugs/'
+      '/campaigns/4997/bugs/'
     );
     await expect(bugPage.elements().pageHeader()).toContainText(
-      `Bug ID: ${bugData.id.toString()}`
+      `Bug ID: ${bugPage.bugIds.default}`
     );
   });
-});
-test.describe('When a querystring is present in the url the Bug Page', () => {
-  let bugPage: BugPage;
-  test.beforeEach(async ({ page }) => {
-    bugPage = new BugPage(page);
-    await bugPage.loggedIn();
-    await bugPage.mockPreferences();
-    await bugPage.mockWorkspace();
-    await bugPage.mockWorkspacesList();
-    await bugPage.mockFunctionalCampaign();
-    await bugPage.mockCustomStatuses();
-    await bugPage.mockSeverities();
-    await bugPage.mockPriorities();
-    await bugPage.mockTags();
-    await bugPage.mockDevices();
-    await bugPage.mockOs();
-    await bugPage.mockUsecases();
-    await bugPage.mockReplicabilities();
-    await bugPage.mockBugtypes();
+
+  test('does not show the full header with filter recap and pagination', async () => {
     await bugPage.mockBugs();
     await bugPage.mockBug();
-    await page.goto(`${bugPage.url}/${bugPage.querystrings.default}`);
+    await bugPage.open();
+    await expect(bugPage.elements().filtersDetailsButton()).not.toBeVisible();
+    await expect(bugPage.elements().usecaseSelect()).not.toBeVisible();
+    await expect(bugPage.elements().pagination()).not.toBeVisible();
   });
 
-  test('shows an header with a recap of applied conditions and a pagination', async () => {
+  test('When the defult querystring is present in the url, shows an header with a recap of applied conditions and a pagination', async ({
+    page,
+  }) => {
+    await bugPage.mockBugs_unique_orderbySeverity_filterbyDuplicated();
+    await bugPage.mockBug();
+    await page.goto(
+      `${bugPage.getUrl(bugPage.bugIds.default)}/${
+        bugPage.querystrings
+          .groupbyUsecase_unique_orderbySeverity_filterbyDuplicated
+      }`
+    );
     // Order by: Highest severity
     await expect(bugPage.elements().pageHeader()).toContainText(
       `${bugPage.i18n.t('__BUG_PAGE_HEADER_ORDERBY')}:${bugPage.i18n.t(
@@ -70,7 +66,7 @@ test.describe('When a querystring is present in the url the Bug Page', () => {
       `${bugPage.i18n.t('__BUG_PAGE_HEADER_FILTERS_APPLIED')}1`
     );
     await expect(bugPage.elements().filtersDetailsButton()).toBeVisible();
-    // Group by: Use case - therefor a usecase select
+    // Group by: Use case - therefore a usecase select
     await expect(bugPage.elements().usecaseSelect()).toBeVisible();
     await expect(
       bugPage.elements().usecaseSelect().locator('input')

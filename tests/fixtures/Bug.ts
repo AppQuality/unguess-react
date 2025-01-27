@@ -4,16 +4,33 @@ import { UnguessPage } from './UnguessPage';
 export class BugPage extends UnguessPage {
   readonly page: Page;
 
-  readonly querystrings: { default: string };
+  readonly querystrings: {
+    groupbyUsecase_unique_orderbySeverity_filterbyDuplicated: string;
+    groupbyState_unique_severityHigh_priorityMedium_statusPendingTodo: string;
+  };
+
+  readonly bugIds: { default: string; todo: string; pending: string };
 
   constructor(page: Page) {
     super(page);
     this.page = page;
-    this.url = 'campaigns/4997/bugs/274852';
-    this.querystrings = {
-      default:
-        '?order=DESC&orderBy=severity_id&groupBy=usecase&groupByValue=20883&unread=false&unique=true',
+    this.bugIds = {
+      default: '274852',
+      todo: '274888',
+      pending: '274852',
     };
+    this.url = `campaigns/4997/bugs/${this.bugIds.default}`;
+    this.querystrings = {
+      groupbyUsecase_unique_orderbySeverity_filterbyDuplicated:
+        '?order=DESC&orderBy=severity_id&groupBy=usecase&groupByValue=20883&unread=false&unique=true',
+      groupbyState_unique_severityHigh_priorityMedium_statusPendingTodo:
+        '?order=DESC&orderBy=severity_id&groupBy=bugState&groupByValue=1&severities=HIGH&unread=false&unique=true&priorities=medium&customStatuses=1&customStatuses=2',
+    };
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getUrl(id: string) {
+    return `campaigns/4997/bugs/${id}`;
   }
 
   elements() {
@@ -36,6 +53,8 @@ export class BugPage extends UnguessPage {
           .getByRole('button', { name: 'Filters details' }),
       usecaseSelect: () =>
         this.elements().pageHeader().getByTestId('usecase-select'),
+      statusSelect: () =>
+        this.elements().pageHeader().getByTestId('status-select'),
       pagination: () =>
         this.elements()
           .pageHeader()
@@ -61,31 +80,48 @@ export class BugPage extends UnguessPage {
         });
       }
     );
+    await this.page.route(
+      '*/**/api/campaigns/4997/bugs/274888',
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_274888.json',
+        });
+      }
+    );
   }
 
   async mockBugs() {
-    // mock initial calls
-    await this.page.route(
-      '*/**/api/campaigns/4997/bugs?order=DESC&orderBy=severity_id&filterBy[usecases]=&filterBy[types]=&filterBy[replicabilities]=&filterBy[os]=&filterBy[devices]=&filterBy[tags]=&filterBy[severities]=&filterBy[priorities]=&filterBy[is_duplicated]=0&filterBy[customStatuses]=',
-      async (route) => {
-        await route.fulfill({
-          path: 'tests/api/campaigns/cid/bugs/_get/200_orderbySeverity_filterbyDuplicated.json',
-        });
-      }
-    );
-    await this.page.route(
-      '*/**/api/campaigns/4997/bugs?order=DESC&orderBy=severity_id',
-      async (route) => {
-        await route.fulfill({
-          path: 'tests/api/campaigns/cid/bugs/_get/200_allbugs.json',
-        });
-      }
-    );
-    await this.page.route('*/**/api/campaigns/4997/bugs', async (route) => {
+    await this.page.route('*/**/api/campaigns/4997/bugs*', async (route) => {
       await route.fulfill({
         path: 'tests/api/campaigns/cid/bugs/_get/200_allbugs.json',
       });
     });
+  }
+
+  async mockBugs_unique_orderbySeverity_filterbyDuplicated() {
+    // mock initial calls
+    await this.page.route(
+      // https://dev.unguess.io/api/campaigns/4997/bugs?order=DESC&orderBy=severity_id&filterBy[usecases]=&filterBy[types]=&filterBy[replicabilities]=&filterBy[os]=&filterBy[devices]=&filterBy[tags]=&filterBy[severities]=&filterBy[priorities]=&filterBy[is_duplicated]=0&filterBy[customStatuses]=
+      /\/api\/campaigns\/4997\/bugs\?order=DESC&orderBy=severity_id(&filterBy\[[^\]]+\]=[^&]*)+/,
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/campaigns/cid/bugs/_get/200_unique_orderbySeverity_filterbyDuplicated.json',
+        });
+      }
+    );
+  }
+
+  async mockBugs_unique_severityHigh_priorityMedium_statusPendingTodo() {
+    // mock initial calls
+    await this.page.route(
+      // https://dev.unguess.io/api/campaigns/4997/bugs?order=DESC&orderBy=severity_id&filterBy[usecases]=&filterBy[types]=&filterBy[replicabilities]=&filterBy[devices]=&filterBy[tags]=&filterBy[severities]=3&filterBy[priorities]=3&filterBy[customStatuses]=1%2C2&filterBy[is_duplicated]=0
+      /\/api\/campaigns\/4997\/bugs\?(?:order=DESC&)?(?:orderBy=severity_id&)?(?:filterBy\[usecases\]=&)?(?:filterBy\[types\]=&)?(?:filterBy\[replicabilities\]=&)?(?:filterBy\[devices\]=&)?(?:filterBy\[tags\]=&)?(?:filterBy\[severities\]=3&)?(?:filterBy\[priorities\]=3&)?(?:filterBy\[customStatuses\]=1%2C2&)?(?:filterBy\[is_duplicated\]=0)?/,
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/campaigns/cid/bugs/_get/200_unique_severityHigh_priorityMedium_statusPendingTodo.json',
+        });
+      }
+    );
   }
 
   async mockCustomStatuses() {
