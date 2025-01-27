@@ -33,7 +33,6 @@ export const BugDuplicates = ({
   return (
     <AccordionNew
       level={3}
-      style={{ padding: 0 }}
       key={`duplicates_accordion_${isAccordionOpen}`}
       defaultExpandedSections={isAccordionOpen ? [0, 1] : []}
       id="bug-preview-duplicates"
@@ -45,9 +44,7 @@ export const BugDuplicates = ({
             label={t('__BUGS_PAGE_BUG_DETAIL_DUPLICATES_ACCORDION_TITLE')}
           />
         </AccordionNew.Header>
-        <AccordionNew.Panel
-          style={{ padding: 0, paddingTop: appTheme.space.sm }}
-        >
+        <AccordionNew.Panel>
           <BugFather cid={cid} bugId={bugId} />
           <BugDuplicatesList
             maxSiblingSize={MAX_SIBLING_SIZE}
