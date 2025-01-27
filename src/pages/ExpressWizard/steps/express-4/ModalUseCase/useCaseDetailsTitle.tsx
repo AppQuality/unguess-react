@@ -18,7 +18,6 @@ const UseCaseTitle = ({
 }) => {
   const { t } = useTranslation();
   const { getFieldProps, validateForm, errors } = formikProps;
-  const [showLabel, setShowLabel] = useState<boolean>(false);
   const [title, setTitle] = useState(useCase ? useCase.title : '');
 
   const useCaseErrors =
@@ -28,11 +27,11 @@ const UseCaseTitle = ({
 
   return (
     <>
-      <InputToggle.Label style={{ opacity: showLabel ? 1 : 0 }}>
-        {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
-        <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
-      </InputToggle.Label>
-      <InputToggle isFocused style={{ color: appTheme.palette.grey[800] }}>
+      <InputToggle isFocused>
+        <InputToggle.Label>
+          {t('__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
+        </InputToggle.Label>
         <InputToggle.Item
           key={`use_cases[${useCaseIndex}].title`}
           textSize="xxl"
@@ -43,19 +42,15 @@ const UseCaseTitle = ({
           {...(useCaseErrors &&
             useCaseErrors?.title && { validation: 'error' })}
           value={title}
-          onFocus={() => {
-            setShowLabel(true);
-          }}
           onBlur={() => {
             validateForm();
-            setShowLabel(false);
           }}
           onChange={(e) => setTitle(e.target.value)}
         />
       </InputToggle>
       {useCaseErrors && useCaseErrors?.title && (
         <HelpTextMessage validation="error">
-          {t('__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
+          {t('__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
         </HelpTextMessage>
       )}
     </>
