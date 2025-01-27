@@ -82,7 +82,7 @@ export const GoalCard = ({
               label={t('__CAMPAIGN_PAGE_UX_QUESTION_ACCORDION_TITLE')}
             />
           </AccordionNew.Header>
-          <AccordionNew.Panel style={{ padding: 0 }}>
+          <AccordionNew.Panel>
             <CircleList>
               {data.questions &&
                 data.questions.map((question) => (
