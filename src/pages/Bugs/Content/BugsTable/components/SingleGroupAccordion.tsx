@@ -63,6 +63,7 @@ const SingleGroupAccordion = ({
   `;
 
   return (
+    // the style in the AccordionNew.Section is to increase the gap between the accordions and the titles
     <AccordionNew.Section style={{ marginBottom: appTheme.space.lg }}>
       <AccordionNew.Header>
         <AccordionNew.Label label={title} />
