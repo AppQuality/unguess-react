@@ -54,6 +54,8 @@ import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import * as Yup from 'yup';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useNavigate } from 'react-router-dom';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { getPlatform } from './getPlatform';
 import {
@@ -68,8 +70,6 @@ import { StepItem, useExpressStep } from './steps/useSteps';
 import { WizardHeader } from './wizardHeader';
 import defaultValues from './wizardInitialValues';
 import { WizardModel } from './wizardModel';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useNavigate } from 'react-router-dom';
 
 const StyledContainer = styled(ContainerCard)`
   position: sticky;
