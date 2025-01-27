@@ -70,9 +70,7 @@ const VideosPageContent = () => {
                     defaultExpandedSections={[]}
                   >
                     {usecases.map((uc) => (
-                      <AccordionNew.Section
-                        style={{ marginBottom: appTheme.space.lg }}
-                      >
+                      <AccordionNew.Section>
                         <AccordionNew.Header>
                           <AccordionNew.Label
                             label={`${uc.usecase.title.full} `}
@@ -93,7 +91,7 @@ const VideosPageContent = () => {
                             </Tag>
                           </AccordionNew.Meta>
                         </AccordionNew.Header>
-                        <AccordionNew.Panel style={{ padding: 0 }}>
+                        <AccordionNew.Panel>
                           {!!uc.videos.desktop.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
