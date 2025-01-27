@@ -3,7 +3,6 @@ import {
   Checkbox,
   FormField as Field,
   MD,
-  SM,
   Span,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';

@@ -2,7 +2,6 @@ import { AccordionNew } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Bug, BugAdditionalField } from 'src/features/api';
 import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as DetailsIcon } from 'src/assets/icons/details-icon.svg';
 import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
 import DetailsItems from './DetailsItems';
