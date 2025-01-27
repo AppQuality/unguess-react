@@ -9,7 +9,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as ChevronDownStroke } from '@zendeskgarden/svg-icons/src/16/chevron-down-stroke.svg';
 import { ReactComponent as ChevronUpStroke } from '@zendeskgarden/svg-icons/src/16/chevron-up-stroke.svg';
 import { BugByStateType, BugByUsecaseType } from '../types';
-import { InfoRow } from './InfoRow';
+import { InfoRowMeta } from './InfoRowMeta';
 import BugCards from './BugCards';
 import SingleGroupTable from './SingleGroupTable';
 
@@ -67,7 +67,7 @@ const SingleGroupAccordion = ({
       <AccordionNew.Header>
         <AccordionNew.Label label={title} />
         <AccordionNew.Meta>
-          <InfoRow bugs={item.bugs} />
+          <InfoRowMeta bugs={item.bugs} />
         </AccordionNew.Meta>
       </AccordionNew.Header>
       <AccordionPanel>
