@@ -4,7 +4,6 @@ import {
   FormField as Field,
   MD,
   Span,
-  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
