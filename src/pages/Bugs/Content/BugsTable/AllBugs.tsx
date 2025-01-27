@@ -5,7 +5,7 @@ import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
 import { AccordionNew } from '@appquality/unguess-design-system';
 import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
 import { t } from 'i18next';
-import { InfoRow } from './components/InfoRow';
+import { InfoRowMeta } from './components/InfoRowMeta';
 import AllBugsTable from './components/SingleGroupTable';
 import BugCards from './components/BugCards';
 import { useBugs } from './hooks/useBugs';
@@ -65,7 +65,7 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
               }
             />
             <AccordionNew.Meta>
-              <InfoRow bugs={bugs} />
+              <InfoRowMeta bugs={bugs} />
             </AccordionNew.Meta>
           </AccordionNew.Header>
           <AccordionNew.Panel>

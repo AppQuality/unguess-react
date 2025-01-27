@@ -2,10 +2,8 @@ import {
   AccordionNew,
   Col,
   Grid,
-  MD,
   Row,
   Skeleton,
-  Span,
   Tag,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
@@ -78,7 +76,6 @@ const VideosPageContent = () => {
                         <AccordionNew.Header>
                           <AccordionNew.Label
                             label={`${uc.usecase.title.full} `}
-                            // removed InfoRow component defined in videos/parts/InfoRow.tsx - maybe to be deleted because deprecated
                           />
                           <AccordionNew.Meta>
                             <Tag
