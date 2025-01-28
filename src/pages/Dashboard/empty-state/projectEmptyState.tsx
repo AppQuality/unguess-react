@@ -18,6 +18,7 @@ const EmptyProjectContainer = styled.div`
   flex-direction: column;
   width: 100%;
   position: relative;
+  padding: 0 ${appTheme.space.xxl};
 `;
 
 const ImageWrapper = styled.div`
