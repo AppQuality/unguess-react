@@ -78,12 +78,12 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const [patchProject] = usePatchProjectsByPidMutation();
   const sendGTMEvent = useSendGTMevent();
 
-  const sendAnalyticEvents = (e: AnalyticsType) => {
+  const sendAnalyticEvents = (e: string) => {
     switch (e) {
       case 'ChangeDescription':
         sendGTMEvent({
           event: 'workspaces-action',
-          category: '',
+          category: 'projects_dashboard',
           action: 'change_description_success',
           content: itemDescription,
         });
@@ -91,7 +91,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
       case 'ChangeTitle':
         sendGTMEvent({
           event: 'workspaces-action',
-          category: '',
+          category: 'projects_dashboard',
           action: 'change_name_success',
           content: itemTitle,
         });
