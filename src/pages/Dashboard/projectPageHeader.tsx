@@ -77,23 +77,27 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const [patchProject] = usePatchProjectsByPidMutation();
   const sendGTMEvent = useSendGTMevent();
 
-  useEffect(() => {
-    if (itemTitle) {
-      sendGTMEvent({
-        event: 'workspaces-action',
-        category: 'projects_dashboard',
-        action: 'change_name_success',
-        content: itemTitle,
-      });
+  const sendAnalyticEvents = (e: string) => {
+    switch (e) {
+      case 'ChangeDescription':
+        sendGTMEvent({
+          event: 'workspaces-action',
+          category: 'projects_dashboard',
+          action: 'change_description_success',
+          content: itemDescription,
+        });
+        break;
+      case 'ChangeTitle':
+        sendGTMEvent({
+          event: 'workspaces-action',
+          category: 'projects_dashboard',
+          action: 'change_name_success',
+          content: itemTitle,
+        });
+        break;
+      default:
     }
-
-    sendGTMEvent({
-      event: 'workspaces-action',
-      category: 'projects_dashboard',
-      action: 'change_description_success',
-      content: itemDescription,
-    });
-  }, [itemTitle, itemDescription]);
+  };
 
   const InputToggleMemoDescription = useMemo(
     () => (
@@ -116,6 +120,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   pid: projectId.toString(),
                   body: { description: e.currentTarget.value ?? '' },
                 }).unwrap();
+                sendAnalyticEvents('ChangeDescription');
               }
             } catch {
               // eslint-disable-next-line
@@ -156,6 +161,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   pid: projectId.toString(),
                   body: { display_name: e.currentTarget.value },
                 }).unwrap();
+                sendAnalyticEvents('ChangeTitle');
               }
             } catch {
               addToast(
