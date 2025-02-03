@@ -16,9 +16,9 @@ import {
   closeSidebar,
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
-import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -99,7 +99,7 @@ export const WorkspacesDropdown = () => {
   const toggleGtmWorkspaceChange = () => {
     sendGTMEvent({
       event: 'workspaces-action',
-      category: '',
+      category: 'projects_dashboard',
       action: 'workspace_change',
     });
   };
