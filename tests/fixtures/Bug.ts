@@ -97,10 +97,34 @@ export class BugPage extends UnguessPage {
       }
     );
     await this.page.route(
+      '*/**/api/campaigns/4997/bugs/274875',
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_274875.json',
+        });
+      }
+    );
+    await this.page.route(
       '*/**/api/campaigns/4997/bugs/274888',
       async (route) => {
         await route.fulfill({
           path: 'tests/api/campaigns/cid/bugs/bid/_get/200_274888.json',
+        });
+      }
+    );
+    await this.page.route(
+      '*/**/api/campaigns/4997/bugs/275006',
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_275006.json',
+        });
+      }
+    );
+    await this.page.route(
+      '*/**/api/campaigns/4997/bugs/275021',
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_275021.json',
         });
       }
     );
