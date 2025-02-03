@@ -5,26 +5,42 @@ export class BugPage extends UnguessPage {
   readonly page: Page;
 
   readonly querystrings: {
-    groupbyUsecase_unique_orderbySeverity_filterbyDuplicated: string;
+    default: string;
+    defaultUsecase3: string;
     groupbyState_unique_severityHigh_priorityMedium_statusPendingTodo: string;
+    groupbyState2_unique_severityHigh_priorityMedium_statusPendingTodo: string;
   };
 
-  readonly bugIds: { default: string; todo: string; pending: string };
+  readonly bugIds: {
+    default: string;
+    default2: string;
+    defaultUsecase3: string;
+    todo: string;
+    todo2: string;
+    pending: string;
+  };
 
   constructor(page: Page) {
     super(page);
     this.page = page;
     this.bugIds = {
       default: '274852',
+      default2: '275006',
+      defaultUsecase3: '274875',
       todo: '274888',
+      todo2: '275021',
       pending: '274852',
     };
     this.url = `campaigns/4997/bugs/${this.bugIds.default}`;
     this.querystrings = {
-      groupbyUsecase_unique_orderbySeverity_filterbyDuplicated:
+      default:
         '?order=DESC&orderBy=severity_id&groupBy=usecase&groupByValue=20883&unread=false&unique=true',
+      defaultUsecase3:
+        '?order=DESC&orderBy=severity_id&groupBy=usecase&groupByValue=20884&unread=false&unique=true',
       groupbyState_unique_severityHigh_priorityMedium_statusPendingTodo:
         '?order=DESC&orderBy=severity_id&groupBy=bugState&groupByValue=1&severities=HIGH&unread=false&unique=true&priorities=medium&customStatuses=1&customStatuses=2',
+      groupbyState2_unique_severityHigh_priorityMedium_statusPendingTodo:
+        '?order=DESC&orderBy=severity_id&groupBy=bugState&groupByValue=2&severities=HIGH&unread=false&unique=true&priorities=medium&customStatuses=1&customStatuses=2',
     };
   }
 

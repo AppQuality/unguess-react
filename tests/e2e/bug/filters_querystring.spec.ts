@@ -29,7 +29,7 @@ test.describe('When a querystring is present in the url the Bug Page', () => {
       }`
     );
   });
-  test('shows an header with a recap of applied conditions and a pagination, the status select change status', async () => {
+  test('shows an header with a recap of applied conditions and a pagination', async () => {
     await expect(bugPage.elements().pageHeader()).toContainText(
       `${bugPage.i18n.t('__BUG_PAGE_HEADER_FILTERS_APPLIED')}4`
     );
@@ -42,12 +42,44 @@ test.describe('When a querystring is present in the url the Bug Page', () => {
     await expect(
       bugPage.elements().statusSelect().locator('input')
     ).toHaveValue('1');
+  });
+  test('The pagination works', async ({ page }) => {
+    // Click on next page
+    await bugPage.elements().paginationNext().click();
+    await expect(bugPage.elements().paginationPrevious()).not.toBeDisabled();
+    await expect(bugPage.elements().paginationNext()).not.toBeDisabled();
+    expect(page.url()).toContain(
+      `${bugPage.getUrl(bugPage.bugIds.todo2)}${
+        bugPage.querystrings
+          .groupbyState_unique_severityHigh_priorityMedium_statusPendingTodo
+      }`
+    );
+    // click back to the first page
+    await bugPage.elements().paginationPrevious().click();
+    await expect(bugPage.elements().paginationPrevious()).toBeDisabled();
+    await expect(bugPage.elements().paginationNext()).not.toBeDisabled();
+    expect(page.url()).toContain(
+      `${bugPage.getUrl(bugPage.bugIds.todo)}${
+        bugPage.querystrings
+          .groupbyState_unique_severityHigh_priorityMedium_statusPendingTodo
+      }`
+    );
+  });
+  test('the status select change status in url and in page', async ({
+    page,
+  }) => {
     await bugPage.elements().statusSelect().click();
     await bugPage
       .elements()
       .statusSelect()
       .getByRole('option', { name: 'Pending' })
       .click();
+    expect(page.url()).toContain(
+      `${bugPage.getUrl(bugPage.bugIds.pending)}${
+        bugPage.querystrings
+          .groupbyState2_unique_severityHigh_priorityMedium_statusPendingTodo
+      }`
+    );
     await expect(
       bugPage.elements().statusSelect().locator('input')
     ).toHaveValue('2');
@@ -58,7 +90,4 @@ test.describe('When a querystring is present in the url the Bug Page', () => {
     await expect(bugPage.elements().paginationPrevious()).toBeDisabled();
     await expect(bugPage.elements().paginationNext()).toBeDisabled();
   });
-  test('if a filterby status is present and the user changes status to the displayed bug, the pagination should update', async ({
-    page,
-  }) => {});
 });
