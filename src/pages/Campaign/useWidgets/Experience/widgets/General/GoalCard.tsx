@@ -85,6 +85,7 @@ export const GoalCard = ({
           <AccordionNew.Panel>
             <CircleList>
               {data.questions &&
+                data.questions.length > 0 &&
                 data.questions.map((question) => (
                   <CircleList.Item>
                     <MD isBold>{question.text}</MD>
