@@ -532,7 +532,7 @@ export const ExpressWizardContainer = () => {
             }
             toggleChat(true);
             sendGTMEvent({
-              action: 'express_close',
+              action: '',
               event: 'express_navigation',
               category: expressTypeMeta.slug,
             });
