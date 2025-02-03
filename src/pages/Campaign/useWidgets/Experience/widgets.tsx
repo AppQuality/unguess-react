@@ -66,7 +66,12 @@ export const widgets = ({
     });
   }
 
-  if (uxData?.sentiment && uxData.sentiment.length > 0) {
+  if (
+    uxData?.sentiment &&
+    uxData.sentiment.length > 0 &&
+    uxData.goal &&
+    uxData.users
+  ) {
     widgetsToShow.push({
       id: 'exp-campaign-overview',
       title: t('__CAMPAIGN_PAGE_NAVIGATION_MEDIA_ITEM_OVERVIEW_LABEL'),
