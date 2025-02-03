@@ -8,6 +8,7 @@ import {
   XL,
   theme,
 } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { extractStrapiData } from 'src/common/getStrapiData';
@@ -22,10 +23,9 @@ import {
   resetExpressTypeId,
   resetWizard,
 } from 'src/features/express/expressSlice';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
-import { useSendGTMevent } from 'src/hooks/useGTMevent';
-import { useEffect } from 'react';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
 import { ProjectDropdown } from './projectDropdown';
@@ -111,7 +111,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   useEffect(() => {
     if (isDrawerOpen) {
       sendGTMEvent({
-        action: '',
+        action: 'express_start',
         event: 'express_navigation',
         category: express.slug,
         content: 'drawer_open',
@@ -128,10 +128,10 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       isOpen={isDrawerOpen}
       onClose={() => {
         sendGTMEvent({
-          action: 'drawer_close',
+          action: '',
           event: 'express_navigation',
           category: express.slug,
-          content: '',
+          content: '  ',
         });
         onClose();
       }}
