@@ -111,10 +111,10 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   useEffect(() => {
     if (isDrawerOpen) {
       sendGTMEvent({
-        action: 'drawer_open',
+        action: 'express_start',
         event: 'express_navigation',
-        category: 'express',
-        content: express.slug,
+        category: express.slug,
+        content: 'drawer_open',
       });
     }
   }, [isDrawerOpen]);
@@ -128,10 +128,10 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       isOpen={isDrawerOpen}
       onClose={() => {
         sendGTMEvent({
-          action: 'drawer_close',
+          action: '',
           event: 'express_navigation',
-          category: 'express',
-          content: express.slug,
+          category: express.slug,
+          content: 'drawer_close',
         });
         onClose();
       }}
@@ -188,8 +188,8 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
               sendGTMEvent({
                 action: 'express_start',
                 event: 'express_navigation',
-                category: 'express',
-                content: express.slug,
+                category: express.slug,
+                content: 'express_start',
               });
             }}
             {...(!project && { disabled: true })}
