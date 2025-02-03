@@ -83,7 +83,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
       case 'ChangeDescription':
         sendGTMEvent({
           event: 'workspaces-action',
-          category: 'projects_dashboard',
+          category: '',
           action: 'change_description_success',
           content: itemDescription,
         });
@@ -91,7 +91,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
       case 'ChangeTitle':
         sendGTMEvent({
           event: 'workspaces-action',
-          category: 'projects_dashboard',
+          category: '',
           action: 'change_name_success',
           content: itemTitle,
         });
