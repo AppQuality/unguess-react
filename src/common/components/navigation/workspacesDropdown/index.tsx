@@ -6,7 +6,6 @@ import {
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
 import { useRef, useState } from 'react';
-import TagManager from 'react-gtm-module';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
@@ -17,6 +16,7 @@ import {
   closeSidebar,
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -95,18 +95,13 @@ export const WorkspacesDropdown = () => {
   const { userData: user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const homeRoute = useLocalizeRoute('');
+  const sendGTMEvent = useSendGTMevent();
 
-  const toggleGtmWorkspaceChange = (workspaceName: string) => {
-    TagManager.dataLayer({
-      dataLayer: {
-        event: 'workspace_change',
-        role: user.role,
-        wp_user_id: user.tryber_wp_user_id,
-        tester_id: user.id,
-        name: user.name,
-        email: user.email,
-        company: workspaceName,
-      },
+  const toggleGtmWorkspaceChange = () => {
+    sendGTMEvent({
+      event: 'workspaces-action',
+      category: 'projects_dashboard',
+      action: 'workspace_change',
     });
   };
 
@@ -115,7 +110,7 @@ export const WorkspacesDropdown = () => {
       saveWorkspaceToLs(workspace);
       API.workspacesById(workspace.id).then((ws) => {
         dispatch(setWorkspace(ws));
-        toggleGtmWorkspaceChange(ws.company);
+        toggleGtmWorkspaceChange();
         dispatch(closeSidebar());
         navigate(homeRoute, { replace: true });
       });
