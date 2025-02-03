@@ -93,7 +93,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       isOpen={isDrawerOpen}
       onClose={() => {
         sendGTMEvent({
-          action: 'drawer_close',
+          action: '',
           event: 'express_navigation',
           category: template.slug,
         });
