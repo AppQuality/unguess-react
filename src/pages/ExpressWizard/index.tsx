@@ -54,6 +54,8 @@ import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import * as Yup from 'yup';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useNavigate } from 'react-router-dom';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { getPlatform } from './getPlatform';
 import {
@@ -136,9 +138,11 @@ export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const formRef = useRef<FormikProps<{}>>(null);
+  const navigate = useNavigate();
   const [stepperTitle, setStepperTitle] = useState('');
   const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
+  const projRoute = useLocalizeRoute(`projects/${project?.id}`);
   const { activeWorkspace } = useActiveWorkspace();
   const {
     isWizardOpen,
@@ -355,7 +359,16 @@ export const ExpressWizardContainer = () => {
 
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
   const closeExpressWizard = () => {
-    setShowDiscardChangesModal(true);
+    if (isWizardOpen) {
+      if (isThankyou) {
+        dispatch(closeDrawer());
+        dispatch(closeWizard());
+        dispatch(resetWizard());
+        navigate(projRoute);
+      } else {
+        setShowDiscardChangesModal(true);
+      }
+    }
   };
 
   useEffect(() => {
