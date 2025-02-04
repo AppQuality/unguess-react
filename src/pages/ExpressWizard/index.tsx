@@ -348,7 +348,7 @@ export const ExpressWizardContainer = () => {
         action: 'express_error',
         event: 'express_navigation',
         category: expressTypeMeta.slug,
-        content: 'express_error',
+        content: '',
       });
     }
   };
@@ -381,7 +381,7 @@ export const ExpressWizardContainer = () => {
         action: 'express_end',
         event: 'express_navigation',
         category: expressTypeMeta.slug,
-        content: 'express_end',
+        content: 'thank_you_page',
       });
   }, [isWizardOpen, isThankyou]);
 
@@ -500,10 +500,10 @@ export const ExpressWizardContainer = () => {
             }
             toggleChat(true);
             sendGTMEvent({
-              action: '',
+              action: 'express_close',
               event: 'express_navigation',
               category: expressTypeMeta.slug,
-              content: 'express_close',
+              content: '',
             });
           }}
         />
