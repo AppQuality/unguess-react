@@ -42,6 +42,7 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 `;
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
+  type AnalyticsType = 'ChangeDescription' | 'ChangeTitle';
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { addToast } = useToast();
@@ -77,7 +78,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const [patchProject] = usePatchProjectsByPidMutation();
   const sendGTMEvent = useSendGTMevent();
 
-  const sendAnalyticEvents = (e: string) => {
+  const sendAnalyticEvents = (e: AnalyticsType) => {
     switch (e) {
       case 'ChangeDescription':
         sendGTMEvent({
