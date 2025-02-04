@@ -92,7 +92,6 @@ export const WorkspacesDropdown = () => {
   const [inputValue, setInputValue] = useState('');
   const dispatch = useAppDispatch();
   const { isSingle, options } = useOptions();
-  const { userData: user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const homeRoute = useLocalizeRoute('');
   const sendGTMEvent = useSendGTMevent();
