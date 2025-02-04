@@ -78,7 +78,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const [patchProject] = usePatchProjectsByPidMutation();
   const sendGTMEvent = useSendGTMevent();
 
-  const sendAnalyticEvents = (e: string) => {
+  const sendAnalyticEvents = (e: AnalyticsType) => {
     switch (e) {
       case 'ChangeDescription':
         sendGTMEvent({
