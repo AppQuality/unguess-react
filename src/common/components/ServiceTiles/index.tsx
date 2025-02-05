@@ -18,9 +18,9 @@ const AdditionalInfoTag = styled(Tag)`
   }
 `;
 const CardWrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: ${({ theme }) => theme.space.md};
-  z-index: ${({ theme }) => theme.levels.front};
 `;
 
 const ServiceTiles = () => {
@@ -60,7 +60,7 @@ const ServiceTiles = () => {
           });
 
           return (
-            <div style={{ flex: 1 }}>
+            <div>
               <ServiceTile
                 title={template.title || ''}
                 description={template?.description || ''}
