@@ -142,6 +142,7 @@ export class BugPage extends UnguessPage {
     // mock initial calls
     await this.page.route(
       // https://dev.unguess.io/api/campaigns/4997/bugs?order=DESC&orderBy=severity_id&filterBy[usecases]=&filterBy[types]=&filterBy[replicabilities]=&filterBy[os]=&filterBy[devices]=&filterBy[tags]=&filterBy[severities]=&filterBy[priorities]=&filterBy[is_duplicated]=0&filterBy[customStatuses]=
+      // eslint-disable-next-line security/detect-unsafe-regex
       /\/api\/campaigns\/4997\/bugs\?order=DESC&orderBy=severity_id(&filterBy\[[^\]]+\]=[^&]*)+/,
       async (route) => {
         await route.fulfill({

@@ -1,4 +1,3 @@
-import exp from 'constants';
 import { test, expect } from '../../fixtures/app';
 import { BugPage } from '../../fixtures/Bug';
 

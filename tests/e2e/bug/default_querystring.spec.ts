@@ -24,9 +24,7 @@ test.describe('When the defult querystring is present in the Bug Page url', () =
     );
   });
 
-  test('A recap of applied conditions and a pagination are displayed in the Header', async ({
-    page,
-  }) => {
+  test('A recap of applied conditions and a pagination are displayed in the Header', async () => {
     // Order by: Highest severity
     await expect(bugPage.elements().pageHeader()).toContainText(
       `${bugPage.i18n.t('__BUG_PAGE_HEADER_ORDERBY')}:${bugPage.i18n.t(
