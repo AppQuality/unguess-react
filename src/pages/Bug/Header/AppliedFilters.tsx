@@ -123,7 +123,7 @@ export const AppliedFilters = () => {
             </div>
           }
         >
-          <IconButton size="small">
+          <IconButton size="small" aria-label="Filters details">
             <InfoIcon />
           </IconButton>
         </Tooltip>
