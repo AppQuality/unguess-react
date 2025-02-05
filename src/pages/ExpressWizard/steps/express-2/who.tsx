@@ -59,7 +59,7 @@ export const WhoStep = ({
         EXPRESS_BUSINESS_DAYS_TO_ADD
       );
 
-      if (value === 'en') {
+      if (value !== 'it') {
         endDate = addBusinessDays(
           values.campaign_date,
           EXPRESS_BUSINESS_DAYS_TO_ADD + 1
@@ -99,7 +99,7 @@ export const WhoStep = ({
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
                 <Label isRegular>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_1')}
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_IT')}
                 </Label>
               </Radio>
             </StyledRadioField>
@@ -116,7 +116,41 @@ export const WhoStep = ({
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
                 <Label isRegular>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2')}
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_EN')}
+                </Label>
+              </Radio>
+            </StyledRadioField>
+          </WizardCol>
+        </Row>
+        <Row>
+          <WizardCol>
+            <StyledRadioField>
+              <Radio
+                {...props.getFieldProps('campaign_language')}
+                {...(errors.campaign_language && { validation: 'error' })}
+                value="es"
+                checked={radioValue === 'es'}
+                onChange={(e) => handleRadioClick(e.target.value)}
+              >
+                <Label isRegular>
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_ES')}
+                </Label>
+              </Radio>
+            </StyledRadioField>
+          </WizardCol>
+        </Row>
+        <Row>
+          <WizardCol>
+            <StyledRadioField>
+              <Radio
+                {...props.getFieldProps('campaign_language')}
+                {...(errors.campaign_language && { validation: 'error' })}
+                value="fr"
+                checked={radioValue === 'fr'}
+                onChange={(e) => handleRadioClick(e.target.value)}
+              >
+                <Label isRegular>
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_FR')}
                 </Label>
               </Radio>
             </StyledRadioField>

@@ -1,43 +1,22 @@
-import { Accordion, LG, MD, Tag } from '@appquality/unguess-design-system';
+import { AccordionNew } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { Grape as GrapeType } from 'src/features/api';
-import { ReactComponent as TitleIcon } from '@zendeskgarden/svg-icons/src/12/copy-fill.svg';
-import { ReactComponent as UserIcon } from '@zendeskgarden/svg-icons/src/12/user-group-fill.svg';
-import { ReactComponent as ObservationIcon } from '@zendeskgarden/svg-icons/src/12/tag-fill.svg';
 import { useMemo, useState } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ArrayHelpers, FieldArray } from 'formik';
 import { getColorWithAlpha } from 'src/common/utils';
-import { Pipe } from 'src/common/components/Pipe';
 import { Divider } from 'src/common/components/divider';
+import { AccordionHeader } from './AccordionHeader';
 import { ObservationCard } from '../ObservationCard';
 import { CardGrid } from './CardGrid';
-import { GrapeCheckbox } from './GrapeCheckbox';
 import { getBgColor, getSeverityColor } from '../../utils/getSeverityColor';
-
-const Grid = styled.div`
-  container-type: inline-size;
-
-  #container {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-gap: ${({ theme }) => theme.space.sm};
-  }
-
-  @container (max-width: ${({ theme }) => theme.breakpoints.lg}) {
-    #container {
-      grid-template-columns: auto;
-      grid-template-rows: auto;
-    }
-  }
-`;
 
 interface GrapeProps {
   id: string;
   grape: GrapeType;
 }
 
-const AccordionSection = styled(Accordion.Section)<{
+const AccordionNewSection = styled(AccordionNew.Section)<{
   severity: string;
   isOpen: boolean;
 }>`
@@ -112,124 +91,36 @@ export const Grape = ({ grape, id }: GrapeProps) => {
   }, [grape]);
 
   return (
-    <Accordion
+    <AccordionNew
       level={3}
       isExpandable
       defaultExpandedSections={[]}
       isBare
       id={id}
+      hasCheckbox
+      hasBorder
       onChange={() => setIsOpen(!isOpen)}
     >
-      <AccordionSection severity={memoizedGrape.severity} isOpen={isOpen}>
-        <Accordion.Header>
-          <Accordion.Label>
-            <Grid>
-              <div id="container">
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: appTheme.space.xs,
-                  }}
-                >
-                  <FieldArray name="observations">
-                    {({ push, remove }: ArrayHelpers) => (
-                      <GrapeCheckbox
-                        push={push}
-                        remove={remove}
-                        grapeObservations={memoizedGrape.observations}
-                      />
-                    )}
-                  </FieldArray>
-                  <TitleIcon color={getSeverityColor(memoizedGrape.severity)} />
-                  <LG
-                    isBold
-                    {...(isOpen && {
-                      style: {
-                        color: appTheme.palette.blue[600],
-                      },
-                    })}
-                  >
-                    {memoizedGrape.title}
-                  </LG>
-                </div>
-                <div style={{ marginLeft: appTheme.space.xxl }}>
-                  <Tag
-                    isPill
-                    size="large"
-                    hue={getBgColor(memoizedGrape.severity)}
-                  >
-                    <ObservationIcon
-                      color={getSeverityColor(memoizedGrape.severity)}
-                      style={{
-                        width: appTheme.space.base * 4,
-                        height: appTheme.space.base * 4,
-                        marginRight: appTheme.space.xxs,
-                      }}
-                    />
-                    <MD isBold color={getSeverityColor(memoizedGrape.severity)}>
-                      {`${memoizedGrape.severity}${
-                        memoizedGrape.severityFrequencies[
-                          memoizedGrape.severity
-                        ] > 1
-                          ? 's'
-                          : ''
-                      } `}
-                      {memoizedGrape.severityFrequencies[
-                        memoizedGrape.severity
-                      ] &&
-                        ` (${
-                          memoizedGrape.severityFrequencies[
-                            memoizedGrape.severity
-                          ]
-                        })`}
-                    </MD>
-                  </Tag>
-                  <MD
-                    isBold
-                    color={appTheme.palette.grey[700]}
-                    style={{
-                      display: 'inline',
-                      marginRight: appTheme.space.sm,
-                    }}
-                  >
-                    {memoizedGrape.severityFrequencies[memoizedGrape.severity]
-                      ? `/${memoizedGrape.observations.length} tot.`
-                      : `${memoizedGrape.observations.length} obs.`}
-                  </MD>
-                  <Pipe />
-                  <Tag size="large" isPill>
-                    <UserIcon
-                      color={appTheme.palette.grey[600]}
-                      style={{
-                        width: appTheme.space.base * 5,
-                        height: appTheme.space.base * 5,
-                        marginRight: appTheme.space.xxs,
-                      }}
-                    />
-                    <MD>
-                      Users:{' '}
-                      <strong
-                        style={{ fontWeight: appTheme.fontWeights.semibold }}
-                      >
-                        {memoizedGrape.usersNumber}
-                      </strong>
-                    </MD>
-                  </Tag>
-                </div>
-              </div>
-            </Grid>
-          </Accordion.Label>
-        </Accordion.Header>
-        <Accordion.Panel>
+      <AccordionNewSection severity={memoizedGrape.severity} isOpen={isOpen}>
+        <FieldArray name="observations">
+          {({ push, remove }: ArrayHelpers) => (
+            <AccordionHeader
+              push={push}
+              remove={remove}
+              grape={memoizedGrape}
+            />
+          )}
+        </FieldArray>
+
+        <AccordionNew.Panel>
           <Divider style={{ marginBottom: appTheme.space.md }} />
           <CardGrid>
             {memoizedGrape.observations.map((observation) => (
               <ObservationCard key={observation.id} observation={observation} />
             ))}
           </CardGrid>
-        </Accordion.Panel>
-      </AccordionSection>
-    </Accordion>
+        </AccordionNew.Panel>
+      </AccordionNewSection>
+    </AccordionNew>
   );
 };

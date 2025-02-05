@@ -224,14 +224,13 @@ export const Navigation = ({
     dispatch(setProfileModalOpen(false));
   };
 
-  if (!activeWorkspace) return <NoActiveWorkSpaceState />;
-
   if (isLoadingPrefs) {
     return <Skeleton />;
   }
   if (isError || !preferences) {
     return null;
   }
+  if (!activeWorkspace) return <NoActiveWorkSpaceState />;
   return (
     <>
       <Header

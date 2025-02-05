@@ -4,6 +4,7 @@ import {
   Skeleton,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
@@ -18,6 +19,9 @@ export const ProjectDropdown = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const canAccessWorkspace = useCanAccessToActiveWorkspace();
   const { project, projectLocked } = useAppSelector((state) => state.express);
+
+  const isProjectPage = useLocation().pathname.includes('/projects/');
+  const { projectId } = useParams();
 
   // Get workspaces projects from rtk query
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
@@ -56,6 +60,7 @@ export const ProjectDropdown = () => {
           id: prj.id.toString(),
           value: prj.id.toString(),
           label: prj.name,
+          isSelected: isProjectPage && projectId === prj.id.toString(),
         }))}
         placeholder={t('__WIZARD_EXPRESS_DEFAULT_ITEM')}
       />

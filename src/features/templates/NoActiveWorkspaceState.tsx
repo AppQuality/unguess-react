@@ -46,17 +46,6 @@ export const NoActiveWorkSpaceState = () => {
           <MD>{t('__PAGE_NOT_ACCESIBLE_DESCRIPTION')}</MD>
           <ButtonWrapper>
             <Button
-              isAccent
-              isPrimary
-              style={{ flex: 1 }}
-              color={appTheme.palette.kale[600]}
-              onClick={async () => {
-                await WPAPI.logout();
-              }}
-            >
-              {t('__PAGE_NOT_ACCESIBLE_BUTTON_LOGOUT')}
-            </Button>
-            <Button
               isBasic
               color={appTheme.palette.blue[600]}
               style={{ flex: 1 }}
@@ -66,6 +55,17 @@ export const NoActiveWorkSpaceState = () => {
               }}
             >
               {t('__PAGE_NOT_ACCESIBLE_BUTTON_GET_HELP')}
+            </Button>
+            <Button
+              isAccent
+              isPrimary
+              style={{ flex: 1 }}
+              color={appTheme.palette.kale[600]}
+              onClick={async () => {
+                await WPAPI.logout();
+              }}
+            >
+              {t('__PAGE_NOT_ACCESIBLE_BUTTON_LOGOUT')}
             </Button>
           </ButtonWrapper>
         </div>

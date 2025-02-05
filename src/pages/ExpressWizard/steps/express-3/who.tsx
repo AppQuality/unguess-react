@@ -17,9 +17,7 @@ import { FormikProps } from 'formik';
 import { t } from 'i18next';
 import { useState } from 'react';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as TranslationIcon } from 'src/assets/icons/translation-icon.svg';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-icon.svg';
-import { ReactComponent as WorldIcon } from 'src/assets/icons/world-icon.svg';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
@@ -51,26 +49,12 @@ const StyledTag = styled(Tag)`
 `;
 
 const UsersTags = () => (
-  <>
-    <StyledTag size="large">
-      <StyledTag.Avatar>
-        <UsersIcon />
-      </StyledTag.Avatar>
-      <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS')}</Span>
-    </StyledTag>
-    <StyledTag size="large">
-      <StyledTag.Avatar>
-        <TranslationIcon />
-      </StyledTag.Avatar>
-      <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS_LOCATION')}</Span>
-    </StyledTag>
-    <StyledTag size="large">
-      <StyledTag.Avatar>
-        <WorldIcon />
-      </StyledTag.Avatar>
-      <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS_LANGUAGE')}</Span>
-    </StyledTag>
-  </>
+  <StyledTag size="large">
+    <StyledTag.Avatar>
+      <UsersIcon />
+    </StyledTag.Avatar>
+    <Span>{t('__EXPRESS_3_WIZARD_STEP_WHO_TAG_USERS')}</Span>
+  </StyledTag>
 );
 
 interface RadioItem {
@@ -88,6 +72,10 @@ export const WhoStep = ({
   const [gender, setGender] = useState(values.gender);
   const [literacy, setLiteracy] = useState(values.digital_literacy);
 
+  const handleLanguageClick = (value: string) => {
+    props.setFieldValue('campaign_language', value);
+  };
+
   const handleAgeClick = (value: string) => {
     setAge(value);
     props.setFieldValue('age_range', value);
@@ -103,6 +91,24 @@ export const WhoStep = ({
     props.setFieldValue('digital_literacy', value);
   };
 
+  const languages = [
+    {
+      label: t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_IT'),
+      value: 'it',
+    },
+    {
+      label: t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_EN'),
+      value: 'en',
+    },
+    {
+      label: t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_ES'),
+      value: 'es',
+    },
+    {
+      label: t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_FR'),
+      value: 'fr',
+    },
+  ];
   const ageRanges = ['18-24', '25-34', '35-54', '55-70'];
   const genders: RadioItem[] = [
     { label: t('__EXPRESS_3_WIZARD_STEP_WHO_GENDER_MALE'), value: 'male' },
@@ -149,6 +155,35 @@ export const WhoStep = ({
         <Paragraph>
           {t('__EXPRESS_3_WIZARD_STEP_WHO_DEMOGRAPHICS_CRITERIA_DESCRIPTION')}
         </Paragraph>
+      </StyledFormField>
+
+      {/* Language Radio buttons */}
+      <StyledFormField>
+        <Label>
+          {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}
+          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
+        </Label>
+        {languages.map((lang: RadioItem) => (
+          <Row>
+            <WizardCol>
+              <StyledRadioField>
+                <Radio
+                  {...props.getFieldProps('campaign_language')}
+                  {...(errors.campaign_language && { validation: 'error' })}
+                  value={lang.value}
+                  checked={values.campaign_language === lang.value}
+                  onChange={(e) => handleLanguageClick(e.target.value)}
+                >
+                  <Label isRegular>{lang.label}</Label>
+                </Radio>
+              </StyledRadioField>
+            </WizardCol>
+          </Row>
+        ))}
+
+        {errors.campaign_language && (
+          <Message validation="error">{errors.campaign_language}</Message>
+        )}
       </StyledFormField>
 
       {/* Age ranges Radio buttons */}

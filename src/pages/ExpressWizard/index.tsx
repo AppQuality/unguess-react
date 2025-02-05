@@ -54,6 +54,8 @@ import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import * as Yup from 'yup';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useNavigate } from 'react-router-dom';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { getPlatform } from './getPlatform';
 import {
@@ -136,9 +138,11 @@ export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const formRef = useRef<FormikProps<{}>>(null);
+  const navigate = useNavigate();
   const [stepperTitle, setStepperTitle] = useState('');
   const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
+  const projRoute = useLocalizeRoute(`projects/${project?.id}`);
   const { activeWorkspace } = useActiveWorkspace();
   const {
     isWizardOpen,
@@ -161,7 +165,6 @@ export const ExpressWizardContainer = () => {
   const expressTypeData = extractStrapiData(data);
   const expressTypeMeta = extractStrapiData(expressTypeData.express);
 
-  const [formValues, setFormValues] = useState<WizardModel>(defaultValues);
   const [activeStep, setStep] = useState<number>(0);
   const [isThankyou, setThankyou] = useState<boolean>(false);
   const [createCampaign] = usePostCampaignsMutation();
@@ -204,22 +207,11 @@ export const ExpressWizardContainer = () => {
     }
   };
 
-  useEffect(() => {
-    setStepperTitle(
-      t('__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE')
-        .replace('{current_step}', (activeStep + 1).toString())
-        .replace('{total_steps}', steps.length.toString())
-    );
-  }, [activeStep]);
-
   // Form actions
   const handleSubmit = async (
     values: WizardModel,
     { setSubmitting, setStatus }: FormikHelpers<WizardModel>
   ) => {
-    // Save submitted form values
-    setFormValues(values);
-
     const projectHandle = async () => {
       // Create project if it doesn't exist
       if (
@@ -357,14 +349,54 @@ export const ExpressWizardContainer = () => {
 
       // Send error to GTM
       sendGTMEvent({
-        event: 'generic_error',
-        content: JSON.stringify(e),
+        action: 'express_error',
+        event: 'express_navigation',
+        category: expressTypeMeta.slug,
+        content: '',
       });
     }
   };
 
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
-  const closeExpressWizard = () => setShowDiscardChangesModal(true);
+  const closeExpressWizard = () => {
+    if (isWizardOpen) {
+      if (isThankyou) {
+        dispatch(closeDrawer());
+        dispatch(closeWizard());
+        dispatch(resetWizard());
+        navigate(projRoute);
+      } else {
+        setShowDiscardChangesModal(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (isWizardOpen) {
+      setStepperTitle(
+        t('__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE')
+          .replace('{current_step}', (activeStep + 1).toString())
+          .replace('{total_steps}', steps.length.toString())
+      );
+
+      sendGTMEvent({
+        action: '',
+        event: 'express_navigation',
+        category: expressTypeMeta.slug,
+        content: `express_step_${activeStep + 1}_of_${steps.length}`,
+      });
+    }
+  }, [isWizardOpen, activeStep]);
+
+  useEffect(() => {
+    if (isWizardOpen && isThankyou)
+      sendGTMEvent({
+        action: 'express_end',
+        event: 'express_navigation',
+        category: expressTypeMeta.slug,
+        content: 'thank_you_page',
+      });
+  }, [isWizardOpen, isThankyou]);
 
   return isWizardOpen ? (
     <>
@@ -480,6 +512,12 @@ export const ExpressWizardContainer = () => {
               formRef.current?.resetForm();
             }
             toggleChat(true);
+            sendGTMEvent({
+              action: 'express_close',
+              event: 'express_navigation',
+              category: expressTypeMeta.slug,
+              content: '',
+            });
           }}
         />
       )}

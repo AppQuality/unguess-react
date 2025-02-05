@@ -1,5 +1,5 @@
 import {
-  Accordion,
+  AccordionNew,
   Col,
   ContainerCard,
   Grid,
@@ -75,27 +75,26 @@ export const GoalCard = ({
       </CardContent>
 
       <Divider />
-      <Accordion level={4}>
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label
-              style={{ padding: 0, color: appTheme.palette.grey[800] }}
-            >
-              {t('__CAMPAIGN_PAGE_UX_QUESTION_ACCORDION_TITLE')}
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: 0 }}>
+      <AccordionNew level={4}>
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t('__CAMPAIGN_PAGE_UX_QUESTION_ACCORDION_TITLE')}
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             <CircleList>
               {data.questions &&
+                data.questions.length > 0 &&
                 data.questions.map((question) => (
                   <CircleList.Item>
                     <MD isBold>{question.text}</MD>
                   </CircleList.Item>
                 ))}
             </CircleList>
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
     </WidgetSpecialCard>
   );
 };

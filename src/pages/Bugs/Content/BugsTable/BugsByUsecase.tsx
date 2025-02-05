@@ -1,4 +1,4 @@
-import { Accordion, MD } from '@appquality/unguess-design-system';
+import { AccordionNew, MD } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
@@ -57,7 +57,7 @@ export const BugsByUsecase = ({
 
   return (
     <Wrapper isFetching={isFetching}>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={Array.from(bugsByUseCases, (_, i) => i)}
         isExpandable
@@ -69,12 +69,9 @@ export const BugsByUsecase = ({
               campaignId={campaignId}
               key={item.useCase.id}
               title={
-                <>
-                  {item.useCase?.id === -1
-                    ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
-                    : item.useCase.title.full}
-                  <MD tag="span">{` (${item.bugs.length})`}</MD>
-                </>
+                item.useCase?.id === -1
+                  ? t('__BUGS_PAGE_NO_USECASE', 'Not a specific use case')
+                  : `${item.useCase.title.full} (${item.bugs.length})`
               }
               item={item}
               footer={
@@ -113,7 +110,7 @@ export const BugsByUsecase = ({
             )}
           </>
         )}
-      </Accordion>
+      </AccordionNew>
     </Wrapper>
   );
 };
