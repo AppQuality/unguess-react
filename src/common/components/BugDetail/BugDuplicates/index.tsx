@@ -1,7 +1,6 @@
 import { Button, AccordionNew } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 import { useBugPreviewContext } from 'src/pages/Bugs/Content/context/BugPreviewContext';
 import { useSiblings } from './useSiblings';
 import { BugDuplicatesList } from './BugDuplicatesList';
