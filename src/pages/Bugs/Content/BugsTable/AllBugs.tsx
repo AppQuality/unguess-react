@@ -2,7 +2,10 @@ import { appTheme } from 'src/app/theme';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { styled } from 'styled-components';
 import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
-import { InfoRow } from './components/InfoRow';
+import { AccordionNew } from '@appquality/unguess-design-system';
+import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
+import { t } from 'i18next';
+import { InfoRowMeta } from './components/InfoRowMeta';
 import AllBugsTable from './components/SingleGroupTable';
 import BugCards from './components/BugCards';
 import { useBugs } from './hooks/useBugs';
@@ -33,6 +36,9 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
   });
   const { allBugs: bugs } = data;
 
+  const filterBy = getSelectedFiltersIds();
+  const totalBugs = bugs.length ?? 0;
+
   if (isLoading || isError) {
     return <LoadingState />;
   }
@@ -44,12 +50,33 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
   return (
     <Wrapper isFetching={isFetching}>
       <Reccomendation suggestion={suggestions?.suggestion} />
-      <InfoRow bugs={bugs} />
-      {isMdBreakpoint ? (
-        <BugCards bugs={bugs} />
-      ) : (
-        <AllBugsTable campaignId={campaignId} item={{ bugs }} />
-      )}
+      <AccordionNew level={2}>
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={
+                filterBy?.unique && filterBy.unique === 'unique'
+                  ? t('__BUGS_PAGE_TABLE_HEADER_UNIQUE_BUGS_COUNTER', {
+                      uniqueBugs: totalBugs,
+                    })
+                  : t('__BUGS_PAGE_TABLE_HEADER_WITH_DUPLICATED_BUGS_COUNTER', {
+                      uniqueBugs: totalBugs,
+                    })
+              }
+            />
+            <AccordionNew.Meta>
+              <InfoRowMeta bugs={bugs} />
+            </AccordionNew.Meta>
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
+            {isMdBreakpoint ? (
+              <BugCards bugs={bugs} />
+            ) : (
+              <AllBugsTable campaignId={campaignId} item={{ bugs }} />
+            )}
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
     </Wrapper>
   );
 };
