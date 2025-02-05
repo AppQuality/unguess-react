@@ -1,10 +1,4 @@
-import {
-  Col,
-  Grid,
-  Row,
-  ServiceTile,
-  Tag,
-} from '@appquality/unguess-design-system';
+import { ServiceTile, Tag } from '@appquality/unguess-design-system';
 import { useAppDispatch } from 'src/app/hooks';
 import {
   openDrawer,
@@ -23,7 +17,9 @@ const AdditionalInfoTag = styled(Tag)`
     margin-right: ${({ theme }) => theme.space.xs};
   }
 `;
-const CardWrapper = styled(Grid)`
+const CardWrapper = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.space.md};
   z-index: ${({ theme }) => theme.levels.front};
 `;
 
@@ -43,49 +39,47 @@ const ServiceTiles = () => {
         }}
       />
       <ExpressWizardContainer />
-      <CardWrapper columns={12}>
-        <Row>
-          {data.map((template) => {
-            const icon = <img alt={template.title || ''} src={template.icon} />;
-            const superscript = template?.Price?.previous_price;
-            const outputs = (template.output || []).map((output) => {
-              const { text, iconUrl } = output;
-              return (
-                <AdditionalInfoTag
-                  key={text}
-                  color={theme.palette.grey[700]}
-                  hue="#ffff"
-                  isPill
-                  size="medium"
-                >
-                  <img src={iconUrl} alt="icon" />
-                  {text}
-                </AdditionalInfoTag>
-              );
-            });
-
+      <CardWrapper>
+        {data.map((template) => {
+          const icon = <img alt={template.title || ''} src={template.icon} />;
+          const superscript = template?.Price?.previous_price;
+          const outputs = (template.output || []).map((output) => {
+            const { text, iconUrl } = output;
             return (
-              <Col xs={3}>
-                <ServiceTile
-                  title={template.title || ''}
-                  description={template?.description || ''}
-                  background={template?.background || theme.palette.blue[700]}
-                  price={template?.Price?.price || '-'}
-                  icon={icon}
-                  superscript={superscript?.length ? superscript : undefined}
-                  isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
-                  additionalInfo={
-                    <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
-                  }
-                  onClick={() => {
-                    dispatch(setExpressTypeId(template.expressId));
-                    dispatch(openDrawer());
-                  }}
-                />
-              </Col>
+              <AdditionalInfoTag
+                key={text}
+                color={theme.palette.grey[700]}
+                hue="#ffff"
+                isPill
+                size="medium"
+              >
+                <img src={iconUrl} alt="icon" />
+                {text}
+              </AdditionalInfoTag>
             );
-          })}
-        </Row>
+          });
+
+          return (
+            <div style={{ flex: 1 }}>
+              <ServiceTile
+                title={template.title || ''}
+                description={template?.description || ''}
+                background={template?.background || theme.palette.blue[700]}
+                price={template?.Price?.price || '-'}
+                icon={icon}
+                superscript={superscript?.length ? superscript : undefined}
+                isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
+                additionalInfo={
+                  <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
+                }
+                onClick={() => {
+                  dispatch(setExpressTypeId(template.expressId));
+                  dispatch(openDrawer());
+                }}
+              />
+            </div>
+          );
+        })}
       </CardWrapper>
     </>
   );
