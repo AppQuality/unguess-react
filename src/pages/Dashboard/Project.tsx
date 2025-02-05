@@ -11,6 +11,7 @@ import {
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { useGetProjectWithWorkspaceQuery } from 'src/features/api/customEndpoints/getProjectWithWorkspace';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { appTheme } from 'src/app/theme';
 import { Project as IProject } from 'src/features/api';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
@@ -21,6 +22,7 @@ import {
   setWorkspace,
 } from '../../features/navigation/navigationSlice';
 import { EmptyProjectOrArchive } from './empty-state';
+import { LaunchCampaignCards } from './LaunchCampaignCards';
 
 const Items = ({
   project,
@@ -41,10 +43,11 @@ const Items = ({
 
   if (project.campaigns_count > 0) {
     return (
-      <LayoutWrapper>
-        <Grid style={{ padding: 0 }}>
+      <LayoutWrapper style={{ paddingBottom: appTheme.space.xxl }}>
+        <Grid style={{ padding: 0, marginBottom: appTheme.space.xxl }}>
           <ProjectItems projectId={Number(project.id) || 0} />
         </Grid>
+        <LaunchCampaignCards />
       </LayoutWrapper>
     );
   }
