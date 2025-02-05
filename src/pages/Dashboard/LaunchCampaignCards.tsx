@@ -7,6 +7,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
+import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled, { useTheme } from 'styled-components';
 
@@ -19,7 +20,9 @@ const LaunchCampaignCards = () => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
+  const { data } = useActiveWorkspaceProjects();
 
+  if (!data) return null;
   if (!hasFeatureFlag('express')) return null;
 
   return (
