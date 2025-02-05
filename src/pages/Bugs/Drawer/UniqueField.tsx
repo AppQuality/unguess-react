@@ -3,7 +3,6 @@ import {
   FormField as Field,
   MD,
   Radio,
-  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
