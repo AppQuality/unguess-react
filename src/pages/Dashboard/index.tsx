@@ -32,7 +32,7 @@ const Dashboard = () => {
 
             sendGTMEvent({
               event: 'workspaces-action',
-              category: 'projects_dashboard',
+              category: '',
               action: 'create_project_click',
               content: `${new Date().toISOString()}`,
             });

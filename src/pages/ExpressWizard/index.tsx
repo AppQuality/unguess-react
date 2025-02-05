@@ -347,8 +347,8 @@ export const ExpressWizardContainer = () => {
       sendGTMEvent({
         action: 'express_error',
         event: 'express_navigation',
-        category: 'express',
-        content: expressTypeMeta.slug,
+        category: expressTypeMeta.slug,
+        content: '',
       });
     }
   };
@@ -367,10 +367,10 @@ export const ExpressWizardContainer = () => {
       );
 
       sendGTMEvent({
-        action: `express_step_${activeStep + 1}_of_${steps.length}`,
+        action: '',
         event: 'express_navigation',
-        category: 'express',
-        content: expressTypeMeta.slug,
+        category: expressTypeMeta.slug,
+        content: `express_step_${activeStep + 1}_of_${steps.length}`,
       });
     }
   }, [isWizardOpen, activeStep]);
@@ -380,8 +380,8 @@ export const ExpressWizardContainer = () => {
       sendGTMEvent({
         action: 'express_end',
         event: 'express_navigation',
-        category: 'express',
-        content: expressTypeMeta.slug,
+        category: expressTypeMeta.slug,
+        content: 'thank_you_page',
       });
   }, [isWizardOpen, isThankyou]);
 
@@ -502,8 +502,8 @@ export const ExpressWizardContainer = () => {
             sendGTMEvent({
               action: 'express_close',
               event: 'express_navigation',
-              category: 'express',
-              content: expressTypeMeta.slug,
+              category: expressTypeMeta.slug,
+              content: '',
             });
           }}
         />

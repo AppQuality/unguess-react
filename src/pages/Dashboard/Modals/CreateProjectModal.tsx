@@ -84,7 +84,7 @@ export const CreateProjectModal = ({
 
         sendGTMEvent({
           event: 'workspaces-action',
-          category: 'projects_dashboard',
+          category: '',
           action: 'project_creation_success',
           content: `date:${new Date().toISOString()} - ID:${
             newProject.id
