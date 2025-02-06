@@ -21,7 +21,8 @@ const AdditionalInfoTag = styled(Tag)`
 `;
 const CardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  width: 100%;
   gap: ${({ theme }) => theme.space.md};
 `;
 
