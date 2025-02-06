@@ -3,6 +3,7 @@ import {
   DropdownFieldNew as Field,
   Skeleton,
 } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
@@ -31,6 +32,15 @@ export const ProjectDropdown = () => {
   const projects = data?.items;
 
   if (!projects) return null;
+
+  useEffect(() => {
+    if (projectId) {
+      const proj = projects.find((prj) => prj.id.toString() === projectId);
+      if (proj) {
+        dispatch(setExpressProject(proj.id));
+      }
+    }
+  }, [projects]);
 
   return isLoading || isFetching ? (
     <Skeleton height="32px" width="100%" />
