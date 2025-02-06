@@ -80,7 +80,7 @@ export const AccordionHeader = ({ push, remove, grape }: Props) => {
     >
       <AccordionNew.Label label={grape.title} />
 
-      <div style={{ marginLeft: appTheme.space.xxl }}>
+      <AccordionNew.Meta>
         <Tag isPill size="large" hue={getBgColor(grape.severity)}>
           <ObservationIcon
             color={getSeverityColor(grape.severity)}
@@ -127,7 +127,7 @@ export const AccordionHeader = ({ push, remove, grape }: Props) => {
             </strong>
           </MD>
         </Tag>
-      </div>
+      </AccordionNew.Meta>
     </AccordionNew.Header>
   );
 };

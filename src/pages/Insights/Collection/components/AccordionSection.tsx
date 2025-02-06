@@ -99,6 +99,7 @@ export const Grape = ({ grape, id }: GrapeProps) => {
       id={id}
       hasCheckbox
       hasBorder
+      responsiveBreakpoint={1027}
       onChange={() => setIsOpen(!isOpen)}
     >
       <AccordionNewSection severity={memoizedGrape.severity} isOpen={isOpen}>
