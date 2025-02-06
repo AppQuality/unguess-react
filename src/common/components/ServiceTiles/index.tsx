@@ -1,5 +1,7 @@
-import { ServiceTile, Tag } from '@appquality/unguess-design-system';
+import { ServiceTile, SM, Tag } from '@appquality/unguess-design-system';
+import { t } from 'i18next';
 import { useAppDispatch } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import {
   openDrawer,
   openWizard,
@@ -18,9 +20,9 @@ const AdditionalInfoTag = styled(Tag)`
   }
 `;
 const CardWrapper = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: ${({ theme }) => theme.space.md};
-  z-index: ${({ theme }) => theme.levels.front};
 `;
 
 const ServiceTiles = () => {
@@ -60,27 +62,31 @@ const ServiceTiles = () => {
           });
 
           return (
-            <div style={{ flex: 1 }}>
-              <ServiceTile
-                title={template.title || ''}
-                description={template?.description || ''}
-                background={template?.background || theme.palette.blue[700]}
-                price={template?.Price?.price || '-'}
-                icon={icon}
-                superscript={superscript?.length ? superscript : undefined}
-                isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
-                additionalInfo={
-                  <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
-                }
-                onClick={() => {
-                  dispatch(setExpressTypeId(template.expressId));
-                  dispatch(openDrawer());
-                }}
-              />
-            </div>
+            <ServiceTile
+              title={template.title || ''}
+              description={template?.description || ''}
+              background={template?.background || theme.palette.blue[700]}
+              price={template?.Price?.price || '-'}
+              icon={icon}
+              superscript={superscript?.length ? superscript : undefined}
+              isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
+              additionalInfo={
+                <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
+              }
+              onClick={() => {
+                dispatch(setExpressTypeId(template.expressId));
+                dispatch(openDrawer());
+              }}
+            />
           );
         })}
       </CardWrapper>
+      <SM
+        color={appTheme.palette.grey[600]}
+        style={{ padding: `${appTheme.space.md} 0` }}
+      >
+        {t('__EXPRESS__SERVICE_TILES_DISCLAIMER')}
+      </SM>
     </>
   );
 };
