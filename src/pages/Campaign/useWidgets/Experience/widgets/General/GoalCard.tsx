@@ -84,7 +84,6 @@ export const GoalCard = ({
                   style={{ padding: 0, color: appTheme.palette.grey[800] }}
                   label={t('__CAMPAIGN_PAGE_UX_QUESTION_ACCORDION_TITLE')}
                 />
-                
               </AccordionNew.Header>
               <AccordionNew.Panel style={{ padding: 0 }}>
                 <CircleList>
