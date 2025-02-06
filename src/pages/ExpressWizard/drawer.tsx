@@ -65,7 +65,6 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const { isDrawerOpen, project, expressTypeId } = useAppSelector(
     (state) => state.express
   );
-
   const { data, isLoading, isError } = useGeti18nExpressTypesByIdQuery({
     id: expressTypeId?.toString() || '0',
     populate: {
