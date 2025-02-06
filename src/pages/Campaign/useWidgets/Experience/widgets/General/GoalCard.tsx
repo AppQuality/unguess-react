@@ -74,27 +74,30 @@ export const GoalCard = ({
         </Goal>
       </CardContent>
 
-      <Divider />
-      <AccordionNew level={4}>
-        <AccordionNew.Section>
-          <AccordionNew.Header>
-            <AccordionNew.Label
-              label={t('__CAMPAIGN_PAGE_UX_QUESTION_ACCORDION_TITLE')}
-            />
-          </AccordionNew.Header>
-          <AccordionNew.Panel>
-            <CircleList>
-              {data.questions &&
-                data.questions.length > 0 &&
-                data.questions.map((question) => (
-                  <CircleList.Item>
-                    <MD isBold>{question.text}</MD>
-                  </CircleList.Item>
-                ))}
-            </CircleList>
-          </AccordionNew.Panel>
-        </AccordionNew.Section>
-      </AccordionNew>
+      {data.questions && data.questions?.length > 0 && (
+        <>
+          <Divider />
+          <AccordionNew level={4}>
+            <AccordionNew.Section>
+              <AccordionNew.Header>
+                <AccordionNew.Label
+                  style={{ padding: 0, color: appTheme.palette.grey[800] }}
+                  label={t('__CAMPAIGN_PAGE_UX_QUESTION_ACCORDION_TITLE')}
+                />
+              </AccordionNew.Header>
+              <AccordionNew.Panel style={{ padding: 0 }}>
+                <CircleList>
+                  {data.questions.map((question) => (
+                    <CircleList.Item>
+                      <MD isBold>{question.text}</MD>
+                    </CircleList.Item>
+                  ))}
+                </CircleList>
+              </AccordionNew.Panel>
+            </AccordionNew.Section>
+          </AccordionNew>
+        </>
+      )}
     </WidgetSpecialCard>
   );
 };
