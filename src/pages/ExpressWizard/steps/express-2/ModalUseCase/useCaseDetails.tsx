@@ -227,14 +227,14 @@ export const UseCaseDetails = ({
                   marginBottom: appTheme.space.md,
                 }}
               />
-              <InlineRow>
+              <div>
+                <InfoIcon className="authentication-info-button" />
                 <Paragraph>
                   {t(
                     '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LOGGED_FIELD_DESCRIPTION'
                   )}
                 </Paragraph>
-                <InfoIcon className="authentication-info-button" />
-              </InlineRow>
+              </div>
             </>
           ) : null}
         </StyledFormField>
