@@ -160,10 +160,10 @@ export const ModalUseCaseTabLayout = ({
                 >
                   <CardTitle>
                     {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
+                      '__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
                     )}{' '}
+                    {index + 1}
                   </CardTitle>
-                  {index + 1}
                 </UseCaseCard>
               ))}
             {use_cases && use_cases.length < EXPRESS_USE_CASES_LIMIT && (
@@ -195,7 +195,7 @@ export const ModalUseCaseTabLayout = ({
                 <CardTitle>
                   {t(
                     '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
-                  )}{' '}
+                  )}
                 </CardTitle>
               </UseCaseCard>
             )}
