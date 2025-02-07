@@ -18,7 +18,7 @@ import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import {
-  CampaignWithOutput,
+  GetCampaignsByCidApiResponse,
   useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
@@ -86,7 +86,11 @@ const FooterContainer = styled.div`
   }
 `;
 
-export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
+export const Metas = ({
+  campaign,
+}: {
+  campaign: GetCampaignsByCidApiResponse;
+}) => {
   const { status } = campaign;
   const { campaignId } = useParams();
   const [totalVideos, setTotalVideos] = useState<number>(0);
@@ -241,7 +245,7 @@ export const Metas = ({ campaign }: { campaign: CampaignWithOutput }) => {
         <StatusMeta status={status.name as CampaignStatus} />
       </PageMeta>
       <ButtonWrapper>
-        <CampaignSettings />
+        {!campaign.isArchived && <CampaignSettings />}
         <>
           <MD color={appTheme.palette.blue[600]}>
             {' '}

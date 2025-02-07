@@ -22,7 +22,7 @@ const values: WizardModel = {
   isIOS: false,
   isAndroid: false,
   link: '',
-  campaign_language: '',
+  campaign_language: 'it',
   test_description: '',
   use_cases: [],
   campaign_date: new Date(),

@@ -11,29 +11,31 @@ import {
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import {
   closeDrawer,
   closeWizard,
   resetWizard,
 } from 'src/features/express/expressSlice';
 import { ReactComponent as SuccessIcon } from 'src/assets/wizard-success.svg';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { useNavigate } from 'react-router-dom';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Container } from '../wizardHeader';
 
-export const ThankYouStep = ({ values }: { values: WizardModel }) => {
+export const ThankYouStep = () => {
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
+  const { project } = useAppSelector((state) => state.express);
+  const projRoute = useLocalizeRoute(`projects/${project?.id}`);
   const handleClose = () => {
     dispatch(closeDrawer());
     dispatch(closeWizard());
     dispatch(resetWizard());
-
+    navigate(projRoute);
     // Refetch the data
-    window.location.reload();
   };
 
   return (
@@ -65,14 +67,15 @@ export const ThankYouStep = ({ values }: { values: WizardModel }) => {
                 <Col size={12} textAlign="center">
                   <XXL
                     isBold
-                    style={{ color: appTheme.components.text.primaryColor }}
+                    style={{
+                      color: appTheme.components.text.primaryColor,
+                      marginBottom: theme.space.xs,
+                    }}
                   >
                     {t('__EXPRESS_WIZARD_STEP_THANK_YOU_TITLE')}
                   </XXL>
                   <MD style={{ color: theme.palette.grey[600] }}>
-                    {values.use_cases
-                      ? t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE_USE_CASES')
-                      : t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE')}
+                    {t('__EXPRESS_WIZARD_STEP_THANK_YOU_SUBTITLE')}
                   </MD>
                 </Col>
               </Row>

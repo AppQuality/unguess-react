@@ -1,7 +1,7 @@
 import { SM, Transcript, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { Tools } from '../tools';
@@ -62,7 +62,7 @@ export const Header = ({
           <div>
             <Transcript.Search editor={editor} />
           </div>
-          {hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION) && <Tools />}
+          {hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL) && <Tools />}
         </ActionsWrapper>
       ) : null}
       <TranslationLoader />

@@ -27,7 +27,7 @@ export class UnguessPage {
   }
 
   async mockWorkspace() {
-    await this.page.route('*/**/api/workspaces/38', async (route) => {
+    await this.page.route('*/**/api/workspaces/1', async (route) => {
       await route.fulfill({
         path: 'tests/api/workspaces/wid/_get/200_demo_internal.json',
       });
@@ -49,6 +49,22 @@ export class UnguessPage {
     await this.page.route('*/**/api/users/me/preferences', async (route) => {
       await route.fulfill({
         path: 'tests/api/preferences/_get/200_Example_1.json',
+      });
+    });
+  }
+
+  async mockFunctionalCampaign() {
+    await this.page.route('*/**/api/campaigns/4997', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/campaigns/cid/_get/200_Bughunting.json',
+      });
+    });
+  }
+
+  async mockExperientialCampaign() {
+    await this.page.route('*/**/api/campaigns/1', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/campaigns/cid/_get/200_Example_1.json',
       });
     });
   }

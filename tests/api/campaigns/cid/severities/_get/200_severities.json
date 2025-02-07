@@ -1,0 +1,18 @@
+[
+  {
+    "id": 4,
+    "name": "CRITICAL"
+  },
+  {
+    "id": 3,
+    "name": "HIGH"
+  },
+  {
+    "id": 2,
+    "name": "MEDIUM"
+  },
+  {
+    "id": 1,
+    "name": "LOW"
+  }
+]

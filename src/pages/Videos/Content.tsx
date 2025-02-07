@@ -1,11 +1,13 @@
 import {
-  Accordion,
+  AccordionNew,
   Col,
   Grid,
   Row,
   Skeleton,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
+import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -13,19 +15,9 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
 import { Empty } from './Empty';
-import { InfoRow } from './parts/InfoRow';
 import { VideoContainer } from './parts/VideoContainer';
 import { Wrapper } from './parts/Wrapper';
 import { useVideos } from './useVideos';
-
-const StyledAccordionLabel = styled(Accordion.Label)`
-  padding: 0;
-`;
-const StyledAccordionHeader = styled(Accordion.Header)`
-  svg {
-    padding: ${({ theme }) => theme.space.xs};
-  }
-`;
 
 const AccordionFooter = styled.div`
   display: flex;
@@ -71,22 +63,35 @@ const VideosPageContent = () => {
             <Row>
               <Col>
                 <Wrapper isFetching={isFetching}>
-                  <Accordion
+                  <AccordionNew
                     level={3}
                     isExpandable
                     isBare
                     defaultExpandedSections={[]}
                   >
                     {usecases.map((uc) => (
-                      <Accordion.Section
-                        style={{ marginBottom: appTheme.space.lg }}
-                      >
-                        <StyledAccordionHeader>
-                          <StyledAccordionLabel>
-                            <InfoRow uc={uc} />
-                          </StyledAccordionLabel>
-                        </StyledAccordionHeader>
-                        <Accordion.Panel style={{ padding: 0 }}>
+                      <AccordionNew.Section>
+                        <AccordionNew.Header>
+                          <AccordionNew.Label
+                            label={`${uc.usecase.title.full} `}
+                          />
+                          <AccordionNew.Meta>
+                            <Tag
+                              isPill
+                              hue={appTheme.palette.blue[100]}
+                              size="large"
+                            >
+                              <Tag.Avatar>
+                                <PlayIcon color={appTheme.palette.grey[600]} />
+                              </Tag.Avatar>
+                              {t('__VIDEOS_LIST_META_LABEL', 'Videos')}:
+                              <Tag.SecondaryText>
+                                {uc.videos.total}
+                              </Tag.SecondaryText>
+                            </Tag>
+                          </AccordionNew.Meta>
+                        </AccordionNew.Header>
+                        <AccordionNew.Panel>
                           {!!uc.videos.desktop.length && (
                             <VideoContainer
                               title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
@@ -120,10 +125,10 @@ const VideosPageContent = () => {
                               percentage={uc.usecase.completion}
                             />
                           </AccordionFooter>
-                        </Accordion.Panel>
-                      </Accordion.Section>
+                        </AccordionNew.Panel>
+                      </AccordionNew.Section>
                     ))}
-                  </Accordion>
+                  </AccordionNew>
                 </Wrapper>
               </Col>
             </Row>

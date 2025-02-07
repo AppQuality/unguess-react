@@ -1,5 +1,5 @@
 import * as dateFns from 'date-fns';
-import { enGB, it } from 'date-fns/locale';
+import { enGB, it, es, fr } from 'date-fns/locale';
 import { t } from 'i18next';
 import { RELATIVE_DATE_FORMAT_OPTS } from 'src/constants';
 
@@ -23,6 +23,16 @@ export const getLanguage = (lang: string): Language => {
       label = t('__APP_LANGUANGE_IT_TEXT');
       locale = it;
       relativeDateFormat = RELATIVE_DATE_FORMAT_OPTS.it;
+      break;
+    case 'es':
+      label = t('__APP_LANGUANGE_ES_TEXT');
+      locale = es;
+      relativeDateFormat = RELATIVE_DATE_FORMAT_OPTS.en;
+      break;
+    case 'fr':
+      label = t('__APP_LANGUANGE_FR_TEXT');
+      locale = fr;
+      relativeDateFormat = RELATIVE_DATE_FORMAT_OPTS.en;
       break;
     default:
       label = t('__APP_LANGUANGE_EN_TEXT');

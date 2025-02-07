@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { FEATURE_FLAG_AI_TRANSLATION } from 'src/constants';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import {
   GetVideosByVidTranslationApiResponse,
@@ -23,7 +23,7 @@ export const useTranslationTools = () => {
   });
 
   const { hasFeatureFlag } = useFeatureFlag();
-  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_AI_TRANSLATION);
+  const hasAIFeatureFlag = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
   const preferredLanguage = usePreferredLanguage();
   const { language } = useToolsContext();
 

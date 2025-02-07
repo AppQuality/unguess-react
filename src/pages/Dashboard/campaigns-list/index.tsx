@@ -1,19 +1,14 @@
-import {
-  Col,
-  IconButton,
-  Row,
-  Span,
-  TextDescription,
-  theme,
-} from '@appquality/unguess-design-system';
+import { Col, IconButton, Row, theme } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as GridIcon } from 'src/assets/icons/grid.svg';
 import { ReactComponent as ListIcon } from 'src/assets/icons/list.svg';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
+import { SectionTitle } from 'src/common/components/SectionTitle';
+import { appTheme } from 'src/app/theme';
 import { Separator } from '../Separator';
-import { EmptyResults } from '../emptyState';
+import { EmptyResults } from '../empty-state/EmptyResults';
 import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
@@ -43,21 +38,18 @@ export const CampaignsList = () => {
       <Row
         alignItems="center"
         style={{
-          marginTop: `${theme.space.base * 8}px`,
+          marginTop: theme.space.md,
           marginBottom: theme.space.xxs,
         }}
       >
-        <Col xs={12} md={8}>
-          <Span>
-            <TextDescription>
-              {`${t(
-                '__DASHABOARD_TOTAL_CAMPAIGN_COUNTER MAX:5'
-              ).toUpperCase()} (${campaignsCount})`}
-            </TextDescription>
-          </Span>
+        <Col xs={12} md={8} style={{ marginBottom: 0 }}>
+          <SectionTitle
+            title={t('__DASHABOARD_TOTAL_CAMPAIGN_TITLE')}
+            subtitle={t('__DASHABOARD_TOTAL_CAMPAIGN_SUBTITLE')}
+          />
         </Col>
         {width >= breakpointMd && (
-          <Col md={4}>
+          <Col md={4} style={{ marginBottom: 0 }}>
             <FloatRight>
               <IconButton
                 isPill
@@ -78,9 +70,8 @@ export const CampaignsList = () => {
           </Col>
         )}
       </Row>
-      <Separator style={{ marginTop: '0', marginBottom: theme.space.sm }} />
+      <Separator style={{ margin: `${appTheme.space.md} 0` }} />
       <Filters />
-
       {campaignsCount > 0 && viewType === 'list' && <TableList />}
       {campaignsCount > 0 && viewType === 'grid' && <CardList />}
       {!campaignsCount && <EmptyResults />}

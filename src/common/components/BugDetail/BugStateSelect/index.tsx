@@ -1,5 +1,6 @@
 import { Select, Separator } from '@appquality/unguess-design-system';
 import React, { useMemo } from 'react';
+import { appTheme } from 'src/app/theme';
 import { Circle } from 'src/common/components/CustomStatusDrawer/Circle';
 import styled from 'styled-components';
 
@@ -40,7 +41,12 @@ const BugStateSelect = ({
             <Select.Option
               key={status.id}
               value={status.id.toString()}
-              icon={<Circle color={status.color} />}
+              icon={
+                <Circle
+                  color={status.color}
+                  style={{ margin: `auto ${appTheme.space.xs} auto 0` }}
+                />
+              }
               label={ToTileCase(status.name)}
             />
           ))}

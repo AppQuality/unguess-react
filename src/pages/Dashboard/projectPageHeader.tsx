@@ -1,30 +1,27 @@
 import {
-  Button,
   InputToggle,
+  LG,
   Message,
+  Notification,
   PageHeader,
   Skeleton,
   useToast,
-  Notification,
   XXXL,
-  LG,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'src/app/hooks';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { FEATURE_FLAG_SKY_JOTFORM } from 'src/constants';
-import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import {
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
 } from 'src/features/api';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { appTheme } from 'src/app/theme';
 import { Counters } from './Counters';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
@@ -45,12 +42,12 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 `;
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
+  type AnalyticsType = 'ChangeDescription' | 'ChangeTitle';
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { addToast } = useToast();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
-  const { hasFeatureFlag } = useFeatureFlag();
   const { status } = useAppSelector((state) => state.user);
   const [itemTitle, setItemTitle] = useState<string>();
   const [itemDescription, setItemDescription] = useState<string>();
@@ -81,27 +78,27 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const [patchProject] = usePatchProjectsByPidMutation();
   const sendGTMEvent = useSendGTMevent();
 
-  const JOTFORM_URL = `https://form.jotform.com/220462541726351`;
-
-  const hasSkyJotformFeature = hasFeatureFlag(FEATURE_FLAG_SKY_JOTFORM);
-
-  useEffect(() => {
-    if (itemTitle) {
-      sendGTMEvent({
-        event: 'workspaces-action',
-        category: 'projects_dashboard',
-        action: 'change_name_success',
-        content: itemTitle,
-      });
+  const sendAnalyticEvents = (e: AnalyticsType) => {
+    switch (e) {
+      case 'ChangeDescription':
+        sendGTMEvent({
+          event: 'workspaces-action',
+          category: '',
+          action: 'change_description_success',
+          content: itemDescription,
+        });
+        break;
+      case 'ChangeTitle':
+        sendGTMEvent({
+          event: 'workspaces-action',
+          category: '',
+          action: 'change_name_success',
+          content: itemTitle,
+        });
+        break;
+      default:
     }
-
-    sendGTMEvent({
-      event: 'workspaces-action',
-      category: 'projects_dashboard',
-      action: 'change_description_success',
-      content: itemDescription,
-    });
-  }, [itemTitle, itemDescription]);
+  };
 
   const InputToggleMemoDescription = useMemo(
     () => (
@@ -124,6 +121,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   pid: projectId.toString(),
                   body: { description: e.currentTarget.value ?? '' },
                 }).unwrap();
+                sendAnalyticEvents('ChangeDescription');
               }
             } catch {
               // eslint-disable-next-line
@@ -164,6 +162,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   pid: projectId.toString(),
                   body: { display_name: e.currentTarget.value },
                 }).unwrap();
+                sendAnalyticEvents('ChangeTitle');
               }
             } catch {
               addToast(
@@ -206,8 +205,8 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     InputToggleMemoTitle
   );
   const descriptionContent = project?.is_archive ? (
-    <LG isBold color={appTheme.palette.grey[600]}>
-      {project.description}
+    <LG color={appTheme.palette.grey[700]}>
+      {t('__PROJECT_PAGE_ARCHIVE_DESCRIPTION')}
     </LG>
   ) : (
     InputToggleMemoDescription
@@ -223,34 +222,20 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               titleContent
             )}
           </PageHeader.Title>
+          <PageHeader.Description style={{ width: '100%' }}>
+            {isLoading || isFetching || status === 'loading' ? (
+              <Skeleton width="60%" height="44px" />
+            ) : (
+              descriptionContent
+            )}
+          </PageHeader.Description>
           {!project?.is_archive && (
-            <PageHeader.Description style={{ width: '100%' }}>
-              {isLoading || isFetching || status === 'loading' ? (
-                <Skeleton width="60%" height="44px" />
-              ) : (
-                descriptionContent
-              )}
-            </PageHeader.Description>
+            <StyledPageHeaderMeta>
+              <Counters />
+              <ProjectSettings />
+            </StyledPageHeaderMeta>
           )}
-
-          <StyledPageHeaderMeta>
-            <Counters />
-            {!project?.is_archive && <ProjectSettings />}
-          </StyledPageHeaderMeta>
         </PageHeader.Main>
-        {hasSkyJotformFeature && (
-          <PageHeader.Footer>
-            <Button
-              isPrimary
-              onClick={() => {
-                // eslint-disable-next-line security/detect-non-literal-fs-filename
-                window.open(JOTFORM_URL, '_blank')?.focus(); // disable because it's a false positive (https://github.com/nodesecurity/eslint-plugin-security/issues/26)
-              }}
-            >
-              {t('__DASHBOARD_SKY_JOTFORM_LAUNCH_CP_BUTTON')}
-            </Button>
-          </PageHeader.Footer>
-        )}
       </PageHeader>
     </LayoutWrapper>
   );

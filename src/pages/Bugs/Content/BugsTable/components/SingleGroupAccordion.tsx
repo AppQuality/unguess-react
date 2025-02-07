@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { selectBug } from 'src/features/bugsPage/bugsPageSlice';
-import { Accordion, Button } from '@appquality/unguess-design-system';
+import { AccordionNew, Button } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useAppDispatch } from 'src/app/hooks';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -9,18 +9,9 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as ChevronDownStroke } from '@zendeskgarden/svg-icons/src/16/chevron-down-stroke.svg';
 import { ReactComponent as ChevronUpStroke } from '@zendeskgarden/svg-icons/src/16/chevron-up-stroke.svg';
 import { BugByStateType, BugByUsecaseType } from '../types';
-import { InfoRow } from './InfoRow';
+import { InfoRowMeta } from './InfoRowMeta';
 import BugCards from './BugCards';
 import SingleGroupTable from './SingleGroupTable';
-
-const StyledAccordionLabel = styled(Accordion.Label)`
-  padding: 0;
-`;
-const StyledAccordionHeader = styled(Accordion.Header)`
-  svg {
-    padding: ${appTheme.space.xs};
-  }
-`;
 
 const AccordionFooter = styled.div`
   display: flex;
@@ -32,7 +23,7 @@ const AccordionFooter = styled.div`
 
 interface SingleGroupAccordionProps {
   campaignId: number;
-  title?: ReactNode;
+  title?: string | undefined;
   item: BugByStateType | BugByUsecaseType;
   footer?: ReactNode;
 }
@@ -58,7 +49,7 @@ const SingleGroupAccordion = ({
     if (isLgBreakpoint) dispatch(selectBug({ bug_id: undefined }));
   }, [isLgBreakpoint]);
 
-  const AccordionPanel = styled(Accordion.Panel)`
+  const AccordionPanel = styled(AccordionNew.Panel)`
     padding: 0;
     .bordered-content {
       @media (min-width: ${appTheme.breakpoints.md}) {
@@ -72,14 +63,17 @@ const SingleGroupAccordion = ({
   `;
 
   return (
-    <Accordion.Section style={{ marginBottom: appTheme.space.lg }}>
-      <StyledAccordionHeader>
-        <StyledAccordionLabel>
-          <InfoRow title={title} bugs={item.bugs} />
-        </StyledAccordionLabel>
-      </StyledAccordionHeader>
+    // the style in the AccordionNew.Section is to increase the gap between the accordions and the titles
+    <AccordionNew.Section style={{ marginBottom: appTheme.space.lg }}>
+      <AccordionNew.Header>
+        <AccordionNew.Label label={title} />
+        <AccordionNew.Meta>
+          <InfoRowMeta bugs={item.bugs} />
+        </AccordionNew.Meta>
+      </AccordionNew.Header>
       <AccordionPanel>
         <div className="bordered-content">
+          {' '}
           {isMdBreakpoint ? (
             <BugCards bugs={isPreview ? item.bugs.slice(0, 3) : item.bugs} />
           ) : (
@@ -118,7 +112,7 @@ const SingleGroupAccordion = ({
           </AccordionFooter>
         </div>
       </AccordionPanel>
-    </Accordion.Section>
+    </AccordionNew.Section>
   );
 };
 

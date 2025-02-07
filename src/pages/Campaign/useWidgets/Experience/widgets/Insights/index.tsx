@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { Campaign } from 'src/features/api';
-import { SectionTitle } from 'src/pages/Campaign/SectionTitle';
+import { SectionTitle } from 'src/common/components/SectionTitle';
 import { InsightsContent } from './Content';
 import { FiltersDropwdowns } from './filters/FiltersDropdowns';
 import { FiltersHeader } from './filters/FiltersHeader';

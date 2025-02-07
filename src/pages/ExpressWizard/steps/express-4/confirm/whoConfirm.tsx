@@ -8,6 +8,7 @@ import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { AgeRange } from './ageRange';
 import { Gender } from './gender';
 import { Digitalization } from './digitalization';
+import { Language } from './language';
 
 const StyledLabel = styled(Label)`
   font-size: ${({ theme }) => theme.fontSizes.sm};
@@ -31,6 +32,8 @@ export const WhoConfirm = (props: FormikProps<WizardModel>) => {
           <StyledLabel>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</StyledLabel>
           <StyledParagraph>
             {t('__EXPRESS_4_WIZARD_STEP_CONFIRM_WHO_TEXT')}:
+            <br />
+            <Language {...props} />
             <br />
             <AgeRange {...props} />
             <br />

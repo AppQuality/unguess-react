@@ -1,9 +1,9 @@
 import {
-  Accordion,
   MD,
   Tag,
   LG,
   Span,
+  AccordionNew,
 } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { appTheme } from 'src/app/theme';
@@ -26,19 +26,18 @@ const Insight = ({
   return (
     <>
       <Divider />
-      <Accordion
+      <AccordionNew
         level={3}
-        style={{ padding: `${appTheme.space.xxs} 0` }}
         key={`insight_accordion_${insight.id}_${isCurrent}`}
         defaultExpandedSections={isCurrent ? [0, 1] : []}
         id={`insight-accordion-${insight.id}`}
         role="listitem"
       >
-        <Accordion.Section>
-          <Accordion.Header>
+        <AccordionNew.Section>
+          <AccordionNew.Header>
             <AccordionLabel insight={insight} />
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: `0 0 0 ${appTheme.space.xxs}` }}>
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             {insight.description && (
               <div style={{ marginBottom: appTheme.space.md }}>
                 <MD
@@ -123,9 +122,9 @@ const Insight = ({
               ))}
             </div>
             <ButtonsFooter insight={insight} />
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
     </>
   );
 };

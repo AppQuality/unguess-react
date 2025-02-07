@@ -44,12 +44,4 @@ export class Insights extends UnguessPage {
       });
     });
   }
-
-  async mockCampaign() {
-    await this.page.route('*/**/api/campaigns/1', async (route) => {
-      await route.fulfill({
-        path: 'tests/api/campaigns/cid/_get/200_Example_1.json',
-      });
-    });
-  }
 }

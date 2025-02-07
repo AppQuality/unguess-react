@@ -1,0 +1,22 @@
+[
+  {
+    "id": 5,
+    "name": "highest"
+  },
+  {
+    "id": 4,
+    "name": "high"
+  },
+  {
+    "id": 3,
+    "name": "medium"
+  },
+  {
+    "id": 2,
+    "name": "low"
+  },
+  {
+    "id": 1,
+    "name": "lowest"
+  }
+]
