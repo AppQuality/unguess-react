@@ -13,6 +13,7 @@ import {
   Row,
   Span,
   Toggle,
+  XL,
   XXL,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
@@ -87,6 +88,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               Choose what kind of <Span isBold>devices</Span> do you want to
               test on
             </Trans>
+            <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
           </MD>
         </WizardCol>
       </Row>
@@ -95,6 +97,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
+        <WizardCol xs={12} style={{ marginBottom: appTheme.space.md }}>
+          <XL isBold>{t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_LABEL')}</XL>
+        </WizardCol>
         <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
             <CheckboxCard

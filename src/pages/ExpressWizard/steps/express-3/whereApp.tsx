@@ -88,6 +88,7 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
             <Trans i18nKey="__EXPRESS_3_WIZARD_STEP_WHERE_SUBTITLE">
               Choose a <Span isBold>device</Span> you want to test on
             </Trans>
+            <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
           </MD>
         </WizardCol>
       </Row>
@@ -96,6 +97,9 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
+        <WizardCol xs={12} style={{ marginBottom: appTheme.space.md }}>
+          <XL isBold>{t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_LABEL')}</XL>
+        </WizardCol>
         <WizardCol xs={12} sm={6}>
           <FormField style={{ height: '100%' }}>
             <RadioCard
