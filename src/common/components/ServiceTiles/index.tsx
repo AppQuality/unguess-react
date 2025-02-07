@@ -65,7 +65,7 @@ const ServiceTiles = () => {
           return (
             <ServiceTile
               title={template.title || ''}
-              description={template?.description || ''}
+              description={template?.campaign_type || ''}
               background={template?.background || theme.palette.blue[700]}
               price={template?.Price?.price || '-'}
               icon={icon}
