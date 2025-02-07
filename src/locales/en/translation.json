@@ -806,6 +806,7 @@
   "__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_DESCRIPTION": "We guarantee you the right balance between the devices type and browsers based on market share and usage",
   "__EXPRESS_WIZARD_STEP_WHERE_DEFAULT_BROWSER_TITLE": "Which browser will be used? we'll take care of it",
   "__EXPRESS_WIZARD_STEP_WHERE_DESCRIPTION": "Where is the campaign going to be executed?",
+  "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_LABEL": "Device",
   "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_OPERATING_SYSTEM_ERROR": "You have to select one operating system",
   "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_DESKTOP": "Desktop",
   "__EXPRESS_WIZARD_STEP_WHERE_DEVICE_TYPE_ERROR": "You have to select at least one device type",
