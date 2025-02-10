@@ -1125,6 +1125,7 @@
   "__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE": "Seleziona il progetto in cui salvare la campagna",
   "__WIZARD_EXPRESS_DEFAULT_ITEM": "Cerca o aggiungi progetto",
   "__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON": "Iniziamo!",
+  "__WIZARD_EXPRESS_FOOTER_INFO_BUTTON": "",
   "__WIZARD_EXPRESS_HEADER_TITLE": "Lancia campagna",
   "__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE": "Aggiungi uno o più test case",
   "__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON": "Invita",

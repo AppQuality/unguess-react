@@ -1092,6 +1092,7 @@
   "__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE": "Select a project where to save the campaign",
   "__WIZARD_EXPRESS_DEFAULT_ITEM": "Search or add project",
   "__WIZARD_EXPRESS_FOOTER_CONFIRM_BUTTON": "Let's go!",
+  "__WIZARD_EXPRESS_FOOTER_INFO_BUTTON": "More info",
   "__WIZARD_EXPRESS_HEADER_TITLE": "Launch campaign",
   "__WIZARD_EXPRESS_USE_CASE_MODAL_TITLE": "Add one or more test cases",
   "__WORKSPACE_SETTINGS_ADD_MEMBER_BUTTON": "Invite",
