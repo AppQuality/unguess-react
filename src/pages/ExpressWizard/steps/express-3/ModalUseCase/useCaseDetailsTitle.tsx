@@ -18,7 +18,6 @@ const UseCaseTitle = ({
 }) => {
   const { t } = useTranslation();
   const { getFieldProps, validateForm, errors } = formikProps;
-  const [title, setTitle] = useState(useCase ? useCase.title : '');
 
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
@@ -38,14 +37,16 @@ const UseCaseTitle = ({
           placeholder={t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
           )}
+          {...(useCase &&
+            useCase.title && {
+              value: useCase.title,
+            })}
           {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
           {...(useCaseErrors &&
             useCaseErrors?.title && { validation: 'error' })}
-          value={title}
           onBlur={() => {
             validateForm();
           }}
-          onChange={(e) => setTitle(e.target.value)}
         />
       </InputToggle>
       {useCaseErrors && useCaseErrors?.title && (
