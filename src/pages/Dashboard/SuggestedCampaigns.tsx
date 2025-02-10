@@ -12,6 +12,7 @@ import { appTheme } from 'src/app/theme';
 import { CampaignItem } from './CampaignItem';
 import { CardsContainer, StyledRow } from './CardContainer';
 import { CardRowLoading } from './CardRowLoading';
+import { ScrollingGridWrapper } from 'src/common/components/LayoutWrapper';
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
@@ -44,24 +45,11 @@ export const SuggestedCampaigns = () => {
           </Paragraph>
         </Col>
       </Row>
-      <CardsContainer>
-        <StyledRow>
-          {campaigns.data.items.map((campaign) => (
-            <Col
-              xs={10}
-              md={6}
-              lg={3}
-              style={{ marginBottom: appTheme.space.xxl }}
-              key={`suggested_col_${campaign.id}`}
-            >
-              <CampaignItem
-                key={`suggested_${campaign.id}`}
-                campaign={campaign}
-              />
-            </Col>
-          ))}
-        </StyledRow>
-      </CardsContainer>
+      <ScrollingGridWrapper>
+        {campaigns.data.items.map((campaign) => (
+          <CampaignItem key={`suggested_${campaign.id}`} campaign={campaign} />
+        ))}
+      </ScrollingGridWrapper>
     </>
   );
 };

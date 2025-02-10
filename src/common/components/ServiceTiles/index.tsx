@@ -12,18 +12,13 @@ import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import styled, { useTheme } from 'styled-components';
+import { ScrollingGridWrapper } from 'src/common/components/LayoutWrapper';
 
 const AdditionalInfoTag = styled(Tag)`
   img {
     width: 12px;
     margin-right: ${({ theme }) => theme.space.xs};
   }
-`;
-const CardWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  width: 100%;
-  gap: ${({ theme }) => theme.space.md};
 `;
 
 const ServiceTiles = () => {
@@ -42,7 +37,7 @@ const ServiceTiles = () => {
         }}
       />
       <ExpressWizardContainer />
-      <CardWrapper>
+      <ScrollingGridWrapper>
         {data.map((template) => {
           const icon = <img alt={template.title || ''} src={template.icon} />;
           const superscript = template?.Price?.previous_price;
@@ -81,7 +76,7 @@ const ServiceTiles = () => {
             />
           );
         })}
-      </CardWrapper>
+      </ScrollingGridWrapper>
       <SM
         color={appTheme.palette.grey[600]}
         style={{ padding: `${appTheme.space.md} 0` }}
