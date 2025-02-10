@@ -26,6 +26,7 @@ import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import * as Yup from 'yup';
+import { useEffect } from 'react';
 import { PrimarySpan, StyledRow } from './where/styled';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
@@ -36,6 +37,12 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   if (values.isAndroid) setFieldValue('isAndroid', false);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!values.withSmartphone && !values.withTablet && !values.withDesktop) {
+      setFieldValue('withSmartphone', true);
+    }
+  }, []);
 
   const handleRadioClick = (value: string) => {
     setFieldValue('withSmartphone', value === 'smartphone');

@@ -63,6 +63,9 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
   };
 
   useEffect(() => {
+    if (!values.withSmartphone && !values.withTablet) {
+      setFieldValue('withSmartphone', true);
+    }
     if (radioValue === 'ios') {
       setFieldValue('isIOS', true);
       setFieldValue('isAndroid', false);
@@ -146,7 +149,10 @@ export const WhereAppStep = (props: FormikProps<WizardModel>) => {
         <WizardCol>
           <Fieldset>
             <Fieldset.Legend>
-              {t('__EXPRESS_WIZARD_STEP_APP_WHERE_OS_LABEL')}
+              <Trans i18nKey="__EXPRESS_WIZARD_STEP_APP_WHERE_OS_LABEL">
+                Choose the operating system
+              </Trans>
+              <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
             </Fieldset.Legend>
             <FormField>
               <Radio

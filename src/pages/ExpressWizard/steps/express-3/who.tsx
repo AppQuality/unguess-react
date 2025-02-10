@@ -161,7 +161,7 @@ export const WhoStep = ({
       <StyledFormField>
         <Label>
           {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}
-          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
+          <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
         </Label>
         {languages.map((lang: RadioItem) => (
           <Row>
