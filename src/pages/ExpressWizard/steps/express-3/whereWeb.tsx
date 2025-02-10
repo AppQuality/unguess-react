@@ -9,6 +9,7 @@ import {
   RadioCard,
   Row,
   Span,
+  XL,
   XXL,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
@@ -25,6 +26,7 @@ import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import * as Yup from 'yup';
+import { useEffect } from 'react';
 import { PrimarySpan, StyledRow } from './where/styled';
 
 export const WhereWebStep = (props: FormikProps<WizardModel>) => {
@@ -35,6 +37,12 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
   if (values.isAndroid) setFieldValue('isAndroid', false);
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!values.withSmartphone && !values.withTablet && !values.withDesktop) {
+      setFieldValue('withSmartphone', true);
+    }
+  }, []);
 
   const handleRadioClick = (value: string) => {
     setFieldValue('withSmartphone', value === 'smartphone');
@@ -56,6 +64,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
             <Trans i18nKey="__EXPRESS_3_WIZARD_STEP_WHERE_SUBTITLE">
               Choose a <Span isBold>device</Span> you want to test on
             </Trans>
+            <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
           </MD>
         </WizardCol>
       </Row>
@@ -64,6 +73,9 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
+        <WizardCol xs={12} style={{ marginBottom: appTheme.space.md }}>
+          <XL isBold>{t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_LABEL')}</XL>
+        </WizardCol>
         <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
             <RadioCard
