@@ -5,7 +5,6 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
@@ -25,7 +24,6 @@ const UseCaseLink = ({
 }) => {
   const { t } = useTranslation();
   const { getFieldProps, validateForm, errors } = formikProps;
-  const [link, setLink] = useState(useCase ? useCase.link : '');
 
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
@@ -33,7 +31,7 @@ const UseCaseLink = ({
       : null;
 
   return (
-    <div style={{ marginTop: appTheme.space.md }}>
+    <div style={{ marginTop: appTheme.space.lg }}>
       <Label>
         {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE')}
         <Span style={{ color: appTheme.palette.grey[600] }}>
@@ -50,11 +48,13 @@ const UseCaseLink = ({
           '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_PLACEHOLDER'
         )}
         focusInset
+        {...(useCase &&
+          useCase.link && {
+            value: useCase.link,
+          })}
         {...getFieldProps(`use_cases[${useCaseIndex}].link`)}
         {...(useCaseErrors && useCaseErrors?.link && { validation: 'error' })}
-        value={link}
         onBlur={() => validateForm()}
-        onChange={(e) => setLink(e.target.value)}
       />
       {useCaseErrors && useCaseErrors?.link ? (
         <HelpTextMessage validation="error">
