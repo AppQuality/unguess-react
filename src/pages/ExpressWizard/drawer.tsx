@@ -25,6 +25,7 @@ import {
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
@@ -62,6 +63,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const sendGTMEvent = useSendGTMevent();
+  const navigate = useNavigate();
   const { isDrawerOpen, project, expressTypeId } = useAppSelector(
     (state) => state.express
   );
@@ -90,7 +92,6 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       },
     },
   });
-
   const expressData = getLocalizedStrapiData({
     item: data,
     language: i18n.language,
@@ -122,7 +123,6 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   if (isError) {
     return null;
   }
-
   return !isLoading && isDrawerOpen ? (
     <Drawer
       isOpen={isDrawerOpen}
@@ -179,9 +179,21 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       <Drawer.Footer>
         <Drawer.FooterItem>
           <Button
+            style={{ marginRight: `${theme.space.md}` }}
+            id="express-drawer-info-button"
+            isPrimary
+            isLink
+            onClick={() => {
+              onCtaClick();
+              navigate(`/templates/${expressTypeId}`);
+              dispatch(closeDrawer());
+            }}
+          >
+            {t('__WIZARD_EXPRESS_FOOTER_INFO_BUTTON')}
+          </Button>
+          <Button
             id="express-drawer-start-button"
             isPrimary
-            isAccent
             onClick={() => {
               onCtaClick();
               dispatch(closeDrawer());
