@@ -202,7 +202,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
             <UseCaseCardButtonText>
               <UseCaseCardButtonDescription>
                 {index + 1}/{EXPRESS_USE_CASES_LIMIT}{' '}
-                {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
+                {t('__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL')}
               </UseCaseCardButtonDescription>
               <XL isBold>{useCase.title}</XL>
               {errors &&
@@ -210,7 +210,7 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
                 errors.use_cases[useCase.id - 1] && (
                   <WarningMessage>
                     {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_INCOMEPLETE_LABEL'
+                      '__EXPRESS_2_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_INCOMEPLETE_LABEL'
                     )}
                   </WarningMessage>
                 )}
