@@ -12,7 +12,7 @@ import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import styled, { useTheme } from 'styled-components';
-import { ScrollingGridWrapper } from 'src/common/components/LayoutWrapper';
+import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
 
 const AdditionalInfoTag = styled(Tag)`
   img {
@@ -37,7 +37,7 @@ const ServiceTiles = () => {
         }}
       />
       <ExpressWizardContainer />
-      <ScrollingGridWrapper>
+      <ScrollingGrid>
         {data.map((template) => {
           const icon = <img alt={template.title || ''} src={template.icon} />;
           const superscript = template?.Price?.previous_price;
@@ -58,25 +58,27 @@ const ServiceTiles = () => {
           });
 
           return (
-            <ServiceTile
-              title={template.title || ''}
-              description={template?.campaign_type || ''}
-              background={template?.background || theme.palette.blue[700]}
-              price={template?.Price?.price || '-'}
-              icon={icon}
-              superscript={superscript?.length ? superscript : undefined}
-              isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
-              additionalInfo={
-                <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
-              }
-              onClick={() => {
-                dispatch(setExpressTypeId(template.expressId));
-                dispatch(openDrawer());
-              }}
-            />
+            <ScrollingGrid.Item key={template.expressId}>
+              <ServiceTile
+                title={template.title || ''}
+                description={template?.campaign_type || ''}
+                background={template?.background || theme.palette.blue[700]}
+                price={template?.Price?.price || '-'}
+                icon={icon}
+                superscript={superscript?.length ? superscript : undefined}
+                isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
+                additionalInfo={
+                  <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
+                }
+                onClick={() => {
+                  dispatch(setExpressTypeId(template.expressId));
+                  dispatch(openDrawer());
+                }}
+              />
+            </ScrollingGrid.Item>
           );
         })}
-      </ScrollingGridWrapper>
+      </ScrollingGrid>
       <SM
         color={appTheme.palette.grey[600]}
         style={{ padding: `${appTheme.space.md} 0` }}
