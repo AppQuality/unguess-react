@@ -5,14 +5,13 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
-import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseLink = ({
   formikProps,

@@ -1,9 +1,3 @@
-import { FormikProps } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import {
   Button,
   Col,
@@ -12,9 +6,15 @@ import {
   Paragraph,
   Row,
 } from '@appquality/unguess-design-system';
-import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
+import { FormikProps } from 'formik';
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseEditor = ({
   formikProps,
