@@ -9,10 +9,9 @@ import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { appTheme } from 'src/app/theme';
+import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
 import { CampaignItem } from './CampaignItem';
-import { CardsContainer, StyledRow } from './CardContainer';
 import { CardRowLoading } from './CardRowLoading';
-import { ScrollingGridWrapper } from 'src/common/components/LayoutWrapper';
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
@@ -45,11 +44,13 @@ export const SuggestedCampaigns = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ScrollingGridWrapper>
+      <ScrollingGrid>
         {campaigns.data.items.map((campaign) => (
-          <CampaignItem key={`suggested_${campaign.id}`} campaign={campaign} />
+          <ScrollingGrid.Item key={`suggested_${campaign.id}`}>
+            <CampaignItem campaign={campaign} />
+          </ScrollingGrid.Item>
         ))}
-      </ScrollingGridWrapper>
+      </ScrollingGrid>
     </>
   );
 };
