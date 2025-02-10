@@ -1,10 +1,10 @@
 import { FormikProps } from 'formik';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { AnimatedContainer } from 'src/common/components/animatedContainer';
-import { UseCaseTitle } from './useCaseDetailsTitle';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import { UseCaseEditor } from './useCaseDetailsEditor';
 import { UseCaseLink } from './useCaseDetailsLink';
+import { UseCaseTitle } from './useCaseDetailsTitle';
 
 export const UseCaseDetails = ({
   formikProps,

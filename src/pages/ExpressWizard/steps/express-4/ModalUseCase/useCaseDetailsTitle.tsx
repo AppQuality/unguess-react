@@ -1,11 +1,10 @@
 import { InputToggle, Span } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseTitle = ({
   formikProps,
