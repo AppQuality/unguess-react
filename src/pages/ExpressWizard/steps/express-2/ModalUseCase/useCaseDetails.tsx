@@ -7,29 +7,15 @@ import { UseCaseLink } from './useCaseDetailsLink';
 import { UseCaseTitle } from './useCaseDetailsTitle';
 
 export const UseCaseDetails = ({
-  formikProps,
   useCase,
   useCaseIndex,
 }: {
-  formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
   useCaseIndex: number;
 }) => (
   <AnimatedContainer>
-    <UseCaseTitle
-      formikProps={formikProps}
-      useCase={useCase}
-      useCaseIndex={useCaseIndex}
-    />
-    <UseCaseEditor
-      formikProps={formikProps}
-      useCase={useCase}
-      useCaseIndex={useCaseIndex}
-    />
-    <UseCaseLink
-      formikProps={formikProps}
-      useCase={useCase}
-      useCaseIndex={useCaseIndex}
-    />
+    <UseCaseTitle useCase={useCase} useCaseIndex={useCaseIndex} />
+    <UseCaseEditor useCase={useCase} useCaseIndex={useCaseIndex} />
+    <UseCaseLink useCase={useCase} useCaseIndex={useCaseIndex} />
   </AnimatedContainer>
 );

@@ -4,7 +4,7 @@ import {
   Paragraph,
   Toggle,
 } from '@appquality/unguess-design-system';
-import { FormikProps } from 'formik';
+import { FormikProps, useFormikContext } from 'formik';
 import i18n from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -34,20 +34,19 @@ const InlineRow = styled.div`
 `;
 
 const UseCaseDropdown = ({
-  formikProps,
   useCase,
   useCaseIndex,
   setEditorContent,
   setIsEditing,
 }: {
-  formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
   useCaseIndex: number;
   setEditorContent: (content: string) => void;
   setIsEditing: (value: boolean) => void;
 }) => {
   const { t } = useTranslation();
-  const { getFieldProps, setFieldValue, validateForm, values } = formikProps;
+  const { getFieldProps, setFieldValue, validateForm, values } =
+    useFormikContext<WizardModel>();
   const { expressTypeId } = useAppSelector((state) => state.express);
 
   const [selectedFunc, setSelectedFunc] = useState<UseCaseTemplate | undefined>(
