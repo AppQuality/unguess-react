@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { HubspotModal } from 'src/common/components/HubspotModal';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { checkHubspotURL, getLocalizedStrapiData } from 'src/common/utils';
-import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
+import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 import { openWizard } from 'src/features/express/expressSlice';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -15,7 +15,6 @@ import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import { PageLoader } from 'src/common/components/PageLoader';
 import { TemplateTimeline } from './TemplateTimeline';
 import { SingleTemplatePageHeader } from './SingleTemplatePageHeader';
-import { strapiParams } from './strapi';
 
 const Template = () => {
   const { templateId } = useParams();
@@ -36,17 +35,36 @@ const Template = () => {
     });
   }
 
-  const { data, isLoading, isError } = useGetFullServicesByIdQuery({
+  const { data, isLoading, isError } = useGetFullTemplatesByIdQuery({
     id: templateId || '',
     populate: {
-      ...strapiParams,
-      localizations: {
+      icon: '*',
+      Price: {
         populate: {
-          ...strapiParams,
+          tag_price: {
+            populate: '*',
+          },
         },
+      },
+      output: {
+        populate: '*',
+      },
+      requirements: {
+        populate: '*',
+      },
+      why: {
+        populate: '*',
+      },
+      how: {
+        populate: '*',
+      },
+      what: {
+        populate: '*',
       },
     },
   });
+
+  console.log('template', data);
 
   let template;
 
