@@ -4,7 +4,7 @@ import {
   Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
-import { FormikProps } from 'formik';
+import { FormikProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
@@ -14,16 +14,15 @@ import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseLink = ({
-  formikProps,
   useCase,
   useCaseIndex,
 }: {
-  formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const { getFieldProps, validateForm, errors } = formikProps;
+  const { getFieldProps, validateForm, errors } =
+    useFormikContext<WizardModel>();
 
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)

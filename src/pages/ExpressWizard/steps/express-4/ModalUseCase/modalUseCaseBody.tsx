@@ -5,7 +5,7 @@ import {
   Paragraph,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { FieldArray, FormikProps } from 'formik';
+import { FieldArray, FormikProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
@@ -73,16 +73,14 @@ const StyledContainerCard = styled(ContainerCard)`
 `;
 
 export const ModalUseCaseBody = ({
-  formikProps,
   currentUseCase,
   setUseCase,
 }: {
-  formikProps: FormikProps<WizardModel>;
   currentUseCase?: UseCase;
   setUseCase: (item?: UseCase) => void;
 }) => {
   const { t } = useTranslation();
-  const { values } = formikProps;
+  const { values } = useFormikContext<WizardModel>();
   const { use_cases } = values;
 
   const useCaseIndex =
@@ -97,7 +95,6 @@ export const ModalUseCaseBody = ({
           <>
             <UseCaseDetails
               key={`useCaseDetails_k${currentUseCase.id}`}
-              formikProps={formikProps}
               useCase={currentUseCase}
               useCaseIndex={useCaseIndex}
             />

@@ -6,7 +6,7 @@ import {
   Paragraph,
   Row,
 } from '@appquality/unguess-design-system';
-import { FormikProps } from 'formik';
+import { FormikProps, useFormikContext } from 'formik';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -17,16 +17,14 @@ import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseEditor = ({
-  formikProps,
   useCase,
   useCaseIndex,
 }: {
-  formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const { setFieldValue } = formikProps;
+  const { setFieldValue } = useFormikContext<WizardModel>();
   const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState(
     useCase ? useCase.description : ''
