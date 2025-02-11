@@ -446,6 +446,26 @@ export interface paths {
       };
     };
   };
+  '/videos/{vid}/sentiment': {
+    /**
+     * This endpoint generates a new sentiment for the provided video if it does not already exist.
+     *
+     * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+     *
+     * **Path Parameters**:
+     *
+     * vid (string, required): The ID of the video for which the translation is to be generated.
+     * Request Body (application/json):
+     *
+     * language (string, required): The language code for the desired translation.
+     */
+    post: operations['post-videos-vid-sentiment'];
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+  };
   '/workspaces': {
     get: operations['get-workspaces'];
     /** This endpoint is useful to add a new workspace. Only admin can use this. */
@@ -457,6 +477,16 @@ export interface paths {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
+      };
+    };
+  };
+  '/workspaces/{wid}/archive': {
+    /** Return the project Archive of a specific workspace. If not exist, create and return it */
+    get: operations['get-workspaces-wid-archive'];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
       };
     };
   };
@@ -809,6 +839,38 @@ export interface components {
         uploaderId: number;
         usecaseTitle: string;
       })[];
+    };
+    Module:
+      | components['schemas']['ModuleTitle']
+      | components['schemas']['ModuleDates']
+      | components['schemas']['ModuleHasBug']
+      | components['schemas']['ModuleHasVideo'];
+    ModuleDates: {
+      /** @enum {string} */
+      type: 'dates';
+      variant: string;
+      output: {
+        start: string;
+        end: string;
+      };
+    };
+    /** ModuleHasVideo */
+    ModuleHasVideo: {
+      /** @enum {string} */
+      type: 'hasVideo';
+      variant: string;
+    };
+    /** ModuleHasBug */
+    ModuleHasBug: {
+      /** @enum {string} */
+      type?: 'hasBug';
+      variant?: string;
+    };
+    ModuleTitle: {
+      /** @enum {string} */
+      type: 'title';
+      variant: string;
+      output: string;
     };
     /** Observation */
     Observation: {
@@ -1448,7 +1510,9 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': components['schemas']['CampaignWithOutput'];
+          'application/json': components['schemas']['CampaignWithOutput'] & {
+            isArchived?: boolean;
+          };
         };
       };
     };
@@ -3120,6 +3184,41 @@ export interface operations {
       };
     };
   };
+  /**
+   * This endpoint generates a new sentiment for the provided video if it does not already exist.
+   *
+   * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+   *
+   * **Path Parameters**:
+   *
+   * vid (string, required): The ID of the video for which the translation is to be generated.
+   * Request Body (application/json):
+   *
+   * language (string, required): The language code for the desired translation.
+   */
+  'post-videos-vid-sentiment': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': { [key: string]: unknown };
+      };
+    };
+  };
   'get-workspaces': {
     parameters: {
       query: {
@@ -3197,6 +3296,31 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  /** Return the project Archive of a specific workspace. If not exist, create and return it */
+  'get-workspaces-wid-archive': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            description: string;
+            campaignsCounter: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
   'get-workspace-campaigns': {
     parameters: {
       path: {
@@ -3221,9 +3345,7 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items?: (components['schemas']['CampaignWithOutput'] & {
-              is_archived: number;
-            })[];
+            items?: components['schemas']['CampaignWithOutput'][];
             start?: number;
             limit?: number;
             size?: number;
