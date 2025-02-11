@@ -10,7 +10,7 @@ const StyledGrid = styled.div`
   display: flex;
   gap: ${scrollingContainerItemsGap};
   overflow-x: auto;
-  padding-bottom: ${(p) => p.theme.space.md};
+  padding-bottom: ${(p) => p.theme.space.xl};
   scroll-snap-type: x mandatory;
   margin-right: -${(p) => p.theme.space.md};
   margin-left: -${(p) => p.theme.space.md};
@@ -65,16 +65,13 @@ const StyledItem = styled.div`
         ) / 3
     );
   }
-  @container scrollingContainer (min-width: 1300px) {
+  @container scrollingContainer (min-width: 1410px) {
     width: calc(
       (
           100% - ${scrollingContainerItemsGap}*3 - ${(p) => p.theme.space.xxl} -
             ${(p) => p.theme.space.xxl}
-        ) / 4
+        ) / 3.2
     );
-  }
-  @container scrollingContainer (min-width: ${(p) => p.theme.breakpoints.xxl}) {
-    flex-wrap: wrap;
   }
 `;
 

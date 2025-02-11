@@ -81,7 +81,7 @@ const ServiceTiles = () => {
       </ScrollingGrid>
       <SM
         color={appTheme.palette.grey[600]}
-        style={{ padding: `${appTheme.space.md} 0` }}
+        style={{ padding: `0 0 ${appTheme.space.md} 0` }}
       >
         {t('__EXPRESS__SERVICE_TILES_DISCLAIMER')}
       </SM>
