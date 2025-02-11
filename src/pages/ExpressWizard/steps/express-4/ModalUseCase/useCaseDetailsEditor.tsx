@@ -7,7 +7,7 @@ import {
   Row,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
@@ -43,6 +43,28 @@ const UseCaseEditor = ({
     }
   }, [editorChars, editorContent]);
 
+  const memoEditor = useMemo(
+    () => (
+      <Notes>
+        <Editor key={Math.random()} editable={false}>
+          {editorContent}
+        </Editor>
+        <Button
+          isAccent
+          style={{ marginTop: appTheme.space.md }}
+          onClick={() => setIsEditing(true)}
+          isPrimary
+        >
+          <Button.StartIcon>
+            <EditIcon fill={appTheme.palette.white} />
+          </Button.StartIcon>
+          {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
+        </Button>
+      </Notes>
+    ),
+    [useCase, editorContent]
+  );
+
   useEffect(() => {
     setIsEditing(false);
   }, [useCase]);
@@ -70,22 +92,7 @@ const UseCaseEditor = ({
           {useCase ? useCase.description : ''}
         </Editor>
       ) : (
-        <Notes>
-          <Editor key={Math.random()} editable={false}>
-            {useCase ? useCase.description : ''}
-          </Editor>
-          <Button
-            isAccent
-            style={{ marginTop: appTheme.space.md }}
-            onClick={() => setIsEditing(true)}
-            isPrimary
-          >
-            <Button.StartIcon>
-              <EditIcon fill={appTheme.palette.white} />
-            </Button.StartIcon>
-            {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
-          </Button>
-        </Notes>
+        memoEditor
       )}
       {isEditing && (
         <Row alignItems="center" style={{ marginTop: appTheme.space.lg }}>
