@@ -224,9 +224,9 @@ export interface StrapiIcon {
 }
 
 export interface TagItem {
-  id: number;
+  id: string;
   label: string;
-  icon: StrapiIcon;
+  icon: string;
 }
 
 export const {

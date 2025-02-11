@@ -293,8 +293,36 @@ const injectedRtkApi = api.injectEndpoints({
       GetTemplatesByIdApiResponse,
       GetTemplatesByIdApiArg
     >({
-      query: (queryArg) => ({ url: `/templates/${queryArg.id}` }),
+      query: (queryArg) => ({
+        url: `/templates/${queryArg.id}`,
+        params: {
+          populate: {
+            output: {
+              populate: '*',
+            },
+            icon: '*',
+            Price: {
+              tag_price: {
+                populate: '*',
+              },
+            },
+            requirements: {
+              populate: '*',
+            },
+            why: {
+              populate: '*',
+            },
+            what: {
+              populate: '*',
+            },
+            how: {
+              populate: '*',
+            },
+          },
+        },
+      }),
     }),
+
     putTemplatesById: build.mutation<
       PutTemplatesByIdApiResponse,
       PutTemplatesByIdApiArg
