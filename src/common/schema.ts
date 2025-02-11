@@ -863,8 +863,8 @@ export interface components {
     /** ModuleHasBug */
     ModuleHasBug: {
       /** @enum {string} */
-      type?: 'hasBug';
-      variant?: string;
+      type: 'hasBug';
+      variant: string;
     };
     ModuleTitle: {
       /** @enum {string} */
