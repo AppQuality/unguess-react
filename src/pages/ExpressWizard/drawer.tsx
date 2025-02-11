@@ -12,20 +12,15 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { extractStrapiData } from 'src/common/getStrapiData';
-import { getLocalizedStrapiData, toggleChat } from 'src/common/utils';
-import { STRAPI_URL } from 'src/constants';
-import {
-  TagItem,
-  useGeti18nExpressTypesByIdQuery,
-} from 'src/features/backoffice/strapi';
+import { toggleChat } from 'src/common/utils';
+import { TagItem } from 'src/features/backoffice/strapi';
 import {
   closeDrawer,
   resetExpressTypeId,
   resetWizard,
 } from 'src/features/express/expressSlice';
+import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
-import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { CardDivider } from './cardDivider';
 import { Notes, NotesTitle } from './notesCard';
@@ -67,40 +62,11 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const { isDrawerOpen, project, expressTypeId } = useAppSelector(
     (state) => state.express
   );
-
-  const { data, isLoading, isError } = useGeti18nExpressTypesByIdQuery({
-    id: expressTypeId?.toString() || '0',
-    populate: {
-      tags: {
-        populate: '*',
-      },
-      start_reasons: {
-        populate: '*',
-      },
-      localizations: {
-        populate: {
-          tags: {
-            populate: '*',
-          },
-          start_reasons: {
-            populate: '*',
-          },
-        },
-      },
-      express: {
-        populate: '*',
-      },
-    },
-  });
-  const expressData = getLocalizedStrapiData({
-    item: data,
-    language: i18n.language,
-  });
-
-  const express = getLocalizedStrapiData({
-    item: expressData.express,
-    language: i18n.language,
-  });
+  const {
+    data: template,
+    isLoading,
+    isError,
+  } = useCampaignTemplateById(expressTypeId.toString());
 
   const onClose = () => {
     dispatch(resetWizard());
@@ -114,7 +80,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
       sendGTMEvent({
         action: '',
         event: 'express_navigation',
-        category: express.slug,
+        category: template.slug,
         content: 'drawer_open',
       });
     }
@@ -130,8 +96,8 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
         sendGTMEvent({
           action: 'drawer_close',
           event: 'express_navigation',
-          category: express.slug,
-          content: '  ',
+          category: template.slug,
+          content: '',
         });
         onClose();
       }}
@@ -140,24 +106,30 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
     >
       <Drawer.Header>{t('__WIZARD_EXPRESS_HEADER_TITLE')}</Drawer.Header>
       <Drawer.Body>
-        <BodyTitle isBold>{expressData.title}</BodyTitle>
-        <Paragraph>{expressData.description}</Paragraph>
+        <BodyTitle isBold>{template.title}</BodyTitle>
+        <Paragraph>{template.description}</Paragraph>
         <TagsContainer>
-          {expressData.tags.map((tag: TagItem) => {
-            const icon = extractStrapiData(tag.icon);
-            return (
+          {template.tags &&
+            template.tags.map((tag: TagItem) => (
               <StyledTag hue="rgba(0,0,0,0)">
                 <StyledTag.Avatar>
-                  <img
-                    key={`tag_${tag.id}`}
-                    src={`${STRAPI_URL}${icon.url}`}
-                    alt={icon.alternativeText}
-                  />
+                  <img key={`tag_${tag.id}`} src={tag.icon} alt={tag.label} />
                 </StyledTag.Avatar>
                 <span>{tag.label}</span>
               </StyledTag>
-            );
-          })}
+            ))}
+          {template.price && (
+            <StyledTag hue="rgba(0,0,0,0)">
+              <StyledTag.Avatar>
+                <img
+                  key={`tag_${template.slug}_price`}
+                  src={template.price.icon}
+                  alt={template.price.label}
+                />
+              </StyledTag.Avatar>
+              <span>{template.price.label}</span>
+            </StyledTag>
+          )}
         </TagsContainer>
         <CardDivider />
         <SelectTitle>
@@ -166,13 +138,12 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
         <ProjectDropdown />
         <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
           <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
-          <Paragraph>{expressData.before_starting_info}</Paragraph>
+          <Paragraph>{template.requirements?.description}</Paragraph>
           <UnorderedList>
-            {expressData.start_reasons.map(
-              (reason: { id: number; item: string }) => (
+            {template.requirements?.list &&
+              template.requirements?.list.map((reason) => (
                 <UnorderedList.Item>{reason.item}</UnorderedList.Item>
-              )
-            )}
+              ))}
           </UnorderedList>
         </Notes>
       </Drawer.Body>
@@ -200,7 +171,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
               sendGTMEvent({
                 action: 'express_start',
                 event: 'express_navigation',
-                category: express.slug,
+                category: template.slug,
                 content: 'drawer_cta_click',
               });
             }}
