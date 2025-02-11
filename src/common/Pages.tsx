@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { useTranslation } from 'react-i18next';
 import {
   Navigate,
@@ -6,8 +7,8 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import * as Sentry from '@sentry/react';
 import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
+import SentryWrapper from 'src/features/SentryWrapper';
 import Bug from 'src/pages/Bug';
 import BugForm from 'src/pages/Bugform';
 import Bugs from 'src/pages/Bugs';
@@ -15,17 +16,17 @@ import Campaign from 'src/pages/Campaign';
 import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
+import InsightsPage from 'src/pages/Insights';
 import LoginPage from 'src/pages/LoginPage';
-import NotFound from 'src/pages/NotFound/NotFound';
+import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
+import NotFound from 'src/pages/NotFound/NotFound';
 import Service from 'src/pages/Service';
 import Template from 'src/pages/Template';
 import Catalog from 'src/pages/Services';
-import Manual from 'src/pages/Manual';
-import Videos from 'src/pages/Videos';
+import { Temp } from 'src/pages/Temp';
 import Video from 'src/pages/Video';
-import InsightsPage from 'src/pages/Insights';
-import SentryWrapper from 'src/features/SentryWrapper';
+import Videos from 'src/pages/Videos';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -102,6 +103,7 @@ const Pages = () => {
                     path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
                     element={<Video />}
                   />
+                  <Route path={`/${langPrefix}/temp`} element={<Temp />} />
                   {/* No route found */}
                   <Route
                     path={`/${langPrefix}/media/oops`}
