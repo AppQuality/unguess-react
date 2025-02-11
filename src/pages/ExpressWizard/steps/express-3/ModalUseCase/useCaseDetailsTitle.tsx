@@ -1,5 +1,5 @@
 import { InputToggle, Span } from '@appquality/unguess-design-system';
-import { FormikProps, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';

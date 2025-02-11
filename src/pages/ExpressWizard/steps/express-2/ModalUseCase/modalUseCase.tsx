@@ -4,7 +4,7 @@ import {
   ModalFullScreen,
   Row,
 } from '@appquality/unguess-design-system';
-import { FormikProps, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -12,10 +12,10 @@ import { closeUseCaseModal } from 'src/features/express/expressSlice';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 import styled from 'styled-components';
+import { ModalUseCaseBody } from './modalUseCaseBody';
 import { ModalUseCaseHeader } from './modalUseCaseHeader';
 import { ModalUseCaseHelp } from './modalUseCaseHelp';
 import { ModalUseCaseTabLayout } from './modalUseCaseTabLayout';
-import { ModalUseCaseBody } from './modalUseCaseBody';
 
 const Body = styled(ModalFullScreen.Body)`
   padding: 0;

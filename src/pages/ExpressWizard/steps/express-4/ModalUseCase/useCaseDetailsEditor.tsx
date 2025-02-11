@@ -6,7 +6,7 @@ import {
   Paragraph,
   Row,
 } from '@appquality/unguess-design-system';
-import { FormikProps, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';

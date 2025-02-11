@@ -4,7 +4,7 @@ import {
   getColor,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { FieldArray, FormikProps, useFormikContext } from 'formik';
+import { FieldArray, useFormikContext } from 'formik';
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
