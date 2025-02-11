@@ -1,5 +1,10 @@
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
+import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/16/chevron-right-stroke.svg';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { use } from 'i18next';
+import { tr } from 'date-fns/locale';
 
 const scrollingContainerItemsGap = appTheme.space.md;
 
@@ -56,7 +61,7 @@ const StyledItem = styled.div`
       (
           100% - ${scrollingContainerItemsGap}*2 - ${(p) => p.theme.space.xxl} -
             ${(p) => p.theme.space.xxl}
-        ) / 3
+        ) / 3.1
     );
   }
   @container scrollingContainer (min-width: 1410px) {
@@ -73,10 +78,52 @@ const GridContainer = styled.div`
   position: relative;
   margin-right: -${(p) => p.theme.space.md};
   margin-left: -${(p) => p.theme.space.md};
+  .navigation-left,
+  .navigation-right {
+    display: none;
+  }
 
   @media (min-width: ${(p) => p.theme.breakpoints.sm}) {
     margin-right: -${(p) => p.theme.space.xxl};
     margin-left: -${(p) => p.theme.space.xxl};
+  }
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    .navigation-left,
+    .navigation-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      bottom: ${(p) => p.theme.space.xl};
+      width: ${(p) => p.theme.space.xxl};
+      min-width: ${(p) => p.theme.space.xxl};
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 2;
+
+      &:hover:not(.disabled) {
+        opacity: 1;
+        pointer-events: auto;
+        cursor: pointer;
+      }
+    }
+    .navigation-left {
+      left: 0;
+      background: linear-gradient(
+        to left,
+        rgba(255, 255, 255, 0.5),
+        ${(p) => p.theme.palette.grey[100]}
+      );
+    }
+    .navigation-right {
+      right: 0;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.5),
+        ${(p) => p.theme.palette.grey[100]}
+      );
+    }
   }
   @media (min-width: ${(p) => p.theme.breakpoints.xxl}) {
     &::after,
@@ -113,11 +160,77 @@ const GridContainer = styled.div`
 const ScrollingGridComponent = ({
   children,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <GridContainer {...props}>
-    <StyledGrid>{children}</StyledGrid>
-  </GridContainer>
-);
+}: React.HTMLAttributes<HTMLDivElement>) => {
+  const scrollingContainer = useRef<HTMLDivElement>(null);
+  const wrapperContainer = useRef<HTMLDivElement>(null);
+  const [isLeftDisabled, setIsLeftDisabled] = useState(true);
+  const [isRightDisabled, setIsRightDisabled] = useState(true);
+  const scrollLeft = () => {
+    if (scrollingContainer.current) {
+      scrollingContainer.current.scrollBy({
+        left: -scrollingContainer.current.offsetWidth / 2,
+        behavior: 'smooth',
+      });
+    }
+  };
+  const scrollRight = () => {
+    if (scrollingContainer.current) {
+      scrollingContainer.current.scrollBy({
+        left: scrollingContainer.current.offsetWidth / 2,
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const handleScroll = useCallback(() => {
+    if (scrollingContainer.current) {
+      if (scrollingContainer.current.scrollLeft === 0) {
+        setIsLeftDisabled(true);
+      } else {
+        setIsLeftDisabled(false);
+      }
+      if (
+        scrollingContainer.current.scrollLeft +
+          scrollingContainer.current.offsetWidth >=
+        scrollingContainer.current.scrollWidth
+      ) {
+        setIsRightDisabled(true);
+      } else {
+        setIsRightDisabled(false);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    handleScroll();
+    if (scrollingContainer.current) {
+      scrollingContainer.current.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      if (scrollingContainer.current) {
+        scrollingContainer.current.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  return (
+    <GridContainer {...props} ref={wrapperContainer}>
+      <div
+        className={`${isLeftDisabled ? 'disabled' : ''} navigation-left`}
+        onClick={scrollLeft}
+      >
+        <ArrowLeft width={26} height={26} />
+      </div>
+      <StyledGrid ref={scrollingContainer}>{children}</StyledGrid>
+      <div
+        className={`${isRightDisabled ? 'disabled' : ''} navigation-right`}
+        onClick={scrollRight}
+      >
+        <ArrowRight width={26} height={26} />
+      </div>
+    </GridContainer>
+  );
+};
 
 export const ScrollingGrid =
   ScrollingGridComponent as typeof ScrollingGridComponent & {
