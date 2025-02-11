@@ -21,9 +21,15 @@ const useCampaignTemplateById = (id: string) => {
       },
     },
   });
-  console.log('data', data);
+
+  const priceIconData =
+    data?.data?.attributes?.Price?.tag_price?.icon?.data?.attributes;
+
   const templateData = {
-    price: data?.data?.attributes?.Price?.tag_price || {},
+    price: {
+      ...data?.data?.attributes?.Price?.tag_price,
+      icon: priceIconData?.url ? `${STRAPI_URL}${priceIconData.url}` : '',
+    },
     tags: data?.data?.attributes?.output?.map((o) => {
       const oUrl = o.Icon?.data?.attributes?.url;
       return {
