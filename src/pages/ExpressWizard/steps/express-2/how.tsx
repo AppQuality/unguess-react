@@ -138,7 +138,6 @@ export const HowStep = (props: FormikProps<WizardModel>) => {
   return (
     <>
       <ModalUseCase
-        formikProps={props}
         currentUseCase={currentUseCase}
         setUseCase={setCurrentUseCase}
       />

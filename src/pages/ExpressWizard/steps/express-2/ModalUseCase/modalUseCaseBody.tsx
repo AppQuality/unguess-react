@@ -5,7 +5,7 @@ import {
   Paragraph,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { FieldArray, FormikProps, useFormikContext } from 'formik';
+import { FieldArray, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';

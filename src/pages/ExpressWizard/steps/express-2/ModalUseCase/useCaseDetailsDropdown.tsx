@@ -4,7 +4,7 @@ import {
   Paragraph,
   Toggle,
 } from '@appquality/unguess-design-system';
-import { FormikProps, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import i18n from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
