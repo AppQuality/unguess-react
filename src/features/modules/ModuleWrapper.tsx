@@ -1,5 +1,6 @@
 import { Formik, useFormikContext } from 'formik';
 import { ReactNode } from 'react';
+import { components } from 'src/common/schema';
 import { FormBody } from './types';
 
 const ModuleWrapper = ({ children }: { children: ReactNode }) => {
@@ -24,4 +25,34 @@ const Debugger = () => {
 
 ModuleWrapper.Debugger = Debugger;
 
-export { ModuleWrapper };
+const useModuleContext = <T extends components['schemas']['Module']['type']>(
+  moduleName: T
+) => {
+  type ModType = components['schemas']['Module'] & { type: T };
+  const { values, setFieldValue } = useFormikContext<FormBody>();
+
+  const module: ModType | undefined = values.modules.find(
+    (m): m is ModType => m.type === moduleName
+  );
+
+  return {
+    value: module,
+    set: (value: Omit<ModType, 'type'>) => {
+      if (module) {
+        setFieldValue(
+          'modules',
+          values.modules.map((m) =>
+            m.type === moduleName ? { ...m, ...value } : m
+          )
+        );
+      } else {
+        setFieldValue('modules', [
+          ...values.modules,
+          { ...value, type: moduleName },
+        ]);
+      }
+    },
+  };
+};
+
+export { ModuleWrapper, useModuleContext };
