@@ -1,3 +1,4 @@
+import { ModuleWrapper } from 'src/features/modules/ModuleWrapper';
 import { Page } from 'src/features/templates/Page';
 
 const Temp = () => {
@@ -5,7 +6,10 @@ const Temp = () => {
 
   return (
     <Page title="temp" route="temp">
-      Temp
+      <ModuleWrapper>
+        Temp
+        <ModuleWrapper.Debugger />
+      </ModuleWrapper>
     </Page>
   );
 };
