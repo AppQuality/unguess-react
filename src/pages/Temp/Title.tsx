@@ -3,7 +3,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useModuleContext } from 'src/features/modules/ModuleWrapper';
 
 const Title = () => {
-  const { value, set } = useModuleContext('title');
+  const { value, set, remove } = useModuleContext('title');
 
   return (
     <LayoutWrapper>
@@ -15,12 +15,16 @@ const Title = () => {
               maxLength={64}
               style={{ paddingLeft: 0 }}
               value={value?.output || ''}
-              onChange={(e) =>
-                set({
-                  variant: 'default',
-                  output: e.target.value,
-                })
-              }
+              onChange={(e) => {
+                if (!e.target.value) {
+                  remove();
+                } else {
+                  set({
+                    variant: 'default',
+                    output: e.target.value,
+                  });
+                }
+              }}
             />
           </InputToggle>
         </PageHeader.Title>

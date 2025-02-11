@@ -52,6 +52,12 @@ const useModuleContext = <T extends components['schemas']['Module']['type']>(
         ]);
       }
     },
+    remove: () => {
+      setFieldValue(
+        'modules',
+        values.modules.filter((m) => m.type !== moduleName)
+      );
+    },
   };
 };
 
