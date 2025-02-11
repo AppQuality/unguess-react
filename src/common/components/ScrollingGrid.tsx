@@ -2,9 +2,7 @@ import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
 import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/16/chevron-right-stroke.svg';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { use } from 'i18next';
-import { tr } from 'date-fns/locale';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const scrollingContainerItemsGap = appTheme.space.md;
 
@@ -19,6 +17,7 @@ const StyledGrid = styled.div`
   padding-bottom: ${(p) => p.theme.space.xl};
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+
   // Hide scrollbar
   &::-webkit-scrollbar {
     display: none;
@@ -90,6 +89,13 @@ const GridContainer = styled.div`
   @media (min-width: ${(p) => p.theme.breakpoints.md}) {
     .navigation-left,
     .navigation-right {
+      // reset button properties
+      appearance: none;
+      border: none;
+      background: none;
+      padding: 0;
+      cursor: auto;
+
       display: flex;
       justify-content: center;
       align-items: center;
@@ -215,19 +221,25 @@ const ScrollingGridComponent = ({
 
   return (
     <GridContainer {...props} ref={wrapperContainer}>
-      <div
+      <button
+        type="button"
+        name="scroll-left"
+        title="Scroll left"
         className={`${isLeftDisabled ? 'disabled' : ''} navigation-left`}
         onClick={scrollLeft}
       >
         <ArrowLeft width={26} height={26} />
-      </div>
+      </button>
       <StyledGrid ref={scrollingContainer}>{children}</StyledGrid>
-      <div
+      <button
+        type="button"
+        name="scroll-right"
+        title="Scroll right"
         className={`${isRightDisabled ? 'disabled' : ''} navigation-right`}
         onClick={scrollRight}
       >
         <ArrowRight width={26} height={26} />
-      </div>
+      </button>
     </GridContainer>
   );
 };
