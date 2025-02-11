@@ -1,8 +1,26 @@
 import { STRAPI_URL } from 'src/constants';
-import { useGetTemplatesByIdQuery } from 'src/features/backoffice';
+import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 
 const useCampaignTemplateById = (id: string) => {
-  const { data, isLoading, isError } = useGetTemplatesByIdQuery({ id });
+  const { data, isLoading, isError } = useGetFullTemplatesByIdQuery({
+    id,
+    populate: {
+      icon: '*',
+      Price: {
+        populate: {
+          tag_price: {
+            populate: '*',
+          },
+        },
+      },
+      output: {
+        populate: '*',
+      },
+      requirements: {
+        populate: '*',
+      },
+    },
+  });
   console.log('data', data);
   const templateData = {
     price: data?.data?.attributes?.Price?.tag_price || {},
