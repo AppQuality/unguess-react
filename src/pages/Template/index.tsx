@@ -53,18 +53,27 @@ const Template = () => {
         populate: '*',
       },
       why: {
-        populate: '*',
+        populate: {
+          reasons: {
+            populate: '*',
+          },
+          advantages: {
+            populate: '*',
+          },
+        },
       },
       how: {
-        populate: '*',
+        populate: {
+          timeline: {
+            populate: '*',
+          },
+        },
       },
       what: {
         populate: '*',
       },
     },
   });
-
-  console.log('template', data);
 
   let template;
 
