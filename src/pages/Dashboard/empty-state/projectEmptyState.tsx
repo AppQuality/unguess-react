@@ -91,7 +91,7 @@ export const ProjectEmptyState = () => {
               width: '50%',
             }}
           />
-          <div style={{ zIndex: 1 }}>
+          <div style={{ zIndex: 1, position: 'relative' }}>
             <ServiceTiles />
           </div>
           <UGLogoMedium
