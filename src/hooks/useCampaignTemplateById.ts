@@ -79,8 +79,12 @@ const useCampaignTemplateById = (id: string) => {
     why: data?.data?.attributes?.why,
     how: data?.data?.attributes?.how,
     what: data?.data?.attributes?.what,
-    outputImage: extractStrapiData(data?.data?.attributes?.output_image),
     campaignType: data?.data?.attributes?.campaign_type || '',
+    ...(data?.data?.attributes?.output_image && {
+      outputImage: `${STRAPI_URL}${
+        extractStrapiData(data?.data?.attributes?.output_image).url
+      }`,
+    }),
   };
   return {
     data: templateData,
