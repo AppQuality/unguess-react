@@ -17,13 +17,8 @@ export const SingleTemplatePageHeader = () => {
   const navigate = useNavigate();
   const { templateId } = useParams();
   const workspaceRoute = useLocalizeRoute('');
-  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const { activeWorkspace } = useActiveWorkspace();
   const { data } = useCampaignTemplateById(templateId || '');
-
-  // Strapi response
-  const bannerImg = data.outputImage.url;
-  const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
 
   return (
     <LayoutWrapper>
@@ -35,7 +30,7 @@ export const SingleTemplatePageHeader = () => {
         </PageHeader.Breadcrumbs>
         <PageHeader.Main
           mainTitle={data.title}
-          {...(bannerImg && { mainImageUrl: bannerImgUrl })}
+          {...(data.outputImage && { mainImageUrl: data.outputImage })}
         >
           <PageHeader.Overline>
             {data.campaignType?.toUpperCase()}
@@ -58,12 +53,7 @@ export const SingleTemplatePageHeader = () => {
               {data.price && (
                 <Meta
                   size="large"
-                  icon={
-                    <img
-                      src={`${STRAPI_URL}${data.price.icon}`}
-                      alt={data.price.label}
-                    />
-                  }
+                  icon={<img src={data.price.icon} alt={data.price.label} />}
                 >
                   <Paragraph>{data.price.label}</Paragraph>
                 </Meta>
