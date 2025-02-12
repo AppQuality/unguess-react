@@ -13,7 +13,6 @@ import {
   Row,
   Span,
   Toggle,
-  XL,
   XXL,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
