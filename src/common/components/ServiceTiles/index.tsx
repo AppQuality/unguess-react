@@ -58,7 +58,7 @@ const ServiceTiles = () => {
           });
 
           return (
-            <ScrollingGrid.Item key={template.expressId}>
+            <ScrollingGrid.Item key={template.templateId}>
               <ServiceTile
                 title={template.title || ''}
                 description={template?.campaign_type || ''}
@@ -71,7 +71,7 @@ const ServiceTiles = () => {
                   <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
                 }
                 onClick={() => {
-                  dispatch(setExpressTypeId(template.expressId));
+                  dispatch(setExpressTypeId(template.templateId));
                   dispatch(openDrawer());
                 }}
               />
