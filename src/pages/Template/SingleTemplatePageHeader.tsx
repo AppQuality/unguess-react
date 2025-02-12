@@ -3,8 +3,8 @@ import {
   PageHeader,
   Paragraph,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
@@ -17,7 +17,6 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import { TemplateContactUsCta } from './TemplateContactUsCta';
 import { TemplateExpressCta } from './TemplateExpressCta';
-import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 
 export const SingleTemplatePageHeader = ({
   response,
@@ -28,7 +27,6 @@ export const SingleTemplatePageHeader = ({
 }) => {
   const navigate = useNavigate();
   const { templateId } = useParams();
-  const { t } = useTranslation();
   const servicesRoute = useLocalizeRoute('services');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const service = getLocalizedStrapiData({
@@ -36,7 +34,7 @@ export const SingleTemplatePageHeader = ({
     language: i18n.language,
   });
   const { activeWorkspace } = useActiveWorkspace();
-  const { data, isLoading, isError } = useGetFullTemplatesByIdQuery({
+  const { data } = useGetFullTemplatesByIdQuery({
     id: templateId || '',
     populate: {
       icon: '*',
