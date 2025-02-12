@@ -2,16 +2,9 @@ import {
   Anchor,
   PageHeader,
   Paragraph,
-  Span,
 } from '@appquality/unguess-design-system';
-import { Trans, useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { ReactComponent as EnvironmentIcon } from 'src/assets/icons/environment-icon.svg';
-import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
-import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
-import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
-import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
-import { ReactComponent as TimeIcon } from 'src/assets/icons/time-icon.svg';
+import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
@@ -24,6 +17,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import { TemplateContactUsCta } from './TemplateContactUsCta';
 import { TemplateExpressCta } from './TemplateExpressCta';
+import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 
 export const SingleTemplatePageHeader = ({
   response,
@@ -33,6 +27,7 @@ export const SingleTemplatePageHeader = ({
   onContactClick: () => void;
 }) => {
   const navigate = useNavigate();
+  const { templateId } = useParams();
   const { t } = useTranslation();
   const servicesRoute = useLocalizeRoute('services');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
@@ -41,6 +36,43 @@ export const SingleTemplatePageHeader = ({
     language: i18n.language,
   });
   const { activeWorkspace } = useActiveWorkspace();
+  const { data, isLoading, isError } = useGetFullTemplatesByIdQuery({
+    id: templateId || '',
+    populate: {
+      icon: '*',
+      Price: {
+        populate: {
+          tag_price: {
+            populate: '*',
+          },
+        },
+      },
+      output: {
+        populate: '*',
+      },
+      requirements: {
+        populate: '*',
+      },
+      why: {
+        populate: '*',
+      },
+      how: {
+        populate: '*',
+      },
+      what: {
+        populate: '*',
+      },
+    },
+  });
+
+  const tags = data?.data?.attributes?.output?.map((o) => {
+    const oUrl = o.Icon?.data?.attributes?.url;
+    return {
+      label: o.Text ?? '',
+      icon: oUrl ? `${STRAPI_URL}${oUrl}` : '',
+      id: o.id ?? '',
+    };
+  });
 
   // Strapi response
   const outputImage = extractStrapiData(service.output_image);
@@ -48,6 +80,8 @@ export const SingleTemplatePageHeader = ({
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
   const express = extractStrapiData(service.express);
   const expressType = extractStrapiData(express.express_type);
+  const priceIconData =
+    data?.data?.attributes?.Price?.tag_price?.icon?.data?.attributes;
 
   return (
     <LayoutWrapper>
@@ -70,43 +104,28 @@ export const SingleTemplatePageHeader = ({
           <PageHeader.Description>{service.description}</PageHeader.Description>
           <PageHeader.Meta>
             <PageMeta>
-              {expressType && expressType.id ? (
-                <Meta size="large" icon={<ExpressIcon />}>
-                  <Span>{t('__EXPRESS_LABEL')}</Span>
-                </Meta>
-              ) : (
-                <Meta size="large" icon={<TailoredIcon />}>
-                  <Span>{t('__TAILORED_LABEL')}</Span>
-                </Meta>
-              )}
-              {service.is_functional ? (
-                <Meta size="large" icon={<FunctionalIcon />}>
-                  <Span>{t('__FUNCTIONAL_LABEL')}</Span>
-                </Meta>
-              ) : (
-                <Meta size="large" icon={<ExperientialIcon />}>
-                  <Paragraph>{t('__EXPERIENTIAL_LABEL')}</Paragraph>
-                </Meta>
-              )}
-              {!!service.duration_in_days && (
-                <Meta size="large" icon={<TimeIcon />}>
-                  <Paragraph>
-                    <Trans
-                      i18nKey="__SERVICE_DETAIL_PAGE_TAG_RESULTS_DAYS_LABEL"
-                      components={{
-                        span: <Span isBold />,
-                      }}
-                      values={{
-                        hours: service.duration_in_days * 24,
-                      }}
-                      default="First results in <span>{{ hours }}</span>h"
+              {tags &&
+                tags.map((tag) => (
+                  <Meta
+                    size="large"
+                    icon={<img src={tag.icon} alt={tag.label} />}
+                  >
+                    <Paragraph>{tag.label}</Paragraph>
+                  </Meta>
+                ))}
+              {data?.data?.attributes?.Price?.tag_price && (
+                <Meta
+                  size="large"
+                  icon={
+                    <img
+                      src={`${STRAPI_URL}${priceIconData?.url}`}
+                      alt={data?.data?.attributes?.Price?.tag_price?.label}
                     />
+                  }
+                >
+                  <Paragraph>
+                    {data?.data?.attributes?.Price?.tag_price?.label}
                   </Paragraph>
-                </Meta>
-              )}
-              {service.environment && (
-                <Meta size="large" icon={<EnvironmentIcon />}>
-                  <Paragraph>{service.environment}</Paragraph>
                 </Meta>
               )}
             </PageMeta>
