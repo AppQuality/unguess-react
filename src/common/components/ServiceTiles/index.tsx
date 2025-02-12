@@ -58,22 +58,24 @@ const ServiceTiles = () => {
           });
 
           return (
-            <ServiceTile
-              title={template.title || ''}
-              description={template?.campaign_type || ''}
-              background={template?.background || theme.palette.blue[700]}
-              price={template?.Price?.price || '-'}
-              icon={icon}
-              superscript={superscript?.length ? superscript : undefined}
-              isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
-              additionalInfo={
-                <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
-              }
-              onClick={() => {
-                dispatch(setExpressTypeId(template.templateId));
-                dispatch(openDrawer());
-              }}
-            />
+            <ScrollingGrid.Item key={template.templateId}>
+              <ServiceTile
+                title={template.title || ''}
+                description={template?.campaign_type || ''}
+                background={template?.background || theme.palette.blue[700]}
+                price={template?.Price?.price || '-'}
+                icon={icon}
+                superscript={superscript?.length ? superscript : undefined}
+                isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
+                additionalInfo={
+                  <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
+                }
+                onClick={() => {
+                  dispatch(setExpressTypeId(template.templateId));
+                  dispatch(openDrawer());
+                }}
+              />
+            </ScrollingGrid.Item>
           );
         })}
       </ScrollingGrid>
