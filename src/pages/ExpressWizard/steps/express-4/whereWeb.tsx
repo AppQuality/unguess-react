@@ -9,7 +9,6 @@ import {
   RadioCard,
   Row,
   Span,
-  XL,
   XXL,
   theme,
 } from '@appquality/unguess-design-system';

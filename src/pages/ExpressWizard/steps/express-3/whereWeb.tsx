@@ -9,7 +9,6 @@ import {
   RadioCard,
   Row,
   Span,
-  XL,
   XXL,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
