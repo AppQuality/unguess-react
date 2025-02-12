@@ -1,24 +1,21 @@
 import { InputToggle, Span } from '@appquality/unguess-design-system';
-import { FormikProps } from 'formik';
-import { useState } from 'react';
+import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { HelpTextMessage } from 'src/common/components/helpTextMessage';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseTitle = ({
-  formikProps,
   useCase,
   useCaseIndex,
 }: {
-  formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const { getFieldProps, validateForm, errors } = formikProps;
-  const [title, setTitle] = useState(useCase ? useCase.title : '');
+  const { getFieldProps, validateForm, errors } =
+    useFormikContext<WizardModel>();
 
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
@@ -38,14 +35,16 @@ const UseCaseTitle = ({
           placeholder={t(
             '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_PLACEHOLDER'
           )}
+          {...(useCase &&
+            useCase.title && {
+              value: useCase.title,
+            })}
           {...getFieldProps(`use_cases[${useCaseIndex}].title`)}
           {...(useCaseErrors &&
             useCaseErrors?.title && { validation: 'error' })}
-          value={title}
           onBlur={() => {
             validateForm();
           }}
-          onChange={(e) => setTitle(e.target.value)}
         />
       </InputToggle>
       {useCaseErrors && useCaseErrors?.title && (

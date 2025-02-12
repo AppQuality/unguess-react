@@ -9,8 +9,8 @@ import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { appTheme } from 'src/app/theme';
+import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
 import { CampaignItem } from './CampaignItem';
-import { CardsContainer, StyledRow } from './CardContainer';
 import { CardRowLoading } from './CardRowLoading';
 
 export const SuggestedCampaigns = () => {
@@ -44,18 +44,13 @@ export const SuggestedCampaigns = () => {
           </Paragraph>
         </Col>
       </Row>
-      <CardsContainer>
-        <StyledRow>
-          {campaigns.data.items.map((campaign) => (
-            <Col xs={10} md={6} lg={3} key={`suggested_col_${campaign.id}`}>
-              <CampaignItem
-                key={`suggested_${campaign.id}`}
-                campaign={campaign}
-              />
-            </Col>
-          ))}
-        </StyledRow>
-      </CardsContainer>
+      <ScrollingGrid id="suggested-campaigns-scrolling-grid">
+        {campaigns.data.items.map((campaign) => (
+          <ScrollingGrid.Item key={`suggested_${campaign.id}`}>
+            <CampaignItem campaign={campaign} />
+          </ScrollingGrid.Item>
+        ))}
+      </ScrollingGrid>
     </>
   );
 };

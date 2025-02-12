@@ -15,6 +15,7 @@ import { addBusinessDays } from 'date-fns';
 import { FormikProps } from 'formik';
 import { t } from 'i18next';
 import { useState } from 'react';
+import { appTheme } from 'src/app/theme';
 import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
@@ -88,7 +89,10 @@ export const WhoStep = ({
         </Paragraph>
       </StyledFormField>
       <StyledFormField>
-        <Label>{t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}</Label>
+        <Label>
+          {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}
+          <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+        </Label>
         <Row>
           <WizardCol>
             <StyledRadioField>

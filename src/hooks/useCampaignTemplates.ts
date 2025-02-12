@@ -16,7 +16,6 @@ const useCampaignTemplates = () => {
     },
     sort: 'sort_order',
   });
-
   return {
     data: (data?.data || [])
       .filter(
@@ -36,6 +35,7 @@ const useCampaignTemplates = () => {
         });
 
         return {
+          templateId: item.id,
           ...item.attributes,
           icon: iconUrl ? `${STRAPI_URL}${iconUrl}` : '',
           output: output || [],

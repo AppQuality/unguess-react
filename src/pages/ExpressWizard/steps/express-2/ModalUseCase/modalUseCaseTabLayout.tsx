@@ -4,7 +4,7 @@ import {
   getColor,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { FieldArray, FormikProps } from 'formik';
+import { FieldArray, useFormikContext } from 'formik';
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -101,16 +101,14 @@ const UseCasesWrapper = styled.div`
 `;
 
 export const ModalUseCaseTabLayout = ({
-  formikProps,
   handleCurrentUseCase,
   currentUseCase,
 }: {
-  formikProps: FormikProps<WizardModel>;
   handleCurrentUseCase: (useCase: UseCase) => void;
   currentUseCase?: UseCase;
 }) => {
   const { t } = useTranslation();
-  const { values, validateForm } = formikProps;
+  const { values, validateForm } = useFormikContext<WizardModel>();
   const [highestUseCaseId, setHighestUseCaseId] = useState<number>(0);
   const { use_cases } = values;
 
@@ -160,10 +158,10 @@ export const ModalUseCaseTabLayout = ({
                 >
                   <CardTitle>
                     {t(
-                      '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
+                      '__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_USE_CASE_LABEL'
                     )}{' '}
+                    {index + 1}
                   </CardTitle>
-                  {index + 1}
                 </UseCaseCard>
               ))}
             {use_cases && use_cases.length < EXPRESS_USE_CASES_LIMIT && (
@@ -195,7 +193,7 @@ export const ModalUseCaseTabLayout = ({
                 <CardTitle>
                   {t(
                     '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_ADD_USE_CASE_BUTTON'
-                  )}{' '}
+                  )}
                 </CardTitle>
               </UseCaseCard>
             )}

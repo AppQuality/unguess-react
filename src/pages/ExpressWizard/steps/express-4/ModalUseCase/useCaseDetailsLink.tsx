@@ -4,28 +4,25 @@ import {
   Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
-import { FormikProps } from 'formik';
-import { useState } from 'react';
+import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
-import { HelpTextMessage } from 'src/common/components/helpTextMessage';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { HelpTextMessage } from 'src/common/components/helpTextMessage';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseLink = ({
-  formikProps,
   useCase,
   useCaseIndex,
 }: {
-  formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const { getFieldProps, validateForm, errors } = formikProps;
-  const [link, setLink] = useState(useCase ? useCase.link : '');
+  const { getFieldProps, validateForm, errors } =
+    useFormikContext<WizardModel>();
 
   const useCaseErrors =
     errors && errors.use_cases && Array.isArray(errors.use_cases)
@@ -50,11 +47,13 @@ const UseCaseLink = ({
           '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_PLACEHOLDER'
         )}
         focusInset
+        {...(useCase &&
+          useCase.link && {
+            value: useCase.link,
+          })}
         {...getFieldProps(`use_cases[${useCaseIndex}].link`)}
         {...(useCaseErrors && useCaseErrors?.link && { validation: 'error' })}
-        value={link}
         onBlur={() => validateForm()}
-        onChange={(e) => setLink(e.target.value)}
       />
       {useCaseErrors && useCaseErrors?.link ? (
         <HelpTextMessage validation="error">

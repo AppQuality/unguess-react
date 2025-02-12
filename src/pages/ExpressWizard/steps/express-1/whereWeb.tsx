@@ -87,6 +87,7 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
               Choose what kind of <Span isBold>devices</Span> do you want to
               test on
             </Trans>
+            <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
           </MD>
         </WizardCol>
       </Row>

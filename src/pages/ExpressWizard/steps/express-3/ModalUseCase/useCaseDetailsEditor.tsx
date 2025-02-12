@@ -1,9 +1,3 @@
-import { FormikProps } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
-import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
-import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import {
   Button,
   Col,
@@ -12,21 +6,25 @@ import {
   Paragraph,
   Row,
 } from '@appquality/unguess-design-system';
-import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
+import { useFormikContext } from 'formik';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { UseCase } from 'src/pages/ExpressWizard/fields/how';
+import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
+import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
 
 const UseCaseEditor = ({
-  formikProps,
   useCase,
   useCaseIndex,
 }: {
-  formikProps: FormikProps<WizardModel>;
   useCase: UseCase;
   useCaseIndex: number;
 }) => {
   const { t } = useTranslation();
-  const { setFieldValue } = formikProps;
+  const { setFieldValue } = useFormikContext<WizardModel>();
   const [isEditing, setIsEditing] = useState(false);
   const [editorContent, setEditorContent] = useState(
     useCase ? useCase.description : ''
@@ -42,6 +40,28 @@ const UseCaseEditor = ({
       setIsEditing(false);
     }
   }, [editorChars, editorContent]);
+
+  const memoEditor = useMemo(
+    () => (
+      <Notes>
+        <Editor key={Math.random()} editable={false}>
+          {editorContent}
+        </Editor>
+        <Button
+          isAccent
+          style={{ marginTop: appTheme.space.md }}
+          onClick={() => setIsEditing(true)}
+          isPrimary
+        >
+          <Button.StartIcon>
+            <EditIcon fill={appTheme.palette.white} />
+          </Button.StartIcon>
+          {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
+        </Button>
+      </Notes>
+    ),
+    [useCase, editorContent]
+  );
 
   useEffect(() => {
     setIsEditing(false);
@@ -70,22 +90,7 @@ const UseCaseEditor = ({
           {useCase ? useCase.description : ''}
         </Editor>
       ) : (
-        <Notes>
-          <Editor key={Math.random()} editable={false}>
-            {useCase ? useCase.description : ''}
-          </Editor>
-          <Button
-            isAccent
-            style={{ marginTop: appTheme.space.md }}
-            onClick={() => setIsEditing(true)}
-            isPrimary
-          >
-            <Button.StartIcon>
-              <EditIcon fill={appTheme.palette.white} />
-            </Button.StartIcon>
-            {t('__EXPRESS_WIZARD_STEP_HOW_EDIT_USE_CASE_CARD_LABEL')}
-          </Button>
-        </Notes>
+        memoEditor
       )}
       {isEditing && (
         <Row alignItems="center" style={{ marginTop: appTheme.space.lg }}>

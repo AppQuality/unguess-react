@@ -1,8 +1,15 @@
-import { Paragraph, Separator, XL } from '@appquality/unguess-design-system';
+import {
+  getColor,
+  Grid,
+  Paragraph,
+  Separator,
+  Span,
+  XL,
+  XXL,
+} from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { SectionTitle } from 'src/common/components/SectionTitle';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import styled from 'styled-components';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
@@ -61,11 +68,21 @@ export const ProjectEmptyState = () => {
       }}
     >
       {hasExpress ? (
-        <>
+        <Grid>
           <Paragraph style={{ textAlign: 'center', width: '100%' }}>
-            <SectionTitle
-              title={t('__SERVICE_TILES_HEADER_EMPTY_STATE')}
-              subtitle={t('__SERVICE_TILES_SUBTITLE_EMPTY_STATE')}
+            <XXL
+              style={{
+                fontWeight: appTheme.fontWeights.medium,
+                marginBottom: appTheme.space.xs,
+                color: getColor(appTheme.palette.blue, 600),
+              }}
+            >
+              {t('__SERVICE_TILES_HEADER')}
+            </XXL>
+            <Trans
+              i18nKey="__SERVICE_TILES_SUBTITLE"
+              components={{ bold: <Span isBold /> }}
+              defaults="Launch <bold>lean tests</bold> autonomosly, get <bold>expert-verified</bold> results"
             />
           </Paragraph>
           <Separator
@@ -74,7 +91,9 @@ export const ProjectEmptyState = () => {
               width: '50%',
             }}
           />
-          <ServiceTiles />
+          <div style={{ zIndex: 1, position: 'relative' }}>
+            <ServiceTiles />
+          </div>
           <UGLogoMedium
             style={{ top: 0, left: 0, position: 'absolute', opacity: 0.5 }}
           />
@@ -95,7 +114,7 @@ export const ProjectEmptyState = () => {
               zIndex: appTheme.levels.base,
             }}
           />
-        </>
+        </Grid>
       ) : (
         <ImageWrapper>
           <Illustration />
