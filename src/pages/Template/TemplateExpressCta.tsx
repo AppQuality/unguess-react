@@ -23,7 +23,7 @@ export const TemplateExpressCta = () => {
         dispatch(openDrawer());
       }}
     >
-      {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
+      {t('__CATALOG_PAGE_BUTTON_TEMPLATE_LABEL')}
     </Button>
   );
 };

@@ -94,11 +94,7 @@ export const SingleTemplatePageHeader = () => {
         </PageHeader.Main>
         <PageHeader.Footer>
           <div>
-            {template?.express?.data?.id ? (
-              <TemplateExpressCta
-                expressTypeId={Number(template?.express?.data?.id)}
-              />
-            ) : null}
+            {template?.express?.data?.id ? <TemplateExpressCta /> : null}
           </div>
         </PageHeader.Footer>
       </PageHeader>
