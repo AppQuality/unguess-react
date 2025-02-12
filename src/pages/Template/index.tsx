@@ -14,17 +14,15 @@ import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import { PageLoader } from 'src/common/components/PageLoader';
 import { TemplateTimeline } from './TemplateTimeline';
 import { SingleTemplatePageHeader } from './SingleTemplatePageHeader';
+import { strapiQueryArgs } from './strapiQueryArgs';
+import { extractStrapiData } from 'src/common/getStrapiData';
 
 const Template = () => {
   const { templateId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { activeWorkspace } = useActiveWorkspace();
   const location = useLocation();
-
-  const memoCsm = useMemo(() => activeWorkspace?.csm, [activeWorkspace]);
 
   const { status } = useAppSelector((state) => state.user);
 
@@ -36,52 +34,10 @@ const Template = () => {
 
   const { data, isLoading, isError } = useGetFullTemplatesByIdQuery({
     id: templateId || '',
-    populate: {
-      icon: '*',
-      Price: {
-        populate: {
-          tag_price: {
-            populate: '*',
-          },
-        },
-      },
-      output: {
-        populate: '*',
-      },
-      requirements: {
-        populate: '*',
-      },
-      why: {
-        populate: {
-          reasons: {
-            populate: '*',
-          },
-          advantages: {
-            populate: '*',
-          },
-        },
-      },
-      how: {
-        populate: {
-          timeline: {
-            populate: '*',
-          },
-        },
-      },
-      what: {
-        populate: '*',
-      },
-    },
+    populate: strapiQueryArgs,
   });
 
-  let template;
-
-  if (data) {
-    template = getLocalizedStrapiData({
-      item: data,
-      language: i18n.language,
-    });
-  }
+  const template = extractStrapiData(data);
 
   if (isError) {
     navigate(notFoundRoute, {
@@ -95,12 +51,12 @@ const Template = () => {
 
   return (
     <Page
-      pageHeader={<SingleTemplatePageHeader response={data} />}
+      pageHeader={<SingleTemplatePageHeader />}
       title={template.title}
       route="template"
     >
       <LayoutWrapper>
-        <TemplateTimeline response={data} />
+        <TemplateTimeline />
         <ExpressDrawer
           onCtaClick={() => {
             dispatch(openWizard());

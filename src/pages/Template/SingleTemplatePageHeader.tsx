@@ -10,57 +10,24 @@ import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { PageTitle } from 'src/common/components/PageTitle';
 import { extractStrapiData } from 'src/common/getStrapiData';
-import { getLocalizedStrapiData } from 'src/common/utils';
-import { ServiceResponse } from 'src/features/backoffice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import i18n from 'src/i18n';
 import { TemplateExpressCta } from './TemplateExpressCta';
+import { strapiQueryArgs } from './strapiQueryArgs';
 
-export const SingleTemplatePageHeader = ({
-  response,
-}: {
-  response: ServiceResponse;
-}) => {
+export const SingleTemplatePageHeader = () => {
   const navigate = useNavigate();
   const { templateId } = useParams();
   const workspaceRoute = useLocalizeRoute('');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
-  const service = getLocalizedStrapiData({
-    item: response,
-    language: i18n.language,
-  });
   const { activeWorkspace } = useActiveWorkspace();
   const { data } = useGetFullTemplatesByIdQuery({
     id: templateId || '',
-    populate: {
-      icon: '*',
-      Price: {
-        populate: {
-          tag_price: {
-            populate: '*',
-          },
-        },
-      },
-      output: {
-        populate: '*',
-      },
-      requirements: {
-        populate: '*',
-      },
-      why: {
-        populate: '*',
-      },
-      how: {
-        populate: '*',
-      },
-      what: {
-        populate: '*',
-      },
-    },
+    populate: strapiQueryArgs,
   });
+  const template = data?.data?.attributes;
 
-  const tags = data?.data?.attributes?.output?.map((o) => {
+  const tags = template?.output?.map((o) => {
     const oUrl = o.Icon?.data?.attributes?.url;
     return {
       label: o.Text ?? '',
@@ -70,13 +37,12 @@ export const SingleTemplatePageHeader = ({
   });
 
   // Strapi response
-  const outputImage = extractStrapiData(service.output_image);
+  const outputImage = extractStrapiData(template?.output_image);
   const bannerImg = outputImage.url;
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
-  const express = extractStrapiData(service.express);
-  const expressType = extractStrapiData(express.express_type);
-  const priceIconData =
-    data?.data?.attributes?.Price?.tag_price?.icon?.data?.attributes;
+  const priceIconData = template?.Price?.tag_price?.icon?.data?.attributes;
+
+  console.log('template', template?.express?.data?.id);
 
   return (
     <LayoutWrapper>
@@ -87,16 +53,18 @@ export const SingleTemplatePageHeader = ({
           </Anchor>
         </PageHeader.Breadcrumbs>
         <PageHeader.Main
-          mainTitle={service.title}
+          mainTitle={template?.title}
           {...(bannerImg && { mainImageUrl: bannerImgUrl })}
         >
           <PageHeader.Overline>
-            {service.campaign_type.toUpperCase()}
+            {template?.campaign_type?.toUpperCase()}
           </PageHeader.Overline>
           <PageHeader.Title>
-            <PageTitle>{service.title}</PageTitle>
+            <PageTitle>{template?.title}</PageTitle>
           </PageHeader.Title>
-          <PageHeader.Description>{service.description}</PageHeader.Description>
+          <PageHeader.Description>
+            {template?.description}
+          </PageHeader.Description>
           <PageHeader.Meta>
             <PageMeta>
               {tags &&
@@ -108,19 +76,17 @@ export const SingleTemplatePageHeader = ({
                     <Paragraph>{tag.label}</Paragraph>
                   </Meta>
                 ))}
-              {data?.data?.attributes?.Price?.tag_price && (
+              {template?.Price?.tag_price && (
                 <Meta
                   size="large"
                   icon={
                     <img
                       src={`${STRAPI_URL}${priceIconData?.url}`}
-                      alt={data?.data?.attributes?.Price?.tag_price?.label}
+                      alt={template?.Price?.tag_price?.label}
                     />
                   }
                 >
-                  <Paragraph>
-                    {data?.data?.attributes?.Price?.tag_price?.label}
-                  </Paragraph>
+                  <Paragraph>{template?.Price?.tag_price?.label}</Paragraph>
                 </Meta>
               )}
             </PageMeta>
@@ -128,8 +94,10 @@ export const SingleTemplatePageHeader = ({
         </PageHeader.Main>
         <PageHeader.Footer>
           <div>
-            {expressType && expressType.id ? (
-              <TemplateExpressCta expressTypeId={expressType.id} />
+            {template?.express?.data?.id ? (
+              <TemplateExpressCta
+                expressTypeId={Number(template?.express?.data?.id)}
+              />
             ) : null}
           </div>
         </PageHeader.Footer>

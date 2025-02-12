@@ -1,23 +1,16 @@
 import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
-import { toggleChat } from 'src/common/utils';
 import {
   openDrawer,
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
 
-export const TemplateExpressCta = ({
-  expressTypeId,
-}: {
-  expressTypeId: number;
-}) => {
+export const TemplateExpressCta = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
-  if (!expressTypeId) {
-    return null;
-  }
+  const { templateId } = useParams();
 
   return (
     <Button
@@ -26,9 +19,8 @@ export const TemplateExpressCta = ({
       isPrimary
       isAccent
       onClick={() => {
-        dispatch(setExpressTypeId(expressTypeId));
+        dispatch(setExpressTypeId(templateId));
         dispatch(openDrawer());
-        toggleChat(false);
       }}
     >
       {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
