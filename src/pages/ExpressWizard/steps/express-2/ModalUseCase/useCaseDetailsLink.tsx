@@ -30,7 +30,7 @@ const UseCaseLink = ({
       : null;
 
   return (
-    <div style={{ marginTop: appTheme.space.md }}>
+    <div style={{ marginTop: appTheme.space.lg }}>
       <Label>
         {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_LINK_FIELD_TITLE')}
         <Span style={{ color: appTheme.palette.grey[600] }}>

@@ -125,7 +125,7 @@ export const ModalUseCaseBody = ({
                       <TrashIcon />
                     </Button.StartIcon>
                     {t(
-                      '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
+                      '__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_DELETE_USE_CASE_LABEL'
                     )}
                   </Button>
                 )}
@@ -137,12 +137,12 @@ export const ModalUseCaseBody = ({
             <EmptyImg style={{ marginBottom: appTheme.space.lg }} />
             <EmptyStateTitle>
               {t(
-                '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'
+                '__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_LABEL'
               )}
             </EmptyStateTitle>
             <EmptyStateText>
               {t(
-                '__EXPRESS_3_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_DESCRIPTION'
+                '__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_EMPTY_USE_CASE_DESCRIPTION'
               )}
             </EmptyStateText>
           </CenteredContainer>

@@ -24,11 +24,14 @@ const UseCaseTitle = ({
 
   return (
     <>
-      <InputToggle isFocused>
-        <InputToggle.Label>
-          {t('__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
-          <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
-        </InputToggle.Label>
+      <InputToggle.Label>
+        {t('__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_FIELD_TITLE')}
+        <Span style={{ color: appTheme.components.text.dangerColor }}>*</Span>
+      </InputToggle.Label>
+      <InputToggle
+        isFocused={!useCase.title}
+        style={{ color: appTheme.palette.grey[800] }}
+      >
         <InputToggle.Item
           key={`use_cases[${useCaseIndex}].title`}
           textSize="xxl"
@@ -49,7 +52,7 @@ const UseCaseTitle = ({
       </InputToggle>
       {useCaseErrors && useCaseErrors?.title && (
         <HelpTextMessage validation="error">
-          {t('__EXPRESS_4_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
+          {t('__EXPRESS_2_WIZARD_STEP_HOW_USE_CASE_MODAL_TITLE_REQUIRED')}
         </HelpTextMessage>
       )}
     </>

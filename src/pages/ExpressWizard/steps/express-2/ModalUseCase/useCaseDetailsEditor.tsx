@@ -15,6 +15,7 @@ import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { UseCase } from 'src/pages/ExpressWizard/fields/how';
 import { Notes, NotesTitle } from 'src/pages/ExpressWizard/notesCard';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
+import { UseCaseDropdown } from './useCaseDetailsDropdown';
 
 const UseCaseEditor = ({
   useCase,
@@ -68,33 +69,43 @@ const UseCaseEditor = ({
   }, [useCase]);
 
   return (
-    <div style={{ marginTop: appTheme.space.md }}>
-      <LG>
-        {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_INSTRUCTIONS_FIELD_TITLE')}
-      </LG>
-      <Paragraph style={{ marginBottom: appTheme.space.md }}>
-        {t(
-          '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_INSTRUCTIONS_FIELD_DESCRIPTION'
+    <>
+      <UseCaseDropdown
+        useCase={useCase}
+        useCaseIndex={useCaseIndex}
+        setEditorContent={setEditorContent}
+        setIsEditing={setIsEditing}
+      />
+      <div style={{ marginTop: appTheme.space.lg }}>
+        <LG>
+          {t(
+            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_TITLE'
+          )}
+        </LG>
+        <Paragraph style={{ marginBottom: appTheme.space.lg }}>
+          {t(
+            '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_DESCRIPTION_FIELD_DESCRIPTION'
+          )}
+        </Paragraph>
+        {isEditing ? (
+          <Editor
+            key={`use_cases[${useCaseIndex}].description`}
+            onUpdate={({ editor }) => {
+              setEditorChars(editor.storage.characterCount.characters());
+              setEditorContent(editor.getHTML());
+            }}
+            hasInlineMenu
+            onSave={handleSave}
+          >
+            {useCase ? useCase.description : ''}
+          </Editor>
+        ) : (
+          memoEditor
         )}
-      </Paragraph>
-      {isEditing ? (
-        <Editor
-          key={`use_cases[${useCaseIndex}].description`}
-          onUpdate={({ editor }) => {
-            setEditorChars(editor.storage.characterCount.characters());
-            setEditorContent(editor.getHTML());
-          }}
-          hasInlineMenu
-          onSave={handleSave}
-        >
-          {useCase ? useCase.description : ''}
-        </Editor>
-      ) : (
-        memoEditor
-      )}
+      </div>
       {isEditing && (
         <Row alignItems="center" style={{ marginTop: appTheme.space.lg }}>
-          <Col sm="6" md="8" lg="9">
+          <Col xs="12" sm="6" md="7" lg="8">
             {!editorChars ? (
               <Notes hasIcon validation="error">
                 <InfoIcon />
@@ -125,7 +136,7 @@ const UseCaseEditor = ({
               </Notes>
             )}
           </Col>
-          <Col textAlign="end">
+          <Col textAlign="end" textAlignXs="center">
             <Button
               onClick={() => {
                 setEditorContent(useCase ? useCase.description : '');
@@ -134,17 +145,15 @@ const UseCaseEditor = ({
               isAccent
               isBasic
             >
-              {t(
-                '__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EDITOR_CANCEL_BUTTON'
-              )}
+              Cancel
             </Button>
             <Button onClick={handleSave} isAccent isPrimary>
-              {t('__EXPRESS_WIZARD_STEP_HOW_USE_CASE_MODAL_EDITOR_SAVE_BUTTON')}
+              Save
             </Button>
           </Col>
         </Row>
       )}
-    </div>
+    </>
   );
 };
 
