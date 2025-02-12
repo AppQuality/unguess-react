@@ -144,7 +144,9 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
             <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
               <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
 
-              <Paragraph>{template.requirements?.description}</Paragraph>
+              {template.requirements.description && (
+                <Paragraph>{template.requirements?.description}</Paragraph>
+              )}
 
               <UnorderedList>
                 {template.requirements?.list &&
