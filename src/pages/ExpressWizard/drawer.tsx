@@ -110,6 +110,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
         <Paragraph>{template.description}</Paragraph>
         <TagsContainer>
           {template.tags &&
+            template.tags.length > 0 &&
             template.tags.map((tag: TagItem) => (
               <StyledTag hue="rgba(0,0,0,0)">
                 <StyledTag.Avatar>
@@ -120,13 +121,15 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
             ))}
           {template.price && (
             <StyledTag hue="rgba(0,0,0,0)">
-              <StyledTag.Avatar>
-                <img
-                  key={`tag_${template.slug}_price`}
-                  src={template.price.icon}
-                  alt={template.price.label}
-                />
-              </StyledTag.Avatar>
+              {template.price.icon && (
+                <StyledTag.Avatar>
+                  <img
+                    key={`tag_${template.slug}_price`}
+                    src={template.price.icon}
+                    alt={template.price.label}
+                  />
+                </StyledTag.Avatar>
+              )}
               <span>{template.price.label}</span>
             </StyledTag>
           )}
@@ -137,8 +140,11 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
         </SelectTitle>
         <ProjectDropdown />
         <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
-          <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
+          {template.requirements && (
+            <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
+          )}
           <Paragraph>{template.requirements?.description}</Paragraph>
+
           <UnorderedList>
             {template.requirements?.list &&
               template.requirements?.list.map((reason) => (
