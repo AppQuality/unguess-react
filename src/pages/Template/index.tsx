@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { HubspotModal } from 'src/common/components/HubspotModal';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { checkHubspotURL, getLocalizedStrapiData } from 'src/common/utils';
+import { getLocalizedStrapiData } from 'src/common/utils';
 import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 import { openWizard } from 'src/features/express/expressSlice';
 import { Page } from 'src/features/templates/Page';
@@ -90,41 +89,18 @@ const Template = () => {
     });
   }
 
-  const handleContactUsClick = () => {
-    if (memoCsm && memoCsm.url && checkHubspotURL(memoCsm.url)) {
-      setIsModalOpen(true);
-    } else {
-      window.location.href = `mailto:${
-        activeWorkspace?.csm.email || 'info@unguess.io'
-      }`;
-    }
-  };
-
   if (!data || isLoading || status === 'loading') {
     return <PageLoader />;
   }
 
   return (
     <Page
-      pageHeader={
-        <SingleTemplatePageHeader
-          response={data}
-          onContactClick={handleContactUsClick}
-        />
-      }
+      pageHeader={<SingleTemplatePageHeader response={data} />}
       title={template.title}
       route="template"
     >
       <LayoutWrapper>
-        <HubspotModal
-          isOpen={isModalOpen}
-          meetingUrl={memoCsm?.url}
-          onClose={() => setIsModalOpen(false)}
-        />
-        <TemplateTimeline
-          response={data}
-          onContactClick={handleContactUsClick}
-        />
+        <TemplateTimeline response={data} />
         <ExpressDrawer
           onCtaClick={() => {
             dispatch(openWizard());

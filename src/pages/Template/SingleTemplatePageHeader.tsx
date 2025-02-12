@@ -15,19 +15,16 @@ import { ServiceResponse } from 'src/features/backoffice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
-import { TemplateContactUsCta } from './TemplateContactUsCta';
 import { TemplateExpressCta } from './TemplateExpressCta';
 
 export const SingleTemplatePageHeader = ({
   response,
-  onContactClick,
 }: {
   response: ServiceResponse;
-  onContactClick: () => void;
 }) => {
   const navigate = useNavigate();
   const { templateId } = useParams();
-  const servicesRoute = useLocalizeRoute('services');
+  const workspaceRoute = useLocalizeRoute('');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const service = getLocalizedStrapiData({
     item: response,
@@ -85,7 +82,7 @@ export const SingleTemplatePageHeader = ({
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Breadcrumbs>
-          <Anchor onClick={() => navigate(servicesRoute)}>
+          <Anchor onClick={() => navigate(workspaceRoute)}>
             {activeWorkspace?.company || 'Default'}’s Workspace
           </Anchor>
         </PageHeader.Breadcrumbs>
@@ -130,15 +127,11 @@ export const SingleTemplatePageHeader = ({
           </PageHeader.Meta>
         </PageHeader.Main>
         <PageHeader.Footer>
-          {!activeWorkspace?.isShared && (
-            <div>
-              {expressType && expressType.id ? (
-                <TemplateExpressCta expressTypeId={expressType.id} />
-              ) : (
-                <TemplateContactUsCta onCtaClick={onContactClick} />
-              )}
-            </div>
-          )}
+          <div>
+            {expressType && expressType.id ? (
+              <TemplateExpressCta expressTypeId={expressType.id} />
+            ) : null}
+          </div>
         </PageHeader.Footer>
       </PageHeader>
     </LayoutWrapper>
