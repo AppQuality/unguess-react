@@ -37,7 +37,7 @@ const ServiceTiles = () => {
         }}
       />
       <ExpressWizardContainer />
-      <ScrollingGrid>
+      <ScrollingGrid id="service-tiles-scrolling-grid">
         {data.map((template) => {
           const icon = <img alt={template.title || ''} src={template.icon} />;
           const superscript = template?.Price?.previous_price;
