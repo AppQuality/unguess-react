@@ -147,14 +147,14 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
               {template.requirements.description && (
                 <Paragraph>{template.requirements?.description}</Paragraph>
               )}
-
-              <UnorderedList>
-                {template.requirements?.list &&
-                  template.requirements.list.length > 0 &&
-                  template.requirements?.list.map((reason) => (
-                    <UnorderedList.Item>{reason.item}</UnorderedList.Item>
-                  ))}
-              </UnorderedList>
+              {template.requirements?.list &&
+                template.requirements.list.length > 0 && (
+                  <UnorderedList>
+                    {template.requirements?.list.map((reason) => (
+                      <UnorderedList.Item>{reason.item}</UnorderedList.Item>
+                    ))}
+                  </UnorderedList>
+                )}
             </Notes>
           )}
       </Drawer.Body>
