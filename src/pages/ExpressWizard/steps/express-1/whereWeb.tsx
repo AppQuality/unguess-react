@@ -96,9 +96,6 @@ export const WhereWebStep = (props: FormikProps<WizardModel>) => {
 
       {/** --- Device Type Checkboxes --- */}
       <StyledRow>
-        <WizardCol xs={12} style={{ marginBottom: appTheme.space.md }}>
-          <XL isBold>{t('__EXPRESS_WIZARD_STEP_WHERE_DEVICE_LABEL')}</XL>
-        </WizardCol>
         <WizardCol xs={12} sm={4}>
           <FormField style={{ height: '100%' }}>
             <CheckboxCard
