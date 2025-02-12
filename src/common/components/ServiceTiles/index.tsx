@@ -12,18 +12,13 @@ import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import styled, { useTheme } from 'styled-components';
+import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
 
 const AdditionalInfoTag = styled(Tag)`
   img {
     width: 12px;
     margin-right: ${({ theme }) => theme.space.xs};
   }
-`;
-const CardWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  width: 100%;
-  gap: ${({ theme }) => theme.space.md};
 `;
 
 const ServiceTiles = () => {
@@ -42,7 +37,7 @@ const ServiceTiles = () => {
         }}
       />
       <ExpressWizardContainer />
-      <CardWrapper>
+      <ScrollingGrid>
         {data.map((template) => {
           const icon = <img alt={template.title || ''} src={template.icon} />;
           const superscript = template?.Price?.previous_price;
@@ -63,28 +58,30 @@ const ServiceTiles = () => {
           });
 
           return (
-            <ServiceTile
-              title={template.title || ''}
-              description={template?.campaign_type || ''}
-              background={template?.background || theme.palette.blue[700]}
-              price={template?.Price?.price || '-'}
-              icon={icon}
-              superscript={superscript?.length ? superscript : undefined}
-              isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
-              additionalInfo={
-                <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
-              }
-              onClick={() => {
-                dispatch(setExpressTypeId(template.expressId));
-                dispatch(openDrawer());
-              }}
-            />
+            <ScrollingGrid.Item key={template.expressId}>
+              <ServiceTile
+                title={template.title || ''}
+                description={template?.campaign_type || ''}
+                background={template?.background || theme.palette.blue[700]}
+                price={template?.Price?.price || '-'}
+                icon={icon}
+                superscript={superscript?.length ? superscript : undefined}
+                isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
+                additionalInfo={
+                  <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
+                }
+                onClick={() => {
+                  dispatch(setExpressTypeId(template.expressId));
+                  dispatch(openDrawer());
+                }}
+              />
+            </ScrollingGrid.Item>
           );
         })}
-      </CardWrapper>
+      </ScrollingGrid>
       <SM
         color={appTheme.palette.grey[600]}
-        style={{ padding: `${appTheme.space.md} 0` }}
+        style={{ padding: `0 0 ${appTheme.space.md} 0` }}
       >
         {t('__EXPRESS__SERVICE_TILES_DISCLAIMER')}
       </SM>

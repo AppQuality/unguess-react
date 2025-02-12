@@ -1,4 +1,9 @@
-import { Paragraph, Separator, XL } from '@appquality/unguess-design-system';
+import {
+  Grid,
+  Paragraph,
+  Separator,
+  XL,
+} from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -61,7 +66,7 @@ export const ProjectEmptyState = () => {
       }}
     >
       {hasExpress ? (
-        <>
+        <Grid>
           <Paragraph style={{ textAlign: 'center', width: '100%' }}>
             <SectionTitle
               title={t('__SERVICE_TILES_HEADER_EMPTY_STATE')}
@@ -74,7 +79,9 @@ export const ProjectEmptyState = () => {
               width: '50%',
             }}
           />
-          <ServiceTiles />
+          <div style={{ zIndex: 1 }}>
+            <ServiceTiles />
+          </div>
           <UGLogoMedium
             style={{ top: 0, left: 0, position: 'absolute', opacity: 0.5 }}
           />
@@ -95,7 +102,7 @@ export const ProjectEmptyState = () => {
               zIndex: appTheme.levels.base,
             }}
           />
-        </>
+        </Grid>
       ) : (
         <ImageWrapper>
           <Illustration />
