@@ -44,7 +44,7 @@ export const SuggestedCampaigns = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ScrollingGrid>
+      <ScrollingGrid id="suggested-campaigns-scrolling-grid">
         {campaigns.data.items.map((campaign) => (
           <ScrollingGrid.Item key={`suggested_${campaign.id}`}>
             <CampaignItem campaign={campaign} />

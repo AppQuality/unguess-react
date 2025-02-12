@@ -174,7 +174,7 @@ const ScrollingGridComponent = ({
   const scrollLeft = () => {
     if (scrollingContainer.current) {
       scrollingContainer.current.scrollBy({
-        left: -scrollingContainer.current.offsetWidth / 2,
+        left: -(scrollingContainer.current.offsetWidth / 2),
         behavior: 'smooth',
       });
     }
@@ -196,9 +196,10 @@ const ScrollingGridComponent = ({
         setIsLeftDisabled(false);
       }
       if (
-        scrollingContainer.current.scrollLeft +
-          scrollingContainer.current.offsetWidth >=
-        scrollingContainer.current.scrollWidth
+        Math.ceil(
+          scrollingContainer.current.scrollLeft +
+            scrollingContainer.current.offsetWidth
+        ) >= Math.ceil(scrollingContainer.current.scrollWidth)
       ) {
         setIsRightDisabled(true);
       } else {
