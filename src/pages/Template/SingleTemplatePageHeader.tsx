@@ -4,16 +4,14 @@ import {
   Paragraph,
 } from '@appquality/unguess-design-system';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { PageTitle } from 'src/common/components/PageTitle';
-import { extractStrapiData } from 'src/common/getStrapiData';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
 import { TemplateExpressCta } from './TemplateExpressCta';
-import { strapiQueryArgs } from './strapiQueryArgs';
 
 export const SingleTemplatePageHeader = () => {
   const navigate = useNavigate();
@@ -21,28 +19,11 @@ export const SingleTemplatePageHeader = () => {
   const workspaceRoute = useLocalizeRoute('');
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const { activeWorkspace } = useActiveWorkspace();
-  const { data } = useGetFullTemplatesByIdQuery({
-    id: templateId || '',
-    populate: strapiQueryArgs,
-  });
-  const template = data?.data?.attributes;
-
-  const tags = template?.output?.map((o) => {
-    const oUrl = o.Icon?.data?.attributes?.url;
-    return {
-      label: o.Text ?? '',
-      icon: oUrl ? `${STRAPI_URL}${oUrl}` : '',
-      id: o.id ?? '',
-    };
-  });
+  const { data } = useCampaignTemplateById(templateId || '');
 
   // Strapi response
-  const outputImage = extractStrapiData(template?.output_image);
-  const bannerImg = outputImage.url;
+  const bannerImg = data.outputImage.url;
   const bannerImgUrl = `${STRAPI_URL}${bannerImg}`;
-  const priceIconData = template?.Price?.tag_price?.icon?.data?.attributes;
-
-  console.log('template', template?.express?.data?.id);
 
   return (
     <LayoutWrapper>
@@ -53,22 +34,20 @@ export const SingleTemplatePageHeader = () => {
           </Anchor>
         </PageHeader.Breadcrumbs>
         <PageHeader.Main
-          mainTitle={template?.title}
+          mainTitle={data.title}
           {...(bannerImg && { mainImageUrl: bannerImgUrl })}
         >
           <PageHeader.Overline>
-            {template?.campaign_type?.toUpperCase()}
+            {data.campaignType?.toUpperCase()}
           </PageHeader.Overline>
           <PageHeader.Title>
-            <PageTitle>{template?.title}</PageTitle>
+            <PageTitle>{data.title}</PageTitle>
           </PageHeader.Title>
-          <PageHeader.Description>
-            {template?.description}
-          </PageHeader.Description>
+          <PageHeader.Description>{data.description}</PageHeader.Description>
           <PageHeader.Meta>
             <PageMeta>
-              {tags &&
-                tags.map((tag) => (
+              {data.tags &&
+                data.tags.map((tag) => (
                   <Meta
                     size="large"
                     icon={<img src={tag.icon} alt={tag.label} />}
@@ -76,26 +55,24 @@ export const SingleTemplatePageHeader = () => {
                     <Paragraph>{tag.label}</Paragraph>
                   </Meta>
                 ))}
-              {template?.Price?.tag_price && (
+              {data.price && (
                 <Meta
                   size="large"
                   icon={
                     <img
-                      src={`${STRAPI_URL}${priceIconData?.url}`}
-                      alt={template?.Price?.tag_price?.label}
+                      src={`${STRAPI_URL}${data.price.icon}`}
+                      alt={data.price.label}
                     />
                   }
                 >
-                  <Paragraph>{template?.Price?.tag_price?.label}</Paragraph>
+                  <Paragraph>{data.price.label}</Paragraph>
                 </Meta>
               )}
             </PageMeta>
           </PageHeader.Meta>
         </PageHeader.Main>
         <PageHeader.Footer>
-          <div>
-            {template?.express?.data?.id ? <TemplateExpressCta /> : null}
-          </div>
+          {data.express?.data?.id ? <TemplateExpressCta /> : null}
         </PageHeader.Footer>
       </PageHeader>
     </LayoutWrapper>

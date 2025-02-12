@@ -1,3 +1,4 @@
+import { extractStrapiData } from 'src/common/getStrapiData';
 import { STRAPI_URL } from 'src/constants';
 import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
 
@@ -17,6 +18,38 @@ const useCampaignTemplateById = (id: string) => {
         populate: '*',
       },
       requirements: {
+        populate: '*',
+      },
+      express: {
+        populate: '*',
+      },
+      why: {
+        populate: {
+          reasons: {
+            populate: '*',
+          },
+          advantages: {
+            populate: '*',
+          },
+        },
+      },
+      how: {
+        populate: {
+          timeline: {
+            populate: '*',
+          },
+        },
+      },
+      what: {
+        populate: '*',
+      },
+      output_image: {
+        populate: '*',
+      },
+      campaign_type: {
+        populate: '*',
+      },
+      locale: {
         populate: '*',
       },
     },
@@ -42,6 +75,12 @@ const useCampaignTemplateById = (id: string) => {
     description: data?.data?.attributes?.description || '',
     title: data?.data?.attributes?.title || '',
     slug: data?.data?.attributes?.template_slug || '',
+    express: data?.data?.attributes?.express,
+    why: data?.data?.attributes?.why,
+    how: data?.data?.attributes?.how,
+    what: data?.data?.attributes?.what,
+    outputImage: extractStrapiData(data?.data?.attributes?.output_image),
+    campaignType: data?.data?.attributes?.campaign_type || '',
   };
   return {
     data: templateData,
