@@ -21,6 +21,9 @@ import { ServiceResponse } from 'src/features/backoffice';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { TemplateExpressCta } from './TemplateExpressCta';
+import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
+import { strapiQueryArgs } from './strapiQueryArgs';
+import { useParams } from 'react-router-dom';
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -99,28 +102,28 @@ const StyledGrid = styled(Grid)`
   }
 `;
 
-const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
+const TemplateTimeline = () => {
   const { t } = useTranslation();
+  const { templateId } = useParams();
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
-  const service = getLocalizedStrapiData({
-    item: response,
-    language: i18n.language,
+  const { data } = useGetFullTemplatesByIdQuery({
+    id: templateId || '',
+    populate: strapiQueryArgs,
   });
-  const express = extractStrapiData(service.express);
-  const expressType = extractStrapiData(express.express_type);
+  const template = extractStrapiData(data);
 
   return (
     <StyledGrid gutters="lg">
       <Row>
         <Col xs={12} lg={3}>
-          {(service.why || service.what || service.how) && (
+          {(template?.why || template?.what || template?.how) && (
             <StickyContainer>
               <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE')}
                 </StickyContainerTitle>
                 <StyledOrderedList>
-                  {service.why && (
+                  {template?.why && (
                     <StyledOrderListItem>
                       <Link
                         to="why-card"
@@ -135,7 +138,7 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
                     </StyledOrderListItem>
                   )}
 
-                  {service.what && (
+                  {template?.what && (
                     <StyledOrderListItem>
                       <Link
                         to="what-card"
@@ -150,7 +153,7 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
                     </StyledOrderListItem>
                   )}
 
-                  {service.how && (
+                  {template?.how && (
                     <StyledOrderListItem>
                       <Link
                         to="how-card"
@@ -170,21 +173,21 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
           )}
         </Col>
         <Col xs={12} lg={6}>
-          {service.why && (
+          {template?.why && (
             <TimelineCard id="why-card" className="why-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHY_TITLE">
                   <Span isBold>Why</Span> to choose this campaign
                 </Trans>
               </StepTitle>
-              {service.why.reasons && (
+              {template?.why.reasons && (
                 <>
                   <StepParagraph>
                     {t('__CATALOG_DETAIL_TIMELINE_WHY_DESCRIPTION')}
                   </StepParagraph>
                   <StyledDivider />
                   <Timeline>
-                    {service.why.reasons.map((reason: any) => {
+                    {template?.why.reasons.map((reason: any) => {
                       const icon = extractStrapiData(reason.icon);
                       const iconUrl = icon.url;
 
@@ -213,14 +216,14 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
                   </Timeline>
                 </>
               )}
-              {service.why.advantages && (
+              {template?.why.advantages && (
                 <AdvantagesContainer>
                   <SectionTitle>
                     {t('__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE')}
                   </SectionTitle>
                   <StyledDivider />
                   <Timeline>
-                    {service.why.advantages.map((advantage: any) => (
+                    {template?.why.advantages.map((advantage: any) => (
                       <Timeline.Item hiddenLine icon={<CheckIcon />}>
                         <Timeline.Content>
                           <Paragraph style={{ fontWeight: 500 }}>
@@ -235,25 +238,25 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
             </TimelineCard>
           )}
 
-          {service.what && (
+          {template?.what && (
             <TimelineCard id="what-card" className="what-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHAT_TITLE">
                   <Span isBold>What</Span> you get
                 </Trans>
               </StepTitle>
-              <StepParagraph>{service.what?.description}</StepParagraph>
+              <StepParagraph>{template?.what?.description}</StepParagraph>
               <>
                 <SectionTitle>
                   {t('__CATALOG_DETAIL_TIMELINE_WHAT_RESULTS_TITLE')}
                 </SectionTitle>
                 <StyledDivider />
-                <Paragraph>{service.what?.goal_text}</Paragraph>
+                <Paragraph>{template?.what?.goal_text}</Paragraph>
               </>
             </TimelineCard>
           )}
 
-          {service.how && (
+          {template?.how && (
             <TimelineCard id="how-card" className="how-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_HOW_TITLE">
@@ -264,13 +267,13 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
                 {t('__CATALOG_DETAIL_TIMELINE_HOW_DESCRIPTION')}
               </StepParagraph>
               <Timeline>
-                {service.how.timeline.map((item: any, index: number) => {
+                {template?.how?.timeline?.map((item: any, index: number) => {
                   const icon = extractStrapiData(item.icon);
                   const iconUrl = icon.url;
 
                   return (
                     <Timeline.Item
-                      id={`${service.slug}-${service.locale}-timeline-${
+                      id={`${template?.slug}-${template?.locale}-timeline-${
                         index + 1
                       }`}
                       key={`timeline_${item.id}`}
@@ -298,18 +301,19 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
         </Col>
         <Col xs={12} lg={3}>
           <StickyContainer>
-            {service.requirements && (
+            {template?.requirements && (
               <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_REQUIREMENTS_TITLE')}
                 </StickyContainerTitle>
-                {service.requirements && service.requirements.description && (
-                  <StickyContainerParagraph>
-                    {service.requirements.description}
-                  </StickyContainerParagraph>
-                )}
+                {template?.requirements &&
+                  template?.requirements.description && (
+                    <StickyContainerParagraph>
+                      {template?.requirements.description}
+                    </StickyContainerParagraph>
+                  )}
                 <Timeline>
-                  {service.requirements.list.map((item: any) => (
+                  {template?.requirements?.list?.map((item: any) => (
                     <Timeline.Item
                       key={`requiremens_${item.id}`}
                       icon={<CheckIcon />}
@@ -325,9 +329,11 @@ const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
                 </Timeline>
               </StyledCardContainer>
             )}
-            {(service.why || service.what || service.how) &&
-              (expressType && expressType.id ? (
-                <TemplateExpressCta expressTypeId={expressType.id} />
+            {(template?.why || template?.what || template?.how) &&
+              (template?.express?.data?.id ? (
+                <TemplateExpressCta
+                  expressTypeId={Number(template?.express?.data?.id)}
+                />
               ) : null)}
           </StickyContainer>
         </Col>
