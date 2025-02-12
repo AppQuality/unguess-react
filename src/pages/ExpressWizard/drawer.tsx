@@ -139,19 +139,21 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           {t('__WIZARD_EXPRESS_BODY_SELECT_PROJECT_TITLE')}
         </SelectTitle>
         <ProjectDropdown />
-        <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
-          {template.requirements && (
-            <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
-          )}
-          <Paragraph>{template.requirements?.description}</Paragraph>
+        {template.requirements &&
+          (template.requirements.description || template.requirements.list) && (
+            <Notes style={{ marginTop: `${theme.space.base * 9}px` }}>
+              <NotesTitle>{t('__WIZARD_EXPRESS_BODY_NOTES_TITLE')}</NotesTitle>
 
-          <UnorderedList>
-            {template.requirements?.list &&
-              template.requirements?.list.map((reason) => (
-                <UnorderedList.Item>{reason.item}</UnorderedList.Item>
-              ))}
-          </UnorderedList>
-        </Notes>
+              <Paragraph>{template.requirements?.description}</Paragraph>
+
+              <UnorderedList>
+                {template.requirements?.list &&
+                  template.requirements?.list.map((reason) => (
+                    <UnorderedList.Item>{reason.item}</UnorderedList.Item>
+                  ))}
+              </UnorderedList>
+            </Notes>
+          )}
       </Drawer.Body>
       <Drawer.Footer>
         <Drawer.FooterItem>
