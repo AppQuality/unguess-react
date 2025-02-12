@@ -155,7 +155,6 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
             isPrimary
             isLink
             onClick={() => {
-              onCtaClick();
               navigate(`/templates/${expressTypeId}`);
               dispatch(closeDrawer());
             }}
