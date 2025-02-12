@@ -20,7 +20,6 @@ import { getLocalizedStrapiData } from 'src/common/utils';
 import { ServiceResponse } from 'src/features/backoffice';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
-import { TemplateContactUsCta } from './TemplateContactUsCta';
 import { TemplateExpressCta } from './TemplateExpressCta';
 
 const StickyContainer = styled.div`
@@ -100,13 +99,7 @@ const StyledGrid = styled(Grid)`
   }
 `;
 
-const TemplateTimeline = ({
-  response,
-  onContactClick,
-}: {
-  response: ServiceResponse;
-  onContactClick: () => void;
-}) => {
+const TemplateTimeline = ({ response }: { response: ServiceResponse }) => {
   const { t } = useTranslation();
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
   const service = getLocalizedStrapiData({
@@ -335,9 +328,7 @@ const TemplateTimeline = ({
             {(service.why || service.what || service.how) &&
               (expressType && expressType.id ? (
                 <TemplateExpressCta expressTypeId={expressType.id} />
-              ) : (
-                <TemplateContactUsCta onCtaClick={onContactClick} />
-              ))}
+              ) : null)}
           </StickyContainer>
         </Col>
       </Row>
