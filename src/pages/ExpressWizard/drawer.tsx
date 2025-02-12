@@ -175,6 +175,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           <Button
             id="express-drawer-start-button"
             isPrimary
+            isAccent
             onClick={() => {
               onCtaClick();
               dispatch(closeDrawer());
