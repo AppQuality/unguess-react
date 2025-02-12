@@ -1,21 +1,15 @@
-import { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { getLocalizedStrapiData } from 'src/common/utils';
-import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
+import { PageLoader } from 'src/common/components/PageLoader';
 import { openWizard } from 'src/features/express/expressSlice';
 import { Page } from 'src/features/templates/Page';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import i18n from 'src/i18n';
 import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
-import { PageLoader } from 'src/common/components/PageLoader';
-import { TemplateTimeline } from './TemplateTimeline';
 import { SingleTemplatePageHeader } from './SingleTemplatePageHeader';
-import { strapiQueryArgs } from './strapiQueryArgs';
-import { extractStrapiData } from 'src/common/getStrapiData';
+import { TemplateTimeline } from './TemplateTimeline';
 
 const Template = () => {
   const { templateId } = useParams();
@@ -31,13 +25,9 @@ const Template = () => {
       state: { from: location.pathname },
     });
   }
-
-  const { data, isLoading, isError } = useGetFullTemplatesByIdQuery({
-    id: templateId || '',
-    populate: strapiQueryArgs,
-  });
-
-  const template = extractStrapiData(data);
+  const { data, isLoading, isError } = useCampaignTemplateById(
+    templateId || ''
+  );
 
   if (isError) {
     navigate(notFoundRoute, {
@@ -52,7 +42,7 @@ const Template = () => {
   return (
     <Page
       pageHeader={<SingleTemplatePageHeader />}
-      title={template.title}
+      title={data.title}
       route="template"
     >
       <LayoutWrapper>

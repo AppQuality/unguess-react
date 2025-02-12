@@ -13,17 +13,14 @@ import {
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
+import { useParams } from 'react-router-dom';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
 import { StyledDivider } from 'src/common/components/navigation/asideNav';
 import { extractStrapiData } from 'src/common/getStrapiData';
-import { getLocalizedStrapiData } from 'src/common/utils';
-import { ServiceResponse } from 'src/features/backoffice';
-import i18n from 'src/i18n';
 import styled from 'styled-components';
+import i18n from 'src/i18n';
+import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
 import { TemplateExpressCta } from './TemplateExpressCta';
-import { useGetFullTemplatesByIdQuery } from 'src/features/backoffice/strapi';
-import { strapiQueryArgs } from './strapiQueryArgs';
-import { useParams } from 'react-router-dom';
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -106,11 +103,7 @@ const TemplateTimeline = () => {
   const { t } = useTranslation();
   const { templateId } = useParams();
   const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
-  const { data } = useGetFullTemplatesByIdQuery({
-    id: templateId || '',
-    populate: strapiQueryArgs,
-  });
-  const template = extractStrapiData(data);
+  const { data: template } = useCampaignTemplateById(templateId || '');
 
   return (
     <StyledGrid gutters="lg">
@@ -273,7 +266,7 @@ const TemplateTimeline = () => {
 
                   return (
                     <Timeline.Item
-                      id={`${template?.slug}-${template?.locale}-timeline-${
+                      id={`${template?.slug}-${i18n.language}-timeline-${
                         index + 1
                       }`}
                       key={`timeline_${item.id}`}
@@ -330,11 +323,7 @@ const TemplateTimeline = () => {
               </StyledCardContainer>
             )}
             {(template?.why || template?.what || template?.how) &&
-              (template?.express?.data?.id ? (
-                <TemplateExpressCta
-                  expressTypeId={Number(template?.express?.data?.id)}
-                />
-              ) : null)}
+              (template?.express?.data?.id ? <TemplateExpressCta /> : null)}
           </StickyContainer>
         </Col>
       </Row>
