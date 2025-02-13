@@ -843,8 +843,7 @@ export interface components {
     Module:
       | components['schemas']['ModuleTitle']
       | components['schemas']['ModuleDates']
-      | components['schemas']['ModuleHasBug']
-      | components['schemas']['ModuleHasVideo'];
+      | components['schemas']['ModuleTask'];
     ModuleDates: {
       /** @enum {string} */
       type: 'dates';
@@ -854,23 +853,18 @@ export interface components {
         end: string;
       };
     };
-    /** ModuleHasVideo */
-    ModuleHasVideo: {
-      /** @enum {string} */
-      type: 'hasVideo';
-      variant: string;
-    };
-    /** ModuleHasBug */
-    ModuleHasBug: {
-      /** @enum {string} */
-      type: 'hasBug';
-      variant: string;
-    };
     ModuleTitle: {
       /** @enum {string} */
       type: 'title';
       variant: string;
       output: string;
+    };
+    /** ModuleTask */
+    ModuleTask: {
+      /** @enum {string} */
+      type: 'tasks';
+      variant: string;
+      output: components['schemas']['OutputModuleTask'][];
     };
     /** Observation */
     Observation: {
@@ -1317,6 +1311,22 @@ export interface components {
      * @enum {string}
      */
     BannerType: 'banner_testing_automation' | 'banner_user_experience';
+    /** SubcomponentTaskBug */
+    OutputModuleTaskBug: {
+      /** @enum {string} */
+      kind: 'bug';
+      title: string;
+    };
+    /** SubcomponentTaskVideo */
+    OutputModuleTaskVideo: {
+      /** @enum {string} */
+      kind: 'video';
+      title: string;
+    };
+    /** SubcomponentTask */
+    OutputModuleTask:
+      | components['schemas']['OutputModuleTaskVideo']
+      | components['schemas']['OutputModuleTaskBug'];
   };
   responses: {
     /** Shared error response */
