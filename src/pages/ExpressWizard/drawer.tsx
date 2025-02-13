@@ -59,14 +59,14 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const dispatch = useAppDispatch();
   const sendGTMEvent = useSendGTMevent();
   const navigate = useNavigate();
-  const { isDrawerOpen, project, expressTypeId } = useAppSelector(
+  const { isDrawerOpen, project, expressTypeId, templateId } = useAppSelector(
     (state) => state.express
   );
   const {
     data: template,
     isLoading,
     isError,
-  } = useCampaignTemplateById(expressTypeId.toString());
+  } = useCampaignTemplateById(templateId.toString());
 
   const onClose = () => {
     dispatch(resetWizard());
@@ -166,7 +166,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
             isPrimary
             isLink
             onClick={() => {
-              navigate(`/templates/${expressTypeId}`);
+              navigate(`/templates/${templateId}`);
               dispatch(closeDrawer());
             }}
           >
