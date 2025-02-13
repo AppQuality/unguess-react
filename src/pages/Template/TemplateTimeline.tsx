@@ -244,7 +244,9 @@ const TemplateTimeline = () => {
                   {t('__CATALOG_DETAIL_TIMELINE_WHAT_RESULTS_TITLE')}
                 </SectionTitle>
                 <StyledDivider />
-                <Paragraph>{template?.what?.goal_text}</Paragraph>
+                {template.what?.goalText && (
+                  <Paragraph>{template?.what?.goalText}</Paragraph>
+                )}
               </>
             </TimelineCard>
           )}
