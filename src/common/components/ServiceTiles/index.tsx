@@ -5,6 +5,7 @@ import { appTheme } from 'src/app/theme';
 import {
   openDrawer,
   openWizard,
+  setExpressTemplateId,
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
 import { useCampaignTemplates } from 'src/hooks/useCampaignTemplates';
@@ -71,7 +72,8 @@ const ServiceTiles = () => {
                   <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
                 }
                 onClick={() => {
-                  dispatch(setExpressTypeId(template.templateId));
+                  dispatch(setExpressTypeId(template.expressId));
+                  dispatch(setExpressTemplateId(template.templateId));
                   dispatch(openDrawer());
                 }}
               />
