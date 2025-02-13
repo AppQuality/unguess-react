@@ -19,6 +19,7 @@ import LoginPage from 'src/pages/LoginPage';
 import NotFound from 'src/pages/NotFound/NotFound';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import Service from 'src/pages/Service';
+import Template from 'src/pages/Template';
 import Catalog from 'src/pages/Services';
 import Manual from 'src/pages/Manual';
 import Videos from 'src/pages/Videos';
@@ -84,6 +85,10 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/services/:templateId`}
                     element={<Service />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/templates/:templateId`}
+                    element={<Template />}
                   />
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId/videos`}
