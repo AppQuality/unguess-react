@@ -37,7 +37,7 @@ const useModuleContext = <T extends components['schemas']['Module']['type']>(
 
   return {
     value: module,
-    set: (value: Omit<ModType, 'type'>) => {
+    set: (value: Omit<ModType, 'type' | 'variant'>) => {
       if (module) {
         setFieldValue(
           'modules',

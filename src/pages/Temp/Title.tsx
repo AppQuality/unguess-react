@@ -20,7 +20,6 @@ const Title = () => {
                   remove();
                 } else {
                   set({
-                    variant: 'default',
                     output: e.target.value,
                   });
                 }
