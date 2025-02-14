@@ -25,6 +25,7 @@ import Service from 'src/pages/Service';
 import Template from 'src/pages/Template';
 import Catalog from 'src/pages/Services';
 import { Temp } from 'src/pages/Temp';
+import Plan from 'src/pages/Plan';
 import Video from 'src/pages/Video';
 import Videos from 'src/pages/Videos';
 import { Redirect } from './Redirect';
@@ -104,6 +105,10 @@ const Pages = () => {
                     element={<Video />}
                   />
                   <Route path={`/${langPrefix}/temp`} element={<Temp />} />
+                  <Route
+                    path={`/${langPrefix}/temp/:planId`}
+                    element={<Plan />}
+                  />
                   {/* No route found */}
                   <Route
                     path={`/${langPrefix}/media/oops`}

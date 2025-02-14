@@ -1,0 +1,28 @@
+{
+  "status": "pending_review",
+  "config": {
+    "modules": [
+      {
+        "type": "title",
+        "variant": "default",
+        "output": {
+          "title": "My Plan"
+        }
+      },
+      {
+        "type": "tasks",
+        "variant": "default",
+        "output": [
+          {
+            "kind": "bug",
+            "title": "Search for bugs"
+          },
+          {
+            "kind": "video",
+            "title": "Think aloud"
+          }
+        ]
+      }
+    ]
+  }
+}
