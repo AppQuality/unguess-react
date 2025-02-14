@@ -841,8 +841,6 @@
   "__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA": "is the target of the campaign?",
   "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} of {total_steps}",
   "__EXPRESS_WIZARD_SUBMIT_ERROR": "An error occurred, please try again.",
-  "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT": "Results will be available the first working day after the campaign's launch",
-  "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE": "Results will be available from",
   "__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_FIRST_RESULTS": "First results",
   "__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE": "Plan your campaign",
   "__EXPRESS_WIZARD_SUBMIT_TOOLTIP_MODAL_CUSTOM_DATE_ITEM": "Custom date",

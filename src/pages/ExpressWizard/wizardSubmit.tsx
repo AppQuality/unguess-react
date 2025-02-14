@@ -4,7 +4,6 @@ import {
   Paragraph,
   Spinner,
   SplitButton,
-  TextLabel,
   Timeline,
   TooltipModal,
   getColor,
@@ -36,23 +35,6 @@ const StyledDiv = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`;
-
-const HelpText = styled(TextLabel)`
-  max-width: 250px;
-  position: absolute;
-
-  left: ${({ theme }) => theme.space.lg};
-
-  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    display: none;
-  }
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-    left: auto;
-    right: 0;
-    padding: 0 ${({ theme }) => theme.space.xs};
-  }
 `;
 
 const InteractiveTimelineItem: typeof Timeline.Item = styled(Timeline.Item)`
@@ -147,26 +129,12 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           <ChevronDownIcon />
         </Button>
       </SplitButton>
-      {isSubmitting ? (
+      {isSubmitting && (
         <Spinner
           size="24"
           color={appTheme.palette.blue[600]}
           style={{ marginLeft: appTheme.space.sm }}
         />
-      ) : (
-        (!status || !status.submitError) && (
-          <HelpText>
-            {isPlanned
-              ? `${t(
-                  '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
-                )} ${format(
-                  endDate ?? addBusinessDays(launchDate, requiredDuration),
-                  'EEEE d MMMM',
-                  { locale: lang.locale }
-                )}`
-              : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
-          </HelpText>
-        )
       )}
       <TooltipModal
         referenceElement={refElement}

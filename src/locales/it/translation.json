@@ -867,8 +867,6 @@
   "__EXPRESS_WIZARD_STEP_WHO_LABEL_EXTRA": "è il target della campagna?",
   "__EXPRESS_WIZARD_STEPPER_ACCORDION_TITLE_MOBILE": "Step {current_step} di {total_steps}",
   "__EXPRESS_WIZARD_SUBMIT_ERROR": "Qualcosa è andato storto. Per favore riprova.",
-  "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT": "Risultati a partire dal primo giorno lavorativo dopo il lancio",
-  "__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE": "Risultati a partire da",
   "__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_FIRST_RESULTS": "Primi risultati",
   "__EXPRESS_WIZARD_SUBMIT_PLANNING_TOOLTIP_TITLE": "Pianifica lancio",
   "__EXPRESS_WIZARD_SUBMIT_TOOLTIP_MODAL_CUSTOM_DATE_ITEM": "Data custom",
