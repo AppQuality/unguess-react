@@ -55,8 +55,7 @@ const InteractiveTimelineItem: typeof Timeline.Item = styled(Timeline.Item)`
 
 export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
-  const { errors, isSubmitting, handleSubmit, values, setFieldValue, status } =
-    props;
+  const { errors, isSubmitting, handleSubmit, values, setFieldValue } = props;
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [refElement, setRefElement] = useState<HTMLButtonElement | null>();
