@@ -62,6 +62,7 @@ const useCampaignTemplateById = (id: string) => {
     data?.data?.attributes?.Price?.tag_price?.icon?.data?.attributes;
 
   const templateData = {
+    id,
     price: {
       price: data?.data?.attributes?.Price?.price || 0, // mandatory field
       previousPrice: data?.data?.attributes?.Price?.previous_price,

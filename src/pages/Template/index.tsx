@@ -1,8 +1,12 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageLoader } from 'src/common/components/PageLoader';
-import { openWizard } from 'src/features/express/expressSlice';
+import {
+  openWizard,
+  setExpressTemplateId,
+} from 'src/features/express/expressSlice';
 import { Page } from 'src/features/templates/Page';
 import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -34,6 +38,10 @@ const Template = () => {
       state: { from: location.pathname },
     });
   }
+
+  useEffect(() => {
+    dispatch(setExpressTemplateId(data.id));
+  }, [data]);
 
   if (!data || isLoading || status === 'loading') {
     return <PageLoader />;

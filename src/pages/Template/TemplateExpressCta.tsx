@@ -6,12 +6,17 @@ import {
   openDrawer,
   setExpressTypeId,
 } from 'src/features/express/expressSlice';
+import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
 
 export const TemplateExpressCta = () => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { templateId } = useParams();
 
+  const { data } = useCampaignTemplateById(templateId || '');
+
+  // @ts-ignore
+  const expressTypeId = data.express?.data?.attributes?.express_type?.data.id;
   return (
     <Button
       className="service-details-express-button"
@@ -19,7 +24,7 @@ export const TemplateExpressCta = () => {
       isPrimary
       isAccent
       onClick={() => {
-        dispatch(setExpressTypeId(templateId));
+        dispatch(setExpressTypeId(expressTypeId));
         dispatch(openDrawer());
       }}
     >
