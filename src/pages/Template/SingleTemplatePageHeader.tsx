@@ -9,8 +9,8 @@ import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { PageTitle } from 'src/common/components/PageTitle';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { TemplateExpressCta } from './TemplateExpressCta';
 
 export const SingleTemplatePageHeader = () => {
@@ -38,7 +38,9 @@ export const SingleTemplatePageHeader = () => {
           <PageHeader.Title>
             <PageTitle>{data.title}</PageTitle>
           </PageHeader.Title>
-          <PageHeader.Description>{data.description}</PageHeader.Description>
+          <PageHeader.Description style={{ whiteSpace: 'pre-wrap' }}>
+            {data.description}
+          </PageHeader.Description>
           <PageHeader.Meta>
             <PageMeta>
               {data.tags &&
