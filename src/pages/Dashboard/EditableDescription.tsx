@@ -15,14 +15,11 @@ export const EditableDescription = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
   const sendGTMEvent = useSendGTMevent();
   const { addToast } = useToast();
+  const [patchProject] = usePatchProjectsByPidMutation();
   const { data: project } = useGetProjectsByPidQuery({
     pid: projectId.toString(),
   });
-  const [itemDescription, setItemDescription] = useState<string>(
-    project?.description ?? ''
-  );
-
-  const [patchProject] = usePatchProjectsByPidMutation();
+  const [itemDescription, setItemDescription] = useState<string>();
 
   const InputToggleMemo = useMemo(
     () => (
@@ -33,7 +30,7 @@ export const EditableDescription = ({ projectId }: { projectId: number }) => {
           )}
           textSize="lg"
           maxLength={64}
-          value={itemDescription}
+          value={project?.description}
           onChange={(e) => setItemDescription(e.target.value)}
           onBlur={async (e) => {
             try {
