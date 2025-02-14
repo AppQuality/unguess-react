@@ -59,7 +59,7 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   const dispatch = useAppDispatch();
   const sendGTMEvent = useSendGTMevent();
   const navigate = useNavigate();
-  const { isDrawerOpen, project, expressTypeId, templateId } = useAppSelector(
+  const { isDrawerOpen, project, templateId } = useAppSelector(
     (state) => state.express
   );
   const {
