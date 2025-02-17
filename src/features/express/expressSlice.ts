@@ -4,6 +4,7 @@ import { Project } from '../api';
 export interface ExpressWizardState {
   steps: { [key: string]: Step };
   expressTypeId: number;
+  templateId: number;
   project?: Project;
   projectLocked?: boolean;
   isWizardOpen?: boolean;
@@ -24,6 +25,7 @@ const initialState: ExpressWizardState = {
   steps: {},
   projectLocked: false,
   expressTypeId: 0,
+  templateId: 0,
 };
 
 const expressSlice = createSlice({
@@ -71,6 +73,9 @@ const expressSlice = createSlice({
     setExpressTypeId: (state, action) => {
       state.expressTypeId = action.payload;
     },
+    setExpressTemplateId: (state, action) => {
+      state.templateId = action.payload;
+    },
     resetExpressTypeId: (state) => {
       state.expressTypeId = 0;
     },
@@ -91,6 +96,7 @@ export const {
   setExpressProject,
   lockProject,
   setExpressTypeId,
+  setExpressTemplateId,
   resetExpressTypeId,
 } = expressSlice.actions;
 

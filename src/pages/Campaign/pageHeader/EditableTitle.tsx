@@ -22,6 +22,7 @@ export const EditableTitle = ({ campaignId }: { campaignId: number }) => {
     () => (
       <InputToggle className="editable-title">
         <InputToggle.Item
+          preventEmpty
           textSize="xxxl"
           maxLength={64}
           value={itemTitle}
