@@ -31,12 +31,15 @@ export const Controls = () => {
   };
   return (
     <>
-      <Button type="submit" disabled={isSubmitting || status !== 'draft'}>
+      <Button
+        type="submit"
+        disabled={isSubmitting || values.status !== 'draft'}
+      >
         Save
       </Button>
       <Button
         type="button"
-        disabled={isSubmitting || status === 'pending_review'}
+        disabled={isSubmitting || values.status === 'pending_review'}
         onClick={handleQuoteRequest}
       >
         Request quotation
