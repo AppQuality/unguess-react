@@ -2,7 +2,7 @@ import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
 import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/16/chevron-right-stroke.svg';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const scrollingContainerItemsGap = appTheme.space.md;
 
@@ -228,7 +228,7 @@ const ScrollingGridComponent = ({
         type="button"
         name="scroll-left"
         title="Scroll left"
-        className={`disabled navigation-left`}
+        className="disabled navigation-left"
         onClick={scrollLeft}
       >
         <ArrowLeft width={26} height={26} />
@@ -239,7 +239,7 @@ const ScrollingGridComponent = ({
         type="button"
         name="scroll-right"
         title="Scroll right"
-        className={`disabled navigation-right`}
+        className="disabled navigation-right"
         onClick={scrollRight}
       >
         <ArrowRight width={26} height={26} />
