@@ -1,17 +1,40 @@
-import { Formik, useFormikContext } from 'formik';
-import { ReactNode } from 'react';
+import { Formik, FormikHelpers, useFormikContext } from 'formik';
+import { ReactNode, useCallback, useState } from 'react';
 import { components } from 'src/common/schema';
 import { FormBody } from './types';
+import { useParams } from 'react-router-dom';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
 const ModuleWrapper = ({ children }: { children: ReactNode }) => {
+  const { planId } = useParams();
+  const { activeWorkspace } = useActiveWorkspace();
+
   const initialValues: FormBody = { modules: [] };
+
+  const handleSubmit = useCallback(
+    (values: FormBody, helpers: FormikHelpers<FormBody>) => {
+      helpers.setSubmitting(true);
+      fetch(
+        `http://localhost:3000/api/workspaces/${activeWorkspace?.id}/plans/${planId}`,
+        {
+          method: 'PATCH',
+          // add body, a json of values
+          body: JSON.stringify(values),
+          headers: {},
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => console.log(error))
+        .finally(() => helpers.setSubmitting(false));
+    },
+    [activeWorkspace, planId]
+  );
+
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={(values) => {
-        console.log('Submitted values:', values);
-      }}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {() => children}
     </Formik>
   );

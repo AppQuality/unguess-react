@@ -10,6 +10,14 @@
         }
       },
       {
+        "type": "dates",
+        "variant": "default",
+        "output": {
+          "start": "2041-01-01",
+          "end": "2041-01-31"
+        }
+      },
+      {
         "type": "tasks",
         "variant": "default",
         "output": [

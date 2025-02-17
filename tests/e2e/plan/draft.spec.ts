@@ -10,25 +10,28 @@ test.describe('The module builder', () => {
     await moduleBuilderPage.mockPreferences();
     await moduleBuilderPage.mockWorkspace();
     await moduleBuilderPage.mockWorkspacesList();
-    await moduleBuilderPage.mockGetDraftPlan();
+    await moduleBuilderPage.mockGetDraftWithOnlyMandatoryModulesPlan();
     await moduleBuilderPage.open();
   });
 
   test('has a list of available modules and not others, a save button and a request quote cta', async () => {
     await expect(moduleBuilderPage.elements().titleModule()).toBeVisible();
     await expect(moduleBuilderPage.elements().tasksModule()).toBeVisible();
-    await expect(moduleBuilderPage.elements().datesModule()).not.toBeVisible();
+    await expect(moduleBuilderPage.elements().datesModule()).toBeVisible();
     await expect(moduleBuilderPage.elements().submitButton()).toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().descriptionModule()
+    ).not.toBeVisible();
     await expect(
       moduleBuilderPage.elements().submitButton()
     ).not.toBeDisabled();
     await expect(moduleBuilderPage.elements().quoteButton()).toBeVisible();
     await expect(moduleBuilderPage.elements().quoteButton()).not.toBeDisabled();
   });
-  test('cliccando save button devo chiamare la patch plan', async () => {
+  test('Clicking save button calls the PATCH Plan', async () => {
     // todo
   });
-  test('cliccando request quotation devo chiamare la patch plan, e poi se ok la patch status', async () => {
+  test('Clicking request quotation calls the PATCH Plan, then if ok the PATCH Status', async () => {
     // todo
   });
 });
