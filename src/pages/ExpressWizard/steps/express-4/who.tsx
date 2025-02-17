@@ -109,7 +109,7 @@ export const WhoStep = ({
       value: 'fr',
     },
   ];
-  const ageRanges = ['18-24', '25-34', '35-54', '55-70'];
+  const ageRanges = ['18-24', '25-34', '35-54', '55+'];
   const genders: RadioItem[] = [
     { label: t('__EXPRESS_4_WIZARD_STEP_WHO_GENDER_MALE'), value: 'male' },
     { label: t('__EXPRESS_4_WIZARD_STEP_WHO_GENDER_FEMALE'), value: 'female' },
