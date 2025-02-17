@@ -9,18 +9,12 @@
         }
       },
       {
-        "type": "tasks",
+        "type": "dates",
         "variant": "default",
-        "output": [
-          {
-            "kind": "bug",
-            "title": "Search for bugs"
-          },
-          {
-            "kind": "video",
-            "title": "Think aloud"
-          }
-        ]
+        "output": {
+          "start": "2041-01-01",
+          "end": "2041-01-31"
+        }
       }
     ]
   }
