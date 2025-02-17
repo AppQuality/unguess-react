@@ -11,7 +11,7 @@ export class UnguessPage {
 
   constructor(page: Page) {
     this.page = page;
-    this.i18n = getI18nInstance();
+    this.i18n = getI18nInstance() as unknown as i18n;
   }
 
   async open() {
@@ -65,6 +65,31 @@ export class UnguessPage {
     await this.page.route('*/**/api/campaigns/1', async (route) => {
       await route.fulfill({
         path: 'tests/api/campaigns/cid/_get/200_Example_1.json',
+      });
+    });
+  }
+
+  // todo: mock this call, not mandatory for the time being
+  async mockProjects() {
+    await this.page.route('*/**/api/workspaces/1/projects', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/workspaces/wid/projects/_get/200_demo_internal.json',
+      });
+    });
+  }
+  // todo: mock this call, not mandatory for the time being
+  async mockUsers() {
+    await this.page.route('*/**/api/users', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/users/_get/200_demo_internal.json',
+      });
+    });
+  }
+  // todo: mock this call, not mandatory for the time being
+  async mockArchive() {
+    await this.page.route('*/**/api/archive', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/archive/_get/200_demo_internal.json',
       });
     });
   }
