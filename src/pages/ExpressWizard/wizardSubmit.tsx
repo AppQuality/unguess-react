@@ -74,7 +74,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const lang = getLanguage(i18n.language || 'en');
   const today = new Date();
   const requiredDuration =
-    values.campaign_language === 'en' ? base_cp_duration + 1 : base_cp_duration;
+    values.campaign_language === 'it' ? base_cp_duration : base_cp_duration + 1;
 
   const dateSpots = [
     addBusinessDays(values.campaign_date ?? today, 1),
