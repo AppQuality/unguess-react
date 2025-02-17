@@ -47,6 +47,7 @@ export const ProjectDropdown = () => {
   ) : (
     <Field>
       <Autocomplete
+        listboxAppendToNode={document.body}
         isCreatable={canAccessWorkspace}
         startIcon={<FolderIcon />}
         {...(projectLocked && project && { isDisabled: true })}

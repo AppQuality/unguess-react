@@ -2,7 +2,7 @@ import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { ReactComponent as ArrowLeft } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
 import { ReactComponent as ArrowRight } from '@zendeskgarden/svg-icons/src/16/chevron-right-stroke.svg';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 const scrollingContainerItemsGap = appTheme.space.md;
 
@@ -169,8 +169,9 @@ const ScrollingGridComponent = ({
 }: React.HTMLAttributes<HTMLDivElement>) => {
   const scrollingContainer = useRef<HTMLDivElement>(null);
   const wrapperContainer = useRef<HTMLDivElement>(null);
-  const [isLeftDisabled, setIsLeftDisabled] = useState(true);
-  const [isRightDisabled, setIsRightDisabled] = useState(true);
+  const leftButtonRef = useRef<HTMLButtonElement>(null);
+  const rightButtonRef = useRef<HTMLButtonElement>(null);
+
   const scrollLeft = () => {
     if (scrollingContainer.current) {
       scrollingContainer.current.scrollBy({
@@ -191,9 +192,9 @@ const ScrollingGridComponent = ({
   const handleScroll = useCallback(() => {
     if (scrollingContainer.current) {
       if (scrollingContainer.current.scrollLeft === 0) {
-        setIsLeftDisabled(true);
+        leftButtonRef.current?.classList.add('disabled');
       } else {
-        setIsLeftDisabled(false);
+        leftButtonRef.current?.classList.remove('disabled');
       }
       if (
         Math.ceil(
@@ -201,9 +202,9 @@ const ScrollingGridComponent = ({
             scrollingContainer.current.offsetWidth
         ) >= Math.ceil(scrollingContainer.current.scrollWidth)
       ) {
-        setIsRightDisabled(true);
+        rightButtonRef.current?.classList.add('disabled');
       } else {
-        setIsRightDisabled(false);
+        rightButtonRef.current?.classList.remove('disabled');
       }
     }
   }, []);
@@ -223,20 +224,22 @@ const ScrollingGridComponent = ({
   return (
     <GridContainer {...props} ref={wrapperContainer}>
       <button
+        ref={leftButtonRef}
         type="button"
         name="scroll-left"
         title="Scroll left"
-        className={`${isLeftDisabled ? 'disabled' : ''} navigation-left`}
+        className="disabled navigation-left"
         onClick={scrollLeft}
       >
         <ArrowLeft width={26} height={26} />
       </button>
       <StyledGrid ref={scrollingContainer}>{children}</StyledGrid>
       <button
+        ref={rightButtonRef}
         type="button"
         name="scroll-right"
         title="Scroll right"
-        className={`${isRightDisabled ? 'disabled' : ''} navigation-right`}
+        className="disabled navigation-right"
         onClick={scrollRight}
       >
         <ArrowRight width={26} height={26} />

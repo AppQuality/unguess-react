@@ -4,7 +4,6 @@ import {
   Paragraph,
   Spinner,
   SplitButton,
-  TextLabel,
   Timeline,
   TooltipModal,
   getColor,
@@ -38,23 +37,6 @@ const StyledDiv = styled.div`
   align-items: center;
 `;
 
-const HelpText = styled(TextLabel)`
-  max-width: 250px;
-  position: absolute;
-
-  left: ${({ theme }) => theme.space.lg};
-
-  @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    display: none;
-  }
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-    left: auto;
-    right: 0;
-    padding: 0 ${({ theme }) => theme.space.xs};
-  }
-`;
-
 const InteractiveTimelineItem: typeof Timeline.Item = styled(Timeline.Item)`
   cursor: pointer;
 
@@ -73,32 +55,28 @@ const InteractiveTimelineItem: typeof Timeline.Item = styled(Timeline.Item)`
 
 export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const { t } = useTranslation();
-  const { errors, isSubmitting, handleSubmit, values, setFieldValue, status } =
-    props;
+  const { errors, isSubmitting, handleSubmit, values, setFieldValue } = props;
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [refElement, setRefElement] = useState<HTMLButtonElement | null>();
   const [selectedDateSpot, setSelectedDateSpot] = useState<number>();
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
-
+  const today = new Date();
   const { base_cp_duration = EXPRESS_BUSINESS_DAYS_TO_ADD } = values;
 
   const [launchDate, setlaunchDate] = useState<Date>(
-    values.campaign_date ?? new Date()
-  );
-  const [endDate, setEndDate] = useState<Date>(
-    values.campaign_date_end ?? addBusinessDays(launchDate, base_cp_duration)
+    values.campaign_date ?? addBusinessDays(today, 1)
   );
 
   const lang = getLanguage(i18n.language || 'en');
-  const today = new Date();
   const requiredDuration =
-    values.campaign_language === 'en' ? base_cp_duration + 1 : base_cp_duration;
+    values.campaign_language === 'it' ? base_cp_duration : base_cp_duration + 1;
 
-  const dateSpots = [
-    addBusinessDays(values.campaign_date ?? today, 1),
-    addBusinessDays(values.campaign_date ?? today, 5),
-  ];
+  const [endDate, setEndDate] = useState<Date>(
+    values.campaign_date_end ?? addBusinessDays(launchDate, requiredDuration)
+  );
+
+  const dateSpots = [addBusinessDays(today, 2), addBusinessDays(today, 5)];
 
   const triggerSubmit = useCallback(() => {
     if (selectedDateSpot && selectedDateSpot !== -1) {
@@ -147,26 +125,12 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
           <ChevronDownIcon />
         </Button>
       </SplitButton>
-      {isSubmitting ? (
+      {isSubmitting && (
         <Spinner
           size="24"
           color={appTheme.palette.blue[600]}
           style={{ marginLeft: appTheme.space.sm }}
         />
-      ) : (
-        (!status || !status.submitError) && (
-          <HelpText>
-            {isPlanned
-              ? `${t(
-                  '__EXPRESS_WIZARD_SUBMIT_HELP_TEXT_WITH_RESULTS_DATE'
-                )} ${format(
-                  endDate ?? addBusinessDays(launchDate, requiredDuration),
-                  'EEEE d MMMM',
-                  { locale: lang.locale }
-                )}`
-              : t('__EXPRESS_WIZARD_SUBMIT_HELP_TEXT')}
-          </HelpText>
-        )
       )}
       <TooltipModal
         referenceElement={refElement}
