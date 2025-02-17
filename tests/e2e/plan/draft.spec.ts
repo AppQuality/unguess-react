@@ -14,9 +14,9 @@ test.describe('The module builder', () => {
     await moduleBuilderPage.open();
   });
 
-  test('has a list of available modules and not others, a save button and a request quote cta', async () => {
+  test('has a list of saved modules and not the others, a save button and a request quote cta', async () => {
     await expect(moduleBuilderPage.elements().titleModule()).toBeVisible();
-    await expect(moduleBuilderPage.elements().tasksModule()).toBeVisible();
+    await expect(moduleBuilderPage.elements().tasksModule()).not.toBeVisible();
     await expect(moduleBuilderPage.elements().datesModule()).toBeVisible();
     await expect(moduleBuilderPage.elements().submitButton()).toBeVisible();
     await expect(
