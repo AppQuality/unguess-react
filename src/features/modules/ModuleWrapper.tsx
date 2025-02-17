@@ -1,10 +1,9 @@
-import { Formik, FormikHelpers, useFormikContext } from 'formik';
+import { Form, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { components } from 'src/common/schema';
 import { FormBody } from './types';
 import { useParams } from 'react-router-dom';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { da } from 'date-fns/locale';
 
 const ModuleWrapper = ({ children }: { children: ReactNode }) => {
   const { planId } = useParams();
@@ -45,7 +44,11 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
         {
           method: 'PATCH',
           // add body, a json of values
-          body: JSON.stringify(values),
+          body: JSON.stringify({
+            config: {
+              modules: values.modules,
+            },
+          }),
           headers: {},
         }
       )
@@ -65,7 +68,7 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
       onSubmit={handleSubmit}
       enableReinitialize
     >
-      {() => children}
+      <Form>{children}</Form>
     </Formik>
   );
 };

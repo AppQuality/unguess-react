@@ -19,6 +19,7 @@ export const Controls = () => {
       `http://localhost:3000/api/workspaces/${activeWorkspace?.id}/plans/${planId}/status`,
       {
         method: 'PATCH',
+        body: JSON.stringify({ status: 'pending_review' }),
         headers: {},
       }
     )
