@@ -77,7 +77,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
     values.campaign_date_end ?? addBusinessDays(launchDate, requiredDuration)
   );
 
-  const dateSpots = [addBusinessDays(today, 1), addBusinessDays(today, 5)];
+  const dateSpots = [addBusinessDays(today, 2), addBusinessDays(today, 5)];
 
   const triggerSubmit = useCallback(() => {
     if (selectedDateSpot && selectedDateSpot !== -1) {
