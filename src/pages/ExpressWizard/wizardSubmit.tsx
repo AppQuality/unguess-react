@@ -61,15 +61,14 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const [refElement, setRefElement] = useState<HTMLButtonElement | null>();
   const [selectedDateSpot, setSelectedDateSpot] = useState<number>();
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
-
+  const today = new Date();
   const { base_cp_duration = EXPRESS_BUSINESS_DAYS_TO_ADD } = values;
 
   const [launchDate, setlaunchDate] = useState<Date>(
-    values.campaign_date ?? addBusinessDays(new Date(), 1)
+    values.campaign_date ?? addBusinessDays(today, 1)
   );
 
   const lang = getLanguage(i18n.language || 'en');
-  const today = new Date();
   const requiredDuration =
     values.campaign_language === 'it' ? base_cp_duration : base_cp_duration + 1;
 
