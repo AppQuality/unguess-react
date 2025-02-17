@@ -65,12 +65,7 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const { base_cp_duration = EXPRESS_BUSINESS_DAYS_TO_ADD } = values;
 
   const [launchDate, setlaunchDate] = useState<Date>(
-    values.campaign_date ??
-      new Date(
-        new Date().setDate(
-          new Date().getDate() + 1 // We don't want the campaign to start today
-        )
-      )
+    values.campaign_date ?? addBusinessDays(new Date(), 1)
   );
 
   const lang = getLanguage(i18n.language || 'en');

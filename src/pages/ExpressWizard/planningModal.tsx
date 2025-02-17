@@ -77,13 +77,7 @@ const PlanningModal = ({
                     : format(date, 'EEEE d MMMM Y', { locale: lang.locale })
                 }
                 onChange={handleDateChange}
-                minValue={
-                  new Date(
-                    new Date().setDate(
-                      new Date().getDate() + 1 // We don't want the campaign to start today
-                    )
-                  )
-                }
+                minValue={addBusinessDays(new Date(), 1)}
                 maxValue={
                   new Date(
                     new Date().setDate(
