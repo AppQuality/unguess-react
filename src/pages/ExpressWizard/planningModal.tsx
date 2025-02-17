@@ -11,7 +11,7 @@ import {
   Paragraph,
   Row,
 } from '@appquality/unguess-design-system';
-import { addBusinessDays, format, isToday } from 'date-fns';
+import { addBusinessDays, format, isTomorrow } from 'date-fns';
 import { t } from 'i18next';
 import { useState } from 'react';
 import { appTheme } from 'src/app/theme';
@@ -68,16 +68,22 @@ const PlanningModal = ({
               <Datepicker
                 value={launchDate}
                 formatDate={(date: Date) =>
-                  isToday(date)
+                  isTomorrow(date)
                     ? `${t(
-                        '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TODAY_LABEL'
+                        '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TOMORROW_LABEL'
                       )} (${format(date, 'EEEE d MMMM Y', {
                         locale: lang.locale,
                       })})`
                     : format(date, 'EEEE d MMMM Y', { locale: lang.locale })
                 }
                 onChange={handleDateChange}
-                minValue={new Date()}
+                minValue={
+                  new Date(
+                    new Date().setDate(
+                      new Date().getDate() + 1 // We don't want the campaign to start today
+                    )
+                  )
+                }
                 maxValue={
                   new Date(
                     new Date().setDate(

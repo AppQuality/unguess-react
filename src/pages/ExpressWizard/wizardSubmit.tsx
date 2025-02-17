@@ -65,10 +65,12 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const { base_cp_duration = EXPRESS_BUSINESS_DAYS_TO_ADD } = values;
 
   const [launchDate, setlaunchDate] = useState<Date>(
-    values.campaign_date ?? new Date()
-  );
-  const [endDate, setEndDate] = useState<Date>(
-    values.campaign_date_end ?? addBusinessDays(launchDate, base_cp_duration)
+    values.campaign_date ??
+      new Date(
+        new Date().setDate(
+          new Date().getDate() + 1 // We don't want the campaign to start today
+        )
+      )
   );
 
   const lang = getLanguage(i18n.language || 'en');
@@ -76,10 +78,11 @@ export const WizardSubmit = (props: FormikProps<WizardModel>) => {
   const requiredDuration =
     values.campaign_language === 'it' ? base_cp_duration : base_cp_duration + 1;
 
-  const dateSpots = [
-    addBusinessDays(values.campaign_date ?? today, 1),
-    addBusinessDays(values.campaign_date ?? today, 5),
-  ];
+  const [endDate, setEndDate] = useState<Date>(
+    values.campaign_date_end ?? addBusinessDays(launchDate, requiredDuration)
+  );
+
+  const dateSpots = [addBusinessDays(today, 1), addBusinessDays(today, 5)];
 
   const triggerSubmit = useCallback(() => {
     if (selectedDateSpot && selectedDateSpot !== -1) {

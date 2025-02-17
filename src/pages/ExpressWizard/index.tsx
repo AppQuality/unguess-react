@@ -236,7 +236,14 @@ export const ExpressWizardContainer = () => {
     };
 
     const campaignHandle = async (prj: Project) => {
-      const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
+      const fallBackDate = format(
+        new Date(
+          new Date().setDate(
+            new Date().getDate() + 1 // We don't want the campaign to start today
+          )
+        ),
+        BASE_DATE_FORMAT
+      );
       // Create the campaign
       const cp = await createCampaign({
         body: {
