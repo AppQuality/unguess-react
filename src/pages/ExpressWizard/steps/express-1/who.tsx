@@ -11,12 +11,10 @@ import {
   XXL,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { addBusinessDays } from 'date-fns';
 import { FormikProps } from 'formik';
 import { t } from 'i18next';
 import { useState } from 'react';
 import { appTheme } from 'src/app/theme';
-import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
@@ -53,23 +51,6 @@ export const WhoStep = ({
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
     props.setFieldValue('campaign_language', value);
-
-    // Update initial values for when
-    if (values.campaign_date) {
-      let endDate = addBusinessDays(
-        values.campaign_date,
-        EXPRESS_BUSINESS_DAYS_TO_ADD
-      );
-
-      if (value !== 'it') {
-        endDate = addBusinessDays(
-          values.campaign_date,
-          EXPRESS_BUSINESS_DAYS_TO_ADD + 1
-        );
-      }
-
-      props.setFieldValue('campaign_date_end', endDate);
-    }
   };
 
   return (

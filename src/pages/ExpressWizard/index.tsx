@@ -7,7 +7,7 @@ import {
   Row,
   Stepper,
 } from '@appquality/unguess-design-system';
-import { format } from 'date-fns';
+import { addBusinessDays, format } from 'date-fns';
 import {
   Form,
   Formik,
@@ -236,7 +236,10 @@ export const ExpressWizardContainer = () => {
     };
 
     const campaignHandle = async (prj: Project) => {
-      const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
+      const fallBackDate = format(
+        addBusinessDays(new Date(), 1),
+        BASE_DATE_FORMAT
+      );
       // Create the campaign
       const cp = await createCampaign({
         body: {
