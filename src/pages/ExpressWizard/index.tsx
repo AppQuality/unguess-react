@@ -355,7 +355,6 @@ export const ExpressWizardContainer = () => {
         action: 'express_error',
         event: 'express_navigation',
         category: expressTypeMeta.slug,
-        content: '',
       });
     }
   };
@@ -391,7 +390,6 @@ export const ExpressWizardContainer = () => {
       );
 
       sendGTMEvent({
-        action: '',
         event: 'express_navigation',
         category: expressTypeMeta.slug,
         content: `express_step_${activeStep + 1}_of_${steps.length}`,
@@ -527,7 +525,6 @@ export const ExpressWizardContainer = () => {
               action: 'express_close',
               event: 'express_navigation',
               category: expressTypeMeta.slug,
-              content: '',
             });
           }}
         />

@@ -41,7 +41,6 @@ export const EditableDescription = ({ projectId }: { projectId: number }) => {
                 }).unwrap();
                 sendGTMEvent({
                   event: 'workspaces-action',
-                  category: '',
                   action: 'change_description_success',
                   content: itemDescription,
                 });
