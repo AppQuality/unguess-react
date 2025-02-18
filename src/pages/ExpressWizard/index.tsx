@@ -259,7 +259,6 @@ export const ExpressWizardContainer = () => {
           pm_id: activeWorkspace?.csm.id || -1,
           platforms: getPlatform(values),
           customer_id: activeWorkspace?.id || -1,
-
           express_slug: expressTypeMeta.slug,
           has_bug_form: values.has_bug_form ? 1 : 0,
           has_bug_parade: values.has_bug_parade ? 1 : 0,
