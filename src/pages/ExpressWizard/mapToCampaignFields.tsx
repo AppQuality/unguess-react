@@ -39,11 +39,21 @@ export const mapTesterRequirements = (values: {
 
   let requirements = '';
 
-  if (age_range && age_range !== 'all')
-    requirements += `Age Range: ${age_range}\n`;
-  if (gender && gender !== 'all') requirements += `Gender: ${gender}\n`;
-  if (digital_literacy && digital_literacy !== 'all')
-    requirements += `Digital Literacy: ${digital_literacy}\n`;
+  if (age_range) {
+    if (age_range === 'all') requirements += `Age Range: All ages\n`;
+    else requirements += `Age Range: ${age_range}\n`;
+  }
+
+  if (gender) {
+    if (gender === 'all') requirements += `Gender: All genders\n`;
+    else requirements += `Gender: ${gender}\n`;
+  }
+
+  if (digital_literacy) {
+    if (digital_literacy === 'all')
+      requirements += `Digital Literacy: All levels\n`;
+    else requirements += `Digital Literacy: ${digital_literacy}\n`;
+  }
 
   return requirements;
 };
