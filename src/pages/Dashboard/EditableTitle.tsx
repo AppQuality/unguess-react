@@ -1,7 +1,7 @@
 import {
   InputToggle,
-  useToast,
   Notification,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,7 @@ export const EditableTitle = ({ projectId }: { projectId: number }) => {
           preventEmpty
           textSize="xxxl"
           maxLength={64}
+          key={project?.id}
           value={project?.name}
           onChange={(e) => setItemTitle(e.target.value)}
           onBlur={async (e) => {
