@@ -3,6 +3,8 @@ export const mapLanguages = (language: string[]) =>
     .map((lang) => {
       if (lang === 'en') return 'English';
       if (lang === 'it') return 'Italian';
+      if (lang === 'es') return 'Spanish';
+      if (lang === 'fr') return 'French';
       return '';
     })
     .filter((lang) => !lang);
