@@ -6,6 +6,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { Page } from 'src/features/templates/Page';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { CampaignsList } from './campaigns-list';
 import { DashboardHeaderContent } from './headerContent';
 import { LaunchCampaignCards } from './LaunchCampaignCards';
@@ -18,6 +19,7 @@ const Dashboard = () => {
 
   const { status } = useAppSelector((state) => state.user);
   const sendGTMEvent = useSendGTMevent();
+  const hasWSPermissions = useCanAccessToActiveWorkspace();
 
   if (status === 'logged') dispatch(resetFilters()); // Reset filters
 
@@ -46,7 +48,7 @@ const Dashboard = () => {
       <LayoutWrapper>
         <Grid>
           <SuggestedCampaigns />
-          <LaunchCampaignCards />
+          {hasWSPermissions && <LaunchCampaignCards />}
           <CampaignsList />
           {openCreateProjectModal ? (
             <CreateProjectModal setOpen={setOpenCreateProjectModal} />
