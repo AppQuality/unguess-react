@@ -78,7 +78,6 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
   useEffect(() => {
     if (isDrawerOpen) {
       sendGTMEvent({
-        action: '',
         event: 'express_navigation',
         category: template.slug,
         content: 'drawer_open',
@@ -97,7 +96,6 @@ export const ExpressDrawer = ({ onCtaClick }: { onCtaClick: () => void }) => {
           action: 'drawer_close',
           event: 'express_navigation',
           category: template.slug,
-          content: '',
         });
         onClose();
       }}

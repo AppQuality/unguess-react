@@ -188,7 +188,6 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
               .then(() => {
                 sendGTMEvent({
                   event: 'workspaces-action',
-                  category: '',
                   action: 'move',
                   content: 'campaign',
                 });

@@ -20,17 +20,17 @@ export const useSendGTMevent = () => {
       if (user && activeWorkspace && data) {
         TagManager.dataLayer({
           dataLayer: {
-            event: data?.event,
             role: user.role,
             wp_user_id: user.tryber_wp_user_id,
             tester_id: user.id,
             name: user.name,
             email: user.email,
             company: activeWorkspace.company,
-            ...(data?.content && { content: data.content }),
-            ...(data?.category && { category: data.category }),
-            ...(data?.action && { action: data.action }),
-            ...(data?.target && { target: data.target }),
+            event: data?.event ?? '(not set)',
+            content: data?.content ?? '(not set)',
+            category: data?.category ?? '(not set)',
+            action: data?.action ?? '(not set)',
+            target: data?.target ?? '(not set)',
           },
         });
       }

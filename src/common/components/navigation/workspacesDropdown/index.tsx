@@ -99,7 +99,6 @@ export const WorkspacesDropdown = () => {
   const toggleGtmWorkspaceChange = () => {
     sendGTMEvent({
       event: 'workspaces-action',
-      category: '',
       action: 'workspace_change',
     });
   };
