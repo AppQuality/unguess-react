@@ -71,8 +71,10 @@ export const WhoStep = ({
   const [age, setAge] = useState(values.age_range);
   const [gender, setGender] = useState(values.gender);
   const [literacy, setLiteracy] = useState(values.digital_literacy);
+  const [language, setLanguage] = useState(values.campaign_language);
 
   const handleLanguageClick = (value: string) => {
+    setLanguage(value);
     props.setFieldValue('campaign_language', value);
   };
 
@@ -171,7 +173,7 @@ export const WhoStep = ({
                   {...props.getFieldProps('campaign_language')}
                   {...(errors.campaign_language && { validation: 'error' })}
                   value={lang.value}
-                  checked={values.campaign_language === lang.value}
+                  checked={language === lang.value}
                   onChange={(e) => handleLanguageClick(e.target.value)}
                 >
                   <Label isRegular>{lang.label}</Label>
