@@ -7,7 +7,7 @@ export const mapLanguages = (language: string[]) =>
       if (lang === 'fr') return 'French';
       return '';
     })
-    .filter((lang) => !lang);
+    .filter((lang) => lang !== '');
 
 export const mapProductType = (productType: string) => {
   if (productType === 'webapp') return 1;
