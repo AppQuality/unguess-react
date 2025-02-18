@@ -269,7 +269,7 @@ export const ExpressWizardContainer = () => {
           languages: mapLanguages([values.campaign_language || '']),
           productType: mapProductType(values.product_type || ''),
           browsers: mapBrowsers(values),
-          testDescription: values.test_description,
+          goal: values.test_description,
           testerRequirements: mapTesterRequirements(values),
           targetSize: values.target_size,
         },
