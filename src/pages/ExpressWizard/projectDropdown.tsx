@@ -37,7 +37,7 @@ export const ProjectDropdown = () => {
     if (projectId) {
       const proj = projects.find((prj) => prj.id.toString() === projectId);
       if (proj) {
-        dispatch(setExpressProject(proj.id));
+        dispatch(setExpressProject(proj));
       }
     }
   }, [projects]);
