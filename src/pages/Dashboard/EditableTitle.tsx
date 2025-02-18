@@ -43,7 +43,6 @@ export const EditableTitle = ({ projectId }: { projectId: number }) => {
                 }).unwrap();
                 sendGTMEvent({
                   event: 'workspaces-action',
-                  category: '',
                   action: 'change_name_success',
                   content: itemTitle,
                 });
