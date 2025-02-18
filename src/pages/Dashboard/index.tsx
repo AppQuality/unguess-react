@@ -19,7 +19,7 @@ const Dashboard = () => {
 
   const { status } = useAppSelector((state) => state.user);
   const sendGTMEvent = useSendGTMevent();
-  const hasWSPermissions = useCanAccessToActiveWorkspace();
+  const hasWorkspacePermissions = useCanAccessToActiveWorkspace();
 
   if (status === 'logged') dispatch(resetFilters()); // Reset filters
 
@@ -48,7 +48,7 @@ const Dashboard = () => {
       <LayoutWrapper>
         <Grid>
           <SuggestedCampaigns />
-          {hasWSPermissions && <LaunchCampaignCards />}
+          {hasWorkspacePermissions && <LaunchCampaignCards />}
           <CampaignsList />
           {openCreateProjectModal ? (
             <CreateProjectModal setOpen={setOpenCreateProjectModal} />
