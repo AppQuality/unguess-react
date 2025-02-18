@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
@@ -12,7 +12,11 @@ import {
 import { useGetProjectWithWorkspaceQuery } from 'src/features/api/customEndpoints/getProjectWithWorkspace';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { appTheme } from 'src/app/theme';
-import { Project as IProject } from 'src/features/api';
+import {
+  Project as IProject,
+  useGetProjectsByPidUsersQuery,
+} from 'src/features/api';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { ProjectItems } from './project-items';
 import { ProjectPageHeader } from './projectPageHeader';
 import { CardRowLoading } from './CardRowLoading';
@@ -25,9 +29,11 @@ import { EmptyProjectOrArchive } from './empty-state';
 import { LaunchCampaignCards } from './LaunchCampaignCards';
 
 const Items = ({
+  expressLaunch,
   project,
   isLoading,
 }: {
+  expressLaunch: boolean;
   project?: IProject;
   isLoading?: boolean;
 }) => {
@@ -47,7 +53,7 @@ const Items = ({
         <Grid style={{ padding: 0, marginBottom: appTheme.space.xxl }}>
           <ProjectItems projectId={Number(project.id) || 0} />
         </Grid>
-        <LaunchCampaignCards />
+        {expressLaunch && <LaunchCampaignCards expressLaunch />}
       </LayoutWrapper>
     );
   }
@@ -62,6 +68,17 @@ const Project = () => {
   const notFoundRoute = useLocalizeRoute('oops');
   const { projectId } = useParams();
   const location = useLocation();
+  const currentUserId = useAppSelector((state) => state.user).userData
+    .profile_id;
+  const hasWorkspacePermissions = useCanAccessToActiveWorkspace();
+
+  const { data: projectInvitedUsers } = useGetProjectsByPidUsersQuery({
+    pid: projectId ?? '0',
+  });
+
+  const isUserInvitedOnProject = projectInvitedUsers?.items?.some(
+    (user) => user.profile_id === currentUserId
+  );
 
   if (!projectId || Number.isNaN(Number(projectId))) {
     navigate(notFoundRoute, {
@@ -113,6 +130,8 @@ const Project = () => {
     });
   }
 
+  const canLaunchExpress = isUserInvitedOnProject || hasWorkspacePermissions;
+
   return (
     <Page
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
@@ -121,7 +140,11 @@ const Project = () => {
       excludeMarginBottom={!!project && project?.campaigns_count === 0}
       excludeMarginTop={!!project && project?.campaigns_count === 0}
     >
-      <Items project={project} isLoading={isLoading || isFetching} />
+      <Items
+        expressLaunch={canLaunchExpress}
+        project={project}
+        isLoading={isLoading || isFetching}
+      />
     </Page>
   );
 };

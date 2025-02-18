@@ -48,7 +48,9 @@ const Dashboard = () => {
       <LayoutWrapper>
         <Grid>
           <SuggestedCampaigns />
-          {hasWorkspacePermissions && <LaunchCampaignCards />}
+          {hasWorkspacePermissions && (
+            <LaunchCampaignCards expressLaunch={hasWorkspacePermissions} />
+          )}
           <CampaignsList />
           {openCreateProjectModal ? (
             <CreateProjectModal setOpen={setOpenCreateProjectModal} />

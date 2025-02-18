@@ -18,12 +18,16 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.space.sm};
 `;
-const LaunchCampaignCards = () => {
+const LaunchCampaignCards = ({
+  expressLaunch: expressLaunchPermissions,
+}: {
+  expressLaunch: boolean;
+}) => {
   const theme = useTheme();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
 
-  if (!hasFeatureFlag('express')) return null;
+  if (!hasFeatureFlag('express') && expressLaunchPermissions) return null;
 
   return (
     <Wrapper>
