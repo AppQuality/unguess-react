@@ -14,6 +14,7 @@ import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
 import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import styled, { useTheme } from 'styled-components';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 const AdditionalInfoTag = styled(Tag)`
   img {
@@ -25,10 +26,13 @@ const AdditionalInfoTag = styled(Tag)`
 const ServiceTiles = () => {
   const { data } = useCampaignTemplates();
   const { hasFeatureFlag } = useFeatureFlag();
+  const hasWorkspacePermissions = useCanAccessToActiveWorkspace();
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
   if (!hasFeatureFlag('express')) return null;
+
+  if (!hasWorkspacePermissions) return null;
 
   return (
     <>
