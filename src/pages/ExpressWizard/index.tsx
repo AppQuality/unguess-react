@@ -366,6 +366,7 @@ export const ExpressWizardContainer = () => {
         dispatch(closeDrawer());
         dispatch(closeWizard());
         dispatch(resetWizard());
+        setThankyou(false);
         navigate(projRoute);
       } else {
         setShowDiscardChangesModal(true);
@@ -378,6 +379,7 @@ export const ExpressWizardContainer = () => {
       dispatch(closeDrawer());
       dispatch(closeWizard());
       dispatch(resetWizard());
+      setThankyou(false);
     }
   }, [navigationType]);
 
