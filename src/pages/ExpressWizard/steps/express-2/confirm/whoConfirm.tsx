@@ -34,7 +34,6 @@ export const WhoConfirm = (props: FormikProps<WizardModel>) => {
           <WhoIcon />
         </WizardCol>
         <WizardCol xs={12} sm={11}>
-          express-2
           <StyledLabel>{t('__EXPRESS_WIZARD_STEP_WHO_LABEL')}</StyledLabel>
           <StyledParagraph>
             <Trans
