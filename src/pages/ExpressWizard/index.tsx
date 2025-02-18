@@ -56,6 +56,7 @@ import styled from 'styled-components';
 import * as Yup from 'yup';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate, useNavigationType } from 'react-router-dom';
+import { isDev } from 'src/common/isDevEnvironment';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { getPlatform } from './getPlatform';
 import {
@@ -305,6 +306,7 @@ export const ExpressWizardContainer = () => {
           },
           user: userData,
           workspace: activeWorkspace,
+          envirnment: isDev() ? 'staging' : 'production',
         }),
       });
     };
