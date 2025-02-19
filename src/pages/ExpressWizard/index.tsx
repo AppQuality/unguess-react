@@ -17,6 +17,7 @@ import {
 } from 'formik';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useNavigationType } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import {
@@ -27,6 +28,7 @@ import {
 } from 'src/common/campaigns';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { extractStrapiData } from 'src/common/getStrapiData';
+import { isDev } from 'src/common/isDevEnvironment';
 import { toggleChat } from 'src/common/utils';
 import {
   BASE_DATE_FORMAT,
@@ -51,12 +53,10 @@ import {
 } from 'src/features/express/expressSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useNavigate, useNavigationType } from 'react-router-dom';
-import { isDev } from 'src/common/isDevEnvironment';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { getPlatform } from './getPlatform';
 import {
@@ -130,7 +130,7 @@ const getExpressCPTypeId = (expressSlug: string) => {
       return EXPRESS_3_CAMPAIGN_TYPE_ID;
     case 'bug-hunting':
       return EXPRESS_2_CAMPAIGN_TYPE_ID;
-    default: // exploratory-test
+    default: // accessibility check
       return EXPRESS_1_CAMPAIGN_TYPE_ID;
   }
 };
