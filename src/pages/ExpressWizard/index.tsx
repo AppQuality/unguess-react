@@ -507,7 +507,7 @@ export const ExpressWizardContainer = () => {
             )}
           </Formik>
         ) : (
-          <ThankYouStep />
+          <ThankYouStep setThankyou={setThankyou} />
         )}
       </StyledModal>
       {showDiscardChangesModal && (
