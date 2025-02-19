@@ -23,7 +23,11 @@ import { useNavigate } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Container } from '../wizardHeader';
 
-export const ThankYouStep = () => {
+export const ThankYouStep = ({
+  setThankyou,
+}: {
+  setThankyou: (value: boolean) => void;
+}) => {
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -34,6 +38,7 @@ export const ThankYouStep = () => {
     dispatch(closeDrawer());
     dispatch(closeWizard());
     dispatch(resetWizard());
+    setThankyou(false);
     navigate(projRoute);
     // Refetch the data
   };
