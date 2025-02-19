@@ -311,7 +311,7 @@ export const ExpressWizardContainer = () => {
           },
           user: userData,
           workspace: activeWorkspace,
-          envirnment: isDev() ? 'staging' : 'production',
+          environment: isDev() ? 'staging' : 'production',
         }),
       });
     };
