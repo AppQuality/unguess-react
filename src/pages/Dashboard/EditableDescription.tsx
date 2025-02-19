@@ -1,7 +1,7 @@
 import {
   InputToggle,
-  useToast,
   Notification,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -28,6 +28,7 @@ export const EditableDescription = ({ projectId }: { projectId: number }) => {
           placeholder={t(
             '__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER'
           )}
+          key={project?.id}
           textSize="lg"
           maxLength={64}
           value={project?.description}
