@@ -191,6 +191,7 @@ export const ExpressWizardContainer = () => {
   const onNext = () => {
     if (activeStep === steps.length - 1) {
       setThankyou(true);
+      setStep(0);
     } else if (formRef.current) {
       formRef.current?.validateForm().then((errors) => {
         if (formRef.current?.isValid) {
