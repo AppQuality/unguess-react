@@ -11,11 +11,10 @@ import {
   XXL,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { addBusinessDays } from 'date-fns';
 import { FormikProps } from 'formik';
 import { t } from 'i18next';
 import { useState } from 'react';
-import { EXPRESS_BUSINESS_DAYS_TO_ADD } from 'src/constants';
+import { appTheme } from 'src/app/theme';
 import { CardDivider } from 'src/pages/ExpressWizard/cardDivider';
 import { WizardCol } from 'src/pages/ExpressWizard/wizardCol';
 import { WizardModel } from 'src/pages/ExpressWizard/wizardModel';
@@ -52,23 +51,6 @@ export const WhoStep = ({
   const handleRadioClick = (value: string) => {
     setRadioValue(value);
     props.setFieldValue('campaign_language', value);
-
-    // Update initial values for when
-    if (values.campaign_date) {
-      let endDate = addBusinessDays(
-        values.campaign_date,
-        EXPRESS_BUSINESS_DAYS_TO_ADD
-      );
-
-      if (value === 'en') {
-        endDate = addBusinessDays(
-          values.campaign_date,
-          EXPRESS_BUSINESS_DAYS_TO_ADD + 1
-        );
-      }
-
-      props.setFieldValue('campaign_date_end', endDate);
-    }
   };
 
   return (
@@ -88,7 +70,10 @@ export const WhoStep = ({
         </Paragraph>
       </StyledFormField>
       <StyledFormField>
-        <Label>{t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}</Label>
+        <Label>
+          {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_LABEL')}
+          <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+        </Label>
         <Row>
           <WizardCol>
             <StyledRadioField>
@@ -100,7 +85,7 @@ export const WhoStep = ({
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
                 <Label isRegular>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_1')}
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_IT')}
                 </Label>
               </Radio>
             </StyledRadioField>
@@ -117,7 +102,41 @@ export const WhoStep = ({
                 onChange={(e) => handleRadioClick(e.target.value)}
               >
                 <Label isRegular>
-                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_2')}
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_EN')}
+                </Label>
+              </Radio>
+            </StyledRadioField>
+          </WizardCol>
+        </Row>
+        <Row>
+          <WizardCol>
+            <StyledRadioField>
+              <Radio
+                {...props.getFieldProps('campaign_language')}
+                {...(errors.campaign_language && { validation: 'error' })}
+                value="es"
+                checked={radioValue === 'es'}
+                onChange={(e) => handleRadioClick(e.target.value)}
+              >
+                <Label isRegular>
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_ES')}
+                </Label>
+              </Radio>
+            </StyledRadioField>
+          </WizardCol>
+        </Row>
+        <Row>
+          <WizardCol>
+            <StyledRadioField>
+              <Radio
+                {...props.getFieldProps('campaign_language')}
+                {...(errors.campaign_language && { validation: 'error' })}
+                value="fr"
+                checked={radioValue === 'fr'}
+                onChange={(e) => handleRadioClick(e.target.value)}
+              >
+                <Label isRegular>
+                  {t('__EXPRESS_WIZARD_STEP_WHO_FIELD_LANGUAGE_OPTION_FR')}
                 </Label>
               </Radio>
             </StyledRadioField>

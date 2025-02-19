@@ -14,6 +14,7 @@ export const useCampaignBugs = (campaignId: number) => {
     isFetching,
     error,
     data: bugs,
+    refetch,
   } = useGetCampaignsByCidBugsQuery({
     cid: campaignId.toString() ?? '0',
     filterBy: {
@@ -50,5 +51,6 @@ export const useCampaignBugs = (campaignId: number) => {
     bugsError: error,
     bugsLoading: isLoading,
     bugsFetching: isFetching,
+    refetch,
   };
 };

@@ -1,15 +1,16 @@
-import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import { Page } from 'src/features/templates/Page';
 import { Grid } from '@appquality/unguess-design-system';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
+import { Page } from 'src/features/templates/Page';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
-import { SuggestedCampaigns } from './SuggestedCampaigns';
 import { CampaignsList } from './campaigns-list';
 import { DashboardHeaderContent } from './headerContent';
+import { LaunchCampaignCards } from './LaunchCampaignCards';
 import { CreateProjectModal } from './Modals/CreateProjectModal';
+import { SuggestedCampaigns } from './SuggestedCampaigns';
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -32,7 +33,6 @@ const Dashboard = () => {
 
             sendGTMEvent({
               event: 'workspaces-action',
-              category: '',
               action: 'create_project_click',
               content: `${new Date().toISOString()}`,
             });
@@ -45,6 +45,7 @@ const Dashboard = () => {
       <LayoutWrapper>
         <Grid>
           <SuggestedCampaigns />
+          <LaunchCampaignCards />
           <CampaignsList />
           {openCreateProjectModal ? (
             <CreateProjectModal setOpen={setOpenCreateProjectModal} />

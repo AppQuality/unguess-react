@@ -7,7 +7,7 @@ import {
   Row,
   Stepper,
 } from '@appquality/unguess-design-system';
-import { format } from 'date-fns';
+import { addBusinessDays, format } from 'date-fns';
 import {
   Form,
   Formik,
@@ -54,6 +54,9 @@ import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import * as Yup from 'yup';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useNavigate, useNavigationType } from 'react-router-dom';
+import { isDev } from 'src/common/isDevEnvironment';
 import DiscardChangesModal from './ActionModals/DiscardChangesModal';
 import { getPlatform } from './getPlatform';
 import {
@@ -136,10 +139,13 @@ export const ExpressWizardContainer = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const formRef = useRef<FormikProps<{}>>(null);
+  const navigate = useNavigate();
   const [stepperTitle, setStepperTitle] = useState('');
   const { userData } = useAppSelector((state) => state.user);
   const { project } = useAppSelector((state) => state.express);
+  const projRoute = useLocalizeRoute(`projects/${project?.id}`);
   const { activeWorkspace } = useActiveWorkspace();
+  const navigationType = useNavigationType();
   const {
     isWizardOpen,
     steps: draftSteps,
@@ -196,7 +202,6 @@ export const ExpressWizardContainer = () => {
       });
     }
   };
-
   const onBack = () => {
     if (activeStep > 0) {
       setStep(activeStep - 1);
@@ -232,7 +237,10 @@ export const ExpressWizardContainer = () => {
     };
 
     const campaignHandle = async (prj: Project) => {
-      const fallBackDate = format(new Date(), BASE_DATE_FORMAT);
+      const fallBackDate = format(
+        addBusinessDays(new Date(), 1),
+        BASE_DATE_FORMAT
+      );
       // Create the campaign
       const cp = await createCampaign({
         body: {
@@ -252,17 +260,21 @@ export const ExpressWizardContainer = () => {
           pm_id: activeWorkspace?.csm.id || -1,
           platforms: getPlatform(values),
           customer_id: activeWorkspace?.id || -1,
-
           express_slug: expressTypeMeta.slug,
           has_bug_form: values.has_bug_form ? 1 : 0,
           has_bug_parade: values.has_bug_parade ? 1 : 0,
           ...(values.use_cases && { use_cases: values.use_cases }),
           outOfScope: values.outOfScope,
-          productLink: values.link,
+          productLink:
+            values.product_type === 'mobileapp'
+              ? [values.androidLink, values.iOSLink]
+                  .filter((link) => link)
+                  .join(',')
+              : values.link,
           languages: mapLanguages([values.campaign_language || '']),
           productType: mapProductType(values.product_type || ''),
           browsers: mapBrowsers(values),
-          testDescription: values.test_description,
+          goal: values.test_description,
           testerRequirements: mapTesterRequirements(values),
           targetSize: values.target_size,
         },
@@ -299,6 +311,7 @@ export const ExpressWizardContainer = () => {
           },
           user: userData,
           workspace: activeWorkspace,
+          envirnment: isDev() ? 'staging' : 'production',
         }),
       });
     };
@@ -348,15 +361,35 @@ export const ExpressWizardContainer = () => {
         action: 'express_error',
         event: 'express_navigation',
         category: expressTypeMeta.slug,
-        content: '',
       });
     }
   };
 
   const [showDiscardChangesModal, setShowDiscardChangesModal] = useState(false);
   const closeExpressWizard = () => {
-    setShowDiscardChangesModal(true);
+    if (isWizardOpen) {
+      if (isThankyou) {
+        dispatch(closeDrawer());
+        dispatch(closeWizard());
+        dispatch(resetWizard());
+        setStep(0);
+        setThankyou(false);
+        navigate(projRoute);
+      } else {
+        setShowDiscardChangesModal(true);
+      }
+    }
   };
+
+  useEffect(() => {
+    if (navigationType === 'POP') {
+      dispatch(closeDrawer());
+      dispatch(closeWizard());
+      dispatch(resetWizard());
+      setStep(0);
+      setThankyou(false);
+    }
+  }, [navigationType]);
 
   useEffect(() => {
     if (isWizardOpen) {
@@ -367,7 +400,6 @@ export const ExpressWizardContainer = () => {
       );
 
       sendGTMEvent({
-        action: '',
         event: 'express_navigation',
         category: expressTypeMeta.slug,
         content: `express_step_${activeStep + 1}_of_${steps.length}`,
@@ -482,7 +514,7 @@ export const ExpressWizardContainer = () => {
             )}
           </Formik>
         ) : (
-          <ThankYouStep />
+          <ThankYouStep setThankyou={setThankyou} setStep={setStep} />
         )}
       </StyledModal>
       {showDiscardChangesModal && (
@@ -503,7 +535,6 @@ export const ExpressWizardContainer = () => {
               action: 'express_close',
               event: 'express_navigation',
               category: expressTypeMeta.slug,
-              content: '',
             });
           }}
         />

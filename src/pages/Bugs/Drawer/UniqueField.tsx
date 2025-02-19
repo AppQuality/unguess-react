@@ -1,9 +1,8 @@
 import {
-  Accordion,
+  AccordionNew,
   FormField as Field,
   MD,
   Radio,
-  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'src/app/hooks';
@@ -28,25 +27,26 @@ export const UniqueField = ({
 
   return (
     <>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-unique"
+        isCompact
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label>
-              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
-                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DUPLICATES_TITLE')}
-              </MD>
-              <TextDescription isSmall>
-                {selected === 'unique'
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t(
+                '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_DUPLICATES_TITLE'
+              )}
+              subtitle={
+                selected === 'unique'
                   ? t('__BUGS_UNIQUE_FILTER_DROWPDOWN_ITEM_UNIQUE')
-                  : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')}
-              </TextDescription>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel>
+                  : t('__BUGS_UNIQUE_FILTER_ITEM_PLACEHOLDER')
+              }
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             {available.map((item) => (
               <Field
                 className={`bugs-drawer-accordion-unique-item-${item.toLowerCase()}`}
@@ -84,9 +84,9 @@ export const UniqueField = ({
                 </Radio>
               </Field>
             ))}
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       <Divider />
     </>
   );

@@ -1,9 +1,8 @@
 import {
-  Accordion,
+  AccordionNew,
   Checkbox,
   FormField as Field,
   MD,
-  SM,
   Span,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
@@ -34,24 +33,20 @@ export const ReplicabilityField = ({
 
   return (
     <>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-replicability"
+        isCompact
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label>
-              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
-                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_TITLE')}
-              </MD>
-              <SM
-                style={{
-                  color: appTheme.palette.grey[600],
-                  textTransform: 'capitalize',
-                }}
-              >
-                {selected && selected.length
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t(
+                '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_TITLE'
+              )}
+              subtitle={
+                selected && selected.length
                   ? `${selected
                       .slice(0, maxItemsToShow)
                       .map((item) => item.name)
@@ -63,11 +58,11 @@ export const ReplicabilityField = ({
                     }`
                   : t(
                       '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_REPLICABILITY_ALL_LABEL'
-                    )}
-              </SM>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel>
+                    )
+              }
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             {available.length
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
@@ -142,9 +137,9 @@ export const ReplicabilityField = ({
                 )}
               </ShowMore>
             ) : null}
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       <Divider />
     </>
   );

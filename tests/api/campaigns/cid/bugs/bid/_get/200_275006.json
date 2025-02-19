@@ -1,0 +1,96 @@
+{
+  "id": 275006,
+  "internal_id": "internal_id275006",
+  "campaign_id": 4997,
+  "title": {
+    "full": "[Apertura Conto] - Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
+    "compact": "Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
+    "context": [
+      "Apertura Conto"
+    ]
+  },
+  "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Fare tap su \"Prendi visione dell'informativa sul Trattamento...\"",
+  "expected_result": "Mi aspetto di poter leggere l'informativa.",
+  "current_result": "Quando clicco su prendi visione non si apre la pagina con i documenti riguardanti l'informativa sul trattamento dei dati personali ma carica la pagina all'infinito.",
+  "status": {
+    "id": 2,
+    "name": "Approved"
+  },
+  "severity": {
+    "id": 2,
+    "name": "MEDIUM"
+  },
+  "priority": {
+    "id": 3,
+    "name": "medium"
+  },
+  "custom_status": {
+    "id": 6,
+    "name": "solved",
+    "phase": {
+      "id": 2,
+      "name": "completed"
+    },
+    "color": "00a073",
+    "is_default": 1
+  },
+  "type": {
+    "id": 6,
+    "name": "Malfunction"
+  },
+  "replicability": {
+    "id": 2,
+    "name": "Always"
+  },
+  "application_section": {
+    "id": 20883,
+    "title": "USE CASE 2: Prima apertura App  ",
+    "prefix": "USE CASE 2: Prima apertura App"
+  },
+  "created": "Fri Dec 02 2022 11:09:46 GMT+0000 (Coordinated Universal Time)",
+  "updated": "Fri Dec 02 2022 11:52:44 GMT+0000 (Coordinated Universal Time)",
+  "occurred_date": "2022-12-02T12:04:33.000+01:00",
+  "note": "",
+  "device": {
+    "manufacturer": "Apple",
+    "model": "iPhone 12",
+    "os": "iOS",
+    "os_version": "iOS 15.4 (15.4)",
+    "type": "smartphone"
+  },
+  "media": [
+    {
+      "mime_type": {
+        "type": "image",
+        "extension": "png"
+      },
+      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T25012/CP4997/bugs/306a772c0308f4c5f4b61b1413d0c46e24c3895314bb59e3479c095fea1faf9d.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250203%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T145348Z&X-Amz-Expires=1200&X-Amz-Signature=ffda1c29a16c3b514549cc3c52371ecc60f3e304df5d16d7250034595068f100&X-Amz-SignedHeaders=host",
+      "creation_date": "Fri Dec 02 2022 11:09:46 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
+      "mime_type": {
+        "type": "video",
+        "extension": "mp4"
+      },
+      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T25012/CP4997/bugs/dd2f1f788d976bc5c0c851b6c08c2e317ebfca6108bce29e091d8f699d5697fb.MP4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250203%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T145348Z&X-Amz-Expires=1200&X-Amz-Signature=9bdd4ee6683252fd9481de7e9acc3af826bcc92d3e5e9c6de27a798f8929c366&X-Amz-SignedHeaders=host",
+      "creation_date": "Fri Dec 02 2022 11:09:46 GMT+0000 (Coordinated Universal Time)"
+    }
+  ],
+  "tags": [],
+  "additional_fields": [
+    {
+      "id": 2101,
+      "name": "Rete",
+      "value": "Wi-Fi",
+      "options": [
+        "Wi-Fi",
+        "Mobile"
+      ],
+      "kind": "select"
+    }
+  ],
+  "reporter": {
+    "tester_id": 25012,
+    "name": "Tester"
+  }
+}

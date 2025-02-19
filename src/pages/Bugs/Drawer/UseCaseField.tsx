@@ -1,10 +1,9 @@
 import {
-  Accordion,
+  AccordionNew,
   Checkbox,
   FormField as Field,
   MD,
   Span,
-  TextDescription,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -34,24 +33,18 @@ export const UseCaseField = ({
 
   return (
     <>
-      <Accordion
+      <AccordionNew
         level={3}
         defaultExpandedSections={[]}
         className="bugs-drawer-accordion-usecase"
+        isCompact
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label>
-              <MD isBold style={{ marginBottom: appTheme.space.xxs }}>
-                {t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE')}
-              </MD>
-              <TextDescription
-                isSmall
-                style={{
-                  textTransform: 'capitalize',
-                }}
-              >
-                {selected && selected.length
+        <AccordionNew.Section>
+          <AccordionNew.Header>
+            <AccordionNew.Label
+              label={t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_TITLE')}
+              subtitle={
+                selected && selected.length
                   ? `${selected
                       .slice(0, maxItemsToShow)
                       .map((item) => item.title.full)
@@ -61,13 +54,11 @@ export const UseCaseField = ({
                         ? `+${selected.length - maxItemsToShow}`
                         : ''
                     }`
-                  : t(
-                      '__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_ALL_LABEL'
-                    )}
-              </TextDescription>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel>
+                  : t('__BUGS_PAGE_FILTER_DRAWER_BODY_FILTER_USECASE_ALL_LABEL')
+              }
+            />
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             {available.length
               ? available
                   .slice(0, showMore ? undefined : maxItemsToShow)
@@ -137,9 +128,9 @@ export const UseCaseField = ({
                 )}
               </ShowMore>
             ) : null}
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       <Divider />
     </>
   );

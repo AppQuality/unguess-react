@@ -23,6 +23,10 @@ export const SectionTitle = ({
     >
       {title} {children}
     </XXL>
-    {subtitle && <Paragraph>{subtitle}</Paragraph>}
+    {subtitle && (
+      <Paragraph style={{ color: appTheme.palette.grey[700] }}>
+        {subtitle}
+      </Paragraph>
+    )}
   </>
 );

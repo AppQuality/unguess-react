@@ -1,18 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { stringify } from 'qs';
 import {
-  GetServicesApiResponse,
-  GetServicesByIdApiResponse,
   GetCategoriesApiResponse,
-  GetServicesApiArg,
   GetCategoriesByIdApiArg,
   GetCategoriesByIdApiResponse,
-  GetExpressesApiResponse,
   GetExpressesApiArg,
-  GetExpressTypesByIdApiResponse,
+  GetExpressesApiResponse,
   GetExpressTypesByIdApiArg,
-  GetManualsApiResponse,
+  GetExpressTypesByIdApiResponse,
   GetManualsApiArg,
+  GetManualsApiResponse,
+  GetServicesApiArg,
+  GetServicesApiResponse,
+  GetServicesByIdApiResponse,
+  GetTemplatesByIdApiResponse,
 } from '.';
 
 interface GetFullServicesByIdArgs {
@@ -72,6 +73,8 @@ export const strapiSlice = createApi({
 
       return headers;
     },
+
+    paramsSerializer: (params) => stringify(params, { encodeValuesOnly: true }),
   }),
   endpoints: (builder) => ({
     geti18nServices: builder.query<GetServicesApiResponse, GetServicesApiArgs>({
@@ -199,6 +202,24 @@ export const strapiSlice = createApi({
         },
       }
     ),
+
+    getFullTemplatesById: builder.query<
+      GetTemplatesByIdApiResponse,
+      GetFullServicesByIdArgs
+    >({
+      query: (queryArg) => {
+        let url = `/templates/${queryArg.id}`;
+        const args: GetFullServicesByIdArgs = {
+          id: queryArg.id,
+          ...(queryArg.locale && { locale: queryArg.locale }),
+          ...(queryArg.populate && { populate: queryArg.populate }),
+          ...(queryArg.filters && { filters: queryArg.filters }),
+        };
+        const params = stringify(args, { encodeValuesOnly: true });
+        params ? (url += `?${params}`) : null;
+        return { url };
+      },
+    }),
   }),
 });
 
@@ -222,9 +243,9 @@ export interface StrapiIcon {
 }
 
 export interface TagItem {
-  id: number;
+  id: string;
   label: string;
-  icon: StrapiIcon;
+  icon: string;
 }
 
 export const {
@@ -236,4 +257,5 @@ export const {
   useGeti18nExpressTypesQuery,
   useGeti18nExpressTypesByIdQuery,
   useGeti18nManualsQuery,
+  useGetFullTemplatesByIdQuery,
 } = strapiSlice;

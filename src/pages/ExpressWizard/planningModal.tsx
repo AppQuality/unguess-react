@@ -5,16 +5,13 @@ import {
   FormField as Field,
   Input,
   Label,
-  MD,
   Modal,
   ModalClose,
-  Paragraph,
   Row,
 } from '@appquality/unguess-design-system';
-import { addBusinessDays, format, isToday } from 'date-fns';
+import { addBusinessDays, format, isTomorrow } from 'date-fns';
 import { t } from 'i18next';
 import { useState } from 'react';
-import { appTheme } from 'src/app/theme';
 import {
   EXPRESS_BUSINESS_DAYS_TO_ADD,
   EXPRESS_START_DATE_MAX_VALUE,
@@ -68,16 +65,16 @@ const PlanningModal = ({
               <Datepicker
                 value={launchDate}
                 formatDate={(date: Date) =>
-                  isToday(date)
+                  isTomorrow(date)
                     ? `${t(
-                        '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TODAY_LABEL'
+                        '__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_TOMORROW_LABEL'
                       )} (${format(date, 'EEEE d MMMM Y', {
                         locale: lang.locale,
                       })})`
                     : format(date, 'EEEE d MMMM Y', { locale: lang.locale })
                 }
                 onChange={handleDateChange}
-                minValue={new Date()}
+                minValue={addBusinessDays(new Date(), 1)}
                 maxValue={
                   new Date(
                     new Date().setDate(
@@ -118,16 +115,6 @@ const PlanningModal = ({
             </Field>
           </Col>
           <Col xs={12}>
-            <Paragraph
-              style={{
-                marginBottom: appTheme.space.xl,
-                color: appTheme.palette.grey[600],
-              }}
-            >
-              <MD>
-                {t('__EXPRESS_WIZARD_STEP_WHEN_FIELD_CAMPAIGN_DATE_NOTE')}
-              </MD>
-            </Paragraph>
             <InBodyFooter>
               <Button isBasic onClick={onClose}>
                 {t('__EXPRESS_WIZARD_STEP_WHEN_CUSTOM_DATE_CANCEL')}
