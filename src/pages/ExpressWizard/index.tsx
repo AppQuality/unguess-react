@@ -372,6 +372,7 @@ export const ExpressWizardContainer = () => {
         dispatch(closeDrawer());
         dispatch(closeWizard());
         dispatch(resetWizard());
+        setStep(0);
         setThankyou(false);
         navigate(projRoute);
       } else {
@@ -385,6 +386,7 @@ export const ExpressWizardContainer = () => {
       dispatch(closeDrawer());
       dispatch(closeWizard());
       dispatch(resetWizard());
+      setStep(0);
       setThankyou(false);
     }
   }, [navigationType]);
@@ -512,7 +514,7 @@ export const ExpressWizardContainer = () => {
             )}
           </Formik>
         ) : (
-          <ThankYouStep setThankyou={setThankyou} />
+          <ThankYouStep setThankyou={setThankyou} setStep={setStep} />
         )}
       </StyledModal>
       {showDiscardChangesModal && (
