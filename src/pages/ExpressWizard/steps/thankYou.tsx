@@ -25,8 +25,10 @@ import { Container } from '../wizardHeader';
 
 export const ThankYouStep = ({
   setThankyou,
+  setStep,
 }: {
   setThankyou: (value: boolean) => void;
+  setStep: (value: number) => void;
 }) => {
   const { width } = useWindowSize();
   const dispatch = useAppDispatch();
@@ -38,6 +40,7 @@ export const ThankYouStep = ({
     dispatch(closeDrawer());
     dispatch(closeWizard());
     dispatch(resetWizard());
+    setStep(0);
     setThankyou(false);
     navigate(projRoute);
     // Refetch the data
