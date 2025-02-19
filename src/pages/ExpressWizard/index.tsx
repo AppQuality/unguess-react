@@ -265,7 +265,12 @@ export const ExpressWizardContainer = () => {
           has_bug_parade: values.has_bug_parade ? 1 : 0,
           ...(values.use_cases && { use_cases: values.use_cases }),
           outOfScope: values.outOfScope,
-          productLink: values.link,
+          productLink:
+            values.product_type === 'mobileapp'
+              ? [values.androidLink, values.iOSLink]
+                  .filter((link) => link)
+                  .join(',')
+              : values.link,
           languages: mapLanguages([values.campaign_language || '']),
           productType: mapProductType(values.product_type || ''),
           browsers: mapBrowsers(values),
