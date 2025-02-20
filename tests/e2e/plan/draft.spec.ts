@@ -12,6 +12,7 @@ test.describe('The module builder', () => {
     await moduleBuilderPage.mockWorkspace();
     await moduleBuilderPage.mockWorkspacesList();
     await moduleBuilderPage.mockGetDraftWithOnlyMandatoryModulesPlan();
+    await moduleBuilderPage.mockPatchStatus();
     await moduleBuilderPage.open();
   });
 
@@ -32,7 +33,7 @@ test.describe('The module builder', () => {
   test('Clicking save button calls the PATCH Plan', async ({ page }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
-        response.url().includes('/api/workspaces/1/plans/1') &&
+        /\/api\/workspaces\/1\/plans\/1(?!\/status)/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
@@ -42,27 +43,31 @@ test.describe('The module builder', () => {
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
   });
-  test('Clicking request quotation calls the PATCH Plan, then if ok the PATCH Status', async ({
-    page,
-  }) => {
+  test('Clicking request quotation calls the PATCH Plan', async ({ page }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
-        response.url().includes('/api/workspaces/1/plans/1') &&
-        response.status() === 200 &&
-        response.request().method() === 'PATCH'
-    );
-    const patchStatusPromise = page.waitForResponse(
-      (response) =>
-        response.url().includes('/api/workspaces/1/plans/1/status') &&
+        /\/api\/workspaces\/1\/plans\/1(?!\/status)/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
     // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
     await moduleBuilderPage.elements().quoteButton().click();
     const response = await patchPromise;
-    const responseStatus = await patchStatusPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
+  });
+  test('Clicking request quotation calls the PATCH Status', async ({
+    page,
+  }) => {
+    const patchStatusPromise = page.waitForResponse(
+      (response) =>
+        /\/api\/workspaces\/1\/plans\/1\/status/.test(response.url()) &&
+        response.status() === 200 &&
+        response.request().method() === 'PATCH'
+    );
+    // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
+    await moduleBuilderPage.elements().quoteButton().click();
+    const responseStatus = await patchStatusPromise;
     const dataStatus = responseStatus.request().postDataJSON();
     expect(dataStatus).toEqual({ status: 'pending_review' });
   });
