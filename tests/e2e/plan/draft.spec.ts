@@ -52,7 +52,10 @@ test.describe('The module builder', () => {
         response.request().method() === 'PATCH'
     );
     const patchStatusPromise = page.waitForResponse(
-      '*/**/api/workspaces/1/plans/1/status'
+      (response) =>
+        response.url().includes('/api/workspaces/1/plans/1/status') &&
+        response.status() === 200 &&
+        response.request().method() === 'PATCH'
     );
     // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
     await moduleBuilderPage.elements().quoteButton().click();
