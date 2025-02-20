@@ -30,7 +30,12 @@ test.describe('The module builder', () => {
     await expect(moduleBuilderPage.elements().quoteButton()).not.toBeDisabled();
   });
   test('Clicking save button calls the PATCH Plan', async ({ page }) => {
-    const patchPromise = page.waitForResponse('*/**/api/workspaces/1/plans/1');
+    const patchPromise = page.waitForResponse(
+      (response) =>
+        response.url().includes('/api/workspaces/1/plans/1') &&
+        response.status() === 200 &&
+        response.request().method() === 'PATCH'
+    );
     // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
     await moduleBuilderPage.elements().submitButton().click();
     const response = await patchPromise;
@@ -40,7 +45,7 @@ test.describe('The module builder', () => {
   test('Clicking request quotation calls the PATCH Plan, then if ok the PATCH Status', async ({
     page,
   }) => {
-    const patchPromise = page.waitForResponse('*/**/api/workspaces/1/plans/1');
+    const patchPromise = page.waitForResponse('/api/workspaces/1/plans/1');
     const patchStatusPromise = page.waitForResponse(
       '*/**/api/workspaces/1/plans/1/status'
     );
