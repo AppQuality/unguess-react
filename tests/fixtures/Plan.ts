@@ -60,7 +60,7 @@ export class PlanPage extends UnguessPage {
   async mockPatchPlan() {
     await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
       await route.fulfill({
-        path: 'tests/api/campaigns/cid/bugs/bid/_get/200_274852.json',
+        path: 'tests/api/workspaces/wid/plans/pid/_patch/200_Example_1.json',
       });
     });
   }
@@ -70,7 +70,7 @@ export class PlanPage extends UnguessPage {
       '*/**/api/workspaces/1/plans/1/status',
       async (route) => {
         await route.fulfill({
-          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_274852.json',
+          path: 'tests/api/workspaces/wid/plans/pid/status/_patch/200_pending_review.json',
         });
       }
     );

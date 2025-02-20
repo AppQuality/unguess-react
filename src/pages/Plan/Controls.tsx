@@ -13,7 +13,9 @@ export const Controls = () => {
   const handleQuoteRequest = async () => {
     // save an updated version of the plan
 
+    console.log('submitting');
     await submitForm();
+    console.log('submitted');
     // if the save is successful, change the status of the plan
     fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}/status`, {
       method: 'PATCH',
