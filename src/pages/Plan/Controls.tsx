@@ -15,14 +15,11 @@ export const Controls = () => {
 
     await submitForm();
     // if the save is successful, change the status of the plan
-    fetch(
-      `http://localhost:3000/api/workspaces/${activeWorkspace?.id}/plans/${planId}/status`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({ status: 'pending_review' }),
-        headers: {},
-      }
-    )
+    fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'pending_review' }),
+      headers: {},
+    })
       .then((response) => response.json())
       .then((data) => {
         // update the status in the state

@@ -17,13 +17,10 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!activeWorkspace) return;
     if (!planId) return;
-    fetch(
-      `http://localhost:3000/api/workspaces/${activeWorkspace?.id}/plans/${planId}`,
-      {
-        method: 'GET',
-        headers: {},
-      }
-    )
+    fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}`, {
+      method: 'GET',
+      headers: {},
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log('modules: ', 'setting initial VAlues');
@@ -39,19 +36,16 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
   const handleSubmit = useCallback(
     (values: FormBody, helpers: FormikHelpers<FormBody>) => {
       helpers.setSubmitting(true);
-      fetch(
-        `http://localhost:3000/api/workspaces/${activeWorkspace?.id}/plans/${planId}`,
-        {
-          method: 'PATCH',
-          // add body, a json of values
-          body: JSON.stringify({
-            config: {
-              modules: values.modules,
-            },
-          }),
-          headers: {},
-        }
-      )
+      fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}`, {
+        method: 'PATCH',
+        // add body, a json of values
+        body: JSON.stringify({
+          config: {
+            modules: values.modules,
+          },
+        }),
+        headers: {},
+      })
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
