@@ -77,6 +77,7 @@ export class UnguessPage {
       });
     });
   }
+
   // todo: mock this call, not mandatory for the time being
   async mockUsers() {
     await this.page.route('*/**/api/users', async (route) => {
@@ -85,6 +86,7 @@ export class UnguessPage {
       });
     });
   }
+
   // todo: mock this call, not mandatory for the time being
   async mockArchive() {
     await this.page.route('*/**/api/archive', async (route) => {
