@@ -35,7 +35,6 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 `;
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
-  type AnalyticsType = 'ChangeDescription' | 'ChangeTitle';
   const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
