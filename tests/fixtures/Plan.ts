@@ -30,6 +30,7 @@ export class PlanPage extends UnguessPage {
       });
     });
   }
+
   // some modules are mandatory, in this api call we mock a plan with only mandatory modules
   async mockGetDraftWithOnlyMandatoryModulesPlan() {
     await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
@@ -38,6 +39,7 @@ export class PlanPage extends UnguessPage {
       });
     });
   }
+
   // some modules are mandatory, in this api call we mock a plan missing some mandatory modules
   async mockGetDraftWithMissingMandatoryModulesPlan() {
     await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
@@ -54,6 +56,7 @@ export class PlanPage extends UnguessPage {
       });
     });
   }
+
   async mockPatchPlan() {
     await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
       await route.fulfill({
@@ -61,6 +64,7 @@ export class PlanPage extends UnguessPage {
       });
     });
   }
+
   async mockPatchStatus() {
     await this.page.route(
       '*/**/api/workspaces/1/plans/1/status',

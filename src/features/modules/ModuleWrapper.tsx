@@ -1,9 +1,9 @@
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { ReactNode, useCallback, useEffect, useState } from 'react';
 import { components } from 'src/common/schema';
-import { FormBody } from './types';
 import { useParams } from 'react-router-dom';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { FormBody } from './types';
 
 const ModuleWrapper = ({ children }: { children: ReactNode }) => {
   const { planId } = useParams();
@@ -23,14 +23,12 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('modules: ', 'setting initial VAlues');
         setInitialValues({
           status: data.status,
           modules: data.config.modules,
         });
-        console.log(data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.error(error));
   }, [activeWorkspace, planId]);
 
   const handleSubmit = useCallback(
@@ -50,7 +48,7 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
         .then((data) => {
           console.log(data);
         })
-        .catch((error) => console.log(error))
+        .catch((error) => console.error(error))
         .finally(() => helpers.setSubmitting(false));
     },
     [activeWorkspace, planId]
