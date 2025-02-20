@@ -17,7 +17,6 @@ import { EmptyResults } from '../empty-state/EmptyResults';
 import { Filters } from '../filters';
 import { CardList } from './list';
 import { TableList } from './table';
-import { EmptyProjectOrArchive } from '../empty-state';
 
 const FloatRight = styled.div`
   float: right;
@@ -111,7 +110,5 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
 
       {!campaignsCount && <EmptyResults />}
     </>
-  ) : (
-    <EmptyProjectOrArchive isArchive={!!isArchive} />
   );
 };
