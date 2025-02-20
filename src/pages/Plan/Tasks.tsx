@@ -66,16 +66,15 @@ const Tasks = () => {
       <LG>Tasks</LG>
       {value.map((task) => (
         <div>
-          <label>
-            Title
-            <input
-              id={`task-${task.key}`}
-              type="text"
-              value={task.title}
-              onChange={(e) => update(task.key, { title: e.target.value })}
-              placeholder="Enter task title"
-            />
-          </label>
+          {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+          <label htmlFor={`task-${task.key}`}>Title</label>
+          <input
+            id={`task-${task.key}`}
+            type="text"
+            value={task.title}
+            onChange={(e) => update(task.key, { title: e.target.value })}
+            placeholder="Enter task title"
+          />
           <button type="button" onClick={() => remove(task.key)}>
             Remove
           </button>
