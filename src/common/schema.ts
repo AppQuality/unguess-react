@@ -508,6 +508,32 @@ export interface paths {
       };
     };
   };
+  '/workspaces/{wid}/plans': {
+    post: operations['post-workspaces-wid-plans'];
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+  };
+  '/workspaces/{wid}/plans/{pid}': {
+    delete: operations['delete-workspaces-wid-plans-pid'];
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+  };
+  '/workspaces/{wid}/plans/{pid}/status': {
+    patch: operations['patch-workspaces-wid-plans-pid-status'];
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+  };
   '/workspaces/{wid}/projects': {
     get: operations['get-workspace-projects'];
     parameters: {
@@ -3402,6 +3428,66 @@ export interface operations {
       400: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'post-workspaces-wid-plans': {
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+    responses: {
+      /** Created */
+      201: {
+        content: {
+          'application/json': {
+            id: number;
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          template_id: number;
+        };
+      };
+    };
+  };
+  'delete-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+    };
+  };
+  'patch-workspaces-wid-plans-pid-status': {
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @enum {string} */
+          status?: 'pending_review';
+        };
+      };
     };
   };
   'get-workspace-projects': {
