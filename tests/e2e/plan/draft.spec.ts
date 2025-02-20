@@ -45,7 +45,12 @@ test.describe('The module builder', () => {
   test('Clicking request quotation calls the PATCH Plan, then if ok the PATCH Status', async ({
     page,
   }) => {
-    const patchPromise = page.waitForResponse('/api/workspaces/1/plans/1');
+    const patchPromise = page.waitForResponse(
+      (response) =>
+        response.url().includes('/api/workspaces/1/plans/1') &&
+        response.status() === 200 &&
+        response.request().method() === 'PATCH'
+    );
     const patchStatusPromise = page.waitForResponse(
       '*/**/api/workspaces/1/plans/1/status'
     );
