@@ -5,9 +5,7 @@
   "title": {
     "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”",
     "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
-    "context": [
-      "Autocertificazione"
-    ]
+    "context": ["Autocertificazione"]
   },
   "step_by_step": "1. Aprire il conto e procedere con il flusso\r\n2. Atterrare allo step 5/6e inserire i dati richiesti\r\n3. Fare tap sul menu “Regione/Area”",
   "expected_result": "Mi aspettavo di poter selezionare la regione di residenza.",
@@ -82,10 +80,7 @@
       "id": 2101,
       "name": "Rete",
       "value": "Mobile",
-      "options": [
-        "Wi-Fi",
-        "Mobile"
-      ],
+      "options": ["Wi-Fi", "Mobile"],
       "kind": "select"
     }
   ],

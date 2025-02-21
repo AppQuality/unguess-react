@@ -7,9 +7,7 @@
       "title": {
         "full": "[Apertura Conto] - Sovrapposizione grafica in tutte le pagine del processo di apertura conto",
         "compact": "Sovrapposizione grafica in tutte le pagine del processo di apertura conto",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app di Banca Sella\r\n2. Seguire la procedura guidata per aprire il conto \"Premium\" inserendo dati richiesti e fare tap su \"procedi\" per passare alle pagine successive",
       "expected_result": "Nessuna sovrapposizione grafica.",
@@ -74,9 +72,7 @@
       "title": {
         "full": "[Apertura Conto] - Impossibile procedere dopo aver dato i consensi nella pagina di \"Autocertificazione\"",
         "compact": "Impossibile procedere dopo aver dato i consensi nella pagina di \"Autocertificazione\"",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app di Banca Sella\r\n2. Seguire la procedura guidata per aprire il conto \"Premium\" inserendo dati e documenti richiesti\r\n3. Arrivati al punto 5 \"Esprimi i consensi privacy\" flaggare le varie caselle e tap su \"Procedi\"",
       "expected_result": "Mi aspetto di riuscire a procedere per finalizzare l'apertura del conto.",
@@ -140,9 +136,7 @@
       "title": {
         "full": "[I tuoi dati] - Nel verificare il numero posso cliccare quante volte voglio sul comando \"Invia di nuovo\"",
         "compact": "Nel verificare il numero posso cliccare quante volte voglio sul comando \"Invia di nuovo\"",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Premium\"\r\n3. Inserire tutti i dati fino al numero di telefono e andare avanti\r\n4. Cliccare su Invia di nuovo",
       "expected_result": "Mi aspetto che il comando \"Invia di nuovo\" abbia dei limiti ossia ci sia un numero massimo di tentativi di invio messaggi e un tempo tra un messaggio e l'altro.",
@@ -206,9 +200,7 @@
       "title": {
         "full": "[I tuoi dati] - Non mi esce la guida quando clicco su \"?\"",
         "compact": "Non mi esce la guida quando clicco su \"?\"",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Cliccare sulla guida identificata da \"?\"",
       "expected_result": "Mi aspetto di ricevere quando clicco su ? una guida che mi informi della procedura.",
@@ -273,9 +265,7 @@
       "title": {
         "full": "[I tuoidati] - Mi accetta un numero di telefono composto da numeri in quantità maggiore",
         "compact": "Mi accetta un numero di telefono composto da numeri in quantità maggiore",
-        "context": [
-          "I tuoidati"
-        ]
+        "context": ["I tuoidati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Inserire tutti i dati fino all'inserimento del numero di cellurare\r\n4. Inserire un numero di cellulare",
       "expected_result": "Mi aspetto un controllo su questo campo anche perchè è utile per l'autenticazione dell'utenza.",
@@ -339,9 +329,7 @@
       "title": {
         "full": "[I tuoi dati] - Il comando \"Usa un altro numero\" riporta all'inizio della procedura",
         "compact": "Il comando \"Usa un altro numero\" riporta all'inizio della procedura",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Inserire tutti i dati fino alla finestra della ricezione messaggio\r\n4. Cliccare su \"usa un altro numero\"",
       "expected_result": "Mi aspetto che una volta cliccato su \"usa un altro numero\" mi ritrovo a reinserire un nuovo numero.",
@@ -405,9 +393,7 @@
       "title": {
         "full": "[I tuoi dati] - Non c'è notifica di errore sull'inserimento di un'email non valida formalmente",
         "compact": "Non c'è notifica di errore sull'inserimento di un'email non valida formalmente",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Inserire dati d'iscrizione ed inserire un indirizzo email con formato errato",
       "expected_result": "Mi aspetto un controllo sul campo email e mi aspetto che non ci sia la tastiera con emoji.",
@@ -471,9 +457,7 @@
       "title": {
         "full": "[Apertura nuovo conto] - L'app non carica la pagina per l'apertura del conto impostazione schermo diviso Android",
         "compact": "L'app non carica la pagina per l'apertura del conto impostazione schermo diviso Android",
-        "context": [
-          "Apertura nuovo conto"
-        ]
+        "context": ["Apertura nuovo conto"]
       },
       "step_by_step": "1. Aprire l'app in visualizzazione schermo diviso\r\n2. Seguire l'onboarding\r\n3. Cliccare sulla CTA per l'apertura di un conto\r\n4. Cliccare sulla CTA per aprire un conto start",
       "expected_result": "L'app dovrebbe caricare quasi istantaneamente la pagina per aprire il conto.",
@@ -537,9 +521,7 @@
       "title": {
         "full": "[Stress test] - L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
         "compact": "L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
-        "context": [
-          "Stress test"
-        ]
+        "context": ["Stress test"]
       },
       "step_by_step": "1. Aprire l'app\r\n2. Terminare l'onboarding\r\n3. Iniziare il percorso di apertura conto corrente inserendo i primi dati (es. nome e cognome)\r\n4. Utilizzare la funzionalità popup o schermo diviso",
       "expected_result": "L'app dovrebbe continuare la sua esecuzione o dovrebbe essermi impedito di ridimensionare l'app.",
@@ -603,9 +585,7 @@
       "title": {
         "full": "[I tuoi dati] - Il codice OTP non è immediatamente visibile dal popup/notifica dell'SMS",
         "compact": "Il codice OTP non è immediatamente visibile dal popup/notifica dell'SMS",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app oggetto di test\r\n2. Iniziare la procedura di apertura conto\r\n3. Quando richiesto inserire il proprio numero di cellulare\r\n4. Attendere l'OTP via SMS",
       "expected_result": "L'SMS con l'OTP dovrebbe indicare subito le cifre da inserire in app, in modo da essere immediatamente visibili dall'utente.",
@@ -669,9 +649,7 @@
       "title": {
         "full": "[Mail annullamento] - Nessuna ricezione mail annullamento conto ",
         "compact": "Nessuna ricezione mail annullamento conto",
-        "context": [
-          "Mail annullamento"
-        ]
+        "context": ["Mail annullamento"]
       },
       "step_by_step": "1. Aprire conto Start \r\n2. Aspettare mail annullamento conto\r\n",
       "expected_result": "Ricevuta mail annullamento conto.",
@@ -736,9 +714,7 @@
       "title": {
         "full": "[Documenti] - Il testo informativo sul flag obbligatorio è graficamente impaginato male",
         "compact": "Il testo informativo sul flag obbligatorio è graficamente impaginato male",
-        "context": [
-          "Documenti"
-        ]
+        "context": ["Documenti"]
       },
       "step_by_step": "1. Aprire l'app\r\n2. Iniziare il flusso di apertura conto start\r\n3. Proseguire inserendo i dati richiesti sino a raggiungere lo step 2\r\n4. Scorrere la pagina verso il basso sino a raggiungere la checkbox relativa al trattamento dei dati personali",
       "expected_result": "Tutta la descrizione relativa all'informativa privacy dovrebbe avere lo stesso colore di sfondo.",
@@ -803,9 +779,7 @@
       "title": {
         "full": "[Autenticazione] - Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
         "compact": "Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Iniziare la procedura di apertura conto\r\n3. Eseguire il login con SPIDusando sielte",
       "expected_result": "Si dovrebbe essere rimandati al login con spid tramite sielte.",
@@ -869,9 +843,7 @@
       "title": {
         "full": "[Mail annullamento] - Nessuna mail di conferma annullamento conto ricevuta",
         "compact": "Nessuna mail di conferma annullamento conto ricevuta",
-        "context": [
-          "Mail annullamento"
-        ]
+        "context": ["Mail annullamento"]
       },
       "step_by_step": "1. Apertura applicazione \r\n2. Apertura conto \r\n3. Chiusura conto ",
       "expected_result": "E-mail di conferma chiusura conto.",
@@ -936,9 +908,7 @@
       "title": {
         "full": "[Apertura Conto] - Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
         "compact": "Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Entrare nel flusso di apertura di un conto start e iniziare a inserire alcuni dati\r\n2. Interrompere la procedura dopo alcuni step, senza concludere la richiesta\r\n3. Chiudere e riaprire l'app\r\n4. Iniziare il flusso di apertura di un conto circle\r\n5. Immettere i propri dati",
       "expected_result": "Il sistema dovrebbe chiedere se si vuole proseguire con la precedente richiesta di pertura di un conto start o se si vuole iniziare una nuova pratica per il conto circle",
@@ -1002,9 +972,7 @@
       "title": {
         "full": "[Apertura Conto] - Il prefisso del numero cellulare è graficamente fuori posto ",
         "compact": "Il prefisso del numero cellulare è graficamente fuori posto",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Iniziare il flusso di apertura di un conto corrente start\r\n2. Interrompere la procedura prima di averla conclusa chiudendo l'app\r\n3. Riaprire l'app e ritornare nel flusso di apertura conto start\r\n4. Inserire i propri dati \r\n5. Atterrare nella pagina dove inserire il proprio numero di telefono per continuare la pratica",
       "expected_result": "Il prefisso del numero di telefono dovrebbe essere graficamente all'interno dell'apposito box.",
@@ -1069,9 +1037,7 @@
       "title": {
         "full": "[Il tuo conto] - Impossibile scaricare documentazione contrattuale",
         "compact": "Impossibile scaricare documentazione contrattuale",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Dalla scheda iniziale dei 3 conti scegliere “Circle” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere SPID come modalità di autenticazione, cliccando sulla CTA \"Entra con SPID\"\r\n3. Inserire le credenziali SPID e procedere con l'apertura del conto\r\n4. Procedere con tutti i passaggi richiesti relativamente ai dati anagrafici\r\n5. Nella sezione \"Il tuo conto\" visualizzare tutta la documentazione contrattuale proposta prima di flaggare per accettazione",
       "expected_result": "Mi aspetterei di poter visualizzare tutta la documentazione contrattuale proposta.",
@@ -1135,9 +1101,7 @@
       "title": {
         "full": "[Apertura Conto] - In fase di registrane l'app mi dice che c'è già una richiesta di attivazione conto",
         "compact": "In fase di registrane l'app mi dice che c'è già una richiesta di attivazione conto",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Inserire tutti i dati utili per la registrazione ed andare avanti",
       "expected_result": "Mi aspetto di poter riuscire a creare un utente e ad aprire un conto",
@@ -1201,9 +1165,7 @@
       "title": {
         "full": "[Mail annullamento] - Le mail per annullamento non sono pervenute",
         "compact": "Le mail per annullamento non sono pervenute",
-        "context": [
-          "Mail annullamento"
-        ]
+        "context": ["Mail annullamento"]
       },
       "step_by_step": "1. Apri l'app Sella\r\n2. Procedi con aperture conti Start, Premium, Circle\r\n3. Controlla la mail per annullamento",
       "expected_result": "Le mail sono pervenute.",
@@ -1268,9 +1230,7 @@
       "title": {
         "full": "[Mail annullamento] - Non è stata ricevuta la mail di annullamento del conto",
         "compact": "Non è stata ricevuta la mail di annullamento del conto",
-        "context": [
-          "Mail annullamento"
-        ]
+        "context": ["Mail annullamento"]
       },
       "step_by_step": "1. Attivare il conto\r\n2. Compilare il jotform per annullare il conto aperto",
       "expected_result": "Mi sarei aspettato di ricevere email di annullamento.",
@@ -1334,9 +1294,7 @@
       "title": {
         "full": "[Il tuo conto] - Impossibile visualizzare il materiale informativo ",
         "compact": "Impossibile visualizzare il materiale informativo",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Procedere con l’attivazione del conto premium;\r\n2. Procedere con la visualizzazione de materiale informativo e dare i relativi consensi.\r\n",
       "expected_result": "Mi aspettavo di poter visionare il file relativo al “foglio informativo della carta MasterCard Debit”.",
@@ -1401,9 +1359,7 @@
       "title": {
         "full": "[Il tuo conto] - Impossibile spuntare il consenso alla documentazione informativa",
         "compact": "Impossibile spuntare il consenso alla documentazione informativa",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Procedere con l’attivazione del “conto premium”;\r\n2. Al passaggio 3/6 leggere il materiale informativo;\r\n3. Spuntare i consensi.",
       "expected_result": "Mi aspettavo di poter spuntare il consenso relativo al “riepiloga le informazioni riguardanti la polizza gratuita rilasciata assieme al conto richiesto”.",
@@ -1474,9 +1430,7 @@
       "title": {
         "full": "[Identificazione] - L'app non abilita il microfono dello smartphone per la verifica",
         "compact": "L'app non abilita il microfono dello smartphone per la verifica",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Dalla scheda iniziale dei 3 conti scegliere “Premium” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere SPID come modalità di autenticazione, cliccando sulla CTA \"Entra con SPID\"\r\n3. Inserire le credenziali SPID e procedere con l'apertura del conto\r\n4. Procedere con tutti i passaggi richiesti relativamente ai dati anagrafici fino alla richiesta di conferma dell’identità con un videoselfie\r\n5. Prestare tutti i consensi richiesti per far accedere l'app a telecamera e microfono, quindi registrare i videoselfie richiesti",
       "expected_result": "Mi aspetterei di registrare dei videoselfie con audio funzionante.",
@@ -1540,9 +1494,7 @@
       "title": {
         "full": "[AutocertificAZIONE] - Impossibile proseguire oltre il questionario antiriciclaggio",
         "compact": "Impossibile proseguire oltre il questionario antiriciclaggio",
-        "context": [
-          "AutocertificAZIONE"
-        ]
+        "context": ["AutocertificAZIONE"]
       },
       "step_by_step": "1. Avviare il flusso di apertura conto start\r\n2. Inserire tutti i dati richiesti\r\n3. Arrivare alla pagina relativa al questionario antiriciclaggio\r\n4. Inserire professione, provenienza dei fondi e tutti gli altri dati\r\n5. Proseguire",
       "expected_result": "Dovrebbe apparire un messaggio d'errore o si dovrebbe essere rimandati allo step successivo.",
@@ -1607,9 +1559,7 @@
       "title": {
         "full": "[Autenticazione] - Dopo autenticazione con SPID la procedura continua su browser web invece che su app",
         "compact": "Dopo autenticazione con SPID la procedura continua su browser web invece che su app",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Dalla scheda iniziale dei 3 conti scegliere “Premium” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere SPID come modalità di autenticazione, cliccando sulla CTA \"Entra con SPID\"\r\n3. Inserire le credenziali SPID e procedere con l'apertura del conto",
       "expected_result": "Come accaduto per il conto Start, mi aspetterei di completare l'intera proceduta di apertura conto in app.",
@@ -1673,9 +1623,7 @@
       "title": {
         "full": "[Mail annullamento] - Alcune mail non sono arrivate",
         "compact": "Alcune mail non sono arrivate",
-        "context": [
-          "Mail annullamento"
-        ]
+        "context": ["Mail annullamento"]
       },
       "step_by_step": "1. Aprire il conto\r\n2. Compilare questionario di richiesta annullamento",
       "expected_result": "Email di conferma di avvenuto processo e annullamento pratica.",
@@ -1740,9 +1688,7 @@
       "title": {
         "full": "[Autenticazione] - Aprendo Sielte ID appare del codice informatico nella pagina dell'app Sella dove inserire i propri dati",
         "compact": "Aprendo Sielte ID appare del codice informatico nella pagina dell'app Sella dove inserire i propri dati",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Aprire l'app ed atterrare nella pagina di login/registrazione\r\n2. Seguire il percorso per iniziare l'apertura di un conto start\r\n3. Iniziare il flusso di apertura del conto\r\n4. Quando richiesto iniziare il login con sielte\r\n5. Tornare indietro",
       "expected_result": "La pagina dovrebbe rimanere pulita.",
@@ -1807,9 +1753,7 @@
       "title": {
         "full": "[Richiesta] - Pagina indica di riprendere conto Start invece del conto Premium iniziato in precedenza",
         "compact": "Pagina indica di riprendere conto Start invece del conto Premium iniziato in precedenza",
-        "context": [
-          "Richiesta"
-        ]
+        "context": ["Richiesta"]
       },
       "step_by_step": "1. Riprendere un processo di apertura conto Premium interrotto\r\n2. Immettere gli stessi dati usati\r\n3. Arrivare alla pagina di conferma di ripresa del processo interotto",
       "expected_result": "La pagina dovrebbe dire che si sta riprendendo l’apertura di un conto premium.",
@@ -1873,9 +1817,7 @@
       "title": {
         "full": "[Onboarding] - Facendo rapidi tap sulla CTA per passare allo step successivo l'app non prosegue oltre",
         "compact": "Facendo rapidi tap sulla CTA per passare allo step successivo l'app non prosegue oltre",
-        "context": [
-          "Onboarding"
-        ]
+        "context": ["Onboarding"]
       },
       "step_by_step": "1. Aprire l'app\r\n2. Attendere il caricamento dell'onboarding\r\n3. Fare tap velocemente sulla CTA \"Prosegui\"",
       "expected_result": "L'app dovrebbe spostarsi rapidamente nelle varie slides del carosello fino a chiuderlo.",
@@ -1939,9 +1881,7 @@
       "title": {
         "full": "[Apertura Conto] - Impossibile aprire il menu di assistenza",
         "compact": "Impossibile aprire il menu di assistenza",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app ed eseguire l'onboarding\r\n2. Atterrati nella pagina di login fare tap sulla CTA per aprire un conto\r\n3. Iniziare l'apertura di un conto start e proseguire fino alla scelta della tipologia di conto (un solo intestatario oppure cointestato) \r\n4. Fare tap sull'icona verde di assistenza in alto a destra",
       "expected_result": "Dovrebbe aprirsi una chat, un messaggio informativo, o un menu dedicato all'assistenza.",
@@ -2006,9 +1946,7 @@
       "title": {
         "full": "[Stress test] - L'avviso di connessione internet assente ha tutte le lettere iniziali in maiuscolo",
         "compact": "L'avviso di connessione internet assente ha tutte le lettere iniziali in maiuscolo",
-        "context": [
-          "Stress test"
-        ]
+        "context": ["Stress test"]
       },
       "step_by_step": "1. Attivare la modalità aereo\r\n2. Aprire l'app Sella\r\n3. Atterrare nell'onboarding",
       "expected_result": "Il messaggio d'errore dovrebbe essere \"Connessione Internet assente\" oppure \"Connessione internet assente\".",
@@ -2072,9 +2010,7 @@
       "title": {
         "full": "[Stress test] - L'app carica in loop dopo aver tentato di aprire un conto con modalità aereo attiva",
         "compact": "L'app carica in loop dopo aver tentato di aprire un conto con modalità aereo attiva",
-        "context": [
-          "Stress test"
-        ]
+        "context": ["Stress test"]
       },
       "step_by_step": "1. Attivare la modalità aereo\r\n2. Aprire l'app Sella\r\n3. Completare l'onboarding\r\n4. Atterrare nella pagina di login / apertura conto\r\n5. Fare tap sulla CTA per aprire un conto\r\n6. Chiudere il browser con il tasto back per rientrare nell'app sella",
       "expected_result": "L'app dovrebbe indicare che in assenza di connessione di rete non è possibile proseguire.",
@@ -2138,9 +2074,7 @@
       "title": {
         "full": "[Identificazione] - Impossibile scegliere la Tessera Sanitaria come secondo documento per completare l'iscrizione",
         "compact": "Impossibile scegliere la Tessera Sanitaria come secondo documento per completare l'iscrizione",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Dare inizio al flusso di iscrizione ad uno dei 3 conti disponibili facendo tap su \"Apri conto\"\r\n2. Si giunge in una pagina (allegata in foto) in cui è scritto che fra i documenti accettati vi è, oltre alla patente, anche la tessera sanitaria\r\n3. Giungere fino allo step di aggiunta del secondo documento",
       "expected_result": "Mi aspettavo che, oltre alla patente e al passaporto, fosse possibile inserire anche la tessera sanitaria.",
@@ -2205,9 +2139,7 @@
       "title": {
         "full": "[Apertura Conto] - Ogni volta che si preme un pulsante sull'app viene aperta la pagina web ma gli step procedono anche in app",
         "compact": "Ogni volta che si preme un pulsante sull'app viene aperta la pagina web ma gli step procedono anche in app",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app e iniziare il flusso di apertura conto\r\n2. Premere un qualsiasi pulsante all'interno del flusso\r\n",
       "expected_result": "Mi aspettavo che ogni pulsante fosse funzionante e non rimandasse a pagine web vuote.",
@@ -2271,9 +2203,7 @@
       "title": {
         "full": "[Identificazione] - L'app va in crash dopo aver caricato la foto del documento e si apre una pagina bianca",
         "compact": "L'app va in crash dopo aver caricato la foto del documento e si apre una pagina bianca",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire il conto premium\r\n2. Immettere i dati e proseguire con il flusso\r\n3. Scattare la foto e caricare il documento",
       "expected_result": "Mi sarei aspettato si aprisse una pagina di caricamento e successivamente arrivasse la conferma di processo avvenuto con successo.",
@@ -2337,9 +2267,7 @@
       "title": {
         "full": "[Apertura conto Premium] - Impossibile procedere con apertura conto",
         "compact": "Impossibile procedere con apertura conto",
-        "context": [
-          "Apertura conto Premium"
-        ]
+        "context": ["Apertura conto Premium"]
       },
       "step_by_step": "1. Apro l'app Sella\r\n2. Clicco su Apri Conto\r\n3. Clicco sul pulsante in alto al centro \"Premium\"\r\n4. Clicco in basso a destra su Apri Conto\r\n5. Leggo le informazioni conto e clicco in basso su procedi\r\n6. Clicco sul pulsante centrale \"A me e un'altra persona (conto cointestato)\r\n7. Clicco nuovamente su Procedi dopo aver letto le informazioni\r\n8. Inserisco i dati richiesti come nuovo cliente clicco su Calcola codice fiscale\r\n9. Inserisco i dati richiesti per la compilazione del codice fiscale\r\n10. Scarico l'informativa sul trattamento dei dati e metto la spunta per presa visione\r\n11. Clicco su Procedi\r\n12. Inserisco il numero telefonico a cui inviare sms con il codice per recuperare la pratica iniziata in precedenza ed in pendenza\r\n13. Inserisco il codice per il recupero pratica\r\n14. Si apre una pagina con su \"Bentornato Hai una richiesta  Conto Sella Start\" (conto cointestato) ma io ho aperto un Premium \r\n15. Clicco su Riprendi\r\n16. Inserisco il codice inviato tramite sms\r\n17. Clicco nuovamente su Procedi anche se lo avevo già fatto in precedenza (vedi punto 10)\r\n18. Leggo le informazioni riguardo il Conto Premium e clicco su Procedi\r\n19. Scarico la documentazione informativa sulle spese e metto la spunta per presa visione\r\n20. Scarico il riepilogo delle informazioni riguardanti la polizza ma non ho possibilità di spuntare per presa visione",
       "expected_result": "Mi aspettavo di procedere con l'apertura conto Premium.",
@@ -2414,9 +2342,7 @@
       "title": {
         "full": "[Autocertificazione] - Nella pagina certificazione il menu regione e la cta prosegui non sono attivi",
         "compact": "Nella pagina certificazione il menu regione e la cta prosegui non sono attivi",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Apri l'app Sella\r\n2. Procedi all'apertura di un conto Start\r\n3. Nella pag. certificazione premi per scegliere la regione\r\n4. Premi procedi\r\n\r\n",
       "expected_result": "SI puo' scegliere la regione. La cta procedi funziona.\r\n\r\n\r\n",
@@ -2481,9 +2407,7 @@
       "title": {
         "full": "[Verifica bonifico] - Il testo informativo è tagliato nella pagina per verificare tramite bonifico",
         "compact": "Il testo informativo è tagliato nella pagina per verificare tramite bonifico",
-        "context": [
-          "Verifica bonifico"
-        ]
+        "context": ["Verifica bonifico"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere apri conto\r\n3. Procedere all'apertura del conto Start\r\n4. Nella pagina di verifica identità scegliere come modalità il bonifico\r\n5. Premere la \"i\" per visualizzare il testo informativo",
       "expected_result": "Mi sarei aspettato che il testo fosse visibile.",
@@ -2547,9 +2471,7 @@
       "title": {
         "full": "[Identificazione] - La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
         "compact": "La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere \"Apri conto\" e scegliere il conto Start\r\n3. Procedere fino alla pagina di caricamento del secondo documento",
       "expected_result": "Mi sarei aspettata ci fosse unaa CTA per proseguire.",
@@ -2613,9 +2535,7 @@
       "title": {
         "full": "[Apertura Conto] - Back da pagina carica secondo doc. va a pag. conferma dati",
         "compact": "Back da pagina carica secondo doc. va a pag. conferma dati",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Apri l'app Sella \r\n2. Premi apri conto\r\n3. Scegli conto Start\r\n4. Procedi fino alla pag. secondo doc.\r\n5. Premi la freccia indietro",
       "expected_result": "Si va alla pag. documenti.",
@@ -2680,9 +2600,7 @@
       "title": {
         "full": "[Identificazione] - Le opzioni per il secondo documento non sono congruenti",
         "compact": "Le opzioni per il secondo documento non sono congruenti",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Apri l'app Sella\r\n2. Premi apri conto\r\n3. Scegli conto Start\r\n4. Vai avanti fino alla pagina del secondo documento",
       "expected_result": "Le opzioni sono tessera sanitaria e patente, come indicato nella pagina descrittiva iniziale.",
@@ -2747,9 +2665,7 @@
       "title": {
         "full": "[Richiesta] - Quando si riprende l'apertura non si atterra all'ultimo step raggiunto",
         "compact": "Quando si riprende l'apertura non si atterra all'ultimo step raggiunto",
-        "context": [
-          "Richiesta"
-        ]
+        "context": ["Richiesta"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere apri conto\r\n3. Scegliere il conto Start\r\n4. Andare avanti fino alla pagina \"Secondo documento\"\r\n5. Chiudere l'app e riaprirla\r\n6. Premere apri conto\r\n7. Inserire il codice ricevuto",
       "expected_result": "Si va allo step lasciato in sospeso ( secondo doc).",
@@ -2813,9 +2729,7 @@
       "title": {
         "full": "[Firma] - Errore numero di passaggi da completare per terminare l'apertura conto",
         "compact": "Errore numero di passaggi da completare per terminare l'apertura conto",
-        "context": [
-          "Firma"
-        ]
+        "context": ["Firma"]
       },
       "step_by_step": "1. Apertura applicazione \r\n2. Apertura conto \r\n3. Inserimento dati\r\n",
       "expected_result": "Arrivato allo step 6 di 6 la procedura dovrebbe essere terminata invece c'è un punto 7 di 6.",
@@ -2880,9 +2794,7 @@
       "title": {
         "full": "[Identificazione] - Il campo città accetta singoli numeri",
         "compact": "Il campo città accetta singoli numeri",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere apri conto\r\n3. Sceglere il conto Start\r\n4. Procedere fino allo step 4 e confermare dati",
       "expected_result": "Un messaggio indica che occorre rispettare un formato standard.",
@@ -2946,9 +2858,7 @@
       "title": {
         "full": "[Apertura Conto] - Codice fiscale non valido se utilizzata compilazione automatica con google ",
         "compact": "Codice fiscale non valido se utilizzata compilazione automatica con google",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Apertura applicazione \r\n2. Apri conto start\r\n3. Compilazione dei campi utili per l'apertura del conto\r\n4. Compilazione automatica dei dati nome e cognome con Google ",
       "expected_result": "Dato che avevo già immesso i dati del nome e cognome e ho inserito il codice fiscale manualmente e correttamente mi aspettavo di procedere allo step successivo. ",
@@ -3013,9 +2923,7 @@
       "title": {
         "full": "[Il tuo conto] - Vari elementi sono disallineati nella pagina altro da aggiungere",
         "compact": "Vari elementi sono disallineati nella pagina altro da aggiungere",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere apri conto\r\n3. Scegliere conto Start\r\n4. Procedi fino allo step 3 alla pagina \"Altro da aggiungere\"",
       "expected_result": "Mi sarei aspettato che tutti gli elementi fossero ben allineati.",
@@ -3079,9 +2987,7 @@
       "title": {
         "full": "[Il tuo conto] - Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
         "compact": "Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere su \"Apri conto\"\r\n3. Scegliere il conto Start\r\n4. Procedere fino allo step 3 con la lista dei documenti\r\n5. Premere \"Procedi\" dopo aver selezionato la seconda casella per il consenso",
       "expected_result": "Mi sarei aspettato che la seconda casella per il consenso non venisse deselezionata.",
@@ -3145,9 +3051,7 @@
       "title": {
         "full": "[Il tuo conto] - Una frase è incompleta nell'area del consenso",
         "compact": "Una frase è incompleta nell'area del consenso",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere su \"Apri conto\"\r\n3. Scegliere il conto Start\r\n4. Procedere fino allo step 3 con la lista dei documenti",
       "expected_result": "Mi sarei aspettato di leggere la frase completa.",
@@ -3211,9 +3115,7 @@
       "title": {
         "full": "[Apertura Conto] - L'app va in crash e si riavvia da sola durante alcuni step del flusso",
         "compact": "L'app va in crash e si riavvia da sola durante alcuni step del flusso",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app Sella \r\n2. Procedere con l'apertura del conto\r\n3. Scegliere \"A me\" come conto individuale\r\n4. Compilare i dati richiesti e eseguire il calcolo del codice fiscale\r\n5. Inserire i dati necessari al  calcolo del codice fiscale\r\n6. Scaricare il documento relativo all'informativa\r\n7. Ritornare sull'app Sella per proseguire con l'apertura conto\r\n",
       "expected_result": "Mi aspettavo di proseguire con l'apertura conto.",
@@ -3277,9 +3179,7 @@
       "title": {
         "full": "[Apertura Conto] - Compare il messaggio “connessione internet assente”",
         "compact": "Compare il messaggio “connessione internet assente”",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l’app\r\n2. Selezionare “conto Premium”\r\n3. Procedere con l’inserimento dei dati",
       "expected_result": "Mi aspettavo di poter normalmente con la registrazione sull'app.",
@@ -3343,9 +3243,7 @@
       "title": {
         "full": "[Richiesta in sospeso] - Box per inserimento numero telefonico piccolo e prefisso decentrato",
         "compact": "Box per inserimento numero telefonico piccolo e prefisso decentrato",
-        "context": [
-          "Richiesta in sospeso"
-        ]
+        "context": ["Richiesta in sospeso"]
       },
       "step_by_step": "1. Aprire l'app Sella e procedere con l'apertura di un nuovo conto\r\n2. Fare tap sul bottone \"A me\" come intestatario individuale\r\n3. Inserire i dati personali ed effettuare il calcolo del codice fiscale\r\n4. Fare tap su \"Dichiaro di aver preso dell'informativa sul trattamento dei dati\" \r\n5. Inserire il numero telefonico per ricevere un codice per terminare la procedura di apertura conto",
       "expected_result": "Mi aspettavo di visualizzare correttamente il numero telefonico inserito.",
@@ -3409,9 +3307,7 @@
       "title": {
         "full": "[Apertura Conto] - Impossibile accedere con SPID",
         "compact": "Impossibile accedere con SPID",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Apro l'app Sella\r\n2. Clicco su Apri conto come nuovo cliente\r\n3. Clicco su Apri conto Start in basso a destra\r\n4. Clicco su Procedi nel footer\r\n5. Clicco sul bottone \"A me\" conto individuale\r\n6. Clicco su \"Sei nuovo cliente?\" Entra con Spid\r\n7. Clicco su Poste Italiane il mio fornitore di spid\r\n8. Eseguo tutta la procedura per entrare con il mio spid\r\n8. Clicco su Acconsento per fornire tutti i  miei dati a Banca Sella\r\n\r\n",
       "expected_result": "Mi aspettavo di aprire il conto utilizzando il mio Spid e snellire la procedura di apertura conto.",
@@ -3476,9 +3372,7 @@
       "title": {
         "full": "[I tuoi dati] - Il testo per il consenso fuoriesce dal bordo ipostato",
         "compact": "Il testo per il consenso fuoriesce dal bordo ipostato",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere \"Apri conto\"\r\n3. Scegliere un conto qualsiasi\r\n4. Scegliere un'intestazione e procedere\r\n5. Scorrere verso il basso la pagina",
       "expected_result": "Mi sarei aspettato che il testo fosse all'interno del box azzurro.",
@@ -3542,9 +3436,7 @@
       "title": {
         "full": "[I tuoi dati] - I link SPID Italia e Lepeda portano a messaggi di errore",
         "compact": "I link SPID Italia e Lepeda portano a messaggi di errore",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Apri l'app Sella\r\n2. Premi apri conto\r\n3. Scegli un conto (Start)>procedi\r\n4. Scegli unintestazione\r\n5. Premi SPID>SPID Italia\r\n6. Premi il tasto indietro dl dispositivo\r\n7. Premi Lepeda",
       "expected_result": "Si apre la pagina Login SPID.",
@@ -3609,9 +3501,7 @@
       "title": {
         "full": "[Apertura conto] - Andando indietro da pagina di login SPID si torna alla pagina login dell'App",
         "compact": "Andando indietro da pagina di login SPID si torna alla pagina login dell'App",
-        "context": [
-          "Apertura conto"
-        ]
+        "context": ["Apertura conto"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere \"Apri conto\"\r\n3. Scegliere un conto qualsiasi\r\n4. Scegliere una intestazione\r\n5. Premere SPID e scegliere \"IntesaID\"\r\n6. Premere il tasto indietro del dispositivo dalla pagina di login con SPID",
       "expected_result": "Mi aspetto di tornare alla pagina dell'apertura conto.",
@@ -3675,9 +3565,7 @@
       "title": {
         "full": "[Apertura Conto] - Chiudendo l'app si ritorna nella pagina di onboarding",
         "compact": "Chiudendo l'app si ritorna nella pagina di onboarding",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app e seguire l'eventuale onboarding\r\n2. Atterrare sulla pagina di login / apertura conto\r\n3. Fare tap sulla CTA per aprire il conto\r\n4. Fare tap sulla CTA per proseguire con l'apertura del conto \"Start\"\r\n5. Chiudere l'app dal multitasking",
       "expected_result": "L'app dovrebbe riaprirsi nella schermata di login / registrazione.",
@@ -3742,9 +3630,7 @@
       "title": {
         "full": "[Cookie policy] - Impossibile leggere l'informativa prima di accettarla",
         "compact": "Impossibile leggere l'informativa prima di accettarla",
-        "context": [
-          "Cookie policy"
-        ]
+        "context": ["Cookie policy"]
       },
       "step_by_step": "1. Aprire l'app\r\n2. Entrare nella sezione per aprire un nuovo conto\r\n3. Selezionare una tipologia di conto e proseguire\r\n4. Nella pagina che si apre cliccare sui link per visualizzare la cookie policy",
       "expected_result": "Si dovrebbe essere reindirizzati in una pagina priva di cookies, in modo che l'utente possa decidere se accettarli o meno.",
@@ -3808,9 +3694,7 @@
       "title": {
         "full": "[Informativa privacy] - I contatti della Banca non sono cliccabili ma semplice testo",
         "compact": "I contatti della Banca non sono cliccabili ma semplice testo",
-        "context": [
-          "Informativa privacy"
-        ]
+        "context": ["Informativa privacy"]
       },
       "step_by_step": "1. Aprire l'app\r\n2. Atterrare nella pagina di login/registrazione\r\n3. Aprire la privacy policy\r\n4. Scorrere fino al punto 7 dell'informativa\r\n5. Fare tap sulla mail della Banca",
       "expected_result": "Al tap sull'indirizzo mail dovrebbe aprisi il client mail con già preimpostato l'indirizzo della Banca (funzione \"mailto:\").",
@@ -3874,9 +3758,7 @@
       "title": {
         "full": "[Onboarding] - Le immagini del carosello e della pagina iniziale richiedono del tempo per caricarsi",
         "compact": "Le immagini del carosello e della pagina iniziale richiedono del tempo per caricarsi",
-        "context": [
-          "Onboarding"
-        ]
+        "context": ["Onboarding"]
       },
       "step_by_step": "1. Aprire l'app per la prima volta\r\n2. Negare tutti i permessi\r\n3. Muoversi nel carosello di onboarding",
       "expected_result": "Mi sarei aspettato che l'app mostrasse istantaneamente le immagini delle varie pagine del carosello di onboarding.",
@@ -3940,9 +3822,7 @@
       "title": {
         "full": "[Apertura Conto] - Refusi ed errori typo nella procedura di apertura del conto",
         "compact": "Refusi ed errori typo nella procedura di apertura del conto",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Scegliere “Start” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere se ricevere la carta di debito contestualmente all'apertura del conto\r\n3. Nella pagina dedicata al primo documento effettuare l’upload del Passaporto e controllare i dati rilevati dall’app\r\n4. Nella pagina dedicata al secondo documento effettuare l’upload della patente di guida e controllare i dati rilevati dall’app\r\n5. Viene richiesto di confermare l’identità con un selfie\r\n6. Dopo l’identificazione completare la procedura rispondendo ai questionari proposti",
       "expected_result": "Mi aspetterei che nella procedura non ci siano refusi e che le indicazioni fornite siano puntuali e dettagliate.",
@@ -4006,9 +3886,7 @@
       "title": {
         "full": "[Identificazione] - Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
         "compact": "Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Scegliere “Start” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere se ricevere la carta di debito contestualmente all'apertura del conto\r\n3. Nella pagina dedicata al primo documento effettuare l’upload del Passaporto e controllare i dati rilevati dall’app\r\n4. Nella pagina dedicata al secondo documento effettuare l’upload della patente di guida e controllare i dati rilevati dall’app\r\n5. Al passaggio successivo viene richiesto di confermare l’identità con un selfie\r\n6. Effettuare una registrazione audio/video",
       "expected_result": "Mi aspetterei che, avendo dato i consenti, si attivino videocamera e microfono per poter registrare un video-selfie che sembrerebbe essere obbligatorio per l'identificazione.",
@@ -4072,9 +3950,7 @@
       "title": {
         "full": "[Identificazione] - Discordanza nella richiesta di documenti all'interno della procedura",
         "compact": "Discordanza nella richiesta di documenti all'interno della procedura",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Scegliere “Start” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere se ricevere la carta di debito contestualmente all'apertura del conto\r\n3. Nella pagina dedicata al primo documento effettuare l’upload del Passaporto e controllare i dati rilevati dall’app\r\n4. Nella pagina successiva scegliere il secondo documento da caricare",
       "expected_result": "Stando a quanto indicato all'inizio della procedura di apertura conto, mi aspetterei di poter scegliere il secondo documento tra tessera sanitaria e patente di guida.",
@@ -4139,9 +4015,7 @@
       "title": {
         "full": "[Autocertificazione] - La procedura si blocca all'autocertificazione e non si conclude l'apertura conto",
         "compact": "La procedura si blocca all'autocertificazione e non si conclude l'apertura conto",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Dalla scheda iniziale dei 3 conti scegliere “Start” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere se ricevere la carta di debito contestualmente all'apertura del conto\r\n3. Eeffettuare l’upload del Passaporto e controllare i dati rilevati dall’app\r\n4. Effettuare l’upload della patente di guida e controllare i dati rilevati dall’app\r\n5. Al passaggio successivo viene richiesto di confermare l’identità con un selfie\r\n6. Effettuare una registrazione audio/video\r\n7. Dopo l’identificazione completare la procedura rispondendo ai questionari proposti",
       "expected_result": "Mi aspetterei di completare l'apertura del conto passando all'ultima pagina della procedura.",
@@ -4206,9 +4080,7 @@
       "title": {
         "full": "[I tuoi dati] - Impossibile selezionare altri Paesi se non l'Italia nel calcolatore del codice fiscale ",
         "compact": "Impossibile selezionare altri Paesi se non l'Italia nel calcolatore del codice fiscale",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Andare su \"Apri conto\" su conto \"Smart\"\r\n2. Cliccare su Procedi \r\n3. Selezionare \"a me\" e cliccare poi su Calcola ora\r\n4. Cliccare sulla freccia su \"stato di nascita\" e scrivere il nome di un qualsiasi Paese ",
       "expected_result": "Il Paese del quale è stato scritto il nome può essere selezionato.",
@@ -4273,9 +4145,7 @@
       "title": {
         "full": "[Calcola CF] - Con smartphone a tema scuro la bandiera italiana ha colori non corretti ",
         "compact": "Con smartphone a tema scuro la bandiera italiana ha colori non corretti",
-        "context": [
-          "Calcola CF"
-        ]
+        "context": ["Calcola CF"]
       },
       "step_by_step": "1. Attivare tema scuro sullo smartphone\r\n2. Aprire l'app e andare all'apertura del conto start\r\n3. Procedere fino alla pagina dove si possono inserire i propri dati \"I tuoi dati\"\r\n4. Fare tap su \"Calcola ora\"",
       "expected_result": "Mi sarei aspettato che la bandiera italiana avesse i suoi colori originali.",
@@ -4339,9 +4209,7 @@
       "title": {
         "full": "[I tuoi dati] - App non accetta codice fiscale corretto per la registrazione ",
         "compact": "App non accetta codice fiscale corretto per la registrazione",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app e fare tap su \"Apri conto\"\r\n2. Selezionare il conto \"Start\" e fare tap su \"Apri conto\"\r\n3. Nella pagina aperta scorrere verso il basso e fare tap su \"Procedi\"\r\n4. Selezionare \"A me\" e inserire le proprie informazioni personali fra cui il codice fiscale ",
       "expected_result": "L'app accetta il codice fiscale e sì può procedere con la registrazione.",
@@ -4405,9 +4273,7 @@
       "title": {
         "full": "[I tuoi dati] - I campi Nome e Cognome accettano singole lettere e non c'è verifica sul formato del CF",
         "compact": "I campi Nome e Cognome accettano singole lettere e non c'è verifica sul formato del CF",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere su \"Apri conto\"\r\n3. Scegliere il conto Start e procedere\r\n4. Scegliere il conto individuale\r\n5. Inserire singole lettere nei campi Nome e Cognome e un codice fiscale errato",
       "expected_result": "Mi sarei aspettata dei messaggi che indicassero che occorre digitare almeno due caratteri per il nome e cognome. Inoltre un messaggio di errore che indicasse che il codice fiscale è nel formato errato.",
@@ -4471,9 +4337,7 @@
       "title": {
         "full": "[I tuoi dati] - Premendo login con SPID la pagina si corrompe",
         "compact": "Premendo login con SPID la pagina si corrompe",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere apri conto\r\n3. Scegliere conto Start> procedi\r\n4. Scegliere conto individuale\r\n5. Premere l'icona SPID>scegli un fornitore\r\n6. Premere il tasto back del device",
       "expected_result": "La pagina e' ben visualizzata.",
@@ -4538,9 +4402,7 @@
       "title": {
         "full": "[Apertura conto Start] - Alcuni Paesi non sono in ordine alfabetico nel menu cittadinanza",
         "compact": "Alcuni Paesi non sono in ordine alfabetico nel menu cittadinanza",
-        "context": [
-          "Apertura conto Start"
-        ]
+        "context": ["Apertura conto Start"]
       },
       "step_by_step": "1. Apri l'app Sella\r\n2. Premi apri conto\r\n3. Scegli conto Start> procedi\r\n4. Premi per apertura conto singolo\r\n5. Premi per aprire il menu per la scelta della cittadinanza\r\n6. Scorri verso il basso la pagina",
       "expected_result": "Tutti i nomi sono in ordine alfabetico.",
@@ -4605,9 +4467,7 @@
       "title": {
         "full": "[Identificazione] - Impossibile scattare foto del documento da app",
         "compact": "Impossibile scattare foto del documento da app",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire l'app di Banca Sella\r\n2. Seguire la procedura guidata per aprire il conto \"Start\" inserendo i dati richiesti\r\n3. Arrivati al punto 4 \"Identificazione\" fare tap su \"Passaporto\" o \"Carta d'identità\"\r\n4. Fare tap su \"Scatta foto\"\r\n5. Nella tendina che compare in basso fare tap su \"Fotocamera\"",
       "expected_result": "Mi aspetto di riuscire a scattare sul momento e in app la foto del documento.",
@@ -4671,9 +4531,7 @@
       "title": {
         "full": "[Apertura Conto] - Una label all'interno del pulsante occupa uno spazio eccessivo",
         "compact": "Una label all'interno del pulsante occupa uno spazio eccessivo",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app Sella e aprire un conto qualsiasi\r\n2. Fare tap su \"Procedi\"\r\n3. Atterrare al primo step e visualizzare i pulsanti di scelta di intestazione del conto",
       "expected_result": "Mi sarei aspettata che  tutte le frasi nell'area intestazione fosse ben disposte.",
@@ -4737,9 +4595,7 @@
       "title": {
         "full": "[Apertura Conto] - Il pulsante \"?\" non è attivo",
         "compact": "Il pulsante \"?\" non è attivo",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Apri l'app Sella\r\n2. Premi apri conto\r\n3. Scegli conto Start> procedi\r\n4. Premi l'icona ?",
       "expected_result": "Si apre una pagina d'aiuto.",
@@ -4804,9 +4660,7 @@
       "title": {
         "full": "[Autocertificazione] - La casella \"É previsto un apporto iniziale\" non filtra i caratteri alfabetici",
         "compact": "La casella \"É previsto un apporto iniziale\" non filtra i caratteri alfabetici",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto fino allo step 5 di 6\r\n2. Scrivere nella casella “È previsto un apporto iniziale pari a Euro:” dei caratteri alfabetici e non numeri\r\n3. Fare tap sul pulsante \"Procedi\"",
       "expected_result": "Mi sarei aspettato un messaggio di errore sotto al campo per capire l'errore.",
@@ -4870,9 +4724,7 @@
       "title": {
         "full": "[Identificazione] - Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
         "compact": "Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Leggere l'introduzione dello step di \"Identificazione\"\r\n3. Constatare che serve la tessera sanitaria o la patente di giuda come secondo documento\r\n4. Caricare il primo documento\r\n5. Visualizzare i documenti richiesti come secondo documento",
       "expected_result": "Mi sarei aspettato di poter caricare la patente o la tessera sanitaria.",
@@ -4936,9 +4788,7 @@
       "title": {
         "full": "[Apertura Conto] - Compare la scritta \"Inviate 1 OTP...\" invece di \"Inviato/a 1 OTP\"",
         "compact": "Compare la scritta \"Inviate 1 OTP...\" invece di \"Inviato/a 1 OTP\"",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire il conto Start\r\n2. Arrivare al processo di firma\r\n3. Richiedere un OTP e visualizzare il test in basso\r\n4. Richiedere una seconda OTP",
       "expected_result": "Mi sarei aspettato di leggere \"Inviata/o 1 OTP...\" al singolare.",
@@ -5002,9 +4852,7 @@
       "title": {
         "full": "[Identificazione] - Il campo di inserimento date di emissione e scadenza del documento non funziona correttamente",
         "compact": "Il campo di inserimento date di emissione e scadenza del documento non funziona correttamente",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire il conto e procedere fino allo step 4 di 6\r\n2. Scrivere una data nel text box apposito\r\n3. Cancellarla\r\n4. Scrivere di nuovo la data",
       "expected_result": "La data viene scritta come la prima volta.",
@@ -5068,9 +4916,7 @@
       "title": {
         "full": "[Apertura conto start] - Il conteggio delle schermate è eccedente arrivati alla firma",
         "compact": "Il conteggio delle schermate è eccedente arrivati alla firma",
-        "context": [
-          "Apertura conto start"
-        ]
+        "context": ["Apertura conto start"]
       },
       "step_by_step": "1. Aprire il conto start \r\n2. Arriva al processo di firma\r\n3. Guarda il conto dei passaggi in alto ",
       "expected_result": "Mi sarei aspettato di leggere 6 su 6 o 7 su 7.",
@@ -5135,9 +4981,7 @@
       "title": {
         "full": "[Autocertificazione] - Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
         "compact": "Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto Start\r\n2. Arrivare alla pagina di \"Autocertificazione\"\r\n3. Selezionare in fondo \"Provenienza apporto iniziale\" come \"Altro\"\r\n4. Fare tap su \"Procedi\"",
       "expected_result": "Mi sarei aspettato di poter procedere oppure che comparisse un messaggio di errore (ad esempio, \"Altro non ammesso\").",
@@ -5201,9 +5045,7 @@
       "title": {
         "full": "[Autocertificazione] - Compare un errore ortografico nella schermata di autocertificazione ",
         "compact": "Compare un errore ortografico nella schermata di autocertificazione",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Raggiungere la pagina di \"Autocertificazione\"\r\n3. Leggere il paragrafo riguardante l'affitto di stanze",
       "expected_result": "Mi sarei aspettato di leggere \"Bed and breakfast\"",
@@ -5267,9 +5109,7 @@
       "title": {
         "full": "[Autocertificazione] - Selezionando \"Italia\" compaiono elencate anche Province non italiane",
         "compact": "Selezionando \"Italia\" compaiono elencate anche Province non italiane",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Raggiungere la sezione \"Autocertificazione\"\r\n3. Selezionare come stato di lavoro \"Italia\"\r\n4. Guardare l'elenco \"Province\"",
       "expected_result": "Mi sarei aspettato che comparissero solo le province italiane.",
@@ -5333,9 +5173,7 @@
       "title": {
         "full": "[Autocertificazione] - É possibile non selezionare nessun indirizzo di spedizione della carta",
         "compact": "É possibile non selezionare nessun indirizzo di spedizione della carta",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Anadare allo step \"Autocertificazione\"\r\n3. Inserire i dati della residenza\r\n4. Premere su \"Residenza di versa da domicilio\"\r\n5. Selezionare \"Spedisci la carta al domicilio\"\r\n6. Selezionare la residenza uguale a domicilio\r\n7. Guardare le attuali impostazioni di spedizione (nessuna selezionata)\r\n8. Procedere facendo tap sul pulsante \"Procedi\"",
       "expected_result": "Mi sarei aspettato di non poter proseguire non avendo scelto dove spedire la carta.",
@@ -5399,9 +5237,7 @@
       "title": {
         "full": "[Autocertificazione] - Non c'è controllo se residenza e domicilio corrispondono nel form",
         "compact": "Non c'è controllo se residenza e domicilio corrispondono nel form",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Raggiungere lo step \"Autocertificazione\"\r\n3. Inserire i dati della residenza\r\n4. Dichiarare un domicilio diverso dalla residenza \r\n5. Inserire i dati del domicilio uguale a quelli della residenza o viceversa",
       "expected_result": "Mi sarei aspettato un messaggio di errore, come ad esempio \"Errore! Se uguali premere apposito tasto\".",
@@ -5465,9 +5301,7 @@
       "title": {
         "full": "[Il tuo conto] - L'opzione \"Si\" non presenta l'accento sulla i",
         "compact": "L'opzione \"Si\" non presenta l'accento sulla i",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Proseguire fino allo step 3 di 6\r\n3. Guardare le opzioni della prima domanda",
       "expected_result": "Mi sarei aspettato di trovare \"Sì\" accentato e non \"Si\" senza accento sulla i.",
@@ -5531,9 +5365,7 @@
       "title": {
         "full": "[I tuoi dati] - Ci sono alcuni errori nella lista delle cittadinanze selezionabili",
         "compact": "Ci sono alcuni errori nella lista delle cittadinanze selezionabili",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Proseguire fino allo step 2 di 6\r\n3. Selezionare il menu \"Cittadinanza\"\r\n4. Guardare l'elenco a comparsa dei paesi selezionabili",
       "expected_result": "Mi sarei aspettato che tutti gli stati avessero il nome corretto e fossero in ordine alfabetico.",
@@ -5597,9 +5429,7 @@
       "title": {
         "full": "[Apertura Conto] - Manca uno spazio tra i pulsanti di selezione Maschio e Femmina",
         "compact": "Manca uno spazio tra i pulsanti di selezione Maschio e Femmina",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Apri conto start \r\n2. Procedi\r\n3. Seleziona non ricordo codice fiscale\r\n4. Guarda la scelta sessi\r\n5. Vedi come sono disposti graficamente i tasti delle opzioni ",
       "expected_result": "Sono nettamente separati.",
@@ -5664,9 +5494,7 @@
       "title": {
         "full": "[I tuoi dati] - Impossibile selezionare uno stato diverso da \"Italia\" nel calcolo CF",
         "compact": "Impossibile selezionare uno stato diverso da \"Italia\" nel calcolo CF",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire conto start\r\n2. Proseguire fino allo step 2 di 6\r\n3. Selezionare \"Non ricordo codice fiscale\"\r\n4. Premere sul campo \"Stato\"\r\n5. Effettuare la ricerca",
       "expected_result": "Mi sarei aspettato che la ricerca funzionasse e desse dei risultati.",
@@ -5740,9 +5568,7 @@
       "title": {
         "full": "[Apertura Conto] - Contatore degli step non corretto",
         "compact": "Contatore degli step non corretto",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Procedere all’attivazione del conto Smart\r\n2. Eseguire tutto il flusso fino allo step 5\r\n3. Continuare osservando il contatore degli step",
       "expected_result": "Mi sarei aspettato che gli step fossero 6/6.",
@@ -5807,9 +5633,7 @@
       "title": {
         "full": "[Autenticazione] - Impossibile accedere con lo SPID di Poste",
         "compact": "Impossibile accedere con lo SPID di Poste",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Apri conto start \r\n2. Apri conto con un Intestatario \r\n3. Seleziona spid\r\n4. Seleziona poste\r\n5. Si apre il browser\r\n6. Inserisci credenziali\r\n7. Accedi via app\r\n8. Conferma accesso (oscurato nel video)\r\n9. Torna al browser\r\n10. Consenti accesso\r\n11. Vedi il risultato ",
       "expected_result": "Accesso riuscito, magari senza passare dal browser.",
@@ -5874,9 +5698,7 @@
       "title": {
         "full": "[Apertura Conto] - Carattere speciale in inserimento codice promozionale",
         "compact": "Carattere speciale in inserimento codice promozionale",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire nuovo conto Start\r\n2. Premere “Procedi”\r\n3. Premere “A me” come intestatario del conto\r\n4. Scrivere nel box “Se hai un codice promozionale puoi inserirlo qui” un carattere speciale ad esempio \"?\"\r\n",
       "expected_result": "Mi sarei aspettato che comparisse un avviso che il carattere speciale non è valido prima o dopo l’inserimento e di poter tornare alla schermata precedente.",
@@ -5940,9 +5762,7 @@
       "title": {
         "full": "[Assistenza] - Il bottone per chiudere la pagina help non è visibile",
         "compact": "Il bottone per chiudere la pagina help non è visibile",
-        "context": [
-          "Assistenza"
-        ]
+        "context": ["Assistenza"]
       },
       "step_by_step": "1. Scegliere apetura del conto Start\r\n2. Premere “Procedi”\r\n3. Selezionare “A me” come intestatario del conto\r\n4. Premere il punto di domanda in alto a destra\r\n",
       "expected_result": "Si dovrebbe vedere un bottone per tornare alla schermata precedente.",
@@ -6006,9 +5826,7 @@
       "title": {
         "full": "[Autenticazione] - Input di sviluppo visibili",
         "compact": "Input di sviluppo visibili",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Aprire un conto Smart\r\n2. In fase di registrazione cliccare su “entra con SPID”\r\n3. Selezionare posteIT\r\n4. Una volta ricevuto l’errore ritornare sull’app ",
       "expected_result": "Mi sarei aspettato di ritrovare la schermata come prima di selezionare accesso con spid.",
@@ -6073,9 +5891,7 @@
       "title": {
         "full": "[Autentificazione] - Impossibile accedere via SPID con SielteID",
         "compact": "Impossibile accedere via SPID con SielteID",
-        "context": [
-          "Autentificazione"
-        ]
+        "context": ["Autentificazione"]
       },
       "step_by_step": "1. Apri conto start \r\n2. Seleziona accesso SPID\r\n3. Seleziona SielteID\r\n4. Si apre una pagina e a schermo compare errore del bug precedente\r\n5. Fai il login nella pagina\r\n6. Cerca banca sella",
       "expected_result": "Si apre la pagina di login a Sielte, senza fare ricerche.",
@@ -6140,9 +5956,7 @@
       "title": {
         "full": "[Autentificazione] - Se apro il conto con SPID compare del codice a schermo che non si toglie",
         "compact": "Se apro il conto con SPID compare del codice a schermo che non si toglie",
-        "context": [
-          "Autentificazione"
-        ]
+        "context": ["Autentificazione"]
       },
       "step_by_step": "1. Apri il conto start\r\n2. Seleziona accesso SPID\r\n3. Apri un provider (no intesa)\r\n4. Torna indietro\r\n5. Vedi lo schermo\r\n6. Rifai il procedimento più volte\r\n7. Vedi i risultati tornando indietro",
       "expected_result": "Si apre la pagina di accesso. Tornando indietro si torna a condizioni iniziali.",
@@ -6207,9 +6021,7 @@
       "title": {
         "full": "[Autentificazione] - Registrazione tramite SPID poste non funzionante",
         "compact": "Registrazione tramite SPID poste non funzionante",
-        "context": [
-          "Autentificazione"
-        ]
+        "context": ["Autentificazione"]
       },
       "step_by_step": "1. Procedere all’apertura del conto “Smart”\r\n2. Selezionare “Entra con spid”\r\n3. Selezionare posteIT",
       "expected_result": "Mi sarei aspettato di poter procedere alla registrazione.",
@@ -6274,9 +6086,7 @@
       "title": {
         "full": "[Firma] - Presenza di uno step aggiuntivo non previsto",
         "compact": "Presenza di uno step aggiuntivo non previsto",
-        "context": [
-          "Firma"
-        ]
+        "context": ["Firma"]
       },
       "step_by_step": "1. Inserire i documenti richiesti nel campo 6/6\r\n2. Proseguire con la procedura\r\n",
       "expected_result": "Mi aspettavo che il campo 6/6 fosse l'ultimo.",
@@ -6341,9 +6151,7 @@
       "title": {
         "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”",
         "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto e procedere con il flusso\r\n2. Atterrare allo step 5/6e inserire i dati richiesti\r\n3. Fare tap sul menu “Regione/Area”",
       "expected_result": "Mi aspettavo di poter selezionare la regione di residenza.",
@@ -6407,9 +6215,7 @@
       "title": {
         "full": "[Slideshow iniziale] - La slideshow iniziale non è disattivabile e viene riproposta ad ogni nuovo accesso all'app",
         "compact": "La slideshow iniziale non è disattivabile e viene riproposta ad ogni nuovo accesso all'app",
-        "context": [
-          "Slideshow iniziale"
-        ]
+        "context": ["Slideshow iniziale"]
       },
       "step_by_step": "1. Accedere per la prima volta all'app\r\n2. Visualizzare la slideshow iniziale e visualizzare le tipologie di conto proposte\r\n3. Chiudere l'app e riaprirla dopo qualche minuto\r\n4. Ripetere più volte lo step 3",
       "expected_result": "Mi aspetterei di non visualizzare nuovamente la slideshow o, almeno, di poter cliccare sul classico pulsante \"Non mostrare più\" per non rivederlo.",
@@ -6473,9 +6279,7 @@
       "title": {
         "full": "[Mail salvataggio richiesta] - Il link presente nella mail non rimanda all’app ma il sito web",
         "compact": "Il link presente nella mail non rimanda all’app ma il sito web",
-        "context": [
-          "Mail salvataggio richiesta"
-        ]
+        "context": ["Mail salvataggio richiesta"]
       },
       "step_by_step": "1. Salvare la procedura per riprenderla in seguito\r\n2. Aprire la mail ricevuta per procedere\r\n3. Fare tap sul pulsante \"Accedi\"\r\n",
       "expected_result": "Mi aspettavo l’apertura della pagina sull’app.",
@@ -6539,9 +6343,7 @@
       "title": {
         "full": "[Apertura Conto] - Bottone non funzionante per assistenza",
         "compact": "Bottone non funzionante per assistenza",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Apro l'app Sella \r\n2. Clicco su Apri Conto\r\n3. Clicco su Apri conto su scheda Start\r\n4. Clicco su Procedi nel footer pagina\r\n5. Clicco sul pulsante (?) in alto a destra ",
       "expected_result": "MI aspettavo di avere delle informazioni aggiuntive.",
@@ -6606,9 +6408,7 @@
       "title": {
         "full": "[Apertura Conto] - L'icona dell'occhio per visualizzare in chiaro la password inserita non funziona",
         "compact": "L'icona dell'occhio per visualizzare in chiaro la password inserita non funziona",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app e procedere con il flusso di apertura conto\r\n2. Selezionare un solo Intestatario\r\n3. Selezionare di essere già cliente banca Sella\r\n4. Inserire utente e password casuali\r\n5. Premere sull'icona dell'occhio per visualizzare la password inserita",
       "expected_result": "Mi sarei aspettato che la password diventasse visibile.",
@@ -6672,9 +6472,7 @@
       "title": {
         "full": "[Apertura Conto] - Impossibile chiudere la schermata di assistenza",
         "compact": "Impossibile chiudere la schermata di assistenza",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Procedere all’apertura del conto start\r\n2. Al secondo step premere la sezione “?” in alto a destra\r\n",
       "expected_result": "Mi aspettavo di poter chiudere la schermata “help” e ritornare alla schermata di apertura conto.",
@@ -6739,9 +6537,7 @@
       "title": {
         "full": "[Apertura Conto] - Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
         "compact": "Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Fare tap su \"Prendi visione dell'informativa sul Trattamento...\"",
       "expected_result": "Mi aspetto di poter leggere l'informativa.",
@@ -6805,9 +6601,7 @@
       "title": {
         "full": "[Apertura Conto] - Durante l'apertura conto compare una casella con un codice alfanumerico modificabile",
         "compact": "Durante l'apertura conto compare una casella con un codice alfanumerico modificabile",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Apertura applicazione \r\n2. Apertura conto start",
       "expected_result": "Apertura semplice con tutta la grafica fluida e senza nulla di sovrapponibile.",
@@ -6872,9 +6666,7 @@
       "title": {
         "full": "[Autenticazione] - Apertura conto con autenticazione SPID non funzionante",
         "compact": "Apertura conto con autenticazione SPID non funzionante",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Aprire l'applicazione iniziare il flusso di apertura conto\r\n2. Utilizzare SPID come modalità di registrazione\r\n3. Fare tap sul provider che si possiede.",
       "expected_result": "Nessun messaggio di errore e compilazione dati.",
@@ -6939,9 +6731,7 @@
       "title": {
         "full": "[Apertura Conto] - Sezione non apribile al primo step",
         "compact": "Sezione non apribile al primo step",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Procedere all’apertura del conto selezionando “conto Smart”\r\n2. Cliccare su “procedi”\r\n3. Cliccare sul “?” Intorno n alto a destra",
       "expected_result": "Mi sarei aspettato che si aprisse la sezione help.",
@@ -7006,9 +6796,7 @@
       "title": {
         "full": "[Il tuo conto] - Il pulsante “?” non è funzionante all'interno dello step 3 ",
         "compact": "Il pulsante “?” non è funzionante all'interno dello step 3",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Atterrare nella sezione apertura “conto Start”\r\n2. Procedere con l’inserimento dei dati\r\n3. All'interno dello step 3 fare tap sul pulsante “?”",
       "expected_result": "Mi aspettavo l’apertura di una finestra con la spiegazione di alcuni punti della pagina o relativa a “domande frequenti”.",
@@ -7072,9 +6860,7 @@
       "title": {
         "full": "[I tuoi dati] - Presenza di stringhe sovrapposte alle schermate",
         "compact": "Presenza di stringhe sovrapposte alle schermate",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire il processo di apertura conto e autenticarsi con SPID\r\n2. Tornare all’app dopo averla lasciata in stand-by\r\n3. Scorrere la pagina\r\n",
       "expected_result": "Mi aspettavo di poter visualizzare la pagina correttamente.",
@@ -7139,9 +6925,7 @@
       "title": {
         "full": "[Autenticazione] - La funzione di autenticazione con SPID non è disponibile ",
         "compact": "La funzione di autenticazione con SPID non è disponibile",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Atterrare nella procedura di apertura conto “Start”\r\n2. Tap su conto intestato “a me”\r\n3. Tap su “accedi con spid”",
       "expected_result": "Mi aspettavo di poter proseguire nella procedura di registrazione tramite SPID.",
@@ -7206,9 +6990,7 @@
       "title": {
         "full": "[Identificazione] - Il pulsante per tornare indietro se tappato torna indietro di due step",
         "compact": "Il pulsante per tornare indietro se tappato torna indietro di due step",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire l'appe procedere con il flusso di apertura conto\r\n2. Giunto allo step 4 di 6 \"Carica il primo documento\" scegliere uno dei due documenti\r\n3. Premere la freccia in alto a sinistra per tornare indietro",
       "expected_result": "Mi aspettavo che il pulsante mi riconducesse alla pagina \"Carica il primo documento\", in modo che io potessi scegliere un altro documento da caricare.",
@@ -7272,9 +7054,7 @@
       "title": {
         "full": "[Verifica numero] - Metodo di inserimento veloce del codice di sicurezza tramite tastiera non funzionante",
         "compact": "Metodo di inserimento veloce del codice di sicurezza tramite tastiera non funzionante",
-        "context": [
-          "Verifica numero"
-        ]
+        "context": ["Verifica numero"]
       },
       "step_by_step": "1. Aprire l'appe procedere con il flusso di apertura conto\r\n2. Giunto allo step 2 di 6 \"I tuoi dati\" inserire il numero di cellulare e procedere\r\n3. Attendere la ricezione del codice via SMS",
       "expected_result": "Mi aspettavo che il codice venisse inserito automaticamente nel campo richiesto una volta ricevuto.",
@@ -7338,9 +7118,7 @@
       "title": {
         "full": "[Apertura Conto] - Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
         "compact": "Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app e iniziare flusso di apertura conto\r\n2. Da uno step qualunque del flusso fare tap sul pulsante verde \"?\" in alto a destra\r\n3. Visualizzare la scheda di assistenza",
       "expected_result": "Mi aspettavo di trovare un pulsante che mi rimandasse alla pagina dello step a cui sono arrivato procedendo con la registrazione.",
@@ -7404,9 +7182,7 @@
       "title": {
         "full": "[Apertura Conto] - I pulsanti di selezione \"Sì\" e \"No\" presentano testo non perfettamente allineato",
         "compact": "I pulsanti di selezione \"Sì\" e \"No\" presentano testo non perfettamente allineato",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app e procedere con il flusso di apertura conto\r\n2. Nello step 2 di 6 \"I tuoi dati\" selezionare il pulsante \"Calcola ora\" per calcolare il codice fiscale\r\n3. Scorrere fino alla selezione del sesso",
       "expected_result": "Mi aspettavo che i pulsanti fossero ben centrati e non accavallati.",
@@ -7470,9 +7246,7 @@
       "title": {
         "full": "[Apertura Conto] - Al primo tap su \"Procedi\" l'app impiega qualche secondo ad aprirsi",
         "compact": "Al primo tap su \"Procedi\" l'app impiega qualche secondo ad aprirsi",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Fare tap su \"Apri Conto\" per aprire un conto Start\r\n2. Fare tap sul pulsante \"Procedi\" in basso",
       "expected_result": "Mi aspettavo che il tap fosse veloce come gli altri e non a scatti.",
@@ -7536,9 +7310,7 @@
       "title": {
         "full": "[Autenticazione] - Compaiono stringhe di codice alfanumeriche tornando in app dopo aver selezionato provider SPID",
         "compact": "Compaiono stringhe di codice alfanumeriche tornando in app dopo aver selezionato provider SPID",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Aprire l'app e procedere con l'apertura del conto\r\n2. Giungere allo step 2 di 6 \"I tuoi dati\"\r\n3. Provare ora ad entrare con SPID selezionando un qualunque gestore\r\n4. Ritornare alla pagina di inserimento dei dati",
       "expected_result": "Mi aspettavo di continuare a visualizzare la pagina correttamente come in precedenza.",
@@ -7602,9 +7374,7 @@
       "title": {
         "full": "[Autenticazione] - Impossibile utilizzare SPID per effettuare l'autenticazione",
         "compact": "Impossibile utilizzare SPID per effettuare l'autenticazione",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Aprire l'app e procedere con l'apertura del conto\r\n2. Provare ad autenticarsi con provider SPID\r\n3. Scegliere un qualunque gestore per accedere con SPID e selezionarlo",
       "expected_result": "Mi sarei aspettato che si potesse procede con autenticazione tramite SPID.",
@@ -7668,9 +7438,7 @@
       "title": {
         "full": "[Apertura Conto] - Il pulsante \"?\" non è funzionante nella prima pagina",
         "compact": "Il pulsante \"?\" non è funzionante nella prima pagina",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Avviare la procedura di apertura del conto \"Smart\"\r\n2. Giungere alla fase 1 di 7: \"Iniziamo\"",
       "expected_result": "Mi aspettavo che il pulsante col punto interrogativo verde in alto a destra funzionasse.",
@@ -7735,9 +7503,7 @@
       "title": {
         "full": "[Apertura Conto] - Tacche telefoniche e tacche wifi non visibili su iOS",
         "compact": "Tacche telefoniche e tacche wifi non visibili su iOS",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Una volta aperta l'app, scegliere \"Apri Conto\"\r\n2. Si viene indirizzati ad una nuova sezione di sfondo bianco",
       "expected_result": "Mi aspettavo di poter visualizzare le tacche in alto a sinistra relative al gestore telefonico e al wifi.\r\n",
@@ -7802,9 +7568,7 @@
       "title": {
         "full": "[Firma] - Conteggio errato nel complessivo degli step del flusso di apertura",
         "compact": "Conteggio errato nel complessivo degli step del flusso di apertura",
-        "context": [
-          "Firma"
-        ]
+        "context": ["Firma"]
       },
       "step_by_step": "1. Aprire l'app e iniziare flusso di apertura conto\r\n2. Procedere fino alla pagina con l'elenco dei documenti da firmare \r\n3. Visualizzare il riassunto degli step in alto sopra la barra arancione",
       "expected_result": "Mi sarei aspettato che il complessivo fosse indicato correttamente.",
@@ -7868,9 +7632,7 @@
       "title": {
         "full": "[Apertura Conto] - Nella prima schermata non si apre il tasto di assistenza seppur sia presente",
         "compact": "Nella prima schermata non si apre il tasto di assistenza seppur sia presente",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app e scegliere uno dei conti da aprire\r\n2. Atterrare al primo step del flusso di apertura\r\n3. Premi sul punto di domanda verde in alto a destra",
       "expected_result": "Mi sarei aspettato che si aprisse la scheda di assistenza.",
@@ -7934,9 +7696,7 @@
       "title": {
         "full": "[Apertura Conto] - Status bar di iOS non visibile nella pagina informativa dei conti",
         "compact": "Status bar di iOS non visibile nella pagina informativa dei conti",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l’app\r\n2. Fare tap su “Apri conto”\r\n3. Visualizzare la pagina informativa su i conti",
       "expected_result": "Mi sarei aspettato di visualizzare correttamente tutti gli elementi della status bar di iOS.",
