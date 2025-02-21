@@ -446,6 +446,26 @@ export interface paths {
       };
     };
   };
+  '/videos/{vid}/sentiment': {
+    /**
+     * This endpoint generates a new sentiment for the provided video if it does not already exist.
+     *
+     * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+     *
+     * **Path Parameters**:
+     *
+     * vid (string, required): The ID of the video for which the translation is to be generated.
+     * Request Body (application/json):
+     *
+     * language (string, required): The language code for the desired translation.
+     */
+    post: operations['post-videos-vid-sentiment'];
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+  };
   '/workspaces': {
     get: operations['get-workspaces'];
     /** This endpoint is useful to add a new workspace. Only admin can use this. */
@@ -457,6 +477,16 @@ export interface paths {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
+      };
+    };
+  };
+  '/workspaces/{wid}/archive': {
+    /** Return the project Archive of a specific workspace. If not exist, create and return it */
+    get: operations['get-workspaces-wid-archive'];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
       };
     };
   };
@@ -475,6 +505,32 @@ export interface paths {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
+      };
+    };
+  };
+  '/workspaces/{wid}/plans': {
+    post: operations['post-workspaces-wid-plans'];
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+  };
+  '/workspaces/{wid}/plans/{pid}': {
+    delete: operations['delete-workspaces-wid-plans-pid'];
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+  };
+  '/workspaces/{wid}/plans/{pid}/status': {
+    patch: operations['patch-workspaces-wid-plans-pid-status'];
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
       };
     };
   };
@@ -809,6 +865,32 @@ export interface components {
         uploaderId: number;
         usecaseTitle: string;
       })[];
+    };
+    Module:
+      | components['schemas']['ModuleTitle']
+      | components['schemas']['ModuleDates']
+      | components['schemas']['ModuleTask'];
+    ModuleDates: {
+      /** @enum {string} */
+      type: 'dates';
+      variant: string;
+      output: {
+        start: string;
+        end: string;
+      };
+    };
+    ModuleTitle: {
+      /** @enum {string} */
+      type: 'title';
+      variant: string;
+      output: string;
+    };
+    /** ModuleTask */
+    ModuleTask: {
+      /** @enum {string} */
+      type: 'tasks';
+      variant: string;
+      output: components['schemas']['OutputModuleTask'][];
     };
     /** Observation */
     Observation: {
@@ -1255,6 +1337,22 @@ export interface components {
      * @enum {string}
      */
     BannerType: 'banner_testing_automation' | 'banner_user_experience';
+    /** SubcomponentTaskBug */
+    OutputModuleTaskBug: {
+      /** @enum {string} */
+      kind: 'bug';
+      title: string;
+    };
+    /** SubcomponentTaskVideo */
+    OutputModuleTaskVideo: {
+      /** @enum {string} */
+      kind: 'video';
+      title: string;
+    };
+    /** SubcomponentTask */
+    OutputModuleTask:
+      | components['schemas']['OutputModuleTaskVideo']
+      | components['schemas']['OutputModuleTaskBug'];
   };
   responses: {
     /** Shared error response */
@@ -1448,7 +1546,9 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': components['schemas']['CampaignWithOutput'];
+          'application/json': components['schemas']['CampaignWithOutput'] & {
+            isArchived?: boolean;
+          };
         };
       };
     };
@@ -3120,6 +3220,41 @@ export interface operations {
       };
     };
   };
+  /**
+   * This endpoint generates a new sentiment for the provided video if it does not already exist.
+   *
+   * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+   *
+   * **Path Parameters**:
+   *
+   * vid (string, required): The ID of the video for which the translation is to be generated.
+   * Request Body (application/json):
+   *
+   * language (string, required): The language code for the desired translation.
+   */
+  'post-videos-vid-sentiment': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': { [key: string]: unknown };
+      };
+    };
+  };
   'get-workspaces': {
     parameters: {
       query: {
@@ -3197,6 +3332,31 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  /** Return the project Archive of a specific workspace. If not exist, create and return it */
+  'get-workspaces-wid-archive': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            description: string;
+            campaignsCounter: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
   'get-workspace-campaigns': {
     parameters: {
       path: {
@@ -3221,9 +3381,7 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items?: (components['schemas']['CampaignWithOutput'] & {
-              is_archived: number;
-            })[];
+            items?: components['schemas']['CampaignWithOutput'][];
             start?: number;
             limit?: number;
             size?: number;
@@ -3270,6 +3428,66 @@ export interface operations {
       400: components['responses']['Error'];
       403: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'post-workspaces-wid-plans': {
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+    responses: {
+      /** Created */
+      201: {
+        content: {
+          'application/json': {
+            id: number;
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          template_id: number;
+        };
+      };
+    };
+  };
+  'delete-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+    };
+  };
+  'patch-workspaces-wid-plans-pid-status': {
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @enum {string} */
+          status?: 'pending_review';
+        };
+      };
     };
   };
   'get-workspace-projects': {

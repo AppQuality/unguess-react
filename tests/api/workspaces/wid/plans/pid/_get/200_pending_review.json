@@ -1,0 +1,22 @@
+{
+  "status": "pending_review",
+  "config": {
+    "modules": [
+      {
+        "type": "title",
+        "variant": "default",
+        "output": {
+          "title": "My Plan"
+        }
+      },
+      {
+        "type": "dates",
+        "variant": "default",
+        "output": {
+          "start": "2041-01-01",
+          "end": "2041-01-31"
+        }
+      }
+    ]
+  }
+}
