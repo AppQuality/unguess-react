@@ -1898,7 +1898,6 @@ export type CategoryListResponse = {
                             id?: string;
                             attributes?: {
                               name?: string;
-                              cost?: number;
                               slug?: string;
                               express_type?: {
                                 data?: {
@@ -3693,7 +3692,6 @@ export type CategoryResponse = {
                             id?: string;
                             attributes?: {
                               name?: string;
-                              cost?: number;
                               slug?: string;
                               express_type?: {
                                 data?: {
@@ -5476,7 +5474,6 @@ export type CategoryLocalizationResponse = {
                         id?: string;
                         attributes?: {
                           name?: string;
-                          cost?: number;
                           slug?: string;
                           express_type?: {
                             data?: {
@@ -6133,7 +6130,6 @@ export type ExpressListResponse = {
     id?: string;
     attributes?: {
       name?: string;
-      cost?: number;
       slug?: string;
       express_type?: {
         data?: {
@@ -6144,7 +6140,6 @@ export type ExpressListResponse = {
                 id?: string;
                 attributes?: {
                   name?: string;
-                  cost?: number;
                   slug?: string;
                   express_type?: {
                     data?: {
@@ -6460,7 +6455,6 @@ export type ExpressResponse = {
     id?: string;
     attributes?: {
       name?: string;
-      cost?: number;
       slug?: string;
       express_type?: {
         data?: {
@@ -6471,7 +6465,6 @@ export type ExpressResponse = {
                 id?: string;
                 attributes?: {
                   name?: string;
-                  cost?: number;
                   slug?: string;
                   express_type?: {
                     data?: {
@@ -6790,7 +6783,6 @@ export type ExpressTypeListResponse = {
           id?: string;
           attributes?: {
             name?: string;
-            cost?: number;
             slug?: string;
             express_type?: {
               data?: {
@@ -7270,7 +7262,6 @@ export type ExpressTypeResponse = {
           id?: string;
           attributes?: {
             name?: string;
-            cost?: number;
             slug?: string;
             express_type?: {
               data?: {
@@ -7748,7 +7739,6 @@ export type ExpressTypeLocalizationResponse = {
       id?: string;
       attributes?: {
         name?: string;
-        cost?: number;
         slug?: string;
         express_type?: {
           data?: {
@@ -9763,7 +9753,6 @@ export type ServiceListResponse = {
                       id?: string;
                       attributes?: {
                         name?: string;
-                        cost?: number;
                         slug?: string;
                         express_type?: {
                           data?: {
@@ -12092,7 +12081,6 @@ export type ServiceResponse = {
                       id?: string;
                       attributes?: {
                         name?: string;
-                        cost?: number;
                         slug?: string;
                         express_type?: {
                           data?: {
@@ -14423,7 +14411,6 @@ export type ServiceLocalizationResponse = {
                   id?: string;
                   attributes?: {
                     name?: string;
-                    cost?: number;
                     slug?: string;
                     express_type?: {
                       data?: {
@@ -16751,7 +16738,6 @@ export type TemplateListResponse = {
                       id?: string;
                       attributes?: {
                         name?: string;
-                        cost?: number;
                         slug?: string;
                         express_type?: {
                           data?: {
@@ -19346,7 +19332,6 @@ export type TemplateResponse = {
                       id?: string;
                       attributes?: {
                         name?: string;
-                        cost?: number;
                         slug?: string;
                         express_type?: {
                           data?: {
@@ -21955,7 +21940,6 @@ export type TemplateLocalizationResponse = {
                   id?: string;
                   attributes?: {
                     name?: string;
-                    cost?: number;
                     slug?: string;
                     express_type?: {
                       data?: {

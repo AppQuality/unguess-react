@@ -5,9 +5,7 @@
   "title": {
     "full": "[Autenticazione] - Impossibile utilizzare SPID per effettuare l'autenticazione",
     "compact": "Impossibile utilizzare SPID per effettuare l'autenticazione",
-    "context": [
-      "Autenticazione"
-    ]
+    "context": ["Autenticazione"]
   },
   "step_by_step": "1. Aprire l'app e procedere con l'apertura del conto\r\n2. Provare ad autenticarsi con provider SPID\r\n3. Scegliere un qualunque gestore per accedere con SPID e selezionarlo",
   "expected_result": "Mi sarei aspettato che si potesse procede con autenticazione tramite SPID.",
@@ -82,10 +80,7 @@
       "id": 2101,
       "name": "Rete",
       "value": "Wi-Fi",
-      "options": [
-        "Wi-Fi",
-        "Mobile"
-      ],
+      "options": ["Wi-Fi", "Mobile"],
       "kind": "select"
     }
   ],

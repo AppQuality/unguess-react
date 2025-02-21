@@ -644,6 +644,53 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    postWorkspacesByWidPlans: build.mutation<
+      PostWorkspacesByWidPlansApiResponse,
+      PostWorkspacesByWidPlansApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    deleteWorkspacesByWidPlansAndPid: build.mutation<
+      DeleteWorkspacesByWidPlansAndPidApiResponse,
+      DeleteWorkspacesByWidPlansAndPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        method: 'DELETE',
+      }),
+    }),
+    getWorkspacesByWidPlansAndPid: build.query<
+      GetWorkspacesByWidPlansAndPidApiResponse,
+      GetWorkspacesByWidPlansAndPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+      }),
+    }),
+    patchWorkspacesByWidPlansAndPid: build.mutation<
+      PatchWorkspacesByWidPlansAndPidApiResponse,
+      PatchWorkspacesByWidPlansAndPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
+    patchWorkspacesByWidPlansAndPidStatus: build.mutation<
+      PatchWorkspacesByWidPlansAndPidStatusApiResponse,
+      PatchWorkspacesByWidPlansAndPidStatusApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}/status`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspacesByWidProjects: build.query<
       GetWorkspacesByWidProjectsApiResponse,
       GetWorkspacesByWidProjectsApiArg
@@ -651,6 +698,24 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/workspaces/${queryArg.wid}/projects`,
         params: { limit: queryArg.limit, start: queryArg.start },
+      }),
+    }),
+    getWorkspacesByWidTemplates: build.query<
+      GetWorkspacesByWidTemplatesApiResponse,
+      GetWorkspacesByWidTemplatesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates`,
+        params: { limit: queryArg.limit, start: queryArg.start },
+      }),
+    }),
+    deleteWorkspacesByWidTemplatesAndTid: build.mutation<
+      DeleteWorkspacesByWidTemplatesAndTidApiResponse,
+      DeleteWorkspacesByWidTemplatesAndTidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates/${queryArg.tid}`,
+        method: 'DELETE',
       }),
     }),
     getWorkspacesByWidProjectsAndPid: build.query<
@@ -1638,6 +1703,50 @@ export type GetWorkspacesByWidCoinsApiArg = {
   /** Order by accepted field */
   orderBy?: string;
 };
+export type PostWorkspacesByWidPlansApiResponse = /** status 201 Created */ {
+  id: number;
+};
+export type PostWorkspacesByWidPlansApiArg = {
+  wid: string;
+  body: {
+    template_id: number;
+    project_id: number;
+  };
+};
+export type DeleteWorkspacesByWidPlansAndPidApiResponse = unknown;
+export type DeleteWorkspacesByWidPlansAndPidApiArg = {
+  wid: string;
+  pid: string;
+};
+export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
+  config: {
+    modules: Module[];
+  };
+  status: 'draft' | 'pending_review' | 'approved';
+};
+export type GetWorkspacesByWidPlansAndPidApiArg = {
+  wid: string;
+  pid: string;
+};
+export type PatchWorkspacesByWidPlansAndPidApiResponse = unknown;
+export type PatchWorkspacesByWidPlansAndPidApiArg = {
+  wid: string;
+  pid: string;
+  body: {
+    config: {
+      modules: Module[];
+    };
+  };
+};
+export type PatchWorkspacesByWidPlansAndPidStatusApiResponse =
+  /** status 200 OK */ {};
+export type PatchWorkspacesByWidPlansAndPidStatusApiArg = {
+  wid: string;
+  pid: string;
+  body: {
+    status: 'pending_review';
+  };
+};
 export type GetWorkspacesByWidProjectsApiResponse = /** status 200 OK */ {
   items?: Project[];
   start?: number;
@@ -1652,6 +1761,26 @@ export type GetWorkspacesByWidProjectsApiArg = {
   limit?: number;
   /** Start pagination parameter */
   start?: number;
+};
+export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
+  items: CpReqTemplate[];
+  start: number;
+  limit: number;
+  total: number;
+};
+export type GetWorkspacesByWidTemplatesApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+};
+export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
+  /** status 200 OK */ {};
+export type DeleteWorkspacesByWidTemplatesAndTidApiArg = {
+  wid: string;
+  tid: string;
 };
 export type GetWorkspacesByWidProjectsAndPidApiResponse =
   /** status 200 OK */ Project;
@@ -2246,6 +2375,55 @@ export type Coin = {
   /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
+export type ModuleTitle = {
+  type: 'title';
+  variant: string;
+  output: string;
+};
+export type ModuleDate = {
+  type: 'dates';
+  variant: string;
+  output: {
+    start: string;
+  };
+};
+export type SubcomponentTaskVideo = {
+  kind: 'video';
+  title: string;
+  description?: string;
+};
+export type SubcomponentTaskBug = {
+  kind: 'bug';
+  title: string;
+  description?: string;
+};
+export type SubcomponentTaskSurvey = {
+  kind: 'survey';
+  title: string;
+  description?: string;
+};
+export type SubcomponentTask =
+  | SubcomponentTaskVideo
+  | SubcomponentTaskBug
+  | SubcomponentTaskSurvey;
+export type ModuleTask = {
+  type: 'tasks';
+  variant: string;
+  output: SubcomponentTask[];
+};
+export type Module = ModuleTitle | ModuleDate | ModuleTask;
+export type CpReqTemplate = {
+  id: number;
+  name: string;
+  description?: string;
+  config: string;
+  strapi_id?: number;
+  workspace_id?: number;
+  source_plan_id?: number;
+  created_by?: number;
+  created_at?: string;
+  updated_at?: string;
+};
 export const {
   use$getQuery,
   usePostAuthenticateMutation,
@@ -2320,7 +2498,14 @@ export const {
   useGetWorkspacesByWidArchiveQuery,
   useGetWorkspacesByWidCampaignsQuery,
   useGetWorkspacesByWidCoinsQuery,
+  usePostWorkspacesByWidPlansMutation,
+  useDeleteWorkspacesByWidPlansAndPidMutation,
+  useGetWorkspacesByWidPlansAndPidQuery,
+  usePatchWorkspacesByWidPlansAndPidMutation,
+  usePatchWorkspacesByWidPlansAndPidStatusMutation,
   useGetWorkspacesByWidProjectsQuery,
+  useGetWorkspacesByWidTemplatesQuery,
+  useDeleteWorkspacesByWidTemplatesAndTidMutation,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   useGetWorkspacesByWidUsersQuery,

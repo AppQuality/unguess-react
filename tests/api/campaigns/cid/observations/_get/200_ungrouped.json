@@ -33,7 +33,11 @@
             "usageNumber": 1
           }
         }
-      ]
+      ],
+      "uploaderId": 0,
+      "mediaId": 0,
+      "deviceType": "string",
+      "usecaseTitle": "string"
     },
     {
       "id": 2,
@@ -68,7 +72,11 @@
             "usageNumber": 1
           }
         }
-      ]
+      ],
+      "uploaderId": 0,
+      "mediaId": 0,
+      "deviceType": "string",
+      "usecaseTitle": "string"
     }
   ],
   "kind": "ungrouped"

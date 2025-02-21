@@ -1,0 +1,47 @@
+import { Breadcrumb, Button } from '@appquality/unguess-design-system';
+import { usePlanTab } from '../context/planContext';
+
+export const BreadCrumbTabs = () => {
+  const { activeTab, setActiveTab } = usePlanTab();
+  return (
+    <Breadcrumb style={{ justifyContent: 'center' }}>
+      <Button
+        isBasic
+        size="small"
+        isPrimary={activeTab === 'setup'}
+        onClick={() => setActiveTab('setup')}
+        data-qa="setup-tab"
+      >
+        Set Up
+      </Button>
+      <Button
+        isBasic
+        size="small"
+        isPrimary={activeTab === 'target'}
+        onClick={() => setActiveTab('target')}
+        data-qa="target-tab"
+      >
+        Screen target
+      </Button>
+      <Button
+        isBasic
+        size="small"
+        isPrimary={activeTab === 'instructions'}
+        onClick={() => setActiveTab('instructions')}
+        data-qa="instructions-tab"
+      >
+        Choose tasks
+      </Button>
+      <Button
+        isBasic
+        size="small"
+        isPrimary={activeTab === 'summary'}
+        disabled
+        onClick={() => setActiveTab('summary')}
+        data-qa="summary-tab"
+      >
+        Get expert response
+      </Button>
+    </Breadcrumb>
+  );
+};
