@@ -217,6 +217,7 @@ export const Metas = ({
                 }}
               >
                 <Button
+                  style={{ width: '100%' }}
                   disabled={!(filteredProjects && filteredProjects.length > 0)}
                   isBasic
                   isPill={false}
@@ -231,6 +232,8 @@ export const Metas = ({
                 </Button>
                 <Divider />
                 <Button
+                  style={{ width: '100%' }}
+                  disabled={campaign.status.id !== 2}
                   isBasic
                   isPill={false}
                   onClick={() => {
