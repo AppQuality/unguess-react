@@ -43,32 +43,39 @@ test.describe('The module builder', () => {
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
   });
-  test('Clicking request quotation calls the PATCH Plan', async ({ page }) => {
+
+  // flusso di richiesta preventivo
+  test('Clicking request quotation ask for confirmation first', async ({
+    page,
+  }) => {
+    // todo: come up with some common usecases in which the user perform some changes to the form, then click the submit button
+    // todo: ask confirmation
+  });
+  test('if confirmation calls the PATCH Plan', async ({ page }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
         /\/api\/workspaces\/1\/plans\/1(?!\/status)/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
-    // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
     await moduleBuilderPage.elements().quoteButton().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
   });
-  test('Clicking request quotation calls the PATCH Status', async ({
-    page,
-  }) => {
+  test('if PATCH plan is ok then calls the PATCH Status', async ({ page }) => {
     const patchStatusPromise = page.waitForResponse(
       (response) =>
         /\/api\/workspaces\/1\/plans\/1\/status/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
-    // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
     await moduleBuilderPage.elements().quoteButton().click();
     const responseStatus = await patchStatusPromise;
     const dataStatus = responseStatus.request().postDataJSON();
     expect(dataStatus).toEqual({ status: 'pending_review' });
+  });
+  test('after requesting quotation CTA save and Request Quote should become disabled and all inputs should be readonly', async () => {
+    // todo
   });
 });

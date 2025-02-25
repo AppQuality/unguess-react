@@ -20,4 +20,15 @@ test.describe('A Plan page in pending request', () => {
     await expect(moduleBuilderPage.elements().quoteButton()).toBeVisible();
     await expect(moduleBuilderPage.elements().quoteButton()).toBeDisabled();
   });
+  test('all inputs should be readonly', async () => {
+    await expect(moduleBuilderPage.elements().submitButton()).toBeVisible();
+    await expect(moduleBuilderPage.elements().submitButton()).toBeDisabled();
+    await expect(moduleBuilderPage.elements().quoteButton()).toBeVisible();
+    await expect(moduleBuilderPage.elements().quoteButton()).toBeDisabled();
+  });
+
+  // posso tornare indietro dal preventivo?
+  test('there should be a cancel quotation button active', async () => {
+    // Todo
+  });
 });
