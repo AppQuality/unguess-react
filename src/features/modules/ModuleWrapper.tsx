@@ -4,10 +4,30 @@ import { components } from 'src/common/schema';
 import { useParams } from 'react-router-dom';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { FormBody } from './types';
+import {
+  useGetWorkspacesByWidPlansAndPidQuery,
+  useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
+  usePatchWorkspacesByWidPlansAndPidMutation,
+} from '../api';
 
 const ModuleWrapper = ({ children }: { children: ReactNode }) => {
   const { planId } = useParams();
   const { activeWorkspace } = useActiveWorkspace();
+
+  const {
+    data: planConf,
+    isLoading,
+    isError,
+  } = useGetWorkspacesByWidPlansAndPidQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+      pid: planId || '',
+    },
+    { skip: !activeWorkspace || !planId }
+  );
+
+  const [patchPlan, { isLoading: isPatching }] =
+    usePatchWorkspacesByWidPlansAndPidMutation();
 
   const [initialValues, setInitialValues] = useState<FormBody>({
     status: 'draft',
@@ -17,34 +37,28 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!activeWorkspace) return;
     if (!planId) return;
-    fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}`, {
-      method: 'GET',
-      headers: {},
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setInitialValues({
-          status: data.status,
-          modules: data.config.modules,
-        });
-      })
-      .catch((error) => console.error(error));
-  }, [activeWorkspace, planId]);
+
+    if (planConf) {
+      setInitialValues({
+        status: planConf.status,
+        modules: planConf.config.modules,
+      });
+    }
+  }, [activeWorkspace, planId, planConf]);
 
   const handleSubmit = useCallback(
     (values: FormBody, helpers: FormikHelpers<FormBody>) => {
       helpers.setSubmitting(true);
-      fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}`, {
-        method: 'PATCH',
-        // add body, a json of values
-        body: JSON.stringify({
+      patchPlan({
+        wid: activeWorkspace?.id.toString() || '',
+        pid: planId || '',
+        body: {
           config: {
             modules: values.modules,
           },
-        }),
-        headers: {},
+        },
       })
-        .then((response) => response.json())
+        .unwrap()
         .then((data) => {
           console.log(data);
         })
