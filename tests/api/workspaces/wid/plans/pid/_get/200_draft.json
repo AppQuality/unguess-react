@@ -1,0 +1,12 @@
+{
+  "config": {
+    "modules": [
+      {
+        "type": "title",
+        "variant": "default",
+        "output": "cp-title"
+      }
+    ]
+  },
+  "status": "draft"
+}

@@ -5,16 +5,13 @@
       {
         "type": "title",
         "variant": "default",
-        "output": {
-          "title": "My Plan"
-        }
+        "output": "My Plan"
       },
       {
         "type": "dates",
         "variant": "default",
         "output": {
-          "start": "2041-01-01",
-          "end": "2041-01-31"
+          "start": "2041-01-01"
         }
       },
       {

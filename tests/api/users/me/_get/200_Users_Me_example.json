@@ -1,0 +1,16 @@
+{
+  "id": 1,
+  "email": "user@example.com",
+  "role": "admin",
+  "name": "Luca Cannarozzo",
+  "profile_id": 1,
+  "tryber_wp_user_id": 1,
+  "unguess_wp_user_id": 1,
+  "picture": "string",
+  "features": [
+    {
+      "slug": "string",
+      "name": "string"
+    }
+  ]
+}
