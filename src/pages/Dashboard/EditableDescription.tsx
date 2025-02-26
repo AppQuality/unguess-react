@@ -30,7 +30,7 @@ export const EditableDescription = ({ projectId }: { projectId: number }) => {
           )}
           key={project?.id}
           textSize="lg"
-          maxLength={64}
+          maxLength={234}
           value={project?.description}
           onChange={(e) => setItemDescription(e.target.value)}
           onBlur={async (e) => {
