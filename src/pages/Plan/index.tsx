@@ -13,11 +13,11 @@ const ModulesList = () => {
   const getModule = (type: string) => {
     switch (type) {
       case 'title':
-        return <Title />;
+        return <Title key="title" />;
       case 'tasks':
-        return <Tasks />;
+        return <Tasks key="tasks" />;
       case 'dates':
-        return <Dates />;
+        return <Dates key="dates" />;
       default:
         return null;
     }

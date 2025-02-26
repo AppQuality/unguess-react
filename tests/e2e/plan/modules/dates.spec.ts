@@ -1,17 +1,27 @@
 import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/Plan';
+import draftMandatory from '../../../api/workspaces/wid/plans/pid/_get/200_draft_mandatory_only.json';
+import { formatModuleDate } from '../../../../src/pages/Plan/formatModuleDate';
 
 test.describe('The date module defines when the user is ready to be tested.', () => {
-  let moduleBuilderPage: PlanPage;
+  let planPage: PlanPage;
 
   test.beforeEach(async ({ page }) => {
-    moduleBuilderPage = new PlanPage(page);
-    await moduleBuilderPage.loggedIn();
-    await moduleBuilderPage.mockPreferences();
-    await moduleBuilderPage.mockWorkspace();
-    await moduleBuilderPage.mockWorkspacesList();
-    await moduleBuilderPage.mockGetDraftWithOnlyMandatoryModulesPlan();
-    await moduleBuilderPage.open();
+    planPage = new PlanPage(page);
+    await planPage.loggedIn();
+    await planPage.mockPreferences();
+    await planPage.mockWorkspace();
+    await planPage.mockWorkspacesList();
+    await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
+    await planPage.open();
+  });
+
+  test('It should print a date input/picker that show the current value of the module in Date format, and a way to change that value', async () => {
+    const startDate = planPage.getDateFromPlan(draftMandatory);
+    await expect(planPage.elements().datesModule()).toBeVisible();
+    await expect(
+      planPage.elements().datesModule().locator('input')
+    ).toHaveValue(formatModuleDate(startDate).input);
   });
 
   test('It should have an output of one date, the start date, and it is required to Request a Quote', async () => {
@@ -31,10 +41,6 @@ test.describe('The date module defines when the user is ready to be tested.', ()
   });
 
   test("il formato della data deve comprendere anche l'ora (default le 9?) e in formato ISO", async () => {
-    // Todo
-  });
-
-  test('It should have a datepicker that show the value of the module', async () => {
     // Todo
   });
 });

@@ -65,7 +65,7 @@ const Tasks = () => {
     <div data-qa="tasks-module">
       <LG>Tasks</LG>
       {value.map((task) => (
-        <div>
+        <div key={task.key}>
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor={`task-${task.key}`}>Title</label>
           <input
