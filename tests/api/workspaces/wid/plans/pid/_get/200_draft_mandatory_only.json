@@ -11,8 +11,24 @@
         "type": "dates",
         "variant": "default",
         "output": {
-          "start": "2041-01-01"
+          "start": "2041-12-17T08:00:00.000Z"
         }
+      },
+      {
+        "type": "tasks",
+        "variant": "default",
+        "output": [
+          {
+            "kind": "bug",
+            "title": "Search for bugs",
+            "description": "Search for bugs in the app and report them to the development team."
+          },
+          {
+            "kind": "video",
+            "title": "Think aloud",
+            "description": "Record yourself thinking aloud while you use the app, then watch the video to see what you did and how you can improve."
+          }
+        ]
       }
     ]
   }

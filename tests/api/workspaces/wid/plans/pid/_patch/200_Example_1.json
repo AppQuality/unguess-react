@@ -10,7 +10,7 @@
         "type": "dates",
         "variant": "default",
         "output": {
-          "start": "2041-01-01"
+          "start": "2041-12-17T08:00:00.000Z"
         }
       }
     ]
