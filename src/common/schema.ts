@@ -517,7 +517,9 @@ export interface paths {
     };
   };
   '/workspaces/{wid}/plans/{pid}': {
+    get: operations['get-workspaces-wid-plans-pid'];
     delete: operations['delete-workspaces-wid-plans-pid'];
+    patch: operations['patch-workspaces-wid-plans-pid'];
     parameters: {
       path: {
         wid: string;
@@ -540,6 +542,15 @@ export interface paths {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
+      };
+    };
+  };
+  '/workspaces/{wid}/templates': {
+    get: operations['get-workspaces-templates'];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
       };
     };
   };
@@ -868,15 +879,14 @@ export interface components {
     };
     Module:
       | components['schemas']['ModuleTitle']
-      | components['schemas']['ModuleDates']
+      | components['schemas']['ModuleDate']
       | components['schemas']['ModuleTask'];
-    ModuleDates: {
+    ModuleDate: {
       /** @enum {string} */
       type: 'dates';
       variant: string;
       output: {
         start: string;
-        end: string;
       };
     };
     ModuleTitle: {
@@ -1337,22 +1347,44 @@ export interface components {
      * @enum {string}
      */
     BannerType: 'banner_testing_automation' | 'banner_user_experience';
+    /** CpReqTemplate */
+    CpReqTemplate: {
+      id: number;
+      name: string;
+      config: string;
+      workspace_id?: number;
+      strapi_id?: number;
+      source_plan_id?: number;
+      created_by?: number;
+      created_at?: string;
+      updated_at?: string;
+    };
     /** SubcomponentTaskBug */
     OutputModuleTaskBug: {
       /** @enum {string} */
       kind: 'bug';
       title: string;
+      description?: string;
     };
     /** SubcomponentTaskVideo */
     OutputModuleTaskVideo: {
       /** @enum {string} */
       kind: 'video';
       title: string;
+      description?: string;
+    };
+    /** SubcomponentTaskSurvey */
+    OutputModuleTaskSurvey: {
+      /** @enum {string} */
+      kind: 'survey';
+      title: string;
+      description?: string;
     };
     /** SubcomponentTask */
     OutputModuleTask:
       | components['schemas']['OutputModuleTaskVideo']
-      | components['schemas']['OutputModuleTaskBug'];
+      | components['schemas']['OutputModuleTaskBug']
+      | components['schemas']['OutputModuleTaskSurvey'];
   };
   responses: {
     /** Shared error response */
@@ -3450,6 +3482,29 @@ export interface operations {
       content: {
         'application/json': {
           template_id: number;
+          project_id: number;
+        };
+      };
+    };
+  };
+  'get-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            config: {
+              modules: components['schemas']['Module'][];
+            };
+            /** @enum {string} */
+            status: 'draft' | 'pending_review' | 'approved';
+          };
         };
       };
     };
@@ -3464,6 +3519,31 @@ export interface operations {
     responses: {
       /** OK */
       200: unknown;
+    };
+  };
+  'patch-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        wid: string;
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          config: {
+            modules: components['schemas']['Module'][];
+          };
+        };
+      };
     };
   };
   'patch-workspaces-wid-plans-pid-status': {
@@ -3485,7 +3565,7 @@ export interface operations {
       content: {
         'application/json': {
           /** @enum {string} */
-          status?: 'pending_review';
+          status: 'pending_review';
         };
       };
     };
@@ -3513,6 +3593,37 @@ export interface operations {
             limit?: number;
             size?: number;
             total?: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      404: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-workspaces-templates': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['CpReqTemplate'][];
+            start: number;
+            limit: number;
+            total: number;
           };
         };
       };
