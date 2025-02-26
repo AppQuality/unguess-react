@@ -23,6 +23,22 @@ export class PlanPage extends UnguessPage {
     };
   }
 
+  getDateFromPlan(plan: any) {
+    const dateModule = plan.config.modules.find(
+      (module) => module.type === 'dates'
+    );
+    if (!dateModule) {
+      throw new Error('No date module found in plan');
+    }
+    if (
+      !(typeof dateModule.output === 'object' && 'start' in dateModule.output)
+    ) {
+      throw new Error('Invalid date module output');
+    }
+    const dateValue = new Date(dateModule.output.start);
+    return dateValue;
+  }
+
   async mockGetDraftPlan() {
     await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
       await route.fulfill({
