@@ -169,6 +169,23 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           </NavItemText>
         </NavItem>
 
+        <NavItem
+          className="sidebar-first-level-item"
+          title="Templates"
+          isExpanded={isSidebarOpen}
+          isCurrent={route === 'templates'}
+          onClick={() => navigateTo('templates')}
+        >
+          <NavItemIcon isStyled>
+            {route === 'templates' ? (
+              <CampaignsIconActive />
+            ) : (
+              <CampaignsIcon />
+            )}
+          </NavItemIcon>
+          <NavItemText>{t('__APP_SIDEBAR_TEMPLATES_ITEM_LABEL')}</NavItemText>
+        </NavItem>
+
         {/** Projects Accordion */}
         {projects && projects.length ? (
           <NavAccordionItem
