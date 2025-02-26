@@ -1,0 +1,21 @@
+{
+  "status": "draft",
+  "config": {
+    "modules": [
+      {
+        "type": "tasks",
+        "variant": "default",
+        "output": [
+          {
+            "kind": "bug",
+            "title": "Search for bugs"
+          },
+          {
+            "kind": "video",
+            "title": "Think aloud"
+          }
+        ]
+      }
+    ]
+  }
+}

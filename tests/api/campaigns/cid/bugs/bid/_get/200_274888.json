@@ -5,9 +5,7 @@
   "title": {
     "full": "[Apertura Conto] - Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
     "compact": "Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
-    "context": [
-      "Apertura Conto"
-    ]
+    "context": ["Apertura Conto"]
   },
   "step_by_step": "1. Aprire l'app e iniziare flusso di apertura conto\r\n2. Da uno step qualunque del flusso fare tap sul pulsante verde \"?\" in alto a destra\r\n3. Visualizzare la scheda di assistenza",
   "expected_result": "Mi aspettavo di trovare un pulsante che mi rimandasse alla pagina dello step a cui sono arrivato procedendo con la registrazione.",
@@ -82,10 +80,7 @@
       "id": 2101,
       "name": "Rete",
       "value": "Wi-Fi",
-      "options": [
-        "Wi-Fi",
-        "Mobile"
-      ],
+      "options": ["Wi-Fi", "Mobile"],
       "kind": "select"
     }
   ],

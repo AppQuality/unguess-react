@@ -1,0 +1,71 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "company": "Demo Internal",
+      "logo": "https://crowd.app-quality.com/wp-content/uploads/2017/06/StdProfileImg.png",
+      "tokens": -1,
+      "csm": {
+        "id": 49138,
+        "name": "Tester T49138",
+        "email": "it+profile49138@unguess.io",
+        "profile_id": 49138,
+        "tryber_wp_user_id": 49619,
+        "url": "https://tryber.me"
+      },
+      "isShared": false,
+      "sharedItems": 0
+    },
+    {
+      "id": 2,
+      "company": "DemoGiommi",
+      "logo": "",
+      "tokens": -1,
+      "csm": {
+        "id": 20739,
+        "name": "Gianluca Peretti",
+        "email": "gianluca.peretti@unguess.io",
+        "tryber_wp_user_id": 21605,
+        "profile_id": 20739,
+        "url": "https://meetings.hubspot.com/gianluca-peretti"
+      },
+      "isShared": false,
+      "sharedItems": 0
+    },
+    {
+      "id": 3,
+      "company": "Internal AppQuality",
+      "logo": "https://crowd.app-quality.com/wp-content/themes/crowdappquality/img/icons/default_empty.jpg",
+      "tokens": -1,
+      "csm": {
+        "id": 10951,
+        "name": "Alessandrox Giommixd",
+        "email": "alessandro.giommi+345@unguess.io",
+        "profile_id": 10951,
+        "tryber_wp_user_id": 11841
+      },
+      "isShared": false,
+      "sharedItems": 0
+    },
+    {
+      "id": 4,
+      "company": "INTERNAL UNGUESS",
+      "logo": "https://crowd.app-quality.com/wp-content/themes/crowdappquality/img/icons/default_empty.jpg",
+      "tokens": -1,
+      "csm": {
+        "id": 24283,
+        "name": "Tester T24283",
+        "email": "it+profile24283@unguess.io",
+        "profile_id": 24283,
+        "tryber_wp_user_id": 25074,
+        "url": "https://tryber.me"
+      },
+      "isShared": false,
+      "sharedItems": 0
+    }
+  ],
+  "start": 0,
+  "limit": 0,
+  "size": 4,
+  "total": 4
+}
