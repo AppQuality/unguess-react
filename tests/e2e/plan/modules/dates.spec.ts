@@ -2,6 +2,10 @@ import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/Plan';
 import draftMandatory from '../../../api/workspaces/wid/plans/pid/_get/200_draft_mandatory_only.json';
 import { formatModuleDate } from '../../../../src/pages/Plan/formatModuleDate';
+import {
+  toBeRequired,
+  toHaveAttribute,
+} from '@testing-library/jest-dom/matchers';
 
 test.describe('The date module defines when the user is ready to be tested.', () => {
   let planPage: PlanPage;
@@ -25,7 +29,9 @@ test.describe('The date module defines when the user is ready to be tested.', ()
   });
 
   test('It should have an output of one date, the start date, and it is required to Request a Quote', async () => {
-    // Todo
+    await expect(
+      planPage.elements().datesModule().locator('input')
+    ).toHaveAttribute('required');
   });
 
   test('The "default variant" set a date at least one day in the future, except weekends', async () => {
