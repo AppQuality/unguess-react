@@ -1,0 +1,83 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "title": "obs1",
+      "description": "descri",
+      "start": 1,
+      "end": 10,
+      "quotes": "quotes",
+      "uxNote": "ux note",
+      "tags": [
+        {
+          "group": {
+            "id": 1,
+            "name": "title"
+          },
+          "tag": {
+            "id": 1,
+            "name": "title-alone",
+            "style": "white",
+            "usageNumber": 1
+          }
+        },
+        {
+          "group": {
+            "id": 2,
+            "name": "severity"
+          },
+          "tag": {
+            "id": 59,
+            "name": "minor issue",
+            "style": "white",
+            "usageNumber": 1
+          }
+        }
+      ],
+      "uploaderId": 0,
+      "mediaId": 0,
+      "deviceType": "string",
+      "usecaseTitle": "string"
+    },
+    {
+      "id": 2,
+      "title": "obs2",
+      "description": "description",
+      "start": 4,
+      "end": 9,
+      "quotes": "quotes",
+      "uxNote": "ux note",
+      "tags": [
+        {
+          "group": {
+            "id": 1,
+            "name": "title"
+          },
+          "tag": {
+            "id": 4,
+            "name": "title",
+            "style": "white",
+            "usageNumber": 1
+          }
+        },
+        {
+          "group": {
+            "id": 2,
+            "name": "severity"
+          },
+          "tag": {
+            "id": 59,
+            "name": "minor issue",
+            "style": "white",
+            "usageNumber": 1
+          }
+        }
+      ],
+      "uploaderId": 0,
+      "mediaId": 0,
+      "deviceType": "string",
+      "usecaseTitle": "string"
+    }
+  ],
+  "kind": "ungrouped"
+}
