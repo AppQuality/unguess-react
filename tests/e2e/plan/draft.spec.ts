@@ -1,6 +1,6 @@
 import { test, expect } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/Plan';
-import examplePatch from '../../api/workspaces/wid/plans/pid/_patch/200_Example_1.json';
+import examplePatch from '../../api/workspaces/wid/plans/pid/_patch/request_Example_1.json';
 
 test.describe('The module builder', () => {
   let moduleBuilderPage: PlanPage;

@@ -21,7 +21,7 @@ export class UnguessPage {
   async loggedIn() {
     await this.page.route('*/**/api/users/me', async (route) => {
       await route.fulfill({
-        path: 'tests/api/users/me/_get/200_Example_1.json',
+        path: 'tests/api/users/me/_get/200_Users_Me_example.json',
       });
     });
   }
@@ -39,7 +39,7 @@ export class UnguessPage {
       '*/**/api/workspaces?orderBy=company',
       async (route) => {
         await route.fulfill({
-          path: 'tests/api/workspaces/_get/200_ordeby_company.json',
+          path: 'tests/api/workspaces/_get/200_orderby_company.json',
         });
       }
     );
@@ -48,7 +48,7 @@ export class UnguessPage {
   async mockPreferences() {
     await this.page.route('*/**/api/users/me/preferences', async (route) => {
       await route.fulfill({
-        path: 'tests/api/preferences/_get/200_Example_1.json',
+        path: 'tests/api/users/me/preferences/_get/200_Example_1.json',
       });
     });
   }
