@@ -14,6 +14,8 @@ const Dates = () => {
   const lang = getLanguage(i18n.language || 'en');
   const { value, set } = useModuleContext('dates');
 
+  console.log('value', value);
+
   return (
     <div>
       <LG tag="h3" isBold>
@@ -22,7 +24,7 @@ const Dates = () => {
       <DatePickerWrapper>
         <Datepicker
           value={
-            value?.output.start
+            value?.output && value.output?.start
               ? new Date(value.output.start)
               : addBusinessDays(new Date(), 1)
           }

@@ -1712,6 +1712,7 @@ export type DeleteWorkspacesByWidPlansAndPidApiArg = {
 export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
   config: {
     modules: Module[];
+    project_id: number;
   };
   status: 'draft' | 'pending_review' | 'approved';
 };
@@ -1726,6 +1727,7 @@ export type PatchWorkspacesByWidPlansAndPidApiArg = {
   body: {
     config: {
       modules: Module[];
+      project_id: number;
     };
   };
 };

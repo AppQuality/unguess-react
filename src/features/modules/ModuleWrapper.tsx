@@ -6,7 +6,6 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { FormBody } from './types';
 import {
   useGetWorkspacesByWidPlansAndPidQuery,
-  useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   usePatchWorkspacesByWidPlansAndPidMutation,
 } from '../api';
 
@@ -55,6 +54,7 @@ const ModuleWrapper = ({ children }: { children: ReactNode }) => {
         body: {
           config: {
             modules: values.modules,
+            project_id: planConf?.config.project_id || 1014,
           },
         },
       })

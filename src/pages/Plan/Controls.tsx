@@ -4,28 +4,33 @@ import { ModuleWrapper } from 'src/features/modules/ModuleWrapper';
 import { FormBody } from 'src/features/modules/types';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useParams } from 'react-router-dom';
+import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from 'src/features/api';
 
 export const Controls = () => {
   const { isSubmitting, submitForm, values, setFieldValue } =
     useFormikContext<FormBody>();
   const { planId } = useParams();
   const { activeWorkspace } = useActiveWorkspace();
+
+  const [requestQuote] = usePatchWorkspacesByWidPlansAndPidStatusMutation();
+
   const handleQuoteRequest = async () => {
     // save an updated version of the plan
 
     console.log('submitting');
     await submitForm();
     console.log('submitted');
-    // if the save is successful, change the status of the plan
-    fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}/status`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status: 'pending_review' }),
-      headers: {},
+
+    requestQuote({
+      wid: activeWorkspace?.id.toString() || '',
+      pid: planId || '',
+      body: {
+        status: 'pending_review',
+      },
     })
-      .then((response) => response.json())
+      .unwrap()
       .then((data) => {
-        // update the status in the state
-        setFieldValue('status', data.status);
+        setFieldValue('status', 'pending_review');
       })
       .catch((error) => console.log(error));
   };
