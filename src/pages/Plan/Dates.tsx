@@ -47,6 +47,16 @@ const RemoveModuleCTA = () => {
   return <Button onClick={remove}>{t('__PLAN_REMOVE_MODULE_CTA')}</Button>;
 };
 
+// validation
+const validation = (dates: any) => {
+  console.log('dates module', dates);
+  let error;
+  if (!dates) {
+    error = 'Required';
+  }
+  return error;
+};
+
 export const Dates = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput } = useModule('dates');
