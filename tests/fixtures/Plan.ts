@@ -7,7 +7,7 @@ export class PlanPage extends UnguessPage {
   constructor(page: Page) {
     super(page);
     this.page = page;
-    this.url = `temp/1`;
+    this.url = `plans/1`;
   }
 
   elements() {

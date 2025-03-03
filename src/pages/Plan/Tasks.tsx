@@ -1,8 +1,8 @@
 import { LG } from '@appquality/unguess-design-system';
-import { useModuleContext } from 'src/features/modules/ModuleWrapper';
+import { useModule } from 'src/features/modules/useModule';
 
 const useTasks = () => {
-  const { value, set } = useModuleContext('tasks');
+  const { value, setOutput } = useModule('tasks');
 
   const output = (value?.output || []).map((task, i) => ({
     ...task,
@@ -16,42 +16,40 @@ const useTasks = () => {
       return '';
     }
 
-    set({
-      output: [
-        ...(value?.output || []),
-        {
-          kind,
-          title: getDefaultTitle(),
-        },
-      ],
-    });
+    setOutput([
+      ...(value?.output || []),
+      {
+        kind,
+        title: getDefaultTitle(),
+      },
+    ]);
   };
 
   const update = (k: number, v: Partial<(typeof output)[number]>) => {
-    set({
-      output: output
+    setOutput(
+      output
         .map((t) => (t.key === k ? { ...t, ...v } : t))
         .map((t) => {
           const { key, ...rest } = t;
           return rest;
-        }),
-    });
+        })
+    );
   };
 
   const remove = (k: number) => {
-    set({
-      output: output
+    setOutput(
+      output
         .filter((t) => t.key !== k)
         .map((t) => {
           const { key, ...rest } = t;
           return rest;
-        }),
-    });
+        })
+    );
   };
 
   return {
     value: output,
-    set,
+    setOutput,
     add,
     update,
     remove,

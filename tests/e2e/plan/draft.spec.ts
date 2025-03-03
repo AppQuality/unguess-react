@@ -20,6 +20,9 @@ test.describe('The module builder', () => {
     await expect(moduleBuilderPage.elements().titleModule()).toBeVisible();
     await expect(moduleBuilderPage.elements().tasksModule()).toBeVisible();
     await expect(moduleBuilderPage.elements().datesModule()).toBeVisible();
+
+    // todo: check if the other modules are not visible
+
     await expect(moduleBuilderPage.elements().submitButton()).toBeVisible();
     await expect(
       moduleBuilderPage.elements().descriptionModule()
