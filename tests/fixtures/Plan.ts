@@ -16,10 +16,25 @@ export class PlanPage extends UnguessPage {
       titleModule: () => this.page.getByTestId('title-module'),
       tasksModule: () => this.page.getByTestId('tasks-module'),
       datesModule: () => this.page.getByTestId('dates-module'),
+      datesModuleInput: () =>
+        this.elements().datesModule().getByRole('textbox'),
+      datesModuleRemove: () =>
+        this.elements()
+          .datesModule()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
+          }),
       descriptionModule: () => this.page.getByTestId('description-module'),
-      submitButton: () => this.page.getByRole('button', { name: 'Save' }),
-      quoteButton: () =>
-        this.page.getByRole('button', { name: 'Request Quotation' }),
+      saveConfigurationCTA: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
+        }),
+      requestQuotationCTA: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
+        }),
+      requestQuotationErrorMessage: () =>
+        this.page.getByTestId('request-quotation-error-message'),
     };
   }
 

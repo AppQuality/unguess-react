@@ -15,16 +15,32 @@ test.describe('A Plan page in pending request', () => {
   });
 
   test('has the quotation cta and the save button disabled', async () => {
-    await expect(moduleBuilderPage.elements().submitButton()).toBeVisible();
-    await expect(moduleBuilderPage.elements().submitButton()).toBeDisabled();
-    await expect(moduleBuilderPage.elements().quoteButton()).toBeVisible();
-    await expect(moduleBuilderPage.elements().quoteButton()).toBeDisabled();
+    await expect(
+      moduleBuilderPage.elements().saveConfigurationCTA()
+    ).toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().saveConfigurationCTA()
+    ).toBeDisabled();
+    await expect(
+      moduleBuilderPage.elements().requestQuotationCTA()
+    ).toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().requestQuotationCTA()
+    ).toBeDisabled();
   });
   test('all inputs should be readonly', async () => {
-    await expect(moduleBuilderPage.elements().submitButton()).toBeVisible();
-    await expect(moduleBuilderPage.elements().submitButton()).toBeDisabled();
-    await expect(moduleBuilderPage.elements().quoteButton()).toBeVisible();
-    await expect(moduleBuilderPage.elements().quoteButton()).toBeDisabled();
+    await expect(
+      moduleBuilderPage.elements().saveConfigurationCTA()
+    ).toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().saveConfigurationCTA()
+    ).toBeDisabled();
+    await expect(
+      moduleBuilderPage.elements().requestQuotationCTA()
+    ).toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().requestQuotationCTA()
+    ).toBeDisabled();
   });
 
   // posso tornare indietro dal preventivo?

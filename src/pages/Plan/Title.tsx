@@ -1,5 +1,4 @@
 import { InputToggle, PageHeader } from '@appquality/unguess-design-system';
-import { useField } from 'formik';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useModule } from 'src/features/modules/useModule';
 

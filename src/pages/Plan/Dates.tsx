@@ -1,22 +1,42 @@
-import { Datepicker, Input, Select } from '@appquality/unguess-design-system';
+import {
+  Datepicker,
+  Input,
+  Select,
+  FormField,
+  Button,
+} from '@appquality/unguess-design-system';
 import { useModule } from 'src/features/modules/useModule';
 import { formatModuleDate } from './formatModuleDate';
 import { addBusinessDays } from 'date-fns';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { components } from 'src/common/schema';
+import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { useTranslation } from 'react-i18next';
 
 // validation
-const validation = (dates: any) => {
-  console.log('dates module', dates);
+const validation = (
+  value: components['schemas']['Module'] & { type: 'dates' }
+) => {
+  console.log('dates module', value);
   let error;
-  if (!dates) {
+  if (!value.output.start) {
     error = 'Required';
   }
-  return error;
+  if (value.variant === 'default') {
+    if (new Date(value.output.start) < addBusinessDays(new Date(), 1)) {
+      error = 'Date must be at least one business day in the future';
+    }
+  }
+  return error || true;
 };
 
 export const Dates = () => {
   const { value, setOutput } = useModule('dates');
+  const { isValid, error } = useValidation({
+    type: 'dates',
+    validate: validation,
+  });
 
-  // get value from module
   const getValue = () => {
     if (!value) return undefined;
     return new Date(value.output.start);
@@ -24,24 +44,63 @@ export const Dates = () => {
 
   const handleChange = (date: Date) => {
     setOutput({
-      start: date.toISOString(),
+      start: formatModuleDate(date).output,
     });
+  };
+
+  const getMinValue = () => {
+    if (value?.variant === 'default') {
+      return addBusinessDays(new Date(), 1);
+    }
+    return undefined;
   };
 
   return (
     <div data-qa="dates-module">
-      <Select data-qa="dates-variant">
-        <Select.Option value="default">Default</Select.Option>
-        <Select.Option value="free">Free</Select.Option>
-      </Select>
-      <Datepicker
-        value={getValue()}
-        onChange={handleChange}
-        formatDate={(date) => formatModuleDate(date).input}
-        minValue={addBusinessDays(new Date(), 1)}
-      >
-        <Input />
-      </Datepicker>
+      {/* FEATURE FLAG */}
+      {FEATURE_FLAG_CHANGE_MODULES_VARIANTS && <VariantSelect />}
+      {FEATURE_FLAG_CHANGE_MODULES_VARIANTS && <RemoveModuleCTA />}
+      <FormField>
+        <Datepicker
+          value={getValue()}
+          onChange={handleChange}
+          formatDate={(date) => formatModuleDate(date).input}
+          minValue={getMinValue()}
+        >
+          <Input />
+        </Datepicker>
+        {error && <div data-qa="dates-error">{error}</div>}
+      </FormField>
     </div>
   );
+};
+
+const VariantSelect = () => {
+  const { value, setVariant } = useModule('dates');
+
+  const handleVariantChange = (variant: string) => {
+    setVariant(variant);
+  };
+
+  return (
+    <Select
+      data-qa="dates-variant"
+      onSelect={handleVariantChange}
+      label="Variant"
+    >
+      <Select.Option value="default" isSelected={value?.variant === 'default'}>
+        Default
+      </Select.Option>
+      <Select.Option value="free" isSelected={value?.variant === 'free'}>
+        Free
+      </Select.Option>
+    </Select>
+  );
+};
+
+const RemoveModuleCTA = () => {
+  const { remove } = useModule('dates');
+  const { t } = useTranslation();
+
+  return <Button onClick={remove}>{t('__PLAN_REMOVE_MODULE_CTA')}</Button>;
 };

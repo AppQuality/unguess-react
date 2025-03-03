@@ -1,32 +1,14 @@
 import { Button } from '@appquality/unguess-design-system';
-import { useParams } from 'react-router-dom';
 import { useSave } from 'src/features/modules/useSave';
 import { FormProvider } from 'src/features/modules/FormProvider';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useTranslation } from 'react-i18next';
+import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 
 export const Controls = () => {
-  const { isSubmitting, submitForm, setPlanStatus, getPlanStatus } = useSave();
-  const { planId } = useParams();
-  const { activeWorkspace } = useActiveWorkspace();
-  const handleQuoteRequest = async () => {
-    // save an updated version of the plan
-
-    console.log('submitting');
-    await submitForm();
-    console.log('submitted');
-    // if the save is successful, change the status of the plan
-    fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}/status`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status: 'pending_review' }),
-      headers: {},
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // update the status in the state
-        setPlanStatus(data.status);
-      })
-      .catch((error) => console.log(error));
-  };
+  const { isSubmitting, getPlanStatus } = useSave();
+  const { t } = useTranslation();
+  const { isRequestQuoteCTADisabled, handleQuoteRequest, error } =
+    useRequestQuotation();
 
   return (
     <>
@@ -34,15 +16,16 @@ export const Controls = () => {
         type="submit"
         disabled={isSubmitting || getPlanStatus() !== 'draft'}
       >
-        Save
+        {t('__PLAN_SAVE_CONFIGURATION_CTA')}
       </Button>
       <Button
         type="button"
-        disabled={isSubmitting || getPlanStatus() === 'pending_review'}
+        disabled={isRequestQuoteCTADisabled()}
         onClick={handleQuoteRequest}
       >
-        Request quotation
+        {t('__PLAN_REQUEST_QUOTATION_CTA')}
       </Button>
+      {error && <div data-qa="request-quotation-error-message">{error}</div>}
       <FormProvider.Debugger />
     </>
   );
