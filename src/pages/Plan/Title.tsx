@@ -1,9 +1,10 @@
 import { InputToggle, PageHeader } from '@appquality/unguess-design-system';
+import { useField } from 'formik';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useModuleContext } from 'src/features/modules/ModuleWrapper';
+import { useModule } from 'src/features/modules/useModule';
 
 const Title = () => {
-  const { value, set, remove } = useModuleContext('title');
+  const { value, setOutput, remove } = useModule('title');
 
   return (
     <LayoutWrapper>
@@ -19,9 +20,7 @@ const Title = () => {
                 if (!e.target.value) {
                   remove();
                 } else {
-                  set({
-                    output: e.target.value,
-                  });
+                  setOutput(e.target.value);
                 }
               }}
             />

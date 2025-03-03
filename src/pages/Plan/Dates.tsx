@@ -1,16 +1,20 @@
-import {
-  Datepicker,
-  Input,
-  Label,
-  Select,
-} from '@appquality/unguess-design-system';
-import { useModuleContext } from 'src/features/modules/ModuleWrapper';
+import { Datepicker, Input, Select } from '@appquality/unguess-design-system';
+import { useModule } from 'src/features/modules/useModule';
 import { formatModuleDate } from './formatModuleDate';
-import { Field } from 'formik';
 import { addBusinessDays } from 'date-fns';
 
+// validation
+const validation = (dates: any) => {
+  console.log('dates module', dates);
+  let error;
+  if (!dates) {
+    error = 'Required';
+  }
+  return error;
+};
+
 export const Dates = () => {
-  const { value, set, remove } = useModuleContext('dates');
+  const { value, setOutput } = useModule('dates');
 
   // get value from module
   const getValue = () => {
@@ -18,22 +22,14 @@ export const Dates = () => {
     return new Date(value.output.start);
   };
 
-  // validation
-  const validation = (dates: Date) => {
-    let error;
-    if (!value) {
-      error = 'Required';
-    }
-    return error;
-  };
-
   const handleChange = (date: Date) => {
-    // todo
+    setOutput({
+      start: date.toISOString(),
+    });
   };
 
   return (
-    <Field name="dates" validate={validation} data-qa="dates-module">
-      <Label>Date</Label>
+    <div data-qa="dates-module">
       <Select data-qa="dates-variant">
         <Select.Option value="default">Default</Select.Option>
         <Select.Option value="free">Free</Select.Option>
@@ -46,6 +42,6 @@ export const Dates = () => {
       >
         <Input />
       </Datepicker>
-    </Field>
+    </div>
   );
 };
