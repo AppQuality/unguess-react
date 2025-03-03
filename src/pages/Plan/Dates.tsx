@@ -6,7 +6,7 @@ import {
   Select,
   SM,
 } from '@appquality/unguess-design-system';
-import { isBefore } from 'date-fns';
+import { isBefore, addBusinessDays } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
@@ -48,13 +48,20 @@ const RemoveModuleCTA = () => {
 };
 
 // validation
-const validation = (dates: any) => {
-  console.log('dates module', dates);
+const validation = (
+  value: components['schemas']['Module'] & { type: 'dates' }
+) => {
+  console.log('dates module', value);
   let error;
-  if (!dates) {
+  if (!value.output.start) {
     error = 'Required';
   }
-  return error;
+  if (value.variant === 'default') {
+    if (new Date(value.output.start) < addBusinessDays(new Date(), 1)) {
+      error = 'Date must be at least one business day in the future';
+    }
+  }
+  return error || true;
 };
 
 export const Dates = () => {
