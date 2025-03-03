@@ -44,7 +44,6 @@ const ScrollingContainer = styled.div`
 
 const SharedLabel = styled(SM)`
   margin-top: ${({ theme }) => theme.space.xxs};
-  margin-bottom: ${({ theme }) => theme.space.md};
   color: ${({ theme }) => theme.palette.grey[600]};
   padding-left: ${({ theme }) => theme.space.md};
   text-transform: uppercase;
@@ -153,6 +152,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         )}
 
         <NavItem
+          id="ciolla"
           className="sidebar-first-level-item"
           title="Home"
           isExpanded={isSidebarOpen}
@@ -167,6 +167,23 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
               ? t('__APP_SIDEBAR_SHARED_WORKSPACE_HOME_ITEM_LABEL')
               : t('__APP_SIDEBAR_HOME_ITEM_LABEL')}
           </NavItemText>
+        </NavItem>
+
+        <NavItem
+          className="sidebar-first-level-item"
+          title="Templates"
+          isExpanded={isSidebarOpen}
+          isCurrent={route === 'templates'}
+          onClick={() => navigateTo('templates')}
+        >
+          <NavItemIcon>
+            {route === 'templates' ? (
+              <CampaignsIconActive />
+            ) : (
+              <CampaignsIcon />
+            )}
+          </NavItemIcon>
+          <NavItemText>{t('__APP_SIDEBAR_TEMPLATES_ITEM_LABEL')}</NavItemText>
         </NavItem>
 
         {/** Projects Accordion */}

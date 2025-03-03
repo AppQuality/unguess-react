@@ -28,6 +28,7 @@ import { Temp } from 'src/pages/Temp';
 import Plan from 'src/pages/Plan';
 import Video from 'src/pages/Video';
 import Videos from 'src/pages/Videos';
+import Templates from 'src/pages/Templates';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -87,6 +88,10 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/services/:templateId`}
                     element={<Service />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/templates`}
+                    element={<Templates />}
                   />
                   <Route
                     path={`/${langPrefix}/templates/:templateId`}
