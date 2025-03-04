@@ -1,0 +1,9 @@
+{
+  "email": "string",
+  "name": "string",
+  "surname": "string",
+  "locale": "string",
+  "event_name": "string",
+  "redirect_url": "string",
+  "message": "string"
+}
