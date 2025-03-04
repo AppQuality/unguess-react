@@ -1,6 +1,7 @@
 import { type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
+import userResponse from '../api/users/me/_get/200_Users_Me_example.json';
 
 export class UnguessPage {
   readonly page: Page;
@@ -18,10 +19,11 @@ export class UnguessPage {
     await this.page.goto(this.url);
   }
 
-  async loggedIn() {
+  async loggedIn(addFeatures: any[] = []) {
+    userResponse.features = [...userResponse.features, ...addFeatures];
     await this.page.route('*/**/api/users/me', async (route) => {
       await route.fulfill({
-        path: 'tests/api/users/me/_get/200_Users_Me_example.json',
+        body: JSON.stringify(userResponse),
       });
     });
   }

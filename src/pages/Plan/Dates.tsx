@@ -4,35 +4,43 @@ import {
   Select,
   FormField,
   Button,
+  SM,
 } from '@appquality/unguess-design-system';
 import { useModule } from 'src/features/modules/useModule';
 import { formatModuleDate } from './formatModuleDate';
-import { addBusinessDays } from 'date-fns';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useTranslation } from 'react-i18next';
-
-// validation
-const validation = (
-  value: components['schemas']['Module'] & { type: 'dates' }
-) => {
-  console.log('dates module', value);
-  let error;
-  if (!value.output.start) {
-    error = 'Required';
-  }
-  if (value.variant === 'default') {
-    if (new Date(value.output.start) < addBusinessDays(new Date(), 1)) {
-      error = 'Date must be at least one business day in the future';
-    }
-  }
-  return error || true;
-};
+import { appTheme } from 'src/app/theme';
+import { PLAN_MINIMUM_DATE } from 'src/constants';
+import { isAfter, isBefore, isEqual } from 'date-fns';
 
 export const Dates = () => {
   const { value, setOutput } = useModule('dates');
-  const { isValid, error } = useValidation({
+  const { t } = useTranslation();
+
+  const validation = (
+    value: components['schemas']['Module'] & { type: 'dates' }
+  ) => {
+    console.log(
+      'wrong',
+      isBefore(new Date(value.output.start), PLAN_MINIMUM_DATE)
+    );
+    let error;
+    if (!value.output.start) {
+      error = t('__PLAN_DATE_ERROR_REQUIRED');
+    }
+    if (value.variant === 'default') {
+      // is the first date after the second one?
+      if (isBefore(new Date(value.output.start), PLAN_MINIMUM_DATE)) {
+        error = t('__PLAN_DATE_IN_FUTURE_ERROR');
+      }
+    }
+    return error || true;
+  };
+
+  const { isValid, error, validate } = useValidation({
     type: 'dates',
     validate: validation,
   });
@@ -48,9 +56,13 @@ export const Dates = () => {
     });
   };
 
+  const handleBlur = () => {
+    validate();
+  };
+
   const getMinValue = () => {
     if (value?.variant === 'default') {
-      return addBusinessDays(new Date(), 1);
+      return PLAN_MINIMUM_DATE;
     }
     return undefined;
   };
@@ -67,10 +79,17 @@ export const Dates = () => {
           formatDate={(date) => formatModuleDate(date).input}
           minValue={getMinValue()}
         >
-          <Input />
+          <Input onBlur={handleBlur} />
         </Datepicker>
-        {error && <div data-qa="dates-error">{error}</div>}
       </FormField>
+      {error && (
+        <SM
+          style={{ color: appTheme.components.text.dangerColor }}
+          data-qa="dates-error"
+        >
+          {error}
+        </SM>
+      )}
     </div>
   );
 };
@@ -84,16 +103,18 @@ const VariantSelect = () => {
 
   return (
     <Select
-      data-qa="dates-variant"
+      data-qa="change-variant"
       onSelect={handleVariantChange}
       label="Variant"
+      inputValue={value?.variant}
+      selectionValue={value?.variant}
     >
-      <Select.Option value="default" isSelected={value?.variant === 'default'}>
-        Default
-      </Select.Option>
-      <Select.Option value="free" isSelected={value?.variant === 'free'}>
-        Free
-      </Select.Option>
+      <Select.Option
+        data-qa="change-variant-default"
+        value="default"
+        label="Default"
+      />
+      <Select.Option data-qa="change-variant-free" value="free" label="Free" />
     </Select>
   );
 };

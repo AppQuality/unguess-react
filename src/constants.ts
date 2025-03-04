@@ -1,3 +1,11 @@
+import { addBusinessDays } from 'date-fns';
+
+const today = new Date();
+today.setHours(7);
+today.setMinutes(59);
+today.setSeconds(0);
+
+export const PLAN_MINIMUM_DATE = addBusinessDays(today, 1);
 export const FEATURE_FLAG_EXPRESS = 'exploratory-express';
 export const FEATURE_FLAG_SKY_JOTFORM = 'sky-custom-jotform';
 export const FEATURE_FLAG_CATALOG = 'catalog-pages';

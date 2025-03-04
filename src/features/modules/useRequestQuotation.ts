@@ -28,12 +28,12 @@ export const useRequestQuotation = () => {
   const handleQuoteRequest = async () => {
     // check if all required modules are present
     if (missingModules.length > 0) {
-      debugger;
       setError(
         `${t('__PLAN_MISSING_MODULES_ERROR')}: ${missingModules.join(', ')}`
       );
       return;
     }
+    // triggerValidationforAllFields()
     // check if the form is valid
     if (!isValid) {
       alert('Please fill in all required fields');
