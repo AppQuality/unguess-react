@@ -30,6 +30,7 @@ export const ProjectDropdown = () => {
   ) : (
     <Field>
       <Autocomplete
+        data-qa="project-dropdown"
         listboxAppendToNode={document.body}
         startIcon={<FolderIcon />}
         onOptionClick={({ selectionValue, inputValue }) => {
