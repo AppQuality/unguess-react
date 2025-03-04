@@ -21,7 +21,7 @@ test.describe('The date module defines when the user is ready to be tested.', ()
   });
 
   test('It should print a date input/picker that show the current value of the module in Date format, and a way to change that value', async () => {
-    const startDate = planPage.getDateFromPlan(draftMandatory);
+    const startDate = PlanPage.getDateFromPlan(draftMandatory);
     await expect(planPage.elements().datesModule()).toBeVisible();
     await expect(planPage.elements().datesModuleInput()).toHaveValue(
       formatModuleDate(startDate).input
