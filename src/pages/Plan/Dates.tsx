@@ -1,46 +1,76 @@
 import {
+  Button,
   Datepicker,
+  FormField,
   Input,
   Select,
-  FormField,
-  Button,
   SM,
 } from '@appquality/unguess-design-system';
-import { useModule } from 'src/features/modules/useModule';
-import { formatModuleDate } from './formatModuleDate';
-import { useValidation } from 'src/features/modules/useModuleValidation';
-import { components } from 'src/common/schema';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { isBefore } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { PLAN_MINIMUM_DATE } from 'src/constants';
-import { isAfter, isBefore, isEqual } from 'date-fns';
+import { components } from 'src/common/schema';
+import {
+  FEATURE_FLAG_CHANGE_MODULES_VARIANTS,
+  PLAN_MINIMUM_DATE,
+} from 'src/constants';
+import { useModule } from 'src/features/modules/useModule';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { formatModuleDate } from './formatModuleDate';
+
+const VariantSelect = () => {
+  const { value, setVariant } = useModule('dates');
+
+  const handleVariantChange = (variant: string) => {
+    setVariant(variant);
+  };
+
+  return (
+    <Select
+      data-qa="change-variant"
+      onSelect={handleVariantChange}
+      label="Variant"
+      inputValue={value?.variant}
+      selectionValue={value?.variant}
+    >
+      <Select.Option
+        data-qa="change-variant-default"
+        value="default"
+        label="Default"
+      />
+      <Select.Option data-qa="change-variant-free" value="free" label="Free" />
+    </Select>
+  );
+};
+
+const RemoveModuleCTA = () => {
+  const { remove } = useModule('dates');
+  const { t } = useTranslation();
+
+  return <Button onClick={remove}>{t('__PLAN_REMOVE_MODULE_CTA')}</Button>;
+};
 
 export const Dates = () => {
   const { value, setOutput } = useModule('dates');
   const { t } = useTranslation();
 
   const validation = (
-    value: components['schemas']['Module'] & { type: 'dates' }
+    module: components['schemas']['Module'] & { type: 'dates' }
   ) => {
-    console.log(
-      'wrong',
-      isBefore(new Date(value.output.start), PLAN_MINIMUM_DATE)
-    );
     let error;
-    if (!value.output.start) {
+    if (!module.output.start) {
       error = t('__PLAN_DATE_ERROR_REQUIRED');
     }
-    if (value.variant === 'default') {
+    if (module.variant === 'default') {
       // is the first date after the second one?
-      if (isBefore(new Date(value.output.start), PLAN_MINIMUM_DATE)) {
+      if (isBefore(new Date(module.output.start), PLAN_MINIMUM_DATE)) {
         error = t('__PLAN_DATE_IN_FUTURE_ERROR');
       }
     }
     return error || true;
   };
 
-  const { isValid, error, validate } = useValidation({
+  const { error, validate } = useValidation({
     type: 'dates',
     validate: validation,
   });
@@ -92,36 +122,4 @@ export const Dates = () => {
       )}
     </div>
   );
-};
-
-const VariantSelect = () => {
-  const { value, setVariant } = useModule('dates');
-
-  const handleVariantChange = (variant: string) => {
-    setVariant(variant);
-  };
-
-  return (
-    <Select
-      data-qa="change-variant"
-      onSelect={handleVariantChange}
-      label="Variant"
-      inputValue={value?.variant}
-      selectionValue={value?.variant}
-    >
-      <Select.Option
-        data-qa="change-variant-default"
-        value="default"
-        label="Default"
-      />
-      <Select.Option data-qa="change-variant-free" value="free" label="Free" />
-    </Select>
-  );
-};
-
-const RemoveModuleCTA = () => {
-  const { remove } = useModule('dates');
-  const { t } = useTranslation();
-
-  return <Button onClick={remove}>{t('__PLAN_REMOVE_MODULE_CTA')}</Button>;
 };
