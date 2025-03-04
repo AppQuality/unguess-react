@@ -961,6 +961,8 @@
   "__PERMISSION_SETTINGS_TOAST_RESEND": "New invitation sent",
   "__PERMISSION_SETTINGS_WORKSPACE_USERS": "From the workspace",
   "__PERMISSION_SETTINGS_WORKSPACE_USERS_ALL": "All users from the workspace",
+  "__PLAN_DATE_ERROR_REQUIRED": "Required",
+  "__PLAN_DATE_IN_FUTURE_ERROR": "Date must be at least one business day in the future",
   "__PLAN_MISSING_MODULES_ERROR": "Some modules are missing",
   "__PLAN_REMOVE_MODULE_CTA": "Remove",
   "__PLAN_REQUEST_QUOTATION_CTA": "Request Quotation",
