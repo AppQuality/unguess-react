@@ -709,6 +709,15 @@ const injectedRtkApi = api.injectEndpoints({
         params: { limit: queryArg.limit, start: queryArg.start },
       }),
     }),
+    deleteWorkspacesByWidTemplatesAndTid: build.mutation<
+      DeleteWorkspacesByWidTemplatesAndTidApiResponse,
+      DeleteWorkspacesByWidTemplatesAndTidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates/${queryArg.tid}`,
+        method: 'DELETE',
+      }),
+    }),
     getWorkspacesByWidProjectsAndPid: build.query<
       GetWorkspacesByWidProjectsAndPidApiResponse,
       GetWorkspacesByWidProjectsAndPidApiArg
@@ -1767,6 +1776,12 @@ export type GetWorkspacesByWidTemplatesApiArg = {
   /** Start pagination parameter */
   start?: number;
 };
+export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
+  /** status 200 OK */ {};
+export type DeleteWorkspacesByWidTemplatesAndTidApiArg = {
+  wid: string;
+  tid: string;
+};
 export type GetWorkspacesByWidProjectsAndPidApiResponse =
   /** status 200 OK */ Project;
 export type GetWorkspacesByWidProjectsAndPidApiArg = {
@@ -2400,9 +2415,10 @@ export type Module = ModuleTitle | ModuleDate | ModuleTask;
 export type CpReqTemplate = {
   id: number;
   name: string;
+  description?: string;
   config: string;
-  workspace_id?: number;
   strapi_id?: number;
+  workspace_id?: number;
   source_plan_id?: number;
   created_by?: number;
   created_at?: string;
@@ -2489,6 +2505,7 @@ export const {
   usePatchWorkspacesByWidPlansAndPidStatusMutation,
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidTemplatesQuery,
+  useDeleteWorkspacesByWidTemplatesAndTidMutation,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   useGetWorkspacesByWidUsersQuery,
