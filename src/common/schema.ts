@@ -554,6 +554,15 @@ export interface paths {
       };
     };
   };
+  '/workspaces/{wid}/templates/{tid}': {
+    delete: operations['delete-workspaces-wid-templates-tid'];
+    parameters: {
+      path: {
+        wid: string;
+        tid: string;
+      };
+    };
+  };
   '/workspaces/{wid}/projects/{pid}': {
     get: operations['get-workspace-project'];
     parameters: {
@@ -1351,9 +1360,10 @@ export interface components {
     CpReqTemplate: {
       id: number;
       name: string;
+      description?: string;
       config: string;
-      workspace_id?: number;
       strapi_id?: number;
+      workspace_id?: number;
       source_plan_id?: number;
       created_by?: number;
       created_at?: string;
@@ -3631,6 +3641,24 @@ export interface operations {
       403: components['responses']['Error'];
       404: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'delete-workspaces-wid-templates-tid': {
+    parameters: {
+      path: {
+        wid: string;
+        tid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+      /** Not Found */
+      404: unknown;
     };
   };
   'get-workspace-project': {
