@@ -42,7 +42,7 @@ export class PlanPage extends UnguessPage {
     };
   }
 
-  getDateFromPlan(plan: any) {
+  static getDateFromPlan(plan: any) {
     const dateModule = plan.config.modules.find(
       (module) => module.type === 'dates'
     );

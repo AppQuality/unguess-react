@@ -1,15 +1,15 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { FormikHelpers, useFormikContext } from 'formik';
-import { FormProvider } from 'src/features/modules/FormProvider';
-import { Page } from 'src/features/templates/Page';
-import { FormBody } from 'src/features/modules/types';
-import { Tasks } from './Tasks';
-import { Title } from './Title';
-import { Dates } from './Dates';
-import { Controls } from './Controls';
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { FormProvider } from 'src/features/modules/FormProvider';
+import { FormBody } from 'src/features/modules/types';
+import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { Controls } from './Controls';
+import { Dates } from './Dates';
+import { Tasks } from './Tasks';
+import { Title } from './Title';
 
 const ModulesList = () => {
   const { values } = useFormikContext<FormBody>();

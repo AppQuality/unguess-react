@@ -1,10 +1,10 @@
 import { useFormikContext } from 'formik';
-import { FormBody } from './types';
-import { useSave } from './useSave';
-import { useParams } from 'react-router-dom';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { FormBody } from './types';
+import { useSave } from './useSave';
 
 export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
@@ -36,14 +36,15 @@ export const useRequestQuotation = () => {
     // triggerValidationforAllFields()
     // check if the form is valid
     if (!isValid) {
-      alert('Please fill in all required fields');
+      // todo error handling
+      console.log('Please fill in all required fields');
       return;
     }
     // save an updated version of the plan
     try {
       await submitForm();
-    } catch (error) {
-      alert(error);
+    } catch (err) {
+      alert(err);
       return;
     }
     console.log('submitted');
@@ -58,7 +59,7 @@ export const useRequestQuotation = () => {
         // update the status in the state
         setPlanStatus(data.status);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => console.log(err));
   };
 
   const isRequestQuoteCTADisabled = () => {
