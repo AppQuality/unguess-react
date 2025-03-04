@@ -1,4 +1,5 @@
 export const formatModuleDate = (date: Date) => {
+  date.setHours(8);
   return {
     // this is how the module format output to send to the backend
     output: date.toISOString(),

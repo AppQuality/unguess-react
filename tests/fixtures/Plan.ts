@@ -18,6 +18,10 @@ export class PlanPage extends UnguessPage {
       datesModule: () => this.page.getByTestId('dates-module'),
       datesModuleInput: () =>
         this.elements().datesModule().getByRole('textbox'),
+      datesModuleChangeVariant: () =>
+        this.elements().datesModule().getByTestId('change-variant'),
+      datesModuleError: () =>
+        this.elements().datesModule().getByTestId('dates-error'),
       datesModuleRemove: () =>
         this.elements()
           .datesModule()

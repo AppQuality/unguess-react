@@ -15,12 +15,17 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
     [values.modules, moduleName] // Dipendenze limitate
   );
 
-  const setVariant = useCallback((variant: ModType['variant']) => {
-    setFieldValue(
-      'modules',
-      values.modules.map((m) => (m.type === moduleName ? { ...m, variant } : m))
-    );
-  }, []);
+  const setVariant = useCallback(
+    (variant: ModType['variant']) => {
+      setFieldValue(
+        'modules',
+        values.modules.map((m) =>
+          m.type === moduleName ? { ...m, variant } : m
+        )
+      );
+    },
+    [moduleName, setFieldValue, values.modules]
+  );
 
   const setOutput = useCallback(
     (output: ModType['output']) => {
