@@ -72,7 +72,7 @@ const Body = () => {
         <Row>
           {data.items.map((template) => (
             <Col md={3}>
-              <SpecialCard>
+              <SpecialCard data-qa="template-card" key={template.id}>
                 <SpecialCard.Thumb>#{template.id}</SpecialCard.Thumb>
 
                 <SpecialCard.Header>
