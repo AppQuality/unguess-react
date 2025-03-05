@@ -34,21 +34,6 @@ export const checkHubspotURL = (url: string) => {
   }
 };
 
-export const hasEnoughCoins = ({
-  workspace,
-  coins,
-}: {
-  workspace?: Workspace;
-  coins?: number;
-}): boolean => {
-  if (!workspace) return false;
-  if (!workspace.coins) return false;
-
-  const requiredCoins = coins || DEFAULT_EXPRESS_REQUIRED_COINS;
-
-  return workspace.coins >= requiredCoins;
-};
-
 export const getLocalizedStrapiData = ({
   item,
   language,
