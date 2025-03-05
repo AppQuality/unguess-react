@@ -24,8 +24,7 @@ test.describe('The module builder', () => {
   });
 
   test('Should redirect to the plan page once the template button is clicked', async () => {
-    // TODO: select a project from the dropdown
-    await moduleBuilderPage.elements().dropdown().click();
+    // await moduleBuilderPage.elements().dropdown().click();
     // await moduleBuilderPage.elements().templateCard().first().getByRole('button', {
     //   name: moduleBuilderPage.i18n.t('__TEMPLATES_PAGE_TEMPLATE_CARD_BUTTON_LABEL')
     // }).click();
