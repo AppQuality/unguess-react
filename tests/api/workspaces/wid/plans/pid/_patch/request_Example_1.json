@@ -4,7 +4,28 @@
       {
         "type": "title",
         "variant": "default",
-        "output": "title of campaign"
+        "output": "My Plan"
+      },
+      {
+        "type": "dates",
+        "variant": "default",
+        "output": {
+          "start": "2041-12-17T08:00:00.000Z"
+        }
+      },
+      {
+        "type": "tasks",
+        "variant": "default",
+        "output": [
+          {
+            "kind": "bug",
+            "title": "Search for bugs"
+          },
+          {
+            "kind": "video",
+            "title": "Think aloud"
+          }
+        ]
       }
     ]
   }
