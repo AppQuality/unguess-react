@@ -3,6 +3,11 @@ import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 import userResponse from '../api/users/me/_get/200_Users_Me_example.json';
 
+interface LoggedInParams {
+  addFeatures?: any[];
+  userRole?: string;
+}
+
 export class UnguessPage {
   readonly page: Page;
 
@@ -19,10 +24,15 @@ export class UnguessPage {
     await this.page.goto(this.url);
   }
 
-  async loggedIn(addFeatures: any[] = []) {
+  async loggedIn({ addFeatures = [], userRole = '' }: LoggedInParams = {}) {
+    if (userRole) {
+      userResponse.role = userRole;
+    }
     userResponse.features = [...userResponse.features, ...addFeatures];
     await this.page.route('*/**/api/users/me', async (route) => {
       await route.fulfill({
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userResponse),
       });
     });

@@ -1,11 +1,11 @@
 import { Button } from '@appquality/unguess-design-system';
-import { useSave } from 'src/features/modules/useSave';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { useTranslation } from 'react-i18next';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 
 export const Controls = () => {
-  const { isSubmitting, getPlanStatus } = useSave();
+  const { isSubmitting, getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const { isRequestQuoteCTADisabled, handleQuoteRequest, error } =
     useRequestQuotation();

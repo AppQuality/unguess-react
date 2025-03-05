@@ -1,18 +1,14 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
-import { FormikHelpers, useFormikContext } from 'formik';
-import { useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import { FormProvider } from 'src/features/modules/FormProvider';
-import { FormBody } from 'src/features/modules/types';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { Page } from 'src/features/templates/Page';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { Controls } from './Controls';
 import { Dates } from './Dates';
 import { Tasks } from './Tasks';
 import { Title } from './Title';
 
 const ModulesList = () => {
-  const { values } = useFormikContext<FormBody>();
+  const { getModules } = useModuleConfiguration();
   const getModule = (type: string) => {
     switch (type) {
       case 'title':
@@ -25,7 +21,7 @@ const ModulesList = () => {
         return null;
     }
   };
-  return <>{values.modules.map((module) => getModule(module.type))}</>;
+  return <>{getModules().map((module) => getModule(module.type))}</>;
 };
 
 const Plan = () => (

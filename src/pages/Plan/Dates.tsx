@@ -16,6 +16,7 @@ import {
 } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { formatModuleDate } from './formatModuleDate';
 
 const VariantSelect = () => {
@@ -33,12 +34,8 @@ const VariantSelect = () => {
       inputValue={value?.variant}
       selectionValue={value?.variant}
     >
-      <Select.Option
-        data-qa="change-variant-default"
-        value="default"
-        label="Default"
-      />
-      <Select.Option data-qa="change-variant-free" value="free" label="Free" />
+      <Select.Option value="default" label="Default" />
+      <Select.Option value="free" label="Free" />
     </Select>
   );
 };
@@ -51,6 +48,7 @@ const RemoveModuleCTA = () => {
 };
 
 export const Dates = () => {
+  const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput } = useModule('dates');
   const { t } = useTranslation();
 
@@ -100,8 +98,12 @@ export const Dates = () => {
   return (
     <div data-qa="dates-module">
       {/* FEATURE FLAG */}
-      {FEATURE_FLAG_CHANGE_MODULES_VARIANTS && <VariantSelect />}
-      {FEATURE_FLAG_CHANGE_MODULES_VARIANTS && <RemoveModuleCTA />}
+      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+        <VariantSelect />
+      )}
+      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+        <RemoveModuleCTA />
+      )}
       <FormField>
         <Datepicker
           value={getValue()}

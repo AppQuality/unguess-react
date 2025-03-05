@@ -1,30 +1,27 @@
-import { useFormikContext } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { FormBody } from './types';
-import { useSave } from './useSave';
+import { useModuleConfiguration } from './useModuleConfiguration';
 import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from '../api';
 
 export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
-  const { values } = useFormikContext<FormBody>();
   const {
     isSubmitting,
-    submitForm,
+    getModules,
+    submitModuleConfiguration,
     setPlanStatus,
     getPlanStatus,
-    errors,
     isValid,
-  } = useSave();
+  } = useModuleConfiguration();
   const { planId } = useParams();
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
   const [patchStatus] = usePatchWorkspacesByWidPlansAndPidStatusMutation();
   const missingModules = REQUIRED_MODULES.filter(
-    (module) => !values.modules.find((m) => m.type === module)
+    (module) => !getModules().find((m) => m.type === module)
   );
 
   const handleQuoteRequest = async () => {
@@ -39,19 +36,17 @@ export const useRequestQuotation = () => {
     // check if the form is valid
     if (!isValid) {
       // todo error handling
-      console.log('Please fill in all required fields');
       return;
     }
     // save an updated version of the plan
     try {
-      await submitForm();
+      await submitModuleConfiguration();
     } catch (err) {
-      alert(err);
+      // todo error handling
       return;
     }
-    console.log('submitted');
-    // if the save is successful, change the status of the plan
 
+    // if the save is successful, change the status of the plan
     patchStatus({
       wid: activeWorkspace?.id.toString() ?? '',
       pid: planId?.toString() ?? '',
@@ -60,7 +55,7 @@ export const useRequestQuotation = () => {
       },
     })
       .unwrap()
-      .then((data) => {
+      .then(() => {
         // update the status in the state
         setPlanStatus('pending_review');
       })
