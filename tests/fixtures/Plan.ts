@@ -70,7 +70,7 @@ export class PlanPage extends UnguessPage {
       '*/**/api/workspaces/1/plans/1/status',
       async (route) => {
         await route.fulfill({
-          path: 'tests/api/workspaces/wid/plans/pid/status/_patch/200_pending_review.json',
+          path: 'tests/api/workspaces/wid/plans/pid/status/_patch/request_Example_1.json',
         });
       }
     );
