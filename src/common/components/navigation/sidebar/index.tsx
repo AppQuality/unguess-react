@@ -152,7 +152,6 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         )}
 
         <NavItem
-          id="ciolla"
           className="sidebar-first-level-item"
           title="Home"
           isExpanded={isSidebarOpen}
