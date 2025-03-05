@@ -28,23 +28,21 @@ const ModulesList = () => {
   return <>{values.modules.map((module) => getModule(module.type))}</>;
 };
 
-const Plan = () => {
-  return (
-    <FormProvider>
-      <Page title="temp" route="temp">
-        <Grid>
-          <Row>
-            <Col sm="8">
-              <ModulesList />
-            </Col>
-            <Col sm="4">
-              <Controls />
-            </Col>
-          </Row>
-        </Grid>
-      </Page>
-    </FormProvider>
-  );
-};
+const Plan = () => (
+  <FormProvider>
+    <Page title="temp" route="temp">
+      <Grid>
+        <Row>
+          <Col sm="8">
+            <ModulesList />
+          </Col>
+          <Col sm="4">
+            <Controls />
+          </Col>
+        </Row>
+      </Grid>
+    </Page>
+  </FormProvider>
+);
 
 export default Plan;
