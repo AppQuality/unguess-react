@@ -18,9 +18,11 @@ test.describe('The module builder', () => {
   });
 
   test('Should contain a number of cards equal to the number of templates', async () => {
-    expect(await moduleBuilderPage.elements().templateCard().count()).toBe(
-      getTemplates.items.length
-    );
+    const templateCards = await moduleBuilderPage
+      .elements()
+      .templateCard()
+      .count();
+    expect(templateCards).toEqual(getTemplates.items.length);
   });
 
   test('Should redirect to the plan page once the template button is clicked', async () => {
