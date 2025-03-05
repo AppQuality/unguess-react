@@ -29,34 +29,8 @@ const ModulesList = () => {
 };
 
 const Plan = () => {
-  const { planId } = useParams();
-  const { activeWorkspace } = useActiveWorkspace();
-
-  const handleSubmit = useCallback(
-    (values: FormBody, helpers: FormikHelpers<FormBody>) => {
-      helpers.setSubmitting(true);
-      fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}`, {
-        method: 'PATCH',
-        // add body, a json of values
-        body: JSON.stringify({
-          config: {
-            modules: values.modules,
-          },
-        }),
-        headers: {},
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => console.error(error))
-        .finally(() => helpers.setSubmitting(false));
-    },
-    [activeWorkspace, planId]
-  );
-
   return (
-    <FormProvider onSubmit={handleSubmit}>
+    <FormProvider>
       <Page title="temp" route="temp">
         <Grid>
           <Row>
