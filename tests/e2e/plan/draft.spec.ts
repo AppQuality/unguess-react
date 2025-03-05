@@ -54,9 +54,7 @@ test.describe('The module builder', () => {
   });
 
   // flusso di richiesta preventivo
-  test('Clicking request quotation ask for confirmation first', async ({
-    page,
-  }) => {
+  test('Clicking request quotation ask for confirmation first', async () => {
     // todo: come up with some common usecases in which the user perform some changes to the form, then click the submit button
     // todo: ask confirmation
   });

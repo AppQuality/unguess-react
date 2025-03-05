@@ -11,7 +11,7 @@ import {
 const FormProvider = ({ children }: { children: ReactNode }) => {
   const { planId } = useParams();
   const { activeWorkspace } = useActiveWorkspace();
-  const { data } = useGetWorkspacesByWidPlansAndPidQuery({
+  const { data: planData } = useGetWorkspacesByWidPlansAndPidQuery({
     wid: activeWorkspace?.id.toString() ?? '',
     pid: planId?.toString() ?? '',
   });
@@ -30,11 +30,11 @@ const FormProvider = ({ children }: { children: ReactNode }) => {
         },
       })
         .unwrap()
-        .then((data) => {
-          console.log(data);
+        .then((response) => {
+          // todo handle response
         })
         .catch((error) => {
-          console.error(error);
+          // todo error handling
         })
         .finally(() => {
           helpers.setSubmitting(false);
@@ -49,13 +49,13 @@ const FormProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    if (data) {
+    if (planData) {
       setInitialValues({
-        status: data?.status,
-        modules: data?.config.modules,
+        status: planData?.status,
+        modules: planData?.config.modules,
       });
     }
-  }, [data]);
+  }, [planData]);
 
   return (
     <Formik

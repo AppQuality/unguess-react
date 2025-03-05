@@ -1,7 +1,7 @@
 import { useFormikContext } from 'formik';
 import { FormBody } from './types';
 
-export const useSave = () => {
+export const useModuleConfiguration = () => {
   const { errors, submitForm, isSubmitting, values, setFieldValue } =
     useFormikContext<FormBody>();
 
@@ -11,11 +11,13 @@ export const useSave = () => {
     setFieldValue('status', status);
   };
   const getPlanStatus = () => values.status;
+  const getModules = () => values.modules;
 
   return {
     isValid,
+    getModules,
     errors,
-    submitForm,
+    submitModuleConfiguration: submitForm,
     isSubmitting,
     setPlanStatus,
     getPlanStatus,

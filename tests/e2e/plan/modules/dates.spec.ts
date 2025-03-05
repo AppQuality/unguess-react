@@ -12,7 +12,7 @@ test.describe('The date module defines when the user is ready to be tested.', ()
 
   test.beforeEach(async ({ page }) => {
     planPage = new PlanPage(page);
-    await planPage.loggedIn();
+    await planPage.loggedIn({ userRole: 'user' });
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
@@ -39,21 +39,6 @@ test.describe('The date module defines when the user is ready to be tested.', ()
     );
   });
 
-  test('It should output the start date in iso format with hour set at 8, and it is required to Request a Quote', async ({
-    page,
-  }) => {
-    await planPage.elements().datesModuleRemove().click();
-    await expect(planPage.elements().datesModule()).not.toBeVisible();
-    await planPage.elements().requestQuotationCTA().click();
-    await expect(
-      planPage.elements().requestQuotationErrorMessage()
-    ).toBeVisible();
-    await expect(planPage.elements().requestQuotationErrorMessage()).toHaveText(
-      `${planPage.i18n.t('__PLAN_MISSING_MODULES_ERROR')}: dates`
-    );
-    // todo add again and chech if the error is gone and the output is correct
-  });
-
   test('you cannot change variant, the "default variant" set a date at least one day in the future, except weekends', async () => {
     const todayFormatted = formatModuleDate(new Date()).input;
     const businessDay = formatModuleDate(PLAN_MINIMUM_DATE).input;
@@ -74,17 +59,19 @@ test.describe('The date module defines when the user is ready to be tested.', ()
   });
 });
 
-test.describe('If the user has the FEATURE_FLAG_CHANGE_MODULES_VARIANTS', () => {
+test.describe('If the user is Admin or has the FEATURE_FLAG_CHANGE_MODULES_VARIANTS', () => {
   let planPage: PlanPage;
 
   test.beforeEach(async ({ page }) => {
     planPage = new PlanPage(page);
-    await planPage.loggedIn([
-      {
-        slug: FEATURE_FLAG_CHANGE_MODULES_VARIANTS,
-        name: 'Change Modules Variants',
-      },
-    ]);
+    await planPage.loggedIn({
+      addFeatures: [
+        {
+          slug: FEATURE_FLAG_CHANGE_MODULES_VARIANTS,
+          name: 'Change Modules Variants',
+        },
+      ],
+    });
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
@@ -92,9 +79,20 @@ test.describe('If the user has the FEATURE_FLAG_CHANGE_MODULES_VARIANTS', () => 
     await planPage.open();
   });
 
-  test('The "free variant" set a date at least one day in the future, except weekends', async ({
-    page,
-  }) => {
+  test('It can be removed but it is required to Request a Quote', async () => {
+    await planPage.elements().datesModuleRemove().click();
+    await expect(planPage.elements().datesModule()).not.toBeVisible();
+    await planPage.elements().requestQuotationCTA().click();
+    await expect(
+      planPage.elements().requestQuotationErrorMessage()
+    ).toBeVisible();
+    await expect(planPage.elements().requestQuotationErrorMessage()).toHaveText(
+      `${planPage.i18n.t('__PLAN_MISSING_MODULES_ERROR')}: dates`
+    );
+    // todo add again and chech if the error is gone and the output is correct
+  });
+
+  test('Can switch to the "free variant" and set whatever date', async () => {
     const todayFormatted = formatModuleDate(new Date()).input;
     await planPage.elements().datesModuleChangeVariant().click();
     await expect(

@@ -1,7 +1,7 @@
 import { test, expect } from '../../fixtures/app';
 import { Templates } from '../../fixtures/Templates';
 import getTemplates from '../../api/workspaces/wid/templates/_get/200_global_and_private_templates.json';
-import postPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.json';
+// import postPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.json';
 
 test.describe('The module builder', () => {
   let templates: Templates;
@@ -24,9 +24,7 @@ test.describe('The module builder', () => {
     );
   });
 
-  test('Should redirect to the plan page once the template button is clicked', async ({
-    page,
-  }) => {
+  test('Should redirect to the plan page once the template button is clicked', async () => {
     // todo: add a test to check if the button is clicked and the page is redirected
   });
 });

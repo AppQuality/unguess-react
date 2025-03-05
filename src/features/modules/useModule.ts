@@ -7,8 +7,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
 ) => {
   type ModType = components['schemas']['Module'] & { type: T };
-  const { values, setFieldValue, setErrors, errors } =
-    useFormikContext<FormBody>();
+  const { values, setFieldValue } = useFormikContext<FormBody>();
 
   const module: ModType | undefined = useMemo(
     () => values.modules.find((m): m is ModType => m.type === moduleName),
