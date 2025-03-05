@@ -20,15 +20,24 @@ test.describe('The module builder', () => {
     await expect(moduleBuilderPage.elements().titleModule()).toBeVisible();
     await expect(moduleBuilderPage.elements().tasksModule()).toBeVisible();
     await expect(moduleBuilderPage.elements().datesModule()).toBeVisible();
-    await expect(moduleBuilderPage.elements().submitButton()).toBeVisible();
+
+    // todo: check if the other modules are not visible
+
+    await expect(
+      moduleBuilderPage.elements().saveConfigurationCTA()
+    ).toBeVisible();
     await expect(
       moduleBuilderPage.elements().descriptionModule()
     ).not.toBeVisible();
     await expect(
-      moduleBuilderPage.elements().submitButton()
+      moduleBuilderPage.elements().saveConfigurationCTA()
     ).not.toBeDisabled();
-    await expect(moduleBuilderPage.elements().quoteButton()).toBeVisible();
-    await expect(moduleBuilderPage.elements().quoteButton()).not.toBeDisabled();
+    await expect(
+      moduleBuilderPage.elements().requestQuotationCTA()
+    ).toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().requestQuotationCTA()
+    ).not.toBeDisabled();
   });
   test('Clicking save button calls the PATCH Plan', async ({ page }) => {
     const patchPromise = page.waitForResponse(
@@ -38,7 +47,7 @@ test.describe('The module builder', () => {
         response.request().method() === 'PATCH'
     );
     // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
-    await moduleBuilderPage.elements().submitButton().click();
+    await moduleBuilderPage.elements().saveConfigurationCTA().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
@@ -58,7 +67,7 @@ test.describe('The module builder', () => {
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
-    await moduleBuilderPage.elements().quoteButton().click();
+    await moduleBuilderPage.elements().requestQuotationCTA().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
@@ -70,7 +79,7 @@ test.describe('The module builder', () => {
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
-    await moduleBuilderPage.elements().quoteButton().click();
+    await moduleBuilderPage.elements().requestQuotationCTA().click();
     const responseStatus = await patchStatusPromise;
     const dataStatus = responseStatus.request().postDataJSON();
     expect(dataStatus).toEqual({ status: 'pending_review' });

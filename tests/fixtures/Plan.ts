@@ -7,7 +7,7 @@ export class PlanPage extends UnguessPage {
   constructor(page: Page) {
     super(page);
     this.page = page;
-    this.url = `temp/1`;
+    this.url = `plans/1`;
   }
 
   elements() {
@@ -16,11 +16,46 @@ export class PlanPage extends UnguessPage {
       titleModule: () => this.page.getByTestId('title-module'),
       tasksModule: () => this.page.getByTestId('tasks-module'),
       datesModule: () => this.page.getByTestId('dates-module'),
+      datesModuleInput: () =>
+        this.elements().datesModule().getByRole('textbox'),
+      datesModuleChangeVariant: () =>
+        this.elements().datesModule().getByTestId('change-variant'),
+      datesModuleError: () =>
+        this.elements().datesModule().getByTestId('dates-error'),
+      datesModuleRemove: () =>
+        this.elements()
+          .datesModule()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
+          }),
       descriptionModule: () => this.page.getByTestId('description-module'),
-      submitButton: () => this.page.getByRole('button', { name: 'Save' }),
-      quoteButton: () =>
-        this.page.getByRole('button', { name: 'Request Quotation' }),
+      saveConfigurationCTA: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
+        }),
+      requestQuotationCTA: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
+        }),
+      requestQuotationErrorMessage: () =>
+        this.page.getByTestId('request-quotation-error-message'),
     };
+  }
+
+  static getDateFromPlan(plan: any) {
+    const dateModule = plan.config.modules.find(
+      (module) => module.type === 'dates'
+    );
+    if (!dateModule) {
+      throw new Error('No date module found in plan');
+    }
+    if (
+      !(typeof dateModule.output === 'object' && 'start' in dateModule.output)
+    ) {
+      throw new Error('Invalid date module output');
+    }
+    const dateValue = new Date(dateModule.output.start);
+    return dateValue;
   }
 
   async mockGetDraftPlan() {
