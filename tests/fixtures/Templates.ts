@@ -18,11 +18,13 @@ export class Templates extends UnguessPage {
     };
   }
 
-  // async mockGetProjects() {
-  //   await this.page.route('*/**/api/workspaces/1/projects', async (route) => {
-  //     await route.fulfill();
-  //   });
-  // }
+  async mockGetProjects() {
+    await this.page.route('*/**/api/workspaces/1/projects*', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/workspaces/wid/projects/_get/200_Example_1.json',
+      });
+    });
+  }
 
   async mockGetTemplates() {
     await this.page.route('*/**/api/workspaces/1/templates*', async (route) => {

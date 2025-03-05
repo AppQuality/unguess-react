@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { FormBody } from './types';
 import { useSave } from './useSave';
+import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from '../api';
 
 export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
@@ -21,6 +22,7 @@ export const useRequestQuotation = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
+  const [patchStatus] = usePatchWorkspacesByWidPlansAndPidStatusMutation();
   const missingModules = REQUIRED_MODULES.filter(
     (module) => !values.modules.find((m) => m.type === module)
   );
@@ -49,15 +51,18 @@ export const useRequestQuotation = () => {
     }
     console.log('submitted');
     // if the save is successful, change the status of the plan
-    fetch(`/api/workspaces/${activeWorkspace?.id}/plans/${planId}/status`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status: 'pending_review' }),
-      headers: {},
+
+    patchStatus({
+      wid: activeWorkspace?.id.toString() ?? '',
+      pid: planId?.toString() ?? '',
+      body: {
+        status: 'pending_review',
+      },
     })
-      .then((response) => response.json())
+      .unwrap()
       .then((data) => {
         // update the status in the state
-        setPlanStatus(data.status);
+        setPlanStatus('pending_review');
       })
       .catch((err) => console.log(err));
   };
