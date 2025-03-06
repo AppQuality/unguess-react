@@ -8,7 +8,7 @@ import { ChangeEvent } from 'react';
 import { appTheme } from 'src/app/theme';
 
 const Title = () => {
-  const { value, setOutput, remove } = useModule('title');
+  const { value, setOutput } = useModule('title');
   const { t } = useTranslation();
 
   const validation = (
