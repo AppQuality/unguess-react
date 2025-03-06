@@ -42,6 +42,7 @@ const Title = () => {
         <PageHeader.Title>
           <InputToggle className="editable-title" data-qa="title-module">
             <InputToggle.Item
+              data-qa="title-input"
               onBlur={handleBlur}
               textSize="xxxl"
               style={{ paddingLeft: 0 }}
