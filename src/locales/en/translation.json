@@ -1051,6 +1051,8 @@
   "__PLAN_REMOVE_MODULE_CTA": "Remove",
   "__PLAN_REQUEST_QUOTATION_CTA": "Request Quotation",
   "__PLAN_SAVE_CONFIGURATION_CTA": "Save Configuration",
+  "__PLAN_TITLE_ERROR_EMPTY": "A title is required to proceed further.",
+  "__PLAN_TITLE_ERROR_MAX_LENGTH": "This name is a bit long. We advise you to stay within 254 characters including spaces.",
   "__PROFILE_MODAL_CHAT_SUPPORT_LABEL": "Report a technical issue",
   "__PROFILE_MODAL_COPY_LABEL": "Copy",
   "__PROFILE_MODAL_CSM_CONTACT_LABEL": "Contact your CSM",
