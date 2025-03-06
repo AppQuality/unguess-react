@@ -1,72 +1,54 @@
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { FormBody } from './types';
-import {
-  useGetWorkspacesByWidPlansAndPidQuery,
-  usePatchWorkspacesByWidPlansAndPidMutation,
-} from '../api';
 
-const FormProvider = ({ children }: { children: ReactNode }) => {
-  const { planId } = useParams();
-  const { activeWorkspace } = useActiveWorkspace();
-  const { data: planData } = useGetWorkspacesByWidPlansAndPidQuery({
-    wid: activeWorkspace?.id.toString() ?? '',
-    pid: planId?.toString() ?? '',
-  });
-  const [patchPlan] = usePatchWorkspacesByWidPlansAndPidMutation();
+interface ErrorContextType {
+  errors?: Record<string, string>;
+  setErrors: (errors: Record<string, string>) => void;
+}
 
-  const handleSubmit = useCallback(
-    (values: FormBody, helpers: FormikHelpers<FormBody>) => {
-      helpers.setSubmitting(true);
-      patchPlan({
-        wid: activeWorkspace?.id.toString() ?? '',
-        pid: planId?.toString() ?? '',
-        body: {
-          config: {
-            modules: values.modules,
-          },
-        },
-      })
-        .unwrap()
-        .then((response) => {
-          // todo handle response
-        })
-        .catch((error) => {
-          // todo error handling
-        })
-        .finally(() => {
-          helpers.setSubmitting(false);
-        });
-    },
-    [activeWorkspace, planId]
-  );
+export const ErrorContext = createContext<ErrorContextType>({
+  setErrors: () => {},
+});
 
-  const [initialValues, setInitialValues] = useState<FormBody>({
-    status: 'draft',
-    modules: [],
-  });
+export const useErrorContext = () => useContext(ErrorContext);
 
-  useEffect(() => {
-    if (planData) {
-      setInitialValues({
-        status: planData?.status,
-        modules: planData?.config.modules,
-      });
-    }
-  }, [planData]);
+const ErrorContextProvider = ({ children }: { children: ReactNode }) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const ErrorContextValues = useMemo(() => ({ errors, setErrors }), [errors]);
 
   return (
+    <ErrorContext.Provider value={ErrorContextValues}>
+      {children}
+    </ErrorContext.Provider>
+  );
+};
+
+const FormProvider = ({
+  initialValues,
+  children,
+  onSubmit,
+}: {
+  initialValues?: FormBody;
+  children: ReactNode;
+  onSubmit: (values: FormBody, helpers: FormikHelpers<FormBody>) => void;
+}) => (
+  <ErrorContextProvider>
     <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
+      initialValues={
+        initialValues || {
+          status: 'draft',
+          modules: [],
+        }
+      }
+      onSubmit={onSubmit}
       enableReinitialize
     >
       <Form>{children}</Form>
     </Formik>
-  );
-};
+  </ErrorContextProvider>
+);
 
 const Debugger = () => {
   const { values } = useFormikContext<FormBody>();

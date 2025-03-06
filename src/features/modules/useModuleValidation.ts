@@ -1,7 +1,6 @@
-import { useFormikContext } from 'formik';
 import { useState } from 'react';
 import { components } from 'src/common/schema';
-import { FormBody } from './types';
+import { useErrorContext } from './FormProvider';
 import { useModule } from './useModule';
 
 export const useValidation = <
@@ -13,11 +12,11 @@ export const useValidation = <
   type: T;
   validate: (
     value: components['schemas']['Module'] & { type: T }
-  ) => true | string;
+  ) => true | string | Record<string, string>;
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { setErrors, errors } = useFormikContext<FormBody>();
+  const { errors, setErrors } = useErrorContext();
   const { value } = useModule(type);
   const validationHandler = () => {
     if (!value) return;
@@ -28,20 +27,51 @@ export const useValidation = <
       setIsValid(true);
       setError(null);
       const newErrors = errors ? { ...errors } : {};
-      if (type in newErrors) {
-        delete newErrors[type as keyof typeof newErrors];
-      }
+      Object.keys(newErrors).forEach((key) => {
+        if (key.startsWith(`${type}.`) || key === type) {
+          delete newErrors[key];
+        }
+      });
       setErrors(newErrors);
       return;
     }
 
     setIsValid(false);
 
-    setError(validation);
-    setErrors(
-      errors ? { ...errors, [type]: validation } : { [type]: validation }
-    );
+    if (typeof validation === 'string') {
+      setError(validation);
+      const newErrors = errors ? { ...errors } : {};
+      Object.keys(newErrors).forEach((key) => {
+        if (key.startsWith(`${type}.`) || key === type) {
+          delete newErrors[`${key}`];
+        }
+      });
+      setErrors({ ...newErrors, [type]: validation });
+    } else {
+      const validationMap = Object.entries(validation).map(([k, v]) => ({
+        key: `${type}.${k}`,
+        value: v,
+      }));
+      const newErrors = errors ? { ...errors } : {};
+      Object.keys(newErrors).forEach((key) => {
+        if (key.startsWith(`${type}.`) || key === type) {
+          delete newErrors[`${key}`];
+        }
+      });
+      const errorObject = Object.fromEntries(
+        validationMap.map((e) => [e.key, e.value])
+      );
+      setErrors({ ...newErrors, ...errorObject });
+      setError(JSON.stringify(errorObject));
+    }
   };
 
-  return { validate: validationHandler, isValid, error };
+  let errorValue;
+  try {
+    errorValue = JSON.parse(error || '');
+  } catch (e) {
+    errorValue = error;
+  }
+
+  return { validate: validationHandler, isValid, error: errorValue };
 };
