@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { components } from 'src/common/schema';
 import { useValidationContext } from './FormProvider';
 import { useModule } from './useModule';
@@ -35,12 +35,13 @@ export const useValidation = <
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { errors, setErrors } = useValidationContext();
+  const { errors, setErrors, addValidationFunction } = useValidationContext();
   const { value } = useModule(type);
+  const memoizedValidate = useCallback(validate, []);
   const validationHandler = () => {
     if (!value) return;
 
-    const validation = validate(value);
+    const validation = memoizedValidate(value);
 
     const newErrors = errors ? { ...errors } : {};
     Object.keys(newErrors).forEach((key) => {
@@ -67,6 +68,10 @@ export const useValidation = <
       setError(JSON.stringify(errorObject));
     }
   };
+
+  useEffect(() => {
+    addValidationFunction(type, validationHandler);
+  }, [value, memoizedValidate]);
 
   let errorValue;
   try {

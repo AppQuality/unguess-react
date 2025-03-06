@@ -5,20 +5,40 @@ import { FormBody } from './types';
 interface ValidationContextType {
   errors?: Record<string, string>;
   setErrors: (errors: Record<string, string>) => void;
+  validateForm: () => void;
+  addValidationFunction: (type: string, validate: () => void) => void;
 }
 
 export const ValidationContext = createContext<ValidationContextType>({
   setErrors: () => {},
+  validateForm: () => {},
+  addValidationFunction: () => {},
 });
 
 export const useValidationContext = () => useContext(ValidationContext);
 
 const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [validationFunctions, setValidationFunctions] = useState<
+    Record<string, () => void>
+  >({});
+
+  const addValidationFunction = (type: string, validate: () => void) => {
+    setValidationFunctions((prev) => ({ ...prev, [type]: validate }));
+  };
 
   const ValidationContextValues = useMemo(
-    () => ({ errors, setErrors }),
-    [errors]
+    () => ({
+      errors,
+      setErrors,
+      validateForm: () => {
+        Object.entries(validationFunctions).forEach(([_, validate]) => {
+          validate();
+        });
+      },
+      addValidationFunction,
+    }),
+    [errors, validationFunctions]
   );
 
   return (
@@ -37,20 +57,20 @@ const FormProvider = ({
   children: ReactNode;
   onSubmit: (values: FormBody, helpers: FormikHelpers<FormBody>) => void;
 }) => (
-  <ValidationContextProvider>
-    <Formik
-      initialValues={
-        initialValues || {
-          status: 'draft',
-          modules: [],
-        }
+  <Formik
+    initialValues={
+      initialValues || {
+        status: 'draft',
+        modules: [],
       }
-      onSubmit={onSubmit}
-      enableReinitialize
-    >
+    }
+    onSubmit={onSubmit}
+    enableReinitialize
+  >
+    <ValidationContextProvider>
       <Form>{children}</Form>
-    </Formik>
-  </ValidationContextProvider>
+    </ValidationContextProvider>
+  </Formik>
 );
 
 const Debugger = () => {
