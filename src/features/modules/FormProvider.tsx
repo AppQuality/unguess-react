@@ -2,26 +2,29 @@ import { Form, Formik, FormikHelpers, useFormikContext } from 'formik';
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { FormBody } from './types';
 
-interface ErrorContextType {
+interface ValidationContextType {
   errors?: Record<string, string>;
   setErrors: (errors: Record<string, string>) => void;
 }
 
-export const ErrorContext = createContext<ErrorContextType>({
+export const ValidationContext = createContext<ValidationContextType>({
   setErrors: () => {},
 });
 
-export const useErrorContext = () => useContext(ErrorContext);
+export const useValidationContext = () => useContext(ValidationContext);
 
-const ErrorContextProvider = ({ children }: { children: ReactNode }) => {
+const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const ErrorContextValues = useMemo(() => ({ errors, setErrors }), [errors]);
+  const ValidationContextValues = useMemo(
+    () => ({ errors, setErrors }),
+    [errors]
+  );
 
   return (
-    <ErrorContext.Provider value={ErrorContextValues}>
+    <ValidationContext.Provider value={ValidationContextValues}>
       {children}
-    </ErrorContext.Provider>
+    </ValidationContext.Provider>
   );
 };
 
@@ -34,7 +37,7 @@ const FormProvider = ({
   children: ReactNode;
   onSubmit: (values: FormBody, helpers: FormikHelpers<FormBody>) => void;
 }) => (
-  <ErrorContextProvider>
+  <ValidationContextProvider>
     <Formik
       initialValues={
         initialValues || {
@@ -47,7 +50,7 @@ const FormProvider = ({
     >
       <Form>{children}</Form>
     </Formik>
-  </ErrorContextProvider>
+  </ValidationContextProvider>
 );
 
 const Debugger = () => {

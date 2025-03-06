@@ -1,11 +1,13 @@
 import { useFormikContext } from 'formik';
+import { useValidationContext } from './FormProvider';
 import { FormBody } from './types';
 
 export const useModuleConfiguration = () => {
-  const { errors, submitForm, isSubmitting, values, setFieldValue } =
+  const { submitForm, isSubmitting, values, setFieldValue } =
     useFormikContext<FormBody>();
+  const { errors } = useValidationContext();
 
-  const isValid = Object.keys(errors).length === 0;
+  const isValid = !errors || Object.keys(errors).length === 0;
 
   const setPlanStatus = (status: string) => {
     setFieldValue('status', status);
