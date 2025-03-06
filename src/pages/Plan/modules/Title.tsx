@@ -44,7 +44,6 @@ const Title = () => {
             <InputToggle.Item
               onBlur={handleBlur}
               textSize="xxxl"
-              maxLength={64}
               style={{ paddingLeft: 0 }}
               value={value?.output || ''}
               onChange={(e) => {
