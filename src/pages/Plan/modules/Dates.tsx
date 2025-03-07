@@ -17,7 +17,7 @@ import {
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { formatModuleDate } from './formatModuleDate';
+import { formatModuleDate } from '../utils/formatModuleDate';
 
 const VariantSelect = () => {
   const { value, setVariant } = useModule('dates');
