@@ -7,6 +7,7 @@ export const BreadCrumbTabs = () => {
     <Breadcrumb style={{ justifyContent: 'center' }}>
       <Button
         isBasic
+        size="small"
         isPrimary={activeTab === 'setup'}
         onClick={() => setActiveTab('setup')}
       >
@@ -14,6 +15,7 @@ export const BreadCrumbTabs = () => {
       </Button>
       <Button
         isBasic
+        size="small"
         isPrimary={activeTab === 'target'}
         onClick={() => setActiveTab('target')}
       >
@@ -21,6 +23,7 @@ export const BreadCrumbTabs = () => {
       </Button>
       <Button
         isBasic
+        size="small"
         isPrimary={activeTab === 'instructions'}
         onClick={() => setActiveTab('instructions')}
       >
@@ -28,6 +31,7 @@ export const BreadCrumbTabs = () => {
       </Button>
       <Button
         isBasic
+        size="small"
         isPrimary={activeTab === 'summary'}
         disabled
         onClick={() => setActiveTab('summary')}
