@@ -1,72 +1,77 @@
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik';
-import { ReactNode, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { FormBody } from './types';
-import {
-  useGetWorkspacesByWidPlansAndPidQuery,
-  usePatchWorkspacesByWidPlansAndPidMutation,
-} from '../api';
 
-const FormProvider = ({ children }: { children: ReactNode }) => {
-  const { planId } = useParams();
-  const { activeWorkspace } = useActiveWorkspace();
-  const { data: planData } = useGetWorkspacesByWidPlansAndPidQuery({
-    wid: activeWorkspace?.id.toString() ?? '',
-    pid: planId?.toString() ?? '',
-  });
-  const [patchPlan] = usePatchWorkspacesByWidPlansAndPidMutation();
+interface ValidationContextType {
+  errors?: Record<string, string>;
+  setErrors: (errors: Record<string, string>) => void;
+  validateForm: () => void;
+  addValidationFunction: (type: string, validate: () => void) => void;
+}
 
-  const handleSubmit = useCallback(
-    (values: FormBody, helpers: FormikHelpers<FormBody>) => {
-      helpers.setSubmitting(true);
-      patchPlan({
-        wid: activeWorkspace?.id.toString() ?? '',
-        pid: planId?.toString() ?? '',
-        body: {
-          config: {
-            modules: values.modules,
-          },
-        },
-      })
-        .unwrap()
-        .then((response) => {
-          // todo handle response
-        })
-        .catch((error) => {
-          // todo error handling
-        })
-        .finally(() => {
-          helpers.setSubmitting(false);
+export const ValidationContext = createContext<ValidationContextType>({
+  setErrors: () => {},
+  validateForm: () => {},
+  addValidationFunction: () => {},
+});
+
+export const useValidationContext = () => useContext(ValidationContext);
+
+const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [validationFunctions, setValidationFunctions] = useState<
+    Record<string, () => void>
+  >({});
+
+  const addValidationFunction = (type: string, validate: () => void) => {
+    setValidationFunctions((prev) => ({ ...prev, [type]: validate }));
+  };
+
+  const ValidationContextValues = useMemo(
+    () => ({
+      errors,
+      setErrors,
+      validateForm: () => {
+        Object.entries(validationFunctions).forEach(([_, validate]) => {
+          validate();
         });
-    },
-    [activeWorkspace, planId]
+      },
+      addValidationFunction,
+    }),
+    [errors, validationFunctions]
   );
-
-  const [initialValues, setInitialValues] = useState<FormBody>({
-    status: 'draft',
-    modules: [],
-  });
-
-  useEffect(() => {
-    if (planData) {
-      setInitialValues({
-        status: planData?.status,
-        modules: planData?.config.modules,
-      });
-    }
-  }, [planData]);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={handleSubmit}
-      enableReinitialize
-    >
-      <Form>{children}</Form>
-    </Formik>
+    <ValidationContext.Provider value={ValidationContextValues}>
+      {children}
+    </ValidationContext.Provider>
   );
 };
+
+const FormProvider = ({
+  initialValues,
+  children,
+  onSubmit,
+}: {
+  initialValues?: FormBody;
+  children: ReactNode;
+  onSubmit: (values: FormBody, helpers: FormikHelpers<FormBody>) => void;
+}) => (
+  <Formik
+    initialValues={
+      initialValues || {
+        status: 'draft',
+        modules: [],
+      }
+    }
+    onSubmit={onSubmit}
+    enableReinitialize
+  >
+    <ValidationContextProvider>
+      <Form>{children}</Form>
+    </ValidationContextProvider>
+  </Formik>
+);
 
 const Debugger = () => {
   const { values } = useFormikContext<FormBody>();

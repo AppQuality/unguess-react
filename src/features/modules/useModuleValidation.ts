@@ -1,8 +1,26 @@
-import { useFormikContext } from 'formik';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { components } from 'src/common/schema';
-import { FormBody } from './types';
+import { useValidationContext } from './FormProvider';
 import { useModule } from './useModule';
+
+function flattenObject(
+  obj: Record<string, any>,
+  prefix: string = ''
+): Record<string, string> {
+  const result: Record<string, any> = {};
+
+  Object.keys(obj).forEach((key) => {
+    if (key in obj) {
+      const newKey = prefix ? `${prefix}.${key}` : key;
+      if (typeof obj[`${key}`] === 'object' && obj[`${key}`] !== null) {
+        Object.assign(result, flattenObject(obj[`${key}`], newKey));
+      } else {
+        result[`${newKey}`] = obj[`${key}`];
+      }
+    }
+  });
+  return result;
+}
 
 export const useValidation = <
   T extends components['schemas']['Module']['type']
@@ -13,35 +31,54 @@ export const useValidation = <
   type: T;
   validate: (
     value: components['schemas']['Module'] & { type: T }
-  ) => true | string;
+  ) => true | string | Record<string, any>;
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { setErrors, errors } = useFormikContext<FormBody>();
+  const { errors, setErrors, addValidationFunction } = useValidationContext();
   const { value } = useModule(type);
+  const memoizedValidate = useCallback(validate, []);
   const validationHandler = () => {
     if (!value) return;
 
-    const validation = validate(value);
+    const validation = memoizedValidate(value);
+
+    const newErrors = errors ? { ...errors } : {};
+    Object.keys(newErrors).forEach((key) => {
+      if (key.startsWith(`${type}.`) || key === type) {
+        delete newErrors[`${key}`];
+      }
+    });
 
     if (validation === true) {
       setIsValid(true);
       setError(null);
-      const newErrors = errors ? { ...errors } : {};
-      if (type in newErrors) {
-        delete newErrors[type as keyof typeof newErrors];
-      }
       setErrors(newErrors);
       return;
     }
 
     setIsValid(false);
 
-    setError(validation);
-    setErrors(
-      errors ? { ...errors, [type]: validation } : { [type]: validation }
-    );
+    if (typeof validation === 'string') {
+      setError(validation);
+      setErrors({ ...newErrors, [type]: validation });
+    } else {
+      const errorObject = flattenObject(validation, type);
+      setErrors({ ...newErrors, ...errorObject });
+      setError(JSON.stringify(errorObject));
+    }
   };
 
-  return { validate: validationHandler, isValid, error };
+  useEffect(() => {
+    addValidationFunction(type, validationHandler);
+  }, [value, memoizedValidate]);
+
+  let errorValue;
+  try {
+    errorValue = JSON.parse(error || '');
+  } catch (e) {
+    errorValue = error;
+  }
+
+  return { validate: validationHandler, isValid, error: errorValue };
 };

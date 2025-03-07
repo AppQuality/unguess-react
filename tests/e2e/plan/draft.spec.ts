@@ -3,51 +3,44 @@ import { PlanPage } from '../../fixtures/Plan';
 import examplePatch from '../../api/workspaces/wid/plans/pid/_patch/request_Example_1.json';
 
 test.describe('The module builder', () => {
-  let moduleBuilderPage: PlanPage;
+  let planPage: PlanPage;
 
   test.beforeEach(async ({ page }) => {
-    moduleBuilderPage = new PlanPage(page);
-    await moduleBuilderPage.loggedIn();
-    await moduleBuilderPage.mockPreferences();
-    await moduleBuilderPage.mockWorkspace();
-    await moduleBuilderPage.mockWorkspacesList();
-    await moduleBuilderPage.mockGetDraftWithOnlyMandatoryModulesPlan();
-    await moduleBuilderPage.mockPatchStatus();
-    await moduleBuilderPage.open();
+    planPage = new PlanPage(page);
+    await planPage.loggedIn();
+    await planPage.mockPreferences();
+    await planPage.mockWorkspace();
+    await planPage.mockWorkspacesList();
+    await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
+    await planPage.mockPatchStatus();
+    await planPage.open();
   });
 
   test('has a list of saved modules and not the others, a save button and a request quote cta', async () => {
-    await expect(moduleBuilderPage.elements().titleModule()).toBeVisible();
-    await expect(moduleBuilderPage.elements().tasksModule()).toBeVisible();
-    await expect(moduleBuilderPage.elements().datesModule()).toBeVisible();
+    await expect(planPage.elements().titleModule()).toBeVisible();
+    await expect(planPage.elements().tasksModule()).toBeVisible();
+    await expect(planPage.elements().datesModule()).toBeVisible();
 
     // todo: check if the other modules are not visible
 
-    await expect(
-      moduleBuilderPage.elements().saveConfigurationCTA()
-    ).toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().descriptionModule()
-    ).not.toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().saveConfigurationCTA()
-    ).not.toBeDisabled();
-    await expect(
-      moduleBuilderPage.elements().requestQuotationCTA()
-    ).toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().requestQuotationCTA()
-    ).not.toBeDisabled();
+    await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
+    await expect(planPage.elements().descriptionModule()).not.toBeVisible();
+    await expect(planPage.elements().saveConfigurationCTA()).not.toBeDisabled();
+    await expect(planPage.elements().requestQuotationCTA()).toBeVisible();
+    await expect(planPage.elements().requestQuotationCTA()).not.toBeDisabled();
   });
-  test('Clicking save button calls the PATCH Plan', async ({ page }) => {
+  test('Clicking save button validate the current modules configurations and calls the PATCH Plan', async ({
+    page,
+  }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
         /\/api\/workspaces\/1\/plans\/1(?!\/status)/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
+
     // todo: come up with some common usecases in qhich the user perform some changes to the form, then click the submit button
-    await moduleBuilderPage.elements().saveConfigurationCTA().click();
+    await planPage.elements().saveConfigurationCTA().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
@@ -65,7 +58,7 @@ test.describe('The module builder', () => {
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
-    await moduleBuilderPage.elements().requestQuotationCTA().click();
+    await planPage.elements().requestQuotationCTA().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
@@ -77,7 +70,7 @@ test.describe('The module builder', () => {
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
-    await moduleBuilderPage.elements().requestQuotationCTA().click();
+    await planPage.elements().requestQuotationCTA().click();
     const responseStatus = await patchStatusPromise;
     const dataStatus = responseStatus.request().postDataJSON();
     expect(dataStatus).toEqual({ status: 'pending_review' });
@@ -85,4 +78,25 @@ test.describe('The module builder', () => {
   test('after requesting quotation CTA save and Request Quote should become disabled and all inputs should be readonly', async () => {
     // todo
   });
+});
+
+test.describe('When there is an error in the module configuration (e.g. a date in the past)', () => {
+  let planPage: PlanPage;
+
+  test.beforeEach(async ({ page }) => {
+    planPage = new PlanPage(page);
+    await planPage.loggedIn();
+    await planPage.mockPreferences();
+    await planPage.mockWorkspace();
+    await planPage.mockWorkspacesList();
+    await planPage.mockGetDraftPlanWithDateError();
+    await planPage.open();
+  });
+
+  test('when a user click Save we trigger all fields validation, display error messages and trigger PATCH plan', async () => {
+    await expect(planPage.elements().datesModuleError()).not.toBeVisible();
+    await planPage.elements().saveConfigurationCTA().click();
+    await expect(planPage.elements().datesModuleError()).toBeVisible();
+  });
+  test('when a user click Request Quotation we trigger all fields validation, display error messages and trigger PATCH plan but not the PATCH status', async () => {});
 });

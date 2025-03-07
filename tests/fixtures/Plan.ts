@@ -66,6 +66,14 @@ export class PlanPage extends UnguessPage {
     });
   }
 
+  async mockGetDraftPlanWithDateError() {
+    await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/workspaces/wid/plans/pid/_get/200_draft_complete_date_error.json',
+      });
+    });
+  }
+
   // some modules are mandatory, in this api call we mock a plan with only mandatory modules
   async mockGetDraftWithOnlyMandatoryModulesPlan() {
     await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
