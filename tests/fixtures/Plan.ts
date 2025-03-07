@@ -39,6 +39,10 @@ export class PlanPage extends UnguessPage {
         }),
       requestQuotationErrorMessage: () =>
         this.page.getByTestId('request-quotation-error-message'),
+      setupTab: () => this.page.getByTestId('setup-tab'),
+      targetTab: () => this.page.getByTestId('target-tab'),
+      instructionsTab: () => this.page.getByTestId('instructions-tab'),
+      summaryTab: () => this.page.getByTestId('summary-tab'),
     };
   }
 

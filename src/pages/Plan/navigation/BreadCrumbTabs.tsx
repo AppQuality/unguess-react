@@ -10,6 +10,7 @@ export const BreadCrumbTabs = () => {
         size="small"
         isPrimary={activeTab === 'setup'}
         onClick={() => setActiveTab('setup')}
+        data-qa="setup-tab"
       >
         Set Up
       </Button>
@@ -18,6 +19,7 @@ export const BreadCrumbTabs = () => {
         size="small"
         isPrimary={activeTab === 'target'}
         onClick={() => setActiveTab('target')}
+        data-qa="target-tab"
       >
         Screen target
       </Button>
@@ -26,6 +28,7 @@ export const BreadCrumbTabs = () => {
         size="small"
         isPrimary={activeTab === 'instructions'}
         onClick={() => setActiveTab('instructions')}
+        data-qa="instructions-tab"
       >
         Choose tasks
       </Button>
@@ -35,6 +38,7 @@ export const BreadCrumbTabs = () => {
         isPrimary={activeTab === 'summary'}
         disabled
         onClick={() => setActiveTab('summary')}
+        data-qa="summary-tab"
       >
         Get expert response
       </Button>

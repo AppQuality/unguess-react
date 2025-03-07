@@ -5,7 +5,8 @@ import examplePatch from '../../api/workspaces/wid/plans/pid/_patch/request_Exam
 test.describe('The module builder', () => {
   let planPage: PlanPage;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page }, testinfo) => {
+    testinfo.setTimeout(60000);
     planPage = new PlanPage(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
@@ -17,11 +18,31 @@ test.describe('The module builder', () => {
   });
 
   test('has a list of saved modules and not the others, a save button and a request quote cta', async () => {
+    // Click the "Setup" tab
+    await planPage.elements().setupTab().click();
+
+    // Check if specific elements are visible on the "Setup" tab
     await expect(planPage.elements().titleModule()).toBeVisible();
-    await expect(planPage.elements().tasksModule()).toBeVisible();
     await expect(planPage.elements().datesModule()).toBeVisible();
 
+    // Check if other modules are not visible
+    await expect(planPage.elements().tasksModule()).not.toBeVisible();
+
+    // Check if the save button and request quote CTA are visible and enabled
+    await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
+    await expect(planPage.elements().saveConfigurationCTA()).not.toBeDisabled();
+    await expect(planPage.elements().requestQuotationCTA()).toBeVisible();
+    await expect(planPage.elements().requestQuotationCTA()).not.toBeDisabled();
+  });
+
+  test('The task module is visible if instructionTab is clicked', async () => {
+    await planPage.elements().instructionsTab().click();
+
+    await expect(planPage.elements().tasksModule()).toBeVisible();
+
     // todo: check if the other modules are not visible
+    await expect(planPage.elements().titleModule()).not.toBeVisible();
+    await expect(planPage.elements().datesModule()).not.toBeVisible();
 
     await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
     await expect(planPage.elements().descriptionModule()).not.toBeVisible();
@@ -29,6 +50,14 @@ test.describe('The module builder', () => {
     await expect(planPage.elements().requestQuotationCTA()).toBeVisible();
     await expect(planPage.elements().requestQuotationCTA()).not.toBeDisabled();
   });
+
+  test("The summary Tab isn't clickable", async () => {
+    await expect(planPage.elements().summaryTab()).toBeVisible();
+    await expect(planPage.elements().summaryTab()).toBeDisabled();
+
+    // TODO: add a test to check when the tab must be enabled
+  });
+
   test('Clicking save button validate the current modules configurations and calls the PATCH Plan', async ({
     page,
   }) => {
