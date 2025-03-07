@@ -10,9 +10,7 @@ export const useSave = () => {
   const setPlanStatus = (status: string) => {
     setFieldValue('status', status);
   };
-  const getPlanStatus = () => {
-    return values.status;
-  };
+  const getPlanStatus = () => values.status;
   return {
     isValid,
     errors,
