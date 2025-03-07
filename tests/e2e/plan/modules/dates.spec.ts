@@ -1,7 +1,7 @@
 import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/Plan';
 import draftMandatory from '../../../api/workspaces/wid/plans/pid/_get/200_draft_mandatory_only.json';
-import { formatModuleDate } from '../../../../src/pages/Plan/formatModuleDate';
+import { formatModuleDate } from '../../../../src/pages/Plan/utils/formatModuleDate';
 import {
   FEATURE_FLAG_CHANGE_MODULES_VARIANTS,
   PLAN_MINIMUM_DATE,
