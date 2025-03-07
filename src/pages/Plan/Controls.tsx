@@ -1,8 +1,6 @@
 import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import {
-  useValidationContext
-} from 'src/features/modules/FormProvider';
+import { useValidationContext } from 'src/features/modules/FormProvider';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 
