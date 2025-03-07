@@ -8,13 +8,15 @@ import { useTranslation } from 'react-i18next';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 
 export const Controls = () => {
-  const { isSubmitting, getPlanStatus } = useModuleConfiguration();
+  const { isSubmitting, getPlanStatus, submitModuleConfiguration } =
+    useModuleConfiguration();
   const { validateForm } = useValidationContext();
   const { t } = useTranslation();
   const { isRequestQuoteCTADisabled, handleQuoteRequest, error } =
     useRequestQuotation();
   const handleSaveConfiguration = () => {
     validateForm();
+    submitModuleConfiguration();
   };
 
   return (
