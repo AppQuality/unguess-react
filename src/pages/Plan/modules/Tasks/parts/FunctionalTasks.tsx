@@ -3,17 +3,24 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as ExploratoryTaskIcon } from 'src/assets/icons/exploratory-task-icon.svg';
 import { ReactComponent as FunctionalTaskIcon } from 'src/assets/icons/functional-task-icon.svg';
 import { useTasks } from '../hooks';
+import { useModuleTasksContext } from '../context';
 
 const FunctionalTasks = () => {
   const { add } = useTasks();
   const { t } = useTranslation();
+  const { setModalRef } = useModuleTasksContext();
+
+  const handleClick = () => {
+    add('bug');
+    setModalRef(null);
+  };
 
   return (
     <>
       <SM isBold>
         {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TASKS_LABEL')}
       </SM>
-      <Button isBasic isPill onClick={() => add('bug')}>
+      <Button isBasic isPill onClick={handleClick}>
         <Button.StartIcon style={{ width: 35, height: 35 }}>
           <ExploratoryTaskIcon />
         </Button.StartIcon>
@@ -21,7 +28,7 @@ const FunctionalTasks = () => {
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TASK_EXPLORATORY_BUTTON'
         )}
       </Button>
-      <Button isBasic isPill onClick={() => add('bug')}>
+      <Button isBasic isPill onClick={handleClick}>
         <Button.StartIcon style={{ width: 35, height: 35 }}>
           <FunctionalTaskIcon />
         </Button.StartIcon>
