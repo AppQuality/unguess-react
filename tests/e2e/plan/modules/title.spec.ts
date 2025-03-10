@@ -31,6 +31,13 @@ test.describe('The title module defines the Plan title.', () => {
     await expect(planPage.elements().titleModuleError()).toHaveText(
       planPage.i18n.t('__PLAN_TITLE_ERROR_EMPTY')
     );
+    await planPage.elements().requestQuotationCTA().click();
+    await expect(
+      planPage.elements().requestQuotationErrorMessage()
+    ).toBeVisible();
+    await expect(planPage.elements().requestQuotationErrorMessage()).toHaveText(
+      `${planPage.i18n.t('__PLAN_MISSING_MODULES_ERROR')}: dates`
+    );
   });
   test('The title should have a maximum length of 256 characters', async () => {
     await planPage.elements().titleModule().click();
