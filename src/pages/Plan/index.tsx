@@ -45,6 +45,7 @@ const Plan = () => {
         wid: activeWorkspace?.id.toString() ?? '',
         pid: planId?.toString() ?? '',
         body: {
+          project_id: plan?.project_id ?? 0,
           config: {
             modules: values.modules,
           },
