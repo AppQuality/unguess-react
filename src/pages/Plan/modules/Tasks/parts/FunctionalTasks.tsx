@@ -2,8 +2,8 @@ import { Button, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ExploratoryTaskIcon } from 'src/assets/icons/exploratory-task-icon.svg';
 import { ReactComponent as FunctionalTaskIcon } from 'src/assets/icons/functional-task-icon.svg';
-import { useTasks } from '../hooks';
 import { useModuleTasksContext } from '../context';
+import { useTasks } from '../hooks';
 
 const FunctionalTasks = () => {
   const { add } = useTasks();
@@ -20,16 +20,16 @@ const FunctionalTasks = () => {
       <SM isBold>
         {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TASKS_LABEL')}
       </SM>
-      <Button isBasic isPill onClick={handleClick}>
-        <Button.StartIcon style={{ width: 35, height: 35 }}>
+      <Button isBasic isPill={false} onClick={handleClick}>
+        <Button.StartIcon>
           <ExploratoryTaskIcon />
         </Button.StartIcon>
         {t(
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TASK_EXPLORATORY_BUTTON'
         )}
       </Button>
-      <Button isBasic isPill onClick={handleClick}>
-        <Button.StartIcon style={{ width: 35, height: 35 }}>
+      <Button isBasic isPill={false} onClick={handleClick}>
+        <Button.StartIcon>
           <FunctionalTaskIcon />
         </Button.StartIcon>
         {t(
