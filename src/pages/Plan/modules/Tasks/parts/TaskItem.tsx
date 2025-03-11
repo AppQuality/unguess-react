@@ -42,17 +42,19 @@ const TaskItem = ({
           </AccordionNew.Meta>
         </AccordionNew.Header>
         <AccordionNew.Panel>
-          <FormField style={{ marginBottom: appTheme.space.md }}>
-            <Label>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}</Label>
-            <MD>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}</MD>
-            <Input
-              type="text"
-              value={task.title}
-              onChange={(e) => update(task.key, { title: e.target.value })}
-              placeholder={t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER')}
-            />
-          </FormField>
-          <>
+          <div style={{ padding: appTheme.space.xs }}>
+            <FormField style={{ marginBottom: appTheme.space.md }}>
+              <Label>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}</Label>
+              <MD>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}</MD>
+              <Input
+                type="text"
+                value={task.title}
+                onChange={(e) => update(task.key, { title: e.target.value })}
+                placeholder={t(
+                  '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER'
+                )}
+              />
+            </FormField>
             <Label>
               {t('__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL')}
             </Label>
@@ -70,10 +72,11 @@ const TaskItem = ({
                   '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_PLACEHOLDER'
                 ),
               }}
+              disableSaveShortcut
             >
               {task.description}
             </Editor>
-          </>
+          </div>
         </AccordionNew.Panel>
       </AccordionNew.Section>
     </AccordionNew>

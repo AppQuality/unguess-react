@@ -33,11 +33,36 @@ const useModuleTasks = () => {
       return '';
     }
 
+    function getDefaultDescription() {
+      if (kind === 'bug')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_FUNCTIONAL_DESCRIPTION_DEFAULT'
+        );
+      if (kind === 'explorative-bug')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_EXPLORATORY_DESCRIPTION_DEFAULT'
+        );
+      if (kind === 'moderate-video')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_MODERATE_DESCRIPTION_DEFAULT'
+        );
+      if (kind === 'video')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_THINKING_ALOUD_DESCRIPTION_DEFAULT'
+        );
+      if (kind === 'survey')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_SURVEY_TASK_SURVEY_DESCRIPTION_DEFAULT'
+        );
+      return '';
+    }
+
     setOutput([
       ...(value?.output || []),
       {
         kind,
         title: getDefaultTitle(),
+        description: getDefaultDescription(),
       },
     ]);
 
