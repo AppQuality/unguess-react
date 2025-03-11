@@ -1,5 +1,5 @@
 import {
-  Accordion,
+  AccordionNew,
   Button,
   Editor,
   FormField,
@@ -11,15 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
-import styled from 'styled-components';
 import { useModuleTasks } from '../hooks';
-
-const StyledAccordion = styled(Accordion)`
-  border: 1px solid ${appTheme.palette.grey[500]};
-  background-color: white;
-  border-radius: ${appTheme.borderRadii.lg};
-  margin-bottom: ${({ theme }) => theme.space.md};
-`;
 
 const TaskItem = ({
   task,
@@ -30,32 +22,20 @@ const TaskItem = ({
   const { remove, update } = useModuleTasks();
 
   return (
-    <StyledAccordion
-      id={`task-${task.key}`}
-      key={`task-${task.key}`}
-      level={3}
-      isExpandable
-      isBare
-      defaultExpandedSections={[0, 1]}
-      style={{
-        border: `1px solid ${appTheme.palette.grey[500]}`,
-        backgroundColor: 'white',
-        borderRadius: appTheme.borderRadii.lg,
-      }}
-    >
-      <Accordion.Section>
-        <Accordion.Header>
-          <Accordion.Label>
-            {task.key + 1}. {task.title}
-          </Accordion.Label>
-          <Button isBasic isDanger onClick={() => remove(task.key)}>
-            <Button.StartIcon>
-              <TrashIcon />
-            </Button.StartIcon>
-            {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
-          </Button>
-        </Accordion.Header>
-        <Accordion.Panel>
+    <AccordionNew level={3} hasBorder>
+      <AccordionNew.Section>
+        <AccordionNew.Header icon={<TrashIcon />}>
+          <AccordionNew.Label label={`${task.key + 1}. ${task.title}`} />
+          <AccordionNew.Meta>
+            <Button isBasic isDanger onClick={() => remove(task.key)}>
+              <Button.StartIcon>
+                <TrashIcon />
+              </Button.StartIcon>
+              {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
+            </Button>
+          </AccordionNew.Meta>
+        </AccordionNew.Header>
+        <AccordionNew.Panel>
           <FormField style={{ marginBottom: appTheme.space.md }}>
             <Label>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}</Label>
             <MD>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}</MD>
@@ -79,6 +59,7 @@ const TaskItem = ({
                 update(task.key, { description: value.editor.getHTML() })
               }
               hasInlineMenu
+              disableSaveShortcut
               placeholderOptions={{
                 placeholder: t(
                   '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_PLACEHOLDER'
@@ -88,9 +69,9 @@ const TaskItem = ({
               {task.description}
             </Editor>
           </>
-        </Accordion.Panel>
-      </Accordion.Section>
-    </StyledAccordion>
+        </AccordionNew.Panel>
+      </AccordionNew.Section>
+    </AccordionNew>
   );
 };
 
