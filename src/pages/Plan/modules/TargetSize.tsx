@@ -30,9 +30,6 @@ const TargetSize = () => {
     if (!module.output) {
       error = t('__PLAN_TARGET_SIZE_ERROR_REQUIRED');
     }
-    if (typeof module.output !== 'number') {
-      error = t('__PLAN_TARGET_SIZE_ERROR_INVALID');
-    }
     if (module.output < 1) {
       error = t('__PLAN_TARGET_SIZE_ERROR_MIN');
     }
