@@ -5,7 +5,7 @@ import {
   FormField,
   Input,
   Label,
-  MD
+  MD,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
