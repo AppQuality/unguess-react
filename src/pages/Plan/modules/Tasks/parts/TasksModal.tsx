@@ -1,6 +1,7 @@
 import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Divider } from 'src/common/components/divider';
+import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
@@ -35,6 +36,21 @@ const TasksModal = () => {
     }
   };
 
+  const getActiveVariantIndex = (
+    v: components['schemas']['Module']['variant']
+  ) => {
+    switch (v) {
+      case 'default':
+        return 0;
+      case 'functional':
+        return 1;
+      case 'experiential':
+        return 2;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <TooltipModal
       referenceElement={modalRef}
@@ -47,10 +63,14 @@ const TasksModal = () => {
       </TooltipModal.Title>
       <TooltipModal.Body>
         <StyledTabs
-          {...(!hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && {
-            style: { display: 'none' },
-          })}
-          onTabChange={(index) => setVariant(selectActiveVariant(index))}
+          {...(hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS)
+            ? {
+                onTabChange: (index) => setVariant(selectActiveVariant(index)),
+              }
+            : {
+                style: { display: 'none' },
+              })}
+          {...(variant && { selectedIndex: getActiveVariantIndex(variant) })}
         >
           <Tabs.Panel
             key="default"
