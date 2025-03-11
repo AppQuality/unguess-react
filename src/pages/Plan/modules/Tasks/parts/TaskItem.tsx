@@ -4,6 +4,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleTasks } from '../hooks';
+import { getIconFromKind } from '../utils';
 
 const TaskItem = ({
   task,
@@ -12,12 +13,18 @@ const TaskItem = ({
 }) => {
   const { t } = useTranslation();
   const { remove, update } = useModuleTasks();
+  const index = task.key + 1;
 
   return (
-    <AccordionNew level={3} hasBorder>
+    <AccordionNew
+      level={3}
+      id={`task-${index}`}
+      key={`task-${index}`}
+      hasBorder
+    >
       <AccordionNew.Section>
-        <AccordionNew.Header icon={<TrashIcon />}>
-          <AccordionNew.Label label={`${task.key + 1}. ${task.title}`} />
+        <AccordionNew.Header icon={getIconFromKind(task.kind)}>
+          <AccordionNew.Label label={`${index}. ${task.title}`} />
           <AccordionNew.Meta>
             <Button isBasic isDanger onClick={() => remove(task.key)}>
               <Button.StartIcon>
@@ -45,7 +52,7 @@ const TaskItem = ({
               {t('__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL')}
             </Label>
             <Editor
-              key={`task-editor-${task.key}`}
+              key={`task-editor-${index}`}
               headerTitle={t(
                 '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_HEADER_TITLE'
               )}
