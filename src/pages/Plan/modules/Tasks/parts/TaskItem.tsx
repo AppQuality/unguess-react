@@ -26,11 +26,11 @@ const TaskItem = ({
   const index = key + 1;
 
   const titleError =
-    error && `tasks.${key}.title` in error
+    error && typeof error === 'object' && `tasks.${key}.title` in error
       ? error[`tasks.${key}.title`]
       : false;
   const descriptionError =
-    error && `tasks.${key}.description` in error
+    error && typeof error === 'object' && `tasks.${key}.description` in error
       ? error[`tasks.${key}.description`]
       : false;
 
