@@ -1,34 +1,18 @@
 import {
-  Accordion,
+  AccordionNew,
   Button,
   Editor,
   FormField,
   Input,
   Label,
-  MD,
-  Span,
+  MD
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
-import styled from 'styled-components';
 import { useModuleTasks } from '../hooks';
 import { getIconFromKind } from '../utils';
-
-const StyledAccordion = styled(Accordion)`
-  border: 1px solid ${appTheme.palette.grey[500]};
-  background-color: white;
-  border-radius: ${appTheme.borderRadii.lg};
-  margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.sm};
-`;
 
 const TaskItem = ({
   task,
@@ -39,37 +23,25 @@ const TaskItem = ({
   const { remove, update } = useModuleTasks();
 
   return (
-    <StyledAccordion
+    <AccordionNew
+      level={3}
       id={`task-${task.key}`}
       key={`task-${task.key}`}
-      level={3}
-      isExpandable
-      isBare
-      defaultExpandedSections={[0, 1]}
-      style={{
-        border: `1px solid ${appTheme.palette.grey[500]}`,
-        backgroundColor: 'white',
-        borderRadius: appTheme.borderRadii.lg,
-      }}
+      hasBorder
     >
-      <Accordion.Section>
-        <Accordion.Header>
-          <Accordion.Label>
-            <HeaderContainer>
-              {getIconFromKind(task.kind)}
-              <Span>
-                {task.key + 1}. {task.title}
-              </Span>
-            </HeaderContainer>
-          </Accordion.Label>
-          <Button isBasic isDanger onClick={() => remove(task.key)}>
-            <Button.StartIcon>
-              <TrashIcon />
-            </Button.StartIcon>
-            {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
-          </Button>
-        </Accordion.Header>
-        <Accordion.Panel>
+      <AccordionNew.Section>
+        <AccordionNew.Header icon={getIconFromKind(task.kind)}>
+          <AccordionNew.Label label={`${task.key + 1}. ${task.title}`} />
+          <AccordionNew.Meta>
+            <Button isBasic isDanger onClick={() => remove(task.key)}>
+              <Button.StartIcon>
+                <TrashIcon />
+              </Button.StartIcon>
+              {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
+            </Button>
+          </AccordionNew.Meta>
+        </AccordionNew.Header>
+        <AccordionNew.Panel>
           <FormField style={{ marginBottom: appTheme.space.md }}>
             <Label>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}</Label>
             <MD>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}</MD>
@@ -102,9 +74,9 @@ const TaskItem = ({
               {task.description}
             </Editor>
           </>
-        </Accordion.Panel>
-      </Accordion.Section>
-    </StyledAccordion>
+        </AccordionNew.Panel>
+      </AccordionNew.Section>
+    </AccordionNew>
   );
 };
 
