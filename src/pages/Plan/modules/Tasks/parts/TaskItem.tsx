@@ -6,6 +6,7 @@ import {
   Input,
   Label,
   MD,
+  Message,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -20,8 +21,22 @@ const TaskItem = ({
   task: components['schemas']['OutputModuleTask'] & { key: number };
 }) => {
   const { t } = useTranslation();
-  const { remove, update } = useModuleTasks();
-  const index = task.key + 1;
+  const { remove, update, validate, error } = useModuleTasks();
+  const { key } = task;
+  const index = key + 1;
+
+  const titleError =
+    error && `tasks.${key}.title` in error
+      ? error[`tasks.${key}.title`]
+      : false;
+  const descriptionError =
+    error && `tasks.${key}.description` in error
+      ? error[`tasks.${key}.description`]
+      : false;
+
+  const handleBlur = () => {
+    validate();
+  };
 
   return (
     <AccordionNew
@@ -34,7 +49,7 @@ const TaskItem = ({
         <AccordionNew.Header icon={getIconFromKind(task.kind)}>
           <AccordionNew.Label label={`${index}. ${task.title}`} />
           <AccordionNew.Meta>
-            <Button isBasic isDanger onClick={() => remove(task.key)}>
+            <Button isBasic isDanger onClick={() => remove(key)}>
               <Button.StartIcon>
                 <TrashIcon />
               </Button.StartIcon>
@@ -50,11 +65,14 @@ const TaskItem = ({
               <Input
                 type="text"
                 value={task.title}
-                onChange={(e) => update(task.key, { title: e.target.value })}
+                onChange={(e) => update(key, { title: e.target.value })}
                 placeholder={t(
                   '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER'
                 )}
+                onBlur={handleBlur}
+                {...(titleError && { validation: 'error' })}
               />
+              {titleError && <Message validation="error">{titleError}</Message>}
             </FormField>
             <Label>
               {t('__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL')}
@@ -65,7 +83,7 @@ const TaskItem = ({
                 '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_HEADER_TITLE'
               )}
               onUpdate={(value) =>
-                update(task.key, { description: value.editor.getHTML() })
+                update(key, { description: value.editor.getHTML() })
               }
               hasInlineMenu
               placeholderOptions={{
@@ -74,9 +92,14 @@ const TaskItem = ({
                 ),
               }}
               disableSaveShortcut
+              onBlur={handleBlur}
+              {...(descriptionError && { validation: 'error' })}
             >
               {task.description}
             </Editor>
+            {descriptionError && (
+              <Message validation="error">{descriptionError}</Message>
+            )}
           </div>
         </AccordionNew.Panel>
       </AccordionNew.Section>
