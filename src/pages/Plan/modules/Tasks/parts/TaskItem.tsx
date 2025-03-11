@@ -1,12 +1,4 @@
-import {
-  AccordionNew,
-  Button,
-  Editor,
-  FormField,
-  Input,
-  Label,
-  MD,
-} from '@appquality/unguess-design-system';
+import { AccordionNew, Button, Editor, FormField, Input, Label, MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
