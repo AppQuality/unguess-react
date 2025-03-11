@@ -6,6 +6,7 @@ import {
   Input,
   Label,
   MD,
+  Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -13,12 +14,20 @@ import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { useModuleTasks } from '../hooks';
+import { getIconFromKind } from '../utils';
 
 const StyledAccordion = styled(Accordion)`
   border: 1px solid ${appTheme.palette.grey[500]};
   background-color: white;
   border-radius: ${appTheme.borderRadii.lg};
   margin-bottom: ${({ theme }) => theme.space.md};
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.sm};
 `;
 
 const TaskItem = ({
@@ -46,7 +55,12 @@ const TaskItem = ({
       <Accordion.Section>
         <Accordion.Header>
           <Accordion.Label>
-            {task.key + 1}. {task.title}
+            <HeaderContainer>
+              {getIconFromKind(task.kind)}
+              <Span>
+                {task.key + 1}. {task.title}
+              </Span>
+            </HeaderContainer>
           </Accordion.Label>
           <Button isBasic isDanger onClick={() => remove(task.key)}>
             <Button.StartIcon>
