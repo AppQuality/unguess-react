@@ -67,8 +67,6 @@ const useModuleTasks = () => {
         description: getDefaultDescription(),
       },
     ]);
-
-    return output.length;
   };
 
   const update = (k: number, v: Partial<(typeof output)[number]>) => {

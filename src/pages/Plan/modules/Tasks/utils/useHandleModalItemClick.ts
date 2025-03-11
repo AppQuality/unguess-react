@@ -4,12 +4,11 @@ import { useModuleTasks } from '../hooks';
 
 const useHandleModalItemClick = () => {
   const { add } = useModuleTasks();
-  const { setModalRef, scrollRef } = useModuleTasksContext();
+  const { setModalRef } = useModuleTasksContext();
 
   return (k: components['schemas']['OutputModuleTask']['kind']) => {
-    const lastIndex = add(k);
+    add(k);
     setModalRef(null);
-    // TODO: Scroll to `task-${lastIndex}` element
   };
 };
 
