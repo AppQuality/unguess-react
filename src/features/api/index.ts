@@ -1784,6 +1784,7 @@ export type PatchWorkspacesByWidPlansAndPidApiArg = {
     config: {
       modules: Module[];
     };
+    project_id: number;
   };
 };
 export type PatchWorkspacesByWidPlansAndPidStatusApiResponse =
