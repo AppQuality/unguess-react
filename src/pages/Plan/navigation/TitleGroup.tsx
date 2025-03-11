@@ -1,14 +1,3 @@
-import { XL } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
+import { Title } from '../modules/Title';
 
-export const TitleGroup = () => (
-  <XL
-    isBold
-    style={{
-      color: appTheme.palette.blue[600],
-    }}
-    data-qa="title-module"
-  >
-    Titolo
-  </XL>
-);
+export const TitleGroup = () => <Title  data-qa="title-module" />;
