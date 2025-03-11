@@ -1,7 +1,7 @@
 import { useModule } from 'src/features/modules/useModule';
 
-const useTasks = () => {
-  const { value, setOutput } = useModule('tasks');
+const useModuleTasks = () => {
+  const { value, setOutput, setVariant } = useModule('tasks');
 
   const output = (value?.output || []).map((task, i) => ({
     ...task,
@@ -10,8 +10,11 @@ const useTasks = () => {
 
   const add = (kind: NonNullable<typeof value>['output'][number]['kind']) => {
     function getDefaultTitle() {
-      if (kind === 'bug') return 'Search for bugs';
-      if (kind === 'video') return 'Think aloud';
+      if (kind === 'bug') return 'Functional bug';
+      if (kind === 'explorative-bug') return 'Explorative bug';
+      if (kind === 'moderate-video') return 'Moderate video';
+      if (kind === 'video') return 'Thinking aloud';
+      if (kind === 'survey') return 'Survey';
       return '';
     }
 
@@ -48,15 +51,15 @@ const useTasks = () => {
     );
   };
 
-  // TODO: set variant
-
   return {
     value: output,
+    variant: value?.variant,
     setOutput,
+    setVariant,
     add,
     update,
     remove,
   };
 };
 
-export { useTasks };
+export { useModuleTasks };

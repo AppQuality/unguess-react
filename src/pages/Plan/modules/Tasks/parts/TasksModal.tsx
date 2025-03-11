@@ -1,11 +1,15 @@
 import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Divider } from 'src/common/components/divider';
+import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { useModuleTasksContext } from '../context';
+import { useModuleTasks } from '../hooks';
 import { ExperientialTasks } from './ExperientialTasks';
 import { FunctionalTasks } from './FunctionalTasks';
 import { SurveyTasks } from './SurveyTasks';
-import { useModuleTasksContext } from '../context';
 
 const StyledTabs = styled(Tabs)`
   > button {
@@ -15,7 +19,22 @@ const StyledTabs = styled(Tabs)`
 
 const TasksModal = () => {
   const { t } = useTranslation();
+  const { variant, setVariant } = useModuleTasks();
   const { modalRef, setModalRef } = useModuleTasksContext();
+  const { hasFeatureFlag } = useFeatureFlag();
+
+  const selectActiveVariant = (index: number) => {
+    switch (index) {
+      case 0:
+        return 'default';
+      case 1:
+        return 'functional';
+      case 2:
+        return 'experiential';
+      default:
+        return 'default';
+    }
+  };
 
   return (
     <TooltipModal
@@ -28,11 +47,15 @@ const TasksModal = () => {
         <MD isBold>{t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_TITLE')}</MD>
       </TooltipModal.Title>
       <TooltipModal.Body>
-        <StyledTabs>
+        <StyledTabs
+          {...(!hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && {
+            style: { display: 'none' },
+          })}
+          onTabChange={(index) => setVariant(selectActiveVariant(index))}
+        >
           <Tabs.Panel
-            key="all"
-            title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_ALL_TAB')}
-            // TODO: set variant on tab click
+            key="default"
+            title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_DEFAULT_TAB')}
           >
             <FunctionalTasks />
             <Divider />
