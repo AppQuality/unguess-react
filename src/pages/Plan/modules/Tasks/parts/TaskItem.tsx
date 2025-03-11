@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
-import { useTasks } from '../hooks';
+import { useModuleTasks } from '../hooks';
 
 const TaskItem = ({
   task,
@@ -19,7 +19,7 @@ const TaskItem = ({
   task: components['schemas']['OutputModuleTask'] & { key: number };
 }) => {
   const { t } = useTranslation();
-  const { remove, update } = useTasks();
+  const { remove, update } = useModuleTasks();
 
   return (
     <Accordion

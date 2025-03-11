@@ -1,8 +1,8 @@
-import { useTasks } from '../hooks';
+import { useModuleTasks } from '../hooks';
 import { TaskItem } from './TaskItem';
 
 const TasksList = () => {
-  const { value } = useTasks();
+  const { value } = useModuleTasks();
 
   return (
     <div data-qa="tasks-module">
