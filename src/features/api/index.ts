@@ -1723,6 +1723,7 @@ export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
     modules: Module[];
   };
   status: 'draft' | 'pending_review' | 'approved';
+  project_id: number;
 };
 export type GetWorkspacesByWidPlansAndPidApiArg = {
   wid: string;
@@ -1736,6 +1737,7 @@ export type PatchWorkspacesByWidPlansAndPidApiArg = {
     config: {
       modules: Module[];
     };
+    project_id: number;
   };
 };
 export type PatchWorkspacesByWidPlansAndPidStatusApiResponse =
@@ -2402,16 +2404,70 @@ export type SubcomponentTaskSurvey = {
   title: string;
   description?: string;
 };
+export type OutputModuleTaskModerateVideo = {
+  kind: 'moderate-video';
+  title: string;
+  description?: string;
+};
+export type OutputModuleTaskExplorativeBug = {
+  kind: 'explorative-bug';
+  title: string;
+  description?: string;
+};
 export type SubcomponentTask =
   | SubcomponentTaskVideo
   | SubcomponentTaskBug
-  | SubcomponentTaskSurvey;
+  | SubcomponentTaskSurvey
+  | OutputModuleTaskModerateVideo
+  | OutputModuleTaskExplorativeBug;
 export type ModuleTask = {
   type: 'tasks';
   variant: string;
   output: SubcomponentTask[];
 };
-export type Module = ModuleTitle | ModuleDate | ModuleTask;
+export type OutputModuleAge = {
+  min: number;
+  max: number;
+  percentage: number;
+}[];
+export type ModuleAge = {
+  type: 'age';
+  variant: string;
+  output: OutputModuleAge;
+};
+export type ModuleLanguage = {
+  type: 'language';
+  variant: string;
+  output: string;
+};
+export type OutputModuleLiteracy = {
+  level: 'beginner' | 'intermediate' | 'expert';
+  percentage: number;
+}[];
+export type ModuleLiteracy = {
+  type: 'literacy';
+  variant: string;
+  output: OutputModuleLiteracy;
+};
+export type ModuleLanguage2 = {
+  type: 'target';
+  variant: string;
+  output: number;
+};
+export type ModuleGoal = {
+  type: 'goal';
+  variant: string;
+  output: string;
+};
+export type Module =
+  | ModuleTitle
+  | ModuleDate
+  | ModuleTask
+  | ModuleAge
+  | ModuleLanguage
+  | ModuleLiteracy
+  | ModuleLanguage2
+  | ModuleGoal;
 export type CpReqTemplate = {
   id: number;
   name: string;
