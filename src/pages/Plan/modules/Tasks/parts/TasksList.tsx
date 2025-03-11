@@ -5,7 +5,7 @@ const TasksList = () => {
   const { value } = useModuleTasks();
 
   return (
-    <div data-qa="tasks-module">
+    <div id="tasks-list" data-qa="tasks-module">
       {value.map((task) => (
         <TaskItem key={task.key} task={task} />
       ))}
