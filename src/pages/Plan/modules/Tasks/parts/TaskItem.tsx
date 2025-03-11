@@ -11,7 +11,15 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
+import styled from 'styled-components';
 import { useModuleTasks } from '../hooks';
+
+const StyledAccordion = styled(Accordion)`
+  border: 1px solid ${appTheme.palette.grey[500]};
+  background-color: white;
+  border-radius: ${appTheme.borderRadii.lg};
+  margin-bottom: ${({ theme }) => theme.space.md};
+`;
 
 const TaskItem = ({
   task,
@@ -22,7 +30,8 @@ const TaskItem = ({
   const { remove, update } = useModuleTasks();
 
   return (
-    <Accordion
+    <StyledAccordion
+      id={`task-${task.key}`}
       key={`task-${task.key}`}
       level={3}
       isExpandable
@@ -81,7 +90,7 @@ const TaskItem = ({
           </>
         </Accordion.Panel>
       </Accordion.Section>
-    </Accordion>
+    </StyledAccordion>
   );
 };
 

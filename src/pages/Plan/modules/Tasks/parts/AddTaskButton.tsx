@@ -14,6 +14,7 @@ const AddTaskButton = () => {
       isPrimary
       ref={triggerRef}
       onClick={() => setModalRef(triggerRef.current)}
+      isStretched
     >
       <Button.StartIcon>
         <PlusIcon />
