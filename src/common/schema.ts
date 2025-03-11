@@ -889,7 +889,12 @@ export interface components {
     Module:
       | components['schemas']['ModuleTitle']
       | components['schemas']['ModuleDate']
-      | components['schemas']['ModuleTask'];
+      | components['schemas']['ModuleTask']
+      | components['schemas']['ModuleAge']
+      | components['schemas']['ModuleLanguage']
+      | components['schemas']['ModuleLiteracy']
+      | components['schemas']['ModuleTarget']
+      | components['schemas']['ModuleGoal'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -897,6 +902,12 @@ export interface components {
       output: {
         start: string;
       };
+    };
+    ModuleGoal: {
+      /** @enum {string} */
+      type: 'goal';
+      variant: string;
+      output: string;
     };
     ModuleTitle: {
       /** @enum {string} */
@@ -910,6 +921,41 @@ export interface components {
       type: 'tasks';
       variant: string;
       output: components['schemas']['OutputModuleTask'][];
+    };
+    /** ModuleAge */
+    ModuleAge: {
+      /** @enum {string} */
+      type: 'age';
+      variant: string;
+      output: components['schemas']['OutputModuleAge'];
+    };
+    /** ModuleGender */
+    ModuleGender: {
+      /** @enum {string} */
+      type: 'gender';
+      variant: string;
+      output: components['schemas']['OutputModuleGender'];
+    };
+    /** ModuleLiteracy */
+    ModuleLiteracy: {
+      /** @enum {string} */
+      type: 'literacy';
+      variant: string;
+      output: components['schemas']['OutputModuleLiteracy'];
+    };
+    /** ModuleLanguage */
+    ModuleLanguage: {
+      /** @enum {string} */
+      type: 'language';
+      variant: string;
+      output: string;
+    };
+    /** ModuleLanguage */
+    ModuleTarget: {
+      /** @enum {string} */
+      type: 'target';
+      variant: string;
+      output: number;
     };
     /** Observation */
     Observation: {
@@ -1376,6 +1422,12 @@ export interface components {
       title: string;
       description?: string;
     };
+    /** OutputModuleAge */
+    OutputModuleAge: {
+      min: number;
+      max: number;
+      percentage: number;
+    }[];
     /** SubcomponentTaskVideo */
     OutputModuleTaskVideo: {
       /** @enum {string} */
@@ -1390,11 +1442,39 @@ export interface components {
       title: string;
       description?: string;
     };
+    /** OutputModuleTaskModerateVideo */
+    OutputModuleTaskModerateVideo: {
+      /** @enum {string} */
+      kind: 'moderate-video';
+      title: string;
+      description?: string;
+    };
+    /** OutputModuleTaskExplorativeBug */
+    OutputModuleTaskExplorativeBug: {
+      /** @enum {string} */
+      kind: 'explorative-bug';
+      title: string;
+      description?: string;
+    };
     /** SubcomponentTask */
     OutputModuleTask:
       | components['schemas']['OutputModuleTaskVideo']
       | components['schemas']['OutputModuleTaskBug']
-      | components['schemas']['OutputModuleTaskSurvey'];
+      | components['schemas']['OutputModuleTaskSurvey']
+      | components['schemas']['OutputModuleTaskModerateVideo']
+      | components['schemas']['OutputModuleTaskExplorativeBug'];
+    /** OutputModuleLiteracy */
+    OutputModuleLiteracy: {
+      /** @enum {string} */
+      level: 'beginner' | 'intermediate' | 'expert';
+      percentage: number;
+    }[];
+    /** OutputModuleGender */
+    OutputModuleGender: {
+      /** @enum {string} */
+      gender: 'male' | 'female';
+      percentage: number;
+    }[];
   };
   responses: {
     /** Shared error response */
@@ -3514,6 +3594,7 @@ export interface operations {
             };
             /** @enum {string} */
             status: 'draft' | 'pending_review' | 'approved';
+            project_id: number;
           };
         };
       };
@@ -3552,6 +3633,7 @@ export interface operations {
           config: {
             modules: components['schemas']['Module'][];
           };
+          project_id: number;
         };
       };
     };
