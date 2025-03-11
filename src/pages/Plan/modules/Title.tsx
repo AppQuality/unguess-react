@@ -1,5 +1,4 @@
-import { InputToggle, PageHeader, SM } from '@appquality/unguess-design-system';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { InputToggle, SM } from '@appquality/unguess-design-system';
 import { useModule } from 'src/features/modules/useModule';
 import { components } from 'src/common/schema';
 import { useTranslation } from 'react-i18next';
@@ -10,7 +9,6 @@ import { appTheme } from 'src/app/theme';
 const Title = () => {
   const { value, setOutput } = useModule('title');
   const { t } = useTranslation();
-
   const validation = (
     module: components['schemas']['Module'] & { type: 'title' }
   ) => {
@@ -35,34 +33,29 @@ const Title = () => {
     setOutput(e.target.value);
     validate();
   };
-
   return (
-    <LayoutWrapper>
-      <PageHeader.Main mainTitle="temp">
-        <PageHeader.Title>
-          <InputToggle className="editable-title" data-qa="title-module">
-            <InputToggle.Item
-              data-qa="title-input"
-              onBlur={handleBlur}
-              textSize="xxxl"
-              style={{ paddingLeft: 0 }}
-              value={value?.output || ''}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-            />
-          </InputToggle>
-          {error && (
-            <SM
-              style={{ color: appTheme.components.text.dangerColor }}
-              data-qa="title-error"
-            >
-              {error}
-            </SM>
-          )}
-        </PageHeader.Title>
-      </PageHeader.Main>
-    </LayoutWrapper>
+    <div>
+      <InputToggle className="editable-title" data-qa="title-module">
+        <InputToggle.Item
+          data-qa="title-input"
+          onBlur={handleBlur}
+          textSize="xl"
+          style={{ paddingLeft: 0 }}
+          value={value?.output}
+          onChange={(e) => {
+            handleChange(e);
+          }}
+        />
+      </InputToggle>
+      {error && (
+        <SM
+          style={{ color: appTheme.components.text.dangerColor }}
+          data-qa="title-error"
+        >
+          {error}
+        </SM>
+      )}
+    </div>
   );
 };
 
