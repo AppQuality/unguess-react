@@ -32,6 +32,7 @@ const TasksModal = () => {
           <Tabs.Panel
             key="all"
             title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_ALL_TAB')}
+            // TODO: set variant on tab click
           >
             <FunctionalTasks />
             <Divider />

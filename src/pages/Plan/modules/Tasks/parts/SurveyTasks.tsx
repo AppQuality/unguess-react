@@ -19,8 +19,8 @@ const SurveyTasks = () => {
       <SM isBold>
         {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_SURVEY_TASKS_LABEL')}
       </SM>
-      <Button isBasic isPill onClick={handleClick}>
-        <Button.StartIcon style={{ width: 35, height: 35 }}>
+      <Button isBasic isPill={false} onClick={handleClick}>
+        <Button.StartIcon>
           <SurveyTaskIcon />
         </Button.StartIcon>
         {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_SURVEY_TASK_SURVEY_BUTTON')}
