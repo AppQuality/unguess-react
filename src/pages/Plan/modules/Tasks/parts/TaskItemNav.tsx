@@ -1,36 +1,42 @@
-import { Card } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Card, MD } from '@appquality/unguess-design-system';
+import { Link } from 'react-scroll';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { Link } from 'react-scroll';
+import { getIconFromKind } from '../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
+const StyledContainer = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.sm};
+`;
+
 const TaskItemNav = ({
   task,
 }: {
   task: components['schemas']['OutputModuleTask'] & { key: number };
-}) => {
-  const { t } = useTranslation();
-
-  return (
-    <Link
-      to={`task-${task.key}`}
-      containerId="main"
-      activeClass="active"
-      duration={500}
-      offset={-20}
-      smooth
-      spy
-    >
-      <StyledCard key={task.key} data-qa="task-item-nav">
-        {task.title}
-      </StyledCard>
-    </Link>
-  );
-};
+}) => (
+  <Link
+    to={`task-${task.key}`}
+    containerId="main"
+    duration={500}
+    offset={-20}
+    smooth
+    spy
+    style={{ textDecoration: 'none' }}
+  >
+    <StyledCard key={task.key} data-qa="task-item-nav">
+      <StyledContainer>
+        {getIconFromKind(task.kind)}
+        <MD isBold>{task.title}</MD>
+      </StyledContainer>
+    </StyledCard>
+  </Link>
+);
 
 export { TaskItemNav };

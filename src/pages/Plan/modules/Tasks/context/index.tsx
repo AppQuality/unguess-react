@@ -1,6 +1,8 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
 interface ModuleTasksContextType {
+  scrollRef: HTMLDivElement | null;
+  setScrollRef: (ref: HTMLDivElement | null) => void;
   modalRef: HTMLButtonElement | null;
   setModalRef: (ref: HTMLButtonElement | null) => void;
 }
@@ -14,13 +16,17 @@ export const ModuleTasksContextProvider = ({
 }) => {
   const [modalRef, setModalRef] =
     useState<ModuleTasksContextType['modalRef']>(null);
+  const [scrollRef, setScrollRef] =
+    useState<ModuleTasksContextType['scrollRef']>(null);
 
   const moduleTasksContextValue = useMemo(
     () => ({
       modalRef,
       setModalRef,
+      scrollRef,
+      setScrollRef,
     }),
-    [modalRef, setModalRef]
+    [modalRef, setModalRef, scrollRef, setScrollRef]
   );
 
   return (

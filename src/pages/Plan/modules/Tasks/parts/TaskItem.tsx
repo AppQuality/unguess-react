@@ -5,13 +5,14 @@ import {
   FormField,
   Input,
   Label,
-  MD,
+  MD
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleTasks } from '../hooks';
+import { getIconFromKind } from '../utils';
 
 const TaskItem = ({
   task,
@@ -22,9 +23,14 @@ const TaskItem = ({
   const { remove, update } = useModuleTasks();
 
   return (
-    <AccordionNew level={3} hasBorder>
+    <AccordionNew
+      level={3}
+      id={`task-${task.key}`}
+      key={`task-${task.key}`}
+      hasBorder
+    >
       <AccordionNew.Section>
-        <AccordionNew.Header icon={<TrashIcon />}>
+        <AccordionNew.Header icon={getIconFromKind(task.kind)}>
           <AccordionNew.Label label={`${task.key + 1}. ${task.title}`} />
           <AccordionNew.Meta>
             <Button isBasic isDanger onClick={() => remove(task.key)}>
@@ -59,7 +65,6 @@ const TaskItem = ({
                 update(task.key, { description: value.editor.getHTML() })
               }
               hasInlineMenu
-              disableSaveShortcut
               placeholderOptions={{
                 placeholder: t(
                   '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_PLACEHOLDER'

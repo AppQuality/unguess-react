@@ -1,9 +1,6 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { ModuleTasksContextProvider } from './context';
-import { AddTaskButton } from './parts/AddTaskButton';
-import { TasksList } from './parts/TasksList';
-import { TasksModal } from './parts/TasksModal';
-import { TasksListNav } from './parts/TasksListNav';
+import { AddTaskButton, TasksList, TasksModal, TasksListNav } from './parts';
 
 const Tasks = () => (
   <ModuleTasksContextProvider>

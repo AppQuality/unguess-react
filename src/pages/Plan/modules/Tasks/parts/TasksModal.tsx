@@ -64,12 +64,8 @@ const TasksModal = () => {
       <TooltipModal.Body>
         <StyledTabs
           {...(hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS)
-            ? {
-                onTabChange: (index) => setVariant(selectActiveVariant(index)),
-              }
-            : {
-                style: { display: 'none' },
-              })}
+            ? { onTabChange: (index) => setVariant(selectActiveVariant(index)) }
+            : { style: { display: 'none' } })}
           {...(variant && { selectedIndex: getActiveVariantIndex(variant) })}
         >
           <Tabs.Panel

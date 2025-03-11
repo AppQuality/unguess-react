@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import { useModule } from 'src/features/modules/useModule';
 
 const useModuleTasks = () => {
+  const { t } = useTranslation();
   const { value, setOutput, setVariant } = useModule('tasks');
 
   const output = (value?.output || []).map((task, i) => ({
@@ -10,11 +12,24 @@ const useModuleTasks = () => {
 
   const add = (kind: NonNullable<typeof value>['output'][number]['kind']) => {
     function getDefaultTitle() {
-      if (kind === 'bug') return 'Functional bug';
-      if (kind === 'explorative-bug') return 'Explorative bug';
-      if (kind === 'moderate-video') return 'Moderate video';
-      if (kind === 'video') return 'Thinking aloud';
-      if (kind === 'survey') return 'Survey';
+      if (kind === 'bug')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_FUNCTIONAL_TITLE_DEFAULT'
+        );
+      if (kind === 'explorative-bug')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_EXPLORATORY_TITLE_DEFAULT'
+        );
+      if (kind === 'moderate-video')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_MODERATE_TITLE_DEFAULT'
+        );
+      if (kind === 'video')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_THINKING_ALOUD_TITLE_DEFAULT'
+        );
+      if (kind === 'survey')
+        return t('__PLAN_PAGE_MODULE_TASKS_SURVEY_TASK_SURVEY_TITLE_DEFAULT');
       return '';
     }
 
@@ -25,15 +40,17 @@ const useModuleTasks = () => {
         title: getDefaultTitle(),
       },
     ]);
+
+    return output.length;
   };
 
   const update = (k: number, v: Partial<(typeof output)[number]>) => {
     setOutput(
       output
-        .map((t) => (t.key === k ? { ...t, ...v } : t))
-        .map((t) => {
+        .map((o) => (o.key === k ? { ...o, ...v } : o))
+        .map((o) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { key, ...rest } = t;
+          const { key, ...rest } = o;
           return rest;
         })
     );
@@ -42,10 +59,10 @@ const useModuleTasks = () => {
   const remove = (k: number) => {
     setOutput(
       output
-        .filter((t) => t.key !== k)
-        .map((t) => {
+        .filter((o) => o.key !== k)
+        .map((o) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { key, ...rest } = t;
+          const { key, ...rest } = o;
           return rest;
         })
     );
