@@ -2,21 +2,11 @@ import { Button, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ExploratoryTaskIcon } from 'src/assets/icons/exploratory-task-icon.svg';
 import { ReactComponent as FunctionalTaskIcon } from 'src/assets/icons/functional-task-icon.svg';
-import { components } from 'src/common/schema';
-import { useModuleTasksContext } from '../context';
-import { useModuleTasks } from '../hooks';
+import { useHandleModalItemClick } from '../utils';
 
 const FunctionalTasks = () => {
-  const { add } = useModuleTasks();
   const { t } = useTranslation();
-  const { setModalRef } = useModuleTasksContext();
-
-  const handleClick = (
-    kind: components['schemas']['OutputModuleTask']['kind']
-  ) => {
-    add(kind);
-    setModalRef(null);
-  };
+  const handleModalItemClick = useHandleModalItemClick();
 
   return (
     <>
@@ -26,7 +16,7 @@ const FunctionalTasks = () => {
       <Button
         isBasic
         isPill={false}
-        onClick={() => handleClick('explorative-bug')}
+        onClick={() => handleModalItemClick('explorative-bug')}
       >
         <Button.StartIcon>
           <ExploratoryTaskIcon />
@@ -35,7 +25,11 @@ const FunctionalTasks = () => {
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TASK_EXPLORATORY_BUTTON'
         )}
       </Button>
-      <Button isBasic isPill={false} onClick={() => handleClick('bug')}>
+      <Button
+        isBasic
+        isPill={false}
+        onClick={() => handleModalItemClick('bug')}
+      >
         <Button.StartIcon>
           <FunctionalTaskIcon />
         </Button.StartIcon>
