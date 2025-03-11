@@ -1,5 +1,4 @@
 import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Divider } from 'src/common/components/divider';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
