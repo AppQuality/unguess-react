@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
+import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
+import { useValidation } from 'src/features/modules/useModuleValidation';
 
 const useModuleTasks = () => {
   const { t } = useTranslation();
@@ -93,6 +95,43 @@ const useModuleTasks = () => {
     );
   };
 
+  const validation = (module: components['schemas']['ModuleTask']) => {
+    const { output: o } = module;
+
+    const errors = o.reduce((acc, item, idx) => {
+      const titleEmpty = !item.title || item.title.length === 0;
+      const descriptionEmpty =
+        !item.description ||
+        item.description.length === 0 ||
+        item.description === '<p></p>';
+      if (!titleEmpty && !descriptionEmpty) return { ...acc };
+      return {
+        ...acc,
+        [idx]: {
+          ...(titleEmpty
+            ? {
+                title: t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_REQUIRED'),
+              }
+            : {}),
+          ...(descriptionEmpty
+            ? {
+                description: t(
+                  '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_ERROR_REQUIRED'
+                ),
+              }
+            : {}),
+        },
+      };
+    }, {});
+
+    return Object.keys(errors).length ? errors : true;
+  };
+
+  const { error, validate } = useValidation({
+    type: 'tasks',
+    validate: validation,
+  });
+
   return {
     value: output,
     variant: value?.variant,
@@ -101,6 +140,8 @@ const useModuleTasks = () => {
     add,
     update,
     remove,
+    validate,
+    error,
   };
 };
 
