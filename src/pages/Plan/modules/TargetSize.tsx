@@ -36,9 +36,6 @@ const TargetSize = () => {
     if (module.output < 1) {
       error = t('__PLAN_TARGET_SIZE_ERROR_MIN');
     }
-    if (module.output > 100) {
-      error = t('__PLAN_TARGET_SIZE_ERROR_MAX');
-    }
     return error || true;
   };
 
@@ -60,7 +57,7 @@ const TargetSize = () => {
         <AccordionNew.Header icon={<TargetSizeIcon />}>
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-            <AccordionNew.Meta style={{ zIndex: 999 }}>
+            <AccordionNew.Meta>
               <Button isBasic isDanger onClick={remove}>
                 <Button.StartIcon>
                   <TrashIcon />
