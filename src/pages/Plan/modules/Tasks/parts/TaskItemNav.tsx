@@ -1,9 +1,11 @@
-import { Card, MD } from '@appquality/unguess-design-system';
+import { Card, MD, Message } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
+import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { useModuleTasks } from '../hooks';
-import { getIconFromKind } from '../utils';
+import { getIconFromTask } from '../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
@@ -22,7 +24,20 @@ const TaskItemNav = ({
 }: {
   task: components['schemas']['OutputModuleTask'] & { key: number };
 }) => {
+  const { t } = useTranslation();
   const { error } = useModuleTasks();
+  const { key } = task;
+
+  const titleError =
+    error && typeof error === 'object' && `tasks.${key}.title` in error
+      ? error[`tasks.${key}.title`]
+      : false;
+  const descriptionError =
+    error && typeof error === 'object' && `tasks.${key}.description` in error
+      ? error[`tasks.${key}.description`]
+      : false;
+
+  const hasErrors = titleError || descriptionError;
 
   return (
     <Link
@@ -34,12 +49,24 @@ const TaskItemNav = ({
       spy
       style={{ textDecoration: 'none' }}
     >
-      <StyledCard key={task.key} data-qa="task-item-nav">
+      <StyledCard
+        key={task.key}
+        data-qa="task-item-nav"
+        {...(hasErrors && {
+          style: {
+            borderColor: appTheme.palette.red[600],
+          },
+        })}
+      >
         <StyledContainer>
-          {getIconFromKind(task.kind)}
+          {getIconFromTask(task)}
           <MD isBold>{task.title}</MD>
         </StyledContainer>
-        {JSON.stringify(error)}
+        {hasErrors && (
+          <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
+            {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_TASK_ERROR')}
+          </Message>
+        )}
       </StyledCard>
     </Link>
   );
