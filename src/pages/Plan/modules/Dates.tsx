@@ -114,14 +114,14 @@ export const Dates = () => {
           <Input onBlur={handleBlur} />
         </Datepicker>
       </FormField>
-      {error && (
+      {/* {error && (
         <SM
           style={{ color: appTheme.components.text.dangerColor }}
           data-qa="dates-error"
         >
           {error}
         </SM>
-      )}
+      )} */}
     </div>
   );
 };
