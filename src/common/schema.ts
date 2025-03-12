@@ -3677,7 +3677,6 @@ export interface operations {
           config: {
             modules: components['schemas']['Module'][];
           };
-          project_id: number;
         };
       };
     };
