@@ -1042,6 +1042,7 @@
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_REQUIRED": "Task title is required",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL": "Task title",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER": "What we are going to test?",
+  "__PLAN_PAGE_MODULE_TARGET_INFO": "Not sure how many testers to choose? Contact your CSM.",
   "__PLAN_PAGE_MODULE_TARGET_LABEL": "Enter the number of users you want to include",
   "__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER": "Example: 8",
   "__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON": "Delete",
