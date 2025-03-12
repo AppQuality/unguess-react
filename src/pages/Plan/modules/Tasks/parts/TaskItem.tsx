@@ -38,6 +38,8 @@ const TaskItem = ({
       ? error[`tasks.${key}.description`]
       : false;
 
+  const hasError = titleError || descriptionError;
+
   const handleBlur = () => {
     validate();
   };
@@ -49,6 +51,7 @@ const TaskItem = ({
         id={`task-${index}`}
         key={`task-${index}`}
         hasBorder
+        type={hasError ? 'danger' : 'default'}
       >
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTask(task)}>
