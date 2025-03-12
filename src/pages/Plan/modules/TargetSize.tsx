@@ -13,10 +13,21 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { ReactComponent as TargetSizeIcon } from 'src/assets/icons/user-follow.svg';
+import { ReactComponent as TargetSizeErrorIcon } from 'src/assets/icons/user-follow-alert.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
+import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { appTheme } from 'src/app/theme';
 import { ChangeEvent } from 'react';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import styled from 'styled-components';
+
+const StyledInfoBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${appTheme.space.sm};
+  gap: ${appTheme.space.xxs};
+`;
 
 const TargetSize = () => {
   const { hasFeatureFlag } = useFeatureFlag();
@@ -51,7 +62,9 @@ const TargetSize = () => {
   return (
     <AccordionNew level={3} hasBorder>
       <AccordionNew.Section>
-        <AccordionNew.Header icon={<TargetSizeIcon />}>
+        <AccordionNew.Header
+          icon={error ? <TargetSizeErrorIcon /> : <TargetSizeIcon />}
+        >
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
             <AccordionNew.Meta>
@@ -74,19 +87,31 @@ const TargetSize = () => {
             </Label>
             <Input
               type="text"
-              value={value?.output || ''}
+              value={value?.output}
               onChange={(e) => handleChange(e)}
               onBlur={handleBlur}
               placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
             />
-            {error && (
-              <SM
-                style={{ color: appTheme.components.text.dangerColor }}
-                data-qa="title-error"
-              >
-                {error}
-              </SM>
-            )}
+            <StyledInfoBox>
+              {error ? (
+                <>
+                  <AlertIcon />
+                  <SM
+                    style={{ color: appTheme.components.text.dangerColor }}
+                    data-qa="title-error"
+                  >
+                    {error}
+                  </SM>
+                </>
+              ) : (
+                <>
+                  <InfoIcon />
+                  <SM style={{ color: appTheme.palette.grey[600] }}>
+                    {t('__PLAN_PAGE_MODULE_TARGET_INFO')}
+                  </SM>
+                </>
+              )}
+            </StyledInfoBox>
           </FormField>
         </AccordionNew.Panel>
       </AccordionNew.Section>
