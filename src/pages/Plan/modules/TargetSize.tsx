@@ -86,10 +86,10 @@ const TargetSize = () => {
               <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
             </Label>
             <Input
-              type="text"
-              value={value?.output}
+              value={value?.output.toString() ?? ''}
               onChange={(e) => handleChange(e)}
               onBlur={handleBlur}
+              validation={error ? 'error' : undefined}
               placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
             />
             <StyledInfoBox>
