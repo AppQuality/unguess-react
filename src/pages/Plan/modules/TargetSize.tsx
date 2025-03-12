@@ -17,7 +17,7 @@ import { ReactComponent as TargetSizeErrorIcon } from 'src/assets/icons/user-fol
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { appTheme } from 'src/app/theme';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import styled from 'styled-components';
@@ -33,7 +33,12 @@ const TargetSize = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput, remove } = useModule('target');
   const { t } = useTranslation();
-
+  const [currentValue, setCurrentValue] = useState<string | undefined>(
+    value?.output.toString()
+  );
+  useEffect(() => {
+    setOutput(Number(currentValue));
+  }, [currentValue]);
   const validation = (
     module: components['schemas']['Module'] & { type: 'target' }
   ) => {
@@ -42,7 +47,7 @@ const TargetSize = () => {
       error = t('__PLAN_TARGET_SIZE_ERROR_REQUIRED');
     }
     if (module.output < 1) {
-      error = t('__PLAN_TARGET_SIZE_ERROR_MIN');
+      error = t('__PLAN_TARGET_SIZE_ERROR_REQUIRED');
     }
     return error || true;
   };
@@ -55,8 +60,9 @@ const TargetSize = () => {
     validate();
   };
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setOutput(Number(e.target.value));
-    validate();
+    const inputValue = e.target.value;
+    setCurrentValue(inputValue);
+    /*  setOutput(Number(inputValue)); */
   };
 
   return (
@@ -86,7 +92,8 @@ const TargetSize = () => {
               <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
             </Label>
             <Input
-              value={value?.output.toString() ?? ''}
+              type="number"
+              value={currentValue}
               onChange={(e) => handleChange(e)}
               onBlur={handleBlur}
               validation={error ? 'error' : undefined}
