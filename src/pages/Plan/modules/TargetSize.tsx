@@ -83,46 +83,48 @@ const TargetSize = () => {
           )}
         </AccordionNew.Header>
         <AccordionNew.Panel>
-          <FormField style={{ marginBottom: appTheme.space.md }}>
-            <Label>
-              <Trans i18nKey="__PLAN_PAGE_MODULE_TARGET_LABEL">
-                Enter the number of users you want to include
-              </Trans>
-              <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
-            </Label>
-            <Input
-              type="number"
-              value={currentValue}
-              onChange={(e) => handleChange(e)}
-              onBlur={handleBlur}
-              validation={error ? 'error' : undefined}
-              placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
-            />
-            <StyledInfoBox>
-              {error ? (
-                <>
-                  <AlertIcon />
-                  <SM
-                    style={{ color: appTheme.components.text.dangerColor }}
-                    data-qa="title-error"
-                  >
-                    {error}
-                  </SM>
-                </>
-              ) : (
-                <>
-                  <InfoIcon />
-                  <SM style={{ color: appTheme.palette.grey[600] }}>
-                    {t('__PLAN_PAGE_MODULE_TARGET_INFO')}
-                  </SM>
-                </>
-              )}
-            </StyledInfoBox>
-          </FormField>
+          <div style={{ padding: appTheme.space.xs }}>
+            <FormField style={{ marginBottom: appTheme.space.md }}>
+              <Label>
+                <Trans i18nKey="__PLAN_PAGE_MODULE_TARGET_LABEL">
+                  Enter the number of users you want to include
+                </Trans>
+                <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+              </Label>
+              <Input
+                type="number"
+                value={currentValue}
+                onChange={(e) => handleChange(e)}
+                onBlur={handleBlur}
+                validation={error ? 'error' : undefined}
+                placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
+              />
+              <StyledInfoBox>
+                {error && typeof error === 'string' ? (
+                  <>
+                    <AlertIcon />
+                    <SM
+                      style={{ color: appTheme.components.text.dangerColor }}
+                      data-qa="title-error"
+                    >
+                      {error}
+                    </SM>
+                  </>
+                ) : (
+                  <>
+                    <InfoIcon />
+                    <SM style={{ color: appTheme.palette.grey[600] }}>
+                      {t('__PLAN_PAGE_MODULE_TARGET_INFO')}
+                    </SM>
+                  </>
+                )}
+              </StyledInfoBox>
+            </FormField>
+          </div>
         </AccordionNew.Panel>
       </AccordionNew.Section>
     </AccordionNew>
   );
 };
 
-export { TargetSize };
+export default TargetSize;

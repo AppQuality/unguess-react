@@ -5,7 +5,7 @@ import { Tasks } from './modules/Tasks';
 import { Title } from './modules/Title';
 import Goal from './modules/Goal';
 import TargetNote from './modules/TargetNote';
-import Users from './modules/Users';
+import TargetSize from './modules/TargetSize';
 import Language from './modules/Language';
 import Gender from './modules/Gender';
 import Literacy from './modules/Literacy';
@@ -26,7 +26,7 @@ export const modulesMap = {
   age: Age,
   goal: Goal,
   target_note: TargetNote,
-  target: Users,
+  target: TargetSize,
   language: Language,
   gender: Gender,
   literacy: Literacy,
