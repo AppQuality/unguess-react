@@ -1,31 +1,11 @@
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { PlanTab } from './context/planContext';
-import { Dates } from './modules/Dates';
-import { Tasks } from './modules/Tasks';
-import { Title } from './modules/Title';
-
-const MODULES_BY_TAB = {
-  setup: ['title', 'dates'],
-  target: ['age'],
-  instructions: ['tasks'],
-};
+import { modulesMap, MODULES_BY_TAB } from './modulesMap';
 
 export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
   const { getModules } = useModuleConfiguration();
   const availableModules =
     MODULES_BY_TAB[tabId as keyof typeof MODULES_BY_TAB] || [];
-  const getModule = (type: string) => {
-    switch (type) {
-      case 'title':
-        return <Title key="title" />;
-      case 'tasks':
-        return <Tasks key="tasks" />;
-      case 'dates':
-        return <Dates key="dates" />;
-      default:
-        return null;
-    }
-  };
 
   if (!availableModules.length) {
     return null;
@@ -33,10 +13,14 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
 
   return (
     <>
-      {getModules().map(
-        (module) =>
-          availableModules.includes(module.type) && getModule(module.type)
-      )}
+      {getModules().map((module) => {
+        if (availableModules.includes(module.type)) {
+          const Component = modulesMap[module.type];
+          if (!Component) return null;
+          return <Component key={module.type} />;
+        }
+        return null;
+      })}
     </>
   );
 };
