@@ -1,10 +1,17 @@
 import { Breadcrumb, Button } from '@appquality/unguess-design-system';
+import styled from 'styled-components';
 import { usePlanTab } from '../context/planContext';
+
+const StyledBreadcrumb = styled(Breadcrumb)`
+  ol {
+    justify-content: center;
+  }
+`;
 
 export const BreadCrumbTabs = () => {
   const { activeTab, setActiveTab } = usePlanTab();
   return (
-    <Breadcrumb style={{ justifyContent: 'center' }}>
+    <StyledBreadcrumb showLastArrow={false}>
       <Button
         isBasic
         size="small"
@@ -42,6 +49,6 @@ export const BreadCrumbTabs = () => {
       >
         Get expert response
       </Button>
-    </Breadcrumb>
+    </StyledBreadcrumb>
   );
 };
