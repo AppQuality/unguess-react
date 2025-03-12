@@ -82,7 +82,7 @@ const TargetSize = () => {
             </AccordionNew.Meta>
           )}
         </AccordionNew.Header>
-        <AccordionNew.Panel>
+        <AccordionNew.Panel data-qa="title-module">
           <div style={{ padding: appTheme.space.xs }}>
             <FormField style={{ marginBottom: appTheme.space.md }}>
               <Label>
@@ -105,7 +105,7 @@ const TargetSize = () => {
                     <AlertIcon />
                     <SM
                       style={{ color: appTheme.components.text.dangerColor }}
-                      data-qa="title-error"
+                      data-qa="target-error"
                     >
                       {error}
                     </SM>
