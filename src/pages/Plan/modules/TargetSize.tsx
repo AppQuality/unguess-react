@@ -62,7 +62,6 @@ const TargetSize = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setCurrentValue(inputValue);
-    /*  setOutput(Number(inputValue)); */
   };
 
   return (
