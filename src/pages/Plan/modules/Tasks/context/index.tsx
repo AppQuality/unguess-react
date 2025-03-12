@@ -5,6 +5,8 @@ interface ModuleTasksContextType {
   setScrollRef: (ref: HTMLDivElement | null) => void;
   modalRef: HTMLButtonElement | null;
   setModalRef: (ref: HTMLButtonElement | null) => void;
+  isConfirmationModalOpen: boolean;
+  setIsConfirmationModalOpen: (isOpen: boolean) => void;
 }
 
 const ModuleTasksContext = createContext<ModuleTasksContextType | null>(null);
@@ -18,6 +20,8 @@ export const ModuleTasksContextProvider = ({
     useState<ModuleTasksContextType['modalRef']>(null);
   const [scrollRef, setScrollRef] =
     useState<ModuleTasksContextType['scrollRef']>(null);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
+    useState<ModuleTasksContextType['isConfirmationModalOpen']>(false);
 
   const moduleTasksContextValue = useMemo(
     () => ({
@@ -25,8 +29,17 @@ export const ModuleTasksContextProvider = ({
       setModalRef,
       scrollRef,
       setScrollRef,
+      isConfirmationModalOpen,
+      setIsConfirmationModalOpen,
     }),
-    [modalRef, setModalRef, scrollRef, setScrollRef]
+    [
+      modalRef,
+      setModalRef,
+      scrollRef,
+      setScrollRef,
+      isConfirmationModalOpen,
+      setIsConfirmationModalOpen,
+    ]
   );
 
   return (
