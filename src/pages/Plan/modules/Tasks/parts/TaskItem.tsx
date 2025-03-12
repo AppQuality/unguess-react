@@ -6,18 +6,15 @@ import {
   Input,
   Label,
   MD,
-  MediaInput,
   Message,
-  Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { ReactComponent as LinkIcon } from 'src/assets/icons/link-fill.svg';
 import { components } from 'src/common/schema';
-import { useModuleTasks } from '../hooks';
-import { getIconFromKind } from '../utils';
 import { useModuleTasksContext } from '../context';
+import { useModuleTasks } from '../hooks';
+import { getIconFromTask } from '../utils';
 import { DeleteTaskConfirmationModal } from './DeleteTaskConfirmationModal';
 
 const TaskItem = ({
@@ -54,7 +51,7 @@ const TaskItem = ({
         hasBorder
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromKind(task.kind)}>
+          <AccordionNew.Header icon={getIconFromTask(task)}>
             <AccordionNew.Label label={`${index}. ${task.title}`} />
             <AccordionNew.Meta>
               <Button

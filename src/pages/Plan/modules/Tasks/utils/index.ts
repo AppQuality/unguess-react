@@ -1,4 +1,4 @@
-import { getIconFromKind } from './getIconFromKind';
+import { getIconFromTask } from './getIconFromTask';
 import { useHandleModalItemClick } from './useHandleModalItemClick';
 
-export { getIconFromKind, useHandleModalItemClick };
+export { getIconFromTask, useHandleModalItemClick };
