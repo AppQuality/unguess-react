@@ -1,4 +1,5 @@
 {
+  "id": 13,
   "config": {
     "modules": [
       {
@@ -8,5 +9,9 @@
       }
     ]
   },
-  "status": "draft"
+  "status": "draft",
+  "project": {
+    "id": 90,
+    "name": "MyProject"
+  }
 }

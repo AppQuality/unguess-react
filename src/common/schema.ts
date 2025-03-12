@@ -509,6 +509,7 @@ export interface paths {
     };
   };
   '/workspaces/{wid}/plans': {
+    get: operations['get-workspaces-wid-plans'];
     post: operations['post-workspaces-wid-plans'];
     parameters: {
       path: {
@@ -889,7 +890,13 @@ export interface components {
     Module:
       | components['schemas']['ModuleTitle']
       | components['schemas']['ModuleDate']
-      | components['schemas']['ModuleTask'];
+      | components['schemas']['ModuleTask']
+      | components['schemas']['ModuleAge']
+      | components['schemas']['ModuleLanguage']
+      | components['schemas']['ModuleLiteracy']
+      | components['schemas']['ModuleTarget']
+      | components['schemas']['ModuleGoal']
+      | components['schemas']['ModuleGender'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -897,6 +904,12 @@ export interface components {
       output: {
         start: string;
       };
+    };
+    ModuleGoal: {
+      /** @enum {string} */
+      type: 'goal';
+      variant: string;
+      output: string;
     };
     ModuleTitle: {
       /** @enum {string} */
@@ -910,6 +923,41 @@ export interface components {
       type: 'tasks';
       variant: string;
       output: components['schemas']['OutputModuleTask'][];
+    };
+    /** ModuleAge */
+    ModuleAge: {
+      /** @enum {string} */
+      type: 'age';
+      variant: string;
+      output: components['schemas']['OutputModuleAge'];
+    };
+    /** ModuleGender */
+    ModuleGender: {
+      /** @enum {string} */
+      type: 'gender';
+      variant: string;
+      output: components['schemas']['OutputModuleGender'];
+    };
+    /** ModuleLiteracy */
+    ModuleLiteracy: {
+      /** @enum {string} */
+      type: 'literacy';
+      variant: string;
+      output: components['schemas']['OutputModuleLiteracy'];
+    };
+    /** ModuleLanguage */
+    ModuleLanguage: {
+      /** @enum {string} */
+      type: 'language';
+      variant: string;
+      output: string;
+    };
+    /** ModuleLanguage */
+    ModuleTarget: {
+      /** @enum {string} */
+      type: 'target';
+      variant: string;
+      output: number;
     };
     /** Observation */
     Observation: {
@@ -1376,6 +1424,12 @@ export interface components {
       title: string;
       description?: string;
     };
+    /** OutputModuleAge */
+    OutputModuleAge: {
+      min: number;
+      max: number;
+      percentage: number;
+    }[];
     /** SubcomponentTaskVideo */
     OutputModuleTaskVideo: {
       /** @enum {string} */
@@ -1390,11 +1444,39 @@ export interface components {
       title: string;
       description?: string;
     };
+    /** OutputModuleTaskModerateVideo */
+    OutputModuleTaskModerateVideo: {
+      /** @enum {string} */
+      kind: 'moderate-video';
+      title: string;
+      description?: string;
+    };
+    /** OutputModuleTaskExplorativeBug */
+    OutputModuleTaskExplorativeBug: {
+      /** @enum {string} */
+      kind: 'explorative-bug';
+      title: string;
+      description?: string;
+    };
     /** SubcomponentTask */
     OutputModuleTask:
       | components['schemas']['OutputModuleTaskVideo']
       | components['schemas']['OutputModuleTaskBug']
-      | components['schemas']['OutputModuleTaskSurvey'];
+      | components['schemas']['OutputModuleTaskSurvey']
+      | components['schemas']['OutputModuleTaskModerateVideo']
+      | components['schemas']['OutputModuleTaskExplorativeBug'];
+    /** OutputModuleLiteracy */
+    OutputModuleLiteracy: {
+      /** @enum {string} */
+      level: 'beginner' | 'intermediate' | 'expert';
+      percentage: number;
+    }[];
+    /** OutputModuleGender */
+    OutputModuleGender: {
+      /** @enum {string} */
+      gender: 'male' | 'female';
+      percentage: number;
+    }[];
   };
   responses: {
     /** Shared error response */
@@ -3472,6 +3554,44 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  'get-workspaces-wid-plans': {
+    parameters: {
+      path: {
+        wid: string;
+      };
+      query: {
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            title: string;
+            /** @enum {string} */
+            status: 'draft' | 'pending_review' | 'approved';
+            project: {
+              id: number;
+              title: string;
+            };
+          }[];
+        };
+      };
+      /** Unauthorized */
+      401: unknown;
+      /** Forbidden */
+      403: unknown;
+    };
+  };
   'post-workspaces-wid-plans': {
     parameters: {
       path: {
@@ -3509,11 +3629,16 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            id: number;
             config: {
               modules: components['schemas']['Module'][];
             };
             /** @enum {string} */
             status: 'draft' | 'pending_review' | 'approved';
+            project: {
+              id: number;
+              name: string;
+            };
           };
         };
       };
@@ -3623,6 +3748,10 @@ export interface operations {
         limit?: components['parameters']['limit'];
         /** Start pagination parameter */
         start?: components['parameters']['start'];
+        /** Orders results */
+        orderBy?: 'updated_at' | 'id';
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
       };
     };
     responses: {
@@ -3631,10 +3760,7 @@ export interface operations {
         content: {
           'application/json': {
             items: components['schemas']['CpReqTemplate'][];
-            start: number;
-            limit: number;
-            total: number;
-          };
+          } & components['schemas']['PaginationData'];
         };
       };
       400: components['responses']['Error'];

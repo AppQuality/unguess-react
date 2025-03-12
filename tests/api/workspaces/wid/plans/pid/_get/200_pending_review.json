@@ -1,5 +1,10 @@
 {
+  "id": 13,
   "status": "pending_review",
+  "project": {
+    "id": 90,
+    "name": "MyProject"
+  },
   "config": {
     "modules": [
       {

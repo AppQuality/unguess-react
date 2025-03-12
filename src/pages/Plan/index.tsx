@@ -56,7 +56,7 @@ const Plan = () => {
         })
         .catch((e: any) => console.log(e));
     },
-    [activeWorkspace, planId]
+    [activeWorkspace, planId, plan]
   );
 
   return (

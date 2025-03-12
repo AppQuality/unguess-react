@@ -34,7 +34,6 @@ export const useValidation = <
   ) => true | string | Record<string, any>;
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const { errors, setErrors, addValidationFunction } = useValidationContext();
   const { value } = useModule(type);
   const memoizedValidate = useCallback(validate, []);
@@ -52,7 +51,6 @@ export const useValidation = <
 
     if (validation === true) {
       setIsValid(true);
-      setError(null);
       setErrors(newErrors);
       return;
     }
@@ -60,12 +58,10 @@ export const useValidation = <
     setIsValid(false);
 
     if (typeof validation === 'string') {
-      setError(validation);
       setErrors({ ...newErrors, [type]: validation });
     } else {
       const errorObject = flattenObject(validation, type);
       setErrors({ ...newErrors, ...errorObject });
-      setError(JSON.stringify(errorObject));
     }
   };
 
@@ -73,12 +69,31 @@ export const useValidation = <
     addValidationFunction(type, validationHandler);
   }, [value, memoizedValidate]);
 
-  let errorValue;
-  try {
-    errorValue = JSON.parse(error || '');
-  } catch (e) {
-    errorValue = error;
-  }
+  const getErrorInThisModule = () => {
+    const errorInThisModule = { ...errors };
+    Object.keys(errorInThisModule).forEach((key) => {
+      if (!key.startsWith(`${type}.`) && key !== type) {
+        delete errorInThisModule[`${key}`];
+      }
+    });
 
-  return { validate: validationHandler, isValid, error: errorValue };
+    if (Object.keys(errorInThisModule).length === 0) {
+      return undefined;
+    }
+
+    if (
+      Object.keys(errorInThisModule).length === 1 &&
+      errorInThisModule[`${type}`]
+    ) {
+      return errorInThisModule[`${type}`];
+    }
+
+    return errorInThisModule;
+  };
+
+  return {
+    validate: validationHandler,
+    isValid,
+    error: getErrorInThisModule(),
+  };
 };
