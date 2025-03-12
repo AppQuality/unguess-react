@@ -509,6 +509,7 @@ export interface paths {
     };
   };
   '/workspaces/{wid}/plans': {
+    get: operations['get-workspaces-wid-plans'];
     post: operations['post-workspaces-wid-plans'];
     parameters: {
       path: {
@@ -894,7 +895,8 @@ export interface components {
       | components['schemas']['ModuleLanguage']
       | components['schemas']['ModuleLiteracy']
       | components['schemas']['ModuleTarget']
-      | components['schemas']['ModuleGoal'];
+      | components['schemas']['ModuleGoal']
+      | components['schemas']['ModuleGender'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -3552,6 +3554,44 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  'get-workspaces-wid-plans': {
+    parameters: {
+      path: {
+        wid: string;
+      };
+      query: {
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            title: string;
+            /** @enum {string} */
+            status: 'draft' | 'pending_review' | 'approved';
+            project: {
+              id: number;
+              title: string;
+            };
+          }[];
+        };
+      };
+      /** Unauthorized */
+      401: unknown;
+      /** Forbidden */
+      403: unknown;
+    };
+  };
   'post-workspaces-wid-plans': {
     parameters: {
       path: {
@@ -3589,12 +3629,16 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            id: number;
             config: {
               modules: components['schemas']['Module'][];
             };
             /** @enum {string} */
             status: 'draft' | 'pending_review' | 'approved';
-            project_id: number;
+            project: {
+              id: number;
+              name: string;
+            };
           };
         };
       };
@@ -3633,7 +3677,6 @@ export interface operations {
           config: {
             modules: components['schemas']['Module'][];
           };
-          project_id: number;
         };
       };
     };
@@ -3705,6 +3748,10 @@ export interface operations {
         limit?: components['parameters']['limit'];
         /** Start pagination parameter */
         start?: components['parameters']['start'];
+        /** Orders results */
+        orderBy?: 'updated_at' | 'id';
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
       };
     };
     responses: {
@@ -3713,10 +3760,7 @@ export interface operations {
         content: {
           'application/json': {
             items: components['schemas']['CpReqTemplate'][];
-            start: number;
-            limit: number;
-            total: number;
-          };
+          } & components['schemas']['PaginationData'];
         };
       };
       400: components['responses']['Error'];

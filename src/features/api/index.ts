@@ -654,6 +654,20 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getWorkspacesByWidPlans: build.query<
+      GetWorkspacesByWidPlansApiResponse,
+      GetWorkspacesByWidPlansApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans`,
+        params: {
+          orderBy: queryArg.orderBy,
+          order: queryArg.order,
+          filterBy: queryArg.filterBy,
+          limit: queryArg.limit,
+        },
+      }),
+    }),
     deleteWorkspacesByWidPlansAndPid: build.mutation<
       DeleteWorkspacesByWidPlansAndPidApiResponse,
       DeleteWorkspacesByWidPlansAndPidApiArg
@@ -706,7 +720,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/workspaces/${queryArg.wid}/templates`,
-        params: { limit: queryArg.limit, start: queryArg.start },
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          orderBy: queryArg.orderBy,
+          order: queryArg.order,
+        },
       }),
     }),
     deleteWorkspacesByWidTemplatesAndTid: build.mutation<
@@ -1713,17 +1732,41 @@ export type PostWorkspacesByWidPlansApiArg = {
     project_id: number;
   };
 };
+export type GetWorkspacesByWidPlansApiResponse = /** status 200 OK */ {
+  id: number;
+  title: string;
+  status: 'draft' | 'pending_review' | 'approved';
+  project: {
+    id: number;
+    title: string;
+  };
+}[];
+export type GetWorkspacesByWidPlansApiArg = {
+  wid: string;
+  /** Order by accepted field */
+  orderBy?: string;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
+  /** Limit pagination parameter */
+  limit?: number;
+};
 export type DeleteWorkspacesByWidPlansAndPidApiResponse = unknown;
 export type DeleteWorkspacesByWidPlansAndPidApiArg = {
   wid: string;
   pid: string;
 };
 export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
+  id: number;
   config: {
     modules: Module[];
   };
   status: 'draft' | 'pending_review' | 'approved';
-  project_id: number;
+  project: {
+    id: number;
+    name: string;
+  };
 };
 export type GetWorkspacesByWidPlansAndPidApiArg = {
   wid: string;
@@ -1737,7 +1780,6 @@ export type PatchWorkspacesByWidPlansAndPidApiArg = {
     config: {
       modules: Module[];
     };
-    project_id: number;
   };
 };
 export type PatchWorkspacesByWidPlansAndPidStatusApiResponse =
@@ -1766,10 +1808,7 @@ export type GetWorkspacesByWidProjectsApiArg = {
 };
 export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
   items: CpReqTemplate[];
-  start: number;
-  limit: number;
-  total: number;
-};
+} & PaginationData;
 export type GetWorkspacesByWidTemplatesApiArg = {
   /** Workspace (company, customer) id */
   wid: string;
@@ -1777,6 +1816,10 @@ export type GetWorkspacesByWidTemplatesApiArg = {
   limit?: number;
   /** Start pagination parameter */
   start?: number;
+  /** Orders results */
+  orderBy?: 'updated_at' | 'id';
+  /** Order value (ASC, DESC) */
+  order?: string;
 };
 export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
   /** status 200 OK */ {};
@@ -2459,6 +2502,15 @@ export type ModuleGoal = {
   variant: string;
   output: string;
 };
+export type OutputModuleGender = {
+  gender: 'male' | 'female';
+  percentage: number;
+}[];
+export type ModuleGender = {
+  type: 'gender';
+  variant: string;
+  output: OutputModuleGender;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2467,7 +2519,8 @@ export type Module =
   | ModuleLanguage
   | ModuleLiteracy
   | ModuleLanguage2
-  | ModuleGoal;
+  | ModuleGoal
+  | ModuleGender;
 export type CpReqTemplate = {
   id: number;
   name: string;
@@ -2555,6 +2608,7 @@ export const {
   useGetWorkspacesByWidCampaignsQuery,
   useGetWorkspacesByWidCoinsQuery,
   usePostWorkspacesByWidPlansMutation,
+  useGetWorkspacesByWidPlansQuery,
   useDeleteWorkspacesByWidPlansAndPidMutation,
   useGetWorkspacesByWidPlansAndPidQuery,
   usePatchWorkspacesByWidPlansAndPidMutation,
