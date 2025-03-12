@@ -14,7 +14,7 @@ import OutOfScope from './modules/OutOfScope';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal'],
-  target: ['target_note', 'users', 'language', 'gender', 'age', 'literacy'],
+  target: ['target_note', 'target', 'language', 'gender', 'age', 'literacy'],
   instructions: ['instructions_note', 'tasks', 'out_of_scope'],
 };
 
@@ -26,7 +26,7 @@ export const modulesMap = {
   age: Age,
   goal: Goal,
   target_note: TargetNote,
-  users: Users,
+  target: Users,
   language: Language,
   gender: Gender,
   literacy: Literacy,

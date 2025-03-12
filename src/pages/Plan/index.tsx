@@ -20,10 +20,15 @@ const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
 
   const [patchPlan] = usePatchWorkspacesByWidPlansAndPidMutation();
-  const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery({
-    wid: Number(activeWorkspace?.id).toString(),
-    pid: Number(planId).toString(),
-  });
+  const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery(
+    {
+      wid: Number(activeWorkspace?.id).toString(),
+      pid: Number(planId).toString(),
+    },
+    {
+      skip: !activeWorkspace || !planId,
+    }
+  );
 
   const [initialValues, setInitialValues] = useState<FormBody>({
     status: 'draft',
