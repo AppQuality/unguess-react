@@ -53,7 +53,6 @@ const Plan = () => {
           config: {
             modules: values.modules,
           },
-          project_id: plan?.project_id ?? 0,
         },
       })
         .unwrap()

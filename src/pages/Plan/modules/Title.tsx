@@ -47,7 +47,7 @@ const Title = () => {
           }}
         />
       </InputToggle>
-      {error && (
+      {error && typeof error === 'string' && (
         <SM
           style={{ color: appTheme.components.text.dangerColor }}
           data-qa="title-error"
