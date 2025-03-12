@@ -21,9 +21,9 @@ export const TitleGroup = () => {
     pid: Number(planId).toString(),
   });
 
-  const projectRoute = useLocalizeRoute(
-    `projects/${plan?.project_id ?? 0}` // TODO replace with project.id when api will be updated
-  );
+  const projectRoute = useLocalizeRoute(`projects/${plan?.project.id ?? 0}`);
+
+  if (!plan) return null;
 
   return (
     <StyledDiv>
@@ -31,8 +31,7 @@ export const TitleGroup = () => {
       <div>
         <Breadcrumb>
           <Link to={projectRoute}>
-            {/* TODO replace with project.name when api will be updated */}
-            <Anchor>Project Name</Anchor>
+            <Anchor>{plan.project.name}</Anchor>
           </Link>
         </Breadcrumb>
         <Title />
