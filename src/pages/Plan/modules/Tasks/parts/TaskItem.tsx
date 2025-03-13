@@ -15,7 +15,7 @@ import { components } from 'src/common/schema';
 import { useModuleTasksContext } from '../context';
 import { useModuleTasks } from '../hooks';
 import { getIconFromTask } from '../utils';
-import { DeleteTaskConfirmationModal } from './DeleteTaskConfirmationModal';
+import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
 
 const TaskItem = ({
   task,

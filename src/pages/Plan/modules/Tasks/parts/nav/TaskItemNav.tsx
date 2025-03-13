@@ -4,8 +4,8 @@ import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { useModuleTasks } from '../hooks';
-import { getIconFromTask } from '../utils';
+import { useModuleTasks } from '../../hooks';
+import { getIconFromTask } from '../../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};

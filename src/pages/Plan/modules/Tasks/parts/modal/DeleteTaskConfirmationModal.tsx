@@ -1,7 +1,7 @@
 import { Button, Modal, ModalClose } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useModuleTasksContext } from '../context';
-import { useModuleTasks } from '../hooks';
+import { useModuleTasksContext } from '../../context';
+import { useModuleTasks } from '../../hooks';
 
 const DeleteTaskConfirmationModal = ({ taskKey }: { taskKey: number }) => {
   const { t } = useTranslation();

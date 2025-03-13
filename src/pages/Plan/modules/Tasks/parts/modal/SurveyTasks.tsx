@@ -1,7 +1,7 @@
 import { Button, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as SurveyTaskIcon } from 'src/assets/icons/survey-task-icon.svg';
-import { useHandleModalItemClick } from '../utils';
+import { useHandleModalItemClick } from '../../utils';
 import { ButtonsContainer } from './ButtonsContainer';
 
 const SurveyTasks = () => {
