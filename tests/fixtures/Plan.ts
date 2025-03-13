@@ -39,8 +39,7 @@ export class PlanPage extends UnguessPage {
         this.elements().outOfScopeModule().getByRole('textbox'),
       outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
       targetModule: () => this.page.getByTestId('target-module'),
-      targetModuleInput: () =>
-        this.elements().targetModule().getByRole('textbox'),
+      targetModuleInput: () => this.page.getByTestId('target-input'),
       targetModuleError: () =>
         this.elements().targetModule().getByTestId('target-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
@@ -125,7 +124,7 @@ export class PlanPage extends UnguessPage {
   
   }
   
-  static getTargetFromPlan(plan: any) {
+  static getTargetFromPlan(plan: any): number {
     const targetModule = plan.config.modules.find(
       (module) => module.type === 'target'
     );
@@ -139,7 +138,7 @@ export class PlanPage extends UnguessPage {
   }
 
   async fillInputTarget(value: string) {
-    await this.elements().targetModule().click();
+    await this.elements().targetModuleInput().click();
     await this.elements().targetModuleInput().fill(value);
     await this.elements().targetModuleInput().blur();
   }

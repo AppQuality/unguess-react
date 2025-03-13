@@ -64,7 +64,12 @@ const TargetSize = () => {
   };
 
   return (
-    <AccordionNew level={3} hasBorder type={error ? 'danger' : 'default'}>
+    <AccordionNew
+      data-qa="target-module"
+      level={3}
+      hasBorder
+      type={error ? 'danger' : 'default'}
+    >
       <AccordionNew.Section>
         <AccordionNew.Header
           icon={
@@ -91,7 +96,7 @@ const TargetSize = () => {
             </AccordionNew.Meta>
           )}
         </AccordionNew.Header>
-        <AccordionNew.Panel data-qa="title-module">
+        <AccordionNew.Panel>
           <div style={{ padding: appTheme.space.xs }}>
             <FormField style={{ marginBottom: appTheme.space.md }}>
               <Label>
@@ -101,6 +106,7 @@ const TargetSize = () => {
                 <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
               </Label>
               <Input
+                data-qa="target-input"
                 type="number"
                 value={currentValue}
                 onChange={handleChange}
