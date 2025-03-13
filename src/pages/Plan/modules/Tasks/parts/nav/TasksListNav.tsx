@@ -1,5 +1,5 @@
 import { appTheme } from 'src/app/theme';
-import { useModuleTasks } from '../hooks';
+import { useModuleTasks } from '../../hooks';
 import { TaskItemNav } from './TaskItemNav';
 
 const TasksListNav = () => {

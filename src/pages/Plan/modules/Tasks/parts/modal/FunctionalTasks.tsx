@@ -2,7 +2,7 @@ import { Button, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ExploratoryTaskIcon } from 'src/assets/icons/exploratory-task-icon.svg';
 import { ReactComponent as FunctionalTaskIcon } from 'src/assets/icons/functional-task-icon.svg';
-import { useHandleModalItemClick } from '../utils';
+import { useHandleModalItemClick } from '../../utils';
 import { ButtonsContainer } from './ButtonsContainer';
 
 const FunctionalTasks = () => {
