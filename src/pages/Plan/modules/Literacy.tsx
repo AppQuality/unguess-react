@@ -32,18 +32,22 @@ const DigitalLiteracy = () => {
   const validation = (
     module: components['schemas']['Module'] & { type: 'literacy' }
   ) => {
-    let error;
     if (!module.output || module.output.length === 0) {
-      error = t('__DIGITAL_LITERACY_ERROR_REQUIRED');
+      return { value: t('__DIGITAL_LITERACY_ERROR_REQUIRED') };
     }
 
-    return error || true;
+    return true;
   };
 
   const { error, validate } = useValidation({
     type: 'literacy',
     validate: validation,
   });
+
+  const literacyError =
+    error && typeof error === 'object' && `literacy.value` in error
+      ? error[`literacy.value`]
+      : false;
 
   const getLabelsAndHints = (level: string) => {
     switch (level) {
@@ -85,6 +89,8 @@ const DigitalLiteracy = () => {
   useEffect(() => {
     validate();
   }, [value]);
+
+  console.log('error', error);
 
   return (
     <div>
@@ -192,7 +198,7 @@ const DigitalLiteracy = () => {
         </AccordionNew.Section>
       </AccordionNew>
 
-      {error && (
+      {literacyError && (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <AlertIcon />
           <Span
@@ -202,7 +208,7 @@ const DigitalLiteracy = () => {
             }}
             data-qa="literacy-error"
           >
-            {error}
+            {literacyError}
           </Span>
         </div>
       )}
