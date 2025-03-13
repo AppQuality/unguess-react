@@ -46,6 +46,9 @@ export class PlanPage extends UnguessPage {
       targetTab: () => this.page.getByTestId('target-tab'),
       instructionsTab: () => this.page.getByTestId('instructions-tab'),
       summaryTab: () => this.page.getByTestId('summary-tab'),
+      digitalLiteracyModule: () =>
+        this.page.getByTestId('digital-literacy-module'),
+      digitalLiteracyModuleErrorMessage: () => this.page.getByTestId('literacy-error'),
     };
   }
 
