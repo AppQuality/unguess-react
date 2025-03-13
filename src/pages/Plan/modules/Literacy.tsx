@@ -34,10 +34,7 @@ const DigitalLiteracy = () => {
   ) => {
     let error;
     if (!module.output || module.output.length === 0) {
-      error = t(
-        '__DIGITAL_LITERACY_ERROR_REQUIRED',
-        'Please enter at least one digital literacy level to continue'
-      );
+      error = t('__DIGITAL_LITERACY_ERROR_REQUIRED');
     }
 
     return error || true;
@@ -52,36 +49,18 @@ const DigitalLiteracy = () => {
     switch (level) {
       case 'beginner':
         return {
-          label: t(
-            '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_BEGINNER_LABEL',
-            'Beginner'
-          ),
-          hint: t(
-            '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_BEGINNER_HINT',
-            'This tester has no autonomy, needs help from family and friends'
-          ),
+          label: t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_BEGINNER_LABEL'),
+          hint: t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_BEGINNER_HINT'),
         };
       case 'intermediate':
         return {
-          label: t(
-            '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_INTERMEDIATE_LABEL',
-            'Intermediate'
-          ),
-          hint: t(
-            '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_INTERMEDIATE_HINT',
-            'Partial autonomy, needs help in some scenarios'
-          ),
+          label: t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_INTERMEDIATE_LABEL'),
+          hint: t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_INTERMEDIATE_HINT'),
         };
       case 'expert':
         return {
-          label: t(
-            '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_EXPERT_LABEL',
-            'Expert'
-          ),
-          hint: t(
-            '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_EXPERT_HINT',
-            'Completely autonomous in any digital product use'
-          ),
+          label: t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_EXPERT_LABEL'),
+          hint: t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_EXPERT_HINT'),
         };
       default:
         return { label: '', hint: '' };
@@ -118,10 +97,7 @@ const DigitalLiteracy = () => {
         <AccordionNew.Section>
           <AccordionNew.Header icon={<BookClosedIcon />}>
             <AccordionNew.Label
-              label={t(
-                '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL',
-                'Digital Literacy'
-              )}
+              label={t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL')}
             />
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
               <AccordionNew.Meta>
@@ -129,10 +105,7 @@ const DigitalLiteracy = () => {
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
-                  {t(
-                    '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON',
-                    'Delete'
-                  )}
+                  {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON')}
                 </Button>
               </AccordionNew.Meta>
             )}
@@ -168,16 +141,10 @@ const DigitalLiteracy = () => {
                     fontSize: appTheme.fontSizes.md,
                   }}
                 >
-                  {t(
-                    '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ALL_LABEL',
-                    'All levels'
-                  )}
+                  {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ALL_LABEL')}
                 </Label>
                 <Hint>
-                  {t(
-                    '__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ALL_LABEL_HINT',
-                    'Testers equally divided by literacy level'
-                  )}
+                  {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ALL_LABEL_HINT')}
                 </Hint>
               </Checkbox>
             </FormField>
