@@ -103,7 +103,7 @@ const TargetSize = () => {
               <Input
                 type="number"
                 value={currentValue}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
                 onBlur={handleBlur}
                 validation={error ? 'error' : undefined}
                 placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
