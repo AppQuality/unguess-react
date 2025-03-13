@@ -1,4 +1,4 @@
-import { Card, MD, Message } from '@appquality/unguess-design-system';
+import { Card, MD, Message, Span } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
@@ -60,7 +60,9 @@ const TaskItemNav = ({
       >
         <StyledContainer>
           {getIconFromTask(task)}
-          <MD isBold>{task.title}</MD>
+          <MD>
+            {key + 1}. <Span isBold>{task.title}</Span>
+          </MD>
         </StyledContainer>
         {hasErrors && (
           <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
