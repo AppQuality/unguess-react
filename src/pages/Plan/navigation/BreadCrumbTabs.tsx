@@ -4,7 +4,7 @@ import { usePlanTab } from '../context/planContext';
 export const BreadCrumbTabs = () => {
   const { activeTab, setActiveTab } = usePlanTab();
   return (
-    <Breadcrumb style={{ justifyContent: 'center' }}>
+    <Breadcrumb showLastArrow={false} style={{ justifyContent: 'center' }}>
       <Button
         isBasic
         size="small"
