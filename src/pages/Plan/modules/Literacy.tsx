@@ -18,9 +18,11 @@ import { ReactComponent as BookClosedIcon } from '@zendeskgarden/svg-icons/src/1
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 
 const DigitalLiteracy = () => {
   const { hasFeatureFlag } = useFeatureFlag();
+  const { getPlanStatus } = useModuleConfiguration();
   type DigitalLiteracyLevel =
     components['schemas']['OutputModuleLiteracy'][number]['level'];
 
@@ -121,6 +123,7 @@ const DigitalLiteracy = () => {
                 key="all"
                 value="all"
                 name="literacy-all"
+                disabled={getPlanStatus() === 'pending_review'}
                 // checked if all levels are selected
                 checked={literacyLevels.every((level) =>
                   value?.output.some(
@@ -159,6 +162,7 @@ const DigitalLiteracy = () => {
                     key={level}
                     value={level.toLowerCase()}
                     name={`literacy-${level}`}
+                    disabled={getPlanStatus() === 'pending_review'}
                     checked={value?.output.some(
                       (item) => item.level === level.toLowerCase()
                     )}
@@ -199,7 +203,7 @@ const DigitalLiteracy = () => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  marginTop: appTheme.space.md,
+                  marginTop: appTheme.space.sm,
                 }}
               >
                 <AlertIcon />
