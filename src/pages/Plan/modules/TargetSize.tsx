@@ -13,7 +13,6 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { ReactComponent as TargetSizeIcon } from 'src/assets/icons/user-follow.svg';
-import { ReactComponent as TargetSizeErrorIcon } from 'src/assets/icons/user-follow-alert.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { appTheme } from 'src/app/theme';
@@ -65,10 +64,20 @@ const TargetSize = () => {
   };
 
   return (
-    <AccordionNew level={3} hasBorder>
+    <AccordionNew level={3} hasBorder type={error ? 'danger' : 'default'}>
       <AccordionNew.Section>
         <AccordionNew.Header
-          icon={error ? <TargetSizeErrorIcon /> : <TargetSizeIcon />}
+          icon={
+            <div
+              style={{
+                color: error
+                  ? appTheme.palette.red[900]
+                  : appTheme.palette.blue[600],
+              }}
+            >
+              <TargetSizeIcon />
+            </div>
+          }
         >
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
