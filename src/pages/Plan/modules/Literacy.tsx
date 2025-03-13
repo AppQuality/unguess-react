@@ -118,7 +118,13 @@ const DigitalLiteracy = () => {
             )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
-            <FormField>
+            <Label>{t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_TITLE')}</Label>
+            <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+            <FormField
+              style={{
+                marginTop: appTheme.space.sm,
+              }}
+            >
               <Checkbox
                 key="all"
                 value="all"
@@ -157,7 +163,12 @@ const DigitalLiteracy = () => {
             </FormField>
             <div style={{ marginLeft: appTheme.space.md }}>
               {literacyLevels.map((level) => (
-                <FormField key={level}>
+                <FormField
+                  key={level}
+                  style={{
+                    marginTop: appTheme.space.sm,
+                  }}
+                >
                   <Checkbox
                     key={level}
                     value={level.toLowerCase()}
