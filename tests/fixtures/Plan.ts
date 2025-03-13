@@ -29,8 +29,7 @@ export class PlanPage extends UnguessPage {
             name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
           }),
       targetModule: () => this.page.getByTestId('target-module'),
-      targetModuleInput: () =>
-        this.elements().targetModule().getByRole('textbox'),
+      targetModuleInput: () => this.page.getByTestId('target-input'),
       targetModuleError: () =>
         this.elements().targetModule().getByTestId('target-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
@@ -67,7 +66,7 @@ export class PlanPage extends UnguessPage {
     return dateValue;
   }
 
-  static getTargetFromPlan(plan: any) {
+  static getTargetFromPlan(plan: any): number {
     const targetModule = plan.config.modules.find(
       (module) => module.type === 'target'
     );
@@ -81,7 +80,7 @@ export class PlanPage extends UnguessPage {
   }
 
   async fillInputTarget(value: string) {
-    await this.elements().targetModule().click();
+    await this.elements().targetModuleInput().click();
     await this.elements().targetModuleInput().fill(value);
     await this.elements().targetModuleInput().blur();
   }
