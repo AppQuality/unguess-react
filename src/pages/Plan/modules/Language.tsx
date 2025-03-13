@@ -2,53 +2,58 @@ import {
   AccordionNew,
   Button,
   FormField,
-  Input,
+  Hint,
   Label,
-  SM,
-  Span,
+  Radio,
 } from '@appquality/unguess-design-system';
-import { Trans, useTranslation } from 'react-i18next';
-import { components } from 'src/common/schema';
+import { useTranslation } from 'react-i18next';
 import { useModule } from 'src/features/modules/useModule';
-import { useValidation } from 'src/features/modules/useModuleValidation';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { ReactComponent as LanguageIcon } from '@zendeskgarden/svg-icons/src/16/translation-exists-stroke.svg';
+import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { appTheme } from 'src/app/theme';
-import { ChangeEvent } from 'react';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import styled from 'styled-components';
 
+const StyledTitleGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: ${appTheme.space.sm};
+`;
 const Language = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput, remove } = useModule('language');
   const { t } = useTranslation();
 
-  const validation = (
-    module: components['schemas']['Module'] & { type: 'language' }
-  ) => {
-    let error;
-    if (!module.output) {
-      error = t('__PLAN_LANGUAGE_ERROR_REQUIRED');
-    }
-    return error || true;
-  };
+  const languages = [
+    {
+      value: 'en',
+      label: t('__PLAN_PAGE_MODULE_LANGUAGE_OPTION_EN'),
+    },
+    {
+      value: 'fr',
+      label: t('__PLAN_PAGE_MODULE_LANGUAGE_OPTION_FR'),
+    },
+    {
+      value: 'it',
+      label: t('__PLAN_PAGE_MODULE_LANGUAGE_OPTION_IT'),
+    },
+    {
+      value: 'es',
+      label: t('__PLAN_PAGE_MODULE_LANGUAGE_OPTION_ES'),
+    },
+  ];
 
-  const { error, validate } = useValidation({
-    type: 'language',
-    validate: validation,
-  });
-  const handleBlur = () => {
-    validate();
-  };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setOutput(inputValue);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setOutput(e.target.value);
   };
 
   return (
     <AccordionNew level={3} hasBorder>
       <AccordionNew.Section>
-        <AccordionNew.Header icon={<LanguageIcon />}>
+        <AccordionNew.Header
+          icon={<LanguageIcon color={appTheme.palette.blue[600]} />}
+        >
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_LANGUAGE_TITLE')} />
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
             <AccordionNew.Meta>
@@ -56,36 +61,31 @@ const Language = () => {
                 <Button.StartIcon>
                   <TrashIcon />
                 </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON')}
+                {t('__PLAN_PAGE_MODULE_LANGUAGE_REMOVE_BUTTON')}
               </Button>
             </AccordionNew.Meta>
           )}
         </AccordionNew.Header>
         <AccordionNew.Panel data-qa="title-module">
+          <StyledTitleGroup>
+            <Label>
+              {t('_PLAN_PAGE_MODULE_LANGUAGE_SUBTITLE')}
+              <span style={{ color: appTheme.palette.red[700] }}>*</span>
+            </Label>
+            <Hint>{t('_PLAN_PAGE_MODULE_LANGUAGE_DESCRIPTION')}</Hint>
+          </StyledTitleGroup>
           <div style={{ padding: appTheme.space.xs }}>
-            <FormField style={{ marginBottom: appTheme.space.md }}>
-              <Label>
-                <Trans i18nKey="__PLAN_PAGE_MODULE_LANGUAGE_LABEL">
-                  Enter the number of users you want to include
-                </Trans>
-                <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
-              </Label>
-              <Input
-                type="number"
-                value={value?.output}
-                onChange={(e) => handleChange(e)}
-                onBlur={handleBlur}
-                validation={error ? 'error' : undefined}
-              />
-              {error && typeof error === 'string' && (
-                <SM
-                  style={{ color: appTheme.components.text.dangerColor }}
-                  data-qa="target-error"
+            {languages.map((language) => (
+              <FormField style={{ marginBottom: appTheme.space.sm }}>
+                <Radio
+                  value={language.value}
+                  checked={value?.output === language.value}
+                  onChange={handleChange}
                 >
-                  {error}
-                </SM>
-              )}
-            </FormField>
+                  <Label isRegular>{t(language.label)}</Label>
+                </Radio>
+              </FormField>
+            ))}
           </div>
         </AccordionNew.Panel>
       </AccordionNew.Section>
