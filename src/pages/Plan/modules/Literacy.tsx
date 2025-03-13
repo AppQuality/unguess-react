@@ -71,16 +71,17 @@ const DigitalLiteracy = () => {
     }
   };
 
-  const updateOutput = (
-    newOutput: { level: DigitalLiteracyLevel; percentage: number }[]
-  ) => {
-    if (newOutput.length > 0) {
-      const newPercentage = 100 / newOutput.length;
-      const finalOutput = newOutput.map((item) => ({
-        ...item,
-        percentage: newPercentage,
-      }));
-      setOutput(finalOutput);
+  const updateOutput = (desiredLevels: { level: DigitalLiteracyLevel }[]) => {
+    if (desiredLevels.length > 0) {
+      const fixedPercentage: number = Number(
+        (100 / desiredLevels.length).toFixed(2) // the percentage is equally divided and it's the same for all levels
+      );
+      setOutput(
+        desiredLevels.map((item) => ({
+          ...item,
+          percentage: fixedPercentage,
+        }))
+      );
     } else {
       setOutput([]);
     }
@@ -127,13 +128,12 @@ const DigitalLiteracy = () => {
                   )
                 )}
                 onChange={(e) => {
-                  const isChecked = e.target.checked;
-                  if (isChecked) {
-                    const newOutput = literacyLevels.map((level) => ({
-                      level: level.toLowerCase() as DigitalLiteracyLevel,
-                      percentage: 0,
-                    }));
-                    updateOutput(newOutput);
+                  if (e.target.checked) {
+                    updateOutput(
+                      literacyLevels.map((level) => ({
+                        level: level.toLowerCase() as DigitalLiteracyLevel,
+                      }))
+                    );
                   } else {
                     updateOutput([]);
                   }
@@ -163,20 +163,21 @@ const DigitalLiteracy = () => {
                       (item) => item.level === level.toLowerCase()
                     )}
                     onChange={(e) => {
-                      const levelValue = e.target.value as DigitalLiteracyLevel;
-                      const isChecked = e.target.checked;
-                      let updatedOutput = value?.output || [];
-                      if (isChecked) {
-                        updatedOutput = [
-                          ...updatedOutput,
-                          { level: levelValue, percentage: 0 },
+                      const previousLevels = value?.output.map(
+                        (item) => item.level
+                      );
+                      let updatedLevels: DigitalLiteracyLevel[] = [];
+                      if (e.target.checked) {
+                        updatedLevels = [
+                          ...(previousLevels || []),
+                          e.target.value as DigitalLiteracyLevel,
                         ];
                       } else {
-                        updatedOutput = updatedOutput.filter(
-                          (item) => item.level !== levelValue
-                        );
+                        updatedLevels = previousLevels
+                          ?.filter((item) => item !== e.target.value)
+                          .map((item) => item) as DigitalLiteracyLevel[];
                       }
-                      updateOutput(updatedOutput);
+                      updateOutput(updatedLevels.map((l) => ({ level: l })));
                     }}
                   >
                     <Label
@@ -192,24 +193,30 @@ const DigitalLiteracy = () => {
                 </FormField>
               ))}
             </div>
+
+            {literacyError && (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: appTheme.space.md,
+                }}
+              >
+                <AlertIcon />
+                <Span
+                  style={{
+                    marginLeft: appTheme.space.xs,
+                    color: appTheme.palette.red[600],
+                  }}
+                  data-qa="literacy-error"
+                >
+                  {literacyError}
+                </Span>
+              </div>
+            )}
           </AccordionNew.Panel>
         </AccordionNew.Section>
       </AccordionNew>
-
-      {literacyError && (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <AlertIcon />
-          <Span
-            style={{
-              marginLeft: appTheme.space.xs,
-              color: appTheme.palette.red[600],
-            }}
-            data-qa="literacy-error"
-          >
-            {literacyError}
-          </Span>
-        </div>
-      )}
     </div>
   );
 };
