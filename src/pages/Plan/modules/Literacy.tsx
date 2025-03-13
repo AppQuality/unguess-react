@@ -90,8 +90,6 @@ const DigitalLiteracy = () => {
     validate();
   }, [value]);
 
-  console.log('error', error);
-
   return (
     <div>
       <AccordionNew
