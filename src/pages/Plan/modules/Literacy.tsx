@@ -19,13 +19,16 @@ import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import styled from 'styled-components';
 
 const DigitalLiteracy = () => {
-  const { hasFeatureFlag } = useFeatureFlag();
-  const { getPlanStatus } = useModuleConfiguration();
   type DigitalLiteracyLevel =
     components['schemas']['OutputModuleLiteracy'][number]['level'];
-
+  const { hasFeatureFlag } = useFeatureFlag();
+  const { getPlanStatus } = useModuleConfiguration();
+  const BookClosedIconError = styled(BookClosedIcon)`
+    color: ${appTheme.palette.red[900]};
+  `;
   const literacyLevels: components['schemas']['OutputModuleLiteracy'][number]['level'][] =
     ['expert', 'intermediate', 'beginner'];
 
@@ -99,10 +102,19 @@ const DigitalLiteracy = () => {
         hasBorder
         className="literacy-checkboxes"
         data-qa="digital-literacy-module"
+        type={literacyError ? 'danger' : 'default'}
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={<BookClosedIcon />}>
+          <AccordionNew.Header
+            icon={
+              literacyError ? (
+                <BookClosedIconError />
+              ) : (
+                <BookClosedIcon color={appTheme.palette.blue[600]} />
+              )
+            }
+          >
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL')}
             />
