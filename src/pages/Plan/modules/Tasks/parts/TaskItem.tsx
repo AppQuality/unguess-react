@@ -2,6 +2,7 @@ import {
   AccordionNew,
   Button,
   Editor,
+  Ellipsis,
   FormField,
   Input,
   Label,
@@ -41,6 +42,7 @@ const TaskItem = ({
       : false;
 
   const hasError = titleError || descriptionError;
+  const hasPlaceholder = !task.title;
 
   const handleBlur = () => {
     validate();
@@ -57,7 +59,13 @@ const TaskItem = ({
       >
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTask(task)}>
-            <AccordionNew.Label label={`${index}. ${task.title}`} />
+            <AccordionNew.Label
+              label={`${index}. ${
+                hasPlaceholder
+                  ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
+                  : task.title
+              }`}
+            />
             <AccordionNew.Meta>
               <Button
                 isBasic

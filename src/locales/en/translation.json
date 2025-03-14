@@ -1053,6 +1053,7 @@
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_REQUIRED": "Task title is required",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL": "Task title",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER": "What we are going to test?",
+  "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY": "Task title",
   "__PLAN_PAGE_TITLE": "Plan your activity",
   "__PLAN_REMOVE_MODULE_CTA": "Remove",
   "__PLAN_REQUEST_QUOTATION_CTA": "Send Request",

@@ -13,7 +13,9 @@ const useModuleTasks = () => {
   }));
 
   const add = (kind: NonNullable<typeof value>['output'][number]['kind']) => {
-    function getDefaultTitle() {
+    function getDefaultTitle(fill: boolean = false) {
+      if (!fill) return '';
+
       if (kind === 'bug')
         return t(
           '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_FUNCTIONAL_TITLE_DEFAULT'
@@ -102,6 +104,7 @@ const useModuleTasks = () => {
         !item.description ||
         item.description.length === 0 ||
         item.description === '<p></p>';
+      // TODO: error title max length 64
       if (!titleEmpty && !descriptionEmpty) return { ...acc };
       return {
         ...acc,
