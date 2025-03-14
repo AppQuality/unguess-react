@@ -20,6 +20,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import styled from 'styled-components';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -32,9 +33,11 @@ const TargetSize = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput, remove } = useModule('target');
   const { t } = useTranslation();
+  const { getPlanStatus } = useModuleConfiguration();
   const [currentValue, setCurrentValue] = useState<string | undefined>(
     value?.output.toString()
   );
+  const planStatus = getPlanStatus();
   useEffect(() => {
     setOutput(Number(currentValue));
   }, [currentValue]);
@@ -106,6 +109,7 @@ const TargetSize = () => {
                 <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
               </Label>
               <Input
+                readOnly={planStatus === 'pending_review'}
                 data-qa="target-input"
                 type="number"
                 value={currentValue}
