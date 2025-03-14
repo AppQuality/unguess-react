@@ -79,8 +79,8 @@ const Age = () => {
         max: range.max,
         checkboxLabel:
           range.max === MAXAGE
-            ? t('{{min}}+', { min: range.min, max: MAXAGE })
-            : t('{{min}} - {{max}}', {
+            ? t('__MAX_AGE_RANGE', { min: range.min, max: MAXAGE })
+            : t('__MINMAX_AGE_RANGE', {
                 min: range.min,
                 max: range.max,
               }),
