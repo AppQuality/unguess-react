@@ -22,13 +22,14 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import styled from 'styled-components';
 
 const Age = () => {
-  type AgeRange = Pick<
-    components['schemas']['OutputModuleAge'][number],
-    'min' | 'max'
-  >;
+  type AgeRange = {
+    min: components['schemas']['OutputModuleAge'][number]['min'];
+    max: components['schemas']['OutputModuleAge'][number]['max'];
+  };
 
   const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
+  const MAXAGE = 70; // the highest permitted value chosen by user/design
   const UserGroupIconError = styled(UserGroupIcon)`
     color: ${appTheme.palette.red[900]};
   `;
@@ -67,45 +68,37 @@ const Age = () => {
     },
     {
       min: 55,
-      max: 70,
+      max: MAXAGE,
     },
   ];
 
   // for future use cases we can pass the ranges from other input sources
-  const generateAgeRanges = (
+  const generateAgeRangesAndLabels = (
     ranges: { min: number; max: number }[] = defaultAgeRanges
   ) => {
-    const ageRanges: AgeRange[] = [];
+    const ageRangesAndLabels: (AgeRange & { checkboxLabel: string })[] = [];
     ranges.forEach((range) => {
-      ageRanges.push({
+      ageRangesAndLabels.push({
         min: range.min,
         max: range.max,
+        checkboxLabel:
+          range.max === MAXAGE
+            ? t('{{min}}+', { min: range.min, max: MAXAGE })
+            : t('{{min}} - {{max}}', {
+                min: range.min,
+                max: range.max,
+              }),
       });
     });
-    return ageRanges;
+    return ageRangesAndLabels;
   };
 
-  const ageRanges = generateAgeRanges();
+  const ageRangesAndLabels = generateAgeRangesAndLabels();
 
   const ageError =
     error && typeof error === 'object' && `age.value` in error
       ? error[`age.value`]
       : false;
-
-  const getLabels = (ageRange: AgeRange) => {
-    switch (ageRange.min) {
-      case 16:
-        return t('__PLAN_PAGE_MODULE_AGE_BASE_RANGE_LABEL');
-      case 25:
-        return t('__PLAN_PAGE_MODULE_AGE_FIRST_RANGE_LABEL');
-      case 35:
-        return t('__PLAN_PAGE_MODULE_AGE_SECOND_RANGE_LABEL');
-      case 55:
-        return t('__PLAN_PAGE_MODULE_AGE_THIRD_RANGE_LABEL');
-      default:
-        return '';
-    }
-  };
 
   const updateOutput = (desiredAgeRanges: { range: AgeRange }[]) => {
     if (desiredAgeRanges.length > 0) {
@@ -172,8 +165,8 @@ const Age = () => {
                   value="all"
                   name="gender-all"
                   disabled={getPlanStatus() === 'pending_review'}
-                  // checked if all genders are selected
-                  checked={ageRanges.every((ageRange) =>
+                  // checked if all ages are selected
+                  checked={ageRangesAndLabels.every((ageRange) =>
                     value?.output.some(
                       (item) =>
                         item.min === ageRange.min && item.max === ageRange.max
@@ -182,7 +175,7 @@ const Age = () => {
                   onChange={(e) => {
                     if (e.target.checked) {
                       updateOutput(
-                        ageRanges.map((ar) => ({
+                        ageRangesAndLabels.map((ar) => ({
                           range: {
                             min: ar.min,
                             max: ar.max,
@@ -206,7 +199,7 @@ const Age = () => {
                 </Checkbox>
               </FormField>
               <div style={{ marginLeft: appTheme.space.md }}>
-                {ageRanges.map((ar) => (
+                {ageRangesAndLabels.map((ar) => (
                   <FormField
                     key="range"
                     style={{
@@ -253,9 +246,8 @@ const Age = () => {
                           fontSize: appTheme.fontSizes.md,
                         }}
                       >
-                        {getLabels(ar)}
+                        {ar.checkboxLabel}
                       </Label>
-                      <Hint>{getLabels(ar)}</Hint>
                     </Checkbox>
                   </FormField>
                 ))}
@@ -275,7 +267,7 @@ const Age = () => {
                       marginLeft: appTheme.space.xs,
                       color: appTheme.palette.red[600],
                     }}
-                    data-qa="gender-error"
+                    data-qa="age-error"
                   >
                     {ageError}
                   </Span>
