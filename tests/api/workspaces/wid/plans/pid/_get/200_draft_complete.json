@@ -20,6 +20,11 @@
         }
       },
       {
+        "type": "out_of_scope",
+        "variant": "default",
+        "output": "Out of scope"
+      },
+      {
         "type": "tasks",
         "variant": "default",
         "output": [

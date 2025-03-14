@@ -896,7 +896,8 @@ export interface components {
       | components['schemas']['ModuleLiteracy']
       | components['schemas']['ModuleTarget']
       | components['schemas']['ModuleGoal']
-      | components['schemas']['ModuleGender'];
+      | components['schemas']['ModuleGender']
+      | components['schemas']['ModuleOutOfScope'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -908,6 +909,12 @@ export interface components {
     ModuleGoal: {
       /** @enum {string} */
       type: 'goal';
+      variant: string;
+      output: string;
+    };
+    ModuleOutOfScope: {
+      /** @enum {string} */
+      type: 'out_of_scope';
       variant: string;
       output: string;
     };
