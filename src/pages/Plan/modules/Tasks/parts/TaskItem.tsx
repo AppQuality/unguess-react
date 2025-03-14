@@ -8,6 +8,7 @@ import {
   Label,
   MD,
   Message,
+  Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -82,7 +83,10 @@ const TaskItem = ({
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
               <FormField style={{ marginBottom: appTheme.space.md }}>
-                <Label>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}</Label>
+                <Label>
+                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}
+                  <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                </Label>
                 <MD>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}</MD>
                 <Input
                   type="text"
@@ -101,6 +105,7 @@ const TaskItem = ({
               </FormField>
               <Label>
                 {t('__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL')}
+                <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
               </Label>
               <Editor
                 key={`task-editor-${index}`}
