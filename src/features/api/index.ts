@@ -1740,6 +1740,10 @@ export type GetWorkspacesByWidPlansApiResponse = /** status 200 OK */ {
     id: number;
     title: string;
   };
+  quote?: {
+    id: number;
+    status: 'pending' | 'proposed' | 'approved' | 'rejected';
+  };
 }[];
 export type GetWorkspacesByWidPlansApiArg = {
   wid: string;
@@ -2511,6 +2515,11 @@ export type ModuleGender = {
   variant: string;
   output: OutputModuleGender;
 };
+export type ModuleOutOfScope = {
+  type: 'out_of_scope';
+  variant: string;
+  output: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2520,7 +2529,8 @@ export type Module =
   | ModuleLiteracy
   | ModuleLanguage2
   | ModuleGoal
-  | ModuleGender;
+  | ModuleGender
+  | ModuleOutOfScope;
 export type CpReqTemplate = {
   id: number;
   name: string;
