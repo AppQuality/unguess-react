@@ -1,4 +1,10 @@
-import { Card, MD, Message, Span } from '@appquality/unguess-design-system';
+import {
+  Card,
+  Ellipsis,
+  MD,
+  Message,
+  Span,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
@@ -38,6 +44,7 @@ const TaskItemNav = ({
       : false;
 
   const hasErrors = titleError || descriptionError;
+  const hasPlaceholder = !task.title;
 
   return (
     <Link
@@ -60,9 +67,16 @@ const TaskItemNav = ({
       >
         <StyledContainer>
           {getIconFromTask(task)}
-          <MD>
-            {key + 1}. <Span isBold>{task.title}</Span>
-          </MD>
+          <Ellipsis style={{ width: '95%' }}>
+            <MD>
+              {key + 1}.
+              <Span isBold>
+                {hasPlaceholder
+                  ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
+                  : task.title}
+              </Span>
+            </MD>
+          </Ellipsis>
         </StyledContainer>
         {hasErrors && (
           <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
