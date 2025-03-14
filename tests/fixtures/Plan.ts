@@ -29,7 +29,8 @@ export class PlanPage extends UnguessPage {
             name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
           }),
       outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
-      outOfScopeModuleInput: () => this.page.getByRole('textbox'),
+      outOfScopeModuleInput: () =>
+        this.elements().outOfScopeModule().getByRole('textbox'),
       outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       saveConfigurationCTA: () =>
