@@ -31,6 +31,9 @@ export class PlanPage extends UnguessPage {
       languageModule: () => this.page.getByTestId('language-module'),
       languageRadioInput: () =>
         this.elements().languageModule().getByRole('radio'),
+      outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
+      outOfScopeModuleInput: () => this.page.getByRole('textbox'),
+      outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       saveConfigurationCTA: () =>
         this.page.getByRole('button', {
@@ -80,6 +83,17 @@ export class PlanPage extends UnguessPage {
     }
     const language = languageModule.output;
     return language;
+  }
+  
+  static getOutOfScopeFromPlan(plan: any) {
+    const outOfScopeModule = plan.config.modules.find(
+      (module) => module.type === 'out_of_scope'
+    );
+    if (!outOfScopeModule) {
+      throw new Error('No outOfScope found in plan');
+    }
+    const outOfScopeValue = outOfScopeModule.output;
+    return outOfScopeValue;
   }
 
   async mockGetDraftPlan() {
