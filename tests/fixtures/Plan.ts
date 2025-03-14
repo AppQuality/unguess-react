@@ -13,6 +13,9 @@ export class PlanPage extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
+      goalModule: () => this.page.getByTestId('goal-module'),
+      goalModuleInput: () => this.page.getByRole('textbox'),
+      goalModuleError: () => this.page.getByTestId('goal-error'),
       titleModule: () => this.page.getByTestId('title-module'),
       tasksModule: () => this.page.getByTestId('tasks-module'),
       datesModule: () => this.page.getByTestId('dates-module'),
@@ -52,7 +55,8 @@ export class PlanPage extends UnguessPage {
       summaryTab: () => this.page.getByTestId('summary-tab'),
       digitalLiteracyModule: () =>
         this.page.getByTestId('digital-literacy-module'),
-      digitalLiteracyModuleErrorMessage: () => this.page.getByTestId('literacy-error'),
+      digitalLiteracyModuleErrorMessage: () =>
+        this.page.getByTestId('literacy-error'),
     };
   }
 
@@ -85,7 +89,7 @@ export class PlanPage extends UnguessPage {
     const language = languageModule.output;
     return language;
   }
-  
+
   static getOutOfScopeFromPlan(plan: any) {
     const outOfScopeModule = plan.config.modules.find(
       (module) => module.type === 'out_of_scope'
@@ -95,6 +99,20 @@ export class PlanPage extends UnguessPage {
     }
     const outOfScopeValue = outOfScopeModule.output;
     return outOfScopeValue;
+  }
+
+  static getGoalFromPlan(plan: any) {
+    const goalModule = plan.config.modules.find(
+      (module) => module.type === 'goal'
+    );
+    if (!goalModule) {
+      throw new Error('No goal found in plan');
+    }
+    if (!(typeof goalModule.output === 'string')) {
+      throw new Error('Invalid goal module output');
+    }
+    const goalValue = goalModule.output;
+    return goalValue;
   }
 
   async mockGetDraftPlan() {
