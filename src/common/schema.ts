@@ -509,6 +509,14 @@ export interface paths {
     };
   };
   '/workspaces/{wid}/plans': {
+    /**
+     * Function: Retrieves all plans within a specified workspace.
+     * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+     *
+     * Use Cases:
+     * - Reviewing all plans that are still in development or awaiting approval.
+     * - Identifying approved plans that are not yet associated with any running campaigns.
+     */
     get: operations['get-workspaces-wid-plans'];
     post: operations['post-workspaces-wid-plans'];
     parameters: {
@@ -896,7 +904,8 @@ export interface components {
       | components['schemas']['ModuleLiteracy']
       | components['schemas']['ModuleTarget']
       | components['schemas']['ModuleGoal']
-      | components['schemas']['ModuleGender'];
+      | components['schemas']['ModuleGender']
+      | components['schemas']['ModuleOutOfScope'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -908,6 +917,12 @@ export interface components {
     ModuleGoal: {
       /** @enum {string} */
       type: 'goal';
+      variant: string;
+      output: string;
+    };
+    ModuleOutOfScope: {
+      /** @enum {string} */
+      type: 'out_of_scope';
       variant: string;
       output: string;
     };
@@ -3554,6 +3569,14 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  /**
+   * Function: Retrieves all plans within a specified workspace.
+   * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+   *
+   * Use Cases:
+   * - Reviewing all plans that are still in development or awaiting approval.
+   * - Identifying approved plans that are not yet associated with any running campaigns.
+   */
   'get-workspaces-wid-plans': {
     parameters: {
       path: {
@@ -3582,6 +3605,11 @@ export interface operations {
             project: {
               id: number;
               title: string;
+            };
+            quote?: {
+              id: number;
+              /** @enum {string} */
+              status: 'pending' | 'proposed' | 'approved' | 'rejected';
             };
           }[];
         };
