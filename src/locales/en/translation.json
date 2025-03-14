@@ -1050,6 +1050,7 @@
   "__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_ERROR_REQUIRED": "Task description is required",
   "__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL": "What should the users do?",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION": "Define the functional area you want to test",
+  "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_MAX_LENGTH": "The title cannot exceed 64 characters",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_REQUIRED": "Task title is required",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL": "Task title",
   "__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER": "What we are going to test?",

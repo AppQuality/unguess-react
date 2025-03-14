@@ -100,18 +100,26 @@ const useModuleTasks = () => {
 
     const errors = o.reduce((acc, item, idx) => {
       const titleEmpty = !item.title || item.title.length === 0;
+      const titleMaxLength = item.title.length > 64;
       const descriptionEmpty =
         !item.description ||
         item.description.length === 0 ||
         item.description === '<p></p>';
-      // TODO: error title max length 64
-      if (!titleEmpty && !descriptionEmpty) return { ...acc };
+      if (!titleEmpty && !descriptionEmpty && !titleMaxLength)
+        return { ...acc };
       return {
         ...acc,
         [idx]: {
           ...(titleEmpty
             ? {
                 title: t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_REQUIRED'),
+              }
+            : {}),
+          ...(titleMaxLength
+            ? {
+                title: t(
+                  '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_MAX_LENGTH'
+                ),
               }
             : {}),
           ...(descriptionEmpty
