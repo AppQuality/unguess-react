@@ -19,16 +19,13 @@ import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import styled from 'styled-components';
 
 const Gender = () => {
   type GenderTypes =
     components['schemas']['OutputModuleGender'][number]['gender'];
   const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
-  const UserGroupIconError = styled(UserGroupIcon)`
-    color: ${appTheme.palette.red[900]};
-  `;
+
   const genderTypes: GenderTypes[] = ['male', 'female'];
 
   const { value, setOutput, remove } = useModule('gender');
@@ -102,11 +99,13 @@ const Gender = () => {
         <AccordionNew.Section>
           <AccordionNew.Header
             icon={
-              genderError ? (
-                <UserGroupIconError />
-              ) : (
-                <UserGroupIcon color={appTheme.palette.blue[600]} />
-              )
+              <UserGroupIcon
+                color={
+                  genderError
+                    ? appTheme.palette.red[900]
+                    : appTheme.palette.blue[600]
+                }
+              />
             }
           >
             <AccordionNew.Label
