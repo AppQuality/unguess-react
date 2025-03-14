@@ -14,6 +14,7 @@ import { appTheme } from 'src/app/theme';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import styled from 'styled-components';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 
 const StyledTitleGroup = styled.div`
   display: flex;
@@ -22,9 +23,10 @@ const StyledTitleGroup = styled.div`
 `;
 const Language = () => {
   const { hasFeatureFlag } = useFeatureFlag();
+  const { getPlanStatus } = useModuleConfiguration();
   const { value, setOutput, remove } = useModule('language');
   const { t } = useTranslation();
-
+  const planStatus = getPlanStatus();
   const languages = [
     {
       value: 'en',
@@ -78,6 +80,7 @@ const Language = () => {
             {languages.map((language) => (
               <FormField style={{ marginBottom: appTheme.space.sm }}>
                 <Radio
+                  disabled={planStatus === 'pending_review'}
                   name={language.value}
                   value={language.value}
                   checked={value?.output === language.value}
