@@ -14,12 +14,11 @@ import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useEffect } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
-import { ReactComponent as UserGroupIcon } from '@zendeskgarden/svg-icons/src/16/user-group-fill.svg';
+import { ReactComponent as CakeIcon } from 'src/assets/icons/cake-icon-fill.svg';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import styled from 'styled-components';
 
 const Age = () => {
   type AgeRange = {
@@ -30,9 +29,6 @@ const Age = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
   const MAXAGE = 70; // the highest permitted value chosen by user/design
-  const UserGroupIconError = styled(UserGroupIcon)`
-    color: ${appTheme.palette.red[900]};
-  `;
 
   const { value, setOutput, remove } = useModule('age');
   const { t } = useTranslation();
@@ -132,11 +128,13 @@ const Age = () => {
         <AccordionNew.Section>
           <AccordionNew.Header
             icon={
-              ageError ? (
-                <UserGroupIconError />
-              ) : (
-                <UserGroupIcon color={appTheme.palette.blue[600]} />
-              )
+              <CakeIcon
+                color={
+                  ageError
+                    ? appTheme.palette.red[900]
+                    : appTheme.palette.blue[600]
+                }
+              />
             }
           >
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_AGE_LABEL')} />
