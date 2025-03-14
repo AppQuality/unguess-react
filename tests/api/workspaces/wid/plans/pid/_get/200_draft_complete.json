@@ -20,6 +20,11 @@
         }
       },
       {
+        "type": "goal",
+        "variant": "default",
+        "output": "This is a Goal"
+      },
+      {
         "type": "tasks",
         "variant": "default",
         "output": [
