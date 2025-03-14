@@ -47,6 +47,7 @@ test.describe('The title module defines the Plan title.', () => {
   });
 
   test('It should show an error if the textArea is too long', async () => {
+    await planPage.elements().instructionsTab().click();
     await planPage.elements().outOfScopeModuleInput().click();
     await planPage.elements().outOfScopeModuleInput().fill('a'.repeat(257));
     await planPage.elements().outOfScopeModuleInput().blur();
