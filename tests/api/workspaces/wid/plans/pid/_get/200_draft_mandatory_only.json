@@ -20,6 +20,11 @@
         }
       },
       {
+        "type": "language",
+        "variant": "default",
+        "output": "en"
+      },
+      {
         "type": "tasks",
         "variant": "default",
         "output": [
