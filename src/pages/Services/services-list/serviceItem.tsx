@@ -7,17 +7,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
-import { ReactComponent as ExpressIcon } from 'src/assets/icons/express-icon.svg';
 import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { extractStrapiData } from 'src/common/getStrapiData';
-import { hasEnoughCoins, toggleChat } from 'src/common/utils';
 import { STRAPI_URL } from 'src/constants';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
-import {
-  openDrawer,
-  setExpressTypeId,
-} from 'src/features/express/expressSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
 import { ServiceCol } from './ServiceCol';
@@ -95,56 +89,23 @@ export const ServiceItem = ({
     });
   }
 
-  if (express) {
-    if (hasEnoughCoins({ workspace: activeWorkspace, coins: express.cost })) {
-      tags.push({
-        label: t('__EXPRESS_LABEL'),
-        icon: <ExpressIcon />,
-      });
+  tags.push({
+    label: t('__TAILORED_LABEL'),
+    icon: <TailoredIcon />,
+  });
 
-      const expressType = extractStrapiData(express.express_type);
-      if (!expressType) return null;
-
-      if (!activeWorkspace?.isShared) {
-        buttons.push(
-          <Button
-            className="service-card-express-button"
-            isStretched
-            size="small"
-            isPrimary
-            isAccent
-            onClick={() => {
-              dispatch(setExpressTypeId(expressType.id));
-              dispatch(openDrawer());
-              toggleChat(false);
-            }}
-          >
-            {t('__CATALOG_PAGE_BUTTON_EXPRESS_LABEL')}
-          </Button>
-        );
-      }
-    } else {
-      return null;
-    }
-  } else {
-    tags.push({
-      label: t('__TAILORED_LABEL'),
-      icon: <TailoredIcon />,
-    });
-
-    buttons.push(
-      <Button
-        className="service-card-contact-button"
-        isStretched
-        isAccent
-        size="small"
-        isPrimary
-        onClick={() => handleHubspot()}
-      >
-        {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
-      </Button>
-    );
-  }
+  buttons.push(
+    <Button
+      className="service-card-contact-button"
+      isStretched
+      isAccent
+      size="small"
+      isPrimary
+      onClick={() => handleHubspot()}
+    >
+      {t('__CATALOG_PAGE_BUTTON_CONTACT_LABEL')}
+    </Button>
+  );
 
   return (
     <ServiceCol xs={12} md={6} lg={4}>

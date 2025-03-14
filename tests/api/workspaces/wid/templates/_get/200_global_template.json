@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Global Template 1",
+      "description": "Description of global template 1",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}]}"
+    }
+  ],
+  "start": 0,
+  "limit": 10,
+  "total": 1
+}

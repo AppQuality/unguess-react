@@ -1,0 +1,13 @@
+{
+  "failed": [
+    {
+      "name": "string",
+      "errorCode": "FILE_TOO_BIG"
+    }
+  ],
+  "uploaded_ids": [
+    {
+      "id": 0
+    }
+  ]
+}

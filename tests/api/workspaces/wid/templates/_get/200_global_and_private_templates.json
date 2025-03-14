@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Private template 1",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}]}",
+      "workspace_id": 1,
+      "source_plan_id": 1
+    },
+    {
+      "id": 2,
+      "name": "Global template 1",
+      "config": "{ \"modules\": [{ \"type\": \"tasks\", \"variant\": \"default\", \"output\": [ { \"kind\": \"video\", \"title\": \"string\" } ] }]}"
+    }
+  ],
+  "start": 0,
+  "limit": 10,
+  "total": 2
+}

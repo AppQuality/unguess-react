@@ -1,0 +1,32 @@
+{
+  "father": {
+    "id": 0,
+    "title": {
+      "full": "string",
+      "compact": "string",
+      "context": ["string"]
+    },
+    "context": "string",
+    "device": "string",
+    "os": {
+      "name": "string",
+      "version": "string"
+    }
+  },
+  "siblings": [
+    {
+      "id": 0,
+      "title": {
+        "full": "string",
+        "compact": "string",
+        "context": ["string"]
+      },
+      "context": "string",
+      "device": "string",
+      "os": {
+        "name": "string",
+        "version": "string"
+      }
+    }
+  ]
+}

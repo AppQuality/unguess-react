@@ -68,8 +68,24 @@ export default defineConfig({
     //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
     // },
     {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+      name: `Google Chrome ${
+        process.env.DISABLE_GPU_WAYLAND ? 'without GPU' : 'with GPU'
+      }`,
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        ...(process.env.DISABLE_GPU_WAYLAND
+          ? {
+              launchOptions: {
+                args: [
+                  '--enable-features=UseOzonePlatform',
+                  '--ozone-platform=wayland',
+                  '--disable-gpu',
+                ],
+              },
+            }
+          : {}),
+      },
     },
   ],
 

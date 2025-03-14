@@ -1,0 +1,12 @@
+{
+  "group": {
+    "id": 0,
+    "name": "string"
+  },
+  "tag": {
+    "id": 0,
+    "name": "string",
+    "style": "string",
+    "usageNumber": 0
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Cluster 1"
+    },
+    {
+      "id": 2,
+      "name": "Cluster 2"
+    }
+  ]
+}
