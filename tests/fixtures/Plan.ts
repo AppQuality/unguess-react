@@ -28,6 +28,9 @@ export class PlanPage extends UnguessPage {
           .getByRole('button', {
             name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
           }),
+      languageModule: () => this.page.getByTestId('language-module'),
+      languageRadioInput: () =>
+        this.elements().languageModule().getByRole('radio'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       saveConfigurationCTA: () =>
         this.page.getByRole('button', {
@@ -60,6 +63,20 @@ export class PlanPage extends UnguessPage {
     }
     const dateValue = new Date(dateModule.output.start);
     return dateValue;
+  }
+
+  static getLanguageFromPlan(plan: any) {
+    const languageModule = plan.config.modules.find(
+      (module) => module.type === 'language'
+    );
+    if (!languageModule) {
+      throw new Error('No date module found in plan');
+    }
+    if (!(typeof languageModule.output === 'string')) {
+      throw new Error('Invalid language module output');
+    }
+    const language = languageModule.output;
+    return language;
   }
 
   async mockGetDraftPlan() {

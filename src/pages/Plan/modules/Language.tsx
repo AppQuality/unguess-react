@@ -49,7 +49,7 @@ const Language = () => {
   };
 
   return (
-    <AccordionNew level={3} hasBorder>
+    <AccordionNew level={3} hasBorder data-qa="language-module">
       <AccordionNew.Section>
         <AccordionNew.Header
           icon={<LanguageIcon color={appTheme.palette.blue[600]} />}
@@ -66,7 +66,7 @@ const Language = () => {
             </AccordionNew.Meta>
           )}
         </AccordionNew.Header>
-        <AccordionNew.Panel data-qa="title-module">
+        <AccordionNew.Panel>
           <StyledTitleGroup>
             <Label>
               {t('_PLAN_PAGE_MODULE_LANGUAGE_SUBTITLE')}
@@ -78,6 +78,7 @@ const Language = () => {
             {languages.map((language) => (
               <FormField style={{ marginBottom: appTheme.space.sm }}>
                 <Radio
+                  name={language.value}
                   value={language.value}
                   checked={value?.output === language.value}
                   onChange={handleChange}
