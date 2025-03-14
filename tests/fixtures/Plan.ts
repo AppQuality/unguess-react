@@ -28,6 +28,9 @@ export class PlanPage extends UnguessPage {
           .getByRole('button', {
             name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
           }),
+      outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
+      outOfScopeModuleInput: () => this.page.getByRole('textbox'),
+      outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       saveConfigurationCTA: () =>
         this.page.getByRole('button', {
@@ -60,6 +63,17 @@ export class PlanPage extends UnguessPage {
     }
     const dateValue = new Date(dateModule.output.start);
     return dateValue;
+  }
+
+  static getOutOfScopeFromPlan(plan: any) {
+    const outOfScopeModule = plan.config.modules.find(
+      (module) => module.type === 'out_of_scope'
+    );
+    if (!outOfScopeModule) {
+      throw new Error('No outOfScope found in plan');
+    }
+    const outOfScopeValue = outOfScopeModule.output;
+    return outOfScopeValue;
   }
 
   async mockGetDraftPlan() {
