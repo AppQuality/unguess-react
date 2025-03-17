@@ -1,4 +1,4 @@
-import { test } from '../../../fixtures/app';
+import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/Plan';
 
 test.describe('The digital literacy module defines the users digital skills.', () => {
@@ -32,7 +32,7 @@ test.describe('The digital literacy module defines the users digital skills.', (
 
   */
 
-  test("All levels checkbox should be checked when the page is opened", async () => {
+  test('All levels checkbox should be checked when the page is opened', async () => {
     // Todo
   });
 
