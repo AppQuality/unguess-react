@@ -17,7 +17,7 @@ const Nav = ({ button, modal }: { button?: ReactNode; modal?: ReactNode }) => {
     }
   });
 
-  console.log(items);
+  console.log(activeTab, items);
 
   if (activeTab === 'instructions') {
     // Show module tasks values
