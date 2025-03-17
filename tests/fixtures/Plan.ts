@@ -13,6 +13,9 @@ export class PlanPage extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
+      goalModule: () => this.page.getByTestId('goal-module'),
+      goalModuleInput: () => this.page.getByRole('textbox'),
+      goalModuleError: () => this.page.getByTestId('goal-error'),
       titleModule: () => this.page.getByTestId('title-module'),
       titleModuleInput: () =>
         this.elements().titleModule().getByRole('textbox'),
@@ -65,6 +68,20 @@ export class PlanPage extends UnguessPage {
     return dateValue;
   }
 
+  static getGoalFromPlan(plan: any) {
+    const goalModule = plan.config.modules.find(
+      (module) => module.type === 'goal'
+    );
+    if (!goalModule) {
+      throw new Error('No goal found in plan');
+    }
+    if (!(typeof goalModule.output === 'string')) {
+      throw new Error('Invalid goal module output');
+    }
+    const goalValue = goalModule.output;
+    return goalValue;
+  }
+  
   static getTitleFromPlan(plan: any) {
     const titleModule = plan.config.modules.find(
       (module) => module.type === 'title'
