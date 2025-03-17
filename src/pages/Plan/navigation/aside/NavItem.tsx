@@ -8,10 +8,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
-import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { useModuleTasks } from '../../hooks';
-import { getIconFromTask } from '../../utils';
+import { useModuleTasks } from '../../modules/Tasks/hooks';
+import { getIconFromTask } from '../../modules/Tasks/utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
@@ -28,7 +27,7 @@ const StyledContainer = styled.div`
 const NavItem = ({ item }: { item: any }) => {
   const { t } = useTranslation();
   const { error } = useModuleTasks();
-  const { key } = task;
+  const { key, title } = item;
 
   const titleError =
     error && typeof error === 'object' && `tasks.${key}.title` in error
@@ -40,11 +39,11 @@ const NavItem = ({ item }: { item: any }) => {
       : false;
 
   const hasErrors = titleError || descriptionError;
-  const hasPlaceholder = !task.title;
+  const hasPlaceholder = !title;
 
   return (
     <Link
-      to={`task-${task.key}`}
+      to={`task-${key}`}
       containerId="main"
       duration={500}
       offset={-20}
@@ -53,7 +52,7 @@ const NavItem = ({ item }: { item: any }) => {
       style={{ textDecoration: 'none' }}
     >
       <StyledCard
-        key={task.key}
+        key={key}
         data-qa="task-item-nav"
         {...(hasErrors && {
           style: {
@@ -62,14 +61,14 @@ const NavItem = ({ item }: { item: any }) => {
         })}
       >
         <StyledContainer>
-          {getIconFromTask(task)}
+          {getIconFromTask(item)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
               {key + 1}.
               <Span isBold>
                 {hasPlaceholder
                   ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
-                  : task.title}
+                  : title}
               </Span>
             </MD>
           </Ellipsis>
