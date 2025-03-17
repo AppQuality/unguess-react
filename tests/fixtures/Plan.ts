@@ -14,6 +14,9 @@ export class PlanPage extends UnguessPage {
     return {
       ...super.elements(),
       titleModule: () => this.page.getByTestId('title-module'),
+      titleModuleInput: () =>
+        this.elements().titleModule().getByRole('textbox'),
+      titleModuleError: () => this.page.getByTestId('title-error'),
       tasksModule: () => this.page.getByTestId('tasks-module'),
       datesModule: () => this.page.getByTestId('dates-module'),
       datesModuleInput: () =>
@@ -60,6 +63,25 @@ export class PlanPage extends UnguessPage {
     }
     const dateValue = new Date(dateModule.output.start);
     return dateValue;
+  }
+
+  static getTitleFromPlan(plan: any) {
+    const titleModule = plan.config.modules.find(
+      (module) => module.type === 'title'
+    );
+    if (!titleModule) {
+      throw new Error('No title module found in plan');
+    }
+    if (typeof titleModule.output !== 'string') {
+      throw new Error('Invalid title module output');
+    }
+    return titleModule.output;
+  }
+
+  async fillInputTItle(value: string) {
+    await this.elements().titleModule().click();
+    await this.elements().titleModuleInput().fill(value);
+    await this.elements().titleModuleInput().blur();
   }
 
   async mockGetDraftPlan() {
