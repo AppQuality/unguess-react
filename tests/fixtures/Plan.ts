@@ -13,7 +13,13 @@ export class PlanPage extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
+      goalModule: () => this.page.getByTestId('goal-module'),
+      goalModuleInput: () => this.page.getByRole('textbox'),
+      goalModuleError: () => this.page.getByTestId('goal-error'),
       titleModule: () => this.page.getByTestId('title-module'),
+      titleModuleInput: () =>
+        this.elements().titleModule().getByRole('textbox'),
+      titleModuleError: () => this.page.getByTestId('title-error'),
       tasksModule: () => this.page.getByTestId('tasks-module'),
       datesModule: () => this.page.getByTestId('dates-module'),
       datesModuleInput: () =>
@@ -28,6 +34,10 @@ export class PlanPage extends UnguessPage {
           .getByRole('button', {
             name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
           }),
+      outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
+      outOfScopeModuleInput: () =>
+        this.elements().outOfScopeModule().getByRole('textbox'),
+      outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       saveConfigurationCTA: () =>
         this.page.getByRole('button', {
@@ -63,6 +73,50 @@ export class PlanPage extends UnguessPage {
     }
     const dateValue = new Date(dateModule.output.start);
     return dateValue;
+  }
+
+  static getOutOfScopeFromPlan(plan: any) {
+    const outOfScopeModule = plan.config.modules.find(
+      (module) => module.type === 'out_of_scope'
+    );
+    if (!outOfScopeModule) {
+      throw new Error('No outOfScope found in plan');
+    }
+    const outOfScopeValue = outOfScopeModule.output;
+    return outOfScopeValue;
+  }
+  
+  static getGoalFromPlan(plan: any) {
+    const goalModule = plan.config.modules.find(
+      (module) => module.type === 'goal'
+    );
+    if (!goalModule) {
+      throw new Error('No goal found in plan');
+    }
+    if (!(typeof goalModule.output === 'string')) {
+      throw new Error('Invalid goal module output');
+    }
+    const goalValue = goalModule.output;
+    return goalValue;
+  }
+  
+  static getTitleFromPlan(plan: any) {
+    const titleModule = plan.config.modules.find(
+      (module) => module.type === 'title'
+    );
+    if (!titleModule) {
+      throw new Error('No title module found in plan');
+    }
+    if (typeof titleModule.output !== 'string') {
+      throw new Error('Invalid title module output');
+    }
+    return titleModule.output;
+  }
+
+  async fillInputTItle(value: string) {
+    await this.elements().titleModule().click();
+    await this.elements().titleModuleInput().fill(value);
+    await this.elements().titleModuleInput().blur();
   }
 
   async mockGetDraftPlan() {

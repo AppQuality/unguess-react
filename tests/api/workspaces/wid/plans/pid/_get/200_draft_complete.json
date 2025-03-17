@@ -20,6 +20,16 @@
         }
       },
       {
+        "type": "out_of_scope",
+        "variant": "default",
+        "output": "Out of scope"
+      },
+      {
+        "type": "goal",
+        "variant": "default",
+        "output": "This is a Goal"
+      },
+      {
         "type": "tasks",
         "variant": "default",
         "output": [

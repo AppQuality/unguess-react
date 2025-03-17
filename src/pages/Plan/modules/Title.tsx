@@ -1,32 +1,72 @@
-import { InputToggle, PageHeader } from '@appquality/unguess-design-system';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { InputToggle, SM } from '@appquality/unguess-design-system';
 import { useModule } from 'src/features/modules/useModule';
+import { components } from 'src/common/schema';
+import { useTranslation } from 'react-i18next';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { ChangeEvent, useState } from 'react';
+import { appTheme } from 'src/app/theme';
 
 const Title = () => {
-  const { value, setOutput, remove } = useModule('title');
+  const { value, setOutput } = useModule('title');
+  const [isEditing, setIsEditing] = useState(false);
+  const { t } = useTranslation();
+  const validation = (
+    module: components['schemas']['Module'] & { type: 'title' }
+  ) => {
+    let error;
+    if (module.output.length > 256) {
+      error = t('__PLAN_TITLE_ERROR_MAX_LENGTH');
+    }
+    if (!module.output.trim()) {
+      error = t('__PLAN_TITLE_ERROR_EMPTY');
+    }
+    return error || true;
+  };
+  const handleFocus = () => {
+    setIsEditing(true);
+  };
+  const truncateEllipsis = (str: string) => {
+    if (str.length > 24) {
+      return `${str.slice(0, 24)}...`;
+    }
+    return str;
+  };
 
+  const { error, validate } = useValidation({
+    type: 'title',
+    validate: validation,
+  });
+  const handleBlur = () => {
+    setIsEditing(false);
+    validate();
+  };
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setOutput(e.target.value);
+  };
   return (
-    <LayoutWrapper>
-      <PageHeader.Main mainTitle="temp">
-        <PageHeader.Title>
-          <InputToggle className="editable-title" data-qa="title-module">
-            <InputToggle.Item
-              textSize="xxxl"
-              maxLength={64}
-              style={{ paddingLeft: 0 }}
-              value={value?.output || ''}
-              onChange={(e) => {
-                if (!e.target.value) {
-                  remove();
-                } else {
-                  setOutput(e.target.value);
-                }
-              }}
-            />
-          </InputToggle>
-        </PageHeader.Title>
-      </PageHeader.Main>
-    </LayoutWrapper>
+    <div>
+      <InputToggle className="editable-title" data-qa="title-module">
+        <InputToggle.Item
+          data-qa="title-input"
+          onBlur={handleBlur}
+          textSize="lg"
+          style={{ paddingLeft: 0 }}
+          value={
+            isEditing ? value?.output : truncateEllipsis(value?.output ?? '')
+          }
+          onFocus={handleFocus}
+          onChange={handleChange}
+        />
+      </InputToggle>
+      {error && typeof error === 'string' && (
+        <SM
+          style={{ color: appTheme.components.text.dangerColor }}
+          data-qa="title-error"
+        >
+          {error}
+        </SM>
+      )}
+    </div>
   );
 };
 
