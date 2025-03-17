@@ -14,7 +14,6 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
     () => values.modules.find((m): m is ModType => m.type === moduleName),
     [values.modules, moduleName] // Dipendenze limitate
   );
-
   const setVariant = useCallback(
     (variant: ModType['variant']) => {
       setFieldValue(
