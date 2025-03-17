@@ -7,6 +7,7 @@ export const TitleGroup = () => (
     style={{
       color: appTheme.palette.blue[600],
     }}
+    data-qa="title-module"
   >
     Titolo
   </XL>

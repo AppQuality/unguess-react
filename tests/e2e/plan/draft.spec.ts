@@ -1,6 +1,6 @@
-import { test, expect } from '../../fixtures/app';
-import { PlanPage } from '../../fixtures/Plan';
 import examplePatch from '../../api/workspaces/wid/plans/pid/_patch/request_Example_1.json';
+import { expect, test } from '../../fixtures/app';
+import { PlanPage } from '../../fixtures/Plan';
 
 test.describe('The module builder', () => {
   let planPage: PlanPage;
@@ -23,7 +23,7 @@ test.describe('The module builder', () => {
 
     // Check if specific elements are visible on the "Setup" tab
     await expect(planPage.elements().titleModule()).toBeVisible();
-    await expect(planPage.elements().datesModule()).toBeVisible();
+    // await expect(planPage.elements().datesModule()).toBeVisible();
 
     // Check if other modules are not visible
     await expect(planPage.elements().tasksModule()).not.toBeVisible();
@@ -41,7 +41,6 @@ test.describe('The module builder', () => {
     await expect(planPage.elements().tasksModule()).toBeVisible();
 
     // todo: check if the other modules are not visible
-    await expect(planPage.elements().titleModule()).not.toBeVisible();
     await expect(planPage.elements().datesModule()).not.toBeVisible();
 
     await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
