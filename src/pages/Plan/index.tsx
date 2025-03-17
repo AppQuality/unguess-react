@@ -11,8 +11,9 @@ import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { PlanProvider } from './context/planContext';
-import PlanPageHeader from './navigation/Header';
+import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
+import { Nav } from './navigation/aside/Nav';
 
 const Plan = () => {
   const { t } = useTranslation();
@@ -74,6 +75,7 @@ const Plan = () => {
           route="plan"
           isMinimal
         >
+          <Nav />
           <PlanBody />
         </Page>
       </PlanProvider>

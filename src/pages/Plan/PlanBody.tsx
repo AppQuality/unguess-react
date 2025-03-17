@@ -2,7 +2,7 @@ import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { usePlanTab } from './context/planContext';
 import { ModulesList } from './ModulesList';
-import { PlanDetails } from './navigation/PlanDetails';
+import { PlanDetails } from './navigation/header/PlanDetails';
 
 export const PlanBody = () => {
   const { activeTab } = usePlanTab();

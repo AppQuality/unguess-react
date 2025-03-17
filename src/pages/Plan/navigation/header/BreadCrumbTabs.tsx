@@ -1,6 +1,6 @@
 import { Breadcrumb, Button } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
-import { usePlanTab } from '../context/planContext';
+import { usePlanTab } from '../../context/planContext';
 
 const StyledBreadcrumb = styled(Breadcrumb)`
   ol {
