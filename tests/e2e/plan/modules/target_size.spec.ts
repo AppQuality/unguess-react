@@ -11,7 +11,7 @@ test.describe('The title module defines the Plan title.', () => {
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
-    await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
+    await planPage.mockGetDraftPlan();
     await planPage.open();
   });
   test('It should exist on the tab screen target', async () => {
