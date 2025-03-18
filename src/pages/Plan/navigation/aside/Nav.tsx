@@ -1,40 +1,30 @@
-import { ReactNode } from 'react';
 import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
+import { NavItem } from './NavItem';
 
-const Nav = ({ button, modal }: { button?: ReactNode; modal?: ReactNode }) => {
+const Nav = () => {
   const { activeTab } = usePlanTab();
   const { getModules } = useModuleConfiguration();
-  const items: any[] = [];
+  const modules: any[] = [];
   const availableModules =
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
 
   getModules().forEach((module) => {
     if (availableModules.includes(module.type)) {
-      items.push(module);
+      modules.push(module);
     }
   });
 
-  console.log(activeTab, items);
-
-  if (activeTab === 'instructions') {
-    // Show module tasks values
-  } else {
-    // Show modules
-  }
-
   return (
-    <>
-      <div data-qa="plans-nav" style={{ marginBottom: appTheme.space.md }}>
-        {/* {items.map((item) => (
-        <NavItem item={item} />
-      ))} */}
+    <div data-qa="plans-nav" style={{ marginBottom: appTheme.space.md }}>
+      <div data-qa={`plans-nav-${activeTab}`}>
+        {modules.map((module, index) => (
+          <NavItem module={module} index={index} />
+        ))}
       </div>
-      {button && button}
-      {modal && modal}
-    </>
+    </div>
   );
 };
 

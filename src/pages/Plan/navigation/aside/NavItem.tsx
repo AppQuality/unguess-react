@@ -1,16 +1,8 @@
-import {
-  Card,
-  Ellipsis,
-  MD,
-  Message,
-  Span,
-} from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Card, Ellipsis, MD, Span } from '@appquality/unguess-design-system';
 import { Link } from 'react-scroll';
-import { appTheme } from 'src/app/theme';
+import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { useModuleTasks } from '../../modules/Tasks/hooks';
-import { getIconFromTask } from '../../modules/Tasks/utils';
+import { getIconFromModule, getTitleFromModule } from '../../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
@@ -24,26 +16,20 @@ const StyledContainer = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-const NavItem = ({ item }: { item: any }) => {
-  const { t } = useTranslation();
-  const { error } = useModuleTasks();
-  const { key, title } = item;
+const NavItem = ({
+  module,
+  index,
+}: {
+  module: components['schemas']['Module'];
+  index: number;
+}) => {
+  const { type } = module;
 
-  const titleError =
-    error && typeof error === 'object' && `tasks.${key}.title` in error
-      ? error[`tasks.${key}.title`]
-      : false;
-  const descriptionError =
-    error && typeof error === 'object' && `tasks.${key}.description` in error
-      ? error[`tasks.${key}.description`]
-      : false;
-
-  const hasErrors = titleError || descriptionError;
-  const hasPlaceholder = !title;
+  // TODO: implement error handling
 
   return (
     <Link
-      to={`task-${key}`}
+      to={`module-${type}`}
       containerId="main"
       duration={500}
       offset={-20}
@@ -51,33 +37,15 @@ const NavItem = ({ item }: { item: any }) => {
       spy
       style={{ textDecoration: 'none' }}
     >
-      <StyledCard
-        key={key}
-        data-qa="task-item-nav"
-        {...(hasErrors && {
-          style: {
-            borderColor: appTheme.palette.red[600],
-          },
-        })}
-      >
+      <StyledCard data-qa="task-item-nav">
         <StyledContainer>
-          {getIconFromTask(item)}
+          {getIconFromModule(module)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
-              {key + 1}.
-              <Span isBold>
-                {hasPlaceholder
-                  ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
-                  : title}
-              </Span>
+              {index + 1}.<Span isBold>{getTitleFromModule(module)}</Span>
             </MD>
           </Ellipsis>
         </StyledContainer>
-        {hasErrors && (
-          <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
-            {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_TASK_ERROR')}
-          </Message>
-        )}
       </StyledCard>
     </Link>
   );
