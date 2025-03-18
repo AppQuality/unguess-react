@@ -34,6 +34,9 @@ export class PlanPage extends UnguessPage {
           .getByRole('button', {
             name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
           }),
+      languageModule: () => this.page.getByTestId('language-module'),
+      languageRadioInput: () =>
+        this.elements().languageModule().getByRole('radio'),
       outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
       outOfScopeModuleInput: () =>
         this.elements().outOfScopeModule().getByRole('textbox'),
@@ -59,7 +62,8 @@ export class PlanPage extends UnguessPage {
       summaryTab: () => this.page.getByTestId('summary-tab'),
       digitalLiteracyModule: () =>
         this.page.getByTestId('digital-literacy-module'),
-      digitalLiteracyModuleErrorMessage: () => this.page.getByTestId('literacy-error'),
+      digitalLiteracyModuleErrorMessage: () =>
+        this.page.getByTestId('literacy-error'),
     };
   }
 
@@ -89,7 +93,7 @@ export class PlanPage extends UnguessPage {
     const outOfScopeValue = outOfScopeModule.output;
     return outOfScopeValue;
   }
-  
+
   static getGoalFromPlan(plan: any) {
     const goalModule = plan.config.modules.find(
       (module) => module.type === 'goal'
@@ -103,7 +107,21 @@ export class PlanPage extends UnguessPage {
     const goalValue = goalModule.output;
     return goalValue;
   }
-  
+
+  static getLanguageFromPlan(plan: any) {
+    const languageModule = plan.config.modules.find(
+      (module) => module.type === 'language'
+    );
+    if (!languageModule) {
+      throw new Error('No date module found in plan');
+    }
+    if (!(typeof languageModule.output === 'string')) {
+      throw new Error('Invalid language module output');
+    }
+    const language = languageModule.output;
+    return language;
+  }
+
   static getTitleFromPlan(plan: any) {
     const titleModule = plan.config.modules.find(
       (module) => module.type === 'title'

@@ -30,6 +30,11 @@
         "output":5
       },
       {
+        "type": "languages",
+        "variant": "default",
+        "output": "en"
+      },
+      {
         "type": "goal",
         "variant": "default",
         "output": "This is a Goal"
