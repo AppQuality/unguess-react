@@ -30,7 +30,7 @@
         "output":5
       },
       {
-        "type": "languages",
+        "type": "language",
         "variant": "default",
         "output": "en"
       },

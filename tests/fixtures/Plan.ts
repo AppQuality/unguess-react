@@ -113,7 +113,7 @@ export class PlanPage extends UnguessPage {
       (module) => module.type === 'language'
     );
     if (!languageModule) {
-      throw new Error('No date module found in plan');
+      throw new Error('No language module found in plan');
     }
     if (!(typeof languageModule.output === 'string')) {
       throw new Error('Invalid language module output');
@@ -139,9 +139,8 @@ export class PlanPage extends UnguessPage {
     await this.elements().titleModule().click();
     await this.elements().titleModuleInput().fill(value);
     await this.elements().titleModuleInput().blur();
-  
   }
-  
+
   static getTargetFromPlan(plan: any): number {
     const targetModule = plan.config.modules.find(
       (module) => module.type === 'target'
