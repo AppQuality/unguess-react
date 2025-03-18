@@ -38,6 +38,10 @@ export class PlanPage extends UnguessPage {
       outOfScopeModuleInput: () =>
         this.elements().outOfScopeModule().getByRole('textbox'),
       outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
+      targetModule: () => this.page.getByTestId('target-module'),
+      targetModuleInput: () => this.page.getByTestId('target-input'),
+      targetModuleError: () =>
+        this.elements().targetModule().getByTestId('target-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       saveConfigurationCTA: () =>
         this.page.getByRole('button', {
@@ -117,6 +121,26 @@ export class PlanPage extends UnguessPage {
     await this.elements().titleModule().click();
     await this.elements().titleModuleInput().fill(value);
     await this.elements().titleModuleInput().blur();
+  
+  }
+  
+  static getTargetFromPlan(plan: any): number {
+    const targetModule = plan.config.modules.find(
+      (module) => module.type === 'target'
+    );
+    if (!targetModule) {
+      throw new Error('No target module found in plan');
+    }
+    if (typeof targetModule.output !== 'number') {
+      throw new Error('Invalid target module output');
+    }
+    return targetModule.output;
+  }
+
+  async fillInputTarget(value: string) {
+    await this.elements().targetModuleInput().click();
+    await this.elements().targetModuleInput().fill(value);
+    await this.elements().targetModuleInput().blur();
   }
 
   async mockGetDraftPlan() {
