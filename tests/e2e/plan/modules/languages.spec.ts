@@ -11,7 +11,7 @@ test.describe('The tasks module defines the testers language', () => {
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
-    await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
+    await planPage.mockGetDraftPlan();
     await planPage.open();
   });
 
