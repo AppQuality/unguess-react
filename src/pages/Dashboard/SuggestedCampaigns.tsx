@@ -52,6 +52,8 @@ export const SuggestedCampaigns = () => {
 
   if (isError) return null;
 
+  if (!items.plans.length && !items.campaigns.length) return null;
+
   return (
     <>
       <Row>
@@ -66,7 +68,7 @@ export const SuggestedCampaigns = () => {
         </Col>
       </Row>
       <ScrollingGrid id="suggested-campaigns-scrolling-grid">
-        {items.plans.length &&
+        {!!items.plans.length &&
           items.plans.map((plan) => (
             <ScrollingGrid.Item key={`suggested_plan_${plan.id}`}>
               <PlanCard
@@ -86,11 +88,12 @@ export const SuggestedCampaigns = () => {
             </ScrollingGrid.Item>
           ))}
 
-        {items.campaigns.map((campaign) => (
-          <ScrollingGrid.Item key={`suggested_${campaign.id}`}>
-            <CampaignItem campaign={campaign} />
-          </ScrollingGrid.Item>
-        ))}
+        {!!items.campaigns.length &&
+          items.campaigns.map((campaign) => (
+            <ScrollingGrid.Item key={`suggested_${campaign.id}`}>
+              <CampaignItem campaign={campaign} />
+            </ScrollingGrid.Item>
+          ))}
       </ScrollingGrid>
     </>
   );
