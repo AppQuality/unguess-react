@@ -20,11 +20,6 @@
         }
       },
       {
-        "type": "target",
-        "variant": "default",
-        "output":5
-      },
-      {
         "type": "tasks",
         "variant": "default",
         "output": [

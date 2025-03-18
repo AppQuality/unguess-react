@@ -25,6 +25,11 @@
         "output": "Out of scope"
       },
       {
+        "type": "target",
+        "variant": "default",
+        "output":5
+      },
+      {
         "type": "goal",
         "variant": "default",
         "output": "This is a Goal"

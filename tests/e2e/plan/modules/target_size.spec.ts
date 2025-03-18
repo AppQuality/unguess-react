@@ -1,6 +1,6 @@
 import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/Plan';
-import draftMandatory from '../../../api/workspaces/wid/plans/pid/_get/200_draft_mandatory_only.json';
+import draft from '../../../api/workspaces/wid/plans/pid/_get/200_draft_complete.json';
 
 test.describe('The title module defines the Plan title.', () => {
   let planPage: PlanPage;
@@ -19,7 +19,7 @@ test.describe('The title module defines the Plan title.', () => {
     await expect(planPage.elements().targetModule()).toBeVisible();
   });
   test('It should have a target input that show the current value of the module and a way to change that value', async () => {
-    const target = PlanPage.getTargetFromPlan(draftMandatory);
+    const target = PlanPage.getTargetFromPlan(draft);
     await planPage.elements().targetTab().click();
     await expect(planPage.elements().targetModule()).toBeVisible();
     await expect(planPage.elements().targetModuleInput()).toBeVisible();
