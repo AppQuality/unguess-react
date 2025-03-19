@@ -1,13 +1,11 @@
 import { Skeleton, Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { Campaign } from 'src/features/api';
 import { useSelectCampaigns } from './filters/useSelectCampaigns';
-import { useCampaignsAndPlans } from './hooks/useCampaignsAndPlans';
 import { useProjectPlans } from './hooks/useProjectPlans';
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
