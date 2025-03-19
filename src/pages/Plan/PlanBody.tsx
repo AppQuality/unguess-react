@@ -11,11 +11,13 @@ export const PlanBody = () => {
   return (
     <Grid style={{ padding: appTheme.space.xxl }}>
       <Row>
-        <Col sm="4">
+        <Col sm="3">
           <Nav />
         </Col>
-        <Col sm="8">
+        <Col sm="6">
           <ModulesList tabId={activeTab} />
+        </Col>
+        <Col sm="3">
           <PlanDetails />
         </Col>
       </Row>

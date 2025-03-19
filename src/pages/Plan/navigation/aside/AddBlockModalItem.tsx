@@ -1,4 +1,6 @@
 import { Button } from '@appquality/unguess-design-system';
+import { components } from 'src/common/schema';
+import { useModule } from 'src/features/modules/useModule';
 import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
 import { usePlanNavContext } from './context';
 
@@ -13,6 +15,9 @@ const AddBlockModalItem = ({
   const { setModalRef } = usePlanNavContext();
   const title = getTitleFromModuleType(item.type);
   const icon = getIconFromModuleType(item.type);
+  const { add } = useModule(
+    item.type as components['schemas']['Module']['type']
+  );
 
   return (
     <Button
@@ -20,6 +25,7 @@ const AddBlockModalItem = ({
       isPill={false}
       onClick={() => {
         setModalRef(null);
+        add();
       }}
       disabled={!item.enabled}
     >

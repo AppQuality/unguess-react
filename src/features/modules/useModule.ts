@@ -59,8 +59,84 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
     );
   }, [moduleName, setFieldValue, values.modules]);
 
+  const getConfig = (
+    type: components['schemas']['Module']['type']
+  ): components['schemas']['Module'] | null => {
+    switch (type) {
+      case 'dates':
+        return {
+          type,
+          variant: 'default',
+          output: {
+            start: '',
+          },
+        };
+      case 'goal':
+        return {
+          type,
+          variant: 'default',
+          output: '',
+        };
+      case 'out_of_scope':
+        return {
+          type,
+          variant: 'default',
+          output: '',
+        };
+      case 'title':
+        return {
+          type,
+          variant: 'default',
+          output: '',
+        };
+      case 'tasks':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'age':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'gender':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'literacy':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'language':
+        return {
+          type,
+          variant: 'default',
+          output: '',
+        };
+      case 'target':
+        return {
+          type,
+          variant: 'default',
+          output: 0,
+        };
+      default:
+        return null;
+    }
+  };
+
+  const add = useCallback(() => {
+    if (!getConfig(moduleName)) return;
+    setFieldValue('modules', [...values.modules, getConfig(moduleName)]);
+  }, [setFieldValue, values.modules]);
+
   return useMemo(
-    () => ({ value: module, set, remove, setOutput, setVariant }),
-    [module, set, remove]
+    () => ({ value: module, set, remove, setOutput, setVariant, add }),
+    [module, set, remove, add]
   );
 };

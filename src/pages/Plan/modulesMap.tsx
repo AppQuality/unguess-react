@@ -13,9 +13,23 @@ import InstructionsNote from './modules/InstructionsNote';
 import OutOfScope from './modules/OutOfScope';
 
 export const MODULES_BY_TAB = {
-  setup: ['setup_note', 'goal'],
-  target: ['target_note', 'target', 'language', 'gender', 'age', 'literacy'],
-  instructions: ['instructions_note', 'tasks', 'out_of_scope'],
+  setup: [
+    // 'setup_note',
+    'goal',
+  ],
+  target: [
+    // 'target_note',
+    'target',
+    'language',
+    'gender',
+    'age',
+    'literacy',
+  ],
+  instructions: [
+    // 'instructions_note',
+    'tasks',
+    'out_of_scope',
+  ],
 };
 
 export const modulesMap = {
