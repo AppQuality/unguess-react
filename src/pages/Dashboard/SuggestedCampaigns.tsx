@@ -5,43 +5,14 @@ import {
   Row,
   Separator,
 } from '@appquality/unguess-design-system';
-import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
 import { SectionTitle } from 'src/common/components/SectionTitle';
-import { GetWorkspacesByWidPlansApiResponse } from 'src/features/api';
 import { CampaignItem } from './CampaignItem';
 import { CardRowLoading } from './CardRowLoading';
+import { getPlanStatus } from './hooks/getPlanStatus';
 import { useCampaignsAndPlans } from './hooks/useCampaignsAndPlans';
-
-type IPlanStatus = 'draft' | 'submitted' | 'pending_quote_review';
-
-const getPlanStatus = (
-  plan: GetWorkspacesByWidPlansApiResponse[number],
-  t: TFunction
-): {
-  status: IPlanStatus;
-  statusLabel: string;
-} => {
-  if (plan.status === 'pending_review') {
-    if (!plan.quote || plan.quote.status === 'pending')
-      return {
-        status: 'submitted' as IPlanStatus,
-        statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_SUBMITTED'),
-      };
-
-    return {
-      status: 'pending_quote_review' as IPlanStatus,
-      statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_AWAITING_APPROVAL'),
-    };
-  }
-
-  return {
-    status: 'draft' as IPlanStatus,
-    statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_DRAFT'),
-  };
-};
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
