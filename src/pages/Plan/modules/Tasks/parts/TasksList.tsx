@@ -15,12 +15,13 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const TitleContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: ${appTheme.space.sm};
+  gap: ${({ theme }) => theme.space.xs};
 `;
 
 const TasksList = () => {
