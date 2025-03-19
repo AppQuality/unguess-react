@@ -25,6 +25,7 @@ const AddBlockButton = () => {
   return (
     <Button
       isPrimary
+      isPill={false}
       ref={triggerRef}
       onClick={() => setModalRef(triggerRef.current)}
       isStretched

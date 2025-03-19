@@ -2,7 +2,7 @@ import { Button } from '@appquality/unguess-design-system';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
-import { useModuleTasksContext } from '../../context';
+import { useModuleTasksContext } from '../context';
 
 const AddTaskButton = () => {
   const { t } = useTranslation();
@@ -12,6 +12,7 @@ const AddTaskButton = () => {
   return (
     <Button
       isPrimary
+      isPill={false}
       ref={triggerRef}
       onClick={() => setModalRef(triggerRef.current)}
       isStretched
