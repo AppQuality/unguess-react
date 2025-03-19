@@ -18,7 +18,11 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
           const Component = modulesMap[module.type];
           console.log('Component', Component);
           if (!Component) return null;
-          return <Component key={module.type} />;
+          return (
+            <div id={`module-${module.type}`}>
+              <Component key={module.type} />
+            </div>
+          );
         }
         return null;
       })}
