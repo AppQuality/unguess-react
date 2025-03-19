@@ -48,7 +48,7 @@ const TaskItemNav = ({
 
   return (
     <Link
-      to={`task-${task.key}`}
+      to={`task-${key + 1}`}
       containerId="main"
       duration={500}
       offset={-20}
@@ -57,7 +57,7 @@ const TaskItemNav = ({
       style={{ textDecoration: 'none' }}
     >
       <StyledCard
-        key={task.key}
+        key={key}
         data-qa="task-item-nav"
         {...(hasErrors && {
           style: {

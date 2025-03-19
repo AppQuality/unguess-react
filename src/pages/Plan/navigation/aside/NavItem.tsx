@@ -19,9 +19,11 @@ const StyledContainer = styled.div`
 const NavItem = ({
   module,
   index,
+  children,
 }: {
   module: components['schemas']['Module'];
   index: number;
+  children?: React.ReactNode;
 }) => {
   const { type } = module;
 
@@ -47,6 +49,7 @@ const NavItem = ({
             </MD>
           </Ellipsis>
         </StyledContainer>
+        {children && children}
       </StyledCard>
     </Link>
   );
