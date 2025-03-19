@@ -1,5 +1,10 @@
 import { formatModuleDate } from './formatModuleDate';
-import { getIconFromModule } from './getIconFromModule';
-import { getTitleFromModule } from './getTitleFromModule';
+import { getIconFromModule, getIconFromModuleType } from './getIconFromModule';
+import { getTitleFromModuleType } from './getTitleFromModuleType';
 
-export { formatModuleDate, getIconFromModule, getTitleFromModule };
+export {
+  formatModuleDate,
+  getIconFromModule,
+  getIconFromModuleType,
+  getTitleFromModuleType,
+};

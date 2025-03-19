@@ -1,4 +1,5 @@
 import { useFormikContext } from 'formik';
+import { usePlanTab } from 'src/pages/Plan/context/planContext';
 import { useValidationContext } from './FormProvider';
 import { FormBody } from './types';
 
@@ -6,6 +7,7 @@ export const useModuleConfiguration = () => {
   const { submitForm, isSubmitting, values, setFieldValue } =
     useFormikContext<FormBody>();
   const { errors } = useValidationContext();
+  const { activeTab } = usePlanTab();
 
   const isValid = !errors || Object.keys(errors).length === 0;
 

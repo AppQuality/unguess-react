@@ -16,7 +16,6 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
       {getModules().map((module) => {
         if (availableModules.includes(module.type)) {
           const Component = modulesMap[module.type];
-          console.log('Component', Component);
           if (!Component) return null;
           return (
             <div id={`module-${module.type}`}>

@@ -2,7 +2,7 @@ import { Card, Ellipsis, MD, Span } from '@appquality/unguess-design-system';
 import { Link } from 'react-scroll';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { getIconFromModule, getTitleFromModule } from '../../utils';
+import { getIconFromModule, getTitleFromModuleType } from '../../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
@@ -42,7 +42,8 @@ const NavItem = ({
           {getIconFromModule(module)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
-              {index + 1}.<Span isBold>{getTitleFromModule(module)}</Span>
+              {index + 1}.{' '}
+              <Span isBold>{getTitleFromModuleType(module.type)}</Span>
             </MD>
           </Ellipsis>
         </StyledContainer>

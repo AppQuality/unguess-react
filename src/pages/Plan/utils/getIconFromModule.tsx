@@ -18,9 +18,7 @@ const getIconColor = (module: components['schemas']['Module']) => {
   return getColor(appTheme.colors.primaryHue, 600);
 };
 
-const getIconFromModuleType = (
-  type: components['schemas']['Module']['type']
-) => {
+const getIconFromModuleType = (type: string) => {
   switch (type) {
     case 'age':
       return <AgeIcon />;
@@ -52,4 +50,4 @@ const getIconFromModule = (module: components['schemas']['Module']) => {
   return <div style={{ color }}>{getIconFromModuleType(type)}</div>;
 };
 
-export { getIconFromModule };
+export { getIconFromModule, getIconFromModuleType };

@@ -3,7 +3,7 @@ import { appTheme } from 'src/app/theme';
 import { usePlanTab } from './context/planContext';
 import { ModulesList } from './ModulesList';
 import { PlanDetails } from './navigation/header/PlanDetails';
-import { Nav } from './navigation/aside/Nav';
+import { Nav } from './navigation/aside';
 
 export const PlanBody = () => {
   const { activeTab } = usePlanTab();

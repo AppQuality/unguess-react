@@ -1,8 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { components } from 'src/common/schema';
 
-const getTitleFromModule = (module: components['schemas']['Module']) => {
-  const { type } = module;
+const getTitleFromModuleType = (type: string) => {
   const { t } = useTranslation();
 
   switch (type) {
@@ -22,13 +20,19 @@ const getTitleFromModule = (module: components['schemas']['Module']) => {
       return t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_BLOCK_TITLE');
     case 'target':
       return t('__PLAN_PAGE_MODULE_TARGET_BLOCK_TITLE');
+    case 'target_note':
+      return t('__PLAN_PAGE_MODULE_TARGET_NOTE_BLOCK_TITLE');
     case 'tasks':
       return t('__PLAN_PAGE_MODULE_TASKS_BLOCK_TITLE');
     case 'title':
       return t('__PLAN_PAGE_MODULE_TITLE_BLOCK_TITLE');
+    case 'setup_note':
+      return t('__PLAN_PAGE_MODULE_SETUP_NOTE_BLOCK_TITLE');
+    case 'instructions_note':
+      return t('__PLAN_PAGE_MODULE_INSTRUCTIONS_NOTE_BLOCK_TITLE');
     default:
       return '';
   }
 };
 
-export { getTitleFromModule };
+export { getTitleFromModuleType };
