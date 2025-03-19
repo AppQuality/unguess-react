@@ -76,6 +76,10 @@ const Project = () => {
     });
   }
 
+  const { items: plans } = useProjectPlans({
+    projectId: Number(projectId) || 0,
+  });
+
   const {
     data: { project, workspace } = {},
     isSuccess,
@@ -120,13 +124,16 @@ const Project = () => {
     });
   }
 
+  const isEmpty =
+    plans.length === 0 && (!project || project?.campaigns_count === 0);
+
   return (
     <Page
       title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
-      excludeMarginBottom={!!project && project?.campaigns_count === 0}
-      excludeMarginTop={!!project && project?.campaigns_count === 0}
+      excludeMarginBottom={isEmpty}
+      excludeMarginTop={isEmpty}
     >
       <Items project={project} isLoading={isLoading || isFetching} />
     </Page>
