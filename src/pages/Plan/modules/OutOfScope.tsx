@@ -113,7 +113,7 @@ const OutOfScope = () => {
                 </Span>
               </Label>
               <Textarea
-                readOnly={status === 'pending_review'}
+                readOnly={getPlanStatus() !== 'draft'}
                 data-qa="out-of-scope-input"
                 isResizable
                 value={value?.output || ''}

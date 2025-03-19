@@ -134,7 +134,7 @@ const Gender = () => {
                 key="all"
                 value="all"
                 name="gender-all"
-                disabled={getPlanStatus() === 'pending_review'}
+                disabled={getPlanStatus() !== 'draft'}
                 // checked if all genders are selected
                 checked={genderTypes.every((gender) =>
                   value?.output.some(

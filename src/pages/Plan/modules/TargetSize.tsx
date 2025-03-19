@@ -109,7 +109,7 @@ const TargetSize = () => {
                 <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
               </Label>
               <Input
-                readOnly={planStatus === 'pending_review'}
+                readOnly={getPlanStatus() !== 'draft'}
                 data-qa="target-input"
                 type="number"
                 value={currentValue}

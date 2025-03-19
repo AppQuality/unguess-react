@@ -107,7 +107,7 @@ const Goal = () => {
                 <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
               </Label>
               <Textarea
-                readOnly={status === 'pending_review'}
+                readOnly={getPlanStatus() !== 'draft'}
                 data-qa="goal-input"
                 isResizable
                 value={value?.output || ''}

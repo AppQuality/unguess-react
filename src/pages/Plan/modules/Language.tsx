@@ -80,7 +80,7 @@ const Language = () => {
             {languages.map((language) => (
               <FormField style={{ marginBottom: appTheme.space.sm }}>
                 <Radio
-                  disabled={planStatus === 'pending_review'}
+                  disabled={getPlanStatus() !== 'draft'}
                   name={language.value}
                   value={language.value}
                   checked={value?.output === language.value}
