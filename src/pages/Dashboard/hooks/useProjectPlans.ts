@@ -1,8 +1,10 @@
 import { useGetWorkspacesByWidPlansQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 export const useProjectPlans = ({ projectId }: { projectId: number }) => {
   const { activeWorkspace } = useActiveWorkspace();
+  const canSeePlans = useCanAccessToActiveWorkspace();
 
   const { data, isLoading, isFetching, isError } =
     useGetWorkspacesByWidPlansQuery(
@@ -15,7 +17,7 @@ export const useProjectPlans = ({ projectId }: { projectId: number }) => {
         },
       },
       {
-        skip: !activeWorkspace,
+        skip: !canSeePlans || !activeWorkspace,
       }
     );
 

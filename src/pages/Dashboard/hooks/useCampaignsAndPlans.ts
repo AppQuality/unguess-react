@@ -6,9 +6,12 @@ import {
   useGetWorkspacesByWidPlansQuery,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 export const useCampaignsAndPlans = (maxItems: number = 5) => {
   const { activeWorkspace } = useActiveWorkspace();
+  const canSeePlans = useCanAccessToActiveWorkspace();
+
   const [items, setItems] = useState<{
     plans: GetWorkspacesByWidPlansApiResponse;
     campaigns: CampaignWithOutput[];
@@ -30,7 +33,7 @@ export const useCampaignsAndPlans = (maxItems: number = 5) => {
       limit: maxItems,
     },
     {
-      skip: !activeWorkspace,
+      skip: !canSeePlans || !activeWorkspace,
     }
   );
 
@@ -47,12 +50,12 @@ export const useCampaignsAndPlans = (maxItems: number = 5) => {
       limit: maxItems,
     },
     {
-      skip: !activeWorkspace,
+      skip: !canSeePlans || !activeWorkspace,
     }
   );
 
   useEffect(() => {
-    if (campaigns || plans) {
+    if (canSeePlans && (campaigns || plans)) {
       setItems({
         plans: plans || [],
         campaigns: campaigns?.items || [],
