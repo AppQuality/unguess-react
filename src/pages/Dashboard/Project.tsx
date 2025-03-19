@@ -34,7 +34,7 @@ const Items = ({
   isLoading?: boolean;
 }) => {
   const { items, isLoading: planLoading } = useProjectPlans({
-    projectId: project?.id || 0,
+    projectId: project?.id,
   });
 
   if (!project || isLoading || planLoading) {

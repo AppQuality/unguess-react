@@ -14,10 +14,13 @@ import { CardRowLoading } from './CardRowLoading';
 import { getPlanStatus } from './hooks/getPlanStatus';
 import { useCampaignsAndPlans } from './hooks/useCampaignsAndPlans';
 
+const MAX_SUGGESTED_ITEMS = 5;
+
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
 
-  const { items, isLoading, isFetching, isError } = useCampaignsAndPlans();
+  const { items, isLoading, isFetching, isError } =
+    useCampaignsAndPlans(MAX_SUGGESTED_ITEMS);
 
   if (isLoading || isFetching) return <CardRowLoading />;
 

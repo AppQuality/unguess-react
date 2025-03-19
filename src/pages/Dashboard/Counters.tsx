@@ -1,10 +1,14 @@
-import { Skeleton } from '@appquality/unguess-design-system';
+import { Skeleton, Tag } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { Campaign } from 'src/features/api';
 import { useSelectCampaigns } from './filters/useSelectCampaigns';
+import { useCampaignsAndPlans } from './hooks/useCampaignsAndPlans';
+import { useProjectPlans } from './hooks/useProjectPlans';
 
 const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   const prjId =
@@ -44,12 +48,14 @@ export const Counters = () => {
   const { campaigns, isLoading, isFetching, isError } = useSelectCampaigns(
     projectId ? Number(projectId) : undefined
   );
+  const { t } = useTranslation();
+  const { items: plans } = useProjectPlans({ projectId: Number(projectId) });
 
   const items = campaigns.flatMap((c) => c.items);
 
   if (isError) return null; // TODO: Improve error handling
 
-  const { running, completed, inComing, functional, experiential } =
+  const { running, completed, inComing } =
     getCounterValues(items ?? [], projectId) || 0;
 
   return isLoading || isFetching ? (
@@ -59,9 +65,15 @@ export const Counters = () => {
       <StatusMeta counter={completed} status="completed" />
       <StatusMeta counter={running} status="running" />
       <StatusMeta counter={inComing} status="incoming" />
-      <Pipe />
-      <StatusMeta counter={functional} status="functional" />
-      <StatusMeta counter={experiential} status="experiential" />
+      {plans.length > 0 && (
+        <>
+          <Pipe />
+          <Tag size="large" hue="transparent">
+            {t('__DASHBOARD_PLAN_COUNTER')}
+            <Tag.SecondaryText>{plans.length}</Tag.SecondaryText>
+          </Tag>
+        </>
+      )}
     </PageMeta>
   );
 };
