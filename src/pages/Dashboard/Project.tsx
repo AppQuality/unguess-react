@@ -1,28 +1,30 @@
+import { Grid } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Page } from 'src/features/templates/Page';
-import { Grid } from '@appquality/unguess-design-system';
-import { useAppDispatch } from 'src/app/hooks';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useAppDispatch } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { Project as IProject } from 'src/features/api';
+import { useGetProjectWithWorkspaceQuery } from 'src/features/api/customEndpoints/getProjectWithWorkspace';
 import {
   projectFilterChanged,
   resetFilters,
 } from 'src/features/campaignsFilter/campaignsFilterSlice';
-import { useGetProjectWithWorkspaceQuery } from 'src/features/api/customEndpoints/getProjectWithWorkspace';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { appTheme } from 'src/app/theme';
-import { Project as IProject } from 'src/features/api';
-import { ProjectItems } from './project-items';
-import { ProjectPageHeader } from './projectPageHeader';
-import { CardRowLoading } from './CardRowLoading';
+import { Page } from 'src/features/templates/Page';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   setPermissionSettingsTitle,
   setProjectId,
   setWorkspace,
 } from '../../features/navigation/navigationSlice';
+import { CardRowLoading } from './CardRowLoading';
 import { EmptyProjectOrArchive } from './empty-state';
+import { useProjectPlans } from './hooks/useProjectPlans';
 import { LaunchCampaignCards } from './LaunchCampaignCards';
+import { ProjectItems } from './project-items';
+import { Plans } from './project-items/Plans';
+import { ProjectPageHeader } from './projectPageHeader';
 
 const Items = ({
   project,
@@ -31,7 +33,11 @@ const Items = ({
   project?: IProject;
   isLoading?: boolean;
 }) => {
-  if (!project || isLoading) {
+  const { items, isLoading: planLoading } = useProjectPlans({
+    projectId: project?.id || 0,
+  });
+
+  if (!project || isLoading || planLoading) {
     return (
       <LayoutWrapper>
         <Grid style={{ padding: 0 }}>
@@ -41,10 +47,11 @@ const Items = ({
     );
   }
 
-  if (project.campaigns_count > 0) {
+  if (project.campaigns_count > 0 || items.length > 0) {
     return (
       <LayoutWrapper style={{ paddingBottom: appTheme.space.xxl }}>
         <Grid style={{ padding: 0, marginBottom: appTheme.space.xxl }}>
+          <Plans projectId={project.id} />
           <ProjectItems projectId={Number(project.id) || 0} />
         </Grid>
         <LaunchCampaignCards />
