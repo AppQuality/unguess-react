@@ -8,7 +8,7 @@ import {
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
-export const useCampaignsAndPlans = (maxItems: number = 5) => {
+export const useCampaignsAndPlans = (maxItems?: number) => {
   const { activeWorkspace } = useActiveWorkspace();
   const canSeePlans = useCanAccessToActiveWorkspace();
 
@@ -55,9 +55,9 @@ export const useCampaignsAndPlans = (maxItems: number = 5) => {
   );
 
   useEffect(() => {
-    if (canSeePlans && (campaigns || plans)) {
+    if (campaigns || plans) {
       setItems({
-        plans: plans || [],
+        plans: canSeePlans && plans ? plans : [],
         campaigns: campaigns?.items || [],
       });
     }
@@ -69,7 +69,9 @@ export const useCampaignsAndPlans = (maxItems: number = 5) => {
     isError: campaignsError || plansError,
     items: {
       plans: items.plans,
-      campaigns: [...items.campaigns.slice(0, maxItems - items.plans.length)],
+      campaigns: maxItems
+        ? [...items.campaigns.slice(0, maxItems - items.plans.length)]
+        : [...items.campaigns],
     },
   };
 };

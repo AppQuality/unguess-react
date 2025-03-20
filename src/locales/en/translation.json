@@ -590,6 +590,7 @@
   "__DASHBOARD_EMPTY_SEARCH_RESULTS_DESCRIPTION": "Please, try to change the search criteria",
   "__DASHBOARD_EMPTY_SEARCH_RESULTS_RESET_FILTERS": "Reset filters",
   "__DASHBOARD_EMPTY_SEARCH_RESULTS_TITLE": "We couldn't find any campaigns",
+  "__DASHBOARD_PLAN_COUNTER": "Setup Activities",
   "__DASHBOARD_SEARCH_INPUT_PLACEHOLDER": "Start typing...",
   "__DIGITAL_LITERACY_ERROR_REQUIRED": "Please select at least one gender to continue",
   "__EMPTY_SPACE_NO_FEATURE": "",
