@@ -2,7 +2,7 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import { modulesChildrenMap } from './const';
 
-const NavItemWithChildren = ({
+const NavItemChildren = ({
   module,
 }: {
   module: components['schemas']['Module'];
@@ -20,4 +20,4 @@ const NavItemWithChildren = ({
   return null;
 };
 
-export { NavItemWithChildren };
+export { NavItemChildren };
