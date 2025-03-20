@@ -9,12 +9,20 @@ import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg'
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { components } from 'src/common/schema';
+import { useValidationContext } from 'src/features/modules/FormProvider';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
-  // TODO: implement error handling
-  const hasError = false;
+  const { errors } = useValidationContext();
 
-  return hasError
+  const hasErrors =
+    (errors &&
+      typeof errors === 'object' &&
+      Object.keys(errors).some(
+        (key) => key.startsWith(module_type) || key === module_type
+      )) ??
+    false;
+
+  return hasErrors
     ? getColor(appTheme.colors.dangerHue, 600)
     : getColor(appTheme.colors.primaryHue, 600);
 };
@@ -37,7 +45,7 @@ const getIconFromModuleType = (
     case 'out_of_scope':
       return <OutOfScopeIcon color={color} />;
     case 'target':
-      return <TargetIcon />;
+      return <TargetIcon color={color} />;
     case 'tasks':
       return <TasksIcon color={color} />;
     case 'title':

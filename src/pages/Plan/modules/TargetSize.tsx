@@ -76,15 +76,11 @@ const TargetSize = () => {
       <AccordionNew.Section>
         <AccordionNew.Header
           icon={
-            <div
-              style={{
-                color: error
-                  ? appTheme.palette.red[900]
-                  : appTheme.palette.blue[600],
-              }}
-            >
-              <TargetSizeIcon />
-            </div>
+            <TargetSizeIcon
+              color={
+                error ? appTheme.palette.red[900] : appTheme.palette.blue[600]
+              }
+            />
           }
         >
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
