@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import react from '@vitejs/plugin-react';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -8,7 +9,33 @@ import {
   loadEnv,
   transformWithEsbuild,
 } from 'vite';
+import { ManifestOptions, VitePWA } from 'vite-plugin-pwa';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import pkg from './package.json';
+import { pwaOptions } from './vitepwa.settings';
+
+const replaceOptions = { __DATE__: new Date().toISOString() };
+const claims = process.env.CLAIMS === 'true';
+const reload = process.env.RELOAD_SW === 'true';
+const selfDestroying = process.env.SW_DESTROY === 'true';
+
+if (process.env.SW === 'true') {
+  pwaOptions.srcDir = 'src';
+  pwaOptions.filename = claims ? 'claims-sw.ts' : 'prompt-sw.ts';
+  pwaOptions.strategies = 'injectManifest';
+  (pwaOptions.manifest as Partial<ManifestOptions>).name =
+    'PWA Inject Manifest';
+  (pwaOptions.manifest as Partial<ManifestOptions>).short_name = 'PWA Inject';
+  pwaOptions.injectManifest = {
+    minify: false,
+    enableWorkboxModulesLogs: true,
+  };
+}
+
+if (claims) pwaOptions.registerType = 'autoUpdate';
+
+
+if (selfDestroying) pwaOptions.selfDestroying = selfDestroying;
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -29,6 +56,7 @@ export default defineConfig(({ mode }) => {
       importPrefixPlugin(),
       htmlPlugin(mode),
       svgrPlugin(),
+      VitePWA(pwaOptions),
     ],
   };
 });
