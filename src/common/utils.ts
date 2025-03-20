@@ -1,5 +1,3 @@
-import { DEFAULT_EXPRESS_REQUIRED_COINS } from 'src/constants';
-import { Workspace } from 'src/features/api';
 import { getColor } from '@appquality/unguess-design-system';
 import { extractStrapiData, StrapiResponse } from './getStrapiData';
 

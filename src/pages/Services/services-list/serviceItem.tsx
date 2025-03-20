@@ -5,14 +5,12 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as ExperientialIcon } from 'src/assets/icons/experiential-icon.svg';
 import { ReactComponent as FunctionalIcon } from 'src/assets/icons/functional-icon.svg';
 import { ReactComponent as TailoredIcon } from 'src/assets/icons/tailored-icon.svg';
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { STRAPI_URL } from 'src/constants';
 import { useGetFullServicesByIdQuery } from 'src/features/backoffice/strapi';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
 import { ServiceCol } from './ServiceCol';
 
@@ -24,9 +22,7 @@ export const ServiceItem = ({
   handleHubspot: () => void;
 }) => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { activeWorkspace } = useActiveWorkspace();
   const { data, isFetching, isLoading, isError } = useGetFullServicesByIdQuery({
     id: serviceId,
     populate: {

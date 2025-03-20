@@ -7,20 +7,20 @@ import {
   Span,
   Textarea,
 } from '@appquality/unguess-design-system';
+import { ChangeEvent } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { components } from 'src/common/schema';
-import { useModule } from 'src/features/modules/useModule';
-import { useValidation } from 'src/features/modules/useModuleValidation';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
-import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
-import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { appTheme } from 'src/app/theme';
-import { ChangeEvent } from 'react';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import styled from 'styled-components';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import styled from 'styled-components';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -34,7 +34,6 @@ const OutOfScope = () => {
   const { value, setOutput, remove } = useModule('out_of_scope');
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
-  const status = getPlanStatus();
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'out_of_scope' }

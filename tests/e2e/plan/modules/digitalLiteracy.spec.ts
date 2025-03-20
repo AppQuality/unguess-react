@@ -1,4 +1,4 @@
-import { test, expect } from '../../../fixtures/app';
+import { test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/Plan';
 
 test.describe('The digital literacy module defines the users digital skills.', () => {
