@@ -1,6 +1,7 @@
 import { MD, SM, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
@@ -31,13 +32,13 @@ const AddBlockModal = () => {
   const items = availableModules.map((module_type) => {
     if (getModules().find((module) => module.type === module_type)) {
       return {
-        type: module_type,
+        type: module_type as components['schemas']['Module']['type'],
         enabled: false,
       };
     }
 
     return {
-      type: module_type,
+      type: module_type as components['schemas']['Module']['type'],
       enabled: true,
     };
   });
