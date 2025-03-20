@@ -1,41 +1,45 @@
 import { getColor } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AgeIcon } from 'src/assets/icons/cake-icon-fill.svg';
-import { ReactComponent as GenderIcon } from '@zendeskgarden/svg-icons/src/16/user-group-fill.svg';
+import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as GoalIcon } from 'src/assets/icons/flag-fill.svg';
 import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
-import { ReactComponent as LiteracyIcon } from '@zendeskgarden/svg-icons/src/16/book-closed-fill.svg';
+import { ReactComponent as LiteracyIcon } from 'src/assets/icons/literacy-icon.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { components } from 'src/common/schema';
 
-const getIconColor = (module: components['schemas']['Module']) => {
-  const { type } = module;
-
+const getIconColor = (module_type: components['schemas']['Module']['type']) => {
   // TODO: implement error handling
+  const hasError = false;
 
-  return getColor(appTheme.colors.primaryHue, 600);
+  return hasError
+    ? getColor(appTheme.colors.dangerHue, 600)
+    : getColor(appTheme.colors.primaryHue, 600);
 };
 
-const getIconFromModuleType = (type: string) => {
+const getIconFromModuleType = (
+  type: components['schemas']['Module']['type']
+) => {
+  const color = getIconColor(type);
   switch (type) {
     case 'age':
-      return <AgeIcon />;
+      return <AgeIcon color={color} />;
     case 'gender':
-      return <GenderIcon />;
+      return <GenderIcon color={color} />;
     case 'goal':
-      return <GoalIcon />;
+      return <GoalIcon color={color} />;
     case 'language':
-      return <LanguageIcon />;
+      return <LanguageIcon color={color} />;
     case 'literacy':
-      return <LiteracyIcon />;
+      return <LiteracyIcon color={color} />;
     case 'out_of_scope':
-      return <OutOfScopeIcon />;
+      return <OutOfScopeIcon color={color} />;
     case 'target':
       return <TargetIcon />;
     case 'tasks':
-      return <TasksIcon />;
+      return <TasksIcon color={color} />;
     case 'title':
     case 'dates':
     default:
@@ -45,9 +49,8 @@ const getIconFromModuleType = (type: string) => {
 
 const getIconFromModule = (module: components['schemas']['Module']) => {
   const { type } = module;
-  const color = getIconColor(module);
 
-  return <div style={{ color }}>{getIconFromModuleType(type)}</div>;
+  return getIconFromModuleType(type);
 };
 
 export { getIconFromModule, getIconFromModuleType };

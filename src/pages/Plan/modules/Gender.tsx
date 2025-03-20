@@ -14,7 +14,7 @@ import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useEffect } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
-import { ReactComponent as UserGroupIcon } from '@zendeskgarden/svg-icons/src/16/user-group-fill.svg';
+import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
@@ -99,7 +99,7 @@ const Gender = () => {
         <AccordionNew.Section>
           <AccordionNew.Header
             icon={
-              <UserGroupIcon
+              <GenderIcon
                 color={
                   genderError
                     ? appTheme.palette.red[900]

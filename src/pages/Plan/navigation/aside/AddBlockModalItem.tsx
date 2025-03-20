@@ -8,16 +8,14 @@ const AddBlockModalItem = ({
   item,
 }: {
   item: {
-    type: string;
+    type: components['schemas']['Module']['type'];
     enabled: boolean;
   };
 }) => {
   const { setModalRef } = usePlanNavContext();
   const title = getTitleFromModuleType(item.type);
   const icon = getIconFromModuleType(item.type);
-  const { add } = useModule(
-    item.type as components['schemas']['Module']['type']
-  );
+  const { add } = useModule(item.type);
 
   return (
     <Button

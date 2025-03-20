@@ -29,32 +29,26 @@ const getIconColor = (
   return getColor(appTheme.colors.primaryHue, 600);
 };
 
-const getIconFromKind = (
-  kind: components['schemas']['OutputModuleTask']['kind']
-) => {
-  switch (kind) {
-    case 'bug':
-      return <FunctionalTaskIcon />;
-    case 'explorative-bug':
-      return <ExploratoryTaskIcon />;
-    case 'video':
-      return <ThinkingAloudTaskIcon />;
-    case 'moderate-video':
-      return <ThinkingAloudTaskIcon />;
-    case 'survey':
-      return <SurveyTaskIcon />;
-    default:
-      return null;
-  }
-};
-
-const getIconFromTask = (
+const getIconFromTaskOutput = (
   task: components['schemas']['OutputModuleTask'] & { key: number }
 ) => {
   const { kind } = task;
   const color = getIconColor(task);
 
-  return <div style={{ color }}>{getIconFromKind(kind)}</div>;
+  switch (kind) {
+    case 'bug':
+      return <FunctionalTaskIcon color={color} />;
+    case 'explorative-bug':
+      return <ExploratoryTaskIcon color={color} />;
+    case 'video':
+      return <ThinkingAloudTaskIcon color={color} />;
+    case 'moderate-video':
+      return <ThinkingAloudTaskIcon color={color} />;
+    case 'survey':
+      return <SurveyTaskIcon color={color} />;
+    default:
+      return null;
+  }
 };
 
-export { getIconFromTask };
+export { getIconFromTaskOutput };

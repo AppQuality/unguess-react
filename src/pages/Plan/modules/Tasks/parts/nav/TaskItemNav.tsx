@@ -11,7 +11,7 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { useModuleTasks } from '../../hooks';
-import { getIconFromTask } from '../../utils';
+import { getIconFromTaskOutput } from '../../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
@@ -66,7 +66,7 @@ const TaskItemNav = ({
         })}
       >
         <StyledContainer>
-          {getIconFromTask(task)}
+          {getIconFromTaskOutput(task)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
               {key + 1}.

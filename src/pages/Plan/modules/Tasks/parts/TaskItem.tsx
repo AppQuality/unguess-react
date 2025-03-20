@@ -17,7 +17,7 @@ import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTasksContext } from '../context';
 import { useModuleTasks } from '../hooks';
-import { getIconFromTask } from '../utils';
+import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
 
 const TaskItem = ({
@@ -59,7 +59,7 @@ const TaskItem = ({
         type={hasError ? 'danger' : 'default'}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromTask(task)}>
+          <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
             <AccordionNew.Label
               label={`${index}. ${
                 hasPlaceholder
