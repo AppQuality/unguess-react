@@ -162,7 +162,7 @@ const Age = () => {
                   key="all"
                   value="all"
                   name="gender-all"
-                  disabled={getPlanStatus() === 'pending_review'}
+                  disabled={getPlanStatus() !== 'draft'}
                   // checked if all ages are selected
                   checked={ageRangesAndLabels.every((ageRange) =>
                     value?.output.some(

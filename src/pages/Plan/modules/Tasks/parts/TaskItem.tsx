@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTasksContext } from '../context';
 import { useModuleTasks } from '../hooks';
 import { getIconFromTask } from '../utils';
@@ -26,6 +27,7 @@ const TaskItem = ({
   const { update, validate, error } = useModuleTasks();
   const { isConfirmationModalOpen, setIsConfirmationModalOpen } =
     useModuleTasksContext();
+  const { getPlanStatus } = useModuleConfiguration();
   const { key } = task;
   const index = key + 1;
 
@@ -76,6 +78,7 @@ const TaskItem = ({
                 <MD>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}</MD>
                 <Input
                   type="text"
+                  disabled={getPlanStatus() !== 'draft'}
                   value={task.title}
                   onChange={(e) => update(key, { title: e.target.value })}
                   placeholder={t(
@@ -93,6 +96,7 @@ const TaskItem = ({
               </Label>
               <Editor
                 key={`task-editor-${index}`}
+                editable={getPlanStatus() === 'draft'}
                 headerTitle={t(
                   '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_HEADER_TITLE'
                 )}

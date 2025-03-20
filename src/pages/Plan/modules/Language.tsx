@@ -7,14 +7,14 @@ import {
   Radio,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useModule } from 'src/features/modules/useModule';
-import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { appTheme } from 'src/app/theme';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import styled from 'styled-components';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import styled from 'styled-components';
 
 const StyledTitleGroup = styled.div`
   display: flex;
@@ -26,7 +26,6 @@ const Language = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { value, setOutput, remove } = useModule('language');
   const { t } = useTranslation();
-  const planStatus = getPlanStatus();
   const languages = [
     {
       value: 'en',
@@ -80,7 +79,7 @@ const Language = () => {
             {languages.map((language) => (
               <FormField style={{ marginBottom: appTheme.space.sm }}>
                 <Radio
-                  disabled={planStatus === 'pending_review'}
+                  disabled={getPlanStatus() !== 'draft'}
                   name={language.value}
                   value={language.value}
                   checked={value?.output === language.value}

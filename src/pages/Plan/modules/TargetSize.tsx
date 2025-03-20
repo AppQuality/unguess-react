@@ -7,20 +7,20 @@ import {
   SM,
   Span,
 } from '@appquality/unguess-design-system';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { components } from 'src/common/schema';
-import { useModule } from 'src/features/modules/useModule';
-import { useValidation } from 'src/features/modules/useModuleValidation';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { ReactComponent as TargetSizeIcon } from 'src/assets/icons/user-follow.svg';
-import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
-import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { appTheme } from 'src/app/theme';
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import styled from 'styled-components';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import styled from 'styled-components';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -37,7 +37,7 @@ const TargetSize = () => {
   const [currentValue, setCurrentValue] = useState<string | undefined>(
     value?.output.toString()
   );
-  const planStatus = getPlanStatus();
+
   useEffect(() => {
     setOutput(Number(currentValue));
   }, [currentValue]);
@@ -109,7 +109,7 @@ const TargetSize = () => {
                 <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
               </Label>
               <Input
-                readOnly={planStatus === 'pending_review'}
+                readOnly={getPlanStatus() !== 'draft'}
                 data-qa="target-input"
                 type="number"
                 value={currentValue}

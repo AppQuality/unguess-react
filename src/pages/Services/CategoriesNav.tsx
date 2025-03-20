@@ -11,7 +11,6 @@ import {
 import { extractStrapiData } from 'src/common/getStrapiData';
 import { CategoryResponse, ServiceResponse } from 'src/features/backoffice';
 import { useGeti18nCategoriesQuery } from 'src/features/backoffice/strapi';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import i18n from 'src/i18n';
 
@@ -19,7 +18,6 @@ const CategoriesNav = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { status } = useAppSelector((state) => state.user);
-  const { activeWorkspace } = useActiveWorkspace();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
 

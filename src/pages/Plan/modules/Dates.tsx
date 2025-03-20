@@ -4,11 +4,9 @@ import {
   FormField,
   Input,
   Select,
-  SM,
 } from '@appquality/unguess-design-system';
 import { isBefore } from 'date-fns';
 import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import {
   FEATURE_FLAG_CHANGE_MODULES_VARIANTS,
@@ -17,10 +15,12 @@ import {
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { formatModuleDate } from '../utils/formatModuleDate';
 
 const VariantSelect = () => {
   const { value, setVariant } = useModule('dates');
+  const { getPlanStatus } = useModuleConfiguration();
 
   const handleVariantChange = (variant: string) => {
     setVariant(variant);
@@ -29,6 +29,7 @@ const VariantSelect = () => {
   return (
     <Select
       data-qa="change-variant"
+      isDisabled={getPlanStatus() !== 'draft'}
       onSelect={handleVariantChange}
       label="Variant"
       inputValue={value?.variant}
@@ -68,7 +69,7 @@ export const Dates = () => {
     return error || true;
   };
 
-  const { error, validate } = useValidation({
+  const { validate } = useValidation({
     type: 'dates',
     validate: validation,
   });

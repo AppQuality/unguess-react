@@ -140,7 +140,7 @@ const DigitalLiteracy = () => {
                 key="all"
                 value="all"
                 name="literacy-all"
-                disabled={getPlanStatus() === 'pending_review'}
+                disabled={getPlanStatus() !== 'draft'}
                 // checked if all levels are selected
                 checked={literacyLevels.every((level) =>
                   value?.output.some(
@@ -184,7 +184,7 @@ const DigitalLiteracy = () => {
                     key={level}
                     value={level.toLowerCase()}
                     name={`literacy-${level}`}
-                    disabled={getPlanStatus() === 'pending_review'}
+                    disabled={getPlanStatus() !== 'draft'}
                     checked={value?.output.some(
                       (item) => item.level === level.toLowerCase()
                     )}

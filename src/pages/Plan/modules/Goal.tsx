@@ -7,20 +7,20 @@ import {
   Span,
   Textarea,
 } from '@appquality/unguess-design-system';
+import { ChangeEvent } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { components } from 'src/common/schema';
-import { useModule } from 'src/features/modules/useModule';
-import { useValidation } from 'src/features/modules/useModuleValidation';
-import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { ReactComponent as GoalIcon } from 'src/assets/icons/flag-fill.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
-import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { appTheme } from 'src/app/theme';
-import { ChangeEvent } from 'react';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
+import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import styled from 'styled-components';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import styled from 'styled-components';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -34,7 +34,6 @@ const Goal = () => {
   const { value, setOutput, remove } = useModule('goal');
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
-  const status = getPlanStatus();
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'goal' }
@@ -107,7 +106,7 @@ const Goal = () => {
                 <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
               </Label>
               <Textarea
-                readOnly={status === 'pending_review'}
+                readOnly={getPlanStatus() !== 'draft'}
                 data-qa="goal-input"
                 isResizable
                 value={value?.output || ''}
