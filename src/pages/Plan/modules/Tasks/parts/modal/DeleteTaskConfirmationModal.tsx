@@ -1,24 +1,43 @@
 import { Button, Modal, ModalClose } from '@appquality/unguess-design-system';
+import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 
-const DeleteTaskConfirmationModal = ({ taskKey }: { taskKey: number }) => {
+const DeleteTaskConfirmationModal = ({
+  state,
+}: {
+  state: [
+    {
+      isOpen: boolean;
+      taskKey: number;
+    },
+    Dispatch<
+      SetStateAction<{
+        isOpen: boolean;
+        taskKey: number;
+      }>
+    >
+  ];
+}) => {
   const { t } = useTranslation();
-  const { isConfirmationModalOpen, setIsConfirmationModalOpen } =
-    useModuleTasksContext();
   const { remove } = useModuleTasks();
 
   const onQuit = () => {
-    setIsConfirmationModalOpen(false);
+    state[1]({
+      isOpen: false,
+      taskKey: 0,
+    });
   };
 
   const onConfirm = () => {
-    remove(taskKey);
-    setIsConfirmationModalOpen(false);
+    remove(state[0].taskKey);
+    state[1]({
+      isOpen: false,
+      taskKey: 0,
+    });
   };
 
-  if (!isConfirmationModalOpen) return null;
+  if (!state[0].isOpen) return null;
 
   return (
     <Modal onClose={onQuit}>

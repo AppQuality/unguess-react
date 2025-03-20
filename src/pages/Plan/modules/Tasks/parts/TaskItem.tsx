@@ -2,7 +2,6 @@ import {
   AccordionNew,
   Button,
   Editor,
-  Ellipsis,
   FormField,
   Input,
   Label,
@@ -10,12 +9,12 @@ import {
   Message,
   Span,
 } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { useModuleTasksContext } from '../context';
 import { useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
@@ -27,9 +26,11 @@ const TaskItem = ({
 }) => {
   const { t } = useTranslation();
   const { update, validate, error } = useModuleTasks();
-  const { isConfirmationModalOpen, setIsConfirmationModalOpen } =
-    useModuleTasksContext();
   const { getPlanStatus } = useModuleConfiguration();
+  const confirmationState = useState<{
+    isOpen: boolean;
+    taskKey: number;
+  }>({ isOpen: false, taskKey: 0 });
   const { key } = task;
   const index = key + 1;
 
@@ -71,7 +72,12 @@ const TaskItem = ({
               <Button
                 isBasic
                 isDanger
-                onClick={() => setIsConfirmationModalOpen(true)}
+                onClick={() =>
+                  confirmationState[1]({
+                    isOpen: true,
+                    taskKey: key,
+                  })
+                }
               >
                 <Button.StartIcon>
                   <TrashIcon />
@@ -147,7 +153,9 @@ const TaskItem = ({
           </AccordionNew.Panel>
         </AccordionNew.Section>
       </AccordionNew>
-      {isConfirmationModalOpen && <DeleteTaskConfirmationModal taskKey={key} />}
+      {confirmationState[0].isOpen && (
+        <DeleteTaskConfirmationModal state={confirmationState} />
+      )}
     </>
   );
 };
