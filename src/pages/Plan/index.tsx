@@ -73,6 +73,7 @@ const Plan = () => {
           pageHeader={<PlanPageHeader />}
           route="plan"
           isMinimal
+          excludeMarginTop
         >
           <PlanBody />
         </Page>
