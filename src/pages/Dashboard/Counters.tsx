@@ -5,6 +5,7 @@ import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { Campaign } from 'src/features/api';
+import styled from 'styled-components';
 import { useSelectCampaigns } from './filters/useSelectCampaigns';
 import { useProjectPlans } from './hooks/useProjectPlans';
 
@@ -41,6 +42,11 @@ const getCounterValues = (campaigns: Campaign[], projectId?: string) => {
   return counters;
 };
 
+const StyledPipe = styled(Pipe)`
+  display: inline;
+  margin-left: ${({ theme }) => theme.space.sm};
+`;
+
 export const Counters = () => {
   const { projectId } = useParams();
   const { campaigns, isLoading, isFetching, isError } = useSelectCampaigns(
@@ -65,7 +71,7 @@ export const Counters = () => {
       <StatusMeta counter={inComing} status="incoming" />
       {plans.length > 0 && (
         <>
-          <Pipe />
+          <StyledPipe />
           <Tag size="large" hue="transparent">
             {t('__DASHBOARD_PLAN_COUNTER')}
             <Tag.SecondaryText>{plans.length}</Tag.SecondaryText>
