@@ -4,10 +4,10 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
-import { usePlanTab } from '../../context/planContext';
-import { MODULES_BY_TAB } from '../../modulesMap';
+import { usePlanTab } from '../../../context/planContext';
+import { MODULES_BY_TAB } from '../../../modulesMap';
 import { AddBlockModalItem } from './AddBlockModalItem';
-import { usePlanNavContext } from './context';
+import { usePlanNavContext } from '../context';
 
 const ButtonsContainer = styled.div`
   display: flex;

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
 import { AddBlockButton } from './AddBlockButton';
-import { AddBlockModal } from './AddBlockModal';
+import { AddBlockModal } from './modal/AddBlockModal';
 import { MODULES_WITH_OUTPUT } from './const';
 import { NavItem } from './NavItem';
 import { NavItemChildren } from './NavItemChildren';

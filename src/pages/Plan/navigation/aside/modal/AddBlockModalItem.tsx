@@ -1,8 +1,8 @@
 import { Button } from '@appquality/unguess-design-system';
 import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
-import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
-import { usePlanNavContext } from './context';
+import { getIconFromModuleType, getTitleFromModuleType } from '../../../utils';
+import { usePlanNavContext } from '../context';
 
 const AddBlockModalItem = ({
   item,
