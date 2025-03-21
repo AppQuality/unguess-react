@@ -111,19 +111,19 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: [],
+          output: ['expert', 'intermediate', 'beginner'],
         };
       case 'language':
         return {
           type,
           variant: 'default',
-          output: '',
+          output: 'en',
         };
       case 'target':
         return {
           type,
           variant: 'default',
-          output: 0,
+          output: 5,
         };
       default:
         return null;
