@@ -7,7 +7,7 @@ import {
   Span,
   Textarea,
 } from '@appquality/unguess-design-system';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
@@ -21,6 +21,7 @@ import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { getIconFromModuleType } from '../utils';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ const Goal = () => {
   const { value, setOutput, remove } = useModule('goal');
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'goal' }
@@ -59,86 +61,87 @@ const Goal = () => {
     validate();
   };
 
-  const getIconColor = () => {
-    if (!error && !value?.output) {
-      return appTheme.palette.grey[600];
-    }
-    if (error) {
-      return appTheme.palette.red[900];
-    }
-    return appTheme.palette.blue[600];
-  };
-
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
     setOutput(inputValue);
   };
 
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
   return (
-    <AccordionNew
-      data-qa="goal-module"
-      level={3}
-      hasBorder
-      type={error ? 'danger' : 'default'}
-    >
-      <AccordionNew.Section>
-        <AccordionNew.Header icon={getIconFromModuleType('goal')}>
-          <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_GOAL_TITLE')} />
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-            <AccordionNew.Meta>
-              <Button isBasic isDanger onClick={remove}>
-                <Button.StartIcon>
-                  <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_GOAL_REMOVE_BUTTON')}
-              </Button>
-            </AccordionNew.Meta>
-          )}
-        </AccordionNew.Header>
-        <AccordionNew.Panel>
-          <div style={{ padding: appTheme.space.xs }}>
-            <FormField style={{ marginBottom: appTheme.space.md }}>
-              <Label>
-                <Trans i18nKey="__PLAN_PAGE_MODULE_GOAL_LABEL">
-                  Which is the objective of the test?
-                </Trans>
-                <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
-              </Label>
-              <Textarea
-                readOnly={getPlanStatus() !== 'draft'}
-                data-qa="goal-input"
-                isResizable
-                value={value?.output || ''}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                validation={error ? 'error' : undefined}
-                placeholder={t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER')}
-              />
-              <StyledInfoBox>
-                {error && typeof error === 'string' ? (
-                  <>
-                    <AlertIcon />
-                    <SM
-                      style={{ color: appTheme.components.text.dangerColor }}
-                      data-qa="goal-error"
-                    >
-                      {error}
-                    </SM>
-                  </>
-                ) : (
-                  <>
-                    <InfoIcon />
-                    <SM style={{ color: appTheme.palette.grey[600] }}>
-                      {t('__PLAN_PAGE_MODULE_GOAL_INFO')}
-                    </SM>
-                  </>
-                )}
-              </StyledInfoBox>
-            </FormField>
-          </div>
-        </AccordionNew.Panel>
-      </AccordionNew.Section>
-    </AccordionNew>
+    <>
+      <AccordionNew
+        data-qa="goal-module"
+        level={3}
+        hasBorder
+        type={error ? 'danger' : 'default'}
+      >
+        <AccordionNew.Section>
+          <AccordionNew.Header icon={getIconFromModuleType('goal')}>
+            <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_GOAL_TITLE')} />
+            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+              <AccordionNew.Meta>
+                <Button isBasic isDanger onClick={handleDelete}>
+                  <Button.StartIcon>
+                    <TrashIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_GOAL_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
+            <div style={{ padding: appTheme.space.xs }}>
+              <FormField style={{ marginBottom: appTheme.space.md }}>
+                <Label>
+                  <Trans i18nKey="__PLAN_PAGE_MODULE_GOAL_LABEL">
+                    Which is the objective of the test?
+                  </Trans>
+                  <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+                </Label>
+                <Textarea
+                  readOnly={getPlanStatus() !== 'draft'}
+                  data-qa="goal-input"
+                  isResizable
+                  value={value?.output || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  validation={error ? 'error' : undefined}
+                  placeholder={t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER')}
+                />
+                <StyledInfoBox>
+                  {error && typeof error === 'string' ? (
+                    <>
+                      <AlertIcon />
+                      <SM
+                        style={{ color: appTheme.components.text.dangerColor }}
+                        data-qa="goal-error"
+                      >
+                        {error}
+                      </SM>
+                    </>
+                  ) : (
+                    <>
+                      <InfoIcon />
+                      <SM style={{ color: appTheme.palette.grey[600] }}>
+                        {t('__PLAN_PAGE_MODULE_GOAL_INFO')}
+                      </SM>
+                    </>
+                  )}
+                </StyledInfoBox>
+              </FormField>
+            </div>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
+    </>
   );
 };
 
