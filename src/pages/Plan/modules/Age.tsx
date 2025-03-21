@@ -135,7 +135,7 @@ const Age = () => {
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_AGE_LABEL')} />
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
               <AccordionNew.Meta>
-                <Button isBasic isDanger isLink onClick={handleDelete}>
+                <Button isBasic isDanger onClick={handleDelete}>
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
