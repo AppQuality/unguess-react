@@ -101,19 +101,47 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: [],
+          output: [
+            {
+              min: 16,
+              max: 24,
+              percentage: 25,
+            },
+            {
+              min: 25,
+              max: 34,
+              percentage: 25,
+            },
+            {
+              min: 35,
+              max: 54,
+              percentage: 25,
+            },
+            {
+              min: 55,
+              max: 70,
+              percentage: 25,
+            },
+          ],
         };
       case 'gender':
         return {
           type,
           variant: 'default',
-          output: [],
+          output: [
+            { gender: 'male', percentage: 50 },
+            { gender: 'female', percentage: 50 },
+          ],
         };
       case 'literacy':
         return {
           type,
           variant: 'default',
-          output: ['expert', 'intermediate', 'beginner'],
+          output: [
+            { level: 'beginner', percentage: 33.33 },
+            { level: 'intermediate', percentage: 33.33 },
+            { level: 'expert', percentage: 33.33 },
+          ],
         };
       case 'language':
         return {
