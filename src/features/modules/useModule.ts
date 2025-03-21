@@ -1,14 +1,15 @@
 import { useFormikContext } from 'formik';
-import { useMemo, useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { components } from 'src/common/schema';
+import { useValidationContext } from './FormProvider';
 import { FormBody } from './types';
 
 export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
 ) => {
   type ModType = components['schemas']['Module'] & { type: T };
-  const { values, setFieldValue, setErrors, errors } =
-    useFormikContext<FormBody>();
+  const { values, setFieldValue } = useFormikContext<FormBody>();
+  const { validateForm } = useValidationContext();
 
   const module: ModType | undefined = useMemo(
     () => values.modules.find((m): m is ModType => m.type === moduleName),
@@ -57,6 +58,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
       'modules',
       values.modules.filter((m) => m.type !== moduleName)
     );
+    validateForm();
   }, [moduleName, setFieldValue, values.modules]);
 
   const getConfig = (
