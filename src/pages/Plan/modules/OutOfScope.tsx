@@ -57,16 +57,6 @@ const OutOfScope = () => {
     setOutput(inputValue);
   };
 
-  const handleSetIconColor = () => {
-    if (error) {
-      return appTheme.palette.red[900];
-    }
-    if (value && value.output.length === 0) {
-      return appTheme.palette.grey[600];
-    }
-    return appTheme.palette.blue[600];
-  };
-
   return (
     <AccordionNew
       data-qa="out-of-scope-module"
