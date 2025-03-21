@@ -8,6 +8,10 @@ import { Nav } from './navigation/aside';
 export const PlanBody = () => {
   const { activeTab } = usePlanTab();
 
+  // Debug info
+  const params = new URLSearchParams(window.location.search);
+  const debug = params.get('debug');
+
   return (
     <Grid style={{ padding: appTheme.space.xxl }}>
       <Row>
@@ -17,9 +21,7 @@ export const PlanBody = () => {
         <Col sm="6">
           <ModulesList tabId={activeTab} />
         </Col>
-        <Col sm="3">
-          <PlanDetails />
-        </Col>
+        <Col sm="3">{debug && <PlanDetails />}</Col>
       </Row>
     </Grid>
   );
