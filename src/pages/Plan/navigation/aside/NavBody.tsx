@@ -18,7 +18,7 @@ const StickyContainer = styled.div`
   overflow-y: auto;
   padding: ${({ theme }) => theme.space.sm};
   z-index: ${({ theme }) => theme.levels.front};
-  margin-bottom: ${({ theme }) => theme.space.md};
+  padding-bottom: ${({ theme }) => theme.space.xxl};
 
   &::-webkit-scrollbar {
     display: none;
