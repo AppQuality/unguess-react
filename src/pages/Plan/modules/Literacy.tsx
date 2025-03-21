@@ -115,7 +115,7 @@ const DigitalLiteracy = () => {
             />
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
               <AccordionNew.Meta>
-                <Button isBasic isDanger isLink onClick={handleDelete}>
+                <Button isBasic isDanger onClick={handleDelete}>
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
