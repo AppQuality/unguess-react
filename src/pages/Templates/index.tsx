@@ -9,6 +9,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
 import { TemplatesContextProvider } from './Context';
 import PageHeader from './PageHeader';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 const Templates = () => {
   const { t } = useTranslation();
@@ -17,6 +18,7 @@ const Templates = () => {
   const location = useLocation();
   const { activeWorkspace } = useActiveWorkspace();
   const { status } = useAppSelector((state) => state.user);
+  const canViewTemplates = useCanAccessToActiveWorkspace();
   const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
@@ -26,14 +28,14 @@ const Templates = () => {
     }
   );
 
-  if (isError) {
+  if (!data || isLoading || status === 'loading') {
+    return <PageLoader />;
+  }
+
+  if (!canViewTemplates || isError) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
-  }
-
-  if (!data || isLoading || status === 'loading') {
-    return <PageLoader />;
   }
 
   return (

@@ -5,7 +5,8 @@ import {
   MD,
   Row,
   SpecialCard,
-  XL,
+  XXL,
+  TemplateCard,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +14,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as GoToIcon } from 'src/assets/icons/edit-icon.svg';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import {
+  CpReqTemplate,
   useGetWorkspacesByWidTemplatesQuery,
   usePostWorkspacesByWidPlansMutation,
 } from 'src/features/api';
@@ -20,6 +22,9 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useTemplatesContext } from './Context';
 import { ProjectDropdown } from './ProjectDropdown';
+import styled from 'styled-components';
+import { useMemo } from 'react';
+import { TemplateCardsGrid } from './TemplateCardsGrid';
 
 const Body = () => {
   const { t } = useTranslation();
@@ -31,6 +36,33 @@ const Body = () => {
     wid: activeWorkspace?.id.toString() || '',
   });
   const [createPlan] = usePostWorkspacesByWidPlansMutation();
+  // use array.reduce on data.items to filter templates in tailored and unguess, return an object with both arrays
+
+  const CardsWrapper = styled.div`
+    container-type: inline-size;
+    container-name: cardsWrapper;
+  `;
+
+  const filteredTemplates = useMemo(() => {
+    if (!data) return { tailored: [], unguess: [] };
+    return data.items.reduce<{
+      tailored: CpReqTemplate[];
+      unguess: CpReqTemplate[];
+    }>(
+      (acc, template) => {
+        if (
+          'workspace_id' in template &&
+          typeof template.workspace_id === 'number'
+        ) {
+          acc.tailored.push(template);
+        } else {
+          acc.unguess.push(template);
+        }
+        return acc;
+      },
+      { tailored: [], unguess: [] }
+    );
+  }, [data]);
 
   const handleButtonClick = async (tid: number, pid: number) => {
     await createPlan({
@@ -53,6 +85,7 @@ const Body = () => {
 
   if (!data || isFetching || isLoading) return null;
 
+  console.log(filteredTemplates);
   return (
     <LayoutWrapper>
       <Grid>
@@ -64,44 +97,15 @@ const Body = () => {
             <ProjectDropdown />
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <XL>{t('__TEMPLATES_PAGE_TEMPLATES_LIST_TITLE')}</XL>
-          </Col>
-        </Row>
-        <Row>
-          {data.items.map((template) => (
-            <Col md={3}>
-              <SpecialCard data-qa="template-card" key={template.id}>
-                <SpecialCard.Thumb>#{template.id}</SpecialCard.Thumb>
-
-                <SpecialCard.Header>
-                  <SpecialCard.Header.Title>
-                    {template.name}
-                  </SpecialCard.Header.Title>
-                </SpecialCard.Header>
-
-                <SpecialCard.Footer>
-                  <Button
-                    isPrimary
-                    isAccent
-                    isStretched
-                    disabled={!projectId}
-                    onClick={() =>
-                      handleButtonClick(template.id, projectId ?? 0)
-                    }
-                  >
-                    <Button.StartIcon>
-                      <GoToIcon />
-                    </Button.StartIcon>
-                    {t('__TEMPLATES_PAGE_TEMPLATE_CARD_BUTTON_LABEL')}
-                  </Button>
-                </SpecialCard.Footer>
-              </SpecialCard>
-            </Col>
-          ))}
-        </Row>
       </Grid>
+      <CardsWrapper>
+        <XXL>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
+        <MD>{t('__TEMPLATES_PAGE_TAILORED_LIST_SUBTITLE')}</MD>
+        <TemplateCardsGrid templates={filteredTemplates.tailored} />
+        <XXL>{t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}</XXL>
+        <MD>{t('__TEMPLATES_PAGE_UNGUESS_LIST_SUBTITLE')}</MD>
+        <TemplateCardsGrid templates={filteredTemplates.unguess} />
+      </CardsWrapper>
     </LayoutWrapper>
   );
 };

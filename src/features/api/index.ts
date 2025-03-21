@@ -2618,6 +2618,7 @@ export type StrapiTemplate = {
   }[];
 };
 export type CpReqTemplate = {
+  strapi: any;
   id: number;
   name: string;
   description?: string;
