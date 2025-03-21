@@ -9,7 +9,9 @@ import {
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { GlobalAlert } from '@appquality/unguess-design-system';
 import { PlanProvider } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
@@ -18,6 +20,7 @@ const Plan = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
   const { activeWorkspace } = useActiveWorkspace();
+  const { getPlanStatus } = useModuleConfiguration();
 
   const [patchPlan] = usePatchWorkspacesByWidPlansAndPidMutation();
   const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery(
@@ -67,6 +70,13 @@ const Plan = () => {
   return (
     <FormProvider onSubmit={handleSubmit} initialValues={initialValues}>
       <PlanProvider>
+        {getPlanStatus() === 'pending_review' && (
+          <GlobalAlert
+            message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
+            title={t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE')}
+            type="info"
+          />
+        )}
         <Page
           title={t('__PLAN_PAGE_TITLE')}
           className="plan-page"

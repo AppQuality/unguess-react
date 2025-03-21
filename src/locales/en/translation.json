@@ -1262,6 +1262,8 @@
   "INSIGHTS_PAGE_COLLECTION_TITLE": "Themes and Observations",
   "OS ({{count}})_one": "OS ({{count}})",
   "OS ({{count}})_other": "OS ({{count}})",
+  "PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE": "",
+  "PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE": "",
   "Priority ({{count}})_one": "Priority ({{count}})",
   "Priority ({{count}})_other": "Priority ({{count}})",
   "Replicability ({{count}})_one": "Replicability ({{count}})",

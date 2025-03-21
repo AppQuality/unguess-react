@@ -1298,6 +1298,8 @@
   "OS ({{count}})_one": "OS ({{count}})",
   "OS ({{count}})_many": "",
   "OS ({{count}})_other": "OS ({{count}})",
+  "PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE": "",
+  "PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE": "",
   "Priority ({{count}})_one": "Priorità ({{count}})",
   "Priority ({{count}})_many": "",
   "Priority ({{count}})_other": "Priorità ({{count}})",
