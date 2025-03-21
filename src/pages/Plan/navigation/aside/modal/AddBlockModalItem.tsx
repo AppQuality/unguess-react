@@ -14,7 +14,7 @@ const AddBlockModalItem = ({
 }) => {
   const { setModalRef } = usePlanNavContext();
   const title = getTitleFromModuleType(item.type);
-  const icon = getIconFromModuleType(item.type);
+  const icon = getIconFromModuleType(item.type, false);
   const { add } = useModule(item.type);
 
   return (
