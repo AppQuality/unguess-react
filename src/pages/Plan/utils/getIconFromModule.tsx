@@ -28,9 +28,13 @@ const getIconColor = (module_type: components['schemas']['Module']['type']) => {
 };
 
 const getIconFromModuleType = (
-  type: components['schemas']['Module']['type']
+  type: components['schemas']['Module']['type'],
+  withValidation: boolean = true
 ) => {
-  const color = getIconColor(type);
+  const color = withValidation
+    ? getIconColor(type)
+    : getColor(appTheme.colors.primaryHue, 600);
+
   switch (type) {
     case 'age':
       return <AgeIcon color={color} />;
