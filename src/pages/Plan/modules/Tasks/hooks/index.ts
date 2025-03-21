@@ -92,7 +92,7 @@ const useModuleTasks = () => {
       return '';
     }
 
-    function getDefaultDescription(fill: boolean = false) {
+    function getDefaultDescription(fill: boolean = true) {
       if (kind === 'bug' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_FUNCTIONAL_DESCRIPTION_DEFAULT'
