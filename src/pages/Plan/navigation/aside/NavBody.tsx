@@ -1,11 +1,10 @@
-import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
 import { AddBlockButton } from './AddBlockButton';
-import { AddBlockModal } from './modal/AddBlockModal';
 import { MODULES_WITH_OUTPUT } from './const';
+import { AddBlockModal } from './modal/AddBlockModal';
 import { NavItem } from './NavItem';
 import { NavItemChildren } from './NavItemChildren';
 
@@ -18,6 +17,8 @@ const StickyContainer = styled.div`
   );
   overflow-y: auto;
   padding: ${({ theme }) => theme.space.sm};
+  z-index: ${({ theme }) => theme.levels.front};
+  margin-bottom: ${({ theme }) => theme.space.md};
 
   &::-webkit-scrollbar {
     display: none;
@@ -31,10 +32,7 @@ const NavBody = () => {
   const { getModules } = useModuleConfiguration();
 
   return (
-    <StickyContainer
-      data-qa="plans-nav"
-      style={{ marginBottom: appTheme.space.md }}
-    >
+    <StickyContainer data-qa="plans-nav">
       <div data-qa={`plans-nav-${activeTab}`}>
         {getModules()
           .filter((module) => availableModules.includes(module.type))

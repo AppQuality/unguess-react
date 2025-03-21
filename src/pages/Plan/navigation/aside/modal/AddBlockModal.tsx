@@ -6,8 +6,8 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import styled from 'styled-components';
 import { usePlanTab } from '../../../context/planContext';
 import { MODULES_BY_TAB } from '../../../modulesMap';
-import { AddBlockModalItem } from './AddBlockModalItem';
 import { usePlanNavContext } from '../context';
+import { AddBlockModalItem } from './AddBlockModalItem';
 
 const ButtonsContainer = styled.div`
   display: flex;
