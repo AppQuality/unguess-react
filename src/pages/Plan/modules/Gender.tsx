@@ -103,7 +103,7 @@ const Gender = () => {
             />
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
               <AccordionNew.Meta>
-                <Button isBasic isDanger isLink onClick={remove}>
+                <Button isBasic isDanger onClick={remove}>
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
