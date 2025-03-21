@@ -1,14 +1,16 @@
-import { Button } from '@appquality/unguess-design-system';
+import { Button, getColor } from '@appquality/unguess-design-system';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
+import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-water-circle-add-icon.svg';
 import styled from 'styled-components';
 import { useModuleTasksContext } from '../context';
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: center;
-  padding: ${({ theme }) => theme.space.md};
+  justify-content: flex-start;
+  margin: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.xxl};
+  padding: ${({ theme }) => theme.space.xs};
+  border-left: 4px solid ${({ theme }) => getColor(theme.colors.accentHue, 600)};
 `;
 
 const AddTaskButton = () => {
@@ -20,7 +22,8 @@ const AddTaskButton = () => {
     <ButtonContainer>
       <Button
         isBasic
-        isPill={false}
+        isPill
+        isAccent
         ref={triggerRef}
         onClick={() => setModalRef(triggerRef.current)}
       >

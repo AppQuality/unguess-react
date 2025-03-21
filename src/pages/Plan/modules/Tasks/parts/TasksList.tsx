@@ -25,7 +25,7 @@ const StyledCard = styled(ContainerCard)`
 `;
 
 const TasksContainer = styled.div`
-  padding: ${({ theme }) => theme.space.md};
+  padding: 0 ${({ theme }) => theme.space.md};
 `;
 
 const HeaderContainer = styled.div<{
@@ -34,7 +34,6 @@ const HeaderContainer = styled.div<{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: ${({ theme }) => theme.space.md};
   padding: ${({ theme }) => theme.space.md};
   background-color: ${({ hasErrors, theme }) =>
     hasErrors ? theme.palette.red[100] : theme.palette.blue[100]};
@@ -72,7 +71,7 @@ const TasksList = () => {
           </Button>
         )}
       </HeaderContainer>
-      <div style={{ padding: `0 ${appTheme.space.md}` }}>
+      <div style={{ padding: appTheme.space.md }}>
         <MD isBold style={{ color: appTheme.palette.grey[800] }}>
           {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
           <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
