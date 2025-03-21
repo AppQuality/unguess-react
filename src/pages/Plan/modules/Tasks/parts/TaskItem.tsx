@@ -31,7 +31,7 @@ const TaskItem = ({
     isOpen: boolean;
     taskKey: number;
   }>({ isOpen: false, taskKey: 0 });
-  const { key } = task;
+  const { key, kind, title, description } = task;
   const index = key + 1;
 
   const titleError =
@@ -44,7 +44,7 @@ const TaskItem = ({
       : false;
 
   const hasError = titleError || descriptionError;
-  const hasPlaceholder = !task.title;
+  const hasPlaceholder = !title;
 
   const handleBlur = () => {
     validate();
@@ -65,7 +65,7 @@ const TaskItem = ({
               label={`${index}. ${
                 hasPlaceholder
                   ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
-                  : task.title
+                  : title
               }`}
             />
             <AccordionNew.Meta>
@@ -88,55 +88,73 @@ const TaskItem = ({
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
-              <FormField style={{ marginBottom: appTheme.space.md }}>
-                <Label>
-                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}
-                  <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-                </Label>
-                <MD>{t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}</MD>
-                <Input
-                  type="text"
-                  disabled={getPlanStatus() !== 'draft'}
-                  value={task.title}
-                  onChange={(e) => update(key, { title: e.target.value })}
-                  placeholder={t(
-                    '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER'
+              {kind !== 'explorative-bug' && (
+                <FormField style={{ marginBottom: appTheme.space.md }}>
+                  <Label>
+                    {t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}
+                    <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                  </Label>
+                  <MD>
+                    {t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_DESCRIPTION')}
+                  </MD>
+                  <Input
+                    type="text"
+                    disabled={getPlanStatus() !== 'draft'}
+                    value={title}
+                    onChange={(e) => update(key, { title: e.target.value })}
+                    placeholder={t(
+                      '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER'
+                    )}
+                    onBlur={handleBlur}
+                    {...(titleError && { validation: 'error' })}
+                  />
+                  {titleError && (
+                    <Message validation="error">{titleError}</Message>
                   )}
-                  onBlur={handleBlur}
-                  {...(titleError && { validation: 'error' })}
-                />
-                {titleError && (
-                  <Message validation="error">{titleError}</Message>
-                )}
-              </FormField>
+                </FormField>
+              )}
               <Label>
                 {t('__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL')}
                 <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
               </Label>
-              <Editor
-                key={`task-editor-${index}`}
-                editable={getPlanStatus() === 'draft'}
-                headerTitle={t(
-                  '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_HEADER_TITLE'
-                )}
-                onUpdate={(value) =>
-                  update(key, { description: value.editor.getHTML() })
-                }
-                hasInlineMenu
-                placeholderOptions={{
-                  placeholder: t(
-                    '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_PLACEHOLDER'
-                  ),
-                }}
-                disableSaveShortcut
-                onBlur={handleBlur}
-                {...(descriptionError && { validation: 'error' })}
-              >
-                {task.description}
-              </Editor>
-              {descriptionError && (
-                <Message validation="error">{descriptionError}</Message>
+              {kind === 'explorative-bug' ? (
+                <MD
+                  style={{
+                    color: appTheme.palette.grey[800],
+                    marginTop: appTheme.space.xs,
+                  }}
+                >
+                  {description}
+                </MD>
+              ) : (
+                <>
+                  <Editor
+                    key={`task-editor-${index}`}
+                    editable={getPlanStatus() === 'draft'}
+                    headerTitle={t(
+                      '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_HEADER_TITLE'
+                    )}
+                    onUpdate={(value) =>
+                      update(key, { description: value.editor.getHTML() })
+                    }
+                    hasInlineMenu
+                    placeholderOptions={{
+                      placeholder: t(
+                        '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_PLACEHOLDER'
+                      ),
+                    }}
+                    disableSaveShortcut
+                    onBlur={handleBlur}
+                    {...(descriptionError && { validation: 'error' })}
+                  >
+                    {description}
+                  </Editor>
+                  {descriptionError && (
+                    <Message validation="error">{descriptionError}</Message>
+                  )}
+                </>
               )}
+
               {/* TODO: Add missing task.link value */}
               {/* <FormField style={{ marginTop: appTheme.space.md }}>
                 <Label>

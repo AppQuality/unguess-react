@@ -14,49 +14,47 @@ const useModuleTasks = () => {
 
   const add = (kind: NonNullable<typeof value>['output'][number]['kind']) => {
     function getDefaultTitle(fill: boolean = false) {
-      if (!fill) return '';
-
-      if (kind === 'bug')
+      if (kind === 'bug' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_FUNCTIONAL_TITLE_DEFAULT'
         );
       if (kind === 'explorative-bug')
+        // Always prefilled
         return t(
           '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_EXPLORATORY_TITLE_DEFAULT'
         );
-      if (kind === 'moderate-video')
+      if (kind === 'moderate-video' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_MODERATE_TITLE_DEFAULT'
         );
-      if (kind === 'video')
+      if (kind === 'video' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_THINKING_ALOUD_TITLE_DEFAULT'
         );
-      if (kind === 'survey')
+      if (kind === 'survey' && fill)
         return t('__PLAN_PAGE_MODULE_TASKS_SURVEY_TASK_SURVEY_TITLE_DEFAULT');
       return '';
     }
 
     function getDefaultDescription(fill: boolean = false) {
-      if (!fill) return '';
-
-      if (kind === 'bug')
+      if (kind === 'bug' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_FUNCTIONAL_DESCRIPTION_DEFAULT'
         );
       if (kind === 'explorative-bug')
+        // Always prefilled
         return t(
           '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_EXPLORATORY_DESCRIPTION_DEFAULT'
         );
-      if (kind === 'moderate-video')
+      if (kind === 'moderate-video' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_MODERATE_DESCRIPTION_DEFAULT'
         );
-      if (kind === 'video')
+      if (kind === 'video' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_THINKING_ALOUD_DESCRIPTION_DEFAULT'
         );
-      if (kind === 'survey')
+      if (kind === 'survey' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_SURVEY_TASK_SURVEY_DESCRIPTION_DEFAULT'
         );
