@@ -10,9 +10,11 @@ import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { components } from 'src/common/schema';
 import { useValidationContext } from 'src/features/modules/FormProvider';
+import { useModule } from 'src/features/modules/useModule';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
   const { errors } = useValidationContext();
+  const { value } = useModule(module_type);
 
   const hasErrors =
     (errors &&
@@ -22,9 +24,12 @@ const getIconColor = (module_type: components['schemas']['Module']['type']) => {
       )) ??
     false;
 
-  return hasErrors
-    ? getColor(appTheme.colors.dangerHue, 600)
-    : getColor(appTheme.colors.primaryHue, 600);
+  const hasValues = value && value.output;
+
+  if (hasErrors) return getColor(appTheme.colors.dangerHue, 600);
+  if (!hasErrors && !hasValues) return getColor(appTheme.palette.grey, 600);
+
+  return getColor(appTheme.colors.primaryHue, 600);
 };
 
 const getIconFromModuleType = (

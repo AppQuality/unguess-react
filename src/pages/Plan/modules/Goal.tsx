@@ -11,7 +11,6 @@ import { ChangeEvent } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { ReactComponent as GoalIcon } from 'src/assets/icons/flag-fill.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
@@ -21,6 +20,7 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { getIconFromModuleType } from '../utils';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -71,19 +71,7 @@ const Goal = () => {
       type={error ? 'danger' : 'default'}
     >
       <AccordionNew.Section>
-        <AccordionNew.Header
-          icon={
-            <div
-              style={{
-                color: error
-                  ? appTheme.palette.red[900]
-                  : appTheme.palette.blue[600],
-              }}
-            >
-              <GoalIcon />
-            </div>
-          }
-        >
+        <AccordionNew.Header icon={getIconFromModuleType('goal')}>
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_GOAL_TITLE')} />
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
             <AccordionNew.Meta>

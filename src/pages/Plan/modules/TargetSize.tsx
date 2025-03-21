@@ -13,7 +13,6 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { ReactComponent as TargetSizeIcon } from 'src/assets/icons/user-follow.svg';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
@@ -21,6 +20,7 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { getIconFromModuleType } from '../utils';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -74,15 +74,7 @@ const TargetSize = () => {
       type={error ? 'danger' : 'default'}
     >
       <AccordionNew.Section>
-        <AccordionNew.Header
-          icon={
-            <TargetSizeIcon
-              color={
-                error ? appTheme.palette.red[900] : appTheme.palette.blue[600]
-              }
-            />
-          }
-        >
+        <AccordionNew.Header icon={getIconFromModuleType('target')}>
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
             <AccordionNew.Meta>

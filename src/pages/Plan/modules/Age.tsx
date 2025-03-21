@@ -2,23 +2,23 @@ import {
   AccordionNew,
   Button,
   Checkbox,
-  Label,
-  Hint,
   FormField,
+  Hint,
+  Label,
   Span,
 } from '@appquality/unguess-design-system';
-import { useModule } from 'src/features/modules/useModule';
-import { components } from 'src/common/schema';
-import { useTranslation } from 'react-i18next';
-import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useEffect } from 'react';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
-import { ReactComponent as CakeIcon } from 'src/assets/icons/cake-icon-fill.svg';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { getIconFromModuleType } from '../utils';
 
 const Age = () => {
   type AgeRange = {
@@ -126,17 +126,7 @@ const Age = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={
-              <CakeIcon
-                color={
-                  ageError
-                    ? appTheme.palette.red[900]
-                    : appTheme.palette.blue[600]
-                }
-              />
-            }
-          >
+          <AccordionNew.Header icon={getIconFromModuleType('age')}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_AGE_LABEL')} />
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
               <AccordionNew.Meta>

@@ -8,13 +8,13 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { getIconFromModuleType } from '../utils';
 
 const StyledTitleGroup = styled.div`
   display: flex;
@@ -52,9 +52,7 @@ const Language = () => {
   return (
     <AccordionNew level={3} hasBorder data-qa="language-module">
       <AccordionNew.Section>
-        <AccordionNew.Header
-          icon={<LanguageIcon color={appTheme.palette.blue[600]} />}
-        >
+        <AccordionNew.Header icon={getIconFromModuleType('language')}>
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_LANGUAGE_TITLE')} />
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
             <AccordionNew.Meta>
