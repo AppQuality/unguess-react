@@ -5,6 +5,7 @@ import {
   Message,
   Span,
 } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
@@ -16,6 +17,7 @@ import { getIconFromTaskOutput } from '../../utils';
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xs};
+  background-color: transparent;
 `;
 
 const StyledContainer = styled.div`
@@ -23,6 +25,14 @@ const StyledContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
+`;
+
+const TaskItemNavLink = styled(Link)`
+  &.isCurrent {
+    ${StyledCard} {
+      background-color: white;
+    }
+  }
 `;
 
 const TaskItemNav = ({
@@ -47,14 +57,15 @@ const TaskItemNav = ({
   const hasPlaceholder = !task.title;
 
   return (
-    <Link
+    <TaskItemNavLink
       to={`task-${key + 1}`}
       containerId="main"
       duration={500}
-      offset={-20}
+      offset={-200}
       smooth
       spy
       style={{ textDecoration: 'none' }}
+      activeClass="isCurrent"
     >
       <StyledCard
         key={key}
@@ -84,7 +95,7 @@ const TaskItemNav = ({
           </Message>
         )}
       </StyledCard>
-    </Link>
+    </TaskItemNavLink>
   );
 };
 

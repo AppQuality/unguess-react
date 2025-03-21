@@ -16,6 +16,7 @@ import { getIconFromModule, getTitleFromModuleType } from '../../utils';
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xs};
+  background-color: transparent;
 `;
 
 const StyledContainer = styled.div`
@@ -23,6 +24,16 @@ const StyledContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
+`;
+
+const NavItemLink = styled(Link)`
+  &.isCurrent {
+    ${StyledCard} {
+      &.no-children {
+        background-color: white;
+      }
+    }
+  }
 `;
 
 const NavItem = ({
@@ -45,14 +56,15 @@ const NavItem = ({
     false;
 
   return (
-    <Link
+    <NavItemLink
       to={`module-${type}`}
       containerId="main"
       duration={500}
-      offset={-20}
+      offset={-200}
       smooth
       spy
       style={{ textDecoration: 'none' }}
+      activeClass="isCurrent"
     >
       <StyledCard
         data-qa="task-item-nav"
@@ -60,6 +72,9 @@ const NavItem = ({
           style: {
             borderColor: appTheme.palette.red[600],
           },
+        })}
+        {...(!children && {
+          className: 'no-children',
         })}
       >
         <StyledContainer>
@@ -78,7 +93,7 @@ const NavItem = ({
           </Message>
         )}
       </StyledCard>
-    </Link>
+    </NavItemLink>
   );
 };
 
