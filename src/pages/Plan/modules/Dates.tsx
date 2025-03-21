@@ -52,6 +52,7 @@ export const Dates = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput } = useModule('dates');
   const { t } = useTranslation();
+  const { getPlanStatus } = useModuleConfiguration();
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'dates' }
@@ -102,9 +103,8 @@ export const Dates = () => {
       {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
         <VariantSelect />
       )}
-      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-        <RemoveModuleCTA />
-      )}
+      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+        getPlanStatus() === 'draft' && <RemoveModuleCTA />}
       <FormField>
         <Datepicker
           value={getValue()}
@@ -112,7 +112,7 @@ export const Dates = () => {
           formatDate={(date) => formatModuleDate(date).input}
           minValue={getMinValue()}
         >
-          <Input onBlur={handleBlur} />
+          <Input onBlur={handleBlur} readOnly={getPlanStatus() !== 'draft'} />
         </Datepicker>
       </FormField>
       {/* {error && (

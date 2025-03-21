@@ -59,16 +59,18 @@ const TaskItem = ({
           <AccordionNew.Header icon={getIconFromTask(task)}>
             <AccordionNew.Label label={`${index}. ${task.title}`} />
             <AccordionNew.Meta>
-              <Button
-                isBasic
-                isDanger
-                onClick={() => setIsConfirmationModalOpen(true)}
-              >
-                <Button.StartIcon>
-                  <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
-              </Button>
+              {getPlanStatus() === 'draft' && (
+                <Button
+                  isBasic
+                  isDanger
+                  onClick={() => setIsConfirmationModalOpen(true)}
+                >
+                  <Button.StartIcon>
+                    <TrashIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
+                </Button>
+              )}
             </AccordionNew.Meta>
           </AccordionNew.Header>
           <AccordionNew.Panel>

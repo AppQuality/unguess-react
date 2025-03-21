@@ -117,16 +117,17 @@ const DigitalLiteracy = () => {
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL')}
             />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-              <AccordionNew.Meta>
-                <Button isBasic isDanger isLink onClick={remove}>
-                  <Button.StartIcon>
-                    <DeleteIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON')}
-                </Button>
-              </AccordionNew.Meta>
-            )}
+            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+              getPlanStatus() === 'draft' && (
+                <AccordionNew.Meta>
+                  <Button isBasic isDanger isLink onClick={remove}>
+                    <Button.StartIcon>
+                      <DeleteIcon />
+                    </Button.StartIcon>
+                    {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON')}
+                  </Button>
+                </AccordionNew.Meta>
+              )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <Label>{t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_TITLE')}</Label>

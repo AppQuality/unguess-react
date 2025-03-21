@@ -88,16 +88,17 @@ const TargetSize = () => {
           }
         >
           <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-            <AccordionNew.Meta>
-              <Button isBasic isDanger onClick={remove}>
-                <Button.StartIcon>
-                  <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON')}
-              </Button>
-            </AccordionNew.Meta>
-          )}
+          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+            getPlanStatus() === 'draft' && (
+              <AccordionNew.Meta>
+                <Button isBasic isDanger onClick={remove}>
+                  <Button.StartIcon>
+                    <TrashIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
         </AccordionNew.Header>
         <AccordionNew.Panel>
           <div style={{ padding: appTheme.space.xs }}>
