@@ -16,7 +16,9 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useState } from 'react';
 import { formatModuleDate } from '../utils/formatModuleDate';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const VariantSelect = () => {
   const { value, setVariant } = useModule('dates');
@@ -41,17 +43,15 @@ const VariantSelect = () => {
   );
 };
 
-const RemoveModuleCTA = () => {
-  const { remove } = useModule('dates');
-  const { t } = useTranslation();
-
-  return <Button onClick={remove}>{t('__PLAN_REMOVE_MODULE_CTA')}</Button>;
-};
-
 export const Dates = () => {
   const { hasFeatureFlag } = useFeatureFlag();
-  const { value, setOutput } = useModule('dates');
+  const { value, setOutput, remove } = useModule('dates');
   const { t } = useTranslation();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'dates' }
@@ -103,7 +103,7 @@ export const Dates = () => {
         <VariantSelect />
       )}
       {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-        <RemoveModuleCTA />
+        <Button onClick={handleDelete}>{t('__PLAN_REMOVE_MODULE_CTA')}</Button>
       )}
       <FormField>
         <Datepicker
@@ -123,6 +123,12 @@ export const Dates = () => {
           {error}
         </SM>
       )} */}
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
     </div>
   );
 };

@@ -8,7 +8,7 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
@@ -19,12 +19,18 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const DigitalLiteracy = () => {
   type DigitalLiteracyLevel =
     components['schemas']['OutputModuleLiteracy'][number]['level'];
   const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
 
   const literacyLevels: components['schemas']['OutputModuleLiteracy'][number]['level'][] =
     ['expert', 'intermediate', 'beginner'];
@@ -109,7 +115,7 @@ const DigitalLiteracy = () => {
             />
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
               <AccordionNew.Meta>
-                <Button isBasic isDanger onClick={remove}>
+                <Button isBasic isDanger isLink onClick={handleDelete}>
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
@@ -233,6 +239,12 @@ const DigitalLiteracy = () => {
           </AccordionNew.Panel>
         </AccordionNew.Section>
       </AccordionNew>
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
     </div>
   );
 };
