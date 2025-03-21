@@ -21,18 +21,23 @@ import { TasksModal } from './modal';
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
   padding: 0;
+  overflow: hidden;
 `;
 
 const TasksContainer = styled.div`
   padding: ${({ theme }) => theme.space.md};
 `;
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.div<{
+  hasErrors?: boolean;
+}>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.space.md};
-  padding: ${({ theme }) => theme.space.xs} 0;
+  padding: ${({ theme }) => theme.space.md};
+  background-color: ${({ hasErrors, theme }) =>
+    hasErrors ? theme.palette.red[100] : theme.palette.blue[100]};
 `;
 
 const TitleContainer = styled.div`
@@ -52,23 +57,23 @@ const TasksList = () => {
       data-qa="tasks-module"
       {...(error && { style: { borderColor: appTheme.palette.red[600] } })}
     >
+      <HeaderContainer hasErrors={!!error}>
+        <TitleContainer>
+          <TasksIcon
+            color={
+              error ? appTheme.palette.red[600] : appTheme.palette.blue[600]
+            }
+          />
+          <LG>{t('__PLAN_PAGE_MODULE_TASKS_TITLE')}</LG>
+        </TitleContainer>
+        {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+          <Button isBasic isDanger onClick={remove}>
+            {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
+          </Button>
+        )}
+      </HeaderContainer>
       <div style={{ padding: `0 ${appTheme.space.md}` }}>
-        <HeaderContainer>
-          <TitleContainer>
-            <TasksIcon
-              color={
-                error ? appTheme.palette.red[600] : appTheme.palette.blue[600]
-              }
-            />
-            <LG>{t('__PLAN_PAGE_MODULE_TASKS_TITLE')}</LG>
-          </TitleContainer>
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-            <Button isBasic isDanger onClick={remove}>
-              {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
-            </Button>
-          )}
-        </HeaderContainer>
-        <MD isBold>
+        <MD isBold style={{ color: appTheme.palette.grey[800] }}>
           {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
           <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
         </MD>

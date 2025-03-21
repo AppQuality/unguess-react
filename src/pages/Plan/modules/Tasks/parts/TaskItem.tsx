@@ -107,6 +107,7 @@ const TaskItem = ({
                     )}
                     onBlur={handleBlur}
                     {...(titleError && { validation: 'error' })}
+                    style={{ marginTop: appTheme.space.xs }}
                   />
                   {titleError && (
                     <Message validation="error">{titleError}</Message>
