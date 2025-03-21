@@ -1,4 +1,11 @@
-import { Button, LG } from '@appquality/unguess-design-system';
+import {
+  Button,
+  ContainerCard,
+  LG,
+  MD,
+  Message,
+  Span,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
@@ -11,11 +18,21 @@ import { AddTaskButton } from './AddTaskButton';
 import { TaskItem } from './TaskItem';
 import { TasksModal } from './modal';
 
+const StyledCard = styled(ContainerCard)`
+  background-color: transparent;
+  padding: 0;
+`;
+
+const TasksContainer = styled.div`
+  padding: ${({ theme }) => theme.space.md};
+`;
+
 const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.space.xs} 0;
 `;
 
 const TitleContainer = styled.div`
@@ -25,34 +42,50 @@ const TitleContainer = styled.div`
 `;
 
 const TasksList = () => {
-  const { value } = useModuleTasks();
+  const { value, error } = useModuleTasks();
   const { remove } = useModule('tasks');
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
 
   return (
-    <div
-      id="tasks-list"
+    <StyledCard
       data-qa="tasks-module"
-      style={{ marginBottom: appTheme.space.md }}
+      {...(error && { style: { borderColor: appTheme.palette.red[600] } })}
     >
-      <HeaderContainer>
-        <TitleContainer>
-          <TasksIcon />
-          <LG>{t('__PLAN_PAGE_MODULE_TASKS_TITLE')}</LG>
-        </TitleContainer>
-        {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-          <Button isBasic isDanger onClick={remove}>
-            {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
-          </Button>
+      <div style={{ padding: `0 ${appTheme.space.md}` }}>
+        <HeaderContainer>
+          <TitleContainer>
+            <TasksIcon
+              color={
+                error ? appTheme.palette.red[600] : appTheme.palette.blue[600]
+              }
+            />
+            <LG>{t('__PLAN_PAGE_MODULE_TASKS_TITLE')}</LG>
+          </TitleContainer>
+          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+            <Button isBasic isDanger onClick={remove}>
+              {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
+            </Button>
+          )}
+        </HeaderContainer>
+        <MD isBold>
+          {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
+          <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+        </MD>
+        {error && (
+          <Message validation="error" style={{ marginTop: appTheme.space.md }}>
+            {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_ERROR')}
+          </Message>
         )}
-      </HeaderContainer>
-      {value.map((task) => (
-        <TaskItem key={task.key} task={task} />
-      ))}
+      </div>
+      <TasksContainer>
+        {value.map((task) => (
+          <TaskItem key={task.key} task={task} />
+        ))}
+      </TasksContainer>
       <AddTaskButton />
       <TasksModal />
-    </div>
+    </StyledCard>
   );
 };
 
