@@ -58,6 +58,17 @@ const Goal = () => {
   const handleBlur = () => {
     validate();
   };
+
+  const getIconColor = () => {
+    if (!error && !value?.output) {
+      return appTheme.palette.grey[600];
+    }
+    if (error) {
+      return appTheme.palette.red[900];
+    }
+    return appTheme.palette.blue[600];
+  };
+
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
     setOutput(inputValue);
