@@ -13,10 +13,13 @@ import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TaskItem } from './TaskItem';
 import { TasksModal } from './modal';
+import { DeleteModuleConfirmationModal } from '../../modal/DeleteModuleConfirmationModal';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
@@ -48,48 +51,66 @@ const TitleContainer = styled.div`
 const TasksList = () => {
   const { value, error } = useModuleTasks();
   const { remove } = useModule('tasks');
+  const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
 
   return (
-    <StyledCard
-      data-qa="tasks-module"
-      {...(error && { style: { borderColor: appTheme.palette.red[600] } })}
-    >
-      <HeaderContainer hasErrors={!!error}>
-        <TitleContainer>
-          <TasksIcon
-            color={
-              error ? appTheme.palette.red[600] : appTheme.palette.blue[600]
-            }
-          />
-          <LG>{t('__PLAN_PAGE_MODULE_TASKS_TITLE')}</LG>
-        </TitleContainer>
-        {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-          <Button isBasic isDanger onClick={remove}>
-            {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
-          </Button>
-        )}
-      </HeaderContainer>
-      <div style={{ padding: appTheme.space.md }}>
-        <MD isBold style={{ color: appTheme.palette.grey[800] }}>
-          {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
-          <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-        </MD>
-        {error && (
-          <Message validation="error" style={{ marginTop: appTheme.space.md }}>
-            {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_ERROR')}
-          </Message>
-        )}
-      </div>
-      <TasksContainer>
-        {value.map((task) => (
-          <TaskItem key={task.key} task={task} />
-        ))}
-      </TasksContainer>
-      <AddTaskButton />
-      <TasksModal />
-    </StyledCard>
+    <>
+      <StyledCard
+        data-qa="tasks-module"
+        {...(error && { style: { borderColor: appTheme.palette.red[600] } })}
+      >
+        <HeaderContainer hasErrors={!!error}>
+          <TitleContainer>
+            <TasksIcon
+              color={
+                error ? appTheme.palette.red[600] : appTheme.palette.blue[600]
+              }
+            />
+            <LG>{t('__PLAN_PAGE_MODULE_TASKS_TITLE')}</LG>
+          </TitleContainer>
+          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+            getPlanStatus() === 'draft' && (
+              <Button isBasic isDanger onClick={handleDelete}>
+                {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
+              </Button>
+            )}
+        </HeaderContainer>
+        <div style={{ padding: appTheme.space.md }}>
+          <MD isBold style={{ color: appTheme.palette.grey[800] }}>
+            {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
+            <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+          </MD>
+          {error && (
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.md }}
+            >
+              {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_ERROR')}
+            </Message>
+          )}
+        </div>
+        <TasksContainer>
+          {value.map((task) => (
+            <TaskItem key={task.key} task={task} />
+          ))}
+        </TasksContainer>
+        <AddTaskButton />
+        <TasksModal />
+      </StyledCard>
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
+    </>
   );
 };
 

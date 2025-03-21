@@ -21,6 +21,7 @@ import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { getIconFromModuleType } from '../utils';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -37,6 +38,7 @@ const TargetSize = () => {
   const [currentValue, setCurrentValue] = useState<string | undefined>(
     value?.output.toString()
   );
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   useEffect(() => {
     setOutput(Number(currentValue));
@@ -66,71 +68,83 @@ const TargetSize = () => {
     setCurrentValue(inputValue);
   };
 
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
+
   return (
-    <AccordionNew
-      data-qa="target-module"
-      level={3}
-      hasBorder
-      type={error ? 'danger' : 'default'}
-    >
-      <AccordionNew.Section>
-        <AccordionNew.Header icon={getIconFromModuleType('target')}>
-          <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-            <AccordionNew.Meta>
-              <Button isBasic isDanger onClick={remove}>
-                <Button.StartIcon>
-                  <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON')}
-              </Button>
-            </AccordionNew.Meta>
-          )}
-        </AccordionNew.Header>
-        <AccordionNew.Panel>
-          <div style={{ padding: appTheme.space.xs }}>
-            <FormField style={{ marginBottom: appTheme.space.md }}>
-              <Label>
-                <Trans i18nKey="__PLAN_PAGE_MODULE_TARGET_LABEL">
-                  Enter the number of users you want to include
-                </Trans>
-                <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
-              </Label>
-              <Input
-                readOnly={getPlanStatus() !== 'draft'}
-                data-qa="target-input"
-                type="number"
-                value={currentValue}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                validation={error ? 'error' : undefined}
-                placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
-              />
-              <StyledInfoBox>
-                {error && typeof error === 'string' ? (
-                  <>
-                    <AlertIcon />
-                    <SM
-                      style={{ color: appTheme.components.text.dangerColor }}
-                      data-qa="target-error"
-                    >
-                      {error}
-                    </SM>
-                  </>
-                ) : (
-                  <>
-                    <InfoIcon />
-                    <SM style={{ color: appTheme.palette.grey[600] }}>
-                      {t('__PLAN_PAGE_MODULE_TARGET_INFO')}
-                    </SM>
-                  </>
-                )}
-              </StyledInfoBox>
-            </FormField>
-          </div>
-        </AccordionNew.Panel>
-      </AccordionNew.Section>
-    </AccordionNew>
+    <>
+      <AccordionNew
+        data-qa="target-module"
+        level={3}
+        hasBorder
+        type={error ? 'danger' : 'default'}
+      >
+        <AccordionNew.Section>
+          <AccordionNew.Header icon={getIconFromModuleType('target')}>
+            <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
+            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+              <AccordionNew.Meta>
+                <Button isBasic isDanger onClick={handleDelete}>
+                  <Button.StartIcon>
+                    <TrashIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
+            <div style={{ padding: appTheme.space.xs }}>
+              <FormField style={{ marginBottom: appTheme.space.md }}>
+                <Label>
+                  <Trans i18nKey="__PLAN_PAGE_MODULE_TARGET_LABEL">
+                    Enter the number of users you want to include
+                  </Trans>
+                  <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+                </Label>
+                <Input
+                  readOnly={getPlanStatus() !== 'draft'}
+                  data-qa="target-input"
+                  type="number"
+                  value={currentValue}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  validation={error ? 'error' : undefined}
+                  placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
+                />
+                <StyledInfoBox>
+                  {error && typeof error === 'string' ? (
+                    <>
+                      <AlertIcon />
+                      <SM
+                        style={{ color: appTheme.components.text.dangerColor }}
+                        data-qa="target-error"
+                      >
+                        {error}
+                      </SM>
+                    </>
+                  ) : (
+                    <>
+                      <InfoIcon />
+                      <SM style={{ color: appTheme.palette.grey[600] }}>
+                        {t('__PLAN_PAGE_MODULE_TARGET_INFO')}
+                      </SM>
+                    </>
+                  )}
+                </StyledInfoBox>
+              </FormField>
+            </div>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
+    </>
   );
 };
 
