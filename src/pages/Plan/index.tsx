@@ -31,7 +31,7 @@ const Plan = () => {
   );
 
   const planStatus =
-    plan?.status === 'pending_review' ? plan.quote.status : plan?.status;
+    plan?.status === 'pending_review' ? plan?.quote?.status : plan?.status;
 
   const getGlobalAlert = () => {
     switch (planStatus) {

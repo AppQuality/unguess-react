@@ -1766,10 +1766,15 @@ export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
   config: {
     modules: Module[];
   };
-  status: 'draft' | 'pending_review' | 'approved';
+  status: PlanStatus;
   project: {
     id: number;
     name: string;
+  };
+  quote?: {
+    id: number;
+    status: 'pending' | 'proposed' | 'approved' | 'rejected';
+    value: string;
   };
 };
 export type GetWorkspacesByWidPlansAndPidApiArg = {
@@ -1792,7 +1797,7 @@ export type PatchWorkspacesByWidPlansAndPidStatusApiArg = {
   wid: string;
   pid: string;
   body: {
-    status: 'pending_review';
+    status: PlanStatus;
   };
 };
 export type GetWorkspacesByWidProjectsApiResponse = /** status 200 OK */ {
@@ -2531,6 +2536,7 @@ export type Module =
   | ModuleGoal
   | ModuleGender
   | ModuleOutOfScope;
+export type PlanStatus = 'pending_review' | 'draft' | 'approved';
 export type CpReqTemplate = {
   id: number;
   name: string;
