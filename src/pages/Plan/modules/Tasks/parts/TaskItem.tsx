@@ -68,23 +68,25 @@ const TaskItem = ({
                   : title
               }`}
             />
-            <AccordionNew.Meta>
-              <Button
-                isBasic
-                isDanger
-                onClick={() =>
-                  confirmationState[1]({
-                    isOpen: true,
-                    taskKey: key,
-                  })
-                }
-              >
-                <Button.StartIcon>
-                  <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
-              </Button>
-            </AccordionNew.Meta>
+            {getPlanStatus() === 'draft' && (
+              <AccordionNew.Meta>
+                <Button
+                  isBasic
+                  isDanger
+                  onClick={() =>
+                    confirmationState[1]({
+                      isOpen: true,
+                      taskKey: key,
+                    })
+                  }
+                >
+                  <Button.StartIcon>
+                    <TrashIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>

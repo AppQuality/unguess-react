@@ -101,7 +101,7 @@ const TasksList = () => {
             <TaskItem key={task.key} task={task} />
           ))}
         </TasksContainer>
-        <AddTaskButton />
+        {getPlanStatus() === 'draft' && <AddTaskButton />}
         <TasksModal />
       </StyledCard>
       {isOpenDeleteModal && (

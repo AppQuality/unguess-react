@@ -11,6 +11,7 @@ const AddBlockButton = () => {
   const { t } = useTranslation();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { setModalRef } = usePlanNavContext();
+  const { getPlanStatus } = useModuleConfiguration();
   const { activeTab } = usePlanTab();
   const availableModules =
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
@@ -29,7 +30,7 @@ const AddBlockButton = () => {
       ref={triggerRef}
       onClick={() => setModalRef(triggerRef.current)}
       isStretched
-      disabled={items.length === 0}
+      disabled={items.length === 0 || getPlanStatus() !== 'draft'}
     >
       <Button.StartIcon>
         <PlusIcon />
