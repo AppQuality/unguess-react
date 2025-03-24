@@ -11,7 +11,7 @@ import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { PlanProvider } from './context/planContext';
-import PlanPageHeader from './navigation/Header';
+import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
 
 const Plan = () => {
@@ -73,6 +73,7 @@ const Plan = () => {
           pageHeader={<PlanPageHeader />}
           route="plan"
           isMinimal
+          excludeMarginTop
         >
           <PlanBody />
         </Page>

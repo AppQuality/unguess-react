@@ -1,6 +1,7 @@
+import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { PlanTab } from './context/planContext';
-import { modulesMap, MODULES_BY_TAB } from './modulesMap';
+import { MODULES_BY_TAB, modulesMap } from './modulesMap';
 
 export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
   const { getModules } = useModuleConfiguration();
@@ -17,7 +18,14 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
         if (availableModules.includes(module.type)) {
           const Component = modulesMap[module.type];
           if (!Component) return null;
-          return <Component key={module.type} />;
+          return (
+            <div
+              id={`module-${module.type}`}
+              style={{ marginBottom: appTheme.space.md }}
+            >
+              <Component key={module.type} />
+            </div>
+          );
         }
         return null;
       })}

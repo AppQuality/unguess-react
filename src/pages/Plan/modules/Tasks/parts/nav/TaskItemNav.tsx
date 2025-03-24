@@ -1,15 +1,23 @@
-import { Card, MD, Message } from '@appquality/unguess-design-system';
+import {
+  Card,
+  Ellipsis,
+  MD,
+  Message,
+  Span,
+} from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { useModuleTasks } from '../hooks';
-import { getIconFromTask } from '../utils';
+import { useModuleTasks } from '../../hooks';
+import { getIconFromTaskOutput } from '../../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.xs};
+  background-color: transparent;
 `;
 
 const StyledContainer = styled.div`
@@ -17,6 +25,14 @@ const StyledContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: ${({ theme }) => theme.space.sm};
+`;
+
+const TaskItemNavLink = styled(Link)`
+  &.isCurrent {
+    ${StyledCard} {
+      background-color: white;
+    }
+  }
 `;
 
 const TaskItemNav = ({
@@ -38,19 +54,21 @@ const TaskItemNav = ({
       : false;
 
   const hasErrors = titleError || descriptionError;
+  const hasPlaceholder = !task.title;
 
   return (
-    <Link
-      to={`task-${task.key}`}
+    <TaskItemNavLink
+      to={`task-${key + 1}`}
       containerId="main"
       duration={500}
-      offset={-20}
+      offset={-200}
       smooth
       spy
       style={{ textDecoration: 'none' }}
+      activeClass="isCurrent"
     >
       <StyledCard
-        key={task.key}
+        key={key}
         data-qa="task-item-nav"
         {...(hasErrors && {
           style: {
@@ -59,8 +77,17 @@ const TaskItemNav = ({
         })}
       >
         <StyledContainer>
-          {getIconFromTask(task)}
-          <MD isBold>{task.title}</MD>
+          {getIconFromTaskOutput(task)}
+          <Ellipsis style={{ width: '95%' }}>
+            <MD>
+              {key + 1}.
+              <Span isBold>
+                {hasPlaceholder
+                  ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
+                  : task.title}
+              </Span>
+            </MD>
+          </Ellipsis>
         </StyledContainer>
         {hasErrors && (
           <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
@@ -68,7 +95,7 @@ const TaskItemNav = ({
           </Message>
         )}
       </StyledCard>
-    </Link>
+    </TaskItemNavLink>
   );
 };
 

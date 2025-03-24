@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import styled from 'styled-components';
-import { Controls } from '../Controls';
 import { BreadCrumbTabs } from './BreadCrumbTabs';
 import { TitleGroup } from './TitleGroup';
+import { Controls } from '../../Controls';
 
 const StyledWrapper = styled.div`
   width: 100%;

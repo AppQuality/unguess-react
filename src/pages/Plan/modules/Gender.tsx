@@ -2,29 +2,31 @@ import {
   AccordionNew,
   Button,
   Checkbox,
-  Label,
-  Hint,
   FormField,
+  Hint,
+  Label,
   Span,
 } from '@appquality/unguess-design-system';
-import { useModule } from 'src/features/modules/useModule';
-import { components } from 'src/common/schema';
-import { useTranslation } from 'react-i18next';
-import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useEffect } from 'react';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
-import { ReactComponent as UserGroupIcon } from '@zendeskgarden/svg-icons/src/16/user-group-fill.svg';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { getIconFromModuleType } from '../utils';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const Gender = () => {
   type GenderTypes =
     components['schemas']['OutputModuleGender'][number]['gender'];
   const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   const genderTypes: GenderTypes[] = ['male', 'female'];
 
@@ -87,6 +89,10 @@ const Gender = () => {
     validate();
   }, [value]);
 
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
+
   return (
     <div>
       <AccordionNew
@@ -97,30 +103,21 @@ const Gender = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={
-              <UserGroupIcon
-                color={
-                  genderError
-                    ? appTheme.palette.red[900]
-                    : appTheme.palette.blue[600]
-                }
-              />
-            }
-          >
+          <AccordionNew.Header icon={getIconFromModuleType('gender')}>
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_GENDER_ACCORDION_LABEL')}
             />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-              <AccordionNew.Meta>
-                <Button isBasic isDanger isLink onClick={remove}>
-                  <Button.StartIcon>
-                    <DeleteIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')}
-                </Button>
-              </AccordionNew.Meta>
-            )}
+            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+              getPlanStatus() === 'draft' && (
+                <AccordionNew.Meta>
+                  <Button isBasic isDanger onClick={handleDelete}>
+                    <Button.StartIcon>
+                      <DeleteIcon />
+                    </Button.StartIcon>
+                    {t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')}
+                  </Button>
+                </AccordionNew.Meta>
+              )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <Label>{t('__PLAN_PAGE_MODULE_GENDER_TITLE')}</Label>
@@ -235,6 +232,12 @@ const Gender = () => {
           </AccordionNew.Panel>
         </AccordionNew.Section>
       </AccordionNew>
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
     </div>
   );
 };

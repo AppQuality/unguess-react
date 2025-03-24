@@ -4,7 +4,7 @@ import { useGetWorkspacesByWidPlansAndPidQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { Title } from '../modules/Title';
+import { Title } from '../../modules/Title';
 
 const StyledDiv = styled.div`
   display: flex;

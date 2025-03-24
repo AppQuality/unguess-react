@@ -2,29 +2,35 @@ import {
   AccordionNew,
   Button,
   Checkbox,
-  Label,
-  Hint,
   FormField,
+  Hint,
+  Label,
   Span,
 } from '@appquality/unguess-design-system';
-import { useModule } from 'src/features/modules/useModule';
-import { components } from 'src/common/schema';
-import { useTranslation } from 'react-i18next';
-import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useEffect } from 'react';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
-import { ReactComponent as BookClosedIcon } from '@zendeskgarden/svg-icons/src/16/book-closed-fill.svg';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { getIconFromModuleType } from '../utils';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const DigitalLiteracy = () => {
   type DigitalLiteracyLevel =
     components['schemas']['OutputModuleLiteracy'][number]['level'];
   const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
 
   const literacyLevels: components['schemas']['OutputModuleLiteracy'][number]['level'][] =
     ['expert', 'intermediate', 'beginner'];
@@ -103,30 +109,21 @@ const DigitalLiteracy = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={
-              <BookClosedIcon
-                color={
-                  literacyError
-                    ? appTheme.palette.red[900]
-                    : appTheme.palette.blue[600]
-                }
-              />
-            }
-          >
+          <AccordionNew.Header icon={getIconFromModuleType('literacy')}>
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL')}
             />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-              <AccordionNew.Meta>
-                <Button isBasic isDanger isLink onClick={remove}>
-                  <Button.StartIcon>
-                    <DeleteIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON')}
-                </Button>
-              </AccordionNew.Meta>
-            )}
+            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+              getPlanStatus() === 'draft' && (
+                <AccordionNew.Meta>
+                  <Button isBasic isDanger onClick={handleDelete}>
+                    <Button.StartIcon>
+                      <DeleteIcon />
+                    </Button.StartIcon>
+                    {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON')}
+                  </Button>
+                </AccordionNew.Meta>
+              )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <Label>{t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_TITLE')}</Label>
@@ -243,6 +240,12 @@ const DigitalLiteracy = () => {
           </AccordionNew.Panel>
         </AccordionNew.Section>
       </AccordionNew>
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
     </div>
   );
 };

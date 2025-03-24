@@ -7,31 +7,11 @@ import { ReactComponent as ThinkingAloudTaskIcon } from 'src/assets/icons/thinki
 import { components } from 'src/common/schema';
 import { useModuleTasks } from '../hooks';
 
-const getIconFromKind = (
-  kind: components['schemas']['OutputModuleTask']['kind']
-) => {
-  switch (kind) {
-    case 'bug':
-      return <FunctionalTaskIcon />;
-    case 'explorative-bug':
-      return <ExploratoryTaskIcon />;
-    case 'video':
-      return <ThinkingAloudTaskIcon />;
-    case 'moderate-video':
-      return <ThinkingAloudTaskIcon />;
-    case 'survey':
-      return <SurveyTaskIcon />;
-    default:
-      return null;
-  }
-};
-
-const getIconFromTask = (
+const getIconColor = (
   task: components['schemas']['OutputModuleTask'] & { key: number }
 ) => {
-  const { kind, key } = task;
+  const { key } = task;
   const { error } = useModuleTasks();
-
   const titleError =
     error && typeof error === 'object' && `tasks.${key}.title` in error
       ? error[`tasks.${key}.title`]
@@ -42,11 +22,33 @@ const getIconFromTask = (
       : false;
 
   const hasErrors = titleError || descriptionError;
-  const color = hasErrors
-    ? appTheme.palette.red[600]
-    : getColor(appTheme.colors.primaryHue);
 
-  return <div style={{ color }}>{getIconFromKind(kind)}</div>;
+  if (hasErrors) return getColor(appTheme.colors.dangerHue, 900);
+  if (!hasErrors && (!task.title || !task.description))
+    return getColor(appTheme.palette.grey, 600);
+  return getColor(appTheme.colors.primaryHue, 600);
 };
 
-export { getIconFromTask };
+const getIconFromTaskOutput = (
+  task: components['schemas']['OutputModuleTask'] & { key: number }
+) => {
+  const { kind } = task;
+  const color = getIconColor(task);
+
+  switch (kind) {
+    case 'bug':
+      return <FunctionalTaskIcon color={color} />;
+    case 'explorative-bug':
+      return <ExploratoryTaskIcon color={color} />;
+    case 'video':
+      return <ThinkingAloudTaskIcon color={color} />;
+    case 'moderate-video':
+      return <ThinkingAloudTaskIcon color={color} />;
+    case 'survey':
+      return <SurveyTaskIcon color={color} />;
+    default:
+      return null;
+  }
+};
+
+export { getIconFromTaskOutput };

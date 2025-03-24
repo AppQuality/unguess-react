@@ -1,4 +1,4 @@
-import { getIconFromTask } from './getIconFromTask';
+import { getIconFromTaskOutput } from './getIconFromTask';
 import { useHandleModalItemClick } from './useHandleModalItemClick';
 
-export { getIconFromTask, useHandleModalItemClick };
+export { getIconFromTaskOutput, useHandleModalItemClick };
