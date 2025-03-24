@@ -45,7 +45,7 @@ export const useCampaignsAndPlans = (maxItems?: number) => {
   } = useGetWorkspacesByWidPlansQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
-      orderBy: 'start_date',
+      orderBy: 'lastUpdate',
       order: 'DESC',
       limit: maxItems,
     },
