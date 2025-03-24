@@ -30,6 +30,40 @@ const Plan = () => {
     }
   );
 
+  const planStatus =
+    plan?.status === 'pending_review' ? plan.quote.status : plan?.status;
+
+  const getGlobalAlert = () => {
+    switch (planStatus) {
+      case 'pending':
+        return (
+          <GlobalAlert
+            message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
+            title={t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE')}
+            type="info"
+          />
+        );
+      case 'proposed':
+        return (
+          <GlobalAlert
+            message={<>{t('PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE')}</>}
+            title={t('PLAN_GLOBAL_ALERT_AWATING_STATE_TITLE')}
+            type="accent"
+          />
+        );
+      case 'approved':
+        return (
+          <GlobalAlert
+            message={<>{t('PLAN_GLOBAL_ALERT_APPROVED_STATE_MESSAGE')}</>}
+            title={t('PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE')}
+            type="success"
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   const [initialValues, setInitialValues] = useState<FormBody>({
     status: 'draft',
     modules: [],
@@ -67,13 +101,6 @@ const Plan = () => {
   return (
     <FormProvider onSubmit={handleSubmit} initialValues={initialValues}>
       <PlanProvider>
-        {plan?.status === 'pending_review' && (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE')}
-            type="info"
-          />
-        )}
         <Page
           title={t('__PLAN_PAGE_TITLE')}
           className="plan-page"
@@ -82,6 +109,7 @@ const Plan = () => {
           isMinimal
           excludeMarginTop
         >
+          {getGlobalAlert()}
           <PlanBody />
         </Page>
       </PlanProvider>
