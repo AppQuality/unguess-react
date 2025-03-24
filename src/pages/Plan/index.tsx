@@ -10,7 +10,6 @@ import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { GlobalAlert } from '@appquality/unguess-design-system';
 import { PlanProvider } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
@@ -29,40 +28,6 @@ const Plan = () => {
       skip: !activeWorkspace || !planId,
     }
   );
-
-  const planStatus =
-    plan?.status === 'pending_review' ? plan?.quote?.status : plan?.status;
-
-  const getGlobalAlert = () => {
-    switch (planStatus) {
-      case 'pending':
-        return (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE')}
-            type="info"
-          />
-        );
-      case 'proposed':
-        return (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_AWATING_STATE_TITLE')}
-            type="accent"
-          />
-        );
-      case 'approved':
-        return (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_APPROVED_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE')}
-            type="success"
-          />
-        );
-      default:
-        return null;
-    }
-  };
 
   const [initialValues, setInitialValues] = useState<FormBody>({
     status: 'draft',
@@ -109,7 +74,6 @@ const Plan = () => {
           isMinimal
           excludeMarginTop
         >
-          {getGlobalAlert()}
           <PlanBody />
         </Page>
       </PlanProvider>
