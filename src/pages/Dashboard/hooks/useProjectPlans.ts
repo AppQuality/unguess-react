@@ -10,7 +10,7 @@ export const useProjectPlans = ({ projectId }: { projectId?: number }) => {
     useGetWorkspacesByWidPlansQuery(
       {
         wid: activeWorkspace?.id.toString() || '',
-        orderBy: 'start_date',
+        orderBy: 'lastUpdate',
         order: 'DESC',
         ...(projectId && {
           filterBy: {
