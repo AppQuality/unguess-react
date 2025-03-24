@@ -48,6 +48,7 @@ export const Dates = () => {
   const { value, setOutput, remove } = useModule('dates');
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const { getPlanStatus } = useModuleConfiguration();
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
@@ -102,9 +103,12 @@ export const Dates = () => {
       {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
         <VariantSelect />
       )}
-      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-        <Button onClick={handleDelete}>{t('__PLAN_REMOVE_MODULE_CTA')}</Button>
-      )}
+      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+        getPlanStatus() === 'draft' && (
+          <Button onClick={handleDelete}>
+            {t('__PLAN_REMOVE_MODULE_CTA')}
+          </Button>
+        )}
       <FormField>
         <Datepicker
           value={getValue()}

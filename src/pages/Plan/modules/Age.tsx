@@ -133,16 +133,17 @@ const Age = () => {
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromModuleType('age')}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_AGE_LABEL')} />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-              <AccordionNew.Meta>
-                <Button isBasic isDanger onClick={handleDelete}>
-                  <Button.StartIcon>
-                    <DeleteIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_AGE_REMOVE_BUTTON')}
-                </Button>
-              </AccordionNew.Meta>
-            )}
+            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+              getPlanStatus() === 'draft' && (
+                <AccordionNew.Meta>
+                  <Button isBasic isDanger onClick={handleDelete}>
+                    <Button.StartIcon>
+                      <DeleteIcon />
+                    </Button.StartIcon>
+                    {t('__PLAN_PAGE_MODULE_AGE_REMOVE_BUTTON')}
+                  </Button>
+                </AccordionNew.Meta>
+              )}
           </AccordionNew.Header>
           {isDefaultVariant && (
             <AccordionNew.Panel>
