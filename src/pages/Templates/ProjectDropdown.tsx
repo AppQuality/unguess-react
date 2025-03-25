@@ -10,16 +10,20 @@ import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useTemplatesContext } from './Context';
+import { useMemo } from 'react';
 
 export const ProjectDropdown = () => {
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
-  const { projectId, setProjectId } = useTemplatesContext();
-
-  // Get workspaces projects from rtk query
+  const { projectId, setProjectId, fieldIsTouched, setFieldIsTouched } =
+    useTemplatesContext();
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id.toString() || '',
   });
+  const hasValidationError = useMemo(
+    () => fieldIsTouched && typeof projectId !== 'number',
+    [fieldIsTouched, projectId]
+  );
 
   const projects = data?.items;
 
@@ -33,7 +37,9 @@ export const ProjectDropdown = () => {
         data-qa="project-dropdown"
         listboxAppendToNode={document.body}
         startIcon={<FolderIcon />}
+        onBlur={() => setFieldIsTouched(true)}
         onOptionClick={({ selectionValue, inputValue }) => {
+          setFieldIsTouched(true);
           if (!inputValue || !selectionValue) return;
           const value = projects.find(
             (prj) => prj.id.toString() === selectionValue
@@ -50,10 +56,14 @@ export const ProjectDropdown = () => {
         }))}
         placeholder={t('__TEMPLATES_PAGE_PROJECT_DROPDOWN_PLACEHOLDER')}
         selectionValue={projectId?.toString() || ''}
-        {...(!projectId && { validation: 'error' })}
+        {...(hasValidationError && { validation: 'error' })}
       />
-      {!projectId && (
-        <Message validation="error" style={{ marginTop: appTheme.space.xs }}>
+      {hasValidationError && (
+        <Message
+          data-qa="error-message"
+          validation="error"
+          style={{ marginTop: appTheme.space.xs }}
+        >
           {t('__TEMPLATES_PAGE_PROJECT_DROPDOWN_ERROR')}
         </Message>
       )}

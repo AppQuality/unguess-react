@@ -1,13 +1,15 @@
 import { Tag, TemplateCard } from '@appquality/unguess-design-system';
-import { ta } from 'date-fns/locale';
 import { appTheme } from 'src/app/theme';
-import { CpReqTemplate } from 'src/features/api';
+import { CpReqTemplate, Module } from 'src/features/api';
 import styled from 'styled-components';
+import { isTemplateTailored, useTemplatesContext } from './Context';
+import { useTranslation } from 'react-i18next';
 
 const CardsGrid = styled.div`
+  padding: ${appTheme.space.xl} 0;
   display: grid;
   grid-template-columns: 1fr;
-  row-gap: ${appTheme.space.sm};
+  row-gap: ${appTheme.space.lg};
   column-gap: ${appTheme.space.md};
   @container cardsWrapper (min-width: 450px) {
     grid-template-columns: 1fr 1fr;
@@ -22,44 +24,49 @@ export const TemplateCardsGrid = ({
 }: {
   templates: CpReqTemplate[];
 }) => {
+  const { setIsDrawerOpen, setSelectedTemplate } = useTemplatesContext();
+  const { t } = useTranslation();
   return (
-    <CardsGrid>
+    <CardsGrid role="list">
       {templates.map((template) => {
-        const targetModule = JSON.parse(template.config).modules.find(
-          (module: any) => module.type === 'target'
-        );
+        const targetModule: { output: string } | undefined = JSON.parse(
+          template.config
+        ).modules.find((module: Module) => module.type === 'target');
+        const handleClick = () => {
+          setSelectedTemplate(template);
+          setIsDrawerOpen(true);
+        };
         return (
           <TemplateCard
+            role="listitem"
             data-qa="template-card"
-            isTailored={typeof template.workspace_id === 'number'}
-            // todo remove this line when the schema will provide the price
-            // @ts-ignore
-            isFast={template.price}
+            isTailored={isTemplateTailored(template)}
+            isFast={!!template.price}
             thumbUrl={template.strapi?.image}
             key={template.id}
             title={template.strapi?.title || template.name}
-            description={template.strapi?.description || template.description}
+            superTitle={template.strapi?.pre_title}
+            description={
+              template.strapi?.description || template.description || ''
+            }
+            onClick={handleClick}
           >
             <TemplateCard.Footer>
               {'price' in template && typeof template.price === 'string' && (
                 <TemplateCard.PriceTag text={template.price} />
               )}
-              {targetModule.output && (
+              {targetModule?.output && (
                 <TemplateCard.UserTag text={targetModule.output} />
               )}
 
-              {
-                // remove this line when the schema will provide the tags
-                // @ts-ignore
-                template.strapi?.tags.map((tag) => (
-                  <Tag>
-                    <Tag.Avatar>
-                      <img src={tag.icon} alt={tag.text} />
-                    </Tag.Avatar>
-                    {tag.text}
-                  </Tag>
-                ))
-              }
+              {template.strapi?.tags.map((tag) => (
+                <Tag>
+                  <Tag.Avatar>
+                    <img src={tag.icon} alt={tag.text} />
+                  </Tag.Avatar>
+                  {tag.text}
+                </Tag>
+              ))}
             </TemplateCard.Footer>
           </TemplateCard>
         );

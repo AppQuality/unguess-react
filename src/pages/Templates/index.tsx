@@ -10,6 +10,7 @@ import Body from './Body';
 import { TemplatesContextProvider } from './Context';
 import PageHeader from './PageHeader';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { NewPlanDrawer } from './Drawer';
 
 const Templates = () => {
   const { t } = useTranslation();
@@ -46,6 +47,7 @@ const Templates = () => {
     >
       <TemplatesContextProvider>
         <Body />
+        <NewPlanDrawer />
       </TemplatesContextProvider>
     </Page>
   );

@@ -122,6 +122,8 @@ export class UnguessPage {
   elements() {
     return {
       title: () => this.page.getByRole('heading', { level: 1 }),
+      mainNavigation: () =>
+        this.page.getByRole('navigation', { name: 'main-site-navigation' }),
     };
   }
 }

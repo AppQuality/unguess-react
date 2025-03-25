@@ -14,7 +14,35 @@ export class Templates extends UnguessPage {
     return {
       ...super.elements(),
       templateCard: () => this.page.getByTestId('template-card'),
-      dropdown: () => this.page.getByTestId('project-dropdown'),
+      tailoredSection: () =>
+        this.page.getByTitle(
+          this.i18n.t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')
+        ),
+      unguessSection: () =>
+        this.page.getByTitle(
+          this.i18n.t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')
+        ),
+      planCreationInterface: () =>
+        this.page.getByTestId('plan-creation-interface'),
+      projectDropdown: () => this.page.getByTestId('project-dropdown'),
+      confirmButton: () =>
+        this.elements()
+          .planCreationInterface()
+          .getByRole('button', {
+            name: this.i18n.t('__TEMPLATES_DRAWER_FOOTER_CONFIRM_BUTTON'),
+          }),
+      moreInfoButton: () =>
+        this.elements()
+          .planCreationInterface()
+          .getByRole('button', {
+            name: this.i18n.t('__TEMPLATES_DRAWER_FOOTER_INFO_BUTTON'),
+          }),
+      errorMessage: () =>
+        this.elements().planCreationInterface().getByTestId('error-message'),
+      navigationItem: () =>
+        this.elements()
+          .mainNavigation()
+          .getByRole('menuitem', { name: this.i18n.t('Templates') }),
     };
   }
 

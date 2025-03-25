@@ -29,12 +29,14 @@ import styled, { useTheme } from 'styled-components';
 import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
 import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
+import { ReactComponent as TemplatesIcon } from './icons/templates.svg';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
 import { ReactComponent as ServicesIconActive } from './icons/services-active.svg';
 import { ReactComponent as ServicesIcon } from './icons/services.svg';
 import { SidebarSkeleton } from './skeleton';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 const ScrollingContainer = styled.div`
   display: flex;
@@ -68,7 +70,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const { isSidebarOpen } = useAppSelector((state) => state.navigation);
   const { activeWorkspace } = useActiveWorkspace();
   const { isMobile } = useWindowSize();
-
+  const canViewTemplates = useCanAccessToActiveWorkspace();
   const prjRef = useRef<HTMLButtonElement>(null);
 
   const {
@@ -132,7 +134,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   return isLoadingOrFetching ? (
     <SidebarSkeleton {...props} />
   ) : (
-    <Nav {...props} isExpanded={isSidebarOpen}>
+    <Nav {...props} title="main-site-navigation" isExpanded={isSidebarOpen}>
       {activeWorkspace?.isShared && isSidebarOpen && (
         <SharedLabel>{t('__APP_SIDEBAR_SHARED_WORKSPACE_LABEL')}</SharedLabel>
       )}
@@ -152,6 +154,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         )}
 
         <NavItem
+          role="menuitem"
           className="sidebar-first-level-item"
           title="Home"
           isExpanded={isSidebarOpen}
@@ -168,22 +171,21 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           </NavItemText>
         </NavItem>
 
-        <NavItem
-          className="sidebar-first-level-item"
-          title="Templates"
-          isExpanded={isSidebarOpen}
-          isCurrent={route === 'templates'}
-          onClick={() => navigateTo('templates')}
-        >
-          <NavItemIcon>
-            {route === 'templates' ? (
-              <CampaignsIconActive />
-            ) : (
-              <CampaignsIcon />
-            )}
-          </NavItemIcon>
-          <NavItemText>{t('__APP_SIDEBAR_TEMPLATES_ITEM_LABEL')}</NavItemText>
-        </NavItem>
+        {canViewTemplates && (
+          <NavItem
+            role="menuitem"
+            className="sidebar-first-level-item"
+            title="Templates"
+            isExpanded={isSidebarOpen}
+            isCurrent={route === 'templates'}
+            onClick={() => navigateTo('templates')}
+          >
+            <NavItemIcon>
+              {route === 'templates' ? <TemplatesIcon /> : <TemplatesIcon />}
+            </NavItemIcon>
+            <NavItemText>{t('__APP_SIDEBAR_TEMPLATES_ITEM_LABEL')}</NavItemText>
+          </NavItem>
+        )}
 
         {/** Projects Accordion */}
         {projects && projects.length ? (
@@ -234,22 +236,10 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
 
         <NavDivider isExpanded={isSidebarOpen} />
 
-        {/** Services */}
-        <NavItem
-          className="sidebar-first-level-item"
-          title="Services"
-          isExpanded={isSidebarOpen}
-          isCurrent={route === 'services'}
-          onClick={() => navigateTo('services')}
-        >
-          <NavItemIcon isStyled>
-            {route === 'services' ? <ServicesIconActive /> : <ServicesIcon />}
-          </NavItemIcon>
-          <NavItemText>{t('__APP_SIDEBAR_SERVICES_ITEM_LABEL')}</NavItemText>
-        </NavItem>
         {/** Archive */}
         {archiveId && (
           <NavItem
+            role="menuitem"
             className="sidebar-first-level-item"
             title="Archive"
             isExpanded={isSidebarOpen}
@@ -277,6 +267,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
       </ScrollingContainer>
       {/* Footer Logo */}
       <NavItem
+        role="menuitem"
         isExpanded={isSidebarOpen}
         hasBrandmark
         title="Be smart from the start"
