@@ -170,13 +170,13 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: 'This is a target note',
+          output: '',
         };
       case 'instruction_note':
         return {
           type,
           variant: 'default',
-          output: 'This is an instructions note',
+          output: '',
         };
       default:
         return null;
