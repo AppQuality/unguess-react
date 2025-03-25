@@ -31,7 +31,7 @@ const getTitleFromModuleType = (type: string) => {
     case 'instructions_note':
       return t('__PLAN_PAGE_MODULE_INSTRUCTIONS_NOTE_BLOCK_TITLE');
     case 'browser':
-      return t('__PLAN_PAGE_MODULE_BROWSER_TITLE');
+      return t('__PLAN_PAGE_MODULE_BROWSER_LABEL');
     default:
       return '';
   }
