@@ -12,13 +12,13 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { usePostWorkspacesByWidPlansMutation } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 import { useTemplatesContext } from './Context';
 import { ProjectDropdown } from './ProjectDropdown';
-import { appTheme } from 'src/app/theme';
 
 const TagContainer = styled.div`
   padding-bottom: ${theme.space.md};

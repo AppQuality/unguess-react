@@ -23,20 +23,18 @@ import {
 } from 'src/features/api';
 import { closeSidebar } from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
 import styled, { useTheme } from 'styled-components';
 import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
 import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
-import { ReactComponent as TemplatesIcon } from './icons/templates.svg';
 import { ReactComponent as CampaignsIconActive } from './icons/campaigns-active.svg';
 import { ReactComponent as CampaignsIcon } from './icons/campaigns.svg';
 import { ReactComponent as ProjectsIcon } from './icons/projects.svg';
-import { ReactComponent as ServicesIconActive } from './icons/services-active.svg';
-import { ReactComponent as ServicesIcon } from './icons/services.svg';
+import { ReactComponent as TemplatesIcon } from './icons/templates.svg';
 import { SidebarSkeleton } from './skeleton';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 const ScrollingContainer = styled.div`
   display: flex;

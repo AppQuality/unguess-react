@@ -4,13 +4,13 @@ import {
   Message,
   Skeleton,
 } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useTemplatesContext } from './Context';
-import { useMemo } from 'react';
 
 export const ProjectDropdown = () => {
   const { t } = useTranslation();

@@ -3,7 +3,6 @@ import { appTheme } from 'src/app/theme';
 import { CpReqTemplate, Module } from 'src/features/api';
 import styled from 'styled-components';
 import { isTemplateTailored, useTemplatesContext } from './Context';
-import { useTranslation } from 'react-i18next';
 
 const CardsGrid = styled.div`
   padding: ${appTheme.space.xl} 0;
@@ -25,7 +24,6 @@ export const TemplateCardsGrid = ({
   templates: CpReqTemplate[];
 }) => {
   const { setIsDrawerOpen, setSelectedTemplate } = useTemplatesContext();
-  const { t } = useTranslation();
   return (
     <CardsGrid role="list">
       {templates.map((template) => {

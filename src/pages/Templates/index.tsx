@@ -5,12 +5,12 @@ import { PageLoader } from 'src/common/components/PageLoader';
 import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
 import { TemplatesContextProvider } from './Context';
-import PageHeader from './PageHeader';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { NewPlanDrawer } from './Drawer';
+import PageHeader from './PageHeader';
 
 const Templates = () => {
   const { t } = useTranslation();

@@ -3,7 +3,6 @@ import { Templates } from '../../fixtures/Templates';
 import getTemplates from '../../api/workspaces/wid/templates/_get/200_global_and_private_templates.json';
 import getProjects from '../../api/workspaces/wid/projects/_get/200_Example_1.json';
 import mockPostPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.json';
-// import postPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.json';
 
 test.describe('Templates page', () => {
   let templates: Templates;
@@ -20,9 +19,7 @@ test.describe('Templates page', () => {
     await templates.open();
   });
 
-  test('Should contain a number of cards equal to the number of templates. Divided by tailored and suggested by us', async ({
-    page,
-  }) => {
+  test('Should contain a number of cards equal to the number of templates. Divided by tailored and suggested by us', async () => {
     await expect(templates.elements().templateCard()).toHaveCount(
       getTemplates.items.length
     );
