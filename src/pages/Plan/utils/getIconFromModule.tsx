@@ -63,6 +63,10 @@ const getIconFromModuleType = (
       return <BrowserIcon color={color} />;
     case 'setup_note':
       return <NotificationIcon color={color} />;
+    case 'instruction_note':
+      return <NotificationIcon color={color} />;
+    case 'target_note':
+      return <NotificationIcon color={color} />;
     case 'title':
     case 'dates':
     default:
