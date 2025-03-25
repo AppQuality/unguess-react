@@ -155,6 +155,17 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: 5,
         };
+      case 'browser':
+        return {
+          type,
+          variant: 'default',
+          output: [
+            { name: 'chrome', percentage: 25 },
+            { name: 'firefox', percentage: 25 },
+            { name: 'safari', percentage: 25 },
+            { name: 'edge', percentage: 25 },
+          ],
+        };
       default:
         return null;
     }
