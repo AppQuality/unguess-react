@@ -49,6 +49,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
           ),
           { placement: 'top' }
         );
+        // eslint-disable-next-line no-console
         console.error(error);
       })
       .finally(() => {
