@@ -1,10 +1,15 @@
 import {
   Button,
-  Hint,
+  Label,
+  MD,
+  Message,
   Modal,
   ModalClose,
-  useToast,
   Notification,
+  OrderedList,
+  SM,
+  useToast,
+  XL,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -20,21 +25,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
 
   const handleConfirm = async () => {
     handleQuoteRequest()
-      .then(() => {
-        // Show success toast
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="success"
-              message={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_SUCCESS')}
-              closeText={t('__TOAST_CLOSE_TEXT')}
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-      })
+      .then()
       .catch(() => {
         // Show error toast
         addToast(
@@ -63,18 +54,33 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
     <Modal onClose={onQuit} data-qa="request-quotation-modal">
       <Modal.Header>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE')}</Modal.Header>
       <Modal.Body style={{ overflow: 'visible' }}>
-        {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DESCRIPTION')}
+        <XL isBold>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_TITLE')}</XL>
+        <SM style={{ margin: `${appTheme.space.sm} 0` }}>
+          {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION')}
+        </SM>
+        <OrderedList style={{ fontSize: appTheme.fontSizes.sm }}>
+          <li>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_1')}</li>
+          <li>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_2')}</li>
+          <li>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_3')}</li>
+        </OrderedList>
         <div style={{ padding: `${appTheme.space.md} 0` }}>
+          <Label>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_LABEL')}</Label>
           <Title />
-          <Hint style={{ marginTop: appTheme.space.sm }}>
+          <Message style={{ marginTop: appTheme.space.sm }}>
             {t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_HINT')}
-          </Hint>
+          </Message>
         </div>
         <div style={{ padding: `${appTheme.space.md} 0` }}>
+          <Label style={{ marginBottom: appTheme.space.xxs }}>
+            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_LABEL')}
+          </Label>
+          <SM style={{ marginBottom: appTheme.space.sm }}>
+            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_DESCRIPTION')}
+          </SM>
           <Dates />
-          <Hint style={{ marginTop: appTheme.space.sm }}>
+          <Message style={{ marginTop: appTheme.space.sm }}>
             {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_HINT')}
-          </Hint>
+          </Message>
         </div>
       </Modal.Body>
       <Modal.Footer>
