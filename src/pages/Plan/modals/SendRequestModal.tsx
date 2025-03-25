@@ -3,6 +3,8 @@ import {
   Hint,
   Modal,
   ModalClose,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -14,15 +16,40 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
   const { isRequestQuoteCTADisabled, handleQuoteRequest, error } =
     useRequestQuotation();
+  const { addToast } = useToast();
 
   const handleConfirm = async () => {
     handleQuoteRequest()
       .then(() => {
         // Show success toast
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_SUCCESS')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
       })
       .catch(() => {
         // Show error toast
-        console.log(error);
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="success"
+              message={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}
+              closeText={t('__TOAST_CLOSE_TEXT')}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
+        console.error(error);
       })
       .finally(() => {
         onQuit();
