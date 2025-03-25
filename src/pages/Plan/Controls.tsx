@@ -45,12 +45,7 @@ export const Controls = () => {
         {t('__PLAN_REQUEST_QUOTATION_CTA')}
       </Button>
       {error && <div data-qa="request-quotation-error-message">{error}</div>}
-      {isModalOpen && (
-        <SendRequestModal
-          onQuit={() => setIsModalOpen(false)}
-          onConfirm={handleQuoteRequest}
-        />
-      )}
+      {isModalOpen && <SendRequestModal onQuit={() => setIsModalOpen(false)} />}
     </div>
   );
 };
