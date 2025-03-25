@@ -13,8 +13,7 @@ export const Controls = () => {
     useModuleConfiguration();
   const { validateForm } = useValidationContext();
   const { t } = useTranslation();
-  const { isRequestQuoteCTADisabled, handleQuoteRequest, error } =
-    useRequestQuotation();
+  const { isRequestQuoteCTADisabled } = useRequestQuotation();
   const handleSaveConfiguration = () => {
     validateForm();
     submitModuleConfiguration();
@@ -44,7 +43,6 @@ export const Controls = () => {
       >
         {t('__PLAN_REQUEST_QUOTATION_CTA')}
       </Button>
-      {error && <div data-qa="request-quotation-error-message">{error}</div>}
       {isModalOpen && <SendRequestModal onQuit={() => setIsModalOpen(false)} />}
     </div>
   );
