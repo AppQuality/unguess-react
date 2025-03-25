@@ -60,7 +60,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   if (isRequestQuoteCTADisabled()) return null;
 
   return (
-    <Modal onClose={onQuit}>
+    <Modal onClose={onQuit} data-qa="request-quotation-modal">
       <Modal.Header>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE')}</Modal.Header>
       <Modal.Body style={{ overflow: 'visible' }}>
         {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DESCRIPTION')}
@@ -86,6 +86,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
           isAccent
           isPrimary
           onClick={handleConfirm}
+          data-qa="request-quotation-modal-cta"
         >
           {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM')}
         </Button>
