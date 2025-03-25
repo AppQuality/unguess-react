@@ -1,7 +1,6 @@
 import {
   Button,
   Label,
-  MD,
   Message,
   Modal,
   ModalClose,
