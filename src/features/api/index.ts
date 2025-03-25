@@ -737,6 +737,14 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    getWorkspacesByWidTemplatesAndTid: build.query<
+      GetWorkspacesByWidTemplatesAndTidApiResponse,
+      GetWorkspacesByWidTemplatesAndTidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates/${queryArg.tid}`,
+      }),
+    }),
     getWorkspacesByWidProjectsAndPid: build.query<
       GetWorkspacesByWidProjectsAndPidApiResponse,
       GetWorkspacesByWidProjectsAndPidApiArg
@@ -1766,10 +1774,15 @@ export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
   config: {
     modules: Module[];
   };
-  status: 'draft' | 'pending_review' | 'approved';
+  status: PlanStatus;
   project: {
     id: number;
     name: string;
+  };
+  quote?: {
+    id: number;
+    status: 'pending' | 'proposed' | 'approved' | 'rejected';
+    value: string;
   };
 };
 export type GetWorkspacesByWidPlansAndPidApiArg = {
@@ -1792,7 +1805,7 @@ export type PatchWorkspacesByWidPlansAndPidStatusApiArg = {
   wid: string;
   pid: string;
   body: {
-    status: 'pending_review';
+    status: PlanStatus;
   };
 };
 export type GetWorkspacesByWidProjectsApiResponse = /** status 200 OK */ {
@@ -1828,6 +1841,20 @@ export type GetWorkspacesByWidTemplatesApiArg = {
 export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
   /** status 200 OK */ {};
 export type DeleteWorkspacesByWidTemplatesAndTidApiArg = {
+  wid: string;
+  tid: string;
+};
+export type GetWorkspacesByWidTemplatesAndTidApiResponse =
+  /** status 200 OK */ {
+    id: number;
+    name: string;
+    description?: string;
+    config: string;
+    workspace_id?: number;
+    price?: string;
+    strapi?: StrapiTemplate;
+  };
+export type GetWorkspacesByWidTemplatesAndTidApiArg = {
   wid: string;
   tid: string;
 };
@@ -2496,7 +2523,7 @@ export type ModuleLiteracy = {
   variant: string;
   output: OutputModuleLiteracy;
 };
-export type ModuleLanguage2 = {
+export type ModuleTarget = {
   type: 'target';
   variant: string;
   output: number;
@@ -2520,6 +2547,30 @@ export type ModuleOutOfScope = {
   variant: string;
   output: string;
 };
+export type OutputModuleBrowser = {
+  name: 'firefox' | 'edge' | 'chrome' | 'safari';
+  percentage: number;
+}[];
+export type ModuleBrowser = {
+  type: 'browser';
+  variant: string;
+  output: OutputModuleBrowser;
+};
+export type ModuleTargetNote = {
+  type: 'target_note';
+  variant: string;
+  output: string;
+};
+export type ModuleInstructionNote = {
+  type: 'instruction_note';
+  variant: string;
+  output: string;
+};
+export type ModuleSetupNote = {
+  type: 'setup_note';
+  variant: string;
+  output: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2527,21 +2578,53 @@ export type Module =
   | ModuleAge
   | ModuleLanguage
   | ModuleLiteracy
-  | ModuleLanguage2
+  | ModuleTarget
   | ModuleGoal
   | ModuleGender
-  | ModuleOutOfScope;
+  | ModuleOutOfScope
+  | ModuleBrowser
+  | ModuleTargetNote
+  | ModuleInstructionNote
+  | ModuleSetupNote;
+export type PlanStatus = 'pending_review' | 'draft' | 'approved';
+export type StrapiTemplate = {
+  title: string;
+  description: string;
+  pre_title: string;
+  image?: string;
+  output_image?: string;
+  requirements?: {
+    description: string;
+    list: string[];
+  };
+  tags: {
+    icon: string;
+    text: string;
+  }[];
+  advantages: string[];
+  why?: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+  what?: {
+    description: string;
+    goal: string;
+  };
+  how?: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+};
 export type CpReqTemplate = {
   id: number;
   name: string;
   description?: string;
   config: string;
-  strapi_id?: number;
   workspace_id?: number;
-  source_plan_id?: number;
-  created_by?: number;
-  created_at?: string;
-  updated_at?: string;
+  price?: string;
+  strapi?: StrapiTemplate;
 };
 export const {
   use$getQuery,
@@ -2626,6 +2709,7 @@ export const {
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidTemplatesQuery,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,
+  useGetWorkspacesByWidTemplatesAndTidQuery,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   useGetWorkspacesByWidUsersQuery,
