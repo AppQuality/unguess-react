@@ -979,7 +979,6 @@ export interface components {
       variant: string;
       output: number;
     };
-    /** ModuleTargetNote */
     ModuleTargetNote: {
       /** @enum {string} */
       type: 'target_note';
