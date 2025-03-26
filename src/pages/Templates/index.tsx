@@ -11,6 +11,8 @@ import Body from './Body';
 import { TemplatesContextProvider } from './Context';
 import { NewPlanDrawer } from './Drawer';
 import PageHeader from './PageHeader';
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
+import { CategoriesNav } from './CategoriesNav';
 
 const Templates = () => {
   const { t } = useTranslation();
@@ -46,7 +48,16 @@ const Templates = () => {
       route="templates"
     >
       <TemplatesContextProvider>
-        <Body />
+        <Grid>
+          <Row>
+            <Col xs={12} lg={2} style={{ margin: 0 }}>
+              <CategoriesNav />
+            </Col>
+            <Col xs={12} lg={10}>
+              <Body />
+            </Col>
+          </Row>
+        </Grid>
         <NewPlanDrawer />
       </TemplatesContextProvider>
     </Page>
