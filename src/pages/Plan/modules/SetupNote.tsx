@@ -3,7 +3,7 @@ import {
   Card,
   Editor,
   Label,
-  SM,
+  Message,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,8 +14,6 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
-import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
@@ -24,11 +22,11 @@ import { getIconFromModuleType } from '../utils';
 const StyledCard = styled(Card)`
   display: flex;
   flex-direction: column;
-  padding-top: ${appTheme.space.md};
-  padding-left: ${appTheme.space.md};
-  padding-right: ${appTheme.space.md};
-  padding-bottom: ${appTheme.space.lg};
-  box-shadow: rgba(104, 115, 125, 0.08) 4px 4px 0px 0px;
+  padding-top: ${({ theme }) => theme.space.md};
+  padding-left: ${({ theme }) => theme.space.md};
+  padding-right: ${({ theme }) => theme.space.md};
+  padding-bottom: ${({ theme }) => theme.space.lg};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
 `;
 
 const StyledCardHeader = styled.div`
@@ -36,14 +34,14 @@ const StyledCardHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding-bottom: ${appTheme.space.md};
+  padding-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const StyledInfoBox = styled.div`
   display: flex;
   align-items: center;
-  margin-top: ${appTheme.space.sm};
-  gap: ${appTheme.space.xxs};
+  margin-top: ${({ theme }) => theme.space.sm};
+  gap: ${({ theme }) => theme.space.xxs};
 `;
 
 const SetupNote = () => {
@@ -126,22 +124,11 @@ const SetupNote = () => {
           </Editor>
           <StyledInfoBox>
             {error && typeof error === 'string' ? (
-              <>
-                <AlertIcon />
-                <SM
-                  style={{ color: appTheme.components.text.dangerColor }}
-                  data-qa="setup-note-error"
-                >
-                  {error}
-                </SM>
-              </>
+              <Message validation="error" data-qa="instruction-note-error">
+                {error}
+              </Message>
             ) : (
-              <>
-                <InfoIcon />
-                <SM style={{ color: appTheme.palette.grey[600] }}>
-                  {t('__PLAN_PAGE_MODULE_SETUP_NOTE_INFO')}
-                </SM>
-              </>
+              <Message>{t('__PLAN_PAGE_MODULE_INSTRUCTION_NOTE_INFO')}</Message>
             )}
           </StyledInfoBox>
         </>
