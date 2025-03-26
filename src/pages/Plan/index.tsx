@@ -43,22 +43,22 @@ const Plan = () => {
   }, [plan]);
 
   const handleSubmit = useCallback(
-    (values: FormBody, helpers: FormikHelpers<FormBody>) => {
+    async (values: FormBody, helpers: FormikHelpers<FormBody>) => {
       helpers.setSubmitting(true);
-      patchPlan({
-        wid: activeWorkspace?.id.toString() ?? '',
-        pid: planId?.toString() ?? '',
-        body: {
-          config: {
-            modules: values.modules,
+      try {
+        await patchPlan({
+          wid: activeWorkspace?.id.toString() ?? '',
+          pid: planId?.toString() ?? '',
+          body: {
+            config: {
+              modules: values.modules,
+            },
           },
-        },
-      })
-        .unwrap()
-        .then(() => {
-          helpers.setSubmitting(false);
-        })
-        .catch((e: any) => console.log(e));
+        }).unwrap();
+        helpers.setSubmitting(false);
+      } catch (e) {
+        console.log(e);
+      }
     },
     [activeWorkspace, planId, plan]
   );
