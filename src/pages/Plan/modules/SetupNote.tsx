@@ -104,7 +104,10 @@ const SetupNote = () => {
         </StyledCardHeader>
         <>
           <Editor
-            editable={getPlanStatus() === 'draft'}
+            editable={
+              hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+              getPlanStatus() === 'draft'
+            }
             headerTitle={t(
               '__PLAN_PAGE_MODULE_SETUP_NOTE_DESCRIPTION_EDITOR_HEADER_TITLE'
             )}
