@@ -166,6 +166,12 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
             { name: 'edge', percentage: 25 },
           ],
         };
+      case 'setup_note':
+        return {
+          type,
+          variant: 'default',
+          output: '',
+        };
       case 'target_note':
         return {
           type,
