@@ -30,7 +30,9 @@ export const useRequestQuotation = () => {
       setError(
         `${t('__PLAN_MISSING_MODULES_ERROR')}: ${missingModules.join(', ')}`
       );
-      return;
+      throw new Error(
+        `${t('__PLAN_MISSING_MODULES_ERROR')}: ${missingModules.join(', ')}`
+      );
     }
     // triggerValidationforAllFields()
     // check if the form is valid
