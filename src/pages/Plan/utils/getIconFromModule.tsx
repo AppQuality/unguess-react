@@ -9,6 +9,7 @@ import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg'
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
+import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
 import { components } from 'src/common/schema';
 import { useValidationContext } from 'src/features/modules/FormProvider';
 import { useModule } from 'src/features/modules/useModule';
@@ -60,6 +61,12 @@ const getIconFromModuleType = (
       return <TasksIcon color={color} />;
     case 'browser':
       return <BrowserIcon color={color} />;
+    case 'setup_note':
+      return <NotificationIcon color={color} />;
+    case 'instruction_note':
+      return <NotificationIcon color={color} />;
+    case 'target_note':
+      return <NotificationIcon color={color} />;
     case 'title':
     case 'dates':
     default:
