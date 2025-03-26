@@ -11,7 +11,6 @@ import { BreadCrumbTabs } from './BreadCrumbTabs';
 import { TitleGroup } from './TitleGroup';
 import { Controls } from '../../Controls';
 
-
 const StyledWrapper = styled.div`
   width: 100%;
   display: grid;
