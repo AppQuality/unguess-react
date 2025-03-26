@@ -511,7 +511,7 @@ export interface paths {
   '/workspaces/{wid}/plans': {
     /**
      * Function: Retrieves all plans within a specified workspace.
-     * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+     * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
      *
      * Use Cases:
      * - Reviewing all plans that are still in development or awaiting approval.
@@ -979,6 +979,7 @@ export interface components {
       variant: string;
       output: number;
     };
+    /** ModuleTargetNote */
     ModuleTargetNote: {
       /** @enum {string} */
       type: 'target_note';
@@ -3646,7 +3647,7 @@ export interface operations {
   };
   /**
    * Function: Retrieves all plans within a specified workspace.
-   * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+   * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
    *
    * Use Cases:
    * - Reviewing all plans that are still in development or awaiting approval.
