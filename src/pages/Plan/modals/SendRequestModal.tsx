@@ -31,7 +31,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
           ({ close }) => (
             <Notification
               onClose={close}
-              type="success"
+              type="error"
               message={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}
               closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
