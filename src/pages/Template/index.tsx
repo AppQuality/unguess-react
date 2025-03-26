@@ -1,66 +1,56 @@
-import { useEffect } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageLoader } from 'src/common/components/PageLoader';
-import {
-  openWizard,
-  setExpressTemplateId,
-} from 'src/features/express/expressSlice';
 import { Page } from 'src/features/templates/Page';
-import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
-import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
 import { SingleTemplatePageHeader } from './SingleTemplatePageHeader';
 import { TemplateTimeline } from './TemplateTimeline';
+import { getTemplateTitle } from './SingleTemplatePageHeader';
+import { useGetWorkspacesByWidTemplatesAndTidQuery } from 'src/features/api';
 
 const Template = () => {
   const { templateId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
+  const { activeWorkspace } = useActiveWorkspace();
 
   const { status } = useAppSelector((state) => state.user);
 
-  if (!templateId || Number.isNaN(Number(templateId))) {
+  if (typeof templateId === 'undefined') {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
+    return;
   }
-  const { data, isLoading, isError } = useCampaignTemplateById(
-    templateId || ''
-  );
+
+  const { data, isLoading, isError } =
+    useGetWorkspacesByWidTemplatesAndTidQuery({
+      wid: activeWorkspace?.id.toString() || '',
+      tid: templateId,
+    });
 
   if (isError) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
+    return null;
   }
 
-  useEffect(() => {
-    dispatch(setExpressTemplateId(data.id));
-  }, [data]);
-
-  if (!data || isLoading || status === 'loading') {
+  if (!data || isLoading || status === 'loading' || !activeWorkspace) {
     return <PageLoader />;
   }
 
   return (
     <Page
-      pageHeader={<SingleTemplatePageHeader />}
-      title={data.title}
+      pageHeader={<SingleTemplatePageHeader template={data} />}
+      title={getTemplateTitle(data)}
       route="template"
     >
       <LayoutWrapper>
-        <TemplateTimeline />
-        <ExpressDrawer
-          onCtaClick={() => {
-            dispatch(openWizard());
-          }}
-        />
-        <ExpressWizardContainer />
+        <TemplateTimeline template={data} />
       </LayoutWrapper>
     </Page>
   );
