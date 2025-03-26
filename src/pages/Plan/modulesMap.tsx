@@ -46,7 +46,7 @@ export const modulesMap = {
   language: Language,
   gender: Gender,
   literacy: Literacy,
-  instruction_note: InstructionsNote, // typo with instructions? should be instructions_note or instruction_note in the schema?
+  instruction_note: InstructionsNote,
   out_of_scope: OutOfScope,
   browser: Browser,
 };
