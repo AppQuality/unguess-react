@@ -511,7 +511,7 @@ export interface paths {
   '/workspaces/{wid}/plans': {
     /**
      * Function: Retrieves all plans within a specified workspace.
-     * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+     * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
      *
      * Use Cases:
      * - Reviewing all plans that are still in development or awaiting approval.
@@ -564,6 +564,7 @@ export interface paths {
     };
   };
   '/workspaces/{wid}/templates/{tid}': {
+    get: operations['get-workspaces-wid-templates-tid'];
     delete: operations['delete-workspaces-wid-templates-tid'];
     parameters: {
       path: {
@@ -905,7 +906,11 @@ export interface components {
       | components['schemas']['ModuleTarget']
       | components['schemas']['ModuleGoal']
       | components['schemas']['ModuleGender']
-      | components['schemas']['ModuleOutOfScope'];
+      | components['schemas']['ModuleOutOfScope']
+      | components['schemas']['ModuleBrowser']
+      | components['schemas']['ModuleTargetNote']
+      | components['schemas']['ModuleInstructionNote']
+      | components['schemas']['ModuleSetupNote'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -967,12 +972,40 @@ export interface components {
       variant: string;
       output: string;
     };
-    /** ModuleLanguage */
+    /** ModuleTarget */
     ModuleTarget: {
       /** @enum {string} */
       type: 'target';
       variant: string;
       output: number;
+    };
+    /** ModuleTargetNote */
+    ModuleTargetNote: {
+      /** @enum {string} */
+      type: 'target_note';
+      variant: string;
+      output: string;
+    };
+    /** ModuleSetupNote */
+    ModuleSetupNote: {
+      /** @enum {string} */
+      type: 'setup_note';
+      variant: string;
+      output: string;
+    };
+    /** ModuleInstructionNote */
+    ModuleInstructionNote: {
+      /** @enum {string} */
+      type: 'instruction_note';
+      variant: string;
+      output: string;
+    };
+    /** ModuleBrowser */
+    ModuleBrowser: {
+      /** @enum {string} */
+      type: 'browser';
+      variant: string;
+      output: components['schemas']['OutputModuleBrowser'];
     };
     /** Observation */
     Observation: {
@@ -1425,12 +1458,9 @@ export interface components {
       name: string;
       description?: string;
       config: string;
-      strapi_id?: number;
       workspace_id?: number;
-      source_plan_id?: number;
-      created_by?: number;
-      created_at?: string;
-      updated_at?: string;
+      price?: string;
+      strapi?: components['schemas']['StrapiTemplate'];
     };
     /** SubcomponentTaskBug */
     OutputModuleTaskBug: {
@@ -1492,6 +1522,52 @@ export interface components {
       gender: 'male' | 'female';
       percentage: number;
     }[];
+    /** OutputModuleBrowser */
+    OutputModuleBrowser: {
+      /** @enum {string} */
+      name: 'firefox' | 'edge' | 'chrome' | 'safari';
+      percentage: number;
+    }[];
+    /**
+     * PlanStatus
+     * @enum {string}
+     */
+    PlanStatus: 'pending_review' | 'draft' | 'approved';
+    StrapiTemplate: {
+      title: string;
+      description: string;
+      pre_title: string;
+      /** Format: uri */
+      image?: string;
+      /** Format: uri */
+      output_image?: string;
+      requirements?: {
+        description: string;
+        list: string[];
+      };
+      tags: {
+        /** Format: uri */
+        icon: string;
+        text: string;
+      }[];
+      advantages: string[];
+      why?: {
+        /** Format: uri */
+        icon: string;
+        title: string;
+        description: string;
+      }[];
+      what?: {
+        description: string;
+        goal: string;
+      };
+      how?: {
+        /** Format: uri */
+        icon: string;
+        title: string;
+        description: string;
+      }[];
+    };
   };
   responses: {
     /** Shared error response */
@@ -3571,7 +3647,7 @@ export interface operations {
   };
   /**
    * Function: Retrieves all plans within a specified workspace.
-   * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+   * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
    *
    * Use Cases:
    * - Reviewing all plans that are still in development or awaiting approval.
@@ -3661,11 +3737,16 @@ export interface operations {
             config: {
               modules: components['schemas']['Module'][];
             };
-            /** @enum {string} */
-            status: 'draft' | 'pending_review' | 'approved';
+            status: components['schemas']['PlanStatus'];
             project: {
               id: number;
               name: string;
+            };
+            quote?: {
+              id: number;
+              /** @enum {string} */
+              status: 'pending' | 'proposed' | 'approved' | 'rejected';
+              value: string;
             };
           };
         };
@@ -3705,7 +3786,6 @@ export interface operations {
           config: {
             modules: components['schemas']['Module'][];
           };
-          project_id: number;
         };
       };
     };
@@ -3728,8 +3808,7 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          /** @enum {string} */
-          status: 'pending_review';
+          status: components['schemas']['PlanStatus'];
         };
       };
     };
@@ -3796,6 +3875,34 @@ export interface operations {
       403: components['responses']['Error'];
       404: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'get-workspaces-wid-templates-tid': {
+    parameters: {
+      path: {
+        wid: string;
+        tid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            description?: string;
+            config: string;
+            workspace_id?: number;
+            price?: string;
+            strapi?: components['schemas']['StrapiTemplate'];
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
     };
   };
   'delete-workspaces-wid-templates-tid': {

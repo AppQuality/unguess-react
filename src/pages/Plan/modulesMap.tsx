@@ -11,6 +11,7 @@ import Gender from './modules/Gender';
 import Literacy from './modules/Literacy';
 import InstructionsNote from './modules/InstructionsNote';
 import OutOfScope from './modules/OutOfScope';
+import Browser from './modules/Browser';
 
 export const MODULES_BY_TAB = {
   setup: [
@@ -24,6 +25,7 @@ export const MODULES_BY_TAB = {
     'gender',
     'age',
     'literacy',
+    'browser',
   ],
   instructions: [
     // 'instructions_note',
@@ -44,6 +46,7 @@ export const modulesMap = {
   language: Language,
   gender: Gender,
   literacy: Literacy,
-  instructions_note: InstructionsNote,
+  instruction_note: InstructionsNote,
   out_of_scope: OutOfScope,
+  browser: Browser,
 };
