@@ -25,14 +25,17 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   const handleConfirm = async () => {
     handleQuoteRequest()
       .then()
-      .catch(() => {
-        // Show error toast
+      .catch((e) => {
+        let message = t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR');
+        if ('message' in e && e.message) {
+          message = e.message;
+        }
         addToast(
           ({ close }) => (
             <Notification
               onClose={close}
               type="error"
-              message={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}
+              message={message}
               closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />

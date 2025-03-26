@@ -13,6 +13,8 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { PlanProvider } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
+import { PLAN_MINIMUM_DATE } from 'src/constants';
+import { formatModuleDate } from './utils/formatModuleDate';
 
 const Plan = () => {
   const { t } = useTranslation();
@@ -36,9 +38,22 @@ const Plan = () => {
 
   useEffect(() => {
     if (!plan) return;
+    const initialDatesModule = plan.config.modules.find(
+      (mod) => mod.type === 'dates'
+    );
+    const modules = [...plan.config.modules];
+
+    if (!initialDatesModule) {
+      modules.push({
+        variant: 'default',
+        type: 'dates',
+        output: { start: formatModuleDate(PLAN_MINIMUM_DATE).output },
+      });
+    }
+
     setInitialValues({
       status: plan.status,
-      modules: plan.config.modules,
+      modules,
     });
   }, [plan]);
 
