@@ -10,7 +10,6 @@ import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { GlobalAlert } from '@appquality/unguess-design-system';
 import { PlanProvider } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
@@ -67,13 +66,6 @@ const Plan = () => {
   return (
     <FormProvider onSubmit={handleSubmit} initialValues={initialValues}>
       <PlanProvider>
-        {plan?.status === 'pending_review' && (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE')}
-            type="info"
-          />
-        )}
         <Page
           title={t('__PLAN_PAGE_TITLE')}
           className="plan-page"
