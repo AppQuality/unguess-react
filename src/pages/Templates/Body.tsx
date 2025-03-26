@@ -54,18 +54,22 @@ const Body = () => {
 
   return (
     <LayoutWrapper>
-      <StyledSection title={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}>
-        <XXL>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
-        <MD>{t('__TEMPLATES_PAGE_TAILORED_LIST_SUBTITLE')}</MD>
-        <Separator />
-        <TemplateCardsGrid templates={filteredTemplates.tailored} />
-      </StyledSection>
-      <StyledSection title={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}>
-        <XXL>{t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}</XXL>
-        <MD>{t('__TEMPLATES_PAGE_UNGUESS_LIST_SUBTITLE')}</MD>
-        <Separator />
-        <TemplateCardsGrid templates={filteredTemplates.unguess} />
-      </StyledSection>
+      {filteredTemplates.tailored.length === 0 && (
+        <StyledSection title={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}>
+          <XXL>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
+          <MD>{t('__TEMPLATES_PAGE_TAILORED_LIST_SUBTITLE')}</MD>
+          <Separator />
+          <TemplateCardsGrid templates={filteredTemplates.tailored} />
+        </StyledSection>
+      )}
+      {filteredTemplates.unguess.length === 0 && (
+        <StyledSection title={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}>
+          <XXL>{t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}</XXL>
+          <MD>{t('__TEMPLATES_PAGE_UNGUESS_LIST_SUBTITLE')}</MD>
+          <Separator />
+          <TemplateCardsGrid templates={filteredTemplates.unguess} />
+        </StyledSection>
+      )}
     </LayoutWrapper>
   );
 };
