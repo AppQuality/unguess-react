@@ -48,7 +48,7 @@ const Browser = () => {
 
   const isDefaultVariant = value?.variant === 'default';
 
-  const ageError =
+  const browserError =
     error && typeof error === 'object' && `browser.value` in error
       ? error[`browser.value`]
       : false;
@@ -83,7 +83,7 @@ const Browser = () => {
         hasBorder
         className="browser-checkboxes"
         data-qa="browser-module"
-        type={ageError ? 'danger' : 'default'}
+        type={browserError ? 'danger' : 'default'}
         level={3}
       >
         <AccordionNew.Section>
@@ -189,7 +189,7 @@ const Browser = () => {
                 ))}
               </div>
 
-              {ageError && (
+              {browserError && (
                 <div
                   style={{
                     display: 'flex',
@@ -205,7 +205,7 @@ const Browser = () => {
                     }}
                     data-qa="browser-error"
                   >
-                    {ageError}
+                    {browserError}
                   </Span>
                 </div>
               )}
