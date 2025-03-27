@@ -21,15 +21,23 @@ const useModuleTouchpoints = () => {
     const { output: o } = module;
 
     const errors = o.reduce((acc, item, idx) => {
+      const osEmpty = item.kind === 'app' && !item.os;
       const linkEmpty = !item.link || item.link.length === 0;
-      if (!linkEmpty) return { ...acc };
+      if (!linkEmpty || !osEmpty) return { ...acc };
       return {
         ...acc,
         [idx]: {
           ...(linkEmpty
             ? {
-                title: t(
+                link: t(
                   '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_LINK_ERROR_REQUIRED'
+                ),
+              }
+            : {}),
+          ...(osEmpty
+            ? {
+                os: t(
+                  '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_ERROR_REQUIRED'
                 ),
               }
             : {}),
