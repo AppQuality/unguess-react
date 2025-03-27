@@ -5,7 +5,7 @@ import {
   Message,
 } from '@appquality/unguess-design-system';
 import { isBefore } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';

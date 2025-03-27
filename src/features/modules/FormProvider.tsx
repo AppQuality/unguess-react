@@ -4,7 +4,6 @@ import {
   Dispatch,
   ReactNode,
   useContext,
-  useEffect,
   useMemo,
   useState,
 } from 'react';
@@ -51,7 +50,7 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
                 await validate();
               } catch (error) {
                 if (error instanceof Error) {
-                  allErrors[moduleType] = error.message;
+                  allErrors[`${moduleType}`] = error.message;
                 }
               }
             }
@@ -67,6 +66,7 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
             )
           );
         }
+        return Promise.resolve();
       },
       addValidationFunction,
     }),
