@@ -127,7 +127,7 @@ const TouchpointItemDesktop = ({
             <Checkbox
               key={`macos_${key}`}
               name={`macos_${key}`}
-              value="macos_"
+              value="macos"
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'macos'}
               onBlur={handleBlur}

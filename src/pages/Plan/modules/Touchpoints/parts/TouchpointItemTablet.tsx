@@ -61,9 +61,9 @@ const TouchpointItemTablet = ({
           )}
           <FormField style={{ marginTop: appTheme.space.md }}>
             <Checkbox
-              key="ios"
-              value="ios"
+              key={`ios_${key}`}
               name={`ios_${key}`}
+              value="ios"
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'ios'}
               onBlur={handleBlur}
@@ -125,9 +125,9 @@ const TouchpointItemTablet = ({
           </FormField>
           <FormField style={{ marginTop: appTheme.space.xs }}>
             <Checkbox
-              key="android"
-              value="android"
+              key={`android_${key}`}
               name={`android_${key}`}
+              value="android"
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'android'}
               onBlur={handleBlur}
