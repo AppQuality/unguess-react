@@ -23,7 +23,10 @@ const useModuleTouchpoints = () => {
     const errors = o.reduce((acc, item, idx) => {
       const osEmpty = item.kind === 'app' && !item.os;
       const linkEmpty = !item.link || item.link.length === 0;
-      if (!linkEmpty || !osEmpty) return { ...acc };
+
+      if (item.kind === 'web' && !linkEmpty) return { ...acc };
+      if (item.kind === 'app' && !linkEmpty && !osEmpty) return { ...acc };
+
       return {
         ...acc,
         [idx]: {
@@ -62,15 +65,27 @@ const useModuleTouchpoints = () => {
     kind: NonNullable<typeof value>['output'][number]['kind'],
     form_factor: NonNullable<typeof value>['output'][number]['form_factor']
   ) => {
-    setOutput([
-      ...(value?.output || []),
-      {
-        kind,
-        form_factor,
-        link: '',
-        os: kind === 'app' ? '' : undefined,
-      },
-    ]);
+    if (kind === 'app') {
+      setOutput([
+        ...(value?.output || []),
+        {
+          kind,
+          form_factor,
+          os: '',
+          link: '',
+        },
+      ]);
+    }
+    if (kind === 'web') {
+      setOutput([
+        ...(value?.output || []),
+        {
+          kind,
+          form_factor,
+          link: '',
+        },
+      ]);
+    }
   };
 
   const update = (k: number, v: Partial<(typeof output)[number]>) => {

@@ -35,6 +35,11 @@ const TouchpointItemDesktop = ({
       ? error[`touchpoints.${key}.link`]
       : false;
 
+  const osError =
+    error && typeof error === 'object' && `touchpoints.${key}.os` in error
+      ? error[`touchpoints.${key}.os`]
+      : false;
+
   const handleBlur = () => {
     validate();
   };
@@ -47,13 +52,22 @@ const TouchpointItemDesktop = ({
             {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_LABEL')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </Label>
+          {osError && (
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.sm }}
+            >
+              {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_ERROR')}
+            </Message>
+          )}
           <FormField style={{ marginTop: appTheme.space.md }}>
             <Checkbox
-              key="linux"
-              value="linux"
+              key={`linux_${key}`}
               name={`linux_${key}`}
+              value="linux"
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'linux'}
+              onBlur={handleBlur}
               onChange={(e) => {
                 update(key, { os: e.target.checked ? 'linux' : '' });
                 setIsLinux(e.target.checked);
@@ -112,13 +126,15 @@ const TouchpointItemDesktop = ({
           <FormField style={{ marginTop: appTheme.space.xs }}>
             <Checkbox
               key={`macos_${key}`}
-              name={`android_${key}`}
-              value="android"
+              name={`macos_${key}`}
+              value="macos_"
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'macos'}
+              onBlur={handleBlur}
               onChange={(e) => {
                 update(key, { os: e.target.checked ? 'macos' : '' });
                 setIsMacOs(e.target.checked);
+                validate();
               }}
             >
               <Label
@@ -127,7 +143,7 @@ const TouchpointItemDesktop = ({
                   fontSize: appTheme.fontSizes.md,
                 }}
               >
-                {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_ANDROID')}
+                {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_MACOS')}
               </Label>
             </Checkbox>
             {isMacOs && (
@@ -178,9 +194,11 @@ const TouchpointItemDesktop = ({
               value="windows"
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'windows'}
+              onBlur={handleBlur}
               onChange={(e) => {
                 update(key, { os: e.target.checked ? 'windows' : '' });
                 setIsWindows(e.target.checked);
+                validate();
               }}
             >
               <Label

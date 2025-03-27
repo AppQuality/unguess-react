@@ -50,7 +50,12 @@ const TouchpointItemNav = ({
       ? error[`touchpoints.${key}.link`]
       : false;
 
-  const hasErrors = linkError;
+  const osError =
+    error && typeof error === 'object' && `touchpoints.${key}.os` in error
+      ? error[`touchpoints.${key}.os`]
+      : false;
+
+  const hasErrors = linkError || osError;
 
   return (
     <TouchpointItemNavLink
@@ -76,9 +81,9 @@ const TouchpointItemNav = ({
           {getIconFromTouchpointOutput(touchpoint)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
-              {key + 1}.
+              {key + 1}.{' '}
               <Span isBold>
-                ${form_factor} ${kind}
+                {form_factor} {kind}
               </Span>
             </MD>
           </Ellipsis>

@@ -34,6 +34,11 @@ const TouchpointItemSmartphone = ({
       ? error[`touchpoints.${key}.link`]
       : false;
 
+  const osError =
+    error && typeof error === 'object' && `touchpoints.${key}.os` in error
+      ? error[`touchpoints.${key}.os`]
+      : false;
+
   const handleBlur = () => {
     validate();
   };
@@ -46,6 +51,14 @@ const TouchpointItemSmartphone = ({
             {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_LABEL')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </Label>
+          {osError && (
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.sm }}
+            >
+              {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_ERROR')}
+            </Message>
+          )}
           <FormField style={{ marginTop: appTheme.space.md }}>
             <Checkbox
               key="ios"
@@ -53,9 +66,11 @@ const TouchpointItemSmartphone = ({
               name={`ios_${key}`}
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'ios'}
+              onBlur={handleBlur}
               onChange={(e) => {
                 update(key, { os: e.target.checked ? 'ios' : '' });
                 setIsIos(e.target.checked);
+                validate();
               }}
             >
               <Label
@@ -115,9 +130,11 @@ const TouchpointItemSmartphone = ({
               name={`android_${key}`}
               disabled={getPlanStatus() !== 'draft'}
               checked={os === 'android'}
+              onBlur={handleBlur}
               onChange={(e) => {
                 update(key, { os: e.target.checked ? 'android' : '' });
                 setIsAndroid(e.target.checked);
+                validate();
               }}
             >
               <Label

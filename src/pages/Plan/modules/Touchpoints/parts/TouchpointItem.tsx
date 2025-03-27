@@ -45,7 +45,12 @@ const TouchpointItem = ({
       ? error[`touchpoints.${key}.link`]
       : false;
 
-  const hasError = linkError;
+  const osError =
+    error && typeof error === 'object' && `touchpoints.${key}.os` in error
+      ? error[`touchpoints.${key}.os`]
+      : false;
+
+  const hasError = linkError || osError;
 
   return (
     <>
