@@ -1,4 +1,6 @@
+import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
@@ -29,7 +31,8 @@ const NavBody = () => {
   const { activeTab } = usePlanTab();
   const availableModules =
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
-  const { getModules } = useModuleConfiguration();
+  const { getModules, getPlanStatus } = useModuleConfiguration();
+  const { hasFeatureFlag } = useFeatureFlag();
 
   return (
     <StickyContainer data-qa="plans-nav">
@@ -44,8 +47,13 @@ const NavBody = () => {
             </NavItem>
           ))}
       </div>
-      <AddBlockButton />
-      <AddBlockModal />
+      {getPlanStatus() === 'draft' &&
+        hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+          <>
+            <AddBlockButton />
+            <AddBlockModal />
+          </>
+        )}
     </StickyContainer>
   );
 };
