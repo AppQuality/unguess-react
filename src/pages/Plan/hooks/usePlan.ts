@@ -20,6 +20,7 @@ const usePlan = (planId?: string) => {
   return {
     isLoading,
     isFetching,
+    activeWorkspace,
     plan,
   };
 };
