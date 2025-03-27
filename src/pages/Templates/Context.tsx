@@ -1,5 +1,9 @@
-import { createContext, useContext, useMemo, useState, ReactNode } from 'react';
-import { CpReqTemplate } from 'src/features/api';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import {
+  CpReqTemplate,
+  useGetWorkspacesByWidTemplatesQuery,
+} from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { v4 as uuidv4 } from 'uuid'; // Import a UUID generator library like 'uuid'
 
 interface TemplatesContextProps {
@@ -9,6 +13,10 @@ interface TemplatesContextProps {
   setFieldIsTouched: (fieldIsTouched: boolean) => void;
   isDrawerOpen: boolean;
   setIsDrawerOpen: (isDrawerOpen: boolean) => void;
+  templatesByCategory: {
+    tailored: CpReqTemplate[];
+    unguess: CpReqTemplate[];
+  };
   selectedTemplate?: SelectedTemplate;
   setSelectedTemplate: (template: CpReqTemplate) => void;
 }
@@ -37,6 +45,34 @@ export const TemplatesContextProvider = ({
   const [selectedTemplate, setTemplate] =
     useState<TemplatesContextProps['selectedTemplate']>();
 
+  const { activeWorkspace } = useActiveWorkspace();
+  const { data } = useGetWorkspacesByWidTemplatesQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    {
+      skip: !activeWorkspace,
+    }
+  );
+
+  const templatesByCategory = useMemo(() => {
+    if (!data) return { tailored: [], unguess: [] };
+    return data.items.reduce<TemplatesContextProps['templatesByCategory']>(
+      (acc, template) => {
+        if (
+          'workspace_id' in template &&
+          typeof template.workspace_id === 'number'
+        ) {
+          acc.tailored.push(template);
+        } else {
+          acc.unguess.push(template);
+        }
+        return acc;
+      },
+      { tailored: [], unguess: [] }
+    );
+  }, [data]);
+
   // Function to update the selectedTemplate and add UUIDs to the requirements list
   const setSelectedTemplate = (template: CpReqTemplate) => {
     const updatedTemplate = {
@@ -57,6 +93,7 @@ export const TemplatesContextProvider = ({
       setFieldIsTouched,
       isDrawerOpen,
       setIsDrawerOpen,
+      templatesByCategory,
       selectedTemplate,
       setSelectedTemplate,
     }),
@@ -67,6 +104,7 @@ export const TemplatesContextProvider = ({
       setFieldIsTouched,
       isDrawerOpen,
       setIsDrawerOpen,
+      templatesByCategory,
       selectedTemplate,
     ]
   );

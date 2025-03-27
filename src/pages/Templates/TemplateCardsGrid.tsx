@@ -1,4 +1,5 @@
 import { Tag, TemplateCard } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { CpReqTemplate, Module } from 'src/features/api';
 import styled from 'styled-components';
@@ -24,6 +25,8 @@ export const TemplateCardsGrid = ({
   templates: CpReqTemplate[];
 }) => {
   const { setIsDrawerOpen, setSelectedTemplate } = useTemplatesContext();
+  const { t } = useTranslation();
+
   return (
     <CardsGrid role="list">
       {templates.map((template) => {
@@ -36,6 +39,10 @@ export const TemplateCardsGrid = ({
         };
         return (
           <TemplateCard
+            i18n={{
+              tailoredHeader: t('__TEMPLATE_CARD_TAILORED_HEADER'),
+              unguessHeader: t('__TEMPLATE_CARD_UNGUESS_HEADER'),
+            }}
             role="listitem"
             data-qa="template-card"
             isTailored={isTemplateTailored(template)}

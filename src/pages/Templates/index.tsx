@@ -1,3 +1,4 @@
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -8,11 +9,10 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
+import { CategoriesNav } from './CategoriesNav';
 import { TemplatesContextProvider } from './Context';
 import { NewPlanDrawer } from './Drawer';
 import PageHeader from './PageHeader';
-import { Col, Grid, Row } from '@appquality/unguess-design-system';
-import { CategoriesNav } from './CategoriesNav';
 
 const Templates = () => {
   const { t } = useTranslation();

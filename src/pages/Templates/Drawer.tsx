@@ -107,7 +107,13 @@ export const NewPlanDrawer = () => {
       focusOnMount={false}
     >
       <Drawer.Header>
-        <TemplateCard.Meta isTailored={selectedTemplate.isTailored} />
+        <TemplateCard.Meta
+          i18n={{
+            tailoredHeader: t('__TEMPLATE_CARD_TAILORED_HEADER'),
+            unguessHeader: t('__TEMPLATE_CARD_UNGUESS_HEADER'),
+          }}
+          isTailored={selectedTemplate.isTailored}
+        />
       </Drawer.Header>
       <Drawer.Body>
         <LG isBold style={{ marginBottom: theme.space.xs }}>
