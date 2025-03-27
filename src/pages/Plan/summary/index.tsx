@@ -24,7 +24,11 @@ const SummaryBody = () => {
   const { setActiveTab } = usePlanTab();
   if (!plan) return null;
 
-  if (plan.status === 'draft') return setActiveTab('setup');
+  if (plan.status === 'draft') {
+    setActiveTab('setup');
+    return null;
+  }
+
   return (
     <Row>
       <Col sm="6" offsetSm={3}>

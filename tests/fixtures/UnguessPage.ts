@@ -57,6 +57,17 @@ export class UnguessPage {
     );
   }
 
+  async mocksharedWorkspacesList() {
+    await this.page.route(
+      '*/**/api/workspaces?orderBy=company',
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/workspaces/_get/200_shared.json',
+        });
+      }
+    );
+  }
+
   async mockPreferences() {
     await this.page.route('*/**/api/users/me/preferences', async (route) => {
       await route.fulfill({
@@ -111,6 +122,8 @@ export class UnguessPage {
   elements() {
     return {
       title: () => this.page.getByRole('heading', { level: 1 }),
+      mainNavigation: () =>
+        this.page.getByRole('navigation', { name: 'main-site-navigation' }),
     };
   }
 }
