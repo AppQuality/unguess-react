@@ -170,26 +170,6 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           </NavItemText>
         </NavItem>
 
-        {canViewTemplates && (
-          <NavItem
-            role="menuitem"
-            className="sidebar-first-level-item"
-            title="Templates"
-            isExpanded={isSidebarOpen}
-            isCurrent={route === 'templates'}
-            onClick={() => navigateTo('templates')}
-          >
-            <NavItemIcon>
-              {route === 'templates' ? (
-                <TemplatesIconActive />
-              ) : (
-                <TemplatesIcon />
-              )}
-            </NavItemIcon>
-            <NavItemText>{t('__APP_SIDEBAR_TEMPLATES_ITEM_LABEL')}</NavItemText>
-          </NavItem>
-        )}
-
         {/** Projects Accordion */}
         {projects && projects.length ? (
           <NavAccordionItem
@@ -238,6 +218,27 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         ) : null}
 
         <NavDivider isExpanded={isSidebarOpen} />
+
+        {/** Templates */}
+        {canViewTemplates && (
+          <NavItem
+            role="menuitem"
+            className="sidebar-first-level-item"
+            title="Templates"
+            isExpanded={isSidebarOpen}
+            isCurrent={route === 'templates'}
+            onClick={() => navigateTo('templates')}
+          >
+            <NavItemIcon>
+              {route === 'templates' ? (
+                <TemplatesIconActive />
+              ) : (
+                <TemplatesIcon />
+              )}
+            </NavItemIcon>
+            <NavItemText>{t('__APP_SIDEBAR_TEMPLATES_ITEM_LABEL')}</NavItemText>
+          </NavItem>
+        )}
 
         {/** Archive */}
         {archiveId && (
