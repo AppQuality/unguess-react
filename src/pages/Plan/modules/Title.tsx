@@ -46,9 +46,9 @@ const Title = () => {
     setOutput(e.target.value);
   };
   return (
-    <div>
+    <div data-qa="title-module">
       {getPlanStatus() === 'draft' ? (
-        <InputToggle className="editable-title" data-qa="title-module">
+        <InputToggle className="editable-title">
           <InputToggle.Item
             data-qa="title-input"
             onBlur={handleBlur}

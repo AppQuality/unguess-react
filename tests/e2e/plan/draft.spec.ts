@@ -87,6 +87,7 @@ test.describe('The module builder', () => {
         response.request().method() === 'PATCH'
     );
     await planPage.elements().requestQuotationCTA().click();
+    await planPage.elements().requestQuotationModalCTA().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
@@ -99,6 +100,7 @@ test.describe('The module builder', () => {
         response.request().method() === 'PATCH'
     );
     await planPage.elements().requestQuotationCTA().click();
+    await planPage.elements().requestQuotationModalCTA().click();
     const responseStatus = await patchStatusPromise;
     const dataStatus = responseStatus.request().postDataJSON();
     expect(dataStatus).toEqual({ status: 'pending_review' });

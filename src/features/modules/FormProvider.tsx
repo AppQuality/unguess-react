@@ -55,7 +55,10 @@ const FormProvider = ({
 }: {
   initialValues?: FormBody;
   children: ReactNode;
-  onSubmit: (values: FormBody, helpers: FormikHelpers<FormBody>) => void;
+  onSubmit: (
+    values: FormBody,
+    helpers: FormikHelpers<FormBody>
+  ) => Promise<void>;
 }) => (
   <Formik
     initialValues={

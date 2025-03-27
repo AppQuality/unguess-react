@@ -27,12 +27,30 @@ test.describe('The title module defines the Plan title.', () => {
   });
   test('It should have an output of a string, and should not be empty to Request a quote', async () => {
     await planPage.fillInputTItle('');
-    await expect(planPage.elements().titleModuleError()).toBeVisible();
-    await expect(planPage.elements().titleModuleError()).toHaveText(
+
+    const moduleTitle = planPage.elements().titleModule();
+    const moduleTitleCount = await moduleTitle.count();
+    expect(moduleTitleCount).toBe(1);
+
+    const titleError = planPage.elements().titleModuleError();
+    const titleErrorCount = await titleError.count();
+    expect(titleErrorCount).toBe(1);
+    await expect(titleError).toBeVisible();
+    await expect(titleError).toHaveText(
       planPage.i18n.t('__PLAN_TITLE_ERROR_EMPTY')
     );
+
     await planPage.elements().requestQuotationCTA().click();
-    await expect(planPage.elements().titleModuleError()).toBeVisible();
+
+    // Modal contains the title module and it should be in the same state
+    const requestQuotationModal = planPage.elements().requestQuotationModal();
+    await expect(requestQuotationModal).toBeVisible();
+    await expect(
+      requestQuotationModal.getByTestId('title-module')
+    ).toBeVisible();
+    await expect(
+      requestQuotationModal.getByTestId('title-error')
+    ).toBeVisible();
   });
   test('The title should have a maximum length of 256 characters', async () => {
     await planPage.elements().titleModule().click();

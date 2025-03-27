@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useGetWorkspacesByWidPlansAndPidQuery } from 'src/features/api';
 import { useParams } from 'react-router-dom';
-
 import { BreadCrumbTabs } from './BreadCrumbTabs';
 import { TitleGroup } from './TitleGroup';
 import { Controls } from '../../Controls';
@@ -80,6 +79,7 @@ const PlanPageHeader = () => {
             padding: `${appTheme.space.md} 0`,
             border: 'none',
           }}
+          data-qa="plan-page-header"
         >
           <PageHeader.Main mainTitle={t('__PLAN_PAGE_TITLE')}>
             <StyledWrapper>

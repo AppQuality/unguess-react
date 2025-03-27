@@ -13,27 +13,26 @@ export class PlanPage extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
+      pageHeader: () => this.page.getByTestId('plan-page-header'),
+      requestQuotationModal: () =>
+        this.page.getByTestId('request-quotation-modal'),
       goalModule: () => this.page.getByTestId('goal-module'),
       goalModuleInput: () => this.page.getByRole('textbox'),
       goalModuleError: () => this.page.getByTestId('goal-error'),
-      titleModule: () => this.page.getByTestId('title-module'),
+      titleModule: () =>
+        this.elements().pageHeader().getByTestId('title-module'),
       titleModuleInput: () =>
-        this.elements().titleModule().getByRole('textbox'),
-      titleModuleError: () => this.page.getByTestId('title-error'),
+        this.elements().titleModule().getByTestId('title-input'),
+      titleModuleOutput: () =>
+        this.elements().titleModule().getByTestId('title-output'),
+      titleModuleError: () =>
+        this.elements().titleModule().getByTestId('title-error'),
       tasksModule: () => this.page.getByTestId('tasks-module'),
       datesModule: () => this.page.getByTestId('dates-module'),
-      datesModuleInput: () =>
-        this.elements().datesModule().getByRole('textbox'),
-      datesModuleChangeVariant: () =>
-        this.elements().datesModule().getByTestId('change-variant'),
+      datesModuleDatepicker: () =>
+        this.elements().datesModule().getByTestId('dates-datepicker'),
       datesModuleError: () =>
         this.elements().datesModule().getByTestId('dates-error'),
-      datesModuleRemove: () =>
-        this.elements()
-          .datesModule()
-          .getByRole('button', {
-            name: this.i18n.t('__PLAN_REMOVE_MODULE_CTA'),
-          }),
       languageModule: () => this.page.getByTestId('language-module'),
       languageRadioInput: () =>
         this.elements().languageModule().getByRole('radio'),
@@ -47,13 +46,17 @@ export class PlanPage extends UnguessPage {
         this.elements().targetModule().getByTestId('target-error'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       saveConfigurationCTA: () =>
-        this.page.getByRole('button', {
-          name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
-        }),
+        this.elements()
+          .pageHeader()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
+          }),
       requestQuotationCTA: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
         }),
+      requestQuotationModalCTA: () =>
+        this.page.getByTestId('request-quotation-modal-cta'),
       requestQuotationErrorMessage: () =>
         this.page.getByTestId('request-quotation-error-message'),
       setupTab: () => this.page.getByTestId('setup-tab'),

@@ -5,7 +5,6 @@ import {
   Message,
   Span,
 } from '@appquality/unguess-design-system';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';

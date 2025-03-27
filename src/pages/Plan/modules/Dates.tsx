@@ -1,76 +1,38 @@
 import {
-  Button,
   Datepicker,
   FormField,
   Input,
-  Select,
+  Message,
 } from '@appquality/unguess-design-system';
 import { isBefore } from 'date-fns';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
-import {
-  FEATURE_FLAG_CHANGE_MODULES_VARIANTS,
-  PLAN_MINIMUM_DATE,
-} from 'src/constants';
+import { PLAN_MINIMUM_DATE } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { useState } from 'react';
 import { formatModuleDate } from '../utils/formatModuleDate';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
-const VariantSelect = () => {
-  const { value, setVariant } = useModule('dates');
-  const { getPlanStatus } = useModuleConfiguration();
-
-  const handleVariantChange = (variant: string) => {
-    setVariant(variant);
-  };
-
-  return (
-    <Select
-      data-qa="change-variant"
-      isDisabled={getPlanStatus() !== 'draft'}
-      onSelect={handleVariantChange}
-      label="Variant"
-      inputValue={value?.variant}
-      selectionValue={value?.variant}
-    >
-      <Select.Option value="default" label="Default" />
-      <Select.Option value="free" label="Free" />
-    </Select>
-  );
-};
-
 export const Dates = () => {
-  const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput, remove } = useModule('dates');
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const { getPlanStatus } = useModuleConfiguration();
-
-  const handleDelete = () => {
-    setIsOpenDeleteModal(true);
-  };
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'dates' }
   ) => {
-    let error;
     if (!module.output.start) {
-      error = t('__PLAN_DATE_ERROR_REQUIRED');
+      return { start: t('__PLAN_DATE_ERROR_REQUIRED') };
     }
-    if (module.variant === 'default') {
-      // is the first date after the second one?
-      if (isBefore(new Date(module.output.start), PLAN_MINIMUM_DATE)) {
-        error = t('__PLAN_DATE_IN_FUTURE_ERROR');
-      }
+    if (isBefore(new Date(module.output.start), PLAN_MINIMUM_DATE)) {
+      return { start: t('__PLAN_DATE_IN_FUTURE_ERROR') };
     }
-    return error || true;
+    return true;
   };
 
-  const { validate } = useValidation({
+  const { error, validate } = useValidation({
     type: 'dates',
     validate: validation,
   });
@@ -97,18 +59,13 @@ export const Dates = () => {
     return undefined;
   };
 
+  const datesError =
+    error && typeof error === 'object' && `dates.start` in error
+      ? error[`dates.start`]
+      : false;
+
   return (
     <div data-qa="dates-module">
-      {/* FEATURE FLAG */}
-      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-        <VariantSelect />
-      )}
-      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-        getPlanStatus() === 'draft' && (
-          <Button onClick={handleDelete}>
-            {t('__PLAN_REMOVE_MODULE_CTA')}
-          </Button>
-        )}
       <FormField>
         <Datepicker
           value={getValue()}
@@ -119,14 +76,15 @@ export const Dates = () => {
           <Input onBlur={handleBlur} />
         </Datepicker>
       </FormField>
-      {/* {error && (
-        <SM
-          style={{ color: appTheme.components.text.dangerColor }}
+      {datesError && (
+        <Message
+          validation="error"
           data-qa="dates-error"
+          style={{ marginTop: appTheme.space.sm }}
         >
-          {error}
-        </SM>
-      )} */}
+          {datesError}
+        </Message>
+      )}
       {isOpenDeleteModal && (
         <DeleteModuleConfirmationModal
           onQuit={() => setIsOpenDeleteModal(false)}

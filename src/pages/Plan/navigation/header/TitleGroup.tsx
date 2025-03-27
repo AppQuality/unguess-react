@@ -34,7 +34,7 @@ export const TitleGroup = () => {
             <Anchor>{plan.project.name}</Anchor>
           </Link>
         </Breadcrumb>
-        <Title data-qa="title-module" />
+        <Title />
       </div>
     </StyledDiv>
   );

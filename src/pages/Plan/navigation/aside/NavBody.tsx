@@ -1,5 +1,8 @@
+import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { StickyContainer } from '../../common/StickyContainer';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
 import { AddBlockButton } from './AddBlockButton';
@@ -8,28 +11,12 @@ import { AddBlockModal } from './modal/AddBlockModal';
 import { NavItem } from './NavItem';
 import { NavItemChildren } from './NavItemChildren';
 
-const StickyContainer = styled.div`
-  position: sticky;
-  top: ${({ theme }) => theme.space.md};
-  max-height: calc(
-    100vh - ${({ theme }) => theme.components.chrome.header.height} -
-      ${({ theme }) => theme.space.xxl} - ${({ theme }) => theme.space.xxl}
-  );
-  overflow-y: auto;
-  padding: ${({ theme }) => theme.space.sm};
-  z-index: ${({ theme }) => theme.levels.front};
-  padding-bottom: ${({ theme }) => theme.space.xxl};
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
 const NavBody = () => {
   const { activeTab } = usePlanTab();
   const availableModules =
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
-  const { getModules } = useModuleConfiguration();
+  const { getModules, getPlanStatus } = useModuleConfiguration();
+  const { hasFeatureFlag } = useFeatureFlag();
 
   return (
     <StickyContainer data-qa="plans-nav">
@@ -44,8 +31,13 @@ const NavBody = () => {
             </NavItem>
           ))}
       </div>
-      <AddBlockButton />
-      <AddBlockModal />
+      {getPlanStatus() === 'draft' &&
+        hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+          <>
+            <AddBlockButton />
+            <AddBlockModal />
+          </>
+        )}
     </StickyContainer>
   );
 };

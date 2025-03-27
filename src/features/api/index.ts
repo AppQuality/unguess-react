@@ -1784,6 +1784,12 @@ export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
     status: 'pending' | 'proposed' | 'approved' | 'rejected';
     value: string;
   };
+  campaign?: {
+    id: number;
+    /** CustomerTitle ?? Title */
+    title: string;
+    startDate: string;
+  };
 };
 export type GetWorkspacesByWidPlansAndPidApiArg = {
   wid: string;
