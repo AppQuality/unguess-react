@@ -51,17 +51,17 @@ export const useValidation = <
 
     if (validation === true) {
       setIsValid(true);
-      setErrors(newErrors);
+      setErrors((prev) => ({ ...prev, ...newErrors }));
       return true;
     }
 
     setIsValid(false);
 
     if (typeof validation === 'string') {
-      setErrors({ ...newErrors, [type]: validation });
+      setErrors((prev) => ({ ...prev, [type]: validation }));
     } else {
       const errorObject = flattenObject(validation, type);
-      setErrors({ ...newErrors, ...errorObject });
+      setErrors((prev) => ({ ...prev, ...newErrors, ...errorObject }));
     }
 
     return false;
