@@ -31,7 +31,7 @@ const NavBody = () => {
   const { activeTab } = usePlanTab();
   const availableModules =
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
-  const { getModules } = useModuleConfiguration();
+  const { getModules, getPlanStatus } = useModuleConfiguration();
   const { hasFeatureFlag } = useFeatureFlag();
 
   return (
@@ -47,12 +47,13 @@ const NavBody = () => {
             </NavItem>
           ))}
       </div>
-      {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-        <>
-          <AddBlockButton />
-          <AddBlockModal />
-        </>
-      )}
+      {getPlanStatus() === 'draft' &&
+        hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
+          <>
+            <AddBlockButton />
+            <AddBlockModal />
+          </>
+        )}
     </StickyContainer>
   );
 };
