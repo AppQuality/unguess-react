@@ -1,8 +1,4 @@
-import {
-  AccordionNew,
-  Button,
-  Message,
-} from '@appquality/unguess-design-system';
+import { AccordionNew, Button } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
