@@ -2,7 +2,6 @@ import {
   Alert,
   Button,
   ContainerCard,
-  MD,
   Paragraph,
   Span,
   UnorderedList,

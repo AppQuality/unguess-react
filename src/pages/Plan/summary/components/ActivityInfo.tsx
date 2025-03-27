@@ -7,7 +7,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { format, isSameDay } from 'date-fns';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
@@ -119,36 +119,33 @@ export const ActivityInfo = () => {
       </PlanContentDiv>
 
       <Notes>
-        <MD
-          isBold
-          style={{
-            marginBottom: appTheme.space.xs,
-            color: appTheme.palette.grey[800],
-          }}
-        >
-          {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_TITLE')}
-        </MD>
-
-        <UnorderedList>
-          <UnorderedList.Item>
-            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_P1')}
-          </UnorderedList.Item>
-          <UnorderedList.Item>
-            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_P2')}
-          </UnorderedList.Item>
-          <UnorderedList.Item>
-            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_P3')}
-          </UnorderedList.Item>
-          <UnorderedList.Item>
-            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_P4')}
-          </UnorderedList.Item>
-          <UnorderedList.Item>
-            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_P5')}
-          </UnorderedList.Item>
-          <UnorderedList.Item>
-            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_P6')}
-          </UnorderedList.Item>
-        </UnorderedList>
+        <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_DESCRIPTION">
+          <MD
+            isBold
+            style={{
+              marginBottom: appTheme.space.xs,
+              color: appTheme.palette.grey[800],
+            }}
+          >
+            Factors that can affect the price and start date:
+          </MD>
+          <UnorderedList>
+            <UnorderedList.Item>
+              Number and complexity of tasks
+            </UnorderedList.Item>
+            <UnorderedList.Item>
+              Timeline and urgency requirements
+            </UnorderedList.Item>
+            <UnorderedList.Item>
+              User incentives and recruitment needs
+            </UnorderedList.Item>
+            <UnorderedList.Item>Research activities scope</UnorderedList.Item>
+            <UnorderedList.Item>
+              Project management activities
+            </UnorderedList.Item>
+            <UnorderedList.Item>Additional customizations</UnorderedList.Item>
+          </UnorderedList>
+        </Trans>
       </Notes>
     </ContainerCard>
   );

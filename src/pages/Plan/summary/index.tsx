@@ -8,6 +8,7 @@ import { usePlan } from '../hooks/usePlan';
 import { ActivityInfo } from './components/ActivityInfo';
 import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
+import { GoToDashboardCard } from './components/GoToDashboard';
 import { IntroductionCard } from './components/IntroductionCard';
 
 const StyledDiv = styled.div`
@@ -34,6 +35,7 @@ const SummaryBody = () => {
           <IntroductionCard />
           <ActivityInfo />
           <ConfirmationCard />
+          <GoToDashboardCard />
         </StyledDiv>
       </Col>
       <Col sm="3">

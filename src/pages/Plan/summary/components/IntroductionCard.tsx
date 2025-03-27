@@ -39,10 +39,6 @@ export const IntroductionCard = () => {
 
   if (plan.status === 'draft') return null;
 
-  console.log(
-    '🚀 ~ IntroductionCard ~ plan.quote.status:',
-    plan?.quote?.status
-  );
   return (
     <ContainerCard>
       <ContentRow>
