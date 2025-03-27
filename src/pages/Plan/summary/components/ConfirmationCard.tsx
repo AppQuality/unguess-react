@@ -1,6 +1,14 @@
-import { Button, ContainerCard } from '@appquality/unguess-design-system';
+import {
+  Alert,
+  Button,
+  ContainerCard,
+  MD,
+  Paragraph,
+  Span,
+  UnorderedList,
+} from '@appquality/unguess-design-system';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from 'src/features/api';
@@ -10,8 +18,20 @@ import { Title } from './typography/Title';
 
 const Footer = styled.div`
   display: flex;
-  gap: ${appTheme.space.xs};
+  gap: ${({ theme }) => theme.space.xs};
   align-items: center;
+  margin-top: ${({ theme }) => theme.space.lg};
+`;
+
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${appTheme.space.md};
+`;
+
+const StyledList = styled(UnorderedList)`
+  margin-bottom: ${appTheme.space.sm};
+  margin-top: ${appTheme.space.xs};
 `;
 
 export const ConfirmationCard = () => {
@@ -33,6 +53,37 @@ export const ConfirmationCard = () => {
       <Title style={{ marginBottom: appTheme.space.xs }}>
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_TITLE')}
       </Title>
+      <Body>
+        <div>
+          <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_DESCRIPTION">
+            Your quotation is confirmed.
+            <Paragraph>
+              <Span isBold>Approve now</Span> to{' '}
+              <Span isBold>secure your date</Span> and begin collecting valuable
+              insights:
+            </Paragraph>
+            <StyledList>
+              <UnorderedList.Item>
+                Start on the scheduled date
+              </UnorderedList.Item>
+              <UnorderedList.Item>
+                Collect valuable user feedback for your digital product
+              </UnorderedList.Item>
+              <UnorderedList.Item>
+                Receive notifications when first results become available
+              </UnorderedList.Item>
+            </StyledList>
+            You can also <Span isBold>return to draft status</Span> if you need
+            to make changes.
+          </Trans>
+        </div>
+        <Alert type="warning">
+          <Alert.Title>
+            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE')}
+          </Alert.Title>
+          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION')}
+        </Alert>
+      </Body>
       <Footer>
         <Button
           isDanger
