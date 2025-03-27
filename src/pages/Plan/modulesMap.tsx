@@ -15,7 +15,15 @@ import Browser from './modules/Browser';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal'],
-  target: ['target_note', 'target', 'language', 'gender', 'age', 'literacy'],
+  target: [
+    'target_note',
+    'target',
+    'language',
+    'gender',
+    'age',
+    'literacy',
+    'browser',
+  ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
 
