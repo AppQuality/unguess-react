@@ -53,7 +53,7 @@ export const IntroductionCard = () => {
               <SubmittedImage />
             </ImageItem>
             <ContentItem>
-              <Title>
+              <Title isBold>
                 {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_TITLE')}
               </Title>
               <Description>
@@ -70,7 +70,7 @@ export const IntroductionCard = () => {
               <AwaitingImage />
             </ImageItem>
             <ContentItem>
-              <Title>
+              <Title isBold>
                 {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_TITLE')}
               </Title>
               <Description>
@@ -87,7 +87,9 @@ export const IntroductionCard = () => {
               <ApprovedImage />
             </ImageItem>
             <ContentItem>
-              <Title>{t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}</Title>
+              <Title isBold>
+                {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}
+              </Title>
               <Description>
                 {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_DESCRIPTION')}
               </Description>
