@@ -5,13 +5,13 @@ import { FormBody } from './types';
 interface ValidationContextType {
   errors?: Record<string, string>;
   setErrors: (errors: Record<string, string>) => void;
-  validateForm: () => void;
-  addValidationFunction: (type: string, validate: () => void) => void;
+  validateForm: () => Promise<void>;
+  addValidationFunction: (type: string, validate: () => Promise<void>) => void;
 }
 
 export const ValidationContext = createContext<ValidationContextType>({
   setErrors: () => {},
-  validateForm: () => {},
+  validateForm: () => Promise.resolve(),
   addValidationFunction: () => {},
 });
 
@@ -20,10 +20,13 @@ export const useValidationContext = () => useContext(ValidationContext);
 const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [validationFunctions, setValidationFunctions] = useState<
-    Record<string, () => void>
+    Record<string, () => Promise<void>>
   >({});
 
-  const addValidationFunction = (type: string, validate: () => void) => {
+  const addValidationFunction = (
+    type: string,
+    validate: () => Promise<void>
+  ) => {
     setValidationFunctions((prev) => ({ ...prev, [type]: validate }));
   };
 
@@ -31,10 +34,10 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       errors,
       setErrors,
-      validateForm: () => {
-        Object.entries(validationFunctions).forEach(([_, validate]) => {
-          validate();
-        });
+      validateForm: async () => {
+        await Promise.all(
+          Object.entries(validationFunctions).map(([_, validate]) => validate())
+        );
       },
       addValidationFunction,
     }),

@@ -5,7 +5,7 @@ import {
   Message,
 } from '@appquality/unguess-design-system';
 import { isBefore } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
@@ -63,6 +63,10 @@ export const Dates = () => {
     error && typeof error === 'object' && `dates.start` in error
       ? error[`dates.start`]
       : false;
+
+  /*   useEffect(() => {
+    validate();
+  }, []); */
 
   return (
     <div data-qa="dates-module">
