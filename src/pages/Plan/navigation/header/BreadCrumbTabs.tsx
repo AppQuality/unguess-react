@@ -1,6 +1,7 @@
 import { Breadcrumb, Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useValidationContext } from 'src/features/modules/FormProvider';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
@@ -15,6 +16,7 @@ export const BreadCrumbTabs = () => {
   const { t } = useTranslation();
   const { activeTab, setActiveTab } = usePlanTab();
   const { errors } = useValidationContext();
+  const { getPlanStatus } = useModuleConfiguration();
 
   const availableModules = MODULES_BY_TAB;
 
@@ -82,7 +84,7 @@ export const BreadCrumbTabs = () => {
         isBasic
         size="small"
         isPrimary={activeTab === 'summary'}
-        disabled
+        disabled={getPlanStatus() === 'draft'}
         onClick={() => setActiveTab('summary')}
         data-qa="summary-tab"
       >

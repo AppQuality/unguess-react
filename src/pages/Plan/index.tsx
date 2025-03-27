@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import {
+  GetWorkspacesByWidPlansAndPidApiResponse,
   useGetWorkspacesByWidPlansAndPidQuery,
   usePatchWorkspacesByWidPlansAndPidMutation,
 } from 'src/features/api';
@@ -11,15 +12,44 @@ import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
-import { PlanProvider } from './context/planContext';
+import { PlanProvider, usePlanTab } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
 import { formatModuleDate } from './utils/formatModuleDate';
 
-const Plan = () => {
+const PlanPage = ({
+  plan,
+}: {
+  plan: GetWorkspacesByWidPlansAndPidApiResponse | undefined;
+}) => {
   const { t } = useTranslation();
-  const { planId } = useParams();
+  const { activeTab, setActiveTab } = usePlanTab();
+
+  useEffect(() => {
+    if (!plan) return;
+
+    if (activeTab !== 'summary' && plan.status !== 'draft') {
+      setActiveTab('summary');
+    }
+  }, [plan]);
+
+  return (
+    <Page
+      title={t('__PLAN_PAGE_TITLE')}
+      className="plan-page"
+      pageHeader={<PlanPageHeader />}
+      route="plan"
+      isMinimal
+      excludeMarginTop
+    >
+      <PlanBody />
+    </Page>
+  );
+};
+
+const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
+  const { planId } = useParams();
   const [patchPlan] = usePatchWorkspacesByWidPlansAndPidMutation();
   const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery(
     {
@@ -81,16 +111,7 @@ const Plan = () => {
   return (
     <FormProvider onSubmit={handleSubmit} initialValues={initialValues}>
       <PlanProvider>
-        <Page
-          title={t('__PLAN_PAGE_TITLE')}
-          className="plan-page"
-          pageHeader={<PlanPageHeader />}
-          route="plan"
-          isMinimal
-          excludeMarginTop
-        >
-          <PlanBody />
-        </Page>
+        <PlanPage plan={plan} />
       </PlanProvider>
     </FormProvider>
   );
