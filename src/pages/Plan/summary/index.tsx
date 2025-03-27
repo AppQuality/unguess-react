@@ -23,8 +23,11 @@ const SummaryBody = () => {
   const { plan } = usePlan(planId);
   const { setActiveTab } = usePlanTab();
   if (!plan) return null;
-
-  if (plan.status === 'draft') setActiveTab('setup');
+  
+  if (plan.status === 'draft') {
+    setActiveTab('setup');
+    return null;
+  }
 
   return (
     <Row>

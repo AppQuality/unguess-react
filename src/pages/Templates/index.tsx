@@ -1,3 +1,4 @@
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -5,9 +6,12 @@ import { PageLoader } from 'src/common/components/PageLoader';
 import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
+import { CategoriesNav } from './CategoriesNav';
 import { TemplatesContextProvider } from './Context';
+import { NewPlanDrawer } from './Drawer';
 import PageHeader from './PageHeader';
 
 const Templates = () => {
@@ -17,6 +21,7 @@ const Templates = () => {
   const location = useLocation();
   const { activeWorkspace } = useActiveWorkspace();
   const { status } = useAppSelector((state) => state.user);
+  const canViewTemplates = useCanAccessToActiveWorkspace();
   const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
@@ -26,14 +31,14 @@ const Templates = () => {
     }
   );
 
-  if (isError) {
+  if (!data || isLoading || status === 'loading') {
+    return <PageLoader />;
+  }
+
+  if (!canViewTemplates || isError) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
-  }
-
-  if (!data || isLoading || status === 'loading') {
-    return <PageLoader />;
   }
 
   return (
@@ -43,7 +48,17 @@ const Templates = () => {
       route="templates"
     >
       <TemplatesContextProvider>
-        <Body />
+        <Grid>
+          <Row>
+            <Col xs={12} lg={2} style={{ margin: 0 }}>
+              <CategoriesNav />
+            </Col>
+            <Col xs={12} lg={10}>
+              <Body />
+            </Col>
+          </Row>
+        </Grid>
+        <NewPlanDrawer />
       </TemplatesContextProvider>
     </Page>
   );
