@@ -1,5 +1,6 @@
 import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { TabTitle } from './common/TabTitle';
 import { PlanTab } from './context/planContext';
 import { MODULES_BY_TAB, modulesMap } from './modulesMap';
 
@@ -14,6 +15,7 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
 
   return (
     <>
+      <TabTitle tabId={tabId} />
       {getModules().map((module) => {
         const isVisible = availableModules.includes(module.type);
 
