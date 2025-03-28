@@ -1,14 +1,16 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageLoader } from 'src/common/components/PageLoader';
+import { useGetWorkspacesByWidTemplatesAndTidQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { SingleTemplatePageHeader } from './SingleTemplatePageHeader';
+import {
+  getTemplateTitle,
+  SingleTemplatePageHeader,
+} from './SingleTemplatePageHeader';
 import { TemplateTimeline } from './TemplateTimeline';
-import { getTemplateTitle } from './SingleTemplatePageHeader';
-import { useGetWorkspacesByWidTemplatesAndTidQuery } from 'src/features/api';
 
 const Template = () => {
   const { templateId } = useParams();
@@ -23,7 +25,7 @@ const Template = () => {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
-    return;
+    return null;
   }
 
   const { data, isLoading, isError } =

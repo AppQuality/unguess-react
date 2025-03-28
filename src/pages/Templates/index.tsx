@@ -1,8 +1,10 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { PageLoader } from 'src/common/components/PageLoader';
+import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -10,8 +12,7 @@ import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWor
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
 import { CategoriesNav } from './CategoriesNav';
-import { TemplatesContextProvider } from './Context';
-import { NewPlanDrawer } from './Drawer';
+import { TemplatesContextProvider, useTemplatesContext } from './Context';
 import PageHeader from './PageHeader';
 
 const Templates = () => {
@@ -22,6 +23,8 @@ const Templates = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const { status } = useAppSelector((state) => state.user);
   const canViewTemplates = useCanAccessToActiveWorkspace();
+  const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } =
+    useTemplatesContext();
   const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
@@ -34,6 +37,10 @@ const Templates = () => {
   if (!data || isLoading || status === 'loading') {
     return <PageLoader />;
   }
+
+  const handleCloseDrawer = useCallback(() => {
+    setIsDrawerOpen(false);
+  }, [setIsDrawerOpen]);
 
   if (!canViewTemplates || isError) {
     navigate(notFoundRoute, {
@@ -58,7 +65,13 @@ const Templates = () => {
             </Col>
           </Row>
         </Grid>
-        <NewPlanDrawer />
+        {selectedTemplate && (
+          <PlanCreationInterface
+            isOpen={isDrawerOpen}
+            onClose={handleCloseDrawer}
+            template={selectedTemplate}
+          />
+        )}
       </TemplatesContextProvider>
     </Page>
   );

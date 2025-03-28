@@ -4,7 +4,6 @@ import {
   Paragraph,
   TemplateCard,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
@@ -17,9 +16,7 @@ import { LaunchActivityCTA } from './LaunchActivityCTA';
 
 export const getTemplateTitle = (
   data: GetWorkspacesByWidTemplatesAndTidApiResponse
-) => {
-  return data.strapi?.title || data.name;
-};
+) => data.strapi?.title || data.name;
 
 export const SingleTemplatePageHeader = ({
   template,
@@ -29,7 +26,6 @@ export const SingleTemplatePageHeader = ({
   const navigate = useNavigate();
   const workspaceRoute = useLocalizeRoute('');
   const { activeWorkspace } = useActiveWorkspace();
-  const { t } = useTranslation();
 
   return (
     <LayoutWrapper>

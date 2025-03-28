@@ -10,14 +10,20 @@ import {
   TemplateCard,
   theme,
 } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { usePostWorkspacesByWidPlansMutation } from 'src/features/api';
+import { isTemplateTailored } from 'src/common/isTemplateTailored';
+import {
+  CpReqTemplate,
+  usePostWorkspacesByWidPlansMutation,
+} from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { useTemplatesContext } from './Context';
+import { v4 as uuidv4 } from 'uuid'; // Import a UUID generator library like 'uuid'
+import { usePlanCreationContext } from './Context';
 import { ProjectDropdown } from './ProjectDropdown';
 
 const TagContainer = styled.div`
@@ -48,24 +54,39 @@ const RequirementsContainer = styled.div`
   }
 `;
 
-export const NewPlanDrawer = () => {
+export interface PlanCreationProps {
+  isOpen: boolean;
+  onClose: () => void;
+  template: CpReqTemplate;
+}
+
+export const NewPlanDrawer = ({
+  onClose,
+  isOpen,
+  template,
+}: PlanCreationProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { activeWorkspace } = useActiveWorkspace();
-  const {
-    setIsDrawerOpen,
-    isDrawerOpen,
-    selectedTemplate,
-    setFieldIsTouched,
-    projectId,
-  } = useTemplatesContext();
-  const onClose = () => {
-    setIsDrawerOpen(false);
+  const { setFieldIsTouched, projectId } = usePlanCreationContext();
+  const handleClose = () => {
+    onClose();
   };
   const [createPlan] = usePostWorkspacesByWidPlansMutation();
   const plansRoute = useLocalizeRoute('plans');
 
-  if (!selectedTemplate) {
+  const selectedTemplate = useMemo(
+    () => ({
+      ...template,
+      isTailored: isTemplateTailored(template),
+      requirementsItems: template.strapi?.requirements?.list.map(
+        (requirement) => ({ value: requirement, id: uuidv4() })
+      ),
+    }),
+    [template]
+  );
+
+  if (!template) {
     return null;
     // todo: handle this case properly
   }
@@ -99,10 +120,8 @@ export const NewPlanDrawer = () => {
   return (
     <Drawer
       data-qa="plan-creation-interface"
-      isOpen={isDrawerOpen}
-      onClose={() => {
-        onClose();
-      }}
+      isOpen={isOpen}
+      onClose={handleClose}
       restoreFocus={false}
       focusOnMount={false}
     >
@@ -204,3 +223,5 @@ export const NewPlanDrawer = () => {
     </Drawer>
   );
 };
+
+export default NewPlanDrawer;
