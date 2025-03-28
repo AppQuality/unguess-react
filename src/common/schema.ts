@@ -1516,48 +1516,62 @@ export interface components {
       kind: 'app';
       /** @enum {string} */
       form_factor: 'desktop';
-      os?: string;
-      link: string;
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
     };
     OutputModuleTouchpointsAppTablet: {
       /** @enum {string} */
       kind: 'app';
       /** @enum {string} */
       form_factor: 'tablet';
-      os?: string;
-      link: string;
+      os: {
+        android?: string;
+        ios?: string;
+      };
     };
     OutputModuleTouchpointsAppMobile: {
       /** @enum {string} */
       kind: 'app';
       /** @enum {string} */
       form_factor: 'smartphone';
-      os?: string;
-      link: string;
+      os: {
+        android?: string;
+        ios?: string;
+      };
     };
     OutputModuleTouchpointsWebDesktop: {
       /** @enum {string} */
       kind: 'web';
       /** @enum {string} */
       form_factor: 'desktop';
-      os?: string;
-      link: string;
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
     };
     OutputModuleTouchpointsWebTablet: {
       /** @enum {string} */
       kind: 'web';
       /** @enum {string} */
       form_factor: 'tablet';
-      os?: string;
-      link: string;
+      os: {
+        android?: string;
+        ios?: string;
+      };
     };
     OutputModuleTouchpointsWebMobile: {
       /** @enum {string} */
       kind: 'web';
       /** @enum {string} */
       form_factor: 'smartphone';
-      os?: string;
-      link: string;
+      os: {
+        android?: string;
+        ios?: string;
+      };
     };
     /** SubcomponentTask */
     OutputModuleTask:

@@ -14,6 +14,7 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/link-fill.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTouchpoints } from '../hooks';
+import { TouchpointWeb } from './TouchpointWeb';
 
 const TouchpointItemDesktop = ({
   touchpoint,
@@ -23,16 +24,26 @@ const TouchpointItemDesktop = ({
   };
 }) => {
   const { t } = useTranslation();
-  const { update, validate, error } = useModuleTouchpoints();
+  const { update, validate, error, value } = useModuleTouchpoints();
   const { getPlanStatus } = useModuleConfiguration();
-  const { key, kind, os, link } = touchpoint;
-  const [isLinux, setIsLinux] = useState(os === 'linux');
-  const [isMacOs, setIsMacOs] = useState(os === 'macos');
-  const [isWindows, setIsWindows] = useState(os === 'windows');
+  const { key, kind, os } = touchpoint;
+  const [isLinux, setIsLinux] = useState('linux' in os);
+  const [isMacOs, setIsMacOs] = useState('macos' in os);
+  const [isWindows, setIsWindows] = useState('windows' in os);
 
-  const linkError =
-    error && typeof error === 'object' && `touchpoints.${key}.link` in error
-      ? error[`touchpoints.${key}.link`]
+  const linuxError =
+    error && typeof error === 'object' && `touchpoints.${key}.os.linux` in error
+      ? error[`touchpoints.${key}.os.linux`]
+      : false;
+  const macosError =
+    error && typeof error === 'object' && `touchpoints.${key}.os.macos` in error
+      ? error[`touchpoints.${key}.os.macos`]
+      : false;
+  const windowsError =
+    error &&
+    typeof error === 'object' &&
+    `touchpoints.${key}.os.windows` in error
+      ? error[`touchpoints.${key}.os.windows`]
       : false;
 
   const osError =
@@ -43,6 +54,9 @@ const TouchpointItemDesktop = ({
   const handleBlur = () => {
     validate();
   };
+
+  console.log('values', value);
+  console.log('errors', error);
 
   return (
     <>
@@ -66,11 +80,16 @@ const TouchpointItemDesktop = ({
               name={`linux_${key}`}
               value="linux"
               disabled={getPlanStatus() !== 'draft'}
-              checked={os === 'linux'}
-              onBlur={handleBlur}
+              checked={'linux' in os}
               onChange={(e) => {
-                update(key, { os: e.target.checked ? 'linux' : '' });
+                update(key, {
+                  os: {
+                    ...os,
+                    ...(e.target.checked ? { linux: '' } : {}),
+                  },
+                });
                 setIsLinux(e.target.checked);
+                validate();
               }}
             >
               <Label
@@ -109,10 +128,12 @@ const TouchpointItemDesktop = ({
                   start={<LinkIcon />}
                   type="text"
                   disabled={getPlanStatus() !== 'draft'}
-                  value={link}
+                  value={'linux' in os ? os.linux : ''}
                   onBlur={handleBlur}
-                  onChange={(e) => update(key, { link: e.target.value })}
-                  {...(linkError && { validation: 'error' })}
+                  onChange={(e) =>
+                    update(key, { os: { ...os, linux: e.target.value } })
+                  }
+                  {...(linuxError && { validation: 'error' })}
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
@@ -120,6 +141,9 @@ const TouchpointItemDesktop = ({
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
+                {linuxError && (
+                  <Message validation="error">{linuxError}</Message>
+                )}
               </FormField>
             )}
           </FormField>
@@ -129,10 +153,14 @@ const TouchpointItemDesktop = ({
               name={`macos_${key}`}
               value="macos"
               disabled={getPlanStatus() !== 'draft'}
-              checked={os === 'macos'}
-              onBlur={handleBlur}
+              checked={'macos' in os}
               onChange={(e) => {
-                update(key, { os: e.target.checked ? 'macos' : '' });
+                update(key, {
+                  os: {
+                    ...os,
+                    ...(e.target.checked ? { macos: '' } : {}),
+                  },
+                });
                 setIsMacOs(e.target.checked);
                 validate();
               }}
@@ -173,10 +201,12 @@ const TouchpointItemDesktop = ({
                   start={<LinkIcon />}
                   type="text"
                   disabled={getPlanStatus() !== 'draft'}
-                  value={link}
+                  value={'macos' in os ? os.macos : ''}
                   onBlur={handleBlur}
-                  onChange={(e) => update(key, { link: e.target.value })}
-                  {...(linkError && { validation: 'error' })}
+                  onChange={(e) =>
+                    update(key, { os: { ...os, macos: e.target.value } })
+                  }
+                  {...(macosError && { validation: 'error' })}
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
@@ -184,6 +214,9 @@ const TouchpointItemDesktop = ({
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
+                {macosError && (
+                  <Message validation="error">{macosError}</Message>
+                )}
               </FormField>
             )}
           </FormField>
@@ -193,10 +226,14 @@ const TouchpointItemDesktop = ({
               name={`windows_${key}`}
               value="windows"
               disabled={getPlanStatus() !== 'draft'}
-              checked={os === 'windows'}
-              onBlur={handleBlur}
+              checked={'windows' in os}
               onChange={(e) => {
-                update(key, { os: e.target.checked ? 'windows' : '' });
+                update(key, {
+                  os: {
+                    ...os,
+                    ...(e.target.checked ? { windows: '' } : {}),
+                  },
+                });
                 setIsWindows(e.target.checked);
                 validate();
               }}
@@ -237,10 +274,12 @@ const TouchpointItemDesktop = ({
                   start={<LinkIcon />}
                   type="text"
                   disabled={getPlanStatus() !== 'draft'}
-                  value={link}
+                  value={'windows' in os ? os.windows : ''}
                   onBlur={handleBlur}
-                  onChange={(e) => update(key, { link: e.target.value })}
-                  {...(linkError && { validation: 'error' })}
+                  onChange={(e) =>
+                    update(key, { os: { ...os, windows: e.target.value } })
+                  }
+                  {...(windowsError && { validation: 'error' })}
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
@@ -248,44 +287,15 @@ const TouchpointItemDesktop = ({
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
+                {windowsError && (
+                  <Message validation="error">{windowsError}</Message>
+                )}
               </FormField>
             )}
           </FormField>
         </>
       )}
-      {kind === 'web' && (
-        <FormField style={{ marginTop: appTheme.space.xs }}>
-          <Label>
-            {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_LABEL')}
-            <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-          </Label>
-          <MD
-            style={{
-              marginTop: appTheme.space.xxs,
-              marginBottom: appTheme.space.sm,
-            }}
-          >
-            {t(
-              '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_DESCRIPTION'
-            )}
-          </MD>
-          <MediaInput
-            start={<LinkIcon />}
-            type="text"
-            disabled={getPlanStatus() !== 'draft'}
-            value={link}
-            onBlur={handleBlur}
-            onChange={(e) => update(key, { link: e.target.value })}
-            {...(linkError && { validation: 'error' })}
-            placeholder={t(
-              '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_PLACEHOLDER'
-            )}
-          />
-          <Message>
-            {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_HINT')}
-          </Message>
-        </FormField>
-      )}
+      {kind === 'web' && <TouchpointWeb touchpoint={touchpoint} />}
     </>
   );
 };
