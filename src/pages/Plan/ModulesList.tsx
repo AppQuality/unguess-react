@@ -7,6 +7,7 @@ import { MODULE_TABS_ORDER } from 'src/constants';
 import { useTranslation } from 'react-i18next';
 import { PlanTab, usePlanTab } from './context/planContext';
 import { MODULES_BY_TAB, modulesMap } from './modulesMap';
+import { TabTitle } from './common/TabTitle';
 
 const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
   const { setActiveTab } = usePlanTab();

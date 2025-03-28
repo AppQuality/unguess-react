@@ -12,6 +12,7 @@ import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
 import { GoToDashboardCard } from './components/GoToDashboard';
 import { IntroductionCard } from './components/IntroductionCard';
+import { TabTitle } from '../common/TabTitle';
 
 const StyledDiv = styled.div`
   display: flex;
