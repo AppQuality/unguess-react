@@ -1,8 +1,9 @@
 import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { PlanTab } from './context/planContext';
-import { MODULES_BY_TAB, modulesMap } from './modulesMap';
+import { modulesMap, MODULES_BY_TAB } from './modulesMap';
 
 export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
   const { getModules } = useModuleConfiguration();
@@ -33,6 +34,7 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
           </div>
         );
       })}
+      {tabId !== 'summary' && <ModulesBottomNavigation tabId={tabId} />}
     </>
   );
 };
