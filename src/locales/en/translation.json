@@ -925,6 +925,7 @@
   "__MEDIA_404_PAGE_SUB_TITLE MAX:80": "You cannot access this page.",
   "__MEDIA_404_PAGE_TITLE MAX:10": "Hold up.",
   "__MINMAX_AGE_RANGE": "{{min}} - {{max}}",
+  "__MODULES_VALIDATION_ERROR_MESSAGE": "There is an error in the following modules:",
   "__NOTIFICATION_CLOSE_TEXT": "Dismiss",
   "__NOTIFICATION_PROFILE_MODAL_COPY_EMAIL_MESSAGE": "Email address copied to clipboard",
   "__OBSERVATIONS_DRAWER_TOTAL": "Total observations",

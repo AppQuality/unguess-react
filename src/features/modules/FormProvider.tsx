@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FormBody } from './types';
 
 interface ValidationContextType {
@@ -25,6 +26,8 @@ export const ValidationContext = createContext<ValidationContextType>({
 export const useValidationContext = () => useContext(ValidationContext);
 
 const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
+  const { t } = useTranslation();
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [validationFunctions, setValidationFunctions] = useState<
     Record<string, () => Promise<void>>
@@ -62,7 +65,7 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
             .join(', ');
           return Promise.reject(
             new Error(
-              `There is an error in the following modules: ${errorMessage}`
+              `${t('__MODULES_VALIDATION_ERROR_MESSAGE')} ${errorMessage}`
             )
           );
         }
