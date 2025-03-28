@@ -16,6 +16,7 @@ const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
   let rightLabel = '';
   const previousTab = MODULE_TABS_ORDER[MODULE_TABS_ORDER.indexOf(tabId) - 1];
   const nextTab = MODULE_TABS_ORDER[MODULE_TABS_ORDER.indexOf(tabId) + 1];
+  const isFirstTab = MODULE_TABS_ORDER.indexOf(tabId) === 0;
 
   switch (tabId) {
     case 'setup':
@@ -37,10 +38,10 @@ const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
     <div
       style={{
         display: 'flex',
-        justifyContent: tabId === 'setup' ? 'flex-end' : 'space-between',
+        justifyContent: isFirstTab ? 'flex-end' : 'space-between',
       }}
     >
-      {tabId !== 'setup' && (
+      {!isFirstTab && (
         <Button
           isBasic
           size="small"
