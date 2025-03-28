@@ -15,19 +15,21 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
   return (
     <>
       {getModules().map((module) => {
-        if (availableModules.includes(module.type)) {
-          const Component = modulesMap[module.type];
-          if (!Component) return null;
-          return (
-            <div
-              id={`module-${module.type}`}
-              style={{ marginBottom: appTheme.space.md }}
-            >
-              <Component key={module.type} />
-            </div>
-          );
-        }
-        return null;
+        const isVisible = availableModules.includes(module.type);
+
+        const Component = modulesMap[module.type];
+        if (!Component) return null;
+        return (
+          <div
+            id={`module-${module.type}`}
+            style={{
+              marginBottom: appTheme.space.md,
+              display: isVisible ? 'block' : 'none',
+            }}
+          >
+            <Component key={module.type} />
+          </div>
+        );
       })}
     </>
   );
