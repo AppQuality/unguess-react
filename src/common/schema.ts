@@ -948,7 +948,7 @@ export interface components {
     /** ModuleTouchpoints */
     ModuleTouchpoints: {
       /** @enum {string} */
-      type: 'tasks';
+      type: 'touchpoints';
       variant: string;
       output: components['schemas']['OutputModuleTouchpoints'][];
     };
@@ -1476,6 +1476,8 @@ export interface components {
       kind: 'bug';
       title: string;
       description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** OutputModuleAge */
     OutputModuleAge: {
@@ -1489,6 +1491,8 @@ export interface components {
       kind: 'video';
       title: string;
       description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** SubcomponentTaskSurvey */
     OutputModuleTaskSurvey: {
@@ -1496,6 +1500,8 @@ export interface components {
       kind: 'survey';
       title: string;
       description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** OutputModuleTaskModerateVideo */
     OutputModuleTaskModerateVideo: {
@@ -1503,6 +1509,8 @@ export interface components {
       kind: 'moderate-video';
       title: string;
       description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** OutputModuleTaskExplorativeBug */
     OutputModuleTaskExplorativeBug: {
@@ -1510,6 +1518,8 @@ export interface components {
       kind: 'explorative-bug';
       title: string;
       description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** SubcomponentTask */
     OutputModuleTask:
@@ -1848,6 +1858,7 @@ export interface operations {
         content: {
           'application/json': components['schemas']['CampaignWithOutput'] & {
             isArchived?: boolean;
+            plan?: number;
           };
         };
       };

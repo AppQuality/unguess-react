@@ -866,6 +866,7 @@ export type PatchCampaignsByCidApiArg = {
 export type GetCampaignsByCidApiResponse =
   /** status 200 OK */ CampaignWithOutput & {
     isArchived?: boolean;
+    plan?: number;
   };
 export type GetCampaignsByCidApiArg = {
   /** Campaign id */
@@ -2473,26 +2474,31 @@ export type SubcomponentTaskVideo = {
   kind: 'video';
   title: string;
   description?: string;
+  url?: string;
 };
 export type SubcomponentTaskBug = {
   kind: 'bug';
   title: string;
   description?: string;
+  url?: string;
 };
 export type SubcomponentTaskSurvey = {
   kind: 'survey';
   title: string;
   description?: string;
+  url?: string;
 };
 export type OutputModuleTaskModerateVideo = {
   kind: 'moderate-video';
   title: string;
   description?: string;
+  url?: string;
 };
 export type OutputModuleTaskExplorativeBug = {
   kind: 'explorative-bug';
   title: string;
   description?: string;
+  url?: string;
 };
 export type SubcomponentTask =
   | SubcomponentTaskVideo
@@ -2636,7 +2642,7 @@ export type SubcomponentTouchpoints =
   | OutputModuleTouchpointsWebTablet
   | OutputModuleTouchpointsWebSmartphone;
 export type ModuleTouchpoints = {
-  type: 'tasks';
+  type: 'touchpoints';
   variant: string;
   output: SubcomponentTouchpoints[];
 };

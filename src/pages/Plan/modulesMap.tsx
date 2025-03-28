@@ -15,16 +15,8 @@ import Browser from './modules/Browser';
 import { TouchPoints } from './modules/Touchpoints';
 
 export const MODULES_BY_TAB = {
-  setup: ['setup_note', 'goal', 'touchpoints'],
-  target: [
-    'target_note',
-    'target',
-    'language',
-    'gender',
-    'age',
-    'literacy',
-    'browser',
-  ],
+  setup: ['setup_note', 'goal', 'touchpoints', 'browser'],
+  target: ['target_note', 'target', 'language', 'gender', 'age', 'literacy'],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
 
