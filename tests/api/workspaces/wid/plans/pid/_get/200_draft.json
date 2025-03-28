@@ -1,0 +1,17 @@
+{
+  "id": 13,
+  "config": {
+    "modules": [
+      {
+        "type": "title",
+        "variant": "default",
+        "output": "cp-title"
+      }
+    ]
+  },
+  "status": "draft",
+  "project": {
+    "id": 90,
+    "name": "MyProject"
+  }
+}

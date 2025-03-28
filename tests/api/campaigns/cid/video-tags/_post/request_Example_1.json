@@ -1,0 +1,9 @@
+{
+  "group": {
+    "name": "string"
+  },
+  "tag": {
+    "name": "string",
+    "style": "string"
+  }
+}

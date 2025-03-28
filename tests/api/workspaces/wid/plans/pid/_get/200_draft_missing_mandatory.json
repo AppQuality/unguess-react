@@ -1,0 +1,28 @@
+{
+  "id": 13,
+  "project": {
+    "id": 90,
+    "name": "MyProject"
+  },
+  "status": "draft",
+  "config": {
+    "modules": [
+      {
+        "type": "tasks",
+        "variant": "default",
+        "output": [
+          {
+            "kind": "bug",
+            "title": "Search for bugs",
+            "description": "description kind bug"
+          },
+          {
+            "kind": "video",
+            "title": "Think aloud",
+            "description": "description kind bug"
+          }
+        ]
+      }
+    ]
+  }
+}

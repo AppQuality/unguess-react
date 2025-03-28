@@ -1,0 +1,43 @@
+{
+  "id": 0,
+  "title": "string",
+  "description": "string",
+  "severity": {
+    "id": 0,
+    "name": "string",
+    "style": "string"
+  },
+  "visible": 0,
+  "comment": "string",
+  "observations": [
+    {
+      "id": 0,
+      "title": "string",
+      "description": "string",
+      "start": 0,
+      "end": 0,
+      "quotes": "string",
+      "uxNote": "string",
+      "tags": [
+        {
+          "group": {
+            "id": 0,
+            "name": "string"
+          },
+          "tag": {
+            "id": 0,
+            "name": "string",
+            "style": "string",
+            "usageNumber": 0
+          }
+        }
+      ],
+      "video": {
+        "id": 0,
+        "deviceType": "string"
+      },
+      "uploaderId": 0,
+      "usecaseTitle": "string"
+    }
+  ]
+}
