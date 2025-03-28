@@ -14,16 +14,8 @@ import OutOfScope from './modules/OutOfScope';
 import Browser from './modules/Browser';
 
 export const MODULES_BY_TAB = {
-  setup: ['setup_note', 'goal'],
-  target: [
-    'target_note',
-    'target',
-    'language',
-    'gender',
-    'age',
-    'literacy',
-    'browser',
-  ],
+  setup: ['setup_note', 'goal', 'browser'],
+  target: ['target_note', 'target', 'language', 'gender', 'age', 'literacy'],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
 
