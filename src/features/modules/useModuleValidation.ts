@@ -37,31 +37,37 @@ export const useValidation = <
   const { errors, setErrors, addValidationFunction } = useValidationContext();
   const { value } = useModule(type);
   const memoizedValidate = useCallback(validate, []);
+
+  const updateErrors = (newErrors: Record<string, string>) => {
+    setErrors((prev) => {
+      const prevErrors = prev ? { ...prev } : {};
+      Object.keys(prevErrors).forEach((key) => {
+        if (key.startsWith(`${type}.`) || key === type) {
+          delete prevErrors[`${key}`];
+        }
+      });
+      return { ...prevErrors, ...newErrors };
+    });
+  };
+
   const validationHandler = (): boolean => {
     if (!value) return false;
 
     const validation = memoizedValidate(value);
 
-    const newErrors = errors ? { ...errors } : {};
-    Object.keys(newErrors).forEach((key) => {
-      if (key.startsWith(`${type}.`) || key === type) {
-        delete newErrors[`${key}`];
-      }
-    });
-
     if (validation === true) {
       setIsValid(true);
-      setErrors((prev) => ({ ...prev, ...newErrors }));
+      updateErrors({});
       return true;
     }
 
     setIsValid(false);
 
     if (typeof validation === 'string') {
-      setErrors((prev) => ({ ...prev, [type]: validation }));
+      updateErrors({ [type]: validation });
     } else {
       const errorObject = flattenObject(validation, type);
-      setErrors((prev) => ({ ...prev, ...newErrors, ...errorObject }));
+      updateErrors(errorObject);
     }
 
     return false;
