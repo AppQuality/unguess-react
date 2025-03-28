@@ -37,8 +37,8 @@ export const useValidation = <
   const { errors, setErrors, addValidationFunction } = useValidationContext();
   const { value } = useModule(type);
   const memoizedValidate = useCallback(validate, []);
-  const validationHandler = () => {
-    if (!value) return;
+  const validationHandler = (): boolean => {
+    if (!value) return false;
 
     const validation = memoizedValidate(value);
 
@@ -51,23 +51,21 @@ export const useValidation = <
 
     if (validation === true) {
       setIsValid(true);
-      setErrors(newErrors);
-      return;
+      setErrors((prev) => ({ ...prev, ...newErrors }));
+      return true;
     }
 
     setIsValid(false);
 
     if (typeof validation === 'string') {
-      setErrors({ ...newErrors, [type]: validation });
+      setErrors((prev) => ({ ...prev, [type]: validation }));
     } else {
       const errorObject = flattenObject(validation, type);
-      setErrors({ ...newErrors, ...errorObject });
+      setErrors((prev) => ({ ...prev, ...newErrors, ...errorObject }));
     }
-  };
 
-  useEffect(() => {
-    addValidationFunction(type, validationHandler);
-  }, [value, memoizedValidate]);
+    return false;
+  };
 
   const getErrorInThisModule = () => {
     const errorInThisModule = { ...errors };
@@ -90,6 +88,22 @@ export const useValidation = <
 
     return errorInThisModule;
   };
+
+  useEffect(() => {
+    addValidationFunction(
+      type,
+      async () =>
+        new Promise<void>((resolve, reject) => {
+          const isOk = validationHandler();
+
+          if (isOk) {
+            resolve();
+          } else {
+            reject(new Error(`There is an error in the module ${type}`));
+          }
+        })
+    );
+  }, [value, memoizedValidate]);
 
   return {
     validate: validationHandler,

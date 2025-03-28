@@ -13,6 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
+import { useValidationContext } from 'src/features/modules/FormProvider';
 import { Dates } from '../modules/Dates';
 import { Title } from '../modules/Title';
 
@@ -22,9 +23,34 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
     useRequestQuotation();
   const { addToast } = useToast();
 
+  const { validateForm } = useValidationContext();
+
   const handleConfirm = async () => {
+    try {
+      await validateForm();
+    } catch (e) {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={
+              e instanceof Error
+                ? e.message
+                : t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')
+            }
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+      return;
+    }
     handleQuoteRequest()
-      .then()
+      .then(() => {
+        onQuit();
+      })
       .catch((e) => {
         let message = t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR');
         if ('message' in e && e.message) {
@@ -44,9 +70,6 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
         );
         // eslint-disable-next-line no-console
         console.error(error);
-      })
-      .finally(() => {
-        onQuit();
       });
   };
 

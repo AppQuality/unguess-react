@@ -1,29 +1,42 @@
 import { Form, Formik, FormikHelpers, useFormikContext } from 'formik';
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
+import { useTranslation } from 'react-i18next';
 import { FormBody } from './types';
 
 interface ValidationContextType {
-  errors?: Record<string, string>;
-  setErrors: (errors: Record<string, string>) => void;
-  validateForm: () => void;
-  addValidationFunction: (type: string, validate: () => void) => void;
+  errors?: { [x: string]: string };
+  setErrors: Dispatch<React.SetStateAction<Record<string, string>>>;
+  validateForm: () => Promise<void>;
+  addValidationFunction: (type: string, validate: () => Promise<void>) => void;
 }
 
 export const ValidationContext = createContext<ValidationContextType>({
   setErrors: () => {},
-  validateForm: () => {},
+  validateForm: () => Promise.resolve(),
   addValidationFunction: () => {},
 });
 
 export const useValidationContext = () => useContext(ValidationContext);
 
 const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
+  const { t } = useTranslation();
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [validationFunctions, setValidationFunctions] = useState<
-    Record<string, () => void>
+    Record<string, () => Promise<void>>
   >({});
 
-  const addValidationFunction = (type: string, validate: () => void) => {
+  const addValidationFunction = (
+    type: string,
+    validate: () => Promise<void>
+  ) => {
     setValidationFunctions((prev) => ({ ...prev, [type]: validate }));
   };
 
@@ -31,10 +44,32 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       errors,
       setErrors,
-      validateForm: () => {
-        Object.entries(validationFunctions).forEach(([_, validate]) => {
-          validate();
-        });
+      validateForm: async () => {
+        const allErrors: Record<string, string> = {};
+        await Promise.all(
+          Object.entries(validationFunctions).map(
+            async ([moduleType, validate]) => {
+              try {
+                await validate();
+              } catch (error) {
+                if (error instanceof Error) {
+                  allErrors[`${moduleType}`] = error.message;
+                }
+              }
+            }
+          )
+        );
+        if (Object.keys(allErrors).length > 0) {
+          const errorMessage = Object.entries(allErrors)
+            .map(([moduleType]) => moduleType)
+            .join(', ');
+          return Promise.reject(
+            new Error(
+              `${t('__MODULES_VALIDATION_ERROR_MESSAGE')} ${errorMessage}`
+            )
+          );
+        }
+        return Promise.resolve();
       },
       addValidationFunction,
     }),
