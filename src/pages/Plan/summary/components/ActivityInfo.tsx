@@ -5,7 +5,7 @@ import {
   Message,
   UnorderedList,
 } from '@appquality/unguess-design-system';
-import { format, isSameDay } from 'date-fns';
+import { isSameDay } from 'date-fns';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -93,12 +93,23 @@ export const ActivityInfo = () => {
         {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
       </Title>
       <ActivityDescription plan={plan} />
-      <Divider style={{ marginBottom: appTheme.space.xs }} />
+      <Divider
+        style={{
+          marginBottom: appTheme.space.xs,
+          marginTop: appTheme.space.sm,
+        }}
+      />
 
       <PlanContentDiv>
         <div>
           <Label>{t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')}</Label>
-          <MD>{format(planDate, 'dd/MM/yyyy')}</MD>
+          <MD>
+            {planDate.toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'long',
+              day: '2-digit',
+            })}
+          </MD>
           {plan.campaign &&
             !isSameDay(new Date(plan.campaign.startDate), modulesDate) && (
               <Message
@@ -118,7 +129,7 @@ export const ActivityInfo = () => {
         </div>
       </PlanContentDiv>
 
-      <Notes>
+      <Notes style={{ cursor: 'default' }}>
         <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_DESCRIPTION">
           <MD
             isBold
