@@ -60,7 +60,7 @@ const ActivityDescription = ({
 
 export const ActivityInfo = () => {
   const { planId } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { value } = useModule('dates');
 
@@ -80,6 +80,8 @@ export const ActivityInfo = () => {
 
     return modulesDate;
   }, [modulesDate, plan.campaign]);
+
+  const isSubmitted = !plan.quote || plan.quote.status === 'pending';
 
   return (
     <ContainerCard>
@@ -102,9 +104,13 @@ export const ActivityInfo = () => {
 
       <PlanContentDiv>
         <div>
-          <Label>{t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')}</Label>
+          <Label>
+            {isSubmitted
+              ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL_SUBMITTED')
+              : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')}
+          </Label>
           <MD>
-            {planDate.toLocaleDateString(undefined, {
+            {planDate.toLocaleDateString(i18n.language, {
               year: 'numeric',
               month: 'long',
               day: '2-digit',
@@ -119,10 +125,27 @@ export const ActivityInfo = () => {
                 {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_WARNING')}
               </Message>
             )}
+
+          {isSubmitted &&
+            plan.campaign &&
+            isSameDay(new Date(plan.campaign.startDate), modulesDate) && (
+              <Message style={{ marginTop: appTheme.space.md }}>
+                {t(
+                  '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_SUBMITTED_WARNING'
+                )}
+              </Message>
+            )}
         </div>
         <div>
-          <Label>{t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE')}</Label>
+          <Label>
+            {isSubmitted && plan?.quote?.value
+              ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_ESTIMATED')
+              : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE')}
+          </Label>
           <MD>
+            {isSubmitted &&
+              plan?.quote?.value &&
+              t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX')}{' '}
             {plan?.quote?.value ||
               t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}
           </MD>

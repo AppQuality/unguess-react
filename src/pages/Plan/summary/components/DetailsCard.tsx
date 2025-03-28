@@ -28,8 +28,15 @@ const StyledDiv = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-const PrimaryText = styled(LG)`
+const PrimaryText = styled(LG)<{ isPending?: boolean }>`
   color: ${({ theme }) => getColor(theme.colors.primaryHue, 600)};
+
+  ${({ isPending, theme }) =>
+    isPending &&
+    `
+    color: ${theme.palette.grey[600]};
+    font-style: italic;
+  `}
 `;
 
 const Footer = styled.div`
@@ -39,37 +46,49 @@ const Footer = styled.div`
 
 const Content = ({
   date,
-  price,
+  quote,
   status,
 }: {
   date: Date;
-  price: string;
+  quote?: string;
   status: IPlanStatus;
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const price =
+    quote ||
+    `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}*`;
+
   return (
     <>
       <StyledDiv>
         <SM>
-          {t(
-            '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL'
+          {(status === 'submitted'
+            ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL_SUBMITTED')
+            : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')
           ).toLocaleUpperCase()}
         </SM>
         <PrimaryText isBold>
-          {date.toLocaleDateString(undefined, {
+          {date.toLocaleDateString(i18n.language, {
             year: 'numeric',
             month: 'long',
             day: '2-digit',
           })}
+          {status === 'submitted' ? '*' : ''}
         </PrimaryText>
       </StyledDiv>
       <StyledDiv>
         <SM>
           {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE').toLocaleUpperCase()}
         </SM>
-        <PrimaryText isBold>{price}</PrimaryText>
+        <PrimaryText isBold isPending={!quote}>
+          {status === 'submitted' &&
+            quote &&
+            t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX')}{' '}
+          {price}
+        </PrimaryText>
         {status === 'submitted' && (
-          <MD>
+          <MD style={{ marginTop: appTheme.space.sm }}>
             {t(
               '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE_NOTES'
             )}
@@ -140,10 +159,6 @@ export const DetailsCard = () => {
     return value?.output.start ? new Date(value.output.start) : new Date(); // Add check with cp startDate
   };
 
-  const price =
-    plan?.quote?.value ||
-    `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}*`;
-
   const { status } = getPlanStatus(plan, t);
 
   return (
@@ -158,7 +173,7 @@ export const DetailsCard = () => {
           </>
         </WidgetSpecialCard.Meta>
         <Divider />
-        <Content date={planDate()} price={price} status={status} />
+        <Content date={planDate()} quote={plan?.quote?.value} status={status} />
         <Footer>
           <Cta status={status} campaignId={plan?.campaign?.id ?? 0} />
         </Footer>
