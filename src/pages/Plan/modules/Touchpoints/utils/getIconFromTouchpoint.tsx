@@ -12,19 +12,17 @@ import { useModuleTouchpoints } from '../hooks';
 const getIconColor = (
   touchpoint: components['schemas']['OutputModuleTouchpoints'] & { key: number }
 ) => {
-  const { key, link } = touchpoint;
   const { error } = useModuleTouchpoints();
 
-  const linkError =
-    error && typeof error === 'object' && `touchpoints.${key}.link` in error
-      ? error[`touchpoints.${key}.link`]
-      : false;
+  const hasErrors =
+    (error &&
+      typeof error === 'object' &&
+      Object.keys(error).some((k) => k.startsWith('touchpoints'))) ??
+    false;
 
-  const hasErrors = linkError;
+  // TODO: Handle grey color
 
   if (hasErrors) return getColor(appTheme.colors.dangerHue, 900);
-  if (!hasErrors && (!link || link.length === 0))
-    return getColor(appTheme.palette.grey, 600);
   return getColor(appTheme.colors.primaryHue, 600);
 };
 

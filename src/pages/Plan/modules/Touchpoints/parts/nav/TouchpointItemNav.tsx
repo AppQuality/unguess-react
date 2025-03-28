@@ -45,17 +45,11 @@ const TouchpointItemNav = ({
   const { error } = useModuleTouchpoints();
   const { key, kind, form_factor } = touchpoint;
 
-  const linkError =
-    error && typeof error === 'object' && `touchpoints.${key}.link` in error
-      ? error[`touchpoints.${key}.link`]
-      : false;
-
-  const osError =
-    error && typeof error === 'object' && `touchpoints.${key}.os` in error
-      ? error[`touchpoints.${key}.os`]
-      : false;
-
-  const hasErrors = linkError || osError;
+  const hasErrors =
+    (error &&
+      typeof error === 'object' &&
+      Object.keys(error).some((k) => k.startsWith(`touchpoints.${key}`))) ??
+    false;
 
   return (
     <TouchpointItemNavLink
