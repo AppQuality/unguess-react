@@ -8,7 +8,6 @@ import {
   PlanTag,
   SM,
 } from '@appquality/unguess-design-system';
-import { format } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -56,7 +55,13 @@ const Content = ({
             '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL'
           ).toLocaleUpperCase()}
         </SM>
-        <PrimaryText isBold>{format(date, 'dd/MM/yyyy')}</PrimaryText>
+        <PrimaryText isBold>
+          {date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'long',
+            day: '2-digit',
+          })}
+        </PrimaryText>
       </StyledDiv>
       <StyledDiv>
         <SM>
