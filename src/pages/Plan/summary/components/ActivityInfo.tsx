@@ -60,7 +60,7 @@ const ActivityDescription = ({
 
 export const ActivityInfo = () => {
   const { planId } = useParams();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { value } = useModule('dates');
 
@@ -104,7 +104,7 @@ export const ActivityInfo = () => {
         <div>
           <Label>{t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')}</Label>
           <MD>
-            {planDate.toLocaleDateString(undefined, {
+            {planDate.toLocaleDateString(i18n.language, {
               year: 'numeric',
               month: 'long',
               day: '2-digit',

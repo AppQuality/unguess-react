@@ -46,7 +46,7 @@ const Content = ({
   price: string;
   status: IPlanStatus;
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <>
       <StyledDiv>
@@ -56,7 +56,7 @@ const Content = ({
           ).toLocaleUpperCase()}
         </SM>
         <PrimaryText isBold>
-          {date.toLocaleDateString(undefined, {
+          {date.toLocaleDateString(i18n.language, {
             year: 'numeric',
             month: 'long',
             day: '2-digit',
