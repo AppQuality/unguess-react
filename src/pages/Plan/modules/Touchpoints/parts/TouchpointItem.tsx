@@ -29,17 +29,43 @@ const TouchpointItem = ({
   const { key, kind, form_factor } = touchpoint;
   const index = key + 1;
 
-  const linkError =
-    error && typeof error === 'object' && `touchpoints.${key}.link` in error
-      ? error[`touchpoints.${key}.link`]
+  const linuxError =
+    error && typeof error === 'object' && `touchpoints.${key}.os.linux` in error
+      ? error[`touchpoints.${key}.os.linux`]
+      : false;
+  const macosError =
+    error && typeof error === 'object' && `touchpoints.${key}.os.macos` in error
+      ? error[`touchpoints.${key}.os.macos`]
+      : false;
+  const windowsError =
+    error &&
+    typeof error === 'object' &&
+    `touchpoints.${key}.os.windows` in error
+      ? error[`touchpoints.${key}.os.windows`]
+      : false;
+  const iosError =
+    error && typeof error === 'object' && `touchpoints.${key}.os.ios` in error
+      ? error[`touchpoints.${key}.os.ios`]
+      : false;
+  const androidError =
+    error &&
+    typeof error === 'object' &&
+    `touchpoints.${key}.os.android` in error
+      ? error[`touchpoints.${key}.os.android`]
       : false;
 
-  const osError =
-    error && typeof error === 'object' && `touchpoints.${key}.os` in error
-      ? error[`touchpoints.${key}.os`]
+  const lengthError =
+    error && typeof error === 'object' && `touchpoints.${key}.length` in error
+      ? error[`touchpoints.${key}.length`]
       : false;
 
-  const hasError = linkError || osError;
+  const hasError =
+    macosError ||
+    windowsError ||
+    linuxError ||
+    iosError ||
+    androidError ||
+    lengthError;
 
   return (
     <>

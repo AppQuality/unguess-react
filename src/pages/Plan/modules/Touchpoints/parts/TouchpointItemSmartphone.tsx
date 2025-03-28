@@ -7,7 +7,6 @@ import {
   Message,
   Span,
 } from '@appquality/unguess-design-system';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-fill.svg';
@@ -27,8 +26,6 @@ const TouchpointItemSmartphone = ({
   const { update, validate, error } = useModuleTouchpoints();
   const { getPlanStatus } = useModuleConfiguration();
   const { key, kind, os } = touchpoint;
-  const [isIos, setIsIos] = useState('ios' in os);
-  const [isAndroid, setIsAndroid] = useState('android' in os);
 
   const iosError =
     error && typeof error === 'object' && `touchpoints.${key}.os.ios` in error
@@ -41,9 +38,9 @@ const TouchpointItemSmartphone = ({
       ? error[`touchpoints.${key}.os.android`]
       : false;
 
-  const osError =
-    error && typeof error === 'object' && `touchpoints.${key}.os` in error
-      ? error[`touchpoints.${key}.os`]
+  const lengthError =
+    error && typeof error === 'object' && `touchpoints.${key}.length` in error
+      ? error[`touchpoints.${key}.length`]
       : false;
 
   const handleBlur = () => {
@@ -51,14 +48,14 @@ const TouchpointItemSmartphone = ({
   };
 
   return (
-    <>
+    <div onBlur={handleBlur}>
       {kind === 'app' && (
         <>
           <Label>
             {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_LABEL')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </Label>
-          {osError && (
+          {lengthError && (
             <Message
               validation="error"
               style={{ marginTop: appTheme.space.sm }}
@@ -75,13 +72,12 @@ const TouchpointItemSmartphone = ({
               checked={'ios' in os}
               onChange={(e) => {
                 update(key, {
-                  os: {
-                    ...os,
-                    ...(e.target.checked ? { ios: '' } : {}),
-                  },
+                  os: e.target.checked
+                    ? { ...os, ios: '' }
+                    : Object.fromEntries(
+                        Object.entries({ ...os }).filter(([k]) => k !== 'ios')
+                      ),
                 });
-                setIsIos(e.target.checked);
-                validate();
               }}
             >
               <Label
@@ -93,7 +89,7 @@ const TouchpointItemSmartphone = ({
                 {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_IOS')}
               </Label>
             </Checkbox>
-            {isIos && (
+            {'ios' in os && (
               <FormField
                 style={{
                   padding: `${appTheme.space.sm} ${appTheme.space.lg}`,
@@ -153,16 +149,16 @@ const TouchpointItemSmartphone = ({
               value="android"
               disabled={getPlanStatus() !== 'draft'}
               checked={'android' in os}
-              onBlur={handleBlur}
               onChange={(e) => {
                 update(key, {
-                  os: {
-                    ...os,
-                    ...(e.target.checked ? { android: '' } : {}),
-                  },
+                  os: e.target.checked
+                    ? { ...os, android: '' }
+                    : Object.fromEntries(
+                        Object.entries({ ...os }).filter(
+                          ([k]) => k !== 'android'
+                        )
+                      ),
                 });
-                setIsAndroid(e.target.checked);
-                validate();
               }}
             >
               <Label
@@ -174,7 +170,7 @@ const TouchpointItemSmartphone = ({
                 {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_ANDROID')}
               </Label>
             </Checkbox>
-            {isAndroid && (
+            {'android' in os && (
               <FormField
                 style={{
                   padding: `${appTheme.space.sm} ${appTheme.space.lg}`,
@@ -230,7 +226,7 @@ const TouchpointItemSmartphone = ({
         </>
       )}
       {kind === 'web' && <TouchpointWeb touchpoint={touchpoint} />}
-    </>
+    </div>
   );
 };
 

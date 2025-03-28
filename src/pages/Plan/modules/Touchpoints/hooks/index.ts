@@ -89,8 +89,6 @@ const useModuleTouchpoints = () => {
       const osErrors = checkOsLink(item);
       const hasOsErrors = Object.keys(osErrors).length > 0;
 
-      console.log('item', item);
-
       if (!osEmpty && !hasOsErrors) return { ...acc };
 
       return {
@@ -98,7 +96,7 @@ const useModuleTouchpoints = () => {
         [idx]: {
           ...(osEmpty
             ? {
-                os: t(
+                length: t(
                   '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_ERROR_REQUIRED'
                 ),
               }

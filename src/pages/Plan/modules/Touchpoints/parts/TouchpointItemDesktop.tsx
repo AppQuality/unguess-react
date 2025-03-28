@@ -7,7 +7,6 @@ import {
   Message,
   Span,
 } from '@appquality/unguess-design-system';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-fill.svg';
@@ -24,12 +23,9 @@ const TouchpointItemDesktop = ({
   };
 }) => {
   const { t } = useTranslation();
-  const { update, validate, error, value } = useModuleTouchpoints();
+  const { update, validate, error } = useModuleTouchpoints();
   const { getPlanStatus } = useModuleConfiguration();
   const { key, kind, os } = touchpoint;
-  const [isLinux, setIsLinux] = useState('linux' in os);
-  const [isMacOs, setIsMacOs] = useState('macos' in os);
-  const [isWindows, setIsWindows] = useState('windows' in os);
 
   const linuxError =
     error && typeof error === 'object' && `touchpoints.${key}.os.linux` in error
@@ -46,27 +42,24 @@ const TouchpointItemDesktop = ({
       ? error[`touchpoints.${key}.os.windows`]
       : false;
 
-  const osError =
-    error && typeof error === 'object' && `touchpoints.${key}.os` in error
-      ? error[`touchpoints.${key}.os`]
+  const lengthError =
+    error && typeof error === 'object' && `touchpoints.${key}.length` in error
+      ? error[`touchpoints.${key}.length`]
       : false;
 
   const handleBlur = () => {
     validate();
   };
 
-  console.log('values', value);
-  console.log('errors', error);
-
   return (
-    <>
+    <div onBlur={handleBlur}>
       {kind === 'app' && (
         <>
           <Label>
             {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_LABEL')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </Label>
-          {osError && (
+          {lengthError && (
             <Message
               validation="error"
               style={{ marginTop: appTheme.space.sm }}
@@ -83,13 +76,12 @@ const TouchpointItemDesktop = ({
               checked={'linux' in os}
               onChange={(e) => {
                 update(key, {
-                  os: {
-                    ...os,
-                    ...(e.target.checked ? { linux: '' } : {}),
-                  },
+                  os: e.target.checked
+                    ? { ...os, linux: '' }
+                    : Object.fromEntries(
+                        Object.entries({ ...os }).filter(([k]) => k !== 'linux')
+                      ),
                 });
-                setIsLinux(e.target.checked);
-                validate();
               }}
             >
               <Label
@@ -101,7 +93,7 @@ const TouchpointItemDesktop = ({
                 {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_LINUX')}
               </Label>
             </Checkbox>
-            {isLinux && (
+            {'linux' in os && (
               <FormField
                 style={{
                   padding: `${appTheme.space.sm} ${appTheme.space.lg}`,
@@ -156,13 +148,12 @@ const TouchpointItemDesktop = ({
               checked={'macos' in os}
               onChange={(e) => {
                 update(key, {
-                  os: {
-                    ...os,
-                    ...(e.target.checked ? { macos: '' } : {}),
-                  },
+                  os: e.target.checked
+                    ? { ...os, macos: '' }
+                    : Object.fromEntries(
+                        Object.entries({ ...os }).filter(([k]) => k !== 'macos')
+                      ),
                 });
-                setIsMacOs(e.target.checked);
-                validate();
               }}
             >
               <Label
@@ -174,7 +165,7 @@ const TouchpointItemDesktop = ({
                 {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_OS_MACOS')}
               </Label>
             </Checkbox>
-            {isMacOs && (
+            {'macos' in os && (
               <FormField
                 style={{
                   padding: `${appTheme.space.sm} ${appTheme.space.lg}`,
@@ -229,13 +220,14 @@ const TouchpointItemDesktop = ({
               checked={'windows' in os}
               onChange={(e) => {
                 update(key, {
-                  os: {
-                    ...os,
-                    ...(e.target.checked ? { windows: '' } : {}),
-                  },
+                  os: e.target.checked
+                    ? { ...os, windows: '' }
+                    : Object.fromEntries(
+                        Object.entries({ ...os }).filter(
+                          ([k]) => k !== 'windows'
+                        )
+                      ),
                 });
-                setIsWindows(e.target.checked);
-                validate();
               }}
             >
               <Label
@@ -247,7 +239,7 @@ const TouchpointItemDesktop = ({
                 {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_WINDOWS')}
               </Label>
             </Checkbox>
-            {isWindows && (
+            {'windows' in os && (
               <FormField
                 style={{
                   padding: `${appTheme.space.sm} ${appTheme.space.lg}`,
@@ -296,7 +288,7 @@ const TouchpointItemDesktop = ({
         </>
       )}
       {kind === 'web' && <TouchpointWeb touchpoint={touchpoint} />}
-    </>
+    </div>
   );
 };
 
