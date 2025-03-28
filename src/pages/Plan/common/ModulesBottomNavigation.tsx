@@ -4,16 +4,20 @@ import { ReactComponent as ChevronRightIcon } from '@zendeskgarden/svg-icons/src
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { MODULE_TABS_ORDER } from 'src/constants';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { PlanTab, usePlanTab } from '../context/planContext';
 
 export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
   const { setActiveTab } = usePlanTab();
   const { t } = useTranslation();
+  const { getPlanStatus } = useModuleConfiguration();
   let leftLabel = '';
   let rightLabel = '';
   const previousTab = MODULE_TABS_ORDER[MODULE_TABS_ORDER.indexOf(tabId) - 1];
   const nextTab = MODULE_TABS_ORDER[MODULE_TABS_ORDER.indexOf(tabId) + 1];
   const isFirstTab = MODULE_TABS_ORDER.indexOf(tabId) === 0;
+  const isInstructionsTabRightButtonDisabled =
+    getPlanStatus() === 'draft' && tabId === ('instructions' as PlanTab);
 
   switch (tabId) {
     case 'setup':
@@ -63,6 +67,7 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
         onClick={() => {
           setActiveTab(nextTab);
         }}
+        disabled={isInstructionsTabRightButtonDisabled}
       >
         {rightLabel}
         <Button.EndIcon>
