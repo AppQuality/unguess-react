@@ -2472,60 +2472,27 @@ export type ModuleDate = {
 export type SubcomponentTaskVideo = {
   kind: 'video';
   title: string;
-  description: string;
+  description?: string;
 };
 export type SubcomponentTaskBug = {
   kind: 'bug';
   title: string;
-  description: string;
+  description?: string;
 };
 export type SubcomponentTaskSurvey = {
   kind: 'survey';
   title: string;
-  description: string;
-};
-export type SubcomponentAppDesktop = {
-  kind: 'app';
-  form_factor: 'desktop';
-  os?: string;
-  link: string;
-};
-export type SubcomponentAppTablet = {
-  kind: 'app';
-  form_factor: 'tablet';
-  os?: string;
-  link: string;
-};
-export type SubcomponentAppSmartphone = {
-  kind: 'app';
-  form_factor: 'smartphone';
-  os?: string;
-  link: string;
-};
-export type SubcomponentWebDesktop = {
-  kind: 'web';
-  form_factor: 'desktop';
-  link: string;
-};
-export type SubcomponentWebTablet = {
-  kind: 'web';
-  form_factor: 'tablet';
-  link: string;
-};
-export type SubcomponentWebSmartphone = {
-  kind: 'web';
-  form_factor: 'smartphone';
-  link: string;
+  description?: string;
 };
 export type OutputModuleTaskModerateVideo = {
   kind: 'moderate-video';
   title: string;
-  description: string;
+  description?: string;
 };
 export type OutputModuleTaskExplorativeBug = {
   kind: 'explorative-bug';
   title: string;
-  description: string;
+  description?: string;
 };
 export type SubcomponentTask =
   | SubcomponentTaskVideo
@@ -2610,17 +2577,68 @@ export type ModuleSetupNote = {
   variant: string;
   output: string;
 };
-export type SubcomponentTouchpoint =
-  | SubcomponentAppDesktop
-  | SubcomponentAppTablet
-  | SubcomponentAppSmartphone
-  | SubcomponentWebDesktop
-  | SubcomponentWebTablet
-  | SubcomponentWebSmartphone;
+export type OutputModuleTouchpointsAppDesktop = {
+  kind: 'app';
+  form_factor: 'desktop';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsAppTablet = {
+  kind: 'app';
+  form_factor: 'tablet';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsAppSmartphone = {
+  kind: 'app';
+  form_factor: 'smartphone';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebDesktop = {
+  kind: 'web';
+  form_factor: 'desktop';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsWebTablet = {
+  kind: 'web';
+  form_factor: 'tablet';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebSmartphone = {
+  kind: 'web';
+  form_factor: 'smartphone';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type SubcomponentTouchpoints =
+  | OutputModuleTouchpointsAppDesktop
+  | OutputModuleTouchpointsAppTablet
+  | OutputModuleTouchpointsAppSmartphone
+  | OutputModuleTouchpointsWebDesktop
+  | OutputModuleTouchpointsWebTablet
+  | OutputModuleTouchpointsWebSmartphone;
 export type ModuleTouchpoints = {
-  type: 'touchpoints';
+  type: 'tasks';
   variant: string;
-  output: SubcomponentTouchpoint[];
+  output: SubcomponentTouchpoints[];
 };
 export type Module =
   | ModuleTitle

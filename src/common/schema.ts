@@ -948,7 +948,7 @@ export interface components {
     /** ModuleTouchpoints */
     ModuleTouchpoints: {
       /** @enum {string} */
-      type: 'touchpoints';
+      type: 'tasks';
       variant: string;
       output: components['schemas']['OutputModuleTouchpoints'][];
     };
@@ -1475,7 +1475,7 @@ export interface components {
       /** @enum {string} */
       kind: 'bug';
       title: string;
-      description: string;
+      description?: string;
     };
     /** OutputModuleAge */
     OutputModuleAge: {
@@ -1488,90 +1488,28 @@ export interface components {
       /** @enum {string} */
       kind: 'video';
       title: string;
-      description: string;
+      description?: string;
     };
     /** SubcomponentTaskSurvey */
     OutputModuleTaskSurvey: {
       /** @enum {string} */
       kind: 'survey';
       title: string;
-      description: string;
+      description?: string;
     };
     /** OutputModuleTaskModerateVideo */
     OutputModuleTaskModerateVideo: {
       /** @enum {string} */
       kind: 'moderate-video';
       title: string;
-      description: string;
+      description?: string;
     };
     /** OutputModuleTaskExplorativeBug */
     OutputModuleTaskExplorativeBug: {
       /** @enum {string} */
       kind: 'explorative-bug';
       title: string;
-      description: string;
-    };
-    OutputModuleTouchpointsAppDesktop: {
-      /** @enum {string} */
-      kind: 'app';
-      /** @enum {string} */
-      form_factor: 'desktop';
-      os: {
-        linux?: string;
-        macos?: string;
-        windows?: string;
-      };
-    };
-    OutputModuleTouchpointsAppTablet: {
-      /** @enum {string} */
-      kind: 'app';
-      /** @enum {string} */
-      form_factor: 'tablet';
-      os: {
-        android?: string;
-        ios?: string;
-      };
-    };
-    OutputModuleTouchpointsAppMobile: {
-      /** @enum {string} */
-      kind: 'app';
-      /** @enum {string} */
-      form_factor: 'smartphone';
-      os: {
-        android?: string;
-        ios?: string;
-      };
-    };
-    OutputModuleTouchpointsWebDesktop: {
-      /** @enum {string} */
-      kind: 'web';
-      /** @enum {string} */
-      form_factor: 'desktop';
-      os: {
-        linux?: string;
-        macos?: string;
-        windows?: string;
-      };
-    };
-    OutputModuleTouchpointsWebTablet: {
-      /** @enum {string} */
-      kind: 'web';
-      /** @enum {string} */
-      form_factor: 'tablet';
-      os: {
-        android?: string;
-        ios?: string;
-      };
-    };
-    OutputModuleTouchpointsWebMobile: {
-      /** @enum {string} */
-      kind: 'web';
-      /** @enum {string} */
-      form_factor: 'smartphone';
-      os: {
-        android?: string;
-        ios?: string;
-      };
+      description?: string;
     };
     /** SubcomponentTask */
     OutputModuleTask:
@@ -1580,14 +1518,83 @@ export interface components {
       | components['schemas']['OutputModuleTaskSurvey']
       | components['schemas']['OutputModuleTaskModerateVideo']
       | components['schemas']['OutputModuleTaskExplorativeBug'];
-    /** OutputModuleTouchpoints */
+    /** SubcomponentTouchpoints */
     OutputModuleTouchpoints:
       | components['schemas']['OutputModuleTouchpointsAppDesktop']
       | components['schemas']['OutputModuleTouchpointsAppTablet']
-      | components['schemas']['OutputModuleTouchpointsAppMobile']
+      | components['schemas']['OutputModuleTouchpointsAppSmartphone']
       | components['schemas']['OutputModuleTouchpointsWebDesktop']
       | components['schemas']['OutputModuleTouchpointsWebTablet']
-      | components['schemas']['OutputModuleTouchpointsWebMobile'];
+      | components['schemas']['OutputModuleTouchpointsWebSmartphone'];
+    /** OutputModuleTouchpointsAppDesktop */
+    OutputModuleTouchpointsAppDesktop: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppTablet */
+    OutputModuleTouchpointsAppTablet: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppSmartphone */
+    OutputModuleTouchpointsAppSmartphone: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebDesktop */
+    OutputModuleTouchpointsWebDesktop: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebTablet */
+    OutputModuleTouchpointsWebTablet: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebSmartphone */
+    OutputModuleTouchpointsWebSmartphone: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
     /** OutputModuleLiteracy */
     OutputModuleLiteracy: {
       /** @enum {string} */
