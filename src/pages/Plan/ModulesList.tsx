@@ -81,6 +81,7 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
 
   return (
     <>
+      <TabTitle tabId={tabId} />
       {getModules().map((module) => {
         const isVisible = availableModules.includes(module.type);
 
