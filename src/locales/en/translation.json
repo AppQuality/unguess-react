@@ -921,7 +921,7 @@
   "__LOGIN_FORM_TITLE": "Log in to UNGUESS",
   "__MAX_AGE_RANGE": "{{min}}+",
   "__MEDIA_404_PAGE_BUTTON": "Back to Home",
-  "__MEDIA_404_PAGE_DESCRIPTION": "This page doesn’t exist or you need permission to view it.",
+  "__MEDIA_404_PAGE_DESCRIPTION": "This page doesn't exist or you need permission to view it.",
   "__MEDIA_404_PAGE_SUB_TITLE MAX:80": "You cannot access this page.",
   "__MEDIA_404_PAGE_TITLE MAX:10": "Hold up.",
   "__MINMAX_AGE_RANGE": "{{min}} - {{max}}",
