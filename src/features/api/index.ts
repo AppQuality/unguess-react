@@ -2472,27 +2472,27 @@ export type ModuleDate = {
 export type SubcomponentTaskVideo = {
   kind: 'video';
   title: string;
-  description?: string;
+  description: string;
 };
 export type SubcomponentTaskBug = {
   kind: 'bug';
   title: string;
-  description?: string;
+  description: string;
 };
 export type SubcomponentTaskSurvey = {
   kind: 'survey';
   title: string;
-  description?: string;
+  description: string;
 };
 export type OutputModuleTaskModerateVideo = {
   kind: 'moderate-video';
   title: string;
-  description?: string;
+  description: string;
 };
 export type OutputModuleTaskExplorativeBug = {
   kind: 'explorative-bug';
   title: string;
-  description?: string;
+  description: string;
 };
 export type SubcomponentTask =
   | SubcomponentTaskVideo

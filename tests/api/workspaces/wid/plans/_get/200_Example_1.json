@@ -4,8 +4,12 @@
     "title": "string",
     "status": "draft",
     "project": {
-      "id": 0,
-      "title": "string"
+      "id": 456,
+      "title": "project"
+    },
+    "quote": {
+      "id": 12,
+      "status": "proposed"
     }
   }
 ]

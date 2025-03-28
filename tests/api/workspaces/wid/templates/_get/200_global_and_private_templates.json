@@ -46,7 +46,10 @@
         "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
         "output_image": "http://example.com/output5.jpg",
         "tags": [
-          { "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg", "text": "Duration: 48h" }
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Duration: 48h"
+          }
         ]
       }
     },
@@ -63,7 +66,10 @@
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
         "tags": [
-          { "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg", "text": "Bugs: 40" }
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Bugs: 40"
+          }
         ]
       }
     },
@@ -79,7 +85,10 @@
         "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
         "output_image": "http://example.com/output5.jpg",
         "tags": [
-          { "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg", "text": "Duration: 48h" }
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Duration: 48h"
+          }
         ]
       }
     },
@@ -96,7 +105,10 @@
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
         "tags": [
-          { "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg", "text": "Bugs: 40" }
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Bugs: 40"
+          }
         ]
       }
     },
@@ -113,11 +125,15 @@
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
         "tags": [
-          { "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg", "text": "Bugs: 40" }
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Bugs: 40"
+          }
         ]
       }
     }
   ],
   "start": 0,
+  "limit": 10,
   "total": 9
 }

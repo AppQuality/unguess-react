@@ -19,11 +19,13 @@
         "output": [
           {
             "kind": "bug",
-            "title": "Search for bugs"
+            "title": "Search for bugs",
+            "description": "description kind bug"
           },
           {
             "kind": "video",
-            "title": "Think aloud"
+            "title": "Think aloud",
+            "description": "description kind video"
           }
         ]
       }

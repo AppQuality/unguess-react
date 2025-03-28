@@ -1,10 +1,10 @@
 {
   "id": 13,
-  "status": "draft",
   "project": {
     "id": 90,
     "name": "MyProject"
   },
+  "status": "draft",
   "config": {
     "modules": [
       {
@@ -27,7 +27,7 @@
       {
         "type": "target",
         "variant": "default",
-        "output":5
+        "output": 5
       },
       {
         "type": "language",
@@ -45,11 +45,13 @@
         "output": [
           {
             "kind": "bug",
-            "title": "Search for bugs"
+            "title": "Search for bugs",
+            "description": "description kind bug"
           },
           {
             "kind": "video",
-            "title": "Think aloud"
+            "title": "Think aloud",
+            "description": "description kind bug"
           }
         ]
       }

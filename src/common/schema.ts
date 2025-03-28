@@ -979,6 +979,7 @@ export interface components {
       variant: string;
       output: number;
     };
+    /** ModuleTargetNote */
     ModuleTargetNote: {
       /** @enum {string} */
       type: 'target_note';
@@ -1466,7 +1467,7 @@ export interface components {
       /** @enum {string} */
       kind: 'bug';
       title: string;
-      description?: string;
+      description: string;
     };
     /** OutputModuleAge */
     OutputModuleAge: {
@@ -1479,28 +1480,28 @@ export interface components {
       /** @enum {string} */
       kind: 'video';
       title: string;
-      description?: string;
+      description: string;
     };
     /** SubcomponentTaskSurvey */
     OutputModuleTaskSurvey: {
       /** @enum {string} */
       kind: 'survey';
       title: string;
-      description?: string;
+      description: string;
     };
     /** OutputModuleTaskModerateVideo */
     OutputModuleTaskModerateVideo: {
       /** @enum {string} */
       kind: 'moderate-video';
       title: string;
-      description?: string;
+      description: string;
     };
     /** OutputModuleTaskExplorativeBug */
     OutputModuleTaskExplorativeBug: {
       /** @enum {string} */
       kind: 'explorative-bug';
       title: string;
-      description?: string;
+      description: string;
     };
     /** SubcomponentTask */
     OutputModuleTask:
@@ -3746,6 +3747,12 @@ export interface operations {
               /** @enum {string} */
               status: 'pending' | 'proposed' | 'approved' | 'rejected';
               value: string;
+            };
+            campaign?: {
+              id: number;
+              /** @description CustomerTitle ?? Title */
+              title: string;
+              startDate: string;
             };
           };
         };
