@@ -29,13 +29,6 @@ const TouchpointItem = ({
   const { key, kind, form_factor } = touchpoint;
   const index = key + 1;
 
-  // TODO: create 3 separate components:
-  // - TouchpointItemSmartphone
-  // - TouchpointItemTablet
-  // - TouchpointItemDesktop
-  // and use them here based on the form_factor prop
-  // (differentiate UI based on the kind prop)
-
   const linkError =
     error && typeof error === 'object' && `touchpoints.${key}.link` in error
       ? error[`touchpoints.${key}.link`]

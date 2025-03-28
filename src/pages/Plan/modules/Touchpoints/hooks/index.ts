@@ -89,6 +89,8 @@ const useModuleTouchpoints = () => {
       const osErrors = checkOsLink(item);
       const hasOsErrors = Object.keys(osErrors).length > 0;
 
+      console.log('item', item);
+
       if (!osEmpty && !hasOsErrors) return { ...acc };
 
       return {
@@ -141,7 +143,8 @@ const useModuleTouchpoints = () => {
   ) => {
     setOutput(
       output.map((o) => {
-        if (o.key === k) {
+        const { key: keyO, ...rest } = o;
+        if (keyO === k) {
           const u = { ...o, ...v };
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { key, ...updated } = u;
@@ -182,7 +185,7 @@ const useModuleTouchpoints = () => {
           }
         }
 
-        return o;
+        return rest;
       }) as components['schemas']['OutputModuleTouchpoints'][]
     );
   };

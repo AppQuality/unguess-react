@@ -14,6 +14,7 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/link-fill.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTouchpoints } from '../hooks';
+import { TouchpointWeb } from './TouchpointWeb';
 
 const TouchpointItemSmartphone = ({
   touchpoint,
@@ -25,13 +26,19 @@ const TouchpointItemSmartphone = ({
   const { t } = useTranslation();
   const { update, validate, error } = useModuleTouchpoints();
   const { getPlanStatus } = useModuleConfiguration();
-  const { key, kind, os, link } = touchpoint;
-  const [isIos, setIsIos] = useState(os === 'ios');
-  const [isAndroid, setIsAndroid] = useState(os === 'android');
+  const { key, kind, os } = touchpoint;
+  const [isIos, setIsIos] = useState('ios' in os);
+  const [isAndroid, setIsAndroid] = useState('android' in os);
 
-  const linkError =
-    error && typeof error === 'object' && `touchpoints.${key}.link` in error
-      ? error[`touchpoints.${key}.link`]
+  const iosError =
+    error && typeof error === 'object' && `touchpoints.${key}.os.ios` in error
+      ? error[`touchpoints.${key}.os.ios`]
+      : false;
+  const androidError =
+    error &&
+    typeof error === 'object' &&
+    `touchpoints.${key}.os.android` in error
+      ? error[`touchpoints.${key}.os.android`]
       : false;
 
   const osError =
@@ -65,10 +72,14 @@ const TouchpointItemSmartphone = ({
               name={`ios_${key}`}
               value="ios"
               disabled={getPlanStatus() !== 'draft'}
-              checked={os === 'ios'}
-              onBlur={handleBlur}
+              checked={'ios' in os}
               onChange={(e) => {
-                update(key, { os: e.target.checked ? 'ios' : '' });
+                update(key, {
+                  os: {
+                    ...os,
+                    ...(e.target.checked ? { ios: '' } : {}),
+                  },
+                });
                 setIsIos(e.target.checked);
                 validate();
               }}
@@ -109,10 +120,12 @@ const TouchpointItemSmartphone = ({
                   start={<LinkIcon />}
                   type="text"
                   disabled={getPlanStatus() !== 'draft'}
-                  value={link}
+                  value={'ios' in os ? os.ios : ''}
                   onBlur={handleBlur}
-                  onChange={(e) => update(key, { link: e.target.value })}
-                  {...(linkError && { validation: 'error' })}
+                  onChange={(e) =>
+                    update(key, { os: { ...os, ios: e.target.value } })
+                  }
+                  {...(iosError && { validation: 'error' })}
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
@@ -120,6 +133,16 @@ const TouchpointItemSmartphone = ({
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
+                {iosError && (
+                  <Message
+                    validation="error"
+                    style={{ marginTop: appTheme.space.xs }}
+                  >
+                    {t(
+                      '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_LINK_ERROR_REQUIRED'
+                    )}
+                  </Message>
+                )}
               </FormField>
             )}
           </FormField>
@@ -129,10 +152,15 @@ const TouchpointItemSmartphone = ({
               name={`android_${key}`}
               value="android"
               disabled={getPlanStatus() !== 'draft'}
-              checked={os === 'android'}
+              checked={'android' in os}
               onBlur={handleBlur}
               onChange={(e) => {
-                update(key, { os: e.target.checked ? 'android' : '' });
+                update(key, {
+                  os: {
+                    ...os,
+                    ...(e.target.checked ? { android: '' } : {}),
+                  },
+                });
                 setIsAndroid(e.target.checked);
                 validate();
               }}
@@ -173,10 +201,12 @@ const TouchpointItemSmartphone = ({
                   start={<LinkIcon />}
                   type="text"
                   disabled={getPlanStatus() !== 'draft'}
-                  value={link}
+                  value={'android' in os ? os.android : ''}
                   onBlur={handleBlur}
-                  onChange={(e) => update(key, { link: e.target.value })}
-                  {...(linkError && { validation: 'error' })}
+                  onChange={(e) =>
+                    update(key, { os: { ...os, android: e.target.value } })
+                  }
+                  {...(androidError && { validation: 'error' })}
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
@@ -184,44 +214,22 @@ const TouchpointItemSmartphone = ({
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
+                {androidError && (
+                  <Message
+                    validation="error"
+                    style={{ marginTop: appTheme.space.xs }}
+                  >
+                    {t(
+                      '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_LINK_ERROR_REQUIRED'
+                    )}
+                  </Message>
+                )}
               </FormField>
             )}
           </FormField>
         </>
       )}
-      {kind === 'web' && (
-        <FormField style={{ marginTop: appTheme.space.xs }}>
-          <Label>
-            {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_LABEL')}
-            <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-          </Label>
-          <MD
-            style={{
-              marginTop: appTheme.space.xxs,
-              marginBottom: appTheme.space.sm,
-            }}
-          >
-            {t(
-              '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_DESCRIPTION'
-            )}
-          </MD>
-          <MediaInput
-            start={<LinkIcon />}
-            type="text"
-            disabled={getPlanStatus() !== 'draft'}
-            value={link}
-            onBlur={handleBlur}
-            onChange={(e) => update(key, { link: e.target.value })}
-            {...(linkError && { validation: 'error' })}
-            placeholder={t(
-              '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_PLACEHOLDER'
-            )}
-          />
-          <Message>
-            {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_HINT')}
-          </Message>
-        </FormField>
-      )}
+      {kind === 'web' && <TouchpointWeb touchpoint={touchpoint} />}
     </>
   );
 };
