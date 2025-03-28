@@ -5,6 +5,7 @@ import {
   MD,
   MediaInput,
   Message,
+  Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -126,19 +127,12 @@ const TouchpointItemSmartphone = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
                 />
+                <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                  {iosError && <Message validation="error">{iosError}</Message>}
+                </Paragraph>
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
-                {iosError && (
-                  <Message
-                    validation="error"
-                    style={{ marginTop: appTheme.space.xs }}
-                  >
-                    {t(
-                      '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_LINK_ERROR_REQUIRED'
-                    )}
-                  </Message>
-                )}
               </FormField>
             )}
           </FormField>
@@ -207,19 +201,14 @@ const TouchpointItemSmartphone = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
                 />
+                <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                  {androidError && (
+                    <Message validation="error">{androidError}</Message>
+                  )}
+                </Paragraph>
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
-                {androidError && (
-                  <Message
-                    validation="error"
-                    style={{ marginTop: appTheme.space.xs }}
-                  >
-                    {t(
-                      '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_LINK_ERROR_REQUIRED'
-                    )}
-                  </Message>
-                )}
               </FormField>
             )}
           </FormField>

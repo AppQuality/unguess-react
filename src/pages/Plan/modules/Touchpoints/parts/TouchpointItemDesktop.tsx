@@ -5,6 +5,7 @@ import {
   MD,
   MediaInput,
   Message,
+  Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -130,12 +131,14 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
                 />
+                <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                  {linuxError && (
+                    <Message validation="error">{linuxError}</Message>
+                  )}
+                </Paragraph>
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
-                {linuxError && (
-                  <Message validation="error">{linuxError}</Message>
-                )}
               </FormField>
             )}
           </FormField>
@@ -202,12 +205,14 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
                 />
+                <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                  {macosError && (
+                    <Message validation="error">{macosError}</Message>
+                  )}
+                </Paragraph>
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
-                {macosError && (
-                  <Message validation="error">{macosError}</Message>
-                )}
               </FormField>
             )}
           </FormField>
@@ -276,12 +281,14 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
                   )}
                 />
+                <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                  {windowsError && (
+                    <Message validation="error">{windowsError}</Message>
+                  )}
+                </Paragraph>
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
                 </Message>
-                {windowsError && (
-                  <Message validation="error">{windowsError}</Message>
-                )}
               </FormField>
             )}
           </FormField>
