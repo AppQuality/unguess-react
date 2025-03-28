@@ -165,8 +165,8 @@ const useModuleTouchpoints = () => {
 
           if (updated.form_factor === 'smartphone') {
             const smartphoneOs = updated.os as
-              | components['schemas']['OutputModuleTouchpointsAppMobile']['os']
-              | components['schemas']['OutputModuleTouchpointsWebMobile']['os'];
+              | components['schemas']['OutputModuleTouchpointsAppSmartphone']['os']
+              | components['schemas']['OutputModuleTouchpointsWebSmartphone']['os'];
             return {
               ...baseItem,
               os: smartphoneOs,
