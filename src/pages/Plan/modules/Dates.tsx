@@ -64,10 +64,6 @@ export const Dates = () => {
       ? error[`dates.start`]
       : false;
 
-  /*   useEffect(() => {
-    validate();
-  }, []); */
-
   return (
     <div data-qa="dates-module">
       <FormField>
