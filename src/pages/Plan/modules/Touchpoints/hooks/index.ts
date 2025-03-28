@@ -94,16 +94,27 @@ const useModuleTouchpoints = () => {
       return {
         ...acc,
         [idx]: {
-          ...(osEmpty
+          ...(osEmpty && item.kind === 'app'
             ? {
                 length: t(
                   '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_ERROR_REQUIRED'
                 ),
               }
             : {}),
-          os: {
-            ...osErrors,
-          },
+          ...(hasOsErrors && item.kind === 'app'
+            ? {
+                os: {
+                  ...osErrors,
+                },
+              }
+            : {}),
+          ...(osEmpty && item.kind === 'web'
+            ? {
+                link: t(
+                  '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_LINK_ERROR_REQUIRED'
+                ),
+              }
+            : {}),
         },
       };
     }, {});

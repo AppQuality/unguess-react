@@ -4,6 +4,7 @@ import {
   MD,
   MediaInput,
   Message,
+  Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -86,6 +87,9 @@ const TouchpointWeb = ({
           '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_PLACEHOLDER'
         )}
       />
+      <Paragraph style={{ marginTop: appTheme.space.xs }}>
+        {linkError && <Message validation="error">{linkError}</Message>}
+      </Paragraph>
       <Message>
         {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_HINT')}
       </Message>
