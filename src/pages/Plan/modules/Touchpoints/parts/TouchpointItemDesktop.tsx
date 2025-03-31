@@ -103,7 +103,7 @@ const TouchpointItemDesktop = ({
               >
                 <Label>
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LABEL'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_LABEL'
                   )}
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </Label>
@@ -114,7 +114,7 @@ const TouchpointItemDesktop = ({
                   }}
                 >
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_DESCRIPTION'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_DESCRIPTION'
                   )}
                 </MD>
                 <MediaInput
@@ -128,7 +128,7 @@ const TouchpointItemDesktop = ({
                   }
                   {...(linuxError && { validation: 'error' })}
                   placeholder={t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_PLACEHOLDER'
                   )}
                 />
                 <Paragraph style={{ marginTop: appTheme.space.xs }}>
@@ -137,7 +137,9 @@ const TouchpointItemDesktop = ({
                   )}
                 </Paragraph>
                 <Message>
-                  {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
+                  {t(
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_HINT'
+                  )}
                 </Message>
               </FormField>
             )}
@@ -177,7 +179,7 @@ const TouchpointItemDesktop = ({
               >
                 <Label>
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LABEL'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_LABEL'
                   )}
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </Label>
@@ -188,7 +190,7 @@ const TouchpointItemDesktop = ({
                   }}
                 >
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_DESCRIPTION'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_DESCRIPTION'
                   )}
                 </MD>
                 <MediaInput
@@ -202,7 +204,7 @@ const TouchpointItemDesktop = ({
                   }
                   {...(macosError && { validation: 'error' })}
                   placeholder={t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_PLACEHOLDER'
                   )}
                 />
                 <Paragraph style={{ marginTop: appTheme.space.xs }}>
@@ -211,7 +213,9 @@ const TouchpointItemDesktop = ({
                   )}
                 </Paragraph>
                 <Message>
-                  {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
+                  {t(
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_HINT'
+                  )}
                 </Message>
               </FormField>
             )}
@@ -253,7 +257,7 @@ const TouchpointItemDesktop = ({
               >
                 <Label>
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LABEL'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_LABEL'
                   )}
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </Label>
@@ -264,7 +268,7 @@ const TouchpointItemDesktop = ({
                   }}
                 >
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_DESCRIPTION'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_DESCRIPTION'
                   )}
                 </MD>
                 <MediaInput
@@ -278,7 +282,7 @@ const TouchpointItemDesktop = ({
                   }
                   {...(windowsError && { validation: 'error' })}
                   placeholder={t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_PLACEHOLDER'
                   )}
                 />
                 <Paragraph style={{ marginTop: appTheme.space.xs }}>
@@ -287,7 +291,9 @@ const TouchpointItemDesktop = ({
                   )}
                 </Paragraph>
                 <Message>
-                  {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
+                  {t(
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_HINT'
+                  )}
                 </Message>
               </FormField>
             )}

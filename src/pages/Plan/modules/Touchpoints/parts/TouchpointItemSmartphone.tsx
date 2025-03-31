@@ -99,7 +99,7 @@ const TouchpointItemSmartphone = ({
               >
                 <Label>
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LABEL'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_IOS_LABEL'
                   )}
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </Label>
@@ -110,7 +110,7 @@ const TouchpointItemSmartphone = ({
                   }}
                 >
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_DESCRIPTION'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_IOS_DESCRIPTION'
                   )}
                 </MD>
                 <MediaInput
@@ -124,14 +124,16 @@ const TouchpointItemSmartphone = ({
                   }
                   {...(iosError && { validation: 'error' })}
                   placeholder={t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_IOS_PLACEHOLDER'
                   )}
                 />
                 <Paragraph style={{ marginTop: appTheme.space.xs }}>
                   {iosError && <Message validation="error">{iosError}</Message>}
                 </Paragraph>
                 <Message>
-                  {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
+                  {t(
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_IOS_HINT'
+                  )}
                 </Message>
               </FormField>
             )}
@@ -173,7 +175,7 @@ const TouchpointItemSmartphone = ({
               >
                 <Label>
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LABEL'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_ANDROID_LABEL'
                   )}
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </Label>
@@ -184,7 +186,7 @@ const TouchpointItemSmartphone = ({
                   }}
                 >
                   {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_DESCRIPTION'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_ANDROID_DESCRIPTION'
                   )}
                 </MD>
                 <MediaInput
@@ -198,7 +200,7 @@ const TouchpointItemSmartphone = ({
                   }
                   {...(androidError && { validation: 'error' })}
                   placeholder={t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_PLACEHOLDER'
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_ANDROID_PLACEHOLDER'
                   )}
                 />
                 <Paragraph style={{ marginTop: appTheme.space.xs }}>
@@ -207,7 +209,9 @@ const TouchpointItemSmartphone = ({
                   )}
                 </Paragraph>
                 <Message>
-                  {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_HINT')}
+                  {t(
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_ANDROID_HINT'
+                  )}
                 </Message>
               </FormField>
             )}
