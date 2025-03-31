@@ -80,4 +80,4 @@ export const MODULE_TABS_ORDER: PlanTab[] = [
   'target',
   'instructions',
   'summary',
-]; // ordered from left to right, based on current designed
+]; // ordered from left to right, based on current design
