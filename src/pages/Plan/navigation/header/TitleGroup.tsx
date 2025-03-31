@@ -22,12 +22,13 @@ export const TitleGroup = () => {
   });
 
   const projectRoute = useLocalizeRoute(`projects/${plan?.project.id ?? 0}`);
+  const homeRoute = useLocalizeRoute('');
 
   if (!plan) return null;
 
   return (
     <StyledDiv>
-      <Link to="/">
+      <Link to={homeRoute}>
         <Logo type="icon" />
       </Link>
       <div>
