@@ -1,10 +1,11 @@
-import { Col, Row, Button } from '@appquality/unguess-design-system';
+import { Button, Col, Row } from '@appquality/unguess-design-system';
+import { ReactComponent as ChevronLeftIcon } from '@zendeskgarden/svg-icons/src/12/chevron-left-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { ReactComponent as ChevronLeftIcon } from '@zendeskgarden/svg-icons/src/12/chevron-left-stroke.svg';
 import { appTheme } from 'src/app/theme';
-import { SectionTitle } from '../common/SectionTitle';
+import styled from 'styled-components';
+import { StickyCol } from '../common/StickyCol';
+import { TabTitle } from '../common/TabTitle';
 import { usePlanTab } from '../context/planContext';
 import { usePlan } from '../hooks/usePlan';
 import { ActivityInfo } from './components/ActivityInfo';
@@ -12,7 +13,6 @@ import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
 import { GoToDashboardCard } from './components/GoToDashboard';
 import { IntroductionCard } from './components/IntroductionCard';
-import { TabTitle } from '../common/TabTitle';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -56,9 +56,9 @@ const SummaryBody = () => {
           {t('__MODULES_BOTTOM_NAVIGATION_SUMMARY_TAB_LEFT_LABEL')}
         </Button>
       </Col>
-      <Col sm="3">
+      <StickyCol sm="3">
         <DetailsCard />
-      </Col>
+      </StickyCol>
     </Row>
   );
 };

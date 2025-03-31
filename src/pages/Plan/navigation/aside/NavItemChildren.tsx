@@ -1,6 +1,14 @@
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
+import styled from 'styled-components';
 import { modulesChildrenMap } from './const';
+
+const ChildrenContainer = styled.div`
+  margin-top: ${({ theme }) => theme.space.sm};
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: ${({ theme }) => theme.space.sm};
+`;
 
 const NavItemChildren = ({
   module,
@@ -11,9 +19,7 @@ const NavItemChildren = ({
 
   if (modulesChildrenMap[`${type}`]) {
     return (
-      <div style={{ marginTop: appTheme.space.sm }}>
-        {modulesChildrenMap[`${type}`]}
-      </div>
+      <ChildrenContainer>{modulesChildrenMap[`${type}`]}</ChildrenContainer>
     );
   }
 

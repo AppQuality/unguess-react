@@ -41,6 +41,7 @@ const PlanPage = ({
       route="plan"
       isMinimal
       excludeMarginTop
+      excludeMarginBottom
     >
       <PlanBody />
     </Page>
