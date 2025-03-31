@@ -22,8 +22,8 @@ import {
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid'; // Import a UUID generator library like 'uuid'
-import { usePlanCreationContext } from './Context';
+import { v4 as uuidv4 } from 'uuid';
+import { usePlanCreationContext, PlanCreationContextProvider } from './Context';
 import { ProjectDropdown } from './ProjectDropdown';
 
 const TagContainer = styled.div`
@@ -60,40 +60,22 @@ export interface PlanCreationProps {
   template: CpReqTemplate;
 }
 
-export const NewPlanDrawer = ({
-  onClose,
-  isOpen,
-  template,
-}: PlanCreationProps) => {
-  const { t } = useTranslation();
+interface ExtendedTemplate extends CpReqTemplate {
+  isTailored: boolean;
+  requirementsItems?: { value: string; id: string }[];
+}
+
+const DrawerFooter = ({
+  selectedTemplate,
+}: {
+  selectedTemplate: ExtendedTemplate;
+}) => {
+  const { setFieldIsTouched, projectId } = usePlanCreationContext();
   const navigate = useNavigate();
   const { activeWorkspace } = useActiveWorkspace();
-  const { setFieldIsTouched, projectId } = usePlanCreationContext();
-  const handleClose = () => {
-    onClose();
-  };
   const [createPlan] = usePostWorkspacesByWidPlansMutation();
   const plansRoute = useLocalizeRoute('plans');
-
-  const selectedTemplate = useMemo(
-    () => ({
-      ...template,
-      isTailored: isTemplateTailored(template),
-      requirementsItems: template.strapi?.requirements?.list.map(
-        (requirement) => ({ value: requirement, id: uuidv4() })
-      ),
-    }),
-    [template]
-  );
-
-  if (!template) {
-    return null;
-    // todo: handle this case properly
-  }
-
-  const targetModule: { output: string } | undefined = JSON.parse(
-    selectedTemplate.config
-  ).modules.find((module: any) => module.type === 'target');
+  const { t } = useTranslation();
 
   const handleConfirm = async () => {
     setFieldIsTouched(true);
@@ -118,109 +100,148 @@ export const NewPlanDrawer = ({
   };
 
   return (
-    <Drawer
-      data-qa="plan-creation-interface"
-      isOpen={isOpen}
-      onClose={handleClose}
-      restoreFocus={false}
-      focusOnMount={false}
-    >
-      <Drawer.Header>
-        <TemplateCard.Meta
-          i18n={{
-            tailoredHeader: t('__TEMPLATE_CARD_TAILORED_HEADER'),
-            unguessHeader: t('__TEMPLATE_CARD_UNGUESS_HEADER'),
-          }}
-          isTailored={selectedTemplate.isTailored}
-        />
-      </Drawer.Header>
-      <Drawer.Body>
-        <LG isBold style={{ marginBottom: theme.space.xs }}>
-          {selectedTemplate.strapi?.title || selectedTemplate.name}
-        </LG>
-        <SM
-          color={theme.palette.grey[700]}
-          style={{ marginBottom: theme.space.sm }}
-        >
-          {selectedTemplate.strapi?.description || selectedTemplate.description}
-        </SM>
-        <TagContainer>
-          {'price' in selectedTemplate &&
-            typeof selectedTemplate.price === 'string' && (
-              <TemplateCard.PriceTag text={selectedTemplate.price} />
-            )}
-          {targetModule?.output && (
-            <TemplateCard.UserTag text={targetModule.output} />
-          )}
-
-          {selectedTemplate.strapi?.tags.map((tag) => (
-            <Tag>
-              <Tag.Avatar>
-                <img src={tag.icon} alt={tag.text} />
-              </Tag.Avatar>
-              {tag.text}
-            </Tag>
-          ))}
-        </TagContainer>
-        <Separator />
-        <DropdownContainer>
-          <MD isBold>{t('__TEMPLATES_DRAWER_PROJECT_DROPDOWN_LABEL')}</MD>
-          <ProjectDropdown />
-        </DropdownContainer>
-        <RequirementsContainer>
-          <MD
-            style={{ marginBottom: appTheme.space.xs }}
-            color={getColor(appTheme.colors.accentHue, 700)}
-            isBold
-          >
-            {selectedTemplate.isTailored
-              ? t('__TEMPLATES_DRAWER_REQUIREMENTS_TAILORED_LABEL')
-              : t('__TEMPLATES_DRAWER_REQUIREMENTS_LABEL')}
-          </MD>
-          {!selectedTemplate.isTailored && (
-            <SM
-              color={appTheme.palette.grey[700]}
-              style={{ marginBottom: appTheme.space.xs }}
-            >
-              {t('__TEMPLATES_DRAWER_REQUIREMENTS_LABEL2')}
-            </SM>
-          )}
-          <ul>
-            {selectedTemplate.requirementsItems?.map((req) => (
-              <li key={req.id}>
-                <SM>{req.value}</SM>
-              </li>
-            ))}
-          </ul>
-        </RequirementsContainer>
-      </Drawer.Body>
-      <Drawer.Footer>
-        <Drawer.FooterItem>
-          {!selectedTemplate.isTailored && (
-            <Button
-              style={{ marginRight: `${theme.space.md}` }}
-              isPrimary
-              isLink
-              onClick={() => {
-                navigate(`/templates/${selectedTemplate.id}`);
-              }}
-            >
-              {t('__TEMPLATES_DRAWER_FOOTER_INFO_BUTTON')}
-            </Button>
-          )}
+    <Drawer.Footer>
+      <Drawer.FooterItem>
+        {!selectedTemplate.isTailored && (
           <Button
+            style={{ marginRight: `${theme.space.md}` }}
             isPrimary
-            isAccent
+            isLink
             onClick={() => {
-              handleConfirm();
+              navigate(`/templates/${selectedTemplate.id}`);
             }}
           >
-            {t('__TEMPLATES_DRAWER_FOOTER_CONFIRM_BUTTON')}
+            {t('__TEMPLATES_DRAWER_FOOTER_INFO_BUTTON')}
           </Button>
-        </Drawer.FooterItem>
-      </Drawer.Footer>
-      <Drawer.Close data-qa="close-button" onClick={onClose} />
-    </Drawer>
+        )}
+        <Button
+          isPrimary
+          isAccent
+          onClick={() => {
+            handleConfirm();
+          }}
+        >
+          {t('__TEMPLATES_DRAWER_FOOTER_CONFIRM_BUTTON')}
+        </Button>
+      </Drawer.FooterItem>
+    </Drawer.Footer>
+  );
+};
+
+export const NewPlanDrawer = ({
+  onClose,
+  isOpen,
+  template,
+}: PlanCreationProps) => {
+  const { t } = useTranslation();
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  const selectedTemplate = useMemo(
+    () => ({
+      ...template,
+      isTailored: isTemplateTailored(template),
+      requirementsItems: template.strapi?.requirements?.list.map(
+        (requirement) => ({ value: requirement, id: uuidv4() })
+      ),
+    }),
+    [template]
+  );
+
+  if (!template) {
+    return null;
+    // todo: handle this case properly
+  }
+
+  const targetModule: { output: string } | undefined = JSON.parse(
+    selectedTemplate.config
+  ).modules.find((module: any) => module.type === 'target');
+
+  return (
+    <PlanCreationContextProvider>
+      <Drawer
+        data-qa="plan-creation-interface"
+        isOpen={isOpen}
+        onClose={handleClose}
+        restoreFocus={false}
+        focusOnMount={false}
+      >
+        <Drawer.Header>
+          <TemplateCard.Meta
+            i18n={{
+              tailoredHeader: t('__TEMPLATE_CARD_TAILORED_HEADER'),
+              unguessHeader: t('__TEMPLATE_CARD_UNGUESS_HEADER'),
+            }}
+            isTailored={selectedTemplate.isTailored}
+          />
+        </Drawer.Header>
+        <Drawer.Body>
+          <LG isBold style={{ marginBottom: theme.space.xs }}>
+            {selectedTemplate.strapi?.title || selectedTemplate.name}
+          </LG>
+          <SM
+            color={theme.palette.grey[700]}
+            style={{ marginBottom: theme.space.sm }}
+          >
+            {selectedTemplate.strapi?.description ||
+              selectedTemplate.description}
+          </SM>
+          <TagContainer>
+            {'price' in selectedTemplate &&
+              typeof selectedTemplate.price === 'string' && (
+                <TemplateCard.PriceTag text={selectedTemplate.price} />
+              )}
+            {targetModule?.output && (
+              <TemplateCard.UserTag text={targetModule.output} />
+            )}
+
+            {selectedTemplate.strapi?.tags.map((tag) => (
+              <Tag>
+                <Tag.Avatar>
+                  <img src={tag.icon} alt={tag.text} />
+                </Tag.Avatar>
+                {tag.text}
+              </Tag>
+            ))}
+          </TagContainer>
+          <Separator />
+          <DropdownContainer>
+            <MD isBold>{t('__TEMPLATES_DRAWER_PROJECT_DROPDOWN_LABEL')}</MD>
+            <ProjectDropdown />
+          </DropdownContainer>
+          <RequirementsContainer>
+            <MD
+              style={{ marginBottom: appTheme.space.xs }}
+              color={getColor(appTheme.colors.accentHue, 700)}
+              isBold
+            >
+              {selectedTemplate.isTailored
+                ? t('__TEMPLATES_DRAWER_REQUIREMENTS_TAILORED_LABEL')
+                : t('__TEMPLATES_DRAWER_REQUIREMENTS_LABEL')}
+            </MD>
+            {!selectedTemplate.isTailored && (
+              <SM
+                color={appTheme.palette.grey[700]}
+                style={{ marginBottom: appTheme.space.xs }}
+              >
+                {t('__TEMPLATES_DRAWER_REQUIREMENTS_LABEL2')}
+              </SM>
+            )}
+            <ul>
+              {selectedTemplate.requirementsItems?.map((req) => (
+                <li key={req.id}>
+                  <SM>{req.value}</SM>
+                </li>
+              ))}
+            </ul>
+          </RequirementsContainer>
+        </Drawer.Body>
+        <DrawerFooter selectedTemplate={selectedTemplate} />
+        <Drawer.Close data-qa="close-button" onClick={onClose} />
+      </Drawer>
+    </PlanCreationContextProvider>
   );
 };
 

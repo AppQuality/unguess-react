@@ -50,6 +50,14 @@ export class Template extends UnguessPage {
     );
   }
 
+  async mockGetProjects() {
+    await this.page.route('*/**/api/workspaces/1/projects*', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/workspaces/wid/projects/_get/200_Example_1.json',
+      });
+    });
+  }
+
   async mockPostPlans() {
     await this.page.route('*/**/api/workspaces/1/plans', async (route) => {
       if (route.request().method() === 'POST') {

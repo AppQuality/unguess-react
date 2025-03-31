@@ -2,7 +2,7 @@
   "id": 0,
   "name": "name: It identifies technical problems in the code",
   "description": "desc: bug hunting is the right choice if you want to improve the stability and performance of your product.",
-  "config": "string",
+  "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
   "workspace_id": 0,
   "price": "From 2.000€",
   "strapi": {

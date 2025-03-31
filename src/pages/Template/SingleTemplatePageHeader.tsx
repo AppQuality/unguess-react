@@ -20,8 +20,10 @@ export const getTemplateTitle = (
 
 export const SingleTemplatePageHeader = ({
   template,
+  handleLaunchActivity,
 }: {
   template: GetWorkspacesByWidTemplatesAndTidApiResponse;
+  handleLaunchActivity: () => void;
 }) => {
   const navigate = useNavigate();
   const workspaceRoute = useLocalizeRoute('');
@@ -65,7 +67,7 @@ export const SingleTemplatePageHeader = ({
           </PageHeader.Meta>
         </PageHeader.Main>
         <PageHeader.Footer>
-          <LaunchActivityCTA />
+          <LaunchActivityCTA handleLaunchActivity={handleLaunchActivity} />
         </PageHeader.Footer>
       </PageHeader>
     </LayoutWrapper>

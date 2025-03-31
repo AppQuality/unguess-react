@@ -1,16 +1,19 @@
 import { useTranslation } from 'react-i18next';
 import { Button } from '@appquality/unguess-design-system';
 
-export const LaunchActivityCTA = () => {
+export const LaunchActivityCTA = ({
+  handleLaunchActivity,
+}: {
+  handleLaunchActivity: () => void;
+}) => {
   const { t } = useTranslation();
   return (
     <Button
-      className="service-details-express-button"
       size="medium"
       isPrimary
       isAccent
       onClick={() => {
-        // dispatch(openDrawer());
+        handleLaunchActivity();
       }}
     >
       {t('__TEMPLATE_LAUNCH_ACTIVITY_BUTTON')}

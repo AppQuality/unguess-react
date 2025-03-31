@@ -15,6 +15,35 @@ import { CategoriesNav } from './CategoriesNav';
 import { TemplatesContextProvider, useTemplatesContext } from './Context';
 import PageHeader from './PageHeader';
 
+const PageInner = () => {
+  const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } =
+    useTemplatesContext();
+  const handleCloseDrawer = useCallback(() => {
+    setIsDrawerOpen(false);
+  }, [setIsDrawerOpen]);
+  return (
+    <>
+      <Grid>
+        <Row>
+          <Col xs={12} lg={2} style={{ margin: 0 }}>
+            <CategoriesNav />
+          </Col>
+          <Col xs={12} lg={10}>
+            <Body />
+          </Col>
+        </Row>
+      </Grid>
+      {selectedTemplate && (
+        <PlanCreationInterface
+          isOpen={isDrawerOpen}
+          onClose={handleCloseDrawer}
+          template={selectedTemplate}
+        />
+      )}
+    </>
+  );
+};
+
 const Templates = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -23,8 +52,7 @@ const Templates = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const { status } = useAppSelector((state) => state.user);
   const canViewTemplates = useCanAccessToActiveWorkspace();
-  const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } =
-    useTemplatesContext();
+
   const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
@@ -37,10 +65,6 @@ const Templates = () => {
   if (!data || isLoading || status === 'loading') {
     return <PageLoader />;
   }
-
-  const handleCloseDrawer = useCallback(() => {
-    setIsDrawerOpen(false);
-  }, [setIsDrawerOpen]);
 
   if (!canViewTemplates || isError) {
     navigate(notFoundRoute, {
@@ -55,23 +79,7 @@ const Templates = () => {
       route="templates"
     >
       <TemplatesContextProvider>
-        <Grid>
-          <Row>
-            <Col xs={12} lg={2} style={{ margin: 0 }}>
-              <CategoriesNav />
-            </Col>
-            <Col xs={12} lg={10}>
-              <Body />
-            </Col>
-          </Row>
-        </Grid>
-        {selectedTemplate && (
-          <PlanCreationInterface
-            isOpen={isDrawerOpen}
-            onClose={handleCloseDrawer}
-            template={selectedTemplate}
-          />
-        )}
+        <PageInner />
       </TemplatesContextProvider>
     </Page>
   );

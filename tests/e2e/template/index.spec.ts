@@ -13,6 +13,7 @@ test.describe('template page', () => {
     await template.mockPreferences();
     await template.mockWorkspace();
     await template.mockGetTemplate();
+    await template.mockGetProjects();
     await template.mockWorkspacesList();
     await template.mockPostPlans();
     await template.open();
@@ -26,6 +27,8 @@ test.describe('template page', () => {
       Template.getTemplateTitle(getTemplate)
     );
     await expect(template.elements().launchActivityButton()).toHaveCount(2);
+    await template.elements().launchActivityButton().nth(1).click();
+    await expect(template.elements().planCreationInterface()).toBeVisible();
   });
 
   test('Once a project is selected from the drawer is possible to start an activity', async ({
@@ -40,7 +43,7 @@ test.describe('template page', () => {
     );
     const projectName = getProjects.items[0].name;
     const projectId = getProjects.items[0].id;
-    await template.elements().launchActivityButton().click();
+    await template.elements().launchActivityButton().nth(1).click();
     // attempt to create a plan without selecting a project
     await template.elements().confirmButton().click();
     await expect(template.elements().errorMessage()).toBeVisible();

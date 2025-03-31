@@ -99,8 +99,10 @@ const StyledGrid = styled(Grid)`
 
 const TemplateTimeline = ({
   template,
+  handleLaunchActivity,
 }: {
   template: GetWorkspacesByWidTemplatesAndTidApiResponse;
+  handleLaunchActivity: () => void;
 }) => {
   const { t } = useTranslation();
 
@@ -343,7 +345,9 @@ const TemplateTimeline = ({
             )}
             {(memoizedTemplate.strapi?.why ||
               memoizedTemplate.strapi?.what ||
-              memoizedTemplate.strapi?.how) && <LaunchActivityCTA />}
+              memoizedTemplate.strapi?.how) && (
+              <LaunchActivityCTA handleLaunchActivity={handleLaunchActivity} />
+            )}
           </StickyContainer>
         </Col>
       </Row>
