@@ -2,14 +2,17 @@ import { FormikHelpers } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch } from 'src/app/hooks';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
   GetPlansByPidApiResponse,
   useGetPlansByPidQuery,
+  useGetWorkspacesByWidQuery,
   usePatchPlansByPidMutation,
 } from 'src/features/api';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
+import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { PlanProvider, usePlanTab } from './context/planContext';
@@ -44,6 +47,24 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   );
 };
 
+const useSetActiveWorkspace = (workspaceId?: number) => {
+  const dispatch = useAppDispatch();
+  const { data: workspace } = useGetWorkspacesByWidQuery(
+    {
+      wid: (workspaceId || 0).toString(),
+    },
+    {
+      skip: !workspaceId,
+    }
+  );
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+  }, [workspace, dispatch]);
+};
+
 const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const { planId } = useParams();
@@ -62,6 +83,7 @@ const Plan = () => {
     modules: [],
   });
 
+  useSetActiveWorkspace(plan?.workspace_id);
   useEffect(() => {
     if (!plan) return;
     const initialDatesModule = plan.config.modules.find(
