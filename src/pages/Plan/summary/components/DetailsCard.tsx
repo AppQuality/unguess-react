@@ -191,8 +191,11 @@ export const DetailsCard = () => {
               wid: activeWorkspace?.id.toString() ?? '',
               pid: planId?.toString() ?? '',
               body: { status: 'approved' },
-            }).unwrap();
-            setIsSubmitted(false);
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
           }}
           status={status}
           campaignId={plan?.campaign?.id ?? 0}

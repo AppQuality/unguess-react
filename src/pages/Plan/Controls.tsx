@@ -79,8 +79,11 @@ export const Controls = () => {
               wid: activeWorkspace?.id.toString() ?? '',
               pid: planId?.toString() ?? '',
               body: { status: 'approved' },
-            }).unwrap();
-            setIsSubmitted(false);
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
           }}
         >
           {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
