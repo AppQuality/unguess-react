@@ -1,6 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { components } from 'src/common/schema';
 
-const getTitleFromModuleType = (type: string) => {
+const getTitleFromModuleType = (
+  type: components['schemas']['Module']['type']
+) => {
   const { t } = useTranslation();
 
   switch (type) {
@@ -32,6 +35,8 @@ const getTitleFromModuleType = (type: string) => {
       return t('__PLAN_PAGE_MODULE_INSTRUCTIONS_NOTE_BLOCK_TITLE');
     case 'browser':
       return t('__PLAN_PAGE_MODULE_BROWSER_LABEL');
+    case 'touchpoints':
+      return t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TITLE');
     default:
       return '';
   }
