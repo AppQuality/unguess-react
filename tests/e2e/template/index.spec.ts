@@ -19,9 +19,7 @@ test.describe('template page', () => {
     await template.open();
   });
 
-  test('Once the launch activity button is clicked a plan creation interface appear', async ({
-    page,
-  }) => {
+  test('Once the launch activity button is clicked a plan creation interface appear', async () => {
     await expect(template.elements().planCreationInterface()).not.toBeVisible();
     await expect(template.elements().title()).toHaveText(
       Template.getTemplateTitle(getTemplate)

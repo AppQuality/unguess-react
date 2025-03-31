@@ -12,7 +12,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { isTemplateTailored } from 'src/common/isTemplateTailored';
 import {
@@ -23,7 +23,7 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-import { usePlanCreationContext, PlanCreationContextProvider } from './Context';
+import { PlanCreationContextProvider, usePlanCreationContext } from './Context';
 import { ProjectDropdown } from './ProjectDropdown';
 
 const TagContainer = styled.div`
@@ -76,6 +76,7 @@ const DrawerFooter = ({
   const [createPlan] = usePostWorkspacesByWidPlansMutation();
   const plansRoute = useLocalizeRoute('plans');
   const { t } = useTranslation();
+  const location = useLocation();
 
   const handleConfirm = async () => {
     setFieldIsTouched(true);
@@ -99,10 +100,19 @@ const DrawerFooter = ({
       });
   };
 
+  const infoPath = useMemo(
+    () => location.pathname.split('/').slice(0, -1).join('/'),
+    [location.pathname]
+  );
+  const shouldSeeInfoButton = useMemo(
+    () => !selectedTemplate.isTailored && location.pathname !== infoPath,
+    [selectedTemplate.isTailored, location.pathname, infoPath]
+  );
+
   return (
     <Drawer.Footer>
       <Drawer.FooterItem>
-        {!selectedTemplate.isTailored && (
+        {shouldSeeInfoButton && (
           <Button
             style={{ marginRight: `${theme.space.md}` }}
             isPrimary
