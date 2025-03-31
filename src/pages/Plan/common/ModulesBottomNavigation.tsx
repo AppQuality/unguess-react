@@ -18,6 +18,7 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
   const isFirstTab = MODULE_TABS_ORDER.indexOf(tabId) === 0;
   const isInstructionsTabRightButtonDisabled =
     getPlanStatus() === 'draft' && tabId === ('instructions' as PlanTab);
+  const main = document.getElementById('main');
 
   switch (tabId) {
     case 'setup':
@@ -52,6 +53,9 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
           size="small"
           onClick={() => {
             setActiveTab(previousTab);
+            if (main) {
+              main.scrollTop = 0;
+            }
           }}
         >
           <Button.StartIcon>
@@ -66,6 +70,9 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
         size="small"
         onClick={() => {
           setActiveTab(nextTab);
+          if (main) {
+            main.scrollTop = 0;
+          }
         }}
         disabled={isInstructionsTabRightButtonDisabled}
       >
