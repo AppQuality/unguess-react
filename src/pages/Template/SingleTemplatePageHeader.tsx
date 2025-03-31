@@ -37,10 +37,7 @@ export const SingleTemplatePageHeader = ({
             {activeWorkspace?.company || 'Default'}’s Workspace
           </Anchor>
         </PageHeader.Breadcrumbs>
-        <PageHeader.Main
-          mainTitle={getTemplateTitle(template)}
-          // {...(template.outputImage && { mainImageUrl: template.outputImage })}
-        >
+        <PageHeader.Main mainTitle={getTemplateTitle(template)}>
           <PageHeader.Overline>
             {template.strapi?.pre_title.toUpperCase()}
           </PageHeader.Overline>
