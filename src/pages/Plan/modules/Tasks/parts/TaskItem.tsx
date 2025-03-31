@@ -8,11 +8,13 @@ import {
   MD,
   Message,
   Span,
+  MediaInput,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTasks } from '../hooks';
@@ -158,18 +160,27 @@ const TaskItem = ({
                 </>
               )}
 
-              {/* TODO: Add missing task.link value */}
-              {/* <FormField style={{ marginTop: appTheme.space.md }}>
+              <FormField style={{ marginTop: appTheme.space.md }}>
                 <Label>
-                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL')}{" "}<Span style={{ fontWeight: 400, color: appTheme.palette.grey[600] }}>{t('__PLAN_PAGE_MODULE_TASKS_TASK_OPTIONAL_LABEL')}</Span>
+                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL')}{' '}
+                  <Span
+                    style={{
+                      fontWeight: 400,
+                      color: appTheme.palette.grey[600],
+                    }}
+                  >
+                    {t('__PLAN_PAGE_MODULE_TASKS_TASK_OPTIONAL_LABEL')}
+                  </Span>
                 </Label>
                 <MediaInput
                   start={<LinkIcon />}
-                  value={task.link}
-                  onChange={(value) => update(key, { link: value })}
-                  placeholder={t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER')}
+                  value={task.url}
+                  onChange={(e) => update(key, { url: e.target.value })}
+                  placeholder={t(
+                    '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
+                  )}
                 />
-              </FormField> */}
+              </FormField>
             </div>
           </AccordionNew.Panel>
         </AccordionNew.Section>
