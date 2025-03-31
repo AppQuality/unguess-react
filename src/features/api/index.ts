@@ -644,6 +644,67 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    postWorkspacesByWidPlans: build.mutation<
+      PostWorkspacesByWidPlansApiResponse,
+      PostWorkspacesByWidPlansApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getWorkspacesByWidPlans: build.query<
+      GetWorkspacesByWidPlansApiResponse,
+      GetWorkspacesByWidPlansApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans`,
+        params: {
+          orderBy: queryArg.orderBy,
+          order: queryArg.order,
+          filterBy: queryArg.filterBy,
+          limit: queryArg.limit,
+        },
+      }),
+    }),
+    deleteWorkspacesByWidPlansAndPid: build.mutation<
+      DeleteWorkspacesByWidPlansAndPidApiResponse,
+      DeleteWorkspacesByWidPlansAndPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        method: 'DELETE',
+      }),
+    }),
+    getWorkspacesByWidPlansAndPid: build.query<
+      GetWorkspacesByWidPlansAndPidApiResponse,
+      GetWorkspacesByWidPlansAndPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+      }),
+    }),
+    patchWorkspacesByWidPlansAndPid: build.mutation<
+      PatchWorkspacesByWidPlansAndPidApiResponse,
+      PatchWorkspacesByWidPlansAndPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
+    patchWorkspacesByWidPlansAndPidStatus: build.mutation<
+      PatchWorkspacesByWidPlansAndPidStatusApiResponse,
+      PatchWorkspacesByWidPlansAndPidStatusApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}/status`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspacesByWidProjects: build.query<
       GetWorkspacesByWidProjectsApiResponse,
       GetWorkspacesByWidProjectsApiArg
@@ -651,6 +712,37 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/workspaces/${queryArg.wid}/projects`,
         params: { limit: queryArg.limit, start: queryArg.start },
+      }),
+    }),
+    getWorkspacesByWidTemplates: build.query<
+      GetWorkspacesByWidTemplatesApiResponse,
+      GetWorkspacesByWidTemplatesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates`,
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          orderBy: queryArg.orderBy,
+          order: queryArg.order,
+        },
+      }),
+    }),
+    deleteWorkspacesByWidTemplatesAndTid: build.mutation<
+      DeleteWorkspacesByWidTemplatesAndTidApiResponse,
+      DeleteWorkspacesByWidTemplatesAndTidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates/${queryArg.tid}`,
+        method: 'DELETE',
+      }),
+    }),
+    getWorkspacesByWidTemplatesAndTid: build.query<
+      GetWorkspacesByWidTemplatesAndTidApiResponse,
+      GetWorkspacesByWidTemplatesAndTidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates/${queryArg.tid}`,
       }),
     }),
     getWorkspacesByWidProjectsAndPid: build.query<
@@ -774,6 +866,7 @@ export type PatchCampaignsByCidApiArg = {
 export type GetCampaignsByCidApiResponse =
   /** status 200 OK */ CampaignWithOutput & {
     isArchived?: boolean;
+    plan?: number;
   };
 export type GetCampaignsByCidApiArg = {
   /** Campaign id */
@@ -1638,6 +1731,90 @@ export type GetWorkspacesByWidCoinsApiArg = {
   /** Order by accepted field */
   orderBy?: string;
 };
+export type PostWorkspacesByWidPlansApiResponse = /** status 201 Created */ {
+  id: number;
+};
+export type PostWorkspacesByWidPlansApiArg = {
+  wid: string;
+  body: {
+    template_id: number;
+    project_id: number;
+  };
+};
+export type GetWorkspacesByWidPlansApiResponse = /** status 200 OK */ {
+  id: number;
+  title: string;
+  status: 'draft' | 'pending_review' | 'approved';
+  project: {
+    id: number;
+    title: string;
+  };
+  quote?: {
+    id: number;
+    status: 'pending' | 'proposed' | 'approved' | 'rejected';
+  };
+}[];
+export type GetWorkspacesByWidPlansApiArg = {
+  wid: string;
+  /** Order by accepted field */
+  orderBy?: string;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
+  /** Limit pagination parameter */
+  limit?: number;
+};
+export type DeleteWorkspacesByWidPlansAndPidApiResponse = unknown;
+export type DeleteWorkspacesByWidPlansAndPidApiArg = {
+  wid: string;
+  pid: string;
+};
+export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
+  id: number;
+  config: {
+    modules: Module[];
+  };
+  status: PlanStatus;
+  project: {
+    id: number;
+    name: string;
+  };
+  quote?: {
+    id: number;
+    status: 'pending' | 'proposed' | 'approved' | 'rejected';
+    value: string;
+  };
+  campaign?: {
+    id: number;
+    /** CustomerTitle ?? Title */
+    title: string;
+    startDate: string;
+  };
+};
+export type GetWorkspacesByWidPlansAndPidApiArg = {
+  wid: string;
+  pid: string;
+};
+export type PatchWorkspacesByWidPlansAndPidApiResponse = unknown;
+export type PatchWorkspacesByWidPlansAndPidApiArg = {
+  wid: string;
+  pid: string;
+  body: {
+    config: {
+      modules: Module[];
+    };
+  };
+};
+export type PatchWorkspacesByWidPlansAndPidStatusApiResponse =
+  /** status 200 OK */ {};
+export type PatchWorkspacesByWidPlansAndPidStatusApiArg = {
+  wid: string;
+  pid: string;
+  body: {
+    status: PlanStatus;
+  };
+};
 export type GetWorkspacesByWidProjectsApiResponse = /** status 200 OK */ {
   items?: Project[];
   start?: number;
@@ -1652,6 +1829,41 @@ export type GetWorkspacesByWidProjectsApiArg = {
   limit?: number;
   /** Start pagination parameter */
   start?: number;
+};
+export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
+  items: CpReqTemplate[];
+} & PaginationData;
+export type GetWorkspacesByWidTemplatesApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+  /** Orders results */
+  orderBy?: 'updated_at' | 'id';
+  /** Order value (ASC, DESC) */
+  order?: string;
+};
+export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
+  /** status 200 OK */ {};
+export type DeleteWorkspacesByWidTemplatesAndTidApiArg = {
+  wid: string;
+  tid: string;
+};
+export type GetWorkspacesByWidTemplatesAndTidApiResponse =
+  /** status 200 OK */ {
+    id: number;
+    name: string;
+    description?: string;
+    config: string;
+    workspace_id?: number;
+    price?: string;
+    strapi?: StrapiTemplate;
+  };
+export type GetWorkspacesByWidTemplatesAndTidApiArg = {
+  wid: string;
+  tid: string;
 };
 export type GetWorkspacesByWidProjectsAndPidApiResponse =
   /** status 200 OK */ Project;
@@ -2246,6 +2458,250 @@ export type Coin = {
   /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
+export type ModuleTitle = {
+  type: 'title';
+  variant: string;
+  output: string;
+};
+export type ModuleDate = {
+  type: 'dates';
+  variant: string;
+  output: {
+    start: string;
+  };
+};
+export type SubcomponentTaskVideo = {
+  kind: 'video';
+  title: string;
+  description?: string;
+  url?: string;
+};
+export type SubcomponentTaskBug = {
+  kind: 'bug';
+  title: string;
+  description?: string;
+  url?: string;
+};
+export type SubcomponentTaskSurvey = {
+  kind: 'survey';
+  title: string;
+  description?: string;
+  url?: string;
+};
+export type OutputModuleTaskModerateVideo = {
+  kind: 'moderate-video';
+  title: string;
+  description?: string;
+  url?: string;
+};
+export type OutputModuleTaskExplorativeBug = {
+  kind: 'explorative-bug';
+  title: string;
+  description?: string;
+  url?: string;
+};
+export type SubcomponentTask =
+  | SubcomponentTaskVideo
+  | SubcomponentTaskBug
+  | SubcomponentTaskSurvey
+  | OutputModuleTaskModerateVideo
+  | OutputModuleTaskExplorativeBug;
+export type ModuleTask = {
+  type: 'tasks';
+  variant: string;
+  output: SubcomponentTask[];
+};
+export type OutputModuleAge = {
+  min: number;
+  max: number;
+  percentage: number;
+}[];
+export type ModuleAge = {
+  type: 'age';
+  variant: string;
+  output: OutputModuleAge;
+};
+export type ModuleLanguage = {
+  type: 'language';
+  variant: string;
+  output: string;
+};
+export type OutputModuleLiteracy = {
+  level: 'beginner' | 'intermediate' | 'expert';
+  percentage: number;
+}[];
+export type ModuleLiteracy = {
+  type: 'literacy';
+  variant: string;
+  output: OutputModuleLiteracy;
+};
+export type ModuleTarget = {
+  type: 'target';
+  variant: string;
+  output: number;
+};
+export type ModuleGoal = {
+  type: 'goal';
+  variant: string;
+  output: string;
+};
+export type OutputModuleGender = {
+  gender: 'male' | 'female';
+  percentage: number;
+}[];
+export type ModuleGender = {
+  type: 'gender';
+  variant: string;
+  output: OutputModuleGender;
+};
+export type ModuleOutOfScope = {
+  type: 'out_of_scope';
+  variant: string;
+  output: string;
+};
+export type OutputModuleBrowser = {
+  name: 'firefox' | 'edge' | 'chrome' | 'safari';
+  percentage: number;
+}[];
+export type ModuleBrowser = {
+  type: 'browser';
+  variant: string;
+  output: OutputModuleBrowser;
+};
+export type ModuleTargetNote = {
+  type: 'target_note';
+  variant: string;
+  output: string;
+};
+export type ModuleInstructionNote = {
+  type: 'instruction_note';
+  variant: string;
+  output: string;
+};
+export type ModuleSetupNote = {
+  type: 'setup_note';
+  variant: string;
+  output: string;
+};
+export type OutputModuleTouchpointsAppDesktop = {
+  kind: 'app';
+  form_factor: 'desktop';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsAppTablet = {
+  kind: 'app';
+  form_factor: 'tablet';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsAppSmartphone = {
+  kind: 'app';
+  form_factor: 'smartphone';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebDesktop = {
+  kind: 'web';
+  form_factor: 'desktop';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsWebTablet = {
+  kind: 'web';
+  form_factor: 'tablet';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebSmartphone = {
+  kind: 'web';
+  form_factor: 'smartphone';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type SubcomponentTouchpoints =
+  | OutputModuleTouchpointsAppDesktop
+  | OutputModuleTouchpointsAppTablet
+  | OutputModuleTouchpointsAppSmartphone
+  | OutputModuleTouchpointsWebDesktop
+  | OutputModuleTouchpointsWebTablet
+  | OutputModuleTouchpointsWebSmartphone;
+export type ModuleTouchpoints = {
+  type: 'touchpoints';
+  variant: string;
+  output: SubcomponentTouchpoints[];
+};
+export type Module =
+  | ModuleTitle
+  | ModuleDate
+  | ModuleTask
+  | ModuleAge
+  | ModuleLanguage
+  | ModuleLiteracy
+  | ModuleTarget
+  | ModuleGoal
+  | ModuleGender
+  | ModuleOutOfScope
+  | ModuleBrowser
+  | ModuleTargetNote
+  | ModuleInstructionNote
+  | ModuleSetupNote
+  | ModuleTouchpoints;
+export type PlanStatus = 'pending_review' | 'draft' | 'approved';
+export type StrapiTemplate = {
+  title: string;
+  description: string;
+  pre_title: string;
+  image?: string;
+  output_image?: string;
+  requirements?: {
+    description: string;
+    list: string[];
+  };
+  tags: {
+    icon: string;
+    text: string;
+  }[];
+  advantages: string[];
+  why?: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+  what?: {
+    description: string;
+    goal: string;
+  };
+  how?: {
+    icon: string;
+    title: string;
+    description: string;
+  }[];
+};
+export type CpReqTemplate = {
+  id: number;
+  name: string;
+  description?: string;
+  config: string;
+  workspace_id?: number;
+  price?: string;
+  strapi?: StrapiTemplate;
+};
 export const {
   use$getQuery,
   usePostAuthenticateMutation,
@@ -2320,7 +2776,16 @@ export const {
   useGetWorkspacesByWidArchiveQuery,
   useGetWorkspacesByWidCampaignsQuery,
   useGetWorkspacesByWidCoinsQuery,
+  usePostWorkspacesByWidPlansMutation,
+  useGetWorkspacesByWidPlansQuery,
+  useDeleteWorkspacesByWidPlansAndPidMutation,
+  useGetWorkspacesByWidPlansAndPidQuery,
+  usePatchWorkspacesByWidPlansAndPidMutation,
+  usePatchWorkspacesByWidPlansAndPidStatusMutation,
   useGetWorkspacesByWidProjectsQuery,
+  useGetWorkspacesByWidTemplatesQuery,
+  useDeleteWorkspacesByWidTemplatesAndTidMutation,
+  useGetWorkspacesByWidTemplatesAndTidQuery,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   useGetWorkspacesByWidUsersQuery,

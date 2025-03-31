@@ -1,0 +1,44 @@
+{
+  "id": 0,
+  "name": "string",
+  "description": "string",
+  "config": "string",
+  "workspace_id": 0,
+  "price": "string",
+  "strapi": {
+    "title": "string",
+    "description": "string",
+    "pre_title": "string",
+    "image": "http://example.com",
+    "output_image": "http://example.com",
+    "requirements": {
+      "description": "string",
+      "list": ["string"]
+    },
+    "tags": [
+      {
+        "icon": "http://example.com",
+        "text": "string"
+      }
+    ],
+    "advantages": ["string"],
+    "why": [
+      {
+        "icon": "http://example.com",
+        "title": "string",
+        "description": "string"
+      }
+    ],
+    "what": {
+      "description": "string",
+      "goal": "string"
+    },
+    "how": [
+      {
+        "icon": "http://example.com",
+        "title": "string",
+        "description": "string"
+      }
+    ]
+  }
+}

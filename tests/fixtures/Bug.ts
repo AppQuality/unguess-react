@@ -192,7 +192,7 @@ export class BugPage extends UnguessPage {
       '*/**/api/campaigns/4997/priorities',
       async (route) => {
         await route.fulfill({
-          path: 'tests/api/campaigns/cid/priorities/_get/200_Example_2.json',
+          path: 'tests/api/campaigns/cid/priorities/_get/200_Example_1.json',
         });
       }
     );
@@ -217,7 +217,7 @@ export class BugPage extends UnguessPage {
   async mockOs() {
     await this.page.route('*/**/api/campaigns/4997/os', async (route) => {
       await route.fulfill({
-        path: 'tests/api/campaigns/cid/os/_get/200_Example_2.json',
+        path: 'tests/api/campaigns/cid/os/_get/200_Example_1.json',
       });
     });
   }

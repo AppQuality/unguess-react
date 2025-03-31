@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "company": "Demo Internal",
+      "logo": "https://crowd.app-quality.com/wp-content/uploads/2017/06/StdProfileImg.png",
+      "tokens": -1,
+      "csm": {
+        "id": 49138,
+        "name": "Tester T49138",
+        "email": "it+profile49138@unguess.io",
+        "profile_id": 49138,
+        "tryber_wp_user_id": 49619,
+        "url": "https://tryber.me"
+      },
+      "isShared": true,
+      "sharedItems": 1
+    }
+  ],
+  "start": 0,
+  "limit": 0,
+  "size": 1,
+  "total": 1
+}

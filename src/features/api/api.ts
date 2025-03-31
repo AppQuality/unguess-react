@@ -35,6 +35,7 @@ export const apiSlice = createApi({
     'Clusters',
     'Translation',
     'Archive',
+    'Plans',
   ],
   endpoints: () => ({}),
 });

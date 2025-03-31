@@ -1,37 +1,34 @@
 import {
   Col,
   Paragraph,
+  PlanCard,
   Row,
   Separator,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useGetWorkspacesByWidCampaignsQuery } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { SectionTitle } from 'src/common/components/SectionTitle';
 import { appTheme } from 'src/app/theme';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
+import { SectionTitle } from 'src/common/components/SectionTitle';
 import { CampaignItem } from './CampaignItem';
 import { CardRowLoading } from './CardRowLoading';
+import { getPlanStatus } from './hooks/getPlanStatus';
+import { useCampaignsAndPlans } from './hooks/useCampaignsAndPlans';
+
+const MAX_SUGGESTED_ITEMS = 5;
 
 export const SuggestedCampaigns = () => {
   const { t } = useTranslation();
-  const { activeWorkspace } = useActiveWorkspace();
 
-  const campaigns = useGetWorkspacesByWidCampaignsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-    orderBy: 'start_date',
-    order: 'DESC',
-    limit: 4,
-  });
+  const { items, isLoading, isFetching, isError } =
+    useCampaignsAndPlans(MAX_SUGGESTED_ITEMS);
 
-  if (campaigns.isError || !campaigns.data?.total) return null;
+  if (isLoading || isFetching) return <CardRowLoading />;
 
-  return campaigns.isLoading ||
-    campaigns.isFetching ||
-    !campaigns.data ||
-    !campaigns.data.items ? (
-    <CardRowLoading />
-  ) : (
+  if (isError) return null;
+
+  if (!items.plans.length && !items.campaigns.length) return null;
+
+  return (
     <>
       <Row>
         <Col xs={12} style={{ marginBottom: 0 }}>
@@ -45,11 +42,32 @@ export const SuggestedCampaigns = () => {
         </Col>
       </Row>
       <ScrollingGrid id="suggested-campaigns-scrolling-grid">
-        {campaigns.data.items.map((campaign) => (
-          <ScrollingGrid.Item key={`suggested_${campaign.id}`}>
-            <CampaignItem campaign={campaign} />
-          </ScrollingGrid.Item>
-        ))}
+        {!!items.plans.length &&
+          items.plans.map((plan) => (
+            <ScrollingGrid.Item key={`suggested_plan_${plan.id}`}>
+              <PlanCard
+                status={getPlanStatus(plan, t).status}
+                i18n={{
+                  statusLabel: getPlanStatus(plan, t).statusLabel,
+                }}
+                onClick={() => {
+                  window.location.href = `/plans/${plan.id}`;
+                }}
+              >
+                <PlanCard.ProjectLabel>
+                  {plan.project.title}
+                </PlanCard.ProjectLabel>
+                <PlanCard.Title>{plan.title}</PlanCard.Title>
+              </PlanCard>
+            </ScrollingGrid.Item>
+          ))}
+
+        {!!items.campaigns.length &&
+          items.campaigns.map((campaign) => (
+            <ScrollingGrid.Item key={`suggested_${campaign.id}`}>
+              <CampaignItem campaign={campaign} />
+            </ScrollingGrid.Item>
+          ))}
       </ScrollingGrid>
     </>
   );

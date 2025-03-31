@@ -1,5 +1,3 @@
-import { DEFAULT_EXPRESS_REQUIRED_COINS } from 'src/constants';
-import { Workspace } from 'src/features/api';
 import { getColor } from '@appquality/unguess-design-system';
 import { extractStrapiData, StrapiResponse } from './getStrapiData';
 
@@ -32,21 +30,6 @@ export const checkHubspotURL = (url: string) => {
   } catch (e) {
     return false;
   }
-};
-
-export const hasEnoughCoins = ({
-  workspace,
-  coins,
-}: {
-  workspace?: Workspace;
-  coins?: number;
-}): boolean => {
-  if (!workspace) return false;
-  if (!workspace.coins) return false;
-
-  const requiredCoins = coins || DEFAULT_EXPRESS_REQUIRED_COINS;
-
-  return workspace.coins >= requiredCoins;
 };
 
 export const getLocalizedStrapiData = ({
