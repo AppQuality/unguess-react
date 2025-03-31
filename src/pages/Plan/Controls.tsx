@@ -85,6 +85,7 @@ export const Controls = () => {
                 setIsSubmitted(false);
               });
           }}
+          data-qa="confirm-activity-cta"
         >
           {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
         </Button>

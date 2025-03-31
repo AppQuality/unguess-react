@@ -55,6 +55,8 @@ export class PlanPage extends UnguessPage {
         this.page.getByRole('button', {
           name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
         }),
+      confirmActivityCTA: () =>
+        this.elements().pageHeader().getByTestId('confirm-activity-cta'),
       requestQuotationModalCTA: () =>
         this.page.getByTestId('request-quotation-modal-cta'),
       requestQuotationErrorMessage: () =>
