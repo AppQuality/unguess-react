@@ -1351,7 +1351,7 @@
   "OS ({{count}})_one": "OS ({{count}})",
   "OS ({{count}})_other": "OS ({{count}})",
   "PLAN_GLOBAL_ALERT_APPROVED_STATE_MESSAGE": "You will be notified when the first data is available on your dashboard",
-  "PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE": "The activity has been successfully launched!",
+  "PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE": "The activity has been successfully requested!",
   "PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE": "Confirm your quotation to begin the activity",
   "PLAN_GLOBAL_ALERT_AWATING_STATE_TITLE": "Your quotation is ready!",
   "PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE": "No further changes can be made. You'll receive a notification once your quotation is available.",
