@@ -1,67 +1,89 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageLoader } from 'src/common/components/PageLoader';
-import {
-  openWizard,
-  setExpressTemplateId,
-} from 'src/features/express/expressSlice';
+import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
+import { useGetWorkspacesByWidTemplatesAndTidQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
-import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
-import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
-import { SingleTemplatePageHeader } from './SingleTemplatePageHeader';
+import {
+  getTemplateTitle,
+  SingleTemplatePageHeader,
+} from './SingleTemplatePageHeader';
 import { TemplateTimeline } from './TemplateTimeline';
 
 const Template = () => {
   const { templateId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
+  const { activeWorkspace } = useActiveWorkspace();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const { status } = useAppSelector((state) => state.user);
 
-  if (!templateId || Number.isNaN(Number(templateId))) {
+  if (typeof templateId === 'undefined') {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
+    return null;
   }
-  const { data, isLoading, isError } = useCampaignTemplateById(
-    templateId || ''
-  );
+
+  const { data, isLoading, isError } =
+    useGetWorkspacesByWidTemplatesAndTidQuery(
+      {
+        wid: activeWorkspace?.id.toString() || '',
+        tid: templateId,
+      },
+      {
+        skip: !activeWorkspace,
+      }
+    );
 
   if (isError) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
+    return null;
   }
 
-  useEffect(() => {
-    dispatch(setExpressTemplateId(data.id));
-  }, [data]);
-
-  if (!data || isLoading || status === 'loading') {
+  if (!data || isLoading || status === 'loading' || !activeWorkspace) {
     return <PageLoader />;
   }
 
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
+  const handleLaunchActivity = () => {
+    setIsDrawerOpen(true);
+  };
+
   return (
     <Page
-      pageHeader={<SingleTemplatePageHeader />}
-      title={data.title}
+      pageHeader={
+        <SingleTemplatePageHeader
+          template={data}
+          handleLaunchActivity={handleLaunchActivity}
+        />
+      }
+      title={getTemplateTitle(data)}
       route="template"
     >
       <LayoutWrapper>
-        <TemplateTimeline />
-        <ExpressDrawer
-          onCtaClick={() => {
-            dispatch(openWizard());
-          }}
+        <TemplateTimeline
+          template={data}
+          handleLaunchActivity={handleLaunchActivity}
         />
-        <ExpressWizardContainer />
       </LayoutWrapper>
+
+      <PlanCreationInterface
+        isOpen={isDrawerOpen}
+        onClose={handleCloseDrawer}
+        template={data}
+      />
     </Page>
   );
 };
