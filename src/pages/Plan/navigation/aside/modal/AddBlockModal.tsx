@@ -53,7 +53,7 @@ const AddBlockModal = () => {
     <TooltipModal
       referenceElement={modalRef}
       onClose={() => setModalRef(null)}
-      placement="auto"
+      placement="top-start"
       hasArrow={false}
     >
       <TooltipModal.Title>

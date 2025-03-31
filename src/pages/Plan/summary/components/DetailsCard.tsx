@@ -17,7 +17,6 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
-import { StickyContainer } from '../../common/StickyContainer';
 import { usePlan } from '../../hooks/usePlan';
 
 type IPlanStatus = 'draft' | 'submitted' | 'pending_quote_review' | 'approved';
@@ -162,22 +161,20 @@ export const DetailsCard = () => {
   const { status } = getPlanStatus(plan, t);
 
   return (
-    <StickyContainer>
-      <WidgetSpecialCard style={{ height: 'auto' }}>
-        <WidgetSpecialCard.Meta justifyContent="space-between">
-          <>
-            <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
-              {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
-            </MD>
-            <PlanTag {...getPlanStatus(plan, t)} />
-          </>
-        </WidgetSpecialCard.Meta>
-        <Divider />
-        <Content date={planDate()} quote={plan?.quote?.value} status={status} />
-        <Footer>
-          <Cta status={status} campaignId={plan?.campaign?.id ?? 0} />
-        </Footer>
-      </WidgetSpecialCard>
-    </StickyContainer>
+    <WidgetSpecialCard style={{ height: 'auto' }}>
+      <WidgetSpecialCard.Meta justifyContent="space-between">
+        <>
+          <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
+            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
+          </MD>
+          <PlanTag {...getPlanStatus(plan, t)} />
+        </>
+      </WidgetSpecialCard.Meta>
+      <Divider />
+      <Content date={planDate()} quote={plan?.quote?.value} status={status} />
+      <Footer>
+        <Cta status={status} campaignId={plan?.campaign?.id ?? 0} />
+      </Footer>
+    </WidgetSpecialCard>
   );
 };
