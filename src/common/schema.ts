@@ -525,22 +525,21 @@ export interface paths {
       };
     };
   };
-  '/workspaces/{wid}/plans/{pid}': {
+  '/plans/{pid}': {
     get: operations['get-workspaces-wid-plans-pid'];
     delete: operations['delete-workspaces-wid-plans-pid'];
     patch: operations['patch-workspaces-wid-plans-pid'];
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
   };
-  '/workspaces/{wid}/plans/{pid}/status': {
+  '/plans/{pid}/status': {
+    /**  */
     patch: operations['patch-workspaces-wid-plans-pid-status'];
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -3820,7 +3819,6 @@ export interface operations {
   'get-workspaces-wid-plans-pid': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -3858,7 +3856,6 @@ export interface operations {
   'delete-workspaces-wid-plans-pid': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -3870,7 +3867,6 @@ export interface operations {
   'patch-workspaces-wid-plans-pid': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -3892,10 +3888,10 @@ export interface operations {
       };
     };
   };
+  /**  */
   'patch-workspaces-wid-plans-pid-status': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };

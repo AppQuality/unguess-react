@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
-import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from 'src/features/api';
+import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
@@ -156,7 +156,7 @@ export const DetailsCard = () => {
   const { value } = useModule('dates');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [patchStatus] = usePatchWorkspacesByWidPlansAndPidStatusMutation();
+  const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   if (!plan) return null;
 
@@ -188,7 +188,6 @@ export const DetailsCard = () => {
           onClick={() => {
             setIsSubmitted(true);
             patchStatus({
-              wid: activeWorkspace?.id.toString() ?? '',
               pid: planId?.toString() ?? '',
               body: { status: 'approved' },
             })

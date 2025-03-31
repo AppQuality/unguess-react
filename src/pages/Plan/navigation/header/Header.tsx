@@ -1,14 +1,14 @@
 import { GlobalAlert, PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import styled from 'styled-components';
+import { useGetPlansByPidQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useGetWorkspacesByWidPlansAndPidQuery } from 'src/features/api';
-import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { Controls } from '../../Controls';
 import { BreadCrumbTabs } from './BreadCrumbTabs';
 import { TitleGroup } from './TitleGroup';
-import { Controls } from '../../Controls';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -28,9 +28,8 @@ const PlanPageHeader = () => {
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
   const { planId } = useParams();
-  const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery(
+  const { data: plan } = useGetPlansByPidQuery(
     {
-      wid: Number(activeWorkspace?.id).toString(),
       pid: Number(planId).toString(),
     },
     {

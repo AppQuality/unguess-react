@@ -11,7 +11,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
-import { GetWorkspacesByWidPlansAndPidApiResponse } from 'src/features/api';
+import { GetPlansByPidApiResponse } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { Notes } from 'src/pages/ExpressWizard/notesCard';
 import styled from 'styled-components';
@@ -27,11 +27,7 @@ const PlanContentDiv = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const ActivityDescription = ({
-  plan,
-}: {
-  plan: GetWorkspacesByWidPlansAndPidApiResponse;
-}) => {
+const ActivityDescription = ({ plan }: { plan: GetPlansByPidApiResponse }) => {
   const { t } = useTranslation();
 
   if (!plan.quote || plan.quote.status === 'pending')

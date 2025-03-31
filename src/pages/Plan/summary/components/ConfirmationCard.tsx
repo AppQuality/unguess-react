@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from 'src/features/api';
+import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { Title } from './typography/Title';
@@ -37,9 +37,9 @@ export const ConfirmationCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { plan, activeWorkspace } = usePlan(planId);
+  const { plan } = usePlan(planId);
 
-  const [patchStatus] = usePatchWorkspacesByWidPlansAndPidStatusMutation();
+  const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   if (!plan) return null;
 
@@ -91,7 +91,6 @@ export const ConfirmationCard = () => {
           onClick={() => {
             setIsSubmitted(true);
             patchStatus({
-              wid: activeWorkspace?.id.toString() ?? '',
               pid: planId?.toString() ?? '',
               body: { status: 'draft' },
             })
@@ -108,7 +107,6 @@ export const ConfirmationCard = () => {
           onClick={() => {
             setIsSubmitted(true);
             patchStatus({
-              wid: activeWorkspace?.id.toString() ?? '',
               pid: planId?.toString() ?? '',
               body: { status: 'approved' },
             }).unwrap();

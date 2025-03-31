@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { usePatchPlansByPidStatusMutation } from '../api';
 import { useModuleConfiguration } from './useModuleConfiguration';
-import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from '../api';
 
 export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
@@ -19,7 +19,7 @@ export const useRequestQuotation = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
-  const [patchStatus] = usePatchWorkspacesByWidPlansAndPidStatusMutation();
+  const [patchStatus] = usePatchPlansByPidStatusMutation();
   const missingModules = REQUIRED_MODULES.filter(
     (module) => !getModules().find((m) => m.type === module)
   );
@@ -50,7 +50,6 @@ export const useRequestQuotation = () => {
 
     // if the save is successful, change the status of the plan
     patchStatus({
-      wid: activeWorkspace?.id.toString() ?? '',
       pid: planId?.toString() ?? '',
       body: {
         status: 'pending_review',

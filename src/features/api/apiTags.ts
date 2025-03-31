@@ -268,16 +268,16 @@ unguessApi.enhanceEndpoints({
     getWorkspacesByWidPlans: {
       providesTags: ['Plans'],
     },
-    getWorkspacesByWidPlansAndPid: {
+    getPlansByPid: {
       providesTags: ['Plans'],
     },
-    patchWorkspacesByWidPlansAndPid: {
+    patchPlansByPid: {
       invalidatesTags: ['Plans'],
     },
     postWorkspacesByWidPlans: {
       invalidatesTags: ['Plans'],
     },
-    patchWorkspacesByWidPlansAndPidStatus: {
+    patchPlansByPidStatus: {
       invalidatesTags: ['Plans'],
     },
   },

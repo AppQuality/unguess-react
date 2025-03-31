@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
-import { usePatchWorkspacesByWidPlansAndPidStatusMutation } from 'src/features/api';
+import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { useValidationContext } from 'src/features/modules/FormProvider';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
@@ -29,7 +29,7 @@ export const Controls = () => {
   const { plan, activeWorkspace } = usePlan(planId);
   const { validateForm } = useValidationContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [patchStatus] = usePatchWorkspacesByWidPlansAndPidStatusMutation();
+  const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   const campaignRoute = useLocalizeRoute(
     `campaigns/${plan?.campaign?.id ?? 0}`
@@ -76,7 +76,6 @@ export const Controls = () => {
           onClick={() => {
             setIsSubmitted(true);
             patchStatus({
-              wid: activeWorkspace?.id.toString() ?? '',
               pid: planId?.toString() ?? '',
               body: { status: 'approved' },
             })

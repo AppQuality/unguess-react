@@ -13,7 +13,10 @@
     "output_image": "http://example.com/output5.jpg",
     "requirements": {
       "description": "strapi requirements description string",
-      "list": ["Your product is easily accessible from a public link", "Users can create login credentials if needed" ]
+      "list": [
+        "Your product is easily accessible from a public link",
+        "Users can create login credentials if needed"
+      ]
     },
     "tags": [
       {

@@ -1,7 +1,6 @@
 import { Anchor, Breadcrumb, Logo } from '@appquality/unguess-design-system';
 import { Link, useParams } from 'react-router-dom';
-import { useGetWorkspacesByWidPlansAndPidQuery } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useGetPlansByPidQuery } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 import { Title } from '../../modules/Title';
@@ -14,10 +13,8 @@ const StyledDiv = styled.div`
 
 export const TitleGroup = () => {
   const { planId } = useParams();
-  const { activeWorkspace } = useActiveWorkspace();
 
-  const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery({
-    wid: Number(activeWorkspace?.id).toString(),
+  const { data: plan } = useGetPlansByPidQuery({
     pid: Number(planId).toString(),
   });
 

@@ -1,8 +1,8 @@
-import { test, expect } from '../../fixtures/app';
-import { Template } from '../../fixtures/Template';
-import getTemplate from '../../api/workspaces/wid/templates/tid/_get/200_Example_1.json';
-import getProjects from '../../api/workspaces/wid/projects/_get/200_Example_1.json';
 import mockPostPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.json';
+import getProjects from '../../api/workspaces/wid/projects/_get/200_Example_1.json';
+import getTemplate from '../../api/workspaces/wid/templates/tid/_get/200_Example_1.json';
+import { expect, test } from '../../fixtures/app';
+import { Template } from '../../fixtures/Template';
 
 test.describe('template page', () => {
   let template: Template;

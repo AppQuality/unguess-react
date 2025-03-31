@@ -1,4 +1,4 @@
-import examplePatch from '../../api/workspaces/wid/plans/pid/_patch/request_Example_1.json';
+import examplePatch from '../../api/plans/pid/_patch/request_Example_1.json';
 import { expect, test } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/Plan';
 
@@ -62,7 +62,7 @@ test.describe('The module builder', () => {
   }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
-        /\/api\/workspaces\/1\/plans\/1(?!\/status)/.test(response.url()) &&
+        /\/api\/plans\/1(?!\/status)/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
@@ -82,7 +82,7 @@ test.describe('The module builder', () => {
   test('if confirmation calls the PATCH Plan', async ({ page }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
-        /\/api\/workspaces\/1\/plans\/1(?!\/status)/.test(response.url()) &&
+        /\/api\/plans\/1(?!\/status)/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
@@ -95,7 +95,7 @@ test.describe('The module builder', () => {
   test('if PATCH plan is ok then calls the PATCH Status', async ({ page }) => {
     const patchStatusPromise = page.waitForResponse(
       (response) =>
-        /\/api\/workspaces\/1\/plans\/1\/status/.test(response.url()) &&
+        /\/api\/plans\/1\/status/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
