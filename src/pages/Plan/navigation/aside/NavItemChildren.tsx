@@ -1,4 +1,3 @@
-import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { modulesChildrenMap } from './const';

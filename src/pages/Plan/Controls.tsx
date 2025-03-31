@@ -26,7 +26,7 @@ export const Controls = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { isSubmitting, submitModuleConfiguration } = useModuleConfiguration();
   const { planId } = useParams();
-  const { plan, activeWorkspace } = usePlan(planId);
+  const { plan } = usePlan(planId);
   const { validateForm } = useValidationContext();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [patchStatus] = usePatchPlansByPidStatusMutation();
