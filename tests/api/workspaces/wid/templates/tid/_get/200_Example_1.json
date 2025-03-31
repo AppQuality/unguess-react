@@ -1,48 +1,43 @@
 {
   "id": 0,
-  "name": "name: It identifies technical problems in the code",
-  "description": "desc: bug hunting is the right choice if you want to improve the stability and performance of your product.",
-  "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
+  "name": "string",
+  "description": "string",
+  "config": "string",
   "workspace_id": 0,
-  "price": "From 2.000€",
+  "price": "string",
   "strapi": {
-    "title": "Strapi title It identifies technical problems in the code",
-    "description": "Strapi desc: bug hunting is the right choice if you want to improve the stability and performance of your product.",
-    "pre_title": "bug hunting",
-    "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
-    "output_image": "http://example.com/output5.jpg",
+    "title": "string",
+    "description": "string",
+    "pre_title": "string",
+    "image": "http://example.com",
+    "output_image": "http://example.com",
     "requirements": {
-      "description": "strapi requirements description string",
-      "list": ["Your product is easily accessible from a public link", "Users can create login credentials if needed" ]
+      "description": "string",
+      "list": ["string"]
     },
     "tags": [
       {
-        "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
-        "text": "From Bug x"
+        "icon": "http://example.com",
+        "text": "string"
       }
     ],
     "advantages": ["string"],
     "why": [
       {
-        "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
-        "title": "You want to understand",
-        "description": "and quickly verify that your digital product is working properly with full validation. You define the timing and duration of the activity to receive the first bugs. "
+        "icon": "http://example.com",
+        "title": "string",
+        "description": "string"
       }
     ],
     "what": {
-      "description": "This activity provides a comprehensive bug report, enabling you to make informed decisions quickly about your product's functionality.",
-      "goal": "By accessing your dedicated dashboard, you can immediately start prioritizing fixes based on severity, integrate findings with your tracking systems, and keep your development timeline on track - all for a streamlined investment of €2000."
+      "description": "string",
+      "goal": "string"
     },
     "how": [
       {
-        "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
-        "title": "Set up activity | What do we test and why?",
-        "description": "We define the activity goal and the product to be tested."
-      },
-      {
-        "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
-        "title": "Set up activity | What do we test and why?",
-        "description": "We define the activity goal and the product to be tested."
+        "icon": "http://example.com",
+        "title": "string",
+        "description": "string"
       }
     ]
   }

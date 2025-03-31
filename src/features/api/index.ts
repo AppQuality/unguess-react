@@ -668,39 +668,34 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
-    deleteWorkspacesByWidPlansAndPid: build.mutation<
-      DeleteWorkspacesByWidPlansAndPidApiResponse,
-      DeleteWorkspacesByWidPlansAndPidApiArg
+    deletePlansByPid: build.mutation<
+      DeletePlansByPidApiResponse,
+      DeletePlansByPidApiArg
     >({
       query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        url: `/plans/${queryArg.pid}`,
         method: 'DELETE',
       }),
     }),
-    getWorkspacesByWidPlansAndPid: build.query<
-      GetWorkspacesByWidPlansAndPidApiResponse,
-      GetWorkspacesByWidPlansAndPidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
-      }),
+    getPlansByPid: build.query<GetPlansByPidApiResponse, GetPlansByPidApiArg>({
+      query: (queryArg) => ({ url: `/plans/${queryArg.pid}` }),
     }),
-    patchWorkspacesByWidPlansAndPid: build.mutation<
-      PatchWorkspacesByWidPlansAndPidApiResponse,
-      PatchWorkspacesByWidPlansAndPidApiArg
+    patchPlansByPid: build.mutation<
+      PatchPlansByPidApiResponse,
+      PatchPlansByPidApiArg
     >({
       query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        url: `/plans/${queryArg.pid}`,
         method: 'PATCH',
         body: queryArg.body,
       }),
     }),
-    patchWorkspacesByWidPlansAndPidStatus: build.mutation<
-      PatchWorkspacesByWidPlansAndPidStatusApiResponse,
-      PatchWorkspacesByWidPlansAndPidStatusApiArg
+    patchPlansByPidStatus: build.mutation<
+      PatchPlansByPidStatusApiResponse,
+      PatchPlansByPidStatusApiArg
     >({
       query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}/status`,
+        url: `/plans/${queryArg.pid}/status`,
         method: 'PATCH',
         body: queryArg.body,
       }),
@@ -1765,12 +1760,11 @@ export type GetWorkspacesByWidPlansApiArg = {
   /** Limit pagination parameter */
   limit?: number;
 };
-export type DeleteWorkspacesByWidPlansAndPidApiResponse = unknown;
-export type DeleteWorkspacesByWidPlansAndPidApiArg = {
-  wid: string;
+export type DeletePlansByPidApiResponse = unknown;
+export type DeletePlansByPidApiArg = {
   pid: string;
 };
-export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
+export type GetPlansByPidApiResponse = /** status 200 OK */ {
   id: number;
   config: {
     modules: Module[];
@@ -1792,13 +1786,11 @@ export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
     startDate: string;
   };
 };
-export type GetWorkspacesByWidPlansAndPidApiArg = {
-  wid: string;
+export type GetPlansByPidApiArg = {
   pid: string;
 };
-export type PatchWorkspacesByWidPlansAndPidApiResponse = unknown;
-export type PatchWorkspacesByWidPlansAndPidApiArg = {
-  wid: string;
+export type PatchPlansByPidApiResponse = unknown;
+export type PatchPlansByPidApiArg = {
   pid: string;
   body: {
     config: {
@@ -1806,10 +1798,8 @@ export type PatchWorkspacesByWidPlansAndPidApiArg = {
     };
   };
 };
-export type PatchWorkspacesByWidPlansAndPidStatusApiResponse =
-  /** status 200 OK */ {};
-export type PatchWorkspacesByWidPlansAndPidStatusApiArg = {
-  wid: string;
+export type PatchPlansByPidStatusApiResponse = /** status 200 OK */ {};
+export type PatchPlansByPidStatusApiArg = {
   pid: string;
   body: {
     status: PlanStatus;
@@ -2778,10 +2768,10 @@ export const {
   useGetWorkspacesByWidCoinsQuery,
   usePostWorkspacesByWidPlansMutation,
   useGetWorkspacesByWidPlansQuery,
-  useDeleteWorkspacesByWidPlansAndPidMutation,
-  useGetWorkspacesByWidPlansAndPidQuery,
-  usePatchWorkspacesByWidPlansAndPidMutation,
-  usePatchWorkspacesByWidPlansAndPidStatusMutation,
+  useDeletePlansByPidMutation,
+  useGetPlansByPidQuery,
+  usePatchPlansByPidMutation,
+  usePatchPlansByPidStatusMutation,
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidTemplatesQuery,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,

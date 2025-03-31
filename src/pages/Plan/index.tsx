@@ -2,26 +2,22 @@ import { FormikHelpers } from 'formik';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
-  GetWorkspacesByWidPlansAndPidApiResponse,
-  useGetWorkspacesByWidPlansAndPidQuery,
-  usePatchWorkspacesByWidPlansAndPidMutation,
+  GetPlansByPidApiResponse,
+  useGetPlansByPidQuery,
+  usePatchPlansByPidMutation,
 } from 'src/features/api';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { PLAN_MINIMUM_DATE } from 'src/constants';
 import { PlanProvider, usePlanTab } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
 import { formatModuleDate } from './utils/formatModuleDate';
 
-const PlanPage = ({
-  plan,
-}: {
-  plan: GetWorkspacesByWidPlansAndPidApiResponse | undefined;
-}) => {
+const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   const { t } = useTranslation();
   const { activeTab, setActiveTab } = usePlanTab();
 
@@ -51,10 +47,9 @@ const PlanPage = ({
 const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const { planId } = useParams();
-  const [patchPlan] = usePatchWorkspacesByWidPlansAndPidMutation();
-  const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery(
+  const [patchPlan] = usePatchPlansByPidMutation();
+  const { data: plan } = useGetPlansByPidQuery(
     {
-      wid: Number(activeWorkspace?.id).toString(),
       pid: Number(planId).toString(),
     },
     {
@@ -93,7 +88,6 @@ const Plan = () => {
       helpers.setSubmitting(true);
       try {
         await patchPlan({
-          wid: activeWorkspace?.id.toString() ?? '',
           pid: planId?.toString() ?? '',
           body: {
             config: {
