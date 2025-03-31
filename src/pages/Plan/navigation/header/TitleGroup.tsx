@@ -27,7 +27,9 @@ export const TitleGroup = () => {
 
   return (
     <StyledDiv>
-      <Logo type="icon" />
+      <Link to="/">
+        <Logo type="icon" />
+      </Link>
       <div>
         <Breadcrumb>
           <Link to={projectRoute}>
