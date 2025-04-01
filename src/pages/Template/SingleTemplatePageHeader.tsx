@@ -9,7 +9,10 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { PageTitle } from 'src/common/components/PageTitle';
-import { GetWorkspacesByWidTemplatesAndTidApiResponse } from 'src/features/api';
+import {
+  GetWorkspacesByWidTemplatesAndTidApiResponse,
+  Module,
+} from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LaunchActivityCTA } from './LaunchActivityCTA';
@@ -29,12 +32,16 @@ export const SingleTemplatePageHeader = ({
   const workspaceRoute = useLocalizeRoute('');
   const { activeWorkspace } = useActiveWorkspace();
 
+  const targetModule: { output: string } | undefined = JSON.parse(
+    template.config
+  ).modules.find((module: Module) => module.type === 'target');
+
   return (
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Breadcrumbs>
           <Anchor onClick={() => navigate(workspaceRoute)}>
-            {activeWorkspace?.company || 'Default'}’s Workspace
+            {activeWorkspace?.company || 'Default'}&apos;s Workspace
           </Anchor>
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={getTemplateTitle(template)}>
@@ -49,6 +56,13 @@ export const SingleTemplatePageHeader = ({
           </PageHeader.Description>
           <PageHeader.Meta>
             <PageMeta>
+              {template.price &&
+                TemplateCard.PriceTag({ text: template.price })}
+
+              {targetModule?.output && (
+                <TemplateCard.UserTag text={targetModule.output} />
+              )}
+
               {template.strapi?.tags &&
                 template.strapi?.tags.map((tag) => (
                   <Meta
@@ -58,8 +72,6 @@ export const SingleTemplatePageHeader = ({
                     <Paragraph>{tag.text}</Paragraph>
                   </Meta>
                 ))}
-              {template.price &&
-                TemplateCard.PriceTag({ text: template.price })}
             </PageMeta>
           </PageHeader.Meta>
         </PageHeader.Main>
