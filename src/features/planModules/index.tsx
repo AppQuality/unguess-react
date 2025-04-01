@@ -5,14 +5,14 @@ import { components } from 'src/common/schema';
 
 interface PlanModuleState {
   status: string;
-  isSubmitting: boolean;
   modules: components['schemas']['Module'][];
+  errors: Record<string, string>;
 }
 
 const initialState = {
   status: 'draft',
-  isSubmitting: false,
   modules: [],
+  errors: {},
 } satisfies PlanModuleState as PlanModuleState;
 
 const planModuleSlice = createSlice({
@@ -28,9 +28,6 @@ const planModuleSlice = createSlice({
     setStatus: (state, action: PayloadAction<string>) => {
       state.status = action.payload;
     },
-    setSubmitting: (state, action: PayloadAction<boolean>) => {
-      state.isSubmitting = action.payload;
-    },
   },
 });
 
@@ -43,12 +40,6 @@ export const useSetModules = () => {
   const dispatch = useAppDispatch();
   return (values: components['schemas']['Module'][]) =>
     dispatch(planModuleSlice.actions.setModules(values));
-};
-
-export const useSetSubmitting = () => {
-  const dispatch = useAppDispatch();
-  return (isSubmitting: boolean) =>
-    dispatch(planModuleSlice.actions.setSubmitting(isSubmitting));
 };
 
 export const useSetStatus = () => {

@@ -1,20 +1,14 @@
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { usePatchPlansByPidMutation } from 'src/features/api';
-import {
-  usePlanModuleValues,
-  useSetStatus,
-  useSetSubmitting,
-} from '../planModules';
+import { usePlanModuleValues, useSetStatus } from '../planModules';
 import { useValidationContext } from './FormProvider';
 
 export const useSubmit = (planId: string) => {
   const { values } = usePlanModuleValues();
-  const setSubmitting = useSetSubmitting();
   const [patchPlan, { isLoading }] = usePatchPlansByPidMutation();
 
   const handleSubmit = useCallback(async () => {
-    setSubmitting(true);
     try {
       await patchPlan({
         pid: planId,
@@ -24,7 +18,6 @@ export const useSubmit = (planId: string) => {
           },
         },
       }).unwrap();
-      setSubmitting(false);
     } catch (e) {
       console.log(e);
     }
