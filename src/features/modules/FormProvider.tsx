@@ -1,13 +1,18 @@
-import { Form, Formik, FormikHelpers, useFormikContext } from 'formik';
 import {
   createContext,
   Dispatch,
   ReactNode,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  usePlanModuleValues,
+  useSetModules,
+  useSetStatus,
+} from '../planModules';
 import { FormBody } from './types';
 
 interface ValidationContextType {
@@ -86,33 +91,28 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
 const FormProvider = ({
   initialValues,
   children,
-  onSubmit,
 }: {
   initialValues?: FormBody;
   children: ReactNode;
-  onSubmit: (
-    values: FormBody,
-    helpers: FormikHelpers<FormBody>
-  ) => Promise<void>;
-}) => (
-  <Formik
-    initialValues={
-      initialValues || {
-        status: 'draft',
-        modules: [],
-      }
+}) => {
+  const setModules = useSetModules();
+  const setStatus = useSetStatus();
+  useEffect(() => {
+    setModules(initialValues?.modules ?? []);
+    if (initialValues?.status) {
+      setStatus(initialValues.status);
     }
-    onSubmit={onSubmit}
-    enableReinitialize
-  >
-    <ValidationContextProvider>
-      <Form>{children}</Form>
-    </ValidationContextProvider>
-  </Formik>
-);
+  }, [initialValues]);
+
+  return (
+    <div>
+      <ValidationContextProvider>{children}</ValidationContextProvider>
+    </div>
+  );
+};
 
 const Debugger = () => {
-  const { values } = useFormikContext<FormBody>();
+  const { values } = usePlanModuleValues();
 
   return <pre>{JSON.stringify(values, null, 2)}</pre>;
 };

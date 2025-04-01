@@ -1,11 +1,11 @@
 import * as Sentry from '@sentry/react';
 import { useTranslation } from 'react-i18next';
 import {
+  createBrowserRouter,
+  createRoutesFromElements,
   Navigate,
   Route,
   RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
 } from 'react-router-dom';
 import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
 import SentryWrapper from 'src/features/SentryWrapper';
@@ -21,13 +21,13 @@ import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import NotFound from 'src/pages/NotFound/NotFound';
-import Service from 'src/pages/Service';
-import Template from 'src/pages/Template';
-import Catalog from 'src/pages/Services';
 import Plan from 'src/pages/Plan';
+import Service from 'src/pages/Service';
+import Catalog from 'src/pages/Services';
+import Template from 'src/pages/Template';
+import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
 import Videos from 'src/pages/Videos';
-import Templates from 'src/pages/Templates';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -46,7 +46,6 @@ const Pages = () => {
                 <Route
                   path={`/${langPrefix}`}
                   key={`react-router-${langPrefix}`}
-                  errorElement={<ErrorBoundaryPage />}
                 >
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId`}

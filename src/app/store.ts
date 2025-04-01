@@ -1,14 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/dist/query';
 import { unguessApiSlice } from 'src/features/api/apiTags';
-import userReducer from '../features/user/userSlice';
-import navigationReducer from '../features/navigation/navigationSlice';
-import workspaceReducer from '../features/workspaces/workspaceSlice';
-import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
-import expressReducer from '../features/express/expressSlice';
 import { strapiSlice } from '../features/backoffice/strapi';
 import bugsPageReducer from '../features/bugsPage/bugsPageSlice';
+import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
+import expressReducer from '../features/express/expressSlice';
+import navigationReducer from '../features/navigation/navigationSlice';
+import planModulesReducer from '../features/planModules';
+import userReducer from '../features/user/userSlice';
 import uxFilterReducer from '../features/uxFilters';
+import workspaceReducer from '../features/workspaces/workspaceSlice';
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     express: expressReducer,
     bugsPage: bugsPageReducer,
     uxFilters: uxFilterReducer,
+    planModules: planModulesReducer,
     [unguessApiSlice.reducerPath]: unguessApiSlice.reducer,
     [strapiSlice.reducerPath]: strapiSlice.reducer,
   },

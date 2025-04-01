@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { usePatchPlansByPidStatusMutation } from '../api';
 import { useModuleConfiguration } from './useModuleConfiguration';
 
 export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
+  const { planId } = useParams();
   const {
     isSubmitting,
     getModules,
@@ -16,9 +16,7 @@ export const useRequestQuotation = () => {
     getPlanStatus,
     isValid,
   } = useModuleConfiguration();
-  const { planId } = useParams();
   const { t } = useTranslation();
-  const { activeWorkspace } = useActiveWorkspace();
   const [patchStatus] = usePatchPlansByPidStatusMutation();
   const missingModules = REQUIRED_MODULES.filter(
     (module) => !getModules().find((m) => m.type === module)
