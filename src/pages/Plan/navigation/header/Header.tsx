@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetPlansByPidQuery } from 'src/features/api';
+import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import styled from 'styled-components';
 import { Controls } from '../../Controls';
@@ -37,11 +38,11 @@ const PlanPageHeader = () => {
     }
   );
 
-  const planStatus =
-    plan?.status === 'pending_review' ? plan?.quote?.status : plan?.status;
   const getGlobalAlert = () => {
+    if (!plan) return null;
+    const { status: planStatus } = getPlanStatus(plan, t);
     switch (planStatus) {
-      case 'pending':
+      case 'submitted':
         return (
           <GlobalAlert
             message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
@@ -49,7 +50,7 @@ const PlanPageHeader = () => {
             type="info"
           />
         );
-      case 'proposed':
+      case 'pending_quote_review':
         return (
           <GlobalAlert
             message={<>{t('PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE')}</>}
