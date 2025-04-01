@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { usePatchPlansByPidStatusMutation } from '../api';
 import { useModuleConfiguration } from './useModuleConfiguration';
 
@@ -18,7 +17,6 @@ export const useRequestQuotation = () => {
   } = useModuleConfiguration();
   const { planId } = useParams();
   const { t } = useTranslation();
-  const { activeWorkspace } = useActiveWorkspace();
   const [patchStatus] = usePatchPlansByPidStatusMutation();
   const missingModules = REQUIRED_MODULES.filter(
     (module) => !getModules().find((m) => m.type === module)
@@ -60,7 +58,10 @@ export const useRequestQuotation = () => {
         // update the status in the state
         setPlanStatus('pending_review');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   };
 
   const isRequestQuoteCTADisabled = () => {

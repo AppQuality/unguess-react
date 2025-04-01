@@ -9,9 +9,7 @@ import { ReactComponent as WebSmartphoneIcon } from 'src/assets/icons/touchpoint
 import { components } from 'src/common/schema';
 import { useModuleTouchpoints } from '../hooks';
 
-const getIconColor = (
-  touchpoint: components['schemas']['OutputModuleTouchpoints'] & { key: number }
-) => {
+const getIconColor = () => {
   const { error } = useModuleTouchpoints();
 
   const hasErrors =
@@ -30,7 +28,7 @@ const getIconFromTouchpointOutput = (
   touchpoint: components['schemas']['OutputModuleTouchpoints'] & { key: number }
 ) => {
   const { kind, form_factor } = touchpoint;
-  const color = getIconColor(touchpoint);
+  const color = getIconColor();
 
   switch (form_factor) {
     case 'desktop':
