@@ -24,6 +24,15 @@ const SectionWrapper = styled.div`
   }
 `;
 
+const StickyLayoutWrapper = styled(LayoutWrapper)`
+  background-color: ${(p) => p.theme.palette.white};
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    position: sticky;
+    top: 0;
+    z-index: 101;
+  }
+`;
+
 const PlanPageHeader = () => {
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
@@ -72,7 +81,7 @@ const PlanPageHeader = () => {
 
   return (
     <>
-      <LayoutWrapper isNotBoxed>
+      <StickyLayoutWrapper isNotBoxed id="sticky-plan-page-header">
         <PageHeader
           style={{
             padding: `${appTheme.space.md} 0`,
@@ -94,7 +103,7 @@ const PlanPageHeader = () => {
             </StyledWrapper>
           </PageHeader.Main>
         </PageHeader>
-      </LayoutWrapper>
+      </StickyLayoutWrapper>
       {getGlobalAlert()}
     </>
   );

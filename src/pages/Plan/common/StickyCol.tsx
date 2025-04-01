@@ -1,9 +1,9 @@
 import { Col } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 
-export const StickyCol = styled(Col)`
+export const StickyCol = styled(Col)<{ $stickyHeight: number }>`
   position: sticky;
-  top: ${({ theme }) => theme.space.md};
+  top: ${({ $stickyHeight }) => $stickyHeight}px;
   max-height: calc(
     95vh - ${({ theme }) => theme.components.chrome.header.height}
   );

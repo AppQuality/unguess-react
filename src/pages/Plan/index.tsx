@@ -36,12 +36,12 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
     <Page
       title={t('__PLAN_PAGE_TITLE')}
       className="plan-page"
-      pageHeader={<PlanPageHeader />}
       route="plan"
       isMinimal
       excludeMarginTop
       excludeMarginBottom
     >
+      <PlanPageHeader />
       <PlanBody />
     </Page>
   );
