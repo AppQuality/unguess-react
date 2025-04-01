@@ -1,59 +1,57 @@
 import { useCallback, useMemo } from 'react';
+import { useAppDispatch } from 'src/app/hooks';
 import { components } from 'src/common/schema';
-import { usePlanModuleValues, useSetModules } from '../planModules';
+import {
+  removeModule,
+  setModule,
+  setOutput as setOutputAction,
+  setVariant as setVariantAction,
+  useModuleOutputs,
+} from '../planModules';
 import { useValidationContext } from './FormProvider';
 
 export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
 ) => {
   type ModType = components['schemas']['Module'] & { type: T };
-  const setModules = useSetModules();
-  const { values } = usePlanModuleValues();
+  const dispatch = useAppDispatch();
+  const { values } = useModuleOutputs();
   const { validateForm } = useValidationContext();
 
   const module: ModType | undefined = useMemo(
-    () => values.modules.find((m): m is ModType => m.type === moduleName),
-    [values.modules, moduleName] // Dipendenze limitate
+    () => {
+      if (moduleName in values) {
+        return values[`${moduleName}`] as ModType;
+      }
+      return undefined;
+    },
+    [values[`${moduleName}`], moduleName] // Dipendenze limitate
   );
   const setVariant = useCallback(
     (variant: ModType['variant']) => {
-      setModules(
-        values.modules.map((m) =>
-          m.type === moduleName ? { ...m, variant } : m
-        )
-      );
+      dispatch(setVariantAction({ type: moduleName, variant }));
     },
-    [moduleName, values.modules]
+    [moduleName]
   );
 
   const setOutput = useCallback(
     (output: ModType['output']) => {
-      setModules(
-        values.modules.map((m) =>
-          m.type === moduleName ? ({ ...m, output } as ModType) : m
-        )
-      );
+      dispatch(setOutputAction({ type: moduleName, output }));
     },
-    [moduleName, values.modules]
+    [moduleName]
   );
 
   const set = useCallback(
     (value: ModType) => {
-      setModules(
-        module
-          ? values.modules.map((m) =>
-              m.type === moduleName ? { ...m, ...value } : m
-            )
-          : [...values.modules, { ...value }]
-      );
+      dispatch(setModule({ type: moduleName, module: value }));
     },
-    [module, moduleName, values.modules]
+    [module, moduleName]
   );
 
   const remove = useCallback(() => {
-    setModules(values.modules.filter((m) => m.type !== moduleName));
+    dispatch(removeModule(moduleName));
     validateForm();
-  }, [moduleName, values.modules]);
+  }, [moduleName]);
 
   const getConfig = (
     type: components['schemas']['Module']['type']
@@ -194,8 +192,8 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
 
     const newModule = getConfig(moduleName);
     if (!newModule) return;
-    setModules([...values.modules, newModule]);
-  }, [values.modules]);
+    dispatch(setModule({ type: moduleName, module: newModule }));
+  }, []);
 
   return useMemo(
     () => ({ value: module, set, remove, setOutput, setVariant, add }),

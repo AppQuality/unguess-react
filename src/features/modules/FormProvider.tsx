@@ -8,11 +8,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  usePlanModuleValues,
-  useSetModules,
-  useSetStatus,
-} from '../planModules';
+import { useModuleOutputs, useSetModules, useSetStatus } from '../planModules';
 import { FormBody } from './types';
 
 interface ValidationContextType {
@@ -112,7 +108,7 @@ const FormProvider = ({
 };
 
 const Debugger = () => {
-  const { values } = usePlanModuleValues();
+  const { values } = useModuleOutputs();
 
   return <pre>{JSON.stringify(values, null, 2)}</pre>;
 };

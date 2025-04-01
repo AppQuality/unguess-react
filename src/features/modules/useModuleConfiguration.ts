@@ -1,7 +1,12 @@
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { components } from 'src/common/schema';
 import { usePatchPlansByPidMutation } from 'src/features/api';
-import { usePlanModuleValues, useSetStatus } from '../planModules';
+import {
+  useModuleOutputs,
+  usePlanModuleValues,
+  useSetStatus,
+} from '../planModules';
 import { useValidationContext } from './FormProvider';
 
 export const useSubmit = (planId: string) => {
@@ -14,20 +19,27 @@ export const useSubmit = (planId: string) => {
         pid: planId,
         body: {
           config: {
-            modules: values.modules,
+            modules: Object.entries(values.records).map(
+              ([key, item]) =>
+                ({
+                  ...item,
+                  type: key,
+                } as components['schemas']['Module'])
+            ),
           },
         },
       }).unwrap();
     } catch (e) {
       console.log(e);
     }
-  }, [planId, values.modules]);
+  }, [planId]);
 
   return { handleSubmit, isLoading };
 };
 
 export const useModuleConfiguration = () => {
-  const { values } = usePlanModuleValues();
+  const { values } = useModuleOutputs();
+  const { values: planValues } = usePlanModuleValues();
   const { planId } = useParams();
   const setStatus = useSetStatus();
   const { errors } = useValidationContext();
@@ -38,8 +50,15 @@ export const useModuleConfiguration = () => {
   const setPlanStatus = (status: string) => {
     setStatus(status);
   };
-  const getPlanStatus = () => values.status;
-  const getModules = () => values.modules;
+  const getPlanStatus = () => planValues.status;
+  const getModules = () =>
+    Object.entries(values).map(
+      ([key, item]) =>
+        ({
+          ...item,
+          type: key,
+        } as components['schemas']['Module'])
+    );
 
   return {
     isValid,
