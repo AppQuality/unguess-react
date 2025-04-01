@@ -109,7 +109,7 @@ export const useValidation = <
           }
         })
     );
-  }, [value, memoizedValidate]);
+  }, [memoizedValidate]);
 
   return {
     validate: validationHandler,
