@@ -1785,6 +1785,7 @@ export type GetPlansByPidApiResponse = /** status 200 OK */ {
     title: string;
     startDate: string;
   };
+  workspace_id: number;
 };
 export type GetPlansByPidApiArg = {
   pid: string;
