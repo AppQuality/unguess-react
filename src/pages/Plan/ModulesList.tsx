@@ -1,12 +1,15 @@
+import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { PlanTab } from './context/planContext';
 import { modulesMap, MODULES_BY_TAB } from './modulesMap';
 
 export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
-  const { getModules } = useModuleConfiguration();
+  const currentModules = useAppSelector(
+    (state) => state.planModules.currentModules
+  );
+
   const availableModules =
     MODULES_BY_TAB[tabId as keyof typeof MODULES_BY_TAB] || [];
 
@@ -17,20 +20,20 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
   return (
     <>
       <TabTitle tabId={tabId} />
-      {getModules().map((module) => {
-        const isVisible = availableModules.includes(module.type);
+      {currentModules.map((type) => {
+        const isVisible = availableModules.includes(type);
 
-        const Component = modulesMap[module.type];
+        const Component = modulesMap[`${type}`];
         if (!Component) return null;
         return (
           <div
-            id={`module-${module.type}`}
+            id={`module-${type}`}
             style={{
               marginBottom: appTheme.space.lg,
               display: isVisible ? 'block' : 'none',
             }}
           >
-            <Component key={module.type} />
+            <Component key={type} />
           </div>
         );
       })}

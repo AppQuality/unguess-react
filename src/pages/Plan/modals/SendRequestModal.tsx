@@ -13,7 +13,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
-import { useValidationContext } from 'src/features/modules/FormProvider';
+import { useValidateForm } from 'src/features/planModules';
 import { Dates } from '../modules/Dates';
 import { Title } from '../modules/Title';
 
@@ -23,7 +23,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
     useRequestQuotation();
   const { addToast } = useToast();
 
-  const { validateForm } = useValidationContext();
+  const { validateForm } = useValidateForm();
 
   const handleConfirm = async () => {
     try {

@@ -1,33 +1,41 @@
 import { getColor } from '@appquality/unguess-design-system';
+import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
+import { shallowEqual } from 'react-redux';
+import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AgeIcon } from 'src/assets/icons/cake-icon-fill.svg';
-import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as GoalIcon } from 'src/assets/icons/flag-fill.svg';
+import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { ReactComponent as LiteracyIcon } from 'src/assets/icons/literacy-icon.svg';
-import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
-import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
-import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
-import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
 import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
+import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
+import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
+import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { components } from 'src/common/schema';
-import { useValidationContext } from 'src/features/modules/FormProvider';
-import { useModule } from 'src/features/modules/useModule';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
-  const { errors } = useValidationContext();
-  const { value } = useModule(module_type);
+  const value = useAppSelector(
+    (state) => state.planModules.records[`${module_type}`]?.output
+  );
+  const errorInThisModule = useAppSelector(
+    (state) =>
+      Object.fromEntries(
+        Object.entries(state.planModules.errors).filter(([key]) => {
+          if (key.startsWith(`${module_type}.`) || key === module_type) {
+            return true;
+          }
+          return false;
+        })
+      ) || {},
+    shallowEqual
+  );
 
   const hasErrors =
-    (errors &&
-      typeof errors === 'object' &&
-      Object.keys(errors).some(
-        (key) => key.startsWith(module_type) || key === module_type
-      )) ??
-    false;
+    errorInThisModule && Object.keys(errorInThisModule).length > 0;
 
-  const hasValues = value && value.output;
+  const hasValues = !!value;
 
   if (hasErrors) return getColor(appTheme.palette.red[900]);
   if (!hasErrors && !hasValues) return getColor(appTheme.palette.grey, 600);

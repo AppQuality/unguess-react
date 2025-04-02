@@ -5,8 +5,11 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import * as yup from 'yup';
 
-function usePreviousValue(value?: components['schemas']['ModuleTouchpoints']) {
-  const ref = useRef<components['schemas']['ModuleTouchpoints']>();
+function usePreviousValue(
+  value?: Omit<components['schemas']['ModuleTouchpoints'], 'type'>
+) {
+  const ref =
+    useRef<Omit<components['schemas']['ModuleTouchpoints'], 'type'>>();
   useEffect(() => {
     ref.current = value;
   });

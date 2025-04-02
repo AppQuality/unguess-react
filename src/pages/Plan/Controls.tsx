@@ -5,9 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
-import { useValidationContext } from 'src/features/modules/FormProvider';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useSubmit } from 'src/features/modules/useModuleConfiguration';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
+import { useValidateForm } from 'src/features/planModules';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 import { getPlanStatus } from '../Dashboard/hooks/getPlanStatus';
@@ -24,10 +24,11 @@ export const Controls = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { isSubmitting, submitModuleConfiguration } = useModuleConfiguration();
   const { planId } = useParams();
   const { plan } = usePlan(planId);
-  const { validateForm } = useValidationContext();
+  const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
+    useSubmit(planId || '');
+  const { validateForm } = useValidateForm();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 

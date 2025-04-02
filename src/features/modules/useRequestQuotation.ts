@@ -1,25 +1,27 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'src/app/hooks';
 import { usePatchPlansByPidStatusMutation } from '../api';
-import { useModuleConfiguration } from './useModuleConfiguration';
+import { useModuleConfiguration, useSubmit } from './useModuleConfiguration';
 
 export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
-  const {
-    isSubmitting,
-    getModules,
-    submitModuleConfiguration,
-    setPlanStatus,
-    getPlanStatus,
-    isValid,
-  } = useModuleConfiguration();
   const { planId } = useParams();
+  const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
+    useSubmit(planId || '');
+  const { errors } = useAppSelector((state) => state.planModules);
+  const isValid = !errors || Object.keys(errors).length === 0;
+
+  const { currentModules } = useAppSelector((state) => state.planModules);
+  const { setPlanStatus, getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
-  const [patchStatus] = usePatchPlansByPidStatusMutation();
+  const [patchStatus, { isLoading }] = usePatchPlansByPidStatusMutation({
+    fixedCacheKey: 'shared-update-plan-status',
+  });
   const missingModules = REQUIRED_MODULES.filter(
-    (module) => !getModules().find((m) => m.type === module)
+    (module) => !currentModules.find((m) => m === module)
   );
 
   const handleQuoteRequest = async () => {
@@ -70,7 +72,7 @@ export const useRequestQuotation = () => {
       return true;
     }
     // if the user is already submitting, return true
-    if (isSubmitting) {
+    if (isSubmitting || isLoading) {
       return true;
     }
     return false;

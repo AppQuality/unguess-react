@@ -1,5 +1,4 @@
-import { FormikHelpers } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
@@ -8,7 +7,6 @@ import {
   GetPlansByPidApiResponse,
   useGetPlansByPidQuery,
   useGetWorkspacesByWidQuery,
-  usePatchPlansByPidMutation,
 } from 'src/features/api';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
@@ -68,7 +66,6 @@ const useSetActiveWorkspace = (workspaceId?: number) => {
 const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const { planId } = useParams();
-  const [patchPlan] = usePatchPlansByPidMutation();
   const { data: plan } = useGetPlansByPidQuery(
     {
       pid: Number(planId).toString(),
@@ -105,29 +102,8 @@ const Plan = () => {
     });
   }, [plan]);
 
-  const handleSubmit = useCallback(
-    async (values: FormBody, helpers: FormikHelpers<FormBody>) => {
-      helpers.setSubmitting(true);
-      try {
-        await patchPlan({
-          pid: planId?.toString() ?? '',
-          body: {
-            config: {
-              modules: values.modules,
-            },
-          },
-        }).unwrap();
-        helpers.setSubmitting(false);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
-    },
-    [activeWorkspace, planId, plan]
-  );
-
   return (
-    <FormProvider onSubmit={handleSubmit} initialValues={initialValues}>
+    <FormProvider initialValues={initialValues}>
       <PlanProvider>
         <PlanPage plan={plan} />
       </PlanProvider>
