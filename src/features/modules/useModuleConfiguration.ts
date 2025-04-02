@@ -33,16 +33,12 @@ export const useSubmit = (planId: string) => {
 };
 
 export const useModuleConfiguration = () => {
-  const { status, errors } = { status: 'draft', errors: {} };
+  const status = useAppSelector((state) => state.planModules.status);
   const setStatus = useSetStatus();
-
-  const isValid = !errors || Object.keys(errors).length === 0;
 
   const getPlanStatus = () => status;
 
   return {
-    isValid,
-    errors,
     setPlanStatus: setStatus,
     getPlanStatus,
   };

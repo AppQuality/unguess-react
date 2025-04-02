@@ -10,9 +10,11 @@ export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
   const { planId } = useParams();
   const { handleSubmit: submitModuleConfiguration } = useSubmit(planId || '');
+  const { errors } = useAppSelector((state) => state.planModules);
+  const isValid = !errors || Object.keys(errors).length === 0;
 
   const { currentModules } = useAppSelector((state) => state.planModules);
-  const { setPlanStatus, getPlanStatus, isValid } = useModuleConfiguration();
+  const { setPlanStatus, getPlanStatus } = useModuleConfiguration();
   const { isLoading: isSubmitting } = useSubmit(planId || '');
   const { t } = useTranslation();
   const [patchStatus] = usePatchPlansByPidStatusMutation();
