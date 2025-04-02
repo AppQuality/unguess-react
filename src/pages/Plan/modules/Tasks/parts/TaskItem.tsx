@@ -103,7 +103,7 @@ const TaskItem = ({
                   </MD>
                   <Input
                     type="text"
-                    disabled={getPlanStatus() !== 'draft'}
+                    readOnly={getPlanStatus() !== 'draft'}
                     value={title}
                     onChange={(e) => update(key, { title: e.target.value })}
                     placeholder={t(
@@ -179,6 +179,7 @@ const TaskItem = ({
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
                   )}
+                  readOnly={getPlanStatus() !== 'draft'}
                 />
               </FormField>
             </div>
