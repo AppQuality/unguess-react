@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
+import { shallowEqual } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
-import { setError } from '../planModules';
-import { useValidationContext } from './FormProvider';
+import { addValidationFunction, setError } from '../planModules';
 import { useModule } from './useModule';
 
 function flattenObject(
@@ -36,12 +36,22 @@ export const useValidation = <
   ) => true | string | Record<string, any>;
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
-  const { addValidationFunction } = useValidationContext();
-  const { errors } = useAppSelector((state) => state.planModules);
+  const errorInThisModule = useAppSelector(
+    (state) =>
+      Object.fromEntries(
+        Object.entries(state.planModules.errors).filter(([key]) => {
+          if (key.startsWith(`${type}.`) || key === type) {
+            return true;
+          }
+          return false;
+        })
+      ) || {},
+    shallowEqual
+  );
 
   const dispatch = useAppDispatch();
   const { value } = useModule(type);
-  const memoizedValidate = useCallback(validate, []);
+  const memoizedValidate = useCallback(validate, [value]);
 
   const updateErrors = (newErrors: Record<string, string>) => {
     dispatch(setError({ type, error: newErrors }));
@@ -50,7 +60,12 @@ export const useValidation = <
   const validationHandler = (): boolean => {
     if (!value) return false;
 
-    const validation = memoizedValidate(value);
+    const item = {
+      ...value,
+      type,
+    } as components['schemas']['Module'] & { type: T };
+
+    const validation = memoizedValidate(item);
 
     if (validation === true) {
       setIsValid(true);
@@ -71,13 +86,6 @@ export const useValidation = <
   };
 
   const getErrorInThisModule = () => {
-    const errorInThisModule = { ...errors };
-    Object.keys(errorInThisModule).forEach((key) => {
-      if (!key.startsWith(`${type}.`) && key !== type) {
-        delete errorInThisModule[`${key}`];
-      }
-    });
-
     if (Object.keys(errorInThisModule).length === 0) {
       return undefined;
     }
@@ -93,18 +101,20 @@ export const useValidation = <
   };
 
   useEffect(() => {
-    addValidationFunction(
-      type,
-      async () =>
-        new Promise<void>((resolve, reject) => {
-          const isOk = validationHandler();
+    dispatch(
+      addValidationFunction({
+        type,
+        fn: async () =>
+          new Promise<void>((resolve, reject) => {
+            const isOk = validationHandler();
 
-          if (isOk) {
-            resolve();
-          } else {
-            reject(new Error(`There is an error in the module ${type}`));
-          }
-        })
+            if (isOk) {
+              resolve();
+            } else {
+              reject(new Error(`There is an error in the module ${type}`));
+            }
+          }),
+      })
     );
   }, [memoizedValidate]);
 

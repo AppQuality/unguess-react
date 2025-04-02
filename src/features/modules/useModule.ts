@@ -7,7 +7,6 @@ import {
   setOutput as setOutputAction,
   setVariant as setVariantAction,
 } from '../planModules';
-import { useValidationContext } from './FormProvider';
 
 export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
@@ -17,7 +16,6 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
   const module = useAppSelector(
     (state) => state.planModules.records[`${moduleName}`]
   );
-  const { validateForm } = useValidationContext();
 
   const setVariant = useCallback(
     (variant: ModType['variant']) => {
@@ -42,7 +40,6 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
 
   const remove = useCallback(() => {
     dispatch(removeModule(moduleName));
-    validateForm();
   }, [moduleName]);
 
   const getConfig = (

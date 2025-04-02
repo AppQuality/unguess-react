@@ -26,7 +26,9 @@ export const store = configureStore({
   },
 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
+    getDefaultMiddleware({
+      serializableCheck: false,
+    })
       .concat(unguessApiSlice.middleware)
       .concat(strapiSlice.middleware),
 });

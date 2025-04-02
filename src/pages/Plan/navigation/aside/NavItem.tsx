@@ -11,7 +11,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { getIconFromModule, getTitleFromModuleType } from '../../utils';
+import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
@@ -37,15 +37,14 @@ const NavItemLink = styled(Link)`
 `;
 
 const NavItem = ({
-  module,
+  type,
   index,
   children,
 }: {
-  module: components['schemas']['Module'];
+  type: components['schemas']['Module']['type'];
   index: number;
   children?: React.ReactNode;
 }) => {
-  const { type } = module;
   const { t } = useTranslation();
   const { errors } = useAppSelector((state) => state.planModules);
 
@@ -78,11 +77,10 @@ const NavItem = ({
         })}
       >
         <StyledContainer>
-          {getIconFromModule(module)}
+          {getIconFromModuleType(type)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
-              {index + 1}.{' '}
-              <Span isBold>{getTitleFromModuleType(module.type)}</Span>
+              {index + 1}. <Span isBold>{getTitleFromModuleType(type)}</Span>
             </MD>
           </Ellipsis>
         </StyledContainer>

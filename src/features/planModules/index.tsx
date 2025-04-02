@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
 
@@ -17,6 +18,7 @@ interface PlanModuleState {
   records: ModuleRecord;
   errors: ModuleErrors;
   currentModules: components['schemas']['Module']['type'][];
+  validationFunctions: Record<string, () => Promise<void>>;
 }
 
 const initialState = {
@@ -24,6 +26,7 @@ const initialState = {
   records: {},
   errors: {},
   currentModules: [],
+  validationFunctions: {},
 } satisfies PlanModuleState as PlanModuleState;
 
 const planModuleSlice = createSlice({
@@ -100,6 +103,13 @@ const planModuleSlice = createSlice({
       state.currentModules = state.currentModules.filter(
         (module) => module !== action.payload
       );
+      const newErrors = { ...state.errors };
+      Object.keys(newErrors).forEach((key) => {
+        if (key.startsWith(`${action.payload}.`) || key === action.payload) {
+          delete newErrors[`${key}`];
+        }
+      });
+      state.errors = newErrors;
     },
     setStatus: (state, action: PayloadAction<string>) => {
       state.status = action.payload;
@@ -122,6 +132,13 @@ const planModuleSlice = createSlice({
         }
       });
       state.errors = { ...prevErrors, ...action.payload.error };
+    },
+
+    addValidationFunction(
+      state,
+      action: PayloadAction<{ type: string; fn: () => Promise<void> }>
+    ) {
+      state.validationFunctions[action.payload.type] = action.payload.fn;
     },
   },
 });
@@ -148,6 +165,41 @@ export const useSetStatus = () => {
     dispatch(planModuleSlice.actions.setStatus(newStatus));
 };
 
+export const useValidateForm = () => {
+  const { t } = useTranslation();
+  const validationFunctions = useAppSelector(
+    (state) => state.planModules.validationFunctions
+  );
+
+  const validateForm = async () => {
+    const allErrors: Record<string, string> = {};
+    await Promise.all(
+      Object.entries(validationFunctions).map(
+        async ([moduleType, validate]) => {
+          try {
+            await validate();
+          } catch (error) {
+            if (error instanceof Error) {
+              allErrors[`${moduleType}`] = error.message;
+            }
+          }
+        }
+      )
+    );
+    if (Object.keys(allErrors).length > 0) {
+      const errorMessage = Object.entries(allErrors)
+        .map(([moduleType]) => moduleType)
+        .join(', ');
+      return Promise.reject(
+        new Error(`${t('__MODULES_VALIDATION_ERROR_MESSAGE')} ${errorMessage}`)
+      );
+    }
+    return Promise.resolve();
+  };
+
+  return { validateForm };
+};
+
 export const {
   setModules,
   setVariant,
@@ -155,5 +207,6 @@ export const {
   setModule,
   removeModule,
   setError,
+  addValidationFunction,
 } = planModuleSlice.actions;
 export default planModuleSlice.reducer;

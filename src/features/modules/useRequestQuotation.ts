@@ -1,25 +1,23 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'src/app/hooks';
 import { usePatchPlansByPidStatusMutation } from '../api';
-import { useModuleConfiguration } from './useModuleConfiguration';
+import { useModuleConfiguration, useSubmit } from './useModuleConfiguration';
 
 export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
   const { planId } = useParams();
-  const {
-    isSubmitting,
-    getModules,
-    submitModuleConfiguration,
-    setPlanStatus,
-    getPlanStatus,
-    isValid,
-  } = useModuleConfiguration();
+  const { handleSubmit: submitModuleConfiguration } = useSubmit(planId || '');
+
+  const { currentModules } = useAppSelector((state) => state.planModules);
+  const { setPlanStatus, getPlanStatus, isValid } = useModuleConfiguration();
+  const { isLoading: isSubmitting } = useSubmit(planId || '');
   const { t } = useTranslation();
   const [patchStatus] = usePatchPlansByPidStatusMutation();
   const missingModules = REQUIRED_MODULES.filter(
-    (module) => !getModules().find((m) => m.type === module)
+    (module) => !currentModules.find((m) => m === module)
   );
 
   const handleQuoteRequest = async () => {

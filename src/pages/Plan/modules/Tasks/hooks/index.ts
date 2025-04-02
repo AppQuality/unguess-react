@@ -4,8 +4,10 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 
-function usePreviousValue(value?: components['schemas']['ModuleTask']) {
-  const ref = useRef<components['schemas']['ModuleTask']>();
+function usePreviousValue(
+  value?: Omit<components['schemas']['ModuleTask'], 'type'>
+) {
+  const ref = useRef<Omit<components['schemas']['ModuleTask'], 'type'>>();
   useEffect(() => {
     ref.current = value;
   });
