@@ -176,13 +176,13 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
     }
   };
 
-  const add = useCallback(() => {
+  const add = () => {
     if (!getConfig(moduleName)) return;
 
     const newModule = getConfig(moduleName);
     if (!newModule) return;
     dispatch(setModule({ type: moduleName, module: newModule }));
-  }, []);
+  };
 
   return useMemo(
     () => ({ value: module, set, remove, setOutput, setVariant, add }),
