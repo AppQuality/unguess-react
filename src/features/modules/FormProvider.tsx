@@ -23,14 +23,17 @@ const FormProvider = ({
 };
 
 const Debugger = () => {
-  const { errors, currentModules } = useAppSelector(
-    (state) => state.planModules
-  );
+  const { errors, records } = useAppSelector((state) => state.planModules);
   const { validateForm } = useValidateForm();
 
   return (
     <pre>
-      <button onClick={() => validateForm()}>validate</button>
+      <button type="button" onClick={validateForm}>
+        Validate
+      </button>
+      <hr />
+      {JSON.stringify(records, null, 2)}
+      <hr />
       {JSON.stringify(errors, null, 2)}
     </pre>
   );
