@@ -7,7 +7,6 @@ import {
   GetPlansByPidApiResponse,
   useGetPlansByPidQuery,
   useGetWorkspacesByWidQuery,
-  usePatchPlansByPidMutation,
 } from 'src/features/api';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
@@ -102,7 +101,7 @@ const Plan = () => {
       modules,
     });
   }, [plan]);
-  
+
   return (
     <FormProvider initialValues={initialValues}>
       <PlanProvider>
