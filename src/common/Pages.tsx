@@ -46,6 +46,7 @@ const Pages = () => {
                 <Route
                   path={`/${langPrefix}`}
                   key={`react-router-${langPrefix}`}
+                  errorElement={<ErrorBoundaryPage />}
                 >
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId`}
