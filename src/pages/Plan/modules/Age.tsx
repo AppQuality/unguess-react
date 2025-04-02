@@ -195,7 +195,7 @@ const Age = () => {
               <div style={{ marginLeft: appTheme.space.md }}>
                 {ageRangesAndLabels.map((ar) => (
                   <FormField
-                    key="range"
+                    key={`range-${ar.min}-${ar.max}`}
                     style={{
                       marginTop: appTheme.space.sm,
                     }}
