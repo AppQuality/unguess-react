@@ -29,7 +29,7 @@ const getIconColor = (module_type: components['schemas']['Module']['type']) => {
 
   const hasValues = value && value.output;
 
-  if (hasErrors) return getColor(appTheme.colors.dangerHue, 600);
+  if (hasErrors) return getColor(appTheme.palette.red[900]);
   if (!hasErrors && !hasValues) return getColor(appTheme.palette.grey, 600);
 
   return getColor(appTheme.colors.primaryHue, 600);
