@@ -1,6 +1,5 @@
 import {
   createContext,
-  Dispatch,
   ReactNode,
   useContext,
   useEffect,
@@ -8,18 +7,16 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useModuleOutputs, useSetModules, useSetStatus } from '../planModules';
+import { useAppSelector } from 'src/app/hooks';
+import { useSetModules, useSetStatus } from '../planModules';
 import { FormBody } from './types';
 
 interface ValidationContextType {
-  errors?: { [x: string]: string };
-  setErrors: Dispatch<React.SetStateAction<Record<string, string>>>;
   validateForm: () => Promise<void>;
   addValidationFunction: (type: string, validate: () => Promise<void>) => void;
 }
 
 export const ValidationContext = createContext<ValidationContextType>({
-  setErrors: () => {},
   validateForm: () => Promise.resolve(),
   addValidationFunction: () => {},
 });
@@ -28,8 +25,6 @@ export const useValidationContext = () => useContext(ValidationContext);
 
 const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
   const { t } = useTranslation();
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
   const [validationFunctions, setValidationFunctions] = useState<
     Record<string, () => Promise<void>>
   >({});
@@ -43,8 +38,6 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
 
   const ValidationContextValues = useMemo(
     () => ({
-      errors,
-      setErrors,
       validateForm: async () => {
         const allErrors: Record<string, string> = {};
         await Promise.all(
@@ -74,7 +67,7 @@ const ValidationContextProvider = ({ children }: { children: ReactNode }) => {
       },
       addValidationFunction,
     }),
-    [errors, validationFunctions]
+    []
   );
 
   return (
@@ -108,9 +101,11 @@ const FormProvider = ({
 };
 
 const Debugger = () => {
-  const { values } = useModuleOutputs();
+  const { errors, currentModules } = useAppSelector(
+    (state) => state.planModules
+  );
 
-  return <pre>{JSON.stringify(values, null, 2)}</pre>;
+  return <pre>{JSON.stringify(currentModules, null, 2)}</pre>;
 };
 
 FormProvider.Debugger = Debugger;

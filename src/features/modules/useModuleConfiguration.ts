@@ -1,56 +1,48 @@
-import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
 import { usePatchPlansByPidMutation } from 'src/features/api';
-import {
-  useModuleOutputs,
-  usePlanModuleValues,
-  useSetStatus,
-} from '../planModules';
-import { useValidationContext } from './FormProvider';
+import { useModuleOutputs, useSetStatus } from '../planModules';
 
 export const useSubmit = (planId: string) => {
-  const { values } = usePlanModuleValues();
+  const { records } = useAppSelector((state) => state.planModules);
   const [patchPlan, { isLoading }] = usePatchPlansByPidMutation();
 
-  const handleSubmit = useCallback(async () => {
+  const handleSubmit = async () => {
     try {
+      const modules = Object.entries(records).map(
+        ([key, item]) =>
+          ({
+            ...item,
+            type: key,
+          } as components['schemas']['Module'])
+      );
       await patchPlan({
         pid: planId,
         body: {
           config: {
-            modules: Object.entries(values.records).map(
-              ([key, item]) =>
-                ({
-                  ...item,
-                  type: key,
-                } as components['schemas']['Module'])
-            ),
+            modules,
           },
         },
       }).unwrap();
     } catch (e) {
       console.log(e);
     }
-  }, [planId]);
+  };
 
   return { handleSubmit, isLoading };
 };
 
 export const useModuleConfiguration = () => {
   const { values } = useModuleOutputs();
-  const { values: planValues } = usePlanModuleValues();
+  const { status, errors } = { status: 'draft', errors: {} };
   const { planId } = useParams();
   const setStatus = useSetStatus();
-  const { errors } = useValidationContext();
   const { handleSubmit: submitForm, isLoading } = useSubmit(planId || '');
 
   const isValid = !errors || Object.keys(errors).length === 0;
 
-  const setPlanStatus = (status: string) => {
-    setStatus(status);
-  };
-  const getPlanStatus = () => planValues.status;
+  const getPlanStatus = () => status;
   const getModules = () =>
     Object.entries(values).map(
       ([key, item]) =>
@@ -66,7 +58,7 @@ export const useModuleConfiguration = () => {
     errors,
     submitModuleConfiguration: submitForm,
     isSubmitting: isLoading,
-    setPlanStatus,
+    setPlanStatus: setStatus,
     getPlanStatus,
   };
 };

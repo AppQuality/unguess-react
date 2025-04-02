@@ -1,12 +1,11 @@
 import { useCallback, useMemo } from 'react';
-import { useAppDispatch } from 'src/app/hooks';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
 import {
   removeModule,
   setModule,
   setOutput as setOutputAction,
   setVariant as setVariantAction,
-  useModuleOutputs,
 } from '../planModules';
 import { useValidationContext } from './FormProvider';
 
@@ -15,18 +14,11 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
 ) => {
   type ModType = components['schemas']['Module'] & { type: T };
   const dispatch = useAppDispatch();
-  const { values } = useModuleOutputs();
+  const module = useAppSelector(
+    (state) => state.planModules.records[`${moduleName}`]
+  );
   const { validateForm } = useValidationContext();
 
-  const module: ModType | undefined = useMemo(
-    () => {
-      if (moduleName in values) {
-        return values[`${moduleName}`] as ModType;
-      }
-      return undefined;
-    },
-    [values[`${moduleName}`], moduleName] // Dipendenze limitate
-  );
   const setVariant = useCallback(
     (variant: ModType['variant']) => {
       dispatch(setVariantAction({ type: moduleName, variant }));

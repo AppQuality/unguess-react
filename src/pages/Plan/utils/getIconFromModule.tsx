@@ -1,22 +1,22 @@
 import { getColor } from '@appquality/unguess-design-system';
+import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
+import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AgeIcon } from 'src/assets/icons/cake-icon-fill.svg';
-import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as GoalIcon } from 'src/assets/icons/flag-fill.svg';
+import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { ReactComponent as LiteracyIcon } from 'src/assets/icons/literacy-icon.svg';
-import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
-import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
-import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
-import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
 import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
+import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
+import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
+import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { components } from 'src/common/schema';
-import { useValidationContext } from 'src/features/modules/FormProvider';
 import { useModule } from 'src/features/modules/useModule';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
-  const { errors } = useValidationContext();
+  const { errors } = useAppSelector((state) => state.planModules);
   const { value } = useModule(module_type);
 
   const hasErrors =

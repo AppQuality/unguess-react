@@ -10,14 +10,20 @@ export type ModuleRecord = {
   };
 };
 
+export type ModuleErrors = Record<string, string>;
+
 interface PlanModuleState {
   status: string;
   records: ModuleRecord;
+  errors: ModuleErrors;
+  currentModules: components['schemas']['Module']['type'][];
 }
 
 const initialState = {
   status: 'draft',
   records: {},
+  errors: {},
+  currentModules: [],
 } satisfies PlanModuleState as PlanModuleState;
 
 const planModuleSlice = createSlice({
@@ -33,6 +39,7 @@ const planModuleSlice = createSlice({
         acc[module.type] = { output: module.output, variant: module.variant };
         return acc;
       }, {} as ModuleRecord);
+      state.currentModules = action.payload.map((module) => module.type);
     },
     setVariant: <T extends components['schemas']['Module']['type']>(
       state: PlanModuleState,
@@ -50,15 +57,18 @@ const planModuleSlice = createSlice({
       state: PlanModuleState,
       action: PayloadAction<{
         type: T;
-        output: (components['schemas']['Module'] & { type: T })['output'];
+        output: (components['schemas']['Module'] & {
+          type: T;
+        })['output'];
       }>
     ) => {
       const oldVal = state.records[action.payload.type];
-      if (action.payload.type in state.records && oldVal) {
-        state.records[action.payload.type] = {
-          ...oldVal,
-          output: action.payload.output,
-        };
+      state.records[action.payload.type] = {
+        ...oldVal,
+        output: action.payload.output,
+      };
+      if (!state.currentModules.includes(action.payload.type)) {
+        state.currentModules.push(action.payload.type);
       }
     },
     setModule: <T extends components['schemas']['Module']['type']>(
@@ -76,6 +86,9 @@ const planModuleSlice = createSlice({
         },
       };
       state.records = newRecords;
+      if (!state.currentModules.includes(action.payload.module.type)) {
+        state.currentModules.push(action.payload.module.type);
+      }
     },
     removeModule: <T extends components['schemas']['Module']['type']>(
       state: PlanModuleState,
@@ -84,9 +97,31 @@ const planModuleSlice = createSlice({
       const newRecord = { ...state.records };
       delete newRecord[action.payload];
       state.records = newRecord;
+      state.currentModules = state.currentModules.filter(
+        (module) => module !== action.payload
+      );
     },
     setStatus: (state, action: PayloadAction<string>) => {
       state.status = action.payload;
+    },
+    setError(
+      state,
+      action: PayloadAction<{
+        type: string;
+        error: Record<string, string>;
+      }>
+    ) {
+      const prevErrors = state.errors ? { ...state.errors } : {};
+
+      Object.keys(prevErrors).forEach((key) => {
+        if (
+          key.startsWith(`${action.payload.type}.`) ||
+          key === action.payload.type
+        ) {
+          delete prevErrors[`${key}`];
+        }
+      });
+      state.errors = { ...prevErrors, ...action.payload.error };
     },
   },
 });
@@ -113,6 +148,12 @@ export const useSetStatus = () => {
     dispatch(planModuleSlice.actions.setStatus(newStatus));
 };
 
-export const { setModules, setVariant, setOutput, setModule, removeModule } =
-  planModuleSlice.actions;
+export const {
+  setModules,
+  setVariant,
+  setOutput,
+  setModule,
+  removeModule,
+  setError,
+} = planModuleSlice.actions;
 export default planModuleSlice.reducer;

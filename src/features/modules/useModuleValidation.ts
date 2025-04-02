@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
+import { setError } from '../planModules';
 import { useValidationContext } from './FormProvider';
 import { useModule } from './useModule';
 
@@ -34,20 +36,15 @@ export const useValidation = <
   ) => true | string | Record<string, any>;
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true);
-  const { errors, setErrors, addValidationFunction } = useValidationContext();
+  const { addValidationFunction } = useValidationContext();
+  const { errors } = useAppSelector((state) => state.planModules);
+
+  const dispatch = useAppDispatch();
   const { value } = useModule(type);
   const memoizedValidate = useCallback(validate, []);
 
   const updateErrors = (newErrors: Record<string, string>) => {
-    setErrors((prev) => {
-      const prevErrors = prev ? { ...prev } : {};
-      Object.keys(prevErrors).forEach((key) => {
-        if (key.startsWith(`${type}.`) || key === type) {
-          delete prevErrors[`${key}`];
-        }
-      });
-      return { ...prevErrors, ...newErrors };
-    });
+    dispatch(setError({ type, error: newErrors }));
   };
 
   const validationHandler = (): boolean => {

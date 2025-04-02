@@ -7,9 +7,9 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
+import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
-import { useValidationContext } from 'src/features/modules/FormProvider';
 import styled from 'styled-components';
 import { getIconFromModule, getTitleFromModuleType } from '../../utils';
 
@@ -47,7 +47,7 @@ const NavItem = ({
 }) => {
   const { type } = module;
   const { t } = useTranslation();
-  const { errors } = useValidationContext();
+  const { errors } = useAppSelector((state) => state.planModules);
 
   const hasErrors =
     (errors &&
