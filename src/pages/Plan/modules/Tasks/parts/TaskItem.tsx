@@ -9,17 +9,27 @@ import {
   Message,
   Span,
   MediaInput,
+  SM,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { ReactComponent as InfoIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import styled from 'styled-components';
 import { useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
+
+const StyledInfoBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: ${appTheme.space.sm};
+  gap: ${appTheme.space.xxs};
+`;
 
 const TaskItem = ({
   task,
@@ -29,6 +39,7 @@ const TaskItem = ({
   const { t } = useTranslation();
   const { update, validate, error } = useModuleTasks();
   const { getPlanStatus } = useModuleConfiguration();
+  const [validLink, setValidLink] = useState<boolean>(true);
   const confirmationState = useState<{
     isOpen: boolean;
     taskKey: number;
@@ -50,6 +61,15 @@ const TaskItem = ({
 
   const handleBlur = () => {
     validate();
+  };
+
+  const validateLink = (url: string) => {
+    const regex =
+      /^(https:\/\/|http:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    if (url && !regex.test(url)) {
+      return setValidLink(false);
+    }
+    return setValidLink(true);
   };
 
   return (
@@ -175,11 +195,39 @@ const TaskItem = ({
                 <MediaInput
                   start={<LinkIcon />}
                   value={task.url}
-                  onChange={(e) => update(key, { url: e.target.value })}
+                  validation={validLink === false ? 'error' : undefined}
+                  onChange={(e) => {
+                    update(key, { url: e.target.value });
+                  }}
+                  onBlur={(e) => {
+                    validateLink(e.target.value);
+                  }}
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
                   )}
                 />
+                <StyledInfoBox>
+                  {validLink === false ? (
+                    <>
+                      <InfoIcon color={appTheme.components.text.dangerColor} />
+                      <SM
+                        style={{ color: appTheme.components.text.dangerColor }}
+                        data-qa="link-format-error"
+                      >
+                        {t(
+                          '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_FORMAT_ERROR_LABEL'
+                        )}
+                      </SM>
+                    </>
+                  ) : (
+                    <>
+                      <InfoIcon />
+                      <SM style={{ color: appTheme.palette.grey[600] }}>
+                        {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_INFO_LABEL')}
+                      </SM>
+                    </>
+                  )}
+                </StyledInfoBox>
               </FormField>
             </div>
           </AccordionNew.Panel>

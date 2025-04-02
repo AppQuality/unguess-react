@@ -1117,6 +1117,8 @@
   "__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_PLACEHOLDER": "Insert the task description",
   "__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_ERROR_REQUIRED": "Task description is required",
   "__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL": "What should the users do?",
+  "__PLAN_PAGE_MODULE_TASKS_TASK_LINK_FORMAT_ERROR_LABEL": "Incorrect URL format: make sure to include http:// or https:// at the beginning",
+  "__PLAN_PAGE_MODULE_TASKS_TASK_LINK_INFO_LABEL": "Add accessible URL with http:// or https:// prefix",
   "__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL": "Link to the area being tested",
   "__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER": "www.example.com",
   "__PLAN_PAGE_MODULE_TASKS_TASK_OPTIONAL_LABEL": "(optional)",
