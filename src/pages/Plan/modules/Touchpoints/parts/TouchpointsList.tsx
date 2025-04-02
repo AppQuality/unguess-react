@@ -78,7 +78,7 @@ const TouchpointsList = () => {
           </TitleContainer>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
-              <Button isBasic isDanger onClick={handleDelete}>
+              <Button isBasic isDanger size="small" onClick={handleDelete}>
                 {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_REMOVE_BUTTON')}
               </Button>
             )}
