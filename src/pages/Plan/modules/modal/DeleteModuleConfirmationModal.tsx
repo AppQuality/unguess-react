@@ -25,7 +25,7 @@ const DeleteModuleConfirmationModal = ({
       </Modal.Body>
       <Modal.Footer>
         <FooterItem>
-          <Button isDanger isLink onClick={onConfirm}>
+          <Button isDanger isBasic onClick={onConfirm}>
             {t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_CONFIRM')}
           </Button>
         </FooterItem>
