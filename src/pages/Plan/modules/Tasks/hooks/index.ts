@@ -23,11 +23,16 @@ const useModuleTasks = () => {
     const errors = o.reduce((acc, item, idx) => {
       const titleEmpty = !item.title || item.title.length === 0;
       const titleMaxLength = item.title.length > 64;
+      const urlNotValid =
+        item.url &&
+        !item.url.match(
+          /^(https:\/\/|http:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+        );
       const descriptionEmpty =
         !item.description ||
         item.description.length === 0 ||
         item.description === '<p></p>';
-      if (!titleEmpty && !descriptionEmpty && !titleMaxLength)
+      if (!titleEmpty && !descriptionEmpty && !titleMaxLength && !urlNotValid)
         return { ...acc };
       return {
         ...acc,
@@ -49,6 +54,11 @@ const useModuleTasks = () => {
                 description: t(
                   '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_ERROR_REQUIRED'
                 ),
+              }
+            : {}),
+          ...(urlNotValid
+            ? {
+                url: t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_FORMAT_ERROR_LABEL'),
               }
             : {}),
         },
