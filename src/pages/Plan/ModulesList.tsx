@@ -26,7 +26,7 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
           <div
             id={`module-${module.type}`}
             style={{
-              marginBottom: appTheme.space.md,
+              marginBottom: appTheme.space.lg,
               display: isVisible ? 'block' : 'none',
             }}
           >
