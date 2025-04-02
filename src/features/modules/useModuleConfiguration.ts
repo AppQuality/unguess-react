@@ -5,7 +5,9 @@ import { useSetStatus } from '../planModules';
 
 export const useSubmit = (planId: string) => {
   const { records } = useAppSelector((state) => state.planModules);
-  const [patchPlan, { isLoading }] = usePatchPlansByPidMutation();
+  const [patchPlan, { isLoading }] = usePatchPlansByPidMutation({
+    fixedCacheKey: 'shared-update-plan',
+  });
 
   const handleSubmit = async () => {
     try {
@@ -16,7 +18,7 @@ export const useSubmit = (planId: string) => {
             type: key,
           } as components['schemas']['Module'])
       );
-      await patchPlan({
+      return await patchPlan({
         pid: planId,
         body: {
           config: {
@@ -26,6 +28,7 @@ export const useSubmit = (planId: string) => {
       }).unwrap();
     } catch (e) {
       console.log(e);
+      return false;
     }
   };
 

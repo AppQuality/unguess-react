@@ -9,15 +9,17 @@ export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
   const { planId } = useParams();
-  const { handleSubmit: submitModuleConfiguration } = useSubmit(planId || '');
+  const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
+    useSubmit(planId || '');
   const { errors } = useAppSelector((state) => state.planModules);
   const isValid = !errors || Object.keys(errors).length === 0;
 
   const { currentModules } = useAppSelector((state) => state.planModules);
   const { setPlanStatus, getPlanStatus } = useModuleConfiguration();
-  const { isLoading: isSubmitting } = useSubmit(planId || '');
   const { t } = useTranslation();
-  const [patchStatus] = usePatchPlansByPidStatusMutation();
+  const [patchStatus, { isLoading }] = usePatchPlansByPidStatusMutation({
+    fixedCacheKey: 'shared-update-plan-status',
+  });
   const missingModules = REQUIRED_MODULES.filter(
     (module) => !currentModules.find((m) => m === module)
   );
@@ -64,13 +66,16 @@ export const useRequestQuotation = () => {
       });
   };
 
+  console.log('isLoading', isLoading);
+  console.log('isSubmitting', isSubmitting);
+
   const isRequestQuoteCTADisabled = () => {
     // if the plan is already pending review, return true
     if (getPlanStatus() === 'pending_review') {
       return true;
     }
     // if the user is already submitting, return true
-    if (isSubmitting) {
+    if (isSubmitting || isLoading) {
       return true;
     }
     return false;
