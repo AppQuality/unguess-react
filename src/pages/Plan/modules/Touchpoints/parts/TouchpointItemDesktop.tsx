@@ -120,7 +120,7 @@ const TouchpointItemDesktop = ({
                 <MediaInput
                   start={<LinkIcon />}
                   type="text"
-                  disabled={getPlanStatus() !== 'draft'}
+                  readOnly={getPlanStatus() !== 'draft'}
                   value={'linux' in os ? os.linux : ''}
                   onBlur={handleBlur}
                   onChange={(e) =>
@@ -196,7 +196,7 @@ const TouchpointItemDesktop = ({
                 <MediaInput
                   start={<LinkIcon />}
                   type="text"
-                  disabled={getPlanStatus() !== 'draft'}
+                  readOnly={getPlanStatus() !== 'draft'}
                   value={'macos' in os ? os.macos : ''}
                   onBlur={handleBlur}
                   onChange={(e) =>
@@ -274,7 +274,7 @@ const TouchpointItemDesktop = ({
                 <MediaInput
                   start={<LinkIcon />}
                   type="text"
-                  disabled={getPlanStatus() !== 'draft'}
+                  readOnly={getPlanStatus() !== 'draft'}
                   value={'windows' in os ? os.windows : ''}
                   onBlur={handleBlur}
                   onChange={(e) =>

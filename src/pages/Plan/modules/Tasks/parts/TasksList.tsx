@@ -1,30 +1,30 @@
 import {
   Button,
   ContainerCard,
-  LG,
   MD,
   Message,
   Span,
 } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { DeleteModuleConfirmationModal } from '../../modal/DeleteModuleConfirmationModal';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TaskItem } from './TaskItem';
 import { TasksModal } from './modal';
-import { DeleteModuleConfirmationModal } from '../../modal/DeleteModuleConfirmationModal';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
   padding: 0;
   overflow: hidden;
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const TasksContainer = styled.div`
@@ -64,7 +64,7 @@ const TasksList = () => {
     <>
       <StyledCard
         data-qa="tasks-module"
-        {...(error && { style: { borderColor: appTheme.palette.red[600] } })}
+        {...(error && { style: { borderColor: appTheme.palette.red[900] } })}
       >
         <HeaderContainer hasErrors={!!error}>
           <TitleContainer>
@@ -73,11 +73,13 @@ const TasksList = () => {
                 error ? appTheme.palette.red[600] : appTheme.palette.blue[600]
               }
             />
-            <LG>{t('__PLAN_PAGE_MODULE_TASKS_TITLE')}</LG>
+            <MD isBold style={{ color: appTheme.palette.blue[600] }}>
+              {t('__PLAN_PAGE_MODULE_TASKS_TITLE')}
+            </MD>
           </TitleContainer>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
-              <Button isBasic isDanger onClick={handleDelete}>
+              <Button isBasic isDanger size="small" onClick={handleDelete}>
                 {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
               </Button>
             )}
