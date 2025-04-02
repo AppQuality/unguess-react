@@ -24,6 +24,7 @@ const StyledCard = styled(ContainerCard)`
   background-color: transparent;
   padding: 0;
   overflow: hidden;
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const TasksContainer = styled.div`
