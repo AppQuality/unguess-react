@@ -152,7 +152,7 @@ const Cta = ({
 export const DetailsCard = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
-  const { plan, activeWorkspace } = usePlan(planId);
+  const { plan } = usePlan(planId);
   const { value } = useModule('dates');
   const [isSubmitted, setIsSubmitted] = useState(false);
 

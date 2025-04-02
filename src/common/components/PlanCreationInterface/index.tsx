@@ -9,14 +9,18 @@ import {
   Tag,
   TemplateCard,
   theme,
+  UnorderedList,
 } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { isTemplateTailored } from 'src/common/isTemplateTailored';
 import {
   CpReqTemplate,
+  Module,
+  ModuleTouchpoints,
+  ModuleTask,
   usePostWorkspacesByWidPlansMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -59,6 +63,9 @@ export interface PlanCreationProps {
   onClose: () => void;
   template: CpReqTemplate;
 }
+
+const firstLetterUpperCase = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);
 
 interface ExtendedTemplate extends CpReqTemplate {
   isTailored: boolean;
@@ -135,6 +142,107 @@ const DrawerFooter = ({
         </Button>
       </Drawer.FooterItem>
     </Drawer.Footer>
+  );
+};
+
+const TemplateContent = ({ data }: { data: CpReqTemplate }) => {
+  const { t } = useTranslation();
+
+  const taskModule: ModuleTask | undefined = JSON.parse(
+    data.config
+  ).modules.find((module: Module) => module.type === 'tasks');
+
+  const touchPointModule: ModuleTouchpoints | undefined = JSON.parse(
+    data.config
+  ).modules.find((module: Module) => module.type === 'touchpoints');
+
+  const devices =
+    touchPointModule?.output?.reduce(
+      (acc: string[], item: { form_factor: string }) => {
+        if (!acc.includes(item.form_factor)) {
+          acc.push(item.form_factor);
+        }
+        return acc;
+      },
+      []
+    ) || [];
+
+  const tasks = Object.entries(
+    taskModule?.output?.reduce(
+      (
+        acc: { [key: string]: { key: string; count: number } },
+        item: { kind: string }
+      ) => {
+        if (!(item.kind in acc)) {
+          acc[item.kind] = { key: item.kind, count: 0 };
+        }
+        acc[item.kind].count += 1;
+        return acc;
+      },
+      {}
+    ) || {}
+  ).map(([, value]) => value);
+
+  const taskCount = tasks.map((task) => task.count).reduce((a, b) => a + b, 0);
+
+  if (!taskModule && !touchPointModule) return null;
+
+  return (
+    <RequirementsContainer>
+      <MD
+        style={{ marginBottom: appTheme.space.xs }}
+        color={getColor(appTheme.colors.accentHue, 700)}
+        isBold
+      >
+        {t('__TEMPLATES_DRAWER_REQUIREMENTS_TAILORED_LABEL')}
+      </MD>
+      {!!devices.length && (
+        <>
+          <SM
+            color={appTheme.palette.grey[700]}
+            style={{ marginBottom: appTheme.space.xs }}
+            isBold
+          >
+            {t('__TEMPLATES_DRAWER_CONTENT_DEVICES_LABEL')}
+          </SM>
+          <UnorderedList style={{ marginBottom: appTheme.space.md }}>
+            {devices.map((dev) => (
+              <UnorderedList.Item key={`${dev}`}>
+                <SM>{firstLetterUpperCase(dev)}</SM>
+              </UnorderedList.Item>
+            ))}
+          </UnorderedList>
+        </>
+      )}
+      {!!tasks.length && (
+        <>
+          <SM
+            color={appTheme.palette.grey[700]}
+            style={{ marginBottom: appTheme.space.xs }}
+            isBold
+          >
+            {t('__TEMPLATES_DRAWER_CONTENT_TASKS_LABEL')}
+          </SM>
+          <SM>
+            <Trans
+              count={taskCount}
+              i18nKey="__TEMPLATES_DRAWER_CONTENT_TASKS_TOTALS"
+            >
+              {{ count: taskCount }} total tasks of which:
+            </Trans>
+          </SM>
+          <UnorderedList style={{ marginBottom: appTheme.space.sm }}>
+            {tasks.map((task) => (
+              <UnorderedList.Item key={`${task.key}`}>
+                <SM>
+                  {task.count} {firstLetterUpperCase(task.key)}
+                </SM>
+              </UnorderedList.Item>
+            ))}
+          </UnorderedList>
+        </>
+      )}
+    </RequirementsContainer>
   );
 };
 
@@ -221,32 +329,34 @@ export const NewPlanDrawer = ({
             <MD isBold>{t('__TEMPLATES_DRAWER_PROJECT_DROPDOWN_LABEL')}</MD>
             <ProjectDropdown />
           </DropdownContainer>
-          <RequirementsContainer>
-            <MD
-              style={{ marginBottom: appTheme.space.xs }}
-              color={getColor(appTheme.colors.accentHue, 700)}
-              isBold
-            >
-              {selectedTemplate.isTailored
-                ? t('__TEMPLATES_DRAWER_REQUIREMENTS_TAILORED_LABEL')
-                : t('__TEMPLATES_DRAWER_REQUIREMENTS_LABEL')}
-            </MD>
-            {!selectedTemplate.isTailored && (
+          {(selectedTemplate.requirementsItems ?? []).length > 0 ? (
+            <RequirementsContainer>
+              <MD
+                style={{ marginBottom: appTheme.space.xs }}
+                color={getColor(appTheme.colors.accentHue, 700)}
+                isBold
+              >
+                {selectedTemplate.isTailored
+                  ? t('__TEMPLATES_DRAWER_REQUIREMENTS_TAILORED_LABEL')
+                  : t('__TEMPLATES_DRAWER_REQUIREMENTS_LABEL')}
+              </MD>
               <SM
                 color={appTheme.palette.grey[700]}
                 style={{ marginBottom: appTheme.space.xs }}
               >
                 {t('__TEMPLATES_DRAWER_REQUIREMENTS_LABEL2')}
               </SM>
-            )}
-            <ul>
-              {selectedTemplate.requirementsItems?.map((req) => (
-                <li key={req.id}>
-                  <SM>{req.value}</SM>
-                </li>
-              ))}
-            </ul>
-          </RequirementsContainer>
+              <ul>
+                {selectedTemplate.requirementsItems?.map((req) => (
+                  <li key={req.id}>
+                    <SM>{req.value}</SM>
+                  </li>
+                ))}
+              </ul>
+            </RequirementsContainer>
+          ) : (
+            <TemplateContent data={selectedTemplate} />
+          )}
         </Drawer.Body>
         <DrawerFooter selectedTemplate={selectedTemplate} />
         <Drawer.Close data-qa="close-button" onClick={onClose} />

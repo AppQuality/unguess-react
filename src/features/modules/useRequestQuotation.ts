@@ -58,7 +58,10 @@ export const useRequestQuotation = () => {
         // update the status in the state
         setPlanStatus('pending_review');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
   };
 
   const isRequestQuoteCTADisabled = () => {
