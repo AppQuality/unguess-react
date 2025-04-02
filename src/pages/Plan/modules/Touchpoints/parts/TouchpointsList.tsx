@@ -63,7 +63,7 @@ const TouchpointsList = () => {
     <>
       <StyledCard
         data-qa="touchpoints-module"
-        {...(error && { style: { borderColor: appTheme.palette.red[600] } })}
+        {...(error && { style: { borderColor: appTheme.palette.red[900] } })}
       >
         <HeaderContainer hasErrors={!!error}>
           <TitleContainer>

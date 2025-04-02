@@ -63,7 +63,7 @@ const TasksList = () => {
     <>
       <StyledCard
         data-qa="tasks-module"
-        {...(error && { style: { borderColor: appTheme.palette.red[600] } })}
+        {...(error && { style: { borderColor: appTheme.palette.red[900] } })}
       >
         <HeaderContainer hasErrors={!!error}>
           <TitleContainer>
