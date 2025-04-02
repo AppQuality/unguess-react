@@ -66,9 +66,6 @@ export const useRequestQuotation = () => {
       });
   };
 
-  console.log('isLoading', isLoading);
-  console.log('isSubmitting', isSubmitting);
-
   const isRequestQuoteCTADisabled = () => {
     // if the plan is already pending review, return true
     if (getPlanStatus() === 'pending_review') {
