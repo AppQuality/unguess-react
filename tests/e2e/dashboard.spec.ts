@@ -1,5 +1,6 @@
 import { test, expect } from '../fixtures/app';
 import { Dashboard } from '../fixtures/Dashboard';
+import promoItems from '../api/workspaces/wid/templates/_get/200_promo.json';
 
 test.describe('Home page', () => {
   let dashboard: Dashboard;
@@ -10,6 +11,7 @@ test.describe('Home page', () => {
     await dashboard.mockPreferences();
     await dashboard.mockWorkspace();
     await dashboard.mockWorkspacesList();
+    await dashboard.mockPromoTemplates();
     await dashboard.open();
   });
   test('has title', async ({ i18n }) => {
@@ -21,5 +23,13 @@ test.describe('Home page', () => {
   test('has a create new PJ CTA that open an modal', async () => {
     await dashboard.elements().launchNewPJButton().click();
     await expect(dashboard.page.getByRole('dialog')).toBeVisible();
+  });
+
+  test('should show a list of suggested templates in promo', async () => {
+    await expect(dashboard.elements().title()).toBeVisible();
+    await expect(dashboard.elements().promoList()).toBeVisible();
+    await expect(dashboard.elements().promoListItems()).toHaveCount(
+      promoItems.items.length
+    );
   });
 });

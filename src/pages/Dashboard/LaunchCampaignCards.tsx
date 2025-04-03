@@ -51,7 +51,11 @@ const LaunchCampaignCards = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ServiceTiles />
+      <ServiceTiles
+        handleClick={() => {
+          alert('open drawer');
+        }}
+      />
     </Wrapper>
   );
 };

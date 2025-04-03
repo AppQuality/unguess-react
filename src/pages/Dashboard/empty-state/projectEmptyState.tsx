@@ -92,7 +92,11 @@ export const ProjectEmptyState = () => {
             }}
           />
           <div style={{ zIndex: 1, position: 'relative' }}>
-            <ServiceTiles />
+            <ServiceTiles
+              handleClick={() => {
+                alert('open drawer');
+              }}
+            />
           </div>
           <UGLogoMedium
             style={{ top: 0, left: 0, position: 'absolute', opacity: 0.5 }}

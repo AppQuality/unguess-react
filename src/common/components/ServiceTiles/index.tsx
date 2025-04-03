@@ -1,19 +1,12 @@
 import { ServiceTile, SM, Tag } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
+import { useMemo } from 'react';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import {
-  openDrawer,
-  openWizard,
-  setExpressTemplateId,
-  setExpressTypeId,
-} from 'src/features/express/expressSlice';
-import { useCampaignTemplates } from 'src/hooks/useCampaignTemplates';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
-import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
-import styled, { useTheme } from 'styled-components';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
+import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import styled, { useTheme } from 'styled-components';
 
 const AdditionalInfoTag = styled(Tag)`
   img {
@@ -22,28 +15,41 @@ const AdditionalInfoTag = styled(Tag)`
   }
 `;
 
-const ServiceTiles = () => {
-  const { data } = useCampaignTemplates();
-  const { hasFeatureFlag } = useFeatureFlag();
+const ServiceTiles = ({ handleClick }: { handleClick: () => void }) => {
+  const { activeWorkspace } = useActiveWorkspace();
+  const { data } = useGetWorkspacesByWidTemplatesQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+    },
+    {
+      skip: !activeWorkspace,
+    }
+  );
   const theme = useTheme();
-  const dispatch = useAppDispatch();
 
-  if (!hasFeatureFlag('express')) return null;
+  const promoTemplates = useMemo(
+    () => data?.items.filter((t) => t.strapi),
+    [data?.items]
+  );
+
+  if (!promoTemplates?.length) return null;
 
   return (
     <>
-      <ExpressDrawer
-        onCtaClick={() => {
-          dispatch(openWizard());
-        }}
-      />
-      <ExpressWizardContainer />
-      <ScrollingGrid id="service-tiles-scrolling-grid">
-        {data.map((template) => {
-          const icon = <img alt={template.title || ''} src={template.icon} />;
-          const superscript = template?.Price?.previous_price;
-          const outputs = (template.output || []).map((output) => {
-            const { text, iconUrl } = output;
+      <ScrollingGrid
+        id="service-tiles-scrolling-grid"
+        role="list"
+        title="dashboard-promo-templates"
+      >
+        {promoTemplates.map((template) => {
+          if (!template.strapi) return null;
+          // todo: remove this when api schema is updated for price and background
+          // @ts-ignore
+          const { title, price, tags, image, description, background } =
+            template.strapi;
+          const icon = <img alt={title} src={image} />;
+          const outputs = tags.map((output) => {
+            const { text, icon } = output;
             return (
               <AdditionalInfoTag
                 key={text}
@@ -52,30 +58,26 @@ const ServiceTiles = () => {
                 isPill
                 size="medium"
               >
-                <img src={iconUrl} alt="icon" />
+                <img src={icon} alt="icon" />
                 {text}
               </AdditionalInfoTag>
             );
           });
 
           return (
-            <ScrollingGrid.Item key={template.templateId}>
+            <ScrollingGrid.Item key={template.id} role="listitem" title={title}>
               <ServiceTile
-                title={template.title || ''}
-                description={template?.campaign_type || ''}
-                background={template?.background || theme.palette.blue[700]}
-                price={template?.Price?.price || '-'}
+                title={title}
+                description={description}
+                background={background || theme.palette.blue[700]}
+                price={price?.current_price}
                 icon={icon}
-                superscript={superscript?.length ? superscript : undefined}
-                isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
+                superscript={price?.previous_price}
+                isSuperscriptStrikethrough={price?.isStrikethrough}
                 additionalInfo={
                   <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
                 }
-                onClick={() => {
-                  dispatch(setExpressTypeId(template.expressId));
-                  dispatch(setExpressTemplateId(template.templateId));
-                  dispatch(openDrawer());
-                }}
+                onClick={handleClick}
               />
             </ScrollingGrid.Item>
           );
