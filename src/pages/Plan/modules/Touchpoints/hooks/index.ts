@@ -221,7 +221,8 @@ const useModuleTouchpoints = () => {
     if (
       previousValue &&
       value &&
-      previousValue.output.length > value.output.length
+      (previousValue.output.length > value.output.length ||
+        previousValue.output.length === 0)
     ) {
       validate();
     }
