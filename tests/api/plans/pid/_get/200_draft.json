@@ -10,6 +10,7 @@
     ]
   },
   "status": "draft",
+  "workspace_id": 1,
   "project": {
     "id": 90,
     "name": "MyProject"

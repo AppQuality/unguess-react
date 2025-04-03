@@ -3848,6 +3848,7 @@ export interface operations {
               title: string;
               startDate: string;
             };
+            workspace_id: number;
           };
         };
       };
@@ -3958,6 +3959,8 @@ export interface operations {
         orderBy?: 'updated_at' | 'id';
         /** Order value (ASC, DESC) */
         order?: components['parameters']['order'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
       };
     };
     responses: {

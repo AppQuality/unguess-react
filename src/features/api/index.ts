@@ -720,6 +720,7 @@ const injectedRtkApi = api.injectEndpoints({
           start: queryArg.start,
           orderBy: queryArg.orderBy,
           order: queryArg.order,
+          filterBy: queryArg.filterBy,
         },
       }),
     }),
@@ -1835,6 +1836,8 @@ export type GetWorkspacesByWidTemplatesApiArg = {
   orderBy?: 'updated_at' | 'id';
   /** Order value (ASC, DESC) */
   order?: string;
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
 };
 export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
   /** status 200 OK */ {};
