@@ -60,6 +60,11 @@ const TouchpointsList = () => {
     setIsOpenDeleteModal(true);
   };
 
+  const errorEmpty =
+    error && typeof error === 'object' && `touchpoints.empty` in error
+      ? error[`touchpoints.empty`]
+      : false;
+
   return (
     <>
       <StyledCard
@@ -89,14 +94,22 @@ const TouchpointsList = () => {
             {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_SUBTITLE')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </MD>
-          {error && (
-            <Message
-              validation="error"
-              style={{ marginTop: appTheme.space.md }}
-            >
-              {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_GENERIC_ERROR')}
-            </Message>
-          )}
+          {error &&
+            (errorEmpty ? (
+              <Message
+                validation="error"
+                style={{ marginTop: appTheme.space.md }}
+              >
+                {errorEmpty}
+              </Message>
+            ) : (
+              <Message
+                validation="error"
+                style={{ marginTop: appTheme.space.md }}
+              >
+                {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_ERROR')}
+              </Message>
+            ))}
         </div>
         <TouchpointsContainer>
           {value.map((touchpoint) => (

@@ -86,7 +86,10 @@ const useModuleTouchpoints = () => {
 
   const validation = (module: components['schemas']['ModuleTouchpoints']) => {
     const { output: o } = module;
-
+    if (!o || o.length === 0)
+      return {
+        empty: t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_ERROR_REQUIRED'),
+      };
     const errors = o.reduce((acc, item, idx) => {
       const osEmpty = !hasEnoughOs(item.os);
       const osErrors = checkOsLink(item);
