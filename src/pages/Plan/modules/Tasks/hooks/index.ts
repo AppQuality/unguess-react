@@ -26,7 +26,7 @@ const useModuleTasks = () => {
       const urlNotValid =
         item.url &&
         !item.url.match(
-          /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+          /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/
         );
       const descriptionEmpty =
         !item.description ||

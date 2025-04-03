@@ -64,8 +64,7 @@ const TaskItem = ({
   };
 
   const validateLink = (url: string) => {
-    const regex =
-      /^(https:\/\/|http:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w.-]+)?\/?$/;
+    const regex = /^(https?:\/\/)?([\w.-]+)\.([a-z]{2,6})(\/[\w.-]*)*\/?$/;
     if (url && !regex.test(url)) {
       return setValidLink(false);
     }
