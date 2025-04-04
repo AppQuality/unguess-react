@@ -4,9 +4,13 @@ import { useMemo } from 'react';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
-import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
+import {
+  CpReqTemplate,
+  useGetWorkspacesByWidTemplatesQuery,
+} from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import styled, { useTheme } from 'styled-components';
+import { useDashboardContext } from 'src/pages/Dashboard/Context';
+import styled from 'styled-components';
 
 const AdditionalInfoTag = styled(Tag)`
   img {
@@ -15,23 +19,12 @@ const AdditionalInfoTag = styled(Tag)`
   }
 `;
 
-const ServiceTiles = ({ handleClick }: { handleClick: () => void }) => {
-  const { activeWorkspace } = useActiveWorkspace();
-  const { data } = useGetWorkspacesByWidTemplatesQuery(
-    {
-      wid: activeWorkspace?.id.toString() || '',
-    },
-    {
-      skip: !activeWorkspace,
-    }
-  );
-  const theme = useTheme();
+interface ServiceTilesProps {
+  promoTemplates: CpReqTemplate[];
+  onClick: (tid: number) => void;
+}
 
-  const promoTemplates = useMemo(
-    () => data?.items.filter((t) => t.strapi),
-    [data?.items]
-  );
-
+const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
   if (!promoTemplates?.length) return null;
 
   return (
@@ -53,7 +46,7 @@ const ServiceTiles = ({ handleClick }: { handleClick: () => void }) => {
             return (
               <AdditionalInfoTag
                 key={text}
-                color={theme.palette.grey[700]}
+                color={appTheme.palette.grey[700]}
                 hue="#ffff"
                 isPill
                 size="medium"
@@ -64,12 +57,16 @@ const ServiceTiles = ({ handleClick }: { handleClick: () => void }) => {
             );
           });
 
+          const handleClick = () => {
+            onClick(template.id);
+          };
+
           return (
             <ScrollingGrid.Item key={template.id} role="listitem" title={title}>
               <ServiceTile
                 title={title}
                 description={description}
-                background={background || theme.palette.blue[700]}
+                background={background || appTheme.palette.blue[700]}
                 price={price?.current_price}
                 icon={icon}
                 superscript={price?.previous_price}

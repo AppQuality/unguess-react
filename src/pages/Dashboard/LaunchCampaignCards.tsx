@@ -13,6 +13,7 @@ import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled, { useTheme } from 'styled-components';
+import { useDashboardContext } from './Context';
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,6 +25,16 @@ const LaunchCampaignCards = () => {
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
   const { data } = useActiveWorkspaceProjects();
+  const { promoTemplates, setIsDrawerOpen, setSelectedTemplate } =
+    useDashboardContext();
+
+  const handleClick = (tid: number) => {
+    const selectedTemplate = promoTemplates.find(
+      (template) => template.id === tid
+    );
+    setSelectedTemplate(selectedTemplate);
+    setIsDrawerOpen(true);
+  };
 
   if (!data) return null;
   if (!hasFeatureFlag('express')) return null;
@@ -51,11 +62,7 @@ const LaunchCampaignCards = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ServiceTiles
-        handleClick={() => {
-          alert('open drawer');
-        }}
-      />
+      <ServiceTiles onClick={handleClick} promoTemplates={promoTemplates} />
     </Wrapper>
   );
 };
