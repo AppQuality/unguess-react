@@ -10,17 +10,15 @@ import {
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import styled from 'styled-components';
+import { usePromoContext } from '../PromoContext';
 import { ReactComponent as Illustration } from './assets/illustrazione-new-project.svg';
 import { ReactComponent as UGLogoBig } from './assets/unguess-big.svg';
 import { ReactComponent as UGLogoMedium } from './assets/unguess-medium.svg';
 import { ReactComponent as UGLogoSmall } from './assets/unguess-small.svg';
-import { useProjectEmptystateContext } from './Context';
-import { PlanCreationContextProvider } from 'src/common/components/PlanCreationInterface/Context';
-import { selectActiveWorkspace } from 'src/features/navigation/utils';
-import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 
 const EmptyProjectContainer = styled.div`
   display: flex;
@@ -49,16 +47,14 @@ export const ProjectEmptyState = () => {
     selectedTemplate,
     isDrawerOpen,
     setSelectedTemplate,
-  } = useProjectEmptystateContext();
+  } = usePromoContext();
+
   const handleCloseDrawer = useCallback(() => {
     setIsDrawerOpen(false);
   }, [setIsDrawerOpen]);
 
   const handleClick = (tid: number) => {
-    const selectedTemplate = promoTemplates.find(
-      (template) => template.id === tid
-    );
-    setSelectedTemplate(selectedTemplate);
+    setSelectedTemplate(promoTemplates.find((template) => template.id === tid));
     setIsDrawerOpen(true);
   };
 

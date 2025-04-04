@@ -25,6 +25,7 @@ import { LaunchCampaignCards } from './LaunchCampaignCards';
 import { ProjectItems } from './project-items';
 import { Plans } from './project-items/Plans';
 import { ProjectPageHeader } from './projectPageHeader';
+import { PromoContextProvider } from './PromoContext';
 
 const Items = ({
   project,
@@ -135,7 +136,9 @@ const Project = () => {
       excludeMarginBottom={isEmpty}
       excludeMarginTop={isEmpty}
     >
-      <Items project={project} isLoading={isLoading || isFetching} />
+      <PromoContextProvider>
+        <Items project={project} isLoading={isLoading || isFetching} />
+      </PromoContextProvider>
     </Page>
   );
 };

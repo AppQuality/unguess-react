@@ -13,7 +13,7 @@ import {
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
-interface ProjectEmptystateContextProps {
+interface PromoContextProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
   promoTemplates: CpReqTemplate[];
@@ -21,18 +21,13 @@ interface ProjectEmptystateContextProps {
   setSelectedTemplate: Dispatch<SetStateAction<CpReqTemplate | undefined>>;
 }
 
-const ProjectEmptystateContext =
-  createContext<ProjectEmptystateContextProps | null>(null);
+const PromoContext = createContext<PromoContextProps | null>(null);
 
-export const ProjectEmptystateContextProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const PromoContextProvider = ({ children }: { children: ReactNode }) => {
   const [isDrawerOpen, setIsDrawerOpen] =
-    useState<ProjectEmptystateContextProps['isDrawerOpen']>(false);
+    useState<PromoContextProps['isDrawerOpen']>(false);
   const [selectedTemplate, setSelectedTemplate] =
-    useState<ProjectEmptystateContextProps['selectedTemplate']>();
+    useState<PromoContextProps['selectedTemplate']>();
 
   const { activeWorkspace } = useActiveWorkspace();
   const { data } = useGetWorkspacesByWidTemplatesQuery(
@@ -49,7 +44,7 @@ export const ProjectEmptystateContextProvider = ({
 
   const promoTemplates = useMemo(() => {
     if (!data) return [];
-    return data.items.reduce<ProjectEmptystateContextProps['promoTemplates']>(
+    return data.items.reduce<PromoContextProps['promoTemplates']>(
       (acc, template) => {
         if ('strapi' in template) {
           acc.push(template);
@@ -60,7 +55,7 @@ export const ProjectEmptystateContextProvider = ({
     );
   }, [data]);
 
-  const ProjectEmptystateContextValue = useMemo(
+  const PromoContextValue = useMemo(
     () => ({
       isDrawerOpen,
       setIsDrawerOpen,
@@ -78,17 +73,16 @@ export const ProjectEmptystateContextProvider = ({
   );
 
   return (
-    <ProjectEmptystateContext.Provider value={ProjectEmptystateContextValue}>
+    <PromoContext.Provider value={PromoContextValue}>
       {children}
-    </ProjectEmptystateContext.Provider>
+    </PromoContext.Provider>
   );
 };
 
-export const useProjectEmptystateContext = () => {
-  const context = useContext(ProjectEmptystateContext);
+export const usePromoContext = () => {
+  const context = useContext(PromoContext);
 
-  if (!context)
-    throw new Error('Provider not found for ProjectEmptystateContextProvider');
+  if (!context) throw new Error('Provider not found for PromoContextProvider');
 
   return context;
 };

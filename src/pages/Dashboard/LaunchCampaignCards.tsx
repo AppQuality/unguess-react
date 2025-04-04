@@ -11,10 +11,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import styled, { useTheme } from 'styled-components';
-import { useDashboardContext } from './Context';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import styled, { useTheme } from 'styled-components';
+import { usePromoContext } from './PromoContext';
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,7 +26,7 @@ const LaunchCampaignCards = () => {
   const canView = useCanAccessToActiveWorkspace();
   const { data } = useActiveWorkspaceProjects();
   const { promoTemplates, setIsDrawerOpen, setSelectedTemplate } =
-    useDashboardContext();
+    usePromoContext();
 
   const handleClick = (tid: number) => {
     const selectedTemplate = promoTemplates.find(

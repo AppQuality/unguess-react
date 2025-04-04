@@ -8,15 +8,14 @@ import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice'
 import { Page } from 'src/features/templates/Page';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { CampaignsList } from './campaigns-list';
-import { DashboardContextProvider, useDashboardContext } from './Context';
+import { PromoContextProvider, usePromoContext } from './PromoContext';
 import { DashboardHeaderContent } from './headerContent';
 import { LaunchCampaignCards } from './LaunchCampaignCards';
 import { CreateProjectModal } from './Modals/CreateProjectModal';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
 
 const PlanCreation = () => {
-  const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } =
-    useDashboardContext();
+  const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } = usePromoContext();
 
   const handleCloseDrawer = useCallback(() => {
     setIsDrawerOpen(false);
@@ -44,7 +43,7 @@ const Dashboard = () => {
   const [openCreateProjectModal, setOpenCreateProjectModal] = useState(false);
 
   return (
-    <DashboardContextProvider>
+    <PromoContextProvider>
       <Page
         title={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
         pageHeader={
@@ -75,7 +74,7 @@ const Dashboard = () => {
           <PlanCreation />
         </LayoutWrapper>
       </Page>
-    </DashboardContextProvider>
+    </PromoContextProvider>
   );
 };
 
