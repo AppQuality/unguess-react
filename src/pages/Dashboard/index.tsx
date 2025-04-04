@@ -1,21 +1,40 @@
 import { Grid } from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { Page } from 'src/features/templates/Page';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { CampaignsList } from './campaigns-list';
+import { PromoContextProvider, usePromoContext } from './PromoContext';
 import { DashboardHeaderContent } from './headerContent';
 import { LaunchCampaignCards } from './LaunchCampaignCards';
 import { CreateProjectModal } from './Modals/CreateProjectModal';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
 
+const PlanCreation = () => {
+  const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } = usePromoContext();
+
+  const handleCloseDrawer = useCallback(() => {
+    setIsDrawerOpen(false);
+  }, [setIsDrawerOpen]);
+
+  if (!selectedTemplate) return null;
+
+  return (
+    <PlanCreationInterface
+      isOpen={isDrawerOpen}
+      onClose={handleCloseDrawer}
+      template={selectedTemplate}
+    />
+  );
+};
+
 const Dashboard = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-
   const { status } = useAppSelector((state) => state.user);
   const sendGTMEvent = useSendGTMevent();
 
@@ -24,35 +43,38 @@ const Dashboard = () => {
   const [openCreateProjectModal, setOpenCreateProjectModal] = useState(false);
 
   return (
-    <Page
-      title={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
-      pageHeader={
-        <DashboardHeaderContent
-          handleOpenModal={() => {
-            setOpenCreateProjectModal(true);
+    <PromoContextProvider>
+      <Page
+        title={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
+        pageHeader={
+          <DashboardHeaderContent
+            handleOpenModal={() => {
+              setOpenCreateProjectModal(true);
 
-            sendGTMEvent({
-              event: 'workspaces-action',
-              action: 'create_project_click',
-              content: `${new Date().toISOString()}`,
-            });
-          }}
-          pageTitle={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
-        />
-      }
-      route=""
-    >
-      <LayoutWrapper>
-        <Grid>
-          <SuggestedCampaigns />
-          <LaunchCampaignCards />
-          <CampaignsList />
-          {openCreateProjectModal ? (
-            <CreateProjectModal setOpen={setOpenCreateProjectModal} />
-          ) : null}
-        </Grid>
-      </LayoutWrapper>
-    </Page>
+              sendGTMEvent({
+                event: 'workspaces-action',
+                action: 'create_project_click',
+                content: `${new Date().toISOString()}`,
+              });
+            }}
+            pageTitle={t('__PAGE_TITLE_PRIMARY_DASHBOARD')}
+          />
+        }
+        route=""
+      >
+        <LayoutWrapper>
+          <Grid>
+            <SuggestedCampaigns />
+            <LaunchCampaignCards />
+            <CampaignsList />
+            {openCreateProjectModal ? (
+              <CreateProjectModal setOpen={setOpenCreateProjectModal} />
+            ) : null}
+          </Grid>
+          <PlanCreation />
+        </LayoutWrapper>
+      </Page>
+    </PromoContextProvider>
   );
 };
 

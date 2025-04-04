@@ -1,19 +1,10 @@
 import { ServiceTile, SM, Tag } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
-import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import {
-  openDrawer,
-  openWizard,
-  setExpressTemplateId,
-  setExpressTypeId,
-} from 'src/features/express/expressSlice';
-import { useCampaignTemplates } from 'src/hooks/useCampaignTemplates';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { ExpressWizardContainer } from 'src/pages/ExpressWizard';
-import { ExpressDrawer } from 'src/pages/ExpressWizard/drawer';
-import styled, { useTheme } from 'styled-components';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
+import { CpReqTemplate } from 'src/features/api';
+
+import styled from 'styled-components';
 
 const AdditionalInfoTag = styled(Tag)`
   img {
@@ -22,60 +13,59 @@ const AdditionalInfoTag = styled(Tag)`
   }
 `;
 
-const ServiceTiles = () => {
-  const { data } = useCampaignTemplates();
-  const { hasFeatureFlag } = useFeatureFlag();
-  const theme = useTheme();
-  const dispatch = useAppDispatch();
+interface ServiceTilesProps {
+  promoTemplates: CpReqTemplate[];
+  onClick: (tid: number) => void;
+}
 
-  if (!hasFeatureFlag('express')) return null;
+const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
+  if (!promoTemplates?.length) return null;
 
   return (
     <>
-      <ExpressDrawer
-        onCtaClick={() => {
-          dispatch(openWizard());
-        }}
-      />
-      <ExpressWizardContainer />
-      <ScrollingGrid id="service-tiles-scrolling-grid">
-        {data.map((template) => {
-          const icon = <img alt={template.title || ''} src={template.icon} />;
-          const superscript = template?.Price?.previous_price;
-          const outputs = (template.output || []).map((output) => {
-            const { text, iconUrl } = output;
+      <ScrollingGrid
+        id="service-tiles-scrolling-grid"
+        role="list"
+        title="promo-templates"
+      >
+        {promoTemplates.map((template) => {
+          if (!template.strapi) return null;
+          const { title, price, tags, image, background, pre_title } =
+            template.strapi;
+          const outputs = tags.map((output) => {
+            const { text, icon } = output;
             return (
               <AdditionalInfoTag
                 key={text}
-                color={theme.palette.grey[700]}
+                color={appTheme.palette.grey[700]}
                 hue="#ffff"
                 isPill
                 size="medium"
               >
-                <img src={iconUrl} alt="icon" />
+                <img src={icon} alt="icon" />
                 {text}
               </AdditionalInfoTag>
             );
           });
 
+          const handleClick = () => {
+            onClick(template.id);
+          };
+
           return (
-            <ScrollingGrid.Item key={template.templateId}>
+            <ScrollingGrid.Item key={template.id} role="listitem" title={title}>
               <ServiceTile
-                title={template.title || ''}
-                description={template?.campaign_type || ''}
-                background={template?.background || theme.palette.blue[700]}
-                price={template?.Price?.price || '-'}
-                icon={icon}
-                superscript={superscript?.length ? superscript : undefined}
-                isSuperscriptStrikethrough={template?.Price?.is_strikethrough}
+                title={title}
+                description={pre_title}
+                background={background || appTheme.palette.blue[700]}
+                price={price?.price || ''}
+                icon={<img alt={title} src={image} />}
+                superscript={price?.previous_price}
+                isSuperscriptStrikethrough={!!price?.is_strikethrough}
                 additionalInfo={
                   <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
                 }
-                onClick={() => {
-                  dispatch(setExpressTypeId(template.expressId));
-                  dispatch(setExpressTemplateId(template.templateId));
-                  dispatch(openDrawer());
-                }}
+                onClick={handleClick}
               />
             </ScrollingGrid.Item>
           );

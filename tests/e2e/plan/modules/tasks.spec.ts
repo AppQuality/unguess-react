@@ -1,5 +1,5 @@
 import { test } from '../../../fixtures/app';
-import { PlanPage } from '../../../fixtures/Plan';
+import { PlanPage } from '../../../fixtures/pages/Plan';
 
 test.describe('The tasks module defines a list of activities.', () => {
   let moduleBuilderPage: PlanPage;

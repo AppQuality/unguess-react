@@ -1,29 +1,30 @@
 import { type Page } from '@playwright/test';
-import { UnguessPage } from './UnguessPage';
+import { i18n } from 'i18next';
+import { getI18nInstance } from 'playwright-i18next-fixture';
+import apiPostPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.json';
+import apiGetProjects from '../../api/workspaces/wid/projects/_get/200_Example_1.json';
 
-export class Templates extends UnguessPage {
+export class PlanCreationInterface {
   readonly page: Page;
 
+  readonly testId = 'plan-creation-interface';
+
+  readonly i18n: i18n;
+
+  readonly postPlans = apiPostPlans;
+
+  readonly projectName = apiGetProjects.items[0].name;
+
+  readonly projectId = apiGetProjects.items[0].id;
+
   constructor(page: Page) {
-    super(page);
     this.page = page;
-    this.url = `/templates`;
+    this.i18n = getI18nInstance() as unknown as i18n;
   }
 
   elements() {
     return {
-      ...super.elements(),
-      templateCard: () => this.page.getByTestId('template-card'),
-      tailoredSection: () =>
-        this.page.getByTitle(
-          this.i18n.t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')
-        ),
-      unguessSection: () =>
-        this.page.getByTitle(
-          this.i18n.t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')
-        ),
-      planCreationInterface: () =>
-        this.page.getByTestId('plan-creation-interface'),
+      planCreationInterface: () => this.page.getByTestId(this.testId),
       projectDropdown: () => this.page.getByTestId('project-dropdown'),
       confirmButton: () =>
         this.elements()
@@ -39,11 +40,23 @@ export class Templates extends UnguessPage {
           }),
       errorMessage: () =>
         this.elements().planCreationInterface().getByTestId('error-message'),
-      navigationItem: () =>
-        this.elements()
-          .mainNavigation()
-          .getByRole('menuitem', { name: this.i18n.t('Templates') }),
     };
+  }
+
+  async createPlan() {
+    const response = this.page.waitForResponse(
+      (resp) =>
+        /\/api\/workspaces\/1\/plans/.test(resp.url()) &&
+        resp.status() === 200 &&
+        resp.request().method() === 'POST'
+    );
+    await this.elements().confirmButton().click();
+    return response;
+  }
+
+  async selectProject() {
+    await this.elements().projectDropdown().click();
+    await this.page.getByRole('option', { name: this.projectName }).click();
   }
 
   async mockGetProjects() {
@@ -51,18 +64,6 @@ export class Templates extends UnguessPage {
       await route.fulfill({
         path: 'tests/api/workspaces/wid/projects/_get/200_Example_1.json',
       });
-    });
-  }
-
-  async mockGetTemplates() {
-    await this.page.route('*/**/api/workspaces/1/templates*', async (route) => {
-      if (route.request().method() === 'GET') {
-        await route.fulfill({
-          path: 'tests/api/workspaces/wid/templates/_get/200_global_and_private_templates.json',
-        });
-      } else {
-        await route.continue();
-      }
     });
   }
 
