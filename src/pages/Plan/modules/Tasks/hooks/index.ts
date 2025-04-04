@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import * as yup from 'yup';
 
 function usePreviousValue(
   value?: Omit<components['schemas']['ModuleTask'], 'type'>
@@ -19,6 +20,22 @@ const useModuleTasks = () => {
   const { value, setOutput, setVariant } = useModule('tasks');
   const previousValue = usePreviousValue(value);
 
+  const checkUrl = (
+    url: components['schemas']['ModuleTask']['output'][number]['url']
+  ) => {
+    const errors: Record<string, string> = {};
+
+    const urlSchema = yup.string().url();
+
+    if (!urlSchema.isValidSync(url)) {
+      errors.url = t(
+        '__PLAN_PAGE_MODULE_TASKS_TASK_URL_LINK_ERROR_INVALID_URL'
+      );
+    }
+
+    return errors;
+  };
+
   const validation = (module: components['schemas']['ModuleTask']) => {
     const { output: o } = module;
 
@@ -29,7 +46,9 @@ const useModuleTasks = () => {
         !item.description ||
         item.description.length === 0 ||
         item.description === '<p></p>';
-      if (!titleEmpty && !descriptionEmpty && !titleMaxLength)
+      const urlCheck = checkUrl(item.url);
+      const invalidUrl = urlCheck.url;
+      if (!titleEmpty && !descriptionEmpty && !titleMaxLength && !invalidUrl)
         return { ...acc };
       return {
         ...acc,
@@ -51,6 +70,11 @@ const useModuleTasks = () => {
                 description: t(
                   '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_ERROR_REQUIRED'
                 ),
+              }
+            : {}),
+          ...(invalidUrl
+            ? {
+                url: invalidUrl,
               }
             : {}),
         },
