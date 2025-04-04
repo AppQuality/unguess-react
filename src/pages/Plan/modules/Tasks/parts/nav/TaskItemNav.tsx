@@ -51,8 +51,12 @@ const TaskItemNav = ({
     error && typeof error === 'object' && `tasks.${key}.description` in error
       ? error[`tasks.${key}.description`]
       : false;
+  const invalidUrlError =
+    error && typeof error === 'object' && `tasks.${key}.url` in error
+      ? error[`tasks.${key}.url`]
+      : false;
 
-  const hasErrors = titleError || descriptionError;
+  const hasErrors = titleError || descriptionError || invalidUrlError;
   const hasPlaceholder = !task.title;
 
   return (
