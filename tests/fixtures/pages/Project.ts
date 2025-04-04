@@ -2,12 +2,12 @@ import { type Page } from '@playwright/test';
 import { UnguessPage } from '../UnguessPage';
 import apiPromoTemplates from '../../api/workspaces/wid/templates/_get/200_promo.json';
 
-export class Dashboard extends UnguessPage {
+export class Project extends UnguessPage {
   readonly page: Page;
 
   readonly promoItems = apiPromoTemplates.items;
 
-  readonly url = '/';
+  readonly url = 'projects/1';
 
   constructor(page: Page) {
     super(page);
@@ -17,15 +17,14 @@ export class Dashboard extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
-      launchNewPJButton: () =>
-        this.page.getByRole('button', {
-          name: this.i18n.t('__DASHBOARD_CREATE_NEW_PROJECT'),
-        }),
-      createPJModal: () => {
-        this.page.getByRole('dialog', {
-          name: this.i18n.t('__DASHBOARD_CREATE_NEW_PROJECT_TITLE'),
-        });
-      },
     };
+  }
+
+  async mockEmptyProject() {
+    await this.page.route('*/**/api/projects/1', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/workspaces/wid/projects/pid/_get/200_Example_1.json',
+      });
+    });
   }
 }

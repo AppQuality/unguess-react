@@ -3,16 +3,16 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { Page } from 'src/features/templates/Page';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { CampaignsList } from './campaigns-list';
+import { DashboardContextProvider, useDashboardContext } from './Context';
 import { DashboardHeaderContent } from './headerContent';
 import { LaunchCampaignCards } from './LaunchCampaignCards';
 import { CreateProjectModal } from './Modals/CreateProjectModal';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
-import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
-import { DashboardContextProvider, useDashboardContext } from './Context';
 
 const PlanCreation = () => {
   const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } =

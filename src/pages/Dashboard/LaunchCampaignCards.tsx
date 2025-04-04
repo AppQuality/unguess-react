@@ -14,6 +14,7 @@ import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled, { useTheme } from 'styled-components';
 import { useDashboardContext } from './Context';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const Wrapper = styled.div`
 const LaunchCampaignCards = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { hasFeatureFlag } = useFeatureFlag();
+  const canView = useCanAccessToActiveWorkspace();
   const { data } = useActiveWorkspaceProjects();
   const { promoTemplates, setIsDrawerOpen, setSelectedTemplate } =
     useDashboardContext();
@@ -37,7 +38,7 @@ const LaunchCampaignCards = () => {
   };
 
   if (!data) return null;
-  if (!hasFeatureFlag('express')) return null;
+  if (!canView) return null;
 
   return (
     <Wrapper>

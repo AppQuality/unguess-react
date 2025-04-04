@@ -6,10 +6,15 @@ import apiGetProjects from '../../api/workspaces/wid/projects/_get/200_Example_1
 
 export class PlanCreationInterface {
   readonly page: Page;
+
   readonly testId = 'plan-creation-interface';
+
   readonly i18n: i18n;
+
   readonly postPlans = apiPostPlans;
+
   readonly projectName = apiGetProjects.items[0].name;
+
   readonly projectId = apiGetProjects.items[0].id;
 
   constructor(page: Page) {
@@ -40,10 +45,10 @@ export class PlanCreationInterface {
 
   async createPlan() {
     const response = this.page.waitForResponse(
-      (response) =>
-        /\/api\/workspaces\/1\/plans/.test(response.url()) &&
-        response.status() === 200 &&
-        response.request().method() === 'POST'
+      (resp) =>
+        /\/api\/workspaces\/1\/plans/.test(resp.url()) &&
+        resp.status() === 200 &&
+        resp.request().method() === 'POST'
     );
     await this.elements().confirmButton().click();
     return response;

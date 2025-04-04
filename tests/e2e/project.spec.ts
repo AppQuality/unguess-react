@@ -1,43 +1,33 @@
 import { test, expect } from '../fixtures/app';
-import { Dashboard } from '../fixtures/pages/Dashboard';
+import { Project } from '../fixtures/pages/Project';
 import { PlanCreationInterface } from '../fixtures/components/PlanCreationInterface';
 import { PromoList } from '../fixtures/components/PromoList';
 
-test.describe('Home page', () => {
-  let dashboard: Dashboard;
+test.describe('project page empty state', () => {
+  let project: Project;
   let planCreationInterface: PlanCreationInterface;
   let promoList: PromoList;
 
   test.beforeEach(async ({ page }) => {
-    dashboard = new Dashboard(page);
+    project = new Project(page);
     planCreationInterface = new PlanCreationInterface(page);
     promoList = new PromoList(page);
 
-    await dashboard.loggedIn();
-    await dashboard.mockPreferences();
-    await dashboard.mockWorkspace();
+    await project.loggedIn();
+    await project.mockPreferences();
+    await project.mockWorkspace();
+    await project.mockEmptyProject();
     await planCreationInterface.mockGetProjects();
     await planCreationInterface.mockPostPlans();
-    await dashboard.mockWorkspacesList();
+    await project.mockWorkspacesList();
     await promoList.mockPromoTemplates();
-    await dashboard.open();
-  });
-  test('has title', async ({ i18n }) => {
-    const title = dashboard.elements().title();
-    await expect(title).toBeVisible();
-    await expect(title).toHaveText(i18n.t('__PAGE_TITLE_PRIMARY_DASHBOARD'));
+    await project.open();
   });
 
-  test('has a create new PJ CTA that open an modal', async () => {
-    await dashboard.elements().launchNewPJButton().click();
-    await expect(dashboard.page.getByRole('dialog')).toBeVisible();
-  });
-
-  test('should show a list of suggested templates in promo', async () => {
-    await expect(dashboard.elements().title()).toBeVisible();
+  test('should display a list of suggested templates in promo', async () => {
     await expect(promoList.elements().promoList()).toBeVisible();
     await expect(promoList.elements().promoListItems()).toHaveCount(
-      dashboard.promoItems.length
+      project.promoItems.length
     );
   });
 
@@ -52,7 +42,7 @@ test.describe('Home page', () => {
       planCreationInterface.elements().moreInfoButton()
     ).toBeVisible();
     await planCreationInterface.elements().moreInfoButton().click();
-    await expect(page).toHaveURL(`/templates/${dashboard.promoItems[0].id}`);
+    await expect(page).toHaveURL(`/templates/${project.promoItems[0].id}`);
   });
 
   test('Once a project is selected from the drawer is possible to start an activity', async ({
@@ -60,6 +50,7 @@ test.describe('Home page', () => {
   }) => {
     const newPlanId = planCreationInterface.postPlans.id;
 
+    await expect(page).toHaveURL('/projects/1');
     await promoList.elements().promoListItems().first().click();
     // attempt to create a plan without selecting a project
     await planCreationInterface.elements().confirmButton().click();
@@ -76,7 +67,7 @@ test.describe('Home page', () => {
     const data = response.request().postDataJSON();
     expect(data).toEqual({
       project_id: planCreationInterface.projectId,
-      template_id: dashboard.promoItems[0].id,
+      template_id: project.promoItems[0].id,
     });
     // expect that navigation to the plan page is triggered
     await expect(page).toHaveURL(`/plans/${newPlanId}`);

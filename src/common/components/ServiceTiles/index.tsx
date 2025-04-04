@@ -1,15 +1,9 @@
 import { ServiceTile, SM, Tag } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
-import { useMemo } from 'react';
-import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
-import {
-  CpReqTemplate,
-  useGetWorkspacesByWidTemplatesQuery,
-} from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useDashboardContext } from 'src/pages/Dashboard/Context';
+import { CpReqTemplate } from 'src/features/api';
+
 import styled from 'styled-components';
 
 const AdditionalInfoTag = styled(Tag)`
@@ -36,11 +30,8 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
       >
         {promoTemplates.map((template) => {
           if (!template.strapi) return null;
-          // todo: remove this when api schema is updated for price and background
-          // @ts-ignore
           const { title, price, tags, image, description, background } =
             template.strapi;
-          const icon = <img alt={title} src={image} />;
           const outputs = tags.map((output) => {
             const { text, icon } = output;
             return (
@@ -67,10 +58,10 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
                 title={title}
                 description={description}
                 background={background || appTheme.palette.blue[700]}
-                price={price?.current_price}
-                icon={icon}
+                price={price?.price || ''}
+                icon={<img alt={title} src={image} />}
                 superscript={price?.previous_price}
-                isSuperscriptStrikethrough={price?.isStrikethrough}
+                isSuperscriptStrikethrough={!!price?.is_strikethrough}
                 additionalInfo={
                   <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
                 }
