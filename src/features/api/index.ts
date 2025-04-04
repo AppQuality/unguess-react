@@ -2671,12 +2671,14 @@ export type StrapiTemplate = {
     icon: string;
     text: string;
   }[];
-  advantages: string[];
   why?: {
-    icon: string;
-    title: string;
-    description: string;
-  }[];
+    reasons: {
+      icon: string;
+      title: string;
+      description: string;
+    }[];
+    advantages: string[];
+  };
   what?: {
     description: string;
     goal: string;
@@ -2686,6 +2688,12 @@ export type StrapiTemplate = {
     title: string;
     description: string;
   }[];
+  price?: {
+    price: string;
+    previous_price?: string;
+    is_strikethrough?: number;
+  };
+  background?: string;
 };
 export type CpReqTemplate = {
   id: number;

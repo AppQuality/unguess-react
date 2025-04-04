@@ -1644,13 +1644,15 @@ export interface components {
         icon: string;
         text: string;
       }[];
-      advantages: string[];
       why?: {
-        /** Format: uri */
-        icon: string;
-        title: string;
-        description: string;
-      }[];
+        reasons: {
+          /** Format: uri */
+          icon: string;
+          title: string;
+          description: string;
+        }[];
+        advantages: string[];
+      };
       what?: {
         description: string;
         goal: string;
@@ -1661,6 +1663,13 @@ export interface components {
         title: string;
         description: string;
       }[];
+      price?: {
+        price: string;
+        previous_price?: string;
+        /** @default 0 */
+        is_strikethrough?: number;
+      };
+      background?: string;
     };
   };
   responses: {

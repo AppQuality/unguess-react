@@ -17,7 +17,7 @@
         "price": {
           "price": "12345",
           "previous_price": "999999",
-          "is_strikethrough": true
+          "is_strikethrough": 1
         },
         "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
         "output_image": "http://example.com/output5.jpg",
@@ -46,7 +46,7 @@
         "background": "linear-gradient(91deg, #8A0C49 0%, #D81E57 100%)",
         "price": {
           "price": "54321",
-          "is_strikethrough": false
+          "is_strikethrough": 0
         },
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
@@ -123,7 +123,7 @@
         "price": {
           "price": "666",
           "previous_price": "666666",
-          "is_strikethrough": false
+          "is_strikethrough": 0
         },
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
