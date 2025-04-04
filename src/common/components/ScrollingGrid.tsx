@@ -233,9 +233,7 @@ const ScrollingGridComponent = ({
       >
         <ArrowLeft width={26} height={26} />
       </button>
-      <StyledGrid role="list" ref={scrollingContainer}>
-        {children}
-      </StyledGrid>
+      <StyledGrid ref={scrollingContainer}>{children}</StyledGrid>
       <button
         ref={rightButtonRef}
         type="button"
