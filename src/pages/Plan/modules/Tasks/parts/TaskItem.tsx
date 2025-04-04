@@ -190,6 +190,9 @@ const TaskItem = ({
                 {invalidUrlError && (
                   <Message validation="error">{invalidUrlError}</Message>
                 )}
+                <Message>
+                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_HINT')}
+                </Message>
               </FormField>
             </div>
           </AccordionNew.Panel>
