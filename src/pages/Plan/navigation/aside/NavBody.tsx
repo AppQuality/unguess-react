@@ -1,3 +1,4 @@
+import { useAppSelector } from 'src/app/hooks';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
@@ -21,18 +22,19 @@ const NavBody = () => {
   const { activeTab } = usePlanTab();
   const availableModules =
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
-  const { getModules, getPlanStatus } = useModuleConfiguration();
+  const { getPlanStatus } = useModuleConfiguration();
+  const { currentModules } = useAppSelector((state) => state.planModules);
   const { hasFeatureFlag } = useFeatureFlag();
 
   return (
     <NavContainer data-qa="plans-nav">
       <BodyContainer data-qa={`plans-nav-${activeTab}`}>
-        {getModules()
-          .filter((module) => availableModules.includes(module.type))
+        {currentModules
+          .filter((module) => availableModules.includes(module))
           .map((module, index) => (
-            <NavItem index={index} module={module}>
-              {MODULES_WITH_OUTPUT.includes(module.type) && (
-                <NavItemChildren key={module.type} module={module} />
+            <NavItem index={index} type={module}>
+              {MODULES_WITH_OUTPUT.includes(module) && (
+                <NavItemChildren key={module} type={module} />
               )}
             </NavItem>
           ))}

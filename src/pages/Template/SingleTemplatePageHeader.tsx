@@ -2,69 +2,81 @@ import {
   Anchor,
   PageHeader,
   Paragraph,
+  TemplateCard,
 } from '@appquality/unguess-design-system';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Meta } from 'src/common/components/Meta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { PageTitle } from 'src/common/components/PageTitle';
+import {
+  GetWorkspacesByWidTemplatesAndTidApiResponse,
+  Module,
+} from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { TemplateExpressCta } from './TemplateExpressCta';
+import { LaunchActivityCTA } from './LaunchActivityCTA';
 
-export const SingleTemplatePageHeader = () => {
+export const getTemplateTitle = (
+  data: GetWorkspacesByWidTemplatesAndTidApiResponse
+) => data.strapi?.title || data.name;
+
+export const SingleTemplatePageHeader = ({
+  template,
+  handleLaunchActivity,
+}: {
+  template: GetWorkspacesByWidTemplatesAndTidApiResponse;
+  handleLaunchActivity: () => void;
+}) => {
   const navigate = useNavigate();
-  const { templateId } = useParams();
   const workspaceRoute = useLocalizeRoute('');
   const { activeWorkspace } = useActiveWorkspace();
-  const { data } = useCampaignTemplateById(templateId || '');
+
+  const targetModule: { output: string } | undefined = JSON.parse(
+    template.config
+  ).modules.find((module: Module) => module.type === 'target');
 
   return (
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Breadcrumbs>
           <Anchor onClick={() => navigate(workspaceRoute)}>
-            {activeWorkspace?.company || 'Default'}’s Workspace
+            {activeWorkspace?.company || 'Default'}&apos;s Workspace
           </Anchor>
         </PageHeader.Breadcrumbs>
-        <PageHeader.Main
-          mainTitle={data.title}
-          {...(data.outputImage && { mainImageUrl: data.outputImage })}
-        >
+        <PageHeader.Main mainTitle={getTemplateTitle(template)}>
           <PageHeader.Overline>
-            {data.campaignType?.toUpperCase()}
+            {template.strapi?.pre_title.toUpperCase()}
           </PageHeader.Overline>
           <PageHeader.Title>
-            <PageTitle>{data.title}</PageTitle>
+            <PageTitle>{getTemplateTitle(template)}</PageTitle>
           </PageHeader.Title>
           <PageHeader.Description style={{ whiteSpace: 'pre-wrap' }}>
-            {data.description}
+            {template.strapi?.description || template.description}
           </PageHeader.Description>
           <PageHeader.Meta>
             <PageMeta>
-              {data.tags &&
-                data.tags.map((tag) => (
+              {template.price &&
+                TemplateCard.PriceTag({ text: template.price })}
+
+              {targetModule?.output && (
+                <TemplateCard.UserTag text={targetModule.output} />
+              )}
+
+              {template.strapi?.tags &&
+                template.strapi?.tags.map((tag) => (
                   <Meta
                     size="large"
-                    icon={<img src={tag.icon} alt={tag.label} />}
+                    icon={<img src={tag.icon} alt={tag.text} />}
                   >
-                    <Paragraph>{tag.label}</Paragraph>
+                    <Paragraph>{tag.text}</Paragraph>
                   </Meta>
                 ))}
-              {data.price && (
-                <Meta
-                  size="large"
-                  icon={<img src={data.price.icon} alt={data.price.label} />}
-                >
-                  <Paragraph>{data.price.label}</Paragraph>
-                </Meta>
-              )}
             </PageMeta>
           </PageHeader.Meta>
         </PageHeader.Main>
         <PageHeader.Footer>
-          {data.express?.data?.id ? <TemplateExpressCta /> : null}
+          <LaunchActivityCTA handleLaunchActivity={handleLaunchActivity} />
         </PageHeader.Footer>
       </PageHeader>
     </LayoutWrapper>

@@ -43,6 +43,10 @@
         "title": "Security Testing",
         "description": "Ensure system security with penetration testing.",
         "pre_title": "Security",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
         "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
         "output_image": "http://example.com/output5.jpg",
         "tags": [
@@ -63,6 +67,10 @@
         "title": "Performance Testing",
         "description": "Test system performance under stress conditions.",
         "pre_title": "Performance",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
         "tags": [
@@ -82,6 +90,10 @@
         "title": "Security Testing",
         "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
         "pre_title": "Security",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
         "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
         "output_image": "http://example.com/output5.jpg",
         "tags": [
@@ -102,6 +114,10 @@
         "title": "Detailed feedback in real time under stress conditions and identifies technical problems in the code",
         "description": "Test system performance.",
         "pre_title": "Performance",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
         "tags": [
@@ -122,6 +138,10 @@
         "title": "Performance Testing",
         "description": "Test system performance under stress conditions.",
         "pre_title": "Performance",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
         "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
         "output_image": "http://example.com/output6.jpg",
         "tags": [

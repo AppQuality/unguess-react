@@ -5,8 +5,11 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import * as yup from 'yup';
 
-function usePreviousValue(value?: components['schemas']['ModuleTouchpoints']) {
-  const ref = useRef<components['schemas']['ModuleTouchpoints']>();
+function usePreviousValue(
+  value?: Omit<components['schemas']['ModuleTouchpoints'], 'type'>
+) {
+  const ref =
+    useRef<Omit<components['schemas']['ModuleTouchpoints'], 'type'>>();
   useEffect(() => {
     ref.current = value;
   });
@@ -83,7 +86,10 @@ const useModuleTouchpoints = () => {
 
   const validation = (module: components['schemas']['ModuleTouchpoints']) => {
     const { output: o } = module;
-
+    if (!o || o.length === 0)
+      return {
+        empty: t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_ERROR_REQUIRED'),
+      };
     const errors = o.reduce((acc, item, idx) => {
       const osEmpty = !hasEnoughOs(item.os);
       const osErrors = checkOsLink(item);
@@ -215,7 +221,8 @@ const useModuleTouchpoints = () => {
     if (
       previousValue &&
       value &&
-      previousValue.output.length > value.output.length
+      (previousValue.output.length > value.output.length ||
+        previousValue.output.length === 0)
     ) {
       validate();
     }

@@ -1,5 +1,5 @@
 import { type Page } from '@playwright/test';
-import { UnguessPage } from './UnguessPage';
+import { UnguessPage } from '../UnguessPage';
 
 export class Insights extends UnguessPage {
   readonly page: Page;

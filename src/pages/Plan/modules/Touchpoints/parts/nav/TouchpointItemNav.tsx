@@ -15,7 +15,7 @@ import { getIconFromTouchpointOutput } from '../../utils';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
-  margin-bottom: ${({ theme }) => theme.space.xs};
+  margin: ${({ theme }) => theme.space.sm} 0;
   background-color: transparent;
 `;
 

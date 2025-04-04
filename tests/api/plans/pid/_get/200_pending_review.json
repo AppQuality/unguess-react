@@ -1,6 +1,7 @@
 {
   "id": 13,
-  "status": "draft",
+  "workspace_id": 1,
+  "status": "pending_review",
   "project": {
     "id": 90,
     "name": "MyProject"

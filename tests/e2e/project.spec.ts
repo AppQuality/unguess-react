@@ -1,0 +1,75 @@
+import { test, expect } from '../fixtures/app';
+import { Project } from '../fixtures/pages/Project';
+import { PlanCreationInterface } from '../fixtures/components/PlanCreationInterface';
+import { PromoList } from '../fixtures/components/PromoList';
+
+test.describe('project page empty state', () => {
+  let project: Project;
+  let planCreationInterface: PlanCreationInterface;
+  let promoList: PromoList;
+
+  test.beforeEach(async ({ page }) => {
+    project = new Project(page);
+    planCreationInterface = new PlanCreationInterface(page);
+    promoList = new PromoList(page);
+
+    await project.loggedIn();
+    await project.mockPreferences();
+    await project.mockWorkspace();
+    await project.mockEmptyProject();
+    await planCreationInterface.mockGetProjects();
+    await planCreationInterface.mockPostPlans();
+    await project.mockWorkspacesList();
+    await promoList.mockPromoTemplates();
+    await project.open();
+  });
+
+  test('should display a list of suggested templates in promo', async () => {
+    await expect(promoList.elements().promoList()).toBeVisible();
+    await expect(promoList.elements().promoListItems()).toHaveCount(
+      project.promoItems.length
+    );
+  });
+
+  test('should open the create plan interface when clicking on a promo item, a more info should go to the single template', async ({
+    page,
+  }) => {
+    await promoList.elements().promoListItems().first().click();
+    await expect(
+      planCreationInterface.elements().planCreationInterface()
+    ).toBeVisible();
+    await expect(
+      planCreationInterface.elements().moreInfoButton()
+    ).toBeVisible();
+    await planCreationInterface.elements().moreInfoButton().click();
+    await expect(page).toHaveURL(`/templates/${project.promoItems[0].id}`);
+  });
+
+  test('Once a project is selected from the drawer is possible to start an activity', async ({
+    page,
+  }) => {
+    const newPlanId = planCreationInterface.postPlans.id;
+
+    await expect(page).toHaveURL('/projects/1');
+    await promoList.elements().promoListItems().first().click();
+    // attempt to create a plan without selecting a project
+    await planCreationInterface.elements().confirmButton().click();
+    await expect(planCreationInterface.elements().errorMessage()).toBeVisible();
+    // select a project
+    await planCreationInterface.selectProject();
+    await expect(
+      planCreationInterface.elements().projectDropdown().locator('input')
+    ).toHaveValue(planCreationInterface.projectName);
+    await expect(
+      planCreationInterface.elements().errorMessage()
+    ).not.toBeVisible();
+    const response = await planCreationInterface.createPlan();
+    const data = response.request().postDataJSON();
+    expect(data).toEqual({
+      project_id: planCreationInterface.projectId,
+      template_id: project.promoItems[0].id,
+    });
+    // expect that navigation to the plan page is triggered
+    await expect(page).toHaveURL(`/plans/${newPlanId}`);
+  });
+});

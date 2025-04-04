@@ -8,10 +8,12 @@ import {
   PlanTag,
   SM,
 } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
+import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
@@ -101,9 +103,13 @@ const Content = ({
 const Cta = ({
   status,
   campaignId,
+  isSubmitted,
+  onClick,
 }: {
   status: IPlanStatus;
   campaignId: number;
+  isSubmitted: boolean;
+  onClick: () => void;
 }) => {
   const { t } = useTranslation();
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
@@ -124,7 +130,8 @@ const Cta = ({
         isPrimary
         isStretched
         type="button"
-        disabled={status === 'submitted'}
+        disabled={status === 'submitted' || isSubmitted}
+        onClick={onClick}
       >
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
       </Button>
@@ -147,6 +154,9 @@ export const DetailsCard = () => {
   const { planId } = useParams();
   const { plan } = usePlan(planId);
   const { value } = useModule('dates');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   if (!plan) return null;
 
@@ -173,7 +183,22 @@ export const DetailsCard = () => {
       <Divider />
       <Content date={planDate()} quote={plan?.quote?.value} status={status} />
       <Footer>
-        <Cta status={status} campaignId={plan?.campaign?.id ?? 0} />
+        <Cta
+          isSubmitted={isSubmitted}
+          onClick={() => {
+            setIsSubmitted(true);
+            patchStatus({
+              pid: planId?.toString() ?? '',
+              body: { status: 'approved' },
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
+          }}
+          status={status}
+          campaignId={plan?.campaign?.id ?? 0}
+        />
       </Footer>
     </WidgetSpecialCard>
   );

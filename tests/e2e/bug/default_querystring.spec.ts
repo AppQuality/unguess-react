@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures/app';
-import { BugPage } from '../../fixtures/Bug';
+import { BugPage } from '../../fixtures/pages/Bug';
 
 test.describe('When the defult querystring is present in the Bug Page url', () => {
   let bugPage: BugPage;

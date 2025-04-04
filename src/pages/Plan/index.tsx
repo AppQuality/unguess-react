@@ -1,27 +1,24 @@
-import { FormikHelpers } from 'formik';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch } from 'src/app/hooks';
+import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
-  GetWorkspacesByWidPlansAndPidApiResponse,
-  useGetWorkspacesByWidPlansAndPidQuery,
-  usePatchWorkspacesByWidPlansAndPidMutation,
+  GetPlansByPidApiResponse,
+  useGetPlansByPidQuery,
+  useGetWorkspacesByWidQuery,
 } from 'src/features/api';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
+import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { PLAN_MINIMUM_DATE } from 'src/constants';
 import { PlanProvider, usePlanTab } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
 import { formatModuleDate } from './utils/formatModuleDate';
 
-const PlanPage = ({
-  plan,
-}: {
-  plan: GetWorkspacesByWidPlansAndPidApiResponse | undefined;
-}) => {
+const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   const { t } = useTranslation();
   const { activeTab, setActiveTab } = usePlanTab();
 
@@ -37,24 +34,40 @@ const PlanPage = ({
     <Page
       title={t('__PLAN_PAGE_TITLE')}
       className="plan-page"
-      pageHeader={<PlanPageHeader />}
       route="plan"
       isMinimal
       excludeMarginTop
       excludeMarginBottom
     >
+      <PlanPageHeader />
       <PlanBody />
     </Page>
   );
 };
 
+const useSetActiveWorkspace = (workspaceId?: number) => {
+  const dispatch = useAppDispatch();
+  const { data: workspace } = useGetWorkspacesByWidQuery(
+    {
+      wid: (workspaceId || 0).toString(),
+    },
+    {
+      skip: !workspaceId,
+    }
+  );
+
+  useEffect(() => {
+    if (workspace) {
+      dispatch(setWorkspace(workspace));
+    }
+  }, [workspace, dispatch]);
+};
+
 const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const { planId } = useParams();
-  const [patchPlan] = usePatchWorkspacesByWidPlansAndPidMutation();
-  const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery(
+  const { data: plan } = useGetPlansByPidQuery(
     {
-      wid: Number(activeWorkspace?.id).toString(),
       pid: Number(planId).toString(),
     },
     {
@@ -67,6 +80,7 @@ const Plan = () => {
     modules: [],
   });
 
+  useSetActiveWorkspace(plan?.workspace_id);
   useEffect(() => {
     if (!plan) return;
     const initialDatesModule = plan.config.modules.find(
@@ -88,29 +102,8 @@ const Plan = () => {
     });
   }, [plan]);
 
-  const handleSubmit = useCallback(
-    async (values: FormBody, helpers: FormikHelpers<FormBody>) => {
-      helpers.setSubmitting(true);
-      try {
-        await patchPlan({
-          wid: activeWorkspace?.id.toString() ?? '',
-          pid: planId?.toString() ?? '',
-          body: {
-            config: {
-              modules: values.modules,
-            },
-          },
-        }).unwrap();
-        helpers.setSubmitting(false);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    [activeWorkspace, planId, plan]
-  );
-
   return (
-    <FormProvider onSubmit={handleSubmit} initialValues={initialValues}>
+    <FormProvider initialValues={initialValues}>
       <PlanProvider>
         <PlanPage plan={plan} />
       </PlanProvider>

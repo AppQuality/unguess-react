@@ -44,8 +44,12 @@ const TaskItem = ({
     error && typeof error === 'object' && `tasks.${key}.description` in error
       ? error[`tasks.${key}.description`]
       : false;
+  const invalidUrlError =
+    error && typeof error === 'object' && `tasks.${key}.url` in error
+      ? error[`tasks.${key}.url`]
+      : false;
 
-  const hasError = titleError || descriptionError;
+  const hasError = titleError || descriptionError || invalidUrlError;
   const hasPlaceholder = !title;
 
   const handleBlur = () => {
@@ -103,7 +107,7 @@ const TaskItem = ({
                   </MD>
                   <Input
                     type="text"
-                    disabled={getPlanStatus() !== 'draft'}
+                    readOnly={getPlanStatus() !== 'draft'}
                     value={title}
                     onChange={(e) => update(key, { title: e.target.value })}
                     placeholder={t(
@@ -175,11 +179,20 @@ const TaskItem = ({
                 <MediaInput
                   start={<LinkIcon />}
                   value={task.url}
+                  onBlur={handleBlur}
                   onChange={(e) => update(key, { url: e.target.value })}
                   placeholder={t(
                     '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
                   )}
+                  readOnly={getPlanStatus() !== 'draft'}
+                  {...(invalidUrlError && { validation: 'error' })}
                 />
+                {invalidUrlError && (
+                  <Message validation="error">{invalidUrlError}</Message>
+                )}
+                <Message>
+                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_HINT')}
+                </Message>
               </FormField>
             </div>
           </AccordionNew.Panel>

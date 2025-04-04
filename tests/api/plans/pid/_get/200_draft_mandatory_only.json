@@ -1,10 +1,11 @@
 {
   "id": 13,
+  "workspace_id": 1,
+  "status": "draft",
   "project": {
     "id": 90,
     "name": "MyProject"
   },
-  "status": "draft",
   "config": {
     "modules": [
       {
@@ -20,26 +21,6 @@
         }
       },
       {
-        "type": "out_of_scope",
-        "variant": "default",
-        "output": "Out of scope"
-      },
-      {
-        "type": "target",
-        "variant": "default",
-        "output": 5
-      },
-      {
-        "type": "language",
-        "variant": "default",
-        "output": "en"
-      },
-      {
-        "type": "goal",
-        "variant": "default",
-        "output": "This is a Goal"
-      },
-      {
         "type": "tasks",
         "variant": "default",
         "output": [
@@ -51,7 +32,7 @@
           {
             "kind": "video",
             "title": "Think aloud",
-            "description": "description kind bug"
+            "description": "description kind video"
           }
         ]
       }

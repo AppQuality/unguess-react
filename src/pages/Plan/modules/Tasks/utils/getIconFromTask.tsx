@@ -20,8 +20,12 @@ const getIconColor = (
     error && typeof error === 'object' && `tasks.${key}.description` in error
       ? error[`tasks.${key}.description`]
       : false;
+  const invalidUrlError =
+    error && typeof error === 'object' && `tasks.${key}.url` in error
+      ? error[`tasks.${key}.url`]
+      : false;
 
-  const hasErrors = titleError || descriptionError;
+  const hasErrors = titleError || descriptionError || invalidUrlError;
 
   if (hasErrors) return getColor(appTheme.colors.dangerHue, 900);
   if (!hasErrors && (!task.title || !task.description))

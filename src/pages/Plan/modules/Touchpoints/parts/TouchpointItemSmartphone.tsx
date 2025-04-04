@@ -116,7 +116,7 @@ const TouchpointItemSmartphone = ({
                 <MediaInput
                   start={<LinkIcon />}
                   type="text"
-                  disabled={getPlanStatus() !== 'draft'}
+                  readOnly={getPlanStatus() !== 'draft'}
                   value={'ios' in os ? os.ios : ''}
                   onBlur={handleBlur}
                   onChange={(e) =>
@@ -192,7 +192,7 @@ const TouchpointItemSmartphone = ({
                 <MediaInput
                   start={<LinkIcon />}
                   type="text"
-                  disabled={getPlanStatus() !== 'draft'}
+                  readOnly={getPlanStatus() !== 'draft'}
                   value={'android' in os ? os.android : ''}
                   onBlur={handleBlur}
                   onChange={(e) =>

@@ -9,6 +9,10 @@
       "price": "string",
       "strapi": {
         "title": "string",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
         "description": "string",
         "pre_title": "string",
         "image": "http://example.com",

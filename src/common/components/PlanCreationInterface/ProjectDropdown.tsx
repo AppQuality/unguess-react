@@ -10,13 +10,13 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useTemplatesContext } from './Context';
+import { usePlanCreationContext } from './Context';
 
 export const ProjectDropdown = () => {
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
   const { projectId, setProjectId, fieldIsTouched, setFieldIsTouched } =
-    useTemplatesContext();
+    usePlanCreationContext();
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id.toString() || '',
   });
@@ -54,7 +54,7 @@ export const ProjectDropdown = () => {
           label: prj.name,
           isSelected: projectId === prj.id,
         }))}
-        placeholder={t('__TEMPLATES_PAGE_PROJECT_DROPDOWN_PLACEHOLDER')}
+        placeholder={t('__PLAN_CREATION_PROJECT_DROPDOWN_PLACEHOLDER')}
         selectionValue={projectId?.toString() || ''}
         {...(hasValidationError && { validation: 'error' })}
       />
@@ -64,7 +64,7 @@ export const ProjectDropdown = () => {
           validation="error"
           style={{ marginTop: appTheme.space.xs }}
         >
-          {t('__TEMPLATES_PAGE_PROJECT_DROPDOWN_ERROR')}
+          {t('__PLAN_CREATION_PROJECT_DROPDOWN_ERROR')}
         </Message>
       )}
     </Field>

@@ -54,7 +54,7 @@ const TouchpointWeb = ({
       <MediaInput
         start={<LinkIcon />}
         type="text"
-        disabled={getPlanStatus() !== 'draft'}
+        readOnly={getPlanStatus() !== 'draft'}
         {...(form_factor === 'desktop' &&
           'linux' in os && {
             value: os.linux,

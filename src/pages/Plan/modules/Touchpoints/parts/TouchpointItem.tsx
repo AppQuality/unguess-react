@@ -29,6 +29,10 @@ const TouchpointItem = ({
   const { key, kind, form_factor } = touchpoint;
   const index = key + 1;
 
+  const formattedFormFactor =
+    form_factor.charAt(0).toUpperCase() + form_factor.slice(1);
+  const formattedKind = kind.toUpperCase();
+
   const linuxError =
     error && typeof error === 'object' && `touchpoints.${key}.os.linux` in error
       ? error[`touchpoints.${key}.os.linux`]
@@ -78,7 +82,10 @@ const TouchpointItem = ({
       >
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTouchpointOutput(touchpoint)}>
-            <AccordionNew.Label label={`${index}. ${form_factor} ${kind}`} />
+            <AccordionNew.Label
+              label={formattedFormFactor}
+              subtitle={formattedKind}
+            />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Button

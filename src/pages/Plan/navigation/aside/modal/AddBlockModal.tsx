@@ -1,8 +1,8 @@
 import { MD, SM, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { usePlanTab } from '../../../context/planContext';
 import { MODULES_BY_TAB } from '../../../modulesMap';
@@ -27,10 +27,10 @@ const AddBlockModal = () => {
   const { activeTab } = usePlanTab();
   const availableModules =
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
-  const { getModules } = useModuleConfiguration();
+  const { currentModules } = useAppSelector((state) => state.planModules);
 
   const items = availableModules.map((module_type) => {
-    if (getModules().find((module) => module.type === module_type)) {
+    if (currentModules.find((module) => module === module_type)) {
       return {
         type: module_type as components['schemas']['Module']['type'],
         enabled: false,
