@@ -910,7 +910,8 @@ export interface components {
       | components['schemas']['ModuleTargetNote']
       | components['schemas']['ModuleInstructionNote']
       | components['schemas']['ModuleSetupNote']
-      | components['schemas']['ModuleTouchpoints'];
+      | components['schemas']['ModuleTouchpoints']
+      | components['schemas']['ModuleAdditionalTarget'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -1013,6 +1014,13 @@ export interface components {
       type: 'browser';
       variant: string;
       output: components['schemas']['OutputModuleBrowser'];
+    };
+    /** ModuleAdditionalTarget */
+    ModuleAdditionalTarget: {
+      /** @enum {string} */
+      type: 'additional_target';
+      variant: string;
+      output: string;
     };
     /** Observation */
     Observation: {
@@ -1555,7 +1563,7 @@ export interface components {
       form_factor: 'tablet';
       os: {
         linux?: string;
-        macos?: string;
+        ios?: string;
         windows?: string;
       };
     };
@@ -1644,13 +1652,15 @@ export interface components {
         icon: string;
         text: string;
       }[];
-      advantages: string[];
       why?: {
-        /** Format: uri */
-        icon: string;
-        title: string;
-        description: string;
-      }[];
+        reasons: {
+          /** Format: uri */
+          icon: string;
+          title: string;
+          description: string;
+        }[];
+        advantages: string[];
+      };
       what?: {
         description: string;
         goal: string;
@@ -1661,6 +1671,13 @@ export interface components {
         title: string;
         description: string;
       }[];
+      price?: {
+        price: string;
+        previous_price?: string;
+        /** @default 0 */
+        is_strikethrough?: number;
+      };
+      background?: string;
     };
   };
   responses: {
@@ -3848,6 +3865,7 @@ export interface operations {
               title: string;
               startDate: string;
             };
+            workspace_id: number;
           };
         };
       };
@@ -3958,6 +3976,8 @@ export interface operations {
         orderBy?: 'updated_at' | 'id';
         /** Order value (ASC, DESC) */
         order?: components['parameters']['order'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
       };
     };
     responses: {

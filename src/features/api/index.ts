@@ -720,6 +720,7 @@ const injectedRtkApi = api.injectEndpoints({
           start: queryArg.start,
           orderBy: queryArg.orderBy,
           order: queryArg.order,
+          filterBy: queryArg.filterBy,
         },
       }),
     }),
@@ -1835,6 +1836,8 @@ export type GetWorkspacesByWidTemplatesApiArg = {
   orderBy?: 'updated_at' | 'id';
   /** Order value (ASC, DESC) */
   order?: string;
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
 };
 export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
   /** status 200 OK */ {};
@@ -2588,7 +2591,7 @@ export type OutputModuleTouchpointsAppTablet = {
   form_factor: 'tablet';
   os: {
     linux?: string;
-    macos?: string;
+    ios?: string;
     windows?: string;
   };
 };
@@ -2637,6 +2640,11 @@ export type ModuleTouchpoints = {
   variant: string;
   output: SubcomponentTouchpoints[];
 };
+export type ModuleAdditionalTarget = {
+  type: 'additional_target';
+  variant: string;
+  output: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2652,7 +2660,8 @@ export type Module =
   | ModuleTargetNote
   | ModuleInstructionNote
   | ModuleSetupNote
-  | ModuleTouchpoints;
+  | ModuleTouchpoints
+  | ModuleAdditionalTarget;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved';
 export type StrapiTemplate = {
   title: string;
@@ -2668,12 +2677,14 @@ export type StrapiTemplate = {
     icon: string;
     text: string;
   }[];
-  advantages: string[];
   why?: {
-    icon: string;
-    title: string;
-    description: string;
-  }[];
+    reasons: {
+      icon: string;
+      title: string;
+      description: string;
+    }[];
+    advantages: string[];
+  };
   what?: {
     description: string;
     goal: string;
@@ -2683,6 +2694,12 @@ export type StrapiTemplate = {
     title: string;
     description: string;
   }[];
+  price?: {
+    price: string;
+    previous_price?: string;
+    is_strikethrough?: number;
+  };
+  background?: string;
 };
 export type CpReqTemplate = {
   id: number;
