@@ -59,6 +59,10 @@ const TasksList = () => {
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
   };
+  const errorEmpty =
+    error && typeof error === 'object' && `tasks.empty` in error
+      ? error[`tasks.empty`]
+      : false;
 
   return (
     <>
@@ -89,14 +93,23 @@ const TasksList = () => {
             {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </MD>
-          {error && (
-            <Message
-              validation="error"
-              style={{ marginTop: appTheme.space.md }}
-            >
-              {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_ERROR')}
-            </Message>
-          )}
+
+          {error &&
+            (errorEmpty ? (
+              <Message
+                validation="error"
+                style={{ marginTop: appTheme.space.md }}
+              >
+                {errorEmpty}
+              </Message>
+            ) : (
+              <Message
+                validation="error"
+                style={{ marginTop: appTheme.space.md }}
+              >
+                {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_ERROR')}
+              </Message>
+            ))}
         </div>
         <TasksContainer>
           {value.map((task) => (
