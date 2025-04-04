@@ -30,7 +30,7 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
       >
         {promoTemplates.map((template) => {
           if (!template.strapi) return null;
-          const { title, price, tags, image, description, background } =
+          const { title, price, tags, image, background, pre_title } =
             template.strapi;
           const outputs = tags.map((output) => {
             const { text, icon } = output;
@@ -56,7 +56,7 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
             <ScrollingGrid.Item key={template.id} role="listitem" title={title}>
               <ServiceTile
                 title={title}
-                description={description}
+                description={pre_title}
                 background={background || appTheme.palette.blue[700]}
                 price={price?.price || ''}
                 icon={<img alt={title} src={image} />}
