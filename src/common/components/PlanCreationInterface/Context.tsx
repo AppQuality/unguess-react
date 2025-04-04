@@ -2,7 +2,7 @@ import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 interface PlanCreationContextProps {
   projectId: number | null;
-  setProjectId: (projectId: number) => void;
+  setProjectId: (projectId: number | null) => void;
   fieldIsTouched: boolean;
   setFieldIsTouched: (fieldIsTouched: boolean) => void;
 }
